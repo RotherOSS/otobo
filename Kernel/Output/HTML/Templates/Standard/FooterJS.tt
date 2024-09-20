@@ -17,12 +17,12 @@
 
 [% RenderBlockStart("RichTextJS") %]
 <script type="importmap">
-			{
-				"imports": {
-					"ckeditor5": "/otobo-web/js/thirdparty/ckeditor5-42.0.1/ckeditor5.js",
-					"ckeditor5/": "/otobo-web/js/thirdparty/ckeditor5-42.0.1/"
-				}
-			}
+            {
+                "imports": {
+                    "ckeditor5": "[% Config("Frontend::RichTextPath") | html %]/ckeditor5.js",
+                    "ckeditor5/": "[% Config("Frontend::RichTextPath") | html %]"
+                }
+            }
 </script>
 <script type="module" src="[% Data.JSDirectory | html %][% Data.WrapperFileName | html %]"></script>
 [% RenderBlockEnd("RichTextJS") %]

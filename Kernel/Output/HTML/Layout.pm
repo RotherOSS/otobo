@@ -1844,8 +1844,8 @@ sub Footer {
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => $JSDirectoryPath,
-                Filename    => 'ckeditor5.js',
+                JSDirectory     => $JSDirectoryPath,
+                Filename        => 'ckeditor5.js',
                 WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
             },
         );
@@ -4554,8 +4554,8 @@ sub CustomerFooter {
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => $JSDirectoryPath,
-                Filename    => 'ckeditor5.js',
+                JSDirectory     => $JSDirectoryPath,
+                Filename        => 'ckeditor5.js',
                 WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
             },
         );
@@ -6479,23 +6479,23 @@ sub SetRichTextParameters {
 
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode') == 1 ) {
         @Toolbar = (
-            'heading',       'bold',          'italic',            'underline',  'strikethrough', '|',
-            'bulletedList',  'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
+            'heading',       'bold',              'italic', 'underline', 'strikethrough', '|',
+            'bulletedList',  'numberedList',      '|',
+            'insertTable',   '|',                 'indent',     'outdent', 'alignment', '|',
             'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '|',
-            'fontFamily',    'fontSize', '|', 'codeBlock'
+            'fontFamily',    'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'heading',        'bold',           'italic',            'underline', 'strikethrough', '|', 
-            'bulletedList', 'numberedList', '|',
-            'insertTable',    '|',                 'indent',    'outdent',       'alignment', '|',
-            'link',           'undo',              'redo',      '|',
-            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',        'bold',              'italic', 'underline', 'strikethrough', '|',
+            'bulletedList',   'numberedList',      '|',
+            'insertTable',    '|',                 'indent', 'outdent', 'alignment', '|',
+            'link',           'undo',              'redo',   '|',
+            'horizontalLine', 'blockQuote',        '|',      'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '|',
-            'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',     'fontSize',          '|', 'codeBlock'
         );
     }
     else {
@@ -6565,14 +6565,14 @@ sub SetRichTextParameters {
         'SpecialCharactersEssentials',
         'Strikethrough', 'Table', 'TableCellProperties', 'TableColumnResize', 'TableProperties', 'TableToolbar', 'Underline', 'Undo', 'PasteFromOffice'
     );
-    
+
     # set data with AddJSData()
     $Self->AddJSData(
         Key   => 'RichText',
         Value => {
-            Height  => $ScreenRichTextHeight,
-            Width   => $ScreenRichTextWidth,
-            Lang    => {
+            Height => $ScreenRichTextHeight,
+            Width  => $ScreenRichTextWidth,
+            Lang   => {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
                 RemoveQuote => $LanguageObject->Translate('Remove Quote'),
             },
@@ -6581,6 +6581,8 @@ sub SetRichTextParameters {
             ToolbarWithoutImage => \@ToolbarWithoutImage,
             PictureUploadAction => $PictureUploadAction,
             Type                => $RichTextType,
+            EditorStylesPath    => $ConfigObject->Get("Frontend::RichTextEditorStyles"),
+            ContentStylesPath   => $ConfigObject->Get("Frontend::RichTextArticleStyles"),
         },
     );
 
@@ -6630,21 +6632,21 @@ sub CustomerSetRichTextParameters {
     my ( @Toolbar, @ToolbarWithoutImage, @ToolbarMidi, @ToolbarMini );
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode::Customer') == 1 ) {
         @Toolbar = (
-            'heading',       'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',       'bold',              'italic',     'underline', 'strikethrough', '|', 'bulletedList', 'numberedList', '|',
+            'insertTable',   '|',                 'indent',     'outdent',   'alignment',     '|',
+            'link',          'undo',              'redo',       'selectAll', '-',
+            'insertImage',   'horizontalLine',    'blockQuote', '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
-            'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',    'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'heading',        'bold',           'italic',            'underline', 'strikethrough',  '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',    '|',                 'indent',    'outdent',        'alignment', '|',
-            'link',           'undo',              'redo',      'selectAll',      '-',
-            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',        'bold',              'italic', 'underline',      'strikethrough', '|', 'bulletedList', 'numberedList', '|',
+            'insertTable',    '|',                 'indent', 'outdent',        'alignment',     '|',
+            'link',           'undo',              'redo',   'selectAll',      '-',
+            'horizontalLine', 'blockQuote',        '|',      'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '-',
-            'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',     'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarMidi = (
@@ -6741,9 +6743,9 @@ sub CustomerSetRichTextParameters {
     $Self->AddJSData(
         Key   => 'RichText',
         Value => {
-            Height  => $ScreenRichTextHeight,
-            Width   => $ScreenRichTextWidth,
-            Lang    => {
+            Height => $ScreenRichTextHeight,
+            Width  => $ScreenRichTextWidth,
+            Lang   => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),
             },
             Plugins             => \@Plugins,
@@ -6752,6 +6754,8 @@ sub CustomerSetRichTextParameters {
             ToolbarMidi         => \@ToolbarMidi,
             ToolbarMini         => \@ToolbarMini,
             PictureUploadAction => $PictureUploadAction,
+            EditorStylesPath    => $ConfigObject->Get("CustomerFrontend::RichTextEditorStyles"),
+            ContentStylesPath   => $ConfigObject->Get("CustomerFrontend::RichTextArticleStyles"),
         },
     );
 
