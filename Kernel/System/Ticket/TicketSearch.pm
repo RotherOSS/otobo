@@ -543,7 +543,7 @@ sub TicketSearch {
 
             $TicketHistoryJoins{$THRef} = 1;
             $SQLFrom .= sprintf
-                'INNER JOIN ticket_history %s ON st.id = %s.ticket_id ',
+                q{INNER JOIN ticket_history %s ON st.id = %s.ticket_id },
                 $THRef, $THRef;
         }
     }
@@ -1624,7 +1624,7 @@ sub TicketSearch {
             my $Time = $Kernel::OM->Create('Kernel::System::DateTime');
             $Time->Subtract( Minutes => $Param{ $Key . 'OlderMinutes' } );
 
-            $SQLExt .= sprintf( " AND ( %s <= '%s' )", $ArticleTime{$Key}, $Time->ToString() );
+            $SQLExt .= sprintf( q{ AND ( %s <= '%s' )}, $ArticleTime{$Key}, $Time->ToString() );
         }
 
         # get articles created newer than x minutes
@@ -1635,7 +1635,7 @@ sub TicketSearch {
             my $Time = $Kernel::OM->Create('Kernel::System::DateTime');
             $Time->Subtract( Minutes => $Param{ $Key . 'NewerMinutes' } );
 
-            $SQLExt .= sprintf( " AND ( %s >= '%s' )", $ArticleTime{$Key}, $Time->ToString() );
+            $SQLExt .= sprintf( q{ AND ( %s >= '%s' )}, $ArticleTime{$Key}, $Time->ToString() );
         }
 
         # get articles created older than xxxx-xx-xx xx:xx date
@@ -1754,7 +1754,7 @@ sub TicketSearch {
 
             my $TargetTime = $Key eq 'TicketCreateTime' ? $Time->ToString() : $Time->ToEpoch();
 
-            $SQLExt .= sprintf( " AND ( %s <= '%s' )", $TicketTime{$Key}, $TargetTime );
+            $SQLExt .= sprintf( q{ AND ( %s <= '%s' )}, $TicketTime{$Key}, $TargetTime );
         }
 
         # get tickets created or escalated newer than x minutes
@@ -1772,7 +1772,7 @@ sub TicketSearch {
 
             my $TargetTime = $Key eq 'TicketCreateTime' ? $Time->ToString() : $Time->ToEpoch();
 
-            $SQLExt .= sprintf( " AND ( %s >= '%s' )", $TicketTime{$Key}, $TargetTime );
+            $SQLExt .= sprintf( q{ AND ( %s >= '%s' )}, $TicketTime{$Key}, $TargetTime );
         }
     }
 
@@ -1820,7 +1820,7 @@ sub TicketSearch {
 
             my $TargetTime = $Key eq 'TicketCreateTime' ? $Time->ToString() : $Time->ToEpoch();
 
-            $SQLExt .= sprintf( " AND ( %s <= '%s' )", $TicketTime{$Key}, $TargetTime );
+            $SQLExt .= sprintf( q{ AND ( %s <= '%s' )}, $TicketTime{$Key}, $TargetTime );
         }
 
         # get tickets created/escalated newer than xxxx-xx-xx xx:xx date
@@ -1865,7 +1865,7 @@ sub TicketSearch {
 
             my $TargetTime = $Key eq 'TicketCreateTime' ? $Time->ToString() : $Time->ToEpoch();
 
-            $SQLExt .= sprintf( " AND ( %s >= '%s' )", $TicketTime{$Key}, $TargetTime );
+            $SQLExt .= sprintf( q{ AND ( %s >= '%s' )}, $TicketTime{$Key}, $TargetTime );
         }
     }
 
@@ -2150,7 +2150,7 @@ sub TicketSearch {
         push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
         if (@StateID) {
             $SQLExt .= sprintf(
-                " AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND %s.create_time <= '%s'",
+                q{ AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND %s.create_time <= '%s'},
                 $THRef,
                 ( join ', ', sort @StateID ),
                 $THRef,
@@ -2212,7 +2212,7 @@ sub TicketSearch {
         push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
         if (@StateID) {
             $SQLExt .= sprintf(
-                " AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND %s.create_time >= '%s'",
+                q{ AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND %s.create_time >= '%s'},
                 $THRef,
                 ( join ', ', sort @StateID ),
                 $THRef,

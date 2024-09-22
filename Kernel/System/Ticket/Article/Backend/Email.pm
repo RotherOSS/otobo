@@ -326,7 +326,7 @@ sub ArticleSend {
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message  => sprintf(
-            "Queued email to '%s' from '%s'. HistoryType => %s, Subject => %s;",
+            q{Queued email to '%s' from '%s'. HistoryType => %s, Subject => %s;},
             $Param{To},
             $Param{From},
             $HistoryType,

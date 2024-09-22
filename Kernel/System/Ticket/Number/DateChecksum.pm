@@ -57,7 +57,7 @@ sub TicketNumberBuild {
     my $SystemID = $ConfigObject->Get('SystemID');
 
     # Pad ticket number with leading '0' to length 5.
-    $Counter = sprintf "%.5u", $Counter;
+    $Counter = sprintf '%.5u', $Counter;
 
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime'
@@ -66,8 +66,8 @@ sub TicketNumberBuild {
 
     # Create new ticket number.
     my $TicketNumber = $DateTimeSettings->{Year}
-        . sprintf( "%.2u", $DateTimeSettings->{Month} )
-        . sprintf( "%.2u", $DateTimeSettings->{Day} )
+        . sprintf( '%.2u', $DateTimeSettings->{Month} )
+        . sprintf( '%.2u', $DateTimeSettings->{Day} )
         . $SystemID . $Counter;
 
     # Calculate a checksum.
