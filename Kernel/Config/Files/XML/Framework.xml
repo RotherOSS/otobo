@@ -10390,6 +10390,13 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Translations::TranslateParentChild" Required="0" Valid="1">
+        <Description Translatable="1">Defines if parent-child translations for queues and services should be generated automatically.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Translations::AllowModifyAll" Required="1" Valid="1">
         <Description Translatable="1">Defines if user can modify all possible values/labels of dynamic fields in one data table.</Description>
         <Navigation>Core::Translations</Navigation>
