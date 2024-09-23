@@ -642,6 +642,7 @@ fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     padding-top: 0.3em;
     padding-bottom: 1px;
     text-shadow: 0 1px 0 var(--colBGLightMedium);
+    text-wrap: wrap;
 }
 
 fieldset.TableLike .Row.MultiColumn > .FieldCell label {
