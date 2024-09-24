@@ -44,19 +44,23 @@ sub new {
     $Self->{IsAttributeFieldCapable} = {
 
         # see https://github.com/RotherOSS/issues/3186
-        Agent     => 0,
-        Checkbox  => 1,
-        ContactWD => 1,
+        Agent    => 0,
+        Checkbox => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3809
+        ContactWD => 0,
 
         # see https://github.com/RotherOSS/issues/3186
         CustomerCompany => 0,
 
         # see https://github.com/RotherOSS/issues/3186
         CustomerUser => 0,
-        Database     => 1,
-        Date         => 1,
-        DateTime     => 1,
-        Dropdown     => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3793
+        Database => 0,
+        Date     => 1,
+        DateTime => 1,
+        Dropdown => 1,
 
         # see https://github.com/RotherOSS/issues/3186
         FAQ            => 0,
@@ -71,11 +75,17 @@ sub new {
         # see https://github.com/RotherOSS/otobo/issues/3789
         Lens        => 0,
         Multiselect => 1,
-        RichText    => 0,
-        Script      => 1,
-        Set         => 1,
-        Text        => 1,
-        TextArea    => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3720 and https://github.com/RotherOSS/otobo/issues/3815
+        RichText => 0,
+
+        # see https://github.com/RotherOSS/otobo/issues/3810
+        ScriptTemplateToolkit => 0,
+
+        # works in general, see https://github.com/RotherOSS/otobo/issues/3811
+        Set      => 1,
+        Text     => 1,
+        TextArea => 1,
 
         # see https://github.com/RotherOSS/issues/3186
         Ticket => 0,
