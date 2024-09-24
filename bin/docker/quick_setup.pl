@@ -276,6 +276,12 @@ sub Main {
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
+        # Unique names for session cookies. This allows to run distint instances on the same host.
+        push @Settings, (
+            [ SessionName              => join( '_', 'OTOBOAgentInterface',    $SystemID ) ],
+            [ CustomerPanelSessionName => join( '_', 'OTOBOCustomerInterface', $SystemID ) ],
+        );
+
         # These settings are useful for testing and development
         push @Settings, (
             [ MinimumLogLevel => 'info' ],    # more verbose log output
