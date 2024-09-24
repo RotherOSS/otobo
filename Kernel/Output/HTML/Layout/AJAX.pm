@@ -93,13 +93,11 @@ sub BuildSelectionJSON {
 
         if ( !defined( $Param{Data} ) ) {
             if ( !$Param{PossibleNone} ) {
-                $LogObject->Log(
-                    Priority => 'error',
-                    Message  => "Need Data!"
-                );
-                return;
+                $Param{Data} //= '';
             }
-            $DataHash{''} = '-';
+            else {
+                $DataHash{''} = '-';
+            }
         }
         elsif ( ref $Param{Data} eq '' ) {
             $DataHash{ $Param{Name} } = $Param{Data};
