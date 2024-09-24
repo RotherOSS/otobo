@@ -28,10 +28,11 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::Config;
+
+use Kernel::System::VariableCheck qw(:all);
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -442,7 +443,7 @@ subtest '[Cleanup] TestConfig' => sub {
     _DeployACLs();
 };
 
-$Self->DoneTesting();
+done_testing;
 
 ########################################################
 # Setup test fixture helpers
@@ -591,8 +592,6 @@ sub _CreateDynamicField {
 }
 
 sub _RebuildConfig {
-
-    my ( $Self, %Param ) = @_;
 
     delete $INC{'Kernel/Config/Files/ZZZAAuto.pm'};
 
