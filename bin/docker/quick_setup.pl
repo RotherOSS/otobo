@@ -17,7 +17,7 @@
 
 =head1 NAME
 
-quick_setup.pl - a quick OTOBO setup script for development
+quick_setup.pl - a quick OTOBO setup script that is meant for development
 
 =head1 SYNOPSIS
 
@@ -36,6 +36,9 @@ quick_setup.pl - a quick OTOBO setup script for development
 
     # set FQDN, the default is yourhost.example.com
     bin/docker/quick_setup.pl --db-password 'some-pass' --fqdn 'localhost'
+
+    # set the SystemID, the default is 10
+    bin/docker/quick_setup.pl --db-password 'some-pass' --system-id 11
 
     # also activate Elasticsearch
     bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
@@ -58,8 +61,8 @@ It might be convenient the call this script via an alias.
 Quickly create a running system that is useful for development and for continous integration.
 But please note that this script is not meant as an replacement for the OTOBO installer.
 
-Allow to automatically create a sample customer user, admin user, and calendar.
-Allow to set HttpType to http, which is the proven setting for the test suite.
+The script allows to automatically create a sample customer user, admin user, and calendar.
+It allows to set HttpType to http, which is the proven setting for the test suite.
 
 =head1 OPTIONS
 
@@ -80,7 +83,13 @@ Set the SysConfig setting 'HttpType'. The value is either 'http' or 'https'. The
 =item http-port
 
 Only used for the message where the newly configured system is available.
-The default value is 80
+The default value is 80.
+
+=item system-id
+
+Allows to set the system id. This is useful for distinguishing between different installation
+running on the same Docker host.
+The default value is 10.
 
 =item fqdn
 
@@ -119,12 +128,12 @@ use lib "$Bin/../../Custom";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Pod::Usage qw(pod2usage);
-use Sub::Util qw(subname);
+use Pod::Usage   qw(pod2usage);
+use Sub::Util    qw(subname);
 
 # CPAN modules
 use Path::Class qw(dir);
-use DBI ();
+use DBI         ();
 use Const::Fast qw(const);
 
 # OTOBO modules
@@ -134,6 +143,7 @@ sub Main {
     my $HelpFlag;                                          # print help
     my $DBPassword;                                        # required
     my $HTTPPort              = 80;                        # only used for success message
+    my $SystemID              = 10;                        # distinguish between different installations
     my $ActivateElasticsearch = 0;                         # must be explicitly enabled
     my $AddUser               = 0;                         # must be explicitly enabled
     my $AddAdminUser          = 0;                         # must be explicitly enabled
@@ -147,6 +157,7 @@ sub Main {
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'http-type=s'            => \$HttpType,
+        'system-id=i'            => \$SystemID,
         'fqdn=s'                 => \$FQDN,
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-user'               => \$AddUser,
@@ -260,6 +271,7 @@ sub Main {
             [ DefaultLanguage        => 'en' ],
             [ HttpType               => $HttpType ],
             [ FQDN                   => $FQDN ],
+            [ SystemID               => $SystemID ],
             [ SecureMode             => 1 ],
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
