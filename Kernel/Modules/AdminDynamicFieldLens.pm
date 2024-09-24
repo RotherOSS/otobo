@@ -91,7 +91,7 @@ sub new {
         Ticket => 0,
         Title  => 1,
 
-        # not being able to test this
+        # see https://github.com/RotherOSS/otobo/issues/3446
         WebService => 0,
     };
 
