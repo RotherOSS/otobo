@@ -23,17 +23,24 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use CSS::Minifier::XS        ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 ### Setting up
 
-my $TestCSSFilePath = 'scripts/test/HTMLUtils/CSSForTesting.css';
 my $TestCustomCSS = ':root{color:red;}';
+my $TestCKEditorContentCSS = 'div{color:blue;}';
+
+my $TestCKEditorContentCSSPath = 'test_styles.css';
+my $StandardContentCSSPath = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css/RichTextArticleContent.css';
+
 $Helper->ConfigSettingChange(
     Key   => 'Frontend::RichText::DefaultCSS',
     Value => $TestCustomCSS,
@@ -41,25 +48,21 @@ $Helper->ConfigSettingChange(
 );
 $Helper->ConfigSettingChange(
     Key   => 'Frontend::RichTextArticleStyles',
-    Value => $TestCSSFilePath,
+    Value => $TestCKEditorContentCSSPath,
     Valid => 1,
 );
-our $MinifiedCSS = <<'END_CSS',
-/* OTOBO is a web-based ticketing system for service organisations.
 
-Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+$MainObject->FileWrite(
+    Location => $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $TestCKEditorContentCSSPath,
+    Content  => \$TestCKEditorContentCSS,
+);
 
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/.ck-content{text-wrap:wrap;white-space:pre-wrap;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px}.ck-content figure.table{float:left;margin:0 0 0 0}.ck-content p{margin-top:.8em;margin-bottom:.8em}.ck-content h1{font-size:2em}.ck-content h2{font-size:1.5em}.ck-content h3{font-size:1.17em}.ck-content h5{font-size:.83em}.ck-content h6{font-size:.67em}.ck-content blockquote{font-style:normal!important;border-left:solid var(--colMainLight) 1.5pt!important;padding:0 0 0 4pt!important}
-END_CSS
+my $StandardContentCSS = ${$MainObject->FileRead(
+    Location => $StandardContentCSSPath,
+)};
+my $testpath = $ConfigObject->Get('Frontend::RichTextArticleStyles');
+
+our $MinifiedCSS = CSS::Minifier::XS::minify( $TestCKEditorContentCSS ) . "\n" . CSS::Minifier::XS::minify( $StandardContentCSS ) . "\n";
 
 
 
@@ -95,5 +98,10 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
+
+$MainObject->FileDelete(
+    Location => $ConfigObject->Get('Home') . '/var/httpd/htdocs/' . $TestCKEditorContentCSSPath,
+    NoLog    => 1,
+);
 
 done_testing;
