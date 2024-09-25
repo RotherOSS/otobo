@@ -398,6 +398,7 @@ sub EditFieldRender {
     );
 
     $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
+    $FieldTemplateData{Readonly}          = $Param{Readonly} ? 1 : 0;
 
     my $FieldTemplateFile = $Param{CustomerInterface}
         ?

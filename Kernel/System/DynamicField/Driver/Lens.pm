@@ -709,7 +709,7 @@ sub GetFieldState {
             # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
             ObjectID              => 1,    # will not be used;
             UseReferenceEditField => 1,
-        );
+        ) // '';
     }
     else {
         $AttributeFieldValue = '';

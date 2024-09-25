@@ -2550,7 +2550,7 @@ sub BuildSelectionDataGet {
     # verify if function is available
     return if !$Self->{$DynamicFieldBackend}->can('BuildSelectionDataGet');
 
-    # call PossibleValuesGet on the specific backend
+    # call BuildSelectionDataGet on the specific backend
     return $Self->{$DynamicFieldBackend}->BuildSelectionDataGet(%Param);
 }
 

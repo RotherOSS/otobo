@@ -1470,6 +1470,7 @@ sub _Mask {
         Size           => 0,
         Name           => 'QueueID',
         OnChangeSubmit => 0,
+        TreeView       => $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0,
         Class          => 'Modernize FormUpdate',
     );
 

@@ -40,6 +40,61 @@ sub new {
     # Some setup
     $Self->{TemplateFile} = 'AdminDynamicFieldLens';
 
+    # field types which are usable as attribute df
+    $Self->{IsAttributeFieldCapable} = {
+
+        # see https://github.com/RotherOSS/issues/3186
+        Agent    => 0,
+        Checkbox => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3809
+        ContactWD => 0,
+
+        # see https://github.com/RotherOSS/issues/3186
+        CustomerCompany => 0,
+
+        # see https://github.com/RotherOSS/issues/3186
+        CustomerUser => 0,
+
+        # see https://github.com/RotherOSS/otobo/issues/3793
+        Database => 0,
+        Date     => 1,
+        DateTime => 1,
+        Dropdown => 1,
+
+        # see https://github.com/RotherOSS/issues/3186
+        FAQ            => 0,
+        GeneralCatalog => 1,
+
+        # see https://github.com/RotherOSS/issues/3186
+        ITSMConfigItem => 0,
+
+        # see https://github.com/RotherOSS/issues/3186
+        ITSMConfigItemVersion => 0,
+
+        # see https://github.com/RotherOSS/otobo/issues/3789
+        Lens        => 0,
+        Multiselect => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3720 and https://github.com/RotherOSS/otobo/issues/3815
+        RichText => 0,
+
+        # see https://github.com/RotherOSS/otobo/issues/3810
+        ScriptTemplateToolkit => 0,
+
+        # works in general, see https://github.com/RotherOSS/otobo/issues/3811
+        Set      => 1,
+        Text     => 1,
+        TextArea => 1,
+
+        # see https://github.com/RotherOSS/issues/3186
+        Ticket => 0,
+        Title  => 1,
+
+        # see https://github.com/RotherOSS/otobo/issues/3446
+        WebService => 0,
+    };
+
     # declare the field type specific settings
     $Self->{FieldTypeSettings} = {
         Lens => [
@@ -236,6 +291,34 @@ sub _AddAction {
             my $Name = $Setting->{ConfigParamName};
             $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
         }
+    }
+
+    # check attribute df
+    my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $GetParam{AttributeDF},
+    );
+    if ( !$Self->{IsAttributeFieldCapable}{ $AttributeDFConfig->{FieldType} } ) {
+
+        # add server error error class
+        $Errors{AttributeDFServerError} = 'ServerError';
+        $Errors{AttributeDFServerErrorMessage} =
+            $Kernel::OM->Get('Kernel::Language')->Translate( 'A field of type %s is currently not usable as lens attribute.', $AttributeDFConfig->{FieldType} );
+    }
+
+    # check reference df
+    my $ReferenceDFConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $GetParam{ReferenceDF},
+    );
+    my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+        DynamicFieldConfig => $ReferenceDFConfig,
+        Behavior           => 'IsReferenceField',
+    );
+    if ( !$IsReferenceField ) {
+
+        # add server error error class
+        $Errors{ReferenceDFServerError} = 'ServerError';
+        $Errors{ReferenceDFServerErrorMessage} =
+            $Kernel::OM->Get('Kernel::Language')->Translate( 'Field %s is not a reference field.', $ReferenceDFConfig->{Name} );
     }
 
     if ( $GetParam{Name} ) {
@@ -503,6 +586,34 @@ sub _ChangeAction {
             my $Name = $Setting->{ConfigParamName};
             $GetParam{$Name} = $ParamObject->GetParam( Param => $Name );
         }
+    }
+
+    # check attribute df
+    my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $GetParam{AttributeDF},
+    );
+    if ( !$Self->{IsAttributeFieldCapable}{ $AttributeDFConfig->{FieldType} } ) {
+
+        # add server error error class
+        $Errors{AttributeDFServerError} = 'ServerError';
+        $Errors{AttributeDFServerErrorMessage} =
+            $Kernel::OM->Get('Kernel::Language')->Translate( 'A field of type %s is currently not usable as lens attribute.', $AttributeDFConfig->{FieldType} );
+    }
+
+    # check reference df
+    my $ReferenceDFConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $GetParam{ReferenceDF},
+    );
+    my $IsReferenceField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+        DynamicFieldConfig => $ReferenceDFConfig,
+        Behavior           => 'IsReferenceField',
+    );
+    if ( !$IsReferenceField ) {
+
+        # add server error error class
+        $Errors{ReferenceDFServerError} = 'ServerError';
+        $Errors{ReferenceDFServerErrorMessage} =
+            $Kernel::OM->Get('Kernel::Language')->Translate( 'Field %s is not a reference field.', $ReferenceDFConfig->{Name} );
     }
 
     if ( $GetParam{Name} ) {
