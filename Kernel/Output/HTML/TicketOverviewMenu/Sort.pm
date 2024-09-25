@@ -111,6 +111,7 @@ sub Run {
     $ReturnData{HTML} = $LayoutObject->BuildSelection(
         Data  => \@SortData,
         Name  => 'SortBy',
+        Class => 'Modernize',
         Title => $LayoutObject->{LanguageObject}->Translate('Order by'),
     );
 
