@@ -843,12 +843,14 @@ build sum in x or/and y axis
 sub SumBuild {
     my ( $Self, %Param ) = @_;
 
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
     my @Data = @{ $Param{Array} };
 
     # add sum y
     if ( $Param{SumCol} ) {
 
-        push @{ $Data[1] }, Translatable('Sum');
+        push @{ $Data[1] }, $LanguageObject->Translate('Sum');
 
         for my $Index1 ( 2 .. $#Data ) {
 
@@ -880,7 +882,7 @@ sub SumBuild {
     if ( $Param{SumRow} ) {
 
         my @SumRow = ();
-        $SumRow[0] = 'Sum';
+        $SumRow[0] = $LanguageObject->Translate('Sum');
 
         for my $Index1 ( 2 .. $#Data ) {
 
@@ -3915,7 +3917,7 @@ sub _AutomaticSampleImport {
             }
 
             my $Content = '';
-            while (<$Filehandle>) {
+            while (<$Filehandle>) {                                    ## no critic qw(Community::WhileDiamondDefaultAssignment)
                 $Content .= $_;
             }
             close $Filehandle;
