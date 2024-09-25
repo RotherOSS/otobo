@@ -676,6 +676,7 @@ sub _Edit {
                 %CleanHash,
             },
             Name           => 'ParentQueueID',
+            TreeView       => ( $ListType eq 'tree' ? 1 : 0 ),
             Selected       => $ParentQueue,
             MaxLevel       => $MaxParentLevel,
             OnChangeSubmit => 0,
@@ -709,6 +710,7 @@ sub _Edit {
     $Param{QueueLongOption} = $LayoutObject->AgentQueueListOption(
         Data           => { $QueueObject->QueueList( Valid => 0 ), },
         Name           => 'QueueID',
+        TreeView       => ( $ListType eq 'tree' ? 1 : 0 ),
         Size           => 15,
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,

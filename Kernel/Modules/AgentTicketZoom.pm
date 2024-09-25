@@ -1326,6 +1326,7 @@ sub MaskAgentZoom {
         $MoveQueues{0}         = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
         $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
             Name           => 'DestQueueID',
+            TreeView       => ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0 ),
             Data           => \%MoveQueues,
             Class          => 'Modernize Small',
             CurrentQueueID => $Ticket{QueueID},

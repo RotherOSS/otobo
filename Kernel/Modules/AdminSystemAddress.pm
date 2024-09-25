@@ -338,6 +338,7 @@ sub _Edit {
     $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
         Data           => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ), },
         Name           => 'QueueID',
+        TreeView       => ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0 ),
         SelectedID     => $Param{QueueID},
         Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,

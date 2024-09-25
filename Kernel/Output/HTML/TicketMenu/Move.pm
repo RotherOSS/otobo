@@ -130,9 +130,10 @@ sub Run {
         );
         $MoveQueues{0}         = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
         $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
-            Name  => 'DestQueueID',
-            Data  => \%MoveQueues,
-            Class => 'Modernize',
+            Name     => 'DestQueueID',
+            Data     => \%MoveQueues,
+            Class    => 'Modernize',
+            TreeView => ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0 ),
         );
     }
     else {
