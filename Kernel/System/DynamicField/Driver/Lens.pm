@@ -323,56 +323,64 @@ sub SearchFieldRender {
 sub SearchFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $Value;
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # get dynamic field value from param object
-    if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}->GetParam(
-            Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
-        );
-    }
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    # otherwise get the value from the profile
-    elsif ( defined $Param{Profile} ) {
-        $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
-    }
-    else {
-        return;
-    }
-
-    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
-        return {
-            'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
-        };
-    }
-
-    return $Value;
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldValueGet(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
 }
 
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    # get field value
-    my $Value = $Self->SearchFieldValueGet(%Param);
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # set operator
-    my $Operator = 'Equals';
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    # search for a wild card in the value
-    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
-
-        # change operator
-        $Operator = 'Like';
-    }
-
-    # return search parameter structure
-    return {
-        Parameter => {
-            $Operator => $Value,
-        },
-        Display => $Value,
-    };
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldParameterBuild(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
 }
+
+sub SearchFieldPreferences {
+
+    my ( $Self, %Param ) = @_;
+
+    my $LensDFConfig = $Param{DynamicFieldConfig};
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldPreferences(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
+}
+
 
 sub StatsFieldParameterBuild {
     my ( $Self, %Param ) = @_;
