@@ -56,6 +56,16 @@ It might be convenient the call this script via an alias.
 
     alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar --http-type http" --fqdn localhost'
 
+Sometimes it is convenient to specify unique SystemIDs so that different installation can be
+used in the same browser. The convention is to set the SystemID to the same value as the HTTP port.
+This can be achieved with the bash function:
+
+    otobo_docker_quick_setup() {
+        http_port=`perl -ne 'print $1 if m/^OTOBO_WEB_HTTP_PORT=(\d+)/' .env`
+        system_id=${1:-$http_port}
+        docker compose exec web bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --system-id $system_id --http-type http --http-port $http_port --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar"
+    }
+
 =head1 DESCRIPTION
 
 Quickly create a running system that is useful for development and for continous integration.
