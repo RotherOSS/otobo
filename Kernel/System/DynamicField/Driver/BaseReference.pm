@@ -159,13 +159,25 @@ sub SearchSQLGet {
     }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my $Lower    = '';
-    if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
-        $Lower = 'LOWER';
-    }
 
-    my $SQL = " $Lower($Param{TableAlias}.$Self->{TableAttribute}) $Operators{ $Param{Operator} } ";
-    $SQL .= "$Lower('" . $DBObject->Quote( $Param{SearchTerm} ) . "') ";
+    # TODO: this should be changed to bind variables
+    my $SQL;
+    if ( $Self->{TableAttribute} eq 'value_int' ) {
+        $SQL = " $Param{TableAlias}.$Self->{TableAttribute} $Operators{ $Param{Operator} } $Param{SearchTerm}";
+    }
+    elsif ( $Self->{TableAttribute} eq 'value_text' ) {
+        my $Lower = '';
+        if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
+            $Lower = 'LOWER';
+        }
+
+        $SQL = " $Lower($Param{TableAlias}.$Self->{TableAttribute}) $Operators{ $Param{Operator} } ";
+        $SQL .= "$Lower('" . $DBObject->Quote( $Param{SearchTerm} ) . "') ";
+    }
+    else {
+        $SQL = " $Param{TableAlias}.$Self->{TableAttribute} $Operators{ $Param{Operator} } '";
+        $SQL .= $DBObject->Quote( $Param{SearchTerm} ) . "' ";
+    }
 
     return $SQL;
 }
