@@ -775,11 +775,11 @@ sub DocumentComplete {
         }
 
         if ($ArticleStyles ne "") {
-            $Body .= "<style>" . ${$ArticleStyles} . "</style>";
+            $Body .= "<style>" . ${$ArticleStyles} . ".ck-content {" . $Css . "}</style>";
         }
     }
 
-    $Body .= '</head><body class="ck-content" style="' . $Css . '">' . $Param{String} . '</body></html>';
+    $Body .= '</head><body class="ck-content">' . $Param{String} . '</body></html>';
 
     return $Body;
 }

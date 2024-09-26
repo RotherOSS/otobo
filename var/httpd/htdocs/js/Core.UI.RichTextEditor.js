@@ -449,6 +449,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/CKEditorCustomStyles.css">');
             $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/RichTextArticleContent.css">');
         }
+
+        let CustomStyles = Core.Config.Get('RichText.CustomCSS') || '';
+        if (CustomStyles != '') {
+            $("head").append('<style type="text/css"> .ck-content {' + CustomStyles + '} </style>');
+        }
+
         TargetNS.InitAllEditors();
     };
 
