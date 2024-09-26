@@ -1896,6 +1896,28 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketCategories###Priority" Required="0" Valid="0">
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
+        <Navigation>Frontend::Customer::TicketCategories</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Order">8</Item>
+                <Item Key="Prefix"></Item>
+                <Item Key="ColorDefault">#cdcdcd</Item>
+                <Item Key="ColorSelection">
+                    <Hash>
+                        <Item Key="1 very low">#03c4f0</Item>
+                        <Item Key="2 low">#83bfc8</Item>
+                        <Item Key="3 normal">#cdcdcd</Item>
+                        <Item Key="4 high">#ffaaaa</Item>
+                        <Item Key="5 very high">#ea2400</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Translate">1</Item>
+                <Item Key="Link"></Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###Type" Required="0" Valid="0">
         <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
