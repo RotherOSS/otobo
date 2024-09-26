@@ -10,11 +10,12 @@ on:
 
   # Build a devel Docker image whenever there is a push into the listed branches.
   # This is triggered by running the commands:
-  #   git tag test-1_22_333_DD
-  #   git push origin test-1_22_333_DD
+  #   git tag rel-1_22_333_DD
+  #   git push origin rel-1_22_333_DD
+  # But usually the release tagging is done in an automated process.
   push:
     tags:
-      - test-[0-9]+_[0-9]+_[0-9]+_*
+      - rel-[0-9]+_[0-9]+_[0-9]+_*
 
 jobs:
   BuildDockerImage:
@@ -24,7 +25,7 @@ jobs:
     strategy:
 
       # create different images
-      # note that there is no otobo-web-kerberos target
+      # note that there is no release build for the otobo-web-kerberos target
       matrix:
         target:     [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         include:
