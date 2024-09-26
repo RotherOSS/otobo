@@ -161,8 +161,31 @@ sub Run {
             );
 
             # check duplicate field
-            if ( %List && $List{ $GetParam{CustomerID} } ) {
-                $Errors{Duplicate} = 'ServerError';
+            if (%List) {
+                SEARCHRESULT:
+                for my $SearchResultID ( keys %List ) {
+                    my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+                        CustomerID => $SearchResultID,
+                    );
+
+                    # check CustomerID and Name as both are unique
+                    if ( $CustomerCompany{CustomerID} eq $GetParam{CustomerID} ) {
+                        $Errors{Duplicate}        = 'ServerError';
+                        $Errors{DuplicateMessage} = $LayoutObject->{LanguageObject}->Translate(
+                            'Customer Company %s already exists!',
+                            $GetParam{CustomerID},
+                        );
+                        last SEARCHRESULT;
+                    }
+                    elsif ( $CustomerCompany{CustomerCompanyName} eq $GetParam{CustomerCompanyName} ) {
+                        $Errors{Duplicate}        = 'ServerError';
+                        $Errors{DuplicateMessage} = $LayoutObject->{LanguageObject}->Translate(
+                            'Customer Company name %s already exists!',
+                            $GetParam{CustomerCompanyName},
+                        );
+                        last SEARCHRESULT;
+                    }
+                }
             }
         }
 
@@ -394,8 +417,31 @@ sub Run {
         );
 
         # check duplicate field
-        if ( %List && $List{$CustomerCompanyID} ) {
-            $Errors{Duplicate} = 'ServerError';
+        if (%List) {
+            SEARCHRESULT:
+            for my $SearchResultID ( keys %List ) {
+                my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+                    CustomerID => $SearchResultID,
+                );
+
+                # check CustomerID and Name as both are unique
+                if ( $CustomerCompany{CustomerID} eq $CustomerCompanyID ) {
+                    $Errors{Duplicate}        = 'ServerError';
+                    $Errors{DuplicateMessage} = $LayoutObject->{LanguageObject}->Translate(
+                        'Customer Company %s already exists!',
+                        $CustomerCompanyID,
+                    );
+                    last SEARCHRESULT;
+                }
+                elsif ( $CustomerCompany{CustomerCompanyName} eq $GetParam{CustomerCompanyName} ) {
+                    $Errors{Duplicate}        = 'ServerError';
+                    $Errors{DuplicateMessage} = $LayoutObject->{LanguageObject}->Translate(
+                        'Customer Company name %s already exists!',
+                        $GetParam{CustomerCompanyName},
+                    );
+                    last SEARCHRESULT;
+                }
+            }
         }
 
         # if no errors occurred
@@ -482,10 +528,7 @@ sub Run {
         if ( $Errors{Duplicate} ) {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
-                Info     => $LayoutObject->{LanguageObject}->Translate(
-                    'Customer Company %s already exists!',
-                    $CustomerCompanyID,
-                ),
+                Info     => $Errors{DuplicateMessage},
             );
         }
 
