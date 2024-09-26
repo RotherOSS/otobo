@@ -688,7 +688,7 @@ my @NeededModules = (
     },
     {
         # This module is a requirement for JSON::XS. It is listed
-        # here explicitly because it is also unded independently
+        # here explicitly because it is also used independently
         # from JSON::XS
         Module    => 'Types::Serialiser',
         Required  => 1,
