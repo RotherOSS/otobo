@@ -14,6 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+<div hx-get="htmx/show_table" hx-swap="outerHTML">
+     Show table
+</div>
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1 class="InvisibleText">[% Translate("Agent Management") | html %]</h1>

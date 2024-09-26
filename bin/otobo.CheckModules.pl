@@ -347,6 +347,17 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Dancer2',
+        Required        => 1,
+        VersionRequired => '== 1.1.1',
+        InstTypes       => {
+            aptget => 'libtimedate-perl',
+            emerge => 'dev-perl/TimeDate',
+            zypper => 'perl-TimeDate',
+            ports  => 'devel/p5-TimeDate',
+        },
+    },
+    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
@@ -436,6 +447,19 @@ my @NeededModules = (
             emerge => 'dev-perl/File-chmod',
             zypper => 'perl-File-chmod',
             ports  => 'devel/p5-File-chmod',
+        },
+    },
+    {
+        Module          => 'HTML::Tiny',
+        Required        => 1,
+        VersionRequired => '>= 1.08',
+        Comment         => 'Lightweight HTML generation',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            yum    => undef,
+            ports  => undef,
         },
     },
     {

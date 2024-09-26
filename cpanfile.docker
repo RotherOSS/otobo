@@ -11,6 +11,8 @@ requires 'Const::Fast';
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
+requires 'Dancer2', '== 1.1.1';
+
 requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
@@ -26,6 +28,9 @@ requires 'DBI';
 requires 'DBIx::Connector';
 
 requires 'File::chmod';
+
+# Lightweight HTML generation
+requires 'HTML::Tiny', '>= 1.08';
 
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';

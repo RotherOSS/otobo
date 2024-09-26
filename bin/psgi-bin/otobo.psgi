@@ -63,6 +63,7 @@ use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
+use lib "$Bin/../../dancer2/OTOBO::Htmx::App/lib";
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
@@ -88,6 +89,7 @@ use Plack::App::Directory ();
 
 # OTOBO modules
 use Kernel::Config;                                             # assure that Kernel/Config.pm exists, though the file might be modified later
+<<<<<<< HEAD
 use Kernel::System::ModuleRefresh                 ();           # based on Module::Refresh
 use Kernel::System::ObjectManager                 ();
 use Kernel::GenericInterface::Provider            ();
@@ -96,6 +98,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use OTOBO::Htmx::App                              ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -696,6 +699,9 @@ my $OTOBOApp = builder {
             Debug => 0,
         )->to_app;
     };
+
+    # endpoints for htmx
+    mount '/htmx' => OTOBO::Htmx::App->to_app;
 
     # redirect to Frontend::DefaultInterface when in doubt
     mount '/' => $RedirectOtoboApp;

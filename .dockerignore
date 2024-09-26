@@ -28,6 +28,7 @@
 # keep some dirs from the top level
 !bin
 !Custom
+!dancer2
 !doc
 !Kernel
 !scripts
