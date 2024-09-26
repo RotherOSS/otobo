@@ -176,7 +176,7 @@ sub Run {
 
         # standard ticket categories
         CAT:
-        for my $CatName (qw/Type Queue Service State Owner/) {
+        for my $CatName (qw/Priority Type Queue Service State Owner/) {
             next CAT if !$Ticket{$CatName};
             if ( $CategoryConfig->{$CatName} ) {
                 my $Conf = $CategoryConfig->{$CatName};
