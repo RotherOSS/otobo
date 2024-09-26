@@ -173,7 +173,7 @@ sub Run {
         }
 
         # redirect to original requested url
-        return $LayoutObject->Redirect( OP => "$Self->{UserRequestedURL}" );
+        return $LayoutObject->Redirect( OP => $Self->{UserRequestedURL} // '' );
     }
 
     # show change screen
@@ -204,16 +204,19 @@ sub _Screen {
     }
 
     # show sysconfig settings link if admin
-    my $HasAdminPermission = $GroupObject->PermissionCheck(
-        UserID    => $Self->{UserID},
-        GroupName => 'admin',
-        Type      => 'ro',
-    );
-    if ($HasAdminPermission) {
-        $LayoutObject->Block(
-            Name => 'AdminConfig',
-            Data => { %Param, %{ $Config->{Password} } },
+    if ( $Self->_FrontendTypeGet() eq 'Agent' ) {
+
+        my $HasAdminPermission = $GroupObject->PermissionCheck(
+            UserID    => $Self->{UserID},
+            GroupName => 'admin',
+            Type      => 'ro',
         );
+        if ($HasAdminPermission) {
+            $LayoutObject->Block(
+                Name => 'AdminConfig',
+                Data => { %Param, %{ $Config->{Password} } },
+            );
+        }
     }
 
     $Output .= $Self->_OutputTemplate(
