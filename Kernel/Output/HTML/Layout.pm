@@ -5303,8 +5303,10 @@ sub RichTextDocumentComplete {
     );
 
     # verify HTML document
+    my $CustomerInterface = ($Self->{SessionSource} && ($Self->{SessionSource} eq 'CustomerInterface')) ? 1 : 0;
     my $HTMLString = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
         String => $StringRef->$*,
+        CustomerInterface => $CustomerInterface
     );
 
     # do correct direction
@@ -6583,6 +6585,7 @@ sub SetRichTextParameters {
             Type                => $RichTextType,
             EditorStylesPath    => $ConfigObject->Get("Frontend::RichTextEditorStyles"),
             ContentStylesPath   => $ConfigObject->Get("Frontend::RichTextArticleStyles"),
+            CustomCSS           => $ConfigObject->Get("Frontend::RichText::DefaultCSS"),
         },
     );
 
@@ -6756,6 +6759,7 @@ sub CustomerSetRichTextParameters {
             PictureUploadAction => $PictureUploadAction,
             EditorStylesPath    => $ConfigObject->Get("CustomerFrontend::RichTextEditorStyles"),
             ContentStylesPath   => $ConfigObject->Get("CustomerFrontend::RichTextArticleStyles"),
+            CustomCSS           => $ConfigObject->Get("CustomerFrontend::RichText::DefaultCSS"),
         },
     );
 
