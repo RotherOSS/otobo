@@ -1055,6 +1055,7 @@ sub Run {
         TicketID           => $Self->{TicketID},
         SendNoNotification => $GetParam{NewUserID},
         Comment            => $BodyAsText,
+        Action             => $Self->{Action},
     );
     if ( !$Move ) {
         return $LayoutObject->ErrorScreen();
