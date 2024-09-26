@@ -40,6 +40,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --ck-color-focus-border: var(--colMainHover);
 }
 
+.ck-content {
+    border: solid 1px #e5e5eb;
+}
+ 
 .ck.ck-toolbar {
     padding-left: 14px;
     padding-right: 0px;

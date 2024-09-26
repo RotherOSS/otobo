@@ -20,7 +20,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 14px;
     line-height: 1.5;
     color: #00023c;
-    border: solid 1px #e5e5eb !important;
 }
 
 .ck-content.ck-editor__editable_inline {
