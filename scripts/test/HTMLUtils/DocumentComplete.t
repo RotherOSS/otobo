@@ -60,7 +60,7 @@ $MainObject->FileWrite(
 my $StandardContentCSS = ${$MainObject->FileRead(
     Location => $StandardContentCSSPath,
 )};
-my $testpath = $ConfigObject->Get('Frontend::RichTextArticleStyles');
+my $TestPath = $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
 our $MinifiedCSS = CSS::Minifier::XS::minify( $TestCKEditorContentCSS ) . "\n" . CSS::Minifier::XS::minify( $StandardContentCSS ) . "\n";
 
