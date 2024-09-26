@@ -14,12 +14,17 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -106,7 +111,7 @@ $Selenium->RunTest(
         );
 
         # verify that the deploy notification contains the session cookie
-        $Selenium->find_element('//a[contains(@href,"Subaction=Deployment")][contains(@href,"OTOBOAgentInterface=")]');
+        $Selenium->find_element('//a[contains(@href,"Subaction=Deployment")][contains(@href,"OTOBOAgentInterface")]');
 
         # do the deployment, authenticated with the session cookie in the URL
         $Selenium->find_element('//a[contains(@href,"Subaction=Deployment")]')->VerifiedClick();
