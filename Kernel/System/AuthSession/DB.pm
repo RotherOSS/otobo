@@ -45,10 +45,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    $Self->{SessionTable} = $Kernel::OM->Get('Kernel::Config')->Get('SessionTable') || 'sessions';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get more config settings
+    $Self->{SessionTable} = $ConfigObject->Get('SessionTable') || 'sessions';
 
     # get database type
     $Self->{DBType} = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} || '';
@@ -75,7 +77,7 @@ sub CheckSessionID {
     # set default message
     $Self->{SessionIDErrorMessage} = Translatable('Session invalid. Please log in again.');
 
-    # get session data
+    # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
@@ -244,6 +246,7 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
+    # get system time
     my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # get remote address and the http user agent
