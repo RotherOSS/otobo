@@ -258,6 +258,8 @@ sub CreateSessionID {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # create session id
+    #
+    # There is no need to include the SystemID in the session ID.
     my $SessionID = $MainObject->GenerateRandomString(
         Length => 32,
     );
