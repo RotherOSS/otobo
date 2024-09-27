@@ -110,7 +110,8 @@ sub Run {
             );
         }
 
-        my $SettingID = $ParamObject->GetParam( Param => 'SettingID' );
+        my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
+        my $IsPwdReset = 0;
 
         for my $Group (@Groups) {
 
@@ -156,7 +157,10 @@ sub Run {
                 )
             {
                 $Message .= $Object->Message();
-                if ( $Preferences{$Group}->{NeedsReload} ) {
+                if ( $Group eq 'Password' && exists $GetParam{NewPw} && exists $GetParam{CurPw} ) {
+                    $IsPwdReset = 1;
+                }
+                elsif ( $Preferences{$Group}->{NeedsReload} ) {
                     $ConfigNeedsReload = 1;
                 }
             }
@@ -166,11 +170,27 @@ sub Run {
             }
         }
 
+        if ($IsPwdReset) {
+
+            # clear *all* sessions for this user (issue #3440)
+            my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
+
+            my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            if ( !$AuthSessionObject->RemoveSessionByUser( UserLogin => $UserData{UserLogin} ) ) {
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not delete sessions for user after pwd change.",
+                );
+            }
+        }
+
         my $JSON = $LayoutObject->JSONEncode(
             Data => {
                 'Message'     => $Message,
                 'Priority'    => $Priority,
-                'NeedsReload' => $ConfigNeedsReload
+                'NeedsReload' => $ConfigNeedsReload,
+                'ForceReload' => $IsPwdReset,
             },
         );
 
