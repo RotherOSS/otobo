@@ -109,6 +109,18 @@ sub Run {
             $Message  = $Object->Error();
         }
 
+        if ( $Priority ne 'Error' && $Group eq 'Password' && exists $GetParam{NewPw} && exists $GetParam{CurPw} ) {
+
+            # clear *all* sessions for this user (issue #3440)
+            my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            if ( !$AuthSessionObject->RemoveSessionByUser( UserLogin => $UserData{UserLogin} ) ) {
+                $LayoutObject->FatalError(
+                    Message => Translatable('Can`t remove SessionID.'),
+                    Comment => Translatable('Please contact the administrator.'),
+                );    # throws a Kernel::System::Web::Exception
+            }
+        }
+
         # check redirect
         my $RedirectURL = $ParamObject->GetParam( Param => 'RedirectURL' );
         if ($RedirectURL) {

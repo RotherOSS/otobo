@@ -834,7 +834,7 @@ sub MaskAgentZoom {
     my %MoveQueues = $TicketObject->MoveList(
         TicketID => $Ticket{TicketID},
         UserID   => $Self->{UserID},
-        Action   => $Self->{Action},
+        Action   => 'AgentTicketMove',
         Type     => 'move_into',
     );
 
