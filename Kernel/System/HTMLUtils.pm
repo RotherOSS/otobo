@@ -35,6 +35,8 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Cache',
+    'Kernel::System::Loader'
 );
 
 =head1 NAME
@@ -680,7 +682,7 @@ sub DocumentComplete {
     return $Param{String} if $Param{String} =~ m/<html>/i;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Css          = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $Css          = '';
 
     if ( $Param{CustomerInterface} ) {
         $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
@@ -702,23 +704,82 @@ sub DocumentComplete {
         # include quicksand and default css
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
+
     }
 
-    my $CKEditorStyles
+    my $CKEditorContentStylesPath
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
-    # TODO: avoid reading the file every time this method is called
-    my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorStyles",
-        Type            => 'Local',
-        DisableWarnings => 1,
+    my $ArticleContentStylesPath
+        = $Param{CustomerInterface} ? 'skins/Customer/default/css/RichTextArticleContent.css' : 'skins/Agent/default/css/RichTextArticleContent.css';
+
+    my $TargetDirectory = $Param{CustomerInterface} ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/' : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
+
+    my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
+
+    # minify files uses caching internally, so files are really only minified again if needed
+    my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List  => [
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorContentStylesPath",
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$ArticleContentStylesPath",
+        ],
+        Type                 => 'CSS',
+        TargetDirectory      => $TargetDirectory,
+        TargetFilenamePrefix => $FilePrefix,
     );
 
-    if ($CKEditorCSS) {
-        ${$CKEditorCSS} = $Self->ToHTML( String => ${$CKEditorCSS} );
-        $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CachedFilename = $CacheObject->Get(
+        Type => 'HTMLUtils',
+        Key  => $FilePrefix .'Filename',
+    );
+    my $ArticleStyles = "";
+
+    if (!$TargetFilename) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'error minifying content css files',
+        );
+    } else {
+        # file not cached, old or changed
+        if (!$CachedFilename || $TargetFilename ne $CachedFilename) {
+            $CacheObject->Set(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix .'Filename',
+                Value => $TargetFilename
+            );
+            $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location        => "$TargetDirectory/$TargetFilename",
+            Type            => 'Local',
+            DisableWarnings => 1,
+            );
+            $CacheObject->Set(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix,
+                Value => $ArticleStyles
+            );
+            if ($CachedFilename) {
+                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+                Location        => "$TargetDirectory/$CachedFilename",
+                Type            => 'Local',
+                DisableWarnings => 1,
+                );
+            }
+            
+        # file in cache
+        } else {
+            $ArticleStyles = $CacheObject->Get(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix
+            );
+        }
+
+        if ($ArticleStyles ne "") {
+            $Body .= "<style>" . ${$ArticleStyles} . ".ck-content {" . $Css . "}</style>";
+        }
     }
-    $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+
+    $Body .= '</head><body class="ck-content">' . $Param{String} . '</body></html>';
 
     return $Body;
 }

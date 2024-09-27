@@ -16,10 +16,18 @@
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
 
 [% RenderBlockStart("RichTextJS") %]
-<script type="text/javascript" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+<script type="importmap">
+            {
+                "imports": {
+                    "ckeditor5": "[% Config("Frontend::RichTextPath") | html %]/ckeditor5.js",
+                    "ckeditor5/": "[% Config("Frontend::RichTextPath") | html %]"
+                }
+            }
+</script>
+<script type="module" src="[% Data.JSDirectory | html %][% Data.WrapperFileName | html %]"></script>
 [% RenderBlockEnd("RichTextJS") %]
 [% RenderBlockStart("RichTextTranslationJS") %]
-<script type="text/javascript" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+<script type="module" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("RichTextTranslationJS") %]
 
 [% RenderBlockStart("CommonJS") %]

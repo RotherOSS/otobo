@@ -129,9 +129,7 @@
                     <div id="RichTextError" class="TooltipErrorMessage">
                         <p>[% Translate("This field is required.") | html %]</p>
                     </div>
-                    <label for="RichText" class="Mandatory">
-                        [% Translate("Text") | html %] <span class="Marker">*</span>
-                    </label>
+                    <label for="RichText" class="Mandatory">[% Translate("Text") | html %] <span class="Marker">*</span></label>
                     <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.RichTextInvalid | html %]">
                         <p>[% Translate("This field is required.") | html %]</p>
                     </div>

@@ -133,6 +133,11 @@ Core.Agent.Preferences = (function (TargetNS) {
                             if (typeof Response.NeedsReload !== 'undefined' && parseInt(Response.NeedsReload, 10) > 0) {
                                 Core.UI.ShowNotification(Core.Language.Translate('Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.'), 'Notice', Link);
                             }
+
+                            // if browser reload is forced after password change (issue #3440)
+                            if (typeof Response.ForceReload !== 'undefined' && parseInt(Response.ForceReload, 10) > 0) {
+                                location.reload();
+                            }
                         }
                     }
                     else {

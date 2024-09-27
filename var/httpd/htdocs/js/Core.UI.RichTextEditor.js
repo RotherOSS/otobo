@@ -29,6 +29,7 @@ var CKEditorInstances = {};
  *      Richtext Editor.
  */
 Core.UI.RichTextEditor = (function (TargetNS) {
+
     /**
      * @private
      * @name $FormID
@@ -78,14 +79,14 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.InitEditor = function ($EditorArea) {
         var EditorID = '',
             UserLanguage,
-            EnabledPlugins = Core.Config.Get('RichText.Plugins'),
+            PluginList = Core.Config.Get('RichText.Plugins'),
             CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
         UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, '-').toLowerCase();
 
-        if (typeof ClassicEditor === 'undefined') {
+        if (!window.CKEditor5Wrapper) {
             return false;
         }
 
@@ -129,15 +130,26 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             removedPlugins = [ 'SimpleUploadAdapter' ];
         }
 
+        var ClassicEditor = CKEditor5Wrapper.ClassicEditor;
+        let EnabledPlugins = [];
+        for (let pluginName of PluginList) {
+            let Plugin = CKEditor5Plugins[pluginName];
+            if (Plugin) {
+                EnabledPlugins.push(CKEditor5Plugins[pluginName]);
+            } else {
+                Core.Exception.ShowError('Couldnt find plugin: ' + pluginName, 'JavaScriptError');
+            }
+        }
+
         ClassicEditor.create($($EditorArea).get(0), {
             ui: {
                 poweredBy: {
                     position: 'inside',
-                    side: 'left',
-                    label: '',
+                    side: 'right',
+                    label: null,
                     forceVisible: true,
-                    verticalOffset: 3,
-                    horizontalOffset: 3
+                    verticalOffset: 2,
+                    horizontalOffset: 2
                 }
             },
             heading: {
@@ -172,12 +184,37 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             },
             image: {
                 resizeUnit: 'px',
+                resizeOptions: [
+                    {
+                        name: 'resizeImage:original',
+                        label: 'Original Image Size',
+                        value: null,
+                        icon: 'original'
+                    },
+                    {
+                        name: 'resizeImage:custom',
+                        label: 'Scale Image',
+                        value: 'custom',
+                        icon: 'custom'
+                    }
+                ],
+                toolbar: [
+                    {
+                        name: 'imageStyle:imagePositioningDropdown',
+                        title: 'Image Positioning',
+                        items: [
+                            'imageStyle:alignLeft',
+                            'imageStyle:alignCenter',
+                            'imageStyle:alignRight',
+                            'imageStyle:alignBlockLeft',
+                            'imageStyle:alignBlockRight'
+                        ],
+                        defaultItem: 'imageStyle:alignBlockLeft'
+                    },
+                    'resizeImage'
+                ],
                 insert: {
-                    type: 'inline'
-                },
-                toolbar: ['imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
-                insert: {
-                    // Expose only needed dropdown options
+                    type: 'auto',
                     integrations: Integrations
                 }
             },
@@ -187,7 +224,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         horizontalAlignment: 'left',
                         verticalAlignment: 'top',
                     }
-                }
+                },
+                tableProperties: {
+                    defaultProperties: {
+                        alignment: 'left',
+                    }
+                },
+                contentToolbar: [
+                    'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
+                ]
             },
             simpleUpload: {
                 // build URL for image upload
@@ -225,30 +270,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 //Try use RichTextHolder for Customer Interface
                 if (CustomerInterface) {
                     $domEditableElement = $($EditorArea).closest(".RichTextHolder");
-                }
-
-                //Add Editor Theme Styles
-                let editorStyles = $domEditableElement.get(0).style;
-                if (CustomerInterface) {
-                    editorStyles.setProperty("--ck-border-radius", "10px");
-                    editorStyles.setProperty("--ck-font-size-base", "14px");
-                    let toolBarStyle = $(".ck.ck-toolbar").get(0).style;
-                    toolBarStyle.setProperty("padding-left", "14px");
-                    toolBarStyle.setProperty("padding-right", "0px");
-                    let $textdropdown = $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label");
-                    if ($textdropdown.length > 0 ) {
-                        $textdropdown.get(0).style.setProperty("width", "7.8em");
-                        $textdropdown.parent().get(0).style.setProperty("padding-left", "4px");
-                    }
-                    $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "1px");
-                } else {
-                    editorStyles.setProperty("--ck-border-radius", "5px");
-                    editorStyles.setProperty("--ck-font-size-base", "11.5px");
-                    $(".ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label")
-                        .get(0).style.setProperty("width", "7.5em");
-                    $(".ck.ck-toolbar__items")
-                        .get(0).style.setProperty("gap", "1px");
                 }
 
                 var sourceEditingActive = false;
@@ -295,11 +316,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     } );
                 }
 
-                // bind editor resize to container($domEditableElement) size change
-                const resizeObserver = new ResizeObserver((entries) => {
+                // bind editor resize to container($domEditableElement) size change (ie. when changing window size)
+                const resizeObserver = new ResizeObserver(() => {
                     adjustEditorSize();
                 });
                 resizeObserver.observe($domEditableElement.first().get(0));
+
+                //make sure editor size is adjusted whenever the toolbar changes size
+                //otherwise editor size can behave weirdly right after loading page
+                resizeObserver.observe(editor.ui.view.toolbar.element);
 
                 if (CustomerInterface) {
                     editor.editing.view.document.getRoot('main').placeholder = RichTextLabel[0].innerText;
@@ -328,7 +353,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 if (!CustomerInterface) {
                     // set initial Editor size as defined by System Configuration
                     // add 10 px of padding to the editor width
-                    let EditorWidth = Number( Core.Config.Get("RichText.Width",  620) ) + 10;
+                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) ) + 10;
 
                     $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
                     $domEditableElement.css("width", EditorWidth);
@@ -343,15 +368,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 //Update validation error tooltip while content is added to the editor
                 editor.model.document.on('change:data', () => {
-                    if (editor.getData() != "") {
-                        $("#" + editor.ElementId).val(editor.getData());
-                    }
-
                     window.clearTimeout(TimeOutRTEOnChange);
                     TimeOutRTEOnChange = window.setTimeout(function () {
+                        let EditorAreaContent = editor.getData();
+                        if (EditorAreaContent != "") {
+                            $("#" + editor.ElementId).val(EditorAreaContent);
+                        }
                         Core.Form.Validate.ValidateElement($EditorArea);
                         Core.App.Publish('Event.UI.RichTextEditor.ChangeValidationComplete', [editor]);
-                    }, 250);
+                    }, 500);
                 });
 
                 editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
@@ -362,6 +387,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         Core.Form.ErrorTooltips.RemoveRTETooltip($EditorArea);
                     }
                 });
+
             })
             .catch(error => {
                 console.error(error);
@@ -390,7 +416,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.InitAllEditors = function () {
 
-        if (typeof ClassicEditor === 'undefined') {
+        if (!window.CKEditor5Wrapper) {
             return;
         }
 
@@ -408,8 +434,25 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        if (typeof ClassicEditor === 'undefined' || Core.Config.Get('Action') == 'AdminGenericInterfaceMappingXSLT') {
+        if (!window.CKEditor5Wrapper || Core.Config.Get('Action') == 'AdminGenericInterfaceMappingXSLT') {
             return;
+        }
+
+        var CustomerInterface = (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'));
+
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + Core.Config.Get('RichText.EditorStylesPath') + '">');
+        $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + Core.Config.Get('RichText.ContentStylesPath') + '">');
+        if (CustomerInterface) {
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/CKEditorCustomStyles.css">');
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Customer/default/css/RichTextArticleContent.css">');
+        } else {
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/CKEditorCustomStyles.css">');
+            $("head").append('<link rel="stylesheet" type="text/css" href="' + Core.Config.Get('WebPath') + '/skins/Agent/default/css/RichTextArticleContent.css">');
+        }
+
+        let CustomStyles = Core.Config.Get('RichText.CustomCSS') || '';
+        if (CustomStyles != '') {
+            $("head").append('<style type="text/css"> .ck-content {' + CustomStyles + '} </style>');
         }
 
         TargetNS.InitAllEditors();

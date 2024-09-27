@@ -228,14 +228,6 @@ span.ImportantArticles i {
     color: #C10505;
 }
 
-/**
- * @subsection global CKEditor 5 fixes/improvements
- */
-.ck.ck-content p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
-}
-
 /*
  * @subsection Media Query Reset-CSS (for desktop screen resolutions)
  */

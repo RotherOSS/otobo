@@ -13,91 +13,27 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-/**
- * @subsection global CKEditor 5 fixes/improvements
+/** 
+ * @subsection Fallback Color Definitions 
  */
 
- .ck.ck-content p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
- }
-
- .ck.ck-content h1 {
-    font-size: 2em;
- } 
-
- .ck.ck-content h2 {
-    font-size: 1.5em;
- }
-
- .ck.ck-content h3 {
-    font-size: 1.17em;
- }
-
- .ck.ck-content h5 {
-    font-size: 0.83em;
- } 
-
- .ck.ck-content h6 {
-    font-size: 0.67em;
- }  
-
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
- .ck.ck-editor__editable_inline ul,
- .ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
- 
-.ck-source-editing-area {
-    width: 100% !important;
-    height: 320px;
+ :root {
+    --colMainDark: #00023c;
+    --colMainLight: #001bff;
+    --colMainHover: #000099;
+    --colBGLight: #f7f7f9;
+    --colBGDark: #bfbfce;
+    --colTextLight: #7f809d;
+    --colTextDark: #00023c;
+    --colHighlight: #fef235;
+    --colNotifyOK: #c4cdfa;
+    --colNotifyWarn: #fffccc;
+    --colNotifyErr: #f9bcb2;
+    --colHoverLight: #c4cdfa;
+    --colHoverDark: #6d83f2;
+    --colShadowMain: rgba(0,27,255,0.24);
+    --colShadowDark: rgba(0, 2, 71, 0.16);
 }
-
-.ck-source-editing-area > textarea {
-    overflow: auto !important;
-    position: relative;
-    width: 100% !important;
-    height: 100%;
-}
-
-.ck.ck-editor__editable > .ck-placeholder::before {
-    font-size: 16px;
-}
-
-.ck.ck-editor__editable > .ck-placeholder.error::before {
-    font-size: 16px;
-    color: #ea2400;
-}
-
-.ck.ck-toolbar {
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-    background: #f8f8f8 !important;
-    border: none !important;
-}
-
-.ck.ck-content blockquote {
-    font-style: normal !important;
-    border-left: solid var(--colMainLight) 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;    
-}
-
-.ck-content {
-    border: solid 1px #e5e5eb !important;
-}
-
-.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
-    box-shadow: none !important;
-}
-
-/**
- * end @subsection global CKEditor 5 fixes/improvements
-*/
 
 /**
  * @subsection CKEditorResizeHandle
