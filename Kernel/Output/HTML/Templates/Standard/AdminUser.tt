@@ -14,9 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<div hx-get="htmx/show_table" hx-swap="outerHTML">
-     Show table
-</div>
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1 class="InvisibleText">[% Translate("Agent Management") | html %]</h1>
@@ -351,6 +348,16 @@
             </div>
         </div>
 [% RenderBlockEnd("EffectivePermissions") %]
+        <div>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Last Logins") | html %]</h2>
+                </div>
+                <div class="Content" hx-get="htmx/show_last_logins" hx-swap="outerHTML">
+                    Show last logins.
+                </div>
+            </div>
+        </div>
     </div>
     <div class="Clear"></div>
 </div>
