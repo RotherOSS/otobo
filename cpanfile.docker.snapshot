@@ -179,6 +179,13 @@ DISTRIBUTIONS
       IO::Seekable 0
       Time::Local 0
       perl 5.006
+  Authen-Krb5-Simple-0.43
+    pathname: D/DS/DSTUART/Authen-Krb5-Simple-0.43.tar.gz
+    provides:
+      Authen::Krb5::Simple 0.43
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Authen-SASL-2.1700
     pathname: E/EH/EHUELS/Authen-SASL-2.1700.tar.gz
     provides:
@@ -1465,13 +1472,13 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  ExtUtils-Helpers-0.027
-    pathname: L/LE/LEONT/ExtUtils-Helpers-0.027.tar.gz
+  ExtUtils-Helpers-0.028
+    pathname: L/LE/LEONT/ExtUtils-Helpers-0.028.tar.gz
     provides:
-      ExtUtils::Helpers 0.027
-      ExtUtils::Helpers::Unix 0.027
-      ExtUtils::Helpers::VMS 0.027
-      ExtUtils::Helpers::Windows 0.027
+      ExtUtils::Helpers 0.028
+      ExtUtils::Helpers::Unix 0.028
+      ExtUtils::Helpers::VMS 0.028
+      ExtUtils::Helpers::Windows 0.028
     requirements:
       Carp 0
       Exporter 5.57
@@ -1631,6 +1638,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
+  GSSAPI-0.28
+    pathname: A/AG/AGROLMS/GSSAPI-0.28.tar.gz
+    provides:
+      GSSAPI 0.28
+      GSSAPI::OID undef
+      GSSAPI::OID::Set undef
+      GSSAPI::Status undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Gazelle-0.49
     pathname: K/KA/KAZEBURO/Gazelle-0.49.tar.gz
     provides:
@@ -2014,6 +2031,15 @@ DISTRIBUTIONS
       perl 5.012000
       strict 0
       warnings 0
+  LWP-Authen-Negotiate-0.08
+    pathname: A/AG/AGROLMS/LWP-Authen-Negotiate-0.08.tar.gz
+    provides:
+      LWP::Authen::Negotiate 0.08
+    requirements:
+      ExtUtils::MakeMaker 0
+      GSSAPI 0.18
+      LWP::Debug 0
+      MIME::Base64 2.12
   LWP-MediaTypes-6.04
     pathname: O/OA/OALDERS/LWP-MediaTypes-6.04.tar.gz
     provides:
@@ -2507,6 +2533,15 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       File::Slurp 0
       Test::More 0
+  MIME-Base32-1.303
+    pathname: R/RE/REHSACK/MIME-Base32-1.303.tar.gz
+    provides:
+      MIME::Base32 1.303
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.008001
+      utf8 0
   MIME-Charset-1.013.1
     pathname: N/NE/NEZUMI/MIME-Charset-1.013.1.tar.gz
     provides:
@@ -4208,56 +4243,57 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  URI-5.28
-    pathname: O/OA/OALDERS/URI-5.28.tar.gz
+  URI-5.29
+    pathname: O/OA/OALDERS/URI-5.29.tar.gz
     provides:
-      URI 5.28
-      URI::Escape 5.28
-      URI::Heuristic 5.28
-      URI::IRI 5.28
-      URI::QueryParam 5.28
-      URI::Split 5.28
-      URI::URL 5.28
-      URI::WithBase 5.28
-      URI::data 5.28
-      URI::file 5.28
-      URI::file::Base 5.28
-      URI::file::FAT 5.28
-      URI::file::Mac 5.28
-      URI::file::OS2 5.28
-      URI::file::QNX 5.28
-      URI::file::Unix 5.28
-      URI::file::Win32 5.28
-      URI::ftp 5.28
-      URI::geo 5.28
-      URI::gopher 5.28
-      URI::http 5.28
-      URI::https 5.28
-      URI::icap 5.28
-      URI::icaps 5.28
-      URI::ldap 5.28
-      URI::ldapi 5.28
-      URI::ldaps 5.28
-      URI::mailto 5.28
-      URI::mms 5.28
-      URI::news 5.28
-      URI::nntp 5.28
-      URI::nntps 5.28
-      URI::pop 5.28
-      URI::rlogin 5.28
-      URI::rsync 5.28
-      URI::rtsp 5.28
-      URI::rtspu 5.28
-      URI::sftp 5.28
-      URI::sip 5.28
-      URI::sips 5.28
-      URI::snews 5.28
-      URI::ssh 5.28
-      URI::telnet 5.28
-      URI::tn3270 5.28
-      URI::urn 5.28
-      URI::urn::isbn 5.28
-      URI::urn::oid 5.28
+      URI 5.29
+      URI::Escape 5.29
+      URI::Heuristic 5.29
+      URI::IRI 5.29
+      URI::QueryParam 5.29
+      URI::Split 5.29
+      URI::URL 5.29
+      URI::WithBase 5.29
+      URI::data 5.29
+      URI::file 5.29
+      URI::file::Base 5.29
+      URI::file::FAT 5.29
+      URI::file::Mac 5.29
+      URI::file::OS2 5.29
+      URI::file::QNX 5.29
+      URI::file::Unix 5.29
+      URI::file::Win32 5.29
+      URI::ftp 5.29
+      URI::geo 5.29
+      URI::gopher 5.29
+      URI::http 5.29
+      URI::https 5.29
+      URI::icap 5.29
+      URI::icaps 5.29
+      URI::ldap 5.29
+      URI::ldapi 5.29
+      URI::ldaps 5.29
+      URI::mailto 5.29
+      URI::mms 5.29
+      URI::news 5.29
+      URI::nntp 5.29
+      URI::nntps 5.29
+      URI::otpauth 5.29
+      URI::pop 5.29
+      URI::rlogin 5.29
+      URI::rsync 5.29
+      URI::rtsp 5.29
+      URI::rtspu 5.29
+      URI::sftp 5.29
+      URI::sip 5.29
+      URI::sips 5.29
+      URI::snews 5.29
+      URI::ssh 5.29
+      URI::telnet 5.29
+      URI::tn3270 5.29
+      URI::urn 5.29
+      URI::urn::isbn 5.29
+      URI::urn::oid 5.29
     requirements:
       Carp 0
       Cwd 0
@@ -4265,6 +4301,7 @@ DISTRIBUTIONS
       Encode 0
       Exporter 5.57
       ExtUtils::MakeMaker 0
+      MIME::Base32 0
       MIME::Base64 2
       Net::Domain 0
       Scalar::Util 0
