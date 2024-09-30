@@ -20,6 +20,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media screen,projection,tv,handheld {
 
+*:focus {
+    border: black 2px dashed !important;
+}
+
+th *:focus,
+#ToolBar *:focus {
+    border: white 2px dashed !important;
+}
+
 /**
  * @subsection  Fonts
  */

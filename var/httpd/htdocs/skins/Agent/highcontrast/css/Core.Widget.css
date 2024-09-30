@@ -159,7 +159,8 @@ ul.Tablelike li.Header {
 .CallForAction:active span i, 
 .CallForAction:hover span,
 .CallForAction:hover span i,
-.CallForAction:focus span {
+.CallForAction:focus span,
+.CallForAction:focus span i {
     color: var(--colTextDark) !important;
 }
 
