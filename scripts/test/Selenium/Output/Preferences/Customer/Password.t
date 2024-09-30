@@ -72,8 +72,8 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
             # check for correct password update preferences message on screen
-            my $UpdateMessage = "Preferences updated successfully!";
-            $Selenium->content_contains( $UpdateMessage, 'Customer preference password - updated' );
+            my $UpdateMessage = "Session invalid. Please log in again.";
+            $Selenium->content_contains( $UpdateMessage, 'Customer preference password - updated and session invalidated.' );
         };
     }
 );
