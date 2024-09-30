@@ -5901,6 +5901,11 @@ sub _GetSettingsToDeploy {
         KEY:
         for my $Key ( sort keys %SettingsLookup ) {
             next KEY if !$ModifiedSettingsLookup{$Key};
+            # In case of "NotDirty" the modified settings are received as the last modified versions
+            # which contain also settings which were "reset to default", even if the default changed
+            # in the meantime. Thus their effective value might be outdated, and we will not overwrite
+            # the default effective value
+            next KEY if $ModifiedSettingsLookup{$Key}{ResetToDefault};
 
             # In case of "NotDirty" the modified settings are received as the last modified versions
             # which contain also settings which were "reset to default", even if the default changed
