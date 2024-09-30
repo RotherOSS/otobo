@@ -127,6 +127,14 @@ sub _SetState {
 
     return if !$State;
 
+    if ( $Param{Config}{RequiredLock} ) {
+        $TicketObject->TicketOwnerSet(
+            TicketID  => $Self->{TicketID},
+            UserID    => $Self->{UserID},
+            NewUserID => $Self->{UserID},
+        );
+    }
+
     my $Success = $TicketObject->TicketStateSet(
         State    => $State,
         TicketID => $Self->{TicketID},
