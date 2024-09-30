@@ -1048,7 +1048,7 @@ sub MaskAgentZoom {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # age design
-    $Ticket{Age} = $LayoutObject->CustomerAge(
+    $Ticket{Age} = $LayoutObject->FormatAge(
         Age   => $Ticket{Age},
         Space => ' '
     );

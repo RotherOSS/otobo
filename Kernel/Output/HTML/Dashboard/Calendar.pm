@@ -179,7 +179,7 @@ sub Run {
                 Link         => "Action=AgentTicketZoom;TicketID=$Ticket{TicketID}",
                 TimeStamp    => $TimeStamp,
                 TimeTill     => $TimeTill,
-                In           => $LayoutObject->CustomerAge(
+                In           => $LayoutObject->FormatAge(
                     Age   => $TimeTill,
                     Space => ' ',
                 ),

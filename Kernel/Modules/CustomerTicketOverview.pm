@@ -703,8 +703,9 @@ sub ShowTicketStatus {
 
     # Age design.
     $Ticket{CustomerAge} = $LayoutObject->CustomerAge(
-        Age   => $Ticket{Age},
-        Space => ' '
+        Age       => $Ticket{Age},
+        Space     => ' ',
+        CreatedAt => $Ticket{Created},
     ) || 0;
 
     # return ticket information if there is no article

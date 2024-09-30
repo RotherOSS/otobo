@@ -185,13 +185,13 @@ sub GeneratePDF {
     }
 
     # Transform time values into human readable form.
-    $Ticket{Age} = $LayoutObject->CustomerAge(
+    $Ticket{Age} = $LayoutObject->FormatAge(
         Age   => $Ticket{Age},
         Space => ' ',
     );
 
     if ( $Ticket{UntilTime} ) {
-        $Ticket{PendingUntil} = $LayoutObject->CustomerAge(
+        $Ticket{PendingUntil} = $LayoutObject->FormatAge(
             Age   => $Ticket{UntilTime},
             Space => ' ',
         );

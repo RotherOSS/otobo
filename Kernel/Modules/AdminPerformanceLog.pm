@@ -114,7 +114,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'View',
             Data => {
-                Age => $LayoutObject->CustomerAge(
+                Age => $LayoutObject->FormatAge(
                     Age   => $MinuteSlot * 60,
                     Space => ' '
                 ),
@@ -124,7 +124,7 @@ sub Run {
             },
         );
 
-        $Param{Age} = $LayoutObject->CustomerAge(
+        $Param{Age} = $LayoutObject->FormatAge(
             Age   => $MinuteSlot * 60,
             Space => ' '
         );
@@ -349,7 +349,7 @@ sub Run {
                     Name => 'OverviewTable',
                     Data => {
                         Age =>
-                            $LayoutObject->CustomerAge(
+                            $LayoutObject->FormatAge(
                                 Age   => $Minute * 60,
                                 Space => ' '
                             ),

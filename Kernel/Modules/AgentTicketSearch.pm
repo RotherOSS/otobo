@@ -913,7 +913,7 @@ sub Run {
                     $Data{$Key} = $LayoutObject->{LanguageObject}->Translate( $Data{$Key} );
                 }
 
-                $Data{Age} = $LayoutObject->CustomerAge(
+                $Data{Age} = $LayoutObject->FormatAge(
                     Age   => $Data{Age},
                     Space => ' ',
                 );
