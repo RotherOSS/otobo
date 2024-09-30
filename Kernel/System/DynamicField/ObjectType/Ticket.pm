@@ -289,7 +289,7 @@ sub ObjectDataGet {
         Param => 'TicketID',
     );
 
-    return unless $TicketID;
+    return if !$TicketID;
 
     my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $TicketID,
