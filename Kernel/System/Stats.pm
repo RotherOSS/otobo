@@ -2866,7 +2866,16 @@ sub _GenerateDynamicStats {
         # all elements which are shown with multiselectfields
         if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues;
+            SELECTEDVALUE:
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
+
+                if ( !defined $Ref1->{Values}{$Ref2} ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'notice',
+                        Message  => "Attribute $Ref2 should be used as $Ref1->{Name} in statistic $Param{Title}, but is not present. Skipping it.",
+                    );
+                    next SELECTEDVALUE;
+                }
 
                 # Do not translate the values, please see bug#12384 for more information.
                 $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
