@@ -1372,7 +1372,7 @@ sub Run {
             my %Response = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection')->StandardTemplateGet(
                 ID => $GetParam{ResponseID},
             );
-            $GetParam{StateID} = $Response{PreSelectedTicketStateID};
+            $GetParam{StateID} ||= $Response{PreSelectedTicketStateID};
         }
 
         # get all attachments meta data
@@ -1976,9 +1976,7 @@ sub _Mask {
         $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        $State{SelectedID} //= $Kernel::OM->Get('Kernel::System::State')->StateLookup(
-            State => $Config->{StateDefault},
-        );
+        $State{SelectedValue} //= $Config->{StateDefault};
     }
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{NextStates},
