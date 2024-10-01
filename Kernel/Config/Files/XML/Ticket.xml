@@ -2445,6 +2445,13 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="AccountedTime::UsedUnits" Required="1" Valid="1">
+        <Description Translatable="1">Which units are used and shown in the overview for timeunits?</Description>
+        <Navigation>Frontend::Agent::Ticket::AccountedTime</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Minutes</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###SortBy::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default ticket attribute for ticket sorting in the status view of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketStatus</Navigation>
@@ -13141,6 +13148,13 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ArticleListShowTimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays ticket data in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
@@ -13840,6 +13854,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13878,6 +13893,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13916,6 +13932,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13954,6 +13971,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13992,6 +14010,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14030,6 +14049,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14068,6 +14088,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14106,6 +14127,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>

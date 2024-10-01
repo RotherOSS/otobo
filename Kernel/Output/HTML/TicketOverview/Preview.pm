@@ -962,6 +962,19 @@ sub _Show {
         );
     }
 
+    # show accounted time if needed
+    # get ticket object
+    my $DataValue = $TicketObject->TicketAccountedTimeGet( TicketID => $Param{TicketID} );
+
+    if ( defined $DataValue ) {
+        $LayoutObject->Block(
+            Name => 'AccountedTime',
+            Data => {
+                AccountedTime => $DataValue,
+            },
+        );
+    }
+
     # Dynamic fields
     $Counter = 0;
     my $Class = 'Middle';
