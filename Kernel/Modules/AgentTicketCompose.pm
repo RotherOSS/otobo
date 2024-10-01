@@ -1352,8 +1352,10 @@ sub Run {
         # get std attachment object
         my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
 
-        # add std. attachments to email
+        # handle response template attachments and state
         if ( $GetParam{ResponseID} ) {
+
+            # add std. attachments to email
             my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $GetParam{ResponseID},
             );
@@ -1365,6 +1367,12 @@ sub Run {
                     %Data,
                 );
             }
+
+            # set response preselected state
+            my %Response = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection')->StandardTemplateGet(
+                ID => $GetParam{ResponseID},
+            );
+            $GetParam{StateID} = $Response{PreSelectedTicketStateID};
         }
 
         # get all attachments meta data
@@ -1968,13 +1976,9 @@ sub _Mask {
         $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        if ( $Param{GetParam}->{ResponseID} ) {
-            my %Response = $Kernel::OM->Get('Kernel::System::ResponseTemplatesStatePreselection')->StandardTemplateGet(
-                ID => $Param{GetParam}->{ResponseID},
-            );
-            $State{SelectedID} = $Response{PreSelectedTicketStateID};
-        }
-        $State{SelectedValue} //= $Config->{StateDefault};
+        $State{SelectedID} //= $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+            State => $Config->{StateDefault},
+        );
     }
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{NextStates},
