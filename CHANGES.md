@@ -1,4 +1,30 @@
 
+# OTOBO 10.0.22 2024-10-02
+- 2024-10-02 11:42:48 +0200 [Security] Remove a possibility for ReDos attacks by removing special handling of some MS classes in articles. (https://github.com/RotherOSS/otobo/issues/3853)
+- 2024-09-05 13:46:40 +0200 Add html filter (https://github.com/RotherOSS/otobo/issues/3764)
+- 2024-09-30 09:52:50 +0200 [Security] Logout after change of password (https://github.com/RotherOSS/otobo/issues/3440)
+- 2024-09-30 09:14:43 +0200 [Bugfix]   AgentTicketQuickClose doesn't lock a ticket (https://github.com/RotherOSS/otobo/issues/3559)
+- 2024-05-07 17:07:38 +0200 [Bugfix]   Configuration deploy erroneously restores outdated setting versions. (https://github.com/RotherOSS/otobo/issues/3381)
+- 2024-09-26 13:47:27 +0200 [Bugfix]   Provide Action in ACL of AgentTicketMove. (https://github.com/RotherOSS/otobo/issues/3644)
+- 2024-09-20 15:49:48 +0200 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673)
+- 2024-09-25 13:31:16 +0200 Use localization for "Sum" in Stats (https://github.com/RotherOSS/otobo/issues/2944)
+- 2024-09-25 11:55:13 +0200 quick_setup.pl: Include the SystemID in the name of the session cookie (https://github.com/RotherOSS/otobo/issues/3804)
+- 2024-09-04 14:16:23 +0200 PerlIO layers should not pile up (https://github.com/RotherOSS/otobo/issues/3753)
+- 2024-08-29 12:41:35 +0200 Make logging of plain text passwords a bit harder (https://github.com/RotherOSS/otobo/issues/3737)
+- 2024-08-27 05:06:31 +0200 Disable logging of plaintext passwords in debugging mode (CVE-2024-43444)
+- 2024-08-19 15:21:39 +0200 Provide Test2::Require::OTOBO::Selenium in all  active branches (https://github.com/RotherOSS/otobo/issues/3716)
+- 2024-08-02 09:44:46 +0200 Replace otobo.de with otobo.io in dot-files
+- 2024-08-01 14:23:55 +0200 [Enhanced] Enable docker quick setup to set FQDN sysconfig (https://github.com/RotherOSS/otobo/issues/3637)
+- 2024-08-01 10:38:31 +0200 Check for relevant changes before building devel images on Github (https://github.com/RotherOSS/otobo/issues/3654)
+- 2024-07-30 17:31:07 +0200 Build the devel images on Github (https://github.com/RotherOSS/otobo/issues/3628)
+- 2024-07-25 15:47:35 +0200 Fiddle with the README.
+- 2024-07-18 08:26:40 +0200 [Bugfix]   Align WebMaxFileUpload in Frontend and Backend (https://github.com/RotherOSS/otobo/issues/3602)
+- 2024-06-28 13:58:54 +0200 [Tidied]   Do not use legacy version of the ENV command (https://github.com/RotherOSS/otobo/issues/3553)
+- 2024-06-26 11:55:48 +0200 Should the Photoshop sources be included in Docker images and the installation packages? (https://github.com/RotherOSS/otobo/issues/3529) - in progress
+- 2024-06-17 16:38:56 +0200 Update otobo url. (https://github.com/RotherOSS/otobo/issues/3425)
+- 2024-06-12 15:48:25 +0200 Grab some minor changes from rel-11_0
+
+
 # OTOBO 10.0.21 2024-04-18
 - 2024-04-17 15:07:02 +0200 [Security] Prohibit path traversal in file upload. (Thanks to the Znuny team and Martino Spagnuolo.) (https://github.com/RotherOSS/otobo/issues/3309)
 - 2024-04-05 13:07:35 +0200 [Tidied]   Small tidying for ticket modules (https://github.com/RotherOSS/otobo/issues/3296)
@@ -1016,3 +1042,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
