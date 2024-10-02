@@ -15,14 +15,14 @@
 # --
 
 [% IF Data.ConfirmationNeeded AND NOT Data.NoIgnoreField %]
-<input type="radio" id="[% Data.FieldIDUsed0 %]" name="[% Data.FieldNameUsed %]" [% IF Data.Readonly %]disabled="disabled"[% END %] value="" [% Data.FieldUsedChecked0 %] />
+<input type="radio" id="[% Data.FieldIDUsed0 %]" name="[% Data.FieldNameUsed %]"[% IF Data.Readonly %] disabled="disabled"[% END %] value="" [% Data.FieldUsedChecked0 %] />
 [% Translate(Data.Description) | html %]
 <div class="clear"></div>
-<input type="radio" id="[% Data.FieldIDUsed1 %]" name="[% Data.FieldNameUsed %]" [% IF Data.Readonly %]disabled="disabled"[% END %] value="1" [% Data.FieldUsedChecked1 %] />
+<input type="radio" id="[% Data.FieldIDUsed1 %]" name="[% Data.FieldNameUsed %]"[% IF Data.Readonly %] disabled="disabled"[% END %] value="1" [% Data.FieldUsedChecked1 %] />
 [% ELSE %]
 <input type="hidden" id="[% Data.FieldIDUsed %]" name="[% Data.FieldNameUsed %]" value="1" />
 [% END %]
-<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldID %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %] [% IF Data.Readonly %]disabled="disabled"[% END %] value="1">
+<input type="checkbox" class="[% Data.FieldClass %]" id="[% Data.FieldID %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" [% Data.FieldChecked %][% IF Data.Readonly %] disabled="disabled"[% END %] value="1">
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>
