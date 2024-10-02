@@ -16030,7 +16030,7 @@ msgstr "Ошибка входа! Указано неправильное имя 
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr "Аутентификация успешна, однако ни одной записи для клиента не обнаружено в используемой/ых базе клиентов. Обратитесь к вашему администратору."
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Невозможно удалить SessionID."
 
@@ -27440,5 +27440,25 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
 

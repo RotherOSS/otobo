@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.997451656423325;
+    $Self->{Completeness}        = 0.99700284729507;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4119,6 +4119,9 @@ sub Data {
         'The attribute of the referenced object' => 'Das Attribut des referenzierten Objektes',
         'Select the attribute dynamic field that references an object' =>
             'Wählen Sie das dynamische Feld Attribut aus, das auf ein Objekt verweist',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => 'Kein gültiges dynamisches Feld.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5027,6 +5030,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Fehler: Die Datei konnte nicht korrekt gelöscht werden. Bitte kontaktieren Sie Ihren Administrator (fehlende FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'Kann SessionID nicht entfernen.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'Registrierung der Kachel %s im Kunden-Dashboard nicht möglich! Modul oder Vorlage fehlen.',
@@ -5546,9 +5552,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => 'Beim Autocomplete durchsuchtes Attribut',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Dieses Feld ist ein Pflichtfeld oder',
@@ -6187,7 +6190,6 @@ sub Data {
             'Anmeldung fehlgeschlagen! Benutzername oder Passwort wurden falsch eingegeben.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Authentifizierung erfolgreich, aber in der Datenbank wurde kein Eintrag für den Benutzer gefunden. Bitte kontaktieren Sie Ihren Administrator.',
-        'Can`t remove SessionID.' => 'Kann SessionID nicht entfernen.',
         'Logout successful.' => 'Abmeldung erfolgreich.',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Sent password reset instructions. Please check your email.' => 'Anweisungen zum Zurücksetzen des Passworts wurden gesendet. Bitte prüfen Sie ihre E-Mail.',
@@ -7260,6 +7262,7 @@ Ihr Helpdesk-Team
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Ticket erstellt [%s] in "%s" mit Priorität "%s" und Status "%s".',
         'Croatian' => 'Kroatisch',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Benutzerspezifischer RSS Feed',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu).',
@@ -7582,8 +7585,6 @@ Ihr Helpdesk-Team
         'Defines the data objects avaliable to be translated.' => 'Legt fest, welche Datenobjekte zur Übersetzung angeboten werden.',
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder).',
-        'Defines the default CSS for creating CKEditor articles.' => 'Legt das Standard-CSS für die Erstellung neuer Artikel im CKEditor fest.',
-        'Defines the default CSS used for displaying articles.' => 'Definiert das Standard-CSS zur Anzeige von Artikeln.',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             'Definiert den Standard-Agentennamen in der Ticket-Detailansicht des Kunden-Interface.',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7767,6 +7768,8 @@ Ihr Helpdesk-Team
             'Steuert die Gruppen, in denen sich ein Kunde standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Kunden einzeln steuern möchten).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'Definiert die Header, die für allgemeine Inhalte für den angefragten Wert angezeigt werden.',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Steuert die Höhe der Richtext-Editor-Komponente. Geben Sie eine Zahl (für die Höhe in Pixeln) oder einen prozentualen Wert (für eine relative Höhe) an.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Steuert den Historien-Kommentar für die Ticket schließen-Aktion im Agentenbereich.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7822,8 +7825,6 @@ Ihr Helpdesk-Team
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Definiert die Stunden und Wochentage des angegebenen Kalenders um die Arbeitszeit zu messen.',
         'Defines the hours and week days to count the working time.' => 'Definiert den Zeitraum und die Wochentage welche als Arbeitszeit zählen.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -9000,6 +9001,10 @@ Ihr Helpdesk-Team
         'ParentChild' => 'Eltern-Kind',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Pfad zur Log-Datei (wird nur angewandt und ist dann verpflichtend, wenn "FS" als LoopProtectionModule ausgewählt wurde).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => 'Warten bis',
         'People' => 'Personen',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

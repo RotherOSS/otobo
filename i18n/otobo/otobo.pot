@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-08-01 12:22+0000\n"
+"POT-Creation-Date: 2024-10-02 13:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11851,6 +11851,14 @@ msgid "Select the attribute dynamic field that references an object"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Not a valid dynamic field."
 msgstr ""
 
@@ -14422,6 +14430,10 @@ msgstr ""
 msgid "Error: the file could not be deleted properly. Please contact your administrator (missing FileID)."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/BasePassword.pm
+msgid "Can`t remove SessionID."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
 msgstr ""
@@ -15588,10 +15600,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which customer companies will be searched by"
-msgstr ""
-
-#. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-msgid "Notice: search in lens fields is currently disabled"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
@@ -17052,10 +17060,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -19830,6 +19834,10 @@ msgid "Croatian"
 msgstr ""
 
 #. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr ""
 
@@ -20650,14 +20658,6 @@ msgid "Defines the date input format used in forms (option or input fields)."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default CSS for creating CKEditor articles."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default CSS used for displaying articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the default agent name in the ticket zoom view of the customer interface."
 msgstr ""
 
@@ -21034,6 +21034,10 @@ msgid "Defines the headers which will be shown to generic content for the reques
 msgstr ""
 
 #. SysConfig
+msgid "Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface."
 msgstr ""
 
@@ -21143,10 +21147,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the initial height for the rich text editor component in pixels."
 msgstr ""
 
 #. SysConfig
@@ -24159,6 +24159,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Path for the log file (it only applies if \"FS\" was selected for LoopProtectionModule and it is mandatory)."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
 
 #. SysConfig
