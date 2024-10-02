@@ -823,11 +823,6 @@ perform some sanity checks on HTML content.
 
 =over 4
 
-=item Replace MS Word 12 <p|div> with class "MsoNormal"
-
-By using <br/> because
-it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;).
-
 =item  If there is no HTML document type present, inject the HTML5 document type
 
 Because it is compatible with HTML4
@@ -861,22 +856,6 @@ sub DocumentCleanup {
 
     # remove <base> tags - see bug#8880
     $Param{String} =~ s{<base .*?>}{}xmsi;
-
-    # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
-    # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
-    $Param{String} =~ s{
-        <p\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</p>
-    }
-    {
-        $4 . '<br/>';
-    }segxmi;
-
-    $Param{String} =~ s{
-        <div\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</div>
-    }
-    {
-        $4 . '<br/>';
-    }segxmi;
 
     return $Param{String};
 }
