@@ -23,23 +23,23 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use CSS::Minifier::XS        ();
+use CSS::Minifier::XS ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 
 ### Setting up
 
-my $TestCustomCSS = ':root{color:red;}';
+my $TestCustomCSS          = ':root{color:red;}';
 my $TestCKEditorContentCSS = 'div{color:blue;}';
 
 my $TestCKEditorContentCSSPath = 'test_styles.css';
-my $StandardContentCSSPath = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css/RichTextArticleContent.css';
+my $StandardContentCSSPath     = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css/RichTextArticleContent.css';
 
 $Helper->ConfigSettingChange(
     Key   => 'Frontend::RichText::DefaultCSS',
@@ -57,34 +57,41 @@ $MainObject->FileWrite(
     Content  => \$TestCKEditorContentCSS,
 );
 
-my $StandardContentCSS = ${$MainObject->FileRead(
-    Location => $StandardContentCSSPath,
-)};
+my $StandardContentCSS = ${
+    $MainObject->FileRead(
+        Location => $StandardContentCSSPath,
+    )
+};
 my $TestPath = $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
-our $MinifiedCSS = CSS::Minifier::XS::minify( $TestCKEditorContentCSS ) . "\n" . CSS::Minifier::XS::minify( $StandardContentCSS ) . "\n";
-
-
+our $MinifiedCSS = CSS::Minifier::XS::minify($TestCKEditorContentCSS) . "\n" . CSS::Minifier::XS::minify($StandardContentCSS) . "\n";
 
 # DocumentComplete tests
 my @Tests = (
-    # test if regular text is correctly wrapped in html 
+
+    # test if regular text is correctly wrapped in html
     {
         Input  => 'Some Text ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW',
-        Result => '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style>' . $MinifiedCSS . '</style></head><body class="ck-content" style=":root{color:red;}">Some Text ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>' . "\n",
+        Result => '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style>'
+            . $MinifiedCSS
+            . '.ck-content {:root{color:red;}}</style></head><body class="ck-content">Some Text ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>' . "\n",
         Name => 'text without markup'
     },
-    # test if text containing markup tags is correctly wrapped in html 
+
+    # test if text containing markup tags is correctly wrapped in html
     {
         Input  => 'Some <b> Bold Text</b> ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW',
-        Result => '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style>' . $MinifiedCSS . '</style></head><body class="ck-content" style=":root{color:red;}">Some <b> Bold Text</b> ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>' . "\n",
+        Result => '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style>'
+            . $MinifiedCSS
+            . '.ck-content {:root{color:red;}}</style></head><body class="ck-content">Some <b> Bold Text</b> ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>' . "\n",
         Name => 'text with markup'
     },
+
     # test if text wrapped in html and body tags is returned unchanged
     {
         Input  => '<html><body>Some Text ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>',
         Result => '<html><body>Some Text ⛄ - U+026C4 - SNOWMAN WITHOUT SNOW</body></html>' . "\n",
-        Name => 'document already complete'
+        Name   => 'document already complete'
     },
 );
 
