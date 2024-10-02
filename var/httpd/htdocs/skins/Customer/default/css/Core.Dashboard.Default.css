@@ -71,7 +71,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
                             
     /* Ticket List */
     #oooTile03 {            
-        grid-area: 6 / 1 / 9 / 2;
+        grid-area: 5 / 1 / 9 / 2;
     }                                           
 
     /* External Links */
@@ -81,7 +81,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
                             
     /* InfoTile */
     #oooTile07 {            
-        grid-area: 6 / 1 / 7 / 2;
+        grid-area: 1 / 1 / 2 / 2;
     }
 
     #oooContent > #oooMainBox {
