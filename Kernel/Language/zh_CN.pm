@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.966862216584747;
+    $Self->{Completeness}        = 0.966708941027267;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -67,6 +67,8 @@ sub Data {
             '为了创建ACL，你可以导入ACL配置或从头创建一个全新的ACL。',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '在这里的任何ACL的修改，仅将其保存在系统中。只有在部署ACL后，它才会起作用。',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '注意：列表中的ACL名称排序顺序决定了ACL的执行顺序。如果需要更改ACL的执行顺序，请修改相应的ACL名称。',
@@ -4733,6 +4735,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '错误：文件无法正确删除，请联系您的管理员（缺少文件ID）。',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '不能移除会话ID。',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5832,7 +5837,6 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '认证成功，但在数据库中没有找到用户数据记录，请联系系统管理员。',
-        'Can`t remove SessionID.' => '不能移除会话ID。',
         'Logout successful.' => '成功注销。',
         'Feature not active!' => '功能尚未激活!',
         'Sent password reset instructions. Please check your email.' => '密码重置说明已发送，请检查邮件。',

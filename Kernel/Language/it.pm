@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596480101474552;
+    $Self->{Completeness}        = 0.596385542168675;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -69,6 +69,8 @@ sub Data {
             'Per creare una nuova ACL si può importarne una proveniente da un altro sistema o crearne una nuova del tutto.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'I cambiamenti al processo sono riportati a sistema solo se effettuate la sincronizzazione. Con la sincronizzazione le modifiche sono scritte nella configurazione.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Nota: questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necessario modificare l\'ordine in cui vengono eseguite le ACL, modifica i nomi delle ACL interessate.',
@@ -4735,6 +4737,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5834,7 +5839,6 @@ sub Data {
             'Accesso non riuscito! Il nome utente o la password sono errati.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Disconnessione avvenuta.',
         'Feature not active!' => 'Funzione non attiva!',
         'Sent password reset instructions. Please check your email.' => 'Inviate le istruzioni per il ripristino della password. Controlla l\'email.',

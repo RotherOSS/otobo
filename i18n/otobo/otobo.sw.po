@@ -16011,7 +16011,7 @@ msgstr "Kuingia kumeshindikana. Jina lako la mtumiaji au neno la siri lililoingi
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25532,4 +25532,12 @@ msgstr "takwimu"
 
 #~ msgid "The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
 #~ msgstr "Nembo iliyoonyeshwa kwenye kichwa cha kiolesura cha mteja. URL kwenye taswira inaweza URL inayofanana na gamba la taswira la mpangilio orodha, au URL nzima kwenye seva ya wavuti. "
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

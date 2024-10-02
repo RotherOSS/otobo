@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.868241636277152;
+    $Self->{Completeness}        = 0.868103994927077;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -72,6 +72,8 @@ sub Data {
             'Для создания нового ACL или импортируйте его из файла экспорта другой системы или создайте заново.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Изменения в ACL, сделанные здесь будут актуальны после синхронизации данных ACL. При синхронизации, все вновь внесенные изменения будут записаны в конигурационные файлы системы.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Помните: Эта таблица отображает порядок выполнения ACL. Если вы хотите изменить порядок в котором они исполняются, измените их имена.',
@@ -4738,6 +4740,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Ошибка: файл не может быть корректно удален. Обратитесь к администратору (пропущен FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'Невозможно удалить SessionID.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5837,7 +5842,6 @@ sub Data {
             'Ошибка входа! Указано неправильное имя или пароль.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Аутентификация успешна, однако ни одной записи для клиента не обнаружено в используемой/ых базе клиентов. Обратитесь к вашему администратору.',
-        'Can`t remove SessionID.' => 'Невозможно удалить SessionID.',
         'Logout successful.' => 'Успешный выход.',
         'Feature not active!' => 'Функция не активирована!',
         'Sent password reset instructions. Please check your email.' => 'Отправлены инструкции по сбросу пароля. Проверьте свою почту.',

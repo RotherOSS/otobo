@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999682892024734;
+    $Self->{Completeness}        = 0.999841471147749;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -61,6 +61,8 @@ sub Data {
             'Wenn Sie eine ACL erstellen möchten, können Sie diese aus einem anderen System importieren oder eine ganz neue erstellen.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Änderungen an den ACLs wirken sich erst aus, wenn Sie die Konfiguration in Betrieb nehmen. Dabei werden die Änderungen in der Konfiguration gespeichert.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Hinweis: Diese Tabelle stellt die Ausführungsreihenfolge der ACLs dar. Wenn Sie die Reihenfolge ändern möchten, ändern Sie bitte die Namen der jeweiligen ACLs.',
@@ -3335,7 +3337,7 @@ sub Data {
 
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
-            'Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir hoffen, Sie mögen es!',
+            'Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir hoffen, Sie mögen es.',
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
             'Um OTOBO nutzen zu können, müssen Sie die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
         'Restart your webserver' => 'Starten Sie ihren Webserver neu',
@@ -4408,7 +4410,7 @@ sub Data {
         'Can\'t get element data of %s!' => 'Konnte Daten zu Element %s nicht ermitteln!',
         'Can\'t get filter content data of %s!' => 'Kann Filter-Daten von %s nicht ermitteln!',
         'Customer Name' => 'Kundenname',
-        'Customer User Name' => 'Kundenbenutzer Name',
+        'Customer User Name' => 'Kundenbenutzer-Name',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
@@ -4726,6 +4728,9 @@ sub Data {
         'Got no FormID.' => 'FormID fehlt.',
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Fehler: Die Datei konnte nicht korrekt gelöscht werden. Bitte kontaktieren Sie Ihren Administrator (fehlende FileID).',
+
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'Kann SessionID nicht entfernen.',
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
@@ -5826,7 +5831,6 @@ sub Data {
             'Anmeldung fehlgeschlagen! Benutzername oder Passwort wurden falsch eingegeben.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Authentifizierung erfolgreich, aber in der Datenbank wurde kein Eintrag für den Benutzer gefunden. Bitte kontaktieren Sie Ihren Administrator.',
-        'Can`t remove SessionID.' => 'Kann SessionID nicht entfernen.',
         'Logout successful.' => 'Abmeldung erfolgreich.',
         'Feature not active!' => 'Funktion nicht aktiviert!',
         'Sent password reset instructions. Please check your email.' => 'Anweisungen zum Zurücksetzen des Passworts wurden gesendet. Bitte prüfen Sie ihre E-Mail.',
@@ -6514,7 +6518,7 @@ Ihr Helpdesk-Team
         'Agent User Search.' => 'Nutzersuche Agentenbereich.',
         'Agent contact with data search.' => 'Suche Kontaktdaten Agentenbereich.',
         'Agent dynamic field database detailed search.' => 'Detailsuche dynamisches Feld Datenbank im Agentenbereich.',
-        'Agent dynamic field database details.' => 'Agent dynamic field database details.',
+        'Agent dynamic field database details.' => 'Datenbankdetails für dynamische Felder im Agentenbereich.',
         'Agent dynamic field database search.' => 'Suche dynamisches Feld Datenbank im Agentenbereich.',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
             'Frontend-Modulregistrierung im Agenten-Interface (deaktivieren Sie den Link \'Kontaktdaten bearbeiten\', wenn kein entsprechendes Quellfeld konfiguriert wurde).',
@@ -7170,9 +7174,9 @@ Ihr Helpdesk-Team
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche (Kundenbenutzer oder Kundenunternehmen). Für Kundenunternehmen-Felder muss ein Präfix \'CustomerCompany_\' hinzugefügt werden.',
         'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            '',
+            'Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin Handbuch unter https://doc.otobo.org/.',
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
-            '',
+            'Legt die Standardsprache für das Frontend fest. Welche Sprachen zur Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. Diese Werte werden als Schlüssel in der Einstellung \'DefaultUsedLanguages\' angezeigt.',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             'Definieren der Standardschnittstelle. Unbekannte Pfade unter dem Skript-Alias werden auf die ausgewählte Schnittstelle weitergeleitet.',
@@ -9263,7 +9267,7 @@ Ihr Helpdesk-Team
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#.',
         'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
-            'Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der Mobile-Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)',
+            'Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der mobilen Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
             'Das Logo, das für das Design "default" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo".',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
@@ -9431,7 +9435,7 @@ Ihr Helpdesk-Team
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
-            'In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Optiopn, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen.',
+            'In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen.',
         'Web Service' => 'Webservice',
         'Web Services' => 'Webservices',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>

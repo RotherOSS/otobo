@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.372601870937054;
+    $Self->{Completeness}        = 0.372542802790108;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -61,6 +61,8 @@ sub Data {
             'Para crear un nuevo ACL puedes importar un ACL exportado de otro sistema o crear uno completamente nueva.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Los cambios en los ACL solo afectan al comportamiento del sistema si se despliega de nuevo el ACL después de la modificación. Solo después de volver a desplegar el ACL, los cambios serán guardados en la configuración.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Tener en cuenta: Esta tabla representa el orden de ejecución de los ACLs. Si es necesario cambiar el orden en el que se ejecutan los ACL, por favor, cambia los nombres de los ACL afectadas.',
@@ -4727,6 +4729,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5826,7 +5831,6 @@ sub Data {
             '¡Inicio de sesión fallido! Nombre de usuario o contraseña incorrecto.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Funcionalidad inactiva.',
         'Sent password reset instructions. Please check your email.' => 'Instrucciones de restablecimiento de contraseña enviadas. Por favor, revise su correo electrónico.',

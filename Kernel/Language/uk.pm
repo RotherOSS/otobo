@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.448232123037894;
+    $Self->{Completeness}        = 0.455136334812936;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -61,6 +61,8 @@ sub Data {
             'Щоб створити новий ACL, Ви можете або імпортувати ACL-и, які було експортовано з іншої системи, або створити цілком новий.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Зміни до ACL-ів тут впливають на поведінку системи, лише якщо Ви зрешою розгортаєте дані ACL. При розгортанні даних ACL новозроблені зміни будуть записані у конфігурацію.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL-и',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Будь ласка, зауважте: Ця таблиця відображає порядок виконання ACL-ів. Якщо Вам треба змінити порядок, у якому виконуються ACL-и, будь ласка, змініть назви відповідних ACL-ів.',
@@ -84,12 +86,12 @@ sub Data {
         'Change settings' => 'Змінити налаштування',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Установіть що Ви хочете змінити, якщо є відповідність критеріям. Майте на увазі, що «Можливо» — білий список, «Не можливо» — чорний список.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Перевірте офіційну %sdocumentation%s.',
         'Show or hide the content' => 'Відобразити або сховати вміст',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Редагувати інформацію ACL',
         'Name' => 'Ім\'я',
         'Stop after match' => 'Припинити перевірку після збігу',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Редагувати структуру ACL',
         'Save ACL' => 'Зберегти ACL',
         'Save' => 'Зберегти',
         'or' => 'або',
@@ -102,17 +104,17 @@ sub Data {
             'Створити новий ACL шляхом надсилання даних формою. Після створення цього ACL, Ви зможете додати елементи налаштування у режимі редагування.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Про систему',
         'Toggle this widget' => 'Приховати цей віджет',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Ця мова відсутня або ввімкнена в системі. Цей текст можна видалити, якщо він більше не потрібен.',
+        'Remove Language' => 'Видалити мову',
         'Text' => 'Текст',
         'Message body' => 'Тіло повідомлення',
         'This field is required and must have less than 4000 characters.' =>
-            '',
-        'Remove About Language' => '',
-        'Add new language' => '',
+            'Це поле є обов’язковим і має містити менше 4000 символів.',
+        'Remove About Language' => 'Видалити Про мову',
+        'Add new language' => 'Додати нову мову',
         'Save Changes' => 'Зберегти зміни',
 
         # Template: AdminAppointmentCalendarManage
@@ -128,7 +130,7 @@ sub Data {
         'Overwrite existing entities' => 'Перезапис об\'єктів що існують',
         'Upload calendar configuration' => 'Завантажити конфігурацію календаря',
         'Import Calendar' => 'Імпорт календаря',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Фільтр для календарів',
         'Filter for calendars' => 'Фільтр для календаря',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'Залежно від поля групи, система надасть користувачам доступ до календаря відповідно до їх рівня доступу',
@@ -172,7 +174,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Імпортувати Подію',
-        'Go back' => '',
+        'Go back' => 'Назад',
         'Uploaded file must be in valid iCal format (.ics).' => 'Завантажений файл повинен бути в правильному ical форматі (.ics)',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Якщо обраний календар не в списку, переконайтеся будь ласка, що у вас є повноваження на створення',
@@ -188,10 +190,10 @@ sub Data {
         'Add Notification' => 'Додати повідомлення',
         'Edit Notification' => 'Редагувати повідомлення',
         'Export Notifications' => 'Експортувати Сповіщень',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Фільтр сповіщень',
+        'Filter for notifications' => 'Фільтр для сповіщень',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Тут ви можете завантажити файл конфігурації, щоб імпортувати сповіщення про зустріч у вашу систему. Файл має бути у форматі .yml, експортований модулем сповіщень про зустрічі.',
         'Overwrite existing notifications?' => 'Перезаписати наявні сповіщення?',
         'Upload Notification configuration' => 'Вивантажити конфігурацію Сповіщень',
         'Import Notification configuration' => 'Імпортувати конфігурацію Сповіщень',
@@ -205,7 +207,7 @@ sub Data {
         'Events' => 'Події',
         'Event' => 'Подія',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Тут ви можете вибрати, які події ініціюватимуть це сповіщення. Нижче можна застосувати додатковий фільтр зустрічей, щоб надсилати лише записи за певними критеріями.',
         'Appointment Filter' => 'Фільтр Подій',
         'Type' => 'Тип',
         'Title' => 'Заголовок',
@@ -215,7 +217,7 @@ sub Data {
         'Recipients' => 'Одержувачі',
         'Send to' => 'Відправити',
         'Send to these agents' => 'Надіслати цим агентам',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Надіслати всім учасникам групи (лише агентам)',
         'Send to all role members' => 'Надіслати всім членам ролі',
         'Send on out of office' => 'Надіслано з «Не при справах»',
         'Also send if the user is currently out of office.' => 'Також надіслати, якщо користувач зараз не при справах.',
@@ -233,7 +235,7 @@ sub Data {
             'Це типове значення для призначених агентів-одержувачів, які ще не зробили вибір для цього сповіщення в їх налаштуваннях. Якщо прапорець увімкнений, сповіщення буде відправлено для таких агентів.',
         'This feature is currently not available.' => 'Ця функція наразі недоступна.',
         'Upgrade to %s' => 'Оновити до %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'Будь ласка, активуйте цей транспорт, щоб ним користуватися.',
         'No data found' => 'Даних не знайдено',
         'No notification method found.' => 'Жодного метода сповіщення не знайдено.',
         'Notification Text' => 'Текст сповіщення',
@@ -255,8 +257,8 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Додаткові адреси електронної пошти одержувача',
-        'This field must have less then 200 characters.' => '',
-        'Article visible for customer' => '',
+        'This field must have less then 200 characters.' => 'Це поле має містити менше 200 символів.',
+        'Article visible for customer' => 'Відповідь доступна клієнту',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Статтю буде створено, якщо сповіщення буде відправлено замовнику або на альтернативну електронну адресу.',
         'Email template' => 'Шаблон повідомлення електронної пошти',
@@ -272,7 +274,7 @@ sub Data {
         'Add Attachment' => 'Додати вкладення',
         'Edit Attachment' => 'Редагувати вкладення',
         'Filter for Attachments' => 'Фільтр для Прикріплень',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Фільтр для вкладень',
         'Filename' => 'Ім\'я файлу',
         'Download file' => 'Завантажити файл',
         'Delete this attachment' => 'Вилучити це вкладення',
@@ -284,7 +286,7 @@ sub Data {
         'Add Auto Response' => 'Додати автовідповідь',
         'Edit Auto Response' => 'Змінити автовідповідь',
         'Filter for Auto Responses' => 'Фільтр для Авто-Відповідей',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Фільтр для автоматичних відповідей',
         'Response' => 'Відповідь',
         'Auto response from' => 'Автовідповідь від',
         'Reference' => 'Посилання',
@@ -309,22 +311,22 @@ sub Data {
         'Hint' => 'Підказка',
         'Currently support data is only shown in this system.' => 'Наразі дані підтримки показуються лише у цій системі',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Іноді рекомендується надсилати ці дані команді OTOBO, щоб отримати кращу підтримку.',
         'Configuration' => 'Налаштування',
         'Send support data' => 'Надсилати дані підтримки',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Це дозволить системі надсилати додаткові дані підтримки команді OTOBO.',
         'Update' => 'Оновити',
         'System Registration' => 'Реєстрація системи',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Щоб увімкнути надсилання даних, зареєструйте свою систему в команді OTOBO або оновіть реєстраційну інформацію системи (переконайтеся, що активована опція «надсилати дані підтримки»).',
         'Register this System' => 'Зареєструвати цю систему',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Реєстрація системи вимкнена у Вашій системі. Будь ласка, перевірте Ваші налаштування.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'Реєстрація в системі - послуга команди OTOBO, яка надає масу переваг!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Будь ласка, зауважте, що використання хмарних сервісів OTOBO вимагає, щоб систему було зареєстровано.',
         'Register this system' => 'Зареєструвати цю систему.',
@@ -333,26 +335,26 @@ sub Data {
         'Available Cloud Services' => 'Доступні хмарні сервіси',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Журнал зв\'язку',
+        'Time Range' => 'Часовий діапазон',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for Communications' => '',
-        'Filter for communications' => '',
+            'Показувати лише журнали спілкування, створені за певний проміжок часу.',
+        'Filter for Communications' => 'Фільтр для комунікацій',
+        'Filter for communications' => 'Фільтр для комунікацій',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'На цьому екрані ви можете побачити огляд вхідних і вихідних повідомлень.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Ви можете змінити сортування та порядок стовпців, натиснувши на заголовок стовпця.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
+            'Якщо ви клацнете на різних записах, ви перейдете на детальний екран повідомлення.',
+        'Status for: %s' => 'Статус для: %s',
+        'Failing accounts' => 'Облікові записи, що не працюють',
+        'Some account problems' => 'Деякі проблеми з обліковим записом',
+        'No account problems' => 'Проблем з обліковим записом немає',
+        'No account activity' => 'Немає активності в обліковому записі',
+        'Number of accounts with problems: %s' => 'Кількість облікових записів із проблемами: %s',
+        'Number of accounts with warnings: %s' => 'Кількість облікових записів із попередженнями: %s',
+        'Failing communications' => 'Збій комунікацій',
         'No communication problems' => '',
         'No communication logs' => '',
         'Number of reported problems: %s' => '',
@@ -3059,7 +3061,7 @@ sub Data {
         'From assigned Customer IDs' => '',
 
         # Template: CustomerDashboard
-        'Ticket Search' => '',
+        'Ticket Search' => 'Пошук запитів',
         'New Ticket' => 'Нова заявка',
 
         # Template: CustomerError
@@ -3123,7 +3125,7 @@ sub Data {
         'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => 'Створити новий запит',
         'Service level agreement' => 'Рівень обслуговування',
 
         # Template: CustomerTicketOverview
@@ -3174,7 +3176,7 @@ sub Data {
         'Warning' => 'Попередження',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => 'Створити %sзапит',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Інформація про подію',
@@ -4727,6 +4729,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5826,7 +5831,6 @@ sub Data {
             'Помилка входу! Ваше ім\'я користувача або пароль уведено неправильно.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Функція неактивна!',
         'Sent password reset instructions. Please check your email.' => 'Надіслано інструкції зі скидання пароля. Будь ласка, перевірте електронну пошту.',

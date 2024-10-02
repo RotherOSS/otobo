@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.339622641509434;
+    $Self->{Completeness}        = 0.339568801521877;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -62,6 +62,8 @@ sub Data {
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             'För att skapa en ACL-regel kan du antingen importera ACL-regler som exporterats från en annan OTOBO-installation eller skapa en ny.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
+            '',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
             '',
         'ACLs' => 'ACL-regler',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
@@ -4729,6 +4731,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5828,7 +5833,6 @@ sub Data {
             'Inloggning misslyckades! Felaktigt användarnamn eller lösenord.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Funktion inte aktiverad!',
         'Sent password reset instructions. Please check your email.' => 'Skickade instruktioner för att återställa lösenord. Titta i din inkorg för mer information.',

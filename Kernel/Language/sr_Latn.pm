@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.901220865704772;
+    $Self->{Completeness}        = 0.901077996195308;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -67,6 +67,8 @@ sub Data {
             'Da biste kreirali novu ACL možete ili uvesti ACL liste koje su izvezene iz drugog sistema ili napraviti kompletno novu.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Promene na ACL listama ovde samo utiču na ponašanje sistema, ukoliko naknadno upotrebite sve ACL podatke.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL liste',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Napomena: Ova tabela predstavlja redosled izvršavanja u ACL listama. Ako je potrebno da promenite redosled kojim se izvršavaju ACL liste, molimo promenite imena tih ACL lista.',
@@ -4733,6 +4735,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Greška: datoteka nije mogla biti obrisana. Molimo kontaktirajte vašeg administratora (nedostaje FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'SessionID se ne može ukloniti.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5832,7 +5837,6 @@ sub Data {
             'Neuspešna prijava! Netačno je uneto vaše korisničko ime ili lozinka.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Autentifikacija je uspela, ali podaci o klijentu nisu pronađeni u bazi. Molimo kontaktirajte administratora.',
-        'Can`t remove SessionID.' => 'SessionID se ne može ukloniti.',
         'Logout successful.' => 'Uspešna odjava.',
         'Feature not active!' => 'Funkcija nije aktivna!',
         'Sent password reset instructions. Please check your email.' => 'Uputstvo za reset lozinke je poslato. Molimo proverite vaše imejlove.',

@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.25638179800222;
+    $Self->{Completeness}        = 0.256341154090044;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -68,6 +68,8 @@ sub Data {
             'Pro vytvoření nového ACL můžete buď importovat ACL, která byla vytvořena na jiném systému, nebo vytvořit úplně nové.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Zde provedené změny ACL ovlivňují chování systému pouze tehdy, když poté ACL data nasadíte. Nasazením dat ACL se nově provedené změny zapíšou do konfigurace.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Poznámka: Tato tabulka představuje pořadí vykonávání ACL. Pokud potřebujete změnit pořadí, ve kterém jsou ACL vykonávána, změňte prosím názvy daných ACL.',
@@ -4734,6 +4736,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5833,7 +5838,6 @@ sub Data {
             'Přihlášení neúspěšné! Vaše uživatelské jméno či heslo bylo zadáno nesprávně.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Funkce je neaktivní!',
         'Sent password reset instructions. Please check your email.' => 'Odeslány instrukce pro obnovu hesla, Prosím zkontrolujte svojí emailovou schránku.',

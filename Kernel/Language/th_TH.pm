@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.530838750594577;
+    $Self->{Completeness}        = 0.530754597336715;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -61,6 +61,8 @@ sub Data {
             'เพื่อสร้างACLใหม่คุณสามารถสร้างโดยนำเข้าACLsที่ถูกส่งเข้ามาจากระบบอื่นหรือสร้างใหม่',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'การเปลี่ยนแปลง ACLs ที่นี่จะส่งผลกระทบต่อการทำงานของระบบเท่านั้น ถ้าหากคุณปรับใช้ข้อมูล ACL ในภายหลัง จะทำให้การเปลี่ยนแปลครั้งใหม่นั้นถูกเขียนที่การกำหนดค่าเนื่องการปรับใช้ข้อมูล ACL',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'โปรดทราบ: ตารางนี้แสดงถึงลำดับการดำเนินการของ ACLsถ้าคุณต้องการที่จะเปลี่ยนลำดับดำเนินการของ ACLs โปรดเปลี่ยนชื่อ ACLs ที่ ได้รับผลกระทบ',
@@ -4730,6 +4732,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5829,7 +5834,6 @@ sub Data {
             'เข้าระบบลงล้มเหลว! ชื่อผู้ใช้หรือรหัสผ่านของคุณไม่ถูกต้อง',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'ออกจากระบบประสบความสำเร็จ',
         'Feature not active!' => 'ฟีเจอร์ใช้งานไม่ได้!',
         'Sent password reset instructions. Please check your email.' => 'ได้ส่งคำแนะนำสำหรับการรีเซ็ตรหัสผ่านแล้ว กรุณาตรวจสอบอีเมลของคุณ',

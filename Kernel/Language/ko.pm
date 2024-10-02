@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.877596321547487;
+    $Self->{Completeness}        = 0.877457197209892;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -61,6 +61,8 @@ sub Data {
             '새 ACL을 만들려면 다음에서 내 보낸 ACL을 가져올 수 있습니다.다른 시스템을 만들거나 완전한 새 시스템을 만드십시오.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '이후 ACL 데이터를 배포하는 경우 여기에서 ACL을 변경하면 시스템의 동작에만 영향을줍니다. ACL 데이터를 배포하면 새로 변경된 내용이 구성에 기록됩니다.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '이 테이블은 ACL의 실행 순서를 나타냅니다. ACL이 실행되는 순서를 변경해야하는 경우 영향을받는 ACL의 이름을 변경하십시오',
@@ -4727,6 +4729,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '오류 : 파일을 제대로 삭제할 수 없습니다. 관리자에게 문의하십시오 (누락 된 FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'SessionID를 제거 할 수 없습니다.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5826,7 +5831,6 @@ sub Data {
             '로그인 실패! 사용자 이름 또는 암호가 잘못 입력되었습니다.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '인증에 성공했지만 데이터베이스에 사용자 데이터 레코드가 없습니다. 관리자에게 문의하십시오.',
-        'Can`t remove SessionID.' => 'SessionID를 제거 할 수 없습니다.',
         'Logout successful.' => '로그아웃에 성공했습니다.',
         'Feature not active!' => '기능이 활성화되지 않았습니다!',
         'Sent password reset instructions. Please check your email.' => '보낸 암호 재설정 지침. 이메일을 확인하십시오.',

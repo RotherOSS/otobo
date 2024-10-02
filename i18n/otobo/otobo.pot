@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-03-27 14:04+0000\n"
+"POT-Creation-Date: 2024-10-02 12:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,6 +72,10 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration."
+msgstr ""
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
 
 #. Template: AdminACL
@@ -13514,6 +13518,10 @@ msgstr ""
 msgid "Error: the file could not be deleted properly. Please contact your administrator (missing FileID)."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/BasePassword.pm
+msgid "Can`t remove SessionID."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
 msgstr ""
@@ -13855,7 +13863,7 @@ msgid "Print this article"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at hello@otobo.de"
+msgid "Contact us at hello@otobo.io"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -16000,10 +16008,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm

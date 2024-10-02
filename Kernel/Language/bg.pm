@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.212779451403203;
+    $Self->{Completeness}        = 0.212745719720989;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -62,6 +62,8 @@ sub Data {
             'За да създадете нов ACL, можете или да импортирате ACL, които са били експортирани от друга система, или да създадете нов.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Промените в ACL засягат само поведението на системата, ако след това разпакетиране на данните от ACL. Чрез внедряването на данните от ACL новоизготвените промени ще бъдат записани в конфигурацията.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL ли',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Моля, имайте предвид : Тази таблица представя реда за изпълнение на ACL. Ако трябва да промените реда, в който се изпълняват ACL, моля, променете имената на променените ACL.',
@@ -4728,6 +4730,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5827,7 +5832,6 @@ sub Data {
             'Вписването неуспешно! Въвели сте грешно потребителско име или парола.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Функцията не е активна!',
         'Sent password reset instructions. Please check your email.' => 'Изпратете инструкции за нулиране на паролата. Моля, проверете електронната си поща.',

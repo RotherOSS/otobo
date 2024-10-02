@@ -16007,7 +16007,7 @@ msgstr "Fallou o acceso! O nome de usuario ou o contrasinal foron introducidos i
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25542,4 +25542,12 @@ msgstr ""
 
 #~ msgid "The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
 #~ msgstr "O logo mostrado na cabeceira da interface de cliente. A URL a imaxe pode ser unha URL relativa ao directorio da imaxe da aparencia, ou unha URL completa a un servidor web remoto."
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

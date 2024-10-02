@@ -16019,7 +16019,7 @@ msgstr "Innlogging feilet! Brukernavn eller passord ble skrevet inn feil."
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr "Autentiseringen lyktes, men ingen brukerdatapost ble funnet i databasen. Vennligst kontakt administratoren."
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Kan ikke fjerne SessionID."
 
@@ -25473,4 +25473,12 @@ msgstr "statistikk"
 
 #~ msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
 #~ msgstr "Viser alle åpne saker (også låste) i eskaleringsvinduet i agentdelen"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr "Kontakt oss på hello@otobo.io"
 

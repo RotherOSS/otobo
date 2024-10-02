@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.216426193118757;
+    $Self->{Completeness}        = 0.216391883322765;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -61,6 +61,8 @@ sub Data {
             'Norėdami sukurti naują ACL taisyklę, galite arba importuoti ACL taisykles, eksportuotas iš kitos sistemos, arba sukurti visiškai naują taisyklę.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'ACL pakeitimai čia keičia sistemos elgesį tik jei ACL duomenys yra aktyvuojami vėliau. Aktyvuojant ACL duomenis, nauji pakeitimai bus įrašomi į konfigūraciją.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL taisyklės',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Svarbu: Ši lentelė apibrėžia ACL taisyklių eiliškumą. Norėdami pakeisti šį eiliškumą, pakeiskite susijusių ACL taisyklių pavadinimus.',
@@ -4727,6 +4729,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5826,7 +5831,6 @@ sub Data {
             'Prisijungimas nepavyko! Neteisingai įvestas prisijungimo vardas arba slaptažodis.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Funkcija/ypatybė neaktyvuota!',
         'Sent password reset instructions. Please check your email.' => 'Slaptažodžio atstatymo instrukcijos išsiųstos. Prašome pasitikrinti savo el. paštą.',

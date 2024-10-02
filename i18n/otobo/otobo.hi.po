@@ -16006,7 +16006,7 @@ msgstr "प्रवेश असफल। आपका उपयोगकर्
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25292,4 +25292,12 @@ msgstr ""
 
 #~ msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
 #~ msgstr "प्रतिनिधि अंतरफलक की संवर्धित दृश्य में सभी खुले टिकट(भले ही वे लॉकङ हो) दिखाता है।"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

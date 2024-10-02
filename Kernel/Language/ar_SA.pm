@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.916124940542255;
+    $Self->{Completeness}        = 0.916138237159163;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -63,6 +63,8 @@ sub Data {
             'إذا كنت تريد إنشاء قائمة ACL، فيمكنك استيرادها من نظام آخر أو إنشاء ACL جديد بالكامل.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'تسري التغييرات على قوائم ACLs فقط عندما تقوم بتشغيل ACLs. هنا يتم حفظ التغييرات في ملف التكوين.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'ملاحظة: يمثل هذا الجدول ترتيب تنفيذ قائمة ACLs. إذا كنت تريد تغيير الترتيب، فيرجى تغيير أسماء قوائم ACLs ذات الصلة.',
@@ -4729,6 +4731,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'خطأ: تعذر حذف الملف بشكل صحيح. الرجاء الاتصال بالمسؤول (مفقود FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'لا يمكن إزالة SessionID.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'تعذر تسجيل المربع %s في لوحة معلومات العميل! الوحدة النمطية أو القالب مفقود.',
@@ -4987,7 +4992,7 @@ sub Data {
         'Check to activate this date' => 'حدد لتمكين هذا التاريخ',
         '%s TB' => '‎%s تيرابايت (TB)',
         '%s GB' => '‎%s غيغابايت (GB)',
-        '%s MB' => '‎%s ميغابايت (MG)',
+        '%s MB' => 'ميغابايت (MB) ‎%s',
         '%s KB' => '‎%s كيلوبايت (KB)',
         '%s B' => '‎%s بايت (B)',
         'No Permission!' => 'لا توجد صلاحيات!',
@@ -5828,7 +5833,6 @@ sub Data {
             'فشل في تسجيل الدخول! تم إدخال اسم المستخدم أو كلمة المرور بشكل خاطيء.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'نجحت المصادقة، ولكن لم يتم العثور على سجل بيانات مستخدم في قاعدة البيانات. الرجاء الاتصال بالمسؤول.',
-        'Can`t remove SessionID.' => 'لا يمكن إزالة SessionID.',
         'Logout successful.' => 'تم تسجيل الخروج بنجاح.',
         'Feature not active!' => 'الخاصية غير مفعلة!',
         'Sent password reset instructions. Please check your email.' => 'تم ارسال تعليمات إعادة تعيين كلمة المرور. يرجى التحقق من بريدك الإلكتروني.',
@@ -8656,7 +8660,7 @@ Thanks for your help!
         'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
             'يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لجهات الاتصال الحالية عند الوصول إلى وحدة AdminContactWD.',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
-            '',
+            'يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول إلى وحدة AdminCustomerCompany.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

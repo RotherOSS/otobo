@@ -16012,7 +16012,7 @@ msgstr "Sikertelen bejelentkezés! A megadott felhasználónév vagy jelszó hib
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr "A hitelesítés sikerült, de nem található felhasználói adatrekord az adatbázisban. Vegye fel a kapcsolatot a rendszergazdával."
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Nem lehet eltávolítani a munkamenet-azonosítót."
 
@@ -25879,4 +25879,12 @@ msgstr "statisztikák"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Vegye fel velünk a kapcsolatot a sales@otrs.com címen"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

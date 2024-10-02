@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.434279372126209;
+    $Self->{Completeness}        = 0.434210526315789;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -69,6 +69,8 @@ sub Data {
             'Pour créer une nouvelle ACL, vous pouvez soit importer des ACL qui ont été exportés à partir d\'un autre système soit créer une nouvelle ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Le changement d\'ACLs ici affecte uniquement le comportement du système, si vous déployez les ACLs par la suite. En déployant ces ACL, les nouveaux changements seront ajoutés à la configuration.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'N.B. : Cette table représente l\'ordre d’exécution des ACL. Si vous voulez changer cette ordre, veuillez changer les noms des ACL affectées.',
@@ -4735,6 +4737,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5834,7 +5839,6 @@ sub Data {
             'Mauvaise authentification! Votre nom de compte ou mot de passe étaient erronés',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Authentification réussie, mais aucune donnée utilisateur n\'a été trouvée dans la base. Merci de contacter votre administrateur.',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Déconnexion avec succès.',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
         'Sent password reset instructions. Please check your email.' => 'Instructions d\'initialisation du mot de passe envoyées. Veuillez consulter votre e-mail.',

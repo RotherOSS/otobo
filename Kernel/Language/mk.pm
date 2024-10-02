@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.281750436023466;
+    $Self->{Completeness}        = 0.281705770450222;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -61,6 +61,8 @@ sub Data {
             'За да креирате нов ЛКП можете или увоз ЛКП кои се извезуваат од друг систем или се создаде комплетен нов.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Менување на ЛКПата тука има само ефект на однесувањете на системот , ако ги распоредите податоците на ЛКП подоцна. Со распоредувањето на податоците на ЛКП, најново направените промени ќе бидат запишани во конфигурацијата.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ЛКПа',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Забелешка: Оваа табела го претставува распоредот на извршување на ЛКПата. Ако имате потреба да го проментире распоредот на извршување на ЛКПата, ве молиме сменете ги имињата на засегнатите ЛКПа.',
@@ -4727,6 +4729,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5826,7 +5831,6 @@ sub Data {
             'Најавата не е успешна! Вашето корисничко име или лозинка се внесе погрешно',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Функцијата не е активна!',
         'Sent password reset instructions. Please check your email.' => 'Испрати лозинка за ресетирање на инструкции. Ве молиме проверете ја вашата е-маил.',

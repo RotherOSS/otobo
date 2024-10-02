@@ -16023,7 +16023,7 @@ msgstr "Přihlášení neúspěšné! Vaše uživatelské jméno či heslo bylo 
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25378,4 +25378,12 @@ msgstr ""
 
 #~ msgid "Free Fields"
 #~ msgstr "Volná pole"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

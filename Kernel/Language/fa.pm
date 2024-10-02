@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.626288251149516;
+    $Self->{Completeness}        = 0.626188966391883;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -66,6 +66,8 @@ sub Data {
             'برای ایجاد یک ACL جدید شما هم می توانید واردات ACL ها که از سیستم دیگری صادر شده و یا ایجاد کنید یک ACL جدید کامل.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'تغییرات به ACL در اینجا تنها رفتار سیستم تاثیر می گذارد، اگر شما اطلاعات ACL اعزام پس از آن. با استقرار داده ACL، تغییرات تازه ساخته شده را به پیکربندی نوشته شده است.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACL ها',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'لطفا توجه داشته باشید: این جدول نشان دهنده حکم اعدام از ACL ها است. اگر شما نیاز به تغییر نظم که در آن ACL ها اجرا می شوند، لطفا نام ACL ها را تحت تاثیر قرار را تغییر دهید.',
@@ -4732,6 +4734,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'نمیتواند SESSIONID را حذف کنید.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5831,7 +5836,6 @@ sub Data {
             'ورود ناموفق! نام کاربری یا کلمه عبور وارد شده اشتباه می‌باشد.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => 'نمیتواند SESSIONID را حذف کنید.',
         'Logout successful.' => 'خروج موفقیت آمیز.',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Sent password reset instructions. Please check your email.' => 'دستورالعمل تنظیم مجدد کلمه عبور ارسال شد. لطفا ایمیل خود را چک نمایید.',

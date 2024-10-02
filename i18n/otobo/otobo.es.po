@@ -16041,7 +16041,7 @@ msgstr "¡Inicio de sesión fallido! El nombre de usuario o contraseña son inco
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "No se puede eliminar el SessionID"
 
@@ -25713,4 +25713,12 @@ msgstr "estadísticas"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Contactamos en sales@otrs.com"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

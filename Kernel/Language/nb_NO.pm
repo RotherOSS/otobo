@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999841471147749;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -69,6 +69,8 @@ sub Data {
             'For å opprette en ny ACL kan du enten importere ACLer som ble eksportert fra et annet system eller opprettet en helt ny ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
@@ -4735,6 +4737,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Feil: filen kunne ikke slettes på riktig måte. Ta kontakt med administratoren din (mangler fil-ID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'Kan ikke fjerne SessionID.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'Registrering for flis %s av CustomerDashboard er ugyldig! Enten modul eller mal er nødvendig.',
@@ -5834,7 +5839,6 @@ sub Data {
             'Innlogging feilet! Brukernavn eller passord ble skrevet inn feil.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Autentiseringen lyktes, men ingen brukerdatapost ble funnet i databasen. Vennligst kontakt administratoren.',
-        'Can`t remove SessionID.' => 'Kan ikke fjerne SessionID.',
         'Logout successful.' => 'Vellykket avlogging.',
         'Feature not active!' => 'Funksjon ikke aktivert!',
         'Sent password reset instructions. Please check your email.' => 'Instrukser for nullstilling av passord har blitt sendt til din e-postadresse.',

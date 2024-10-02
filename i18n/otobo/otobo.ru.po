@@ -16046,7 +16046,7 @@ msgstr "Ошибка входа! Указано неправильное имя 
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr "Аутентификация успешна, однако ни одной записи для клиента не обнаружено в используемой/ых базе клиентов. Обратитесь к вашему администратору."
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Невозможно удалить SessionID."
 
@@ -25868,4 +25868,12 @@ msgstr "отчеты"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Свяжитесь с нами по sales@otrs.com"
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 

@@ -16013,7 +16013,7 @@ msgstr "Login fejlede. Dit brugernavn eller password blev indtastet forkert."
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Kan ikke fjerne SessionsID."
 
@@ -25485,4 +25485,12 @@ msgstr ""
 
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Dette tillader systemet at sende tekstbeskeder via SMS."
+
+#. Template: AdminACL
+msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.io"
+msgstr ""
 
