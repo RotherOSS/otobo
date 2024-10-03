@@ -284,6 +284,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     adjustEditorSize();
                 });
 
+                let count = 0;
+
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
@@ -296,7 +298,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                     let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
                     let borderWidth = parseFloat($editingArea.css("border-top")) + parseFloat($editingArea.css("border-bottom"));
-                    let newSize = newEditorSize - (toolbarHeight + verticalPadding)
+                    let newSize = newEditorSize - toolbarHeight;
                     if (sourceEditingActive) {
                         $editingArea.height(newSize);
                         editor.editing.view.forceRender();
@@ -355,10 +357,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 if (!CustomerInterface) {
                     // set initial Editor size as defined by System Configuration
                     // add 10 px of padding to the editor width
-                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) ) + 10;
+                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) );
 
                     $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
-                    $domEditableElement.css("width", EditorWidth);
+                    $domEditableElement.css("--preferred-width", EditorWidth);
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);

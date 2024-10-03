@@ -1139,14 +1139,15 @@ fieldset.ModularForm {
         border-radius: 4px;
     }
     
-    fieldset.ModularForm .RichTextField {
+    fieldset.ModularForm .FieldCell .RichTextField {
         flex-direction: column;
-        resize: vertical;
         z-index: 10;
         position: relative;
         overflow: hidden;
-        min-height: 150px !important;
-        height: 320px;
+        --initial-height: 520px;
+        height: var(--initial-height);
+        --preferred-width: 400px;
+        width: min( 100%, var(--preferred-width) );
         max-width: 100%
     }
 
