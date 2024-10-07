@@ -284,8 +284,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     adjustEditorSize();
                 });
 
-                let count = 0;
-
                 // Adjust Editor Size to match (resizable) container size
                 var adjustEditorSize = function() {
                     let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();

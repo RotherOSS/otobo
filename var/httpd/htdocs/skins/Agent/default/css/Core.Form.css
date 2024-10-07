@@ -1095,12 +1095,14 @@ input[type=text].ArticleFreeKey {
 fieldset.ModularForm {
     --max-field-width: 620px;
     --multivalue-buttons-width: 40px;
+    --column-gap-width: 5px;
 
     position: relative;
     width: 100%;
     box-sizing: border-box;
     display: grid;
     row-gap: 4px;
+    line-height: 1.5;
 }
 
     fieldset.ModularForm .AJAXLoader {
@@ -1126,11 +1128,14 @@ fieldset.ModularForm {
         grid-column: label;
         text-align: right;
         padding: 4px;
+        text-wrap: wrap;
+        line-height: 1.3;
     }
 
     fieldset.ModularForm input[type=text] {
         border-radius: 4px;
-        width: 100%
+        width: 100%;
+        line-height: inherit;
     }
 
     fieldset.ModularForm textarea {
@@ -1180,6 +1185,7 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .InputField_InputContainer {
         width: 100%;
+        line-height: inherit;
     }
 
     fieldset.ModularForm .Field:not(.Hidden) {
@@ -1198,8 +1204,8 @@ fieldset.ModularForm {
         fieldset.ModularForm div.Row > div.FieldCell {
             display: grid;
             position: relative;
-            grid-template-areas:    "label  field                                                                               multivaluebuttons";
-            grid-template-columns:  30%     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
+            grid-template-areas:   "label                                       field                                                                               multivaluebuttons";
+            grid-template-columns:  calc( 30% - var(--column-gap-width)*2 )     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
             grid-column-gap: 5px;
             overflow: hidden;
         }

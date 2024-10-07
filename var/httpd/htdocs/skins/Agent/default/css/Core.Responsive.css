@@ -629,7 +629,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-right: 2px;
     }
 
-    .RichTextField > .cke {
+    fieldset.TableLike .RichTextField > .cke {
         width: auto !important;
         max-width: 100% !important;
     }
@@ -653,6 +653,64 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 20px;
     }
 
+    /* New Form Styling */
+    /* fieldset.ModularForm */
+
+    fieldset.ModularForm div.Row {
+        position: relative;
+    }
+
+        fieldset.ModularForm div.Row > div.FieldCell {
+            grid-template-areas:
+                                    "label                                                                      ."
+                                    "field                                                                      multivaluebuttons";
+            grid-template-columns:  calc(100% - (var(--multivalue-buttons-width) + var(--column-gap-width)))    var(--multivalue-buttons-width);
+            grid-template-rows: min-content 1fr;
+            /*padding-left: calc(var(--multivalue-buttons-width) + var(--column-gap-width));*/
+        }
+
+            fieldset.ModularForm label {
+                text-align: left;
+                grid-area: label;
+            }
+
+            fieldset.ModularForm .Field {
+                grid-area: field;
+            }
+
+                fieldset.ModularForm input[type=text],
+                fieldset.ModularForm .DynamicFieldDate * {
+                    font-size: 0.9em;
+                }
+        
+                fieldset.ModularForm div.InputField_Container {
+                    margin-right: 0px;
+                }
+        
+                fieldset.ModularForm .DatepickerIcon {
+                    margin: 0px;
+                }
+        
+                fieldset.ModularForm .DnDUpload {
+                    max-width: unset;
+                }
+
+                /*fieldset.ModularForm fieldset.DynamicFieldSet div.FieldCell {
+                    padding-left: 0px;
+                }*/
+
+            fieldset.ModularForm .MultiValueButtons {
+                grid-area: multivaluebuttons;
+            }
+
+            fieldset.ModularForm .fa {
+                color: var(--colTextDark);
+            }
+
+    fieldset.ModularForm > div.Row.MultiColumn {
+        --left-margin: 0px;
+    }
+    
     /* Widget Actions */
 
     .OverviewActions, .DashboardActions {
