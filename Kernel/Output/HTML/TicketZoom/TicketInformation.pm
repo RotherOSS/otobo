@@ -465,6 +465,21 @@ sub Run {
     FIELD:
     for my $Field (@FieldsSidebar) {
 
+        # check if field is set field
+        my $IsSetField = $Field->{FieldType} eq 'Set' ? 1 : 0;
+
+        # check if field is a lens field and points to a set field
+        if ( $Field->{FieldType} eq 'Lens' ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+            my $LensDFConfig       = $DynamicFieldObject->DynamicFieldGet(
+                Name => $Field->{Name},
+            );
+            my $AttributeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                ID => $LensDFConfig->{Config}{AttributeDF},
+            );
+            $IsSetField = $AttributeDFConfig->{FieldType} eq 'Set' ? 1 : 0;
+        }
+
         # handle titles separately
         if ( $Field->{TitleFieldConfig} ) {
             my $Style = "padding-left:4px;font-size:$Field->{TitleFieldConfig}{FontSize}px;color:$Field->{TitleFieldConfig}{FontColor};";
@@ -490,7 +505,7 @@ sub Run {
 
             next FIELD;
         }
-        elsif ( $Field->{FieldType} eq 'Set' ) {
+        elsif ($IsSetField) {
 
             $LayoutObject->Block(
                 Name => 'TicketDynamicField',
