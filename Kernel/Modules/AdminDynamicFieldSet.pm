@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -419,9 +419,10 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        Tooltip    => $GetParam{Tooltip},
-        MultiValue => $GetParam{MultiValue},
-        Include    => \@Include,
+        Tooltip       => $GetParam{Tooltip},
+        MultiValue    => $GetParam{MultiValue},
+        Include       => \@Include,
+        IncludeString => $GetParam{Include},
     };
 
     # create a new field
@@ -721,9 +722,10 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        Tooltip    => $GetParam{Tooltip},
-        MultiValue => $GetParam{MultiValue},
-        Include    => \@Include,
+        Tooltip       => $GetParam{Tooltip},
+        MultiValue    => $GetParam{MultiValue},
+        Include       => \@Include,
+        IncludeString => $GetParam{Include},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -984,6 +986,7 @@ sub _ShowScreen {
                 Data => $Param{Include},
             );
         }
+        $Param{Include} = $FieldConfig->{IncludeString} || $Param{Include};
 
         my $DynamicFieldName = $DynamicField->{Name};
 
