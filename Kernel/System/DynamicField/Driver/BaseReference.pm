@@ -266,7 +266,7 @@ sub EditFieldRender {
                 my $DataValues = $Self->BuildSelectionDataGet(
                     DynamicFieldConfig => $Param{DynamicFieldConfig},
                     PossibleValues     => $PossibleValues,
-                    Value              => $Value->[$ValueIndex],
+                    Value              => $Value->[$ValueIndex] // '',
                 );
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
@@ -275,7 +275,7 @@ sub EditFieldRender {
                     Disabled   => $Param{Readonly},
                     Name       => $FieldName,
                     ID         => $FieldID,
-                    SelectedID => $Value->[$ValueIndex],
+                    SelectedID => $Value->[$ValueIndex] // '',
                     Class      => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                     HTMLQuote  => 1,
                 );
@@ -286,14 +286,14 @@ sub EditFieldRender {
             my $DataValues  = $Self->BuildSelectionDataGet(
                 DynamicFieldConfig => $Param{DynamicFieldConfig},
                 PossibleValues     => $PossibleValues,
-                Value              => \@SelectedIDs,
+                Value              => ( @SelectedIDs ? \@SelectedIDs : '' ),
             );
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                 Data       => $DataValues,
                 Sort       => 'AlphanumericValue',
                 Disabled   => $Param{Readonly},
                 Name       => $FieldName,
-                SelectedID => \@SelectedIDs,
+                SelectedID => ( @SelectedIDs ? \@SelectedIDs : '' ),
                 Class      => $FieldClass . ( $Param{AJAXUpdate} ? ' FormUpdate' : '' ),
                 HTMLQuote  => 1,
                 Multiple   => $DFDetails->{Multiselect},
