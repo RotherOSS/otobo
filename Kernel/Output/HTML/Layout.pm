@@ -6187,26 +6187,26 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # SelectedID and SelectedValue option
-    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+    if ( defined $OptionRef->{SelectedID} ) {
         for my $Row ( @{$DataRef} ) {
             if (
-                (
-                    (
-                        defined $Row->{Key}
-                        && $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    )
-                    ||
-                    (
-                        defined $Row->{Value}
-                        && $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                    )
-                )
-                &&
-                (
-                    defined $Row->{Value}
-                    && !$DisabledElements{ $Row->{Value} }
-                )
-                )
+                defined $Row->{Key}
+                && defined $Row->{Value}
+                && $OptionRef->{SelectedID}->{ $Row->{Key} }
+                && !$DisabledElements{ $Row->{Value} }
+            )
+            {
+                $Row->{Selected} = 1;
+            }
+        }
+    }
+    elsif ( $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (
+                defined $Row->{Value}
+                && $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                && !$DisabledElements{ $Row->{Value} }
+            )
             {
                 $Row->{Selected} = 1;
             }
