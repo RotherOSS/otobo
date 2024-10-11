@@ -266,7 +266,7 @@ sub EditFieldRender {
                 my $DataValues = $Self->BuildSelectionDataGet(
                     DynamicFieldConfig => $Param{DynamicFieldConfig},
                     PossibleValues     => $PossibleValues,
-                    Value              => $Value->[$ValueIndex] // '',
+                    Value              => $Value->[$ValueIndex],
                 );
                 my $FieldID = $FieldName . '_' . $ValueIndex;
                 push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
@@ -286,7 +286,7 @@ sub EditFieldRender {
             my $DataValues  = $Self->BuildSelectionDataGet(
                 DynamicFieldConfig => $Param{DynamicFieldConfig},
                 PossibleValues     => $PossibleValues,
-                Value              => ( @SelectedIDs ? \@SelectedIDs : '' ),
+                Value              => \@SelectedIDs,
             );
             push @SelectionHTML, $Param{LayoutObject}->BuildSelection(
                 Data       => $DataValues,
