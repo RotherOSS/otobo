@@ -108,24 +108,61 @@ sub Run {
 
     # Get config for the dynamic field and check the sanity.
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-    my $DynamicFieldConfig        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    my $InitialDynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $FieldName,
     );
-    if (
-        !IsHashRefWithData($DynamicFieldConfig)
-        ||
-        !$DynamicFieldBackendObject->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsReferenceField',
-        )
-        )
-    {
+    if ( !IsHashRefWithData($InitialDynamicFieldConfig) ) {
         return $LayoutObject->JSONReply(
             Data => {
                 Success  => 0,
                 Messsage => qq{Error reading the dynamic field '$FieldName'!},
-            }
+            },
         );
+    }
+
+    # Check if we deal with a reference field
+    my $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
+        DynamicFieldConfig => $InitialDynamicFieldConfig,
+        Behavior           => 'IsReferenceField',
+    );
+
+    my $DynamicFieldConfig;
+    if ( !$IsReferenceField ) {
+
+        # Check if we deal with a lens field with a reference attribute field
+        if ( $InitialDynamicFieldConfig->{FieldType} eq 'Lens' ) {
+
+            # TODO perhaps better use 'AttributeDFConfigGet'
+            $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                ID => $InitialDynamicFieldConfig->{Config}{AttributeDF},
+            );
+            if ( !IsHashRefWithData($InitialDynamicFieldConfig) ) {
+                return $LayoutObject->JSONReply(
+                    Data => {
+                        Success  => 0,
+                        Messsage => qq{Error reading the dynamic field '$FieldName'!},
+                    },
+                );
+            }
+
+            $IsReferenceField = $DynamicFieldBackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsReferenceField',
+            );
+
+            if ( !$IsReferenceField ) {
+                return $LayoutObject->JSONReply(
+                    Data => {
+                        Success  => 0,
+                        Messsage => qq{Error reading the dynamic field '$FieldName'!},
+                    },
+                );
+            }
+            $DynamicFieldConfig->{Name} = $FieldName;
+        }
+    }
+    else {
+        $DynamicFieldConfig = $InitialDynamicFieldConfig;
     }
 
     # search referenced object

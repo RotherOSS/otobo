@@ -611,6 +611,10 @@ sub GetFieldState {
         DynamicFieldConfig => $DynamicFieldConfig,
         Behavior           => 'IsACLReducible',
     );
+    my $SetsDynamicContent = $Self->HasBehavior(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Behavior           => 'SetsDynamicContent',
+    );
 
     my %Return;
     my $ReferenceID = $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} } ? $DFParam->{ $DynamicFieldConfig->{Config}{ReferenceDFName} }[0] : undef;
@@ -692,8 +696,26 @@ sub GetFieldState {
         $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
     }
 
+    if ($SetsDynamicContent) {
+
+        my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+            LensDynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        my %GetFieldState = $Param{DynamicFieldBackendObject}->GetFieldState(
+            %Param,
+            Lens               => 1,
+            DynamicFieldConfig => $AttributeDFConfig,
+        );
+
+        return (
+            %GetFieldState,
+            %Return,
+        );
+    }
+
     # if this field is non ACL reducible, set the field values
-    return %Return if !$IsACLReducible;
+    return %Return unless $IsACLReducible;
 
     # get possible values if ACLReducible
     # this is what the FieldRestrictions object would do for other fields

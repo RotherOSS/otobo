@@ -42,35 +42,23 @@ sub new {
 
     # field types which are usable as attribute df
     $Self->{IsAttributeFieldCapable} = {
-
-        # see https://github.com/RotherOSS/issues/3186
-        Agent    => 0,
+        Agent    => 1,
         Checkbox => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3809
-        ContactWD => 0,
-
-        # see https://github.com/RotherOSS/issues/3186
-        CustomerCompany => 0,
-
-        # see https://github.com/RotherOSS/issues/3186
-        CustomerUser => 0,
+        ContactWD       => 0,
+        CustomerCompany => 1,
+        CustomerUser    => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3793
-        Database => 0,
-        Date     => 1,
-        DateTime => 1,
-        Dropdown => 1,
-
-        # see https://github.com/RotherOSS/issues/3186
-        FAQ            => 0,
-        GeneralCatalog => 1,
-
-        # see https://github.com/RotherOSS/issues/3186
-        ITSMConfigItem => 0,
-
-        # see https://github.com/RotherOSS/issues/3186
-        ITSMConfigItemVersion => 0,
+        Database              => 0,
+        Date                  => 1,
+        DateTime              => 1,
+        Dropdown              => 1,
+        FAQ                   => 1,
+        GeneralCatalog        => 1,
+        ITSMConfigItem        => 1,
+        ITSMConfigItemVersion => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3789
         Lens        => 0,
@@ -86,10 +74,8 @@ sub new {
         Set      => 1,
         Text     => 1,
         TextArea => 1,
-
-        # see https://github.com/RotherOSS/issues/3186
-        Ticket => 0,
-        Title  => 1,
+        Ticket   => 1,
+        Title    => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3446
         WebService => 0,
