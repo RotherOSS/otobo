@@ -606,8 +606,16 @@ or
         Valid => 0,             # optional, defaults to 1
 
         # object  type (optional) as STRING or as ARRAYREF
+        # The special object type 'All' places no restriction on the object type when
+        # it is passed as a single string.
         ObjectType => 'Ticket',
         ObjectType => ['Ticket', 'Article'],
+
+        # field  type (optional) as STRING or as ARRAYREF
+        # The special field type 'All' places no restriction on the field type when
+        # it is passed as a single string.
+        FieldType => 'Dropdown',
+        FieldType => ['Dropdown', 'Text'],
 
         ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
 
@@ -678,6 +686,15 @@ sub DynamicFieldList {
         $ObjectType = $Param{ObjectType};
     }
 
+    # set cache key object type component depending on the FieldType parameter
+    my $FieldType = 'All';
+    if ( IsArrayRefWithData( $Param{FieldType} ) ) {
+        $FieldType = join '_', sort @{ $Param{FieldType} };
+    }
+    elsif ( IsStringWithData( $Param{FieldType} ) ) {
+        $FieldType = $Param{FieldType};
+    }
+
     # set cache key namespace component depending on the Namespace parameter
     my $Namespace = 'All';
     if ( IsStringWithData( $Param{Namespace} ) ) {
@@ -694,6 +711,8 @@ sub DynamicFieldList {
         . $Valid
         . '::ObjectType::'
         . $ObjectType
+        . '::FieldType::'
+        . $FieldType
         . '::Namespace::'
         . $Namespace
         . '::ResultType::'
@@ -788,6 +807,20 @@ sub DynamicFieldList {
             elsif ( IsArrayRefWithData( $Param{ObjectType} ) ) {
                 push @WhereClauses, 'object_type IN (' . join( ', ', map {'?'} $Param{ObjectType}->@* ) . ')';
                 push @Bind,         map { \$_ } $Param{ObjectType}->@*;
+            }
+
+        }
+
+        if ( $Param{FieldType} ) {
+
+            # differentiate whether we have an field type string or array
+            if ( IsStringWithData( $Param{FieldType} ) && $Param{FieldType} ne 'All' ) {
+                push @WhereClauses, 'field_type = ?';
+                push @Bind,         \$Param{FieldType};
+            }
+            elsif ( IsArrayRefWithData( $Param{FieldType} ) ) {
+                push @WhereClauses, 'field_type IN (' . join( ', ', map {'?'} $Param{FieldType}->@* ) . ')';
+                push @Bind,         map { \$_ } $Param{FieldType}->@*;
             }
 
         }
@@ -1016,11 +1049,17 @@ Additional restrictions can be applied:
     my $List = $DynamicFieldObject->DynamicFieldListGet(
         Valid        => 0,            # optional, defaults to 1
 
-        # object  type (optional) as STRING or as ARRAYREF
+        # object type (optional) as STRING or as ARRAYREF
         # The special object type 'All' places no restriction on the object type when
         # it is passed as a single string.
         ObjectType => 'Ticket',
         ObjectType => ['Ticket', 'Article'],
+
+        # field type (optional) as STRING or as ARRAYREF
+        # The special field type 'All' places no restriction on the field type when
+        # it is passed as a single string.
+        FieldType => 'Dropdown',
+        FieldType => ['Dropdown', 'Text'],
 
         # optional, filter by name of the dynamic field
         # only the fields where there the field name has a true value are returned
@@ -1085,12 +1124,25 @@ sub DynamicFieldListGet {
         $ObjectTypeCacheKey = $Param{ObjectType};
     }
 
+    # set cache key field type component depending on the FieldType parameter
+    my @FieldTypes;
+    my $FieldTypeCacheKey = 'All';
+    if ( IsArrayRefWithData( $Param{FieldType} ) ) {
+        @FieldTypes        = sort $Param{FieldType}->@*;
+        $FieldTypeCacheKey = join '_', @FieldTypes;
+    }
+    elsif ( IsStringWithData( $Param{FieldType} ) ) {
+        @FieldTypes        = $Param{FieldType} eq 'All' ? () : ( $Param{FieldType} );
+        $FieldTypeCacheKey = $Param{FieldType};
+    }
+
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheKey = join '::', 'DynamicFieldListGet',
         Valid      => $Valid,
-        ObjectType => $ObjectTypeCacheKey;
+        ObjectType => $ObjectTypeCacheKey,
+        FieldType  => $FieldTypeCacheKey;
     my $Cache = $CacheObject->Get(
         Type => 'DynamicField',
         Key  => $CacheKey,
@@ -1143,6 +1195,17 @@ sub DynamicFieldListGet {
         my %QueryCondition = $DBObject->QueryInCondition(
             Key      => 'object_type',
             Values   => \@ObjectTypes,
+            BindMode => 1,
+        );
+
+        push @WhereClauses, $QueryCondition{SQL};
+        push @Binds,        $QueryCondition{Values}->@*;
+    }
+
+    if (@FieldTypes) {
+        my %QueryCondition = $DBObject->QueryInCondition(
+            Key      => 'field_type',
+            Values   => \@FieldTypes,
             BindMode => 1,
         );
 
