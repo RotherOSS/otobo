@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.848448508469495;
+    $Self->{Completeness}        = 0.848344073130526;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4121,6 +4121,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5029,6 +5032,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'خطأ: تعذر حذف الملف بشكل صحيح. الرجاء الاتصال بالمسؤول (مفقود FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'لا يمكن إزالة SessionID.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'تعذر تسجيل المربع %s في لوحة معلومات العميل! الوحدة النمطية أو القالب مفقود.',
@@ -5548,9 +5554,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'هذا الحقل مطلوب أو',
@@ -6189,7 +6192,6 @@ sub Data {
             'فشل في تسجيل الدخول! تم إدخال اسم المستخدم أو كلمة المرور بشكل خاطيء.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'نجحت المصادقة، ولكن لم يتم العثور على سجل بيانات مستخدم في قاعدة البيانات. الرجاء الاتصال بالمسؤول.',
-        'Can`t remove SessionID.' => 'لا يمكن إزالة SessionID.',
         'Logout successful.' => 'تم تسجيل الخروج بنجاح.',
         'Feature not active!' => 'الخاصية غير مفعلة!',
         'Sent password reset instructions. Please check your email.' => 'تم ارسال تعليمات إعادة تعيين كلمة المرور. يرجى التحقق من بريدك الإلكتروني.',
@@ -7262,6 +7264,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'تم إنشاء التذكرة [%s في "%s" مع الأولوية "%s" والحالة "%s".',
         'Croatian' => 'الكرواتية',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'موجز RSS المخصص',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'نص مخصص للعملاء الذين ليس لديهم تذاكر (إذا كنت تريد ترجمة لهذا النص، قم بإضافة الترجمة في وحدة ترجمة منفصلة).',
@@ -7584,8 +7587,6 @@ Thanks for your help!
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'يعرف تنسيق إدخال التاريخ المستخدم في النماذج (حقول الخيار أو الإدخال).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             'يحدد اسم الوكيل الافتراضي في عرض تفاصيل التذاكر لواجهة العميل.',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7769,6 +7770,8 @@ Thanks for your help!
             'يتحكم في المجموعات التي تريد أن يكون العميل فيها بشكل افتراضي (إذا تم تمكين CustomerGroupSupport ولا تريد التحكم في كل علاقة مجموعة للعملاء بشكل فردي).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             'يحدد الرؤوس التي يتم عرضها للمحتوى العام للقيمة المطلوبة.',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'يتحكم في ارتفاع مكون محرر النص المنسق. أدخل رقمًا (للارتفاع بالبكسل) أو نسبة مئوية (لارتفاع نسبي).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'يتحكم في تعليق محفوظات إجراءات إغلاق التذاكر في واجهة الوكيل.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7824,8 +7827,6 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'يحدد ساعات وأيام الأسبوع من التقويم المحدد لقياس وقت العمل.',
         'Defines the hours and week days to count the working time.' => 'يحدد فترة وأيام الأسبوع التي يتم احتسابها كوقت عمل.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -9001,6 +9002,10 @@ Thanks for your help!
         'Parent' => 'أساس',
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
+            '',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
             '',
         'Pending time' => '',
         'People' => '',

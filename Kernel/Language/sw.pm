@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.417028931194723;
+    $Self->{Completeness}        = 0.417053798891053;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4122,6 +4122,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5030,6 +5033,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5549,9 +5555,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Uga huu unahitajika au',
@@ -6190,7 +6193,6 @@ sub Data {
             'Kuingia kumeshindikana. Jina lako la mtumiaji au neno la siri lililoingizwa halikuwa sahihi.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Kipengele hakipo amilifu.',
         'Sent password reset instructions. Please check your email.' => 'Maelezo ya kuweka upya neno la siri yametumwa. Tafadhali angalia barua pepe yako.',
@@ -7249,6 +7251,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => '',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Nakala ya kawaida kwa kurasa zilizoonyeshwa kwa wateja ambao hawana tiketi bado (Kama unahitaji nakala hizo kutafsiriwa ziongeze katika moduli ya kawaida ya kutafsiri ).',
@@ -7574,8 +7577,6 @@ Mfano:
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Inafafanua umbizo umbizo ingizo la tarehe linalotumika katika fomu (hiari au uga ingizo).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7759,6 +7760,8 @@ Mfano:
             '',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Inafafanua urefu kwa kijenzi cha mhariri wa matini tajini kwa skrini hii. Ingiza namba (Pikseli) au thamani ya asilimia (Inayohusika).refu wa ',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Inafafanua maoni ya historia kwa kitendo cha skrini ya tiketi iliyofungwa, ambayo inatumika kwa ajili ya historia ya tiketi katika kiolesura cha wakala.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7814,8 +7817,6 @@ Mfano:
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Inafafanua masaa na siku za wiki za kalenda iliyoonyeshwa, kuhesabu muda wa kufanya kazi.',
         'Defines the hours and week days to count the working time.' => 'Inafafanua masaa na siku za wiki za kuhesabu muda wa kufanya kazi.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8992,6 +8993,10 @@ Mfano:
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Njia ya faili ya batli (Inatumika tu kama "FS" ilichaguliwa kwa ajili ya Moduli ya Kulinda Kitanzi na ni lazima).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '',
         'People' => '',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

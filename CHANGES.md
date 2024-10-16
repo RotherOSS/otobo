@@ -1,4 +1,91 @@
 
+# OTOBO 11.0.6 2024-10-02
+- 2024-10-02 15:44:05 +0200 Create new OTOBO language files.
+- 2024-10-02 15:07:15 +0200 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673) - in progress
+- 2024-08-14 16:44:20 +0100 example and template for selenium tests
+- 2024-10-02 12:18:52 +0200 [Bugfix]   Fix default position of tiles on the customer dashboard for the second smallest screen width. (https://github.com/RotherOSS/otobo/issues/3859)
+- 2024-10-02 11:42:48 +0200 [Security] Remove a possibility for ReDos attacks by removing special handling of some MS classes in articles. Thanks to Emin Yazi (Efflux) (https://github.com/RotherOSS/otobo/issues/3853)
+- 2024-10-02 10:55:05 +0200 [Bugfix]   Fix unit test failures (https://github.com/RotherOSS/otobo/issues/3856)
+- 2024-09-05 13:47:54 +0200 [Security] Prevent some js injection possibilities for the OTOBO admin. Thanks to Tim Puettmanns (maxence) (https://github.com/RotherOSS/otobo/issues/3764)
+- 2024-10-02 08:07:26 +0200 [Bugfix]   Checkbox and Richtext dynamic fields do not respect readonly in UI (https://github.com/RotherOSS/otobo/issues/3516)
+- 2024-10-01 11:19:00 +0200 [Bugfix]   Shift Template State Preselection handling in AgentTicketCompose before computing ACLs (https://github.com/RotherOSS/otobo/issues/3848)
+- 2024-09-30 16:07:57 +0200 [Bugfix]   Cross reactions between ACL HideShow and process activity dialog hidden fields are not consistent (https://github.com/RotherOSS/otobo/issues/3846)
+- 2024-09-30 13:02:11 +0200 [Enhanced] If possible add a notice to stat generation, if undefined elements are used. (https://github.com/RotherOSS/otobo/issues/3792)
+- 2024-09-30 10:53:01 +0100 [Enhanced] Accessibility - focused element must be recognizable (https://github.com/RotherOSS/otobo/issues/3842)
+- 2024-09-30 11:51:39 +0200 [Bugfix]   Typographical error in the display of password criteria. (https://github.com/RotherOSS/otobo/issues/2977)
+- 2024-09-30 09:52:50 +0200 [Security] Logout after change of password (https://github.com/RotherOSS/otobo/issues/3440)
+- 2024-09-30 09:14:43 +0200 [Bugfix]   AgentTicketQuickClose doesn't lock a ticket (https://github.com/RotherOSS/otobo/issues/3559)
+- 2024-09-30 08:24:09 +0200 [Bugfix]   Configuration deploy erroneously restores outdated setting versions. (https://github.com/RotherOSS/otobo/issues/3381)
+- 2024-09-28 09:12:20 +0200 Update issue templates
+- 2024-09-26 14:11:00 +0100 Allow adjustment of Richtext settings in Otobo 11 (https://github.com/RotherOSS/otobo/issues/3492)
+- 2024-09-20 10:51:08 +0100 [Enhanced] Update CKEditor to Version 5-42.0.1 (https://github.com/RotherOSS/otobo/issues/3800)
+- 2024-09-04 10:29:25 +0100 fixed caching issues and missing css variable
+- 2024-09-03 10:59:20 +0100 updated enhanced editor toolbar layout
+- 2024-09-03 09:57:06 +0100 updated font types
+- 2024-09-03 09:37:47 +0100 document complete fix and test update
+- 2024-08-29 10:33:30 +0100 fixed richtext label placement for customer ui
+- 2024-08-28 15:57:58 +0100 fixed ckeditor style issues
+- 2024-08-26 12:23:18 +0100 Typing in the CKEditor 5 is ridiculously slow (https://github.com/RotherOSS/otobo/issues/3584)
+- 2024-08-26 08:08:28 +0100 moved ckeditor logo
+- 2024-08-26 08:08:12 +0100 updated test for layout.pm
+- 2024-08-22 15:44:22 +0100 updated ckeditor styling
+- 2024-08-22 10:51:57 +0100 updated ckeditor tables
+- 2024-08-21 17:35:16 +0100 changed ckeditor image options
+- 2024-08-20 16:46:28 +0100 added new ckeditor version
+- 2024-09-25 16:17:56 +0200 adjust ticket-search to support search via Lens Dynamic Fields (https://github.com/RotherOSS/otobo/issues/3789) - in progress
+- 2024-09-26 13:47:27 +0200 [Bugfix]   Provide Action in ACL of AgentTicketMove. (https://github.com/RotherOSS/otobo/issues/3644)
+- 2024-09-26 11:49:55 +0200 quick_setup.pl: Include the SystemID in the name of the session cookie (https://github.com/RotherOSS/otobo/issues/3804)
+- 2024-09-26 09:26:40 +0200 [Enhanced] Add ticket priority to CustomerTicketCategories (https://github.com/RotherOSS/otobo/issues/3831)
+- 2024-09-25 13:31:16 +0200 Use localization for "Sum" in Stats (https://github.com/RotherOSS/otobo/issues/2944)
+- 2024-09-25 13:18:13 +0200 [Changed]  Add console commands for Export, Import for OTOBO 11.0 (https://github.com/RotherOSS/otobo/issues/3797)
+- 2023-11-16 10:18:50 +0100 Beautify scroll bars for some browser/os combinations. (https://github.com/RotherOSS/otobo/issues/2680)
+- 2024-09-25 10:35:34 +0200 [Bugfix]   Fix TreeView for Queue Selections using sub AgentQueueListOption (https://github.com/RotherOSS/otobo/issues/3685)
+- 2024-09-24 12:35:04 +0200 Increase unit test coverage for FieldRestrictions.pm (https://github.com/RotherOSS/otobo/issues/3813) - in progress
+- 2024-09-11 14:35:24 +0200 [Bugfix]   Restricted DF Reference does not work with lenses (https://github.com/RotherOSS/otobo/issues/3770)
+- 2024-09-24 10:29:55 +0200 [Changed]  Restrict dynamic field types which can be used as lens attribute fields (https://github.com/RotherOSS/otobo/issues/3795)
+- 2024-09-24 08:53:21 +0200 [Bugfix]   DF Checkbox has issues being used as lens attribute field (https://github.com/RotherOSS/otobo/issues/3808)
+- 2024-09-23 10:55:41 +0100 Long dynamic field labels do not look good (https://github.com/RotherOSS/otobo/issues/3806)
+- 2024-09-06 10:17:53 +0200 [Bugfix]   AdminTranslations removes leading empty spaces after saving the translation (https://github.com/RotherOSS/otobo/issues/3728)
+- 2024-09-18 16:56:54 +0200 Use the 'defined or' operator instead of the ternary operator
+- 2024-09-18 16:24:46 +0200 [Bugfix]   Performance issue in Kernel/Output/HTML/Preferences/Language.pm (https://github.com/RotherOSS/otobo/issues/3780)
+- 2024-09-18 09:09:14 +0200 Include TicketTimeUnitsMandatoryOnlyWithArticle into integrated packages list (https://github.com/RotherOSS/otobo/issues/3787)
+- 2024-09-17 07:55:30 +0200 [Bugfix]   Quick Date Buttons (+1 day, +1 week) are not translated (https://github.com/RotherOSS/otobo/issues/3783)
+- 2024-08-15 09:04:04 +0200 Issue #3711: Make js tablesort order depending on ZoomExpandSort sysconfig.
+- 2024-09-15 15:44:25 +0200 Fiddle with code comming.
+- 2024-09-15 14:35:39 +0200 Issue #3769: fix and enhance profiling
+- 2024-09-12 19:17:20 +0200 Issue #3769: profiling with the official middleware
+- 2024-09-11 19:59:00 +0200 Issue #3772: add support for --attachments-per-article
+- 2024-09-04 14:27:22 +0200 Issue #3719: Use BuildSelectionDataGet to properly handle empty values in Reference fields.
+- 2024-09-04 15:22:44 +0200 Issue #3730: Made DF Reference EditFieldValueValidate respect PossibleNone.
+- 2024-09-09 18:36:22 +0200 Add the aliases .. and ...
+- 2024-09-05 12:31:29 +0000 Translated using Weblate (Norwegian Bokmal)
+- 2022-09-29 22:42:47 +0000 Fixed double encoding for dynamic field values in the linked-tickets-table
+- 2024-09-04 19:26:56 +0200 Issue #3753: the encode object can be copied
+- 2024-09-04 14:16:23 +0200 Issue #3753: import the default methods from Encode
+- 2024-09-04 11:44:40 +0200 Issue #3753: fix mixup between STDERR and STDOUT
+- 2024-09-04 11:41:46 +0200 Issue #3753: clear IO layers before adding a layer
+- 2024-09-04 11:23:15 +0200 Issue #3753: tidying and improve comments
+- 2024-09-04 00:16:02 +0000 Translated using Weblate (Japanese)
+- 2024-09-03 16:46:33 +0200 Issue #3751: use carton for installing more modules
+- 2023-11-20 19:38:58 +0700 Enable cache configurations as default after import is done.
+- 2024-08-29 12:41:35 +0200 Issue #3737: do not allow to activate debugging from the outside
+- 2024-08-29 12:40:39 +0200 Issue #3737: a bit of tidying
+- 2024-08-27 05:06:31 +0200 Disable logging of plaintext passwords in debugging mode (CVE-2024-43444)
+- 2024-08-27 05:06:31 +0200 Disable logging of plaintext passwords in debugging mode (CVE-2024-43444)
+- 2024-07-05 08:34:20 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2024-07-01 07:20:16 +0000 Translated using Weblate (German)
+- 2024-05-17 14:50:49 +0000 Translated using Weblate (Spanish (Mexico))
+- 2024-05-09 08:18:06 +0000 Translated using Weblate (Ukrainian)
+- 2024-08-19 15:21:39 +0200 Issue #3716: add Test2::Require::OTOBO::Selenium
+- 2024-08-19 14:57:27 +0200 Issue #3716: no need to load ReqisterDriver.
+- 2024-08-13 08:26:15 +0200 Issue #3704: Rename Item to DefaultItem in dynamicfield namespace sysconfig.
+- 2024-08-13 07:57:15 +0200 Issue #3701: Fixed CloneFieldID handling and improved field type passing when cloning a script field.
+- 2024-08-08 09:32:16 +0200 Issue #3689: Do not attempt to set values for script fields from df backend without store param.
+- 2024-08-07 15:12:51 +0200 Issue #3686: Translated Type in Ticket information.
+- 2024-08-06 15:40:31 +0200 Issue #3680: Check if table translation_item and column import exist before attempting to rename it.
+- 2024-08-05 16:07:05 +0200 Issue #3678: Transfer FieldClasses mechanism to Process DynamicField rendering.
+
+
 # OTOBO 11.0.5 2024-08-05
 - 2024-08-05 15:49:28 +0200 [Bugfix]   DF RichText: Use UserPreferences only for Agent Interface when rendering DisplayValue (https://github.com/RotherOSS/otobo/issues/3676)
 - 2024-08-05 15:01:08 +0200 [Bugfix]   Allow wrapping in CKEditor5 inputs. (https://github.com/RotherOSS/otobo/issues/3571) - in progress
@@ -2228,4 +2315,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 

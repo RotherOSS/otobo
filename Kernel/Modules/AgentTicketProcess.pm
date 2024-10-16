@@ -4791,7 +4791,7 @@ sub _StoreActivityDialog {
                 && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits} == 2
                 )
             {
-                if ( !$Param{GetParam}->{TimeUnits} ) {
+                if ( !defined $Param{GetParam}->{TimeUnits} ) {
 
                     # set error for the time-units (if any)
                     $Error{'TimeUnits'} = 1;
@@ -5674,7 +5674,14 @@ sub _StoreActivityDialog {
             next DYNAMICFIELD;
         }
 
-        next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+        # don't set value of dynamic field if it is hidden via ACL (and not via activity dialog definition)
+        if (
+            !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+            && $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }{Display} != 0
+            )
+        {
+            next DYNAMICFIELD;
+        }
 
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,

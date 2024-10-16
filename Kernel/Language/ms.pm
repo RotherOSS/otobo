@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.518363064008394;
+    $Self->{Completeness}        = 0.518357560317698;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4118,6 +4118,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5026,6 +5029,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5545,9 +5551,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Medan diperlukan untuk',
@@ -6186,7 +6189,6 @@ sub Data {
             'Log masuk gagal. Kata nama anda atau kata laluan yang dimasukkan tidak tepat',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
         'Sent password reset instructions. Please check your email.' => 'Hantar arahan set semula kata laluan. Sila periksa emel anda.',
@@ -7258,6 +7260,7 @@ dalaman.',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'Croatia',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Suapan RSS Kebiasaan',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Teks kebiasaan untuk halaman yang ditunjukkan kepada pelanggan yang tidak mempunyai tiket lagi (jika anda memerlukan teks yang telah diterjemahkan tambahkan mereka kepada modul terjemahan kebiasaan).',
@@ -7580,8 +7583,6 @@ dalaman.',
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Mentakrifkan format input tarikh yang digunakan dalam bentuk (pilihan atau medan input).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7766,6 +7767,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Mentakrifkan ketinggian untuk komponent editor teks beraneka. Masukkan nombor (piksel) atau nilai peratus (relatif).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Mentakrifkan sejarah komen untuk tindakan skrin tiket tertutup, yang dapat digunakan untuk sejarah tiket di dalam paparan ejen.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7821,8 +7824,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Mentakrifkan jam dan minggu hari dari kalendar yang dinyatakan, untuk mengira masa berkerja.',
         'Defines the hours and week days to count the working time.' => 'Mentakrifkan jam dan minggu hari untuk mengira masa berkerja.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8999,6 +9000,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Laluan untuk fail log (ia hanya diunakan jika "FS" dipilh untuk LoopProtectionModule dan ia adalam mandatori).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '',
         'People' => 'Orang',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

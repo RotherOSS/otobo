@@ -25,7 +25,7 @@
         <span><i class="fa fa-building-o"></i> [% Translate("Select") | html %]</span>
     </button>
 [% IF Data.DescriptionShort %]
-    <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
+    <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
 [% END %]
 [% IF !Readonly %]
     <div id="TemplateSelectionCustomerID" class="Hidden">

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.58192175086194;
+    $Self->{Completeness}        = 0.581897197662221;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4121,6 +4121,9 @@ bin/otobo.Daemon.pl status\').',
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5029,6 +5032,9 @@ bin/otobo.Daemon.pl status\').',
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5548,9 +5554,6 @@ bin/otobo.Daemon.pl status\').',
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Bidang ini dibutuhkan untuk',
@@ -6189,7 +6192,6 @@ bin/otobo.Daemon.pl status\').',
             'Login gagal! Nama pengguna atau kata sandi yang di masukan salah.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Logout sukses.',
         'Feature not active!' => 'Fitur tidak aktif!',
         'Sent password reset instructions. Please check your email.' => 'Instruksi untuk mereset kode sandi telah dikirimkan. Silahkan untuk memeriksa email anda.',
@@ -7259,6 +7261,7 @@ Helpdesk Team Anda
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'Kroasia',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Kustom RSS feed',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Kustom teks untuk halaman ditampilkan kepada pelanggan yang tidak memiliki tiket (jika Anda perlu teks yang diterjemahkan menambahkannya ke modul terjemahan khusus).',
@@ -7581,8 +7584,6 @@ Helpdesk Team Anda
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Mendefinisikan format tanggal input yang digunakan dalam bentuk (pilihan atau masukan bidang).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7767,6 +7768,8 @@ Helpdesk Team Anda
             '',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Mendefinisikan tinggi untuk orang kaya komponen editor teks. Masukkan nomor (piksel) atau nilai persen (relatif).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Mendefinisikan komentar sejarah untuk aksi layar tiket dekat, yang akan digunakan untuk sejarah tiket di antarmuka agen.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7822,8 +7825,6 @@ Helpdesk Team Anda
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Mendefinisikan jam dan minggu hari kalender menunjukkan, untuk menghitung waktu kerja.',
         'Defines the hours and week days to count the working time.' => 'Mendefinisikan jam dan hari minggu untuk menghitung waktu kerja.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -9000,6 +9001,10 @@ Helpdesk Team Anda
         'ParentChild' => 'Parentchild',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Path untuk file log (hanya berlaku jika "FS" dipilih untuk loop Modul Perlindungan dan itu adalah wajib).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '',
         'People' => 'Orang',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

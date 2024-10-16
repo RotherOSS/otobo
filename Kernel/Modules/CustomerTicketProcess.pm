@@ -3627,7 +3627,14 @@ sub _StoreActivityDialog {
             next DYNAMICFIELD;
         }
 
-        next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldName };
+        # don't set value of dynamic field if it is hidden via ACL (and not via activity dialog definition)
+        if (
+            !$Visibility{ 'DynamicField_' . $DynamicFieldName }
+            && $ActivityDialog->{Fields}{ 'DynamicField_' . $DynamicFieldName }{Display} != 0
+            )
+        {
+            next DYNAMICFIELD;
+        }
 
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,

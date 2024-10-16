@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.860290810972868;
+    $Self->{Completeness}        = 0.860182826315001;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4124,6 +4124,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5032,6 +5035,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Hiba: a fájlt nem sikerült megfelelően törölni. Vegye fel a kapcsolatot a rendszergazdával (hiányzó fájlazonosító).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'Nem lehet eltávolítani a munkamenet-azonosítót.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5551,9 +5557,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Ez a mező kötelező vagy',
@@ -6192,7 +6195,6 @@ sub Data {
             'Sikertelen bejelentkezés! A megadott felhasználónév vagy jelszó hibás.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'A hitelesítés sikerült, de nem található felhasználói adatrekord az adatbázisban. Vegye fel a kapcsolatot a rendszergazdával.',
-        'Can`t remove SessionID.' => 'Nem lehet eltávolítani a munkamenet-azonosítót.',
         'Logout successful.' => 'Sikeres kilépés.',
         'Feature not active!' => 'A funkció nem aktív!',
         'Sent password reset instructions. Please check your email.' => 'A jelszó visszaállítási utasítások elküldve. Nézze meg a leveleit.',
@@ -7262,6 +7264,7 @@ Az Ön segélyszolgálat csapata
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Egy jegy [%s] létrejött a(z) „%s” várólistában „%s” prioritással és „%s” állapottal.',
         'Croatian' => 'Horvát',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Egyéni RSS hírforrás',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Egyéni szöveg arra az oldalra, amely azoknak az ügyfeleknek jelenik meg, akik még nem rendelkeznek jeggyel (ha le szeretné fordítani ezt a szöveget, akkor adja hozzá az egyéni fordítási modulhoz).',
@@ -7584,8 +7587,6 @@ Az Ön segélyszolgálat csapata
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Meghatározza az űrlapokon használt adatok beviteli formátumát (választás vagy beviteli mező).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             'Meghatározza az alapértelmezett ügyintézőnevet az ügyfélfelület jegynagyítás nézetén.',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7769,6 +7770,8 @@ Az Ön segélyszolgálat csapata
             'Meghatározza azokat a csoportokat, amelyekbe minden ügyfél be fog kerülni (ha a CustomerGroupSupport engedélyezve van, és nem szeretne minden ügyfelet kezelni ezeknél a csoportoknál).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Meghatározza a RichText szerkesztő komponens magasságát. Szám (képpont) vagy százalék (relatív) értéket adjon meg.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Meghatározza az előzmények megjegyzést a jegylezárás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7824,8 +7827,6 @@ Az Ön segélyszolgálat csapata
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Meghatározza a jelzett naptár óráit és hétköznapjait a munkaidő számításához.',
         'Defines the hours and week days to count the working time.' => 'Meghatározza az órákat és a hétköznapokat a munkaidő számításához.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -9002,6 +9003,10 @@ Az Ön segélyszolgálat csapata
         'ParentChild' => 'Szülő-gyermek',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'A naplófájl útvonala (csak akkor alkalmazza, ha „FS” lett kiválasztva a LoopProtectionModule modulnál, és nem kötelező).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => 'Várakozási idő',
         'People' => 'Emberek',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

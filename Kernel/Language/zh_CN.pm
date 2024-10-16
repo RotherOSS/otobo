@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.919502323489732;
+    $Self->{Completeness}        = 0.919376592237374;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4125,6 +4125,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5033,6 +5036,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '错误：文件无法正确删除，请联系您的管理员（缺少文件ID）。',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '不能移除会话ID。',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5552,9 +5558,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => '这个字段是必填的',
@@ -6193,7 +6196,6 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '认证成功，但在数据库中没有找到用户数据记录，请联系系统管理员。',
-        'Can`t remove SessionID.' => '不能移除会话ID。',
         'Logout successful.' => '成功注销。',
         'Feature not active!' => '功能尚未激活!',
         'Sent password reset instructions. Please check your email.' => '密码重置说明已发送，请检查邮件。',
@@ -7261,6 +7263,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '已创建工单 [%s]，在 "%s"，优先级为"%s" ，状态为"%s"。',
         'Croatian' => '克罗地亚语',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => '定制RSS订阅',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '显示给还没有工单的客户的网页定制文本（如果您需要翻译这些文本，将它们添加到定制翻译模块）。',
@@ -7583,8 +7586,6 @@ Thanks for your help!
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             '定义表单中数据的输入格式（选项或输入字段）。',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '定义客户界面工单详情视图中默认的服务人员姓名。',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7768,6 +7769,8 @@ Thanks for your help!
             '定义每个客户都会在其中的组（如果启用了CustomerGroupSupport-客户组支持，并且你不想管理这些组的每个客户）。',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '定义富文本编辑器组件的高度。输入数值（像素值）或百分比值（相对值）。',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             '为工单关闭操作屏幕定义历史注释信息，以用于服务人员界面的工单历史。',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7823,8 +7826,6 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '定义指定日历每周天数和小时数，以便计算工作时间。',
         'Defines the hours and week days to count the working time.' => '定义每周天数和小时数，以便计算工作时间。',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -9001,6 +9002,10 @@ Thanks for your help!
         'ParentChild' => '父子',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '日志文件的路径（仅在邮件循环保护模块选择文件系统时适用且这是强制需要的）。',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '挂起时间',
         'People' => '人员',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.857592564832859;
+    $Self->{Completeness}        = 0.857485388880563;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4119,6 +4119,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -5027,6 +5030,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Грешка: датотека није могла бити обрисана. Молимо контактирајте вашег администратора (недостаје FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'SessionID се не може уклонити.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5546,9 +5552,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Ово поље је обавезно или',
@@ -6187,7 +6190,6 @@ sub Data {
             'Неуспешна пријава! Нетачно је унето ваше корисничко име или лозинка.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Аутентификација је успела, али подаци о клијенту нису пронађени у бази. Молимо контактирајте администратора.',
-        'Can`t remove SessionID.' => 'SessionID се не може уклонити.',
         'Logout successful.' => 'Успешна одјава.',
         'Feature not active!' => 'Функција није активна!',
         'Sent password reset instructions. Please check your email.' => 'Упутство за ресет лозинке је послато. Молимо проверите ваше имејлове.',
@@ -7257,6 +7259,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Креиран тикет [%s] у "%s" са приоритетом "%s" и стањем "%s".',
         'Croatian' => 'Хрватски',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Прилагођени RSS извор',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Прилагођен текст за страницу која се приказује клијентима који још увек немају тикете (ако вам је тај текст потребан на другом језику, додајте га у прилагођен модул за преводе).',
@@ -7579,8 +7582,6 @@ Thanks for your help!
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Дефинише форноса датума у формуларе (опционо или поља за унос).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             'Одређује подразумевано име оператера у детаљном приказу тикета у интерфејсу клијента.',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7764,6 +7765,8 @@ Thanks for your help!
             'Дефинише подразумеване групе за клијенте (уколико је CustomerGroupSupport укључен и не желите да управљате групама појединачних клијената).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Одређује висину за компоненту Rich Text Editor. Унеси број (пиксели) или процентуалну вредност (релативну).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Дефинише коментар историје за приказ екрана активности затвореног тикета, који се користи за историју тикета у интерфејсу оператера.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7819,8 +7822,6 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
         'Defines the hours and week days to count the working time.' => 'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8997,6 +8998,10 @@ Thanks for your help!
         'ParentChild' => 'ParentChild',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Путања до лог датотеке (важи једино ако је за LoopProtectionModule изабрано "FS" и постављено као обавезно).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => 'Време чекања',
         'People' => 'Особе',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>

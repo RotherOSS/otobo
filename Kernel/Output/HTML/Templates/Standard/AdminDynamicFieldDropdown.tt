@@ -228,6 +228,7 @@
                                 <div id="ValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
                                 <a href="#" id="RemoveValue_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
+                                <div class="SpacingTopMini" ></div>
                             </div>
 [% RenderBlockEnd("ValueTemplate") %]
                             <input type="hidden" name="DeletedValue" value="[% Data.DeletedString | html %]" id="DeletedValue" class="DeletedValue" />
