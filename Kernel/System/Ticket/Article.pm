@@ -1250,7 +1250,7 @@ sub _MetaArticleList {
                         av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
                         FROM article_version av WHERE av.ticket_id = ? AND av.article_delete = 1
                     ) at
-                    ORDER BY at.create_time ASC, at.id DESC",
+                    ORDER BY at.create_time ASC, at.id ASC",
             Bind => [ \$Param{TicketID}, \$Param{TicketID} ],
         );
     }
