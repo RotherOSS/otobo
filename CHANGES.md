@@ -58,7 +58,7 @@
 - 2024-09-04 14:27:22 +0200 Issue #3719: Use BuildSelectionDataGet to properly handle empty values in Reference fields.
 - 2024-09-04 15:22:44 +0200 Issue #3730: Made DF Reference EditFieldValueValidate respect PossibleNone.
 - 2024-09-09 18:36:22 +0200 Add the aliases .. and ...
-- 2024-09-05 12:31:29 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-09-05 12:31:29 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2022-09-29 22:42:47 +0000 Fixed double encoding for dynamic field values in the linked-tickets-table
 - 2024-09-04 19:26:56 +0200 Issue #3753: the encode object can be copied
 - 2024-09-04 14:16:23 +0200 Issue #3753: import the default methods from Encode
