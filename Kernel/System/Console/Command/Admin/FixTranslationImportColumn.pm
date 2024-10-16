@@ -74,7 +74,6 @@ END_XML
         # Execute SQL.
         for my $SQL ( @SQL, @SQLPost ) {
             my $Success = $DBObject->Do( SQL => $SQL );
-            $Success = 0;
             if ( !$Success ) {
                 $Self->Print("<red>Error during execution of '$SQL'!</red>\n");
                 return $Self->ExitCodeError();
