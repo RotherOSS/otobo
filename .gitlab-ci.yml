@@ -1,0 +1,139 @@
+
+# docker-in-docker support
+# see https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+default:
+  services:
+  - name: docker:24.0.5-dind
+    alias: docker
+  image: docker:24.0.5
+
+variables:
+  # this disables HTTPS when talking to the docker daemon.
+  # the current otobo gitlab runners are configured without
+  # TLS
+  DOCKER_TLS_CERTDIR: ""
+  OTOBO_BASE: 
+    value: "rel-10_1"
+    options:
+      - "rel-11_0"
+      - "rel-10_1"
+      - "rel-10_0"
+    description: "The otobo base (otobo-docker branch) to use."
+  OTOBO_TESTS:
+    value: "scripts/test/Ticket"
+    description: "Specify single test or directory of Tests, starting with 'scrips/test'. "
+  OTOBO_DB_ROOT_PASSWORD: "programmieren_auf_dem_bauernhof"
+  # TODO: packacge might need /opt/otobo/Custom
+  OTOBO_INSTALL_LIBS: '$PERL5LIB:/opt/otobo_install/otobo_next:/opt/otobo:/opt/otobo_install/otobo_next/Kernel/cpan-lib'
+  OTOBO_TEST_LIBS: '$PERL5LIB:/opt/otobo/perl5/lib/perl5:/opt/otobo_install/local/lib/perl5/:/opt/otobo:/opt/otobo/Kernel/cpan-lib'
+
+before_script:
+  # set variable TAP_FORMATTER depending on release branch.
+  # effectively this downgrades version for rel-10_0.
+  - if [ "$OTOBO_BASE" == "rel-10_0" ]; then export TAP_FORMATTER="TAP::Formatter::JUnit@0.13"; else export TAP_FORMATTER="TAP::Formatter::JUnit"; fi
+  - echo "PIPELINE_SOURCE is $CI_PIPELINE_SOURCE"
+
+stages:
+  - test
+
+testsuite:
+  stage: test
+  # tags will determine which runners are allowed to pick up the job
+  tags:
+    - docker
+  # rules - run the testsuite if it is a scheduled build, or if it was
+  # triggered via UI (web), or if it is a push to a release branch 
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME =~ /^rel-[0-9][0-9]_[0-9]+$/
+  script:
+    # make sure $DOCKER_HOST is set
+    # if using official "docker" image there is no todo
+    # otherwise, like running on ubuntu/debian images, do:
+    # - apt update && apt install -y git docker.io docker-compose-v2
+    # - export DOCKER_HOST="tcp://docker:2375"
+    # - echo "Docker $DOCKER_HOST"
+
+    - echo -e "Going to build ${CI_PROJECT_NAME} branch ${CI_COMMIT_REF_NAME} <${CI_COMMIT_SHORT_SHA}>\n  from ${CI_COMMIT_AUTHOR} at ${CI_COMMIT_TIMESTAMP} with:\n  ${CI_COMMIT_TITLE}\n  on otobo-docker:${OTOBO_BASE}."
+
+    # we need git
+    - apk update -q
+    - apk add git -q   
+
+    # prepare otobo config
+    - cp Kernel/Config.pm.docker.dist Kernel/Config.pm
+    - export OPT_OTOBO=$PWD
+    - chown -R 1000:1000 .
+
+    # clone the otobo-docker repo
+    - git clone https://github.com/RotherOSS/otobo-docker.git /opt/otobo-docker
+    - cd /opt/otobo-docker 
+    - git checkout $OTOBO_BASE
+      
+    # prepare docker .env for first run
+    - cp .docker_compose_env_http_selenium .env
+    - sed -i "s/OTOBO_DB_ROOT_PASSWORD=/OTOBO_DB_ROOT_PASSWORD=${OTOBO_DB_ROOT_PASSWORD}/" .env
+
+    # create otobo volume for docker compose holding desired branch
+    # note: surround with single tick quotes to prevent being parsed as yaml
+    - 'docker volume create --driver local -o o=bind -o type=none -o device=$OPT_OTOBO  opt_otobo'
+    - 'sed -i "s/opt_otobo: {}/opt_otobo: { external: true }/" docker-compose/otobo-base.yml '
+        
+    # start containers
+    - docker compose up --detach --quiet-pull
+    - docker ps
+    
+    # wait for db
+    - docker exec otobo-db-1 bash -c 'TEST=""; while [ "$TEST" != "ERROR 1045" ]; do echo "wait for db"; sleep 5; TEST=$( mysql -u root otobo 2>&1 | grep -o "ERROR 1045" ); done;'
+    - docker logs otobo-web-1
+    - sleep 15
+
+    # deps (just fyi)
+    - docker exec otobo-web-1 bash -c 'bin/otobo.CheckModules.pl --inst'
+    - docker exec otobo-web-1 bash -c 'bin/otobo.CheckModules.pl --finst=devel:test'
+    
+    # run quick_setup.pl
+    # TODO: consider FQDN
+    - docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_INSTALL_LIBS} cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http"
+    
+    # extra Test dependencies for formatting test results in junit xml format
+    - docker exec otobo-web-1 bash -c "/usr/local/bin/cpanm -n -q $TAP_FORMATTER 2>/dev/null"
+
+    # wait for login to become ready
+    - docker exec otobo-web-1 bash -c 'TEST=""; while [ "$TEST" != "LoginButton"  ]; do echo "wait for login"; sleep 5; TEST=$(curl -s "http:/localhost:5000/otobo/index.pl" | grep -o "LoginButton"); done;'
+
+    # stop the dameon before running unit tests
+    - docker compose down daemon    
+    
+    # create the archive
+    - docker exec otobo-web-1 bash -c "/opt/otobo/bin/otobo.CheckSum.pl -a create"
+    
+    # run the tests    
+    - echo "Running tests from ${OTOBO_TESTS}"
+    - docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /usr/local/bin/prove --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}  " > $OPT_OTOBO/rspec.xml
+
+  # unit test report support - upload the test results to gitlab
+  # https://docs.gitlab.com/ee/ci/testing/unit_test_reports.html
+  artifacts:
+    when: always
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
+    
+after_script:
+    # cleanup 
+    - cd /opt/otobo-docker
+    - docker compose down
+    - docker volume rm otobo_mariadb_data
+    - docker volume rm opt_otobo
+    - echo "This was a build of ${CI_PROJECT_NAME} branch ${CI_COMMIT_REF_NAME} on otobo-docker:${OTOBO_BASE}. Over and out."
+
+    
+    
+    
+    
+    
+    
+
