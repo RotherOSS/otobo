@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-10-02 12:53+0000\n"
-"PO-Revision-Date: 2024-04-04 07:24+0000\n"
+"PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
 "otobo-10/nb_NO/>\n"
@@ -111,6 +111,8 @@ msgid ""
 "To delete an existing ACL you have to set the validity to invalid and save "
 "it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
+"Hvis du vil slette en eksisterende ACL, må du sette gyldigheten til ugyldig "
+"og lagre den. Deretter vises en ny knapp for å slette ACL-en."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -2758,7 +2760,7 @@ msgstr "Fulltekst-søk i innlegg (f.eks. \"Mar*in\" eller \"Baue*\")."
 
 #. Template: AdminGenericAgent
 msgid "To"
-msgstr "Tilbakestill"
+msgstr "Til"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
