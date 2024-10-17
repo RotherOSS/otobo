@@ -17,9 +17,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2024-09-06 13:13+0000\n"
+"PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
-"Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/otobo-11/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
+"otobo-11/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2417,7 +2418,7 @@ msgstr "Fulltekst-søk i innlegg (f.eks. \"Mar*in\" eller \"Baue*\")."
 
 #. Template: AdminGenericAgent
 msgid "To"
-msgstr "Default;Tilbakestill"
+msgstr "Til"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
@@ -26988,6 +26989,8 @@ msgstr ""
 #. Template: AdminACL
 msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
+"Hvis du vil slette en eksisterende ACL, må du sette gyldigheten til ugyldig "
+"og lagre den. Deretter vises en ny knapp for å slette ACL-en."
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
@@ -27064,4 +27067,3 @@ msgstr ""
 #. SysConfig
 msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
-
