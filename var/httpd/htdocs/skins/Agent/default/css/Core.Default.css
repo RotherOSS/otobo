@@ -1421,7 +1421,7 @@ iframe.TextOption.CustomerUserAddressBook {
  * @subsection CKEditorResizeHandle
  */
 
-div.ui-resizable-s {
+.RichTextField .ui-resizable-s {
     position: relative;
     bottom: 0px;
     width: 30px;
