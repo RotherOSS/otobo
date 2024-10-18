@@ -99,6 +99,10 @@ sub ToAscii {
     # get length of line for forcing line breakes
     my $LineLength = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote') || 78;
 
+    # remove style tags
+    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
+    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
+
     # find <a href=....> and replace it with [x]
     my @Links;
     my $Counter = 0;
@@ -195,10 +199,6 @@ sub ToAscii {
     # replace new lines with one space
     $Param{String} =~ s/\n/ /gs;
     $Param{String} =~ s/\r/ /gs;
-
-    # remove style tags
-    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
-    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
@@ -713,13 +713,16 @@ sub DocumentComplete {
     my $ArticleContentStylesPath
         = $Param{CustomerInterface} ? 'skins/Customer/default/css/RichTextArticleContent.css' : 'skins/Agent/default/css/RichTextArticleContent.css';
 
-    my $TargetDirectory = $Param{CustomerInterface} ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/' : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
+    my $TargetDirectory
+        = $Param{CustomerInterface}
+        ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/'
+        : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
 
     my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
 
     # minify files uses caching internally, so files are really only minified again if needed
     my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-        List  => [
+        List => [
             $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorContentStylesPath",
             $ConfigObject->Get('Home') . "/var/httpd/htdocs/$ArticleContentStylesPath",
         ],
@@ -728,53 +731,55 @@ sub DocumentComplete {
         TargetFilenamePrefix => $FilePrefix,
     );
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
     my $CachedFilename = $CacheObject->Get(
         Type => 'HTMLUtils',
-        Key  => $FilePrefix .'Filename',
+        Key  => $FilePrefix . 'Filename',
     );
     my $ArticleStyles = "";
 
-    if (!$TargetFilename) {
+    if ( !$TargetFilename ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'error minifying content css files',
         );
-    } else {
+    }
+    else {
         # file not cached, old or changed
-        if (!$CachedFilename || $TargetFilename ne $CachedFilename) {
+        if ( !$CachedFilename || $TargetFilename ne $CachedFilename ) {
             $CacheObject->Set(
-                Type => 'HTMLUtils',
-                Key  => $FilePrefix .'Filename',
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix . 'Filename',
                 Value => $TargetFilename
             );
             $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location        => "$TargetDirectory/$TargetFilename",
-            Type            => 'Local',
-            DisableWarnings => 1,
+                Location        => "$TargetDirectory/$TargetFilename",
+                Type            => 'Local',
+                DisableWarnings => 1,
             );
             $CacheObject->Set(
-                Type => 'HTMLUtils',
-                Key  => $FilePrefix,
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix,
                 Value => $ArticleStyles
             );
             if ($CachedFilename) {
                 $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
-                Location        => "$TargetDirectory/$CachedFilename",
-                Type            => 'Local',
-                DisableWarnings => 1,
+                    Location        => "$TargetDirectory/$CachedFilename",
+                    Type            => 'Local',
+                    DisableWarnings => 1,
                 );
             }
-            
-        # file in cache
-        } else {
+
+            # file in cache
+        }
+        else {
             $ArticleStyles = $CacheObject->Get(
                 Type => 'HTMLUtils',
                 Key  => $FilePrefix
             );
         }
 
-        if ($ArticleStyles ne "") {
+        if ( $ArticleStyles ne "" ) {
             $Body .= "<style>" . ${$ArticleStyles} . ".ck-content {" . $Css . "}</style>";
         }
     }
