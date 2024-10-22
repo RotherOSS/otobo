@@ -542,8 +542,8 @@ Core.AJAX = (function (TargetNS) {
                 }
             }
 
-            // field has to be hidden
-            if ( FieldInfo[1] == 0 ) {
+            function HideField( $FieldCell, $FieldRow, MultiValueFields ) {
+
                 $FieldCell.addClass("oooACLHidden");
                 if ( $FieldRow.hasClass('MultiValue') ) {
                     MultiValueFields.forEach( function( Cell ) {
@@ -592,9 +592,23 @@ Core.AJAX = (function (TargetNS) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
+
+                // deal with set field content recursively
+                let $SetField = $FieldCell.find('div.DFSetOuterField');
+                if ( $SetField.length ) {
+                    $SetField.find('div.Row_DynamicField').each(function() {
+                        let $InnerFieldRow = $(this);
+                        $InnerFieldRow.find('div.FieldCell').each(function() {
+                            let $InnerFieldCell = $(this);
+                            HideField($InnerFieldCell, $InnerFieldRow);
+                        });
+                    });
+                }
+
+                return;
             }
-            // field has to be shown again
-            else if ( $FieldCell.hasClass("oooACLHidden") ) {
+
+            function ShowField( $FieldCell, $FieldRow, MultiValueFields ) {
                 $FieldCell.removeClass('oooACLHidden');
                 $FieldRow.removeClass("oooACLHidden");
                 if ( $FieldRow.hasClass('MultiValue') ) {
@@ -651,6 +665,29 @@ Core.AJAX = (function (TargetNS) {
                         }
                     });
                 }
+
+                // deal with set field content recursively
+                let $SetField = $FieldCell.find('div.DFSetOuterField');
+                if ( $SetField.length ) {
+                    $SetField.find('div.Row_DynamicField').each(function() {
+                        let $InnerFieldRow = $(this);
+                        $InnerFieldRow.find('div.FieldCell').each(function() {
+                            let $InnerFieldCell = $(this);
+                            ShowField($InnerFieldCell, $InnerFieldRow);
+                        });
+                    });
+                }
+
+                return;
+            }
+
+            // field has to be hidden
+            if ( FieldInfo[1] == 0 ) {
+                HideField($FieldCell, $FieldRow, MultiValueFields);
+            }
+            // field has to be shown again
+            else if ( $FieldCell.hasClass("oooACLHidden") ) {
+                ShowField($FieldCell, $FieldRow, MultiValueFields);
             }
         }
     }
