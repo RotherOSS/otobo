@@ -282,6 +282,14 @@ sub EditFieldRender {
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
+    # pass visibility state of set to inner fields
+    my %Visibility = map { ( "DynamicField_$_" => 1 ) } keys $DynamicField->%*;
+    if ( $Param{ACLHidden} ) {
+        for my $Key ( keys %Visibility ) {
+            $Visibility{$Key} = 0;
+        }
+    }
+
     for my $SetIndex ( 0 .. $#SetValue ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
@@ -301,10 +309,10 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[$SetIndex] // {},
+            Visibility           => \%Visibility,
 
             # TODO:
             #            Errors               => $Param{DFErrors},
-            #            Visibility           => $Param{Visibility},
             Object => $Param{Object},
         );
 
@@ -342,6 +350,7 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
+            Visibility           => \%Visibility,
             Object               => $Param{Object},
         );
 
