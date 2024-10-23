@@ -538,7 +538,7 @@ Core.AJAX = (function (TargetNS) {
                     }
                 }
                 else {
-                    MultiValueFields = $( '.FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
+                    MultiValueFields = $( '> .FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
                 }
             }
 
