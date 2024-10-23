@@ -188,6 +188,7 @@
                             </div>
 
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("NewObjectFormat") %]
 [% RenderBlockStart("EditObjectFormat") %]
                         <label>[% Translate("Object") | html %]:</label>
@@ -265,6 +266,7 @@
                                 <p>[% Translate(Data.ErrorMessage) | html %]</p>
                             </div>
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("TemplateEdit2Element") %]
                         <div class="Field SpacingTop">
                             <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>
@@ -313,6 +315,7 @@
                             </div>
 [% RenderBlockEnd("TemplateEdit3ElementRequired") %]
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("TemplateEdit3Element") %]
                         <div class="Field SpacingTop">
                             <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>
