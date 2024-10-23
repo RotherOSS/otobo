@@ -546,7 +546,14 @@ Core.AJAX = (function (TargetNS) {
                     }
 
                     if ($InnerField) {
-                        InnerFields.push($InnerField.attr('id'));
+                        if ( $(this).closest('div.Row').hasClass('MultiValue') ) {
+                            if ( $(this).closest('div.FieldCell').hasClass('MultiValue_0') ) {
+                                InnerFields.push($InnerField.attr('id'));
+                            }
+                        }
+                        else {
+                            InnerFields.push($InnerField.attr('id'));
+                        }
                     }
                 });
             }
