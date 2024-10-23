@@ -388,11 +388,11 @@ sub Run {
         my %GetColumnFilter;
         my %GetColumnFilterSelect;
 
+        # get default columns
+        my $DefaultColumns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
+
         COLUMNNAME:
-        for my $ColumnName (
-            qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
-            )
-        {
+        for my $ColumnName ( keys $DefaultColumns->%* ) {
             my $FilterValue = $ParamObject->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
                 || '';
             next COLUMNNAME if $FilterValue eq '';
