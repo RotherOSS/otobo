@@ -520,6 +520,37 @@ Core.AJAX = (function (TargetNS) {
                 MultiValueFields = [],
                 MultiColumnIndex;
 
+            // if field is set, gather names of inner fields to deal with them recursively
+            let InnerFields = [],
+                $SetDiv = $FieldCell.find('div.DFSetOuterField');
+            if ( $SetDiv ) {
+                $SetDiv.find('div.FieldCell div.Field').each(function() {
+                    let $InnerField;
+
+                    // date, date time and checkbox
+                    $InnerField = $(this).find('input[id$=Used]');
+
+                    // select
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('select');
+                    }
+
+                    // autocomplete, text and script
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('input[type=text]');
+                    }
+
+                    // textarea and richtext
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('textarea');
+                    }
+
+                    if ($InnerField) {
+                        InnerFields.push($InnerField.attr('id'));
+                    }
+                });
+            }
+
             if ( $FieldRow.hasClass('MultiValue') ) {
                 if ( $FieldRow.hasClass('MultiColumn') ) {
                     $('.MultiValue_0', $FieldRow).each( function ( Index ) {
@@ -592,6 +623,15 @@ Core.AJAX = (function (TargetNS) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '0']);
+                    });
+                    HideShowFields(VisibilityStructure);
+                }
             }
             // field has to be shown again
             else if ( $FieldCell.hasClass("oooACLHidden") ) {
@@ -650,6 +690,15 @@ Core.AJAX = (function (TargetNS) {
                             $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
                         }
                     });
+                }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '1']);
+                    });
+                    HideShowFields(VisibilityStructure);
                 }
             }
         }
