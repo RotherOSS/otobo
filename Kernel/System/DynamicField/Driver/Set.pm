@@ -350,7 +350,6 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
-            Visibility           => \%Visibility,
             Object               => $Param{Object},
         );
 
