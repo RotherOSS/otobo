@@ -557,6 +557,11 @@ table.AttachmentList.DataTable thead th {
     position: absolute !important;
 }
 
+a.DisabledLink {
+    pointer-events: none;
+    cursor: default;
+}
+
 /**
  * @subsection  Spacings
  */
@@ -1145,6 +1150,10 @@ span.ImportantArticles i {
     display: inline-block;
     vertical-align: top;
     color: var(--colTextDark);
+}
+
+.DatepickerIcon.DisabledLink {
+    color: var(--colTextLight);
 }
 
 .RTL .DatepickerIcon {
