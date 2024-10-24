@@ -431,6 +431,11 @@ label.oooFocus.LabelError {
     background-color: #fff;
 }
 
+input[type='checkbox']:disabled,
+input[type='checkbox']:disabled ~ * {
+    color: var(--colBGDark);
+}
+
 input[type='checkbox']:checked + .oooAltCheck:before,
 input[type='checkbox']:checked + .AJAXLoader + .oooAltCheck:before {
     content: "\e908";
