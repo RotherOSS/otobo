@@ -3,13 +3,14 @@
 # Mohammed AlGarni <mjalgarni@gmail.com>, 2018
 # khh <khh@rother-oss.com>, 2022, 2023, 2024.
 # Grit Rother <mr@otobo.de>, 2024.
+# Stefan Härter <sha@rother-oss.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-10-02 12:53+0000\n"
-"PO-Revision-Date: 2024-07-06 09:13+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2024-10-25 08:13+0000\n"
+"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/"
 "otobo/otobo-10/ar_SA/>\n"
 "Language: ar_SA\n"
@@ -15620,7 +15621,7 @@ msgstr "‎%s غيغابايت (GB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr "ميغابايت (MB) ‎%s"
+msgstr "s% ميغاباي ‎(MB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
