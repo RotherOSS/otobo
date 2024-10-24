@@ -432,7 +432,7 @@ label.oooFocus.LabelError {
 }
 
 input[type='checkbox']:disabled,
-input[type='checkbox']:disabled ~ * {
+.FieldCell input[type='checkbox']:disabled ~ * {
     color: var(--colBGDark);
 }
 
