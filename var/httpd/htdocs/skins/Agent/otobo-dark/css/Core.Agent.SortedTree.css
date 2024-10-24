@@ -1,0 +1,123 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     SortedTree
+ */
+
+@media screen,projection,tv,handheld {
+
+.SortableList {
+    border: 1px solid #ddd;
+    padding: 10px 10px 3px 10px;
+    width: 80%;
+    background: #eee;
+}
+
+.SortableList li {
+    margin-bottom: 7px;
+}
+
+.SortableList li ul {
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+.SortableList li span {
+    background-color: #ddd;
+    font-size: 11px;
+    line-height: 12px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 5px 25px 5px 15px;
+    position: relative;
+}
+
+.SortableList li span.Icon {
+    padding: 0px;
+    position: absolute;
+    cursor: pointer;
+    height: 25px;
+    width: 21px;
+    right: -26px;
+    top: -1px;
+    display: none;
+    background: none;
+    color: #00023c;
+}
+
+.SortableList li span:hover > span.Icon {
+    display: block;
+}
+
+.SortableList li span input {
+    border: 0px;
+    font-size: 11px;
+    background-color: #ddd;
+    box-shadow: none;
+    color: #777;
+}
+
+.SortableList li span input:focus {
+    color: #00023c;
+}
+
+.SortableList li span em {
+    font-style: normal;
+}
+
+.SortableList li span strong {
+    background-color: #bbb;
+    color: #eee;
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    font-weight: normal;
+    padding: 4px 6px 6px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.SortableList li span i {
+    color: #bbb;
+    font-size: 14px;
+    position: absolute;
+    left: 6px;
+    top: 5px;
+    cursor: pointer;
+    width: 10px;
+    display: block;
+}
+
+.SortableList li span:hover i {
+    color: #777;
+}
+
+div.AddElement {
+    background: #ddd;
+    border: 1px solid #ddd;
+    font-size: 11px;
+    padding: 3px 10px;
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.SortableList .ElementTemplate {
+    display: none;
+}
+
+} /* end @media */

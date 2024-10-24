@@ -1,0 +1,295 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     OverviewMedium
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Medium View Overview
+ */
+#TicketOverviewMedium {
+    margin-top: 10px;
+}
+
+.OverviewMedium {
+    margin: 0px 16px 8px 8px;
+}
+
+.RTL .OverviewMedium {
+    margin-right: 8px;
+    margin-left: 16px;
+}
+
+#EmptyMessageMedium {
+   padding: 7px;
+   border: 1px solid #272727;
+   min-height: 0px;
+}
+
+.OverviewMedium li {
+    position: relative;
+    border-bottom: 1px solid #272727;
+    min-height: 105px;
+    border-left: 1px solid #272727;
+    border-right: 1px solid #272727;
+}
+
+.OverviewMedium li:first-child {
+    border-top: 1px solid #272727;
+}
+
+.OverviewMedium li ul.InlineActions {
+    position: absolute;
+    top: -35px;
+    right: 0px;
+    height: 35px;
+    background-color: #141414;
+    margin-right: 0px;
+    padding-left: 5px;
+    cursor: auto;
+    transition: all ease-in 0.2s;
+}
+
+.OverviewMedium > li ul.InlineActions.Actions li:after {
+    margin-top: 5px;
+}
+
+.OverviewMedium li ul.InlineActions li {
+    height: auto;
+    min-height: 0;
+    border: none;
+}
+
+.OverviewMedium li ul.InlineActions li form {
+    padding-top: 7px;
+}
+
+.OverviewMedium li ul.InlineActions li form select{
+    font-size: 11px;
+}
+
+.OverviewMedium li ul.InlineActions li a {
+    color: #c8c6c4;
+}
+
+.OverviewMedium li ul.InlineActions li:nth-child(even) {
+    background-color: transparent;
+}
+
+.OverviewMedium li ul.InlineActions li.ResponsiveActionMenu {
+    display: none;
+}
+
+.OverviewMedium li ul.InlineActions li.ResponsiveActionMenu:after {
+    content: "";
+    display: inline;
+    float: none;
+    margin: 0;
+    margin-left: 8px;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions li.ResponsiveActionMenu.Opened:after {
+    content: " | ";
+    display: block;
+    float: right;
+    margin: 5px 3px;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions {
+    top: 0px;
+    transition: none;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions li.ResponsiveActionMenu {
+    display: inline-block;
+}
+
+.OverviewMedium li div.Content {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    cursor: pointer;
+    position: relative;
+    border-left: 5px solid #1f1f1f;
+    overflow: hidden;
+}
+
+.OverviewMedium li:nth-child(even) div.Content {
+    border-left-color: #242424;
+}
+
+.OverviewMedium li:hover div.Content,
+.OverviewMedium li:hover {
+    border-left-color: #F6A72B !important;
+}
+
+.OverviewMedium li:last-child {
+    border-bottom: 1px solid #272727;
+}
+
+.OverviewMedium li:nth-child(odd) div.Content {
+    background-color: #1f1f1f;
+}
+
+.OverviewMedium li:nth-child(even) {
+    background-color: #242424;
+}
+
+.OverviewMedium div.Checkbox {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 35px;
+    height: 35px;
+    cursor: default !important;
+}
+
+.OverviewMedium div.Checkbox input {
+    margin-top: 12px;
+    margin-left: 8px;
+}
+
+.RTL .OverviewMedium input.Checkbox {
+    left: auto;
+    right: 0px;
+}
+
+.RTL .OverviewMedium div.Checkbox input {
+    margin-left: 0px;
+    margin-right: 8px;
+}
+
+.OverviewMedium div.Flag {
+    top: 37px;
+    left: 8px;
+    position: absolute;
+    width: 22px;
+    height: 12px;
+    border: 1px solid #272727;
+}
+
+.RTL .OverviewMedium div.Flag {
+    left: auto;
+    right: 8px;
+}
+
+.OverviewMedium div.UnreadArticles {
+    position: absolute;
+    left: 4px;
+    top: 60px;
+}
+
+.RTL .OverviewMedium div.UnreadArticles {
+    left: auto;
+    right: 4px;
+}
+
+.OverviewMedium li:hover span.UnreadArticles {
+    background-position: 0 -40px;
+}
+
+.OverviewMedium h2 {
+    margin-left: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 97%;
+}
+
+.RTL .OverviewMedium h2 {
+    margin-left: 0;
+    margin-right: 45px;
+}
+
+.OverviewMedium h2 a {
+    color: #c8c6c4;
+    display: block;
+}
+
+.OverviewMedium table.Infos {
+    margin-top: 2px;
+    margin-left: 45px;
+    table-layout: fixed;
+    width: 97%;
+}
+
+.RTL .OverviewMedium table.Infos {
+    margin-left: 0;
+    margin-right: 45px;
+}
+
+.OverviewMedium table.Infos tr:last-child td {
+    padding: 0 0 0 10px;
+}
+
+.RTL .OverviewMedium table.Infos tr:last-child td {
+    padding: 0 10px 0 0;
+}
+
+.OverviewMedium table.Infos td {
+    width: 16.67%;
+    padding: 0 10px 5px 10px;
+    overflow: hidden;
+    line-height: 16px;
+    border-left: none;
+    border-right: 1px dotted #272727;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.OverviewMedium table.Infos td > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.OverviewMedium table.Infos td:last-child {
+    border-right: none;
+}
+
+.OverviewMedium table.Infos td:first-child {
+    padding: 0 0 5px 0;
+    border-left: none;
+}
+
+.RTL .OverviewMedium table.Infos td:first-child {
+    padding: 0 10px 5px 10px;
+}
+
+.OverviewMedium table.Infos tr:last-child td:first-child {
+    padding: 0;
+}
+
+.RTL .OverviewMedium table.Infos tr:last-child td:first-child {
+    padding: 0 10px 5px 10px;
+}
+
+.OverviewMedium table.Infos td label {
+    display: block;
+    margin-bottom: 2px;
+    color: #999;
+    font-weight: bold;
+}
+
+.OverviewMedium div.DynamicFieldSeparator {
+    border-bottom: 1px dotted #272727;
+    margin-left: 2pc;
+    margin-right: 2pc;
+}
+
+} /* end @media */

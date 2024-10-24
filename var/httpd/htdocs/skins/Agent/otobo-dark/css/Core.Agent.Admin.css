@@ -1,0 +1,146 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.Keyword {
+    display: inline-block;
+    background: #ddd;
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    padding: 0px 5px 0px 6px;
+    line-height: 16px;
+    text-shadow: 1px 1px 1px #fff;
+    position: relative;
+    margin-right: 15px;
+}
+
+.Keyword:after {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #ddd;
+    border-width: 8px;
+    margin-top: -8px;
+}
+
+.Keyword:before {
+    content: '°';
+    font-size: 15px;
+    color: #aaa;
+    position: absolute;
+    left: -2px;
+    top: 2px;
+    z-index: 999;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.ItemListGrid > li.IsFavourite > a {
+    box-shadow: 0px 0px 3px #3ab5e4;
+    border-color: #3ab5e4;
+}
+
+.ItemListGrid > li.OTOBOCommunity > a {
+    box-shadow: 0px 0px 3px #75c0d0;
+    border-color: #75c0d0;
+}
+
+.ItemListGrid > li > a {
+    overflow: hidden;
+}
+
+.ItemListGrid > li > a > .Favourite {
+    right: -100px;
+    transition: all ease 0.5s;
+    color: #ccc;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+}
+
+.ItemListGrid > li.IsFavourite > a > .Favourite {
+    display: none !important;
+}
+
+.ItemListGrid > li > a > .Favourite > .fa {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.ItemListGrid > li > a > .Favourite .fa-star {
+    opacity: 0;
+}
+
+.ItemListGrid > li > a:hover > .Favourite,
+.ItemListGrid > li > a > .Favourite.Clicked {
+    right: 10px;
+}
+
+.ItemListGrid > li > a:hover > .Favourite .fa {
+    transition: all ease 0.2s;
+}
+
+.ItemListGrid > li > a:hover > .Favourite:hover .fa {
+    color: #999;
+}
+
+.ItemListGrid > li > a:hover > .Favourite:hover .fa-star-o {
+    opacity: 0;
+}
+
+.ItemListGrid > li > a:hover > .Favourite:hover .fa-star {
+    opacity: 1;
+}
+
+.ItemListGrid > li > a > .Favourite .fa-check {
+    color: green !important;
+}
+
+.ToggleView.Grid .fa:last-child {
+    display: none !important;
+}
+
+.ToggleView.List .fa:first-child {
+    display: none !important;
+}
+
+.FavouriteList p {
+    margin: 0px 5px;
+}
+
+.FavouriteList table {
+    margin-bottom: 7px;
+}
+
+} /* end @media print*/

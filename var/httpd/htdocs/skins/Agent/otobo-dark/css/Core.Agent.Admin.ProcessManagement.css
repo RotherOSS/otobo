@@ -1,0 +1,884 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  ProcessManagement
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Icon Definition
+ */
+
+a.Copy {
+    background: url(../img/icons/reports.png) no-repeat left center;
+    padding-left: 24px;
+}
+
+td a.Print {
+    background: url(../img/icons/printer.png) no-repeat left center;
+    padding-left: 24px;
+}
+
+a.Print span {
+    background: url(../img/icons/printer.png) no-repeat 5px center;
+}
+
+.Icon {
+    display: block;
+    height: 16px;
+    width: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    float: right;
+    margin-left: 5px;
+}
+
+.AvailableIn {
+    background-color: #ccc;
+    color: #555;
+    display: inline-block;
+    font-size: 10px !important;
+    height: 13px;
+    line-height: 100%;
+    margin-right: 2px;
+    min-width: 8px;
+    padding: 4px 4px 0px 4px;
+}
+
+.AllocationList .AvailableIn {
+    float: left;
+    margin-right: 5px;
+    margin-top: 1px;
+}
+
+
+/**
+ * @subsubsection     Process Element Accordion
+ */
+ul#ProcessElements {
+    border: 1px solid #CCC;
+}
+
+ul#ProcessElements * {
+    font-size: 11px;
+}
+
+ul#ProcessElements i {
+    font-size: 13px;
+}
+
+ul#ProcessElements li.AccordionElement h2 {
+    margin-bottom: 0px;
+    border: 1px solid #FFF;
+    border-bottom: 1px solid #CCC;
+}
+
+ul#ProcessElements li.AccordionElement h2 a {
+    padding: 5px 5px 5px 20px;
+    color: #999;
+    font-size: 12px;
+    position: relative;
+}
+
+ul#ProcessElements li.AccordionElement h2 a span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    opacity: 0.3;
+    filter: Alpha(opacity=30);
+}
+
+ul#ProcessElements li.AccordionElement h2 a span i {
+    color: #333;
+    font-size: 15px;
+    display: block;
+    text-align: center;
+}
+
+ul#ProcessElements li.AccordionElement h2 a span i.fa-caret-down,
+ul#ProcessElements li.AccordionElement.Active h2 a span i.fa-caret-right {
+    display: none;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a span i.fa-caret-down {
+    display: inline-block;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a {
+    color: #00023c;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a span {
+    opacity: 1.0;
+    filter: Alpha(opacity=100);
+    background-position: bottom center;
+    top: 5px;
+}
+
+ul#ProcessElements li.AccordionElement.Active {
+    background-color: #fff;
+}
+
+ul#ProcessElements li.AccordionElement div.Content {
+    border: 1px solid #FFF;
+    border-bottom: 1px solid #CCC;
+    background-color: #FFF;
+    padding: 5px;
+    display: none;
+}
+
+ul#ProcessElements li.AccordionElement div.Content .ProcessElementFilter {
+    width: 228px;
+    margin-top: 1px;
+    margin-bottom: -5px;
+}
+
+ul#ProcessElements li.AccordionElement.Active div.Content {
+    display: block;
+}
+
+ul#ProcessElements li.AccordionElement:last-child div.Content {
+    border-bottom: 1px solid #FFF;
+}
+
+ul#ProcessElements li.AccordionElement:last-child h2 {
+    border-bottom: none;
+}
+
+ul#ProcessElements li.AccordionElement.Active:last-child h2 {
+    border-bottom: 1px solid #CCC;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li {
+    padding: 2px 5px 2px 5px;
+    position: relative;
+    cursor: default;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li.OneRow {
+    cursor: move;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li > span {
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+ul#ProcessElements li.AccordionElement div.Content ul li > span a {
+    color: #777;
+    line-height: 100%;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
+    width: 234px;
+    display: block;
+    margin: -5px auto 2px auto;
+}
+
+.EntityDrag {
+    display: block;
+    height: 20px;
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+/**
+ * @subsubsection     Diagram Canvas
+ */
+
+#Canvas {
+    width: 95%;
+    position: relative;
+}
+
+.CanvasActions {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    overflow: hidden;
+}
+
+.CanvasActions a {
+    float: left;
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+}
+
+.CanvasActions a#ShowEntityIDs {
+    width: auto;
+    opacity: 1.0;
+    margin: 4px 10px 0px 0px;
+}
+
+.CanvasActions a:hover {
+    opacity: 1.0;
+}
+
+.CanvasActions a#ExtendCanvasHeight,
+.CanvasActions a#ExtendCanvasWidth {
+    font-size: 15px;
+    color: #555;
+    margin-top: 2px;
+    margin-left: 5px;
+}
+
+#DiagramTooltip {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 200px;
+    opacity: 0.9;
+    position: absolute;
+    z-index: 999;
+}
+
+#DiagramTooltip h4 {
+    border-bottom: 1px solid #aaa;
+    padding: 7px 10px 5px 10px;
+    margin-bottom: 5px;
+    background-color: #f6f6f6;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#DiagramTooltip ul {
+    padding: 5px 7px 3px 7px;
+    overflow: hidden;
+}
+
+#DiagramTooltip li {
+    display: block;
+    float: left;
+    background-color: #ddd;
+    padding: 5px 7px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    line-height: 110%;
+}
+
+#DiagramTooltip li .AvailableIn {
+    float: left;
+    margin: -2px 5px -2px -6px;
+    background-color: #999;
+    color: #fff;
+}
+
+#DiagramTooltip li.NoDialogsAssigned {
+    background: none;
+    font-style: italic;
+    padding: 0px 4px;
+    line-height: 120%;
+    margin-top: -3px;
+}
+
+.DiagramDeleteLink,
+.DiagramEditLink {
+    position: absolute;
+    display: none;
+}
+
+.DiagramDeleteLink a,
+.DiagramEditLink a {
+    background: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 13px;
+    display: block;
+    font-family: tahoma;
+    font-size: 12px;
+    line-height: 19px;
+    vertical-align: middle;
+    font-weight: bold;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    color: #aaa;
+}
+
+.DiagramDeleteLink a:hover,
+.DiagramEditLink a:hover {
+    color: #FF9922;
+}
+
+.TaskTypeIcon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/**
+ * @subsubsection     Diagram Canvas Elements
+ */
+
+#Canvas #StartEvent {
+    width: 31px;
+    height: 31px;
+    border: 1px solid #000;
+    border-radius: 16px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 100;
+}
+
+#Canvas .Activity {
+    width: 110px;
+    height: 80px;
+    background-color: #fff;
+    border: 1px solid #949494;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 100;
+    cursor: move;
+    opacity: 0.9;
+}
+
+em.EntityID {
+    position: absolute;
+    background: #FF9922;
+    border-radius: 2px;
+    display: block;
+    font-family: tahoma;
+    font-size: 10px;
+    white-space: nowrap;
+    padding: 3px 4px;
+    text-align: center;
+    color: #fff;
+    font-style: normal;
+    top: -25px;
+    width: 290px;
+    left: 50%;
+    margin-left: -149px;
+}
+
+em.EntityID input {
+    border: 0px;
+    background: #FF9922;
+    font-size: 10px;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    box-shadow: none;
+    text-align: center;
+}
+
+em.EntityID:after {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 153, 34, 0);
+    border-top-color: #FF9922;
+    border-width: 5px;
+    margin-left: -5px;
+}
+
+.TransitionLabel em.EntityID {
+    z-index: 103;
+}
+
+#Canvas .Activity.Hovered {
+    border-color: #FF9922;
+    z-index: 104;
+}
+
+#Canvas .Activity.Highlighted {
+    background-color: #555;
+    color: #fff;
+}
+
+#Canvas .Activity.Highlighted.ReadyToDrop {
+    background-color: #A9BF6E;
+}
+
+#Canvas .Activity span {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    margin: 32px 5px 5px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 3px;
+}
+
+#Canvas .Activity .Icon,
+#Canvas .TransitionLabel .Icon {
+    display: none;
+    position: absolute;
+    background-repeat: none;
+    background-position: center;
+}
+
+#Canvas .Activity .Icon {
+    width: 16px;
+    height: 16px;
+    left: 50%;
+    top: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+#Canvas .TransitionLabel .Icon {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-radius: 3px;
+}
+
+#Canvas .Activity .Success,  #Canvas .TransitionLabel .Success {
+    background-image: url(../img/icons/tick.png);
+}
+
+#Canvas .Activity#Dummy {
+    visibility: hidden;
+}
+
+#Canvas .Activity .DiagramDeleteLink {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+
+#Canvas .Activity .DiagramEditLink {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+}
+
+#Canvas .EndpointHover {
+    z-index: 150;
+}
+
+#Canvas .TransitionLabel {
+    background-color: #fff;
+    font-size: 11px;
+    padding: 6px 11px;
+    border: 1px solid #aaa;
+    position: relative;
+    z-index: 103;
+    cursor: default;
+    border-radius: 3px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    max-width: 150px;
+    text-align: center;
+}
+
+#Canvas .TransitionLabel.Hovered {
+    border-color: #FF9922;
+    z-index: 104;
+}
+
+#Canvas .TransitionLabel:hover {
+    z-index: 104;
+}
+
+#Canvas .TransitionLabel.Highlighted {
+    background-color: #555;
+    color: #fff;
+}
+
+#Canvas .TransitionLabel.Highlighted.ReadyToDrop {
+    background-color: #A9BF6E;
+}
+
+#Canvas .TransitionLabel a {
+    background: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 13px;
+    display: block;
+    font-family: tahoma;
+    font-size: 12px;
+    line-height: 19px;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    color: #aaa;
+    position: absolute;
+    right: -13px;
+    top: -10px;
+    cursor: pointer;
+    display: none;
+}
+
+#Canvas .TransitionLabel a.Edit {
+    right: auto;
+    left: -13px;
+}
+
+#Canvas .TransitionLabel a:hover {
+    color: #FF9922;
+}
+
+#Canvas .TransitionLabel:hover a {
+    display: block;
+}
+
+#Canvas .TransitionLabel span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/**
+ * @subsubsection     Transition Popup / Transition Action Popup
+ */
+
+.Fields {
+    margin-top: 15px;
+}
+
+#TransitionForm .WidgetSimple .WidgetSimple {
+    margin-top: 10px;
+}
+
+#TransitionForm .WidgetSimple .WidgetSimple + .WidgetSimple {
+    margin-top: -5px;
+}
+
+#TransitionForm .WidgetSimple .WidgetSimple .WidgetSimple {
+    margin-bottom: 0px;
+}
+
+#TransitionForm #PresentConditionsContainer > label,
+#TransitionForm #PresentConditionsContainer p {
+    width: auto;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#TransitionForm #ConditionAdd {
+    margin-left: 10px;
+    margin-top: -5px;
+}
+
+#TransitionForm .Condition > fieldset > label {
+    width: auto;
+    display: inline-block;
+    margin: 0px 5px 0px 10px;
+}
+
+#TransitionForm fieldset + fieldset {
+    margin-top: 7px;
+}
+
+#TransitionForm .FieldWidget label {
+    margin: 0px 3px 0px 5px;
+}
+
+#TransitionForm #ConfigParams input {
+    width: 40%;
+}
+
+#TransitionForm #ConfigParams input + label {
+    margin-left: 5px;
+}
+
+/**
+ * @subsubsection     Path popup
+ */
+
+ul.Path {
+    overflow: hidden;
+    padding: 10px 0px;
+    width: 620px;
+    margin-left: 160px;
+}
+
+ul.Path li {
+    width: 130px;
+    line-height: 120%;
+    float: left;
+    position: relative;
+    text-align: center;
+    padding: 30px 10px;
+    min-height: 25px;
+}
+
+ul.Path li.Transition {
+    width: 230px;
+    margin-left: 0px;
+    padding: 30px 0px;
+}
+
+ul.Path li.StartActivity, ul.Path li.EndActivity {
+    background-color: #e5e5e5;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin: 0px 20px;
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ul.Path li select {
+    width: 180px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    margin-left: -90px;
+    z-index: 2;
+}
+
+ul.Path li.Transition span {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 270px;
+    border-top: 1px solid #444;
+    height: 2px;
+    left: -20px;
+    top: 38px;
+}
+
+#EditPath {
+    position: relative;
+    height: 30px;
+}
+
+#EditPath a {
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -90px;
+    top: -20px;
+}
+
+/**
+ * @subsubsection     Popup Result
+ */
+
+div.AJAXWaiting {
+    margin-top:300px; /* TODO Need real vertical center, please fix */
+}
+
+/**
+ * @subsubsection     AllocationList
+ */
+
+#AvailableFields .ShowOnAssignedList {
+    display: none;
+}
+
+#AssignedFields .ShowOnAssignedList {
+    display: inline;
+}
+
+}
+
+/**
+ * @subsubsection     Popup Print
+ */
+
+@media screen,projection,tv,handheld,print {
+
+.PrintContainer .Logo {
+    float: right;
+    height: 55px;
+}
+
+.PrintContainer ul.Attributes {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    margin: 0px 0px 10px 0px;
+}
+
+.PrintContainer {
+    padding: 15px;
+    font-size: 14px;
+}
+
+.PrintContainer #Path {
+    border: 1px solid #ccc;
+    padding: 15px 15px 0px 15px;
+}
+
+.PrintContainer #Path li {
+    width: 500px;
+    display: block;
+    margin: 0px auto 15px auto;
+}
+
+.PrintContainer #Path li > span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #eee;
+}
+
+.PrintContainer #Path li > strong {
+    position: relative;
+    display: inline-block;
+    width: 392px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.PrintContainer #Path li > strong span {
+    width: 400px;
+    border-bottom: 2px solid #aaa;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -200px;
+    top: 9px;
+    z-index: 1;
+}
+
+.PrintContainer #Path li > strong em {
+    background-color: #f2f2f2;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    padding: 4px;
+    border: 1px solid #aaa;
+}
+
+.PrintContainer h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.PrintContainer h2 {
+    font-size: 18px;
+    border-bottom: 1px solid #ccc;
+    margin-top: 0px;
+    padding-bottom: 15px;
+    line-height: 130%;
+}
+
+.PrintContainer h3 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.PrintContainer h3 + ul {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.PrintContainer h4 {
+    font-size: 15px;
+    line-height: 140%;
+    background-color: #eee;
+    padding: 5px 8px;
+}
+
+.PrintContainer h4 span {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.PrintContainer h4 + strong {
+    display: block;
+    padding: 0px 5px;
+    margin-top: 10px;
+}
+
+.PrintContainer h4 ~ ul,
+.PrintContainer h4 ~ ol {
+    margin: 5px 0px 15px 10px;
+}
+
+.PrintContainer h4 ~ ul li,
+.PrintContainer h4 ~ ol li {
+    line-height: 150%;
+}
+
+.PrintContainer h4 ~ ol {
+    list-style-type: decimal;
+    padding-left: 15px;
+}
+
+.PrintContainer h4 ~ ol p {
+    font-size: 12px;
+    padding-left: 5px;
+    line-height: 150%;
+}
+
+.PrintContainer h4 ~ ol p:last-child {
+    margin-bottom: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul {
+    margin-left: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul ul {
+    margin-left: 5px;
+    font-size: 12px;
+    border-left: 5px solid #eee;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.PrintContainer h4 ~ ol > li > ul ul h6 {
+    font-style: italic;
+}
+
+.PrintContainer h4 ~ ol > li > ul > li h5 {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.PrintContainer pre {
+    margin: 10px;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 130%;
+}
+
+}/* end @media */

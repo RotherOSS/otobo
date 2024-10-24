@@ -1,0 +1,441 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     CSS for printing
+ */
+
+@media print {
+
+/**
+ * @subsection  Fonts
+ */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    text-align: left;
+}
+
+/**
+ * @subsection  Generic elements
+ */
+p {
+    line-height: 1.3em;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 7px;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+td, th {
+    border-left: 1px dotted #E5E5E5;
+    padding: 0 10px 0 10px;
+}
+
+th {
+    font-weight: bold;
+}
+/**
+ * @subsection  Navigation
+ */
+#Header,
+#NavigationContainer,
+#ToolBar,
+body > .MessageBox,
+.ResponsiveHandle,
+.AdditionalInformation.ControlRow,
+#ArticleItems ul.Actions,
+#ArticleTree,
+.Headline > .Flag {
+    display: none;
+}
+
+/**
+ * @subsection  Footer
+ */
+#Footer {
+    border-top:1px solid #999999;
+    font-size:10px;
+    margin-top:10px;
+    padding:12px 9px 8px;
+    padding:10px;
+}
+
+#Footer ul {
+    display: none;
+}
+
+/**
+ * @subsection  Generic elements
+ */
+#Navigation{
+    display:none;
+}
+
+a {
+    color:#000000;
+    text-decoration:none;
+}
+
+.DontPrint {
+    display: none;
+}
+
+.PrintOnly {
+    display: block;
+}
+
+.ContextFunctions {
+    display: none;
+}
+
+.ActionRow {
+    display: none;
+}
+
+#ArticleTable {
+    display: none;
+}
+
+.WidgetAction {
+    display: none;
+}
+
+.Flag {
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+td:last-child{
+    border-right: 1px dotted #CCCCCC;
+}
+
+.Tab.Actions li a{
+    padding: 13px 8px 5px 8px;
+}
+
+.Tab.Actions li a:focus{
+    font:bold;
+}
+
+.div.Pagination{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.Hidden, .Checkbox{
+    display:none;
+}
+
+/*
+    Ticket Overview Small
+*/
+
+.QueueOverview {
+    color:gray;
+    font-size:12px;
+    margin:0 16px 10px 8px;
+    padding:0 0 4px;
+}
+
+.QueueOverviewList a {
+    color:#000000;
+}
+
+.Overview.FixedHeader thead tr th {
+    height:19px;
+    border-right:1px solid #C9C9C9;
+    padding-top:0;
+}
+
+.TableSmall{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.TableSmall thead {
+    margin-top:15px;
+    border: 1px solid #C9C9C9;
+}
+.TableSmall thead a, .TableSmall thead span {
+    color:#4A4A4A;
+    display:block;
+    font-size:11px;
+    height:15px;
+    line-height:15px;
+    margin:0 2px 1px 1px;
+    padding:0 10px;
+    text-transform:uppercase;
+}
+
+/*
+    Ticket Overview Medium
+*/
+
+.OverviewMedium h2 a {
+    color:#000000;
+    display:block;
+}
+
+.OverviewMedium .Flag {
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    color:#FF9922;
+}
+
+.OverviewMedium li div.Content {
+    padding:10px;
+    margin-top:15px;
+    border:1px solid #C9C9C9;
+}
+
+.OverviewMedium table.Infos td label {
+    color:#CCCCCC;
+    margin: 8px 0 4px 0;
+    display:block;
+    font-weight:bold;
+    margin-bottom:2px;
+}
+
+.OverviewMedium table.Infos td div {
+    margin-left:15px;
+}
+
+.OverviewMedium .UnreadArticles span{
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    border-top:none;
+    color:#FF9922;
+}
+/*
+    Ticket Overview Large
+*/
+
+.OverviewLarge .Flag {
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    color:#FF9922;
+}
+
+.OverviewLarge > li > .Content {
+    margin-bottom:15px;
+    padding:12px;
+    border:1px solid #000000;
+}
+
+.OverviewLarge .Infos {
+    margin-bottom:10px;
+}
+
+.OverviewLarge .Infos table {
+    border-bottom:1px dotted #C9C9C9;
+    border-top:1px dotted #C9C9C9;
+}
+
+.OverviewLarge .Infos table td label {
+    color:#CCCCCC;
+    margin: 8px 0 2px 0;
+    display:block;
+    font-weight:bold;
+}
+
+.OverviewLarge .Preview {
+    margin-top:10px;
+}
+
+.OverviewLarge .Preview ul li {
+    margin-top : 10px;
+}
+
+.OverviewLarge .Preview h3 a {
+    display:block;
+    height:17px;
+    margin-top:15px;
+}
+
+.OverviewLarge .Preview li div.HiddenBlock div.Content {
+    border:medium none;
+    padding:5px;
+    display:block;
+}
+
+.OverviewLarge .Preview .ArticleCount2 li div.HiddenBlock div.Content {
+    height:auto;
+    padding: 10px;
+    border:1px dotted #C9C9C9;
+}
+
+.OverviewLarge .Preview li div.HiddenBlock div.Content {
+    border:medium none;
+    padding:5px;
+}
+
+.OverviewLarge .UnreadArticles span{
+    width:150px;
+    height: 12px;
+    border: 1px dashed #C9C9C9;
+    padding:8px;
+    border-top:none;
+    color:#FF9922;
+}
+
+/*
+    Ticket Zoom
+*/
+
+div.Headline .Flag{
+    border:1px solid #CCCCCC;
+    width: 150px;
+    color:#FF9922;
+    font-weight: bold;
+    font-size:16px;
+}
+
+.WidgetSimple > .Header h2 {
+    margin: 0 0 5px 0;
+    padding:0 0 5px 0;
+    border-bottom: 1px dotted #CCCCCC;
+}
+
+div.Headline h1 {
+    font-size:20px;
+    margin: 10px 0 10px 0;
+    padding:0;
+}
+
+#DestQueueID{
+    display: none;
+}
+
+/**
+ * @subsection  SidebarColumn
+ */
+.SidebarColumn .WidgetSimple {
+    width: 46%;
+    float: left;
+    padding: 10px;
+    border: 1px solid #CCC;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/**
+ * @subsection  ContentColumn
+ */
+.ContentColumn {
+    clear: both;
+}
+
+.WidgetBox {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #CCC;
+}
+
+.WidgetBox .InvisibleText{
+    display:none;
+}
+
+.WidgetBox .Actions{
+    display:none;
+}
+
+.WidgetBox .ArticleMailHeader {
+    margin: 0;
+    padding: 0;
+}
+
+.WidgetBox > .Header h2 {
+    padding:0;
+    margin:0 0 15px 0;
+}
+
+.ArticleMailContent body{
+}
+
+/**
+ * @subsection  Tablelike elements
+ */
+.WidgetSimple fieldset {
+    margin-bottom:15px;
+}
+
+fieldset.TableLike > label {
+    display: block;
+    float: left;
+    text-align: left;
+    padding-top: 4px;
+    font-weight: bold;
+}
+
+fieldset.TableLike.FixedLabelSmall > label {
+    width:100px;
+    display:block;
+}
+
+
+fieldset.TableLike > .Value {
+    margin-left:130px;
+    margin-right:0;
+    padding-top: 4px;
+}
+
+.ItemRow{
+    margin-top:10px;
+    border-top: 1px dotted #CCC;
+    display:block;
+    padding-top: 10px;
+}
+
+.ItemRow li{
+    display:block;
+    padding-top: 4px;
+    font-weight:bold;
+}
+
+/**
+ * @subsection  Popups
+ */
+
+.LayoutPopup .Header {
+    display: none;
+}
+
+} /* end @media */

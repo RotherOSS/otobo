@@ -1,0 +1,100 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.GridView {
+    text-align: center;
+}
+
+.ItemListGrid {
+    display: inline-block;
+}
+
+.ItemListGrid > li {
+    border: 1px solid #333;
+    min-width: 300px;
+}
+
+.ItemListGrid.WithIcons > li span.Icons i {
+    font-size: 20px;
+}
+.ItemListGrid.WithIcons > li span.Title {
+    color: #c8c6c4;
+}
+
+.ItemListGrid.WithIcons > li.Successful span.Title,
+.ItemListGrid.WithIcons > li.Successful span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Successful span.Icons i.Icon2 {
+    color: #3fb950;
+}
+
+.ItemListGrid.WithIcons > li.Warning span.Title,
+.ItemListGrid.WithIcons > li.Warning span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Warning span.Icons i.Icon2 {
+    color: #f6a72b;
+}
+
+
+.ItemListGrid.WithIcons > li.Failed span.Title,
+.ItemListGrid.WithIcons > li.Failed span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Failed span.Icons i.Icon2 {
+    color: #da3633;
+}
+
+td.Edit,
+td.Direction,
+td.Priority,
+td.Status {
+    width: 30px;
+}
+
+td.StartTime,
+td.EndTime {
+    white-space: nowrap;
+}
+
+#CommunicationList > .Content > .ControlRow {
+    margin: -8px -8px 0 -8px;
+}
+
+#AccountList {
+    border-top: 1px solid #ccc;
+}
+
+#ObjectListTable tr,
+#AccountsTable tr {
+    cursor: pointer;
+}
+
+.ControlRow {
+    background: #333;
+}
+
+.ControlRow li > a {
+    color: #c8c6c4;
+}
+
+} /* end @media print*/

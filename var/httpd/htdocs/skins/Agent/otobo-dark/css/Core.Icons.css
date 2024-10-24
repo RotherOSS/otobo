@@ -1,0 +1,171 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@font-face {
+  font-family: 'otobo';
+  src:  url('/otobo-web/common/fonts/otobo.eot?8f3wlj');
+  src:  url('/otobo-web/common/fonts/otobo.eot?8f3wlj#iefix') format('embedded-opentype'),
+    url('/otobo-web/common/fonts/otobo.ttf?8f3wlj') format('truetype'),
+    url('/otobo-web/common/fonts/otobo.woff?8f3wlj') format('woff'),
+    url('/otobo-web/common/fonts/otobo.svg?8f3wlj#otobo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.ooofo {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'otobo' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ooofo-add:before {
+  content: "\e900";
+}
+.ooofo-archive:before {
+  content: "\e901";
+}
+.ooofo-arrow_d:before {
+  content: "\e902";
+}
+.ooofo-arrow_l:before {
+  content: "\e903";
+}
+.ooofo-arrow_r:before {
+  content: "\e904";
+}
+.ooofo-arrow_r2:before {
+  content: "\e905";
+}
+.ooofo-arrow_u:before {
+  content: "\e906";
+}
+.ooofo-attachment:before {
+  content: "\e907";
+}
+.ooofo-boxcheck_ed:before {
+  content: "\e908";
+}
+.ooofo-boxcheck_ooo:before {
+  content: "\e909";
+}
+.ooofo-boxcheck_semi:before {
+  content: "\e90a";
+}
+.ooofo-boxcheck:before {
+  content: "\e90b";
+}
+.ooofo-calendar:before {
+  content: "\e90c";
+}
+.ooofo-close:before {
+  content: "\e90d";
+}
+.ooofo-dashboard:before {
+  content: "\e90e";
+}
+.ooofo-delete_outl:before {
+  content: "\e90f";
+}
+.ooofo-delete:before {
+  content: "\e910";
+}
+.ooofo-faq:before {
+  content: "\e911";
+}
+.ooofo-filter_list:before {
+  content: "\e912";
+}
+.ooofo-filter:before {
+  content: "\e913";
+}
+.ooofo-help:before {
+  content: "\e914";
+}
+.ooofo-info:before {
+  content: "\e915";
+}
+.ooofo-invisible:before {
+  content: "\e916";
+}
+.ooofo-menu:before {
+  content: "\e917";
+}
+.ooofo-more_h:before {
+  content: "\e918";
+}
+.ooofo-more_v:before {
+  content: "\e919";
+}
+.ooofo-pdf:before {
+  content: "\e91a";
+}
+.ooofo-photo_library:before {
+  content: "\e91b";
+}
+.ooofo-photo:before {
+  content: "\e91c";
+}
+.ooofo-print:before {
+  content: "\e91d";
+}
+.ooofo-radio_checked:before {
+  content: "\e91e";
+}
+.ooofo-radio:before {
+  content: "\e91f";
+}
+.ooofo-remove:before {
+  content: "\e920";
+}
+.ooofo-rplus:before {
+  content: "\e921";
+}
+.ooofo-save:before {
+  content: "\e922";
+}
+.ooofo-search:before {
+  content: "\e923";
+}
+.ooofo-sort:before {
+  content: "\e924";
+}
+.ooofo-text:before {
+  content: "\e925";
+}
+.ooofo-ticketlist:before {
+  content: "\e926";
+}
+.ooofo-time:before {
+  content: "\e927";
+}
+.ooofo-toggle_off:before {
+  content: "\e928";
+}
+.ooofo-toggle_on:before {
+  content: "\e929";
+}
+.ooofo-visible:before {
+  content: "\e92a";
+}

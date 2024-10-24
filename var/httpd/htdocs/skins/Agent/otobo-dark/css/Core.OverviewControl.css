@@ -1,0 +1,155 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     OverviewControls
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Overview Control General
+ */
+.OverviewActions {
+    min-height: 28px;
+}
+
+.OverviewControl {
+    background-color: #1f1f1f;
+}
+
+.OverviewControl > div {
+    padding: 0 16px 0 8px;
+    background: #141414;
+}
+
+.RTL .OverviewControl > div {
+    padding: 0 8px 0 16px;
+}
+
+/**
+ * @subsection  Control Row View Zoom
+ */
+.OverviewZoom {
+    float: right;
+    margin: 0px 10px;
+}
+
+.RTL .OverviewZoom {
+    float: left;
+}
+
+.OverviewZoom li {
+    display: inline-block;
+}
+
+.OverviewZoom a {
+    display: inline-block;
+    line-height: 18px;
+    width: 20px;
+    text-align: center;
+    margin-top: 5px;
+    vertical-align: middle;
+    background: #333;
+    color: #c8c6c4;
+}
+
+.OverviewZoom .Active a,
+.OverviewZoom .Active a:hover {
+    background: #c8c6c4;
+    color: #1f1f1f;
+}
+
+.OverviewZoom a:hover {
+    border-bottom: 0px !important;
+    padding-bottom: 0px !important;
+    background: #BBBBBB;
+    color: #333;
+}
+
+.OverviewZoom + .Pagination {
+    height: 10px;
+    margin-top: 5px;
+    padding-right: 12px;
+}
+
+/**
+ * @subsection  Control Row Overview Header for Medium and Large View
+ */
+.OverviewHeaderMediumLarge div.IconContainer {
+    float: left;
+    width: 40px;
+    height: 30px;
+    padding-left: 4px;
+    background: transparent url(../img/overviewcontrol_line.png) no-repeat bottom right;
+}
+
+.RTL .OverviewHeaderMediumLarge div.IconContainer {
+    float: right;
+    padding-left: 0;
+    padding-right: 4px;
+    background-position: bottom left;
+}
+
+.OverviewHeaderMediumLarge div.IconContainer span.Checkbox {
+    display: block;
+    height: 14px;
+    width: 40px;
+    background: transparent url(../img/overviewcontrol_checkbox.png) no-repeat center;
+}
+
+.OverviewHeaderMediumLarge div.IconContainer span.Flag {
+    display: block;
+    height: 9px;
+    width: 16px;
+    margin-left: 10px;
+    margin-top: 3px;
+    background-color: #999;
+}
+
+.RTL .OverviewHeaderMediumLarge div.IconContainer span.Flag {
+    margin-left: 0;
+    margin-right: 13px;
+}
+
+.OverviewHeaderMediumLarge div.Filter {
+    height: 25px;
+    padding-top: 5px;
+}
+
+.RTL .OverviewHeaderMediumLarge div.Filter {
+    margin-left: 0;
+    margin-right: 55px;
+}
+
+/**
+ * @subsection  Control Row Overview Header for Small View
+ */
+.OverviewHeaderSmall {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+/**
+ * @subsection  Control Row Fix for Ticket Create Masks with Datepicker
+ */
+
+#CustomerTickets {
+    position: relative;
+    z-index: 1;
+}
+
+} /* end @media */
