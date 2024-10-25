@@ -46,9 +46,11 @@ sub new {
     return $Self;
 }
 
+# optional AclActionLookup
 sub CheckAccess {
     my ( $Self, %Param ) = @_;
 
+    # Check needed stuff.
     for my $Needed (qw(Ticket Article ChannelName UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -59,9 +61,42 @@ sub CheckAccess {
         }
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     return if $Param{ChannelName} ne 'Internal';
     return if $Param{Article}->{IsVisibleForCustomer};
-    return if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
+    return if $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
+
+    # check if module is registered
+    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketArticleVersion};
+
+    # check Acl
+    return if !$Param{AclActionLookup}->{AgentTicketArticleVersion};
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleVersion');
+    if ( $Config->{Permission} ) {
+        my $Ok = $TicketObject->TicketPermission(
+            Type     => $Config->{Permission},
+            TicketID => $Param{Ticket}->{TicketID},
+            UserID   => $Param{UserID},
+            LogNo    => 1,
+        );
+        return if !$Ok;
+    }
+    if ( $Config->{RequiredLock} ) {
+        my $Locked = $TicketObject->TicketLockGet(
+            TicketID => $Param{Ticket}->{TicketID}
+        );
+        if ($Locked) {
+            my $AccessOk = $TicketObject->OwnerCheck(
+                TicketID => $Param{Ticket}->{TicketID},
+                OwnerID  => $Param{UserID},
+            );
+            return if !$AccessOk;
+        }
+    }
 
     return 1;
 }
