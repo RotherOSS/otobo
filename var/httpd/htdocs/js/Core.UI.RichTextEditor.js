@@ -272,6 +272,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     $domEditableElement = $($EditorArea).closest(".RichTextHolder");
                 }
 
+                //Set to Readonly mode if required
+                if ($EditorArea.hasClass('ReadOnly')) {
+                    editor.enableReadOnlyMode('DF_Readonly');
+                }
+
                 var sourceEditingActive = false;
 
                 $domEditableElement.resizable();
