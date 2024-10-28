@@ -11477,7 +11477,7 @@
                 <Item>NotificationEscalation</Item>
                 <Item>NotificationEscalationNotifyBefore</Item>
                 <Item>NotificationServiceUpdate</Item>
-                <Item>ArticleEdit</Item>
+
             </Array>
         </Value>
     </Setting>
@@ -11488,6 +11488,8 @@
             <Array>
                 <Item>ArticleCreate</Item>
                 <Item>ArticleUpdate</Item>
+                <Item>ArticleEdit</Item>
+                <Item>ArticleDynamicFieldUpdate</Item>
                 <Item>ArticleSend</Item>
                 <Item>ArticleBounce</Item>
                 <Item>ArticleAgentNotification</Item>
