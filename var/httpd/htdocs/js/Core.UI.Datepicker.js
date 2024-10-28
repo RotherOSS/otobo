@@ -116,13 +116,12 @@ Core.UI.Datepicker = (function (TargetNS) {
      * @description
      *      This function initializes the datepicker on the defined elements.
      */
-    TargetNS.Init = function (Element) {
+    TargetNS.Init = function (Element, Attributes={}) {
 
         var $DatepickerElement,
             HasDateSelectBoxes = false,
             Options,
-            ErrorMessage,
-            Disabled = false;
+            ErrorMessage;
 
         if (typeof Element.VacationDays === 'object') {
             Core.Config.Set('Datepicker.VacationDays', Element.VacationDays);
@@ -150,6 +149,8 @@ Core.UI.Datepicker = (function (TargetNS) {
         // Increment number of initialized datepickers on this site
         DatepickerCount++;
 
+        let Disabled = Attributes.Disabled || false;
+
         // Check, if datepicker is used with three input element or with three select boxes
         if (typeof Element === 'object' &&
             typeof Element.Day !== 'undefined' &&
@@ -160,8 +161,6 @@ Core.UI.Datepicker = (function (TargetNS) {
             //  Ignore in this case.
             Element.Day.length
         ) {
-            Disabled = Element.Day.get(0).disabled && Element.Month.get(0).disabled && Element.Year.get(0).disabled;
-
             $DatepickerElement = $('<input>').attr('type', 'hidden').attr('id', 'Datepicker' + DatepickerCount);
             // insert DatepickerElement
             if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {

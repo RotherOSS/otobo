@@ -264,6 +264,11 @@ sub EditFieldRender {
         $FieldClass .= ' Validate_Required';
     }
 
+    # set readonly css class
+    if ( $Param{Readonly} ) {
+        $FieldClass .= ' ReadOnly';
+    }
+
     # set error css class
     if ( $Param{ServerError} ) {
         $FieldClass .= ' ServerError';
