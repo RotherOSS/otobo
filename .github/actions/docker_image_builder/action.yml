@@ -86,3 +86,25 @@ runs:
           target: ${{ matrix.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
+
+      -
+        # finally finally update latest tag
+        # the built image is already available in the job
+        name: Update latest-11_1
+        if:   ${{ matrix.latest }}
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          pull: true
+          build-args: |
+            BUILD_DATE=${{ env.otobo_build_date }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
+          tags: "${{ matrix.repository }}:latest-11_1"
+          target: ${{ matrix.target }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max`

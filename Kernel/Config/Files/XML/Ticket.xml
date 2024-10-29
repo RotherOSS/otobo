@@ -12138,6 +12138,10 @@
         <Value>
             <Array>
                 <Item>AgentAppointmentCalendarOverview</Item>
+                <Item>AgentTicketArticleDelete</Item>
+                <Item>AgentTicketArticleEdit</Item>
+                <Item>AgentTicketArticleRestore</Item>
+                <Item>AgentTicketArticleVersion</Item>
                 <Item>AgentTicketBounce</Item>
                 <Item>AgentTicketBulk</Item>
                 <Item>AgentTicketClose</Item>

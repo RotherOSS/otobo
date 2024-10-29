@@ -22,6 +22,10 @@ variables:
   OTOBO_TESTS:
     value: "scripts/test/Ticket"
     description: "Specify single test or directory of Tests, starting with 'scrips/test'. "
+  OTOBO_PACKAGES:
+    value: ""
+    description: "Space separated list of versioned otobo packages names or full urls, e.g. 'Fred-11.0.1.opm' or 'https://ftp.otobo.org/pub/otobo/packages/:Fred-11.0.1.opm'\n See output of ./otobo.Console.pl Admin::Package::RepositoryList for possible values"
+    
   OTOBO_DB_ROOT_PASSWORD: "programmieren_auf_dem_bauernhof"
   # TODO: packacge might need /opt/otobo/Custom
   OTOBO_INSTALL_LIBS: '$PERL5LIB:/opt/otobo_install/otobo_next:/opt/otobo:/opt/otobo_install/otobo_next/Kernel/cpan-lib'
@@ -61,8 +65,9 @@ testsuite:
     - apk update -q
     - apk add git -q   
 
-    # prepare otobo config
+    # prepare otobo sources
     - cp Kernel/Config.pm.docker.dist Kernel/Config.pm
+    - mkdir -p var/tmp
     - export OPT_OTOBO=$PWD
     - chown -R 1000:1000 .
 
@@ -94,11 +99,14 @@ testsuite:
     - docker exec otobo-web-1 bash -c 'bin/otobo.CheckModules.pl --finst=devel:test'
     
     # run quick_setup.pl
-    # TODO: consider FQDN
-    - docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_INSTALL_LIBS} cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http"
+    - docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_INSTALL_LIBS} cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http --fqdn 'localhost'"
     
     # extra Test dependencies for formatting test results in junit xml format
     - docker exec otobo-web-1 bash -c "/usr/local/bin/cpanm -n -q $TAP_FORMATTER 2>/dev/null"
+
+    # install packages, if any
+    - 'for PACKAGE in ${OTOBO_PACKAGES}; do echo "Install Package: $PACKAGE"; if [[ $PACKAGE != http* ]]; then PACKAGE="https://ftp.otobo.org/pub/otobo/packages/:$PACKAGE"  ;fi;  docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::Install "$PACKAGE"  ;done'
+    - docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::List
 
     # wait for login to become ready
     - docker exec otobo-web-1 bash -c 'TEST=""; while [ "$TEST" != "LoginButton"  ]; do echo "wait for login"; sleep 5; TEST=$(curl -s "http:/localhost:5000/otobo/index.pl" | grep -o "LoginButton"); done;'

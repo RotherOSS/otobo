@@ -202,6 +202,12 @@ Fifth Line',
         Name   => 'ToAscii - Test for bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.'
     },
     {
+        Input =>
+            '<html><head><style type="text/css">/**<a href="https://otobo.io">otobo</a>**/ #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
+        Result => 'Important Text! Some more text.',
+        Name   => 'ToAscii - Test for issue #3880 - ignoring links in style tags.'
+    },
+    {
         Input  => '<td>Test table cell</td><td>Second cell</td>',
         Result => 'Test table cell Second cell ',
         Name   => 'ToAscii - Test for bug#8352 - Wrong substitution regex in HTMLUtils.pm->ToAscii.'

@@ -72,7 +72,7 @@ sub Data {
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
         'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
-            '',
+            'Hvis du vil slette en eksisterende ACL, må du sette gyldigheten til ugyldig og lagre den. Deretter vises en ny knapp for å slette ACL-en.',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
@@ -903,7 +903,7 @@ sub Data {
         'Customer user ID' => 'Kundens bruker-ID',
         '(e. g. U5150)' => 'f.eks. U5150',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Fulltekst-søk i innlegg (f.eks. "Mar*in" eller "Baue*").',
-        'To' => 'Default;Tilbakestill',
+        'To' => 'Til',
         'Cc' => 'Kopi',
         'Service' => 'Tjeneste',
         'Service Level Agreement' => 'Tjenestenivåavtale',
@@ -9827,8 +9827,8 @@ Ditt Helpdesk-team
         'This option defines the process tickets default state.' => 'Dette alternativet definerer prosessakers standardtilstand.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Dette alternativet vil nekte tilgang til kundeselskapssaker, som ikke er opprettet av kundebrukeren.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Denne innstillingen lar deg overstyre den innebygde landlisten med din egen liste over land. Dette er spesielt nyttig hvis du bare vil bruke en liten utvalgt gruppe land.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Denne innstillingen er utdatert. Sett OTOBOTimeZone i stedet.',

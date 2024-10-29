@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.518357560317698;
+    $Self->{Completeness}        = 0.518207702682452;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9818,8 +9818,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'This option defines the process tickets default state.' => 'Pilihan ini mentakrifkan keadaan lalai tiket proses.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Pilihan ini akan menafikan akses ke tiket syarikat pelanggan, di mana ia tidak dicipta oleh pengguna pelanggan.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Tetapan ini membolehkan anda untuk mengatasi senarai negara yang dibina dalam sistem dengan senarai negara anda sendiri. Ini berguna khususnya jika anda hanya mahu menggunakan kumpulan kecil negara.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',

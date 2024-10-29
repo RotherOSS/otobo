@@ -32,7 +32,7 @@ use Kernel::System::UnitTest::RegisterOM;
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
 
-        #RestoreDatabase  => 1,
+        RestoreDatabase  => 1,
         UseTmpArticleDir => 1,
     },
 );

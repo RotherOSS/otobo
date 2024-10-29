@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.860182826315001;
+    $Self->{Completeness}        = 0.860032968679754;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9821,8 +9821,8 @@ Az Ön segélyszolgálat csapata
         'This option defines the process tickets default state.' => 'Ez a beállítás határozza meg a folyamatjegyek alapértelmezett állapotát.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Ez a beállítás meg fogja tagadni azon ügyfél-vállalati jegyekhez való hozzáférést, amelyeket nem az ügyfél-felhasználó hozott létre.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ez a beállítás lehetővé teszi a beépített országlista felülbírálását a saját országlistájával. Ez különösen hasznos, ha az országoknak csak egy kiválasztott kis csoportját szeretné használni.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Ez a beállítás elavult. Állítsa be az OTOBOTimeZone beállítást helyette.',

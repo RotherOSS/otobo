@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.417053798891053;
+    $Self->{Completeness}        = 0.416903941255807;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -9811,8 +9811,8 @@ Mfano:
         'This option defines the process tickets default state.' => 'Chaguo hili linafafanua hali chaguo msingi ya tiketi ya mchakato.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Chaguo hili litakuzuia kufikia tiketi za kampuni za mteja, ambazo hazikujatengenezwa na mtumiaji wa mteja.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Mpangalio huu unakuruhusu kutendua orodha ya nchi ilijengewa ndani  kwa orodha yako ya nchi. Inatumika hasa kama unataka kutumia nchi chache usichaguazo.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',

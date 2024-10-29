@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.826914431290274;
+    $Self->{Completeness}        = 0.826764573655028;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9816,8 +9816,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => '이 옵션은 프로세스 티켓 기본 상태를 정의합니다.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            '이 옵션은 고객 사용자가 생성하지 않은 고객 회사 티켓에 대한 액세스를 거부합니다.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '이 설정을 사용하면 기본 제공 국가 목록을 자신의 국가 목록으로 대체할 수 있습니다. 소규모 그룹을 선택하고 싶을 때 특히 편리합니다.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '이 설정은 사용되지 않습니다. 대신 OTOBOTimeZone을 설정하십시오.',

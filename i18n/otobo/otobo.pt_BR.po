@@ -27488,3 +27488,7 @@ msgstr ""
 msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
 
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
+msgstr ""
+

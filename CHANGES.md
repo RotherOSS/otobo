@@ -1,4 +1,30 @@
 
+# OTOBO 11.0.7 2024-10-28
+- 2024-10-28 16:11:22 +0100 Create new OTOBO language files.
+- 2024-10-28 15:44:11 +0100 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673) - in progress
+- 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2024-10-24 09:11:14 +0100 #3517: reduced risk of unintended sideeffects
+- 2024-10-24 09:03:00 +0100 [Bugfix]   Normal and readonly checkbox and date(time) DFs look the same in Customer interface (https://github.com/RotherOSS/otobo/issues/3517)
+- 2024-10-24 09:52:48 +0200 Fix Selenium test failure in AgentTicketProcessAttachment (https://github.com/RotherOSS/otobo/issues/3893)
+- 2024-10-23 16:15:15 +0200 [Bugfix]   DateTime Field with DateRestrictions in Hidden Set hinders ticket creation. (https://github.com/RotherOSS/otobo/issues/3837)
+- 2024-10-23 13:19:49 +0200 [Tidied]   Misalignment in AdminImportExport template configuration (https://github.com/RotherOSS/otobo/issues/3888)
+- 2024-10-22 15:35:30 +0200 Improve DF Reference UnitTest(s) to clean up their created dynamic fields (https://github.com/RotherOSS/otobo/issues/3852)
+- 2024-10-22 15:15:34 +0200 [Bugfix]   Block 'TicketBack' is duplicated in AgentTicketMove template (https://github.com/RotherOSS/otobo/issues/3884)
+- 2024-10-21 14:06:22 +0200 [Enhanced] Set up continous integration (https://github.com/RotherOSS/otobo/issues/211) - in progress
+- 2024-10-18 14:01:14 +0200 [Bugfix]   Unexpected Links appear in articles (https://github.com/RotherOSS/otobo/issues/3880)
+- 2024-10-18 10:39:30 +0100 [Bugfix]   article list in agentticketzoom has vanishing resize handle (https://github.com/RotherOSS/otobo/issues/3878)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-16 13:16:45 +0200 [Bugfix]   Article sorting in AgentTicketZoom is broken for articles with exact same Create-Timestamp (https://github.com/RotherOSS/otobo/issues/3874)
+- 2024-10-16 08:21:01 +0200 [Bugfix]   Provide console script to rename translation_item column import to import_param (https://github.com/RotherOSS/otobo/issues/3661)
+- 2024-10-14 10:17:43 +0200 [Changed]  Allow 0 as valid time unit input in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/3870)
+- 2024-10-11 13:29:30 +0200 [Bugfix]   PossibleValue row template in AdminDynamicFieldDropdown misses space (https://github.com/RotherOSS/otobo/issues/3867)
+- 2024-10-07 14:32:00 +0200 Enhance sysconfig description.
+- 2024-10-02 14:55:48 +0200 Update CHANGES.
+- 2024-10-02 14:54:11 +0200 Create new OTOBO language files.
+- 2024-10-02 13:18:02 +0200 Update CHANGES.
+- 2024-09-03 06:08:22 +0000 Translated using Weblate (Japanese)
+
+
 # OTOBO 11.0.6 2024-10-02
 - 2024-10-02 15:44:05 +0200 Create new OTOBO language files.
 - 2024-10-02 15:07:15 +0200 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673) - in progress
@@ -2315,5 +2341,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
