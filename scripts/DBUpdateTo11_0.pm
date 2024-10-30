@@ -94,6 +94,10 @@ sub Run {
             Name   => 'Try integrating the new customer dashboard info tile.',
             Module => 'SysConfigMigrateCustomerDashboardTileMotD',
         },
+        {
+            Name   => 'Upgrade Dynamic Fields from 10_01 OTOBOAgents Package.',
+            Module => 'DBUpdateOTOBOAgentsDF',
+        },
     );
 
     TASK:
