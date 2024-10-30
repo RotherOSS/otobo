@@ -172,9 +172,21 @@ sub EditSectionRender {
                 next FIELD;
             }
 
-            my $DynamicField = $Param{DynamicFields}{ $Field->{DF} };
-            my $DFName       = "DynamicField_$Field->{DF}";
-            my $FieldClasses = 'Field' . ( $DynamicField->{FieldType} eq 'RichText' ? ' RichTextField' : '' );
+            my $DynamicField    = $Param{DynamicFields}{ $Field->{DF} };
+            my $DFName          = "DynamicField_$Field->{DF}";
+            my $IsRichTextField = 0;
+            if ( $DynamicField->{FieldType} eq 'RichText' ) {
+                $IsRichTextField = 1;
+            }
+            elsif ( $DynamicField->{FieldType} eq 'Lens' ) {
+                my $AttributeDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                    ID => $DynamicField->{Config}{AttributeDF},
+                );
+                if ( $AttributeDF->{FieldType} eq 'RichText' ) {
+                    $IsRichTextField = 1;
+                }
+            }
+            my $FieldClasses = 'Field' . ( $IsRichTextField ? ' RichTextField' : '' );
 
             # don't set a default value for hidden fields
             my %InvisibleNoDefault;
