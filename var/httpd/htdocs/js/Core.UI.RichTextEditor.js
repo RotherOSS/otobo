@@ -273,7 +273,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
 
                 //Set to Readonly mode if required
-                if ($EditorArea.hasClass('ReadOnly')) {
+                if ($EditorArea.hasClass('Readonly')) {
                     editor.enableReadOnlyMode('DF_Readonly');
                 }
 

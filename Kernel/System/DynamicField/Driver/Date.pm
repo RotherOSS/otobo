@@ -372,7 +372,7 @@ sub EditFieldRender {
 
     # set readonly css class
     if ( $Param{Readonly} ) {
-        $FieldClass .= ' ReadOnly';
+        $FieldClass .= ' Readonly';
     }
 
     # set error css class
