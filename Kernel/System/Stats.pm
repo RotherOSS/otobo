@@ -2872,7 +2872,7 @@ sub _GenerateDynamicStats {
                 if ( !defined $Ref1->{Values}{$Ref2} ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'notice',
-                        Message  => "Attribute $Ref2 should be used as $Ref1->{Name} in statistic $Param{StatID}, but is not present. Skipping it.",
+                        Message  => "\"$Ref2\" is used as $Ref1->{Name} but is not present. Skipping it. (StatID $Param{StatID} - \"$Param{Title}\")",
                     );
                     next SELECTEDVALUE;
                 }
