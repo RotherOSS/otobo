@@ -3340,6 +3340,7 @@ sub _GetIntegratedPackages {
                 'RotherOSS-LightAdmin',
                 'RotherOSS-InternalTransitionActions',
                 'TicketTimeUnitsMandatoryOnlyWithArticle',
+                'DynamicFieldOTOBOAgents',
             ],
 
             # future releases
