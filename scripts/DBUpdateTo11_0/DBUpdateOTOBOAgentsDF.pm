@@ -23,7 +23,8 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::DynamicField',
-    'Kernel::System::DynamicFieldValue'
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
@@ -42,12 +43,16 @@ sub Run {
     my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
     my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+    my $PackageObject           = $Kernel::OM->Get('Kernel::System::Package');
 
-    # check if already converted
+    # get DynamicFieldOTOBOAgents package
+    my $Package = $PackageObject->RepositoryGet(
+        Name    => 'DynamicFieldOTOBOAgents',
+        Version => '10.0.1',
+    );
+    if ( !$Package ) {
 
-    if ( !$Self->_HasOTOBOAgentsDynamicFields( DBObject => $DBObject ) ) {
-
-        print "No Dynamic Fields of type OTOBOAgent to convert. Skipping.\n";
+        print "\ŧDynamicFieldOTOBOAgents Package is not installed. Skipping.\n";
         return 1;
     }
 
@@ -78,9 +83,16 @@ sub Run {
         );
     }
 
-    $DBObject->Rollback();
+    # step three: uninstall the package
 
-    #    $DBObject->{dbh}->commit();
+    my $Success = $PackageObject->PackageUninstall( String => $Package );
+    if ( !$Success ) {
+        die "Unistall of DynamicFieldOTOBOAgents failed.";
+    }
+
+    print "\tDynamicFieldOTOBOAgents Package uninstalled.\n";
+
+    $DBObject->{dbh}->commit();
 
     return 1;
 }
@@ -111,6 +123,8 @@ sub _UpdateDynamicFieldConfig {
         Label      => $DF->{Label},
         FieldOrder => $DF->{FieldOrder},
         FieldType  => 'Agent',
+        ObjectType => $DF->{ObjectType},
+        ValidID    => $DF->{ValidID},
         Config     => $NewConfig,
         UserID     => 1,                   #admin
     );
@@ -141,25 +155,28 @@ sub _UpdateDynamicFieldValues {
 
     for my $ObjectID (@ObjectIDs) {
 
-        my $ExistingValue = $DynamicFieldValueObject->ValueGet(
+        my $ExistingValues = $DynamicFieldValueObject->ValueGet(
             FieldID  => $FieldID,
             ObjectID => $ObjectID
         );
 
-        my $Success = $DynamicFieldValueObject->ValueSet(
-            FieldID  => $FieldID,
-            ObjectID => $ObjectID,
-            Value    => [
-                {
-                    ValueText => undef,
-                    ValueInt  => $ExistingValue->{ValueText},
-                },
-            ],
-            UserID => 1    #admin
-        );
+        for my $ExistingValue ( $ExistingValues->@* ) {
 
-        if ( !$Success ) {
-            die "Unable to set DF Value " . $ExistingValue->{ValueText} . " for object $ObjectID field $FieldID.";
+            my $Success = $DynamicFieldValueObject->ValueSet(
+                FieldID  => $FieldID,
+                ObjectID => $ObjectID,
+                Value    => [
+                    {
+                        ValueText => undef,
+                        ValueInt  => $ExistingValue->{ValueText},
+                    },
+                ],
+                UserID => 1    #admin
+            );
+
+            if ( !$Success ) {
+                die "Unable to set DF Value " . $ExistingValue->{ValueText} . " for object $ObjectID field $FieldID.";
+            }
         }
     }
 
@@ -184,27 +201,6 @@ sub _GetOTOBOAGentsDFIDs {
     }
 
     return @Result;
-}
-
-sub _HasOTOBOAgentsDynamicFields {
-
-    my ( $Self, %Param ) = @_;
-
-    my $DBObject        = $Param{'DBObject'};
-    my $OTOBOAgentsType = 'OTOBOAgents';
-
-    $DBObject->Prepare(
-        SQL  => 'SELECT COUNT(id) FROM dynamic_field WHERE field_type = ?',
-        Bind => [ \$OTOBOAgentsType ],
-    );
-
-    if ( my @Row = $DBObject->FetchrowArray() ) {
-
-        my $Count = $Row[0];
-        return $Count;
-    }
-
-    return 0;
 }
 
 1;
