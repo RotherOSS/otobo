@@ -21,14 +21,15 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
-    'Kernel::System::YAML',
     'Kernel::System::Log',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicFieldValue'
 );
 
 =head1 NAME
 
 scripts::DBUpdateTo11_0::DBUpdateOTOBOAgentsDF - Update OTOBOAgents Dynamic Fields
-from the OTOBOAgents packages and convert to standard Agent-Ref Dynamic fields.
+from the OTOBOAgents package and convert to standard Agent-Ref Dynamic Fields.
 
 =cut
 
@@ -38,66 +39,60 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+    my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
+    my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     # check if already converted
 
     if ( !$Self->_HasOTOBOAgentsDynamicFields( DBObject => $DBObject ) ) {
 
-        print "No Dynamic Fields of type OTOBOAgent to convert. Done.\n";
+        print "No Dynamic Fields of type OTOBOAgent to convert. Skipping.\n";
         return 1;
     }
 
     $DBObject->BeginWork();
 
-    # get info for all installed OTOBOAgents DFs
+    # get IDs forall installed OTOBOAgents DFs
 
-    my @DynamicFields = $Self->_GetOTOBOAGentsDFs( DBObject => $DBObject );
+    my @DynamicFieldIDs = $Self->_GetOTOBOAGentsDFIDs( DBObject => $DBObject );
 
     # first upgrade the DF values
 
-    for my $DF (@DynamicFields) {
-        my $Id = $DF->[0];
+    for my $ID (@DynamicFieldIDs) {
 
         $Self->_UpdateDynamicFieldValues(
-            Id       => $Id,
-            DBObject => $DBObject
+            ID                      => $ID,
+            DBObject                => $DBObject,
+            DynamicFieldValueObject => $DynamicFieldValueObject,
         );
     }
 
     # second step convert to Agent Ref
 
-    for my $DF (@DynamicFields) {
-        my $Id     = $DF->[0];
-        my $Config = $DF->[7];
+    for my $ID (@DynamicFieldIDs) {
 
         $Self->_UpdateDynamicFieldConfig(
-            Id         => $Id,
-            Config     => $Config,
-            DBObject   => $DBObject,
-            YAMLObject => $YAMLObject,
+            ID                 => $ID,
+            DynamicFieldObject => $DynamicFieldObject,
         );
     }
 
-#    $DBObject->Rollback();
+    $DBObject->Rollback();
 
-    $DBObject->{dbh}->commit();
+    #    $DBObject->{dbh}->commit();
 
     return 1;
 }
-
 
 sub _UpdateDynamicFieldConfig {
 
     my ( $Self, %Param ) = @_;
 
-    my $Id         = $Param{'Id'};
-    my $ConfigYaml = $Param{'Config'};
-    my $DBObject   = $Param{'DBObject'};
-    my $YAMLObject = $Param{'YAMLObject'};
+    my $ID                 = $Param{'ID'};
+    my $DynamicFieldObject = $Param{'DynamicFieldObject'};
 
-    my $OldConfig = $YAMLObject->Load( Data => $ConfigYaml );
+    my $DF = $DynamicFieldObject->DynamicFieldGet( ID => $ID );
 
     my $NewConfig = {
         EditFieldMode         => 'Dropdown',
@@ -105,23 +100,24 @@ sub _UpdateDynamicFieldConfig {
         ImportSearchAttribute => '',
         MultiValue            => '0',
         Multiselect           => 0,
-        PossibleNone          => $OldConfig->{PossibleNone} || 0,
+        PossibleNone          => $DF->{Config}->{PossibleNone} || 0,
         ReferencedObjectType  => 'Agent',
         Tooltip               => '',
     };
 
-    if( exists $OldConfig->{Link} ) {
-        $NewConfig->{Link} = $OldConfig->{Link};
-    }
-
-    my $NewConfigYaml = $YAMLObject->Dump( Data => $NewConfig );
-
-    # print "UPDATE dynamic_field SET field_type = 'Agent', config = '$NewConfigYaml' WHERE field_type = 'OTOBOAgents' AND id = $Id \n";
-
-    $DBObject->Do(
-        SQL => "UPDATE dynamic_field SET field_type  = 'Agent', config = ? WHERE field_type = 'OTOBOAgents' AND id = ? ",
-        Bind => [ \$NewConfigYaml, \$Id ],
+    my $Success = $DynamicFieldObject->DynamicFieldUpdate(
+        ID         => $ID,
+        Name       => $DF->{Name},
+        Label      => $DF->{Label},
+        FieldOrder => $DF->{FieldOrder},
+        FieldType  => 'Agent',
+        Config     => $NewConfig,
+        UserID     => 1,                   #admin
     );
+
+    if ( !$Success ) {
+        die "Unable to set DF Config for " . $DF->{Name} . " ($ID) with:\n $NewConfig\n";
+    }
 
     return;
 }
@@ -130,37 +126,47 @@ sub _UpdateDynamicFieldValues {
 
     my ( $Self, %Param ) = @_;
 
-    my $FieldId  = $Param{'Id'};
-    my $DBObject = $Param{'DBObject'};
+    my $FieldID                 = $Param{'ID'};
+    my $DBObject                = $Param{'DBObject'};
+    my $DynamicFieldValueObject = $Param{'DynamicFieldValueObject'};
 
-    my @Values;
+    my @ObjectIDs;
     $DBObject->Prepare(
-        SQL  => 'SELECT id, field_id, object_id, value_text, value_date, value_int FROM dynamic_field_value WHERE field_id = ?',
-        Bind => [ \$FieldId ],
+        SQL  => 'SELECT object_id FROM dynamic_field_value WHERE field_id = ?',
+        Bind => [ \$FieldID ],
     );
-
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @Values, \@Row;
+        push @ObjectIDs, $Row[0];
     }
 
-    for my $Value (@Values) {
+    for my $ObjectID (@ObjectIDs) {
 
-        my $Id        = $Value->[0];
-        my $ValueText = $Value->[3];
-
-        # print "UPDATE dynamic_field_value SET value_text = NULL, value_int = $ValueText WHERE field_id = $FieldId AND id = $Id \n";
-
-        $DBObject->Do(
-            SQL => 'UPDATE dynamic_field_value SET value_text = NULL, value_int = ? WHERE field_id = ? AND id = ?',
-            Bind => [ \$ValueText, \$FieldId, \$Id ],
+        my $ExistingValue = $DynamicFieldValueObject->ValueGet(
+            FieldID  => $FieldID,
+            ObjectID => $ObjectID
         );
+
+        my $Success = $DynamicFieldValueObject->ValueSet(
+            FieldID  => $FieldID,
+            ObjectID => $ObjectID,
+            Value    => [
+                {
+                    ValueText => undef,
+                    ValueInt  => $ExistingValue->{ValueText},
+                },
+            ],
+            UserID => 1    #admin
+        );
+
+        if ( !$Success ) {
+            die "Unable to set DF Value " . $ExistingValue->{ValueText} . " for object $ObjectID field $FieldID.";
+        }
     }
 
     return;
 }
 
-
-sub _GetOTOBOAGentsDFs {
+sub _GetOTOBOAGentsDFIDs {
 
     my ( $Self, %Param ) = @_;
 
@@ -169,12 +175,12 @@ sub _GetOTOBOAGentsDFs {
 
     my @Result;
     $DBObject->Prepare(
-        SQL  => 'SELECT id, internal_field, name, label, field_order, field_type, object_type, config, valid_id, change_time, change_by FROM dynamic_field WHERE field_type = ?',
+        SQL  => 'SELECT id FROM dynamic_field WHERE field_type = ?',
         Bind => [ \$OTOBOAgentsType ],
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @Result, \@Row;
+        push @Result, $Row[0];
     }
 
     return @Result;
@@ -199,20 +205,6 @@ sub _HasOTOBOAgentsDynamicFields {
     }
 
     return 0;
-}
-
-sub _ReportError {
-
-    my ( $Self, %Param ) = @_;
-
-    my $Message = $Param{'Message'};
-
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'error',
-        Message  => $Message,
-    );
-
-    return;
 }
 
 1;
