@@ -52,7 +52,7 @@ sub Run {
     );
     if ( !$Package ) {
 
-        print "\ŧDynamicFieldOTOBOAgents Package is not installed. Skipping.\n";
+        print "\tDynamicFieldOTOBOAgents Package is not installed. Skipping.\n";
         return 1;
     }
 
