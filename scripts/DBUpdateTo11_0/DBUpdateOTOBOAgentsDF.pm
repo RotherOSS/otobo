@@ -45,6 +45,14 @@ sub Run {
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
     my $PackageObject           = $Kernel::OM->Get('Kernel::System::Package');
 
+    # support console command
+    if( !defined $DBObject->{dbh} ) {
+        $DBObject->Connect();
+    }
+    if( !defined $DBObject->{dbh} ) {
+        die ("unable to connect to Database.");
+    }
+
     # get DynamicFieldOTOBOAgents package
     my $Package = $PackageObject->RepositoryGet(
         Name    => 'DynamicFieldOTOBOAgents',
@@ -52,8 +60,17 @@ sub Run {
     );
     if ( !$Package ) {
 
-        print "\tDynamicFieldOTOBOAgents Package is not installed. Skipping.\n";
-        return 1;
+        # be a little paranoid and check for any other version installed
+        my $IsInstalled = $PackageObject->PackageIsInstalled( Name => 'DynamicFieldOTOBOAgents' );
+        if ($IsInstalled) {
+            print "\tPackage DynamicFieldOTOBOAgents is installed but upgrade is only possibly from version 10.0.1.\n";
+            print "\tOTOBOAgents package migration failed.\n";
+            return 0;
+        }
+        else {
+            print "\tDynamicFieldOTOBOAgents Package is not installed. Skipping.\n";
+            return 1;
+        }
     }
 
     $DBObject->BeginWork();
