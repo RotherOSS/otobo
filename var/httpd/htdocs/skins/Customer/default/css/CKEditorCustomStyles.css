@@ -83,7 +83,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     color: #ea2400;
 }
 
-textarea.ReadOnly ~ .ck .ck-editor__editable {
+textarea.Readonly ~ .ck .ck-editor__editable {
     box-shadow: inset 0px 0px 8px 2px #bfbfce;
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }

@@ -113,6 +113,8 @@ Core.UI.Datepicker = (function (TargetNS) {
      * @returns {Boolean} false, if Parameter Element is not of the correct type.
      * @param {jQueryObject|Object} Element - The jQuery object of a text input field which should get a datepicker.
      *                                        Or a hash with the Keys 'Year', 'Month' and 'Day' and as values the jQueryObjects of the select drop downs.
+     * @param {Object} [Attributes] - Optional Attributes to be passed to the datepicker. Possible Attributes:
+     *                                     - Disabled: Set to true to disable the datepicker.
      * @description
      *      This function initializes the datepicker on the defined elements.
      */
