@@ -122,8 +122,8 @@ sub ValueSet {
     if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The value for the field Date is invalid!\n"
-                . "The date must be valid and the time must be 00:00:00",
+            Message  => "The value $Param{Value} for the field Date is invalid!\n"
+                . "The date must be in format 0000-00-00 and the time must be 00:00:00",
         );
         return;
     }
