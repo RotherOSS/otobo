@@ -28,6 +28,7 @@ use utf8;
 
 # OTOBO modules
 
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -105,7 +106,7 @@ sub ObjectAttributesGet {
     return [
         {
             Key   => 'EmptyFieldsLeaveTheOldValues',
-            Name  => 'Empty fields indicate that the current values are kept',
+            Name  => Translatable('Empty fields indicate that the current values are kept'),
             Input => {
                 Type => 'Checkbox',
             },
