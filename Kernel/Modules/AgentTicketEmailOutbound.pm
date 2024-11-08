@@ -119,19 +119,6 @@ sub Run {
         my $CustomerUser = $Ticket{CustomerUserID};
         my $QueueID      = $Ticket{QueueID};
 
-        # get dynamic field values form http request
-        my %DynamicFieldValues;
-
-        # convert dynamic field values into a structure for ACLs
-        my %DynamicFieldACLParameters;
-        DYNAMICFIELD:
-        for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
-            next DYNAMICFIELD if !$DynamicFieldItem;
-            next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
-
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
-        }
-
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -146,9 +133,6 @@ sub Run {
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID,
         );
-
-        # update Dynamic Fields Possible Values via AJAX
-        my @DynamicFieldAJAX;
 
         # get config for frontend module
         my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
@@ -199,24 +183,6 @@ sub Run {
                 # convert Filer key => key back to key => value using map
                 %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
-
-            my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                PossibleValues     => $PossibleValues,
-                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-            ) || $PossibleValues;
-
-            # add dynamic field to the list of fields to update
-            push(
-                @DynamicFieldAJAX,
-                {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data        => $DataValues,
-                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
-                    Max         => 100,
-                }
-            );
         }
 
         my $StandardTemplates = $Self->_GetStandardTemplates(
@@ -349,7 +315,6 @@ sub Run {
                     Translation  => 1,
                     Max          => 100,
                 },
-                @DynamicFieldAJAX,
                 @TemplateAJAX,
             ],
         );
