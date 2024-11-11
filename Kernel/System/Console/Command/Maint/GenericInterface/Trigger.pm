@@ -34,14 +34,14 @@ sub Configure {
 
     $Self->Description('Triggers a given Invoker webservice.');
     $Self->AddArgument(
-        Name        => 'WebServiceName',
+        Name        => 'webservicename',
         Description => "Select name of web service to be triggered.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/./smx,
     );
     $Self->AddArgument(
-        Name        => 'Invoker',
+        Name        => 'invoker',
         Description => "Select Invoker to be triggered.",
         Required    => 1,
         HasValue    => 1,
@@ -54,21 +54,41 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Invoker        = $Self->GetArgument('Invoker');
-    my $WebserviceName = $Self->GetArgument('WebServiceName');
+    my $Invoker        = $Self->GetArgument('invoker');
+    my $WebserviceName = $Self->GetArgument('webservicename');
 
     # Check if all requirements are met (web service exists and has needed method).
-    my $Webservice
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( Name => $WebserviceName );
-    die "Required web service '$WebserviceName' does not exist!\n" if !IsHashRefWithData($Webservice);
-    die "Required web service '$WebserviceName' is invalid!\n"     if $Webservice->{ValidID} ne 1;
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        Name => $WebserviceName,
+    );
 
-    my $InvokerControllerMapping
-        = $Webservice->{Config}->{Requester}->{Transport}->{Config}->{InvokerControllerMapping};
-    die "Web service '$WebserviceName' does not contain required REST controller mapping!\n"
-        if !IsHashRefWithData($InvokerControllerMapping);
-    die "Web service '$WebserviceName' does not contain the Invoker '$Invoker'!"
-        if !IsHashRefWithData( $InvokerControllerMapping->{$Invoker} );
+    if ( !IsHashRefWithData($Webservice) ) {
+        $Self->Print(
+            "<red>Required web service '$WebserviceName' does not exist!</red>\n"
+        );
+        return $Self->ExitCodeError();
+    }
+    if ( $Webservice->{ValidID} ne '1' ) {
+        $Self->Print(
+            "<red>Required web service '$WebserviceName' is invalid!</red>\n"
+        );
+        return $Self->ExitCodeError();
+    }
+
+    my $InvokerControllerMapping = $Webservice->{Config}{Requester}{Transport}{Config}{InvokerControllerMapping};
+
+    if ( !IsHashRefWithData($InvokerControllerMapping) ) {
+        $Self->Print(
+            "<red>Web service '$WebserviceName' does not contain required REST controller mapping!</red>\n"
+        );
+        return $Self->ExitCodeError();
+    }
+    if ( !IsHashRefWithData( $InvokerControllerMapping->{$Invoker} ) ) {
+        $Self->Print(
+            "<red>Web service '$WebserviceName' does not contain the Invoker '$Invoker'!</red>\n"
+        );
+        return $Self->ExitCodeError();
+    }
 
     # Remember data for task.
     $Self->{InvokerTaskData} = {
@@ -83,7 +103,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Invoker = $Self->GetArgument('Invoker');
+    my $Invoker = $Self->GetArgument('invoker');
 
     $Self->Print(
         "<yellow>Triggering $Invoker for immediate (asynchronous) execution.</yellow>\n"
