@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::Console::Command::Maint::WebService::Trigger;
+package Kernel::System::Console::Command::Maint::GenericInterface::Trigger;
 
 use strict;
 use warnings;
