@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::Console::Command::Maint::GenericInterface::Trigger;
+package Kernel::System::Console::Command::Maint::GenericInterface::TriggerInvoker;
 
 use strict;
 use warnings;
