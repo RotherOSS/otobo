@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -23,11 +24,9 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger ();
 use Kernel::GenericInterface::Mapping  ();
-
-our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -40,7 +39,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-my @MappingTests = (
+my @Tests = (
     {
         Name   => 'Test invalid xml',
         Config => {
@@ -324,74 +323,81 @@ my @MappingTests = (
     },
 );
 
-TEST:
-for my $Test (@MappingTests) {
+# add some boolean tests
 
-    # create a mapping instance
-    my $MappingObject = Kernel::GenericInterface::Mapping->new(
-        DebuggerObject => $DebuggerObject,
-        MappingConfig  => {
-            Type   => 'XSLT',
-            Config => $Test->{Config},
-        },
-    );
-    if ( $Test->{ConfigSuccess} ) {
-        $Self->Is(
-            ref $MappingObject,
+for my $Test (@Tests) {
+
+    subtest "$Test->{Name}" => sub {
+
+        # create a mapping instance
+        my $MappingObject = Kernel::GenericInterface::Mapping->new(
+            DebuggerObject => $DebuggerObject,
+            MappingConfig  => {
+                Type   => 'XSLT',
+                Config => $Test->{Config},
+            },
+        );
+        if ( $Test->{ConfigSuccess} ) {
+            is(
+                ref $MappingObject,
+                'Kernel::GenericInterface::Mapping',
+                'MappingObject was correctly instantiated',
+            );
+
+            return unless ref $MappingObject eq 'Kernel::GenericInterface::Mapping';
+        }
+        else {
+            isnt(
+                ref $MappingObject,
+                'Kernel::GenericInterface::Mapping',
+                'MappingObject was not correctly instantiated',
+            );
+
+            return;
+        }
+
+        my $MappingResult = $MappingObject->Map(
+            Data        => $Test->{Data},
+            DataInclude => $Test->{DataInclude},
+        );
+
+        # check if function return correct status
+        is(
+            $MappingResult->{Success},
+            $Test->{ResultSuccess},
+            ( $Test->{ResultSuccess} ? 'Map() was successful' : 'Map() was not successful' ),
+        );
+
+        # check if function return correct data
+        is(
+            $MappingResult->{Data},
+            $Test->{ResultData},
+            'Data Structure',
+        );
+
+        if ( !$Test->{ResultSuccess} ) {
+            diag $MappingResult->{ErrorMessage};
+            ok(
+                $MappingResult->{ErrorMessage},
+                'error message found',
+            );
+        }
+
+        # instantiate another object
+        my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
+            DebuggerObject => $DebuggerObject,
+            MappingConfig  => {
+                Type   => 'XSLT',
+                Config => $Test->{Config},
+            },
+        );
+
+        is(
+            ref $SecondMappingObject,
             'Kernel::GenericInterface::Mapping',
-            $Test->{Name} . ' MappingObject was correctly instantiated',
+            'SecondMappingObject was correctly instantiated',
         );
-        next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
-    }
-    else {
-        $Self->IsNot(
-            ref $MappingObject,
-            'Kernel::GenericInterface::Mapping',
-            $Test->{Name} . ' MappingObject was not correctly instantiated',
-        );
-        next TEST;
-    }
-
-    my $MappingResult = $MappingObject->Map(
-        Data        => $Test->{Data},
-        DataInclude => $Test->{DataInclude},
-    );
-
-    # check if function return correct status
-    $Self->Is(
-        $MappingResult->{Success},
-        $Test->{ResultSuccess},
-        $Test->{Name} . ' (Success).',
-    );
-
-    # check if function return correct data
-    $Self->IsDeeply(
-        $MappingResult->{Data},
-        $Test->{ResultData},
-        $Test->{Name} . ' (Data Structure).',
-    );
-
-    if ( !$Test->{ResultSuccess} ) {
-        $Self->True(
-            $MappingResult->{ErrorMessage},
-            $Test->{Name} . ' error message found',
-        );
-    }
-
-    # instantiate another object
-    my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
-        DebuggerObject => $DebuggerObject,
-        MappingConfig  => {
-            Type   => 'XSLT',
-            Config => $Test->{Config},
-        },
-    );
-
-    $Self->Is(
-        ref $SecondMappingObject,
-        'Kernel::GenericInterface::Mapping',
-        $Test->{Name} . ' SecondMappingObject was correctly instantiated',
-    );
+    };
 }
 
-$Self->DoneTesting();
+done_testing;
