@@ -34,7 +34,7 @@ sub Configure {
 
     $Self->Description('Triggers a given Invoker webservice.');
     $Self->AddArgument(
-        Name        => 'webservicename',
+        Name        => 'webservice',
         Description => "Select name of web service to be triggered.",
         Required    => 1,
         HasValue    => 1,
@@ -55,7 +55,7 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $Invoker        = $Self->GetArgument('invoker');
-    my $WebserviceName = $Self->GetArgument('webservicename');
+    my $WebserviceName = $Self->GetArgument('webservice');
 
     # Check if all requirements are met (web service exists and has needed method).
     my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
