@@ -59,7 +59,7 @@ create a JSON object. Do not use it directly, instead use:
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
+    # allocate a new hash for object
     return bless {}, $Type;
 }
 
@@ -262,6 +262,24 @@ sub ToBoolean {
     my ( $Self, $Scalar ) = @_;
 
     return $Scalar ? $Self->True : $Self->False;
+}
+
+=head2 IsBool()
+
+Indicates whether the passed in variable is a boolean value. Specifically whether it is an
+instance of C<Types::Serialiser::Boolean>. Note that C<Types::Serialiser::Boolean> is an alias for C<JSON::PP::Boolean>.
+
+    my $IsBool1 = $JSONObject->IsBool(1);                   # assigns undef
+    my $IsBool2 = $JSONObject->IsBool( $JSONObject->False); # assigns 1
+
+In this case the returned JSON will be C<q{false}>. For true expressions we get C<q{true}>.
+
+=cut
+
+sub IsBool {
+    my ( $Self, $Scalar ) = @_;
+
+    return Types::Serialiser::is_bool($Scalar);
 }
 
 1;

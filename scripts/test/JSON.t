@@ -571,4 +571,26 @@ for my $Test (@DecodeTests) {
     is( $Thingy, $Test->{Result}, "decode: $Test->{Name}" );
 }
 
+# Testing IsBool()
+subtest 'IsBool() for non-Booleans' => sub {
+    is( $JSONObject->IsBool(),      undef, 'no argument' );
+    is( $JSONObject->IsBool(undef), undef, 'explicit undef' );
+    is( $JSONObject->IsBool(''),    undef, 'empty string' );
+    is( $JSONObject->IsBool(1),     undef, 'integer 1' );
+    is( $JSONObject->IsBool(2),     undef, 'integer 2' );
+
+    # not sure why these return an empty string instead of undef
+    is( $JSONObject->IsBool('true'),                 '', 'string "true"' );
+    is( $JSONObject->IsBool('⊨ - U+022A8 - TRUE'), '', 'a string' );
+};
+
+subtest 'IsBool() for Booleans' => sub {
+    is( $JSONObject->IsBool( $JSONObject->True ),             1, 'true' );
+    is( $JSONObject->IsBool( $JSONObject->False ),            1, 'false' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(undef) ), 1, 'unded boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(0) ),     1, '0 boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(1) ),     1, '1 boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(' ') ),   1, 'single space boolified' );
+};
+
 done_testing;
