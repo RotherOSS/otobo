@@ -185,6 +185,15 @@ sub Decode {
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
+    # In OTOBO 10.0.x and OTOBO 10.1.x there is a tree walker that
+    # replaces the boolean values, that is instances of JSON::PP::Boolean,
+    # with the plain integer values 0 and 1.
+    # This behavior is reproduced with explicitly declaring
+    # what should be emitted for JSON booleans 'true' and 'false'.
+    # Note that when using Cpanel::JSON::XS, the attribute unblessed_bool can be used
+    # for the same purpose.
+    $JSONObject->boolean_values( 0, 1 );
+
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
     # In that case we want to return an empty list.

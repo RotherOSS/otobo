@@ -498,16 +498,16 @@ my @DecodeTests = (
         Name => 'JSON - complex structure'
     },
     {
-        Result      => 1,
-        InputDecode =>
-            'true',
-        Name => 'JSON - boolean true'
+        Result       => 1,
+        VerifyScalar => 1,
+        InputDecode  => 'true',
+        Name         => 'JSON - boolean true'
     },
     {
-        Result      => 0,
-        InputDecode =>
-            'false',
-        Name => 'JSON - boolean false'
+        Result       => 0,
+        VerifyScalar => 1,
+        InputDecode  => 'false',
+        Name         => 'JSON - boolean false'
     },
     {
         Result      => undef,
@@ -567,8 +567,12 @@ for my $Test (@DecodeTests) {
     my $Thingy = $JSONObject->Decode(
         Data => $Test->{InputDecode},
     );
+    is( $Thingy, $Test->{Result}, "Decode: $Test->{Name}" );
 
-    is( $Thingy, $Test->{Result}, "decode: $Test->{Name}" );
+    # double check because 'is()' does not complain about instances JSON::PP::Boolean
+    if ( $Test->{VerifyScalar} ) {
+        is( ref $Thingy, '', "Decode: $Test->{Name}, result is not a reference" );
+    }
 }
 
 # Testing IsBool()
