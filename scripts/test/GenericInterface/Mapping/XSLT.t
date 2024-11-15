@@ -54,7 +54,7 @@ my @Tests = (
         ConfigSuccess => 1,
     },
     {
-        Name   => 'Test no xslt',
+        Name   => 'Test no XSLT',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>
 <valid-xml-but-no-xslt/>',
@@ -67,7 +67,7 @@ my @Tests = (
         ConfigSuccess => 1,
     },
     {
-        Name   => 'Test invalid xslt',
+        Name   => 'Test invalid XSLT',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -324,11 +324,171 @@ my @Tests = (
     },
 );
 
-# add some boolean tests
+# add some tests that take the input data from a JSON string
+{
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    # show that the mapping works with parsed JSON
+    push @Tests,
+        {
+            Name   => 'ammend simple JSON array',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <WeierstrassArray>
+          <xsl:text>℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:</xsl:text>
+          <xsl:value-of select="." />
+        </WeierstrassArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Key2": "is ignored",
+        "Array1": [ "Element 🅐", "Element 🅑", "Element 🅒" ]
+    }
+}
+END_JSON
+            ResultData => {
+                WeierstrassArray => [
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅐',
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅑',
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅒',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+
+    # now with boolean checks,
+    # actually string tests as the node values have no type assigned
+    push @Tests,
+        {
+            Name   => 'truthiness',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <TrueOrNotTrueArray>
+          <xsl:choose>
+            <xsl:when test="string() = ''">
+              <xsl:text>⊭ NOT TRUE: empty string:</xsl:text>
+            </xsl:when>
+            <xsl:when test="string() = ''">
+              <xsl:text>⊭ NOT TRUE: empty string:</xsl:text>
+            </xsl:when>
+            <xsl:when test="string() = '0'">
+              <xsl:text>⊭ NOT TRUE: integer 0:</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>⊨ TRUE: otherwise:</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="text()" />
+          <xsl:text>,</xsl:text>
+          <xsl:value-of select="name()" />
+        </TrueOrNotTrueArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Array1": [ "Element 🅐", "Element 🅑", "Element 🅒", 1, "", true, false ]
+    }
+}
+END_JSON
+            ResultData => {
+                'TrueOrNotTrueArray' => [
+                    "\x{22a8} TRUE: otherwise:Element \x{1f150},Array1",
+                    "\x{22a8} TRUE: otherwise:Element \x{1f151},Array1",
+                    "\x{22a8} TRUE: otherwise:Element \x{1f152},Array1",
+                    "\x{22a8} TRUE: otherwise:1,Array1",
+                    "\x{22ad} NOT TRUE: empty string:,Array1",
+                    "\x{22a8} TRUE: otherwise:1,Array1",
+                    "\x{22ad} NOT TRUE: integer 0:0,Array1"
+                ]
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+
+    # using a number variable
+    push @Tests,
+        {
+            Name   => 'number variable',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <TrueOrNotTrueArray>
+          <!-- as="xs:integer" does not seem to cast to integer. So call number() explicitly -->
+          <xsl:variable name="my_int" select="number(.)"/>
+          <xsl:choose>
+            <xsl:when test="$my_int">
+              <xsl:text>⊨ TRUE:</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>⊭ NOT TRUE:</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="$my_int" />
+          <xsl:text>,</xsl:text>
+          <xsl:value-of select="$my_int + 100" />
+        </TrueOrNotTrueArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Array1": [ -1, 0, 1, "-1", "0", "1", false, true ]
+    }
+}
+END_JSON
+            ResultData => {
+                'TrueOrNotTrueArray' => [
+                    "\x{22a8} TRUE:-1,99",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                    "\x{22a8} TRUE:-1,99",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                ]
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+}
 
 for my $Test (@Tests) {
 
-    subtest "$Test->{Name}" => sub {
+    subtest $Test->{Name} => sub {
 
         # create a mapping instance
         my $MappingObject = Kernel::GenericInterface::Mapping->new(
