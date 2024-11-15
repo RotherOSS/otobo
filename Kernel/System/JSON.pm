@@ -59,7 +59,7 @@ create a JSON object. Do not use it directly, instead use:
 sub new {
     my ($Type) = @_;
 
-    # allocate a new hash for object
+    # allocate a new hash for object, even though that hash is never used
     return bless {}, $Type;
 }
 
