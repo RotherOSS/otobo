@@ -85,6 +85,10 @@ h3 {
     color: inherit;
 }
 
+a.DisabledLink {
+    pointer-events: none;
+}
+
 @media only screen and (max-width: 767px) {
 
     h1 {

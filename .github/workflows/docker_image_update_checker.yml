@@ -19,7 +19,6 @@ on:
 
 jobs:
   CheckDockerImageUpdate:
-    runs-on: 'ubuntu-latest'
     strategy:
 
       # create different images
@@ -39,7 +38,7 @@ jobs:
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.25'
+            base_image: 'elasticsearch:7.17.3'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
@@ -59,13 +58,13 @@ jobs:
             repository: 'rotheross/otobo-selenium-chrome'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-
+    runs-on: ${{ matrix.target }}
     steps:
 
       - name: Setting up the environment file
         run: |
-          patch="${{ matrix.patch }}"
-          docker_tag="rel-${patch}_test"
+          patch=${{ matrix.patch }}
+          docker_tag="rel-${patch}"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
@@ -120,8 +119,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: .
-          file: otobo.web.dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -129,7 +128,7 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           tags: ${{ env.otobo_image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
@@ -137,7 +136,7 @@ jobs:
       -
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
-        if: steps.check.outputs.needs-updating == 'true'
+        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' }}
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_image -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
@@ -158,8 +157,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
-          file: otobo.web.dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -167,7 +166,7 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: otobo-web
+          target: ${{ matrix.target }}
           tags: ${{ env.otobo_image }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max`
+          cache-to: type=gha,mode=max

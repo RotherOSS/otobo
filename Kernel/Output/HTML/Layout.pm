@@ -4019,7 +4019,7 @@ sub BuildDateSelection {
     if ( $Prefix !~ /^DynamicField_/ || $Suffix ne '_Template' ) {
         my $DatepickerJS = '
         Core.UI.Datepicker.Init({
-        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .           ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .       ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' .   ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
@@ -4028,6 +4028,8 @@ sub BuildDateSelection {
             DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',
             DateNotInFuture: ' . ( $ValidateDateNotInFuture ? 'true' : 'false' ) . ',
             WeekDayStart: ' . $WeekDayStart . '
+        }, {
+            Disabled: ' . ( $Param{Disabled} ? 'true' : 'false' ) . '
         });';
 
         $Self->AddJSOnDocumentComplete( Code => $DatepickerJS );
@@ -5348,9 +5350,9 @@ sub RichTextDocumentComplete {
     );
 
     # verify HTML document
-    my $CustomerInterface = ($Self->{SessionSource} && ($Self->{SessionSource} eq 'CustomerInterface')) ? 1 : 0;
-    my $HTMLString = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
-        String => $StringRef->$*,
+    my $CustomerInterface = ( $Self->{SessionSource} && ( $Self->{SessionSource} eq 'CustomerInterface' ) ) ? 1 : 0;
+    my $HTMLString        = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
+        String            => $StringRef->$*,
         CustomerInterface => $CustomerInterface
     );
 
