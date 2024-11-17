@@ -54,8 +54,8 @@ requires 'IO::Interactive', '== 1.022';
 # needed by Font::TTF
 requires 'IO::String', '== 1.08';
 
-# needed by Sisimai
-requires 'JSON', '== 2.94';
+# needed by Sisimai and other CPAN distributions
+requires 'JSON', '== 4.10';
 
 # needed by the console command Dev::Tools::TranslationsUpdate
 requires 'Lingua::Translit', '== 0.27';

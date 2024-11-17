@@ -383,10 +383,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.08',
         },
         {
-            'Comment'         => 'needed by Sisimai',
             'Module'          => 'JSON',
+            'Comment'         => 'needed by Sisimai and other CPAN distributions',
             'Required'        => 1,
-            'VersionRequired' => '== 2.94',
+            'VersionRequired' => '== 4.10',                                          # current version as of 2024-11-17
         },
         {
             'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
