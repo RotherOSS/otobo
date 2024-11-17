@@ -31,6 +31,11 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 
 Then examine the diffs and check in the verified changes.
 
+Sometimes a module is not installed because it is already installed in a system location. A workaround
+for that case is to call something like:
+
+   cpanm --local-lib local --reinstall JSON
+
 Finally clean up the temporary dir again:
 
     rm -rf local
@@ -85,6 +90,7 @@ current situation on the development machine.
     cpanm --notest --reinstall --local-lib local Module::CPANfile@1.1004
     cpanm --notest --reinstall --local-lib local Module::Extract::VERSION@1.116
     cpanm --notest --reinstall --local-lib local XML::LibXML::Simple@1.01
+    cpanm --notest --reinstall --local-lib local JSON
 
 Clean up again when module were installed
 
