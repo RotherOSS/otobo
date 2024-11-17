@@ -21,9 +21,9 @@ use utf8;
 
 # core modules
 use File::Path qw(rmtree);
+use JSON::PP   ();
 
 # CPAN modules
-use JSON::PP ();
 use Test2::V0;
 
 # OTOBO modules
