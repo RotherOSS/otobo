@@ -389,12 +389,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 2.94',
         },
         {
-            'Comment'         => 'needed by JSON, but there also in backportPP included in JSON',
-            'Module'          => 'JSON::PP',
-            'Required'        => 1,
-            'VersionRequired' => '== 2.27203',
-        },
-        {
             'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
             'Module'          => 'Lingua::Translit',
             'Required'        => 1,

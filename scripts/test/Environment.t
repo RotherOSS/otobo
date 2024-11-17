@@ -67,9 +67,10 @@ $Self->True(
     "PerlInfoGet w/ BundledModules - retrieved Perl version.",
 );
 
+# check version of an abritrary module
 $Self->True(
-    $PerlInfo{Modules}->{'JSON::PP'} =~ /^\d.\d\d/,
-    "PerlInfoGet w/ BundledModules - found version for JSON::PP $PerlInfo{Modules}->{'JSON::PP'}",
+    $PerlInfo{Modules}->{'YAML'} =~ /^\d.\d\d/,
+    "PerlInfoGet w/ BundledModules - found version for YAML $PerlInfo{Modules}->{'JSON::PP'}",
 );
 
 my $Version = $EnvironmentObject->ModuleVersionGet(
