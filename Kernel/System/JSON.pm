@@ -94,7 +94,8 @@ sub Encode {
     # create a JSON::XS compatible object
     my $JSONObject = JSON::XS->new;
 
-    # grudgingly accept data that is neither a hash- nor an array reference
+    # Accept non-reference data, data that is neither a hash- nor an array reference.
+    # This is actually the default since JSON::XS 4.0 which was released in 2018.
     $JSONObject->allow_nonref(1);
 
     # sort the keys of the JSON data
@@ -182,7 +183,8 @@ sub Decode {
     # create a JSON::XS compatible object that does the actual parsing
     my $JSONObject = JSON::XS->new;
 
-    # grudgingly accept data that is neither a hash- nor an array reference
+    # Accept non-reference data, data that is neither a hash- nor an array reference.
+    # This is actually the default since JSON::XS 4.0 which was released in 2018.
     $JSONObject->allow_nonref(1);
 
     # In OTOBO 10.0.x and OTOBO 10.1.x there is a tree walker that
