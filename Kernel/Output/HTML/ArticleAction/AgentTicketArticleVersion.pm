@@ -67,15 +67,18 @@ sub CheckAccess {
     return if $Param{Article}->{IsVisibleForCustomer};
     return if $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
 
+    # NOTE checking for AgentTicketArticleEdit because
+    #   AgentTicketArticleVersion has no module config on its own
+    #   and permission is viewed as transferable from AgentTicketArticleVersion
     # check if module is registered
-    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketArticleVersion};
+    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketArticleEdit};
 
     # check Acl
-    return if !$Param{AclActionLookup}->{AgentTicketArticleVersion};
+    return if !$Param{AclActionLookup}->{AgentTicketArticleEdit};
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleVersion');
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleEdit');
     if ( $Config->{Permission} ) {
         my $Ok = $TicketObject->TicketPermission(
             Type     => $Config->{Permission},
