@@ -15043,7 +15043,7 @@ Thanks for your help!
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Display settings to override defaults for dynamic field widget for Tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
