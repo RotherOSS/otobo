@@ -70,6 +70,7 @@ sub Run {
         my %ServiceData = $ServiceObject->ServiceList(
             KeepChildren => 1,
             UserID       => $Self->{UserID},
+            Valid        => 0,
         );
 
         if ( $Param{CustomerUserLogin} eq '<DEFAULT>' ) {
@@ -331,6 +332,7 @@ sub Run {
         my %ServiceData = $ServiceObject->ServiceList(
             KeepChildren => 1,
             UserID       => $Self->{UserID},
+            Valid        => 0,
         );
 
         $Output .= $Self->_Overview(
