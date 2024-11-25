@@ -1721,7 +1721,7 @@ sub _DynamicFieldReorder {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'An error was detected while re ordering the field list on field '
-                    . "DynamicField->{Name}!",
+                    . "$DynamicField->{Name}!",
             );
             return;
         }
