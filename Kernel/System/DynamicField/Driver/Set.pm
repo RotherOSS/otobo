@@ -948,7 +948,9 @@ sub _GetIncludedDynamicFields {
 
                     my $DynamicField = $GetDynamicField->($DFEntry);
                     if ( IsHashRefWithData($DynamicField) ) {
-                        $DynamicField->{Label}          = $DFEntry->{Label};
+                        if ( $DFEntry->{Label} ) {
+                            $DynamicField->{Label} = $DFEntry->{Label};
+                        }
                         $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
                         $DynamicField->{Readonly}       = $DFEntry->{Readonly};
                         $DynamicField{ $DFEntry->{DF} } = $DynamicField;
@@ -968,7 +970,9 @@ sub _GetIncludedDynamicFields {
 
             my $DynamicField = $GetDynamicField->($IncludeItem);
             if ($DynamicField) {
-                $DynamicField->{Label}              = $IncludeItem->{Label};
+                if ( $IncludeItem->{Label} ) {
+                    $DynamicField->{Label} = $IncludeItem->{Label};
+                }
                 $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
                 $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
                 $DynamicField{ $IncludeItem->{DF} } = $DynamicField;
