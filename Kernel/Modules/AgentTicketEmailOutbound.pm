@@ -753,7 +753,7 @@ sub Form {
 
     # Inform a user that article subject will be empty if contains only the ticket hook (if nothing is modified).
     $Output .= $LayoutObject->Notify(
-        Data => Translatable('Article subject will be empty if the subject contains only the ticket hook!'),
+        Data => $LayoutObject->{LanguageObject}->Translate('Article subject will be empty if the subject contains only the ticket hook!'),
     );
 
     $Output .= $Self->_Mask(
