@@ -21,21 +21,22 @@
 # niccord <cordioli.nicola@gmail.com>, 2021, 2022.
 # Massimo Composta <m.composta@e-time.it>, 2022.
 # Marco Ferrante <marco@csita.unige.it>, 2022.
+# Bix <bovifab@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-10-02 12:53+0000\n"
-"PO-Revision-Date: 2022-12-07 21:26+0000\n"
-"Last-Translator: Marco Ferrante <marco@csita.unige.it>\n"
-"Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/"
-"it/>\n"
+"PO-Revision-Date: 2024-11-28 17:34+0000\n"
+"Last-Translator: Bix <bovifab@gmail.com>\n"
+"Language-Team: Italian <http://weblate.otobo.org/projects/otobo/otobo-10/it/>"
+"\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -121,6 +122,9 @@ msgid ""
 "To delete an existing ACL you have to set the validity to invalid and save "
 "it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
+"Per eliminare un'ACL esistente è necessario impostarne la validità su non "
+"valida e salvarla. Successivamente apparirà un nuovo pulsante per eliminare "
+"l'ACL."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -268,7 +272,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Info"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -279,10 +283,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Questa lingua non è presente o abilitata nel sistema. Questo testo può "
+"essere eliminato se non è più necessario."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Rimuovi Lingua"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -298,11 +304,11 @@ msgstr "Questo campo è obbligatorio e deve contenere meno di 4000 caratteri."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Rimuovi Informazioni sulla Lingua"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Aggiungi nuova lingua"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -15522,7 +15528,7 @@ msgstr "Stampa questo articolo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.io"
-msgstr ""
+msgstr "Contattaci a hello@otobo.io"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -22133,6 +22139,9 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Definisce il tema frontend predefinito (HTML) da utilizzare per gli agenti e "
+"i clienti. Se desideri, puoi aggiungere il tuo tema. Consulta il manuale "
+"amministratore disponibile su https://doc.otobo.org/."
 
 #. SysConfig
 msgid ""
@@ -22140,6 +22149,9 @@ msgid ""
 "determined by the available language files on the system. These values are "
 "listed as the keys in the setting 'DefaultUsedLanguages'."
 msgstr ""
+"Definisce la lingua frontend predefinita. Tutti i valori possibili sono "
+"determinati dai file di lingua disponibili sul sistema. Questi valori sono "
+"elencati come chiavi nell'impostazione 'DefaultUsedLanguages'."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
