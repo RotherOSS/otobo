@@ -324,6 +324,91 @@ my @Tests = (
     },
 );
 
+# test the roundtrip XMLout -> Identity Transform -> XMLin
+{
+    my $IdentityTransform = <<'END_STYLESHEET';
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/">
+    <xsl:copy-of select="*"/>
+  </xsl:template>
+</xsl:stylesheet>
+END_STYLESHEET
+
+    push @Tests,
+        {
+            Name   => 'Roundtrip non-empty string',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 'Value',
+            },
+            ResultData => {
+                Key => 'Value',
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip empty string, turned into empty hashref',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => q{},
+            },
+            ResultData => {
+                Key => {},
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip undef, turned into empty hashref',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => undef,
+            },
+            ResultData => {
+                Key => {},
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip number 100',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 100,
+            },
+            ResultData => {
+                Key => 100,
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip number 0',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 0,
+            },
+            ResultData => {
+                Key => 0,
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+}
+
 # add some tests that take the input data from a JSON string
 {
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
