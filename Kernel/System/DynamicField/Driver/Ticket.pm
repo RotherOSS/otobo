@@ -169,11 +169,6 @@ sub GetFieldTypeSettings {
         };
 
     # Support various display options
-    my $TicketStrg   = 'Ticket';
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    if ( $LayoutObject->{LanguageObject} ) {
-        $TicketStrg = $LayoutObject->{LanguageObject}->Translate($TicketStrg);
-    }
     push @FieldTypeSettings,
         {
             ConfigParamName => 'DisplayType',
@@ -181,7 +176,7 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('Select the type of display'),
             InputType       => 'Selection',
             SelectionData   => {
-                'TicketNumber'      => $TicketStrg . '#<Ticket Number>',
+                'TicketNumber'      => 'Ticket#<Ticket Number>',
                 'QueueTicketNumber' => '<Queue>: <Ticket Number>',
                 'TicketNumberTitle' => '<Ticket Number>: <Ticket Title>',
             },
