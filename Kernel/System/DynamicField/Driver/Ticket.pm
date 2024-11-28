@@ -37,6 +37,7 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
@@ -168,6 +169,11 @@ sub GetFieldTypeSettings {
         };
 
     # Support various display options
+    my $TicketStrg   = 'Ticket';
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    if ( $LayoutObject->{LanguageObject} ) {
+        $TicketStrg = $LayoutObject->{LanguageObject}->Translate($TicketStrg);
+    }
     push @FieldTypeSettings,
         {
             ConfigParamName => 'DisplayType',
@@ -175,7 +181,7 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('Select the type of display'),
             InputType       => 'Selection',
             SelectionData   => {
-                'TicketNumber'      => 'Ticket#<Ticket Number>',
+                'TicketNumber'      => $TicketStrg . '#<Ticket Number>',
                 'QueueTicketNumber' => '<Queue>: <Ticket Number>',
                 'TicketNumberTitle' => '<Ticket Number>: <Ticket Title>',
             },
@@ -279,10 +285,10 @@ sub ObjectDescriptionGet {
         if ( $DisplayType eq 'TicketNumber' ) {
             my $TicketStrg = 'Ticket';
             if ( $Param{LayoutObject} ) {
-                $TicketStrg = $Param{LayoutObject}->{LanguageObject}->Translate($TicketStrg);
+                $TicketStrg = $Param{LayoutObject}{LanguageObject}->Translate($TicketStrg);
             }
-            $Descriptions{Normal} = "Ticket#$Ticket{TicketNumber}";
-            $Descriptions{Long}   = "Ticket#$Ticket{TicketNumber}";
+            $Descriptions{Normal} = "$TicketStrg#$Ticket{TicketNumber}";
+            $Descriptions{Long}   = "$TicketStrg#$Ticket{TicketNumber}";
         }
         elsif ( $DisplayType eq 'QueueTicketNumber' ) {
             $Descriptions{Normal} = "$Ticket{Queue}: $Ticket{TicketNumber}";

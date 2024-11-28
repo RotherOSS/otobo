@@ -180,9 +180,8 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName  = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $DFDetails = $Param{DynamicFieldConfig}{Config};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     my $Value = '';
 
@@ -524,7 +523,6 @@ sub DisplayValueRender {
     my @LongObjectDescriptions;
     my $Link;
     {
-        my $DFDetails = $Param{DynamicFieldConfig}->{Config};
         for my $ObjectID (@ObjectIDs) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
@@ -626,9 +624,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}{Label};
 
     # set the field value
     my $Value = $Param{DefaultValue} // '';
