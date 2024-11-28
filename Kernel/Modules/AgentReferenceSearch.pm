@@ -177,6 +177,7 @@ sub Run {
     for my $ObjectID (@ObjectIDs) {
         my %Description = $DynamicFieldBackendObject->ObjectDescriptionGet(
             DynamicFieldConfig => $DynamicFieldConfig,
+            LayoutObject       => $LayoutObject,
             ObjectID           => $ObjectID,
             UserID             => 1,
         );

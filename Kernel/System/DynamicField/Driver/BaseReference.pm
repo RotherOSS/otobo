@@ -329,8 +329,9 @@ sub EditFieldRender {
             # The visible value depends on the referenced object
             my %Description = $Self->ObjectDescriptionGet(
                 DynamicFieldConfig => $DFDetails,
+                LayoutObject       => $Param{LayoutObject},
                 ObjectID           => $ReferencedObjectID,
-                UserID             => 1,                     # TODO: what about Permission check
+                UserID             => 1,                      # TODO: what about Permission check
             );
             $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
                 Text => $Description{Long},
@@ -1050,6 +1051,7 @@ sub PossibleValuesGet {
     for my $ResultItem (@SearchResult) {
         my %ItemDescription = $Self->ObjectDescriptionGet(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
+            LayoutObject       => $LayoutObject,
             ObjectID           => $ResultItem,
             UserID             => 1,
         );
