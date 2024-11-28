@@ -277,6 +277,10 @@ sub ObjectDescriptionGet {
         # prepare string as configured
         my $DisplayType = $Param{DynamicFieldConfig}{Config}{DisplayType};
         if ( $DisplayType eq 'TicketNumber' ) {
+            my $TicketStrg = 'Ticket';
+            if ( $Param{LayoutObject} ) {
+                $TicketStrg = $Param{LayoutObject}->{LanguageObject}->Translate($TicketStrg);
+            }
             $Descriptions{Normal} = "Ticket#$Ticket{TicketNumber}";
             $Descriptions{Long}   = "Ticket#$Ticket{TicketNumber}";
         }
