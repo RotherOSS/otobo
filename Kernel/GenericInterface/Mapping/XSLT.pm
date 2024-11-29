@@ -254,12 +254,11 @@ sub Map {
     my $XMLPre    = eval {
         $XMLSimple->XMLout(
             $Param{Data},
-            AttrIndent    => 1,
-            ContentKey    => '-content',
-            NoAttr        => 1,
-            KeyAttr       => [],
-            RootName      => 'RootElement',
-            SuppressEmpty => '',
+            AttrIndent => 1,
+            ContentKey => '-content',
+            NoAttr     => 1,
+            KeyAttr    => [],
+            RootName   => 'RootElement',
         );
     };
     if ( !$XMLPre ) {
@@ -302,10 +301,13 @@ sub Map {
     my $ReturnData = eval {
         $XMLSimple->XMLin(
             $XMLPost,
-            ForceArray    => 0,
-            ContentKey    => '-content',
-            NoAttr        => 1,
-            KeyAttr       => [],
+            ForceArray => 0,
+            ContentKey => '-content',
+            NoAttr     => 1,
+            KeyAttr    => [],
+
+            # define how empty values (keys pointing to undef or an empty string) are mapped into XML
+            #   undef values will be added as empty elements
             SuppressEmpty => '',
         );
     };
