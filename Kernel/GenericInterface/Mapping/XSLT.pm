@@ -254,11 +254,12 @@ sub Map {
     my $XMLPre    = eval {
         $XMLSimple->XMLout(
             $Param{Data},
-            AttrIndent => 1,
-            ContentKey => '-content',
-            NoAttr     => 1,
-            KeyAttr    => [],
-            RootName   => 'RootElement',
+            AttrIndent    => 1,
+            ContentKey    => '-content',
+            NoAttr        => 1,
+            KeyAttr       => [],
+            RootName      => 'RootElement',
+            SuppressEmpty => '',
         );
     };
     if ( !$XMLPre ) {
@@ -301,10 +302,11 @@ sub Map {
     my $ReturnData = eval {
         $XMLSimple->XMLin(
             $XMLPost,
-            ForceArray => 0,
-            ContentKey => '-content',
-            NoAttr     => 1,
-            KeyAttr    => [],
+            ForceArray    => 0,
+            ContentKey    => '-content',
+            NoAttr        => 1,
+            KeyAttr       => [],
+            SuppressEmpty => '',
         );
     };
     if ( !$ReturnData ) {
