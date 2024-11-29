@@ -352,7 +352,7 @@ END_STYLESHEET
             ConfigSuccess => 1,
         },
         {
-            Name   => 'Roundtrip empty string, turned into empty hashref',
+            Name   => 'Roundtrip empty string, turned into empty string',
             Config => {
                 Template => $IdentityTransform,
             },
@@ -360,13 +360,13 @@ END_STYLESHEET
                 Key => q{},
             },
             ResultData => {
-                Key => {},
+                Key => '',
             },
             ResultSuccess => 1,
             ConfigSuccess => 1,
         },
         {
-            Name   => 'Roundtrip undef, turned into empty hashref',
+            Name   => 'Roundtrip undef, turned into empty string',
             Config => {
                 Template => $IdentityTransform,
             },
@@ -374,7 +374,7 @@ END_STYLESHEET
                 Key => undef,
             },
             ResultData => {
-                Key => {},
+                Key => '',
             },
             ResultSuccess => 1,
             ConfigSuccess => 1,
