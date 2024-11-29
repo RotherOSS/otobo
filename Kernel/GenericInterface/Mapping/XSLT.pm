@@ -252,6 +252,9 @@ sub Map {
 
     my $XMLSimple = XML::Simple->new;
     my $XMLPre    = eval {
+
+        # Note that the default behavior for SuppressEmpty applies.
+        # This means that attributes with undefined values will be added as empty elements.
         $XMLSimple->XMLout(
             $Param{Data},
             AttrIndent => 1,
@@ -307,7 +310,6 @@ sub Map {
             KeyAttr    => [],
 
             # define how empty values (keys pointing to undef or an empty string) are mapped into XML
-            #   undef values will be added as empty elements
             SuppressEmpty => '',
         );
     };
