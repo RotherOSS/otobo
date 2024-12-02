@@ -15,7 +15,7 @@ on:
   # But usually the release tagging is done in an automated process.
   push:
     tags:
-      - rel-[0-9]+_[0-9]+_[0-9]+_*
+      - rel-[0-9]+_[0-9]+_[0-9]+
 
 jobs:
   BuildDockerImage:
@@ -34,26 +34,31 @@ jobs:
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
+            latest:     true
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
+            latest:     true
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
+            latest:     true
           -
             target:     'otobo-nginx-kerberos-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            latest:     true
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
+            latest:     true
 
     steps:
 

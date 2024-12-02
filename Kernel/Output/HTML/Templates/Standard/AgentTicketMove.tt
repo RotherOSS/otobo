@@ -37,11 +37,6 @@
                     <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
                 </li>
 [% RenderBlockEnd("TicketBack") %]
-[% RenderBlockStart("TicketBack") %]
-                <li class="HeaderPopupright">
-                    <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
-                </li>
-[% RenderBlockEnd("TicketBack") %]
 [% RenderBlockStart("PropertiesLock") %]
                 <li class="HeaderPopupright">
                     [% Translate("The ticket has been locked") | html %].
