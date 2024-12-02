@@ -309,7 +309,7 @@ sub Map {
             NoAttr     => 1,
             KeyAttr    => [],
 
-            # define how empty values (keys pointing to undef or an empty string) are mapped into XML
+            # from XML to JSON map empty and undef values to '' instead of {}
             SuppressEmpty => '',
         );
     };
