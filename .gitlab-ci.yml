@@ -117,10 +117,6 @@ testsuite:
     - 'for PACKAGE in ${OTOBO_PACKAGES}; do echo "Install Package: $PACKAGE"; if [[ $PACKAGE != http* ]]; then PACKAGE="https://ftp.otobo.org/pub/otobo/packages/:$PACKAGE"  ;fi;  docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::Install "$PACKAGE"  ;done'
     - docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::List
 
-    # install packages, if any
-    - 'for PACKAGE in ${OTOBO_PACKAGES}; do echo "Install Package: $PACKAGE"; if [[ $PACKAGE != http* ]]; then PACKAGE="https://ftp.otobo.org/pub/otobo/packages/:$PACKAGE"  ;fi;  docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::Install "$PACKAGE"  ;done'
-    - docker exec otobo-web-1 /opt/otobo/bin/otobo.Console.pl Admin::Package::List
-
     # wait for login to become ready
     - docker exec otobo-web-1 bash -c 'TEST=""; while [ "$TEST" != "LoginButton"  ]; do echo "wait for login"; sleep 5; TEST=$(curl -s "http:/localhost:5000/otobo/index.pl" | grep -o "LoginButton"); done;'
 
