@@ -89,7 +89,7 @@ testsuite:
     - sed -i "s/OTOBO_DB_ROOT_PASSWORD=/OTOBO_DB_ROOT_PASSWORD=${OTOBO_DB_ROOT_PASSWORD}/" .env
 
     # mount local otobo folder
-    - sed -i "s~\- opt_otobo:/opt/otobo~[ ${PWD}:/opt/otobo ]~" docker-compose/otobo-base.yml
+    - sed -i "s~\- opt_otobo:/opt/otobo~[ ${OPT_OTOBO}:/opt/otobo ]~" docker-compose/otobo-base.yml
     - 'sed -i "s/  opt_otobo: {}//" docker-compose/otobo-base.yml'
     - cat docker-compose/otobo-base.yml
         
