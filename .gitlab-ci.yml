@@ -91,7 +91,6 @@ testsuite:
     # mount local otobo folder
     - sed -i "s~\- opt_otobo:/opt/otobo~[ ${OPT_OTOBO}:/opt/otobo ]~" docker-compose/otobo-base.yml
     - 'sed -i "s/  opt_otobo: {}//" docker-compose/otobo-base.yml'
-    - cat docker-compose/otobo-base.yml
         
     # start containers
     - docker compose up --detach --quiet-pull
