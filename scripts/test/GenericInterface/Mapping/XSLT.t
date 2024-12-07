@@ -352,7 +352,7 @@ END_STYLESHEET
             ConfigSuccess => 1,
         },
         {
-            Name   => 'Roundtrip empty string, turned into empty string',
+            Name   => 'Roundtrip empty string, the empty string survives',
             Config => {
                 Template => $IdentityTransform,
             },
@@ -360,7 +360,7 @@ END_STYLESHEET
                 Key => q{},
             },
             ResultData => {
-                Key => '',
+                Key => q{},
             },
             ResultSuccess => 1,
             ConfigSuccess => 1,
