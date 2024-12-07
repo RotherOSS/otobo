@@ -37,6 +37,7 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
@@ -277,8 +278,12 @@ sub ObjectDescriptionGet {
         # prepare string as configured
         my $DisplayType = $Param{DynamicFieldConfig}{Config}{DisplayType};
         if ( $DisplayType eq 'TicketNumber' ) {
-            $Descriptions{Normal} = "Ticket#$Ticket{TicketNumber}";
-            $Descriptions{Long}   = "Ticket#$Ticket{TicketNumber}";
+            my $TicketStrg = 'Ticket';
+            if ( $Param{LayoutObject} ) {
+                $TicketStrg = $Param{LayoutObject}{LanguageObject}->Translate($TicketStrg);
+            }
+            $Descriptions{Normal} = "$TicketStrg#$Ticket{TicketNumber}";
+            $Descriptions{Long}   = "$TicketStrg#$Ticket{TicketNumber}";
         }
         elsif ( $DisplayType eq 'QueueTicketNumber' ) {
             $Descriptions{Normal} = "$Ticket{Queue}: $Ticket{TicketNumber}";

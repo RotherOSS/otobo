@@ -252,6 +252,9 @@ sub Map {
 
     my $XMLSimple = XML::Simple->new;
     my $XMLPre    = eval {
+
+        # Note that the default behavior for SuppressEmpty applies.
+        # This means that attributes with undefined values will be added as empty elements.
         $XMLSimple->XMLout(
             $Param{Data},
             AttrIndent => 1,
@@ -305,6 +308,9 @@ sub Map {
             ContentKey => '-content',
             NoAttr     => 1,
             KeyAttr    => [],
+
+            # from XML to JSON map empty and undef values to '' instead of {}
+            SuppressEmpty => '',
         );
     };
     if ( !$ReturnData ) {

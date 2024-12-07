@@ -26,15 +26,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2022-12-07 21:26+0000\n"
-"Last-Translator: Marco Ferrante <marco@csita.unige.it>\n"
-"Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/it/>\n"
+"PO-Revision-Date: 2024-11-28 17:34+0000\n"
+"Last-Translator: Bix <bovifab@gmail.com>\n"
+"Language-Team: Italian <http://weblate.otobo.org/projects/otobo/otobo-11/it/>"
+"\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -226,7 +227,7 @@ msgstr "Crea una nuova ACL confermando i dati. Dopo la creazione dell'ACL, sarà
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Info"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -235,10 +236,12 @@ msgstr "Imposta questo widget"
 #. Template: AdminAbout
 msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
 msgstr ""
+"Questa lingua non è presente o abilitata nel sistema. Questo testo può "
+"essere eliminato se non è più necessario."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Rimuovi Lingua"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -254,11 +257,11 @@ msgstr "Questo campo è obbligatorio e deve contenere meno di 4000 caratteri."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Rimuovi Informazioni sulla Lingua"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Aggiungi nuova lingua"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -25930,1377 +25933,1585 @@ msgstr "Importare/Esportare"
 
 #. Template: AdminACL
 msgid "Filter by valid state"
-msgstr ""
+msgstr "Filtra per stato valido"
 
 #. Template: AdminACL
 msgid "Include invalid ACLs"
-msgstr ""
+msgstr "Includi ACL non validi"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Include invalid calendars"
-msgstr ""
+msgstr "Includi calendari non validi"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr ""
+msgstr "Includi notifiche di appuntamenti non validi"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appoitnment notifications"
-msgstr ""
+msgstr "Includi notifiche di appuntamenti non validi"
 
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
-msgstr ""
+msgstr "Includi allegati non validi"
 
 #. Template: AdminAutoResponse
 msgid "Include invalid auto responses"
-msgstr ""
+msgstr "Includi risposte automatiche non valide"
 
 #. Template: AdminCustomerCompany
 msgid "Include invalid customer companies"
-msgstr ""
+msgstr "Includi aziende clienti non valide"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info"
-msgstr ""
+msgstr "Informazioni Cliente"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info Management"
-msgstr ""
+msgstr "Gestione Informazioni Cliente"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create new info tile entry"
-msgstr ""
+msgstr "Crea una nuova voce per il riquadro informativo"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Filter for info tile entries"
-msgstr ""
+msgstr "Filtra le voci del riquadro informativo"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
 msgstr ""
+"Crea una nuova voce da visualizzare nel riquadro informativo sulla dashboard "
+"cliente."
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Delete info tile entry"
-msgstr ""
+msgstr "Elimina voce del riquadro informativo"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Edit customer dashboard info tile entry"
-msgstr ""
+msgstr "Modifica voce del riquadro informativo sulla dashboard cliente"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Tile content"
-msgstr ""
+msgstr "Contenuto del riquadro"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Content Body"
-msgstr ""
+msgstr "Corpo del contenuto"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Marquee content"
-msgstr ""
+msgstr "Contenuto a scorrimento"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Group Selection"
-msgstr ""
+msgstr "Selezione Gruppo"
 
 #. Template: AdminCustomerDashboardInfoTileNew
 msgid "Create new customer dashboard info tile entry"
-msgstr ""
+msgstr "Crea una nuova voce per il riquadro informativo della dashboard cliente"
 
 #. Template: AdminCustomerUser
 msgid "Include invalid customer users"
-msgstr ""
+msgstr "Includi utenti cliente non validi"
 
 #. Template: AdminDynamicField
 msgid "Include invalid dynamic fields"
-msgstr ""
+msgstr "Includi campi dinamici non validi"
 
 #. Template: AdminDynamicField
 msgid "Filter field by object type"
-msgstr ""
+msgstr "Filtra campo per tipo di oggetto"
 
 #. Template: AdminDynamicField
 msgid "Filter field by namespace"
-msgstr ""
+msgstr "Filtra campo per namespace"
 
 #. Template: AdminDynamicField
 msgid "Clone from this field"
-msgstr ""
+msgstr "Clona da questo campo"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the namespace in which this field will be used as prefix with the name."
 msgstr ""
+"Questo è il namespace in cui verrà utilizzato questo campo come prefisso con "
+"il nome."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiple Values"
-msgstr ""
+msgstr "Valori multipli"
 
 #. Template: AdminDynamicFieldDB
 msgid "Activate this option to allow multiple values for this field."
-msgstr ""
+msgstr "Attiva questa opzione per consentire valori multipli per questo campo."
 
 #. Template: AdminDynamicFieldReference
 msgid "Check ReferenceFilter"
-msgstr ""
+msgstr "Verifica ReferenceFilter"
 
 #. Template: AdminDynamicFieldReference
 msgid "Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string."
 msgstr ""
+"Di seguito puoi configurare filtri per restringere l'elenco degli oggetti di "
+"riferimento. I filtri confrontano un attributo dell'oggetto di riferimento "
+"con un attributo della maschera che stai modificando o con una stringa fissa."
 
 #. Template: AdminDynamicFieldReference
 msgid "Object attribute"
-msgstr ""
+msgstr "Attributo oggetto"
 
 #. Template: AdminDynamicFieldReference
 msgid "Select an attribute of the referenced object by which the selectable entries will be filtered."
 msgstr ""
+"Seleziona un attributo dell'oggetto di riferimento in base al quale le voci "
+"selezionabili saranno filtrate."
 
 #. Template: AdminDynamicFieldReference
 msgid "Invalid ReferenceFilter_ReferenceObjectAttribute"
-msgstr ""
+msgstr "ReferenceFilter_ReferenceObjectAttribute non valido"
 
 #. Template: AdminDynamicFieldReference
 msgid "matches mask attribute"
-msgstr ""
+msgstr "corrisponde all'attributo della maschera"
 
 #. Template: AdminDynamicFieldReference
 msgid "Select an attribute of the edit mask to compare the selected attribute of the referenced object against."
 msgstr ""
+"Seleziona un attributo della maschera di modifica da confrontare con "
+"l'attributo selezionato dell'oggetto di riferimento."
 
 #. Template: AdminDynamicFieldReference
 msgid "matches string"
-msgstr ""
+msgstr "corrisponde alla stringa"
 
 #. Template: AdminDynamicFieldReference
 msgid "Type a string to compare the selected attribute of the referenced object against."
 msgstr ""
+"Digita una stringa da confrontare con l'attributo selezionato dell'oggetto "
+"di riferimento."
 
 #. Template: AdminDynamicFieldReference
 msgid "Add ReferenceFilter"
-msgstr ""
+msgstr "Aggiungi ReferenceFilter"
 
 #. Template: AdminDynamicFieldScript
 msgid "Expression"
-msgstr ""
+msgstr "Espressione"
 
 #. Template: AdminDynamicFieldScript
 msgid "The function which will be evaluated."
-msgstr ""
+msgstr "La funzione che verrà valutata."
 
 #. Template: AdminDynamicFieldScript
 msgid "Requirements"
-msgstr ""
+msgstr "Requisiti"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the function will only be evaluated if all chosen attributes are set."
 msgstr ""
+"Se impostato, la funzione sarà valutata solo se tutti gli attributi scelti "
+"sono impostati."
 
 #. Template: AdminDynamicFieldScript
 msgid "Preview Triggers"
-msgstr ""
+msgstr "Trigger di anteprima"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the field will be recalculated upon AJAX updates in edit masks."
 msgstr ""
+"Se impostato, il campo verrà ricalcolato con gli aggiornamenti AJAX nelle "
+"maschere di modifica."
 
 #. Template: AdminDynamicFieldScript
 msgid "Storage Triggers (Events)"
-msgstr ""
+msgstr "Trigger di memorizzazione (Eventi)"
 
 #. Template: AdminDynamicFieldScript
 msgid "If set, the field will be recalculated for the following events."
-msgstr ""
+msgstr "Se impostato, il campo verrà ricalcolato per i seguenti eventi."
 
 #. Template: AdminDynamicFieldSet
 msgid "The YAML array of included dynamic fields. Syntax: '--- [{DF: Name},...]'"
 msgstr ""
+"L'array YAML dei campi dinamici inclusi. Sintassi: '--- [{DF: Nome},...]'"
 
 #. Template: AdminGenericAgent
 msgid "Include invalid jobs"
-msgstr ""
+msgstr "Includi attività non valide"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment/Uncomment code"
-msgstr ""
+msgstr "Commenta/Decommenta codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto indent code"
-msgstr ""
+msgstr "Indentazione automatica del codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Jump to line"
-msgstr ""
+msgstr "Vai alla riga"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Autocomplete"
-msgstr ""
+msgstr "Completamento automatico"
 
 #. Template: AdminDynamicFieldSet
 msgid "Full Screen"
-msgstr ""
+msgstr "Schermo intero"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Exit full screen"
-msgstr ""
+msgstr "Esci da schermo intero"
 
 #. Template: AdminDynamicFieldSet
 msgid "Auto Indent Code"
-msgstr ""
+msgstr "Indentazione automatica del codice"
 
 #. Template: AdminDynamicFieldSet
 msgid "Comment/Uncomment Code"
-msgstr ""
+msgstr "Commenta/Decommenta codice"
 
 #. Template: AdminDynamicFieldSet
 msgid "Search & Replace"
-msgstr ""
+msgstr "Cerca e sostituisci"
 
 #. Template: AdminDynamicFieldSet
 msgid "Select All"
-msgstr ""
+msgstr "Seleziona tutto"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Kerberos User"
-msgstr ""
+msgstr "Utente Kerberos"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Kerberos keytab file"
-msgstr ""
+msgstr "File keytab Kerberos"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The kerberos keytab file for the privileged user."
-msgstr ""
+msgstr "Il file keytab Kerberos per l'utente privilegiato."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Include invalid webservices"
-msgstr ""
+msgstr "Includi servizi web non validi"
 
 #. Template: AdminGroup
 msgid "Include invalid groups"
-msgstr ""
+msgstr "Includi gruppi non validi"
 
 #. Template: AdminMailAccount
 msgid "Include invalid Mail Accounts"
-msgstr ""
+msgstr "Includi account email non validi"
 
 #. Template: AdminNotificationEvent
 msgid "Include invalid notifications"
-msgstr ""
+msgstr "Includi notifiche non valide"
 
 #. Template: AdminPostMasterFilter
 msgid "Search through PostMaster filters"
-msgstr ""
+msgstr "Cerca tra i filtri PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Search all filter attributes"
-msgstr ""
+msgstr "Cerca tutti gli attributi del filtro"
 
 #. Template: AdminPostMasterFilter
 msgid "Limit search to selected header fields"
-msgstr ""
+msgstr "Limita la ricerca ai campi di intestazione selezionati"
 
 #. Template: AdminPostMasterFilter
 msgid "Limit search to selected set fields"
-msgstr ""
+msgstr "Limita la ricerca ai campi di set selezionati"
 
 #. Template: AdminPriority
 msgid "Include invalid priorities"
-msgstr ""
+msgstr "Includi priorità non valide"
 
 #. Template: AdminProcessManagement
 msgid "Include inactive processes"
-msgstr ""
+msgstr "Includi processi inattivi"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Input Field Definition"
-msgstr ""
+msgstr "Definizione del campo di input"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Direct submit"
-msgstr ""
+msgstr "Invio diretto"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "This property won't take effect because there are fields configured as visible."
 msgstr ""
+"Questa proprietà non avrà effetto perché ci sono campi configurati come "
+"visibili."
 
 #. Template: AdminQueue
 msgid "Include invalid queues"
-msgstr ""
+msgstr "Includi code non valide"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
+msgstr "Gestisci preselezioni dello stato del ticket per i modelli di risposta"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Edit Response"
-msgstr ""
+msgstr "Modifica risposta"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Pre-selected ticket state"
-msgstr ""
+msgstr "Stato del ticket preselezionato"
 
 #. Template: AdminRole
 msgid "Include invalid roles"
-msgstr ""
+msgstr "Includi ruoli non validi"
 
 #. Template: AdminSLA
 msgid "Include invalid SLAs"
-msgstr ""
+msgstr "Includi SLA non validi"
 
 #. Template: AdminSalutation
 msgid "Include invalid salutations"
-msgstr ""
+msgstr "Includi saluti non validi"
 
 #. Template: AdminService
 msgid "Include invalid services"
-msgstr ""
+msgstr "Includi servizi non validi"
 
 #. Template: AdminSignature
 msgid "Include invalid signatures"
-msgstr ""
+msgstr "Includi firme non valide"
 
 #. Template: AdminState
 msgid "Include invalid states"
-msgstr ""
+msgstr "Includi stati non validi"
 
 #. Template: AdminSystemAddress
 msgid "Include invalid system addresses"
-msgstr ""
+msgstr "Includi indirizzi di sistema non validi"
 
 #. Template: AdminSystemMaintenance
 msgid "Include invalid system maintenances"
-msgstr ""
+msgstr "Includi manutenzioni di sistema non valide"
 
 #. Template: AdminTemplate
 msgid "Include invalid templates"
-msgstr ""
+msgstr "Includi modelli non validi"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
-msgstr ""
+msgstr "Gestione della maschera del ticket"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
-msgstr ""
+msgstr "Modifica la definizione della maschera"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask"
-msgstr ""
+msgstr "Maschera del ticket"
 
 #. Template: AdminTicketMask
 msgid "Change"
-msgstr ""
+msgstr "Modifica"
 
 #. Template: AdminTicketMask
 msgid "Definition"
-msgstr ""
+msgstr "Definizione"
 
 #. Template: AdminTranslations
 msgid "Translation Management"
-msgstr ""
+msgstr "Gestione delle traduzioni"
 
 #. Template: AdminTranslations
 msgid "Add Translations"
-msgstr ""
+msgstr "Aggiungi traduzioni"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr ""
+msgstr "Modifica traduzioni"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr ""
+msgstr "Distribuisci traduzioni"
 
 #. Template: AdminTranslations
 msgid "Translation States"
-msgstr ""
+msgstr "Stati della traduzione"
 
 #. Template: AdminTranslations
 msgid "New Translation"
-msgstr ""
+msgstr "Nuova traduzione"
 
 #. Template: AdminTranslations
 msgid "Editing Translation"
-msgstr ""
+msgstr "Modifica traduzione"
 
 #. Template: AdminTranslations
 msgid "Translation Marked for Deletion"
-msgstr ""
+msgstr "Traduzione contrassegnata per l'eliminazione"
 
 #. Template: AdminTranslations
 msgid "Deployed Translation"
-msgstr ""
+msgstr "Traduzione distribuita"
 
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
 msgstr ""
+"Le modifiche effettuate qui influenzano il comportamento del sistema solo "
+"dopo che le traduzioni in bozza sono state distribuite. Distribuendole, "
+"tutte le modifiche saranno scritte nei file di lingua."
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
 msgstr ""
+"Seleziona un oggetto per iniziare ad aggiungere traduzioni. A seconda della "
+"selezione, possono essere aggiunte una o più traduzioni."
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
-msgstr ""
+msgstr "Modifica le traduzioni attive utilizzando i campi di testo forniti!"
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
-msgstr ""
+msgstr "Elenca traduzioni personalizzate per"
 
 #. Template: AdminTranslations
 msgid "Draft Translations"
-msgstr ""
+msgstr "Traduzioni in bozza"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
-msgstr ""
+msgstr "Filtra per traduzioni in bozza"
 
 #. Template: AdminTranslations
 msgid "Active Translations"
-msgstr ""
+msgstr "Traduzioni attive"
 
 #. Template: AdminTranslations
 msgid "Filter for Active Translations"
-msgstr ""
+msgstr "Filtra per traduzioni attive"
 
 #. Template: AdminTranslations
 msgid "Translation"
-msgstr ""
+msgstr "Traduzione"
 
 #. Template: AdminTranslations
 msgid "Marked for Deletion"
-msgstr ""
+msgstr "Contrassegnato per l'eliminazione"
 
 #. Template: AdminTranslations
 msgid "Edit Translation"
-msgstr ""
+msgstr "Modifica traduzione"
 
 #. Template: AdminTranslations
 msgid "Overwrites OTOBO translation"
-msgstr ""
+msgstr "Sovrascrive la traduzione di OTOBO"
 
 #. Template: AdminTranslations
 msgid "Undo Delete Translation"
-msgstr ""
+msgstr "Annulla eliminazione traduzione"
 
 #. Template: AdminTranslations
 msgid "Delete Translation"
-msgstr ""
+msgstr "Elimina traduzione"
 
 #. Template: AdminTranslations
 msgid "Translations"
-msgstr ""
+msgstr "Traduzioni"
 
 #. Template: AdminType
 msgid "Include invalid types"
-msgstr ""
+msgstr "Includi tipi non validi"
 
 #. Template: AdminUser
 msgid "Include invalid users"
-msgstr ""
+msgstr "Includi utenti non validi"
 
 #. Template: AgentTicketActionCommon
 msgid "Edit Article \"%s\" of %s%s%s"
-msgstr ""
+msgstr "Modifica l'articolo \"%s\" di %s%s%s"
 
 #. Template: AgentTicketArticleVersionView
 msgid "Viewing Article Version#%s of current Article: #%s %s"
 msgstr ""
+"Visualizzazione della versione dell'articolo #%s dell'articolo corrente: #%s "
+"%s"
 
 #. Template: AgentTicketZoom
 msgid "Article Edited"
-msgstr ""
+msgstr "Articolo modificato"
 
 #. Template: AgentTicketZoom
 msgid "The article was edited"
-msgstr ""
+msgstr "L'articolo è stato modificato"
 
 #. Template: TranslationsTable
 msgid "Filter Content"
-msgstr ""
+msgstr "Filtra contenuto"
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
-msgstr ""
+msgstr "Filtra per traduzioni"
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
-msgstr ""
+msgstr "Nessun contenuto disponibile per la traduzione."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Manager"
-msgstr ""
+msgstr "Manager"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 day"
-msgstr ""
+msgstr "+1 giorno"
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "No permission to edit this attachment."
-msgstr ""
+msgstr "Nessuna autorizzazione per modificare questo allegato."
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Name is missing!"
-msgstr ""
+msgstr "Il nome è mancante!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Content is missing!"
-msgstr ""
+msgstr "Il contenuto è mancante!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "ValidID is missing!"
-msgstr ""
+msgstr "ValidID è mancante!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Group is missing!"
-msgstr ""
+msgstr "Il gruppo è mancante!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error creating the info tile entry"
 msgstr ""
+"Si è verificato un errore nella creazione della voce del riquadro informativo"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Need ID!"
-msgstr ""
+msgstr "Necessario un ID!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "This Entry does not exist, or you don't have permissions to access it in its current state."
 msgstr ""
+"Questa voce non esiste o non hai i permessi per accedervi nel suo stato "
+"attuale."
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Could not get data for ID %s"
-msgstr ""
+msgstr "Impossibile ottenere dati per l'ID %s"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was added successfully!"
-msgstr ""
+msgstr "La voce del riquadro informativo è stata aggiunta con successo!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was updated successfully!"
-msgstr ""
+msgstr "La voce del riquadro informativo è stata aggiornata con successo!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error updating the info tile entry"
 msgstr ""
+"Si è verificato un errore nell'aggiornamento della voce del riquadro "
+"informativo"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "It was not possible to delete the info tile entry: %s!"
-msgstr ""
+msgstr "Non è stato possibile eliminare la voce del riquadro informativo: %s!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
-msgstr ""
+msgstr "Il campo dinamico di riferimento"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Select the dynamic field that references an object"
-msgstr ""
+msgstr "Seleziona il campo dinamico che fa riferimento a un oggetto"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The attribute of the referenced object"
-msgstr ""
+msgstr "L'attributo dell'oggetto di riferimento"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Select the attribute dynamic field that references an object"
 msgstr ""
+"Seleziona il campo dinamico dell'attributo che fa riferimento a un oggetto"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Not a valid dynamic field."
-msgstr ""
+msgstr "Campo dinamico non valido."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Need valid field driver."
-msgstr ""
+msgstr "È necessario un driver di campo valido."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in RequiredArgs."
-msgstr ""
+msgstr "Valore errato in RequiredArgs."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in PreviewTriggers."
-msgstr ""
+msgstr "Valore errato in PreviewTriggers."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Bad value in StorageTriggers."
-msgstr ""
+msgstr "Valore errato in StorageTriggers."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Missing Dynamic Field."
-msgstr ""
+msgstr "Campo dinamico mancante."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "No valid dynamic field \""
-msgstr ""
+msgstr "Nessun campo dinamico valido \""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field type \""
-msgstr ""
+msgstr "Il tipo di campo dinamico \""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - need Rows as Array!"
 msgstr ""
+"Griglia configurata in modo errato: è necessario che le righe siano un array!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - need Columns as integer > 0!"
 msgstr ""
+"Griglia configurata in modo errato: è necessario che le colonne siano un "
+"numero intero > 0!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - Rows can't be empty!"
-msgstr ""
+msgstr "Griglia configurata in modo errato: le righe non possono essere vuote!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Misconfigured Grid - Rows must contain entries with key 'DF'!"
 msgstr ""
+"Griglia configurata in modo errato: le righe devono contenere voci con la "
+"chiave 'DF'!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "Missing Dynamic Field or Grid."
-msgstr ""
+msgstr "Campo dinamico o griglia mancanti."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The field must be a valid YAML containing an array of dynamic fields."
 msgstr ""
+"Il campo deve essere un YAML valido contenente un array di campi dinamici."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "No permission to edit this ticket notification."
-msgstr ""
+msgstr "Nessuna autorizzazione per modificare questa notifica del ticket."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Only send within working hours"
-msgstr ""
+msgstr "Invia solo durante l'orario lavorativo"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Only send outside working hours"
-msgstr ""
+msgstr "Invia solo fuori dall'orario lavorativo"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "No permission to edit this template."
-msgstr ""
+msgstr "Nessuna autorizzazione per modificare questo modello."
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation unmarked for deletion!"
-msgstr ""
+msgstr "Traduzione deselezionata per l'eliminazione!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Error trying unmark translation for delete!"
 msgstr ""
+"Errore durante il tentativo di deselezionare la traduzione per "
+"l'eliminazione!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations changed!"
-msgstr ""
+msgstr "Traduzioni modificate!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were changed!"
-msgstr ""
+msgstr "Nessuna traduzione è stata modificata!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
-msgstr ""
+msgstr "Errori durante il tentativo di modificare le traduzioni!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
-msgstr ""
+msgstr "Traduzioni aggiunte!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were given to add!"
-msgstr ""
+msgstr "Non sono state fornite traduzioni da aggiungere!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation already exists!"
-msgstr ""
+msgstr "La traduzione esiste già!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations deployed successfuly!"
-msgstr ""
+msgstr "Traduzioni distribuite con successo!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Nothing to do!"
-msgstr ""
+msgstr "Niente da fare!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors ocurred when trying to deploy translation. Please check system logs!"
 msgstr ""
+"Si sono verificati errori durante il tentativo di distribuire la traduzione. "
+"Controlla i log di sistema!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "All Items"
-msgstr ""
+msgstr "Tutti gli elementi"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Deployment Results"
-msgstr ""
+msgstr "Risultati della distribuzione"
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
 msgstr ""
+"Impossibile impostare questa opzione per il ticket, nessun TicketID fornito!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Error: database version requirement not satisfied. Have version: %s Want version: %s"
 msgstr ""
+"Errore: i requisiti di versione del database non sono soddisfatti. Versione "
+"attuale: %s, richiesta: %s"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
 msgid "Delete this article"
-msgstr ""
+msgstr "Elimina questo articolo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
 msgid "Edit this article"
-msgstr ""
+msgstr "Modifica questo articolo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
 msgid "Restore this article"
-msgstr ""
+msgstr "Ripristina questo articolo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
 msgid "Mark article as unseen"
-msgstr ""
+msgstr "Segna l'articolo come non letto"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
 msgid "Mark as unseen"
-msgstr ""
+msgstr "Segna come non letto"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Hide deleted articles"
-msgstr ""
+msgstr "Nascondi articoli eliminati"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to hide deleted articles"
-msgstr ""
+msgstr "Clicca per nascondere gli articoli eliminati"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Show deleted articles"
-msgstr ""
+msgstr "Mostra articoli eliminati"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
 msgid "Click to show deleted articles"
-msgstr ""
+msgstr "Clicca per mostrare gli articoli eliminati"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "Group of the agents"
-msgstr ""
+msgstr "Gruppo degli agenti"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "Select the group of the agents"
-msgstr ""
+msgstr "Seleziona il gruppo degli agenti"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Referenced object type"
-msgstr ""
+msgstr "Tipo di oggetto di riferimento"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the type of the referenced object"
-msgstr ""
+msgstr "Seleziona il tipo dell'oggetto di riferimento"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Input mode of edit field"
-msgstr ""
+msgstr "Modalità di input del campo di modifica"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the input mode for the edit field."
-msgstr ""
+msgstr "Seleziona la modalità di input per il campo di modifica."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Attribute which will be searched on autocomplete"
-msgstr ""
+msgstr "Attributo che verrà cercato nell'autocompletamento"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the attribute which tickets will be searched by"
-msgstr ""
+msgstr "Seleziona l'attributo con cui cercare i ticket"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "Full %s Text"
-msgstr ""
+msgstr "Testo completo %s"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Type of the ticket"
-msgstr ""
+msgstr "Tipo di ticket"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the type of the ticket"
-msgstr ""
+msgstr "Seleziona il tipo di ticket"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Attribute which is displayed for values"
-msgstr ""
+msgstr "Attributo visualizzato per i valori"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the type of display"
-msgstr ""
+msgstr "Seleziona il tipo di visualizzazione"
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
 msgid "Pretty print the exported concatenated JSON"
-msgstr ""
+msgstr "Formato leggibile del JSON concatenato esportato"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Article Create Time"
-msgstr ""
+msgstr "Orario di creazione dell'articolo"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Base structure is not valid. Please provide an array with data in YAML format."
 msgstr ""
+"La struttura di base non è valida. Fornisci un array con dati in formato "
+"YAML."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Error parsing dynamic fields."
-msgstr ""
+msgstr "Errore nell'analisi dei campi dinamici."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "No dynamic field \"%s\"."
-msgstr ""
+msgstr "Nessun campo dinamico \"%s\"."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Dynamic field \"%s\" not valid."
-msgstr ""
+msgstr "Campo dinamico \"%s\" non valido."
 
 #. JS File: Core.Agent.Admin.CustomerDashboardInfoTile
 msgid "Do you really want to delete this customer dashboard info tile entry?"
 msgstr ""
+"Vuoi davvero eliminare questa voce del riquadro informativo della dashboard "
+"cliente?"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
-msgstr ""
+msgstr "Traduzioni mancanti"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "At least one translation must be filled!"
-msgstr ""
+msgstr "Deve essere compilata almeno una traduzione!"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "All translations must be filled!"
-msgstr ""
+msgstr "Tutte le traduzioni devono essere compilate!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
-msgstr ""
+msgstr "Eliminazione articolo"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to delete this article?"
-msgstr ""
+msgstr "Sei sicuro di voler eliminare questo articolo?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article deleted successfully!"
-msgstr ""
+msgstr "Articolo eliminato con successo!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article already marked as deleted."
-msgstr ""
+msgstr "Articolo già contrassegnato come eliminato."
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Restore"
-msgstr ""
+msgstr "Ripristino articolo"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Are you sure you want to restore this article?"
-msgstr ""
+msgstr "Sei sicuro di voler ripristinare questo articolo?"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article restored successfully!"
-msgstr ""
+msgstr "Articolo ripristinato con successo!"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article not available for restoring."
-msgstr ""
+msgstr "Articolo non disponibile per il ripristino."
 
 #. JS File: Core.UI.CodeMirrorEditor
 msgid "Error trying to create CodeMirror instance, please check configuration!"
 msgstr ""
+"Errore durante il tentativo di creare l'istanza di CodeMirror, verifica la "
+"configurazione!"
 
 #. SysConfig
 msgid "Agent Reference Dynamic Field With Data Search"
-msgstr ""
+msgstr "Campo dinamico di riferimento per agente con ricerca dati"
 
 #. SysConfig
 msgid "Agent reference dynamic field with data search."
-msgstr ""
+msgstr "Campo dinamico di riferimento per agente con ricerca dati."
 
 #. SysConfig
 msgid "Article ID: %s was deleted by \"%s\" (%s)"
-msgstr ""
+msgstr "ID articolo: %s eliminato da \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article ID: %s was edited by \"%s\" (%s)"
-msgstr ""
+msgstr "ID articolo: %s modificato da \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article ID: %s was restored by \"%s\" (%s)"
-msgstr ""
+msgstr "ID articolo: %s ripristinato da \"%s\" (%s)"
 
 #. SysConfig
 msgid "Article Version View"
-msgstr ""
+msgstr "Visualizzazione versione articolo"
 
 #. SysConfig
 msgid "As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option."
 msgstr ""
+"Non appena l'opzione a discesa per spostare le code è abilitata, ad esempio "
+"nel dialogo AgentTicketZoom, è possibile spostare i ticket bloccati da altri "
+"agenti in un'altra coda attivando questa opzione."
 
 #. SysConfig
 msgid "Create and manage advanced definitions for ticket masks."
-msgstr ""
+msgstr "Crea e gestisci definizioni avanzate per le maschere dei ticket."
 
 #. SysConfig
 msgid "Create and manage custom translations."
-msgstr ""
+msgstr "Crea e gestisci traduzioni personalizzate."
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
-msgstr ""
+msgstr "Campo dinamico di riferimento cliente con ricerca dati"
 
 #. SysConfig
 msgid "Customer reference dynamic field with data search."
-msgstr ""
+msgstr "Campo dinamico di riferimento cliente con ricerca dati."
 
 #. SysConfig
 msgid "CustomerCompany"
-msgstr ""
+msgstr "AziendaCliente"
 
 #. SysConfig
 msgid "CustomerDashboard Info Tile"
-msgstr ""
+msgstr "Riquadro informativo della dashboard cliente"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields."
-msgstr ""
+msgstr "Definisci i namespace possibili per i campi dinamici."
 
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel."
-msgstr ""
+msgstr "Definisce un URL alternativo per il login al pannello clienti."
 
 #. SysConfig
 msgid "Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent."
 msgstr ""
+"Definisce se le mappature CSV devono essere ricreate durante la prossima "
+"reinstallazione o aggiornamento del pacchetto se già esistenti."
 
 #. SysConfig
 msgid "Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the 'Information' button."
 msgstr ""
+"Definisce se il widget delle informazioni sul ticket viene mostrato "
+"permanentemente a sinistra sotto l'elenco degli articoli o è disponibile "
+"cliccando sul pulsante 'Informazioni'."
 
 #. SysConfig
 msgid "Defines if time accounting is mandatory in the agent interface, if a note is entered."
 msgstr ""
+"Definisce se la registrazione del tempo è obbligatoria nell'interfaccia "
+"agente quando viene inserita una nota."
 
 #. SysConfig
 msgid "Defines if user can modify all possible values/labels of dynamic fields in one data table."
 msgstr ""
+"Definisce se l'utente può modificare tutti i valori/etichette possibili dei "
+"campi dinamici in un'unica tabella di dati."
 
 #. SysConfig
 msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketSeenRedirectDefaultURL' is used if no selection is made by the agent."
 msgstr ""
+"Definisce i parametri di configurazione disponibili nella vista preferenze. "
+"L'URL di reindirizzamento predefinito da SysConfig "
+"'MarkTicketSeenRedirectDefaultURL' viene utilizzato se nessuna selezione è "
+"fatta dall'agente."
 
 #. SysConfig
 msgid "Defines the config parameters available in the preferences view. The default redirect URL from SysConfig 'MarkTicketUnseenRedirectDefaultURL' is used if no selection is made by the agent."
 msgstr ""
+"Definisce i parametri di configurazione disponibili nella vista preferenze. "
+"L'URL di reindirizzamento predefinito da SysConfig "
+"'MarkTicketUnseenRedirectDefaultURL' viene utilizzato se nessuna selezione è "
+"fatta dall'agente."
 
 #. SysConfig
 msgid "Defines the data objects avaliable to be translated."
-msgstr ""
+msgstr "Definisce gli oggetti di dati disponibili per la traduzione."
 
 #. SysConfig
 msgid "Defines the default CSS for creating CKEditor articles."
-msgstr ""
+msgstr "Definisce il CSS predefinito per creare articoli con CKEditor."
 
 #. SysConfig
 msgid "Defines the default CSS used for displaying articles."
-msgstr ""
+msgstr "Definisce il CSS predefinito utilizzato per mostrare gli articoli."
 
 #. SysConfig
 msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Definisce il tema frontend predefinito (HTML) da utilizzare per gli agenti e "
+"i clienti. Se desideri, puoi aggiungere il tuo tema. Consulta il manuale "
+"amministratore disponibile su https://doc.otobo.org/."
 
 #. SysConfig
 msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
 msgstr ""
+"Definisce la lingua frontend predefinita. Tutti i valori possibili sono "
+"determinati dai file di lingua disponibili sul sistema. Questi valori sono "
+"elencati come chiavi nell'impostazione 'DefaultUsedLanguages'."
 
 #. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
 msgstr ""
+"Definisce il modulo per mostrare una notifica nell'interfaccia cliente. "
+"Opzioni UseMarquee: 1/0. Opzioni NotifyPriority: Avviso/Errore/Successo/"
+"Informazione."
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'seen'."
 msgstr ""
+"Definisce l'URL di reindirizzamento per impostare un articolo del ticket "
+"come 'visto'."
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'unseen'."
 msgstr ""
+"Definisce l'URL di reindirizzamento per impostare un articolo del ticket "
+"come 'non visto'."
 
 #. SysConfig
 msgid "Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi."
 msgstr ""
+"Definisce il valore dell'attributo SameSite dei cookie di sessione OTOBO. "
+"Utilizzato in otobo.psgi."
 
 #. SysConfig
 msgid "Delete expired form cache hourly."
-msgstr ""
+msgstr "Elimina ogni ora la cache dei moduli scaduti."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate article lists."
 msgstr ""
+"Determina se il modulo delle statistiche può generare elenchi di articoli."
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as seen"
-msgstr ""
+msgstr "Dialogo da mostrare dopo aver contrassegnato un ticket come visto"
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as unseen"
-msgstr ""
+msgstr "Dialogo da mostrare dopo aver contrassegnato un ticket come non visto"
 
 #. SysConfig
 msgid "Display settings to override defaults for dynamic field widget for Tickets."
 msgstr ""
+"Impostazioni di visualizzazione per sovrascrivere i valori predefiniti per "
+"il widget dei campi dinamici per i ticket."
 
 #. SysConfig
 msgid "Displayable via click"
-msgstr ""
+msgstr "Visualizzabile tramite clic"
 
 #. SysConfig
 msgid "Dynamic Field Contents"
-msgstr ""
+msgstr "Contenuti dei campi dinamici"
 
 #. SysConfig
 msgid "Dynamic Field Information"
-msgstr ""
+msgstr "Informazioni sui campi dinamici"
 
 #. SysConfig
 msgid "Dynamic Field Labels"
-msgstr ""
+msgstr "Etichette dei campi dinamici"
 
 #. SysConfig
 msgid "Dynamic Field Set"
-msgstr ""
+msgstr "Set di campi dinamici"
 
 #. SysConfig
 msgid "Dynamic Field Set Backend GUI"
-msgstr ""
+msgstr "Interfaccia backend per il set di campi dinamici"
 
 #. SysConfig
 msgid "Dynamic Fields Lens Backend GUI"
-msgstr ""
+msgstr "Interfaccia backend per i campi dinamici Lens"
 
 #. SysConfig
 msgid "Dynamic Fields Reference Backend GUI"
-msgstr ""
+msgstr "Interfaccia backend per i campi dinamici di riferimento"
 
 #. SysConfig
 msgid "Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted."
 msgstr ""
+"Modulo eventi campo dinamico che elimina gli eventi del campo script se un "
+"campo dinamico di tipo script viene eliminato."
 
 #. SysConfig
 msgid "Dynamic field event module that updates PartOfSet attributes of fields which are included in a set."
 msgstr ""
+"Modulo eventi campo dinamico che aggiorna gli attributi PartOfSet dei campi "
+"inclusi in un set."
 
 #. SysConfig
 msgid "Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key => My Group', 'Content: Name_X, NameY'."
 msgstr ""
+"Gruppi di campi dinamici per il widget dei campi dinamici. La chiave è il "
+"nome del gruppo, il valore contiene i campi da mostrare. Esempio: 'Chiave => "
+"Mio Gruppo', 'Contenuto: Nome_X, NomeY'."
 
 #. SysConfig
 msgid "Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface."
 msgstr ""
+"Campi dinamici mostrati nel widget dei campi dinamici nella schermata di "
+"zoom del ticket dell'interfaccia agente."
 
 #. SysConfig
 msgid "Enables or disables the debug mode for translations module."
-msgstr ""
+msgstr "Abilita o disabilita la modalità debug per il modulo delle traduzioni."
 
 #. SysConfig
 msgid "Evaluate all script fields."
-msgstr ""
+msgstr "Valuta tutti i campi script."
 
 #. SysConfig
 msgid "Frontend module for dashboard info tile in customer interface."
 msgstr ""
+"Modulo frontend per il riquadro informativo nella dashboard dell'interfaccia "
+"cliente."
 
 #. SysConfig
 msgid "General Label"
-msgstr ""
+msgstr "Etichetta Generale"
 
 #. SysConfig
 msgid "If activated, a clicked activity button will be hidden in the customer ticket zoom frontend."
 msgstr ""
+"Se attivato, un pulsante di attività cliccato verrà nascosto nel frontend "
+"dello zoom del ticket cliente."
 
 #. SysConfig
 msgid "Languages"
-msgstr ""
+msgstr "Lingue"
 
 #. SysConfig
 msgid "Lax"
-msgstr ""
+msgstr "Lassista"
 
 #. SysConfig
 msgid "Lens"
-msgstr ""
+msgstr "Lente"
 
 #. SysConfig
 msgid "List of ticket masks which can be altered using AdminTicketMask."
 msgstr ""
+"Elenco delle maschere dei ticket modificabili utilizzando AdminTicketMask."
 
 #. SysConfig
 msgid "Loader module for dashboard info tile in customer interface."
 msgstr ""
+"Modulo di caricamento per il riquadro informativo nella dashboard "
+"dell'interfaccia cliente."
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr ""
+msgstr "Gestisci voci del riquadro informativo della dashboard cliente"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
+msgstr "Gestisci preselezioni dello stato dei ticket per i modelli di risposta."
 
 #. SysConfig
 msgid "Mark ticket as seen"
-msgstr ""
+msgstr "Segna il ticket come visto"
 
 #. SysConfig
 msgid "Mark ticket as unseen"
-msgstr ""
+msgstr "Segna il ticket come non visto"
 
 #. SysConfig
 msgid "Object backend module registration for the import/export module."
 msgstr ""
+"Registrazione del modulo backend oggetto per il modulo di import/export."
 
 #. SysConfig
 msgid "Permanent"
-msgstr ""
+msgstr "Permanente"
 
 #. SysConfig
 msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen."
 msgstr ""
+"Registra un link nel menu dei ticket per contrassegnare tutti gli articoli "
+"del ticket come visti."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen."
 msgstr ""
+"Registra un link nel menu dei ticket per contrassegnare tutti gli articoli "
+"del ticket come non visti."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu to mark a ticket as seen."
 msgstr ""
+"Registra un link nel menu dei ticket per contrassegnare un ticket come visto."
 
 #. SysConfig
 msgid "Registers a link in the ticket menu to mark a ticket as unseen."
 msgstr ""
+"Registra un link nel menu dei ticket per contrassegnare un ticket come non "
+"visto."
 
 #. SysConfig
 msgid "Registration of the CSV format backend module for the ImportExport feature."
 msgstr ""
+"Registrazione del modulo backend per il formato CSV per la funzionalità "
+"ImportExport."
 
 #. SysConfig
 msgid "Registration of the JSON format backend module for the ImportExport feature."
 msgstr ""
+"Registrazione del modulo backend per il formato JSON per la funzionalità "
+"ImportExport."
 
 #. SysConfig
 msgid "Richtext"
-msgstr ""
+msgstr "Testo formattato"
 
 #. SysConfig
 msgid "SLAs"
-msgstr ""
+msgstr "SLA"
 
 #. SysConfig
 msgid "Script (Template Toolkit)"
-msgstr ""
+msgstr "Script (Template Toolkit)"
 
 #. SysConfig
 msgid "Sends registration information to Rother OSS."
-msgstr ""
+msgstr "Invia informazioni di registrazione a Rother OSS."
 
 #. SysConfig
 msgid "Show or Hide deleted articles."
-msgstr ""
+msgstr "Mostra o nascondi articoli eliminati."
 
 #. SysConfig
 msgid "ShowHideDeletedArticles"
-msgstr ""
+msgstr "MostraNascondiArticoliEliminati"
 
 #. SysConfig
 msgid "Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Mostra un link nel menu per mostrare/nascondere gli articoli eliminati nella "
+"vista zoom dei ticket dell'interfaccia agente. Il controllo di accesso "
+"aggiuntivo per mostrare o meno questo link può essere effettuato utilizzando "
+"la Chiave \"Group\" e un Contenuto come \"rw:group1;move_into:group2\". Per "
+"raggruppare gli elementi del menu usa la Chiave \"ClusterName\" e per il "
+"Contenuto un qualsiasi nome da visualizzare nell'interfaccia. Usa "
+"\"ClusterPriority\" per configurare l'ordine di un certo cluster nella barra "
+"degli strumenti."
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr ""
+msgstr "Pre-selezione dello stato per i modelli"
 
 #. SysConfig
 msgid "Strict"
-msgstr ""
+msgstr "Rigido"
 
 #. SysConfig
 msgid "Switch deleted article status view"
-msgstr ""
+msgstr "Cambia vista stato articolo eliminato"
 
 #. SysConfig
 msgid "Switch deleted article status view."
-msgstr ""
+msgstr "Cambia vista stato articolo eliminato."
 
 #. SysConfig
 msgid "This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them."
 msgstr ""
+"Questa opzione imposta pulsanti rapidi aggiuntivi per le date in sospeso. "
+"Per scopi di ordinamento è necessario impostare una voce hash per ogni "
+"segmento dell'array. La chiave è il nome del pulsante, il valore è il "
+"valore, dove un singolo numero n imposta la data a n giorni da oggi, +n "
+"aggiunge n giorni alla data impostata attualmente e -n li sottrae."
 
 #. SysConfig
 msgid "Ticket Masks"
-msgstr ""
+msgstr "Maschere Ticket"
 
 #. SysConfig
 msgid "Ticket States"
-msgstr ""
+msgstr "Stati dei Ticket"
 
 #. SysConfig
 msgid "Ticket Types"
-msgstr ""
+msgstr "Tipi di Ticket"
 
 #. SysConfig
 msgid "Ticket state pre-selection for response templates"
-msgstr ""
+msgstr "Pre-selezione dello stato del ticket per i modelli di risposta"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
 msgstr ""
+"Registrazione del riquadro per la CustomerDashboard. Il modulo è richiesto. "
+"Facoltativamente, può essere impostato un ordine per gli elementi. L'ordine "
+"deve avere il nome dell'elemento come chiave e la posizione desiderata come "
+"valore intero."
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
 msgstr ""
+"Traduci i nomi dei paesi nella selezione del paese. I codici paese CLDR "
+"saranno memorizzati nel database. Richiede che Locale::CLDR 0.40.0 e i "
+"relativi pacchetti lingua siano installati."
 
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
 msgstr ""
+"Traduci i nomi delle lingue nella selezione della lingua. Richiede che "
+"Locale::CLDR 0.40.0 e i relativi pacchetti lingua siano installati."
 
 #. SysConfig
 msgid "View stored article version."
-msgstr ""
+msgstr "Visualizza versione articolo memorizzata."
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0."
 msgstr ""
+"Abbiamo modificato il comportamento predefinito dello sblocco dei ticket in "
+"OTOBO 10.1. Ora, il ticket non viene solo sbloccato, ma anche assegnato "
+"nuovamente all'utente di sistema. Pertanto, il comportamento è più chiaro, "
+"ma non è più possibile sapere chi ha modificato il ticket per ultimo. "
+"Disattiva questa opzione per ripristinare il comportamento delle versioni "
+"OTRS dalla 2 alla 6 e OTOBO versione 10.0."
 
 #. Template: AdminDynamicField
 msgid "Copy this field"
-msgstr ""
+msgstr "Copia questo campo"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Queue of the ticket"
-msgstr ""
+msgstr "Coda del ticket"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
 msgid "Select the queue of the ticket"
-msgstr ""
+msgstr "Seleziona la coda del ticket"
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+"Traduci i nomi dei paesi nella selezione del paese. I codici paese CLDR "
+"saranno memorizzati nel database. Richiede che Locale::CLDR e i relativi "
+"pacchetti lingua siano installati."
 
 #. SysConfig
 msgid "Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed."
 msgstr ""
+"Traduci i nomi delle lingue nella selezione della lingua. Richiede che "
+"Locale::CLDR e i relativi pacchetti lingua siano installati."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "No valid dynamic field \"%s.\""
-msgstr ""
+msgstr "Nessun campo dinamico valido \"%s.\""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field type \"%s\" of dynamic field \"%s\" can not be used in sets."
 msgstr ""
+"Il tipo di campo dinamico \"%s\" del campo dinamico \"%s\" non può essere "
+"utilizzato nei set."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
-msgstr ""
+msgstr "Il campo dinamico \"%s\" è già in uso in una maschera di ticket."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "External-source key"
-msgstr ""
+msgstr "Chiave della sorgente esterna"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
 msgstr ""
+"Quando impostato tramite una sorgente esterna (ad esempio un servizio web o "
+"un'importazione/esportazione), il valore verrà interpretato come questo "
+"attributo."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which customer companies will be searched by"
 msgstr ""
+"Seleziona l'attributo in base al quale verranno cercate le aziende clienti"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Dynamic field \"%s\" already in use in a Set."
-msgstr ""
+msgstr "Il campo dinamico \"%s\" è già in uso in un Set."
 
 #. SysConfig
 msgid "Color definitions for Agent interface highcontrast skin."
 msgstr ""
+"Definizioni di colore per l'interfaccia agente con skin ad alto contrasto."
 
 #. SysConfig
 msgid "Color definitions for Customer Interface highcontrast skin."
 msgstr ""
+"Definizioni di colore per l'interfaccia cliente con skin ad alto contrasto."
 
 #. SysConfig
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
 msgstr ""
+"Definizioni di colore per l'interfaccia agente (skin predefinita). MainDark, "
+"-Light e Hover sono lo sfondo della navigazione, i pulsanti e altri elementi "
+"principali. Highlight include, ad esempio, icone ed elementi selezionati "
+"nella barra di navigazione. BG- e Text sono i vari colori di sfondo e testo. "
+"I colori Hover vengono utilizzati nelle selezioni e nelle tabelle. I colori "
+"Notify sono lo sfondo delle notifiche."
 
 #. Template: AdminACL
 msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
 msgstr ""
+"Per eliminare un'ACL esistente è necessario impostarne la validità su non "
+"valida e salvarla. Successivamente apparirà un nuovo pulsante per eliminare "
+"l'ACL."
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
 msgstr ""
+"Definisci i namespace possibili per i campi dinamici. Devono contenere solo "
+"caratteri alfanumerici."
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.io"
-msgstr ""
+msgstr "Contattaci a hello@otobo.io"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
 msgstr ""
+"Definisci i namespace possibili per i campi dinamici. Devono contenere solo "
+"caratteri alfanumerici. Un namespace non deve superare i 64 caratteri. Il "
+"namespace più il nome del campo dinamico non devono superare i 190 caratteri."
 
 #. Template: AdminRoleGroup
 msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
 msgstr ""
+"Accesso in sola lettura al ticket in questo gruppo/coda. Il ticket può "
+"essere trovato tramite una ricerca e il suo TicketZoom può essere "
+"accessibile. Se utilizzato per un calendario, gli utenti possono "
+"visualizzare ed esportare tutti gli appuntamenti nel calendario."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
 msgstr ""
+"Permessi per spostare i ticket in questo gruppo/coda. Se utilizzato per un "
+"calendario, gli utenti possono modificare gli appuntamenti nel calendario, "
+"ma senza cambiare la selezione del calendario."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
 msgstr ""
+"Permessi per creare ticket in questo gruppo/coda. Se utilizzato per un "
+"calendario, gli utenti possono creare ed eliminare appuntamenti nel "
+"calendario."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
 msgstr ""
+"Permessi per aggiungere note ai ticket in questo gruppo/coda. Consente "
+"inoltre agli agenti di essere informati tramite la sezione 'Informare gli "
+"Agenti' nelle Note."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
 msgstr ""
+"Permessi per diventare il proprietario dei ticket in questo gruppo/coda. Si "
+"può essere selezionati come proprietari durante la creazione di un ticket o "
+"il cambio di proprietario. Essere il proprietario conferisce pieni permessi "
+"di lettura e scrittura su questo ticket."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to open the priority action in this group/queue."
-msgstr ""
+msgstr "Permessi per aprire l'azione di priorità in questo gruppo/coda."
 
 #. Template: AdminRoleGroup
 msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
 msgstr ""
+"Pieno accesso in lettura e scrittura ai ticket in questo gruppo/coda. Se "
+"utilizzato per un calendario, gli utenti possono gestire il calendario "
+"stesso."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
 msgid "Notice: search in lens fields is currently disabled"
-msgstr ""
+msgstr "Nota: la ricerca nei campi lens è attualmente disabilitata."
 
 #. SysConfig
 msgid "Defines if parent-child translations for queues and services should be generated automatically."
 msgstr ""
+"Definisce se le traduzioni padre-figlio per code e servizi devono essere "
+"generate automaticamente."
 
 #. SysConfig
 msgid "Defines the initial height for the rich text editor component in pixels."
 msgstr ""
+"Definisce l'altezza iniziale del componente editor di testo formattato in "
+"pixel."
 
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
+"Definisce l'altezza iniziale in pixel per il componente editor di testo "
+"formattato per questa schermata."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "A field of type %s is currently not usable as lens attribute."
-msgstr ""
+msgstr "Un campo di tipo %s non è attualmente utilizzabile come attributo lens."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Field %s is not a reference field."
-msgstr ""
+msgstr "Il campo %s non è un campo di riferimento."
 
 #. SysConfig
 msgid "Custom CSS styles for RichText articles."
-msgstr ""
+msgstr "Stili CSS personalizzati per articoli RichText."
 
 #. SysConfig
 msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
+"Percorso al file CSS del contenuto di CKEditor. Le modifiche a questa "
+"impostazione saranno applicate in modo coerente solo dopo aver eliminato la "
+"cache di OTOBO tramite il comando Maint::Cache::Delete!"
 
 #. SysConfig
 msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
+"Percorso al file CSS dell'editor CKEditor. Le modifiche a questa "
+"impostazione saranno applicate in modo coerente solo dopo aver eliminato la "
+"cache di OTOBO tramite il comando Maint::Cache::Delete!"
 
 #. SysConfig
 msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
-
+"Questa opzione negherà l'accesso ai ticket aziendali dei clienti che non "
+"sono stati creati dall'utente cliente. Disattiva anche \"CustomerFrontend"
+"::Navigation###CustomerTicketOverview###002-Ticket\" in modo che il pulsante "
+"non sia più visibile."

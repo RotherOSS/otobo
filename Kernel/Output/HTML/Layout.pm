@@ -5976,10 +5976,21 @@ sub _BuildSelectionDataRefCreate {
             # already done before the translation
         }
         else {
+
+            # if empty value has been added, remove before sort
+            my $EmptyValue = delete $DataLocal->{''};
+
             @SortKeys = sort {
                 lc( $DataLocal->{$a} // '' )
                     cmp lc( $DataLocal->{$b} // '' )
             } ( keys %{$DataLocal} );
+
+            # if we had an empty value, put it back and add it's
+            # sort-key at the very beginning
+            if ( defined $EmptyValue ) {
+                $DataLocal->{''} = $EmptyValue;
+                unshift @SortKeys, '';
+            }
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
