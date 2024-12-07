@@ -130,6 +130,7 @@ sub new {
                 $LanguageOtherType =~ s/_/-/;
                 if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
                     $Self->{UserLanguage} = $Language;
+
                     last LANGUAGE;
                 }
             }
@@ -958,6 +959,7 @@ sub ChallengeTokenCheck {
     SESSION:
     for my $SessionID (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+
         next SESSION if !$Data{UserID};
         next SESSION if $Data{UserID} ne $Self->{UserID};
         next SESSION if !$Data{UserChallengeToken};
@@ -1408,11 +1410,14 @@ sub Header {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -1438,9 +1443,11 @@ sub Header {
 
                 # load and run module
                 next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},    # UserID etc.
                 );
+
                 next MODULE if !$Object;
 
                 my $ToolBarAccessOk;
@@ -1480,6 +1487,7 @@ sub Header {
 
                         # check user belongs to the correct group
                         my %GroupsReverse = reverse %Groups;
+
                         next ITEM if !$GroupsReverse{$GroupName};
 
                         $ToolBarAccessOk = 1;
@@ -1508,14 +1516,17 @@ sub Header {
 
                 if ( $Modules{$Key}{Block} eq 'ToolBarItem' ) {
                     $ToolBarItemSeparatorMyTickets = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} eq 'ToolBarItemShortcut' ) {
                     $ToolBarItemSeparatorShortcut = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} =~ m/ToolBarSearch.*/ ) {
                     $ToolBarItemSeparatorSearch = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
             }
@@ -1806,6 +1817,7 @@ sub Footer {
             for my $RegExp ( sort keys %{ $SearchFrontendConfig->{$Group} } ) {
                 if ( $Self->{Action} =~ /$RegExp/ ) {
                     $JSCall = $SearchFrontendConfig->{$Group}->{$RegExp};
+
                     last REGEXP;
                 }
             }
@@ -3285,6 +3297,7 @@ sub NavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -3293,6 +3306,7 @@ sub NavigationBar {
                     GROUP:
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         next GROUP if !$Group;
+
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
                             GroupName => $Group,
@@ -3301,6 +3315,7 @@ sub NavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -3325,6 +3340,7 @@ sub NavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -3337,6 +3353,7 @@ sub NavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendRegistration->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -3345,6 +3362,7 @@ sub NavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -3357,13 +3375,14 @@ sub NavigationBar {
                 }
             }
 
-            next ITEM if !$Shown;
+            next ITEM unless $Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBar{$Key};
+
+                last COUNT unless $NavBar{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -3393,10 +3412,12 @@ sub NavigationBar {
 
             # load module
             next MENUMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MENUMODULE if !$Object;
 
             # run module
@@ -3416,6 +3437,7 @@ sub NavigationBar {
     for my $Key ( sort keys %NavBar ) {
         next ITEM if $Key eq 'Sub';
         next ITEM if !%{ $NavBar{$Key} };
+
         my $Item = $NavBar{$Key};
         $Item->{NameForID} = $Item->{Name};
         $Item->{NameForID} =~ s/[ &;]//ig;
@@ -3500,6 +3522,7 @@ sub NavigationBar {
                     );
 
                     $SearchAdded = 1;
+
                     last KEY;
                 }
             }
@@ -4302,6 +4325,7 @@ sub CustomerLogin {
                 Name => 'AuthTwoFactor',
                 Data => \%Param,
             );
+
             last COUNT;
         }
 
@@ -4440,8 +4464,11 @@ sub CustomerHeader {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -4565,6 +4592,7 @@ sub CustomerFooter {
                     GroupName => $GroupName,
                     Type      => 'ro',
                 );
+
                 last GROUP if $CustomerChatPermission;
             }
         }
@@ -4807,6 +4835,7 @@ sub CustomerNavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -4820,6 +4849,7 @@ sub CustomerNavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -4844,6 +4874,7 @@ sub CustomerNavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -4856,6 +4887,7 @@ sub CustomerNavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendModule->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -4864,6 +4896,7 @@ sub CustomerNavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -4882,7 +4915,7 @@ sub CustomerNavigationBar {
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBarModule{$Key};
+                last COUNT unless $NavBarModule{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -5000,11 +5033,13 @@ sub CustomerNavigationBar {
 
             # load module
             next JOB if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next JOB if !$Object;
+
+            next JOB unless $Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -5058,6 +5093,7 @@ sub CustomerNavigationBar {
             )
         {
             $Param{ShowPreferences} = 1;
+
             last PERMISSION;
         }
 
@@ -5070,6 +5106,7 @@ sub CustomerNavigationBar {
             GROUP:
             for my $Group ( @{ $FrontendModule->{CustomerPreferences}->{$Permission} } ) {
                 next GROUP if !$Group;
+
                 my $HasPermission = $GroupObject->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $Group,
@@ -5078,6 +5115,7 @@ sub CustomerNavigationBar {
                 );
                 if ($HasPermission) {
                     $Param{ShowPreferences} = 1;
+
                     last PERMISSION;
                 }
             }
@@ -5570,6 +5608,7 @@ sub RichTextDocumentServe {
             else {
                 $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
             }
+
             last ATTACHMENT_ID;
         }
 
@@ -5948,6 +5987,7 @@ sub _BuildSelectionDataRefCreate {
             KEY:
             for my $Key ( sort keys %{$DataLocal} ) {
                 next KEY if !defined $DataLocal->{$Key};
+
                 $SortHash{$Key} = $DataLocal->{$Key} . '::';
             }
             @SortKeys = sort { lc $SortHash{$a} cmp lc $SortHash{$b} } ( keys %SortHash );
