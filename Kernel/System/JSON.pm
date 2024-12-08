@@ -190,10 +190,11 @@ sub Decode {
     # In OTOBO 10.0.x and OTOBO 10.1.x there is a tree walker that
     # replaces the boolean values, that is instances of JSON::PP::Boolean,
     # with the plain integer values 0 and 1.
-    # This behavior is reproduced with explicitly declaring
-    # what should be emitted for JSON booleans 'true' and 'false'.
-    # Note that this attribute corresponds to the attribute boolean_value in JSON::XS.
-    $JSONObject->unblessed_bool(1);
+    #
+    # OTOBO 11.0.x used JSON::XS::boolean_values() for that purpose.
+    #
+    # The desired behavior can't easily be reproduced with the Cpanel::JSON::XS attribute 'unblessed_bool'.
+    # Therefore this tree walker is resurrected for handling booleans.
 
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
@@ -212,6 +213,11 @@ sub Decode {
 
         undef;    # keep $Scalar undefined
     };
+
+    # sanitize leftover boolean objects
+    $Scalar = $Self->_BooleansProcess(
+        JSON => $Scalar,
+    );
 
     return unless $Success;    # decode threw an exception
     return $Scalar;            # return the data structure, which might also be 0, '', or undef.
@@ -291,5 +297,54 @@ sub IsBool {
 
     return Types::Serialiser::is_bool($Scalar);
 }
+
+=begin Internal:
+
+=cut
+
+=head2 _BooleansProcess()
+
+decode boolean values leftover from JSON decoder to simple scalar values
+
+    my $ProcessedJSON = $JSONObject->_BooleansProcess(
+        JSON => $JSONData,
+    );
+
+=cut
+
+sub _BooleansProcess {
+    my ( $Self, %Param ) = @_;
+
+    # convert scalars if needed
+    if ( Cpanel::JSON::XS::is_bool( $Param{JSON} ) ) {
+        $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
+    }
+
+    # recurse into arrays, modify in place
+    elsif ( ref $Param{JSON} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    # recurse into hashes, modify in place
+    elsif ( ref $Param{JSON} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    return $Param{JSON};
+}
+
+=end Internal:
+
+=cut
 
 1;

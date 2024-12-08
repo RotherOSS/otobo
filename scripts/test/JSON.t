@@ -597,4 +597,81 @@ subtest 'IsBool() for Booleans' => sub {
     is( $JSONObject->IsBool( $JSONObject->ToBoolean(' ') ),   1, 'single space boolified' );
 };
 
+subtest '_BooleansProcess' => sub {
+    is(
+        $JSONObject->_BooleansProcess( JSON => $JSONObject->True ),
+        1,
+        'true'
+    );
+    is(
+        $JSONObject->_BooleansProcess( JSON => $JSONObject->False ),
+        0,
+        'false'
+    );
+    is(
+        $JSONObject->_BooleansProcess( JSON => [ 'blubber', '🍏', 0, 1, $JSONObject->False, $JSONObject->True ] ),
+        [ 'blubber', '🍏', 0, 1, 0, 1 ],
+        'arrayref'
+    );
+    is(
+        $JSONObject->_BooleansProcess(
+            JSON => {
+                'Ⓐ ' => 'blubber',
+                'Ⓑ'  => '🍏',
+                'Ⓒ'  => 0,
+                'Ⓓ'  => 1,
+                'Ⓔ'  => $JSONObject->False,
+                'Ⓕ'  => $JSONObject->True
+            }
+        ),
+        {
+            'Ⓐ ' => 'blubber',
+            'Ⓑ'  => '🍏',
+            'Ⓒ'  => 0,
+            'Ⓓ'  => 1,
+            'Ⓔ'  => 0,
+            'Ⓕ'  => 1
+        },
+        'hashref'
+    );
+    is(
+        $JSONObject->_BooleansProcess(
+            JSON =>
+                [
+                    'A',
+                    [ 'B', { 'C' => [ [ 'blubber', '🍏', 0, 1, $JSONObject->False, $JSONObject->True ] ] } ],
+                    {
+                        'D' => {
+                            'E' => {
+                                'Ⓐ' => 'blubber',
+                                'Ⓑ' => '🍏',
+                                'Ⓒ' => 0,
+                                'Ⓓ' => 1,
+                                'Ⓔ' => $JSONObject->False,
+                                'Ⓕ' => $JSONObject->True
+                            }
+                        }
+                    },
+                ]
+        ),
+        [
+            'A',
+            [ 'B', { 'C' => [ [ 'blubber', '🍏', 0, 1, 0, 1 ] ] } ],
+            {
+                'D' => {
+                    'E' => {
+                        'Ⓐ' => 'blubber',
+                        'Ⓑ' => '🍏',
+                        'Ⓒ' => 0,
+                        'Ⓓ' => 1,
+                        'Ⓔ' => 0,
+                        'Ⓕ' => 1
+                    }
+                }
+            },
+        ],
+        'nested'
+    );
+};
+
 done_testing;
