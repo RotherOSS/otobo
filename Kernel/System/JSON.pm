@@ -197,8 +197,7 @@ sub Decode {
     # with the method Cpanel::JSON::XS::unblessed_bool(1). This is because
     # unblessed_bool(1) turn the booleans into dualvar variables. The value for false
     # would be stringified as the empty string.
-    #
-    # TODO: Resurrect the tree walker for handling booleans.
+    # Therefore the tree walker for handling booleans is resurrected.
 
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
@@ -217,6 +216,11 @@ sub Decode {
 
         undef;    # keep $Scalar undefined
     };
+
+    # sanitize leftover boolean objects
+    $Scalar = $Self->_BooleansProcess(
+        JSON => $Scalar,
+    );
 
     return unless $Success;    # decode threw an exception
     return $Scalar;            # return the data structure, which might also be 0, '', or undef.
@@ -296,5 +300,54 @@ sub IsBool {
 
     return Types::Serialiser::is_bool($Scalar);
 }
+
+=begin Internal:
+
+=cut
+
+=head2 _BooleansProcess()
+
+decode boolean values leftover from JSON decoder to simple scalar values
+
+    my $ProcessedJSON = $JSONObject->_BooleansProcess(
+        JSON => $JSONData,
+    );
+
+=cut
+
+sub _BooleansProcess {
+    my ( $Self, %Param ) = @_;
+
+    # convert scalars if needed
+    if ( Cpanel::JSON::XS::is_bool( $Param{JSON} ) ) {
+        $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
+    }
+
+    # recurse into arrays, modify in place
+    elsif ( ref $Param{JSON} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    # recurse into hashes, modify in place
+    elsif ( ref $Param{JSON} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    return $Param{JSON};
+}
+
+=end Internal:
+
+=cut
 
 1;
