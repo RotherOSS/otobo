@@ -476,7 +476,7 @@ feature 'optional', 'Support for feature optional' => sub {
 
 };
 
-feature 'performance:redis', 'Support for feature performance:redis' => sub {
+feature 'performance:redis', 'Modules for running with Redis Cache Server' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 
