@@ -104,27 +104,37 @@ my @EncodeTests = (
     {
         Input  => "$Twelve" + 0,
         Result => '12',
-        Name   => '"$Twelve" numified by adding zero',
+        Name   => '"$Twelve" numified by adding zero, IV internally',
     },
     {
         Input  => "$Twelve asdf" + 0,
-        Result => '12',
-        Name   => '"$Twelve asdf" numified by adding zero',
+        Result => '12.0',
+        Name   => '"$Twelve asdf" numified by adding zero, NV internally',
     },
     {
         Input  => "asdf" + 6,
-        Result => '6',
-        Name   => 'non-numeral string plus six',
+        Result => '6.0',
+        Name   => 'non-numeral string plus six, NV internally',
+    },
+    {
+        Input  => "-2_000" + 6,
+        Result => '4.0',
+        Name   => 'negative non-numeral string plus six, NV internally',
+    },
+    {
+        Input  => "-2000" + 6,
+        Result => '-1994',
+        Name   => 'negative numeral string plus six, IV internally',
     },
     {
         Input  => "$Twelve" * 1,
         Result => '12',
-        Name   => '"$Twelve" numified by multiplying with one',
+        Name   => '"$Twelve" numified by multiplying by 1, IV internally',
     },
     {
         Input  => "$Twelve asdf" * 1,
-        Result => '12',
-        Name   => '"$Twelve asdf" numified by multiplying with one',
+        Result => '12.0',
+        Name   => '"$Twelve asdf" numified by multiplying by 1, NV internally',
     },
 
     # TypeAllString
@@ -233,12 +243,12 @@ my @EncodeTests = (
     },
     {
         Input  => 0.000,
-        Result => q{0},          # not obvious why there is no fractional part
+        Result => q{0.0},        # NV is preserved
         Name   => 'float zero'
     },
     {
         Input  => -0.000,
-        Result => q{-0},                  # not obvious why there is no fractional part
+        Result => q{-0.0},                # NV is preserved
         Name   => 'negative float zero'
     },
     {
