@@ -666,9 +666,9 @@ sub ArticleAccountedTimeGet {
             $TimeUnit =~ s/,/./g;
             $AccountedTime += $TimeUnit;
         }
-
-        return $AccountedTime;
     }
+
+    return $AccountedTime;
 }
 
 =head2 ArticleAccountedTimeDelete()
