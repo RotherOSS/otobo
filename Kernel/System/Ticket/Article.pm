@@ -644,7 +644,31 @@ sub ArticleAccountedTimeGet {
         $AccountedTime += $TimeUnit;
     }
 
-    return $AccountedTime;
+    return $AccountedTime if $AccountedTime;
+
+    # article not found in time_accounting table, check if it is deleted and sum former times
+    return if !$DBObject->Prepare(
+        SQL   => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1 ORDER BY id DESC',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1,
+    );
+
+    if ( my ($DeletedArticleID) = $DBObject->FetchrowArray ) {
+
+        # db query
+        return if !$DBObject->Prepare(
+            SQL  => 'SELECT time_unit FROM time_accounting_version WHERE article_id = ?',
+            Bind => [ \$DeletedArticleID ],
+        );
+
+        # Sum the result rows, even if usually there is only one row.
+        while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
+            $TimeUnit =~ s/,/./g;
+            $AccountedTime += $TimeUnit;
+        }
+
+        return $AccountedTime;
+    }
 }
 
 =head2 ArticleAccountedTimeDelete()
