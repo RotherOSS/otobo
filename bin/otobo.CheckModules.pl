@@ -327,7 +327,7 @@ my @NeededModules = (
     {
         Module    => 'Archive::Zip',
         Required  => 1,
-        Comment   => 'Required for compressed file generation.',
+        Comment   => 'Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV',
         InstTypes => {
             aptget => 'libarchive-zip-perl',
             emerge => 'dev-perl/Archive-Zip',
