@@ -1153,14 +1153,14 @@ sub Warning {
 
 create notify lines
 
-    infos, the text will be translated
+info lines, the text will be translated
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Warning',
-        Info => 'Some Info Message',
+        Info     => 'Some Info Message',
     );
 
-    data with link, the text will be translated
+data with link, the text will be translated
 
     my $Output = $LayoutObject->Notify(
         Priority  => 'Warning',
@@ -1169,14 +1169,14 @@ create notify lines
         LinkClass => 'some_CSS_class',              # optional
     );
 
-    errors, the text will be translated
+errors, the text will be translated
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
-        Info => 'Some Error Message',
+        Info     => 'Some Error Message',
     );
 
-    errors from log backend, if no error exists, a '' will be returned
+errors from log backend, if no error exists, a '' will be returned
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
