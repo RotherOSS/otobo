@@ -108,13 +108,10 @@ sub Encode {
         $JSONObject->pretty(1);
     }
 
-    # Briefly the option TypeAllString was supported. The aim was
-    # to put numbers into double quotes so that the JS side can be sure about what it will receive.
-    # However the type_all_string attribute is only available in Cpanel::JSON::XS >= 4.18. So this
-    # feature can't be used in OTOBO and the option has been removed.
-    #if ( $Param{TypeAllString} ) {
-    #    $JSONObject->type_all_string(1);
-    #}
+    # JSON::XS emitted numbers as strings. Let's do the same if requested.
+    if ( $Param{StringifyScalars} ) {
+        $Param{Data} = $Self->_StringifyScalarsProcess( Data => $Param{Data} );
+    }
 
     # Serialise the Perl data structure into the format JSON.
     #
@@ -344,6 +341,54 @@ sub _BooleansProcess {
     }
 
     return $Param{JSON};
+}
+
+=head2 _StringifyScalarsProcess()
+
+pass numbers as strings
+
+    my $ProcessedJSON = $JSONObject->_StringifyScalarsProcess(
+        Data => $Data,
+    );
+
+=cut
+
+sub _StringifyScalarsProcess {
+    my ( $Self, %Param ) = @_;
+
+    # dont fiddle with booleans
+    return $Param{Data} if Cpanel::JSON::XS::is_bool( $Param{Data} );
+
+    # dont fiddle with undefined values
+    return $Param{Data} unless defined $Param{Data};
+
+    # recurse into arrays, modify in place
+    if ( ref $Param{Data} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{Data} } ) {
+            $Value = $Self->_StringifyScalarsProcess(
+                Data => $Value,
+            );
+        }
+
+        return $Param{Data};
+    }
+
+    # recurse into hashes, modify in place
+    if ( ref $Param{Data} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{Data} } ) {
+            $Value = $Self->_StringifyScalarsProcess(
+                Data => $Value,
+            );
+        }
+
+        return $Param{Data};
+    }
+
+    # Force stringification of numbers.
+    # See https://metacpan.org/pod/Cpanel::JSON::XS#simple-scalars
+    return $Param{Data} . '';
 }
 
 =end Internal:

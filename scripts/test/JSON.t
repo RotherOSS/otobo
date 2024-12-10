@@ -137,103 +137,110 @@ my @EncodeTests = (
         Name   => '"$Twelve asdf" numified by multiplying by 1, NV internally',
     },
 
-    # TypeAllString
-    # These tests were meant for Cpanel::JSON::XS
-    #    {
-    #        Input  => -12,
-    #        Result => '"-12"',
-    #        Name   => 'TypeAllString with -12',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => 12,
-    #        Result => '"12"',
-    #        Name   => 'TypeAllString with 12',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => +12,
-    #        Result => '"12"',
-    #        Name   => 'TypeAllString with +12',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => 0,
-    #        Result => '"0"',
-    #        Name   => 'TypeAllString with number zero',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => "0",
-    #        Result => '"0"',
-    #        Name   => 'TypeAllString with string containing the digit zero',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => "Çe pa un niméro",
-    #        Result => '"Çe pa un niméro"',
-    #        Name   => 'TypeAllString with Kouri-Vini',
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input => {
-    #            AAA => "Çe pa un niméro",
-    #            BBB => 0,
-    #            CCC => "0",
-    #            DDD => -12,
-    #            EEE => "-12",
-    #            FFF => [ "Çe pa un niméro", 0, "0", -12, "-12" ],
-    #        },
-    #        Result => <<'END_JSON',
-    #{
-    #   "AAA" : "Çe pa un niméro",
-    #   "BBB" : "0",
-    #   "CCC" : "0",
-    #   "DDD" : "-12",
-    #   "EEE" : "-12",
-    #   "FFF" : [
-    #      "Çe pa un niméro",
-    #      "0",
-    #      "0",
-    #      "-12",
-    #      "-12"
-    #   ]
-    #}
-    #END_JSON
-    #        Name   => 'TypeAllString with nested data',
-    #        Params => {
-    #            Pretty        => 1,
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => $JSONObject->True(),
-    #        Result => '"true"',
-    #        Name   => q{TypeAllString bool true, don't do this in production},
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
-    #    {
-    #        Input  => $JSONObject->False(),
-    #        Result => '"false"',
-    #        Name   => q{TypeAllString bool false, don't do this in production},
-    #        Params => {
-    #            TypeAllString => 1,
-    #        },
-    #    },
+    # StringifyScalars
+    {
+        Input  => -12,
+        Result => '"-12"',
+        Name   => 'StringifyScalars with -12',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => 12,
+        Result => '"12"',
+        Name   => 'StringifyScalars with 12',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => +12,
+        Result => '"12"',
+        Name   => 'StringifyScalars with +12',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => 0,
+        Result => '"0"',
+        Name   => 'StringifyScalars with number zero',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => "0",
+        Result => '"0"',
+        Name   => 'StringifyScalars with string containing the digit zero',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => "Çe pa un niméro",
+        Result => '"Çe pa un niméro"',
+        Name   => 'StringifyScalars with Kouri-Vini',
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input => {
+            AAA => "Çe pa un niméro",
+            BBB => 0,
+            CCC => "0",
+            DDD => -12,
+            EEE => "-12",
+            FFF => [ "Çe pa un niméro", 0, "0", -12, "-12" ],
+        },
+        Result => <<'END_JSON',
+{
+   "AAA" : "Çe pa un niméro",
+   "BBB" : "0",
+   "CCC" : "0",
+   "DDD" : "-12",
+   "EEE" : "-12",
+   "FFF" : [
+      "Çe pa un niméro",
+      "0",
+      "0",
+      "-12",
+      "-12"
+   ]
+}
+END_JSON
+        Name   => 'StringifyScalars with nested data',
+        Params => {
+            Pretty           => 1,
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => $JSONObject->True(),
+        Result => 'true',
+        Name   => q{StringifyScalars true, not converted to string},
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => $JSONObject->False(),
+        Result => 'false',
+        Name   => q{StringifyScalars false, not converted to string},
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
+    {
+        Input  => [ $JSONObject->True(), $JSONObject->False() ],
+        Result => '[true,false]',
+        Name   => q{StringifyScalars true and false, not converted to string},
+        Params => {
+            StringifyScalars => 1,
+        },
+    },
 
     # more about zero
     {

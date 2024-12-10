@@ -281,9 +281,9 @@ sub _InstallOTOBOExtensions {
             my %Data = %{ $context->{LayoutObject}->{_JSData} // {} };
             if (%Data) {
                 my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                    Data          => \%Data,
-                    SortKeys      => 1,
-                    TypeAllString => 1,
+                    Data             => \%Data,
+                    SortKeys         => 1,
+                    StringifyScalars => 1,
                 );
 
                 # Escape closing script tags in the JSON content as they will confuse the
