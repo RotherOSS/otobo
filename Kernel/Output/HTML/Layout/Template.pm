@@ -332,9 +332,9 @@ sub Output {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
             my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data          => \%Data,
-                SortKeys      => 1,
-                TypeAllString => 1,
+                Data             => \%Data,
+                SortKeys         => 1,
+                StringifyScalars => 1,
             );
             $Output .= <<"END_HTML";
 
