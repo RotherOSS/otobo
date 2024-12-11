@@ -15,6 +15,7 @@
 # --
 
 package Kernel::Output::Template::Provider;
+
 ## no critic(Perl::Critic::Policy::OTOBO::RequireCamelCase)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
@@ -358,16 +359,21 @@ sub _PreProcessTemplateContent {
 
     #
     # Insert a BLOCK call into the template.
-    # [% RenderBlock('b1') %]...[% END %]
+    # [% RenderBlockStart('SampleBlock1') %]...[% RenderBlockEnd('SampleBlock1') %]
     # becomes
-    # [% PerformRenderBlock('b1') %][% BLOCK 'b1' %]...[% END %]
+    # [% PerformRenderBlock('SampleBlock1') %][% BLOCK 'SampleBlock1' -%]...[% END -%]
+    #
     # This is what we need: define the block and call it from the RenderBlock macro
     # to render it based on available block data from the frontend modules.
+    # The PerformRenderBlock macro is implemente in Kernel::Output::Template::Provider.pm
+    #
+    # Note that the argument of RenderBlockEnd is not actually used.
+    #
+    # Nesting blocks in the template is possible.
     #
     $Content =~ s{
         \[% -? \s* RenderBlockStart \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]
         }{[% PerformRenderBlock("$1") %][% BLOCK "$1" -%]}smxg;
-
     $Content =~ s{
         \[% -? \s* RenderBlockEnd \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]
         }{[% END -%]}smxg;
