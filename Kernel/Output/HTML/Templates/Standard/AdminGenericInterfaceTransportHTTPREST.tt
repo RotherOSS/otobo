@@ -502,7 +502,7 @@
                                         <div class="ValueRows">
 [% RenderBlockStart("OutboundHeadersOperationSpecificEntryValueRow") %]
                                             <div>
-                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %] placeholder="[% Translate("Header Name") | html %]""/>
+                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %]" placeholder="[% Translate("Header Name") | html %]"/>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.item(  'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerErrorMessage' ) | Translate | html %]</p></div>
 
