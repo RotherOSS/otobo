@@ -29,7 +29,6 @@ variables:
     value: ""
     description: "Space separated list of versioned otobo packages names or full urls, e.g. 'Fred-11.0.1.opm' or 'https://ftp.otobo.org/pub/otobo/packages/:Fred-11.0.1.opm'\n See output of ./otobo.Console.pl Admin::Package::RepositoryList for possible values"
   OTOBO_DB_ROOT_PASSWORD: "programmieren_auf_dem_bauernhof"
-  # TODO: packacge might need /opt/otobo/Custom?
   OTOBO_INSTALL_LIBS: '$PERL5LIB:/opt/otobo_install/otobo_next:/opt/otobo:/opt/otobo_install/otobo_next/Kernel/cpan-lib'
   OTOBO_TEST_LIBS: '$PERL5LIB:/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5/:/opt/otobo:/opt/otobo/Kernel/cpan-lib'
   OTOBO_JUNIT:
