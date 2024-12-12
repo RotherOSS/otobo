@@ -628,11 +628,12 @@ sub RequesterPerformRequest {
 
         # skip hostname verification
         if (
-            IsStringWithData( $Config->{SSL}->{SSLVerifyHostname} )
-            && $Config->{SSL}->{SSLVerifyHostname} eq 'No'
+            IsStringWithData( $Config->{SSL}{SSLVerifyHostname} )
+            && $Config->{SSL}{SSLVerifyHostname} eq 'No'
             )
         {
             $RestClient->getUseragent()->ssl_opts( verify_hostname => 0 );
+            $RestClient->getUseragent()->ssl_opts( SSL_verify_mode => 0 );
         }
     }
 
