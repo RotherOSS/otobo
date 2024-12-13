@@ -400,6 +400,7 @@ sub _AddAction {
 
     # differentiate only between autocomplete and dropdown
     $FieldConfig{EditFieldMode} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : 'Dropdown';
+    $FieldConfig{PossibleNone}  = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 1              : $FieldConfig{PossibleNone};
 
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};
@@ -721,6 +722,7 @@ sub _ChangeAction {
 
     # differentiate only between autocomplete and dropdown
     $FieldConfig{EditFieldMode} = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 'AutoComplete' : 'Dropdown';
+    $FieldConfig{PossibleNone}  = $FieldConfig{EditFieldMode} eq 'AutoComplete' ? 1              : $FieldConfig{PossibleNone};
 
     # multiselect excludes multivalue
     $FieldConfig{MultiValue} = $FieldConfig{Multiselect} ? 0 : $FieldConfig{MultiValue};

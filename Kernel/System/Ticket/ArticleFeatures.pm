@@ -538,10 +538,10 @@ sub ArticleRestore {
 
 =head2 DeleteVersionData()
 
-Delete all version data for an article.
+Delete all version data for all articles in a ticket.
 
     my $Success = $ArticleFeaturesObject->DeleteVersionData(
-        ArticleID => 123,   # required
+        TicketID => 123,   # required
     );
 
 Returns:
