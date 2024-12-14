@@ -119,6 +119,8 @@ my %InstTypeToCMD = (
         SubCMD    => 'perl(%s)',
         UseModule => 1,
     },
+
+    # for a Perl package list see https://packagehub.suse.com/package-categories/perl/
     zypper => {
         CMD       => 'zypper install %s',
         UseModule => 0,
@@ -199,20 +201,23 @@ my %IsDockerFeature = (
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
-    'aaacore'       => 'Required packages',
-    'apache'        => 'Recommended features for setups using apache',
-    'db'            => 'Database support (installing one is required)',
-    'db:mysql'      => 'Support for database MySQL',
-    'db:odbc'       => 'Support for database access via ODBC',
-    'db:oracle'     => 'Support for database Oracle',
-    'db:postgresql' => 'Support for database PostgreSQL',
-    'db:sqlite'     => 'Support for database SQLLite',
-    'devel'         => 'Features which can be useful in development environments',
-    'div'           => 'Various features for additional functionality',
-    'mail'          => 'Features enabling communication with a mail-server',
-    'performance'   => 'Optional features which can increase performance',
-    'plack'         => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
-    'zzznone'       => 'Uncategorized',
+    'aaacore'           => 'Required packages',
+    'apache'            => 'Recommended features for setups using apache',
+    'db'                => 'Database support (installing one is required)',
+    'db:mysql'          => 'Support for database MySQL',
+    'db:odbc'           => 'Support for database access via ODBC',
+    'db:oracle'         => 'Support for database Oracle',
+    'db:postgresql'     => 'Support for database PostgreSQL',
+    'db:sqlite'         => 'Support for database SQLLite',
+    'devel:encoding'    => 'Modules for debugging encoding issues',
+    'devel:test'        => 'Modules for running the test suite',
+    'div'               => 'Various features for additional functionality',
+    'mail'              => 'Features enabling communication with a mail-server',
+    'performance:json'  => 'Fast JSON handling',
+    'performance:csv '  => 'Tast CSV handline',
+    'performance:redis' => 'Modules for running with Redis Cache Server',
+    'plack'             => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
+    'zzznone'           => 'Uncategorized',
 );
 
 my $OSDist;
@@ -312,7 +317,7 @@ my @NeededModules = (
     {
         Module    => 'Archive::Zip',
         Required  => 1,
-        Comment   => 'Required for compressed file generation.',
+        Comment   => 'Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV',
         InstTypes => {
             aptget => 'libarchive-zip-perl',
             emerge => 'dev-perl/Archive-Zip',
@@ -573,6 +578,7 @@ my @NeededModules = (
         VersionComments => [
             qq{Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.},
         ],
+        Comment   => 'Required to connect to a MS-SQL database.',
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,

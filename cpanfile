@@ -5,7 +5,7 @@
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 requires 'Date::Format';
@@ -105,13 +105,13 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 };
 
-feature 'devel:encoding', 'Support for feature devel:encoding' => sub {
+feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
     # for deeply inspecting strings
     requires 'String::Dump';
 
 };
 
-feature 'devel:test', 'Support for feature devel:test' => sub {
+feature 'devel:test', 'Modules for running the test suite' => sub {
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', '>= 1.40';
 
@@ -345,13 +345,13 @@ feature 'performance:csv', 'Support for feature performance:csv' => sub {
 
 };
 
-feature 'performance:json', 'Support for feature performance:json' => sub {
+feature 'performance:json', 'Fast JSON handling' => sub {
     # Recommended for faster AJAX/JavaScript handling.
     requires 'JSON::XS';
 
 };
 
-feature 'performance:redis', 'Support for feature performance:redis' => sub {
+feature 'performance:redis', 'Modules for running with Redis Cache Server' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 
