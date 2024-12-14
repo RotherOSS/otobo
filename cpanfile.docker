@@ -115,6 +115,9 @@ requires 'Unicode::Collate';
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
+    # show diff when comparing strings
+    requires 'Test::Differences', '>= 0.64';
+
 # };
 
 # feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
