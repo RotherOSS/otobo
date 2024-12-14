@@ -5,7 +5,7 @@
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 # Support for readonly Perl variables
@@ -197,6 +197,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
 
     # support for formatting test results
     requires 'Unicode::GCString';
+
+    # show diff when comparing strings
+    requires 'Test::Differences', '>= 0.64';
 
 };
 
@@ -440,6 +443,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # module for manipulating .po entries
     requires 'Locale::PO';
+
+    # show diff when comparing strings
+    requires 'Test::Differences', '>= 0.64';
 
     # language packs from the CLDR project
     requires 'Locale::CLDR::Locales::Ar', '== 0.44.1';

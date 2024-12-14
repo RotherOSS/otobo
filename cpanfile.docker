@@ -5,7 +5,7 @@
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 # Support for readonly Perl variables
@@ -191,6 +191,9 @@ requires 'Plack::Middleware::ReverseProxy';
 
     # support for formatting test results
     requires 'Unicode::GCString';
+
+    # show diff when comparing strings
+    requires 'Test::Differences', '>= 0.64';
 
 # };
 
