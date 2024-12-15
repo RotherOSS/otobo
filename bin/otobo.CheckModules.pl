@@ -1243,18 +1243,6 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module          => 'Test::Differences',
-        Features        => ['devel:test'],
-        VersionRequired => '>= 0.64',                            # 0.64 was released in 2015
-        Comment         => 'show diff when comparing strings',
-        InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
 );
 
 # Add CLDR language packs. It is not decided yet whether all 50 languages are added.

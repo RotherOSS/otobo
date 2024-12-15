@@ -19,17 +19,15 @@ use warnings;
 use utf8;
 
 # core modules
-use Encode qw(encode);    # workaround for Test::Differences
 
 # CPAN modules
 use HTTP::Request::Common qw(POST);
 use Test2::V0;
-use Test::Simple;         # workaround for Test::Differences
-use Test::Differences qw(unified_diff eq_or_diff);
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);    # must be loaded before RegisterOM
+use Kernel::System::UnitTest::RegisterOM;                   # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 use Kernel::Output::HTML::Layout ();
 use Kernel::System::VariableCheck qw(:all);
 
@@ -3744,9 +3742,6 @@ EOF
     },
 );
 
-# declare that eq_or_diff() should emit an unified diff
-unified_diff();
-
 # execute tests
 for my $Test (@Tests) {
 
@@ -3802,11 +3797,10 @@ for my $Test (@Tests) {
 
             for my $Key (qw(Field Label)) {
 
-                # make sure to compare bytes, as otherwise there is a problem with splitting the string
-                # see https://github.com/DrHyde/perl-modules-Test-Differences/issues/30
-                eq_or_diff(
-                    encode( 'UTF-8', $FieldHTML->{$Key} ),
-                    encode( 'UTF-8', $Test->{ExpectedResults}->{$Key} ),
+                # compare long strings and get an unified diff in case of mismatch
+                TextEqOrDiff(
+                    $FieldHTML->{$Key},
+                    $Test->{ExpectedResults}->{$Key},
                     "EditFieldRender() gave the expected content for $Key",
                 );
             }
