@@ -29,7 +29,7 @@ use Kernel::System::UnitTest::RegisterOM;
 use Kernel::System::UnitTest::Selenium;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $Selenium->RunTest(
     sub {

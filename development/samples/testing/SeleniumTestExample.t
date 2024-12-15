@@ -24,20 +24,21 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test2::V0;                              # please use this for assertions
+use Test2::V0;    # please use this for assertions
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterOM;   # Set up $Kernel::OM
-use Kernel::System::UnitTest::Selenium;     # Set up $Selenium
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Selenium;      # Set up $Selenium
 
 # OTOBO specific test helpers
-# $Selenium provides all the functions of Test::Selenium::Remote::Driver 
+# $Selenium provides all the functions of Test::Selenium::Remote::Driver
 # as well as OTOBO specific helper functions ie. for logging in or drag-and-drop
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+
 # OTOBO specific helper functions, ie. user creation / changing sysconfig settings
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# writing the test as an anonymous function handed to RunTest() we make sure that it is only 
+# writing the test as an anonymous function handed to RunTest() we make sure that it is only
 # executed if Selenium testing is activated. Otherwise it will just skip with a logged comment.
 $Selenium->RunTest(
     sub {
@@ -73,7 +74,7 @@ $Selenium->RunTest(
         # is this test useful?
 
         # how would i check if the logo is actually visible?
-        
+
     },
 );
 

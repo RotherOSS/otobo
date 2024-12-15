@@ -381,7 +381,6 @@ sub SearchFieldPreferences {
     return $Result;
 }
 
-
 sub StatsFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 

@@ -46,11 +46,11 @@ sub Run {
     my $PackageObject           = $Kernel::OM->Get('Kernel::System::Package');
 
     # support console command
-    if( !defined $DBObject->{dbh} ) {
+    if ( !defined $DBObject->{dbh} ) {
         $DBObject->Connect();
     }
-    if( !defined $DBObject->{dbh} ) {
-        die ("unable to connect to Database.");
+    if ( !defined $DBObject->{dbh} ) {
+        die("unable to connect to Database.");
     }
 
     # get DynamicFieldOTOBOAgents package

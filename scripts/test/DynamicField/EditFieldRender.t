@@ -28,8 +28,8 @@ use Test2::V0;
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);    # must be loaded before RegisterOM
 use Kernel::System::UnitTest::RegisterOM;                   # Set up $Kernel::OM
 use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
-use Kernel::Output::HTML::Layout ();
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::Output::HTML::Layout   ();
+use Kernel::System::VariableCheck  qw(:all);
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
