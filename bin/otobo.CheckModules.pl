@@ -1052,18 +1052,6 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module          => 'Test::Differences',
-        Features        => ['devel:test'],
-        VersionRequired => '>= 0.64',                            # 0.64 was released in 2015
-        Comment         => 'show diff when comparing strings',
-        InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
 );
 
 # Sanity check.

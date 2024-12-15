@@ -127,9 +127,6 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
-    # show diff when comparing strings
-    requires 'Test::Differences', '>= 0.64';
-
 };
 
 feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
@@ -339,9 +336,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
-
-    # show diff when comparing strings
-    requires 'Test::Differences', '>= 0.64';
 
 };
 
