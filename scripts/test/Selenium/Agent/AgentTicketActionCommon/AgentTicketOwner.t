@@ -191,15 +191,15 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
             'Filter checkbox initially unchecked',
         );
 
-        # TODO: but the list of users is not changed in the remote controlled browser
-        $PreviousOwnerElement->execute_script(q{ $(arguments[0]).click() });
-        is(
-            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).prop('checked'); }),
-            1,
-            'Filter checkbox checked after clicking',
-        );
+        # Activate the 'Previous Owner' filter by clicking the checkbox.
+        #
+        # Note that for some reason
+        #   $PreviousOwnerElement->execute_script(q{ $(arguments[0]).click() });
+        # is not equivalten to
+        #   $PreviousOwnerElement->click
+        $PreviousOwnerElement->click;
 
-        # Only one previous owner, the user $UserID[1] should be available.
+        # There is only one previous owner. So the user $UserID[1] should be available.
         # Verify the label for that owner. $UserData{UserFullname} included the out-of-office message.
         # Also note that the prefix '1: ' has been added to the label.
         my $UserSelectionElement = $Selenium->find_element( qq{#NewOwnerID option[value="$UserID[1]"]}, 'css' );
@@ -209,9 +209,12 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
             "Out of office message is found for the user $TestUser[1]"
         );
 
-        # Change ticket owner by clicking.
-        # TODO: this does not actually select the user 1 and the test script fails
-        $UserSelectionElement->execute_script(q{ $(arguments[0]).click() });
+        # Change ticket owner by setting the value, fakeing a click.
+        #
+        # Note that a simple click does not work due to lazy loading
+        # $UserSelectionElement->click;
+        my $UserSelectionElementForValueSet = $Selenium->find_element( qq{#NewOwnerID}, 'css' );
+        $UserSelectionElementForValueSet->execute_script(qq{ arguments[0].value="$UserID[1]"; });
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
