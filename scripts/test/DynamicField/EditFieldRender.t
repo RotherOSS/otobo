@@ -136,10 +136,10 @@ $UserSelectionString               =~ s/^\n//;
 $UserSelectionSelectedAgent1String =~ s/^\n//;
 $UserSelectionSelectedAgent2String =~ s/^\n//;
 
-# add empty value to the end
-$UserSelectionString               .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent1String .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent2String .= "\n  <option value=\"\">-</option>";
+# add empty value to the top
+$UserSelectionString               = "  <option value=\"\">-</option>\n" . $UserSelectionString;
+$UserSelectionSelectedAgent1String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent1String;
+$UserSelectionSelectedAgent2String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent2String;
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
