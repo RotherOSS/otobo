@@ -27,13 +27,16 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Test2::Require::OTOBO::Selenium;         # run Selenium tests only when Selenium is configured
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-$Selenium->RunTest(
-    sub {
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# Force indention of eight spaces in order to reduce diffs with
+# the version where RunTest was used.
+{
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+    {
 
         # Enable change owner to everyone feature.
         $Helper->ConfigSettingChange(
@@ -408,6 +411,6 @@ $Selenium->RunTest(
             Type => 'Ticket',
         );
     }
-);
+}
 
 done_testing();
