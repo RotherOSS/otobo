@@ -395,6 +395,11 @@ sub PrepareRequest {
 
             $ArticleRaw{CommunicationChannel} = $ArticleBackendObject->ChannelNameGet();
             push @ArticleBoxRaw, \%ArticleRaw;
+
+            if ( $CountLastArticle == 1 ) {
+                # only consider the latest article
+                last ARTICLE;
+            }
         }
     }
 
@@ -660,11 +665,6 @@ sub PrepareRequest {
         for my $Article (@ArticleBox) {
             my $ClonedArticle = dclone($Article);
             delete $ClonedArticle->{Attachment};
-
-            if ( $CountLastArticle == 1 ) {
-                $ReturnData{Article} = $ClonedArticle;
-                last ARTICLE;
-            }
 
             push @{ $ReturnData{Article} }, $ClonedArticle;
         }
