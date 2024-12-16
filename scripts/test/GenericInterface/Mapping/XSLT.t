@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,13 +22,12 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::GenericInterface::Debugger ();
 use Kernel::GenericInterface::Mapping  ();
-
-our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -40,7 +40,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     CommunicationType => 'Provider',
 );
 
-my @MappingTests = (
+my @Tests = (
     {
         Name   => 'Test invalid xml',
         Config => {
@@ -54,7 +54,7 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
-        Name   => 'Test no xslt',
+        Name   => 'Test no XSLT',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>
 <valid-xml-but-no-xslt/>',
@@ -67,7 +67,7 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
-        Name   => 'Test invalid xslt',
+        Name   => 'Test invalid XSLT',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -324,74 +324,326 @@ my @MappingTests = (
     },
 );
 
-TEST:
-for my $Test (@MappingTests) {
+# test the roundtrip XMLout -> Identity Transform -> XMLin
+{
+    my $IdentityTransform = <<'END_STYLESHEET';
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/">
+    <xsl:copy-of select="*"/>
+  </xsl:template>
+</xsl:stylesheet>
+END_STYLESHEET
 
-    # create a mapping instance
-    my $MappingObject = Kernel::GenericInterface::Mapping->new(
-        DebuggerObject => $DebuggerObject,
-        MappingConfig  => {
-            Type   => 'XSLT',
-            Config => $Test->{Config},
+    push @Tests,
+        {
+            Name   => 'Roundtrip non-empty string',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 'Value',
+            },
+            ResultData => {
+                Key => 'Value',
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
         },
-    );
-    if ( $Test->{ConfigSuccess} ) {
-        $Self->Is(
-            ref $MappingObject,
-            'Kernel::GenericInterface::Mapping',
-            $Test->{Name} . ' MappingObject was correctly instantiated',
-        );
-        next TEST if ref $MappingObject ne 'Kernel::GenericInterface::Mapping';
-    }
-    else {
-        $Self->IsNot(
-            ref $MappingObject,
-            'Kernel::GenericInterface::Mapping',
-            $Test->{Name} . ' MappingObject was not correctly instantiated',
-        );
-        next TEST;
-    }
-
-    my $MappingResult = $MappingObject->Map(
-        Data        => $Test->{Data},
-        DataInclude => $Test->{DataInclude},
-    );
-
-    # check if function return correct status
-    $Self->Is(
-        $MappingResult->{Success},
-        $Test->{ResultSuccess},
-        $Test->{Name} . ' (Success).',
-    );
-
-    # check if function return correct data
-    $Self->IsDeeply(
-        $MappingResult->{Data},
-        $Test->{ResultData},
-        $Test->{Name} . ' (Data Structure).',
-    );
-
-    if ( !$Test->{ResultSuccess} ) {
-        $Self->True(
-            $MappingResult->{ErrorMessage},
-            $Test->{Name} . ' error message found',
-        );
-    }
-
-    # instantiate another object
-    my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
-        DebuggerObject => $DebuggerObject,
-        MappingConfig  => {
-            Type   => 'XSLT',
-            Config => $Test->{Config},
+        {
+            Name   => 'Roundtrip empty string, the empty string survives',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => q{},
+            },
+            ResultData => {
+                Key => q{},
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
         },
-    );
-
-    $Self->Is(
-        ref $SecondMappingObject,
-        'Kernel::GenericInterface::Mapping',
-        $Test->{Name} . ' SecondMappingObject was correctly instantiated',
-    );
+        {
+            Name   => 'Roundtrip undef, turned into empty string',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => undef,
+            },
+            ResultData => {
+                Key => '',
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip number 100',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 100,
+            },
+            ResultData => {
+                Key => 100,
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        },
+        {
+            Name   => 'Roundtrip number 0',
+            Config => {
+                Template => $IdentityTransform,
+            },
+            Data => {
+                Key => 0,
+            },
+            ResultData => {
+                Key => 0,
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
 }
 
-$Self->DoneTesting();
+# add some tests that take the input data from a JSON string
+{
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    # show that the mapping works with parsed JSON
+    push @Tests,
+        {
+            Name   => 'ammend simple JSON array',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <WeierstrassArray>
+          <xsl:text>℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:</xsl:text>
+          <xsl:value-of select="." />
+        </WeierstrassArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Key2": "is ignored",
+        "Array1": [ "Element 🅐", "Element 🅑", "Element 🅒" ]
+    }
+}
+END_JSON
+            ResultData => {
+                WeierstrassArray => [
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅐',
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅑',
+                    '℘ - U+02118 - WEIERSTRASS ELLIPTIC FUNCTION:Element 🅒',
+                ],
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+
+    # now with boolean checks,
+    # actually string tests as the node values have no type assigned
+    push @Tests,
+        {
+            Name   => 'truthiness',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <TrueOrNotTrueArray>
+          <xsl:choose>
+            <xsl:when test="string() = ''">
+              <xsl:text>⊭ NOT TRUE: empty string:</xsl:text>
+            </xsl:when>
+            <xsl:when test="string() = ''">
+              <xsl:text>⊭ NOT TRUE: empty string:</xsl:text>
+            </xsl:when>
+            <xsl:when test="string() = '0'">
+              <xsl:text>⊭ NOT TRUE: integer 0:</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>⊨ TRUE: otherwise:</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="text()" />
+          <xsl:text>,</xsl:text>
+          <xsl:value-of select="name()" />
+        </TrueOrNotTrueArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Array1": [ "Element 🅐", "Element 🅑", "Element 🅒", 1, "", true, false ]
+    }
+}
+END_JSON
+            ResultData => {
+                'TrueOrNotTrueArray' => [
+                    "\x{22a8} TRUE: otherwise:Element \x{1f150},Array1",
+                    "\x{22a8} TRUE: otherwise:Element \x{1f151},Array1",
+                    "\x{22a8} TRUE: otherwise:Element \x{1f152},Array1",
+                    "\x{22a8} TRUE: otherwise:1,Array1",
+                    "\x{22ad} NOT TRUE: empty string:,Array1",
+                    "\x{22a8} TRUE: otherwise:1,Array1",
+                    "\x{22ad} NOT TRUE: integer 0:0,Array1"
+                ]
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+
+    # using a number variable
+    push @Tests,
+        {
+            Name   => 'number variable',
+            Config => {
+                Template => << 'END_TEMPLATE',
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  <xsl:template match="/RootElement/Structure1">
+    <NewRootElement>
+      <xsl:for-each select="Array1">
+        <TrueOrNotTrueArray>
+          <!-- as="xs:integer" does not seem to cast to integer. So call number() explicitly -->
+          <xsl:variable name="my_int" select="number(.)"/>
+          <xsl:choose>
+            <xsl:when test="$my_int">
+              <xsl:text>⊨ TRUE:</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>⊭ NOT TRUE:</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="$my_int" />
+          <xsl:text>,</xsl:text>
+          <xsl:value-of select="$my_int + 100" />
+        </TrueOrNotTrueArray>
+      </xsl:for-each>
+    </NewRootElement>
+  </xsl:template>
+</xsl:stylesheet>
+END_TEMPLATE
+            },
+            Data => $JSONObject->Decode( Data => <<'END_JSON' ),
+{
+    "Structure1": {
+        "Array1": [ -1, 0, 1, "-1", "0", "1", false, true ]
+    }
+}
+END_JSON
+            ResultData => {
+                'TrueOrNotTrueArray' => [
+                    "\x{22a8} TRUE:-1,99",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                    "\x{22a8} TRUE:-1,99",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                    "\x{22ad} NOT TRUE:0,100",
+                    "\x{22a8} TRUE:1,101",
+                ]
+            },
+            ResultSuccess => 1,
+            ConfigSuccess => 1,
+        };
+}
+
+for my $Test (@Tests) {
+
+    subtest $Test->{Name} => sub {
+
+        # create a mapping instance
+        my $MappingObject = Kernel::GenericInterface::Mapping->new(
+            DebuggerObject => $DebuggerObject,
+            MappingConfig  => {
+                Type   => 'XSLT',
+                Config => $Test->{Config},
+            },
+        );
+        if ( $Test->{ConfigSuccess} ) {
+            is(
+                ref $MappingObject,
+                'Kernel::GenericInterface::Mapping',
+                'MappingObject was correctly instantiated',
+            );
+
+            return unless ref $MappingObject eq 'Kernel::GenericInterface::Mapping';
+        }
+        else {
+            isnt(
+                ref $MappingObject,
+                'Kernel::GenericInterface::Mapping',
+                'MappingObject was not correctly instantiated',
+            );
+
+            return;
+        }
+
+        my $MappingResult = $MappingObject->Map(
+            Data        => $Test->{Data},
+            DataInclude => $Test->{DataInclude},
+        );
+
+        # check if function return correct status
+        is(
+            $MappingResult->{Success},
+            $Test->{ResultSuccess},
+            ( $Test->{ResultSuccess} ? 'Map() was successful' : 'Map() was not successful' ),
+        );
+
+        # check if function return correct data
+        is(
+            $MappingResult->{Data},
+            $Test->{ResultData},
+            'Data Structure',
+        );
+
+        if ( !$Test->{ResultSuccess} ) {
+            diag $MappingResult->{ErrorMessage};
+            ok(
+                $MappingResult->{ErrorMessage},
+                'error message found',
+            );
+        }
+
+        # instantiate another object
+        my $SecondMappingObject = Kernel::GenericInterface::Mapping->new(
+            DebuggerObject => $DebuggerObject,
+            MappingConfig  => {
+                Type   => 'XSLT',
+                Config => $Test->{Config},
+            },
+        );
+
+        is(
+            ref $SecondMappingObject,
+            'Kernel::GenericInterface::Mapping',
+            'SecondMappingObject was correctly instantiated',
+        );
+    };
+}
+
+done_testing;

@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-07-06 09:13+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/otobo/otobo-10/ar_SA/>\n"
+"PO-Revision-Date: 2024-10-25 08:13+0000\n"
+"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
+"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/otobo/otobo-11/ar_SA/>\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14148,7 +14148,7 @@ msgstr "‎%s غيغابايت (GB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr "ميغابايت (MB) ‎%s"
+msgstr "s% ميغاباي ‎(MB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
@@ -26916,5 +26916,9 @@ msgstr ""
 
 #. SysConfig
 msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
 

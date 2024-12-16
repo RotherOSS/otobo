@@ -154,10 +154,10 @@ sub Run {
             #   values stored previously in older format might not be compatible with new human readable form.
             #   Please see bug#11520 for more information.
             #
-            # HistoryType: TicketDynamicFieldUpdate
+            # HistoryType: ArticleDynamicFieldUpdate & TicketDynamicFieldUpdate
             #   - Old: %%FieldName%%$FieldName%%Value%%$HistoryValue%%OldValue%%$HistoryOldValue
             #   - New: %%$FieldName%%$HistoryOldValue%%$HistoryValue
-            if ( $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
+            if ( $Data->{HistoryType} eq 'ArticleDynamicFieldUpdate' || $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
                 @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
             }
 

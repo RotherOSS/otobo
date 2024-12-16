@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99700284729507;
+    $Self->{Completeness}        = 0.996852989659823;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9819,8 +9819,8 @@ Ihr Helpdesk-Team
         'This option defines the process tickets default state.' => 'Diese Option setzt den Standard-Status für Prozess-Tickets.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             'Hier können Sie zusätzliche QuickDate Buttons für die Warten-Option definieren. Zur geordneten Anzeige muss ein Hash-Eintrag pro Array-Segment definiert werden. Als Key wird der Name des Buttons eingegeben, als Wert dessen Wert. Dabei setzt eine einzelne Zahl n das Warten-Datum auf n Tage ab jetzt, ein +n fügt n Tage zum aktuellen Datum hinzu, -n zieht sie ab.',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit dem selben Kundenunternehmen.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Diese Einstellung erlaubt das Überschreiben der eingebauten Länderliste. Durch Nutzung dieser Einstellung können Sie z. B. eine eigene, kürzere Länderliste nutzen, wenn dies für Sie passender ist.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Diese Einstellung ist veraltet. Bitte nutzen Sie stattdessen die Einstellung OTOBOTimeZone.',

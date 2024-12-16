@@ -1501,7 +1501,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::PendingDiffTime" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
-        <Description Translatable="1">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
+        <Description Translatable="1">Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">86400</Item>
@@ -12132,6 +12132,10 @@
         <Value>
             <Array>
                 <Item>AgentAppointmentCalendarOverview</Item>
+                <Item>AgentTicketArticleDelete</Item>
+                <Item>AgentTicketArticleEdit</Item>
+                <Item>AgentTicketArticleRestore</Item>
+                <Item>AgentTicketArticleVersion</Item>
                 <Item>AgentTicketBounce</Item>
                 <Item>AgentTicketBulk</Item>
                 <Item>AgentTicketClose</Item>

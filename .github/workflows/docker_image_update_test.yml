@@ -1,6 +1,6 @@
 %YAML 1.1
 ---
-name: 'DockerImageUpdateChecker'
+name: 'DockerImageUpdateTest'
 # Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
 # TODO: check the relevant tags in rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these commits
@@ -12,64 +12,34 @@ on:
   # on https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_checker.yml
   workflow_dispatch:
 
-  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
-  # The scheduled jobs run only on the default branch.
-  schedule:
-    - cron: '37 2 * * *'
+#  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
+#  # The scheduled jobs run only on the default branch.
+#  schedule:
+#    - cron: '37 6 * * *'
 
 jobs:
   CheckDockerImageUpdate:
+    runs-on: 'ubuntu-latest'
     strategy:
 
-      # create different images
-      # note that there is no release build for the otobo-web-kerberos target
+      # set up a loop over OTOBO branches
       matrix:
-        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
-        patch: [ '11_0_1', '11_0_2', '11_0_3', '11_0_4', '11_0_5', '11_0_6' ]
+        major_minor: [ '11_0_6', ]
         include:
-          -
-            target:     'otobo-web'
-            dockerfile: 'otobo.web.dockerfile'
-            context:    '.'
-            repository: 'rotheross/otobo'
+          - major_minor: '11_0_6'
             base_image: 'perl:5.38-bookworm'
-          -
-            target:     'otobo-elasticsearch'
-            dockerfile: 'otobo.elasticsearch.dockerfile'
-            context:    'scripts/elasticsearch'
-            repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'elasticsearch:7.17.3'
-          -
-            target:     'otobo-nginx-webproxy'
-            dockerfile: 'otobo.nginx.dockerfile'
-            context:    'scripts/nginx'
-            repository: 'rotheross/otobo-nginx-webproxy'
-            base_image: 'nginx:mainline'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            dockerfile: 'otobo.nginx.dockerfile'
-            context:    'scripts/nginx'
-            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-            base_image: 'nginx:mainline'
-          -
-            target:     'otobo-selenium-chrome'
-            dockerfile: 'otobo.selenium-chrome.dockerfile'
-            context:    'scripts/test/sample'
-            repository: 'rotheross/otobo-selenium-chrome'
-            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-    runs-on: ${{ matrix.target }}
     steps:
 
       - name: Setting up the environment file
         run: |
-          patch=${{ matrix.patch }}
-          docker_tag="rel-${patch}"
+          major_minor="${{ matrix.major_minor }}"
+          docker_tag="test-${major_minor}"
           mixed_case_repository="${{ github.repository }}"
           lowercased_repository="${mixed_case_repository,,}"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=rel-${patch}"
+            echo "otobo_branch=rel-${major_minor}"
             echo "otobo_base_image=${{ matrix.base_image }}"
             echo "otobo_docker_tag=${docker_tag}"
             echo "otobo_image=${lowercased_repository}:${docker_tag}"
@@ -77,28 +47,11 @@ jobs:
           ) >> $GITHUB_ENV
 
       -
-        # this step sets ${{ steps.check.outputs.needs-updating }}
-        name: Check whether base image was updated
-        id: check
-        uses: lucacome/docker-image-update-checker@v1
-        with:
-          base-image: ${{ env.otobo_base_image }}
-          image:      ${{ env.otobo_image }}
-
-      -
-        # print the result in any case
-        name: Report the check result
-        run: |
-          echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
-
-      -
         name: Set up Docker Buildx
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/setup-buildx-action@v3
 
       -
         name: 'check out the relevant OTOBO branch'
-        if: steps.check.outputs.needs-updating == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ env.otobo_branch }}
@@ -107,7 +60,6 @@ jobs:
         # needed for build arg GIT_COMMIT
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'
-        if: steps.check.outputs.needs-updating == 'true'
         run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
@@ -115,12 +67,11 @@ jobs:
         # Caching with Github Actions Cache, limited to 10 GB
         # context: .  indicates that the current checkout is used
         name: Build
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
+          context: .
+          file: otobo.web.dockerfile
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -128,7 +79,7 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: ${{ matrix.target }}
+          target: otobo-web
           tags: ${{ env.otobo_image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max`
@@ -136,14 +87,12 @@ jobs:
       -
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
-        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' }}
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_image -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
         name: Login to Docker Hub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -153,12 +102,11 @@ jobs:
         # finally upload to DockerHub
         # the built image is already available in the job
         name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
+          context: .
+          file: otobo.web.dockerfile
           pull: true
           build-args: |
             BUILD_DATE=${{ env.otobo_build_date }}
@@ -166,7 +114,7 @@ jobs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          target: ${{ matrix.target }}
+          target: otobo-web
           tags: ${{ env.otobo_image }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max`

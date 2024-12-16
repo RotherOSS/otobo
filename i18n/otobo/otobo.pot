@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-10-02 13:43+0000\n"
+"POT-Creation-Date: 2024-10-28 15:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26186,7 +26186,7 @@ msgid "This option sets additional quick date buttons to pending dates. For orde
 msgstr ""
 
 #. SysConfig
-msgid "This option will deny the access to customer company tickets, which are not created by the customer user."
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
 
 #. SysConfig

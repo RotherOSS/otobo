@@ -197,6 +197,9 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
         $Selenium->execute_script(q{ return CKEditorInstances['RichText'].setData('This is a test text'); });
+        $Selenium->WaitFor(
+            JavaScript => "return (\$('#RichText').val() == '<p>This is a test text</p>');"
+        );
 
         # Submit.
         try_ok {

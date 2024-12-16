@@ -19,6 +19,7 @@ package Kernel::System::ImportExport::ObjectBackend::Translations;
 use strict;
 use warnings;
 
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -73,7 +74,7 @@ sub ObjectAttributesGet {
     my $Attributes = [
         {
             Key   => 'Format',
-            Name  => 'Format',
+            Name  => Translatable('Format'),
             Input => {
                 Type         => 'Selection',
                 Data         => \%FormatList,
@@ -84,7 +85,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'EmptyFieldsLeaveTheOldValues',
-            Name  => 'Empty fields indicate that the current values are kept',
+            Name  => Translatable('Empty fields indicate that the current values are kept'),
             Input => {
                 Type => 'Checkbox',
             },

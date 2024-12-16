@@ -113,10 +113,12 @@ Core.UI.Datepicker = (function (TargetNS) {
      * @returns {Boolean} false, if Parameter Element is not of the correct type.
      * @param {jQueryObject|Object} Element - The jQuery object of a text input field which should get a datepicker.
      *                                        Or a hash with the Keys 'Year', 'Month' and 'Day' and as values the jQueryObjects of the select drop downs.
+     * @param {Object} [Attributes] - Optional Attributes to be passed to the datepicker. Possible Attributes:
+     *                                     - Disabled: Set to true to disable the datepicker.
      * @description
      *      This function initializes the datepicker on the defined elements.
      */
-    TargetNS.Init = function (Element) {
+    TargetNS.Init = function (Element, Attributes={}) {
 
         var $DatepickerElement,
             HasDateSelectBoxes = false,
@@ -149,6 +151,8 @@ Core.UI.Datepicker = (function (TargetNS) {
         // Increment number of initialized datepickers on this site
         DatepickerCount++;
 
+        let Disabled = Attributes.Disabled || false;
+
         // Check, if datepicker is used with three input element or with three select boxes
         if (typeof Element === 'object' &&
             typeof Element.Day !== 'undefined' &&
@@ -159,7 +163,6 @@ Core.UI.Datepicker = (function (TargetNS) {
             //  Ignore in this case.
             Element.Day.length
         ) {
-
             $DatepickerElement = $('<input>').attr('type', 'hidden').attr('id', 'Datepicker' + DatepickerCount);
             // insert DatepickerElement
             if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
@@ -288,9 +291,11 @@ Core.UI.Datepicker = (function (TargetNS) {
         //      Check if one additional DOM node is already present.
         if (!$('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').length) {
 
+            let disableDatepickerHTML = Disabled ? ' DisabledLink' : '';
+
             // add datepicker icon and click event
             if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
-                var Icon = $('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + Core.Language.Translate('Open date selection') + '"><i class="ooofo ooofo-calendar"></i></a>');
+                var Icon = $('<a href="#" class="DatepickerIcon' + disableDatepickerHTML + '" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + Core.Language.Translate('Open date selection') + '"><i class="ooofo ooofo-calendar"></i></a>');
 
                 // auto activate dynamic field on click on Datepicker
                 var DateContainer = $DatepickerElement.parent();
@@ -304,7 +309,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                 $DatepickerElement.after(Icon);
 
             } else {
-                $DatepickerElement.after('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + Core.Language.Translate('Open date selection') + '"><i class="ooofo ooofo-calendar" style="font-size: 20px;"></i></a>');
+                $DatepickerElement.after('<a href="#" class="DatepickerIcon' + disableDatepickerHTML + '" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + Core.Language.Translate('Open date selection') + '"><i class="ooofo ooofo-calendar" style="font-size: 20px;"></i></a>');
             }
 
             if (Element.DateInFuture) {
@@ -331,10 +336,13 @@ Core.UI.Datepicker = (function (TargetNS) {
             }
         }
 
-        $('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').off('click.Datepicker').on('click.Datepicker', function () {
-            $DatepickerElement.datepicker('show');
-            return false;
-        });
+
+        if (!Disabled) {
+            $('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').off('click.Datepicker').on('click.Datepicker', function () {
+                $DatepickerElement.datepicker('show');
+                return false;
+            });
+        };
 
         //adjust z-index of date picker to prevent overlapping with richtexteditors
         $DatepickerElement.css('position', 'relative');

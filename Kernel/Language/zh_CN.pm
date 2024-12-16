@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.919376592237374;
+    $Self->{Completeness}        = 0.919226734602128;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9820,8 +9820,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => '这个选项定义流程工单的默认状态。',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            '这个选项将拒绝客户用户访问不是由他本人创建的客户单位工单。',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '这个设置允许您使用自己的国家列表覆盖内置的国家列表，如果您只想用到一小部分的国家时格外有用。',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '此设置已弃用。 替代方式是设置OTOBOTimeZone。',

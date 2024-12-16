@@ -59,7 +59,7 @@ create a JSON object. Do not use it directly, instead use:
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
+    # allocate a new hash for object, even though that hash is never used
     return bless {}, $Type;
 }
 
@@ -185,6 +185,15 @@ sub Decode {
     # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
+    # In OTOBO 10.0.x and OTOBO 10.1.x there is a tree walker that
+    # replaces the boolean values, that is instances of JSON::PP::Boolean,
+    # with the plain integer values 0 and 1.
+    # This behavior is reproduced with explicitly declaring
+    # what should be emitted for JSON booleans 'true' and 'false'.
+    # Note that when using Cpanel::JSON::XS, the attribute unblessed_bool can be used
+    # for the same purpose.
+    $JSONObject->boolean_values( 0, 1 );
+
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
     # In that case we want to return an empty list.
@@ -262,6 +271,24 @@ sub ToBoolean {
     my ( $Self, $Scalar ) = @_;
 
     return $Scalar ? $Self->True : $Self->False;
+}
+
+=head2 IsBool()
+
+Indicates whether the passed in variable is a boolean value. Specifically whether it is an
+instance of C<Types::Serialiser::Boolean>. Note that C<Types::Serialiser::Boolean> is an alias for C<JSON::PP::Boolean>.
+
+    my $IsBool1 = $JSONObject->IsBool(1);                   # assigns undef
+    my $IsBool2 = $JSONObject->IsBool( $JSONObject->False); # assigns 1
+
+In this case the returned JSON will be C<q{false}>. For true expressions we get C<q{true}>.
+
+=cut
+
+sub IsBool {
+    my ( $Self, $Scalar ) = @_;
+
+    return Types::Serialiser::is_bool($Scalar);
 }
 
 1;

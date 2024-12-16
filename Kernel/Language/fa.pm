@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.593436235576203;
+    $Self->{Completeness}        = 0.593286377940956;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9821,8 +9821,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => 'این گزینه به طور پیش فرض درخواست روند دولت تعریف می کند.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'این گزینه دسترسی به بلیط شرکت مشتری، که توسط کاربران مشتری ایجاد نمی انکار کند.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'این تنظیم امکان را به نادیده گرفتن ساخته شده است در لیست کشور با لیست خود را از کشور است. این امر به ویژه مفید است اگر شما فقط می خواهید به استفاده از یک گروه را انتخاب کنید کوچکی از کشورها.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',

@@ -5303,7 +5303,7 @@ sub Data {
         'Check to activate this date' => 'حدد لتمكين هذا التاريخ',
         '%s TB' => '‎%s تيرابايت (TB)',
         '%s GB' => '‎%s غيغابايت (GB)',
-        '%s MB' => 'ميغابايت (MB) ‎%s',
+        '%s MB' => 's% ميغاباي ‎(MB)',
         '%s KB' => '‎%s كيلوبايت (KB)',
         '%s B' => '‎%s بايت (B)',
         'No Permission!' => 'لا توجد صلاحيات!',
@@ -9821,7 +9821,7 @@ Thanks for your help!
         'This option defines the process tickets default state.' => '',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',

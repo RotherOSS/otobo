@@ -144,8 +144,8 @@ sub ValueSet {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The value for the field Date is invalid!\n"
-                . "The date must be valid and the time must be 00:00:00",
+            Message  => "The value $ValueItem for the field Date is invalid!\n"
+                . "The date must be in format 0000-00-00 and the time must be 00:00:00",
         );
 
         return;
@@ -368,6 +368,11 @@ sub EditFieldRender {
     }
     elsif ( $Param{Mandatory} ) {
         $FieldClass .= ' Validate_Required';
+    }
+
+    # set readonly css class
+    if ( $Param{Readonly} ) {
+        $FieldClass .= ' Readonly';
     }
 
     # set error css class

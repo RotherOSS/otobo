@@ -180,9 +180,8 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName  = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $DFDetails = $Param{DynamicFieldConfig}{Config};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     my $Value = '';
 
@@ -329,8 +328,9 @@ sub EditFieldRender {
             # The visible value depends on the referenced object
             my %Description = $Self->ObjectDescriptionGet(
                 DynamicFieldConfig => $DFDetails,
+                LayoutObject       => $Param{LayoutObject},
                 ObjectID           => $ReferencedObjectID,
-                UserID             => 1,                     # TODO: what about Permission check
+                UserID             => 1,                      # TODO: what about Permission check
             );
             $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
                 Text => $Description{Long},
@@ -523,7 +523,6 @@ sub DisplayValueRender {
     my @LongObjectDescriptions;
     my $Link;
     {
-        my $DFDetails = $Param{DynamicFieldConfig}->{Config};
         for my $ObjectID (@ObjectIDs) {
             if ($ObjectID) {
                 my %Description = $Self->ObjectDescriptionGet(
@@ -625,9 +624,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails  = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}{Label};
 
     # set the field value
     my $Value = $Param{DefaultValue} // '';
@@ -1050,6 +1048,7 @@ sub PossibleValuesGet {
     for my $ResultItem (@SearchResult) {
         my %ItemDescription = $Self->ObjectDescriptionGet(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
+            LayoutObject       => $LayoutObject,
             ObjectID           => $ResultItem,
             UserID             => 1,
         );

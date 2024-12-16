@@ -287,8 +287,8 @@ Core.AJAX = (function (TargetNS) {
             }
 
             // add the text to the RichText editor
-            if (CKEditorInstances && CKEditorInstances['RichText']) {
-                CKEditorObj = CKEditorInstances['RichText'];
+            if (CKEditorInstances && CKEditorInstances[$Element.attr('id')]) {
+                CKEditorObj = CKEditorInstances[$Element.attr('id')];
 
                 // TODO: probably reintroduce 75c5b5bfe3673279c03dba2f57350e6c79e7ae84
                 CKEditorObj.editing.view.focus();

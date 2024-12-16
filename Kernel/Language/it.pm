@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.570358159748239;
+    $Self->{Completeness}        = 0.570208302112993;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9813,8 +9813,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => 'Questa opzione definisce lo stato predefinito dei ticket di processo.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Questa opzione negherà l\'accesso ai ticket dell\'società del cliente, che non vengono creati dall\'utenza cliente.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Questa impostazione consente di sovrascrivere l\'elenco dei paesi integrati con il proprio elenco di paesi. Ciò è particolarmente utile se si desidera utilizzare solo un piccolo gruppo selezionato di paesi.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Questa impostazione è obsoleta. Impostare invece OTOBOTimeZone.',

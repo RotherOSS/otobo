@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.826614716019781;
+    $Self->{Completeness}        = 0.826464858384535;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -9827,8 +9827,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => 'Задает состояние по умолчанию для процессной заявки.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Этот параметр запрещает доступ к заявкам Компании клиента, которые не созданы этим клиентом.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Позволяет переопределить встроенный список стран своим списком. Это позволит сократить отображаемый список до необходимого минимума.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Этот параметр устарел. Вместо него используйте OTOBOTimeZone.',
