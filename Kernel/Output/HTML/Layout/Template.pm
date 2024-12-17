@@ -384,6 +384,8 @@ As a workaround, use C<"1"> for true and C<''> for false.
         Value => { ... }  # simple or complex data
     );
 
+Use C<AddJSBoolean()> for really passing boolean values.
+
 =cut
 
 sub AddJSData {
