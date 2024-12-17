@@ -3836,6 +3836,16 @@ DISTRIBUTIONS
       File::Spec 0.8
       File::Temp 0.12
       Scalar::Util 0
+  Term-ReadLine-Gnu-1.46
+    pathname: H/HA/HAYASHI/Term-ReadLine-Gnu-1.46.tar.gz
+    provides:
+      Term::ReadLine::Gnu 1.46
+      Term::ReadLine::Gnu::AU 1.46
+      Term::ReadLine::Gnu::Var 1.46
+      Term::ReadLine::Gnu::XS 1.46
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008001
   Test-Compile-v3.3.3
     pathname: E/EG/EGILES/Test-Compile-v3.3.3.tar.gz
     provides:

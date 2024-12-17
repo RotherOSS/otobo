@@ -1136,6 +1136,18 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+    {
+        Module          => 'Term::ReadLine::Gnu',
+        VersionRequired => '>= 1.35',                                                     # released in 2016
+        Features        => ['devel:debugging'],
+        Comment         => 'command history in Perl debugger and in Dev::Tools::Shell',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
 
     # Feature devel:encoding
     {

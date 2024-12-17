@@ -153,6 +153,9 @@ requires 'Plack::Middleware::ReverseProxy';
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
+
 # };
 
 # feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
