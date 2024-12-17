@@ -352,6 +352,7 @@ console.log(22);
     },
 
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name     => 'JSData 1',
         Template => '
 [% PROCESS JSData
@@ -367,6 +368,7 @@ console.log(22);
 ',
     },
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name      => 'JSData 2 with AddJSData()',
         Template  => '',
         AddJSData => {
@@ -376,6 +378,7 @@ console.log(22);
         Result => '',
     },
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name      => 'JSData 3 with AddJSData()',
         Template  => '',
         AddJSData => {
@@ -385,6 +388,7 @@ console.log(22);
         Result => '',
     },
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name      => 'JSData 4 with AddJSData()',
         Template  => '',
         AddJSData => {
@@ -394,14 +398,67 @@ console.log(22);
         Result => '',
     },
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name         => 'Boolean: integer 1',
+        Template     => '',
+        AddJSBoolean => {
+            Key   => 'Bool1',
+            Value => 1,
+        },
+        Result => '',
+    },
+    {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name         => 'Boolean number 0',
+        Template     => '',
+        AddJSBoolean => {
+            Key   => 'Bool2',
+            Value => 0,
+        },
+        Result => '',
+    },
+    {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name         => 'Boolean string q{1}',
+        Template     => '',
+        AddJSBoolean => {
+            Key   => 'Bool3',
+            Value => '1',
+        },
+        Result => '',
+    },
+    {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name         => 'Boolean string q{0]',
+        Template     => '',
+        AddJSBoolean => {
+            Key   => 'Bool4',
+            Value => '0',
+        },
+        Result => '',
+    },
+    {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name         => 'Boolean string q{0.0], true',
+        Template     => '',
+        AddJSBoolean => {
+            Key   => 'Bool5',
+            Value => '0.0',
+        },
+        Result => '',
+    },
+    {
+        # Dump the Core.Config data that was collected in the preceeding test cases
         Name     => 'JSDataInsert',
         Template => '
 [% PROCESS "JSDataInsert" -%]',
+
         Result => '
-Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"}});
+Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"}});
 ',
     },
     {
+        # no more config is dumped as the accumulator was emptied in the 'JSDataInsert' test case
         Name     => 'JSDataInsert, no data',
         Template => '[% PROCESS "JSDataInsert" -%]',
         Result   => '',
@@ -550,7 +607,13 @@ for my $Test (@Tests) {
 
     if ( $Test->{AddJSData} ) {
         $LayoutObject->AddJSData(
-            %{ $Test->{AddJSData} },
+            $Test->{AddJSData}->%*,
+        );
+    }
+
+    if ( $Test->{AddJSBoolean} ) {
+        $LayoutObject->AddJSBoolean(
+            $Test->{AddJSBoolean}->%*,
         );
     }
 
@@ -575,10 +638,6 @@ weaken($TemplateObject);
 
 undef $LayoutObject;
 
-is(
-    $TemplateObject,
-    undef,
-    'TemplateObject must be correctly destroyed (no ring references)',
-);
+ok( !defined $TemplateObject, 'TemplateObject must be correctly destroyed (no ring references)' );
 
-done_testing();
+done_testing;
