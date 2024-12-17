@@ -64,7 +64,7 @@ sub Run {
 
     my $Repl = Devel::REPL->new;
 
-    for my $Plugin (qw(History LexEnv MultiLine::PPI FancyPrompt OTOBO)) {
+    for my $Plugin (qw(History LexEnv MultiLine::PPI FancyPrompt DumpHistory OTOBO)) {
         $Repl->load_plugin($Plugin);
     }
 
