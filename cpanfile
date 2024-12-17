@@ -159,6 +159,9 @@ feature 'devel:debugging', 'Features which can be useful in development environm
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
+
 };
 
 feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
@@ -413,6 +416,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
+
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
 
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
