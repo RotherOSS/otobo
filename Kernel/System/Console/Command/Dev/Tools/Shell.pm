@@ -16,6 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Shell;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -61,7 +62,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Repl = Devel::REPL->new();
+    my $Repl = Devel::REPL->new;
 
     for my $Plugin (qw(History LexEnv MultiLine::PPI FancyPrompt OTOBO)) {
         $Repl->load_plugin($Plugin);
@@ -82,13 +83,13 @@ sub Run {
     my $Code = $Self->GetOption('eval');
     if ($Code) {
         my @Result = $Repl->formatted_eval($Code);
-        $Self->Print("@Result") if !$Repl->exit_repl();
+        $Self->Print("@Result") unless $Repl->exit_repl;
     }
     else {
-        $Repl->run();
+        $Repl->run;
     }
 
-    return $Self->ExitCodeOk();
+    return $Self->ExitCodeOk;
 }
 
 1;
