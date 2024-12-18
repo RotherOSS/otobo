@@ -142,6 +142,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
+            licenseKey: 'GPL',
             ui: {
                 poweredBy: {
                     position: 'inside',
