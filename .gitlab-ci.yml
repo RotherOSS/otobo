@@ -44,8 +44,6 @@ before_script:
   # effectively this downgrades version for rel-10_0.
   - if [ "$OTOBO_BASE" == "rel-10_0" ]; then export TAP_FORMATTER="TAP::Formatter::JUnit@0.13"; else export TAP_FORMATTER="TAP::Formatter::JUnit"; fi
   - echo "PIPELINE_SOURCE is $CI_PIPELINE_SOURCE"
-  - echo "go"
-
 
 testsuite:
   stage: test
