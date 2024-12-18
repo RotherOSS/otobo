@@ -18,14 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use Kernel::Output::HTML::Layout;
-
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);    # must be loaded before RegisterOM
+use Kernel::System::UnitTest::RegisterOM;                   # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
+use Kernel::Output::HTML::Layout ();
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
@@ -3344,52 +3346,63 @@ EOF
 # execute tests
 for my $Test (@Tests) {
 
-    my $FieldHTML;
+    subtest $Test->{Name} => sub {
 
-    if ( IsHashRefWithData( $Test->{Config} ) ) {
-        my %Config = %{ $Test->{Config} };
+        my $FieldHTML;
 
-        if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
+        if ( IsHashRefWithData( $Test->{Config} ) ) {
+            my %Config = $Test->{Config}->%*;
 
-            # create a new CGI object to simulate a web request
-            my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
+            if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
-            my $LocalParamObject = Kernel::System::Web::Request->new(
-                WebRequest => $WebRequest,
-            );
+                # create a new CGI object to simulate a web request
+                my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
 
-            %Config = (
-                %Config,
-                ParamObject => $LocalParamObject,
-            );
+                my $LocalParamObject = Kernel::System::Web::Request->new(
+                    WebRequest => $WebRequest,
+                );
+
+                %Config = (
+                    %Config,
+                    ParamObject => $LocalParamObject,
+                );
+            }
+            $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
         }
-        $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
-    }
-    else {
-        $FieldHTML = $DFBackendObject->EditFieldRender( %{ $Test->{Config} } );
-    }
-    if ( $Test->{Success} ) {
-
-        # Heredocs always have the newline, even if it is not expected
-        if ( $FieldHTML->{Field} !~ m{\n$} ) {
-            chomp $Test->{ExpectedResults}->{Field};
+        else {
+            $FieldHTML = $DFBackendObject->EditFieldRender( %{ $Test->{Config} } );
         }
 
-        $Self->IsDeeply(
-            $FieldHTML,
-            $Test->{ExpectedResults},
-            "$Test->{Name} | EditFieldRender()",
-        );
-    }
-    else {
-        $Self->Is(
-            $FieldHTML,
-            undef,
-            "$Test->{Name} | EditFieldRender() (should be undef)",
-        );
-    }
+        if ( $Test->{Success} ) {
+
+            # Heredocs always have the newline, even if it is not expected
+            if ( $FieldHTML->{Field} !~ m{\n$} ) {
+                chomp $Test->{ExpectedResults}->{Field};
+            }
+
+            is(
+                $FieldHTML,
+                {
+                    Field => T(),
+                    Label => T(),
+                },
+                "EditFieldRender() gave the expected structure",
+            );
+
+            for my $Key (qw(Field Label)) {
+
+                # compare long strings and get an unified diff in case of mismatch
+                TextEqOrDiff(
+                    $FieldHTML->{$Key},
+                    $Test->{ExpectedResults}->{$Key},
+                    "EditFieldRender() gave the expected content for $Key",
+                );
+            }
+        }
+        else {
+            ok( !defined $FieldHTML, 'EditFieldRender failed, as expected' );
+        }
+    };
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;
