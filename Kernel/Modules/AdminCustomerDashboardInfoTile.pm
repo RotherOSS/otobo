@@ -363,6 +363,11 @@ sub Run {
             $Error{GroupsServerError} = 'ServerError';
         }
 
+        # add html links and target=_blank
+        $CustomerDashboardInfoTileData->{Content} = $LayoutObject->HTMLLinkQuote(
+            String => $CustomerDashboardInfoTileData->{Content},
+        );
+
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
 
