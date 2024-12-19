@@ -126,7 +126,9 @@ testsuite:
     # run the tests    
     - echo "Running tests from ${OTOBO_TESTS}"
     - cd "$OPT_OTOBO"
-    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}  " > rspec.xml; fi'
+    - 'mkdir -p $OPT_OTOBO/var/tap'
+    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}  " > rspec.xml; fi'
+    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "/opt/otobo/scripts/junit.pl";  fi;'
     - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; touch rspec.xml; fi'
 
   # unit test report support - upload the test results to gitlab
@@ -134,13 +136,14 @@ testsuite:
   artifacts:
     when: always
     paths:
-      - rspec.xml
+      - "var/tap/**/*.junit.xml"
     reports:
-      junit: rspec.xml
+      junit: "var/tap/**/*.rspec.xml"
     
 after_script:
     # cleanup 
-    - if [ -d /opt/otobo-docker ]; then cd /opt/otobo-docker; docker compose down; fi
+    - ' if [ -d /opt/otobo-docker ]; then cd /opt/otobo-docker; docker compose down; fi '
+    - ' if [ -d "$OPT_OTOBO/var/tap" ]; then rm -rf $OPT_OTOBO/var/tap; fi '
     - echo "This was a build of ${CI_PROJECT_NAME} branch ${CI_COMMIT_REF_NAME} on otobo-docker:${OTOBO_BASE}. Over and out."
 
     
