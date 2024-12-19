@@ -44,9 +44,9 @@ my $OtoboTestLibs = '$PERL5LIB:/opt/otobo/local/lib/perl5:/opt/otobo_install/loc
 
 # run the test with prove and formatter
 my $ExitCode
-    = system("PERL5LIB=$OtoboTestLibs PERL_TEST_HARNESS_DUMP_TAP=$TapPath /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit $OtoboTests "); # > /dev/null");
+    = system("PERL5LIB=$OtoboTestLibs PERL_TEST_HARNESS_DUMP_TAP=$TapPath /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit $OtoboTests > /dev/null");
 
-print STDERR "Exit Code: $ExitCode\n";
+#print STDERR "Exit Code: $ExitCode\n";
 
 # now transform results for GitLab
 
@@ -77,7 +77,8 @@ my $Stylesheet = $Xslt->parse_stylesheet($StyleDoc);
 # transform each Test output and save as *.t.rspec.xml
 foreach my $Test (@Tests) {
 
-    print STDERR "Transform $Test\n";
+    #print STDERR "Transform $Test\n";
+    
     # load the source
     my $Source = XML::LibXML->load_xml( location => "$Test" );
 
