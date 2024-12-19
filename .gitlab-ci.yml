@@ -74,6 +74,7 @@ testsuite:
     - cp Kernel/Config.pm.docker.dist Kernel/Config.pm
     - mkdir -p var/tmp
     - touch .copy_otobo_next_finished
+    - 'mkdir -p var/tap'
     - export OPT_OTOBO=$PWD
     - chown -R 1000:1000 .
 
@@ -126,7 +127,6 @@ testsuite:
     # run the tests    
     - echo "Running tests from ${OTOBO_TESTS}"
     - cd "$OPT_OTOBO"
-    - 'mkdir -p $OPT_OTOBO/var/tap'
     - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}  " > rspec.xml; fi'
     - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "/opt/otobo/scripts/junit.pl";  fi;'
     - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; touch rspec.xml; fi'
