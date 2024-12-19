@@ -77,7 +77,7 @@ my $Stylesheet = $Xslt->parse_stylesheet($StyleDoc);
 # transform each Test output and save as *.t.rspec.xml
 foreach my $Test (@Tests) {
 
-    pritn STDERR "Transform $Test\n";
+    print STDERR "Transform $Test\n";
     # load the source
     my $Source = XML::LibXML->load_xml( location => "$Test" );
 
@@ -95,3 +95,4 @@ foreach my $Test (@Tests) {
 if ( $ExitCode != 0 ) {
     exit $ExitCode;
 }
+
