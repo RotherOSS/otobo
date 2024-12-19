@@ -54,15 +54,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-07-01 14:05+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>\n"
+"PO-Revision-Date: 2024-12-17 17:34+0000\n"
+"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -27533,7 +27534,7 @@ msgstr "Das Dynamische Feld \"%s\" wird bereits in einer Ticketmaske verwendet."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "External-source key"
-msgstr ""
+msgstr "Schlüssel der externen Quelle"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
@@ -27542,6 +27543,7 @@ msgstr "Sofern durch eine externe Quelle (z.B. Webservice oder Import / Export) 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which customer companies will be searched by"
 msgstr ""
+"Wählen Sie das Attribut aus, nach dem Kundenunternehmen gesucht werden sollen"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Dynamic field \"%s\" already in use in a Set."
@@ -27549,11 +27551,11 @@ msgstr "Dynamisches Feld \"%s\" bereits in einem Set verwendet."
 
 #. SysConfig
 msgid "Color definitions for Agent interface highcontrast skin."
-msgstr ""
+msgstr "Farbdefinitionen für den Skin highcontrast im Agentenbereich."
 
 #. SysConfig
 msgid "Color definitions for Customer Interface highcontrast skin."
-msgstr ""
+msgstr "Farbdefinitionen für den Skin highcontrast im Kundenbereich."
 
 #. SysConfig
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
@@ -27642,4 +27644,3 @@ msgstr ""
 #. SysConfig
 msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
-

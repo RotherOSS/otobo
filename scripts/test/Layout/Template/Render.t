@@ -448,13 +448,60 @@ console.log(22);
         Result => '',
     },
     {
+        # the accumulated config will be dumped in the test case 'JSDataInsert'
+        Name     => 'Process JSBoolean',
+        Template => <<'END_TEMPLATE',
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean1"
+    Value = 'true',
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean2"
+    Value = 'false',
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean3"
+    Value = 0,
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean4"
+    Value = 0.0,
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean5"
+    Value = "0",
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean6"
+    Value = "0.0",
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean7"
+    Value = 1 > 0,
+%]
+[% PROCESS JSBoolean
+    Key   = "ProcessJSBoolean8"
+    Value = 1 < 0,
+%]
+END_TEMPLATE
+        Result => '
+
+
+
+
+
+
+
+',
+    },
+    {
         # Dump the Core.Config data that was collected in the preceeding test cases
         Name     => 'JSDataInsert',
         Template => '
 [% PROCESS "JSDataInsert" -%]',
 
         Result => '
-Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"}});
+Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
 ',
     },
     {

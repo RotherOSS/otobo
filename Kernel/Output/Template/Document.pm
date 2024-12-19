@@ -227,6 +227,47 @@ sub _InstallOTOBOExtensions {
     };
 
     #
+    # This block is used to cut out JavaScript data that needs to be inserted to Core.Config
+    #   from the templates and insert it in the footer of the page, all in one place.
+    #   Contrary to the block JSData the value is inserted as a boolean.
+    #
+    # Usage:
+    #     [% Process JSBoolean
+    #         Key   = 'Test.Key'
+    #         Value = 'this is true'
+    #     %]
+    #
+    #
+
+    $Self->{_DEFBLOCKS}->{JSBoolean} //= sub {
+        my $context = shift || die "template sub called without context\n";
+        my $stash   = $context->stash();
+        my $output  = '';
+
+        my $_tt_error;
+
+        eval {
+
+            my $Key   = $stash->get('Key');
+            my $Value = $stash->get('Value');
+
+            return $output if !$Key;
+
+            $context->{LayoutObject}->{_JSData} //= {};
+
+            my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+            $context->{LayoutObject}->{_JSData}->{$Key} = $Value ? $JSONObject->True : $JSONObject->False;
+
+        };
+        if ($@) {
+            $_tt_error = $context->catch( $@, \$output );
+            die $_tt_error if $_tt_error->type() ne 'return';
+        }
+
+        return $output;
+    };
+
+    #
     # This block is used to insert the collected JavaScript data in the page footer.
     #
 
