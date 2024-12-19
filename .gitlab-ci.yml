@@ -124,19 +124,18 @@ testsuite:
     # create the archive
     - docker exec otobo-web-1 bash -c "/opt/otobo/bin/otobo.CheckSum.pl -a create"
     
-    # run the tests    
-    - echo "Running tests from ${OTOBO_TESTS}"
+    # run the tests 
     - cd "$OPT_OTOBO"
-    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}  " > rspec.xml; fi'
-    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "/opt/otobo/scripts/junit.pl";  fi;'
-    - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; touch rspec.xml; fi'
+    - echo "Running tests from ${OTOBO_TESTS}"
+    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}; /opt/otobo/scripts/junit.pl  "; fi'
+    - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; fi'
 
   # unit test report support - upload the test results to gitlab
   # https://docs.gitlab.com/ee/ci/testing/unit_test_reports.html
   artifacts:
     when: always
     paths:
-      - "var/tap/**/*.junit.xml"
+      - "var/tap/**/*.rspec.xml"
     reports:
       junit: "var/tap/**/*.rspec.xml"
     
