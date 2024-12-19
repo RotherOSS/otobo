@@ -73,8 +73,8 @@ testsuite:
     # prepare otobo sources
     - cp Kernel/Config.pm.docker.dist Kernel/Config.pm
     - mkdir -p var/tmp
+    - mkdir -p var/tap
     - touch .copy_otobo_next_finished
-    - 'mkdir -p var/tap'
     - export OPT_OTOBO=$PWD
     - chown -R 1000:1000 .
 
