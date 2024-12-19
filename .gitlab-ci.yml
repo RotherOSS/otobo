@@ -137,6 +137,7 @@ testsuite:
     when: always
     paths:
       - "var/tap/**/*.rspec.xml"
+      - "var/tap/**/*.t"
     reports:
       junit: "var/tap/**/*.rspec.xml"
     
