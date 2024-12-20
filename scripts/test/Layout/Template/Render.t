@@ -361,7 +361,7 @@ console.log(22);
 %]
 [% PROCESS JSData
     Key   = "Config.Test2"
-    Value = [1, 2, { test => "test"}]
+    Value = [1, 2, -1.234567, { test => "test"}]
 %]',
         Result => '
 
@@ -501,7 +501,7 @@ END_TEMPLATE
 [% PROCESS "JSDataInsert" -%]',
 
         Result => '
-Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
+Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":"123","Config.Test2":["1","2","-1.234567",{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
 ',
     },
     {
