@@ -298,12 +298,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  Canary-Stability-2013
-    pathname: M/ML/MLEHMANN/Canary-Stability-2013.tar.gz
-    provides:
-      Canary::Stability 2013
-    requirements:
-      ExtUtils::MakeMaker 0
   Capture-Tiny-0.50
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.50.tar.gz
     provides:
@@ -4719,6 +4713,7 @@ DISTRIBUTIONS
     requirements:
       Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
