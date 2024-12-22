@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # use ../ as lib location
 use File::Basename qw(dirname);

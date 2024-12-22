@@ -25,9 +25,9 @@ use Kernel::System::Valid ();    ## no perlimports
 
 package Kernel::System::Valid;   ## no critic (Modules::RequireFilenameMatchesPackage)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 sub AutoloadTest {
@@ -38,9 +38,9 @@ sub AutoloadTest {
 
 package Kernel::Autoload::Test;    ## no critic qw(Modules::ProhibitMultiplePackages)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 use Kernel::System::State ();      ## no perlimports
