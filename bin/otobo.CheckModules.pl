@@ -230,7 +230,7 @@ my %FeatureDescription = (
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-    import Linux::Distribution;
+    Linux::Distribution->import;
 
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
