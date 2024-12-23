@@ -275,7 +275,9 @@ Example html for a hook:
         :
         qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }xmsig;
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }g;
 
     return 1;
 }
@@ -333,7 +335,9 @@ Example html for a hook:
         :
         qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }xmsig;
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }g;
 
     return 1;
 }
