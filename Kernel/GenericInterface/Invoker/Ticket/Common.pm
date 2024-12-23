@@ -397,6 +397,7 @@ sub PrepareRequest {
             push @ArticleBoxRaw, \%ArticleRaw;
 
             if ( $CountLastArticle == 1 ) {
+
                 # only consider the latest article
                 last ARTICLE;
             }
