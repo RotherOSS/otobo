@@ -206,9 +206,19 @@ $Selenium->RunTest(
             "Out of office message is found for the user $TestUser[1]"
         );
 
-        # Change ticket owner by clicking.
-        # TODO: this does not actually select the user 1 and the test script fails
-        $UserSelectionElement->execute_script(q{ $(arguments[0]).click() });
+        # Change ticket owner by fakeing a click.
+        # simple click does not work due to lazy loading
+
+        #        my $UserSelectionElementForValueSet =  $Selenium->find_element( qq{#NewOwnerID}, 'css' );
+        #        $UserSelectionElementForValueSet->execute_script(qq{ arguments[0].value="$UserID[1]"; });
+
+        $UserSelectionElement->execute_script(q{document.querySelector('label[for="NewOwnerID"]').click();});
+        sleep(5);
+        $UserSelectionElement->execute_script(q{document.querySelectorAll('#NewOwnerID_Select ul li a')[0].click(); });
+        sleep(5);
+        $UserSelectionElement->execute_script(q{document.querySelectorAll('#NewOwnerID_Select ul li a')[0].click(); });
+
+        #       sleep(5);
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
