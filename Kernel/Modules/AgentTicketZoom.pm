@@ -1537,7 +1537,7 @@ sub MaskAgentZoom {
     }
 
     # show overview widget with either dynamic field data or with process and activity dialog data
-    if (%WidgetData) {
+    if ( %WidgetData && IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
 
         # send data to JS
         $LayoutObject->AddJSData(
@@ -1567,9 +1567,6 @@ sub MaskAgentZoom {
             my $ActivityEntityIDField = 'DynamicField_'
                 . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
-            my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
-                ProcessEntityID => $Ticket{$ProcessEntityIDField},
-            );
             my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
                 Interface        => 'AgentInterface',
                 ActivityEntityID => $Ticket{$ActivityEntityIDField},
