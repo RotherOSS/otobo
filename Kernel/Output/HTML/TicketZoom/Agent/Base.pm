@@ -238,7 +238,7 @@ sub _ArticleSenderImage {
             if ( $Param{UserID} ) {
                 my %CurrentUserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Param{UserID} );
                 if ( $Email eq $CurrentUserData{UserEmail} ) {
-                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') | 'mp';
+                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') || 'mp';
                 }
             }
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Email );
