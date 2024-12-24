@@ -85,6 +85,7 @@ use Term::ANSIColor                qw(color);
 use Pod::Usage                     qw(pod2usage);
 use Module::Metadata 1.000031      ();
 use CPAN::Meta::Requirements 2.140 ();
+use Term::ReadLine;    # avoids error when checking for Term::ReadLine::Gnu
 
 # CPAN modules
 
@@ -1126,6 +1127,8 @@ my @NeededModules = (
         },
     },
     {
+        # The module Term::ReadLine::Gnu requires that Term::ReadLine is already loaded
+        # before it is loaded. That is why Term::ReadLine is loaded on top of this script.
         Module          => 'Term::ReadLine::Gnu',
         VersionRequired => '>= 1.35',                                                     # released in 2016
         Features        => ['devel:debugging'],
@@ -1488,6 +1491,8 @@ sub Check {
 
         my $ErrorMessage = '';
         if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+
+            # Note that this message might not give the actual reason why the module can't be loaded
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
