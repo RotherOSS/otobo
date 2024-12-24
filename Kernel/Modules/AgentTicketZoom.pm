@@ -1536,8 +1536,26 @@ sub MaskAgentZoom {
             ->{ ( $IsProcessTicket ? 'ProcessWidgetDynamicField' : 'DynamicFieldWidgetDynamicField' ) } // {};
     }
 
+    # decide if widget should be shown
+    my $ShowWidget = 0;
+
+    # always show if we have a process ticket for activity dialogs
+    if ($IsProcessTicket) {
+        $ShowWidget = 1;
+    }
+
+    # else show only if dynamic fields are defined and at least one of them has a value
+    elsif ( IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
+        DFVALUE:
+        for my $FieldName ( keys $WidgetData{WidgetDynamicField}->%* ) {
+            next DFVALUE unless $Ticket{"DynamicField_$FieldName"};
+            $ShowWidget = 1;
+            last DFVALUE;
+        }
+    }
+
     # show overview widget with either dynamic field data or with process and activity dialog data
-    if ( %WidgetData && IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
+    if ($ShowWidget) {
 
         # send data to JS
         $LayoutObject->AddJSData(
