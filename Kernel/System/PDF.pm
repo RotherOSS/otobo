@@ -18,6 +18,8 @@ package Kernel::System::PDF;
 
 use strict;
 use warnings;
+use experimental 'bitwise'; # can be removed when "use v5.28" is active
+use feature 'bitwise';      # can be removed when "use v5.28" is active
 
 # core modules
 

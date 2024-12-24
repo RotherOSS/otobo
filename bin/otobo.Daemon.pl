@@ -21,6 +21,8 @@ use v5.24;    # activates the feature 'say', available since Perl 5.10
 use strict;
 use warnings;
 use utf8;
+use experimental 'bitwise'; # can be removed when "use v5.28" is active
+use feature 'bitwise';      # can be removed when "use v5.28" is active
 
 use File::Basename qw(basename dirname);
 use FindBin        qw($RealBin);
