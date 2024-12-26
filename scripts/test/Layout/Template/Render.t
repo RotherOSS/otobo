@@ -385,6 +385,16 @@ console.log(22);
         Result => 'kèk-zafèr',
     },
     {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 4',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => "IfNotExistsKey4\nalert('Bonjou');",    # a line break sneaked in
+                Code => "console.log(34);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
         Name     => 'AddJSOnDocumentCompleteIfNotExists, view dump',
         Template => '
 [% PROCESS "JSOnDocumentCompleteInsert" -%]',
@@ -394,6 +404,10 @@ console.log(31);
 
 // Key: IfNotExistsKey2
 console.log(32);
+
+// Key: IfNotExistsKey4
+alert(\'Bonjou\');
+console.log(34);
 ',
     },
     {

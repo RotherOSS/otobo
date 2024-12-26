@@ -355,6 +355,8 @@ Returns:
 
     my $Success = 1;
 
+The parameter C<Key> should not contain line breaks.
+
 =cut
 
 sub AddJSOnDocumentCompleteIfNotExists {
