@@ -302,6 +302,8 @@ b1
 b1
 ',
     },
+
+    # testing AddJSOnDocumentComplete()
     {
         Name     => 'JSOnDocumentComplete 1',
         Template => '
@@ -351,6 +353,57 @@ console.log(22);
 ',
     },
 
+    # testing AddJSOnDocumentCompleteIfNotExists()
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 1',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey1',
+                Code => "console.log(31);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 2',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey2',
+                Code => "console.log(32);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 3',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey1',      # key already exists
+                Code => "console.log(33);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name     => 'AddJSOnDocumentCompleteIfNotExists, view dump',
+        Template => '
+[% PROCESS "JSOnDocumentCompleteInsert" -%]',
+        Result => '
+// Key: IfNotExistsKey1
+console.log(31);
+
+// Key: IfNotExistsKey2
+console.log(32);
+',
+    },
+    {
+        Name     => 'AddJSOnDocumentCompleteIfNotExists, no data',
+        Template => '
+[% PROCESS "JSOnDocumentCompleteInsert" -%]',
+        Result => qq{\n},
+    },
+
+    # testing JSDataInsert
     {
         # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name     => 'JSData 1',
@@ -649,6 +702,12 @@ for my $Test (@Tests) {
     if ( $Test->{AddJSOnDocumentComplete} ) {
         $LayoutObject->AddJSOnDocumentComplete(
             Code => $Test->{AddJSOnDocumentComplete},
+        );
+    }
+
+    if ( $Test->{AddJSOnDocumentCompleteIfNotExists} ) {
+        $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
+            $Test->{AddJSOnDocumentCompleteIfNotExists}->%*,
         );
     }
 
