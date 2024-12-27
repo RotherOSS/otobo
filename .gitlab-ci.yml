@@ -138,10 +138,10 @@ testsuite:
   artifacts:
     when: always
     paths:
-      - "var/tap/**/*.rspec.xml"
+      - "var/tap/**/*.t.junit.xml"
       - "var/tap/**/*.t"
     reports:
-      junit: "var/tap/**/*.rspec.xml"
+      junit: "var/tap/**/*.t.junit.xml"
     
 after_script:
     # cleanup 
