@@ -129,7 +129,7 @@ testsuite:
     # run the tests 
     - cd "$OPT_OTOBO"
     - echo "Running tests from ${OTOBO_TESTS}"
-    - echo "P5: ${OTOBO_PERL5LIB}"
+    - 'echo "P5: ${OTOBO_PERL5LIB}"'
 #   - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}; PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/scripts/junit.pl  "; fi'
 #   - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=Kernel::System::UnitTest::Formatter ${OTOBO_TESTS}; "; fi'
     - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=$OTOBO_PERL5LIB PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=Kernel::System::UnitTest::Formatter ${OTOBO_TESTS}; "; fi'
