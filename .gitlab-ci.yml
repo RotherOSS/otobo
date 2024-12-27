@@ -106,7 +106,7 @@ testsuite:
     
     # run quick_setup.pl
 #    - docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_INSTALL_LIBS} cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http --fqdn 'localhost'"
-     - docker exec otobo-web-1 bash -c "cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http --fqdn 'localhost'"
+    - docker exec otobo-web-1 bash -c "cd /opt/otobo && /usr/local/bin/perl bin/docker/quick_setup.pl --db-password ${OTOBO_DB_ROOT_PASSWORD} --http-type http --fqdn 'localhost'"
    
     # extra Test dependencies for formatting test results in junit xml format
     
