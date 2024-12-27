@@ -35,6 +35,7 @@ variables:
     value: ""
     description: "Space separated list of versioned otobo packages names or full urls, e.g. 'Fred-11.0.1.opm' or 'https://ftp.otobo.org/pub/otobo/packages/:Fred-11.0.1.opm'\n See output of ./otobo.Console.pl Admin::Package::RepositoryList for possible values"
   OTOBO_DB_ROOT_PASSWORD: "programmieren_auf_dem_bauernhof"
+  OTOBO_PERL5LIB : '$PERL5LIB:/opt/otobo:/opt/otobo/Kernel/cpan-lib'
 #  OTOBO_INSTALL_LIBS: '$PERL5LIB:/opt/otobo_install/otobo_next:/opt/otobo:/opt/otobo_install/otobo_next/Kernel/cpan-lib'
 #  OTOBO_TEST_LIBS: '$PERL5LIB:/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5/:/opt/otobo:/opt/otobo/Kernel/cpan-lib'
 
@@ -130,11 +131,11 @@ testsuite:
     - echo "Running tests from ${OTOBO_TESTS}"
 #   - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=TAP::Formatter::JUnit ${OTOBO_TESTS}; PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/scripts/junit.pl  "; fi'
 #   - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=Kernel::System::UnitTest::Formatter ${OTOBO_TESTS}; "; fi'
-    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=Kernel::System::UnitTest::Formatter ${OTOBO_TESTS}; "; fi'
+    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=$OTOBO_PERL5LIB PERL_TEST_HARNESS_DUMP_TAP=/opt/otobo/var/tap /usr/local/bin/prove -r --timer --formatter=Kernel::System::UnitTest::Formatter ${OTOBO_TESTS}; "; fi'
 
 #    - 'if [ "$OTOBO_JUNIT" == "1" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/scripts/junit.pl ${OTOBO_TESTS} "; fi'
 #    - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=${OTOBO_TEST_LIBS} /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; fi'
-    - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "/opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; fi'
+    - 'if [ "$OTOBO_JUNIT" == "0" ]; then docker exec otobo-web-1 bash -c "PERL5LIB=$OTOBO_PERL5LIB /opt/otobo/bin/otobo.Console.pl Dev::UnitTest::Run --verbose ${OTOBO_TESTS}"; fi'
 
   # unit test report support - upload the test results to gitlab
   # https://docs.gitlab.com/ee/ci/testing/unit_test_reports.html
