@@ -123,7 +123,7 @@ sub close_test {
                 {
                     'name'      => _GetTestcaseName($Result),
                     'classname' => $Self->GetTestsuiteName(),
-                    'file'  => basename( $Self->{Name} ),
+                    'file'  => $Self->{Name} ,
                     (
                         $TimerEnabled ? ( 'time' => $Duration ) : ()
                     ),
