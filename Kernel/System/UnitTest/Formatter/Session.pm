@@ -23,7 +23,6 @@ use utf8;
 
 # core modules
 use File::Path qw(remove_tree mkpath);
-use File::Basename;
 use Time::HiRes qw();
 use File::Spec;
 use File::Copy qw(copy);
@@ -49,6 +48,7 @@ sub new {
     return $Self;
 }
 
+# virtual method called to initialize the Session.
 sub _initialize {
     my ( $Self, $ArgFor ) = @_;
     $ArgFor ||= {};
@@ -59,6 +59,7 @@ sub _initialize {
     return $Self->SUPER::_initialize($ArgFor);
 }
 
+# virtual method called for each single test result.
 sub result {
     my ( $Self, $Result ) = @_;
 
@@ -74,6 +75,7 @@ sub result {
     return;
 }
 
+# virtual method called after each testsuite is run.
 sub close_test {
     my $Self   = shift;
     my $Xml    = $Self->{Formatter}->{Xml};
@@ -109,9 +111,12 @@ sub close_test {
 
             # create a failure/error element if the test was bogus
             my $Failure;
-            my $Bogosity = $Self->CheckForTestBogosity($Result);
+            my $Bogosity = $Self->CheckForTestBogosity( Result => $Result );
             if ($Bogosity) {
-                $Failure = $Self->XmlError( $Bogosity, $Content );
+                $Failure = $Self->XmlError(
+                    Bogosity => $Bogosity,
+                    Content  => $Content
+                );
             }
 
             my @Children;
@@ -120,15 +125,15 @@ sub close_test {
             }
 
             my $Case = $Self->XmlTestCase(
-                {
-                    'name'      => _GetTestcaseName($Result),
+                Ref => {
+                    'name'      => $Self->_GetTestcaseName( Test => $Result ),
                     'classname' => $Self->GetTestsuiteName(),
-                    'file'  => $Self->{Name} ,
+                    'file'      => $Self->{Name},
                     (
                         $TimerEnabled ? ( 'time' => $Duration ) : ()
                     ),
                 },
-                \@Children,
+                Children => \@Children,
             );
 
             push $Self->{TestCases}->@*, $Case;
@@ -150,8 +155,14 @@ sub close_test {
         $DieMsg = "Dubious, test returned $Status";
     }
 
-    my $SysOut = $Self->XmlSysOut( 'system-out', $Captured );
-    my $SysErr = $Self->XmlSysOut( 'system-err', $DieMsg );
+    my $SysOut = $Self->XmlSysOut(
+        Tag      => 'system-out',
+        Captured => $Captured
+    );
+    my $SysErr = $Self->XmlSysOut(
+        Tag      => 'system-err',
+        Captured => $DieMsg
+    );
 
     # timing results
     my $TestsRun = $Parser->tests_run() || 0;
@@ -169,31 +180,34 @@ sub close_test {
     my $SuiteErr;
     if ($DieMsg) {
         $SuiteErr = $Self->XmlError(
-            {
+            Bogosity => {
                 level   => 'error',
                 message => $DieMsg,
                 type    => ''
-            }
+            },
+            Content => '',
         );
         $NumErrors++;
     }
     elsif ($Noplan) {
         $SuiteErr = $Self->XmlError(
-            {
+            Bogosity => {
                 level   => 'error',
                 message => 'No plan in TAP output',
                 type    => ''
-            }
+            },
+            Content => '',
         );
         $NumErrors++;
     }
     elsif ( $Planned && ( $TestsRun != $Planned ) ) {
         $SuiteErr = $Self->XmlError(
-            {
+            Bogosity => {
                 level   => 'error',
                 message => "Looks like you planned $Planned tests but ran $TestsRun.",
                 type    => ''
-            }
+            },
+            COntent => '',
         );
     }
 
@@ -217,19 +231,21 @@ sub close_test {
     }
 
     my $TestSuite = $Self->XmlTestSuite(
-        \%Attrs,
-        \@Tests
+        Ref      => \%Attrs,
+        Children => \@Tests,
     );
 
     push $Self->{Formatter}->{TestSuites}->@*, $TestSuite;
 
-    $Self->DumpJunitXml($TestSuite);
+    $Self->DumpJunitXml( TestSuite => $TestSuite );
 
     return;
 }
 
 sub DumpJunitXml {
-    my ( $Self, $TestSuite ) = @_;
+
+    my ( $Self, %Param ) = @_;
+
     if ( my $SpoolDir = $ENV{PERL_TEST_HARNESS_DUMP_TAP} ) {
 
         my $Spool = File::Spec->catfile( $SpoolDir, $Self->{Name} . '.junit.xml' );
@@ -240,8 +256,11 @@ sub DumpJunitXml {
         mkpath($Path);
 
         # create JUnit XML, and dump to disk
-        my $Junit = $Self->XmlTestSuites( {}, [$TestSuite] );
-        my $Fout  = IO::File->new( $Spool, '>:utf8' )
+        my $Junit = $Self->XmlTestSuites(
+            Ref      => {},
+            Children => [ $Param{TestSuite} ]
+        );
+        my $Fout = IO::File->new( $Spool, '>:utf8' )
             || die "Can't write $Spool ( $! )\n";
         $Fout->print( $Junit->toString() );
         $Fout->close();
@@ -252,14 +271,12 @@ sub DumpJunitXml {
 
 sub XmlSysOut {
 
-    my $Self    = shift;
-    my $Name    = shift;
-    my $Content = shift;
+    my ( $Self, %Param ) = @_;
 
-    my $CData = _CData($Content);
+    my $CData = $Self->_CData( Text => $Param{Captured} );
 
     my $Dom  = $Self->{Formatter}->{Dom};
-    my $Node = $Dom->createElement($Name);
+    my $Node = $Dom->createElement( $Param{Tag} );
 
     $Node->appendChild($CData);
 
@@ -268,11 +285,12 @@ sub XmlSysOut {
 
 sub XmlError {
 
-    my $Self     = shift;
-    my $Bogosity = shift;
-    my $Content  = shift;
+    my ( $Self, %Param ) = @_;
 
-    my $CData = _CData($Content);
+    my $Bogosity = $Param{Bogosity};
+    my $Content  = $Param{Content};
+
+    my $CData = $Self->_CData( Text => $Content );
     my $Level = $Bogosity->{level};
 
     my $Dom   = $Self->{Formatter}->{Dom};
@@ -287,9 +305,10 @@ sub XmlError {
 
 sub XmlTestCase {
 
-    my $Self     = shift;
-    my $Ref      = shift;
-    my $Children = shift;
+    my ( $Self, %Param ) = @_;
+
+    my $Ref      = $Param{Ref};
+    my $Children = $Param{Children};
 
     my $Dom      = $Self->{Formatter}->{Dom};
     my $TestCase = $Dom->createElement('testcase');
@@ -308,9 +327,10 @@ sub XmlTestCase {
 
 sub XmlTestSuite {
 
-    my $Self     = shift;
-    my $Ref      = shift;
-    my $Children = shift;
+    my ( $Self, %Param ) = @_;
+
+    my $Ref      = $Param{Ref};
+    my $Children = $Param{Children};
 
     my $Dom       = $Self->{Formatter}->{Dom};
     my $TestSuite = $Dom->createElement('testsuite');
@@ -328,9 +348,10 @@ sub XmlTestSuite {
 
 sub XmlTestSuites {
 
-    my $Self     = shift;
-    my $Ref      = shift;
-    my $Children = shift;
+    my ( $Self, %Param ) = @_;
+
+    my $Ref      = $Param{Ref};
+    my $Children = $Param{Children};
 
     my $Dom        = $Self->{Formatter}->{Dom};
     my $TestSuites = $Dom->createElement('testsuites');
@@ -346,10 +367,11 @@ sub XmlTestSuites {
     return $TestSuites;
 }
 
-
 sub CheckForTestBogosity {
-    my $Self   = shift;
-    my $Result = shift;
+
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Param{Result};
 
     if ( $Result->todo_passed() && !$Self->{PassingToDoOk} ) {
         return {
@@ -379,48 +401,66 @@ sub CheckForTestBogosity {
 }
 
 sub GetTestsuiteName {
-    my $Self = shift;
+
+    my ( $Self, %Param ) = @_;
+
     my $Name = $Self->{Name};
     $Name =~ s{^\./}{};
     $Name =~ s{^t/}{};
-    my $Javaname = _CleanToJavaClassName($Name);
+    my $Javaname = $Self->_CleanToJavaClassName( Name => $Name );
     $Javaname =~ s/^scripts_test_//;
     $Javaname =~ s/_t$//;
     return $Javaname;
 }
 
-
 # little procedural helpers
 
 sub _GetTestcaseName {
-    my $Test = shift;
 
-    my $Name = $Test->number() . ' ' . _CleanTestDescription($Test);
+    my ( $Self, %Param ) = @_;
+
+    my $Test = $Param{Test};
+
+    my $Name = $Test->number() . ' ' . $Self->_CleanTestDescription( Test => $Test );
     $Name =~ s/\s+$//;
     return $Name;
 }
 
 sub _CleanToJavaClassName {
-    my $Str = shift;
+
+    my ( $Self, %Param ) = @_;
+
+    my $Str = $Param{Name};
+
     $Str =~ s/[^-:_A-Za-z0-9]+/_/gs;
     return $Str;
 }
 
 sub _CleanTestDescription {
-    my $Test = shift;
+
+    my ( $Self, %Param ) = @_;
+
+    my $Test = $Param{Test};
+
     my $Desc = $Test->description();
-    return _SqueakyClean($Desc);
+    return $Self->_SqueakyClean( Text => $Desc );
 }
 
 sub _CData {
-    my ($Data) = @_;
-    $Data = _SqueakyClean($Data);
 
-    return XML::LibXML::CDATASection->new($Data);
+    my ( $Self, %Param ) = @_;
+
+    my $Text = $Param{Text};
+    $Text = $Self->_SqueakyClean( Text => $Text );
+
+    return XML::LibXML::CDATASection->new($Text);
 }
 
 sub _SqueakyClean {
-    my $String = shift;
+
+    my ( $Self, %Param ) = @_;
+
+    my $String = $Param{Text};
 
     if ( !$String ) { return ''; }
 

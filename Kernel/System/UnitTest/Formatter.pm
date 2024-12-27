@@ -53,6 +53,7 @@ sub new {
     return $Self;
 }
 
+# virtual method called from prove for each *.t file that is run.
 sub open_test {
     my ( $Self, $Test, $Parser ) = @_;
     my $Session = Kernel::System::UnitTest::Formatter::Session->new(
@@ -67,6 +68,7 @@ sub open_test {
     return $Session;
 }
 
+# virtual method called from prove to generate summary.
 sub summary {
     my $Self = shift;
     return if $Self->silent();
@@ -82,7 +84,10 @@ sub summary {
         TestSuites    => [],
 
     );
-    my $Junit = $Session->XmlTestSuites( {}, \@Suites );
+    my $Junit = $Session->XmlTestSuites(
+        Ref      => {},
+        Children => \@Suites
+    );
 
     print STDOUT $Junit->toString() . "\n";
 
