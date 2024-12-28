@@ -92,7 +92,11 @@ The ObjectManager must always be provided to OTOBO by the top level script like 
 Then in the code any singleton object can be retrieved that the ObjectManager can handle,
 like Kernel::System::DB:
 
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Prepare('SELECT 1');
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Prepare('SELECT 1');
+
+Note that localizing C<$Kernel::OM> is not really necessary in most scripts. The use of C<local> in
+F<otobo.psgi> is a special case. There it helps in avoiding that data from one HTTP request carries
+over to the next request.
 
 =head2 Which objects can be loaded?
 
