@@ -23,12 +23,8 @@ use utf8;
 
 # core modules
 use File::Path qw(remove_tree mkpath);
-use Time::HiRes qw();
-use File::Spec;
-use File::Copy qw(copy);
 
 # CPAN modules
-use Try::Tiny;
 use XML::LibXML;
 
 use parent 'TAP::Formatter::Console::Session';
@@ -111,9 +107,9 @@ sub close_test {
 
             # create a failure/error element if the test was bogus
             my $Failure;
-            my $Bogosity = $Self->CheckForTestBogosity( Result => $Result );
+            my $Bogosity = $Self->_CheckForTestBogosity( Result => $Result );
             if ($Bogosity) {
-                $Failure = $Self->XmlError(
+                $Failure = $Self->_XmlError(
                     Bogosity => $Bogosity,
                     Content  => $Content
                 );
@@ -124,10 +120,10 @@ sub close_test {
                 push @Children, $Failure;
             }
 
-            my $Case = $Self->XmlTestCase(
+            my $Case = $Self->_XmlTestCase(
                 Ref => {
                     'name'      => $Self->_GetTestcaseName( Test => $Result ),
-                    'classname' => $Self->GetTestsuiteName(),
+                    'classname' => $Self->_GetTestsuiteName(),
                     'file'      => $Self->{Name},
                     (
                         $TimerEnabled ? ( 'time' => $Duration ) : ()
@@ -155,11 +151,11 @@ sub close_test {
         $DieMsg = "Dubious, test returned $Status";
     }
 
-    my $SysOut = $Self->XmlSysOut(
+    my $SysOut = $Self->_XmlSysOut(
         Tag      => 'system-out',
         Captured => $Captured
     );
-    my $SysErr = $Self->XmlSysOut(
+    my $SysErr = $Self->_XmlSysOut(
         Tag      => 'system-err',
         Captured => $DieMsg
     );
@@ -179,7 +175,7 @@ sub close_test {
 
     my $SuiteErr;
     if ($DieMsg) {
-        $SuiteErr = $Self->XmlError(
+        $SuiteErr = $Self->_XmlError(
             Bogosity => {
                 level   => 'error',
                 message => $DieMsg,
@@ -190,7 +186,7 @@ sub close_test {
         $NumErrors++;
     }
     elsif ($Noplan) {
-        $SuiteErr = $Self->XmlError(
+        $SuiteErr = $Self->_XmlError(
             Bogosity => {
                 level   => 'error',
                 message => 'No plan in TAP output',
@@ -201,7 +197,7 @@ sub close_test {
         $NumErrors++;
     }
     elsif ( $Planned && ( $TestsRun != $Planned ) ) {
-        $SuiteErr = $Self->XmlError(
+        $SuiteErr = $Self->_XmlError(
             Bogosity => {
                 level   => 'error',
                 message => "Looks like you planned $Planned tests but ran $TestsRun.",
@@ -217,7 +213,7 @@ sub close_test {
     push @Tests, $SysErr;
 
     my %Attrs = (
-        'name'     => $Self->GetTestsuiteName(),
+        'name'     => $Self->_GetTestsuiteName(),
         'tests'    => $TestsRun,
         'failures' => $Failures,
         'errors'   => $NumErrors,
@@ -230,7 +226,7 @@ sub close_test {
         push @Tests, $SuiteErr;
     }
 
-    my $TestSuite = $Self->XmlTestSuite(
+    my $TestSuite = $Self->_XmlTestSuite(
         Ref      => \%Attrs,
         Children => \@Tests,
     );
@@ -242,6 +238,7 @@ sub close_test {
     return;
 }
 
+# Write a junit xml style report to disk
 sub DumpJunitXml {
 
     my ( $Self, %Param ) = @_;
@@ -256,7 +253,7 @@ sub DumpJunitXml {
         mkpath($Path);
 
         # create JUnit XML, and dump to disk
-        my $Junit = $Self->XmlTestSuites(
+        my $Junit = $Self->_XmlTestSuites(
             Ref      => {},
             Children => [ $Param{TestSuite} ]
         );
@@ -269,7 +266,9 @@ sub DumpJunitXml {
     return;
 }
 
-sub XmlSysOut {
+# private implementation
+
+sub _XmlSysOut {
 
     my ( $Self, %Param ) = @_;
 
@@ -283,7 +282,7 @@ sub XmlSysOut {
     return $Node;
 }
 
-sub XmlError {
+sub _XmlError {
 
     my ( $Self, %Param ) = @_;
 
@@ -303,7 +302,7 @@ sub XmlError {
     return $Error;
 }
 
-sub XmlTestCase {
+sub _XmlTestCase {
 
     my ( $Self, %Param ) = @_;
 
@@ -325,7 +324,7 @@ sub XmlTestCase {
     return $TestCase;
 }
 
-sub XmlTestSuite {
+sub _XmlTestSuite {
 
     my ( $Self, %Param ) = @_;
 
@@ -346,7 +345,7 @@ sub XmlTestSuite {
     return $TestSuite;
 }
 
-sub XmlTestSuites {
+sub _XmlTestSuites {
 
     my ( $Self, %Param ) = @_;
 
@@ -367,7 +366,7 @@ sub XmlTestSuites {
     return $TestSuites;
 }
 
-sub CheckForTestBogosity {
+sub _CheckForTestBogosity {
 
     my ( $Self, %Param ) = @_;
 
@@ -400,7 +399,7 @@ sub CheckForTestBogosity {
     return;
 }
 
-sub GetTestsuiteName {
+sub _GetTestsuiteName {
 
     my ( $Self, %Param ) = @_;
 

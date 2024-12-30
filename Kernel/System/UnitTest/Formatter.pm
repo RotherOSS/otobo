@@ -23,12 +23,6 @@ use utf8;
 
 # core modules
 use File::Path qw(remove_tree);
-use Time::HiRes qw();
-use File::Spec;
-use File::Copy qw(copy);
-
-# CPAN modules
-use Try::Tiny;
 
 # Otobo modules
 use Kernel::System::UnitTest::Formatter::Session;
@@ -36,6 +30,17 @@ use Kernel::System::UnitTest::Formatter::Session;
 use parent 'TAP::Formatter::Console';
 
 our $ObjectManagerDisabled = 1;
+
+# this is a custom Otobo TAP Formatter to present the Otobo TAP unittest results
+# in not-so-standard junit rpsec.xml file format.
+#
+# see: https://metacpan.org/pod/TAP::Formatter::JUnit
+#      as an example for TAP formatters
+# see: https://gitlab.com/gitlab-org/gitlab/-/issues/299086
+#      discussion about actual xml format used by GitLab
+# see: https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/parsers/test/junit.rb
+#      how GitLab actually parses the junit.xml files
+#
 
 sub new {
 
@@ -47,8 +52,6 @@ sub new {
         TestSuites => [],
         $Params->%*
     }, $Type;
-
-    $Self->verbosity(0);
 
     return $Self;
 }
@@ -63,7 +66,6 @@ sub open_test {
         PassingToDoOk => $ENV{ALLOW_PASSING_TODOS} ? 1 : 0,
         Dom           => $Self->{Dom},
         TestSuites    => [],
-
     );
     return $Session;
 }
@@ -71,7 +73,8 @@ sub open_test {
 # virtual method called from prove to generate summary.
 sub summary {
     my $Self = shift;
-    return if $Self->silent();
+
+    return if !$Self->verbosity();
 
     my @Suites = @{ $Self->{TestSuites} };
 
@@ -81,10 +84,10 @@ sub summary {
         Parser        => undef,
         PassingToDoOk => $ENV{ALLOW_PASSING_TODOS} ? 1 : 0,
         Dom           => $Self->{Dom},
-        TestSuites    => [],
+        TestSuites    => \@Suites,
 
     );
-    my $Junit = $Session->XmlTestSuites(
+    my $Junit = $Session->_XmlTestSuites(
         Ref      => {},
         Children => \@Suites
     );
