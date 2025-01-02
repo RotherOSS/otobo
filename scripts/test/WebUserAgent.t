@@ -68,7 +68,7 @@ if ( !$ChildPID ) {
         );
 
         my $Runner = Plack::Runner->new;
-        $Runner->parse_options(qw'--no-default-middleware --host 127.0.0.1 --port 80 -L Shotgun');
+        $Runner->parse_options(qw'--no-default-middleware --host 127.0.0.1 --port 8785 -L Shotgun');
         $Runner->run($Wrapped);
     }
     catch {
@@ -141,7 +141,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - Credentials ' . $TestNumber++,
-        URL         => "http://localhost/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 1,
@@ -149,12 +149,12 @@ my @Tests = (
             User     => 'guest',
             Password => 'guest',
             Realm    => 'OTRS UnitTest',
-            Location => 'localhost:80',
+            Location => 'localhost:8785',
         },
     },
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
-        URL         => "http://localhost/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 0,
@@ -162,7 +162,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
-        URL         => "http://localhost/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Credentials => {
