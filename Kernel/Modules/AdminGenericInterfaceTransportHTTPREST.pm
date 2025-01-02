@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -185,7 +185,7 @@ sub Run {
         if ( $GetParam->{UseSSL} && $GetParam->{UseSSL} eq 'Yes' ) {
 
             # Get SSL authentication settings.
-            for my $ParamName (qw( UseSSL SSLPassword SSLVerifyHostname )) {
+            for my $ParamName (qw( UseSSL SSLPassword SSLVerifyHostname SSLVerifyMode )) {
                 $TransportConfig->{SSL}->{$ParamName} = $GetParam->{$ParamName};
             }
             PARAMNAME:
@@ -469,7 +469,7 @@ sub _ShowEdit {
     for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab )) {
         $Param{$ParamName} = $TransportConfig->{Authentication}->{$ParamName};
     }
-    for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname )) {
+    for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname SSLVerifyMode )) {
         $Param{$ParamName} = $TransportConfig->{SSL}->{$ParamName};
     }
     for my $ParamName (qw( UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude )) {
@@ -577,6 +577,19 @@ sub _ShowEdit {
             },
             Name          => 'SSLVerifyHostname',
             SelectedValue => $Param{SSLVerifyHostname} || Translatable('Yes'),
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
+        );
+
+        # Create noverify_mode selection.
+        $Param{SSLVerifyModeStrg} = $LayoutObject->BuildSelection(
+            Data => {
+                'Yes' => Translatable('Yes'),
+                'No'  => Translatable('No'),
+            },
+            Name          => 'SSLVerifyMode',
+            SelectedValue => $Param{SSLVerifyMode} || Translatable('Yes'),
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',
@@ -873,7 +886,7 @@ sub _GetParams {
             AuthType CredentialID BasicAuthUser BasicAuthPassword BearerAuthToken
             UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
             UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
-            SSLVerifyHostname
+            SSLVerifyHostname SSLVerifyMode
         )
         )
     {
