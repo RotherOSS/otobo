@@ -144,8 +144,8 @@ sub ValueSet {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The value $ValueItem for the field Date is invalid!\n"
-                . "The date must be in format 0000-00-00 and the time must be 00:00:00",
+            Message  => "The value $Param{Value} for the field Date is invalid!\n"
+                . "The date must be in format YYYY-MM-DD and the time must be 00:00:00",
         );
 
         return;

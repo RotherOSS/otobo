@@ -564,6 +564,7 @@ sub Send {
             );
 
             my $Parser = MIME::Parser->new();
+            $Parser->output_to_core('ALL');
 
             $Parser->output_dir( $ConfigObject->Get('TempDir') );
             $Entity = $Parser->parse_data( $Header . $EncryptedMessage );

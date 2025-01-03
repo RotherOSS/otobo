@@ -103,7 +103,7 @@ sub new {
         $Self->{Params} = {};
     }
 
-    $Self->{StartTLS} = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+    $Self->{StartTLS} = $ConfigObject->Get( 'AuthSyncModule::LDAP::StartTLS' . $Param{Count} ) || '';
 
     return $Self;
 }
