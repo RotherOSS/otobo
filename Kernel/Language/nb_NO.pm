@@ -10,7 +10,7 @@
 # Copyright (C) 2011 Espen Stefansen <libbe at stefansen dot net>
 # Copyright (C) 2012 Lars Magnus Herland <lars.magnus at herland.priv.no>
 # Copyright (C) 2013 Espen Stefansen <libbe at stefansen dot net>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1354,7 +1354,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Den fullstendige banen til sertifiseringsinstanskatalogen der CA-sertifikatene er lagret i filsystemet.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'f.eks. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => 'SSL-vertsnavnbekreftelse.',
+        'SSL hostname verification' => 'SSL-vertsnavnbekreftelse',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Avbryt forespørselen hvis vertsnavnet ikke kan bekreftes. Deaktiver med forsiktighet! Å hoppe over verifisering er en sikkerhetsrisiko! Hovedsakelig for testformål i tilfelle av selvsignerte SSL-sertifikater, eller hvis du vet hva du gjør.',
         'Controller mapping for Invoker' => 'Kontrollermapping for utløser',

@@ -13,7 +13,7 @@
 # Copyright (C) 2013 Alexey Gluhov <glalexnn at yandex.ru>
 # Copyright (C) 2013 Andrey N. Burdin <BurdinAN at it-sakh.net>
 # Copyright (C) 2013 Yuriy Kolesnikov <ynkolesnikov at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1357,7 +1357,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Полный путь к каталогу certification authority, в котором хранятся CA certificates. ',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'например, /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => 'Проверка имени хоста SSL.',
+        'SSL hostname verification' => 'Проверка имени хоста SSL',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Прервать запрос, если имя хоста не может быть проверено. Отключать с осторожностью! Пропуск проверки - это риск для безопасности! В основном для тестирования в случае самоподписанных SSL-сертификатов или если вы знаете, что делаете.',
         'Controller mapping for Invoker' => 'Controller mapping для Invoker',

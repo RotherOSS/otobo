@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1346,7 +1346,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Voller Pfad und Dateiname des CA-Verzeichnisses, in dem CA-Zertifikate gespeichert sind.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'z. B. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => 'Verifiziert den SSL-Hostnamen.',
+        'SSL hostname verification' => 'Verifiziert den SSL-Hostnamen',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Abbrechen der Anfrage, wenn der Hostname nicht verifiziert werden kann. Achtung! Nicht unbedacht deaktivieren. Der Verzicht auf eine Überprüfung stellt ein Sicherheitsrisiko dar! Möglichkeit der Deaktivierung vorwiegend für Tests mit selbstsignierten Zertifikaten oder wenn Sie genau wissen, was Sie tun.',
         'Controller mapping for Invoker' => 'Controller-Mapping für Invoker',

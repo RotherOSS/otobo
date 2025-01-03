@@ -371,7 +371,7 @@
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification.") | html %]:</label>
+                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification") | html %]:</label>
                                     <div class="Field">
                                         [% Data.SSLVerifyHostStrg %]
                                         <p class="FieldExplanation">
@@ -380,7 +380,7 @@
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="SSLVerifyMode">[% Translate("SSL verify mode.") | html %]:</label>
+                                    <label for="SSLVerifyMode">[% Translate("SSL verify mode") | html %]:</label>
                                     <div class="Field">
                                         [% Data.SSLVerifyModeStrg %]
                                         <p class="FieldExplanation">
