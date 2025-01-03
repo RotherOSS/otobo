@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -538,7 +538,7 @@ sub LoadDefaults {
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
-#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
 #            SSLCertificate => 'SSL_cert_file',     # client certificate
 #            SSLKey         => 'SSL_key_file',      # client cert key
 #            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
@@ -1538,7 +1538,7 @@ via the Preferences button after logging in.
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
-#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
 #            SSLCertificate => 'SSL_cert_file',     # client certificate
 #            SSLKey         => 'SSL_key_file',      # client cert key
 #            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
