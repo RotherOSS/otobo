@@ -188,19 +188,12 @@ sub Run {
 
         my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
-        my $QueueID      = $Ticket{QueueID};
 
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # get config for frontend module
         my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-        # get list type
-        my $TreeView = 0;
-        if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
 
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
@@ -999,7 +992,6 @@ sub SendEmail {
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
-    my $QueueID = $Self->{QueueID};
     my %StateData;
 
     if ( $GetParam{ComposeStateID} ) {
@@ -1523,7 +1515,6 @@ sub SendEmail {
 sub AjaxUpdate {
     my ( $Self, %Param ) = @_;
 
-    my %Error;
     my %ACLCompatGetParam;
 
     # get param object
@@ -1533,11 +1524,7 @@ sub AjaxUpdate {
     $ACLCompatGetParam{NextStateID} = $ParamObject->GetParam( Param => 'NextStateID' );
 
     my %GetParamExtended = $Self->_GetExtendedParams();
-
     my %GetParam            = %{ $GetParamExtended{GetParam} };
-    my @MultipleCustomer    = @{ $GetParamExtended{MultipleCustomer} };
-    my @MultipleCustomerCc  = @{ $GetParamExtended{MultipleCustomerCc} };
-    my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
 
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $Self->{TicketID} );
 
@@ -1615,9 +1602,6 @@ sub AjaxUpdate {
     }
 
     my %DynamicFieldValues;
-
-    # get config for frontend module
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # get needed objects
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
