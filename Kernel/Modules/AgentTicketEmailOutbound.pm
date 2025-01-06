@@ -188,6 +188,7 @@ sub Run {
 
         my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
+        my $QueueID      = $Ticket{QueueID};
 
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
