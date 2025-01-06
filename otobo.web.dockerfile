@@ -85,20 +85,43 @@ RUN apt-get update\
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
+# Install CPAN distributions that are required by OTOBO into the directory /opt/otobo_install/local.
 # The Perl module installer 'cpanm' is already available via the base image.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
+# The modules are installed with the command `carton` as it allows to install fixed
+# version from a previous snapshot. The idea is that the snapshot is updated when
+# performing local builds. The automatic build on Github use the saved snapshot.
+#
 # 'carton install' will update cpanfile.snapshot.
 # 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+#
+# A fatpacked script `carton` is used for building the image. This has the advantage
+# that the requirements for `carton` are not included in the generated Docker image.
+#
+# Creating the fatpacked carton script is a bit tedious. See
+# https://github.com/perl-carton/carton/issues/237 and https://github.com/miyagawa/cpanminus/pull/577.
+# The recommendation is to create the fatpack in an running container:
+#   cd /opt/otobo
+#   cpanm --local-lib local Carton
+#   cpanm --local-lib local App::FatPacker
+#   sed -e '/version::vpp/s/^/# version:vpp is not in core Perl 5.40:/' -i.bak local/lib/perl5/Menlo/CLI/Compat.pm
+#   touch cpanfile
+#   carton fatpack
+#   rm cpanfile
+# On the Docker host the fatpacked /opt/otobo_install/vendor/bin/carton can be copied to bin/docker/carton
+# in the Git sandbox.
+#   docker cp otoelfeins-web-1:/opt/otobo/vendor/bin/carton bin/docker/carton
+#   git add bin/docker/carton
 #
 # Note that the variable $DOCKER_TAG is already substituted by Docker.
 #
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
+COPY bin/docker/carton carton
 COPY cpanfile.docker cpanfile
 COPY cpanfile.docker.snapshot cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
@@ -107,14 +130,15 @@ ARG DOCKER_TAG=unspecified
 RUN <<END_BASH bash
     set -eux
 
-    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
-    cpanm --local-lib local Carton
+    cpanm --local-lib local local::lib
+
     if [[ $DOCKER_TAG == local-* ]]
     then
-        carton install
+        /opt/otobo_install/carton install
     else
-        carton install --deployment
+        /opt/otobo_install/carton install --deployment
     fi
+
     rm -rf "/root/.cpanm"
 END_BASH
 
@@ -263,7 +287,7 @@ RUN <<END_BASH bash
     ) >> cpanfile
 
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
-    carton install
+    /opt/otobo_install/carton install
 
     rm -rf "/root/.cpanm"
 END_BASH

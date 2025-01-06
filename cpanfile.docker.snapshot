@@ -223,56 +223,6 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  CPAN-Common-Index-0.010
-    pathname: D/DA/DAGOLDEN/CPAN-Common-Index-0.010.tar.gz
-    provides:
-      CPAN::Common::Index 0.010
-      CPAN::Common::Index::LocalPackage 0.010
-      CPAN::Common::Index::MetaDB 0.010
-      CPAN::Common::Index::Mirror 0.010
-      CPAN::Common::Index::Mux::Ordered 0.010
-    requirements:
-      CPAN::DistnameInfo 0
-      CPAN::Meta::YAML 0
-      Carp 0
-      Class::Tiny 0
-      ExtUtils::MakeMaker 6.17
-      File::Basename 0
-      File::Copy 0
-      File::Fetch 0
-      File::Spec 0
-      File::Temp 0.19
-      File::stat 0
-      HTTP::Tiny 0
-      Module::Load 0
-      Search::Dict 1.07
-      Tie::Handle::SkipHeader 0
-      URI 0
-      parent 0
-      perl 5.008001
-      strict 0
-      warnings 0
-  CPAN-DistnameInfo-0.12
-    pathname: G/GB/GBARR/CPAN-DistnameInfo-0.12.tar.gz
-    provides:
-      CPAN::DistnameInfo 0.12
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  CPAN-Meta-Check-0.018
-    pathname: L/LE/LEONT/CPAN-Meta-Check-0.018.tar.gz
-    provides:
-      CPAN::Meta::Check 0.018
-    requirements:
-      CPAN::Meta::Prereqs 2.132830
-      CPAN::Meta::Requirements 2.121
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      Module::Metadata 1.000023
-      base 0
-      perl 5.006
-      strict 0
-      warnings 0
   CPAN-Requirements-Dynamic-0.001
     pathname: L/LE/LEONT/CPAN-Requirements-Dynamic-0.001.tar.gz
     provides:
@@ -313,47 +263,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Carton-v1.0.35
-    pathname: M/MI/MIYAGAWA/Carton-v1.0.35.tar.gz
-    provides:
-      Carton 1.000035
-      Carton::Builder undef
-      Carton::CLI undef
-      Carton::CPANfile undef
-      Carton::Dependency undef
-      Carton::Dist undef
-      Carton::Dist::Core undef
-      Carton::Environment undef
-      Carton::Error undef
-      Carton::Error::CPANfileNotFound undef
-      Carton::Error::CommandExit undef
-      Carton::Error::CommandNotFound undef
-      Carton::Error::SnapshotNotFound undef
-      Carton::Error::SnapshotParseError undef
-      Carton::Index undef
-      Carton::Mirror undef
-      Carton::Package undef
-      Carton::Packer undef
-      Carton::Snapshot undef
-      Carton::Snapshot::Emitter undef
-      Carton::Snapshot::Parser undef
-      Carton::Tree undef
-      Carton::Util undef
-    requirements:
-      CPAN::Meta 2.120921
-      CPAN::Meta::Requirements 2.121
-      Class::Tiny 1.001
-      ExtUtils::MakeMaker 0
-      Getopt::Long 2.39
-      JSON::PP 2.27300
-      Menlo::CLI::Compat 1.9018
-      Module::CPANfile 0.9031
-      Module::CoreList 0
-      Path::Tiny 0.033
-      Try::Tiny 0.09
-      parent 0.223
-      perl 5.008005
-      version 0.77
   Class-Accessor-Lite-0.08
     pathname: K/KA/KAZUHO/Class-Accessor-Lite-0.08.tar.gz
     provides:
@@ -431,17 +340,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.64
       perl 5.008001
-      strict 0
-      warnings 0
-  Class-Tiny-1.008
-    pathname: D/DA/DAGOLDEN/Class-Tiny-1.008.tar.gz
-    provides:
-      Class::Tiny 1.008
-      Class::Tiny::Object 1.008
-    requirements:
-      Carp 0
-      ExtUtils::MakeMaker 6.17
-      perl 5.006
       strict 0
       warnings 0
   Clone-0.46
@@ -1495,18 +1393,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  ExtUtils-MakeMaker-CPANfile-0.09
-    pathname: I/IS/ISHIGAKI/ExtUtils-MakeMaker-CPANfile-0.09.tar.gz
-    provides:
-      ExtUtils::MakeMaker::CPANfile 0.09
-    requirements:
-      CPAN::Meta::Converter 2.141170
-      Cwd 0
-      ExtUtils::MakeMaker 6.17
-      File::Path 0
-      Module::CPANfile 0
-      Test::More 0.88
-      version 0.76
   FFI-CheckLib-0.31
     pathname: P/PL/PLICEASE/FFI-CheckLib-0.31.tar.gz
     provides:
@@ -1608,22 +1494,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       vars 0
-      warnings 0
-  File-pushd-1.016
-    pathname: D/DA/DAGOLDEN/File-pushd-1.016.tar.gz
-    provides:
-      File::pushd 1.016
-    requirements:
-      Carp 0
-      Cwd 0
-      Exporter 0
-      ExtUtils::MakeMaker 6.17
-      File::Path 0
-      File::Spec 0
-      File::Temp 0
-      overload 0
-      perl 5.006
-      strict 0
       warnings 0
   Filesys-Notify-Simple-0.14
     pathname: M/MI/MIYAGAWA/Filesys-Notify-Simple-0.14.tar.gz
@@ -1861,22 +1731,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       HTTP::Headers 6
-      perl 5.008001
-  HTTP-Tinyish-0.19
-    pathname: M/MI/MIYAGAWA/HTTP-Tinyish-0.19.tar.gz
-    provides:
-      HTTP::Tinyish 0.19
-      HTTP::Tinyish::Base undef
-      HTTP::Tinyish::Curl undef
-      HTTP::Tinyish::HTTPTiny undef
-      HTTP::Tinyish::LWP undef
-      HTTP::Tinyish::Wget undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Which 0
-      HTTP::Tiny 0.055
-      IPC::Run3 0
-      parent 0
       perl 5.008001
   Hash-MultiValue-0.16
     pathname: A/AR/ARISTOTLE/Hash-MultiValue-0.16.tar.gz
@@ -2572,59 +2426,6 @@ DISTRIBUTIONS
       Parse::RecDescent 1.94
       Test::More 0
       perl 5.008
-  Menlo-1.9019
-    pathname: M/MI/MIYAGAWA/Menlo-1.9019.tar.gz
-    provides:
-      Menlo 1.9019
-      Menlo::Builder::Static undef
-      Menlo::Dependency undef
-      Menlo::Index::MetaCPAN undef
-      Menlo::Index::MetaDB 1.9019
-      Menlo::Index::Mirror undef
-      Menlo::Util undef
-    requirements:
-      CPAN::Common::Index 0.006
-      CPAN::DistnameInfo 0
-      CPAN::Meta 2.132830
-      CPAN::Meta::Check 0
-      CPAN::Meta::Requirements 0
-      CPAN::Meta::YAML 0
-      Capture::Tiny 0
-      Class::Tiny 1.001
-      Exporter 0
-      ExtUtils::Config 0.003
-      ExtUtils::Helpers 0.020
-      ExtUtils::InstallPaths 0.002
-      ExtUtils::MakeMaker 0
-      File::Temp 0
-      File::Which 0
-      File::pushd 0
-      Getopt::Long 2.36
-      HTTP::Tiny 0.054
-      HTTP::Tinyish 0.04
-      JSON::PP 2
-      Module::CPANfile 0
-      Module::CoreList 0
-      Module::Metadata 0
-      Parse::CPAN::Meta 0
-      Parse::PMFile 0.26
-      String::ShellQuote 0
-      URI 0
-      Win32::ShellQuote 0
-      local::lib 0
-      parent 0
-      perl 5.008001
-      version 0
-  Menlo-Legacy-1.9022
-    pathname: M/MI/MIYAGAWA/Menlo-Legacy-1.9022.tar.gz
-    provides:
-      Menlo::CLI::Compat 1.9022
-      Menlo::Legacy 1.9022
-    requirements:
-      ExtUtils::MakeMaker 0
-      Menlo 1.9018
-      perl 5.008001
-      version 0.9905
   Module-Build-0.4234
     pathname: L/LE/LEONT/Module-Build-0.4234.tar.gz
     provides:
@@ -2711,19 +2512,6 @@ DISTRIBUTIONS
       XSLoader 0
       parent 0
       perl 5.008001
-  Module-CPANfile-1.1004
-    pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
-    provides:
-      Module::CPANfile 1.1004
-      Module::CPANfile::Environment undef
-      Module::CPANfile::Prereq undef
-      Module::CPANfile::Prereqs undef
-      Module::CPANfile::Requirement undef
-    requirements:
-      CPAN::Meta 2.12091
-      CPAN::Meta::Prereqs 2.12091
-      ExtUtils::MakeMaker 0
-      parent 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -3225,18 +3013,6 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Parse-PMFile-0.47
-    pathname: I/IS/ISHIGAKI/Parse-PMFile-0.47.tar.gz
-    provides:
-      Parse::PMFile 0.47
-    requirements:
-      Dumpvalue 0
-      ExtUtils::MakeMaker 0
-      ExtUtils::MakeMaker::CPANfile 0.09
-      File::Spec 0
-      JSON::PP 2.00
-      Safe 0
-      version 0.83
   Parse-RecDescent-1.967015
     pathname: J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz
     provides:
@@ -3696,12 +3472,6 @@ DISTRIBUTIONS
       Test::Warn 0
       parent 0
       perl v5.6.0
-  String-ShellQuote-1.04
-    pathname: R/RO/ROSCH/String-ShellQuote-1.04.tar.gz
-    provides:
-      String::ShellQuote 1.04
-    requirements:
-      ExtUtils::MakeMaker 0
   Sub-Exporter-0.991
     pathname: R/RJ/RJBS/Sub-Exporter-0.991.tar.gz
     provides:
@@ -3918,18 +3688,6 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  Test-FailWarnings-0.008
-    pathname: D/DA/DAGOLDEN/Test-FailWarnings-0.008.tar.gz
-    provides:
-      Test::FailWarnings 0.008
-    requirements:
-      Carp 0
-      Cwd 0
-      ExtUtils::MakeMaker 6.17
-      File::Spec 0
-      Test::More 0.86
-      strict 0
-      warnings 0
   Test-Fatal-0.017
     pathname: R/RJ/RJBS/Test-Fatal-0.017.tar.gz
     provides:
@@ -3950,13 +3708,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Builder 0.12
       Test::Builder::Tester 1.04
-  Test-Needs-0.002010
-    pathname: H/HA/HAARG/Test-Needs-0.002010.tar.gz
-    provides:
-      Test::Needs 0.002010
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5.006
   Test-Output-1.034
     pathname: B/BD/BDFOY/Test-Output-1.034.tar.gz
     provides:
@@ -4104,16 +3855,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
-  Tie-Handle-Offset-0.004
-    pathname: D/DA/DAGOLDEN/Tie-Handle-Offset-0.004.tar.gz
-    provides:
-      Tie::Handle::Offset 0.004
-      Tie::Handle::SkipHeader 0.004
-    requirements:
-      ExtUtils::MakeMaker 6.17
-      Tie::Handle 0
-      perl 5.006
-      strict 0
   TimeDate-2.33
     pathname: A/AT/ATOOMIC/TimeDate-2.33.tar.gz
     provides:
@@ -4377,12 +4118,6 @@ DISTRIBUTIONS
       Fcntl 0
       URI 1.10
       perl 5.008001
-  Win32-ShellQuote-0.003001
-    pathname: H/HA/HAARG/Win32-ShellQuote-0.003001.tar.gz
-    provides:
-      Win32::ShellQuote 0.003001
-    requirements:
-      perl 5.006
   XML-LibXML-2.0210
     pathname: S/SH/SHLOMIF/XML-LibXML-2.0210.tar.gz
     provides:
