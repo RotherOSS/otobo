@@ -320,7 +320,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
                 $('.SSLField').removeClass('Hidden');
 
                 // initialize modernized selections
-                Core.UI.InputFields.Init();
+                Core.UI.InputFields.Activate($('.SSLField'));
             }
 
             else {
