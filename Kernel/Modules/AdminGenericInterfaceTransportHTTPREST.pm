@@ -883,9 +883,10 @@ sub _GetParams {
     for my $ParamName (
         qw(
             Host DefaultCommand MaxLength KeepAlive Timeout
-            AuthType CredentialID BasicAuthUser BasicAuthPassword BearerAuthToken
-            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
-            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+            AuthType CredentialID BasicAuthUser BasicAuthPassword
+            KerberosUser KerberosKeytab BearerAuthToken UseProxy
+            ProxyHost ProxyUser ProxyPassword ProxyExclude UseSSL
+            SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
             SSLVerifyHostname SSLVerifyMode
         )
         )
