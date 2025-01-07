@@ -384,7 +384,7 @@
                                     <div class="Field">
                                         [% Data.SSLVerifyModeStrg %]
                                         <p class="FieldExplanation">
-                                            [% Translate("Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
+                                            [% Translate("Skip SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
                                         </p>
                                     </div>
                                     <div class="Clear"></div>
