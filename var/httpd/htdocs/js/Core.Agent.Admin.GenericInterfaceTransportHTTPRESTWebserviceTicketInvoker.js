@@ -58,7 +58,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
     TargetNS.RemoveContainer = function (IDSelector){
 
         // cleanup operation selection
-        var Operation = $('#' + IDSelector).parent().find('.Operation').html();
+        var Operation = $('#' + IDSelector).parent().parent().find('[name=Operation]').val();
         $('#OutboundHeadersOperationSelection option[value="' + Operation +'"]').attr('selected', false).attr('disabled', false);
         $('#OutboundHeadersOperationSelection').trigger('redraw.InputField');
 
@@ -196,11 +196,12 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
      * @memberof Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker
      * @function
      * @returns {Boolean} Returns false
-     * @param {String} Operation - contains selected operation name
+     * @param {String} Operation - contains selected operation identifier
+     * @param {String} OperationName - contains selected operation name
      * @description
      *      This function adds a new container for specific headers
      */
-    TargetNS.AddContainer = function (Operation) {
+    TargetNS.AddContainer = function (Operation, OperationName) {
 
         var $Clone, ActiveID, $InputListContainerObj;
 
@@ -224,7 +225,8 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
         ActiveID.removeClass('OperationOutboundHeadersActiveTemplate');
 
         $Clone.find('.ValueCounter').val('0');
-        $Clone.find('.Operation').html(Operation);
+        $Clone.find('.Operation').html(OperationName);
+        $Clone.find('[name=Operation]').attr('id', 'Operation' + Operation).val(Operation);
 
         $Clone.find('div > :input, div > a.RemoveButton, div > a.AddValue').each(function(){
             var ID = $(this).attr('id');
@@ -352,7 +354,8 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
         // bind change function to operation selection field
         $('#OutboundHeadersOperationSelection').on('change', function(){
             TargetNS.AddContainer(
-                $(this).val()
+                $(this).val(),
+                this.options[this.selectedIndex].text
             );
             return false;
         });

@@ -501,12 +501,13 @@
 
                                 <div class="HeaderContainer [% Data.Active | html %]" id="OperationOutboundHeaders[% Data.Operation | html %]">
 [% RenderBlockStart("OutboundHeadersOperationSpecificEntryValue") %]
+                                    <input type="hidden" name="Operation" value="[% Data.Operation %]" id="Operation[% Data.Operation %]"/>
                                     <input type="hidden" name="OperationOutboundHeadersActive" value="[% Data.Operation | html %]" id="OperationOutboundHeadersActive[% Data.Operation | html %]"/>
 
                                     <div class="Item ValueInsert">
                                         <input type="hidden" name="OutboundHeaders[% Data.Operation | html %]ValueCounter" value="[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]ValueCounter" class="ValueCounter" />
                                         <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemoveAll" class="RemoveButton ValueRemoveAll SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% HeadersRemoveSpecific | html %]</span></a>
-                                        [% HeadersInfoSpecific | html %] '<strong class="Operation">[% Data.Operation | html %]</strong>'
+                                        [% HeadersInfoSpecific | html %] '<strong class="Operation">[% Data.OperationName | html %]</strong>'
 
 
                                         <div class="ValueRows">
@@ -550,6 +551,7 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecificEntry") %]
 
                                 <div class="HeaderContainer Hidden ContainerValueTemplate">
+                                    <input type="hidden" name="Operation" value=""/>
                                     <input type="hidden" class="OperationOutboundHeadersActiveTemplate"/>
 
                                     <div class="Item ValueInsert">
