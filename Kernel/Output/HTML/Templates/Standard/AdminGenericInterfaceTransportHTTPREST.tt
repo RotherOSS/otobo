@@ -463,7 +463,7 @@
 [% RenderBlockEnd("OutboundHeadersValueRow") %]
                                         </div>
 
-                                        <a href="#" id="OutboundHeadersAddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="OutboundHeadersAddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 
@@ -527,7 +527,7 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecificEntryValueRow") %]
                                         </div>
 
-                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]AddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 
@@ -561,7 +561,7 @@
 
                                         <div class="ValueRows"></div>
 
-                                        <a href="#" id="AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="AddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 
