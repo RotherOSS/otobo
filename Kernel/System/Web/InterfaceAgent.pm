@@ -912,7 +912,7 @@ sub Content {
         );
     }
 
-    # run modules if a version value exists
+    # run frontend module if it exists and can be loaded
     elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
         # check session id
@@ -1201,7 +1201,7 @@ sub Content {
             }
         }
 
-        # pre application module
+        # run the PreApplication modules if any are enabled
         my $PreModule = $ConfigObject->Get('PreApplicationModule');
         if ($PreModule) {
             my %PreModuleList;
@@ -1215,8 +1215,9 @@ sub Content {
             MODULE:
             for my $PreModuleKey ( sort keys %PreModuleList ) {
                 my $PreModule = $PreModuleList{$PreModuleKey};
-                next MODULE if !$PreModule;
-                next MODULE if !$Kernel::OM->Get('Kernel::System::Main')->Require($PreModule);
+
+                next MODULE unless $PreModule;
+                next MODULE unless $Kernel::OM->Get('Kernel::System::Main')->Require($PreModule);
 
                 # debug info
                 if ( $Self->{Debug} ) {
@@ -1234,6 +1235,8 @@ sub Content {
                     %UserData,
                     ModuleReg => $ModuleReg,
                 );
+
+                # Note the PreRun() may throw exceptions, e.g. redirects or fatal errors
                 my $Output = $PreModuleObject->PreRun();
 
                 return $Output if $Output;
