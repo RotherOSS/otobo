@@ -1548,7 +1548,6 @@ sub MaskAgentZoom {
     elsif ( IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
         DFVALUE:
         for my $FieldName ( keys $WidgetData{WidgetDynamicField}->%* ) {
-
             next DFVALUE unless $Ticket{"DynamicField_$FieldName"};
 
             $ShowWidget = 1;
