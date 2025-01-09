@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,9 +46,23 @@ sub Run {
     my $ActivityID = $ParamObject->GetParam( Param => 'ID' )       || '';
     my $EntityID   = $ParamObject->GetParam( Param => 'EntityID' ) || '';
 
+    # get latest config data to send it back to main window
+    my $ActivityConfig = $Self->_GetActivityConfig(
+        EntityID => $EntityID,
+    );
+
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
     );
+
+    if ( !exists $SessionData{ProcessManagementScreensPath} ) {
+
+        # we lost session in between, close the popup and reload
+        return $Self->_PopupResponse(
+            ClosePopup => 1,
+            ConfigJSON => $ActivityConfig,
+        );
+    }
 
     # convert JSON string to array
     $Self->{ScreensPath} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -196,11 +210,6 @@ sub Run {
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         my $Redirect = $ParamObject->GetParam( Param => 'PopupRedirect' ) || '';
-
-        # get latest config data to send it back to main window
-        my $ActivityConfig = $Self->_GetActivityConfig(
-            EntityID => $EntityID,
-        );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {

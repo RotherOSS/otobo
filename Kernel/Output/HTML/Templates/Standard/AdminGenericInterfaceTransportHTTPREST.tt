@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -371,11 +371,20 @@
                                     </div>
                                     <div class="Clear"></div>
 
-                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification.") | html %]:</label>
+                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification") | html %]:</label>
                                     <div class="Field">
                                         [% Data.SSLVerifyHostStrg %]
                                         <p class="FieldExplanation">
                                             [% Translate("Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLVerifyMode">[% Translate("SSL verify mode") | html %]:</label>
+                                    <div class="Field">
+                                        [% Data.SSLVerifyModeStrg %]
+                                        <p class="FieldExplanation">
+                                            [% Translate("Skip SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
                                         </p>
                                     </div>
                                     <div class="Clear"></div>
@@ -449,11 +458,12 @@
                                                 <div id="OutboundHeadersValue_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
                                                 <a href="#" id="OutboundHeadersValueRemove_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove header") | html %]</span></a>
+                                                <div class="SpacingTopMini" ></div>
                                             </div>
 [% RenderBlockEnd("OutboundHeadersValueRow") %]
                                         </div>
 
-                                        <a href="#" id="OutboundHeadersAddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="OutboundHeadersAddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 
@@ -491,18 +501,19 @@
 
                                 <div class="HeaderContainer [% Data.Active | html %]" id="OperationOutboundHeaders[% Data.Operation | html %]">
 [% RenderBlockStart("OutboundHeadersOperationSpecificEntryValue") %]
+                                    <input type="hidden" name="Operation" value="[% Data.Operation %]" id="Operation[% Data.Operation %]"/>
                                     <input type="hidden" name="OperationOutboundHeadersActive" value="[% Data.Operation | html %]" id="OperationOutboundHeadersActive[% Data.Operation | html %]"/>
 
                                     <div class="Item ValueInsert">
                                         <input type="hidden" name="OutboundHeaders[% Data.Operation | html %]ValueCounter" value="[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]ValueCounter" class="ValueCounter" />
                                         <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemoveAll" class="RemoveButton ValueRemoveAll SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% HeadersRemoveSpecific | html %]</span></a>
-                                        [% HeadersInfoSpecific | html %] '<strong class="Operation">[% Data.Operation | html %]</strong>'
+                                        [% HeadersInfoSpecific | html %] '<strong class="Operation">[% Data.OperationName | html %]</strong>'
 
 
                                         <div class="ValueRows">
 [% RenderBlockStart("OutboundHeadersOperationSpecificEntryValueRow") %]
                                             <div>
-                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %] placeholder="[% Translate("Header Name") | html %]""/>
+                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %]" placeholder="[% Translate("Header Name") | html %]"/>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.item(  'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerErrorMessage' ) | Translate | html %]</p></div>
 
@@ -511,11 +522,12 @@
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Value_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
                                                 <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemove_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove header") | html %]</span></a>
+                                                <div class="SpacingTopMini" ></div>
                                             </div>
 [% RenderBlockEnd("OutboundHeadersOperationSpecificEntryValueRow") %]
                                         </div>
 
-                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]AddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 
@@ -539,6 +551,7 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecificEntry") %]
 
                                 <div class="HeaderContainer Hidden ContainerValueTemplate">
+                                    <input type="hidden" name="Operation" value=""/>
                                     <input type="hidden" class="OperationOutboundHeadersActiveTemplate"/>
 
                                     <div class="Item ValueInsert">
@@ -548,7 +561,7 @@
 
                                         <div class="ValueRows"></div>
 
-                                        <a href="#" id="AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+                                        <a href="#" id="AddValue" class="CallForAction AddValue"><span><i class="fa fa-plus-square">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
 
                                     </div>
 

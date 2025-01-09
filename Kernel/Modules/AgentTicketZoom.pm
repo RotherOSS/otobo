@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1536,8 +1536,28 @@ sub MaskAgentZoom {
             ->{ ( $IsProcessTicket ? 'ProcessWidgetDynamicField' : 'DynamicFieldWidgetDynamicField' ) } // {};
     }
 
+    # decide if widget should be shown
+    my $ShowWidget = 0;
+
+    # always show if we have a process ticket for activity dialogs
+    if ($IsProcessTicket) {
+        $ShowWidget = 1;
+    }
+
+    # else show only if dynamic fields are defined and at least one of them has a value
+    elsif ( IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
+        DFVALUE:
+        for my $FieldName ( keys $WidgetData{WidgetDynamicField}->%* ) {
+            next DFVALUE unless $Ticket{"DynamicField_$FieldName"};
+
+            $ShowWidget = 1;
+
+            last DFVALUE;
+        }
+    }
+
     # show overview widget with either dynamic field data or with process and activity dialog data
-    if (%WidgetData) {
+    if ($ShowWidget) {
 
         # send data to JS
         $LayoutObject->AddJSData(
@@ -1567,9 +1587,6 @@ sub MaskAgentZoom {
             my $ActivityEntityIDField = 'DynamicField_'
                 . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
-            my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
-                ProcessEntityID => $Ticket{$ProcessEntityIDField},
-            );
             my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
                 Interface        => 'AgentInterface',
                 ActivityEntityID => $Ticket{$ActivityEntityIDField},

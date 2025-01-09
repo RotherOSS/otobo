@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-12-17 17:34+0000\n"
-"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"PO-Revision-Date: 2025-01-08 17:17+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
 "\n"
 "Language: de\n"
@@ -27074,7 +27074,7 @@ msgstr "Erstellzeit Artikel"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Base structure is not valid. Please provide an array with data in YAML format."
-msgstr "Grundstruktur ungültig. Bitte verwenden Sie ein Arry im YAML-Format."
+msgstr "Grundstruktur ungültig. Bitte verwenden Sie ein Array im YAML-Format."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Error parsing dynamic fields."

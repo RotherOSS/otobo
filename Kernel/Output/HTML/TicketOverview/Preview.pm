@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -458,7 +458,7 @@ sub _Show {
     # get queue object
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
-    # fetch all std. templates ...
+    # fetch all std. templates
     my %StandardTemplates = $QueueObject->QueueStandardTemplateMemberList(
         QueueID       => $Article{QueueID},
         TemplateTypes => 1,
@@ -1094,7 +1094,7 @@ sub _Show {
     # fill the rest of the Dynamic Fields row with empty cells, this will look better
     if ( $Counter > 0 && $Counter < 2 ) {
 
-        for ( $Counter + 1 ... 2 ) {
+        for ( $Counter + 1 .. 2 ) {
 
             # outout dynamic field label
             $LayoutObject->Block(

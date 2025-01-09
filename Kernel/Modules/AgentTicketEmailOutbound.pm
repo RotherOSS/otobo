@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -769,8 +769,8 @@ sub Form {
         grep { $_->{ObjectType} eq 'Ticket' }
         $Self->{DynamicField}->@*;
 
-    # build view ...
-    # start with page ...
+    # build view
+    # start with page
     my $Output = $LayoutObject->Header(
         Value     => $Ticket{TicketNumber},
         Type      => 'Small',
@@ -779,7 +779,7 @@ sub Form {
 
     # Inform a user that article subject will be empty if contains only the ticket hook (if nothing is modified).
     $Output .= $LayoutObject->Notify(
-        Data => Translatable('Article subject will be empty if the subject contains only the ticket hook!'),
+        Data => $LayoutObject->{LanguageObject}->Translate('Article subject will be empty if the subject contains only the ticket hook!'),
     );
 
     $Output .= $Self->_Mask(
@@ -2135,7 +2135,7 @@ sub _GetExtendedParams {
 
     if ($CustomersNumber) {
         my $CustomerCounter = 1;
-        for my $Count ( 1 ... $CustomersNumber ) {
+        for my $Count ( 1 .. $CustomersNumber ) {
             my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
@@ -2199,7 +2199,7 @@ sub _GetExtendedParams {
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
-        for my $Count ( 1 ... $CustomersNumberCc ) {
+        for my $Count ( 1 .. $CustomersNumberCc ) {
             my $CustomerElementCc = $ParamObject->GetParam( Param => 'CcCustomerTicketText_' . $Count );
             my $CustomerKeyCc     = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )
                 || '';
@@ -2262,7 +2262,7 @@ sub _GetExtendedParams {
 
     if ($CustomersNumberBcc) {
         my $CustomerCounterBcc = 1;
-        for my $Count ( 1 ... $CustomersNumberBcc ) {
+        for my $Count ( 1 .. $CustomersNumberBcc ) {
             my $CustomerElementBcc = $ParamObject->GetParam( Param => 'BccCustomerTicketText_' . $Count );
             my $CustomerKeyBcc     = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )
                 || '';

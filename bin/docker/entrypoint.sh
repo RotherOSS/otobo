@@ -3,7 +3,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -165,6 +165,11 @@ function copy_otobo_next() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 
+    # Clean up files that might be lingering from previous versions of OTOBO.
+    # Currently there is only a single file. OTOBODynamicFields.xml has been
+    # replaced by DynamicFields.xml.
+    rm -f "$OTOBO_HOME/Kernel/Config/Files/XML/OTOBODynamicFields.xml"
+
     # Indicate the time when copy_otobo_next() was last called. This is used primarily
     # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
     touch $OTOBO_HOME/.copy_otobo_next_finished
@@ -172,7 +177,7 @@ function copy_otobo_next() {
 
 function do_update_tasks() {
 
-    # Reinstall package, rebuild config, purge cache and loader files.
+    # Reinstall packages, rebuild config, purge the cache and the cached loader files.
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {

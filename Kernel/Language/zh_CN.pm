@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # Copyright (C) 2013 Michael Shi <micshi at 163.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1352,7 +1352,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '认证机构目录的完整路径，文件系统中存储CA证书的地方。',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '例如：/opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => 'SSL 主机名称验证。',
+        'SSL hostname verification' => 'SSL 主机名称验证',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '如果无法验证主机名，则中止请求。不过禁用验证时要小心！跳过验证会有安全风险！禁用验证主要用于测试目的（比如自签名SSL证书），或者你明确知道自己在做什么。',
         'Controller mapping for Invoker' => '调用程序的控制器映射',

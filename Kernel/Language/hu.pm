@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
 # Copyright (C) 2013 Csaba Németh <csaba@sopron.hu>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1351,7 +1351,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'A hitelesítés-szolgáltató könyvtárának teljes elérési útja, ahol a CA tanúsítványok tárolva vannak a fájlrendszeren.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'például /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => 'Vezérlő leképezés a meghívóhoz',

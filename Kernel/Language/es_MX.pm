@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1346,7 +1346,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'La ruta completa del directorio de la autoridad de certificación donde se almacenan los certificados CA en el sistema de archivos.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'p.e. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => 'Verificación de nombre de host SSL.',
+        'SSL hostname verification' => 'Verificación de nombre de host SSL',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Aborta la solicitud si el nombre de host no puede ser verificado. ¡Desactivar con precaución! Omitir la verificación es un riesgo para la seguridad. Principalmente para propósitos de prueba en caso de certificados SSL autofirmados, o si usted sabe lo que está haciendo.',
         'Controller mapping for Invoker' => 'Mapeo del Controlador para el Invocador',

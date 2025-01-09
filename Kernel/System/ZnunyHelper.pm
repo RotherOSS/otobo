@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -283,7 +283,7 @@ sub _PostmasterXHeaderRemove {
 This function adds an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventAdd(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -365,7 +365,7 @@ sub _EventAdd {
 This function removes an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventRemove(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -605,7 +605,7 @@ sub _DefaultColumnsGet {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -708,7 +708,7 @@ sub _DefaultColumnsEnable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -849,7 +849,7 @@ sub _DefaultColumnsDisable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1055,7 +1055,7 @@ sub _DynamicFieldsScreenGet {
 
         my $ConfigItemConfig = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($ConfigItemConfig);
             $ConfigItemConfig = $ConfigItemConfig->{ $Keys[$Index] };
         }
@@ -1174,7 +1174,7 @@ sub _DynamicFieldsScreenEnable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1314,7 +1314,7 @@ sub _DynamicFieldsScreenDisable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }

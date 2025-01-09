@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2012 Mikko Hynninen <first.last at tietokartano.fi>
 # Copyright (C) 2012-2013 Niklas Lampén <Niklas.Lampen@aava.eu>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1348,7 +1348,7 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => '',
