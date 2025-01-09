@@ -177,7 +177,7 @@ function copy_otobo_next() {
 
 function do_update_tasks() {
 
-    # Reinstall package, rebuild config, purge cache and loader files.
+    # Reinstall packages, rebuild config, purge the cache and the cached loader files.
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {
