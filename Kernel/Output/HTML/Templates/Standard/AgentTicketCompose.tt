@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -84,7 +84,6 @@
 
                     <div class="Field [% Data.CustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
-                            <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="[% Data.To | html %]" />
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CustomerQueue" id="CustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="CustomerTicketText" title="[% Translate("To") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly />
@@ -164,7 +163,6 @@
 
                     <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
-                            <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="[% Data.Cc | html %]" />
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly />
@@ -244,7 +242,6 @@
 
                     <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
-                            <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="[% Data.Bcc | html %]" />
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
                             <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly />
