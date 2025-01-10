@@ -192,19 +192,22 @@ sub Run {
 
     # MultipleCustomer From-field
     my @MultipleCustomer;
-    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
-    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
+    my $CustomersNumberFrom = $ParamObject->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
+    my $Selected            = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    if ($CustomersNumber) {
+    if ($CustomersNumberFrom) {
         my $CustomerCounter = 1;
-        for my $Count ( 1 .. $CustomersNumber ) {
+
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberFrom ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
-            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
-                || '';
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count ) || '';
 
             if ($CustomerElement) {
 
