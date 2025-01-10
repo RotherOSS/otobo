@@ -205,55 +205,55 @@ sub Run {
         for my $Count ( 1 .. $CustomersNumberFrom ) {
             last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
 
-            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+
+            next COUNT unless $CustomerElement;
+
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count ) || '';
 
-            if ($CustomerElement) {
+            my $CountAux         = $CustomerCounter++;
+            my $CustomerError    = '';
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerDisabled = '';
 
-                my $CountAux         = $CustomerCounter++;
-                my $CustomerError    = '';
-                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
-                my $CustomerDisabled = '';
-
-                if ( $GetParam{From} ) {
-                    $GetParam{From} .= ', ' . $CustomerElement;
-                }
-                else {
-                    $GetParam{From} = $CustomerElement;
-                }
-
-                # check email address
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
-                    $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
-                    $CustomerError    = 'ServerError';
-                }
-
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
-                    $CountAux         = $Count . 'Error';
-                }
-
-                push @MultipleCustomer, {
-                    Count            => $CountAux,
-                    CustomerElement  => $CustomerElement,
-                    CustomerSelected => $CustomerSelected,
-                    CustomerKey      => $CustomerKey,
-                    CustomerError    => $CustomerError,
-                    CustomerErrorMsg => $CustomerErrorMsg,
-                    CustomerDisabled => $CustomerDisabled,
-                };
-                $AddressesList{$CustomerElement} = 1;
+            if ( $GetParam{From} ) {
+                $GetParam{From} .= ', ' . $CustomerElement;
             }
+            else {
+                $GetParam{From} = $CustomerElement;
+            }
+
+            # check email address
+            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerError = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled="disabled"';
+                $CountAux         = $Count . 'Error';
+            }
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $CustomerElement,
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+            };
+            $AddressesList{$CustomerElement} = 1;
         }
     }
 

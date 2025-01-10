@@ -2030,59 +2030,60 @@ sub _GetExtendedParams {
         for my $Count ( 1 .. $CustomersNumberTo ) {
             last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
 
-            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+
+            next COUNT unless $CustomerElement;
+
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )   || '';
             my $CustomerQueue    = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count ) || '';
-            if ($CustomerElement) {
 
-                if ( $GetParam{To} ) {
-                    $GetParam{To} .= ', ' . $CustomerElement;
-                }
-                else {
-                    $GetParam{To} = $CustomerElement;
-                }
-
-                # check email address
-                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
-                my $CustomerError    = '';
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
-                    $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
-                    $CustomerError    = 'ServerError';
-                }
-
-                my $CustomerDisabled = '';
-                my $CountAux         = $CustomerCounter++;
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
-                    $CountAux         = $Count . 'Error';
-                }
-
-                if ( $CustomerQueue ne '' ) {
-                    $CustomerQueue = $Count;
-                }
-
-                push @MultipleCustomer, {
-                    Count            => $CountAux,
-                    CustomerElement  => $CustomerElement,
-                    CustomerSelected => $CustomerSelected,
-                    CustomerKey      => $CustomerKey,
-                    CustomerError    => $CustomerError,
-                    CustomerErrorMsg => $CustomerErrorMsg,
-                    CustomerDisabled => $CustomerDisabled,
-                    CustomerQueue    => $CustomerQueue,
-                };
-                $AddressesList{$CustomerElement} = 1;
+            if ( $GetParam{To} ) {
+                $GetParam{To} .= ', ' . $CustomerElement;
             }
+            else {
+                $GetParam{To} = $CustomerElement;
+            }
+
+            # check email address
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerError    = '';
+            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerError = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            my $CustomerDisabled = '';
+            my $CountAux         = $CustomerCounter++;
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled="disabled"';
+                $CountAux         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueue ne '' ) {
+                $CustomerQueue = $Count;
+            }
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $CustomerElement,
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+                CustomerQueue    => $CustomerQueue,
+            };
+            $AddressesList{$CustomerElement} = 1;
         }
     }
 
@@ -2097,57 +2098,57 @@ sub _GetExtendedParams {
             last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
 
             my $CustomerElementCc = $ParamObject->GetParam( Param => 'CcCustomerTicketText_' . $Count );
-            my $CustomerKeyCc     = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )   || '';
-            my $CustomerQueueCc   = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count ) || '';
 
-            if ($CustomerElementCc) {
+            next COUNT unless $CustomerElementCc;
 
-                if ( $GetParam{Cc} ) {
-                    $GetParam{Cc} .= ', ' . $CustomerElementCc;
-                }
-                else {
-                    $GetParam{Cc} = $CustomerElementCc;
-                }
+            my $CustomerKeyCc   = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )   || '';
+            my $CustomerQueueCc = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count ) || '';
 
-                # check email address
-                my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
-                my $CustomerErrorCc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorCc = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
-                    $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
-                    $CustomerErrorCc    = 'ServerError';
-                }
-
-                my $CustomerDisabledCc = '';
-                my $CountAuxCc         = $CustomerCounterCc++;
-                if ( $CustomerErrorCc ne '' ) {
-                    $CustomerDisabledCc = 'disabled="disabled"';
-                    $CountAuxCc         = $Count . 'Error';
-                }
-
-                if ( $CustomerQueueCc ne '' ) {
-                    $CustomerQueueCc = $Count;
-                }
-
-                push @MultipleCustomerCc, {
-                    Count            => $CountAuxCc,
-                    CustomerElement  => $CustomerElementCc,
-                    CustomerKey      => $CustomerKeyCc,
-                    CustomerError    => $CustomerErrorCc,
-                    CustomerErrorMsg => $CustomerErrorMsgCc,
-                    CustomerDisabled => $CustomerDisabledCc,
-                    CustomerQueue    => $CustomerQueueCc,
-                };
-                $AddressesList{$CustomerElementCc} = 1;
+            if ( $GetParam{Cc} ) {
+                $GetParam{Cc} .= ', ' . $CustomerElementCc;
             }
+            else {
+                $GetParam{Cc} = $CustomerElementCc;
+            }
+
+            # check email address
+            my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
+            my $CustomerErrorCc    = '';
+            for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerErrorCc = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
+                $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
+                $CustomerErrorCc    = 'ServerError';
+            }
+
+            my $CustomerDisabledCc = '';
+            my $CountAuxCc         = $CustomerCounterCc++;
+            if ( $CustomerErrorCc ne '' ) {
+                $CustomerDisabledCc = 'disabled="disabled"';
+                $CountAuxCc         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueueCc ne '' ) {
+                $CustomerQueueCc = $Count;
+            }
+
+            push @MultipleCustomerCc, {
+                Count            => $CountAuxCc,
+                CustomerElement  => $CustomerElementCc,
+                CustomerKey      => $CustomerKeyCc,
+                CustomerError    => $CustomerErrorCc,
+                CustomerErrorMsg => $CustomerErrorMsgCc,
+                CustomerDisabled => $CustomerDisabledCc,
+                CustomerQueue    => $CustomerQueueCc,
+            };
+            $AddressesList{$CustomerElementCc} = 1;
         }
     }
 
@@ -2162,57 +2163,57 @@ sub _GetExtendedParams {
             last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
 
             my $CustomerElementBcc = $ParamObject->GetParam( Param => 'BccCustomerTicketText_' . $Count );
-            my $CustomerKeyBcc     = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )   || '';
-            my $CustomerQueueBcc   = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count ) || '';
 
-            if ($CustomerElementBcc) {
+            next COUNT unless $CustomerElementBcc;
 
-                if ( $GetParam{Bcc} ) {
-                    $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
-                }
-                else {
-                    $GetParam{Bcc} = $CustomerElementBcc;
-                }
+            my $CustomerKeyBcc   = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )   || '';
+            my $CustomerQueueBcc = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count ) || '';
 
-                # check email address
-                my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
-                my $CustomerErrorBcc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorBcc = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
-                    $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
-                    $CustomerErrorBcc    = 'ServerError';
-                }
-
-                my $CustomerDisabledBcc = '';
-                my $CountAuxBcc         = $CustomerCounterBcc++;
-                if ( $CustomerErrorBcc ne '' ) {
-                    $CustomerDisabledBcc = 'disabled="disabled"';
-                    $CountAuxBcc         = $Count . 'Error';
-                }
-
-                if ( $CustomerQueueBcc ne '' ) {
-                    $CustomerQueueBcc = $Count;
-                }
-
-                push @MultipleCustomerBcc, {
-                    Count            => $CountAuxBcc,
-                    CustomerElement  => $CustomerElementBcc,
-                    CustomerKey      => $CustomerKeyBcc,
-                    CustomerError    => $CustomerErrorBcc,
-                    CustomerErrorMsg => $CustomerErrorMsgBcc,
-                    CustomerDisabled => $CustomerDisabledBcc,
-                    CustomerQueue    => $CustomerQueueBcc,
-                };
-                $AddressesList{$CustomerElementBcc} = 1;
+            if ( $GetParam{Bcc} ) {
+                $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
             }
+            else {
+                $GetParam{Bcc} = $CustomerElementBcc;
+            }
+
+            # check email address
+            my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
+            my $CustomerErrorBcc    = '';
+            for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerErrorBcc = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
+                $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
+                $CustomerErrorBcc    = 'ServerError';
+            }
+
+            my $CustomerDisabledBcc = '';
+            my $CountAuxBcc         = $CustomerCounterBcc++;
+            if ( $CustomerErrorBcc ne '' ) {
+                $CustomerDisabledBcc = 'disabled="disabled"';
+                $CountAuxBcc         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueueBcc ne '' ) {
+                $CustomerQueueBcc = $Count;
+            }
+
+            push @MultipleCustomerBcc, {
+                Count            => $CountAuxBcc,
+                CustomerElement  => $CustomerElementBcc,
+                CustomerKey      => $CustomerKeyBcc,
+                CustomerError    => $CustomerErrorBcc,
+                CustomerErrorMsg => $CustomerErrorMsgBcc,
+                CustomerDisabled => $CustomerDisabledBcc,
+                CustomerQueue    => $CustomerQueueBcc,
+            };
+            $AddressesList{$CustomerElementBcc} = 1;
         }
     }
 
