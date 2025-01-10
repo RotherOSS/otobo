@@ -271,22 +271,23 @@ sub Run {
     my %AddressesList;
 
     my @MultipleCustomer;
-    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
-    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
+    my $CustomersNumberTo = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $Selected          = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    if ($CustomersNumber) {
-
+    if ($CustomersNumberTo) {
         my $CustomerCounter = 1;
-        for my $Count ( 1 .. $CustomersNumber ) {
+
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberTo ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
-            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
-                || '';
-            my $CustomerQueue = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count )
-                || '';
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )   || '';
+            my $CustomerQueue    = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count ) || '';
             if ($CustomerElement) {
 
                 if ( $GetParam{To} ) {
@@ -344,12 +345,14 @@ sub Run {
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
+
+        COUNT:
         for my $Count ( 1 .. $CustomersNumberCc ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElementCc = $ParamObject->GetParam( Param => 'CcCustomerTicketText_' . $Count );
-            my $CustomerKeyCc     = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )
-                || '';
-            my $CustomerQueueCc = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count )
-                || '';
+            my $CustomerKeyCc     = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )   || '';
+            my $CustomerQueueCc   = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count ) || '';
 
             if ($CustomerElementCc) {
 
@@ -407,12 +410,14 @@ sub Run {
 
     if ($CustomersNumberBcc) {
         my $CustomerCounterBcc = 1;
+
+        COUNT:
         for my $Count ( 1 .. $CustomersNumberBcc ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElementBcc = $ParamObject->GetParam( Param => 'BccCustomerTicketText_' . $Count );
-            my $CustomerKeyBcc     = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )
-                || '';
-            my $CustomerQueueBcc = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count )
-                || '';
+            my $CustomerKeyBcc     = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )   || '';
+            my $CustomerQueueBcc   = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count ) || '';
 
             if ($CustomerElementBcc) {
 
