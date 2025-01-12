@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +21,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
@@ -310,22 +311,22 @@ $Selenium->RunTest(
 
         my @Tests = (
             {
-                From    => $CustomerUsers[1]->{UserMailString},
-                WaitFor => 1,
+                From                => $CustomerUsers[1]->{UserMailString},
+                InitialNumCustomers => 1,
             },
             {
-                From    => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[3]->{UserMailString},
-                WaitFor => 1,
+                From                => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[3]->{UserMailString},
+                InitialNumCustomers => 1,
             },
             {
-                From    => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[4]->{UserMailString},
-                WaitFor => 2,
+                From                => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[4]->{UserMailString},
+                InitialNumCustomers => 2,
             },
             {
                 From => $CustomerUsers[0]->{UserMailString} . ', '
                     . $CustomerUsers[2]->{UserMailString} . ', '
                     . $CustomerUsers[4]->{UserMailString},
-                WaitFor => 2,
+                InitialNumCustomers => 2,
             },
         );
 
@@ -360,7 +361,7 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#TicketCustomerContentToCustomer .CustomerQueue').length == $Test->{WaitFor};"
+                    "return typeof(\$) === 'function' && \$('#TicketCustomerContentToCustomer .CustomerQueue').length == $Test->{InitialNumCustomers};"
             );
 
             $Self->Is(
@@ -461,4 +462,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
