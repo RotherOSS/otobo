@@ -54,10 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-01-08 17:17+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-11/de/>"
-"\n"
+"PO-Revision-Date: 2025-01-11 08:21+0000\n"
+"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24677,7 +24677,12 @@ msgstr "Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#."
 
 #. SysConfig
 msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
-msgstr "Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der mobilen Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)"
+msgstr ""
+"Das Logo und Signet, das in der Kopfzeile des Kundenbereichs angezeigt wird. "
+"Die URL zum Bild kann eine relative URL zum Skin-Bildverzeichnis oder eine "
+"vollständige URL zu einem entfernten Webserver sein. Das Signet wird auf "
+"32px*32px skaliert, das Logo auf 196px*32px. (Im mobilen Setup haben beide "
+"eine Höhe von 24px mit variabler Länge.)"
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
@@ -27560,10 +27565,19 @@ msgstr "Farbdefinitionen für den Skin highcontrast im Kundenbereich."
 #. SysConfig
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
 msgstr ""
+"Farbdefinitionen für die Agentenoberfläche (Standard-Skin). MainDark, -Light "
+"und Hover sind der Navigationshintergrund, Schaltflächen und einige andere "
+"Hauptelemente. Highlight sind z.B. Icons und ausgewählte Elemente in der "
+"Navbar. BG- und Textfarben sind verschiedene Hintergrund- und Textfarben. "
+"Hover-Farben werden in Auswahlen und Tabellen verwendet. Notify-Farben sind "
+"der Hintergrund von Benachrichtigungen."
 
 #. Template: AdminACL
 msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
-msgstr "Um eine bestehende ACL zu löschen müssen Sie die Gültigkeit auf ungültig setzen und sie speichern. Danach taucht ein neuer Knopf auf, mit dem man die ACL löschen kann."
+msgstr ""
+"Um eine bestehende ACL zu löschen, müssen Sie die Gültigkeit auf ungültig "
+"setzen und sie speichern. Danach wird eine neue Schaltfläche zum Löschen der "
+"ACL angezeigt."
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
@@ -27576,71 +27590,109 @@ msgstr "Schreiben Sie uns an hello@otobo.io"
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
 msgstr ""
+"Definieren Sie mögliche Namensräume für dynamische Felder. Darf nur "
+"alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 "
+"Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht "
+"länger als 190 Zeichen sein."
 
 #. Template: AdminRoleGroup
 msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
 msgstr ""
+"Nur Lesezugriff auf das Ticket in dieser Gruppe/Queue. Die Anfrage kann über "
+"eine Suche gefunden werden und es kann auf den TicketZoom zugegriffen "
+"werden. Wird es für einen Kalender verwendet, können Benutzer alle Termine "
+"im Kalender sehen und exportieren."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
 msgstr ""
+"Berechtigung zum Verschieben von Tickets in diese Gruppe/Queue. Wenn sie für "
+"einen Kalender verwendet werden, können Benutzer Termine im Kalender ändern, "
+"ohne jedoch die Kalenderauswahl zu ändern."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
 msgstr ""
+"Berechtigung zum Erstellen von Anfragen in dieser Gruppe/Queue. Falls für "
+"einen Kalender verwendet, können Benutzer Termine im Kalender erstellen und "
+"löschen."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
 msgstr ""
+"Berechtigung zum Hinzufügen von Notizen zu Tickets in dieser Gruppe/Queue. "
+"Außerdem können Agenten über den Abschnitt \"Agenten informieren\" in den "
+"Notizen informiert werden."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
 msgstr ""
+"Berechtigung, Eigentümer von Tickets in dieser Gruppe/Queue zu werden. Man "
+"kann als Besitzer ausgewählt werden, wenn man eine Ticket erstellt oder den "
+"Besitzer ändert. Als Besitzer hat man volle Schreibrechte für dieses Ticket."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to open the priority action in this group/queue."
 msgstr ""
+"Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queu."
 
 #. Template: AdminRoleGroup
 msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
 msgstr ""
+"Voller Lese- und Schreibzugriff auf die Tickets in dieser Gruppe/Queue. Bei "
+"Verwendung für einen Kalender können die Benutzer den Kalender selbst "
+"verwalten."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
 msgid "Notice: search in lens fields is currently disabled"
-msgstr ""
+msgstr "Hinweis: Die Suche in Linsenfeldern ist derzeit deaktiviert"
 
 #. SysConfig
 msgid "Defines if parent-child translations for queues and services should be generated automatically."
 msgstr ""
+"Legt fest, ob Eltern-Kind-Übersetzungen für Queues und Services automatisch "
+"erstellt werden sollen."
 
 #. SysConfig
 msgid "Defines the initial height for the rich text editor component in pixels."
-msgstr ""
+msgstr "Legt die Anfangshöhe für die Rich-Text-Editor-Komponente in Pixel fest."
 
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
+"Legt die Anfangshöhe in Pixeln für die Rich-Text-Editor-Komponente für "
+"diesen Bildschirm fest."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "A field of type %s is currently not usable as lens attribute."
-msgstr ""
+msgstr "Ein Feld vom Typ %s ist derzeit nicht als Linsenattribut verwendbar."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Field %s is not a reference field."
-msgstr ""
+msgstr "Das Feld %s ist kein Referenzfeld."
 
 #. SysConfig
 msgid "Custom CSS styles for RichText articles."
-msgstr ""
+msgstr "Benutzerdefinierte CSS-Stile für RichText-Artikel."
 
 #. SysConfig
 msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
+"Pfad zur CKEditor-CSS-Datei. Änderungen an dieser Einstellung werden erst "
+"nach dem Löschen des OTOBO-Cache über den Befehl Maint::Cache::Delete "
+"konsistent übernommen!"
 
 #. SysConfig
 msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
+"Pfad zur CSS-Datei des CKEditor-Editors. Änderungen an dieser Einstellung "
+"werden erst nach dem Löschen des OTOBO-Cache über den Befehl Maint::Cache::"
+"Delete konsistent übernommen!"
 
 #. SysConfig
 msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
+"Mit dieser Option wird der Zugriff auf Kunden-Firmentickets verweigert, die "
+"nicht vom Kundenbenutzer erstellt wurden. Bitte deaktivieren Sie auch "
+"\"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\", "
+"damit die Schaltfläche nicht mehr sichtbar ist."
