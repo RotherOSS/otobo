@@ -418,11 +418,6 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
-            // simple text fields (CustomerTicketMessage support)
-            if ( $Element.is('input[type=text]') && $Element.hasClass('DynamicFieldText') ) {
-                $Element.parent().addClass('oooFull');
-            }
-
             // text area elements like the ticket body
             if ( $Element.is('textarea') && !$Element.hasClass('DynamicFieldTextArea') ) {
                 UpdateTextarea($Element, DataValue);
