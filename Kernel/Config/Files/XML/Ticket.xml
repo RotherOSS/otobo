@@ -5234,11 +5234,17 @@
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>QuickDateButtons.css</Item>
+                    </Array>
+                </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketActionCommon.js</Item>
                         <Item>Core.Agent.TicketFormDraft.js</Item>
+                        <Item>QuickDateButtons.js</Item>
                     </Array>
                 </Item>
             </Hash>
