@@ -58,7 +58,7 @@ $Selenium->RunTest(
             # Looks like execute_script() can't return data structure, so join the links for now.
             # NOTE: The map would be nicer with JS arrow functions.
             # Use 🎋 - U+1F38B - TANABATA TREE as seperator just because why not.
-            my $LinksStr = $Selenium->execute_script( <<'END_JS' );
+            my $LinksStr = $Selenium->execute_script(<<'END_JS');
     return $('#oooFooter a').map(
         function() {
             return $(this).attr('href');

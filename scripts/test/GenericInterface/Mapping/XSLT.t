@@ -418,7 +418,7 @@ END_STYLESHEET
         {
             Name   => 'ammend simple JSON array',
             Config => {
-                Template => << 'END_TEMPLATE',
+                Template => <<'END_TEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
@@ -460,7 +460,7 @@ END_JSON
         {
             Name   => 'truthiness',
             Config => {
-                Template => << 'END_TEMPLATE',
+                Template => <<'END_TEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
@@ -519,7 +519,7 @@ END_JSON
         {
             Name   => 'number variable',
             Config => {
-                Template => << 'END_TEMPLATE',
+                Template => <<'END_TEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>

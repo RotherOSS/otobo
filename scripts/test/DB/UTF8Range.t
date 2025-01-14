@@ -32,7 +32,7 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # create database table for tests
-my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML');
+my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML' );
 <Table Name="test_utf8_range">
     <Column Name="test_message_varchar"  Required="true" Size="255" Type="VARCHAR"/>
     <Column Name="test_message_longblob" Required="true" Type="LONGBLOB"/>

@@ -42,7 +42,7 @@ my %DefaultSettingAddTemplate = (
     XMLFilename    => 'UnitTest.xml',
 );
 
-my $SettingsXML = << 'EOF',
+my $SettingsXML = <<'EOF',
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">

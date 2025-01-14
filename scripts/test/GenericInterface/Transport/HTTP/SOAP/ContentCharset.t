@@ -110,7 +110,7 @@ plan( scalar @Tests );
 
 for my $Test (@Tests) {
 
-    my $Request = << "END_XML";
+    my $Request = <<"END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
    <soapenv:Body>

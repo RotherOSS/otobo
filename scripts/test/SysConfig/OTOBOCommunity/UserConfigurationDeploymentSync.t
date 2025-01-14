@@ -102,7 +102,7 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 # create a new deployment for the user
 my $UserDeploymentID;
 {
-    my $EffectiveValueStrg = << "END_PM";
+    my $EffectiveValueStrg = <<"END_PM";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::$UserID;

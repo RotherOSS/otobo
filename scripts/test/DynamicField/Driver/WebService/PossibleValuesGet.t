@@ -206,7 +206,7 @@ ok( $DynamicFieldID, "DynamicFieldAdd() ID $DynamicFieldID" );
 my @Tests = (
     {
         Name           => 'State/Queue Ticket 1',
-        MappingInbound => << 'ENDTEMPLATE',
+        MappingInbound => <<'ENDTEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -246,7 +246,7 @@ my @Tests = (
 </xsl:transform>
 ENDTEMPLATE
 
-        MappingOutbound => << "ENDTEMPLATE",
+        MappingOutbound => <<"ENDTEMPLATE",
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -279,7 +279,7 @@ ENDTEMPLATE
     },
     {
         Name           => 'State/Queue Ticket 2',
-        MappingInbound => << 'ENDTEMPLATE',
+        MappingInbound => <<'ENDTEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -319,7 +319,7 @@ ENDTEMPLATE
 </xsl:transform>
 ENDTEMPLATE
 
-        MappingOutbound => << "ENDTEMPLATE",
+        MappingOutbound => <<"ENDTEMPLATE",
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -352,7 +352,7 @@ ENDTEMPLATE
     },
     {
         Name           => 'Lock/Priority/CustomerID Ticket 1',
-        MappingInbound => << 'ENDTEMPLATE',
+        MappingInbound => <<'ENDTEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -398,7 +398,7 @@ ENDTEMPLATE
 </xsl:transform>
 ENDTEMPLATE
 
-        MappingOutbound => << "ENDTEMPLATE",
+        MappingOutbound => <<"ENDTEMPLATE",
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -432,7 +432,7 @@ ENDTEMPLATE
     },
     {
         Name           => 'Lock/Priority/CustomerID Ticket 2',
-        MappingInbound => << 'ENDTEMPLATE',
+        MappingInbound => <<'ENDTEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -478,7 +478,7 @@ ENDTEMPLATE
 </xsl:transform>
 ENDTEMPLATE
 
-        MappingOutbound => << "ENDTEMPLATE",
+        MappingOutbound => <<"ENDTEMPLATE",
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -512,7 +512,7 @@ ENDTEMPLATE
     },
     {
         Name           => 'Wrong mapping Ticket 1',
-        MappingInbound => << 'ENDTEMPLATE',
+        MappingInbound => <<'ENDTEMPLATE',
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -552,7 +552,7 @@ ENDTEMPLATE
 </xsl:transform>
 ENDTEMPLATE
 
-        MappingOutbound => << "ENDTEMPLATE",
+        MappingOutbound => <<"ENDTEMPLATE",
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
