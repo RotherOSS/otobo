@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -481,6 +481,13 @@ Core.AJAX = (function (TargetNS) {
             // Trigger custom redraw event for InputFields
             if ($Element.hasClass('Modernize')) {
                 $Element.trigger('redraw.InputField');
+            }
+
+            // relevant for customer.pl - trigger a blur after
+            // update to prevent label being displayed in front
+            // of value - see issue #3944
+            if ( $Element.is('input[type=text]')  ) {
+                $Element.trigger('blur');
             }
         });
     }
