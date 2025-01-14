@@ -183,6 +183,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 ui: UserLanguage,
                 content: UserLanguage
             },
+            htmlSupport: {
+                allow: [
+                    {name: 'section'}, 
+                    {name: 'article'}, 
+                    {name: 'div'}, 
+                    {name: 'span'}, 
+                    {name: 'cite'},
+                    {name: 'style'}
+                ]
+            },
             image: {
                 resizeUnit: 'px',
                 resizeOptions: [
@@ -210,7 +220,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                             'imageStyle:alignBlockLeft',
                             'imageStyle:alignBlockRight'
                         ],
-                        defaultItem: 'imageStyle:alignBlockLeft'
+                        defaultItem: 'imageStyle:alignCenter'
                     },
                     'resizeImage'
                 ],
@@ -228,7 +238,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 },
                 tableProperties: {
                     defaultProperties: {
-                        alignment: 'left',
+                        alignment: 'center',
                     }
                 },
                 contentToolbar: [
