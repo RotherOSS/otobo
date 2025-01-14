@@ -482,7 +482,7 @@ Core.AJAX = (function (TargetNS) {
             if ($Element.hasClass('Modernize')) {
                 $Element.trigger('redraw.InputField');
             }
-            
+
             // relevant for customer.pl - trigger a blur after
             // update to prevent label being displayed in front
             // of value - see issue #3944
