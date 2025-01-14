@@ -131,7 +131,7 @@ sub Run {
 
     # Add a hidden input containing DynamicField names.
     my $Search  = '(\s+<input type="hidden" name="Action")';
-    my $Replace = << "END";
+    my $Replace = <<"END";
 \n<!--Start OTOBOCommunity-->
 <input type="hidden" name="DynamicFieldNamesStrg" id="DynamicFieldNamesStrg" value="$DynamicFieldNamesStrg" />
 <!--End OTOBOCommunity-->

@@ -725,7 +725,7 @@ if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
 
         {
             Name => 'Change id from Integer to BigInt',
-            XML  => << 'END',
+            XML  => <<'END',
 <TableAlter Name="test_f">
     <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
 </TableAlter>
@@ -736,7 +736,7 @@ END
         },
         {
             Name => 'Change id to id 2',
-            XML  => << 'END',
+            XML  => <<'END',
 <TableAlter Name="test_f">
     <ColumnChange NameOld="id" NameNew="id2" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
 </TableAlter>
@@ -758,7 +758,7 @@ END
         },
         {
             Name => 'Add id as AutoIncrement',
-            XML  => << 'END',
+            XML  => <<'END',
 <TableAlter Name="test_f">
     <ColumnAdd Name="id" Required="true" AutoIncrement="true" Type="BIGINT"/>
 </TableAlter>

@@ -525,7 +525,7 @@ sub MySQLBackupForMigrateFromOTRS {
         return;
     }
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 Execute the following SQL scripts in the given order:
     - $PreprocessFile
     - $AdaptedSchemaDumpFile
@@ -735,7 +735,7 @@ sub OracleBackupForMigrateFromOTRS {
     # output files
     my $PostprocessFile = qq{$Directory/${DatabaseName}_post.sql};
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 These instruction are preliminary.
 
 Clear the user 'otobo':

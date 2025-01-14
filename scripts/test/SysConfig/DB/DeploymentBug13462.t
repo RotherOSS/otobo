@@ -55,7 +55,7 @@ my @TargetUserIDs;
     }
 }
 
-my $FileBase = << 'EOF';
+my $FileBase = <<'EOF';
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::0;

@@ -139,7 +139,7 @@ $OTOBOVersion .= '.x';
 my $RandomID = $Helper->GetRandomID();
 
 my %Packages = (
-    'Package1' => << "EOF",
+    'Package1' => <<"EOF",
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>Package1$RandomID</Name>
@@ -163,7 +163,7 @@ my %Packages = (
 </otobo_package>
 EOF
 
-    'Package2' => << "EOF",
+    'Package2' => <<"EOF",
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>Package2$RandomID</Name>

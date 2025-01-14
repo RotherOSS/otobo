@@ -544,7 +544,7 @@ for my $Test (@Tests) {
                 Force  => 1,
             );
 
-            my $EffectiveValueStrg = << 'EOF';
+            my $EffectiveValueStrg = <<'EOF';
 # OTOBO config file (Unit Tests)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZAAuto;
