@@ -86,11 +86,6 @@ ENV LANG=C.UTF-8
 ENV OTOBO_NGINX_WEB_HOST=172.17.0.1
 ENV OTOBO_NGINX_WEB_PORT=5000
 
-# Not that these file need to be copied into a container.
-# Alternatively /etc/ssl can be exported as a volume to the host.
-ENV OTOBO_NGINX_SSL_CERTIFICATE=/etc/nginx/ssl/otobo_nginx-selfsigned.crt
-ENV OTOBO_NGINX_SSL_CERTIFICATE_KEY=/etc/nginx/ssl/otobo_nginx-selfsigned.key
-
 WORKDIR /etc/nginx
 
 # move the old config out of the way
@@ -98,6 +93,11 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
+#
+# The templates make use of environment variable like
+# OTOBO_NGINX_SSL_CERTIFICATE and OTOBO_NGINX_SSL_CERTIFICATE_KEY. Values for these variable must
+# be passed to the container when it is starting up.
+#
 # Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
 # Kerberos support. The not needed template is moved out of the way.
 COPY templates/ templates
