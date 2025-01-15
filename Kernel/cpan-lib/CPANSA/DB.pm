@@ -1,19 +1,19 @@
-# created by util/generate at Fri Jan 10 04:25:45 2025
+# created by util/generate at Fri Jan 10 04:25:46 2025
 # https://github.com/briandfoy/cpan-security-advisory.git 4f85ac0cbe514bae549d49f3e130c74535a6c71e
 
 =encoding utf8
 
 =head1 NAME
 
-CPAN::Audit::DB - the CPAN Security Advisory data as a Perl data structure, mostly for CPAN::Audit
+CPANSA::DB - the CPAN Security Advisory data as a Perl data structure, mostly for CPAN::Audit
 
 =head1 SYNOPSIS
 
 This module is primarily used by L<CPAN::Audit>.
 
-	use CPAN::Audit::DB;
+	use CPANSA::DB;
 
-	my $db = CPAN::Audit::DB->db;
+	my $db = CPANSA::DB->db;
 
 =head1 DESCRIPTION
 
@@ -77,7 +77,7 @@ Everything is managed in GitHub:
 
 =cut
 
-package CPAN::Audit::DB;
+package CPANSA::DB;
 
 use strict;
 use warnings;

@@ -5,6 +5,33 @@ use CPAN::Audit::Version;
 
 our $VERSION = "1.001";
 
+=encoding utf8
+
+=head1 NAME
+
+CPAN::Audit::Query - filter the database for advisories that interest you
+
+=head1 SYNOPSIS
+
+	use CPAN::Audit::Query;
+
+	my $query = CPAN::Audit::Query->new( db => ... );
+	my @advisories = $query->advisories_for( $dist_name, $version_range );
+
+=head1 DESCRIPTION
+
+=head2 Class methods
+
+=over 4
+
+=item * new(HASH)
+
+The only parameter is the hash reference from L<CPAN::Audit::DB> or
+L<CPANSA::DB>. With no C<db> parameter, it uses the empty hash, which
+means that you'll find no advisories.
+
+=cut
+
 sub new {
 	my($class, %params) = @_;
 	$params{db} ||= {};
@@ -13,8 +40,21 @@ sub new {
 	return $self;
 	}
 
+=back
+
+=head2 Instance methods
+
+=over 4
+
 =item * advisories_for( DISTNAME, VERSION_RANGE )
 
+Returns a list of advisories for DISTNAME in VERSION_RANGE.
+
+	my @advisories = $query->advisories_for( 'Business::ISBN', '1.23' );
+
+	my @advisories = $query->advisories_for( 'Business::ISBN', '>1.23,<2.45' );
+
+	my @advisories = $query->advisories_for( 'Business::ISBN', '<1.23' );
 
 =cut
 
@@ -54,7 +94,28 @@ sub advisories_for {
 
 sub _includes {
 	my( $range, $version ) = @_;
-	my $rc = CPAN::Audit::Version->in_range( $version, $range );
-	}
+	$range = [$range] unless ref $range;
+	my $rc = 0;
+	foreach my $r ( @$range ) {
+		no warnings 'uninitialized';
+	    $rc += CPAN::Audit::Version->in_range( $version, $r );
+		}
+	return $rc;
+}
+
+=back
+
+=head1 LICENSE
+
+Copyright (C) Viacheslav Tykhanovskyi.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi E<lt>viacheslav.t@gmail.comE<gt>
+
+=cut
 
 1;
