@@ -56,12 +56,6 @@
 
                 <fieldset class="TableLike">
 
-# example template for customizations, see hidden form at the end of the file
-#                    <label>[% Translate("Templates") | html %]:</label>
-#                    <div class="Field">
-#                        <button type="button" onclick="$('#Template1').submit()" value="[% Translate("Example Template") | html %]">[% Translate("Example Template") | html %]</button>
-#                    </div>
-#                    <div class="Clear"></div>
                     <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("Customer user") | html %]:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc [% Data.FromInvalid | html %]" autocomplete="off" />
@@ -325,15 +319,3 @@
         </div>
         <div id="CustomerTickets"></div>
     </div>
-
-# example template form for customizations
-#<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" id="Template1">
-#    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-#    <input type="hidden" name="Subaction" value="StoreNew"/>
-#    <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-#    <input type="hidden" name="ExpandCustomerName" value="1"/>
-#    <input type="hidden" name="Subject" value="Example Subject"/>
-#    <input type="hidden" name="Body" value="Name:
-#Product:
-#Comment:"/>
-#</form>
