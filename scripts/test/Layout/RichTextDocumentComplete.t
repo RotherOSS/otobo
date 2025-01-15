@@ -26,6 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 # get layout object
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -43,7 +44,7 @@ my @Tests = (
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, <a href="https://otrs.com/" target="_blank" title="https://otrs.com/">https://otrs.com/</a>
-Copyright (C) 2019-2024 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
+Copyright (C) 2019-2025 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -70,7 +71,7 @@ END_HTML
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, <a href="https://otrs.com/" target="_blank" title="https://otrs.com/">https://otrs.com/</a>
-Copyright (C) 2019-2024 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
+Copyright (C) 2019-2025 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -97,7 +98,7 @@ END_HTML
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, <a href="https://otrs.com/" target="_blank" title="https://otrs.com/">https://otrs.com/</a>
-Copyright (C) 2019-2024 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
+Copyright (C) 2019-2025 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -123,7 +124,7 @@ END_HTML
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, <a href="https://otrs.com/" target="_blank" title="https://otrs.com/">https://otrs.com/</a>
-Copyright (C) 2019-2024 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
+Copyright (C) 2019-2025 Rother OSS GmbH, <a href="https://otobo.io/" target="_blank" title="https://otobo.io/">https://otobo.io/</a>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -143,7 +144,7 @@ for my $Test (@Tests) {
     my $HTMLString = $LayoutObject->RichTextDocumentComplete(
         String => $Test->{String},
     );
-    is(
+    TextEqOrDiff(
         "$HTMLString\n",
         $Test->{Result},
         "$Test->{Name} (line $Test->{Line})",

@@ -26,7 +26,8 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::EmailParser ();
+use Kernel::System::EmailParser    ();
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -237,7 +238,7 @@ Cheers,<BR>
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -284,7 +285,7 @@ for my $Test (@Tests) {
     );
 
     my $Body = $EmailParserObject->GetMessageBody;
-    is(
+    TextEqOrDiff(
         $Body,
         $Test->{Body},
         "$Test->{Name} - body (line $Test->{Line})",
@@ -299,6 +300,15 @@ for my $Test (@Tests) {
         }
     }
 
+    # Explicitily compare the content of the attachments with TextEqOrDiff(),
+    # just so potential diffs can be more easily inspected
+    for my $i ( 0 .. $Test->{Attachments}->$#* ) {
+        TextEqOrDiff(
+            $Attachments[$i]->{Content},
+            $Test->{Attachments}->[$i]->{Content},
+            "$Test->{Name} - attachment $i (line $Test->{Line})"
+        );
+    }
     is(
         \@Attachments,
         $Test->{Attachments},
