@@ -185,12 +185,48 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             },
             htmlSupport: {
                 allow: [
-                    {name: 'section'}, 
-                    {name: 'article'}, 
-                    {name: 'div'}, 
-                    {name: 'span'}, 
-                    {name: 'cite'},
-                    {name: 'style'}
+                    {
+                        name: 'section', 
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'article',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'div',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'span',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'cite',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'style',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'table',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
                 ]
             },
             image: {
