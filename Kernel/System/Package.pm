@@ -3905,7 +3905,7 @@ sub _CheckModuleRequired {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Sorry, can't install package, because module "
-                        . "$Module->{Content} v$Module->{Version} is required "
+                        . "$Module->{Content}" . ( defined $Module->{Version} ? " v$Module->{Version}" : '' ) . " is required "
                         . "and not installed!",
                 );
                 return;
