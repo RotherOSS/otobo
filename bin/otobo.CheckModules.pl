@@ -1069,11 +1069,12 @@ my @NeededModules = (
         },
     },
     {
-        Module          => 'Locale::CLDR',
-        Features        => ['div:cldr'],
-        VersionRequired => '== 0.44.1',
-        Comment         => 'localisation from the CLDR project, TODO: upgrade to 0.46.0',
-        InstTypes       => {
+        Module                => 'Locale::CLDR',
+        Features              => ['div:cldr'],
+        VersionRequired       => '== 0.44.1',
+        DockerVersionRequired => '== 0.46.0',
+        Comment               => 'localisation from the CLDR project, TODO: upgrade to 0.46.0',
+        InstTypes             => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
@@ -1251,11 +1252,12 @@ my @NeededModules = (
 for my $Code (qw(Ar De Es Fr Hu Ko Nb Pt Ru Sr Zh)) {
     push @NeededModules,
         {
-            Module          => "Locale::CLDR::Locales::$Code",
-            Features        => ['div:cldr'],
-            VersionRequired => '== 0.44.1',
-            Comment         => 'language packs from the CLDR project',
-            InstTypes       => {
+            Module                => "Locale::CLDR::Locales::$Code",
+            Features              => ['div:cldr'],
+            VersionRequired       => '== 0.44.1',
+            DockerVersionRequired => '== 0.46.0',
+            Comment               => 'language packs from the CLDR project',
+            InstTypes             => {
                 aptget => undef,    # not in any Debian package
                 emerge => undef,
                 zypper => undef,
