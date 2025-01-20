@@ -13,48 +13,43 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-.ck-content {
+.ck-content,
+.ck-content * {
     text-wrap: wrap;
-    white-space: pre-wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     color: #00023c;
 }
 
-.ck-content.ck-editor__editable_inline {
-    padding: 15px;
-}
-
 .ck-content figure.table {
-    float: left;
     margin: 0 0 0 0;
 }
 
 .ck-content p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
- }
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
 
 .ck-content h1 {
     font-size: 2em;
- } 
+} 
 
 .ck-content h2 {
     font-size: 1.5em;
- }
+}
 
 .ck-content h3 {
     font-size: 1.17em;
- }
+}
 
 .ck-content h5 {
     font-size: 0.83em;
- } 
+} 
 
 .ck-content h6 {
     font-size: 0.67em;
- }  
+}  
 
 .ck-content blockquote {
     font-style: normal !important;

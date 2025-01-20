@@ -142,6 +142,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         ClassicEditor.create($($EditorArea).get(0), {
+            licenseKey: 'GPL',
             ui: {
                 poweredBy: {
                     position: 'inside',
@@ -182,6 +183,52 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 ui: UserLanguage,
                 content: UserLanguage
             },
+            htmlSupport: {
+                allow: [
+                    {
+                        name: 'section', 
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'article',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'div',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'span',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }, 
+                    {
+                        name: 'cite',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'style',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                    {
+                        name: 'table',
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    },
+                ]
+            },
             image: {
                 resizeUnit: 'px',
                 resizeOptions: [
@@ -209,7 +256,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                             'imageStyle:alignBlockLeft',
                             'imageStyle:alignBlockRight'
                         ],
-                        defaultItem: 'imageStyle:alignBlockLeft'
+                        defaultItem: 'imageStyle:alignCenter'
                     },
                     'resizeImage'
                 ],
@@ -227,7 +274,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 },
                 tableProperties: {
                     defaultProperties: {
-                        alignment: 'left',
+                        alignment: 'center',
                     }
                 },
                 contentToolbar: [

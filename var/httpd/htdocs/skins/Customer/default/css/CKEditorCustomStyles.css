@@ -87,3 +87,7 @@ textarea.Readonly ~ .ck .ck-editor__editable {
     box-shadow: inset 0px 0px 8px 2px #bfbfce;
     box-shadow: inset 0px 0px 8px 2px var(--colBGDark);
 }
+
+.ck-content.ck-editor__editable_inline {
+    padding: 15px;
+}
