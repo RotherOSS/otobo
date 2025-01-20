@@ -1075,7 +1075,7 @@ my @NeededModules = (
         Features              => ['div:cldr'],
         VersionRequired       => '== 0.44.1',
         DockerVersionRequired => '== 0.46.0',
-        Comment               => 'localisation from the CLDR project, TODO: upgrade to 0.46.0',
+        Comment               => 'localisation from the CLDR project',
         InstTypes             => {
             aptget => undef,    # not in any Debian package
             emerge => undef,

@@ -210,7 +210,7 @@ feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
 };
 
 feature 'div:cldr', 'Support for feature div:cldr' => sub {
-    # localisation from the CLDR project, TODO: upgrade to 0.46.0
+    # localisation from the CLDR project
     requires 'Locale::CLDR', '== 0.44.1';
 
     # language packs from the CLDR project
@@ -399,7 +399,7 @@ feature 'optional', 'Support for feature optional' => sub {
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';
 
-    # localisation from the CLDR project, TODO: upgrade to 0.46.0
+    # localisation from the CLDR project
     requires 'Locale::CLDR', '== 0.44.1';
 
     # Required for Generic Interface XSLT mapping module.
