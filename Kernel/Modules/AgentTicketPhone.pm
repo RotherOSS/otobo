@@ -451,7 +451,7 @@ sub Run {
 
                 if ( $ConfigObject->{CustomerPanelOwnSelection} ) {
                     for my $Queue ( sort keys %{ $ConfigObject->{CustomerPanelOwnSelection} } ) {
-                        my $Value = $ConfigObject->{CustomerPanelOwnSelection}->{$Queue};
+                        my $Value = $ConfigObject->{CustomerPanelOwnSelection}{$Queue};
                         $Queues{$Queue} = $Value;
                     }
                 }
