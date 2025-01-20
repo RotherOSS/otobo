@@ -1969,42 +1969,42 @@ DISTRIBUTIONS
     requirements:
       Exporter 5.57
       Module::Build 0.4004
-  Locale-CLDR-Locales-Ar-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ar-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Ar-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ar-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Ar v0.44.1
-      Locale::CLDR::Locales::Ar::Arab v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::001 v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ae v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Bh v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Dj v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Dz v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Eg v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Eh v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Er v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Il v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Iq v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Jo v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Km v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Kw v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Lb v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ly v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ma v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Mr v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Om v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ps v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Qa v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Sa v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Sd v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::So v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ss v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Sy v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Td v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Tn v0.44.1
-      Locale::CLDR::Locales::Ar::Arab::Ye v0.44.1
+      Locale::CLDR::Locales::Ar v0.46.0
+      Locale::CLDR::Locales::Ar::Arab v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::001 v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ae v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Bh v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Dj v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Dz v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Eg v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Eh v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Er v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Il v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Iq v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Jo v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Km v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Kw v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Lb v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ly v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ma v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Mr v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Om v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ps v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Qa v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Sa v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Sd v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::So v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ss v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Sy v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Td v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Tn v0.46.0
+      Locale::CLDR::Locales::Ar::Arab::Ye v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2012,23 +2012,23 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-De-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-De-v0.44.1.tar.gz
+  Locale-CLDR-Locales-De-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-De-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::De v0.44.1
-      Locale::CLDR::Locales::De::Latn v0.44.1
-      Locale::CLDR::Locales::De::Latn::At v0.44.1
-      Locale::CLDR::Locales::De::Latn::Be v0.44.1
-      Locale::CLDR::Locales::De::Latn::Ch v0.44.1
-      Locale::CLDR::Locales::De::Latn::De v0.44.1
-      Locale::CLDR::Locales::De::Latn::It v0.44.1
-      Locale::CLDR::Locales::De::Latn::Li v0.44.1
-      Locale::CLDR::Locales::De::Latn::Lu v0.44.1
+      Locale::CLDR::Locales::De v0.46.0
+      Locale::CLDR::Locales::De::Latn v0.46.0
+      Locale::CLDR::Locales::De::Latn::At v0.46.0
+      Locale::CLDR::Locales::De::Latn::Be v0.46.0
+      Locale::CLDR::Locales::De::Latn::Ch v0.46.0
+      Locale::CLDR::Locales::De::Latn::De v0.46.0
+      Locale::CLDR::Locales::De::Latn::It v0.46.0
+      Locale::CLDR::Locales::De::Latn::Li v0.46.0
+      Locale::CLDR::Locales::De::Latn::Lu v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2036,44 +2036,44 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Es-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Es-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Es-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Es-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Es v0.44.1
-      Locale::CLDR::Locales::Es::Latn v0.44.1
-      Locale::CLDR::Locales::Es::Latn::419 v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ar v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Bo v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Br v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Bz v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Cl v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Co v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Cr v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Cu v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Do v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ea v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ec v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Es v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Gq v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Gt v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Hn v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ic v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Mx v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ni v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Pa v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Pe v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ph v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Pr v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Py v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Sv v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Us v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Uy v0.44.1
-      Locale::CLDR::Locales::Es::Latn::Ve v0.44.1
+      Locale::CLDR::Locales::Es v0.46.0
+      Locale::CLDR::Locales::Es::Latn v0.46.0
+      Locale::CLDR::Locales::Es::Latn::419 v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ar v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Bo v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Br v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Bz v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Cl v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Co v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Cr v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Cu v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Do v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ea v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ec v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Es v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Gq v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Gt v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Hn v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ic v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Mx v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ni v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Pa v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Pe v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ph v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Pr v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Py v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Sv v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Us v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Uy v0.46.0
+      Locale::CLDR::Locales::Es::Latn::Ve v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2081,62 +2081,62 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Fr-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Fr-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Fr-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Fr-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Fr v0.44.1
-      Locale::CLDR::Locales::Fr::Latn v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Be v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Bf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Bi v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Bj v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Bl v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ca v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Cd v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Cf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Cg v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ch v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ci v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Cm v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Dj v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Dz v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Fr v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ga v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Gf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Gn v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Gp v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Gq v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ht v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Km v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Lu v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ma v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mc v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mg v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ml v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mq v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mr v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Mu v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Nc v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Ne v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Pf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Pm v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Re v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Rw v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Sc v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Sn v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Sy v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Td v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Tg v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Tn v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Vu v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Wf v0.44.1
-      Locale::CLDR::Locales::Fr::Latn::Yt v0.44.1
+      Locale::CLDR::Locales::Fr v0.46.0
+      Locale::CLDR::Locales::Fr::Latn v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Be v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Bf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Bi v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Bj v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Bl v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ca v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Cd v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Cf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Cg v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ch v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ci v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Cm v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Dj v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Dz v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Fr v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ga v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Gf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Gn v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Gp v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Gq v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ht v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Km v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Lu v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ma v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mc v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mg v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ml v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mq v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mr v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Mu v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Nc v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Ne v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Pf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Pm v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Re v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Rw v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Sc v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Sn v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Sy v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Td v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Tg v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Tn v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Vu v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Wf v0.46.0
+      Locale::CLDR::Locales::Fr::Latn::Yt v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2144,17 +2144,17 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Hu-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Hu-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Hu-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Hu-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Hu v0.44.1
-      Locale::CLDR::Locales::Hu::Latn v0.44.1
-      Locale::CLDR::Locales::Hu::Latn::Hu v0.44.1
+      Locale::CLDR::Locales::Hu v0.46.0
+      Locale::CLDR::Locales::Hu::Latn v0.46.0
+      Locale::CLDR::Locales::Hu::Latn::Hu v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2162,19 +2162,19 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Ko-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ko-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Ko-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ko-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Ko v0.44.1
-      Locale::CLDR::Locales::Ko::Kore v0.44.1
-      Locale::CLDR::Locales::Ko::Kore::Cn v0.44.1
-      Locale::CLDR::Locales::Ko::Kore::Kp v0.44.1
-      Locale::CLDR::Locales::Ko::Kore::Kr v0.44.1
+      Locale::CLDR::Locales::Ko v0.46.0
+      Locale::CLDR::Locales::Ko::Kore v0.46.0
+      Locale::CLDR::Locales::Ko::Kore::Cn v0.46.0
+      Locale::CLDR::Locales::Ko::Kore::Kp v0.46.0
+      Locale::CLDR::Locales::Ko::Kore::Kr v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2182,19 +2182,19 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Nb-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Nb-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Nb-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Nb-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Nb v0.44.1
-      Locale::CLDR::Locales::Nb::Latn v0.44.1
-      Locale::CLDR::Locales::Nb::Latn::No v0.44.1
-      Locale::CLDR::Locales::Nb::Latn::Sj v0.44.1
+      Locale::CLDR::Locales::Nb v0.46.0
+      Locale::CLDR::Locales::Nb::Latn v0.46.0
+      Locale::CLDR::Locales::Nb::Latn::No v0.46.0
+      Locale::CLDR::Locales::Nb::Latn::Sj v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
-      Locale::CLDR::Locales::No v0.44.1
+      Locale::CLDR v0.46.0
+      Locale::CLDR::Locales::No v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2202,15 +2202,15 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-No-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-No-v0.44.1.tar.gz
+  Locale-CLDR-Locales-No-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-No-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::No v0.44.1
+      Locale::CLDR::Locales::No v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2218,28 +2218,28 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Pt-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Pt-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Pt-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Pt-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Pt v0.44.1
-      Locale::CLDR::Locales::Pt::Latn v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Ao v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Br v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Ch v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Cv v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Gq v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Gw v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Lu v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Mo v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Mz v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Pt v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::St v0.44.1
-      Locale::CLDR::Locales::Pt::Latn::Tl v0.44.1
+      Locale::CLDR::Locales::Pt v0.46.0
+      Locale::CLDR::Locales::Pt::Latn v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Ao v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Br v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Ch v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Cv v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Gq v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Gw v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Lu v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Mo v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Mz v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Pt v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::St v0.46.0
+      Locale::CLDR::Locales::Pt::Latn::Tl v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2247,22 +2247,22 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Ru-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ru-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Ru-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Ru-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Ru v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::By v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::Kg v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::Kz v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::Md v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::Ru v0.44.1
-      Locale::CLDR::Locales::Ru::Cyrl::Ua v0.44.1
+      Locale::CLDR::Locales::Ru v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::By v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::Kg v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::Kz v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::Md v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::Ru v0.46.0
+      Locale::CLDR::Locales::Ru::Cyrl::Ua v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2270,25 +2270,25 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Sr-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Sr-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Sr-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Sr-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Sr v0.44.1
-      Locale::CLDR::Locales::Sr::Cyrl v0.44.1
-      Locale::CLDR::Locales::Sr::Cyrl::Ba v0.44.1
-      Locale::CLDR::Locales::Sr::Cyrl::Me v0.44.1
-      Locale::CLDR::Locales::Sr::Cyrl::Rs v0.44.1
-      Locale::CLDR::Locales::Sr::Cyrl::Xk v0.44.1
-      Locale::CLDR::Locales::Sr::Latn v0.44.1
-      Locale::CLDR::Locales::Sr::Latn::Ba v0.44.1
-      Locale::CLDR::Locales::Sr::Latn::Me v0.44.1
-      Locale::CLDR::Locales::Sr::Latn::Rs v0.44.1
-      Locale::CLDR::Locales::Sr::Latn::Xk v0.44.1
+      Locale::CLDR::Locales::Sr v0.46.0
+      Locale::CLDR::Locales::Sr::Cyrl v0.46.0
+      Locale::CLDR::Locales::Sr::Cyrl::Ba v0.46.0
+      Locale::CLDR::Locales::Sr::Cyrl::Me v0.46.0
+      Locale::CLDR::Locales::Sr::Cyrl::Rs v0.46.0
+      Locale::CLDR::Locales::Sr::Cyrl::Xk v0.46.0
+      Locale::CLDR::Locales::Sr::Latn v0.46.0
+      Locale::CLDR::Locales::Sr::Latn::Ba v0.46.0
+      Locale::CLDR::Locales::Sr::Latn::Me v0.46.0
+      Locale::CLDR::Locales::Sr::Latn::Rs v0.46.0
+      Locale::CLDR::Locales::Sr::Latn::Xk v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2296,24 +2296,28 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-Locales-Zh-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-Locales-Zh-v0.44.1.tar.gz
+  Locale-CLDR-Locales-Zh-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-Locales-Zh-v0.46.0.tar.gz
     provides:
-      Locale::CLDR::Locales::Zh v0.44.1
-      Locale::CLDR::Locales::Zh::Hans v0.44.1
-      Locale::CLDR::Locales::Zh::Hans::Cn v0.44.1
-      Locale::CLDR::Locales::Zh::Hans::Hk v0.44.1
-      Locale::CLDR::Locales::Zh::Hans::Mo v0.44.1
-      Locale::CLDR::Locales::Zh::Hans::Sg v0.44.1
-      Locale::CLDR::Locales::Zh::Hant v0.44.1
-      Locale::CLDR::Locales::Zh::Hant::Hk v0.44.1
-      Locale::CLDR::Locales::Zh::Hant::Mo v0.44.1
-      Locale::CLDR::Locales::Zh::Hant::Tw v0.44.1
+      Locale::CLDR::Locales::Zh v0.46.0
+      Locale::CLDR::Locales::Zh::Hans v0.46.0
+      Locale::CLDR::Locales::Zh::Hans::Cn v0.46.0
+      Locale::CLDR::Locales::Zh::Hans::Hk v0.46.0
+      Locale::CLDR::Locales::Zh::Hans::Mo v0.46.0
+      Locale::CLDR::Locales::Zh::Hans::My v0.46.0
+      Locale::CLDR::Locales::Zh::Hans::Sg v0.46.0
+      Locale::CLDR::Locales::Zh::Hant v0.46.0
+      Locale::CLDR::Locales::Zh::Hant::Hk v0.46.0
+      Locale::CLDR::Locales::Zh::Hant::Mo v0.46.0
+      Locale::CLDR::Locales::Zh::Hant::My v0.46.0
+      Locale::CLDR::Locales::Zh::Hant::Tw v0.46.0
+      Locale::CLDR::Locales::Zh::Latn v0.46.0
+      Locale::CLDR::Locales::Zh::Latn::Cn v0.46.0
     requirements:
       DateTime 0.72
-      Locale::CLDR v0.44.1
+      Locale::CLDR v0.46.0
       Module::Build 0.40
       Moo 2
       MooX::ClassAttribute 0.011
@@ -2321,36 +2325,35 @@ DISTRIBUTIONS
       Test::More 0.98
       Type::Tiny 0
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
-  Locale-CLDR-v0.44.1
-    pathname: J/JG/JGNI/Locale-CLDR-v0.44.1.tar.gz
+  Locale-CLDR-v0.46.0
+    pathname: J/JG/JGNI/Locale-CLDR-v0.46.0.tar.gz
     provides:
-      Locale::CLDR v0.44.1
-      Locale::CLDR::CalendarPreferences v0.44.1
-      Locale::CLDR::Collator v0.44.1
-      Locale::CLDR::CollatorBase v0.44.1
-      Locale::CLDR::Currencies v0.44.1
-      Locale::CLDR::EraBoundries v0.44.1
-      Locale::CLDR::LanguageMatching v0.44.1
-      Locale::CLDR::LikelySubtags v0.44.1
-      Locale::CLDR::Locales::En v0.44.1
-      Locale::CLDR::Locales::En::Latn v0.44.1
-      Locale::CLDR::Locales::En::Latn::Us v0.44.1
-      Locale::CLDR::Locales::Root v0.44.1
-      Locale::CLDR::MeasurementSystem v0.44.1
-      Locale::CLDR::NumberFormatter v0.44.1
-      Locale::CLDR::NumberingSystems v0.44.1
-      Locale::CLDR::Plurals v0.44.1
-      Locale::CLDR::RegionContainment v0.44.1
-      Locale::CLDR::ValidCodes v0.44.1
-      Locale::CLDR::WeekData v0.44.1
+      Locale::CLDR v0.46.0
+      Locale::CLDR::CalendarPreferences v0.46.0
+      Locale::CLDR::Collator v0.46.0
+      Locale::CLDR::CollatorBase v0.46.0
+      Locale::CLDR::Currencies v0.46.0
+      Locale::CLDR::EraBoundries v0.46.0
+      Locale::CLDR::LanguageMatching v0.46.0
+      Locale::CLDR::LikelySubtags v0.46.0
+      Locale::CLDR::Locales::En v0.46.0
+      Locale::CLDR::Locales::En::Latn v0.46.0
+      Locale::CLDR::Locales::En::Latn::Us v0.46.0
+      Locale::CLDR::Locales::Root v0.46.0
+      Locale::CLDR::MeasurementSystem v0.46.0
+      Locale::CLDR::NumberFormatter v0.46.0
+      Locale::CLDR::NumberingSystems v0.46.0
+      Locale::CLDR::Plurals v0.46.0
+      Locale::CLDR::RegionContainment v0.46.0
+      Locale::CLDR::ValidCodes v0.46.0
+      Locale::CLDR::WeekData v0.46.0
     requirements:
       Class::Load 0
       DateTime 0.72
       DateTime::Locale 0
       File::Spec 0
-      List::MoreUtils 0
       List::Util 1.45
       Module::Build 0.40
       Moo 2
@@ -2362,7 +2365,7 @@ DISTRIBUTIONS
       bigfloat 0
       namespace::autoclean 0.16
       ok 0
-      perl v5.10.1
+      perl v5.12.0
       version 0.95
   Locale-PO-0.27
     pathname: C/CO/COSIMO/Locale-PO-0.27.tar.gz
