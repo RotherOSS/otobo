@@ -23,7 +23,6 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use CSS::Minifier::XS ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -39,30 +38,16 @@ my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 ### Setting up
 
 # Minimize amount of added CSS for testing
-my $TestCustomCSS          = '';
-my $TestCKEditorContentCSS = '';
-
-my $TestCKEditorContentCSSPath = '';
-my $StandardContentCSSPath     = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css/RichTextArticleContent.css';
-
 $Helper->ConfigSettingChange(
     Key   => 'Frontend::RichText::DefaultCSS',
-    Value => $TestCustomCSS,
+    Value => '',
     Valid => 1,
 );
 $Helper->ConfigSettingChange(
     Key   => 'Frontend::RichTextArticleStyles',
-    Value => $TestCKEditorContentCSSPath,
+    Value => '',
     Valid => 1,
 );
-
-my $StandardContentCSS = ${
-    $MainObject->FileRead(
-        Location => $StandardContentCSSPath,
-    )
-};
-
-our $MinifiedCSS = CSS::Minifier::XS::minify($StandardContentCSS);
 
 my @Tests = (
     {
@@ -102,16 +87,14 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $Result = $Test->{Result};
-    my $HTMLString = $Test->{String}
-
+    
+    my $HTMLString = $LayoutObject->RichTextDocumentComplete(
+        String => $Test->{String},
+    );
+    
     #Remove OTOBO Copyright comment for easier testing 
     $Result =~ s/\/\*[\s\S]*?\*\///;
     $HTMLString =~ s/\/\*[\s\S]*?\*\///;
-
-    $LayoutObject->RichTextDocumentComplete(
-        String => $HTMLString,
-    );
-    
 
     TextEqOrDiff(
         "$HTMLString\n",
