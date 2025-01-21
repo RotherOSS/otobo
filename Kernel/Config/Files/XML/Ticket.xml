@@ -14441,7 +14441,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14526,7 +14526,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
