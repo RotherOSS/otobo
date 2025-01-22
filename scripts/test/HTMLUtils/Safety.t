@@ -1438,4 +1438,32 @@ for my $Test (@TestsWithSpecialChars) {
     };
 }
 
+# A test case where the child combinator is used in CSS
+{
+    my $String = <<'END_HTML';
+<html>
+<head>
+  <title>A Meaningful Page Title</title>
+  <style>
+    div > p {
+        background-color: gold;
+        border: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+  <div><p>gold</p</div>
+  <pre>greater: ></pre>
+<body>
+</html>
+END_HTML
+    my %Result = $HTMLUtilsObject->Safety(
+        String => $String,
+    );
+
+    # all '>' in text elements are replaced by '&gt;'
+    my $ExpectedScrubbedString = ( $String =~ s/div > p/div &gt; p/r ) =~ s/greater: >/greater: &gt;/r;
+    is( $Result{String}, $ExpectedScrubbedString, 'greater sign encoded' );
+}
+
 done_testing;
