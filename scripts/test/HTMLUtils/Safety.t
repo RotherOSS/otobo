@@ -1338,4 +1338,104 @@ for my $Test (@TestsWithExplicitConfig) {
     };
 }
 
+# Some tests concerning special characters.
+#
+# Note that the 'Replace' attribute of the result is usually 0. This is because
+# the replacements done be HTML::Scrubber directly are not counted.
+#
+# Special cases are:
+#   CharOnlyStripped: when only a single character is passed
+my @TestsWithSpecialChars = (
+    {
+        Name             => 'less-than sign',
+        Char             => q{<},
+        Replacement      => '&lt;',
+        CharOnlyStripped => 1,
+        Line             => __LINE__,
+    },
+    {
+        Name        => 'greater-than sign',
+        Char        => q{>},
+        Replacement => '&gt;',
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'ampersand',
+        Char        => q{&},
+        Replacement => '&',
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'quotation mark',
+        Char        => q{"},
+        Replacement => q{"},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'apostrophe',
+        Char        => q{'},
+        Replacement => q{'},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'snowman',
+        Char        => q{⛄},
+        Replacement => q{⛄},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'semicolon',
+        Char        => q{;},
+        Replacement => q{;},
+        Line        => __LINE__,
+    },
+);
+
+for my $Test (@TestsWithSpecialChars) {
+
+    subtest "Special char '$Test->{Name}' (line @{[ $Test->{Line} // '???' ]})" => sub {
+
+        my $ToDo = $Test->{Todo} ? todo( $Test->{Todo} ) : undef;
+
+        # replacement by HTML::Scrubber are not counted
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => $Test->{Char},
+            );
+            is( $Result{Replace}, 0, 'char only replaced' );
+            if ( $Test->{CharOnlyStripped} ) {
+                is( $Result{String}, '', 'char only result, stripped' );
+            }
+            else {
+                is( $Result{String}, $Test->{Replacement}, 'char only result' );
+            }
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => qq{before $Test->{Char} after},
+            );
+            is( $Result{Replace}, 0,                                     'surrounded char replaced' );
+            is( $Result{String},  qq{before $Test->{Replacement} after}, 'surrounded char result' );
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => qq{<b>$Test->{Char}</b>},
+            );
+            is( $Result{Replace}, 0,                               'bold char replaced' );
+            is( $Result{String},  qq{<b>$Test->{Replacement}</b>}, 'bold char result' );
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String   => qq{<applet>$Test->{Char}</applet>},
+                NoApplet => 1,
+            );
+            is( $Result{Replace}, 0,                        'applet replaced' );
+            is( $Result{String},  qq{$Test->{Replacement}}, 'applet result' );
+        }
+    };
+}
+
 done_testing;
