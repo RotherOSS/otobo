@@ -1931,7 +1931,7 @@
                         <Item Key="Incident">#bb2222</Item>
                     </Hash>
                 </Item>
-                <Item Key="Translate">0</Item>
+                <Item Key="Translate">1</Item>
                 <Item Key="Link"></Item>
             </Hash>
         </Value>
@@ -1963,7 +1963,7 @@
             <Hash>
                 <Item Key="Order">2</Item>
                 <Item Key="Prefix"></Item>
-                <Item Key="ColorDefault"></Item>
+                <Item Key="ColorDefault">#949494</Item>
                 <Item Key="ColorSelection">
                     <Hash>
                     </Hash>
@@ -1988,9 +1988,9 @@
                         <Item Key="closed successful">#0044dd</Item>
                     </Hash>
                 </Item>
-                <Item Key="Translate">0</Item>
+                <Item Key="Translate">1</Item>
                 <Item Key="Link"></Item>
-                <Item Key="Text"></Item>
+                <Item Key="Text">[% Data.Value %]</Item>
             </Hash>
         </Value>
     </Setting>
