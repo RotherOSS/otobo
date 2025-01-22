@@ -55,9 +55,11 @@ If you're new to perl, good luck to you.
 
 =cut
 
-use 5.008;    # enforce minimum perl version of 5.8
+use v5.10;    # enforce minimum perl version of 5.8
 use strict;
 use warnings;
+use feature qw(state);
+
 use HTML::Parser 3.47 ();
 use HTML::Entities;
 use Scalar::Util ('weaken');
@@ -471,6 +473,8 @@ sub _scrub_str {
 
     my $s = $p->{"\0_s"};
 
+    state $last_start_tag = '';
+
     # premptive handling of an event might turn off the rule based handling
     if ( $s->{_preempt} && ref $s->{_preempt} eq 'CODE' ) {
         if ( $e eq 'end' && $text eq '' && $s->{_ignore_empty_end} ) {
@@ -495,6 +499,7 @@ sub _scrub_str {
     my $outstr = '';
 
     if ( $e eq 'start' ) {
+        $last_start_tag = $t;
         if ( exists $s->{_rules}->{$t} )    # is there a specific rule
         {
             if ( ref $s->{_rules}->{$t} )    # is it complicated?(not simple;)
@@ -548,7 +553,14 @@ sub _scrub_str {
     }
     elsif ( $e eq 'text' or $e eq 'default' ) {
         $text =~ s/</&lt;/g;    #https://rt.cpan.org/Public/Ticket/Attachment/83958/10332/scrubber.patch
-        $text =~ s/>/&gt;/g;
+
+        # This is very hackish.
+        if ( $last_start_tag eq 'style' ) {
+            # do not replace '>' in style tags
+        }
+        else {
+            $text =~ s/>/&gt;/g;    # see https://rt.cpan.org/Public/Bug/Display.html?id=2991
+        }
 
         $outstr .= $text;
     }
