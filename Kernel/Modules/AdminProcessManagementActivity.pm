@@ -46,16 +46,16 @@ sub Run {
     my $ActivityID = $ParamObject->GetParam( Param => 'ID' )       || '';
     my $EntityID   = $ParamObject->GetParam( Param => 'EntityID' ) || '';
 
-    # get latest config data to send it back to main window
-    my $ActivityConfig = $Self->_GetActivityConfig(
-        EntityID => $EntityID,
-    );
-
     my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
         SessionID => $Self->{SessionID},
     );
 
     if ( !exists $SessionData{ProcessManagementScreensPath} ) {
+
+        # get latest config data to send it back to main window
+        my $ActivityConfig = $Self->_GetActivityConfig(
+            EntityID => $EntityID,
+        );
 
         # we lost session in between, close the popup and reload
         return $Self->_PopupResponse(
@@ -210,6 +210,11 @@ sub Run {
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         my $Redirect = $ParamObject->GetParam( Param => 'PopupRedirect' ) || '';
+
+        # get latest config data to send it back to main window
+        my $ActivityConfig = $Self->_GetActivityConfig(
+            EntityID => $EntityID,
+        );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
