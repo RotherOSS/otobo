@@ -1278,7 +1278,7 @@ sub Safety {
         ],
     );
 
-    # for some reason stype and script are not handled by new()
+    # for some reason the tags 'style' and 'script' are not handled by new()
     $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
     $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
 

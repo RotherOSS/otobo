@@ -26,6 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 # get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
@@ -662,17 +663,17 @@ END_INPUT
         Result => {
             Output => <<'END_OUTPUT',
 <style type="    text/css">
-div &gt; span {
+div > span {
     width: 200px;
 }
 </style>
 <style type=" text/CSS ">
-div &gt; span {
+div > span {
     width: expression( FormerlyEvilJS() );
 }
 </style>
 <style type="text/css">
-div &gt; span &gt; div {
+div > span > div {
     width: 200px;
 }
 </style>
@@ -933,7 +934,7 @@ for my $Test (@TestsWithDefaultConfig) {
         else {
             ok( !$Result{Replace}, 'not replaced', );
         }
-        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+        TextEqOrDiff( $Result{String}, $Test->{Result}->{Output}, 'output' );
     };
 }
 
@@ -1166,7 +1167,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'stype with remote background image protocol-relative URL, NoExtSrcLoad',
+        Name   => 'style with remote background image protocol-relative URL, NoExtSrcLoad',
         Input  => '<a href="localhost" style="background-image:url(//localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
@@ -1334,7 +1335,7 @@ for my $Test (@TestsWithExplicitConfig) {
         else {
             ok( !$Result{Replace}, 'not replaced', );
         }
-        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+        TextEqOrDiff( $Result{String}, $Test->{Result}->{Output}, 'output' );
     };
 }
 
@@ -1436,6 +1437,35 @@ for my $Test (@TestsWithSpecialChars) {
             is( $Result{String},  qq{$Test->{Replacement}}, 'applet result' );
         }
     };
+}
+
+# A test case where the child combinator is used in CSS
+{
+    my $String = <<'END_HTML';
+<html>
+<head>
+  <title>A Meaningful Page Title</title>
+  <style>
+    div > p {
+        background-color: gold;
+        border: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+  <div><p>gold</p</div>
+  <pre>greater: ></pre>
+<body>
+</html>
+END_HTML
+    my %Result = $HTMLUtilsObject->Safety(
+        String => $String,
+    );
+
+    # all '>' in text content, except style, are replaced by '&gt;'
+    my $ExpectedScrubbedString = $String =~ s/greater: >/greater: &gt;/r;
+
+    TextEqOrDiff( $Result{String}, $ExpectedScrubbedString, 'greater sign encoded' );
 }
 
 done_testing;

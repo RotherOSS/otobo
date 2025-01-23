@@ -1400,7 +1400,8 @@ else {
     if ($DoPrintAllModules) {
         MODULE:
         for my $Module (@NeededModules) {
-            next MODULE if !$Module->{Features};
+            next MODULE unless $Module->{Features};
+
             for my $Feature ( @{ $Module->{Features} } ) {
                 $Features{$Feature}++;
             }
@@ -1481,7 +1482,7 @@ else {
 sub Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
-    print "  " x ( $Depends + 1 );
+    print '  ' x ( $Depends + 1 );
     print "o $Module->{Module}";
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
@@ -1520,17 +1521,23 @@ sub Check {
             }
         }
 
-        if ( $Module->{VersionRequired} ) {
+        # There might be a version requirement
+        my $VersionRequired = $ENV{OTOBO_RUNS_UNDER_DOCKER}
+            ?
+            ( $Module->{DockerVersionRequired} // $Module->{VersionRequired} )
+            :
+            $Module->{VersionRequired};
+        if ($VersionRequired) {
 
             # Check the required version range.
             # The version range is given in META.json, or cpanfile, style.
             # E.g. '4.0, != 4.043, < 5.000'
             my $Requirements = CPAN::Meta::Requirements->new;
-            $Requirements->add_string_requirement( $Module->{Module} => $Module->{VersionRequired} );
+            $Requirements->add_string_requirement( $Module->{Module} => $VersionRequired );
             my $IsAccepted = $Requirements->accepts_module( $Module->{Module} => $Version );
 
             if ( !$IsAccepted ) {
-                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
+                $ErrorMessage .= "Version $Version installed but $VersionRequired is required! ";
                 if ( $Module->{VersionComments} ) {
                     $ErrorMessage .= join "\n", '', $Module->{VersionComments}->@*;
                 }
