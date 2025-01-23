@@ -126,6 +126,7 @@ sub new {
         _style             => 0,
         _preempt           => 0,
         _ignore_empty_end  => 0,
+        _last_start_tag    => '',
     };
 
     $p->{"\0_s"} = bless $self, $package;
@@ -495,6 +496,10 @@ sub _scrub_str {
     my $outstr = '';
 
     if ( $e eq 'start' ) {
+
+        # remember the last start tag in order to allow special handling based on the current tag
+        $s->{_last_start_tag} = $t;
+
         if ( exists $s->{_rules}->{$t} )    # is there a specific rule
         {
             if ( ref $s->{_rules}->{$t} )    # is it complicated?(not simple;)
@@ -547,8 +552,14 @@ sub _scrub_str {
         $outstr .= $text if $s->{_process};
     }
     elsif ( $e eq 'text' or $e eq 'default' ) {
-        $text =~ s/</&lt;/g;    #https://rt.cpan.org/Public/Ticket/Attachment/83958/10332/scrubber.patch
-        $text =~ s/>/&gt;/g;
+        # See  https://rt.cpan.org/Public/Bug/Display.html?id=2991
+        $text =~ s/</&lt;/g;
+
+        # In style tags we want to preserve the unencoded '>'.
+        # Replacing '>' with '&gt:' breaks CSS which uses the child compbinator
+        if ( $s->{_last_start_tag} ne 'style' ) {
+            $text =~ s/>/&gt;/g;    # see https://rt.cpan.org/Public/Bug/Display.html?id=2991
+        }
 
         $outstr .= $text;
     }
