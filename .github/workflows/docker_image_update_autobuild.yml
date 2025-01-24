@@ -127,6 +127,15 @@ jobs:
         run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
+        # a workaround for a build failure for the 11.0.7 release
+        # see https://github.com/RotherOSS/otobo/issues/4103
+        # can't use github.sha here as we need the commit of the checked out branch
+        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
+        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' && matrix.patch == 'rel-11.0.7' }}
+        run: |
+          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
+
+      -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
         # Caching with Github Actions Cache, limited to 10 GB
         # context: .  indicates that the current checkout is used
