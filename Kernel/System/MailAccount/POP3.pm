@@ -19,7 +19,12 @@ package Kernel::System::MailAccount::POP3;
 use strict;
 use warnings;
 
+# core modules
 use Net::POP3;
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
