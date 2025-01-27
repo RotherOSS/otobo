@@ -18,7 +18,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
-    line-height: 1.6;
+    line-height: 1.2;
 }
 
 .ck-content figure.table {
@@ -53,11 +53,23 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content blockquote {
     font-style: normal !important;
     border-left: solid #000099 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;    
+    padding: 0cm 0cm 0cm 4pt !important;
+    margin: 0;
 }
 
 .ck-content ul,
 .ck-content ol  
 {
     padding: 0 50px;
+}
+
+/* default image style */
+.ck-content figure.image:not(   .image-style-align-center, 
+                                .image-style-block-align-right, 
+                                .image-style-align-left, 
+                                .image-style-align-right) 
+{
+    max-width: calc(100% - var(--ck-image-style-spacing));
+    margin-left: 0;
+    margin-right: auto
 }
