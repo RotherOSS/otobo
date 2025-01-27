@@ -29,7 +29,6 @@ use IO::Socket::SSL ();
 # OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::System::Log',
 );
 
 sub Connect {
