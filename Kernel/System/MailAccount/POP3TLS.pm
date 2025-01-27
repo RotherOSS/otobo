@@ -31,7 +31,6 @@ use IO::Socket::SSL ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
 );
 
 sub Connect {
