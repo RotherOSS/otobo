@@ -58,7 +58,6 @@ The reason why specific files are not included in the bundle is not always evide
     rm -rf Apache Devel::Type::Tiny LWP/Debug # Apache::SOAP and others are not needed
     rm Class/Accessor/Faster.pm Net/IMAP/SimpleX.pm SOAP/Test.pm
     (cd IO; rm SessionData.pm SessionSet.pm)  # requested by SOAP::Lite, but not actually used
-    (cd Net/SSLGlue; rm FTP.pm LDAP.pm LWP.pm Socket.pm)
     (cd SOAP/Transport; rm IO.pm LOCAL.pm LOOPBACK.pm MAILTO.pm POP3.pm TCP.pm)
     find . \( -name "*.pl" \) -delete         # just because this is the tradition
     find . \( -name "*.pod" \) -delete        # just because this is the tradition
