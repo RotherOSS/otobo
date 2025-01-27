@@ -19,14 +19,14 @@ package Kernel::System::MailAccount::POP3S;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::MailAccount::POP3);
+
 # core modules
 use Net::POP3;
 
 # CPAN modules
 
 # OTOBO modules
-
-use parent qw(Kernel::System::MailAccount::POP3);
 
 our @ObjectDependencies = (
 );
