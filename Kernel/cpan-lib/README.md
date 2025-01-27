@@ -53,10 +53,6 @@ The reason why specific files are not included in the bundle is not always evide
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi              # or a similar dir, depending on the devel machine
     rm -rf local/lib/perl5/Apache                                     # Apache::SOAP is not needed
     rm local/lib/perl5/Net/IMAP/SimpleX.pm
-    rm local/lib/perl5/Net/SSLGlue/FTP.pm
-    rm local/lib/perl5/Net/SSLGlue/LDAP.pm
-    rm local/lib/perl5/Net/SSLGlue/LWP.pm
-    rm local/lib/perl5/Net/SSLGlue/Socket.pm
     rm local/lib/perl5/SOAP/Test.pm
     rm local/lib/perl5/SOAP/Transport/IO.pm
     rm local/lib/perl5/SOAP/Transport/LOCAL.pm

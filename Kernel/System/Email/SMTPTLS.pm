@@ -19,22 +19,18 @@ package Kernel::System::Email::SMTPTLS;
 use strict;
 use warnings;
 
+# core modules
 use Net::SMTP;
+
+# CPAN modules
+
+# OTOBO modules
 
 use parent qw(Kernel::System::Email::SMTP);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-
-# Use Net::SSLGlue::SMTP on systems with older Net::SMTP modules that cannot handle SMTPTLS.
-BEGIN {
-    if ( !defined &Net::SMTP::starttls ) {
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-        require Net::SSLGlue::SMTP;
-    }
-}
 
 sub _Connect {
     my ( $Self, %Param ) = @_;

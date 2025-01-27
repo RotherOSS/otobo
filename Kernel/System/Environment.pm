@@ -491,12 +491,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.2209',
         },
         {
-            'Comment'         => 'needed by OTOBO email modules',
-            'Module'          => 'Net::SSLGlue',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.058',
-        },
-        {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
