@@ -61,3 +61,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 {
     padding: 0 50px;
 }
+
+/* default image style */
+.ck-content figure.image:not(   .image-style-align-center, 
+                                .image-style-block-align-right, 
+                                .image-style-align-left, 
+                                .image-style-align-right) 
+{
+    max-width: calc(100% - var(--ck-image-style-spacing));
+    margin-left: 0;
+    margin-right: auto
+}

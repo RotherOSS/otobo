@@ -245,6 +245,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         icon: 'custom'
                     }
                 ],
+                styles: {
+                    options: [
+                        'alignLeft', 'alignCenter', 'alignRight', 'alignBlockRight',
+                        {
+                            name: 'alignBlockLeft',
+                            isDefault: true
+                        }
+                    ]
+                },
                 toolbar: [
                     {
                         name: 'imageStyle:imagePositioningDropdown',
@@ -256,12 +265,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                             'imageStyle:alignBlockLeft',
                             'imageStyle:alignBlockRight'
                         ],
-                        defaultItem: 'imageStyle:alignCenter'
+                        defaultItem: 'imageStyle:alignBlockLeft'
                     },
                     'resizeImage'
                 ],
                 insert: {
-                    type: 'auto',
+                    type: 'ImageBlock',
                     integrations: Integrations
                 }
             },
