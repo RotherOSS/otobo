@@ -586,9 +586,6 @@ sub _scrub_str {
             $text =~ s/>/&gt;/g;
         }
 
-        if ( $s->{_last_start_tag} ne 'style' ) {
-        }
-
         $outstr .= $text;
     }
     elsif ( $e eq 'start_document' ) {
