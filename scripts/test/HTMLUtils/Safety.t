@@ -683,6 +683,48 @@ END_OUTPUT
         Line => __LINE__,
     },
     {
+        Name  => 'Style tag. CSS embedded in HTML comment',
+        Input => <<'END_INPUT',
+<sTYle type =  "    text/css">          <!--div > span {
+    width: 200px;
+}
+/* <<<< */
+         -->   </stylE>
+END_INPUT
+        Result => {
+            Output => <<'END_OUTPUT',
+<style type="    text/css">          <!--div > span {
+    width: 200px;
+}
+/* &lt;&lt;&lt;&lt; */
+         -->   </style>
+END_OUTPUT
+            Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name  => 'Style tag. CSS embedded in broken HTML comment',
+        Input => <<'END_INPUT',
+<sTYle type =  "    text/css">          < !--div > span {
+    width: 200px;
+}
+/* <<<< */
+         -->   </stylE>
+END_INPUT
+        Result => {
+            Output => <<'END_OUTPUT',
+<style type="    text/css">          &lt; !--div > span {
+    width: 200px;
+}
+/* &lt;&lt;&lt;&lt; */
+         -->   </style>
+END_OUTPUT
+            Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
         Name  => 'Nested script tags',
         Input => <<'EOF',
 <s<script>...</script><script>:::<cript type="text/javascript">
