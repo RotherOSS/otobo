@@ -552,13 +552,38 @@ sub _scrub_str {
         $outstr .= $text if $s->{_process};
     }
     elsif ( $e eq 'text' or $e eq 'default' ) {
-        # See  https://rt.cpan.org/Public/Bug/Display.html?id=2991
-        $text =~ s/</&lt;/g;
+        if ( $s->{_last_start_tag} eq 'style' ) {
 
-        # In style tags we want to preserve the unencoded '>'.
-        # Replacing '>' with '&gt:' breaks CSS which uses the child compbinator
-        if ( $s->{_last_start_tag} ne 'style' ) {
-            $text =~ s/>/&gt;/g;    # see https://rt.cpan.org/Public/Bug/Display.html?id=2991
+            # Within style tags there might be CSS protected by HTML comments.
+            # See https://www.w3.org/TR/html4/present/styles.html#h-14.5 .
+            # The HTML comments are preserved even if they are no longer useful.
+            #
+            # Within style tags we also want to preserve the unencoded '>'.
+            # Replacing '>' with '&gt:' breaks CSS which uses the child combinator
+            if (
+                my ($comment_start, $CSS, $comment_end ) = $text =~ m/
+                        \A ( \s* <!-- ) # start
+                        (.*)           # CSS
+                        (--> \s* ) \Z      # end
+                    /sx
+            )
+            {
+                # keep the '>'
+                $CSS =~ s/</&lt;/g;
+
+                $text = join '', $comment_start, $CSS, $comment_end;
+            }
+            else {
+
+                # keep the '>'
+                $text =~ s/</&lt;/g;
+            }
+        }
+        else {
+
+            # see https://rt.cpan.org/Public/Bug/Display.html?id=2991
+            $text =~ s/</&lt;/g;
+            $text =~ s/>/&gt;/g;
         }
 
         $outstr .= $text;
