@@ -546,9 +546,6 @@ to write data to file system
                                  #      does only take effect if Directory and Filename are provided
     );
 
-Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
-and DirectoryRead() will also report them as C<NFD>.
-
 =cut
 
 sub FileWrite {
@@ -1093,9 +1090,6 @@ does not have to exist:
         Filter    => '*',
         Silent    => 1,     # will not log errors if the directory does not exist
     );
-
-Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
-and DirectoryRead() will also report them as C<NFD>.
 
 =cut
 
