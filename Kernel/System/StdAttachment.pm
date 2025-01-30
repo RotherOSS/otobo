@@ -660,7 +660,7 @@ sub StdAttachmentStandardTemplateMemberList {
     return %Data;
 }
 
-=for stopwords ro rw !qux
+=for stopwords ro rw
 
 =head2 StdAttachmentStandardTemplatePermission()
 

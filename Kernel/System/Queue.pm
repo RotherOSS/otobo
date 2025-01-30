@@ -1434,7 +1434,7 @@ sub NameExistsCheck {
     return 0;
 }
 
-=for stopwords ro rw !qux
+=for stopwords ro rw
 
 =head2 QueueListPermission()
 
