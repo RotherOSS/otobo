@@ -78,7 +78,7 @@ testsuite:
     - touch .copy_otobo_next_finished
     - export OPT_OTOBO=$PWD
     - RELEASE=$( grep -E -o 'VERSION = [0-9]+\.[0-9]+\.x' RELEASE | sed 's/VERSION = /rel-/' | sed 's/\.[^.]*$//' | sed 's/\./_/' )
-    - echo "RELEASE: $RELEASE"
+    - 'echo "RELEASE: $RELEASE"'
     - chown -R 1000:1000 .
 
     # clone the otobo-docker repo
