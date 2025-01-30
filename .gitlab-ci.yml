@@ -91,7 +91,7 @@ testsuite:
     - cp .docker_compose_env_http_selenium .env
     - sed -i "s/OTOBO_DB_ROOT_PASSWORD=/OTOBO_DB_ROOT_PASSWORD=${OTOBO_DB_ROOT_PASSWORD}/" .env
     
-    - if [ "$OTOBO_DOCKER_DEVEL" = "1"  ]; then sed -E "s/#OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-rel-[0-9_]*/OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-$RELEASE/" .env ;  fi
+    - if [ "$OTOBO_DOCKER_DEVEL" = "1"  ]; then sed -E "s~#OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-rel-[0-9_]*~OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-$RELEASE~" .env ;  fi
 
     # mount local otobo folder
     - sed -i "s~\- opt_otobo:/opt/otobo~[ ${OPT_OTOBO}:/opt/otobo ]~" docker-compose/otobo-base.yml
