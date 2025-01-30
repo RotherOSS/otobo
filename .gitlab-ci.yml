@@ -31,6 +31,11 @@ variables:
       - "1"
       - "0"
     description: "Use the TAP Formatter for JUnit test reports (default: 1)"
+  OTOBO_DOCKER_DEVEL:
+    value: "0"
+    options:
+      - "0"
+      - "1"
   OTOBO_PACKAGES:
     value: ""
     description: "Space separated list of versioned otobo packages names or full urls, e.g. 'Fred-11.0.1.opm' or 'https://ftp.otobo.org/pub/otobo/packages/:Fred-11.0.1.opm'\n See output of ./otobo.Console.pl Admin::Package::RepositoryList for possible values"
@@ -72,6 +77,8 @@ testsuite:
     - mkdir -p var/tap
     - touch .copy_otobo_next_finished
     - export OPT_OTOBO=$PWD
+    - RELEASE=$( grep -E -o 'VERSION = [0-9]+\.[0-9]+\.x' RELEASE | sed 's/VERSION = /rel-/' | sed 's/\.[^.]*$//' | sed 's/\./_/' )
+    - echo "RELEASE: $RELEASE"
     - chown -R 1000:1000 .
 
     # clone the otobo-docker repo
@@ -82,6 +89,8 @@ testsuite:
     # prepare docker .env for first run
     - cp .docker_compose_env_http_selenium .env
     - sed -i "s/OTOBO_DB_ROOT_PASSWORD=/OTOBO_DB_ROOT_PASSWORD=${OTOBO_DB_ROOT_PASSWORD}/" .env
+    
+    - if [ "$OTOBO_DOCKER_DEVEL" = "1"  ]; then sed -E "s/#OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-rel-[0-9_]*/OTOBO_IMAGE_OTOBO=rotheross/otobo:devel-$RELEASE/"' .env ;  fi
 
     # mount local otobo folder
     - sed -i "s~\- opt_otobo:/opt/otobo~[ ${OPT_OTOBO}:/opt/otobo ]~" docker-compose/otobo-base.yml
