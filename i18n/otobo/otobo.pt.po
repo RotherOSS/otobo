@@ -19,21 +19,22 @@
 # José Anjos <jose.anjos@regiaodeaveiro.pt>, 2019
 # FRamos <filipeparedesramos@gmail.com>, 2021.
 # Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>, 2022.
+# Renato Sequeira <rds.516@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-10-02 12:53+0000\n"
-"PO-Revision-Date: 2022-03-09 06:52+0000\n"
-"Last-Translator: Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>\n"
-"Language-Team: Portuguese <https://translate.otobo.org/projects/otobo10/"
-"otobo/pt/>\n"
+"PO-Revision-Date: 2025-02-01 20:53+0000\n"
+"Last-Translator: Renato Sequeira <rds.516@gmail.com>\n"
+"Language-Team: Portuguese <http://translate.otobo.org/projects/otobo/"
+"otobo-10/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -273,7 +274,7 @@ msgstr "Sobre"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
-msgstr "Ativar esta widget"
+msgstr "Ativar este widget"
 
 #. Template: AdminAbout
 msgid ""
@@ -281,7 +282,7 @@ msgid ""
 "deleted if it is not needed anymore."
 msgstr ""
 "Este idioma não está presente ou habilitado no sistema. Este texto pode ser "
-"deletado se isto não for mais necessário."
+"apagado se já não for necessário."
 
 #. Template: AdminAbout
 msgid "Remove Language"
@@ -297,7 +298,9 @@ msgstr "Corpo da mensagem"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr "Este campo é requerido e deve ter menos do que 4000 caracteres."
+msgstr ""
+"Este campo é de preenchimento obrigatório e deve ter menos do que 4000 "
+"caracteres."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
@@ -309,15 +312,15 @@ msgstr "Adicionar novo idioma"
 
 #. Template: AdminAbout
 msgid "Save Changes"
-msgstr "Guardar alterações "
+msgstr "Guardar alterações"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr "Gestão Calendário"
+msgstr "Gestão de calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr "Adicionar Calendário"
+msgstr "Adicionar calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
