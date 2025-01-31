@@ -37,26 +37,39 @@ Core.Agent.SharedSecretGenerator = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "2", "3", "4", "5", "6", "7"];
-        var i, r, tempLetter, sharedSecret;
+        // the alphabet for the Base32 string
+        const base32Letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "2", "3", "4", "5", "6", "7"];
 
+        // add button for generating a shared secret
         $("#UserGoogleAuthenticatorSecretKey").parent().append("<button id=\"GenerateUserGoogleAuthenticatorSecretKey\" type=\"button\" class=\"CallForAction\"><span>" + Core.Language.Translate("Generate") + "</span></button>");
-        $("#UserGoogleAuthenticatorSecretKey + button").on("click", function(){
-            sharedSecret = "";
+        $("#UserGoogleAuthenticatorSecretKey + button").on(
+            'click',
+            function() {
+                // get 16 random bytes
+                const randomBytes = new Uint8Array(16);
+                crypto.getRandomValues(randomBytes);
 
-            for (i = 0; i < letters.length; i++) {
-                r = Math.floor(Math.random() * letters.length);
-                tempLetter = letters[i];
-                letters[i] = letters[r];
-                letters[r] = tempLetter;
+                // using modulus 32 on a random bytes gives evenly distributed buckets as 256 is divisible by 32
+                const randomIndexes = randomBytes.map(
+                    function (randomByte) {
+                        return randomByte % 32;
+                    }
+                );
+
+                // Assemble the 16 character, effectively 5*16=80 bits, base32 secret key.
+                // E.g. 'GR66UCK4MTGWWQDA'
+                // There is no problem with padding as 5*16 is divisibe by 8.
+                let sharedSecret = '';
+                randomIndexes.forEach(
+                    function (randomIndex) {
+                        sharedSecret += base32Letters[ randomIndex ];
+
+                        return;
+                    }
+                );
+                $("#UserGoogleAuthenticatorSecretKey").val(sharedSecret);
             }
-
-            for (i = 0; i < 16; i++) {
-                sharedSecret += letters[i];
-            }
-
-            $("#UserGoogleAuthenticatorSecretKey").val(sharedSecret);
-       });
+        );
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
