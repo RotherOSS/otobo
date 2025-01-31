@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::HTMLUtils',
     'Kernel::System::LinkObject',
     'Kernel::System::Log',
     'Kernel::System::State',
@@ -140,6 +141,35 @@ sub Run {
 
     # override UserID if specified as a parameter in the TA config
     $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # Convert DynamicField value to HTML string, see bug#14229.
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+    if ( $Param{Config}->{Body} =~ /OTOBO_TICKET_DynamicField_/ ) {
+        MATCH:
+        for my $Match ( sort keys %{ $Param{Ticket} } ) {
+            if ( $Match =~ m/DynamicField_(.*)/ && $Param{Ticket}->{$Match} ) {
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $1,
+                );
+
+                # Check if there is HTML content.
+                my $IsHTMLContent = $DynamicFieldBackendObject->HasBehavior(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsHTMLContent',
+                );
+
+                # Avoid double conversion to HTML for dynamic fields with HTML content.
+                next MATCH if $IsHTMLContent;
+                $Param{Ticket}->{$Match} = $HTMLUtilsObject->ToHTML(
+                    String => $Param{Ticket}->{$Match},
+                );
+            }
+        }
+    }
 
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
@@ -334,10 +364,6 @@ sub Run {
             $FieldFilter{$1} = 1;
         }
     }
-
-    # get dynamic field objects
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # get the dynamic fields for ticket
     my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
