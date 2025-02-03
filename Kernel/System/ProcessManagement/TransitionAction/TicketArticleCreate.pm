@@ -324,7 +324,7 @@ sub Run {
                     Behavior           => 'IsHTMLContent',
                 );
 
-                # Avoid duble conversion to HTML for dynamic fields with HTML content.
+                # Avoid double conversion to HTML for dynamic fields with HTML content.
                 next MATCH if $IsHTMLContent;
                 $Param{Ticket}->{$Match} = $HTMLUtilsObject->ToHTML(
                     String => $Param{Ticket}->{$Match},
