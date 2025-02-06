@@ -314,21 +314,21 @@ sub _AddAction {
             Message => Translatable('Need ValidID'),
         );
     }
-    for my $Arg ( $GetParam{RequiredArgs}->@* ) {
+    for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
-    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
+    for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( $GetParam{UpdateEvents}->@* ) {
+    for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in StorageTriggers.'),
@@ -613,21 +613,21 @@ sub _ChangeAction {
             Message => Translatable('Need ValidID'),
         );
     }
-    for my $Arg ( $GetParam{RequiredArgs}->@* ) {
+    for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in RequiredArgs.'),
             );
         }
     }
-    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
+    for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( $GetParam{UpdateEvents}->@* ) {
+    for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Bad value in StorageTriggers.'),
@@ -870,7 +870,7 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    # Selections may be set up in a declaritive way
+    # Selections may be set up in a declarative way
     my $FieldType = $Param{FieldType};
     if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
         for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
