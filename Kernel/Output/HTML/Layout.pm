@@ -5792,11 +5792,8 @@ sub _BuildSelectionOptionRefCreate {
     # set Max option
     $OptionRef->{Max} = $Param{Max} || 100;
 
-    # set HTMLQuote option
-    $OptionRef->{HTMLQuote} = 1;
-    if ( defined $Param{HTMLQuote} ) {
-        $OptionRef->{HTMLQuote} = $Param{HTMLQuote};
-    }
+    # set HTMLQuote option, default is 1
+    $OptionRef->{HTMLQuote} = $Param{HTMLQuote} // 1;
 
     return $OptionRef;
 }

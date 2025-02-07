@@ -160,10 +160,10 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(
@@ -653,10 +653,10 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(
