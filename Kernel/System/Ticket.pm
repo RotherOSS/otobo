@@ -957,7 +957,7 @@ sub TicketSubjectBuild {
     my $Subject = $Param{Subject} || '';
     my $Action  = $Param{Action}  || 'Reply';
 
-    # cleanup of subject, remove existing ticket numbers and reply indentifier
+    # cleanup of subject, remove existing ticket numbers and reply identifier
     if ( !$Param{NoCleanup} ) {
         $Subject = $Self->TicketSubjectClean(%Param);
     }
@@ -3002,7 +3002,7 @@ sub TicketEscalationSuspendCalculate {
                     # the difference between it and an full hour later so we come
                     # to the right number as if we would have moved with the smaller
                     # steps.
-                    # otherwise it might happen/has happend that we move in steps of
+                    # otherwise it might happen/has happened that we move in steps of
                     # 1 second over a weekend (and vacation days) which causes nearly
                     # endless loops... oops :)
                     if ( !$WorkingTime && $UpdateDiffTime < 3600 ) {
@@ -3380,7 +3380,7 @@ sub TicketSLAList {
         return;
     }
 
-    # return emty hash, if no service id is given
+    # return empty hash, if no service id is given
     if ( !$Param{ServiceID} ) {
         return ();
     }
@@ -6833,6 +6833,11 @@ sub TicketMergeLinkedObjects {
             \$TicketObjectID,
             \$TicketObjectID,
         ],
+    );
+
+    # cleanup cache of link object
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'LinkObject',
     );
 
     return 1;
