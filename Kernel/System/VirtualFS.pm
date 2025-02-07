@@ -78,7 +78,7 @@ read a file from virtual file system
 
 returns
 
-    Note that the content value is returned as a reference to a string.
+Note that the content value is returned as a reference to a string.
 
     my %File = (
         Content  => $ReferenceToContentString,
