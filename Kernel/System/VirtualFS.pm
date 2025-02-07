@@ -78,8 +78,10 @@ read a file from virtual file system
 
 returns
 
+    Note that the content value is returned as a reference to a string.
+
     my %File = (
-        Content  => $ContentSCALAR,
+        Content  => $ReferenceToContentString,
 
         # preferences data
         Preferences => {
