@@ -315,21 +315,21 @@ sub _AddAction {
             Message => Translatable('Need ValidID'),
         );
     }
-    for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
+    for my $Arg ( $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
-    for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
+    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
+    for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in StorageTriggers.'),
@@ -615,21 +615,21 @@ sub _ChangeAction {
             Message => Translatable('Need ValidID'),
         );
     }
-    for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
+    for my $Arg ( $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
-    for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
+    for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
-    for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
+    for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Erroneous value in StorageTriggers.'),
