@@ -296,7 +296,8 @@ sub _AddAction {
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
     {
-        $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
+        my @Params = $ParamObject->GetArray( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = [ grep {$_} @Params ];
     }
 
     $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
@@ -317,21 +318,21 @@ sub _AddAction {
     for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in RequiredArgs.'),
+                Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in PreviewTriggers.'),
+                Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in StorageTriggers.'),
+                Message => Translatable('Erroneous value in StorageTriggers.'),
             );
         }
     }
@@ -604,7 +605,8 @@ sub _ChangeAction {
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
     {
-        $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
+        my @Params = $ParamObject->GetArray( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = [ grep {$_} @Params ];
     }
 
     # uncorrectable errors
@@ -616,21 +618,21 @@ sub _ChangeAction {
     for my $Arg ( grep {$_} $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in RequiredArgs.'),
+                Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( grep {$_} $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in PreviewTriggers.'),
+                Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( grep {$_} $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in StorageTriggers.'),
+                Message => Translatable('Erroneous value in StorageTriggers.'),
             );
         }
     }
