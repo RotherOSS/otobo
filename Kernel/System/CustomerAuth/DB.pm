@@ -26,7 +26,7 @@ use warnings;
 use Digest::SHA ();
 
 # CPAN modules
-use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
 
@@ -47,10 +47,8 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get database object
+    # get needed objects
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # config options
@@ -109,6 +107,7 @@ sub Auth {
             Priority => 'error',
             Message  => "Need User!"
         );
+
         return;
     }
 
@@ -118,7 +117,7 @@ sub Auth {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
     my $UserID      = '';
-    my $GetPw       = '';
+    my $GetPw       = '';                                                        # the hashed password, may include salt and other settings
     my $Method      = '';
 
     # sql query
@@ -145,7 +144,7 @@ sub Auth {
         return;
     }
 
-    # get encode object
+    # get needed objects
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # crypt given pw
@@ -157,7 +156,7 @@ sub Auth {
         $Method    = 'plain';
     }
 
-    # md5 or sha pw
+    # md5, bcrypt or sha pw
     elsif ( $GetPw !~ /^.{13}$/ ) {
 
         # md5 pw
@@ -191,8 +190,8 @@ sub Auth {
             $EncodeObject->EncodeOutput( \$Pw );
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $Method    = 'sha256';
             $EncodeObject->EncodeInput( \$CryptedPw );
-            $Method = 'sha256';
         }
 
         # sha512 pw
@@ -202,20 +201,20 @@ sub Auth {
             $EncodeObject->EncodeOutput( \$Pw );
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $Method    = 'sha512';
             $EncodeObject->EncodeInput( \$CryptedPw );
-            $Method = 'sha512';
         }
 
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
 
             # require module, log errors if module was not found
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') )
-            {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
                         "CustomerUser: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
+
                 return;
             }
 
@@ -249,8 +248,8 @@ sub Auth {
 
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $Method    = 'sha1';
             $EncodeObject->EncodeInput( \$CryptedPw );
-            $Method = 'sha1';
         }
 
         # No-13-chars-long crypt pw (e.g. in Fedora28).
@@ -269,18 +268,17 @@ sub Auth {
     # crypt pw
     else {
 
-        # strip salt only for (Extended) DES, not for any of modular crypt's
+        # strip salt only for (Extended) DES, not for any of modular crypts
         if ( $Salt !~ /^\$\d\$/ ) {
             $Salt =~ s/^(..).*/$1/;
         }
 
+        # encode output, needed by crypt() only non utf8 signs
         $EncodeObject->EncodeOutput( \$Pw );
         $EncodeObject->EncodeOutput( \$Salt );
-
-        # encode output, needed by crypt() only non utf8 signs
         $CryptedPw = crypt( $Pw, $Salt );
+        $Method    = 'crypt';
         $EncodeObject->EncodeInput( \$CryptedPw );
-        $Method = 'crypt';
     }
 
     # Debugging can only be activated in the source code,
@@ -291,7 +289,7 @@ sub Auth {
         my $ExpectedPw = $GetPw;
 
         # Don't log plaintext passwords.
-        if ( $Self->{CryptType} eq 'plain' ) {
+        if ( $Method eq 'plain' ) {
             $EnteredPw  = 'xxx';
             $ExpectedPw = 'xxx';
         }
@@ -307,18 +305,19 @@ sub Auth {
     if ( !$Pw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  =>
-                "CustomerUser: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Message  => "CustomerUser: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
     # login note
-    elsif ( ( $GetPw && $User && $UserID ) && $CryptedPw eq $GetPw ) {
+    elsif ( $GetPw && $User && $UserID && $CryptedPw eq $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $User Authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
@@ -329,6 +328,7 @@ sub Auth {
             Message  =>
                 "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 
@@ -336,9 +336,9 @@ sub Auth {
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  =>
-                "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
+            Message  => "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }
