@@ -70,7 +70,8 @@ sub new {
             DisconnectOnDestruction => 1,
         ) || die "Can't connect to " . $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} );
 
-        # remember that we have the DBObject not from parent call
+        # Remember that the DBObject is not taken from object manager.
+        # The cleanup must be done seperately.
         $Self->{NotParentDBObject} = 1;
     }
 
@@ -346,7 +347,7 @@ sub Auth {
 sub DESTROY {
     my $Self = shift;
 
-    # disconnect if it's not a parent DBObject
+    # disconnect if the DB object is not handled by the object manager
     if ( $Self->{NotParentDBObject} ) {
         if ( $Self->{DBObject} ) {
             $Self->{DBObject}->Disconnect();
