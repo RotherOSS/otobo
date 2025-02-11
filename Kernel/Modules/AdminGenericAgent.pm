@@ -1259,11 +1259,11 @@ sub _MaskUpdate {
 
         # Check if field is Attachment type ( from OTOBODynamicFieldAttachment )
         #   this field is not updatable by Generic Agent
-        my $IsAttachement = $DynamicFieldBackendObject->HasBehavior(
+        my $IsAttachment = $DynamicFieldBackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsAttachement',
+            Behavior           => 'IsAttachment',
         );
-        next DYNAMICFIELD if $IsAttachement;
+        next DYNAMICFIELD if $IsAttachment;
 
         my $PossibleValuesFilter;
 
