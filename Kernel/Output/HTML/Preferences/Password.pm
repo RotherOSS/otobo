@@ -17,9 +17,16 @@
 
 package Kernel::Output::HTML::Preferences::Password;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use Math::Random::Secure qw(irand);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -28,11 +35,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     for my $Needed (qw(UserID UserObject ConfigItem)) {
-        die "Got no $Needed!" if !$Self->{$Needed};
+        die "Got no $Needed!" unless $Self->{$Needed};
     }
 
     return $Self;
@@ -61,9 +67,7 @@ sub Param {
     # return on no pw reset backends
     return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
 
-    my @Params;
-    push(
-        @Params,
+    my @Params = (
         {
             %Param,
             Key   => Translatable('Current password'),
@@ -146,12 +150,15 @@ sub Run {
         : 'CustomerAuth';
 
     my $AuthObject = $Kernel::OM->Get( 'Kernel::System::' . $AuthModule );
-    return 1 if !$AuthObject;
+
+    return 1 unless $AuthObject;
+
+    my $Login = $Param{UserData}->{UserLogin};
 
     # validate current password
     if (
         !$AuthObject->Auth(
-            User           => $Param{UserData}->{UserLogin},
+            User           => $Login,
             Pw             => $CurPw,
             TwoFactorToken => $TwoFactorToken || '',
         )
@@ -242,38 +249,79 @@ sub Run {
         }
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    # The password history is optional
+    my $HistoryCount   = $Self->{ConfigItem}->{PasswordHistory};     # actual history is one more
+    my $HistoryEnabled = $HistoryCount ? 1 : 0;
+    my $MainObject     = $Kernel::OM->Get('Kernel::System::Main');
+    if ($HistoryEnabled) {
 
-    # md5 sum for new pw, needed for password history
-    my $MD5Pw = $MainObject->MD5sum(
-        String => $Pw,
-    );
-    my %HistoryHash;
-    my $HistoryCount = $Self->{ConfigItem}->{PasswordHistory};
-    if ($HistoryCount) {
+        # password history is only maintained with bcrypt
+        if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'warning',
+                Message  => "Password is not recorded in password history because 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+            );
+
+            $HistoryEnabled = 0;
+        }
+    }
+
+    my @HistoricCryptedPws;
+    if ($HistoryEnabled) {
+
+        # md5 sum for new pw, needed for password history check, computed lazily
+        my $MD5Pw;
+
+        # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+        $EncodeObject->EncodeOutput( \$Pw );
 
         HISTORY:
         for my $Count ( '', 1 .. $HistoryCount ) {
-            my $HistoryKey = 'UserLastPw' . $Count;
-            next HISTORY if !$Param{UserData}->{$HistoryKey};
+            my $HistoryKey   = 'UserLastPw' . $Count;
+            my $OldCryptedPw = $Param{UserData}->{$HistoryKey};
+
+            next HISTORY unless $OldCryptedPw;
 
             # remember history
-            $HistoryHash{$HistoryKey} = $Param{UserData}->{$HistoryKey};
+            push @HistoricCryptedPws, $OldCryptedPw;
 
-            next HISTORY if $MD5Pw ne $Param{UserData}->{$HistoryKey};
+            # for checking ww also support the old md5 hash
+            if ( $OldCryptedPw =~ m/^\$2[axyb]?\$/ ) {
 
-            # if already used, complain about
-            $Self->{Error} = "Can\'t update password, this password has already been used. Please choose a new one!";
-            return;
+                # Calculate password hash, prepended by the settings
+                # Using the old crytped password ensures that the same
+                # cost and the same salt is used.
+                my $CryptedPw = Crypt::Eksblowfish::Bcrypt::bcrypt( $Pw, $OldCryptedPw );
+
+                next HISTORY unless $CryptedPw eq $OldCryptedPw;
+
+                # if already used, complain about
+                $Self->{Error} = "Can\'t update password, this password has already been used. Please choose a new one!";
+
+                return;
+            }
+            else {
+                $MD5Pw //= $MainObject->MD5sum( String => $Pw );    # lazily compute MD5sum in first interation
+
+                # password not used yet
+                next HISTORY unless $MD5Pw eq $OldCryptedPw;
+
+                # if already used, complain about
+                $Self->{Error} = "Can't update password, this password has already been used. Please choose a new one!";
+
+                return;
+            }
         }
     }
 
     # set new password
     my $Success = $Self->{UserObject}->SetPassword(
-        UserLogin => $Param{UserData}->{UserLogin},
+        UserLogin => $Login,
         PW        => $Pw,
     );
-    return if !$Success;
+
+    return unless $Success;
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     my $SystemTime     = $DateTimeObject->ToEpoch();
@@ -290,32 +338,51 @@ sub Run {
         Value     => $SystemTime,
     );
 
-    # set password history
-    $Self->{UserObject}->SetPreferences(
-        UserID => $Param{UserData}->{UserID},
-        Key    => 'UserLastPw',
-        Value  => $MD5Pw,
-    );
+    if ($HistoryEnabled) {
 
-    if ($HistoryCount) {
-        my $Count = 0;
+        # only bcrypt is supported
+        my $AlgoIdentifier = '2a';    # indicate bcrypt, Modular CryptFormat
+
+        # take the cost from the agent config
+        my $Cost = $ConfigObject->Get("AuthModule::DB::bcryptCost") // 12;
+
+        # Don't allow values smaller than 9 for security.
+        $Cost = 9 if $Cost < 9;
+
+        # Current Crypt::Eksblowfish::Bcrypt limit is 31.
+        $Cost = 31 if $Cost > 31;
+
+        # Bcrypt uses non-standard Base64 alphabet for it's salt
+        # The randomness comes from 16*8=128=2^6 random bits, these bits
+        # can be packed into 22 Base64 characters. 128/6 = 21.33...
+        my $RandomBytes = join '',
+            map {chr}
+            map { irand(256) }
+            ( 1 .. 16 );
+        my $Salt = Crypt::Eksblowfish::Bcrypt::en_base64($RandomBytes);
+
+        # Calculate password hash, prepended by the settings
+        my $Settings  = join '$', '', $AlgoIdentifier, $Cost, $Salt;
+        my $CryptedPw = Crypt::Eksblowfish::Bcrypt::bcrypt( $Pw, $Settings );
+
+        # add hash of the new password to password history
+        unshift @HistoricCryptedPws, $CryptedPw;
+
+        # add the historical password hashes
         HISTORY:
-        for my $CountReal ( '', 1 .. $HistoryCount ) {
-            my $KeyReal = 'UserLastPw' . $CountReal;
-            next HISTORY if !$HistoryHash{$KeyReal};
-
-            $Count++;
-            my $KeyCount = 'UserLastPw' . $Count;
-
+        for my $Count ( '', 1 .. $HistoryCount ) {
+            my $HistoryKey   = 'UserLastPw' . $Count;
+            my $HistoryValue = shift @HistoricCryptedPws;    # when history is full, then the last obsolete entry is not shifted out
             $Self->{UserObject}->SetPreferences(
                 UserID => $Param{UserData}->{UserID},
-                Key    => $KeyCount,
-                Value  => $HistoryHash{$KeyReal},
+                Key    => $HistoryKey,
+                Value  => $HistoryValue,                     # undefined or empty is fine
             );
         }
     }
 
     $Self->{Message} = $LanguageObject->Translate('Preferences updated successfully!');
+
     return 1;
 }
 
