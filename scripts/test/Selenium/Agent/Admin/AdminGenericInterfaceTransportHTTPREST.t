@@ -124,7 +124,7 @@ $Selenium->RunTest(
         # Click on 'Save' without entering anything to trigger client-side validation.
         $Selenium->find_element( "#SubmitAndContinue", 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => "return \$('input.Error').length" 
+            JavaScript => "return \$('input.Error').length"
         );
 
         # Check if errors are shown.
@@ -136,8 +136,8 @@ $Selenium->RunTest(
         );
 
         # Input key and value for additional response headers.
-        $Selenium->find_element( '#OutboundHeadersKey_1', 'css' )->send_keys('Key1');
-        $Selenium->find_element( '#OutboundHeadersValue_1',    'css' )->send_keys('Value1');
+        $Selenium->find_element( '#OutboundHeadersKey_1',   'css' )->send_keys('Key1');
+        $Selenium->find_element( '#OutboundHeadersValue_1', 'css' )->send_keys('Value1');
 
         # Click on 'Save'.
         $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
