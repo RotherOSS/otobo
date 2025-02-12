@@ -38,6 +38,10 @@ requires 'File::chmod';
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
@@ -264,13 +268,6 @@ feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
 
 };
 
-feature 'div:ssl', 'Support for feature div:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
-
-};
-
 feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
@@ -314,13 +311,6 @@ feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
 feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
-
-};
-
-feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
 
 };
 
@@ -389,10 +379,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
-
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
 
     # Required for directory authentication.
     requires 'Net::LDAP';

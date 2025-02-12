@@ -178,7 +178,6 @@ my %IsStandardFeature = (
     'mail:imap'       => 1,
     'mail:ntlm'       => 1,
     'mail:sasl'       => 1,
-    'mail:ssl'        => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -483,6 +482,23 @@ my @NeededModules = (
             zypper => 'perl-HTTP-Message',
             yum    => 'perl-HTTP-Message',
             ports  => undef,
+        },
+    },
+    {
+        Module              => 'IO::Socket::SSL',
+        Required            => 1,
+        Comment             => 'Required for SSL connections to web and mail servers',
+        VersionsRecommended => [
+            {
+                Version => '2.066',
+                Comment => 'This version fixes email sending (bug#14357).',
+            },
+        ],
+        InstTypes => {
+            aptget => 'libio-socket-ssl-perl',
+            emerge => 'dev-perl/IO-Socket-SSL',
+            zypper => 'perl-IO-Socket-SSL',
+            ports  => 'security/p5-IO-Socket-SSL',
         },
     },
     {
@@ -1027,23 +1043,6 @@ my @NeededModules = (
             emerge => 'dev-perl/Encode-HanExtra',
             zypper => 'perl-Encode-HanExtra',
             ports  => 'chinese/p5-Encode-HanExtra',
-        },
-    },
-    {
-        Module              => 'IO::Socket::SSL',
-        Features            => [ 'div:ssl', 'mail:ssl' ],
-        Comment             => 'Required for SSL connections to web and mail servers.',
-        VersionsRecommended => [
-            {
-                Version => '2.066',
-                Comment => 'This version fixes email sending (bug#14357).',
-            },
-        ],
-        InstTypes => {
-            aptget => 'libio-socket-ssl-perl',
-            emerge => 'dev-perl/IO-Socket-SSL',
-            zypper => 'perl-IO-Socket-SSL',
-            ports  => 'security/p5-IO-Socket-SSL',
         },
     },
     {
