@@ -24,6 +24,7 @@ use warnings;
 
 # CPAN modules
 use Mail::IMAPClient ();
+use IO::Socket::SSL  ();
 
 # OTOBO modules
 use Kernel::System::PostMaster ();
@@ -60,9 +61,11 @@ sub Connect {
         Server   => $Param{Host},
         User     => $Param{Login},
         Password => $Param{Password},
-        Starttls => [ SSL_verify_mode => 0 ],
-        Debug    => $Param{Debug},
-        Uid      => 1,
+        Starttls => [
+            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        ],
+        Debug => $Param{Debug},
+        Uid   => 1,
 
         # see bug#8791: needed for some Microsoft Exchange backends
         Ignoresizeerrors => 1,

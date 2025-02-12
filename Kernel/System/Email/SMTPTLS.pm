@@ -19,7 +19,13 @@ package Kernel::System::Email::SMTPTLS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::SMTP;
+use IO::Socket::SSL ();
+
+# OTOBO modules
 
 use parent qw(Kernel::System::Email::SMTP);
 
