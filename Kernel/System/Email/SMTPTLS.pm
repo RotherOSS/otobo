@@ -19,7 +19,13 @@ package Kernel::System::Email::SMTPTLS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::SMTP;
+use IO::Socket::SSL ();
+
+# OTOBO modules
 
 use parent qw(Kernel::System::Email::SMTP);
 
@@ -66,7 +72,7 @@ sub _Connect {
     return if !$SMTP;
 
     $SMTP->starttls(
-        SSL_verify_mode => 0,
+        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
     );
 
     return $SMTP;
