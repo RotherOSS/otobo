@@ -19,7 +19,13 @@ package Kernel::Output::HTML::ArticleAction::AgentTicketCompose;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser ();
+use Kernel::Language            qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
