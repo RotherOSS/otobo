@@ -1063,6 +1063,61 @@ sub _ShowScreen {
         }
 
     }
+    elsif ( $Param{CloneFieldID} && IsArrayRefWithData( $Param{RegExList} ) ) {
+
+        if ( !$Param{RegExCounter} ) {
+
+            my $RegExCounter = 0;
+            for my $RegEx ( @{ $Param{RegExList} } ) {
+
+                $RegExCounter++;
+                $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+                $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+            }
+
+            $Param{RegExCounter} = $RegExCounter;
+        }
+
+        # NOTE check is necessary because previous block potentially alters $Param{RegExCounter}
+        if ( $Param{RegExCounter} ) {
+
+            REGEXENTRY:
+            for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
+
+                # check existing regex
+                next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
+
+                $LayoutObject->Block(
+                    Name => 'RegExRow',
+                    Data => {
+                        EntryCounter     => $CurrentRegExEntryID,
+                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                        RegExServerError =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                            || '',
+                        RegExServerErrorMessage =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
+                        CustomerRegExErrorMessage =>
+                            $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
+                        CustomerRegExErrorMessageServerError =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerError'
+                            }
+                            || '',
+                        CustomerRegExErrorMessageServerErrorMessage =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerErrorMessage'
+                            }
+                            || '',
+                    }
+                );
+            }
+        }
+    }
 
     my $FilterStrg = '';
     if ( IsStringWithData( $Param{ObjectTypeFilter} ) ) {
