@@ -16,8 +16,11 @@
 
 package Kernel::System::Email::SMTPS;
 
+use v5.24;
 use strict;
 use warnings;
+
+use parent qw(Kernel::System::Email::SMTP);
 
 # core modules
 
@@ -27,13 +30,12 @@ use IO::Socket::SSL ();
 
 # OTOBO modules
 
-use parent qw(Kernel::System::Email::SMTP);
-
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
 );
 
-# Use Net::SSLGlue::SMTP on systems with older Net::SMTP modules that cannot handle SMTPS.
+# Use Net::SSLGlue::SMTP on systems with older Net::SMTP modules that cannot handle SSL.
 BEGIN {
     if ( !defined &Net::SMTP::starttls ) {
         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
@@ -60,6 +62,9 @@ sub _Connect {
     my $FQDN = $Param{FQDN};
     $FQDN =~ s{:\d+}{}smx;
 
+    # Do not verify the mail server per default
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('SendmailModule::SSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
+
     # set up connection connection
     my $SMTP = Net::SMTP->new(
         $Param{MailHost},
@@ -68,7 +73,7 @@ sub _Connect {
         Timeout         => 30,
         Debug           => $Param{SMTPDebug},
         SSL             => 1,
-        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
     return $SMTP;
