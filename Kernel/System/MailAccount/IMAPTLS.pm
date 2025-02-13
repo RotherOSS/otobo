@@ -58,13 +58,16 @@ sub Connect {
         }
     }
 
+    my $Type          = 'IMAPTLS';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
+
     # connect to host
     my $IMAPObject = Mail::IMAPClient->new(
         Server   => $Param{Host},
         User     => $Param{Login},
         Password => $Param{Password},
         Starttls => [
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+            SSL_verify_mode => $SSLVerifyMode,
         ],
         Debug => $Param{Debug},
         Uid   => 1,
@@ -76,7 +79,7 @@ sub Connect {
     if ( !$IMAPObject ) {
         return (
             Successful => 0,
-            Message    => "IMAPTLS: Can't connect to $Param{Host}: $@\n"
+            Message    => "$Type: Can't connect to $Param{Host}: $@\n"
         );
     }
 
