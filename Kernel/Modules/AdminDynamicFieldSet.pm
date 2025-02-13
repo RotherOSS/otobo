@@ -1030,6 +1030,12 @@ sub _ShowScreen {
         }
 
     }
+    elsif ( $Param{CloneFieldID} && IsArrayRefWithData( $Param{Include} ) ) {
+
+        $Param{Include} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+            Data => $Param{Include},
+        );
+    }
 
     my $FilterStrg = '';
     if ( IsStringWithData( $Param{ObjectTypeFilter} ) ) {
