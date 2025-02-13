@@ -23,10 +23,11 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Address ();
-use MIME::Entity  ();
-use MIME::Parser  ();
-use MIME::Words   qw(encode_mimewords);
+use Mail::Address  ();
+use Mail::Internet ();
+use MIME::Entity   ();
+use MIME::Parser   ();
+use MIME::Words    qw(encode_mimewords);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
