@@ -72,7 +72,7 @@ sub _Connect {
     return if !$SMTP;
 
     $SMTP->starttls(
-        SSL_verify_mode => 0,
+        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
     );
 
     return $SMTP;
