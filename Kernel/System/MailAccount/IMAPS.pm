@@ -26,6 +26,7 @@ use IO::Socket::SSL;
 use parent qw(Kernel::System::MailAccount::IMAP);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
 );
 
@@ -42,7 +43,8 @@ sub Connect {
         }
     }
 
-    my $Type = 'IMAPS';
+    my $Type          = 'IMAPS';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
     my $IMAPObject = Net::IMAP::Simple->new(
@@ -51,7 +53,7 @@ sub Connect {
         debug       => $Param{Debug},
         use_ssl     => 1,
         ssl_options => [
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+            SSL_verify_mode => $SSLVerifyMode,
         ],
     );
     if ( !$IMAPObject ) {

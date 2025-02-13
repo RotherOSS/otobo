@@ -11703,6 +11703,16 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="PostMasterSSLVerifyMode" Required="1" Valid="1">
+        <Description Translatable="1">Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="0">
+                <Item ValueType="Option" Value="0" Translatable="1">SSL_VERIFY_NONE - no verification of mail server host</Item>
+                <Item ValueType="Option" Value="1" Translatable="1">SSL_VERIFY_PEER - verify the mail server host</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
         <Description Translatable="1">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
