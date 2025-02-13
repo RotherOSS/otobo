@@ -20,9 +20,10 @@ use strict;
 use warnings;
 
 # core modules
-use Net::SMTP;
 
 # CPAN modules
+use Net::SMTP;
+use IO::Socket::SSL ();
 
 # OTOBO modules
 
@@ -58,7 +59,7 @@ sub _Connect {
         Timeout         => 30,
         Debug           => $Param{SMTPDebug},
         SSL             => 1,
-        SSL_verify_mode => 0,
+        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
     );
 
     return $SMTP;

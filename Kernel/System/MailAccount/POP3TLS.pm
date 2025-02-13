@@ -19,6 +19,14 @@ package Kernel::System::MailAccount::POP3TLS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use Net::POP3;
+use IO::Socket::SSL ();
+
+# OTOBO modules
+
 use parent qw(Kernel::System::MailAccount::POP3);
 
 # core modules
@@ -62,7 +70,7 @@ sub Connect {
 
     $PopObject->starttls(
         SSL             => 1,
-        SSL_verify_mode => 0,
+        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
     );
 
     # authentication

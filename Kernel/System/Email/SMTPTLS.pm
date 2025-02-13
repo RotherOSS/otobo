@@ -20,9 +20,10 @@ use strict;
 use warnings;
 
 # core modules
-use Net::SMTP;
 
 # CPAN modules
+use Net::SMTP;
+use IO::Socket::SSL ();
 
 # OTOBO modules
 

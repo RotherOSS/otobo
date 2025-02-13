@@ -35,6 +35,10 @@ requires 'File::chmod';
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
@@ -257,9 +261,6 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'div:ssl' is not needed for Docker
-
-
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
@@ -301,9 +302,6 @@ requires 'Plack::Middleware::ReverseProxy';
     requires 'Authen::SASL';
 
 # };
-
-# Feature 'mail:ssl' is not needed for Docker
-
 
 # Feature 'optional' is not needed for Docker
 
