@@ -46,7 +46,8 @@ A module to parse and encode an email.
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+create an object. This module does not use the object manager. So the module must be explicitly loaded
+before it can be used.
 
     use Kernel::System::EmailParser;
 

@@ -27,6 +27,7 @@ use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 use Mail::Address ();
 
 # OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
