@@ -23,9 +23,9 @@ use warnings;
 use Digest::SHA ();
 
 # CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
-use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -789,31 +789,40 @@ to set users passwords
 sub SetPassword {
     my ( $Self, %Param ) = @_;
 
+    # This method is similar to Kernel::System::CustomerUser::DB::SetPassword()
+
+    my $Login = $Param{UserLogin};
+    my $Pw    = $Param{PW} || '';
+
     # check needed stuff
-    if ( !$Param{UserLogin} ) {
+    if ( !$Login ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
+
         return;
     }
 
     # get old user data
-    my %User = $Self->GetUserData( User => $Param{UserLogin} );
+    my %User = $Self->GetUserData( User => $Login );
     if ( !$User{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No such User!',
         );
+
         return;
     }
 
-    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigSection = 'AuthModule::DB';
 
-    my $CryptType = $ConfigObject->Get('AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType = $ConfigObject->Get("${ConfigSection}::CryptType") || 'sha2';
+
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -824,37 +833,37 @@ sub SetPassword {
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = crypt( $Pw, $Login );
     }
 
-    # crypt with md5
+    # crypt with unix_md5_crypt
     elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = unix_md5_crypt( $Pw, $Login );
     }
 
     # crypt with md5 (compatible with Apache's .htpasswd files)
     elsif ( $CryptType eq 'apr1' ) {
 
-        # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        # encode output, needed by apache_md5_crypt() only non utf8 signs
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = apache_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = apache_md5_crypt( $Pw, $Login );
     }
 
     # crypt with sha1
     elsif ( $CryptType eq 'sha1' ) {
 
         my $SHAObject = Digest::SHA->new('sha1');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -863,7 +872,7 @@ sub SetPassword {
     elsif ( $CryptType eq 'sha512' ) {
 
         my $SHAObject = Digest::SHA->new('sha512');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -871,16 +880,17 @@ sub SetPassword {
     # bcrypt
     elsif ( $CryptType eq 'bcrypt' ) {
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message  => "User: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
 
-        my $Cost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
+        my $Cost = $ConfigObject->Get("${ConfigSection}::bcryptCost") // 12;
 
         # Don't allow values smaller than 9 for security.
         $Cost = 9 if $Cost < 9;
@@ -888,10 +898,10 @@ sub SetPassword {
         # Current Crypt::Eksblowfish::Bcrypt limit is 31.
         $Cost = 31 if $Cost > 31;
 
-        my $Salt = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 16 );
+        my $Salt = $MainObject->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
@@ -914,7 +924,7 @@ sub SetPassword {
         my $SHAObject = Digest::SHA->new('sha256');
 
         # encode output, needed by sha256_hex() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
@@ -922,7 +932,8 @@ sub SetPassword {
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
@@ -1218,7 +1229,7 @@ generate a random password
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default
     my $Size = $Param{Size} || 8;
 
     my $Password = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
