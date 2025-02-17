@@ -1629,6 +1629,7 @@ sub Run {
 
         my $JSON = $LayoutObject->BuildSelectionJSON(
             [
+                @ExtendedData,
                 @StdFieldAJAX,
                 @DynamicFieldAJAX,
             ],
