@@ -16,9 +16,15 @@
 
 package Kernel::Modules::AgentTicketCompose;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 use Mail::Address                 ();
@@ -29,18 +35,19 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Try to load draft if requested.
     if (
         $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}")->{FormDraft}
-        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'LoadFormDraft' )
-        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' )
+        && $ParamObject->GetParam( Param => 'LoadFormDraft' )
+        && $ParamObject->GetParam( Param => 'FormDraftID' )
         )
     {
-        $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
-            FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+        $Self->{LoadedFormDraftID} = $ParamObject->LoadFormDraft(
+            FormDraftID => $ParamObject->GetParam( Param => 'FormDraftID' ),
             UserID      => $Self->{UserID},
         );
     }
@@ -114,8 +121,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # get needed objects
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -125,14 +137,7 @@ sub Run {
         );
     }
 
-    # get needed objects
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
-
-    # get config for frontend module
+    # get config of frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # check permissions
@@ -176,7 +181,7 @@ sub Run {
 
     # Check for failed draft loading request.
     if (
-        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'LoadFormDraft' )
+        $ParamObject->GetParam( Param => 'LoadFormDraft' )
         && !$Self->{LoadedFormDraftID}
         )
     {
@@ -188,7 +193,7 @@ sub Run {
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
-        DynamicFields => 1
+        DynamicFields => 1,
     );
 
     # get lock state
@@ -245,8 +250,7 @@ sub Run {
         }
     }
 
-    # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
     # get params
     my %GetParam;
@@ -319,7 +323,7 @@ sub Run {
             my $CustomerDisabled = '';
             my $CountAux         = $CustomerCounter++;
             if ( $CustomerError ne '' ) {
-                $CustomerDisabled = 'disabled="disabled"';
+                $CustomerDisabled = 'disabled';
                 $CountAux         = $Count . 'Error';
             }
 
@@ -385,7 +389,7 @@ sub Run {
             my $CustomerDisabledCc = '';
             my $CountAuxCc         = $CustomerCounterCc++;
             if ( $CustomerErrorCc ne '' ) {
-                $CustomerDisabledCc = 'disabled="disabled"';
+                $CustomerDisabledCc = 'disabled';
                 $CountAuxCc         = $Count . 'Error';
             }
 
@@ -450,7 +454,7 @@ sub Run {
             my $CustomerDisabledBcc = '';
             my $CountAuxBcc         = $CustomerCounterBcc++;
             if ( $CustomerErrorBcc ne '' ) {
-                $CustomerDisabledBcc = 'disabled="disabled"';
+                $CustomerDisabledBcc = 'disabled';
                 $CountAuxBcc         = $Count . 'Error';
             }
 
@@ -474,13 +478,13 @@ sub Run {
     # get Dynamic fields form ParamObject
     my %DynamicFieldValues;
 
-    # get backend object
+    # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
@@ -492,15 +496,17 @@ sub Run {
     }
 
     # convert dynamic field values into a structure for ACLs
-    my %DynamicFieldACLParameters;
-    DYNAMICFIELD:
-    for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
-        next DYNAMICFIELD if !$DynamicFieldItem;
-        next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
+    {
+        my %DynamicFieldACLParameters;
+        DYNAMICFIELD:
+        for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
+            next DYNAMICFIELD unless $DynamicFieldItem;
+            next DYNAMICFIELD unless defined $DynamicFieldValues{$DynamicFieldItem};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
+        }
+        $GetParam{DynamicField} = \%DynamicFieldACLParameters;
     }
-    $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
     # transform pending time, time stamp based on user time zone
     if (
@@ -516,9 +522,8 @@ sub Run {
         );
     }
 
-    # get needed objects
+    # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-    my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
 
     # send email
     if ( $Self->{Subaction} eq 'SendEmail' || $Self->{LoadedFormDraftID} ) {
@@ -602,7 +607,8 @@ sub Run {
         # Check draft name.
         if (
             $FormDraftAction
-            && ( $FormDraftAction eq 'Add' || $FormDraftAction eq 'Update' )
+            &&
+            ( $FormDraftAction eq 'Add' || $FormDraftAction eq 'Update' )
             )
         {
             my $Title = $ParamObject->GetParam( Param => 'FormDraftTitle' );
@@ -694,6 +700,7 @@ sub Run {
             }
         }
 
+        # Return JSON when there already is a response
         if (%FormDraftResponse) {
 
             # build JSON output
@@ -923,16 +930,14 @@ sub Run {
                 $Error{ $DynamicFieldConfig->{Name} }                        = ' ServerError';
                 $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
             }
-
         }
 
+        # Make sure we don't save form if a draft was loaded.
         if ( $Self->{LoadedFormDraftID} ) {
-
-            # Make sure we don't save form if a draft was loaded.
             %Error = ( LoadedFormDraft => 1 );
         }
 
-        # check if there is an error
+        # check errors
         if (%Error) {
 
             my $Output = $LayoutObject->Header(
@@ -1098,16 +1103,19 @@ sub Run {
         }
 
         # set dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
+                ? $ArticleID
+                : $Self->{TicketID};
 
-            # set the value
+            # set the value which was taken from web request
+            # TODO: for Reference and Lens, the order is relevant
             my $Success = $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $ObjectID,
@@ -1173,7 +1181,7 @@ sub Run {
             );
         }
 
-        # redirect
+        # load new URL in parent window and close popup
         if (
             $StateData{TypeName} =~ /^close/i
             && !$ConfigObject->Get('Ticket::Frontend::RedirectAfterCloseDisabled')
@@ -1184,7 +1192,6 @@ sub Run {
             );
         }
 
-        # load new URL in parent window and close popup
         return $LayoutObject->PopupClose(
             URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
         );
@@ -1338,9 +1345,10 @@ sub Run {
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
-
             ],
         );
+
+        # can't use JSONReply here, as we already have JSON
         return $LayoutObject->Attachment(
             ContentType => 'application/json',
             Content     => $JSON,
