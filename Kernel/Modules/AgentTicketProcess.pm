@@ -1078,7 +1078,7 @@ sub _GetParam {
 
     }
     $GetParam{ActivityDialogEntityID} = $ActivityDialogEntityID;
-    $GetParam{ActivityEntityID}       = $ActivityEntityID;
+    $GetParam{ActivityEntityID}       = $ActivityEntityID // $ParamObject->GetParam( Param => 'ActivityEntityID' );
     $GetParam{ProcessEntityID}        = $ProcessEntityID;
 
     # Get the activitydialogs's Submit Param's or Config Params
@@ -1722,6 +1722,13 @@ sub _OutputActivityDialog {
             TicketID               => $Ticket{TicketID} || '',
             LinkTicketID           => $Self->{LinkTicketID},
             ActivityDialogEntityID => $ActivityActivityDialog->{ActivityDialog},
+            ActivityEntityID       => $Param{GetParam}{ActivityEntityID}
+                || $Ticket{
+                    'DynamicField_'
+                    . $ConfigObject->Get(
+                        'Process::DynamicFieldProcessManagementActivityID'
+                    )
+                },
             ProcessEntityID        => $Param{ProcessEntityID}
                 || $Ticket{
                     'DynamicField_'
