@@ -23,12 +23,10 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use List::Util qw(any);
 
 # CPAN modules
 
 # OTOBO modules
-
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 use Mail::Address                 ();
