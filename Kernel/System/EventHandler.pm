@@ -299,6 +299,18 @@ sub EventHandlerTransaction {
         $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
     }
 
+    # loop protection
+    $Kernel::OM->{TransactionDepth} = ( $OuterOM->{TransactionDepth} // 0 ) + 1;
+    if ( $Kernel::OM->{TransactionDepth} > 250 ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Ran into event loop! Stopping execution. Current unprocessed events: "
+                . join( ", " . map { $_->{Event} // '' } @{ $Self->{EventHandlerPipe} // {} } ),
+        );
+
+        return;
+    }
+
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
 
