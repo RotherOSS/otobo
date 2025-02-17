@@ -1588,16 +1588,15 @@ sub AjaxUpdate {
 
             my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
             if ($Key) {
-                push @ExtendedData,
-                    {
-                        Name         => $Key,
-                        Data         => \%Data,
-                        SelectedID   => $GetParam{$Key},
-                        Translation  => 1,
-                        PossibleNone => 1,
-                        Multiple     => $Multiple,
-                        Max          => 100,
-                    };
+                push @ExtendedData, {
+                    Name         => $Key,
+                    Data         => \%Data,
+                    SelectedID   => $GetParam{$Key},
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Multiple     => $Multiple,
+                    Max          => 100,
+                };
             }
         }
     }
