@@ -788,7 +788,7 @@ sub ValueLookup {
             $Param{Key}[$SetIndex]{$Name} = $BackendObject->ValueLookup(
                 %Param,
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Param{Key}[$SetIndex]{$Name},
+                Key                => $Param{Key}[$SetIndex]{$Name},
             );
         }
     }
