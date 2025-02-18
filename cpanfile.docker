@@ -28,6 +28,10 @@ requires 'File::chmod';
 
 requires 'List::AllUtils';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 requires 'LWP::UserAgent';
 
 # Required for random number generator.
@@ -173,9 +177,6 @@ requires 'Const::Fast';
 
 # };
 
-# Feature 'div:ssl' is not needed for Docker
-
-
 # Feature 'div:xmlparser' is not needed for Docker
 
 
@@ -214,9 +215,6 @@ requires 'Const::Fast';
     requires 'Authen::SASL';
 
 # };
-
-# Feature 'mail:ssl' is not needed for Docker
-
 
 # Feature 'optional' is not needed for Docker
 

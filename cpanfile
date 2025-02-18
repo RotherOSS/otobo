@@ -28,6 +28,10 @@ requires 'File::chmod';
 
 requires 'List::AllUtils';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 requires 'LWP::UserAgent';
 
 # Required for random number generator.
@@ -182,13 +186,6 @@ feature 'div:ldap', 'Support for feature div:ldap' => sub {
 
 };
 
-feature 'div:ssl', 'Support for feature div:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
-
-};
-
 feature 'div:xmlparser', 'Support for feature div:xmlparser' => sub {
     # Recommended for XML processing.
     requires 'XML::Parser';
@@ -232,13 +229,6 @@ feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
 feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
-
-};
-
-feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
 
 };
 
@@ -310,10 +300,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
-
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
 
     # Required for directory authentication.
     requires 'Net::LDAP';
