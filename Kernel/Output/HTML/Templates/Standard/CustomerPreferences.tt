@@ -33,9 +33,6 @@
 [% RenderBlockStart("Body") %]
     <div id="oooMainBox" class="Preferences ARIARoleMain">
         <div class="Content">
-[% RenderBlockStart("Head") %]
-#       <h1>[% Translate(Data.Header) | html %]</h1>
-[% RenderBlockEnd("Head") %]
 [% RenderBlockStart("Item") %]
             <div class="Box">
                 <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate">
