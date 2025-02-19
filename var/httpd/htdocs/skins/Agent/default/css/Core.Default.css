@@ -1175,6 +1175,15 @@ td.Highlight a.ui-state-default {
 .ui-datepicker-week-end {
 }
 
+#ui-datepicker-div {
+    /*
+     * z-index for autocomplete dropdowns has the same value as z-index for modernized select dropdowns
+     * compare Core.InputFields.css line 305
+     * important is necessary because it would otherwise be overwritten by jquery-ui css
+     * */
+    z-index: 6100 !important;
+}
+
 /**
  * @subsection  Autocompletion
  */
