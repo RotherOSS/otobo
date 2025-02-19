@@ -1175,6 +1175,10 @@ td.Highlight a.ui-state-default {
 .ui-datepicker-week-end {
 }
 
+#ui-datepicker-div {
+    z-index: 6100 !important;
+}
+
 /**
  * @subsection  Autocompletion
  */
