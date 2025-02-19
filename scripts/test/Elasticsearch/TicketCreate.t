@@ -34,6 +34,7 @@ my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
 my $ESObject             = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 my $MigObject            = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
+my $WebserviceObject     = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
@@ -50,6 +51,27 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # set necessary variables
 my $UserID   = 1;
 my $RandomID = $Helper->GetRandomID();
+
+# set necessary sysconfig setting
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+# activate Elasticsearch
+$ConfigObject->Set(
+    Key   => 'Elasticsearch::Active',
+    Value => 1,
+);
+my $Webservice = $WebserviceObject->WebserviceGet(
+    Name => 'Elasticsearch',
+);
+my $WebserviceActivateSuccess = $WebserviceObject->WebserviceUpdate(
+    $Webservice->%*,
+    ValidID => 1,
+    UserID  => $UserID,
+);
+ok( $WebserviceActivateSuccess, 'Activated Elasticsearch webservice' );
 
 # create ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -139,5 +161,17 @@ ok( $DeleteSuccess, 'Deleted ticket' );
 # rebuild Elasticsearch index again
 $ExitCode = $MigObject->Execute( '--target', 't' );
 is( $ExitCode, 0, 'Rebuild index after cleaning up' );
+
+# deactivate Elasticsearch
+$ConfigObject->Set(
+    Key   => 'Elasticsearch::Active',
+    Value => 0,
+);
+my $WebserviceDeactivateSuccess = $WebserviceObject->WebserviceUpdate(
+    $Webservice->%*,
+    ValidID => 1,
+    UserID  => $UserID,
+);
+ok( $WebserviceDeactivateSuccess, 'Deactivated Elasticsearch webservice' );
 
 done_testing();
