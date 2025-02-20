@@ -1065,20 +1065,16 @@ sub _ShowScreen {
     }
     elsif ( $Param{CloneFieldID} && IsArrayRefWithData( $Param{RegExList} ) ) {
 
-        if ( !$Param{RegExCounter} ) {
+        my $RegExCounter = 0;
+        for my $RegEx ( @{ $Param{RegExList} } ) {
 
-            my $RegExCounter = 0;
-            for my $RegEx ( @{ $Param{RegExList} } ) {
-
-                $RegExCounter++;
-                $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
-                $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
-            }
-
-            $Param{RegExCounter} = $RegExCounter;
+            $RegExCounter++;
+            $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+            $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
         }
 
-        # NOTE check is necessary because previous block potentially alters $Param{RegExCounter}
+        $Param{RegExCounter} = $RegExCounter;
+
         if ( $Param{RegExCounter} ) {
 
             REGEXENTRY:
