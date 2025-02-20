@@ -51,6 +51,7 @@ sub Connect {
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
+    # The underlying socket is an IO::Socket::SSL from the beginning.
     my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
         timeout     => $Param{Timeout},

@@ -19,7 +19,12 @@ package Kernel::System::MailAccount::POP3;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::POP3;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -55,6 +60,8 @@ sub Connect {
         }
     }
 
+    my $Type = 'POP3';
+
     # connect to host
     my $PopObject = Net::POP3->new(
         $Param{Host},
@@ -65,7 +72,7 @@ sub Connect {
     if ( !$PopObject ) {
         return (
             Successful => 0,
-            Message    => "POP3: Can't connect to $Param{Host}"
+            Message    => "$Type: Can't connect to $Param{Host}"
         );
     }
 
@@ -75,7 +82,7 @@ sub Connect {
         $PopObject->quit();
         return (
             Successful => 0,
-            Message    => "POP3: Auth for user $Param{Login}/$Param{Host} failed!"
+            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
         );
     }
 
@@ -83,7 +90,7 @@ sub Connect {
         Successful => 1,
         PopObject  => $PopObject,
         NOM        => $NOM,
-        Type       => 'POP3',
+        Type       => $Type,
     );
 }
 
