@@ -538,9 +538,14 @@ sub DisplayValueRender {
     for my $ValueItem (@Values) {
         $ValueItem //= '';
 
+        # get real value
         if ($ValueItem) {
+
+            # get readable value
             $ValueItem = $ItemList->{$ValueItem};
         }
+
+        # set title as value after update and before limit
         push @ReadableTitles, $ValueItem;
 
         # HTML Output transformation
@@ -684,12 +689,18 @@ sub ReadableValueRender {
         %Param
     );
     my @ReadableValues;
-    for my $Item (@Values) {
-        $Item //= '';
-        if ($Item) {
-            $Item = $ItemList->{Item};
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
+
+        # get real value
+        if ($ValueItem) {
+
+            # get readable value
+            $ValueItem = $ItemList->{$ValueItem};
         }
-        push @ReadableValues, $Item || '';
+
+        # set title as value after update and before limit
+        push @ReadableValues, $ValueItem || '';
     }
 
     # set new line separator
