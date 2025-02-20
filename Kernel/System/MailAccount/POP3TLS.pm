@@ -60,6 +60,8 @@ sub Connect {
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
+    # A IO::Socket::INET socket is created first, later a STLS command will be dispatched and
+    # the socket is upgraded to IO::Socket::SSL.
     my $PopObject = Net::POP3->new(
         $Param{Host},
         Timeout => $Param{Timeout},

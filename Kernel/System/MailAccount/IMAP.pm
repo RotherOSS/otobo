@@ -19,7 +19,12 @@ package Kernel::System::MailAccount::IMAP;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::IMAP::Simple;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
