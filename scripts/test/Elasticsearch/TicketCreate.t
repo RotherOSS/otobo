@@ -31,11 +31,11 @@ our $Self;
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $SysConfigObject      = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
+my $ValidObject          = $Kernel::OM->Get('Kernel::System::Valid');
 my $ESObject             = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-my $MigObject            = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
 my $WebserviceObject     = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
@@ -58,23 +58,76 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# activate Elasticsearch
-$ConfigObject->Set(
-    Key   => 'Elasticsearch::Active',
-    Value => 1,
+# activate Elasticsearch indices
+my %DefaultIndexSetting = $SysConfigObject->SettingGet(
+    Name   => 'Elasticsearch::IndexSettings###Default',
+    UserID => $UserID,
 );
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Elasticsearch::IndexSettings###Default',
+    Value => $DefaultIndexSetting{DefaultValue},
+);
+my %CustomerIndexSetting = $SysConfigObject->SettingGet(
+    Name   => 'Elasticsearch::IndexSettings###Customer',
+    UserID => $UserID,
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Elasticsearch::IndexSettings###Customer',
+    Value => $CustomerIndexSetting{DefaultValue},
+);
+my %CustomerUserIndexSetting = $SysConfigObject->SettingGet(
+    Name   => 'Elasticsearch::IndexSettings###CustomerUser',
+    UserID => $UserID,
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Elasticsearch::IndexSettings###CustomerUser',
+    Value => $CustomerUserIndexSetting{DefaultValue},
+);
+my %TicketIndexSetting = $SysConfigObject->SettingGet(
+    Name   => 'Elasticsearch::IndexSettings###Ticket',
+    UserID => $UserID,
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Elasticsearch::IndexSettings###Ticket',
+    Value => $TicketIndexSetting{DefaultValue},
+);
+
+# activate Elasticsearch, if necessary
 my $Webservice = $WebserviceObject->WebserviceGet(
     Name => 'Elasticsearch',
 );
-my $WebserviceActivateSuccess = $WebserviceObject->WebserviceUpdate(
-    $Webservice->%*,
-    ValidID => 1,
-    UserID  => $UserID,
+
+my $Valid = $ValidObject->ValidLookup(
+    ValidID => $Webservice->{ValidID},
 );
-ok( $WebserviceActivateSuccess, 'Activated Elasticsearch webservice' );
+
+if ( $Valid ne 'valid' ) {
+
+    # set valid state
+    my $ValidID = $ValidObject->ValidLookup(
+        Valid => 'valid',
+    );
+    my $WebserviceActivateSuccess = $WebserviceObject->WebserviceUpdate(
+        $Webservice->%*,
+        ValidID => $ValidID,
+        UserID  => $UserID,
+    );
+    ok( $WebserviceActivateSuccess, 'Activated Elasticsearch webservice' );
+
+    # test the connection
+    ok( $ESObject->TestConnection(), 'Elasticsearch connection active' );
+
+    # try to set up Elasticsearch
+    my ($SetupSuccess) = $ESObject->InitialSetup();
+    ok( $SetupSuccess, 'Initial setup successful' );
+}
 
 # create ticket
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     Title        => 'TestTicketTitle' . $RandomID,
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -123,55 +176,57 @@ my $ArticleWriteAttachment = $ArticleBackendObject->ArticleWriteAttachment(
 );
 ok( $ArticleWriteAttachment, 'Attachment writing successful' );
 
-# rebuild Elasticsearch index
-my $ExitCode = $MigObject->Execute( '--target', 't' );
-is( $ExitCode, 0, 'Rebuild index after ticket creation' );
+# trigger execution of events, which is necessary to have the content present in Elasticsearch
+$Kernel::OM->Get('Kernel::System::Ticket')->EventHandlerTransaction();
+$ArticleBackendObject->EventHandlerTransaction();
 
-sleep 5;
+# events may take a second
+sleep 1;
 
-# search by ticket title
-my @TitleSearchTicketIDs = $ESObject->TicketSearch(
+# search by article body
+my @BodySearchTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'TestTicketTitle',
+    Fulltext   => 'A text for the body',
     Permission => 'ro',
     Limit      => 100,
 );
-my $TicketIDFound = grep { $_ == $TicketID } @TitleSearchTicketIDs;
-ok( $TicketIDFound, 'Search for ticket title successful' );
+my $TicketIDFound = grep { $_ == $TicketID } @BodySearchTicketIDs;
+ok( $TicketIDFound, 'Search for article body successful' );
 
-# search by attachment name
-my @AttachmentNameSearchTicketIDs = $ESObject->TicketSearch(
+# search by attachment content
+my @AttachmentContentSearchTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'TestAttachment',
+    Fulltext   => 'Umlaut',
     Permission => 'ro',
     Limit      => 100,
 );
-$TicketIDFound = grep { $_ == $TicketID } @AttachmentNameSearchTicketIDs;
-ok( $TicketIDFound, 'Search for attachment name successful' );
+$TicketIDFound = grep { $_ == $TicketID } @AttachmentContentSearchTicketIDs;
+ok( $TicketIDFound, 'Search for attachment content successful' );
 
 # delete ticket
-my $DeleteSuccess = $TicketObject->TicketDelete(
+my $DeleteSuccess = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
     TicketID => $TicketID,
     UserID   => $UserID,
 );
 ok( $DeleteSuccess, 'Deleted ticket' );
 
-# rebuild Elasticsearch index again
-$ExitCode = $MigObject->Execute( '--target', 't' );
-is( $ExitCode, 0, 'Rebuild index after cleaning up' );
+# trigger execution of events
+$Kernel::OM->Get('Kernel::System::Ticket')->EventHandlerTransaction();
 
-# deactivate Elasticsearch
-$ConfigObject->Set(
-    Key   => 'Elasticsearch::Active',
-    Value => 0,
+# events may take a second
+sleep 1;
+
+# verify that ticket was deleted successfully
+my @DeleteTicketIDs = $ESObject->TicketSearch(
+    Result     => 'ARRAY',
+    UserID     => $UserID,
+    Fulltext   => 'A text for the body',
+    Permission => 'ro',
+    Limit      => 100,
 );
-my $WebserviceDeactivateSuccess = $WebserviceObject->WebserviceUpdate(
-    $Webservice->%*,
-    ValidID => 1,
-    UserID  => $UserID,
-);
-ok( $WebserviceDeactivateSuccess, 'Deactivated Elasticsearch webservice' );
+$TicketIDFound = grep { $_ == $TicketID } @DeleteTicketIDs;
+is( $TicketIDFound, 0, 'Verification of ticket deletion successful' );
 
 done_testing();
