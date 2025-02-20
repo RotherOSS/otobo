@@ -145,7 +145,7 @@ sub GetRandomID {
 
 =head2 GetRandomNumber()
 
-creates a random Number that can be used in tests as a unique identifier.
+creates a random number that can be used in tests as a unique identifier.
 
 It is guaranteed that within a test this function will never return a duplicate.
 
