@@ -53,7 +53,7 @@ my $UserID   = 1;
 my $RandomID = $Helper->GetRandomID();
 
 # set necessary sysconfig setting
-$ConfigObject->Set(
+$Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
