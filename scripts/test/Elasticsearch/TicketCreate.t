@@ -146,7 +146,7 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     From                 => 'Agent Some Agent Some Agent <email@example.com>',
     To                   => 'Customer A <customer-a@example.com>',
     Subject              => 'TestArticleSubject' . $RandomID,
-    Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',
+    Body                 => 'A text for the body, Title äöüßÄÖÜ€ис, deoxyribonucleicacid',
     ContentType          => 'text/plain; charset=ISO-8859-15',
     HistoryType          => 'AddNote',
     HistoryComment       => 'first article',
@@ -185,7 +185,7 @@ sleep 1;
 my @BodySearchTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'A text for the body',
+    Fulltext   => 'deoxyribonucleicacid',
     Permission => 'ro',
     Limit      => 100,
 );
@@ -196,7 +196,7 @@ ok( $TicketIDFound, 'Search for article body successful' );
 my @AttachmentContentSearchTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'Umlaut',
+    Fulltext   => 'xylophone',
     Permission => 'ro',
     Limit      => 100,
 );
