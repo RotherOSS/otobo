@@ -22,6 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use List::Util qw(any);
 use Test2::V0;
 
 # OTOBO modules
@@ -189,7 +190,7 @@ my @BodySearchTicketIDs = $ESObject->TicketSearch(
     Permission => 'ro',
     Limit      => 100,
 );
-my $TicketIDFound = grep { $_ == $TicketID } @BodySearchTicketIDs;
+my $TicketIDFound = any { $_ == $TicketID } @BodySearchTicketIDs;
 ok( $TicketIDFound, 'Search for article body successful' );
 
 # search by attachment content
@@ -200,7 +201,7 @@ my @AttachmentContentSearchTicketIDs = $ESObject->TicketSearch(
     Permission => 'ro',
     Limit      => 100,
 );
-$TicketIDFound = grep { $_ == $TicketID } @AttachmentContentSearchTicketIDs;
+$TicketIDFound = any { $_ == $TicketID } @AttachmentContentSearchTicketIDs;
 ok( $TicketIDFound, 'Search for attachment content successful' );
 
 # delete ticket
@@ -224,7 +225,7 @@ my @DeleteTicketIDs = $ESObject->TicketSearch(
     Permission => 'ro',
     Limit      => 100,
 );
-$TicketIDFound = grep { $_ == $TicketID } @DeleteTicketIDs;
+$TicketIDFound = any { $_ == $TicketID } @DeleteTicketIDs;
 is( $TicketIDFound, 0, 'Verification of ticket deletion successful' );
 
 done_testing();
