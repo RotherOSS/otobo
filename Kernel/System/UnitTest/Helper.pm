@@ -151,7 +151,7 @@ sub GetRandomID {
 =head2 GetRandomNumber()
 
 creates a random number that can be used in tests as a unique identifier.
-The creates random number always has 16 digits.
+The created random number always has 16 digits.
 
 It is guaranteed that within a test this function will never return a duplicate.
 
