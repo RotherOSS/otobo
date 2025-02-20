@@ -530,7 +530,7 @@ sub DisplayValueRender {
         :                            ('');
 
     $Param{ValueMaxChars} ||= '';
-    my $ItemList = $Self->PossibleValuesGet(
+    my $PossibleValues = $Self->PossibleValuesGet(
         %Param
     );
     my @ReadableValues;
@@ -542,7 +542,7 @@ sub DisplayValueRender {
         if ($ValueItem) {
 
             # get readable value
-            $ValueItem = $ItemList->{$ValueItem};
+            $ValueItem = $PossibleValues->{$ValueItem};
         }
 
         # set title as value after update and before limit
@@ -685,7 +685,7 @@ sub ReadableValueRender {
     else {
         @Values = ( $Param{Value} );
     }
-    my $ItemList = $Self->PossibleValuesGet(
+    my $PossibleValues = $Self->PossibleValuesGet(
         %Param
     );
     my @ReadableValues;
@@ -696,7 +696,7 @@ sub ReadableValueRender {
         if ($ValueItem) {
 
             # get readable value
-            $ValueItem = $ItemList->{$ValueItem};
+            $ValueItem = $PossibleValues->{$ValueItem};
         }
 
         # set title as value after update and before limit
