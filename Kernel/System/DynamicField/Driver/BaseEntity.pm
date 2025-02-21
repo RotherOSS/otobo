@@ -89,7 +89,7 @@ sub ValueSet {
 
     if ( !$Param{Value} ) {
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            FieldID  => $Param{DynamicFieldConfig}{ID},
             ObjectID => $Param{ObjectID},
             UserID   => $Param{UserID},
         );
@@ -99,7 +99,7 @@ sub ValueSet {
     }
     elsif ( !$Param{Value}->@* ) {
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            FieldID  => $Param{DynamicFieldConfig}{ID},
             ObjectID => $Param{ObjectID},
             UserID   => $Param{UserID},
         );
@@ -151,7 +151,7 @@ sub ValueSet {
         ];
 
         return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            FieldID  => $Param{DynamicFieldConfig}{ID},
             ObjectID => $Param{ObjectID},
             Value    => $DBValue,
             UserID   => $Param{UserID},
@@ -162,7 +162,7 @@ sub ValueSet {
     my $Value = $Param{DynamicFieldConfig}{Config}{MultiValue}
         ? $Param{Value}
         : $Param{Set} ? [ map { $_->[0] } $Param{Value}->@* ]
-        :               $Param{Value}->[0];
+        :               $Param{Value}[0];
 
     my $DBValue = $Self->ValueStructureToDB(
         Value      => $Value,
@@ -172,7 +172,7 @@ sub ValueSet {
     );
 
     return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
         Value    => $DBValue,
         UserID   => $Param{UserID},
@@ -256,8 +256,8 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldConfig = $Param{DynamicFieldConfig}{Config};
+    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     my $Value = $Param{Value} // '';
 
@@ -306,7 +306,6 @@ sub EditFieldRender {
 
     # set PossibleValues, use PossibleValuesFilter if defined
     my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
-
     my %FieldTemplateData;
 
     my @SelectionHTML;
@@ -424,13 +423,13 @@ sub EditFieldRender {
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     my $Value;
 
     # check if there is a Template and retrieve the dynamic field value from there
-    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}->{$FieldName} ) {
-        $Value = $Param{Template}->{$FieldName};
+    if ( IsHashRefWithData( $Param{Template} ) && defined $Param{Template}{$FieldName} ) {
+        $Value = $Param{Template}{$FieldName};
     }
 
     # otherwise get dynamic field value from the web request
@@ -441,7 +440,7 @@ sub EditFieldValueGet {
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
-        if ( $Param{DynamicFieldConfig}->{Config}{MultiValue} ) {
+        if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
 
             # delete the template value
             pop @Data;
@@ -494,7 +493,6 @@ sub EditFieldValueValidate {
 
     # get possible values list
     my $PossibleValues = $Self->PossibleValuesGet(%Param);
-
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
@@ -532,11 +530,20 @@ sub DisplayValueRender {
         :                            ('');
 
     $Param{ValueMaxChars} ||= '';
-
+    my $PossibleValues = $Self->PossibleValuesGet(
+        %Param
+    );
     my @ReadableValues;
     my @ReadableTitles;
     for my $ValueItem (@Values) {
         $ValueItem //= '';
+
+        # get real value
+        if ($ValueItem) {
+
+            # get readable value
+            $ValueItem = $PossibleValues->{$ValueItem};
+        }
 
         # set title as value after update and before limit
         push @ReadableTitles, $ValueItem;
@@ -641,7 +648,7 @@ sub StatsFieldParameterBuild {
 
     # get historical values from database
     my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        FieldID   => $Param{DynamicFieldConfig}{ID},
         ValueType => 'Text,',
     );
 
@@ -657,8 +664,8 @@ sub StatsFieldParameterBuild {
 
     return {
         Values  => $Values,
-        Name    => $Param{DynamicFieldConfig}->{Label},
-        Element => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        Name    => $Param{DynamicFieldConfig}{Label},
+        Element => 'DynamicField_' . $Param{DynamicFieldConfig}{Name},
         Block   => 'MultiSelectField',
     };
 }
@@ -678,13 +685,22 @@ sub ReadableValueRender {
     else {
         @Values = ( $Param{Value} );
     }
-
+    my $PossibleValues = $Self->PossibleValuesGet(
+        %Param
+    );
     my @ReadableValues;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
 
-    for my $Item (@Values) {
-        $Item //= '';
+        # get real value
+        if ($ValueItem) {
 
-        push @ReadableValues, $Item || '';
+            # get readable value
+            $ValueItem = $PossibleValues->{$ValueItem};
+        }
+
+        # set title as value after update and before limit
+        push @ReadableValues, $ValueItem || '';
     }
 
     # set new line separator
@@ -711,7 +727,7 @@ sub ReadableValueRender {
 sub TemplateValueTypeGet {
     my ( $Self, %Param ) = @_;
 
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     # set the field types
     my $EditValueType   = 'ARRAY';
@@ -739,16 +755,16 @@ sub TemplateValueTypeGet {
 sub ObjectMatch {
     my ( $Self, %Param ) = @_;
 
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
 
     # the attribute must be an array
-    return 0 if !IsArrayRefWithData( $Param{ObjectAttributes}->{$FieldName} );
+    return 0 if !IsArrayRefWithData( $Param{ObjectAttributes}{$FieldName} );
 
     my $Match;
 
     # search in all values for this attribute
     VALUE:
-    for my $AttributeValue ( @{ $Param{ObjectAttributes}->{$FieldName} } ) {
+    for my $AttributeValue ( @{ $Param{ObjectAttributes}{$FieldName} } ) {
 
         next VALUE if !defined $AttributeValue;
 
@@ -811,7 +827,7 @@ sub ColumnFilterValuesGet {
     # get column filter values from database
     my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
         %Param,
-        FieldID   => $Param{DynamicFieldConfig}->{ID},
+        FieldID   => $Param{DynamicFieldConfig}{ID},
         ValueType => $Self->{ValueType},
     );
 
@@ -834,7 +850,7 @@ sub ColumnFilterValuesGet {
         for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
 
             my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
-            $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
+            $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}{LanguageObject}->Translate($OriginalValueName);
         }
     }
 
