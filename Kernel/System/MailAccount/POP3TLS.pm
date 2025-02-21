@@ -16,23 +16,17 @@
 
 package Kernel::System::MailAccount::POP3TLS;
 
+use v5.24;
 use strict;
 use warnings;
+
+use parent qw(Kernel::System::MailAccount::POP3);
 
 # core modules
 
 # CPAN modules
 use Net::POP3;
 use IO::Socket::SSL ();
-
-# OTOBO modules
-
-use parent qw(Kernel::System::MailAccount::POP3);
-
-# core modules
-use Net::POP3;
-
-# CPAN modules
 
 # OTOBO modules
 
