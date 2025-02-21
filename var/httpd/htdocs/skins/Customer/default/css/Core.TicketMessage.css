@@ -250,3 +250,9 @@ fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
     text-align: center;
     margin-top: 80px;
 }
+
+.AsteriskExplanation {
+    margin-left: 17%;
+}
+
+style="margin-left: 17%;"

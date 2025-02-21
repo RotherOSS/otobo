@@ -51,6 +51,12 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
+[% RenderBlockStart("AsteriskExplanation") %]
+                        <div class="Field">
+                            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]                    
                         <label class="Mandatory" for="MainTicketNumber"><span class="Marker">*</span>[% Translate("Merge to") | html %] [% Config("Ticket::Hook") | html %]:</label>
                         <div class="Field">
                             <input type="text" id="MainTicketNumber" name="MainTicketNumber" value="[% Data.MainTicketNumber | html %]" class="Validate_Required [% Data.MainTicketNumberInvalid %] W50pc" />
@@ -78,6 +84,12 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
+[% RenderBlockStart("AsteriskExplanation") %]
+                        <div class="Field">
+                            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
                         <label for="InformSender">[% Translate("Inform sender") | html %]:</label>
                         <div class="Field">
                             <input type="checkbox" id="InformSender" name="InformSender" value="1" [% Data.InformSenderChecked | html %]/>

@@ -15578,4 +15578,13 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    
+    <Setting Name="Ticket::Frontend::AsteriskExplanation" Required="0" Valid="1">
+        <Description Translatable="1">Display a message explaining that the asterisk indicates mandatory fields</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    
 </otobo_config>

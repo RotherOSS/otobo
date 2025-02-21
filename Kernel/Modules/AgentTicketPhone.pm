@@ -3326,6 +3326,13 @@ sub _MaskPhoneNew {
         );
     }
 
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
+    }
+
     # get output back
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketPhone',

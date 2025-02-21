@@ -1609,6 +1609,14 @@ sub _OutputActivityDialog {
             $Output .= $LayoutObject->NavigationBar();
         }
 
+        # explanatory message about asterisk
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
+            );
+        }
+
         # display original header texts (the process list maybe is not necessary)
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketProcess' . $Type,
@@ -5852,6 +5860,14 @@ sub _DisplayProcessList {
     );
     if ( $Self->{IsMainWindow} ) {
         $Output .= $LayoutObject->NavigationBar();
+    }
+
+    # explanatory message about asterisk
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
     }
 
     $Output .= $LayoutObject->Output(
