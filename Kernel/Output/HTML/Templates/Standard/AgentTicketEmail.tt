@@ -48,6 +48,13 @@
                 <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
                 <fieldset class="TableLike">
 
+[% RenderBlockStart("AsteriskExplanation") %]
+                    <div class="Field">
+                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
                     <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("To customer user") | html %]:</label>
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc [% Data.ToIsLocalAddress | html %] [% Data.ToInvalid | html %]" autocomplete="off" />

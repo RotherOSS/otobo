@@ -269,6 +269,13 @@ sub Run {
 
             $Param{InformSenderChecked} = $GetParam{InformSender} ? 'checked ' : '';
 
+            # explanatory message about asterisk
+            if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+                $LayoutObject->Block(
+                    Name => 'AsteriskExplanation',
+                );
+            }
+
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AgentTicketMerge',
                 Data         => { %Param, %GetParam, %Ticket, %Error },
@@ -329,6 +336,13 @@ sub Run {
                 # set up rich text editor
                 $LayoutObject->SetRichTextParameters(
                     Data => \%Param,
+                );
+            }
+
+            # explanatory message about asterisk
+            if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+                $LayoutObject->Block(
+                    Name => 'AsteriskExplanation',
                 );
             }
 
@@ -490,6 +504,13 @@ sub Run {
             # set up rich text editor
             $LayoutObject->SetRichTextParameters(
                 Data => \%Param,
+            );
+        }
+
+        # explanatory message about asterisk
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
             );
         }
 

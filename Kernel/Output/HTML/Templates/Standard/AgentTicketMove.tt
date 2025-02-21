@@ -59,6 +59,13 @@
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
 
+[% RenderBlockStart("AsteriskExplanation") %]
+                    <div class="Field">
+                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
 [% RenderBlockStart("Queue") %]
                         <label class="Mandatory" for="DestQueueID"><span class="Marker">*</span> [% Translate("New Queue") | html %]:</label>
                         <div class="Field">
