@@ -277,6 +277,14 @@ sub Form {
         );
     }
 
+    # explanatory message about asterisk
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
+    }
+
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentTicketCustomer',
         Data         => \%Param

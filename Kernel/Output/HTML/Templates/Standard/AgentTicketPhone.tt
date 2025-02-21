@@ -56,6 +56,13 @@
 
                 <fieldset class="TableLike">
 
+[% RenderBlockStart("AsteriskExplanation") %]
+                    <div class="Field">
+                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
                     <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("Customer user") | html %]:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc [% Data.FromInvalid | html %]" autocomplete="off" />

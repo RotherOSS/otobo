@@ -18,6 +18,7 @@
         <h1>[% Translate("Issue a new Ticket") | html %]</h1>
     </div>
     <div id="oooMainBox" class="Content">
+
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="NewCustomerTicket" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="[% Env("Action") %]" />
             <input type="hidden" name="Subaction" value="StoreNew" />
@@ -25,6 +26,10 @@
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
             <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
             <fieldset>
+
+[% RenderBlockStart("AsteriskExplanation") %]
+                <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+[% RenderBlockEnd("AsteriskExplanation") %]
 
 [% RenderBlockStart("DynamicField_TitleCategory") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
