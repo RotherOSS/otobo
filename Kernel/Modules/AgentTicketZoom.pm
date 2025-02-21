@@ -1814,7 +1814,7 @@ sub MaskAgentZoom {
                             $LayoutObject->Block(
                                 Name => 'DynamicFieldSetSeparator',
                                 Data => {
-                                    Name => $Field->{Name},
+                                    Label => $Field->{Label},
                                 },
                             );
 
@@ -1994,7 +1994,7 @@ sub MaskAgentZoom {
                 $LayoutObject->Block(
                     Name => 'DynamicFieldSetSeparator',
                     Data => {
-                        Name => $Field->{Name},
+                        Label => $Field->{Label},
                     },
                 );
 
