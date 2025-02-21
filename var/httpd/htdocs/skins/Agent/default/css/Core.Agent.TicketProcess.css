@@ -80,10 +80,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
-    margin-left: 12.5%;
+    margin-left: calc(12.5% - 2px);
 }
 
-.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField div .FieldContainer:first-child {
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
     margin-left: calc( 12.5% + 20px );
 }
 
