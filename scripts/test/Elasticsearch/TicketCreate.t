@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -204,6 +204,19 @@ my @AttachmentContentSearchTicketIDs = $ESObject->TicketSearch(
 $TicketIDFound = any { $_ == $TicketID } @AttachmentContentSearchTicketIDs;
 ok( $TicketIDFound, 'Search for attachment content successful' );
 
+# no results are expected when the search string is not in the ticket
+{
+    my @TicketIDs = $ESObject->TicketSearch(
+        Result     => 'ARRAY',
+        UserID     => $UserID,
+        Fulltext   => q{Cantor's dilemma},
+        Permission => 'ro',
+        Limit      => 100,
+    );
+    my $TicketIDFound = any { $_ == $TicketID } @TicketIDs;
+    ok( !$TicketIDFound, 'did not find ticket for an arbitrary search' );
+}
+
 # delete ticket
 my $DeleteSuccess = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
     TicketID => $TicketID,
@@ -221,11 +234,11 @@ sleep 1;
 my @DeleteTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'A text for the body',
+    Fulltext   => 'deoxyribonucleicacid',
     Permission => 'ro',
     Limit      => 100,
 );
 $TicketIDFound = any { $_ == $TicketID } @DeleteTicketIDs;
-is( $TicketIDFound, 0, 'Verification of ticket deletion successful' );
+ok( !$TicketIDFound, 'Verification of ticket deletion successful' );
 
-done_testing();
+done_testing;
