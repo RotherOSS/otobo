@@ -80,8 +80,8 @@ my @OperationTests = (
     },
     {
         Data          => [],
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResultData    => [],
+        ResultSuccess => 1,
     },
     {
         Data          => undef,

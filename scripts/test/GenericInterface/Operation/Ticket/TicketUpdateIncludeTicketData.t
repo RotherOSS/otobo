@@ -869,7 +869,7 @@ for my $TicketID (@TicketIDs) {
 # delete dynamic fields
 my $DeleteFieldList = $DynamicFieldObject->DynamicFieldList(
     ResultType => 'HASH',
-    ObjectType => 'Ticket',
+    ObjectType => [ 'Ticket', 'Article', ],
 );
 
 DYNAMICFIELD:

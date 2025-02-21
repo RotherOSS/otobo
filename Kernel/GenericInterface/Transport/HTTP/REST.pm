@@ -381,7 +381,7 @@ sub ProviderGenerateResponse {
     }
 
     # Check data param.
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
         $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
@@ -403,7 +403,7 @@ sub ProviderGenerateResponse {
         $HTTPCode = 500;
     }
 
-    # Orepare data.
+    # Prepare data.
     my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => $Param{Data},
     );
@@ -543,7 +543,7 @@ sub RequesterPerformRequest {
     }
 
     # Check data param.
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
         return {
             Success      => 0,
             ErrorMessage => 'REST Transport: Invalid Data',
@@ -816,12 +816,27 @@ sub RequesterPerformRequest {
     #    for example: from /Ticket/:TicketID/:Other
     #    to /Ticket/1/2 (considering that $Param{Data} contains TicketID = 1 and Other = 2).
     my @ParamsToDelete;
-    for my $ParamName ( sort keys %{ $Param{Data} } ) {
-        if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
-            my $ParamValue = $Param{Data}->{$ParamName};
-            $ParamValue = uri_escape_utf8($ParamValue);
-            $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
-            push @ParamsToDelete, $ParamName;
+    if ( ref $Param{Data} eq 'HASH' ) {
+        for my $ParamName ( sort keys %{ $Param{Data} } ) {
+            if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
+                my $ParamValue = $Param{Data}->{$ParamName};
+                $ParamValue = uri_escape_utf8($ParamValue);
+                $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
+                push @ParamsToDelete, $ParamName;
+            }
+        }
+    }
+    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+        for my $Data ( $Param{Data}->@* ) {
+
+            for my $ParamName ( sort keys %{$Data} ) {
+                if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
+                    my $ParamValue = $Data->{$ParamName};
+                    $ParamValue = uri_escape_utf8($ParamValue);
+                    $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
+                    push @ParamsToDelete, $ParamName;
+                }
+            }
         }
     }
 
@@ -867,7 +882,7 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( IsHashRefWithData( $Param{Data} ) ) {
+    if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
 
         # POST, PUT and PATCH can have Data in the Body.
         if (
@@ -891,7 +906,11 @@ sub RequesterPerformRequest {
 
         # Whereas GET and the others just have a the data added to the Query URI.
         else {
-            my $QueryParams = $RestClient->buildQuery( $Param{Data}->%* );
+
+            my $QueryParams = $Self->_BuildQueryParams(
+                Data       => $Param{Data},
+                RestClient => $RestClient,
+            );
 
             # Check if controller already have a  question mark '?'.
             if ( $Controller =~ m{\?}msx ) {
@@ -1274,6 +1293,23 @@ sub _HeadersGet {
     }
 
     return %Headers;
+}
+
+sub _BuildQueryParams {
+
+    my ( $Self, %Param ) = @_;
+
+    if ( ref $Param{Data} eq 'HASH' ) {
+        return $Param{RestClient}->buildQuery( $Param{Data}->%* );
+    }
+
+    my $QueryParams = '';
+
+    for my $Data ( $Param{Data}->@* ) {
+        $QueryParams .= $Param{RestClient}->buildQuery( $Data->%* );
+    }
+
+    return $QueryParams;
 }
 
 =end Internal:

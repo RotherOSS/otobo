@@ -153,32 +153,38 @@ sub HandleResponse {
         };
     }
 
-    # we need a TicketNumber
-    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+    my $ReturnData;
+    if ( ref $Param{Data} eq 'HASH' ) {
 
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
-    }
+        # we need a TicketNumber
+        if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
 
-    # prepare TicketNumber
-    my %ReturnData = (
-        TicketNumber => $Param{Data}->{TicketNumber},
-    );
-
-    # check Action
-    if ( IsStringWithData( $Param{Data}->{Action} ) ) {
-        if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
-            $ReturnData{Action} = $1;
+            return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
         }
-        else {
-            return $Self->{DebuggerObject}->Error(
-                Summary => 'Got Action but it is not in required format!',
-            );
+
+        # prepare TicketNumber
+        $ReturnData = {
+            TicketNumber => $Param{Data}->{TicketNumber},
+        };
+
+        # check Action
+        if ( IsStringWithData( $Param{Data}->{Action} ) ) {
+            if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
+                $ReturnData->{Action} = $1;
+            }
+            else {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => 'Got Action but it is not in required format!',
+                );
+            }
         }
     }
-
+    else {
+        $ReturnData = $Param{Data};
+    }
     return {
         Success => 1,
-        Data    => \%ReturnData,
+        Data    => $ReturnData,
     };
 }
 

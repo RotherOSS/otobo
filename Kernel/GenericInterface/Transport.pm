@@ -147,7 +147,7 @@ sub ProviderGenerateResponse {
     if ( !defined $Param{Success} ) {
         $ErrorMessage = 'Missing parameter Success.';
     }
-    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
         $ErrorMessage = 'Data is not a hash reference.';
     }
 
@@ -216,10 +216,10 @@ sub RequesterPerformRequest {
         );
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
+            Summary => 'Data is not a hash or array reference.',
         );
     }
 

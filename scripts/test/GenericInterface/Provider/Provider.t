@@ -29,7 +29,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::ObjectManager ();
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 $Kernel::OM = Kernel::System::ObjectManager->new();
 
@@ -85,6 +85,53 @@ my @Tests = (
             A => 'A',
             b => 'B',
         },
+        ResponseSuccess => 1,
+    },
+    {
+        Name             => 'HTTP array request',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::Test',
+                        MappingInbound => {
+                            Type   => 'Test',
+                            Config => {
+                                TestOption => 'ToUpper',
+                            }
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        RequestData => [
+            {
+                A => 'A',
+                b => 'b',
+            },
+            {
+                A => 'a',
+                b => 'B',
+            },
+        ],
+        ResponseData => [
+            {
+                A => 'A',
+                b => 'B',
+            },
+        ],
         ResponseSuccess => 1,
     },
     {
@@ -228,6 +275,10 @@ my @Tests = (
 sub CreateQueryString {
     my %Param = @_;
 
+    if ( IsArrayRefWithData( $Param{Data} ) ) {
+        $Param{Data} = $Param{Data}->[0];
+    }
+
     return '' unless IsHashRefWithData( $Param{Data} );
 
     my $QueryString = '';
@@ -362,6 +413,9 @@ for my $Test (@Tests) {
 
                     my $Body = join '', $PSGIResponse->[2]->@*;
                     $Test->{ResponseData} //= {};
+                    if ( ref $Test->{ResponseData} eq 'ARRAY' ) {
+                        $Test->{ResponseData} = $Test->{ResponseData}->[0];
+                    }
                     for my $Key ( sort keys $Test->{ResponseData}->%* ) {
                         my $QueryStringPart = uri_escape_utf8($Key);
                         if ( $Test->{ResponseData}->{$Key} ) {
@@ -438,6 +492,9 @@ for my $Test (@Tests) {
                     chomp( $ResponseData = $Response->decoded_content() );
 
                     if ( $Test->{ResponseSuccess} ) {
+                        if ( ref $Test->{ResponseData} eq 'ARRAY' ) {
+                            $Test->{ResponseData} = $Test->{ResponseData}->[0];
+                        }
                         for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
                             my $QueryStringPart = uri_escape_utf8($Key);
                             if ( $Test->{ResponseData}->{$Key} ) {

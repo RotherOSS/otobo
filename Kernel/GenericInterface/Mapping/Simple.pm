@@ -144,18 +144,27 @@ we need the config to be in the following format
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Mapping Simple backend!'
-        );
-    }
-
     # return if data is empty
-    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+    if ( !defined $Param{Data} ) {
         return {
             Success => 1,
             Data    => {},
+        };
+    }
+
+    # return if hashref data is empty
+    if ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    # return if array data is empty
+    if ( ref $Param{Data} eq 'ARRAY' && !scalar @{ $Param{Data} } ) {
+        return {
+            Success => 1,
+            Data    => [],
         };
     }
 
@@ -170,130 +179,44 @@ sub Map {
         };
     }
 
-    # go through keys for replacement
-    my %ReturnData;
-    CONFIGKEY:
-    for my $OldKey ( sort keys %{ $Param{Data} } ) {
+    my $ReturnData;
 
-        # check if key is valid
-        if ( !IsStringWithData($OldKey) ) {
-            $Self->{DebuggerObject}->Notice( Summary => 'Got an original key that is not valid!' );
-            next CONFIGKEY;
-        }
+    if ( ref $Param{Data} eq 'ARRAY' ) {
 
-        # map key
-        my $NewKey;
+        $ReturnData = [];
+        for my $Data ( $Param{Data}->@* ) {
 
-        # first check in exact (1:1) map
-        if ( $Config->{KeyMapExact} && $Config->{KeyMapExact}->{$OldKey} ) {
-            $NewKey = $Config->{KeyMapExact}->{$OldKey};
-        }
+            if ( !IsHashRefWithData($Data) ) {
 
-        # if we have no match from exact map, try regex map
-        if ( !$NewKey && $Config->{KeyMapRegEx} ) {
-            KEYMAPREGEX:
-            for my $ConfigKey ( sort keys %{ $Config->{KeyMapRegEx} } ) {
-                next KEYMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
-                if ( $ReturnData{ $Config->{KeyMapRegEx}->{$ConfigKey} } ) {
-                    $Self->{DebuggerObject}->Notice(
-                        Summary =>
-                            "The data key '$Config->{KeyMapRegEx}->{$ConfigKey}' already exists!",
-                    );
-                    next CONFIGKEY;
-                }
-                $NewKey = $Config->{KeyMapRegEx}->{$ConfigKey};
-                last KEYMAPREGEX;
+                return $Self->{DebuggerObject}->Error(
+                    Summary => 'Array data does not contain HashRef!',
+                );
             }
+            push @$ReturnData, $Self->_ReplaceData(
+                Data   => $Data,
+                Config => $Config,
+            );
         }
+    }
+    elsif ( ref $Param{Data} eq 'HASH' ) {
 
-        # if we still have no match, apply default
-        if ( !$NewKey ) {
-
-            # check map type options
-            if ( $Config->{KeyMapDefault}->{MapType} eq 'Keep' ) {
-                $NewKey = $OldKey;
-            }
-            elsif ( $Config->{KeyMapDefault}->{MapType} eq 'Ignore' ) {
-                next CONFIGKEY;
-            }
-            elsif ( $Config->{KeyMapDefault}->{MapType} eq 'MapTo' ) {
-
-                # check if we already have a key with the same name
-                if ( $ReturnData{ $Config->{KeyMapDefault}->{MapTo} } ) {
-                    $Self->{DebuggerObject}->Notice(
-                        Summary => "The data key $Config->{KeyMapDefault}->{MapTo} already exists!",
-                    );
-                    next CONFIGKEY;
-                }
-
-                $NewKey = $Config->{KeyMapDefault}->{MapTo};
-            }
-        }
-
-        # sanity check - we should have a translated key now
-        if ( !$NewKey ) {
-            return $Self->{DebuggerObject}->Error( Summary => "Could not map data key $NewKey!" );
-        }
-
-        # map value
-        my $OldValue = $Param{Data}->{$OldKey};
-
-        # if value is no string, just pass through
-        if ( !IsString($OldValue) ) {
-            $ReturnData{$NewKey} = $OldValue;
-            next CONFIGKEY;
-        }
-
-        # check if we have a value mapping for the specific key
-        my $ValueMap;
-        if ( $Config->{ValueMap} && $Config->{ValueMap}->{$NewKey} ) {
-            $ValueMap = $Config->{ValueMap}->{$NewKey};
-        }
-
-        if ($ValueMap) {
-
-            # first check in exact (1:1) map
-            if ( $ValueMap->{ValueMapExact} && defined $ValueMap->{ValueMapExact}->{$OldValue} ) {
-                $ReturnData{$NewKey} = $ValueMap->{ValueMapExact}->{$OldValue};
-                next CONFIGKEY;
-            }
-
-            # if we have no match from exact map, try regex map
-            if ( $ValueMap->{ValueMapRegEx} ) {
-                VALUEMAPREGEX:
-                for my $ConfigKey ( sort keys %{ $ValueMap->{ValueMapRegEx} } ) {
-                    next VALUEMAPREGEX if $OldValue !~ m{ \A $ConfigKey \z }xms;
-                    $ReturnData{$NewKey} = $ValueMap->{ValueMapRegEx}->{$ConfigKey};
-                    next CONFIGKEY;
-                }
-            }
-        }
-
-        # if we had no mapping, apply default
-
-        # keep current value
-        if ( $Config->{ValueMapDefault}->{MapType} eq 'Keep' ) {
-            $ReturnData{$NewKey} = $OldValue;
-            next CONFIGKEY;
-        }
-
-        # map to default value
-        if ( $Config->{ValueMapDefault}->{MapType} eq 'MapTo' ) {
-            $ReturnData{$NewKey} = $Config->{ValueMapDefault}->{MapTo};
-            next CONFIGKEY;
-        }
-
-        # implicit ignore
-        next CONFIGKEY;
+        $ReturnData = $Self->_ReplaceData(
+            Data   => $Param{Data},
+            Config => $Config,
+        );
+    }
+    else {
+        $ReturnData = $Param{Data};
     }
 
     return {
         Success => 1,
-        Data    => \%ReturnData,
+        Data    => $ReturnData,
     };
 }
 
 =begin Internal:
+
 
 =head2 _ConfigCheck()
 
@@ -466,6 +389,131 @@ sub _ConfigCheck {
     return {
         Success => 1,
     };
+}
+
+sub _ReplaceData {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+
+    # go through keys for replacement
+    my %ReturnData;
+    CONFIGKEY:
+    for my $OldKey ( sort keys %{ $Param{Data} } ) {
+
+        # check if key is valid
+        if ( !IsStringWithData($OldKey) ) {
+            $Self->{DebuggerObject}->Notice( Summary => 'Got an original key that is not valid!' );
+            next CONFIGKEY;
+        }
+
+        # map key
+        my $NewKey;
+
+        # first check in exact (1:1) map
+        if ( $Config->{KeyMapExact} && $Config->{KeyMapExact}->{$OldKey} ) {
+            $NewKey = $Config->{KeyMapExact}->{$OldKey};
+        }
+
+        # if we have no match from exact map, try regex map
+        if ( !$NewKey && $Config->{KeyMapRegEx} ) {
+            KEYMAPREGEX:
+            for my $ConfigKey ( sort keys %{ $Config->{KeyMapRegEx} } ) {
+                next KEYMAPREGEX if $OldKey !~ m{ \A $ConfigKey \z }xms;
+                if ( $ReturnData{ $Config->{KeyMapRegEx}->{$ConfigKey} } ) {
+                    $Self->{DebuggerObject}->Notice(
+                        Summary =>
+                            "The data key '$Config->{KeyMapRegEx}->{$ConfigKey}' already exists!",
+                    );
+                    next CONFIGKEY;
+                }
+                $NewKey = $Config->{KeyMapRegEx}->{$ConfigKey};
+                last KEYMAPREGEX;
+            }
+        }
+
+        # if we still have no match, apply default
+        if ( !$NewKey ) {
+
+            # check map type options
+            if ( $Config->{KeyMapDefault}->{MapType} eq 'Keep' ) {
+                $NewKey = $OldKey;
+            }
+            elsif ( $Config->{KeyMapDefault}->{MapType} eq 'Ignore' ) {
+                next CONFIGKEY;
+            }
+            elsif ( $Config->{KeyMapDefault}->{MapType} eq 'MapTo' ) {
+
+                # check if we already have a key with the same name
+                if ( $ReturnData{ $Config->{KeyMapDefault}->{MapTo} } ) {
+                    $Self->{DebuggerObject}->Notice(
+                        Summary => "The data key $Config->{KeyMapDefault}->{MapTo} already exists!",
+                    );
+                    next CONFIGKEY;
+                }
+
+                $NewKey = $Config->{KeyMapDefault}->{MapTo};
+            }
+        }
+
+        # sanity check - we should have a translated key now
+        if ( !$NewKey ) {
+            return $Self->{DebuggerObject}->Error( Summary => "Could not map data key $NewKey!" );
+        }
+
+        # map value
+        my $OldValue = $Param{Data}->{$OldKey};
+
+        # if value is no string, just pass through
+        if ( !IsString($OldValue) ) {
+            $ReturnData{$NewKey} = $OldValue;
+            next CONFIGKEY;
+        }
+
+        # check if we have a value mapping for the specific key
+        my $ValueMap;
+        if ( $Config->{ValueMap} && $Config->{ValueMap}->{$NewKey} ) {
+            $ValueMap = $Config->{ValueMap}->{$NewKey};
+        }
+
+        if ($ValueMap) {
+
+            # first check in exact (1:1) map
+            if ( $ValueMap->{ValueMapExact} && defined $ValueMap->{ValueMapExact}->{$OldValue} ) {
+                $ReturnData{$NewKey} = $ValueMap->{ValueMapExact}->{$OldValue};
+                next CONFIGKEY;
+            }
+
+            # if we have no match from exact map, try regex map
+            if ( $ValueMap->{ValueMapRegEx} ) {
+                VALUEMAPREGEX:
+                for my $ConfigKey ( sort keys %{ $ValueMap->{ValueMapRegEx} } ) {
+                    next VALUEMAPREGEX if $OldValue !~ m{ \A $ConfigKey \z }xms;
+                    $ReturnData{$NewKey} = $ValueMap->{ValueMapRegEx}->{$ConfigKey};
+                    next CONFIGKEY;
+                }
+            }
+        }
+
+        # if we had no mapping, apply default
+
+        # keep current value
+        if ( $Config->{ValueMapDefault}->{MapType} eq 'Keep' ) {
+            $ReturnData{$NewKey} = $OldValue;
+            next CONFIGKEY;
+        }
+
+        # map to default value
+        if ( $Config->{ValueMapDefault}->{MapType} eq 'MapTo' ) {
+            $ReturnData{$NewKey} = $Config->{ValueMapDefault}->{MapTo};
+            next CONFIGKEY;
+        }
+
+        # implicit ignore
+        next CONFIGKEY;
+    }
+
+    return \%ReturnData;
 }
 
 =end Internal:
