@@ -221,11 +221,11 @@ sleep 1;
 my @DeleteTicketIDs = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
-    Fulltext   => 'A text for the body',
+    Fulltext   => 'deoxyribonucleicacid',
     Permission => 'ro',
     Limit      => 100,
 );
 $TicketIDFound = any { $_ == $TicketID } @DeleteTicketIDs;
-is( $TicketIDFound, 0, 'Verification of ticket deletion successful' );
+ok( !$TicketIDFound, 'Verification of ticket deletion successful' );
 
-done_testing();
+done_testing;
