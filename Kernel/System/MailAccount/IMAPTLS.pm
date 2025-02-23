@@ -36,11 +36,13 @@ our @ObjectDependencies = (
     'Kernel::System::PostMaster',
 );
 
+our $Type = 'IMAPTLS';
+
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    return bless {%Param}, $Type;
+    return bless {%Param}, $Class;
 }
 
 sub Connect {
@@ -56,7 +58,6 @@ sub Connect {
         }
     }
 
-    my $Type          = 'IMAPTLS';
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
@@ -140,7 +141,7 @@ sub _Fetch {
             $CommunicationLogObject->ObjectLog(
                 ObjectLogType => 'Connection',
                 Priority      => 'Error',
-                Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                Key           => "Kernel::System::MailAccount::$Type",
                 Value         => "$_ not defined!",
             );
 
@@ -158,7 +159,7 @@ sub _Fetch {
             $CommunicationLogObject->ObjectLog(
                 ObjectLogType => 'Connection',
                 Priority      => 'Error',
-                Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                Key           => "Kernel::System::MailAccount::$Type",
                 Value         => "Need $_!",
             );
 
@@ -188,14 +189,13 @@ sub _Fetch {
 
     my $Timeout      = 60;
     my $FetchCounter = 0;
-    my $AuthType     = 'IMAPTLS';
 
     $Self->{Reconnect} = 0;
 
     $CommunicationLogObject->ObjectLog(
         ObjectLogType => 'Connection',
         Priority      => 'Debug',
-        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+        Key           => "Kernel::System::MailAccount::$Type",
         Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
@@ -213,7 +213,7 @@ sub _Fetch {
         %Connect = (
             Successful => 0,
             Message    =>
-                "Something went wrong while trying to connect to 'IMAPTLS => $Param{Login}/$Param{Host}': ${ Error }",
+                "Something went wrong while trying to connect to '$Type => $Param{Login}/$Param{Host}': ${ Error }",
         );
     };
 
@@ -221,7 +221,7 @@ sub _Fetch {
         $CommunicationLogObject->ObjectLog(
             ObjectLogType => 'Connection',
             Priority      => 'Error',
-            Key           => 'Kernel::System::MailAccount::IMAPTLS',
+            Key           => "Kernel::System::MailAccount::$Type",
             Value         => $Connect{Message},
         );
 
@@ -258,7 +258,7 @@ sub _Fetch {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => sprintf(
-                    "Error while executing 'IMAPTLS->%s(%s)': %s",
+                    "Error while executing '$Type->%s(%s)': %s",
                     $Operation,
                     join( ',', @Params ),
                     $Error,
@@ -270,13 +270,13 @@ sub _Fetch {
         return $ScalarResult;
     };
 
-    my $ConnectionWithErrors = 0;
-    my $MessagesWithError    = 0;
 
     # read folder from MailAccount configuration
-    my $IMAPFolder       = $Param{IMAPFolder} || 'INBOX';
-    my $NumberOfMessages = 0;
+    my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
     my $Messages;
+    my $NumberOfMessages     = 0;
+    my $ConnectionWithErrors = 0;
+    my $MessagesWithError    = 0;
 
     eval {
         $IMAPOperation->( 'select', $IMAPFolder, ) || die "Could not select: $@\n";
@@ -284,7 +284,7 @@ sub _Fetch {
         $NumberOfMessages = scalar @{$Messages};
 
         if ($CMD) {
-            print "$AuthType: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. ";
+            print "$Type: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. ";
         }
 
         return 1;
@@ -293,7 +293,7 @@ sub _Fetch {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => sprintf(
-                "Error while retrieving the messages 'IMAPTLS': %s",
+                "Error while retrieving the messages '$Type': %s",
                 $Error,
             ),
         );
@@ -304,7 +304,7 @@ sub _Fetch {
     # fetch messages
     if ( $Messages && !$NumberOfMessages ) {
         if ($CMD) {
-            print "$AuthType: No messages on $Param{Login}/$Param{Host}\n";
+            print "$Type: No messages on $Param{Login}/$Param{Host}\n";
         }
     }
     elsif ($NumberOfMessages) {
@@ -315,25 +315,28 @@ sub _Fetch {
             $FetchCounter++;
             if ( ($FetchCounter) > $MaxPopEmailSession ) {
                 $Self->{Reconnect} = 1;
+
                 if ($CMD) {
-                    print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
+                    print "$Type: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
+
                 last MESSAGE_NO;
             }
+
             if ($CMD) {
                 print
-                    "$AuthType: Message $FetchCounter/$NumberOfMessages ($Param{Login}/$Param{Host})\n";
+                    "$Type: Message $FetchCounter/$NumberOfMessages ($Param{Login}/$Param{Host})\n";
             }
 
             # check message size
             my $MessageSize = $IMAPOperation->( 'size', $Messageno, );
             if ( !( defined $MessageSize ) ) {
-                my $ErrorMessage = "$AuthType: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
+                my $ErrorMessage = "$Type: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
-                    Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                    Key           => "Kernel::System::MailAccount::$Type",
                     Value         => $ErrorMessage,
                 );
 
@@ -349,13 +352,13 @@ sub _Fetch {
             $MessageSize = int( $MessageSize / 1024 );
             if ( $MessageSize > $MaxEmailSize ) {
 
-                my $ErrorMessage = "$AuthType: Can't fetch email $Messageno from $Param{Login}/$Param{Host}. "
+                my $ErrorMessage = "$Type: Can't fetch email $Messageno from $Param{Login}/$Param{Host}. "
                     . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
-                    Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                    Key           => "Kernel::System::MailAccount::$Type",
                     Value         => $ErrorMessage,
                 );
 
@@ -366,7 +369,7 @@ sub _Fetch {
                 # safety protection
                 my $FetchDelay = ( $FetchCounter % 20 == 0 ? 1 : 0 );
                 if ( $FetchDelay && $CMD ) {
-                    print "$AuthType: Safety protection: waiting 1 second before processing next mail...\n";
+                    print "$Type: Safety protection: waiting 1 second before processing next mail...\n";
                     sleep 1;
                 }
 
@@ -374,12 +377,12 @@ sub _Fetch {
                 my $Message = $IMAPOperation->( 'message_string', $Messageno, );
                 if ( !$Message ) {
 
-                    my $ErrorMessage = "$AuthType: Can't process mail, email no $Messageno is empty!";
+                    my $ErrorMessage = "$Type: Can't process mail, email no $Messageno is empty!";
 
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
                         Priority      => 'Error',
-                        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                        Key           => "Kernel::System::MailAccount::$Type",
                         Value         => $ErrorMessage,
                     );
 
@@ -389,7 +392,7 @@ sub _Fetch {
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
                         Priority      => 'Debug',
-                        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                        Key           => "Kernel::System::MailAccount::$Type",
                         Value         => "Message '$Messageno' successfully received from server.",
                     );
 
@@ -425,12 +428,12 @@ sub _Fetch {
 
                         my $File = $Self->_ProcessFailed( Email => $Message );
 
-                        my $ErrorMessage = "$AuthType: Can't process mail, see log sub system ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
+                        my $ErrorMessage = "$Type: Can't process mail, see log sub system ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Connection',
                             Priority      => 'Error',
-                            Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                            Key           => "Kernel::System::MailAccount:$Type",
                             Value         => $ErrorMessage,
                         );
 
@@ -472,13 +475,13 @@ sub _Fetch {
         $CommunicationLogObject->ObjectLog(
             ObjectLogType => 'Connection',
             Priority      => 'Info',
-            Key           => 'Kernel::System::MailAccount::IMAPTLS',
-            Value         => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Key           => "Kernel::System::MailAccount::$Type",
+            Value         => "$Type: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPOperation->( 'close', );
     if ($CMD) {
-        print "$AuthType: Connection to $Param{Host} closed.\n\n";
+        print "$Type: Connection to $Param{Host} closed.\n\n";
     }
 
     if ($ConnectionWithErrors) {
