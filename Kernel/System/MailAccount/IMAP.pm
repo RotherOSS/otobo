@@ -54,6 +54,7 @@ sub Connect {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return (
                 Successful => 0,
                 Message    => "Need $_!",
@@ -67,27 +68,31 @@ sub Connect {
         timeout => $Param{Timeout},
         debug   => $Param{Debug} || undef,
     );
-    if ( !$IMAPObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
 
-    # authentication
-    my $Auth = $IMAPObject->login( $Param{Login}, $Param{Password} );
+    # report failure
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}: $@\n"
+    ) unless $IMAPObject;
+
+    # authentication is a separate step with Net::IMAP::Simple
+    my $Auth = $IMAPObject->login(
+        $Param{Login},
+        $Param{Password}
+    );
     if ( !defined $Auth ) {
         $IMAPObject->quit();
+
         return (
             Successful => 0,
             Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
         );
     }
 
+    # looks good
     return (
         Successful => 1,
         IMAPObject => $IMAPObject,
-        Type       => $Type,
     );
 }
 
@@ -150,6 +155,7 @@ sub _Fetch {
                 ObjectLogType => 'Connection',
                 Status        => 'Failed',
             );
+            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
             return;
         }
@@ -167,6 +173,8 @@ sub _Fetch {
                 ObjectLogType => 'Connection',
                 Status        => 'Failed',
             );
+
+            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
             return;
         }
@@ -206,6 +214,7 @@ sub _Fetch {
             Timeout  => $Timeout,
             Debug    => $Debug
         );
+
         return 1;
     } || do {
         my $Error = $@;
@@ -228,6 +237,8 @@ sub _Fetch {
             ObjectLogType => 'Connection',
             Status        => 'Failed',
         );
+
+        $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
         return;
     }
@@ -268,10 +279,9 @@ sub _Fetch {
     };
 
     # read folder from MailAccount configuration
-    my $IMAPFolder = $Param{IMAPFolder}                         || 'INBOX';
-    my $NOM        = $IMAPOperation->( 'select', $IMAPFolder, ) || 0;
-    my $AuthType   = $Connect{Type};
-
+    my $IMAPFolder           = $Param{IMAPFolder}                         || 'INBOX';
+    my $NOM                  = $IMAPOperation->( 'select', $IMAPFolder, ) || 0;
+    my $AuthType             = $Connect{Type};
     my $ConnectionWithErrors = 0;
     my $MessagesWithError    = 0;
 
@@ -388,7 +398,6 @@ sub _Fetch {
                 $FetchCounter++;
                 my $FetchDelay = ( $FetchCounter % 20 == 0 ? 1 : 0 );
                 if ( $FetchDelay && $CMD ) {
-
                     print "$AuthType: Safety protection: waiting 1 second before processing next mail...\n";
 
                     $CommunicationLogObject->ObjectLog(
@@ -548,6 +557,7 @@ sub _Fetch {
         ObjectLogType => 'Connection',
         Status        => 'Successful',
     );
+    $CommunicationLogObject->CommunicationStop( Status => 'Successful' );
 
     return if $MessagesWithError;
     return 1;

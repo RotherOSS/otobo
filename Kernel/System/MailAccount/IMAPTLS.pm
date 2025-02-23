@@ -51,6 +51,11 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+
             return (
                 Successful => 0,
                 Message    => "Need $_!",
@@ -77,16 +82,16 @@ sub Connect {
         Ignoresizeerrors => 1,
     );
 
-    # looks good
-    return (
-        Successful => 1,
-        IMAPObject => $IMAPObject,
-    ) if $IMAPObject;
-
     # report failure
     return (
         Successful => 0,
         Message    => "$Type: Can't connect to $Param{Host}: $@\n"
+    ) unless $IMAPObject;
+
+    # looks good
+    return (
+        Successful => 1,
+        IMAPObject => $IMAPObject,
     );
 }
 
@@ -208,6 +213,8 @@ sub _Fetch {
             Timeout  => $Timeout,
             Debug    => $Debug
         );
+
+        return 1;
     } || do {
         my $Error = $@;
         %Connect = (
@@ -270,7 +277,6 @@ sub _Fetch {
         return $ScalarResult;
     };
 
-
     # read folder from MailAccount configuration
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
     my $Messages;
@@ -324,11 +330,10 @@ sub _Fetch {
             }
 
             if ($CMD) {
-                print
-                    "$Type: Message $FetchCounter/$NumberOfMessages ($Param{Login}/$Param{Host})\n";
+                print "$Type: Message $FetchCounter/$NumberOfMessages ($Param{Login}/$Param{Host})\n";
             }
 
-            # check message size
+            # check maximum message size
             my $MessageSize = $IMAPOperation->( 'size', $Messageno, );
             if ( !( defined $MessageSize ) ) {
                 my $ErrorMessage = "$Type: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
@@ -426,8 +431,7 @@ sub _Fetch {
                             );
                         }
 
-                        my $File = $Self->_ProcessFailed( Email => $Message );
-
+                        my $File         = $Self->_ProcessFailed( Email => $Message );
                         my $ErrorMessage = "$Type: Can't process mail, see log sub system ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
 
                         $CommunicationLogObject->ObjectLog(
@@ -442,6 +446,14 @@ sub _Fetch {
 
                     # mark email to delete once it was processed
                     $IMAPOperation->( 'delete_message', $Messageno, );
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectLogType => 'Connection',
+                        Priority      => 'Debug',
+                        Key           => "Kernel::System::MailAccount::$Type",
+                        Value         => "Message '$Messageno' marked for deletion.",
+                    );
+
                     undef $PostMasterObject;
 
                     $CommunicationLogObject->ObjectLogStop(
@@ -483,6 +495,13 @@ sub _Fetch {
     if ($CMD) {
         print "$Type: Connection to $Param{Host} closed.\n\n";
     }
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Connection',
+        Priority      => 'Debug',
+        Key           => "Kernel::System::MailAccount::Type",
+        Value         => "Connection to '$Param{Host}' closed.",
+    );
 
     if ($ConnectionWithErrors) {
         $CommunicationLogObject->ObjectLogStop(
