@@ -94,18 +94,6 @@ sub Connect {
     );
 }
 
-sub _Fetch {
-    my ( $Self, %Param ) = @_;
-
-    # fetch again if still messages on the account
-    MESSAGE:
-    while (1) {
-        return       if !$Self->_Fetch(%Param);
-        last MESSAGE if $Self->{Reconnect};
-    }
-    return 1;
-}
-
 sub Fetch {
     my ( $Self, %Param ) = @_;
 
@@ -198,6 +186,7 @@ sub Fetch {
             Timeout  => 15,
             Debug    => $Debug
         );
+
         return 1;
     } || do {
         my $Error = $@;
