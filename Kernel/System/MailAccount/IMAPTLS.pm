@@ -27,13 +27,13 @@ use Mail::IMAPClient ();
 use IO::Socket::SSL  ();
 
 # OTOBO modules
-use Kernel::System::PostMaster ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CommunicationLog',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
 sub new {
@@ -396,12 +396,15 @@ sub _Fetch {
                     $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
                     my $MessageStatus = 'Successful';
 
-                    my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        Email                  => \$Message,
-                        Trusted                => $Param{Trusted} || 0,
-                        Debug                  => $Debug,
-                        CommunicationLogObject => $CommunicationLogObject,
+                    my $PostMasterObject = $Kernel::OM->Create(
+                        'Kernel::System::PostMaster',
+                        ObjectParams => {
+                            $Self->%*,
+                            Email                  => \$Message,
+                            Trusted                => $Param{Trusted} || 0,
+                            Debug                  => $Debug,
+                            CommunicationLogObject => $CommunicationLogObject,
+                        },
                     );
 
                     # In case of error, mark message as failed.
