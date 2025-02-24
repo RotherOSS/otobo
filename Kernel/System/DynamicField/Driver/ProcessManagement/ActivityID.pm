@@ -66,6 +66,13 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
+    # ActivityID dynamic field values are stored in the database table attribute dynamic_field_value.value_text
+    $Self->{ValueKey}       = 'ValueText';
+    $Self->{TableAttribute} = 'value_text';
+
+    # Used for declaring CSS classes
+    $Self->{FieldCSSClass} = 'DynamicFieldText';
+
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
@@ -166,9 +173,6 @@ sub DisplayValueRender {
 
 sub ColumnFilterValuesGet {
     my ( $Self, %Param ) = @_;
-
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
 
     # set PossibleValues
     my $SelectionData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityList();
