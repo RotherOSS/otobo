@@ -1303,13 +1303,13 @@ sub _BuildQueryParams {
         return $Param{RestClient}->buildQuery( $Param{Data}->%* );
     }
 
-    my $QueryParams = '';
+    my @QueryParams;
 
     for my $Data ( $Param{Data}->@* ) {
-        $QueryParams .= $Param{RestClient}->buildQuery( $Data->%* );
+        push @QueryParams, $Param{RestClient}->buildQuery( $Data->%* );
     }
 
-    return $QueryParams;
+    return join( '&', @QueryParams)
 }
 
 =end Internal:
