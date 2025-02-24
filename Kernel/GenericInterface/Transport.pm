@@ -148,7 +148,7 @@ sub ProviderGenerateResponse {
         $ErrorMessage = 'Missing parameter Success.';
     }
     elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
-        $ErrorMessage = 'Data is not a hash reference.';
+        $ErrorMessage = 'Data is not a hash or array reference.';
     }
 
     # throw errors as an exception
