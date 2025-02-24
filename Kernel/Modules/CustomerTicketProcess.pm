@@ -103,9 +103,7 @@ sub Run {
     $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-/_/r : '';
 
     # get needed objects
-    my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
@@ -256,10 +254,6 @@ sub _RenderAjax {
     my %FieldsProcessed;
     my @JSONCollector;
     my $Services;
-
-    # All submitted DynamicFields
-    # get dynamic field values form http request
-    my %DynamicFieldValues;
 
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -801,7 +795,7 @@ sub _GetParam {
             next DIALOGFIELD;
         }
 
-        # if no Submitted nore Ticket Param get ActivityDialog Config's Param
+        # if no Submitted nor Ticket Param get ActivityDialog Config's Param
         $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
 
         if ($Value) {
@@ -938,11 +932,9 @@ sub _OutputActivityDialog {
     # get necessary objects
     # CustomerTicketProcess gets only called by CustomerTicketZoom and returns its HTML to there
     # for HTML generation a separate LayoutObject is created; all JS-stuff has to be done with the one of CustomerTicketZoom (e.g. in dynamic fields)
-    my $LayoutObjectZoom          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $LayoutObject              = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
-    my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
-    my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
+    my $TicketObject     = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # Check needed parameters:
     # ProcessEntityID only
@@ -3247,8 +3239,7 @@ sub _StoreActivityDialog {
     }
 
     # get needed objects
-    my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @Notify;
 
@@ -3473,7 +3464,7 @@ sub _StoreActivityDialog {
             my $Success;
             if ( $Self->{NameToID}{$CurrentField} eq 'Title' ) {
 
-                # if there is no title, nothig is needed to be done
+                # if there is no title, nothing is needed to be done
                 if (
                     !defined $TicketParam{'Title'}
                     || ( defined $TicketParam{'Title'} && $TicketParam{'Title'} eq '' )
