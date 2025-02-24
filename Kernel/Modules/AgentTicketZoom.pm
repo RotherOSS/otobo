@@ -844,7 +844,7 @@ sub MaskAgentZoom {
         TemplateTypes => 1,
     );
 
-    # get cofig object
+    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # generate shown articles
@@ -2002,74 +2002,83 @@ sub MaskAgentZoom {
                     Include => $DFConfig->{Config}{Include},
                 );
 
-                for my $IncludeField (@IncludedFields) {
+                for my $ValueIndex ( 0 .. $#{ $Ticket{ 'DynamicField_' . $Field->{Name} } } ) {
+                    my $ValueItem = $Ticket{ 'DynamicField_' . $Field->{Name} }[$ValueIndex];
 
-                    my $IncludeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                        Name => $IncludeField,
-                    );
-                    my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
-                        DynamicFieldConfig => $IncludeDFConfig,
-                        Value              => $Ticket{ 'DynamicField_' . $IncludeDFConfig->{Name} },
-                        LayoutObject       => $LayoutObject,
+                    for my $IncludeField (@IncludedFields) {
 
-                        # no ValueMaxChars here, enough space available
-                    );
+                        my $IncludeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                            Name => $IncludeField,
+                        );
+                        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
+                            DynamicFieldConfig => $IncludeDFConfig,
+                            Value              => $ValueItem->{ $IncludeDFConfig->{Name} },
+                            LayoutObject       => $LayoutObject,
 
-                    my %IncludeField = (
-                        $IncludeDFConfig->{Name} => $ValueStrg->{Title},
-                        Name                     => $IncludeDFConfig->{Name},
-                        Title                    => $ValueStrg->{Title},
-                        Value                    => $ValueStrg->{Value},
-                        ValueKey                 => $Ticket{ 'DynamicField_' . $IncludeDFConfig->{Name} },
-                        Label                    => $IncludeDFConfig->{Label},
-                        Link                     => $ValueStrg->{Link},
-                        LinkPreview              => $ValueStrg->{LinkPreview},
+                            # no ValueMaxChars here, enough space available
+                        );
 
-                        # Include unique parameter with dynamic field name in case of collision with others.
-                        #   Please see bug#13362 for more information.
-                        "DynamicField_$IncludeDFConfig->{Name}" => $ValueStrg->{Title},
-                    );
-                    $LayoutObject->Block(
-                        Name => 'SetDynamicField',
-                        Data => {
-                            Name  => $IncludeField{Name},
-                            Label => $IncludeField{Label},
+                        my %IncludeField = (
+                            $IncludeDFConfig->{Name} => $ValueStrg->{Title},
+                            Name                     => $IncludeDFConfig->{Name},
+                            Title                    => $ValueStrg->{Title},
+                            Value                    => $ValueStrg->{Value},
+                            ValueKey                 => $ValueItem->{ $IncludeDFConfig->{Name} },
+                            Label                    => $IncludeDFConfig->{Label},
+                            Link                     => $ValueStrg->{Link},
+                            LinkPreview              => $ValueStrg->{LinkPreview},
+
+                            # Include unique parameter with dynamic field name in case of collision with others.
+                            #   Please see bug#13362 for more information.
+                            "DynamicField_$IncludeDFConfig->{Name}" => $ValueStrg->{Title},
+                        );
+                        $LayoutObject->Block(
+                            Name => 'SetDynamicField',
+                            Data => {
+                                Name  => $IncludeField{Name},
+                                Label => $IncludeField{Label},
+                            }
+                        );
+                        $LayoutObject->Block(
+                            Name => 'SetDynamicFieldValueOverlayTrigger',
+                        );
+
+                        if ( $IncludeDFConfig->{Link} ) {
+                            $LayoutObject->Block(
+                                Name => 'SetDynamicFieldLink',
+                                Data => {
+                                    $IncludeField{Name} => $IncludeField{Title},
+                                    %Ticket,
+
+                                    # alias for ticket title, Title will be overwritten
+                                    TicketTitle => $Ticket{Title},
+                                    Value       => $IncludeField{Value},
+                                    Title       => $IncludeField{Title},
+                                    Link        => $IncludeField{Link},
+                                    LinkPreview => $IncludeField{LinkPreview},
+
+                                    # Include unique parameter with dynamic field name in case of collision with others.
+                                    #   Please see bug#13362 for more information.
+                                    "DynamicField_$IncludeField{Name}" => $IncludeField{Title},
+                                },
+                            );
                         }
-                    );
-                    $LayoutObject->Block(
-                        Name => 'SetDynamicFieldValueOverlayTrigger',
-                    );
-
-                    if ( $IncludeDFConfig->{Link} ) {
+                        else {
+                            $LayoutObject->Block(
+                                Name => 'SetDynamicFieldPlain',
+                                Data => {
+                                    Value => $IncludeField{Value},
+                                    Title => $IncludeField{Title},
+                                },
+                            );
+                        }
+                        push @FieldsInAGroup, $Field->{Name};
+                    }
+                    if ( $ValueIndex != $#{ $Ticket{ 'DynamicField_' . $Field->{Name} } } ) {
                         $LayoutObject->Block(
-                            Name => 'SetDynamicFieldLink',
-                            Data => {
-                                $IncludeField{Name} => $IncludeField{Title},
-                                %Ticket,
-
-                                # alias for ticket title, Title will be overwritten
-                                TicketTitle => $Ticket{Title},
-                                Value       => $IncludeField{Value},
-                                Title       => $IncludeField{Title},
-                                Link        => $IncludeField{Link},
-                                LinkPreview => $IncludeField{LinkPreview},
-
-                                # Include unique parameter with dynamic field name in case of collision with others.
-                                #   Please see bug#13362 for more information.
-                                "DynamicField_$IncludeField{Name}" => $IncludeField{Title},
-                            },
+                            Name => 'DynamicFieldSetValueSeparator',
                         );
                     }
-                    else {
-                        $LayoutObject->Block(
-                            Name => 'SetDynamicFieldPlain',
-                            Data => {
-                                Value => $IncludeField{Value},
-                                Title => $IncludeField{Title},
-                            },
-                        );
-                    }
-                    push @FieldsInAGroup, $Field->{Name};
                 }
             }
 
@@ -3237,7 +3246,7 @@ sub _CollectArticleAttachments {
 
     my %Attachments;
 
-    # get cofig object
+    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # download type
