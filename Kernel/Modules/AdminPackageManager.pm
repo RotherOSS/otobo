@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AdminPackageManager;
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use v5.24;
