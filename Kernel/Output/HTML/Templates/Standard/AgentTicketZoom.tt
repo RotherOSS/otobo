@@ -309,6 +309,9 @@
                                         </p>
                                         <div class="Clear"></div>
                                     </div>
+[% RenderBlockStart("DynamicFieldSetValueSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetValueSeparator") %]
 [% RenderBlockEnd("SetDynamicField") %]
                                 </div>
                                 <div class="Clear"></div>
