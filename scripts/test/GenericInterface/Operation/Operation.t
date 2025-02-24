@@ -132,7 +132,7 @@ $Self->True(
     'OperationObject call empty data provided',
 );
 
-# run with invalid data
+# run with empty array data
 $ReturnData = $OperationObject->Run(
     Data => [],
 );
@@ -141,9 +141,9 @@ $Self->Is(
     'HASH',
     'OperationObject call response',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
-    'OperationObject call invalid data provided',
+    'OperationObject call empty array data provided',
 );
 
 # run with some data
@@ -155,6 +155,17 @@ $ReturnData = $OperationObject->Run(
 $Self->True(
     $ReturnData->{Success},
     'OperationObject call data provided',
+);
+
+# run with some array data
+$ReturnData = $OperationObject->Run(
+    Data => {
+        [ 'one', 'two', 'three' ]
+    },
+);
+$Self->True(
+    $ReturnData->{Success},
+    'OperationObject call array data provided',
 );
 
 $Self->DoneTesting();

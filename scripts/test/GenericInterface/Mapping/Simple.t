@@ -137,12 +137,12 @@ my @MappingTests = (
         ResultSuccess => 1,
     },
     {
-        Name          => 'Test with invalid data',
+        Name          => 'Test with empty array data',
         Config        => undef,
         Data          => [],
-        ResultData    => undef,
+        ResultData    => [],
         ConfigSuccess => 1,
-        ResultSuccess => 0,
+        ResultSuccess => 1,
     },
     {
         Name   => 'Test without data',
@@ -213,6 +213,14 @@ my @MappingTests = (
         ResultSuccess => 0,
     },
     {
+        Name          => 'Test empty config array data',
+        Config        => {},
+        Data          => [ 'one', 'two', 'three' ],
+        ResultData    => [ 'one', 'two', 'three' ],
+        ConfigSuccess => 0,
+        ResultSuccess => 0,
+    },
+    {
         Name   => 'Test with wrong config',
         Config => {
             NoValidValue => {
@@ -259,6 +267,52 @@ my @MappingTests = (
         ResultSuccess => 1,
     },
     {
+        Name   => 'Test KeyMapExact Array',
+        Config => {
+            KeyMapExact => {
+                one  => 'new_value',
+                two  => 'another_new_value',
+                four => 'new_value_gain',
+            },
+            KeyMapDefault => {
+                MapType => 'Ignore',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => [
+            {
+                one   => 'one',
+                two   => 'two',
+                three => 'three',
+                four  => 'four',
+                five  => 'five',
+            },
+            {
+                one   => 'one',
+                two   => 'two',
+                three => 'three',
+                four  => 'four',
+                five  => 'five',
+            }
+        ],
+        ResultData => [
+            {
+                new_value         => 'one',
+                another_new_value => 'two',
+                new_value_gain    => 'four',
+            },
+            {
+                new_value         => 'one',
+                another_new_value => 'two',
+                new_value_gain    => 'four',
+            }
+        ],
+        ConfigSuccess => 1,
+        ResultSuccess => 1,
+    },
+    {
         Name   => 'Test KeyMapRegEx',
         Config => {
             KeyMapRegEx => {
@@ -283,6 +337,49 @@ my @MappingTests = (
             'state' => 'A lost state',
             prio    => 'with capital letter',
         },
+        ConfigSuccess => 1,
+        ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test KeyMapRegEx Array',
+        Config => {
+            KeyMapRegEx => {
+                'Stat(e|us)'  => 'state',
+                '[pP]riority' => 'prio',
+            },
+            KeyMapDefault => {
+                MapType => 'Ignore',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => [
+            {
+                State    => 'A lost state',
+                Stadium  => 'Allianz Arena',
+                Status   => 'Open',
+                Priority => 'with capital letter',
+                priority => 'without capital letter',
+            },
+            {
+                State    => 'A lost state',
+                Stadium  => 'Allianz Arena',
+                Status   => 'Open',
+                Priority => 'with capital letter',
+                priority => 'without capital letter',
+            },
+        ],
+        ResultData => [
+            {
+                'state' => 'A lost state',
+                prio    => 'with capital letter',
+            },
+            {
+                'state' => 'A lost state',
+                prio    => 'with capital letter',
+            },
+        ],
         ConfigSuccess => 1,
         ResultSuccess => 1,
     },
@@ -418,6 +515,80 @@ my @MappingTests = (
         },
         ConfigSuccess => 1,
         ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test KeyMapRegEx & KeyMapDefault Array',
+        Config => {
+            KeyMapRegEx => {
+                'Stat(e|us)'  => 'state',
+                '[pP]riority' => 'prio',
+            },
+            KeyMapDefault => {
+                MapType => 'Keep',
+                MapTo   => 'new_key',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data => [
+            {
+                State        => 'A lost state',
+                Stadium      => 'Allianz Arena',
+                Status       => 'Open',
+                Priority     => 'with capital letter',
+                priority     => 'without capital letter',
+                one_more_key => 'some value',
+                other_key    => 'an empty string',
+            },
+            {
+                State        => 'A lost state',
+                Stadium      => 'Allianz Arena',
+                Status       => 'Open',
+                Priority     => 'with capital letter',
+                priority     => 'without capital letter',
+                one_more_key => 'some value',
+                other_key    => 'an empty string',
+            },
+        ],
+        ResultData => [
+            {
+                'state'      => 'A lost state',
+                'Stadium'    => 'Allianz Arena',
+                prio         => 'with capital letter',
+                one_more_key => 'some value',
+                other_key    => 'an empty string',
+            },
+            {
+                'state'      => 'A lost state',
+                'Stadium'    => 'Allianz Arena',
+                prio         => 'with capital letter',
+                one_more_key => 'some value',
+                other_key    => 'an empty string',
+            },
+        ],
+        ConfigSuccess => 1,
+        ResultSuccess => 1,
+    },
+    {
+        Name   => 'Test KeyMapRegEx & KeyMapDefault Array simple (rejected) ',
+        Config => {
+            KeyMapRegEx => {
+                'Stat(e|us)'  => 'state',
+                '[pP]riority' => 'prio',
+            },
+            KeyMapDefault => {
+                MapType => 'Keep',
+                MapTo   => 'new_key',
+            },
+            ValueMapDefault => {
+                MapType => 'Keep',
+            },
+        },
+        Data          => [ "one", "two", "three" ],
+        ResultData    => undef,
+        ConfigSuccess => 1,
+        ResultSuccess => 0,
     },
     {
         Name   => 'Test KeyMapDefault ValueMapDefault large hash',
