@@ -231,7 +231,7 @@ sub _CheckInclude {
 
     LINE:
     for my $Line ( $Param{IncludeFrontend}->@* ) {
-        if ( $Line->{Grid} ) {
+        if ( IsHashRefWithData( $Line->{Grid} ) ) {
 
             if ( !IsArrayRefWithData( $Line->{Grid}{Rows} ) ) {
                 $Errors{IncludeServerError}        = 'ServerError';
@@ -258,7 +258,7 @@ sub _CheckInclude {
 
                 for my $DFEntry ( $Row->@* ) {
 
-                    if ( !$DFEntry->{DF} ) {
+                    if ( !IsHashRefWithData($DFEntry) || !$DFEntry->{DF} ) {
                         $Errors{IncludeServerError}        = 'ServerError';
                         $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows must contain entries with key \'DF\'!');
                         last LINE;

@@ -359,11 +359,23 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     } );
                 }
 
-                // bind editor resize to container($domEditableElement) size change (ie. when changing window size)
+                // bind editor resize to container($domEditableElement) size change
                 const resizeObserver = new ResizeObserver(() => {
                     adjustEditorSize();
                 });
                 resizeObserver.observe($domEditableElement.first().get(0));
+
+                // set correct min-height for customer interface to prevent overlapping
+                if (CustomerInterface) {
+                    const toolbarResizeObserver = new ResizeObserver(() => {
+                        let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
+                            let MinHeight = toolbarHeight + 100;
+    
+                            $domEditableElement.css('min-height', MinHeight + 'px');
+                    });
+                    toolbarResizeObserver.observe(editor.ui.view.toolbar.element);
+                }
+                
 
                 //make sure editor size is adjusted whenever the toolbar changes size
                 //otherwise editor size can behave weirdly right after loading page
