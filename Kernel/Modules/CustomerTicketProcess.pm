@@ -1246,7 +1246,7 @@ sub _OutputActivityDialog {
             InitialRun                => 1,
         );
 
-        %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{PossibleValues} } keys $Self->{DynamicField}->%*;
+        %DFPossibleValues = map { 'DynamicField_' . $_ => $DynFieldStates{Fields}{$_}{PossibleValues} } keys $Self->{DynamicField}->%*;
         %Visibility       = $DynFieldStates{Visibility}->%*;
     }
 
