@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AgentCustomerUserInformationCenterSearch;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
