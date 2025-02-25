@@ -56,13 +56,18 @@ sub Connect {
         }
     }
 
+    my $Type          = 'IMAPTLS';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
+
     # connect to host
+    # The initial socket is IO::Socket::IP or IO::Socket::INET.
+    # Later the socket will be upgraded to IO::Socket::SSL.
     my $IMAPObject = Mail::IMAPClient->new(
         Server   => $Param{Host},
         User     => $Param{Login},
         Password => $Param{Password},
         Starttls => [
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+            SSL_verify_mode => $SSLVerifyMode,
         ],
         Debug => $Param{Debug},
         Uid   => 1,
@@ -71,16 +76,16 @@ sub Connect {
         Ignoresizeerrors => 1,
     );
 
-    if ( !$IMAPObject ) {
-        return (
-            Successful => 0,
-            Message    => "IMAPTLS: Can't connect to $Param{Host}: $@\n"
-        );
-    }
-
+    # looks good
     return (
         Successful => 1,
         IMAPObject => $IMAPObject,
+    ) if $IMAPObject;
+
+    # report failure
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}: $@\n"
     );
 }
 
