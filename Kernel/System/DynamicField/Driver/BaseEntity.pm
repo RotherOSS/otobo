@@ -109,37 +109,11 @@ sub ValueSet {
 
     # perform search if neccessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
-
-        my @Values;
-        for my $ValueItem ( $Param{Value}->@* ) {
-
-            # perform search based on value and previously fetched data
-            my @ObjectIDs = $Self->SearchObjects(
-                DynamicFieldConfig => $Param{DynamicFieldConfig},
-                Term               => $ValueItem,
-                ExternalSource     => 1,
-                UserID             => $Param{UserID},
-            );
-
-            if ( !@ObjectIDs ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => "No objects found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
-                );
-                return;
-            }
-            elsif ( @ObjectIDs > 1 ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => "Ambiguous result found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
-                );
-                return;
-            }
-            else {
-                push @Values, $ObjectIDs[0];
-            }
-        }
-        $Param{Value} = @Values ? \@Values : $Param{Value};
+        $Param{Value} = $Self->_TransformExternalSource(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            ValueArray         => $Param{Value},
+            UserID             => $Param{UserID},
+        );
     }
 
     # for multiselect no set or multivalue structures
@@ -176,6 +150,31 @@ sub ValueSet {
         ObjectID => $Param{ObjectID},
         Value    => $DBValue,
         UserID   => $Param{UserID},
+    );
+}
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    my $Value1 = !$Param{Value1} ? [] :
+        ref $Param{Value1} ? [ $Param{Value1}->@* ] : [ $Param{Value1} ];
+
+    my $Value2 = !$Param{Value2} ? [] :
+        ref $Param{Value2} ? $Param{Value2} : [ $Param{Value2} ];
+
+    # perform search and replace Value1 if neccessary
+    if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
+        $Value1 = $Self->_TransformExternalSource(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            ValueArray         => $Value1,
+            UserID             => 1,
+        );
+    }
+
+    return $Self->SUPER::ValueIsDifferent(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Value1             => $Value1,
+        Value2             => $Value2,
     );
 }
 
@@ -855,6 +854,52 @@ sub ColumnFilterValuesGet {
     }
 
     return $ColumnFilterValues;
+}
+
+sub _TransformExternalSource {
+    my ( $Self, %Param ) = @_;
+
+    my @Values;
+    VALUE:
+    for my $ValueItem ( $Param{ValueArray}->@* ) {
+
+        # keep empty values
+        if ( !defined $ValueItem || $ValueItem eq '' ) {
+            push @Values, undef;
+
+            next VALUE;
+        }
+
+        # perform search based on value and previously fetched data
+        my @ObjectIDs = $Self->SearchObjects(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            Term               => $ValueItem,
+            ExternalSource     => 1,
+            UserID             => $Param{UserID},
+        );
+
+        if ( !@ObjectIDs ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "No objects found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
+            );
+
+            push @Values, undef;
+        }
+        elsif ( @ObjectIDs > 1 ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "Ambiguous result found for $Param{DynamicFieldConfig}{Name}, search term $ValueItem.",
+            );
+
+            push @Values, undef;
+        }
+        else {
+            push @Values, $ObjectIDs[0];
+        }
+    }
+
+    return \@Values;
 }
 
 1;
