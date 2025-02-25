@@ -19,13 +19,18 @@ package Kernel::System::MailAccount::IMAPS;
 use strict;
 use warnings;
 
-# There are currently errors on Perl 5.20 on Travis, disable this check for now.
-## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-use IO::Socket::SSL;
-
 use parent qw(Kernel::System::MailAccount::IMAP);
 
+# core modules
+
+# CPAN modules
+use IO::Socket::SSL;
+use Net::IMAP::Simple;
+
+# OTOBO modules
+
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
 );
 
@@ -42,16 +47,18 @@ sub Connect {
         }
     }
 
-    my $Type = 'IMAPS';
+    my $Type          = 'IMAPS';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
+    # The underlying socket is an IO::Socket::SSL from the beginning.
     my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
         timeout     => $Param{Timeout},
         debug       => $Param{Debug},
         use_ssl     => 1,
         ssl_options => [
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+            SSL_verify_mode => $SSLVerifyMode,
         ],
     );
     if ( !$IMAPObject ) {
