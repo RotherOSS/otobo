@@ -13,7 +13,7 @@
 - 2024-10-21 14:06:22 +0200 [Enhanced] Set up continous integration (https://github.com/RotherOSS/otobo/issues/211) - in progress
 - 2024-10-18 14:01:14 +0200 [Bugfix]   Unexpected Links appear in articles (https://github.com/RotherOSS/otobo/issues/3880)
 - 2024-10-18 10:39:30 +0100 [Bugfix]   article list in agentticketzoom has vanishing resize handle (https://github.com/RotherOSS/otobo/issues/3878)
-- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-10-16 13:16:45 +0200 [Bugfix]   Article sorting in AgentTicketZoom is broken for articles with exact same Create-Timestamp (https://github.com/RotherOSS/otobo/issues/3874)
 - 2024-10-16 08:21:01 +0200 [Bugfix]   Provide console script to rename translation_item column import to import_param (https://github.com/RotherOSS/otobo/issues/3661)
 - 2024-10-14 10:17:43 +0200 [Changed]  Allow 0 as valid time unit input in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/3870)
