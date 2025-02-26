@@ -34,7 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
-# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3S.
+# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle SSL.
 BEGIN {
     if ( !defined &Net::POP3::starttls ) {
         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
@@ -60,22 +60,22 @@ sub Connect {
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
-    # A IP::Socket::INET socket is created and before any communication is done, the socket is
+    # A IO::Socket::INET socket is created and before any communication is done, the socket is
     # upgraded to IO::Socket::SSL.
     my $PopObject = Net::POP3->new(
         $Param{Host},
-        Timeout         => $Param{Timeout},
-        Debug           => $Param{Debug},
+        Timeout => $Param{Timeout},
+        Debug   => $Param{Debug},
+
+        # SSL parameters
         SSL             => 1,
         SSL_verify_mode => $SSLVerifyMode,
     );
 
-    if ( !$PopObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}"
+    ) unless $PopObject;
 
     # authentication
     my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
