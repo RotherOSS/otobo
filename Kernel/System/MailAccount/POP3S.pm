@@ -48,21 +48,22 @@ sub Connect {
 
     my $Type = 'POP3S';
 
-    # connect to host
+    # A IO::Socket::INET socket is created and before any communication is done, the socket is
+    # upgraded to IO::Socket::SSL.
     my $PopObject = Net::POP3->new(
         $Param{Host},
-        Timeout         => $Param{Timeout},
-        Debug           => $Param{Debug},
+        Timeout => $Param{Timeout},
+        Debug   => $Param{Debug},
+
+        # SSL parameters
         SSL             => 1,
         SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
     );
 
-    if ( !$PopObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}"
+    ) unless $PopObject;
 
     # authentication
     my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );

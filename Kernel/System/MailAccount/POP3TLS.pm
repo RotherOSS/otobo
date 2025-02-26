@@ -56,13 +56,12 @@ sub Connect {
         Debug   => $Param{Debug},
     );
 
-    if ( !$PopObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}"
+    ) unless $PopObject;
 
+    # upgrade to SSL
     $PopObject->starttls(
         SSL             => 1,
         SSL_verify_mode => $SSLVerifyMode,
