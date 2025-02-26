@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-10-28 15:10+0000\n"
+"POT-Creation-Date: 2025-02-26 11:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4011,11 +4011,19 @@ msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "SSL hostname verification."
+msgid "SSL hostname verification"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -9003,10 +9011,6 @@ msgid "Create New Email Ticket"
 msgstr ""
 
 #. Template: AgentTicketEmail
-msgid "Example Template"
-msgstr ""
-
-#. Template: AgentTicketEmail
 msgid "To customer user"
 msgstr ""
 
@@ -11887,15 +11891,15 @@ msgid "Need valid field driver."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in RequiredArgs."
+msgid "Erroneous value in RequiredArgs."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in PreviewTriggers."
+msgid "Erroneous value in PreviewTriggers."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in StorageTriggers."
+msgid "Erroneous value in StorageTriggers."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
@@ -12368,6 +12372,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "File or Directory not found."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
@@ -15586,6 +15598,30 @@ msgstr ""
 msgid "Select the input mode for the edit field."
 msgstr ""
 
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
@@ -15684,6 +15720,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
 msgid "Pretty print the exported concatenated JSON"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
@@ -22962,6 +23002,10 @@ msgid "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the por
 msgstr ""
 
 #. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
 msgstr ""
 
@@ -24587,6 +24631,14 @@ msgstr ""
 
 #. SysConfig
 msgid "SLAs"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
 msgstr ""
 
 #. SysConfig
@@ -26390,7 +26442,7 @@ msgid "Tile registration for the CustomerDashboard. Module is required. Optional
 msgstr ""
 
 #. SysConfig
-msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
 msgstr ""
 
 #. SysConfig
@@ -26543,6 +26595,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications."
+msgstr ""
+
+#. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
 msgstr ""
 
 #. SysConfig
