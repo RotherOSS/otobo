@@ -1807,7 +1807,7 @@ sub Run {
             }
         }
 
-        # build new repsonse format based on template
+        # build new response format based on template
         $Data{ResponseFormat} = $LayoutObject->Output(
             Template => $ResponseFormat,
             Data     => { %Param, %DataHTML },
@@ -2374,6 +2374,13 @@ sub _Mask {
 
         $LoadedFormDraft->{ChangeByName} = $Kernel::OM->Get('Kernel::System::User')->UserName(
             UserID => $LoadedFormDraft->{ChangeBy},
+        );
+    }
+
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
         );
     }
 

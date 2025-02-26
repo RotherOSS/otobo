@@ -32,6 +32,7 @@
                 <li class="HeaderPopupleft">
                     <h1>[% Translate("Move %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
                 </li>
+
 [% RenderBlockStart("TicketBack") %]
                 <li class="HeaderPopupright">
                     <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
@@ -46,6 +47,9 @@
                 </li>
 [% RenderBlockEnd("PropertiesLock") %]
             </ul>
+[% RenderBlockStart("AsteriskExplanation") %]
+            <p class="AsteriskExplanation" id="AsteriskExplanationHeader">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+[% RenderBlockEnd("AsteriskExplanation") %]
         </div>
         <div class="Content">
             [% INCLUDE "FormElements/DraftNotifications.tt" %]
@@ -58,13 +62,6 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
-
-[% RenderBlockStart("AsteriskExplanation") %]
-                    <div class="Field">
-                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
-                    </div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("AsteriskExplanation") %]
 
 [% RenderBlockStart("Queue") %]
                         <label class="Mandatory" for="DestQueueID"><span class="Marker">*</span> [% Translate("New Queue") | html %]:</label>

@@ -97,6 +97,11 @@
         <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
 
         <div class="Messenger">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
             <fieldset class="DontPrint">
 [% RenderBlockStart("DynamicField_TitleMessage") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>

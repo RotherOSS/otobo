@@ -1145,6 +1145,13 @@ sub _OutputActivityDialog {
         );
     }
 
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
+    }
+
     $Output .= $LayoutObject->Output(
         TemplateFile => 'ProcessManagement/CustomerActivityDialogHeader',
         Data         => {
