@@ -87,6 +87,7 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
+               
 [% RenderBlockStart("Title") %]
                         <label class="Mandatory" for="Title"><span class="Marker">*</span>[% Translate("Title") | html %]:</label>
                         <div class="Field">
@@ -281,6 +282,14 @@
                     <div class="Content">
 
                         <fieldset class="TableLike FixedLabel">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+                        <div class="Field">
+                            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
 [% IF Data.WidgetStatus == 'Expanded' %]
                             <input type="hidden" id="CreateArticle" name="CreateArticle" value="1" />
 [% ELSE %]
@@ -293,6 +302,7 @@
                         </fieldset>
 [% RenderBlockStart("InformAdditionalAgents") %]
                         <fieldset class="TableLike FixedLabel">
+
 [% RenderBlockStart("InformAgent") %]
                             <label for="InformUserID">[% Translate("Inform agents") | html %]:</label>
                             <div class="Field">
@@ -316,6 +326,7 @@
 [% RenderBlockEnd("InformAdditionalAgents") %]
 [% RenderBlockStart("InformAgentsWithoutSelection") %]
                         <fieldset class="TableLike FixedLabel">
+
                             <label>[% Translate("Text will also be received by") | html %]:</label>
                             <div class="Field">
                                 <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
@@ -328,6 +339,7 @@
 [% RenderBlockEnd("InformAgentsWithoutSelection") %]
 
                         <fieldset class="TableLike FixedLabel">
+
 [% RenderBlockStart("SubjectLabel") %]
                             <label for="Subject">[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabel") %]
