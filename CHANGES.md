@@ -1,9 +1,6 @@
 
 # OTOBO 11.0.8 2025-02-26
-- 2025-02-26 12:03:28 +0100 Create new OTOBO language files.
-- 2025-02-26 11:21:05 +0100 Tidying: align the code between POP3S and POPTLS
-- 2025-02-26 11:18:30 +0100 Tidying: fix incorrect type in messages: POP3TLS is correct
-- 2025-02-26 09:03:02 +0100 Fix CHANGES.
+- 2025-02-26 11:21:05 +0100 Tidied.
 - 2025-02-20 15:34:09 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
 - 2025-02-25 10:18:14 +0100 [Bugfix]   Allow for usage of "ExternalSource" also in ValueIsDifferent() of dynamic fields. (https://github.com/RotherOSS/otobo/issues/4193)
 - 2025-02-25 08:56:39 +0100 [Enhanced] Restrict dynamic field screens to list only ticket and article dynamic fields (https://github.com/RotherOSS/otobo/issues/4191)
@@ -16,7 +13,6 @@
 - 2025-02-24 10:20:18 +0100 [Enhanced] GenericInterface: Add capability to send and receive arrays as body using REST (https://github.com/RotherOSS/otobo/issues/4099)
 - 2025-02-24 09:34:40 +0100 Sets in DynamicFieldWidget in AgentTicketZoom look bad (https://github.com/RotherOSS/otobo/issues/4000)
 - 2025-02-24 08:55:57 +0100 [Bugfix]   Sorting and filtering by process and activity is broken in dashboard process ticket widget (https://github.com/RotherOSS/otobo/issues/4175)
-- 2025-02-21 18:55:19 +0100 Spelling: don't use dir as a shortcut for directory
 - 2025-02-21 18:55:19 +0100 Spelling: don't use dir as a shortcut for directory
 - 2025-02-21 11:48:48 +0100 Tidying: remove an unused variable
 - 2025-02-21 09:04:18 +0100 [Bugfix]   Update Elasticsearch to image version 7.17.27 (https://github.com/RotherOSS/otobo/issues/4035)
@@ -39,13 +35,10 @@
 - 2025-02-15 10:00:00 +0100 Check for update in base images (https://github.com/RotherOSS/otobo/issues/3448)
 - 2025-02-13 15:55:41 +0100 [Bugfix]   When cloning a dynamic field Set, the included field configuration is inserted incorrectly (https://github.com/RotherOSS/otobo/issues/4145)
 - 2025-02-13 12:57:05 +0100 Load Mail::Internet in the files where the module is used (https://github.com/RotherOSS/otobo/issues/4141)
-- 2025-02-11 12:45:52 +0100 Issue: #3931 adapt unittest expectation
-- 2025-02-11 12:15:44 +0100 Issue: #3931 adapt unitettest result expectation\n and make it more robust to simple text changes
-- 2025-02-11 11:21:26 +0100 Issue: #3931 update Seleniumtest to UI/Html changes / codepolicy
-- 2025-02-11 11:10:54 +0100 Issue: #3931 update Seleniumtest to UI/Html changes
+- 2025-02-11 12:45:52 +0100 Fix new failures in unit tests (https://github.com/RotherOSS/otobo/issues/3931)
 - 2025-02-10 07:51:55 +0100 [Bugfix]   DynamciField Script: Emptying the "Preview Triggers" option shows error "Bad value in PreviewTriggers." (https://github.com/RotherOSS/otobo/issues/4121)
 - 2025-02-11 09:37:57 +0100 [Bugfix]   Align attachment behavior name with package (https://github.com/RotherOSS/otobo/issues/4127)
-- 2025-02-07 14:32:22 +0100 Set up continous integration (https://github.com/RotherOSS/otobo/issues/211)
+- 2025-02-07 14:32:22 +0100 [Enhanced] Set up continous integration (https://github.com/RotherOSS/otobo/issues/211) - in progress
 - 2025-02-07 11:02:27 +0100 [Bugfix]   Clarify POD of VirtualFS Read sub (https://github.com/RotherOSS/otobo/issues/4124)
 - 2025-02-04 12:56:53 +0100 Tidying: use push instead of funny array assignment
 - 2025-02-04 09:48:16 +0100 Add help about how to get the list of available daemon modules
@@ -87,109 +80,52 @@
 - 2025-01-09 15:16:20 +0100 Tidying: Do not use the three-dot form of the range operator (https://github.com/RotherOSS/otobo/issues/4040)
 - 2024-11-26 12:58:46 +0100 [Bugfix]   Missing translation for Hint message in Email Outbound (https://github.com/RotherOSS/otobo/issues/3952)
 - 2025-01-09 14:25:28 +0100 [Enhanced] Enable processwidget-like dynamic field overview for non-process tickets (https://github.com/RotherOSS/otobo/issues/2866)
-- 2025-01-09 13:37:28 +0100 Issue #4020: eliminate OTOBODynamicFields.xml from ARCHIVE
+- 2025-01-09 13:37:28 +0100 Duplicate content in DynamicFields.xml and OTOBODynamicFields.xml (https://github.com/RotherOSS/otobo/issues/4020)
 - 2025-01-09 13:17:54 +0100 Tidying: eliminate that pesky RunTest() command
-- 2024-12-23 12:58:28 +0100 Issue #3563: remove debug comments
-- 2024-12-23 12:56:05 +0100 Issue #3563: Update unittests
-- 2025-01-09 13:05:04 +0100 Issue #4020: enhance a code comment
-- 2025-01-09 13:03:03 +0100 Issue #4020: remove OTOBODynamicFields.xml
-- 2025-01-08 11:07:56 +0100 Issue #3987: adapt unit test to reflect recent changes
-- 2025-01-07 16:20:17 +0100 Issue #4020: Remove settings that are also in DynamicFields.xml
+- 2024-12-23 12:58:28 +0100 Review dropdown filter behavior for Ticket owner dropdown (https://github.com/RotherOSS/otobo/issues/3563)
+- 2025-01-08 11:07:56 +0100 [Bugfix]   [BUG] Webservice -> Invoker -> TicketCreate and TicketUpdate -> CountLastArticle does not work as described. (https://github.com/RotherOSS/otobo/issues/3987)
 - 2024-12-13 13:05:07 +0100 test
 - 2024-12-12 12:49:57 +0100 remove clutter
 - 2025-01-07 13:15:18 +0100 Enhance POD of scripts::DBUpdateTo11_0::Base
-- 2024-11-06 14:21:21 +0100 Issue #3915: Improved ValueSet error message for dynamic field date driver.
-- 2024-11-08 11:41:35 +0100 Issue #3643: Removed dynamic field ajax handling from template subaction.
-- 2025-01-02 09:41:26 +0100 Issue #1708: update license year to 2025
-- 2025-01-02 09:36:59 +0100 Issue #1708: change http port used for local testserver from 80 to 8785\nto avoid potential collisions when port 80 is already bound
-- 2024-12-31 09:36:30 +0100 Issue #1708: replace makalu basic-auth test with local testserver
-- 2025-01-02 08:10:03 +0100 Issue #4007: Tidied up object dependencies of postmaster filters.
-- 2024-12-19 13:52:56 +0100 Issue #4001: add the block JSBoolean
+- 2024-11-06 14:21:21 +0100 Improve error messages in dynamic field Date(Time) drivers (https://github.com/RotherOSS/otobo/issues/3915)
+- 2024-11-08 11:41:35 +0100 Issue #3641: Fixed DynamicField Namespace sysconfig RegExp. (https://github.com/RotherOSS/otobo/issues/3643)
+- 2025-01-02 09:41:26 +0100 [Enhanced] Test basic authentication with a locally running webapp. (https://github.com/RotherOSS/otobo/issues/1708) - in progress
+- 2025-01-02 08:10:03 +0100 [Tidied]   Tidy up Kernel::System::Log from postmaster filter dependencies (https://github.com/RotherOSS/otobo/issues/4007)
+- 2024-12-19 13:52:56 +0100 Add support for [% PROCESS JSBoolean %] in toolkit templates (https://github.com/RotherOSS/otobo/issues/4001)
 - 2024-12-17 19:47:01 +0100 Add a couple of test cases for AddJSBoolean() in Render.t
 - 2024-12-16 10:49:55 +0000 Auth::Sync::LDAP was using the wrong config variable
-- 2024-12-16 12:18:36 +0100 Issue #3987: Fix all article attachments being sent, even if only one article is sent.
-- 2024-12-16 10:01:50 +0100 Issue #3719: adjust DF render unit test
+- 2024-12-16 10:01:50 +0100 [Bugfix]   DynamicField Reference Agent: Empty value doesn't work (https://github.com/RotherOSS/otobo/issues/3719)
 - 2024-12-15 15:03:08 +0100 Tidying: ran CodePolicy -a
-- 2024-12-13 10:16:49 +0100 Issue #3931: Fixed translation for MB in ar_SA.
-- 2024-12-15 11:04:51 +0100 Issue #3984: provide Kernel::System::UnitTest::Diff::TextEqOrDiff()
-- 2024-12-15 09:24:10 +0100 Issue #3984: no longer require Test::Differences
-- 2024-12-15 11:04:51 +0100 Issue #3984: provide Kernel::System::UnitTest::Diff::TextEqOrDiff()
-- 2024-12-15 09:24:10 +0100 Issue #3984: no longer require Test::Differences
-- 2024-12-14 14:57:00 +0100 Issue #3984: require Test::Differences for testing
-- 2024-12-14 14:01:58 +0100 Issue #3984: make the feature descriptions more complete
-- 2024-12-14 14:57:00 +0100 Issue #3984: require Test::Differences for testing
-- 2024-12-14 14:01:58 +0100 Issue #3984: make the feature descriptions more complete
-- 2024-12-13 10:16:49 +0100 Issue #3931: Fixed translation for MB in ar_SA.
-- 2024-12-06 09:03:58 +0100 Issue #3730: Automatically set PossibleNone to enabled when using an AutoComplete reference field to prevent interferences when validating an empty AutoComplete field.
-- 2024-12-11 11:10:35 +0100 Issue #3978: Updated POD to match code functionality.
-- 2024-12-09 16:13:50 +0000 Issue #3939: Minor adjustment in return statement
-- 2024-12-09 15:19:13 +0000 Issue #3939: Fix bug and view time accounting for deleted articles
-- 2024-12-07 10:44:43 +0100 Issue #3961: clarify description of empty string roundtrip
-- 2024-12-02 09:38:19 +0100 Issue #3961: Updated comment.
-- 2024-11-29 11:30:57 +0100 Issue #3961: Updated comment.
-- 2024-11-29 11:20:12 +0100 Issue #3961: Added comment and removed param from XMLout.
-- 2024-11-29 10:22:40 +0100 Issue #3961: Adapted test cases.
-- 2024-11-29 08:53:06 +0100 Issue #3961: Added parameter to XSLT mapping calls to map undef values and empty strings to empty strings instead of empty hash refs.
-- 2024-12-02 18:50:09 +0100 Issue #145: Recreate OTOBODynamicFields.xml, to overwrite it on upgraded systems.
+- 2024-12-15 11:04:51 +0100 Provide testing function that shows diff for multiline strings (https://github.com/RotherOSS/otobo/issues/3984)
+- 2024-12-06 09:03:58 +0100 [Bugfix]   DF Reference (to any object) with settings Dropdown + Multi Value (Multivalue) + Empty Value creates a superficial mandatory field (https://github.com/RotherOSS/otobo/issues/3730)
+- 2024-12-11 11:10:35 +0100 [Tidied]   POD for sub DeleteVersionData wrong (https://github.com/RotherOSS/otobo/issues/3978)
+- 2024-12-09 16:13:50 +0000 [Bugfix]   Fix time accounting in context of article editing. (https://github.com/RotherOSS/otobo/issues/3939)
+- 2024-12-07 10:44:43 +0100 [Changed]  Change handling of undef values and empty strings in webservice XSLT mapping (https://github.com/RotherOSS/otobo/issues/3961)
+- 2024-12-02 18:50:09 +0100 Docker: Set TestHTTPHostname (https://github.com/RotherOSS/otobo/issues/145)
 - 2024-11-28 14:15:51 +0100 Update Ticket.xml
-- 2024-11-28 13:55:45 +0100 Issue #3961: Add some test cases for XSLT mapping
 - 2024-11-27 19:24:46 +0000 Translated using Weblate (Italian)
-- 2024-11-28 14:15:40 +0100 Issue #3958: Removed setting translation.
-- 2024-11-28 13:46:16 +0100 Issue #3958: Fixed and expanded translation in ticket reference df. Accepted CodePolicy suggestions.
-- 2024-11-28 13:24:40 +0100 Issue #3958: Implement simple translation into DF ticket reference ObjectDescriptionGet.
-- 2024-11-28 11:54:12 +0100 Issue #3958: Passing LayoutObject to DF Reference ObjectDescriptionGet to enable translation where possible.
+- 2024-11-28 14:15:40 +0100 [Enhanced] Translate dynamic field reference values where useful (https://github.com/RotherOSS/otobo/issues/3958)
 - 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
-- 2024-11-26 07:57:19 +0100 Issue #3805: Overwriting labels on set-inner fields only if overwrite label exists.
-- 2024-11-25 17:46:34 +0100 Issue #3948: Fixed typo in log message.
-- 2024-11-25 09:54:58 +0100 Issue #3496: Store parsed email body in core also for SMIME encrypted emails.
-- 2024-10-24 09:32:14 +0200 Issue #3719: always sort select options so that empty value, if added, always is listed first
-- 2024-11-05 17:21:29 +0100 Issue #3908: Add Admin Console Command
-- 2024-10-31 11:53:16 +0100 Issue #3908: fix typo
-- 2024-10-31 11:36:36 +0100 Issue #3908: add OTOBOAgents migration to update script
-- 2024-10-31 11:34:56 +0100 Issue #3908: add OTOBOAgents migration to update script
-- 2024-10-31 09:33:15 +0100 Issue #3908: OTOBOAgents-Integration-uninstall
-- 2024-10-31 08:18:56 +0100 Issue #3908: OTOBOAgents-Integration, use BE objects where suitable.
-- 2024-10-30 15:45:18 +0100 Issue #3908: OTOBOAgents-Integration
-- 2024-11-19 08:57:42 +0100 Issue #3898: Corrected checks for configs and ACL permission.
-- 2024-11-15 21:18:43 +0100 Issue #3765: add tests with JSON as test data
-- 2024-11-15 21:15:21 +0100 Issue #3765: add code comment about an unused hash
-- 2024-11-14 15:17:20 +0100 Issue #3765: forgot to load Test2::V0 in test script
-- 2024-11-14 15:03:06 +0100 Issue #3765: emit plain 0 and 1 for JSON boolean values
-- 2024-11-13 15:01:56 +0100 Issue #3765: add the method Kernel::System::JSON::IsBool()
-- 2024-11-12 12:14:22 +0100 Issue #3765: convert test script to Test2::V0
-- 2024-11-12 08:42:50 +0100 Issue #3914: Renamend parameter.
-- 2024-11-11 17:22:15 +0100 Issue #3914: Renamed command.
-- 2024-11-11 15:37:08 +0100 Issue #3914: Improved module structure.
-- 2024-11-11 13:45:52 +0100 Issue #3914: Moved console command to more logical location.
-- 2024-11-06 15:06:56 +0100 Issue #3914: Included webservice invoker trigger console command from ITSMConfigurationManagement package.
-- 2024-11-11 11:55:29 +0000 Issue #3923: fixed shadows in customer ticket zoom
-- 2024-11-08 11:41:35 +0100 Issue #3642: Removed dynamic field ajax handling from template subaction.
-- 2024-11-07 13:11:44 +0000 Issue #3921: fixed z-index of tooltips
-- 2024-11-06 09:29:56 +0000 Issue #3482: cleanup and comments
+- 2024-11-26 07:57:19 +0100 [Enhanced] Key 'Label' does not work in Dynamic Field Set definition (https://github.com/RotherOSS/otobo/issues/3805)
+- 2024-11-25 17:46:34 +0100 [Bugfix]   Typo in Log message when reordering dynamic fields (https://github.com/RotherOSS/otobo/issues/3948)
+- 2024-11-25 09:54:58 +0100 [Bugfix]   Do not leave behind temporary files after mail encryption via S/MIME. (https://github.com/RotherOSS/otobo/issues/3496)
+- 2024-11-05 17:21:29 +0100 [Enhanced] Integrate package DynamicField OTOBOAgents (https://github.com/RotherOSS/otobo/issues/3908)
+- 2024-11-19 08:57:42 +0100 [Bugfix]   ACL handling for new article actions missing (https://github.com/RotherOSS/otobo/issues/3898)
+- 2024-11-15 21:18:43 +0100 [Bugfix]   Error while JSON::PP::Boolean key exists in incoming XML mapping (https://github.com/RotherOSS/otobo/issues/3765)
+- 2024-11-12 08:42:50 +0100 [Enhanced] Include console command to trigger a webservice invoker manually (https://github.com/RotherOSS/otobo/issues/3914)
+- 2024-11-11 11:55:29 +0000 inconsistent borders/shadows in customer ticket zoom mask  (https://github.com/RotherOSS/otobo/issues/3923)
+- 2024-11-08 11:41:35 +0100 [Bugfix]   AgentTicketEmailOutbound template update empties dynamic fields. (https://github.com/RotherOSS/otobo/issues/3642)
+- 2024-11-07 13:11:44 +0000 tooltip buttons visible through other tooltips (https://github.com/RotherOSS/otobo/issues/3921)
+- 2024-11-06 09:29:56 +0000 [Bugfix]   DF Date: Datepicker not disabled (https://github.com/RotherOSS/otobo/issues/3482)
 - 2024-10-30 09:19:23 +0000 changed css class ReadOnly to Readonly
-- 2024-10-28 09:28:41 +0000 Issue #3824: disable editing for readonly richtext dynamic fields
-- 2024-10-28 09:23:56 +0000 Issue #3482: cleaned up disabling of datepickers
-- 2024-10-24 09:06:16 +0100 Issue #3482: disable datepickers in disabled dynamic fields
-- 2024-11-07 11:01:59 +0100 Issue #3673: Use different dockerfiles for nginx-kerberos 10.0 and 10.1
-- 2024-11-07 10:01:06 +0100 Issue #3915: Improved date format in error message.
-- 2024-11-07 09:27:24 +0100 Issue #3918: Fix rendering of ArticleDynamicFieldUpdate history entries.
-- 2024-11-06 14:17:26 +0100 Issue #3915: Improved ValueSet error message for Date dynamic field driver.
-- 2024-11-07 08:21:40 +0100 Issue #3673: Run the autobuild for all release branches in the default branch rel-11_0.
-- 2024-11-05 12:48:48 +0100 Issue #3913: Set cookie for preauth also after invalid session id.
-- 2024-11-05 08:26:22 +0100 Issue #3911: Pass ticket id to GetFieldStates in process masks.
-- 2024-10-31 15:01:26 +0100 Issue #3673: Add an automated latest-autobuild update workflow and one which ca be manually executed for the latest couple of patches.
-- 2024-10-31 14:42:01 +0100 Issue #2627: Changed log message.
-- 2024-10-29 16:09:11 +0100 Issue #3815: Used id of passed element instead of hardcoded id 'RichText' to update textarea.
-- 2024-10-29 13:46:38 +0100 Issue #3890: Added Translatable calls to Translations ImportExport object backend.
-- 2024-10-29 14:06:13 +0100 Issue #3805: Added label handling for Set-inner fields.
-- 2024-10-29 16:00:34 +0100 Issue #3673: Add latest-autobuild docker tag.
-- 2024-10-29 15:10:34 +0100 Issue #3673: Remove unnecessary "`" from github actions.
-- 2024-10-29 11:53:16 +0100 Issue #3673: Latest - try changing the tag.
-- 2024-10-25 11:27:06 +0200 Issue #3898: Added new article actions to acl keys.
-- 2024-10-25 11:26:23 +0200 Issue #3898: Implemented ACLAction checks in new article actions.
-- 2024-10-28 17:09:56 +0100 Issue #3673: First docker update review for OTOBO 11_0.
-- 2024-10-28 16:05:59 +0100 Issue #3673: Update otobo.elasticsearch.dockerfile to old Elasticsearch version 7.17.3.
-- 2024-10-28 15:57:54 +0100 Issue #3673: Update otobo.elasticsearch.dockerfile to new Elasticsearch version 7.17.25.
+- 2024-10-28 09:28:41 +0000 [Bugfix]   Richtext dynamic fields does not respect readonly in UI (https://github.com/RotherOSS/otobo/issues/3824)
+- 2024-11-07 11:01:59 +0100 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673)
+- 2024-11-07 09:27:24 +0100 [Bugfix]   Fix rendering of ticket history entries of type ArticleDynamicFieldUpdate (https://github.com/RotherOSS/otobo/issues/3918)
+- 2024-11-05 12:48:48 +0100 [Bugfix]   OpenIDConnect - correctly set Cookie to prevent Sessiondata being added to browser address on relogin with expired session. (https://github.com/RotherOSS/otobo/issues/3913)
+- 2024-11-05 08:26:22 +0100 [Bugfix]   AgentTicketProcess and CustomerTicketProcess: Pass ticket id to ACL GetFieldStates (https://github.com/RotherOSS/otobo/issues/3911)
+- 2024-10-31 14:42:01 +0100 [Bugfix]   Opening of faulty statistics for editing not possible with invalid queues (https://github.com/RotherOSS/otobo/issues/2627)
+- 2024-10-29 16:09:11 +0100 [Bugfix]   Lens Richtext value is loaded into ticket body richtext area on AJAXUpdate in AgentTicketPhone (https://github.com/RotherOSS/otobo/issues/3815)
+- 2024-10-29 13:46:38 +0100 [Bugfix]   ImportExport object backend is missing Translatable calls for attribute names (https://github.com/RotherOSS/otobo/issues/3890)
 
 
 # OTOBO 11.0.7 2024-10-28
