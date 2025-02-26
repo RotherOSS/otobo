@@ -49,6 +49,14 @@
         <div class="Content">
 
             <fieldset class="TableLike FixedLabel">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+                <div class="Field">
+                    <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
                 <label class="Mandatory" for="BounceTo"><span class="Marker">*</span>[% Translate("Bounce to") | html %]:</label>
                 <div class="Field">
                     <input type="[% Env("EmailFieldType") | html %]" name="BounceTo" id="BounceTo" value="[% Data.BounceTo | html %]" class="W50pc Validate_Required [% Data.BounceToInvalid | html %]"/>

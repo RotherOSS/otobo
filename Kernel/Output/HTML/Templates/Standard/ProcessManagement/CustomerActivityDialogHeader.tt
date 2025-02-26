@@ -37,6 +37,14 @@
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
     <div class="Messenger">
         <fieldset class="TableLike">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+            <div class="Field">
+                <p class="AsteriskExplanationProcess">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
 [% RenderBlockStart("DescriptionShortAlt") %]
             <h2>[% Data.DescriptionShort | html %]</h2>
 [% RenderBlockEnd("DescriptionShortAlt") %]
