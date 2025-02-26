@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2024-10-02 12:53+0000\n"
+"POT-Creation-Date: 2025-02-26 09:57+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -24017,6 +24017,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"If any of the \"SSL\" mechanisms was selected as SendmailModule than declare "
+"whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
 msgstr ""
 
@@ -26003,6 +26009,14 @@ msgstr ""
 
 #. SysConfig
 msgid "S/MIME Certificates"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
 msgstr ""
 
 #. SysConfig
@@ -28550,6 +28564,12 @@ msgstr ""
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/"
+"IMAPTLS mail accounts."
 msgstr ""
 
 #. SysConfig
