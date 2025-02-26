@@ -75,6 +75,35 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
+        Name   => 'Test RegExp (Pre RegExp) with array data',
+        Config => {
+            PreRegExFilter => [
+                {
+                    Search  => '^(\D*)ID$',
+                    Replace => '$1Number',
+                },
+            ],
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+</xsl:transform>',
+        },
+        Data => [
+            { TicketID => $RandomNumber },
+            { TicketID => $RandomNumber },
+        ],
+        ResultData => [
+            { TicketNumber => $RandomNumber },
+            { TicketNumber => $RandomNumber },
+        ],
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
         Name   => 'Test RegExp (Post RegExp)',
         Config => {
             PostRegExFilter => [
@@ -102,6 +131,35 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
+        Name   => 'Test RegExp (Post RegExp) with array data',
+        Config => {
+            PostRegExFilter => [
+                {
+                    Search  => '^(\D*)ID$',
+                    Replace => '$1Number',
+                },
+            ],
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+</xsl:transform>',
+        },
+        Data => [
+            { TicketID => $RandomNumber },
+            { TicketID => $RandomNumber },
+        ],
+        ResultData => [
+            { TicketNumber => $RandomNumber },
+            { TicketNumber => $RandomNumber },
+        ],
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
         Name   => 'Test RegExp (Pre RegExp + Post RegExp)',
         Config => {
             PreRegExFilter => [
@@ -125,14 +183,26 @@ my @MappingTests = (
     </xsl:template>
 </xsl:transform>',
         },
-        Data => {
-            Ticket_Number => $RandomNumber,
-            QueueName     => $RandomNumber,
-        },
-        ResultData => {
-            TicketNumber => $RandomNumber,
-            QueueID      => $RandomNumber,
-        },
+        Data => [
+            {
+                Ticket_Number => $RandomNumber,
+                QueueName     => $RandomNumber,
+            },
+            {
+                Ticket_Number => $RandomNumber + 1,
+                QueueName     => $RandomNumber + 1,
+            },
+        ],
+        ResultData => [
+            {
+                TicketNumber => $RandomNumber,
+                QueueID      => $RandomNumber,
+            },
+            {
+                TicketNumber => $RandomNumber + 1,
+                QueueID      => $RandomNumber + 1,
+            },
+        ],
         ResultSuccess => 1,
         ConfigSuccess => 1,
     },
@@ -200,6 +270,115 @@ my @MappingTests = (
                 },
             },
         },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
+        Name   => 'Test RegExp complex (Post RegExp) with array data',
+        Config => {
+            PostRegExFilter => [
+                {
+                    Search  => '^(\D*)(\d)$',
+                    Replace => '$1_$2',
+                },
+                {
+                    Search  => '^_(\d*).(\d*)$',
+                    Replace => '$1x$2',
+                },
+                {
+                    Search  => '^(some)(K\D*)$',
+                    Replace => '$2$1',
+                },
+            ],
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+</xsl:transform>',
+        },
+        Data => [
+            {
+                UnitData => {
+                    UnitTestKey1 => 'someValue',
+                    UnitTestKey2 => 'someValue',
+                    Data         => {
+                        '_10x10' => 'someValue',
+                        '_20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData1 => 'someValue',
+                    OtherData2 => 'someValue',
+                    IssueData  => [
+                        {
+                            someKey  => 'someValue',
+                            '_20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+            {
+                UnitData => {
+                    UnitTestKey1 => 'someValue',
+                    UnitTestKey2 => 'someValue',
+                    Data         => {
+                        '_10x10' => 'someValue',
+                        '_20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData1 => 'someValue',
+                    OtherData2 => 'someValue',
+                    IssueData  => [
+                        {
+                            someKey  => 'someValue',
+                            '_20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+        ],
+        ResultData => [
+            {
+                UnitData => {
+                    UnitTestKey_1 => 'someValue',
+                    UnitTestKey_2 => 'someValue',
+                    Data          => {
+                        '10x10' => 'someValue',
+                        '20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData_1 => 'someValue',
+                    OtherData_2 => 'someValue',
+                    IssueData   => {
+                        Keysome => 'someValue',
+                        '20x20' => 'someValue'
+                    },
+                },
+            },
+            {
+                UnitData => {
+                    UnitTestKey_1 => 'someValue',
+                    UnitTestKey_2 => 'someValue',
+                    Data          => {
+                        '10x10' => 'someValue',
+                        '20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData_1 => 'someValue',
+                    OtherData_2 => 'someValue',
+                    IssueData   => {
+                        Keysome => 'someValue',
+                        '20x20' => 'someValue'
+                    },
+                },
+            },
+        ],
         ResultSuccess => 1,
         ConfigSuccess => 1,
     },
@@ -295,6 +474,161 @@ my @MappingTests = (
                 ],
             },
         },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
+        Name   => 'Test RegExp complex (Post RegExp + Pre RegExp) with array data',
+        Config => {
+            PostRegExFilter => [
+                {
+                    Search  => '^(\D*)(\d)$',
+                    Replace => '$1_$2',
+                },
+                {
+                    Search  => '^_(\d*).(\d*)$',
+                    Replace => '$1x$2',
+                },
+                {
+                    Search  => '^(some)(K\D*)$',
+                    Replace => '$2$1',
+                },
+            ],
+            PreRegExFilter => [
+                {
+                    Search  => '^(\D*)(ZZ)$',
+                    Replace => '$1_$2',
+                },
+                {
+                    Search  => '^[QQQ]+(Key)[QQQ]+$',
+                    Replace => 'Q$1Q',
+                },
+            ],
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:transform version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
+    </xsl:template>
+</xsl:transform>',
+        },
+        Data => [
+            {
+                UnitTestKeyZZ => 'someValue',
+                PreData       => {
+                    QQQKeyQQQ => 'someValue',
+                },
+                UnitData => {
+                    UnitTestKey1 => 'someValue',
+                    UnitTestKey2 => 'someValue',
+                    Data         => {
+                        '_10x10' => 'someValue',
+                        '_20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData1 => 'someValue',
+                    OtherData2 => 'someValue',
+                    IssueData  => [
+                        {
+                            someKey  => 'someValue',
+                            '_10x10' => 'someValue',
+                        },
+                        {
+                            someKey  => 'someValue',
+                            '_20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+            {
+                UnitTestKeyZZ => 'someValue',
+                PreData       => {
+                    QQQKeyQQQ => 'someValue',
+                },
+                UnitData => {
+                    UnitTestKey1 => 'someValue',
+                    UnitTestKey2 => 'someValue',
+                    Data         => {
+                        '_10x10' => 'someValue',
+                        '_20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData1 => 'someValue',
+                    OtherData2 => 'someValue',
+                    IssueData  => [
+                        {
+                            someKey  => 'someValue',
+                            '_10x10' => 'someValue',
+                        },
+                        {
+                            someKey  => 'someValue',
+                            '_20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+        ],
+        ResultData => [
+            {
+                UnitTestKey_ZZ => 'someValue',
+                PreData        => {
+                    QKeyQ => 'someValue',
+                },
+                UnitData => {
+                    UnitTestKey_1 => 'someValue',
+                    UnitTestKey_2 => 'someValue',
+                    Data          => {
+                        '10x10' => 'someValue',
+                        '20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData_1 => 'someValue',
+                    OtherData_2 => 'someValue',
+                    IssueData   => [
+                        {
+                            Keysome => 'someValue',
+                            '10x10' => 'someValue',
+                        },
+                        {
+                            Keysome => 'someValue',
+                            '20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+            {
+                UnitTestKey_ZZ => 'someValue',
+                PreData        => {
+                    QKeyQ => 'someValue',
+                },
+                UnitData => {
+                    UnitTestKey_1 => 'someValue',
+                    UnitTestKey_2 => 'someValue',
+                    Data          => {
+                        '10x10' => 'someValue',
+                        '20x20' => 'someValue',
+                    },
+                },
+                OtherData => {
+                    OtherData_1 => 'someValue',
+                    OtherData_2 => 'someValue',
+                    IssueData   => [
+                        {
+                            Keysome => 'someValue',
+                            '10x10' => 'someValue',
+                        },
+                        {
+                            Keysome => 'someValue',
+                            '20x20' => 'someValue',
+                        },
+                    ],
+                },
+            },
+        ],
         ResultSuccess => 1,
         ConfigSuccess => 1,
     },

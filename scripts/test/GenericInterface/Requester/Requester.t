@@ -69,6 +69,53 @@ my @Tests = (
         ResponseSuccess => 1,
     },
     {
+        Name             => 'Array HTTP request',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type           => 'Test::TestSimple',
+                        MappingInbound => {
+                            Type   => 'Test',
+                            Config => {
+                                TestOption => 'ToUpper',
+                            },
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        InputData => [
+            {
+                TicketID => 123,
+            },
+            {
+                TicketID => 4711,
+            },
+        ],
+        ReturnData => [
+            {
+                TicketID => 123,
+            },
+            {
+                TicketID => 4711,
+            },
+        ],
+        ResponseSuccess => 1,
+    },
+    {
         Name             => 'Simple HTTP request with umlaut',
         WebserviceConfig => {
             Debugger => {

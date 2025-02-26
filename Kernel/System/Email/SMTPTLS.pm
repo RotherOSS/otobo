@@ -16,8 +16,11 @@
 
 package Kernel::System::Email::SMTPTLS;
 
+use v5.24;
 use strict;
 use warnings;
+
+use parent qw(Kernel::System::Email::SMTP);
 
 # core modules
 
@@ -27,9 +30,8 @@ use IO::Socket::SSL ();
 
 # OTOBO modules
 
-use parent qw(Kernel::System::Email::SMTP);
-
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
 );
 
@@ -51,6 +53,9 @@ sub _Connect {
     my $FQDN = $Param{FQDN};
     $FQDN =~ s{:\d+}{}smx;
 
+    # Do not verify the mail server per default
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('SendmailModule::SSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
+
     # set up connection connection
     my $SMTP = Net::SMTP->new(
         $Param{MailHost},
@@ -60,10 +65,10 @@ sub _Connect {
         Debug   => $Param{SMTPDebug},
     );
 
-    return if !$SMTP;
+    return unless $SMTP;
 
     $SMTP->starttls(
-        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
     return $SMTP;

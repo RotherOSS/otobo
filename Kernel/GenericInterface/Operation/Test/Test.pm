@@ -103,15 +103,15 @@ was handed to the function or return a variable data if 'TestError' and
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # check data - only accept undef or hash ref or array ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Operation Test backend)!'
+            Summary => 'Got Data but it is not a hash or array ref in Operation Test backend)!'
         );
     }
 
-    if ( defined $Param{Data} && $Param{Data}->{TestError} ) {
+    if ( defined $Param{Data} && ref $Param{Data} eq 'HASH' && $Param{Data}->{TestError} ) {
 
         return {
             Success      => 0,
@@ -127,6 +127,9 @@ sub Run {
 
     if ( ref $Param{Data} eq 'HASH' ) {
         $ReturnData = \%{ $Param{Data} };
+    }
+    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+        $ReturnData = \@{ $Param{Data} };
     }
     else {
         $ReturnData = undef;

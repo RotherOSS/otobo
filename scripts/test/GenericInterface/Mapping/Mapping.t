@@ -174,9 +174,9 @@ $Self->Is(
     'HASH',
     'MappingObject call response type',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
-    'MappingObject call invalid data provided',
+    'MappingObject call empty array data provided',
 );
 
 # map with some data

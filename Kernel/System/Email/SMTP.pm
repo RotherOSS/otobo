@@ -16,13 +16,14 @@
 
 package Kernel::System::Email::SMTP;
 
+use v5.24;
 use strict;
 use warnings;
 
 # core modules
-use Net::SMTP;
 
 # CPAN modules
+use Net::SMTP;
 
 # OTOBO modules
 
@@ -38,8 +39,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
@@ -49,7 +49,7 @@ sub new {
         $Self->{SMTPDebug} = 1;
     }
 
-    ( $Self->{SMTPType} ) = ( $Type =~ m/::Email::(.*)$/i );
+    ( $Self->{SMTPType} ) = $Type =~ m/::Email::(.*)$/i;
 
     return $Self;
 }

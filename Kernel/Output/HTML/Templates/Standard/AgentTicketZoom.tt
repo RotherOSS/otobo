@@ -281,7 +281,7 @@
 [% RenderBlockStart("SetField") %]
                             <div class="SetDynamicField">
 [% RenderBlockStart("DynamicFieldSetSeparator") %]
-                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Label) | html %]</h2>
 [% RenderBlockEnd("DynamicFieldSetSeparator") %]
                                 <div>
 [% RenderBlockStart("SetDynamicField") %]
@@ -309,6 +309,9 @@
                                         </p>
                                         <div class="Clear"></div>
                                     </div>
+[% RenderBlockStart("DynamicFieldSetValueSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetValueSeparator") %]
 [% RenderBlockEnd("SetDynamicField") %]
                                 </div>
                                 <div class="Clear"></div>

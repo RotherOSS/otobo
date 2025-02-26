@@ -1543,7 +1543,23 @@ sub DESTROY {
 
 Returns a list of valid dynamic fields.
 
-    my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields();
+    my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields(
+
+        # object  type (optional) as STRING or as ARRAYREF
+        # The special object type 'All' places no restriction on the object type when
+        # it is passed as a single string.
+        ObjectType => 'Ticket',
+        ObjectType => ['Ticket', 'Article'],
+
+        # optional, filter by name of the dynamic field
+        # only the fields where there the field name has a true value are returned
+        FieldFilter => {
+            nameforfield => 1,
+            fieldname    => 2,
+            other        => 0,
+            otherfield   => 0,
+        },
+    );
 
 Returns:
 
@@ -1562,6 +1578,7 @@ sub GetValidDynamicFields {
     my $DynamicFieldValid = $ConfigObject->Get('Znuny4OTOBOAdvancedDynamicFields::DynamicFieldValid');
 
     my $DynamicFieldList = $Self->DynamicFieldListGet(
+        %Param,
         ResultType => 'HASH',
         Valid      => $DynamicFieldValid,
     );

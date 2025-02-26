@@ -92,14 +92,15 @@ jobs:
         with:
           base: "${{ github.ref_name }}"                     # e.g rel-10_0
           filters: |
-            context:
+            context_and_dockerfile:
               - '${{ matrix.context }}/**'
+              - '${{ matrix.dockerfile }}'
 
       -
         # login to Docker Hub before the composite action
         # this avoids that secrets have to be passed
         name: Login to Docker Hub
-        if:   steps.changes.outputs.context == 'true'
+        if:   steps.changes.outputs.context_and_dockerfile == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -109,5 +110,5 @@ jobs:
         # Uses a local composite action.
         # The repository must already be checked out.
         name: 'Run local composite action'
-        if:   steps.changes.outputs.context == 'true'
+        if:   steps.changes.outputs.context_and_dockerfile == 'true'
         uses: ./.github/actions/docker_image_builder

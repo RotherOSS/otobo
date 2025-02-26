@@ -142,7 +142,7 @@ my @Tests = (
         ConfigSuccess => 1,
     },
     {
-        Name   => 'Test array as data',
+        Name   => 'Test array with simple data',
         Config => {
             Template => qq{<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
@@ -153,7 +153,7 @@ my @Tests = (
 <xsl:output method="xml" encoding="utf-8" indent="yes"/>
 <xsl:template match="/RootElement">
 <NewRootElement>
-    <xsl:for-each select="/RootElement/Array1">
+    <xsl:for-each select="/RootElement">
     <FirstLevelArray>
         <xsl:text>Amended</xsl:text>
         <xsl:value-of select="." />
@@ -173,6 +173,44 @@ my @Tests = (
         ConfigSuccess => 1,
     },
     {
+        Name   => 'Test array with hashref data',
+        Config => {
+            Template => qq{<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ xmlns:otobo="http://otobo.org"
+ extension-element-prefixes="otobo">
+<xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTOBOFunctions.xsl" />
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement>
+    <xsl:for-each select="/RootElement/anon/*">
+    <FirstLevelArray>
+        <xsl:copy-of select="." />
+    </FirstLevelArray>
+    </xsl:for-each>
+</NewRootElement>
+</xsl:template>
+</xsl:stylesheet>},
+        },
+        Data => [
+            { key1 => 'Value1' },
+            { key2 => 'Value2' },
+        ],
+        ResultData => {
+            'FirstLevelArray' => [
+                {
+                    'key1' => 'Value1'
+                },
+                {
+                    'key2' => 'Value2'
+                }
+            ]
+        },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
         Name   => 'Test simple overwrite',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>
@@ -188,6 +226,36 @@ my @Tests = (
         },
         ResultData => {
             NewKey => 'NewValue',
+        },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
+        Name   => 'Test simple overwrite with array data',
+        Config => {
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement>
+<xsl:for-each select="/RootElement/anon/*">
+<Array>
+<xsl:copy-of select="." />
+</Array>
+</xsl:for-each>
+</NewRootElement>
+</xsl:template>
+</xsl:stylesheet>',
+        },
+        Data => [
+            { Key => 'Value1' },
+            { Key => 'Value2' },
+        ],
+        ResultData => {
+            Array => [
+                { Key => 'Value1' },
+                { Key => 'Value2' },
+            ],
         },
         ResultSuccess => 1,
         ConfigSuccess => 1,
@@ -317,6 +385,59 @@ my @Tests = (
             DataInclude => [
                 3,
                 1,
+            ],
+        },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+    {
+        Name   => 'Test DataInclude functionality with array data',
+        Config => {
+            DataInclude => [
+                'RequesterRequestInput',
+                'RequesterResponseMapOutput',
+            ],
+            Template => qq{<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ xmlns:otobo="http://otobo.org"
+ extension-element-prefixes="otobo">
+<xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTOBOFunctions.xsl" />
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement>
+    <DataInclude><xsl:value-of select="/RootElement/anon[1]/DataInclude/RequesterResponseMapOutput/Value" /></DataInclude>
+    <DataInclude><xsl:value-of select="/RootElement/anon[1]/DataInclude/RequesterRequestInput/Value" /></DataInclude>
+    <DataInclude><xsl:value-of select="/RootElement/anon[2]/DataInclude/RequesterResponseMapOutput/Value" /></DataInclude>
+    <DataInclude><xsl:value-of select="/RootElement/anon[2]/DataInclude/RequesterRequestInput/Value" /></DataInclude>
+    <xsl:for-each select="/RootElement/anon">
+      <Values>
+        <xsl:value-of select="./Key" />
+      </Values>
+    </xsl:for-each>
+</NewRootElement>
+</xsl:template>
+</xsl:stylesheet>},
+        },
+        Data => [
+            { Key => 'Value' },
+            { Key => 'Value' },
+        ],
+        DataInclude => {
+            RequesterRequestInput         => { Value => 1 },
+            RequesterRequestPrepareOutput => { Value => 2 },
+            RequesterResponseMapOutput    => { Value => 3 }
+        },
+        ResultData => {
+            DataInclude => [
+                3,
+                1,
+                3,
+                1,
+            ],
+            Values => [
+                "Value",
+                "Value",
             ],
         },
         ResultSuccess => 1,
@@ -583,6 +704,7 @@ for my $Test (@Tests) {
                 Config => $Test->{Config},
             },
         );
+
         if ( $Test->{ConfigSuccess} ) {
             is(
                 ref $MappingObject,
@@ -593,6 +715,7 @@ for my $Test (@Tests) {
             return unless ref $MappingObject eq 'Kernel::GenericInterface::Mapping';
         }
         else {
+
             isnt(
                 ref $MappingObject,
                 'Kernel::GenericInterface::Mapping',

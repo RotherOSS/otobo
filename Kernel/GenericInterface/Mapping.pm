@@ -158,20 +158,30 @@ perform data mapping in backend
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Mapping handler!'
-        );
-    }
-
     # return if data is empty
-    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+    if ( !defined $Param{Data} ) {
 
         return {
             Success => 1,
             Data    => {},
+        };
+    }
+
+    # return if data is empty
+    if ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
+
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    # return if data is empty
+    if ( ref $Param{Data} eq 'ARRAY' && ( !scalar @{ $Param{Data} } ) ) {
+
+        return {
+            Success => 1,
+            Data    => [],
         };
     }
 

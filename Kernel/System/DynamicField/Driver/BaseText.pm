@@ -64,7 +64,7 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -88,8 +88,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custom extensions
-    # allow passing ExtensionClass, relevant for ActivityID and ProcessID
-    my ($ShortType) = $Param{ExtensionClass} // reverse split /::/, $Type;    # 'Text' or 'TextArea'
+    my ($ShortType) = reverse split /::/, $Type;    # 'Text' or 'TextArea'
     my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::Extension::Driver::$ShortType");
 
     EXTENSION:

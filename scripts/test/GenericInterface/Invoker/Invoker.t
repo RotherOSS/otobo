@@ -258,7 +258,7 @@ $Self->Is(
     'HandleResponse call response failure error message (array as response)',
 );
 
-# HandleResponse with array ref as response.
+# HandleResponse with simple array ref as response.
 $ReturnData = $InvokerObject->HandleResponse(
     ResponseSuccess      => '0',
     ResponseErrorMessage => 'Just an error message',
@@ -272,6 +272,27 @@ $Self->Is(
     $ReturnData->{ErrorMessage},
     'Just an error message',
     'HandleResponse call response failure error message (array ref as response)',
+);
+
+# HandleResponse with array ref of hash refs as response.
+$ReturnData = $InvokerObject->HandleResponse(
+    ResponseSuccess => '1',
+    Data            => [ { key => 'value1' }, { key => 'value2' } ],
+);
+
+$Self->True(
+    $ReturnData->{Success},
+    'HandleResponse response failure success (array ref as response)',
+);
+$Self->Is(
+    $ReturnData->{Data}->[0]->{key},
+    'value1',
+    'Array structure returned value1 properly'
+);
+$Self->Is(
+    $ReturnData->{Data}->[1]->{key},
+    'value2',
+    'Array structure returned value2 properly'
 );
 
 $Self->DoneTesting();
