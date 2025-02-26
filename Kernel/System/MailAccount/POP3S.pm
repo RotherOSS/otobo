@@ -31,6 +31,7 @@ use IO::Socket::SSL ();
 # OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
 );
 
 sub Connect {
@@ -46,8 +47,10 @@ sub Connect {
         }
     }
 
-    my $Type = 'POP3S';
+    my $Type          = 'POP3S';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
+    # connect to host
     # A IO::Socket::INET socket is created and before any communication is done, the socket is
     # upgraded to IO::Socket::SSL.
     my $PopObject = Net::POP3->new(
@@ -57,7 +60,7 @@ sub Connect {
 
         # SSL parameters
         SSL             => 1,
-        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
     return (
