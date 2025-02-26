@@ -6,7 +6,7 @@
 - 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
 - 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
 - 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-10-02 14:54:36 +0200 Update translation files
 - 2025-02-20 15:34:09 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
 - 2025-02-21 18:55:19 +0100 Spelling: don't use dir as a shortcut for directory
