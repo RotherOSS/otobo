@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999841471147749;
+    $Self->{Completeness}        = 0.99936628643853;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -70,7 +70,7 @@ sub Data {
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
         'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
-            '',
+            'Hvis du vil slette en eksisterende ACL, må du sette gyldigheten til ugyldig og lagre den. Deretter vises en ny knapp for å slette ACL-en.',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
@@ -824,7 +824,7 @@ sub Data {
         'Customer user ID' => 'Kundens bruker-ID',
         '(e. g. U5150)' => 'f.eks. U5150',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Fulltekst-søk i innlegg (f.eks. "Mar*in" eller "Baue*").',
-        'To' => 'Tilbakestill',
+        'To' => 'Til',
         'Cc' => 'Kopi',
         'Service' => 'Tjeneste',
         'Service Level Agreement' => 'Tjenestenivåavtale',
@@ -8120,6 +8120,8 @@ Ditt Helpdesk-team
             'Hvis noen av "SMTP"-mekanismene er valgt som SendmailModule, må e-post-tjeneren som sender ut e-post spesifiseres.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Hvis noen av "SMTP"-mekanismene er valgt som SendmailModule, må porten der din e-post-tjener lytter på innkommende forbindelser spesifiseres.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'Hvis aktivert, logges feilsøkingsinformasjon for tilgangskontrollister.',
         'If enabled debugging information for transitions is logged.' => 'Hvis aktivert, logges feilsøkingsinformasjon for overganger.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8672,6 +8674,8 @@ Ditt Helpdesk-team
             'Kjører systemet i "Demo"-modus. Hvis aktivert, kan agenter endre preferanser, for eksempel valg av språk og tema via agentens nettgrensesnitt. Disse endringene er kun gyldige for gjeldende økt. Det vil ikke være mulig for agenter å endre passordene sine.',
         'Russian' => 'Russisk',
         'S/MIME Certificates' => 'S/MIME-sertifikater',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Hilsninger',
         'Sample command output' => 'Eksempel på kommandoresultat',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9431,6 +9435,8 @@ Ditt Helpdesk-team
         'Uses richtext for viewing and editing ticket notification.' => 'Bruker rik tekst for å vise og redigere saksvarsel.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Bruker rik tekst for visning og redigering: artikler, hilsener, signaturer, standardmaler, automatiske svar og varsler.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Vis resultater etter ytelsesmålinger.',
         'Watch this ticket' => 'Overvåk denne saken',

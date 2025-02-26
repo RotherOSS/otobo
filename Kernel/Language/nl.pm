@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.502219403931516;
+    $Self->{Completeness}        = 0.501901140684411;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8116,6 +8116,8 @@ Het Helpdesk Team
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8668,6 +8670,8 @@ Het Helpdesk Team
             'Voert het systeem uit in de "Demo" -modus. Indien ingeschakeld kunnen behandelaars voorkeuren wijzigen, taal en thema instellen via de webinterface van de behandelaar. Deze wijzigingen zijn alleen geldig voor de huidige sessie. Het is niet mogelijk voor behandelaars om hun wachtwoorden te wijzigen.',
         'Russian' => '',
         'S/MIME Certificates' => 'S/MIME Certificaten',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Aanheffen',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9427,6 +9431,8 @@ Het Helpdesk Team
         'Uses richtext for viewing and editing ticket notification.' => 'Gebruik richtext voor het weergeven en bewerken van ticket notificaties.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Gebruik richtext voor het weergeven en bewerken van: artikelen, aanheffen, ondertekeningen, standaard templates, auto antwoorden en notificaties.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'Watch this ticket' => 'Volg dit ticket',

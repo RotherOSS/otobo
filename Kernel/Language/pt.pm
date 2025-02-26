@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.300412175015853;
+    $Self->{Completeness}        = 0.300221799746515;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -106,21 +106,21 @@ sub Data {
 
         # Template: AdminAbout
         'About' => 'Sobre',
-        'Toggle this widget' => 'Ativar esta widget',
+        'Toggle this widget' => 'Ativar este widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            'Este idioma não está presente ou habilitado no sistema. Este texto pode ser deletado se isto não for mais necessário.',
+            'Este idioma não está presente ou habilitado no sistema. Este texto pode ser apagado se já não for necessário.',
         'Remove Language' => 'Remover Idioma',
         'Text' => 'Texto',
         'Message body' => 'Corpo da mensagem',
         'This field is required and must have less than 4000 characters.' =>
-            'Este campo é requerido e deve ter menos do que 4000 caracteres.',
+            'Este campo é de preenchimento obrigatório e deve ter menos do que 4000 caracteres.',
         'Remove About Language' => 'Remover Sobre o Idioma',
         'Add new language' => 'Adicionar novo idioma',
-        'Save Changes' => 'Guardar alterações ',
+        'Save Changes' => 'Guardar alterações',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => 'Gestão Calendário',
-        'Add Calendar' => 'Adicionar Calendário',
+        'Calendar Management' => 'Gestão de calendário',
+        'Add Calendar' => 'Adicionar calendário',
         'Edit Calendar' => 'Editar Calendário',
         'Calendar Overview' => 'Visão geral do Calendário',
         'Add new Calendar' => 'Adicionar novo Calendário',
@@ -8100,6 +8100,8 @@ Thanks for your help!
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8652,6 +8654,8 @@ Thanks for your help!
             '',
         'Russian' => '',
         'S/MIME Certificates' => 'Certificados S/MIME',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Saudações',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9410,6 +9414,8 @@ Thanks for your help!
         'Users, Groups & Roles' => 'Utilizadores, Grupos e Papeis',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
+            '',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
             '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => '',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.877457197209892;
+    $Self->{Completeness}        = 0.876901140684411;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8110,6 +8110,8 @@ Thanks for your help!
             '"SMTP"메커니즘 중 하나가 SendmailModule로 선택된 경우 메일을 보내는 메일 호스트를 지정해야합니다.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '"SMTP"메커니즘 중 하나가 SendmailModule로 선택된 경우 메일 서버가 들어오는 연결을 수신하는 포트를 지정해야합니다.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '활성화 된 경우 ACL에 대한 디버깅 정보가 기록됩니다.',
         'If enabled debugging information for transitions is logged.' => '활성화 된 경우 전환에 대한 디버깅 정보가 기록됩니다.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8662,6 +8664,8 @@ Thanks for your help!
             '시스템을 "데모"모드로 실행합니다. 이 옵션을 사용하면 상담원 웹 인터페이스를 통해 언어 및 테마 선택과 같은 기본 설정을 변경할 수 있습니다. 이러한 변경은 현재 세션에서만 유효합니다. 에이전트가 암호를 변경할 수는 없습니다.',
         'Russian' => '러시아인',
         'S/MIME Certificates' => 'S / MIME 인증서',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => '인사말',
         'Sample command output' => '샘플 명령 출력',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9421,6 +9425,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => '티켓 통지를보고 편집하기 위해 richtext를 사용합니다.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '기사, 인사말, 서명, 표준 템플릿, 자동 응답 및 알림과 같은보기 및 편집을 위해 richtext를 사용합니다.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => '베트남',
         'View performance benchmark results.' => '실적 벤치 마크 결과를 봅니다.',
         'Watch this ticket' => '티켓보기',

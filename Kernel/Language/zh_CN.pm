@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.966708941027267;
+    $Self->{Completeness}        = 0.966096324461344;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8114,6 +8114,8 @@ Thanks for your help!
             '如果发送邮件模块选用了“SMTP”，并且邮件服务器需要认证，必须指定发送邮件的服务器。',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '如果发送邮件模块选用了“SMTP”，并且邮件服务器需要认证，必须指定邮件服务器监听的端口。',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '如果启用了此选项，将记录ACL的调试信息。',
         'If enabled debugging information for transitions is logged.' => '如果启用了此选项，将记录转换的调试信息。',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8666,6 +8668,8 @@ Thanks for your help!
             '以“演示”模式运行系统。如果启用了，服务人员能够修改偏好设置，如通过WEB界面选择语言和主题，这些变更内容只对当前会话有效。服务人员不能修改密码。',
         'Russian' => '俄语',
         'S/MIME Certificates' => 'S/MIME证书',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => '问候语',
         'Sample command output' => '命令输出样例',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9425,6 +9429,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => '查看和编辑工单通知时使用富文本。',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '查看和编辑以下内容时使用富文本：信件、问候语、签名、标准模板、自动响应和通知。',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => '越南语',
         'View performance benchmark results.' => '查看性能基准测试结果.',
         'Watch this ticket' => '关注这个工单',

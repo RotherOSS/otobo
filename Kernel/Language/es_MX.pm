@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.97431832593532;
+    $Self->{Completeness}        = 0.973700887198986;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8110,6 +8110,8 @@ Su equipo de asistencia técnica
             'Si cualquiera de los mecanismos "SMTP" se eligió como SendmailModule, debe especificarse el host que envía los correos.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Si cualquiera de los mecanismos "SMTP" se eligió como SendmailModule, debe especificarse el puerto en el que el servidor de correos estará escuchando para conexiones entrantes.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'Si se activa, se registra la información de depuración de las ACL.',
         'If enabled debugging information for transitions is logged.' => 'Si se activa, se registra la información de depuración de las transiciones.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8662,6 +8664,8 @@ Su equipo de asistencia técnica
             'Ejecuta el sistema en modo "Demo". Si está activado, los agentes pueden cambiar las preferencias, como la selección del idioma y el tema a través de la interfaz web del agente. Estos cambios sólo son válidos para la sesión actual. Los agentes no podrán cambiar sus contraseñas.',
         'Russian' => 'Ruso',
         'S/MIME Certificates' => 'Certificados S/MIME',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Saludos',
         'Sample command output' => 'Resultado de ejemplo del comando',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9421,6 +9425,8 @@ Su equipo de asistencia técnica
         'Uses richtext for viewing and editing ticket notification.' => 'Utiliza texto enriquecido para ver y editar la notificación del ticket.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Utiliza texto enriquecido para ver y editar: artículos, saludos, firmas, plantillas estándar, respuestas automáticas y notificaciones.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Ver los resultados de rendimiento.',
         'Watch this ticket' => 'Dar seguimiento a este ticket',

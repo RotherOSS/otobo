@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596385542168675;
+    $Self->{Completeness}        = 0.597433460076046;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -70,7 +70,7 @@ sub Data {
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'I cambiamenti al processo sono riportati a sistema solo se effettuate la sincronizzazione. Con la sincronizzazione le modifiche sono scritte nella configurazione.',
         'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
-            '',
+            'Per eliminare un\'ACL esistente è necessario impostarne la validità su non valida e salvarla. Successivamente apparirà un nuovo pulsante per eliminare l\'ACL.',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Nota: questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necessario modificare l\'ordine in cui vengono eseguite le ACL, modifica i nomi delle ACL interessate.',
@@ -112,17 +112,17 @@ sub Data {
             'Crea una nuova ACL confermando i dati. Dopo la creazione dell\'ACL, sarà possibile aggiungere voci di configurazione in modalità modifica.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Info',
         'Toggle this widget' => 'Imposta questo widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Questa lingua non è presente o abilitata nel sistema. Questo testo può essere eliminato se non è più necessario.',
+        'Remove Language' => 'Rimuovi Lingua',
         'Text' => 'Testo',
         'Message body' => 'Corpo del messaggio',
         'This field is required and must have less than 4000 characters.' =>
             'Questo campo è obbligatorio e deve contenere meno di 4000 caratteri.',
-        'Remove About Language' => '',
-        'Add new language' => '',
+        'Remove About Language' => 'Rimuovi Informazioni sulla Lingua',
+        'Add new language' => 'Aggiungi nuova lingua',
         'Save Changes' => 'Salva cambiamenti',
 
         # Template: AdminAppointmentCalendarManage
@@ -4878,7 +4878,7 @@ sub Data {
         'Print this article' => 'Stampa questo articolo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.io' => '',
+        'Contact us at hello@otobo.io' => 'Contattaci a hello@otobo.io',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -7168,9 +7168,9 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
         'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            '',
+            'Definisce il tema frontend predefinito (HTML) da utilizzare per gli agenti e i clienti. Se desideri, puoi aggiungere il tuo tema. Consulta il manuale amministratore disponibile su https://doc.otobo.org/.',
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
-            '',
+            'Definisce la lingua frontend predefinita. Tutti i valori possibili sono determinati dai file di lingua disponibili sul sistema. Questi valori sono elencati come chiavi nell\'impostazione \'DefaultUsedLanguages\'.',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
             '',
@@ -8107,6 +8107,8 @@ Thanks for your help!
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8659,6 +8661,8 @@ Thanks for your help!
             '',
         'Russian' => 'Russo',
         'S/MIME Certificates' => 'Certificati S/MIME',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Formule di saluto',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9422,6 +9426,8 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Uses richtext for viewing and editing ticket notification.' => 'Utilizza il RichText per visualizzare ed editare le notifiche dei ticket.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Puoi utilizzare l\'editor RichText per modificare: articoli, saluti, firme, templates standard, risposte automatiche e notifiche.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnamita',
         'View performance benchmark results.' => 'Visualizza i risultati del test di performance.',
         'Watch this ticket' => 'Osserva questo ticket',
