@@ -46,7 +46,8 @@ sub Connect {
         }
     }
 
-    my $Type = 'POP3TLS';
+    my $Type          = 'POP3STLS';
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
     my $PopObject = Net::POP3->new(
@@ -64,7 +65,7 @@ sub Connect {
 
     $PopObject->starttls(
         SSL             => 1,
-        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
     # authentication
