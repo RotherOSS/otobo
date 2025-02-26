@@ -1,4 +1,49 @@
 
+# OTOBO 10.1.12 2025-02-26
+- 2025-02-26 10:57:40 +0100 Create new OTOBO language files.
+- 2025-01-31 20:05:28 +0000 Translated using Weblate (Portuguese)
+- 2025-01-14 08:56:49 +0000 Translated using Weblate (German)
+- 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
+- 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
+- 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-02 14:54:36 +0200 Update translation files
+- 2025-02-20 15:34:09 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
+- 2025-02-21 18:55:19 +0100 Spelling: don't use dir as a shortcut for directory
+- 2025-02-21 11:48:48 +0100 Tidying: remove an unused variable
+- 2025-02-21 09:04:18 +0100 [Bugfix]   Update Elasticsearch to image version 7.17.27 (https://github.com/RotherOSS/otobo/issues/4035)
+- 2025-02-20 10:07:01 +0100 Spelling: do not captialize 'Number' in middle of sentence
+- 2025-02-19 12:28:06 +0000 Upgrade to jquery 3.7.1 (https://github.com/RotherOSS/otobo/issues/3317)
+- 2025-02-12 15:35:01 +0100 Declare IO::Socket::SSL as a required module (https://github.com/RotherOSS/otobo/issues/4134)
+- 2025-02-07 14:32:22 +0100 [Enhanced] Set up continous integration (https://github.com/RotherOSS/otobo/issues/211) - in progress
+- 2025-02-07 11:02:27 +0100 [Bugfix]   Clarify POD of VirtualFS Read sub (https://github.com/RotherOSS/otobo/issues/4124)
+- 2025-01-31 16:41:06 +0100 [Bugfix]   Merging two already linked tickets can prevent the tickets being linked after the merge. (https://github.com/RotherOSS/otobo/issues/4114)
+- 2025-01-22 14:58:42 +0100 [Bugfix]   Internal server error on AdminProcessManagment in new session. (https://github.com/RotherOSS/otobo/issues/3845)
+- 2025-01-15 14:22:22 +0100 [Tidied]   Do not set environment variable OTOBO_NGINX_SSL_CERTIFICATE_KEY in Nginx Docker Image (https://github.com/RotherOSS/otobo/issues/4071)
+- 2025-01-15 13:08:51 +0100 [Bugfix]   Refrain from copying Kernel/cpan-lib/local to the Docker image (https://github.com/RotherOSS/otobo/issues/4068)
+- 2025-01-14 16:32:26 +0100 Tidying: accept some formatting suggestings from CodePolicy
+- 2025-01-14 15:48:29 +0100 [Tidied]   Update copyright year range to 2019-2025 (https://github.com/RotherOSS/otobo/issues/4060)
+- 2025-01-14 15:01:08 +0100 [Bugfix]   AdminACL: Fallback for ACL Keys Level 3 is of wrong type (ArrayRef instead of HashRef) (https://github.com/RotherOSS/otobo/issues/4059)
+- 2024-11-26 12:58:46 +0100 [Bugfix]   Missing translation for Hint message in Email Outbound (https://github.com/RotherOSS/otobo/issues/3952)
+- 2024-12-13 13:05:07 +0100 test
+- 2024-12-12 12:49:57 +0100 remove clutter
+- 2025-01-02 09:41:26 +0100 [Enhanced] Test basic authentication with a locally running webapp. (https://github.com/RotherOSS/otobo/issues/1708) - in progress
+- 2024-12-16 10:49:55 +0000 Auth::Sync::LDAP was using the wrong config variable
+- 2024-12-13 10:16:49 +0100 Fix new failures in unit tests (https://github.com/RotherOSS/otobo/issues/3931)
+- 2024-12-15 11:04:51 +0100 Provide testing function that shows diff for multiline strings (https://github.com/RotherOSS/otobo/issues/3984)
+- 2024-11-25 17:46:34 +0100 [Bugfix]   Typo in Log message when reordering dynamic fields (https://github.com/RotherOSS/otobo/issues/3948)
+- 2024-11-25 09:54:58 +0100 [Bugfix]   Do not leave behind temporary files after mail encryption via S/MIME. (https://github.com/RotherOSS/otobo/issues/3496)
+- 2024-11-08 11:41:35 +0100 [Bugfix]   AgentTicketEmailOutbound template update empties dynamic fields. (https://github.com/RotherOSS/otobo/issues/3642)
+- 2024-11-07 10:01:06 +0100 Improve error messages in dynamic field Date(Time) drivers (https://github.com/RotherOSS/otobo/issues/3915)
+- 2024-11-05 12:48:48 +0100 [Bugfix]   OpenIDConnect - correctly set Cookie to prevent Sessiondata being added to browser address on relogin with expired session. (https://github.com/RotherOSS/otobo/issues/3913)
+- 2024-10-31 15:01:26 +0100 Build the release Docker image on Github (https://github.com/RotherOSS/otobo/issues/3673)
+- 2024-10-31 14:42:01 +0100 [Bugfix]   Opening of faulty statistics for editing not possible with invalid queues (https://github.com/RotherOSS/otobo/issues/2627)
+- 2024-10-22 15:15:34 +0200 [Bugfix]   Block 'TicketBack' is duplicated in AgentTicketMove template (https://github.com/RotherOSS/otobo/issues/3884)
+- 2024-10-14 10:17:43 +0200 [Changed]  Allow 0 as valid time unit input in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/3870)
+- 2024-10-11 13:29:30 +0200 [Bugfix]   PossibleValue row template in AdminDynamicFieldDropdown misses space (https://github.com/RotherOSS/otobo/issues/3867)
+- 2024-10-02 13:18:02 +0200 Update CHANGES.
+
+
 # OTOBO 10.1.11 2024-10-02
 - 2024-10-02 14:54:11 +0200 Create new OTOBO language files.
 - 2024-09-03 06:08:22 +0000 Translated using Weblate (Japanese)
@@ -1682,3 +1727,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
