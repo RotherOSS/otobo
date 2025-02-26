@@ -34,7 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
-# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3TLS.
+# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle SSL.
 BEGIN {
     if ( !defined &Net::POP3::starttls ) {
         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
@@ -68,13 +68,12 @@ sub Connect {
         Debug   => $Param{Debug},
     );
 
-    if ( !$PopObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
+    return (
+        Successful => 0,
+        Message    => "$Type: Can't connect to $Param{Host}"
+    ) unless $PopObject;
 
+    # upgrade to SSL
     $PopObject->starttls(
         SSL             => 1,
         SSL_verify_mode => $SSLVerifyMode,
