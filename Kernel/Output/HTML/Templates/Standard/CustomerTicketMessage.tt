@@ -18,7 +18,6 @@
         <h1>[% Translate("Issue a new Ticket") | html %]</h1>
     </div>
     <div id="oooMainBox" class="Content">
-
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="NewCustomerTicket" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="[% Env("Action") %]" />
             <input type="hidden" name="Subaction" value="StoreNew" />

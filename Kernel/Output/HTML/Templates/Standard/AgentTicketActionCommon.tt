@@ -299,7 +299,6 @@
                         </fieldset>
 [% RenderBlockStart("InformAdditionalAgents") %]
                         <fieldset class="TableLike FixedLabel">
-
 [% RenderBlockStart("InformAgent") %]
                             <label for="InformUserID">[% Translate("Inform agents") | html %]:</label>
                             <div class="Field">
@@ -323,7 +322,6 @@
 [% RenderBlockEnd("InformAdditionalAgents") %]
 [% RenderBlockStart("InformAgentsWithoutSelection") %]
                         <fieldset class="TableLike FixedLabel">
-
                             <label>[% Translate("Text will also be received by") | html %]:</label>
                             <div class="Field">
                                 <input type="hidden" name="UserListWithoutSelection" value="[% Data.UserListWithoutSelection  | html %]" />
@@ -336,7 +334,6 @@
 [% RenderBlockEnd("InformAgentsWithoutSelection") %]
 
                         <fieldset class="TableLike FixedLabel">
-
 [% RenderBlockStart("SubjectLabel") %]
                             <label for="Subject">[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabel") %]

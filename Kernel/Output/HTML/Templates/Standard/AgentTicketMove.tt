@@ -32,7 +32,6 @@
                 <li class="HeaderPopupleft">
                     <h1>[% Translate("Move %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
                 </li>
-
 [% RenderBlockStart("TicketBack") %]
                 <li class="HeaderPopupright">
                     <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
