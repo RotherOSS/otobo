@@ -213,8 +213,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             # add and check rand postmaster filters
             my $FilterRandConfig = [
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test',
@@ -251,8 +252,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test',
@@ -285,8 +287,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test 1',
@@ -319,8 +322,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'NOT REGEX',
@@ -883,8 +887,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 # filter test
 my @Tests = (
     {
-        Name  => '#1 - From Test',
-        Check => {
+        Name    => '#1 - From Test',
+        ValidID => 1,
+        Check   => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey3  => 'Key3',
             DynamicField_TicketFreeText3 => 'Text3',
@@ -951,8 +956,9 @@ my @Tests = (
         },
     },
     {
-        Name  => '#2 - From Test',
-        Check => {
+        Name    => '#2 - From Test',
+        ValidID => 1,
+        Check   => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey1  => 'Key1#2',
             DynamicField_TicketFreeText1 => 'Text1#2',
@@ -1019,8 +1025,9 @@ my @Tests = (
         },
     },
     {
-        Name   => '#3 - From Test',
-        Config => {
+        Name    => '#3 - From Test',
+        ValidID => 1,
+        Config  => {
             Match => [
                 {
                     Key   => 'From',
@@ -1082,8 +1089,9 @@ my @Tests = (
         },
     },
     {
-        Name  => '#4 - Regular Expressions - match',
-        Check => {
+        Name    => '#4 - Regular Expressions - match',
+        ValidID => 1,
+        Check   => {
             DynamicField_TicketFreeKey4 => 'sender',
         },
         Config => {
@@ -1116,8 +1124,9 @@ my @Tests = (
         },
     },
     {
-        Name  => '#5 - Regular Expressions - match but no optional match result',
-        Check => {
+        Name    => '#5 - Regular Expressions - match but no optional match result',
+        ValidID => 1,
+        Check   => {
             DynamicField_TicketFreeKey5 => undef,
         },
         Config => {
@@ -1159,6 +1168,7 @@ for my $Type (qw(Config DB)) {
         if ( $Type eq 'DB' ) {
             $PostMasterFilter->FilterAdd(
                 Name           => $Test->{Name},
+                ValidID        => $Test->{ValidID},
                 StopAfterMatch => 0,
                 %{ $Test->{DB} },
             );
@@ -1249,8 +1259,9 @@ Some Content in Body
 # filter test Envelope-To and X-Envelope-To
 @Tests = (
     {
-        Name  => '#1 - Envelope-To Test',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#1 - Envelope-To Test',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 Envelope-To: Some EnvelopeTo Name <envelopeto@example.com>
 Subject: some subject
@@ -1284,8 +1295,9 @@ Some Content in Body
         },
     },
     {
-        Name  => '#2 - X-Envelope-To Test',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#2 - X-Envelope-To Test',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1319,8 +1331,9 @@ Some Content in Body
         },
     },
     {
-        Name  => '#3 - X-Envelope-To Test with old post master format',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#3 - X-Envelope-To Test with old post master format',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1343,8 +1356,9 @@ Some Content in Body
         Type => 'Config',
     },
     {
-        Name  => '#4 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::NewTicketReject',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#4 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::NewTicketReject',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1370,8 +1384,9 @@ Some Content in Body
         Type => 'Config',
     },
     {
-        Name  => '#4 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::NewTicketReject',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#4 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::NewTicketReject',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1447,6 +1462,7 @@ for my $Test (@Tests) {
         if ( $Type eq 'DB' ) {
             $PostMasterFilter->FilterAdd(
                 Name           => $Test->{Name},
+                ValidID        => $Test->{ValidID},
                 StopAfterMatch => 0,
                 %{$Test},
             );

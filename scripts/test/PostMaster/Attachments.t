@@ -152,8 +152,9 @@ unshift @{$EmailAttachment}, 'From: Sender <sender@example.com>';
 # filter test
 my @Tests = (
     {
-        Name  => 'Mail without attachments',
-        Match => [
+        Name    => 'Mail without attachments',
+        ValidID => 1,
+        Match   => [
             {
                 Key   => 'X-OTOBO-AttachmentExists',
                 Value => 'no',
@@ -189,8 +190,9 @@ The IP address: 192.168.0.1
 END_EMAIL
     },
     {
-        Name  => 'Mail with attachments',
-        Match => [
+        Name    => 'Mail with attachments',
+        ValidID => 1,
+        Match   => [
             {
                 Key   => 'X-OTOBO-AttachmentExists',
                 Value => 'yes',
@@ -217,8 +219,9 @@ END_EMAIL
         Email => $EmailAttachment,
     },
     {
-        Name  => 'Mail with inline images',
-        Match => [
+        Name    => 'Mail with inline images',
+        ValidID => 1,
+        Match   => [
             {
                 Key   => 'X-OTOBO-AttachmentExists',
                 Value => 'yes',
@@ -253,6 +256,7 @@ for my $Test (@Tests) {
     subtest $Test->{Name} => sub {
         $PostMasterFilterObject->FilterAdd(
             Name           => $Test->{Name},
+            ValidID        => $Test->{ValidID},
             StopAfterMatch => 0,
             $Test->%*,
         );
