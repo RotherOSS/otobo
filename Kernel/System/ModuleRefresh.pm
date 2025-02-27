@@ -75,6 +75,9 @@ sub new {
 
 Generate a cache key based on the modified time and the file size.
 
+This method overrides C<Module::Refresh::mtime()>. The overridden method also includes the inode number.
+The inode number has been excluded here, as it was found that it frequently changes on solid state disks.
+
 =cut
 
 sub mtime {
