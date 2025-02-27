@@ -14,12 +14,12 @@ jobs:
       # note that there is no release build for the otobodockerupdatetest-web-kerberos target
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
-        docker_tag: [ 'rel-11_0_5', 'rel-11_0_6', 'rel-11_0_7', 'latest-11_0' ]
+        docker_tag: [ 'rel-11_0_6', 'rel-11_0_7', 'rel-11_0_8', 'latest-11_0' ]
         include:
           -
             # this currently has to be updated every release
             docker_tag: 'latest-11_0'
-            patch:      'rel-11_0_7'
+            patch:      'rel-11_0_8'
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
