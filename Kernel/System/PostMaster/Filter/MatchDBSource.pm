@@ -21,6 +21,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::PostMaster::Filter',
+    'Kernel::System::Valid',
 );
 
 sub new {
@@ -59,7 +60,9 @@ sub Run {
     my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
     # get all db filters
-    my %JobList = $PostMasterFilter->FilterList();
+    my %JobList = $PostMasterFilter->FilterList(
+        ValidIDs => [ $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'valid' ) ],
+    );
 
     for ( sort keys %JobList ) {
 

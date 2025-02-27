@@ -37,6 +37,17 @@
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="SidebarColumn">
+[% RenderBlockStart("IncludeInvalid") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid PostMaster Filters") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid PostMaster Filters") | html %]</label>
+            </div>
+        </div>
+[% RenderBlockEnd("IncludeInvalid") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
@@ -131,6 +142,7 @@
                     <thead>
                         <tr>
                             <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
                             <th class="Center W10pc">[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
@@ -147,6 +159,7 @@
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Name=[% Data.Name | uri %]">[% Translate(Data.Name) | html %]</a>
                             </td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
                             <td class="Center">
                                 <a class="TrashCan PostMasterFilterDelete" href="#" data-query-string="Action=[% Env("Action") %];Subaction=Delete;Name=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this filter") | html %]">
                                 <i class="fa fa-trash-o"></i>
@@ -200,6 +213,22 @@
                             [% Data.StopAfterMatch %]
                             <div id="StopAfterMatchError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="StopAfterMatchServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>
+[% RenderBlockStart("ValidOptionServerError") %]
+                                    [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("ValidOptionServerError") %]
+                                </p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
