@@ -76,6 +76,12 @@
             </ul>
         </div>
         <div class="Content">
+[% RenderBlockStart("AsteriskExplanation") %]
+            <div class="Field">
+                <p class="AsteriskExplanation" id="AsteriskExplanationHeader">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
             [% INCLUDE "FormElements/DraftNotifications.tt" %]
 [% RenderBlockStart("WidgetTicketActions") %]
             <div class="WidgetSimple Expanded">
@@ -87,7 +93,6 @@
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
-               
 [% RenderBlockStart("Title") %]
                         <label class="Mandatory" for="Title"><span class="Marker">*</span>[% Translate("Title") | html %]:</label>
                         <div class="Field">
@@ -282,14 +287,6 @@
                     <div class="Content">
 
                         <fieldset class="TableLike FixedLabel">
-
-[% RenderBlockStart("AsteriskExplanation") %]
-                        <div class="Field">
-                            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
-                        </div>
-                        <div class="Clear"></div>
-[% RenderBlockEnd("AsteriskExplanation") %]
-
 [% IF Data.WidgetStatus == 'Expanded' %]
                             <input type="hidden" id="CreateArticle" name="CreateArticle" value="1" />
 [% ELSE %]
