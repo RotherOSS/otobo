@@ -127,8 +127,9 @@ $ConfigObject->Set(
 # filter test
 my @Tests = (
     {
-        Name  => '#1 - Body Test',
-        Match => [
+        Name    => '#1 - Body Test',
+        ValidID => 1,
+        Match   => [
             {
                 Key   => 'Body',
                 Value => '(?s:server:\s+(?<server>[a-z.]+).*?IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+))',
@@ -150,8 +151,9 @@ my @Tests = (
         },
     },
     {
-        Name  => '#2 - Body+Subject Test',
-        Match => [
+        Name    => '#2 - Body+Subject Test',
+        ValidID => 1,
+        Match   => [
             {
                 Key   => 'Subject',
                 Value => 'Server:\s+(?<server>[a-z.]+)',
@@ -184,6 +186,7 @@ my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 for my $Test (@Tests) {
     $PostMasterFilter->FilterAdd(
         Name           => $Test->{Name},
+        ValidID        => $Test->{ValidID},
         StopAfterMatch => 0,
         %{$Test},
     );
