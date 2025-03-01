@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,14 +25,13 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
@@ -190,8 +189,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length;' );
         $Selenium->find_element( ".Primary.CallForAction", 'css' )->VerifiedClick();
 
-        my @Ticket          = split( 'TicketID=', $Selenium->get_current_url() );
-        my $TicketIDProcess = $Ticket[1];
+        my ( undef, $TicketIDProcess ) = split /TicketID=/, $Selenium->get_current_url;
 
         # Navigate to zoom view and create note visible for customer.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDProcess");
@@ -464,4 +462,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;
