@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
@@ -29,52 +33,46 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $TestPackage = 'scripts::test::Main::Test';
 my $TestPM      = 'scripts/test/Main/Test.pm';
 
-$Self->False(
-    scalar $INC{$TestPM},
-    "$TestPackage not in %INC yet",
-);
+ok( !exists $INC{$TestPM}, "$TestPackage not in %INC yet" );
 
-$Self->Is(
+is(
     $MainObject->Require($TestPackage),
     1,
     "$TestPackage loaded via Require()",
 );
 
-$Self->True(
-    scalar $INC{$TestPM},
-    "$TestPackage in %INC",
-);
+ok( $INC{$TestPM}, "$TestPackage is in %INC after Require()" );
 
-$Self->Is(
+is(
     scalar scripts::test::Main::Test::Test(),
     1,
-    "Function can be called in loaded package",
+    'Function Test() can be called in loaded package',
 );
 
 my %OldINC = %INC;
 
-$Self->Is(
+is(
     $MainObject->Require($TestPackage),
     1,
     "$TestPackage loaded via Require()",
 );
 
-$Self->IsDeeply(
+is(
     \%INC,
     \%OldINC,
     '%INC hash unchanged by second load',
 );
 
-$Self->Is(
+is(
     scalar $MainObject->Require( "${TestPackage}::Invalid", Silent => 1 ),
-    scalar undef,
+    undef,
     "${TestPackage}::Invalid cannot be loaded",
 );
 
-$Self->IsDeeply(
+is(
     \%INC,
     \%OldINC,
     '%INC hash unchanged by invalid load',
 );
 
-$Self->DoneTesting();
+done_testing;
