@@ -3345,6 +3345,7 @@ sub _GetIntegratedPackages {
             # future releases
             1 => [
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
+                'PostMasterFilterValidState',
                 'RestorePendingInformation',
             ],
         }
