@@ -54,9 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-01-11 08:21+0000\n"
-"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2025-03-04 11:31+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26417,7 +26418,7 @@ msgstr "Geben Sie einen String ein, mit dem das gewählte Attribut des referenzi
 
 #. Template: AdminDynamicFieldReference
 msgid "Add ReferenceFilter"
-msgstr "ReferenceFilter hinzufügen"
+msgstr "Referenzfilter hinzufügen"
 
 #. Template: AdminDynamicFieldScript
 msgid "Expression"
@@ -27693,7 +27694,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Link Direction"
-msgstr ""
+msgstr "Link-Richtung"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
@@ -27722,4 +27723,3 @@ msgstr ""
 #. SysConfig
 msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
 msgstr ""
-
