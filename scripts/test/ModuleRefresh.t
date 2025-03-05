@@ -53,161 +53,161 @@ my ( $StandardRefreshDir, $CustomRefreshDir );
     unshift @INC, "$CustomDir", "$StandardDir";
 }
 
-subtest 'load modules from lib_standard and lib_custom' => sub {
+subtest 'load modules from either lib_standard or lib_custom' => sub {
 
-    $StandardRefreshDir->file('Sample1.pm')->spew(<<'END_PM');
-package Refresh::Sample1;
+    $StandardRefreshDir->file('Sample10.pm')->spew(<<'END_PM');
+package Refresh::Sample10;
 
 sub Method1 {
-    return "this is Method1() from Sample1";
+    return "this is Method1() from Sample10";
 }
 
 1;
 END_PM
 
-    $CustomRefreshDir->file('Sample2.pm')->spew(<<'END_PM');
-package Refresh::Sample2;
+    $CustomRefreshDir->file('Sample20.pm')->spew(<<'END_PM');
+package Refresh::Sample20;
 
 sub Method1 {
-    return "this is Method1() from Sample2";
+    return "this is Method1() from Sample20";
 }
 
 1;
 END_PM
 
-    require 'Refresh/Sample1.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
-    require 'Refresh/Sample2.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+    require 'Refresh/Sample10.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+    require 'Refresh/Sample20.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
 
     is(
-        scalar Refresh::Sample1->Method1,
-        'this is Method1() from Sample1',
-        'Method1 from Sample1 before refresh'
+        scalar Refresh::Sample10->Method1,
+        'this is Method1() from Sample10',
+        'Method1 from Sample10 before refresh'
     );
     is(
-        scalar Refresh::Sample2->Method1,
-        'this is Method1() from Sample2',
-        'Method1 from Sample1 before refresh'
+        scalar Refresh::Sample20->Method1,
+        'this is Method1() from Sample20',
+        'Method1 from Sample10 before refresh'
     );
 
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample1.pm');
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample2.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample10.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample20.pm');
 
     is(
-        scalar Refresh::Sample1->Method1,
-        'this is Method1() from Sample1',
-        'Method1 from Sample1 after refresh'
+        scalar Refresh::Sample10->Method1,
+        'this is Method1() from Sample10',
+        'Method1 from Sample10 after refresh'
     );
     is(
-        scalar Refresh::Sample2->Method1,
-        'this is Method1() from Sample2',
-        'Method1 from Sample1 after refresh'
+        scalar Refresh::Sample20->Method1,
+        'this is Method1() from Sample20',
+        'Method1 from Sample10 after refresh'
     );
 };
 
 subtest 'lib_custom has precedence over lib_custom' => sub {
 
-    $StandardRefreshDir->file('Sample3.pm')->spew(<<'END_PM');
-package Refresh::Sample3;
+    $StandardRefreshDir->file('Sample30.pm')->spew(<<'END_PM');
+package Refresh::Sample30;
 
 sub Method1 {
-    return "this is Method1() from Sample3, in lib_standard";
+    return "this is Method1() from Sample30, in lib_standard";
 }
 
 1;
 END_PM
 
-    $CustomRefreshDir->file('Sample3.pm')->spew(<<'END_PM');
-package Refresh::Sample3;
+    $CustomRefreshDir->file('Sample30.pm')->spew(<<'END_PM');
+package Refresh::Sample30;
 
 sub Method1 {
-    return "this is Method1() from Sample3, in lib_custom";
+    return "this is Method1() from Sample30, in lib_custom";
 }
 
 1;
 END_PM
 
-    require 'Refresh/Sample3.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+    require 'Refresh/Sample30.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
 
     # this only add the new module to the cache
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample3.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample30.pm');
 
     is(
-        scalar Refresh::Sample3->Method1,
-        'this is Method1() from Sample3, in lib_custom',
-        'Method1 from Sample3 loaded from lib_custom'
+        scalar Refresh::Sample30->Method1,
+        'this is Method1() from Sample30, in lib_custom',
+        'Method1 from Sample30 loaded from lib_custom'
     );
 };
 
 subtest 'simple refresh of modified module' => sub {
 
-    $StandardRefreshDir->file('Sample4.pm')->spew(<<'END_PM');
-package Refresh::Sample4;
+    $StandardRefreshDir->file('Sample40.pm')->spew(<<'END_PM');
+package Refresh::Sample40;
 
 sub Method1 {
-    return "this is Method1() from Sample4";
+    return "this is Method1() from Sample40";
 }
 
 1;
 END_PM
 
-    require 'Refresh/Sample4.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+    require 'Refresh/Sample40.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
 
     # add the new module to the cache
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample4.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample40.pm');
 
     is(
-        scalar Refresh::Sample4->Method1,
-        'this is Method1() from Sample4',
-        'Method1 from Sample1 before refresh'
+        scalar Refresh::Sample40->Method1,
+        'this is Method1() from Sample40',
+        'Method1 from Sample40 before refresh'
     );
 
-    $StandardRefreshDir->file('Sample4.pm')->spew(<<'END_PM');
-package Refresh::Sample4;
+    $StandardRefreshDir->file('Sample40.pm')->spew(<<'END_PM');
+package Refresh::Sample40;
 
 sub Method1 {
-    return "this is Method1() from Sample4, modified";
+    return "this is Method1() from Sample40, modified";
 }
 
 1;
 END_PM
 
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample4.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample40.pm');
 
     is(
-        scalar Refresh::Sample4->Method1,
-        'this is Method1() from Sample4, modified',
-        'Method1 from Sample1 after refresh'
+        scalar Refresh::Sample40->Method1,
+        'this is Method1() from Sample40, modified',
+        'Method1 from Sample40 after refresh'
     );
 };
 
 subtest 'new implementation in lib_custom' => sub {
 
-    $StandardRefreshDir->file('Sample5.pm')->spew(<<'END_PM');
-package Refresh::Sample5;
+    $StandardRefreshDir->file('Sample50.pm')->spew(<<'END_PM');
+package Refresh::Sample50;
 
 sub Method1 {
-    return "this is Method1() from Sample5";
+    return "this is Method1() from Sample50";
 }
 
 1;
 END_PM
 
-    require 'Refresh/Sample5.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+    require 'Refresh/Sample50.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
 
     # add the new module to the cache
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample5.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample50.pm');
 
     is(
-        scalar Refresh::Sample5->Method1,
-        'this is Method1() from Sample5',
-        'Method1 from Sample5 before refresh'
+        scalar Refresh::Sample50->Method1,
+        'this is Method1() from Sample50',
+        'Method1 from Sample50 before refresh'
     );
 
-    $CustomRefreshDir->file('Sample5.pm')->spew(<<'END_PM');
-package Refresh::Sample5;
+    $CustomRefreshDir->file('Sample50.pm')->spew(<<'END_PM');
+package Refresh::Sample50;
 
 sub Method1 {
-    return "this is Method1() from Sample5, in lib_custom";
+    return "this is Method1() from Sample50, in lib_custom";
 }
 
 1;
@@ -216,25 +216,77 @@ END_PM
     # make sure that we have a new timestamp
     sleep 1;
 
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample5.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample50.pm');
 
     is(
-        scalar Refresh::Sample5->Method1,
-        'this is Method1() from Sample5',
+        scalar Refresh::Sample50->Method1,
+        'this is Method1() from Sample50',
         'no refresh as the module in lib_standard has not changed'
     );
 
     # touch the module in lib_standard
-    utime undef, undef, $StandardRefreshDir->file('Sample5.pm')->stringify;
+    $StandardRefreshDir->file('Sample50.pm')->touch;
 
-    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample5.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample50.pm');
 
     is(
-        scalar Refresh::Sample5->Method1,
-        'this is Method1() from Sample5, in lib_custom',
+        scalar Refresh::Sample50->Method1,
+        'this is Method1() from Sample50, in lib_custom',
         'refresh as the module in lib_standard has been touched'
     );
 
+};
+
+subtest 'implementation in lib_custom is deleted' => sub {
+
+    $StandardRefreshDir->file('Sample60.pm')->spew(<<'END_PM');
+package Refresh::Sample60;
+
+sub Method1 {
+    return "this is Method1() from Sample60, in lib_standard";
+}
+
+1;
+END_PM
+
+    $CustomRefreshDir->file('Sample60.pm')->spew(<<'END_PM');
+package Refresh::Sample60;
+
+sub Method1 {
+    return "this is Method1() from Sample60, in lib_custom";
+}
+
+1;
+END_PM
+
+    require 'Refresh/Sample60.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+
+    # add the new module to the cache
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample60.pm');
+
+    is(
+        scalar Refresh::Sample60->Method1,
+        'this is Method1() from Sample60, in lib_custom',
+        'Method1 from Sample60 before refresh'
+    );
+
+    unlink $CustomRefreshDir->file('Sample60.pm');
+
+    ok( !-f $CustomRefreshDir->file('Sample60.pm'), 'lib_standard/Refresh dir exists' );
+
+    is(
+        scalar Refresh::Sample60->Method1,
+        'this is Method1() from Sample60, in lib_custom',
+        'Method1 from Sample60 after unlink before refresh'
+    );
+
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample60.pm');
+
+    is(
+        scalar Refresh::Sample60->Method1,
+        'this is Method1() from Sample60, in lib_standard',
+        'back to lib_standard, after implementation in lib_custom was removed and refreshed'
+    );
 };
 
 done_testing;
