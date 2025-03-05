@@ -289,4 +289,84 @@ END_PM
     );
 };
 
+subtest 'imported subs become invalid' => sub {
+
+    $StandardRefreshDir->file('Language.pm')->spew(<<'END_PM');
+package Refresh::Language;
+
+use Exporter qw(import);
+our @EXPORT_OK = qw(Translatable);
+
+sub Translatable {
+    return 'Hi from Refresh::Language::Translatable!';
+}
+
+1;
+END_PM
+
+    $StandardRefreshDir->file('Sample70.pm')->spew(<<'END_PM');
+package Refresh::Sample70;
+
+use Refresh::Language qw(Translatable);
+
+sub CallTranslatable {
+    return sprintf q{Translatable said: '%s'}, Translatable();
+}
+
+1;
+END_PM
+
+    require 'Refresh/Sample70.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+
+    # add the new modules to the cache
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Language.pm');
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample70.pm');
+
+    is(
+        scalar Refresh::Language->Translatable(),
+        q{Hi from Refresh::Language::Translatable!},
+        'calling an imported subroutine'
+    );
+
+    is(
+        scalar Refresh::Sample70->CallTranslatable(),
+        q{Translatable said: 'Hi from Refresh::Language::Translatable!'},
+        'calling an imported subroutine'
+    );
+
+    $StandardRefreshDir->file('Language.pm')->spew(<<'END_PM');
+package Refresh::Language;
+
+use Exporter qw(import);
+our @EXPORT_OK = qw(Translatable);
+
+sub Translatable {
+    return 'Hi again from Refresh::Language::Translatable!';
+}
+
+1;
+END_PM
+
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Language.pm');
+
+    is(
+        scalar Refresh::Language->Translatable(),
+        q{Hi again from Refresh::Language::Translatable!},
+        'new implementation of Translatable()'
+    );
+
+    {
+        my $ToDO = todo('subs are still unloaded when a module is refreshed');
+
+        try_ok {
+            is(
+                scalar Refresh::Sample70->CallTranslatable(),
+                q{Translatable said: 'Hi from Refresh::Language::Translatable!'},
+                'calling an imported subroutine does not care about refreshing'
+            );
+            'no exception when calling CallTranslatable()';
+        };
+    }
+};
+
 done_testing;
