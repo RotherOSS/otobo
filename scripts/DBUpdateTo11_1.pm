@@ -54,6 +54,10 @@ sub Run {
             Name   => 'Update the list of installed packages',
             Module => 'UninstallMergedPackages',
         },
+        {
+            Name   => 'Add valid_id to postmaster_filter.',
+            Module => 'DBUpdatePostMasterFilter',
+        },
     );
 
     TASK:
