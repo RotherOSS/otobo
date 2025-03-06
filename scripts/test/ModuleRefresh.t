@@ -30,9 +30,6 @@ use Path::Class qw(dir);
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::ModuleRefresh;           # based on Module::Refresh
-use scripts::test::ModuleRefresh::Sample;    # just a sample
-
-ok( exists $INC{'scripts/test/ModuleRefresh/Sample.pm'}, 'ModuleRefresh::Sample is loaded' );
 
 # set up dirs
 # 'lib_custom' has precedence over 'lib_standard'
@@ -289,7 +286,7 @@ END_PM
     );
 };
 
-subtest 'imported subs become invalid' => sub {
+subtest 'imported subs are invalidated' => sub {
 
     $StandardRefreshDir->file('Language.pm')->spew(<<'END_PM');
 package Refresh::Language;
