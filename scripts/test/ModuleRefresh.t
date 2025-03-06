@@ -177,6 +177,70 @@ END_PM
     );
 };
 
+subtest 'no reload when module is change right after loading' => sub {
+
+    $StandardRefreshDir->file('Sample41.pm')->spew(<<'END_PM');
+package Refresh::Sample41;
+
+sub Method1 {
+    return "this is Method1() from Sample41";
+}
+
+1;
+END_PM
+
+    require 'Refresh/Sample41.pm';    ## no critic qw(Modules::RequireBarewordIncludes)
+
+    is(
+        scalar Refresh::Sample41->Method1,
+        'this is Method1() from Sample41',
+        'Method1 from Sample41 before change and refresh'
+    );
+
+    $StandardRefreshDir->file('Sample41.pm')->spew(<<'END_PM');
+package Refresh::Sample41;
+
+sub Method1 {
+    return "this is Method1() from Sample41, modified";
+}
+
+1;
+END_PM
+
+    is(
+        scalar Refresh::Sample41->Method1,
+        'this is Method1() from Sample41',
+        'no reload after change and before initial refresh'
+    );
+
+    # add the new module to the cache
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample41.pm');
+
+    is(
+        scalar Refresh::Sample41->Method1,
+        'this is Method1() from Sample41',
+        'no reload after change and after inital refresh'
+    );
+
+    $StandardRefreshDir->file('Sample41.pm')->spew(<<'END_PM');
+package Refresh::Sample41;
+
+sub Method1 {
+    return "this is Method1() from Sample41, modified again";
+}
+
+1;
+END_PM
+
+    Kernel::System::ModuleRefresh->refresh_module_if_modified('Refresh/Sample41.pm');
+
+    is(
+        scalar Refresh::Sample41->Method1,
+        'this is Method1() from Sample41, modified again',
+        'reload after second change and refresh'
+    );
+};
+
 subtest 'new implementation in lib_custom' => sub {
 
     $StandardRefreshDir->file('Sample50.pm')->spew(<<'END_PM');
