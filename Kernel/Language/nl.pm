@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.477146710624906;
+    $Self->{Completeness}        = 0.475998205473306;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1354,6 +1354,9 @@ sub Data {
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'bijvoorbeeld /opt/otobo/var/certificates/SOAP/CA',
         'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => 'Controller mapping voor Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
@@ -3052,7 +3055,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
-        'Example Template' => 'Voorbeeld Template',
         'To customer user' => 'Aan klant',
         'Please include at least one customer user for the ticket.' => 'Selecteer tenminste een klant voor dit ticket.',
         'Select this customer as the main customer.' => 'Selecteer deze klant als hoofd-klant',
@@ -4139,9 +4141,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4299,6 +4301,8 @@ sub Data {
         'Need valid Subaction!' => 'Geldige subactie vereist!',
         'This field should be an integer.' => '',
         'File or Directory not found.' => '',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'Er is nog een webservice met dezelfde naam.',
@@ -5547,6 +5551,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => '',
@@ -5587,6 +5598,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -8573,6 +8587,8 @@ Het Helpdesk Team
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9158,6 +9174,8 @@ Het Helpdesk Team
         'Russian' => '',
         'S/MIME Certificates' => 'S/MIME Certificaten',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Aanheffen',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9881,7 +9899,7 @@ Het Helpdesk Team
             '',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => '',
@@ -9937,6 +9955,8 @@ Het Helpdesk Team
         'Uses richtext for viewing and editing ticket notification.' => 'Gebruik richtext voor het weergeven en bewerken van ticket notificaties.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Gebruik richtext voor het weergeven en bewerken van: artikelen, aanheffen, ondertekeningen, standaard templates, auto antwoorden en notificaties.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'View stored article version.' => '',

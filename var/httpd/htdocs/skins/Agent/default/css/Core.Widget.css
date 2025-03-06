@@ -821,6 +821,11 @@ ul.WidgetTooltip li a:hover i {
     float: right;
 }
 
+#AsteriskExplanationHeader {
+    padding-bottom: 25px;
+    padding-left: 5px;
+}
+
 .CallForAction:active,
 .CallForAction:hover,
 .CallForAction:focus {

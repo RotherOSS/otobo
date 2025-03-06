@@ -1239,6 +1239,13 @@ sub _Mask {
         push @{ $Param{AttachmentList} }, $Attachment;
     }
 
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
+    }
+
     # Create & return output.
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketEmailResend',

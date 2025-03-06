@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.946350966581747;
+    $Self->{Completeness}        = 0.944070584716614;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1357,6 +1357,9 @@ sub Data {
         'SSL hostname verification' => 'SSL-vertsnavnbekreftelse',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Avbryt forespørselen hvis vertsnavnet ikke kan bekreftes. Deaktiver med forsiktighet! Å hoppe over verifisering er en sikkerhetsrisiko! Hovedsakelig for testformål i tilfelle av selvsignerte SSL-sertifikater, eller hvis du vet hva du gjør.',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'Kontrollermapping for utløser',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Den behandlingsansvarlige som utløseren skal sende forespørsler til. Variabler merket med \':\' vil bli erstattet av dataverdien og sendt sammen med forespørselen. (f.eks. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -3054,7 +3057,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Opprett ny e-postsak',
-        'Example Template' => 'Eksempel på mal',
         'To customer user' => 'Til kunde-bruker',
         'Please include at least one customer user for the ticket.' => 'Vennligst inkluder minst én kundebruker for saken.',
         'Select this customer as the main customer.' => 'Velg denne kunden som hovedkunden.',
@@ -4141,9 +4143,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4301,6 +4303,8 @@ sub Data {
         'Need valid Subaction!' => 'Trenger gyldig subaksjon!',
         'This field should be an integer.' => 'Dette feltet skal være et heltall.',
         'File or Directory not found.' => 'Fant ikke filen eller katalogen.',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'Det finnes en annen nettjeneste med samme navn.',
@@ -5549,6 +5553,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => 'f.eks. Tekst eller Te*t',
@@ -5589,6 +5600,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => 'Sanitetssjekker for database.',
@@ -8578,6 +8592,8 @@ Ditt Helpdesk-team
             'Hvis noen av "SMTP"-mekanismene er valgt som SendmailModule, må e-post-tjeneren som sender ut e-post spesifiseres.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Hvis noen av "SMTP"-mekanismene er valgt som SendmailModule, må porten der din e-post-tjener lytter på innkommende forbindelser spesifiseres.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'Hvis aktivert, logges feilsøkingsinformasjon for tilgangskontrollister.',
         'If enabled debugging information for transitions is logged.' => 'Hvis aktivert, logges feilsøkingsinformasjon for overganger.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9163,6 +9179,8 @@ Ditt Helpdesk-team
         'Russian' => 'Russisk',
         'S/MIME Certificates' => 'S/MIME-sertifikater',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Hilsninger',
         'Sample command output' => 'Eksempel på kommandoresultat',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9886,8 +9904,8 @@ Ditt Helpdesk-team
             'Flisregistrering for CustomerDashboard. Modul er nødvendig.',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'Tid i sekunder som legges til den faktiske tiden hvis du angir en ventende tilstand (standard: 86400 = 1 dag).',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'For å godta påloggingsinformasjon, for eksempel en EULA eller lisens.',
         'To download attachments.' => 'For å laste ned vedlegg.',
         'To view HTML attachments.' => 'For å se HTML-vedlegg.',
@@ -9942,6 +9960,8 @@ Ditt Helpdesk-team
         'Uses richtext for viewing and editing ticket notification.' => 'Bruker rik tekst for å vise og redigere saksvarsel.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Bruker rik tekst for visning og redigering: artikler, hilsener, signaturer, standardmaler, automatiske svar og varsler.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Vis resultater etter ytelsesmålinger.',
         'View stored article version.' => '',

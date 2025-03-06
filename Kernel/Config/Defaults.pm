@@ -2363,7 +2363,8 @@ sub Set {
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
 # This is a no-op to mark a text as translatable in the Perl code.
-#   We use our own version here instead of importing Language::Translatable to not add a dependency.
+# We use our own version of Translatable() here instead of importing Kernel::Language::Translatable(). This
+# avoids the need to add a dependency.
 
 sub Translatable {
     return shift;

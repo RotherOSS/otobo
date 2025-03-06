@@ -493,6 +493,13 @@ sub Run {
             );
         }
 
+        # explanatory message about asterisk
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
+            );
+        }
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketMerge',
             Data         => { %Param, %Ticket, %Article, }

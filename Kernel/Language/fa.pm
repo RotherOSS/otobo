@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.593286377940956;
+    $Self->{Completeness}        = 0.591745177209511;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1353,6 +1353,9 @@ sub Data {
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTOBO / ور / گواهی / SOAP / CA',
         'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => ' برای  کنترل نگاشت Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
@@ -3051,7 +3054,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'ساخت درخواست ایمیلی جدید',
-        'Example Template' => 'به عنوان مثال قالب',
         'To customer user' => 'به کاربران مشتری',
         'Please include at least one customer user for the ticket.' => 'لطفا حداقل یک کاربر مشتری برای درخواست قرار دهید',
         'Select this customer as the main customer.' => 'این مشتری را به عنوان مشتری اصلی انتخاب کنید.',
@@ -4138,9 +4140,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4298,6 +4300,8 @@ sub Data {
         'Need valid Subaction!' => '',
         'This field should be an integer.' => '',
         'File or Directory not found.' => '',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'یکی دیگر از خدمات وب سایت با همین نام وجود دارد.',
@@ -5546,6 +5550,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => '',
@@ -5586,6 +5597,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -8572,6 +8586,8 @@ Thanks for your help!
             'اگر هر یک از \ "SMTP " مکانیزم به عنوان SendmailModule از mailhost می فرستد که از ایمیل باید مشخص شود انتخاب شد.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'اگر هر یک از \ "SMTP " مکانیزم به عنوان SendmailModule انتخاب شد، بندر که در آن mailserver ای خود را برای اتصالات ورودی گوش دادن باید مشخص شود.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'اگر اطلاعات اشکال زدایی فعال برای ACL ها وارد شده است.',
         'If enabled debugging information for transitions is logged.' => 'در صورت فعال بودن اطلاعات اشکال زدایی برای انتقال به سیستم وارد شده است.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9157,6 +9173,8 @@ Thanks for your help!
         'Russian' => 'روسی',
         'S/MIME Certificates' => 'گواهینامه‌های S/MIME',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'عنوان',
         'Sample command output' => 'خروجی دستور نمونه',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9880,8 +9898,8 @@ Thanks for your help!
             '',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'زمان در ثانیه است که می شود به زمان واقعی اضافه شده است اگر تنظیم یک انتظار دولت (به طور پیش فرض: 86،400 = 1 روز).',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'برای قبول اطلاعات ورود به سیستم، مانند EULA یا مجوز.',
         'To download attachments.' => 'برای دانلود فایل پیوست کنید.',
         'To view HTML attachments.' => '',
@@ -9936,6 +9954,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => 'استفاده از richtext برای اطلاع رسانی مشاهده و ویرایش درخواست',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'استفاده از richtext برای مشاهده و ویرایش: مقالات، درود، امضا، قالب استاندارد، پاسخ خودکار و اطلاعیه ها.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'ویتنام',
         'View performance benchmark results.' => 'نمایش نتایج آزمون کارایی',
         'View stored article version.' => '',

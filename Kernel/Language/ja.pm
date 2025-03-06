@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.855237524351866;
+    $Self->{Completeness}        = 0.853297442799462;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1352,6 +1352,9 @@ sub Data {
         'SSL hostname verification' => 'SSL ホスト名検証',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'ホスト名を検証できない場合は、要求を中止します。注意して無効にしてください。検証をスキップすると、セキュリティ上のリスクが発生します。主に、自己署名 SSL 証明書の場合、または何をしているのかわかっている場合にテスト目的で使用します。',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'API実行元に対するコントローラ・マッピング',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '呼び出し側がリクエストを送信するコントローラー。 \':\' でマークされた変数はデータ値に置き換えられ、リクエストとともに渡されます。(例: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)。',
@@ -3049,7 +3052,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '新規メールチケットの作成',
-        'Example Template' => 'テンプレート例',
         'To customer user' => '宛先顧客ユーザー',
         'Please include at least one customer user for the ticket.' => 'チケットには少なくとも1名の顧客を含めてください。',
         'Select this customer as the main customer.' => '選択した顧客をメインの顧客にします。',
@@ -4136,9 +4138,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4296,6 +4298,8 @@ sub Data {
         'Need valid Subaction!' => '有効なサブアクションが必要です!',
         'This field should be an integer.' => 'この領域は整数である必要があります。',
         'File or Directory not found.' => 'ファイルまたはディレクトリがみつかりません。',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => '同名の別のWebサービスがあります。',
@@ -5544,6 +5548,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => '例: Text または Te*t',
@@ -5584,6 +5595,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => 'データベースの健全性チェック。',
@@ -7841,7 +7855,7 @@ Thanks for your help!
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             'リンク・タイプのグループの定義です。同じグループのリンク・タイプは、お互いにキャンセルするように働きます。もしチケットAがチケットBと共に"ノーマル"にリンクされている場合、これらのチケットは\'ParentChild\'関係のリンクとともに追加的にリンクされることはできません。',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otobo/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
-            '',
+            'オンライン リポジトリのリストを定義します。別のインストールをリポジトリとして使用できます。例: Key="http://example.com/otobo/public.pl?Action=PublicRepository;File=" および Content="Some Name"。',
         'Defines the list of params that can be passed to ticket search function.' =>
             '',
         'Defines the list of possible next actions on an error screen, a full path is required, then is possible to add external links if needed.' =>
@@ -8573,6 +8587,8 @@ Thanks for your help!
             '"SMTP"構造のいずれかがSendmailモジュールとして選択された場合、メールを送信するメール・ホストが特定されている必要があります。',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '"SMTP"構造のいずれかがSendmailモジュールとして選択された場合、メール・サーバが受信接続をlistenしている（待っている）ポートが特定されている必要があります。',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9158,6 +9174,8 @@ Thanks for your help!
         'Russian' => 'ロシア語',
         'S/MIME Certificates' => 'S/MIME証明書',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => '挨拶文',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9881,8 +9899,8 @@ Thanks for your help!
             'CustomerDashboard のタイル登録。モジュールが必要です。',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             'CustomerDashboard のタイル登録。モジュールが必要です。オプションで、アイテムの順序を設定できます。順序には、アイテムの名前をキーとして、目的の位置を整数値として指定する必要があります。',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            '保留中のステートを設定した場合、実際の時間に加えられる時間（秒）です。(default: 86400 = 1 day)',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => '添付ファイルをダウンロード',
         'To view HTML attachments.' => 'HTML添付ファイルを表示するには',
@@ -9937,6 +9955,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => 'チケット通知の作成と表示確認にリッチテキストを利用します。',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '作成と表示確認にリッチテキストを利用します。: 記事、挨拶、署名、標準テンプレート、自動応答と通知',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'ベトナム',
         'View performance benchmark results.' => 'パフォーマンス・ベンチマーク結果を見る。',
         'View stored article version.' => '',

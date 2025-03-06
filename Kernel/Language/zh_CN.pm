@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.919226734602128;
+    $Self->{Completeness}        = 0.917003140421714;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1355,6 +1355,9 @@ sub Data {
         'SSL hostname verification' => 'SSL 主机名称验证',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '如果无法验证主机名，则中止请求。不过禁用验证时要小心！跳过验证会有安全风险！禁用验证主要用于测试目的（比如自签名SSL证书），或者你明确知道自己在做什么。',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => '调用程序的控制器映射',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '控制器接受调用程序发送的请求。以“:“作为标记的变量将被数据值和其它传递参数替换。',
@@ -3052,7 +3055,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '创建邮件工单',
-        'Example Template' => '模板样例',
         'To customer user' => '选择客户用户',
         'Please include at least one customer user for the ticket.' => '请包括至少一个客户用户。',
         'Select this customer as the main customer.' => '选择这个客户用户作为主要联系人。',
@@ -4139,9 +4141,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4299,6 +4301,8 @@ sub Data {
         'Need valid Subaction!' => '需要有效的子动作！',
         'This field should be an integer.' => '该字段应为整数。',
         'File or Directory not found.' => '找不到文件或目录。',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => '存在同名的另一WEB服务。',
@@ -5547,6 +5551,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => '如：Text或Te*t',
@@ -5587,6 +5598,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '数据库完整性检查。',
@@ -8571,6 +8585,8 @@ Thanks for your help!
             '如果发送邮件模块选用了“SMTP”，并且邮件服务器需要认证，必须指定发送邮件的服务器。',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '如果发送邮件模块选用了“SMTP”，并且邮件服务器需要认证，必须指定邮件服务器监听的端口。',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => '如果启用了此选项，将记录ACL的调试信息。',
         'If enabled debugging information for transitions is logged.' => '如果启用了此选项，将记录转换的调试信息。',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9156,6 +9172,8 @@ Thanks for your help!
         'Russian' => '俄语',
         'S/MIME Certificates' => 'S/MIME证书',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => '问候语',
         'Sample command output' => '命令输出样例',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9879,8 +9897,8 @@ Thanks for your help!
             '需要模块实现CustomerDashboard的注册。',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            '如果设置一个挂起状态，添加到实际时间的秒数（默认：86400 = 1天）。',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => '接受登录信息，如EULA（最终用户许可协议）或许可。',
         'To download attachments.' => '下载附件。',
         'To view HTML attachments.' => '查看HTML附件。',
@@ -9935,6 +9953,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => '查看和编辑工单通知时使用富文本。',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '查看和编辑以下内容时使用富文本：信件、问候语、签名、标准模板、自动响应和通知。',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => '越南语',
         'View performance benchmark results.' => '查看性能基准测试结果.',
         'View stored article version.' => '',

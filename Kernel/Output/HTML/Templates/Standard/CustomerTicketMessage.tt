@@ -26,6 +26,10 @@
             <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
             <fieldset>
 
+[% RenderBlockStart("AsteriskExplanation") %]
+                <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
 [% RenderBlockStart("DynamicField_TitleCategory") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
                     <div class="Field">

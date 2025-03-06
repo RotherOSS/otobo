@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.882211898696239;
+    $Self->{Completeness}        = 0.880065799312098;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1354,6 +1354,9 @@ sub Data {
         'SSL hostname verification' => 'Verificação de nome de host SSL',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             'Aborte a solicitação se o nome do host não puder ser verificado. Desative com cuidado! Ignorar a verificação é um risco de segurança! Principalmente para fins de teste no caso de certificados SSL autoassinados ou se você souber o que está fazendo.',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'Mapeamento do controlador para o invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'O controlador para o qual o invoker necessita enviar requisições. Variáveis marcadas com um \':\' serão substituídas pelos valores dos dados e repassadas com a requisição (ex.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -3051,7 +3054,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Criar Novo Chamado Via E-mail',
-        'Example Template' => 'Exemplo de Modelo',
         'To customer user' => 'Para usuário cliente',
         'Please include at least one customer user for the ticket.' => 'Por favor, inclua ao menos um usuário cliente para este chamado.',
         'Select this customer as the main customer.' => 'Selecione este cliente como principal',
@@ -4138,9 +4140,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4298,6 +4300,8 @@ sub Data {
         'Need valid Subaction!' => 'Necessita Subação válida!',
         'This field should be an integer.' => 'Este campo deveria ser um inteiro.',
         'File or Directory not found.' => 'Arquivo ou Diretório não encontrado.',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'Há outro web service com o mesmo nome.',
@@ -5546,6 +5550,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => 'ex.: Text ou Te*t',
@@ -5586,6 +5597,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => 'Verificações de integridade para banco de dados.',
@@ -8572,6 +8586,8 @@ Obrigado pela ajuda!
             'Se qualquer mecanismo "SMTP" foi selecioando como SendmailModule, o host de e-mail que envia e-mails precisa ser especificado.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Se qualquer mecanismo "SMTP" foi selecioando como SendmailModule, o port que seu servidor de e-mail está escutando para conexões recebidas precisa ser especificado.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'Se ativado, informações de depuração para ACLs são registradas.',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -9157,6 +9173,8 @@ Obrigado pela ajuda!
         'Russian' => 'Russo',
         'S/MIME Certificates' => 'Certificados S/MIME',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Saudações',
         'Sample command output' => 'Exemplo de saída de comando',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9880,8 +9898,8 @@ Obrigado pela ajuda!
             '',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'Tempo em segundos que é adicionado ao tempo atual ao definir um estado pendente (default: 86400 = 1 day).',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'Aceitar informações de login, como um EULA ou licença.',
         'To download attachments.' => 'Para baixar anexos.',
         'To view HTML attachments.' => 'Para visualizar anexos HTML.',
@@ -9936,6 +9954,8 @@ Obrigado pela ajuda!
         'Uses richtext for viewing and editing ticket notification.' => 'Usar richtext para visualizar e editar notificações de chamados.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Usar RichText quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnamita',
         'View performance benchmark results.' => 'Ver resultados da avaliação de desempenho.',
         'View stored article version.' => '',

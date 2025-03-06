@@ -22,11 +22,15 @@ jobs:
         include:
           # the latest release for every release branch - has to be updated
           -
+            docker_tag: 'latest-10_0-autobuild'
+            patch:      'rel-10_0_23'
+          -
             docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_11'
+            patch:      'rel-10_1_12'
           -
             docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_7'
+            patch:      'rel-11_0_8'
+          # otobo-web uses different base images in the different release branches
           -
             docker_tag: 'latest-11_1-autobuild'
             patch:      'rel-11_1_1'
@@ -130,8 +134,8 @@ jobs:
         # a workaround for a build failure for the 11.0.7 release
         # see https://github.com/RotherOSS/otobo/issues/4103
         # can't use github.sha here as we need the commit of the checked out branch
-        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
-        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' && matrix.patch == 'rel-11_0_7' }}
+        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.8'
+        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' && matrix.patch == 'rel-11_0_8' }}
         run: |
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 

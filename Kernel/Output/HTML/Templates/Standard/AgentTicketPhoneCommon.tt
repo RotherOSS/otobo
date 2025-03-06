@@ -60,6 +60,14 @@
 
             <div class="ContentColumn">
                 <fieldset class="TableLike FixedLabel">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+                    <div class="Field">
+                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
                     <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
                     <div class="Field">
                         <input type="text" name="Subject" id="Subject" value="[% Data.Subject | html %]" class="Validate_Required [% Data.SubjectInvalid | html %] W75pc"/>

@@ -312,6 +312,13 @@ $Param{Signature}";
             );
         }
 
+        # explanatory message about asterisk
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
+            );
+        }
+
         # print form ...
         my $Output = $LayoutObject->Header(
             Value     => $Ticket{TicketNumber},
@@ -457,6 +464,13 @@ $Param{Signature}";
 
             $Param{InformationFormat}   = $Param{Body};
             $Param{InformSenderChecked} = $Param{InformSender} ? 'checked ' : '';
+
+            # explanatory message about asterisk
+            if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+                $LayoutObject->Block(
+                    Name => 'AsteriskExplanation',
+                );
+            }
 
             my $Output = $LayoutObject->Header(
                 Type      => 'Small',

@@ -76,6 +76,12 @@
             </ul>
         </div>
         <div class="Content">
+[% RenderBlockStart("AsteriskExplanation") %]
+            <div class="Field">
+                <p class="AsteriskExplanation" id="AsteriskExplanationHeader">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
             [% INCLUDE "FormElements/DraftNotifications.tt" %]
 [% RenderBlockStart("WidgetTicketActions") %]
             <div class="WidgetSimple Expanded">
