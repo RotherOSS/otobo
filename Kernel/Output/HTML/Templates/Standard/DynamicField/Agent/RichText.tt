@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<textarea class="RichText [% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" data-maxlength="[% Data.MaxLength %]"[% IF Data.Readonly %] readonly[% END %]>[% Data.ValueEscaped %]</textarea>
+<textarea class="RichText [% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Translate(Data.FieldLabelEscaped) | html %]" data-maxlength="[% Data.MaxLength %]"[% IF Data.Readonly %] readonly[% END %]>[% Data.ValueEscaped %]</textarea>
 <div id="[% Data.DivID %]" class="TooltipErrorMessage">
     <p>
         [% IF Data.Mandatory %][% Data.ErrorMessage1 %] [% END %][% Data.ErrorMessage2 %] [% Data.ErrorMessage3 %]
