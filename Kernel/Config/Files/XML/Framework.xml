@@ -3181,6 +3181,23 @@ You can log in via the following URL:
             <Item ValueType="String" ValueRegex="">user_id</Item>
         </Value>
     </Setting>
+    <Setting Name="Preferences::UpdateAJAX::Allowed###001-Framework" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">A list of parameters which can be updated via the UpdateAJAX.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="UserTicketZoomArticleTableHeight">1</Item>
+                <Item Key="UserSystemConfigurationCategory">1</Item>
+                <Item Key="UserSystemConfigurationFavourites">1</Item>
+                <Item Key="UserAgentDoNotShowBrowserLinkMessage">1</Item>
+                <Item Key="AdminNavigationBarFavourites">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Actions">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Navigation">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Sticky">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Help">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="PreferencesGroups###Password" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
