@@ -45,7 +45,7 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Source = $Self->{UserRepository} || '';
+    my $Source = $Self->{Session}{UserRepository} || '';
     my %Errors;
 
     # ------------------------------------------------------------ #

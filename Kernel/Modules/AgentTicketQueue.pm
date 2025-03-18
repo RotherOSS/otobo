@@ -305,7 +305,7 @@ sub Run {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
-    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{Session}{$PageShownPreferencesKey} || 10;
 
     # do shown tickets lookup
     my $Limit = 10_000;

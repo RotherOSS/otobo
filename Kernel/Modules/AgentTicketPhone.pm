@@ -1967,7 +1967,7 @@ sub Run {
         }
 
         # get redirect screen
-        my $NextScreen = $Self->{UserCreateNextMask} || 'AgentTicketPhone';
+        my $NextScreen = $Self->{Session}{UserCreateNextMask} || 'AgentTicketPhone';
 
         # redirect
         return $LayoutObject->Redirect(
