@@ -64,6 +64,13 @@ sub Run {
             );
         }
 
+        # check setting active state
+        if ( !$Preferences{$Group}{Active} ) {
+            return $LayoutObject->ErrorScreen(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'No valid config for %s', $Group ),
+            );
+        }
+
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $Self->{UserLogin} );
         my $Module   = $Preferences{$Group}->{Module};

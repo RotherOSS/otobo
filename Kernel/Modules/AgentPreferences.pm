@@ -124,6 +124,7 @@ sub Run {
         my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
         my $IsPwdReset = 0;
 
+        GROUP:
         for my $Group (@Groups) {
 
             # check preferences setting
@@ -133,6 +134,8 @@ sub Run {
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
                 );
             }
+
+            next GROUP unless ( $Self->{CurrentUserID} != $Self->{EditUserID} || $Preferences{$Group}{Active} );
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
