@@ -727,7 +727,7 @@ sub Run {
 
         # set article filter for this ticket from user preferences
         if ( !$ArticleFilterSessionString ) {
-            $ArticleFilterSessionString = $Self->{ArticleFilterDefault};
+            $ArticleFilterSessionString = $Self->{Session}{ArticleFilterDefault};
         }
 
         # do not use defaults for this ticket if filter was explicitly turned off
