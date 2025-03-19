@@ -12002,7 +12002,7 @@
         </Value>
     </Setting>
     <Setting Name="TicketACL::Autoselect" Required="0" Valid="0">
-        <Description Translatable="1">Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).</Description>
+        <Description Translatable="1">In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.</Description>
         <Navigation>Core::Ticket::ACL</Navigation>
         <Value>
             <Hash>
