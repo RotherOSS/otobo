@@ -30,15 +30,7 @@ use parent qw( Kernel::Modules::AgentTicketActionCommon );
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = qw(
-    Kernel::Config
-    Kernel::Output::HTML::Layout
-    Kernel::System::Log
-    Kernel::System::Ticket
-    Kernel::System::Ticket::Article
-    Kernel::System::Ticket::ArticleFeatures
-    Kernel::System::Web::Request
-);
+our $ObjectManagerDisabled = 1;
 
 sub Run {
     my ( $Self, %Param ) = @_;

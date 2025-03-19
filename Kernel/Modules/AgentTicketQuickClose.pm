@@ -20,12 +20,7 @@ package Kernel::Modules::AgentTicketQuickClose;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
-);
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

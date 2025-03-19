@@ -416,18 +416,14 @@ END_PM
         'new implementation of Translatable()'
     );
 
-    {
-        my $ToDO = todo('subs are still unloaded when a module is refreshed');
-
-        try_ok {
-            is(
-                scalar Refresh::Sample70->CallTranslatable(),
-                q{Translatable said: 'Hi from Refresh::Language::Translatable!'},
-                'calling an imported subroutine does not care about refreshing'
-            );
-            'no exception when calling CallTranslatable()';
-        };
-    }
+    try_ok {
+        is(
+            scalar Refresh::Sample70->CallTranslatable(),
+            q{Translatable said: 'Hi from Refresh::Language::Translatable!'},
+            'calling an imported subroutine does not care about refreshing'
+        );
+        'no exception when calling CallTranslatable()';
+    };
 };
 
 done_testing;

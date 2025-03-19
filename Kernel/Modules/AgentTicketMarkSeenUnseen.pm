@@ -19,14 +19,7 @@ package Kernel::Modules::AgentTicketMarkSeenUnseen;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::Ticket::Article',
-    'Kernel::System::Ticket',
-    'Kernel::System::User',
-    'Kernel::System::Web::Request',
-);
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

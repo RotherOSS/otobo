@@ -47,9 +47,14 @@ on SSDs.
 
 Another difference is that in the method C<new()> only modules in C<Kernel> and C<var::packagesetup> are cached.
 
+Yet another difference is that the method C<unload_subs()> has been overridden to effectively do nothing.
+This means the already bound functions will not be invalidated. So the only effect will be that modules might be reloaded
+via the builtin command C<require>. This assures that the method lookup finds the new implementation.
+
 =head1 DISCLAIMERS
 
 The method C<refresh()> should not be used as it still works on the complete C<%INC>.
+The recommendation is to only use the methods C<refresh_module_if_modified> and C<refresh_module>.
 
 Using C<Kernel::System::ModuleRefresh> and C<Module::Refresh> in the same program is discouraged.
 
@@ -84,6 +89,20 @@ sub mtime {
     my ( $Class, $Module ) = @_;
 
     return join ':', ( stat $Module )[ 7, 9 ];    # size and mtime
+}
+
+=head2 unload_subs()
+
+This method is called internally when a module is actually reloaded.
+The OTOBO specific implementation is that nothing is done. This means
+that already loaded subs are not invalidated.
+
+=cut
+
+sub unload_subs {
+    my $Self = shift;
+
+    return $Self;
 }
 
 1;
