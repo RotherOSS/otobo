@@ -15,7 +15,7 @@
 # --
 
 <input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ValueEscaped %]" />
-<input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.VisibleValue %]" />
+<input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Translate(Data.FieldLabelEscaped) | html %]" value="[% Data.VisibleValue %]" />
 [% IF Data.Mandatory %]
 <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>
