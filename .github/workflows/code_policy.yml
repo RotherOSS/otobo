@@ -12,7 +12,7 @@ jobs:
             PERL5LIB: local/lib/perl5
         steps:
 
-            # list of added or changed files will be used in the 'compile-checcompile-check' step
+            # list of added or changed files will be used in the 'compile-check' step
             - id: changed-files
               uses: tj-actions/changed-files@v46
 
