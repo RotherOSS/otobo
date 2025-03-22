@@ -14545,7 +14545,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::Article::Actions###Email" Required="1" Valid="1">
-        <Description Translatable="1">Defines available article actions for Email articles.</Description>
+        <Description Translatable="1">Defines available article actions for e-mail articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
             <Hash>
