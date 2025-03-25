@@ -517,8 +517,6 @@ sub SearchFieldRender {
     # add type to FieldName
     $FieldName .= $Param{Type};
 
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
-
     my $Value;
 
     my %DefaultValue;
