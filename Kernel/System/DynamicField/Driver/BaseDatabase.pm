@@ -272,9 +272,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $FieldLabel,
+    );
 
     my $Value = '';
 
@@ -330,9 +333,9 @@ sub EditFieldRender {
     }
 
     my $HTMLString = <<"EOF";
-    <input type="text" class="$FieldClass" id="${FieldName}" title="$FieldLabel" value="$Value" />
+    <input type="text" class="$FieldClass" id="${FieldName}" title="$FieldLabelEscaped" value="$Value" />
     <a href="#" id="DynamicFieldDBDetailedSearch_${FieldName}" field="${FieldName}" alt="$DetailedSearchMsg" title="$DetailedSearchMsg"><i class="fa fa-search"></i></a>
-    <input type="hidden" class="$FieldClass" width="100%" id="${FieldName}Data" name="${FieldName}" title="$FieldLabel" value="$Value" />
+    <input type="hidden" class="$FieldClass" width="100%" id="${FieldName}Data" name="${FieldName}" title="$FieldLabelEscaped" value="$Value" />
     <div class="Field Hidden">
         <div class="ResultElementTemplate${FieldName} Hidden">
             <input id="ResultElementText" class="ResultElementText Radio" type="text" readonly="readonly" value="" name="ResultElementText" title="" />
@@ -554,9 +557,12 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName         = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $FieldLabel,
+    );
 
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
@@ -578,7 +584,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDB';
 
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabel" value="$Value" />
+<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabelEscaped" value="$Value" />
 EOF
 
     my $AdditionalText;
