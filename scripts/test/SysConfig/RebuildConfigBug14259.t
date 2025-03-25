@@ -32,10 +32,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-my $CacheType = 'UnitTestRebuildConfig';
-
-my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
-
+my $CacheType  = 'UnitTestRebuildConfig';
+my $ChildCount = 5;
 for my $ChildIndex ( 1 .. $ChildCount ) {
 
     # Disconnect database before fork.
