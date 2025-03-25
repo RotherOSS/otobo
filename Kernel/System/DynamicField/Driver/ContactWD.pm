@@ -530,7 +530,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
@@ -563,7 +563,7 @@ sub StatsSearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 

@@ -68,7 +68,7 @@ sub ValueSet {
 
     if ($Result) {
 
-        # optional classic LinkOBject links
+        # optional classic LinkObject links
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
@@ -358,7 +358,7 @@ sub EditFieldRender {
             }
         }
 
-        # The actual value is the techical ID of the referenced object.
+        # The actual value is the technical ID of the referenced object.
         # This might be empty e.g. in a ticket creation mask.
         my $ValueEscaped;
         my $ReferencedObjectID = $Value->[$ValueIndex];
@@ -1022,7 +1022,6 @@ sub GetFieldTypeSettings {
     }
 
     my $LinkObject            = $Kernel::OM->Get('Kernel::System::LinkObject');
-    my $LanguageObject        = $Kernel::OM->Get('Kernel::Language');
     my $ReferencingObjectType = $Param{ObjectType};
 
     # Create the selectable type list from the possible types from the SysConfig.

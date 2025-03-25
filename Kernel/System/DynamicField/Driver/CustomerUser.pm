@@ -100,8 +100,8 @@ sub PossibleValuesGet {
     # this field makes no use of PossibleValuesGet for performance purpose - instead, values are checked via CustomerUserDataGet
     # nevertheless, function needs to be overwritten to make sure that the call doesn't reach PossibleValuesGet in BaseSelect
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Prioritiy => 'error',
-        Message   => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
+        Priority => 'error',
+        Message  => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
     );
 
     return;
@@ -350,7 +350,7 @@ sub SearchObjects {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
-            # map ID to IDs if neccessary
+            # map ID to IDs if necessary
             my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
             if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
                 $AttributeName .= 's';

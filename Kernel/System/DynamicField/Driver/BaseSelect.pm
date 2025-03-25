@@ -304,7 +304,7 @@ sub EditFieldRender {
 
     # TODO change ConfirmationNeeded parameter name to something more generic
 
-    # when ConfimationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
+    # when ConfirmationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
     # as an open list, because you might not want to change the value, otherwise a value will be
     # selected
     if ( $Param{ConfirmationNeeded} ) {
