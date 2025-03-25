@@ -55,11 +55,18 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
         # Disconnect database before fork.
         $DBObject->Disconnect();
 
-        # Create a fork of the current process
+        # Create a fork of the current process. Using the fork idom from
+        # https://blogs.perl.org/users/aristotle/2025/03/conditional-branch-scoping.html
         #   parent gets the PID of the child
         #   child gets PID = 0
-        my $PID = fork;
-        if ( !$PID ) {
+        #   PID is undefined when fork fails
+        if ( my $PID = fork ) {
+
+            # nothing to do in the parent
+        }
+        elsif ( defined $PID ) {
+
+            # Create a ticket number and ticket in the child. Store the info in the cache.
 
             # Destroy objects.
             $Kernel::OM->ObjectsDiscard();
@@ -96,12 +103,13 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
             exit 0;
         }
+        else {
+            fail("Couldn't fork: $!");
+        }
     }
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-
     my %ChildData;
-
     my $Wait = 1;
     while ($Wait) {
         CHILDINDEX:
