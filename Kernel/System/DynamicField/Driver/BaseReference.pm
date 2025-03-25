@@ -219,8 +219,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails = $Param{DynamicFieldConfig}{Config};
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $DFDetails         = $Param{DynamicFieldConfig}{Config};
+    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
     my $Value = '';
 
@@ -270,6 +274,7 @@ sub EditFieldRender {
 
     my %FieldTemplateData = (
         FieldClass      => $FieldClass,
+        FieldLabel      => $FieldLabelEscaped,
         FormUpdateClass => $Param{AJAXUpdate} ? 'FormUpdate' : '',
         FieldName       => $FieldName,
         Readonly        => $Param{DynamicFieldConfig}->{Readonly},
