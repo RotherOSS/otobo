@@ -227,7 +227,6 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
@@ -622,7 +621,6 @@ sub SearchFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
