@@ -143,7 +143,7 @@ sub EditFieldRender {
     $FieldClass .= ' Validate_MaxLength';
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     # TODO ask about this
