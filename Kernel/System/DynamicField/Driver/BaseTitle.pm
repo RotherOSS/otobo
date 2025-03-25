@@ -113,7 +113,7 @@ sub EditFieldRender {
     my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}->{LanguageObject}->Translate($FieldLabel),
     );
 
     # call EditLabelRender on the common Driver
