@@ -612,9 +612,11 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName         = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
@@ -636,7 +638,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDB';
 
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabel" value="$Value" />
+<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabelEscaped" value="$Value" />
 EOF
 
     my $AdditionalText;
