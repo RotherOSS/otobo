@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -65,8 +69,7 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
                 Value => {},
             );
 
-            my $TicketNumber
-                = $Kernel::OM->Get("Kernel::System::Ticket::Number::$TicketNumberBackend")->TicketCreateNumber();
+            my $TicketNumber = $Kernel::OM->Get("Kernel::System::Ticket::Number::$TicketNumberBackend")->TicketCreateNumber();
 
             my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
                 TN           => $TicketNumber,
@@ -134,30 +137,24 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
         my %Data = %{ $ChildData{$ChildIndex} };
 
-        $Self->Is(
+        is(
             $TicketNumbers{ $Data{TicketNumber} } || 0,
             0,
             "TicketNumber from child $ChildIndex '$Data{TicketNumber}' with $TicketNumberBackend assigned multiple times",
         );
 
-        $Self->True(
-            $Data{TicketID},
-            "TicketID from child $ChildIndex using $TicketNumberBackend",
-        );
+        ok( $Data{TicketID}, "TicketID from child $ChildIndex using $TicketNumberBackend" );
 
         $TicketNumbers{ $Data{TicketNumber} } = 1;
 
-        next CHILDINDEX if !$Data{TicketID};
+        next CHILDINDEX unless $Data{TicketID};
 
         my $Success = $TicketObject->TicketDelete(
             TicketID => $Data{TicketID},
             UserID   => 1,
         );
 
-        $Self->True(
-            $Success,
-            "TicketDelete for $Data{TicketID}",
-        );
+        ok( $Success, "TicketDelete for $Data{TicketID}" );
     }
     $CacheObject->CleanUp(
         Type => $CacheType,
@@ -166,13 +163,10 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
 # Cleanup counters.
 if ($InitialCounterID) {
-    $Success = $DBObject->Do(
+    my $Success = $DBObject->Do(
         SQL => "DELETE from ticket_number_counter WHERE id > $InitialCounterID",
     );
-    $Self->True(
-        $Success,
-        "Removed added ticket number counters",
-    );
+    ok( $Success, "Removed added ticket number counters" );
 }
 
-$Self->DoneTesting();
+done_testing;
