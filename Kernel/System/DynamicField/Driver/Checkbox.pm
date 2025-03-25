@@ -399,7 +399,7 @@ sub EditFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Param{LayoutObject}->{LanguageObject}->Translate($FieldLabel),
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
