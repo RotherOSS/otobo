@@ -14148,7 +14148,7 @@ msgstr "‎%s غيغابايت (GB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr "s% ميغاباي ‎(MB)"
+msgstr "‎%s ميغابايت (MB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
