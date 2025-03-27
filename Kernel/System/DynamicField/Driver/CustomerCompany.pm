@@ -108,12 +108,6 @@ sub GetFieldTypeSettings {
         %Param,
     );
 
-    # Support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-        };
-
     # Support configurable search key
     push @FieldTypeSettings,
         {
@@ -303,7 +297,7 @@ sub SearchObjects {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
-            # map ID to IDs if neccessary
+            # map ID to IDs if necessary
             my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
             if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
                 $AttributeName .= 's';

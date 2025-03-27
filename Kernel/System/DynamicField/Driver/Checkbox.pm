@@ -703,12 +703,9 @@ sub DisplayValueRender {
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldName = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     my $Value;
-
     my @DefaultValue;
 
     if ( defined $Param{DefaultValue} ) {
@@ -729,38 +726,27 @@ sub SearchFieldRender {
         $Value = $FieldValues;
     }
 
+    # since search field is multiple => 1, do value transformation on array basis
+    if ( !IsArrayRefWithData($Value) ) {
+        $Value = [$Value];
+    }
+
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldDropdown Modernize';
 
-    if ( $FieldConfig->{MultiValue} ) {
-        for my $Item ( @{$Value} ) {
-
-            # value must be 1, '' or -1
-            if ( !defined $Item || !$Item ) {
-                $Item = '';
-            }
-            elsif ( $Item && $Item >= 1 ) {
-                $Item = 1;
-            }
-            else {
-                $Item = -1;
-            }
-
-        }
-
-    }
-    else {
+    for my $Item ( @{$Value} ) {
 
         # value must be 1, '' or -1
-        if ( !defined $Value || !$Value ) {
-            $Value = '';
+        if ( !defined $Item || !$Item ) {
+            $Item = '';
         }
-        elsif ( $Value && $Value >= 1 ) {
-            $Value = 1;
+        elsif ( $Item && $Item >= 1 ) {
+            $Item = 1;
         }
         else {
-            $Value = -1;
+            $Item = -1;
         }
+
     }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
