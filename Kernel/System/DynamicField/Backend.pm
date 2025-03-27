@@ -1096,7 +1096,7 @@ dynamic field. The table must already be joined.
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         TableAlias         => $TableAlias,              # the alias of the already joined dynamic_field_value table to use
         SearchTerm         => $SearchTerm,              # What to look for. Placeholders in LIKE searches must be passed as %.
-        Operator           => $Operator,                # One of [Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan, SmallerThanEquals]
+        Operator           => $Operator,                # One of [Empty, Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan, SmallerThanEquals]
                                                         #   The supported operators differ for the different backends.
     );
 
