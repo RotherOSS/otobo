@@ -108,12 +108,6 @@ sub GetFieldTypeSettings {
         %Param,
     );
 
-    # Support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-        };
-
     # Support configurable search key
     push @FieldTypeSettings,
         {
