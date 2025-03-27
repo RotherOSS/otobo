@@ -751,6 +751,11 @@ sub SearchFieldRender {
     }
     else {
 
+        # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
+        if ( IsArrayRefWithData($Value) ) {
+            $Value = @{$Value}[0];
+        }
+
         # value must be 1, '' or -1
         if ( !defined $Value || !$Value ) {
             $Value = '';
