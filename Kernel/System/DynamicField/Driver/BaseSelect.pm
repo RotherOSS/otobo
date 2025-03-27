@@ -227,7 +227,6 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
@@ -305,7 +304,7 @@ sub EditFieldRender {
 
     # TODO change ConfirmationNeeded parameter name to something more generic
 
-    # when ConfimationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
+    # when ConfirmationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
     # as an open list, because you might not want to change the value, otherwise a value will be
     # selected
     if ( $Param{ConfirmationNeeded} ) {
@@ -622,7 +621,6 @@ sub SearchFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 

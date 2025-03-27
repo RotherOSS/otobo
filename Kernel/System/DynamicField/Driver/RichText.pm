@@ -143,11 +143,11 @@ sub EditFieldRender {
     $FieldClass .= ' Validate_MaxLength';
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     # TODO ask about this
-    # TODO maybe the following whould be a good idea?
+    # TODO maybe the following would be a good idea?
     #   use List::Util qw(min);
     #   my $MaxLength = min ( $Param{MaxLength, $Self->{MaxLength} );
     # create field HTML
@@ -320,7 +320,7 @@ sub DisplayValueRender {
         };
     }
 
-    # prepare html rendering informations
+    # prepare html rendering information
     my $FieldName  = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
@@ -450,7 +450,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";

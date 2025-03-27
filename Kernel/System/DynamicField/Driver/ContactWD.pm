@@ -247,7 +247,7 @@ sub EditFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
@@ -435,9 +435,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = '';
@@ -463,7 +462,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";
@@ -531,7 +530,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
@@ -564,7 +563,7 @@ sub StatsSearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 

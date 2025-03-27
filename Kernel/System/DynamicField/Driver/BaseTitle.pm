@@ -232,7 +232,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";

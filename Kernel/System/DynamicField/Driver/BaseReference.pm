@@ -68,7 +68,7 @@ sub ValueSet {
 
     if ($Result) {
 
-        # optional classic LinkOBject links
+        # optional classic LinkObject links
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
@@ -219,8 +219,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $DFDetails = $Param{DynamicFieldConfig}{Config};
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $DFDetails         = $Param{DynamicFieldConfig}{Config};
+    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
     my $Value = '';
 
@@ -270,6 +274,7 @@ sub EditFieldRender {
 
     my %FieldTemplateData = (
         FieldClass      => $FieldClass,
+        FieldLabel      => $FieldLabelEscaped,
         FormUpdateClass => $Param{AJAXUpdate} ? 'FormUpdate' : '',
         FieldName       => $FieldName,
         Readonly        => $Param{DynamicFieldConfig}->{Readonly},
@@ -358,7 +363,7 @@ sub EditFieldRender {
             }
         }
 
-        # The actual value is the techical ID of the referenced object.
+        # The actual value is the technical ID of the referenced object.
         # This might be empty e.g. in a ticket creation mask.
         my $ValueEscaped;
         my $ReferencedObjectID = $Value->[$ValueIndex];
@@ -690,7 +695,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";
@@ -1022,7 +1027,6 @@ sub GetFieldTypeSettings {
     }
 
     my $LinkObject            = $Kernel::OM->Get('Kernel::System::LinkObject');
-    my $LanguageObject        = $Kernel::OM->Get('Kernel::Language');
     my $ReferencingObjectType = $Param{ObjectType};
 
     # Create the selectable type list from the possible types from the SysConfig.
