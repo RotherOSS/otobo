@@ -3152,9 +3152,6 @@ Core.UI.InputFields = (function (TargetNS) {
             DateObj = new Date();
         }
 
-        // set used checkbox
-        $Parent.find('input[type=checkbox][id$=Used]').attr('checked', DateString ? true : false);
-
         // set date elements
         var $YearElement = $Parent.find('select[id$=Year]');
         $YearElement.val(DateObj.getFullYear());
