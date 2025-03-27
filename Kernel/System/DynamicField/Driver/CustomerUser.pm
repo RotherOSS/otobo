@@ -184,12 +184,6 @@ sub GetFieldTypeSettings {
             };
     }
 
-    # Support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-        };
-
     return @FieldTypeSettings;
 }
 
