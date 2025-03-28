@@ -44,7 +44,7 @@
 # Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023, 2024.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
-# Stefan Abel <sta@rother-oss.com>, 2022, 2023, 2024.
+# Stefan Abel <sta@rother-oss.com>, 2022, 2023, 2024, 2025.
 # svo <svo@rother-oss.com>, 2022.
 # sr <sr@rother-oss.com>, 2022.
 # Emin Yazi <yazi@efflux.de>, 2024.
@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-02-26 09:57+0000\n"
-"PO-Revision-Date: 2025-01-14 14:50+0000\n"
-"Last-Translator: Markus Hlinka <mah@rother-oss.com>\n"
+"PO-Revision-Date: 2025-03-29 10:29+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/de/"
 ">\n"
 "Language: de\n"
@@ -29656,11 +29656,11 @@ msgstr "S/MIME-Zertifikate"
 
 #. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_NONE - keine Verifikation des Mail-Server Hosts"
 
 #. SysConfig
 msgid "SSL_VERIFY_PEER - verify the mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_PEER - den Mail-Server Host verifizieren"
 
 #. SysConfig
 msgid "Salutations"
@@ -32978,6 +32978,8 @@ msgid ""
 "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/"
 "IMAPTLS mail accounts."
 msgstr ""
+"Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/"
+"IMAPTLS-E-Mail-Konten abgeholt werden."
 
 #. SysConfig
 msgid "Vietnam"
