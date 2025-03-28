@@ -399,6 +399,11 @@ Core.Form.Validate = (function (TargetNS) {
 
         // Skip validation if field is not used (bug#12210)
         $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+
+        // html structure in customer interface has the date selections nested by one level
+        if (!$UsedObj.length) {
+            $UsedObj = $(Element).parent().siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        }
         if ($UsedObj.length > 0 && $UsedObj.is(':checked') === false) {
             return true;
         }
