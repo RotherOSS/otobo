@@ -51,6 +51,9 @@ requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
 
+# Required for IMAP TLS connections.
+requires 'Mail::IMAPClient', '>= 3.40';
+
 # Required for random number generator.
 requires 'Moo';
 
@@ -298,12 +301,6 @@ feature 'mail', 'Features enabling communication with a mail-server' => sub {
 
 };
 
-feature 'mail:imap', 'Support for feature mail:imap' => sub {
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
-
-};
-
 feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
@@ -348,9 +345,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
     requires 'Net::SMTP';
-
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
