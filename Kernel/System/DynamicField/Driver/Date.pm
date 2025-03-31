@@ -173,10 +173,6 @@ sub ValueValidate {
     # get necessary object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
-    # init system datetime object
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $SystemTime     = $DateTimeObject->ToEpoch();
-
     my $Success;
     for my $Value (@Values) {
 
@@ -1521,12 +1517,9 @@ sub RandomValueSet {
         }
     }
     else {
-        my $YearValue   = int( rand(40) ) + 1_990;
-        my $MonthValue  = int( rand(9) ) + 1;
-        my $DayValue    = int( rand(10) ) + 10;
-        my $HourValue   = int( rand(12) ) + 10;
-        my $MinuteValue = int( rand(30) ) + 10;
-        my $SecondValue = int( rand(30) ) + 10;
+        my $YearValue  = int( rand(40) ) + 1_990;
+        my $MonthValue = int( rand(9) ) + 1;
+        my $DayValue   = int( rand(10) ) + 10;
 
         $Value = $YearValue . '-0' . $MonthValue . '-' . $DayValue . ' 00:00:00';
     }
