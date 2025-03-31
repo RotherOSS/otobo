@@ -203,7 +203,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = $FieldConfig->{DefaultValue} // '';
     }
-    $Value = $Param{Value} // $Value;
+    $Value = $Param{Value} || $Value;
 
     # extract the dynamic field value from the web request
     # TransformDates is always needed from EditFieldRender Bug#8452
