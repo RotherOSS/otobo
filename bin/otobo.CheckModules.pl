@@ -175,7 +175,6 @@ my %IsStandardFeature = (
     'div:xmlparser'   => 1,
     'div:xslt'        => 1,
     'mail'            => 1,
-    'mail:imap'       => 1,
     'mail:ntlm'       => 1,
     'mail:sasl'       => 1,
 );
@@ -197,7 +196,6 @@ my %IsDockerFeature = (
     'div:xslt'           => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
-    'mail:imap'          => 1,
     'mail:ntlm'          => 1,
     'mail:sasl'          => 1,
     'performance:redis'  => 1,
@@ -549,6 +547,21 @@ my @NeededModules = (
         },
     },
     {
+        # fetch mails via IMAP, handle both secure and unsecure connections
+        # Version 3.40 is from Dec  6th 2018, there is no particular reason for requiring at least this version.
+        # IO::Socket::SSL is loaded only when needed. This is fine, as IO::Socket::SSL is a required module anyways.
+        Module          => 'Mail::IMAPClient',
+        Required        => 1,
+        VersionRequired => '>= 3.40',
+        Comment         => 'Required for IMAP TLS connections.',
+        InstTypes       => {
+            aptget => 'libmail-imapclient-perl',
+            emerge => 'dev-perl/Mail-IMAPClient',
+            zypper => 'perl-Mail-IMAPClient',
+            ports  => 'mail/p5-Mail-IMAPClient',
+        },
+    },
+    {
         Module    => 'Moo',
         Required  => 1,
         Comment   => 'Required for random number generator.',
@@ -886,18 +899,6 @@ my @NeededModules = (
             emerge => undef,
             zypper => undef,
             ports  => undef,
-        },
-    },
-    {
-        Module          => 'Mail::IMAPClient',
-        VersionRequired => '>= 3.22',
-        Features        => ['mail:imap'],
-        Comment         => 'Required for IMAP TLS connections.',
-        InstTypes       => {
-            aptget => 'libmail-imapclient-perl',
-            emerge => 'dev-perl/Mail-IMAPClient',
-            zypper => 'perl-Mail-IMAPClient',
-            ports  => 'mail/p5-Mail-IMAPClient',
         },
     },
     {
