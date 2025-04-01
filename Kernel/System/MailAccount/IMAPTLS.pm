@@ -70,6 +70,7 @@ sub Connect {
     # Later the socket will be upgraded to IO::Socket::SSL.
     my $IMAPObject = Mail::IMAPClient->new(
         Server   => $Param{Host},
+        Timeout  => $Param{Timeout},    # override the default timeout of 600s
         User     => $Param{Login},
         Password => $Param{Password},
         Starttls => [
