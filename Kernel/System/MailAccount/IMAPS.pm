@@ -16,72 +16,45 @@
 
 package Kernel::System::MailAccount::IMAPS;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::MailAccount::IMAP);
 
 # core modules
 
 # CPAN modules
-use IO::Socket::SSL   ();
-use Net::IMAP::Simple ();
 
 # OTOBO modules
 
+# same dependencies as in IMAP.pm
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationLog',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
-sub Connect {
-    my ( $Self, %Param ) = @_;
+# these private subs override the subs in the parant class
 
-    # check needed stuff
-    for (qw(Login Password Host Timeout Debug)) {
-        if ( !defined $Param{$_} ) {
-            return (
-                Successful => 0,
-                Message    => "Need $_!",
-            );
-        }
-    }
+sub _Type {
+    return 'IMAPS';
+}
 
-    my $Type          = 'IMAPS';
+# The returned key value list will be passed to Mail::IMAPClient->new()
+sub _ExtraIMAPClientArgs {
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
-    # connect to host
-    # The underlying socket is an IO::Socket::SSL from the beginning.
-    my $IMAPObject = Net::IMAP::Simple->new(
-        $Param{Host},
-        timeout     => $Param{Timeout},
-        debug       => $Param{Debug},
-        use_ssl     => 1,
-        ssl_options => [
+    # The initial socket is IO::Socket::IP or IO::Socket::INET.
+    # Later the socket will be upgraded to IO::Socket::SSL.
+    return
+        Ssl => [
             SSL_verify_mode => $SSLVerifyMode,
-        ],
-    );
-    if ( !$IMAPObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
-
-    # authentication
-    my $Auth = $IMAPObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $Auth ) {
-        $IMAPObject->quit();
-        return (
-            Successful => 0,
-            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
-        );
-    }
-
-    return (
-        Successful => 1,
-        IMAPObject => $IMAPObject,
-        Type       => $Type,
-    );
+        ];
 }
 
 1;
