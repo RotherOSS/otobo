@@ -23,8 +23,8 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::IMAPClient ();
-use IO::Socket::SSL  ();
+use Mail::IMAPClient 3.40 ();
+use IO::Socket::SSL ();
 
 # OTOBO modules
 
