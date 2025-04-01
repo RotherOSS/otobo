@@ -485,12 +485,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.17',
         },
         {
-            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
-            'Module'          => 'Net::IMAP::Simple',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.2209',
-        },
-        {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,

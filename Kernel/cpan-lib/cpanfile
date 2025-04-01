@@ -105,9 +105,6 @@ requires 'Mozilla::CA', '== 20200520';
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.17';
 
-# needed by Kernel::System::MailAccount::IMAP
-requires 'Net::IMAP::Simple', '== 1.2209';
-
 # needed by Kernel::System::PDF
 requires 'PDF::API2', '== 2.045';
 

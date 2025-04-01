@@ -89,13 +89,6 @@ o Name:    CPAN Net::HTTP
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright 2001-2003 Gisle Aas.
 
-o Name:    CPAN Net::IMAP::Simple
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 2005 Colin Faber.
-           # Copyright (c) 2004 Casey West.
-           # Copyright (c) 1999 Joao Fonseca.
-
 o Name:    CPAN Schedule::Cron::Event
   Web:     n/a
   License: # This library is free software; you can redistribute it
