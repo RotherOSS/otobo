@@ -19,11 +19,16 @@ package Kernel::System::MailAccount::IMAP;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# other modules inherit from this module
 
 # core modules
 
 # CPAN modules
-use Net::IMAP::Simple ();
+use Mail::IMAPClient 3.40 ();
+use IO::Socket::SSL ();
 
 # OTOBO modules
 
@@ -35,12 +40,22 @@ our @ObjectDependencies = (
     'Kernel::System::PostMaster',
 );
 
-our $Type = 'IMAP';
+# these private subs will be overriden in child classes
+
+sub _Type {
+    return 'IMAP';
+}
+
+# The returned key value list will be passed to Mail::IMAPClient->new()
+sub _ExtraIMAPClientArgs {
+
+    # not special arguments
+    return;
+}
 
 sub new {
     my ( $Class, %Param ) = @_;
 
-    # allocate new hash for object
     return bless {%Param}, $Class;
 }
 
@@ -48,46 +63,42 @@ sub Connect {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Login Password Host Timeout Debug)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
+    NEEDED:
+    for my $Key (qw(Login Password Host Timeout Debug)) {
+        next NEEDED if defined $Param{$Key};
 
-            return (
-                Successful => 0,
-                Message    => "Need $_!",
-            );
-        }
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $_!"
+        );
+
+        return (
+            Successful => 0,
+            Message    => "Need $_!",
+        );
     }
 
     # connect to host
-    my $IMAPObject = Net::IMAP::Simple->new(
-        $Param{Host},
-        timeout => $Param{Timeout},
-        debug   => $Param{Debug} || undef,
+    my $IMAPObject = Mail::IMAPClient->new(
+        Server   => $Param{Host},
+        Timeout  => $Param{Timeout},    # override the default timeout of 600s
+        User     => $Param{Login},
+        Password => $Param{Password},
+        $Self->_ExtraIMAPClientArgs(),
+        Debug => $Param{Debug},
+        Uid   => 1,
+
+        # see bug#8791: needed for some Microsoft Exchange backends
+        Ignoresizeerrors => 1,
     );
+
+    my $Type = $Self->_Type();
 
     # report failure
     return (
         Successful => 0,
         Message    => "$Type: Can't connect to $Param{Host}: $@\n"
     ) unless $IMAPObject;
-
-    # authentication is a separate step with Net::IMAP::Simple
-    my $Auth = $IMAPObject->login(
-        $Param{Login},
-        $Param{Password}
-    );
-    if ( !defined $Auth ) {
-        $IMAPObject->quit();
-
-        return (
-            Successful => 0,
-            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
-        );
-    }
 
     # looks good
     return (
@@ -140,6 +151,8 @@ sub _Fetch {
     $CommunicationLogObject->ObjectLogStart(
         ObjectLogType => 'Connection',
     );
+
+    my $Type = $Self->_Type();
 
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
@@ -249,8 +262,8 @@ sub _Fetch {
 
         my $IMAPObject = $Connect{IMAPObject};
         my $ScalarResult;
-        my @ArrayResult = ();
-        my $Wantarray   = wantarray;
+        my @ArrayResult;
+        my $Wantarray = wantarray;
 
         eval {
             if ($Wantarray) {
@@ -279,46 +292,52 @@ sub _Fetch {
     };
 
     # read folder from MailAccount configuration
-    my $IMAPFolder           = $Param{IMAPFolder}                         || 'INBOX';
-    my $NOM                  = $IMAPOperation->( 'select', $IMAPFolder, ) || 0;
-    my $AuthType             = $Connect{Type};
+    my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
+    my $Messages;
+    my $NumberOfMessages     = 0;
     my $ConnectionWithErrors = 0;
     my $MessagesWithError    = 0;
 
-    # fetch messages
-    if ( !$NOM ) {
+    eval {
+        $IMAPOperation->( 'select', $IMAPFolder, ) || die "Could not select: $@\n";
+        $Messages         = $IMAPOperation->( 'messages', ) || die "Could not retrieve messages : $@\n";
+        $NumberOfMessages = scalar @{$Messages};
+
         if ($CMD) {
-            print "$AuthType: No messages ($Param{Login}/$Param{Host})\n";
+            print "$Type: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. ";
         }
 
-        $CommunicationLogObject->ObjectLog(
-            ObjectLogType => 'Connection',
-            Priority      => 'Notice',
-            Key           => "Kernel::System::MailAccount::$Type",
-            Value         => "No messages available ($Param{Login}/$Param{Host}).",
+        return 1;
+    } || do {
+        my $Error = $@;
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => sprintf(
+                "Error while retrieving the messages '$Type': %s",
+                $Error,
+            ),
         );
+
+        $ConnectionWithErrors = 1;
+    };
+
+    # fetch messages
+    if ( $Messages && !$NumberOfMessages ) {
+        if ($CMD) {
+            print "$Type: No messages on $Param{Login}/$Param{Host}\n";
+        }
     }
-    else {
-
-        my $MessageCount = $NOM eq '0E0' ? 0 : $NOM;
-
-        $CommunicationLogObject->ObjectLog(
-            ObjectLogType => 'Connection',
-            Priority      => 'Notice',
-            Key           => "Kernel::System::MailAccount::$Type",
-            Value         => "$MessageCount messages available for fetching ($Param{Login}/$Param{Host}).",
-        );
-
+    elsif ($NumberOfMessages) {
         MESSAGE_NO:
-        for ( my $Messageno = 1; $Messageno <= $NOM; $Messageno++ ) {
+        for my $Messageno ( @{$Messages} ) {
 
             # check if reconnect is needed
-            if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
-
+            $FetchCounter++;
+            if ( ($FetchCounter) > $MaxPopEmailSession ) {
                 $Self->{Reconnect} = 1;
 
                 if ($CMD) {
-                    print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
+                    print "$Type: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
 
                 $CommunicationLogObject->ObjectLog(
@@ -332,13 +351,13 @@ sub _Fetch {
             }
 
             if ($CMD) {
-                print "$AuthType: Message $Messageno/$NOM ($Param{Login}/$Param{Host})\n";
+                print "$Type: Message $FetchCounter/$NumberOfMessages ($Param{Login}/$Param{Host})\n";
             }
 
             # check maximum message size
-            my $MessageSize = $IMAPOperation->( 'list', $Messageno, );
+            my $MessageSize = $IMAPOperation->( 'size', $Messageno, );
             if ( !( defined $MessageSize ) ) {
-                my $ErrorMessage = "$AuthType: Can't determine the size of email '$Messageno/$NOM' from $Param{Login}/$Param{Host}!";
+                my $ErrorMessage = "$Type: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
@@ -356,38 +375,17 @@ sub _Fetch {
                 next MESSAGE_NO;
             }
 
-            # determine (human readable) message size
-            my $MessageSizeReadable;
+            $MessageSize = int( $MessageSize / 1024 );
+            if ( $MessageSize > $MaxEmailSize ) {
 
-            if ( $MessageSize > ( 1024 * 1024 ) ) {
-                $MessageSizeReadable = sprintf "%.1f MB", ( $MessageSize / ( 1024 * 1024 ) );
-            }
-            elsif ( $MessageSize > 1024 ) {
-                $MessageSizeReadable = sprintf "%.1f KB", ( $MessageSize / 1024 );
-            }
-            else {
-                $MessageSizeReadable = $MessageSize . ' Bytes';
-            }
-
-            $CommunicationLogObject->ObjectLog(
-                ObjectLogType => 'Connection',
-                Priority      => 'Debug',
-                Key           => "Kernel::System::MailAccount::$Type",
-                Value         => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSizeReadable) from server.",
-            );
-
-            if ( $MessageSize > ( $MaxEmailSize * 1024 ) ) {
-
-                # convert size to KB, log error
-                my $MessageSizeKB = int( $MessageSize / (1024) );
+                my $ErrorMessage = "$Type: Can't fetch email $Messageno from $Param{Login}/$Param{Host}. "
+                    . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
                     Key           => "Kernel::System::MailAccount::$Type",
-                    Value         =>
-                        "Cannot fetch message '$Messageno/$NOM' with size '$MessageSizeReadable' ($MessageSizeKB KB)."
-                        . "Maximum allowed message size is '$MaxEmailSize KB'!",
+                    Value         => $ErrorMessage,
                 );
 
                 $ConnectionWithErrors = 1;
@@ -395,10 +393,9 @@ sub _Fetch {
             else {
 
                 # safety protection
-                $FetchCounter++;
                 my $FetchDelay = ( $FetchCounter % 20 == 0 ? 1 : 0 );
                 if ( $FetchDelay && $CMD ) {
-                    print "$AuthType: Safety protection: waiting 1 second before processing next mail...\n";
+                    print "$Type: Safety protection: waiting 1 second before processing next mail...\n";
 
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
@@ -411,19 +408,16 @@ sub _Fetch {
                 }
 
                 # get message (header and body)
-                my @Lines = $IMAPOperation->( 'get', $Messageno, );
+                my $Message = $IMAPOperation->( 'message_string', $Messageno, );
+                if ( !$Message ) {
 
-                # compat. to Net::IMAP::Simple v1.17 get() was returning an array ref at this time
-                if ( $Lines[0] && !$Lines[1] && ref $Lines[0] eq 'ARRAY' ) {
-                    @Lines = @{ $Lines[0] };
-                }
-                if ( !@Lines ) {
+                    my $ErrorMessage = "$Type: Can't process mail, email no $Messageno is empty!";
 
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
                         Priority      => 'Error',
                         Key           => "Kernel::System::MailAccount::$Type",
-                        Value         => "Could not fetch message '$Messageno', answer from server was empty.",
+                        Value         => $ErrorMessage,
                     );
 
                     $ConnectionWithErrors = 1;
@@ -443,7 +437,7 @@ sub _Fetch {
                         'Kernel::System::PostMaster',
                         ObjectParams => {
                             $Self->%*,
-                            Email                  => \@Lines,
+                            Email                  => \$Message,
                             Trusted                => $Param{Trusted} || 0,
                             Debug                  => $Debug,
                             CommunicationLogObject => $CommunicationLogObject,
@@ -466,21 +460,20 @@ sub _Fetch {
                             );
                         }
 
-                        my $Lines = $IMAPOperation->( 'get', $Messageno, );
-                        my $File  = $Self->_ProcessFailed( Email => $Lines );
+                        my $File = $Self->_ProcessFailed( Email => $Message );
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => "Kernel::System::MailAccount:$Type",
-                            Value         => "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!",
+                            Value         => "$Type: Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!",
                         );
 
                         $MessageStatus = 'Failed';
                     }
 
                     # mark email to delete once it was processed
-                    $IMAPOperation->( 'delete', $Messageno, );
+                    $IMAPOperation->( 'delete_message', $Messageno, );
 
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
@@ -517,24 +510,18 @@ sub _Fetch {
         }
     }
 
-    $CommunicationLogObject->ObjectLog(
-        ObjectLogType => 'Connection',
-        Priority      => 'Info',
-        Key           => "Kernel::System::MailAccount::$Type",
-        Value         => "Fetched $FetchCounter message(s) from server ($Param{Login}/$Param{Host}).",
-    );
-
-    $IMAPOperation->( 'expunge_mailbox', $IMAPFolder, );
-    $CommunicationLogObject->ObjectLog(
-        ObjectLogType => 'Connection',
-        Priority      => 'Debug',
-        Key           => "Kernel::System::MailAccount::$Type",
-        Value         => "Executed deletion of marked messages from server ($Param{Login}/$Param{Host}).",
-    );
-
-    $IMAPOperation->( 'quit', );
+    # log status
+    if ( $Debug > 0 || $FetchCounter ) {
+        $CommunicationLogObject->ObjectLog(
+            ObjectLogType => 'Connection',
+            Priority      => 'Info',
+            Key           => "Kernel::System::MailAccount::$Type",
+            Value         => "$Type: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+        );
+    }
+    $IMAPOperation->( 'close', );
     if ($CMD) {
-        print "$AuthType: Connection to $Param{Host} closed.\n\n";
+        print "$Type: Connection to $Param{Host} closed.\n\n";
     }
 
     $CommunicationLogObject->ObjectLog(
@@ -578,24 +565,17 @@ sub _ProcessFailed {
         return;
     }
 
-    # get content of email
-    my $Content;
-    for my $Line ( @{ $Param{Email} } ) {
-        $Content .= $Line;
-    }
-
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
-    my $MD5  = $MainObject->MD5sum(
-        String => \$Content,
+    my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/spool/';
+    my $MD5        = $MainObject->MD5sum(
+        String => \$Param{Email},
     );
     my $Location = $Home . 'problem-email-' . $MD5;
 
     return $MainObject->FileWrite(
         Location   => $Location,
-        Content    => \$Content,
+        Content    => \$Param{Email},
         Mode       => 'binmode',
         Type       => 'Local',
         Permission => '640',
