@@ -1054,12 +1054,15 @@ sub Run {
 
         # TODO: in the long run, modules should use the user/session data in $Param{Session}
         #       and we should remove most special "direct" parameters here
-        for my $Key ( qw(
-            UserID    UserLogin        UserFullname         UserEmail       UserTimeZone
-            SessionID UserRequestedURL UserLastPwChangeTime UserRefreshTime LastScreenOverview
-            ) ) {
+        for my $Key (
+            qw(
+                UserID    UserLogin        UserFullname         UserEmail       UserTimeZone
+                UserRequestedURL UserLastPwChangeTime UserRefreshTime LastScreenOverview
+            )
+            )
+        {
 
-            $Param{ $Key } = $UserData{ $Key };
+            $Param{$Key} = $UserData{$Key};
         }
 
         # check module registry
@@ -1230,7 +1233,7 @@ sub Run {
                 # use module
                 my $PreModuleObject = $PreModule->new(
                     %Param,
-                    Session   => %UserData,
+                    Session   => \%UserData,
                     ModuleReg => $ModuleReg,
                 );
                 my $Output = $PreModuleObject->PreRun();
@@ -1251,7 +1254,7 @@ sub Run {
 
         my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
-            Session   => %UserData,
+            Session   => \%UserData,
             ModuleReg => $ModuleReg,
             Debug     => $Self->{Debug},
         );
