@@ -434,7 +434,7 @@ Core.AJAX = (function (TargetNS) {
             if ( $Element.hasClass('DynamicFieldDate') ) {
 
                 // empty value, set current date and used unchecked
-                if ( !DataValue ) {
+                if ( !DataValue || DataValue === "0" ) {
                     Core.UI.InputFields.SetDate($Element);
                 }
 
