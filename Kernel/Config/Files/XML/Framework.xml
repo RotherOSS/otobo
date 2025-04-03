@@ -3191,6 +3191,7 @@ You can log in via the following URL:
                 <Item Key="UserSystemConfigurationFavourites">1</Item>
                 <Item Key="UserAgentDoNotShowBrowserLinkMessage">1</Item>
                 <Item Key="AdminNavigationBarFavourites">1</Item>
+                <Item Key="UserNavBarItemsOrder">1</Item>
                 <Item Key="UserWidgetState_SystemConfiguration_Actions">1</Item>
                 <Item Key="UserWidgetState_SystemConfiguration_Navigation">1</Item>
                 <Item Key="UserWidgetState_SystemConfiguration_Sticky">1</Item>
