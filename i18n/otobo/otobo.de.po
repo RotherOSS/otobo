@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-03-04 11:31+0000\n"
+"PO-Revision-Date: 2025-03-29 10:29+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
 ">\n"
@@ -27446,7 +27446,7 @@ msgstr "Zeigt im Menü einen Link zum Anzeigen/Verbergen gelöschter Artikel in 
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr "Vorlagen <-> Status"
+msgstr "Vorlagen ↔ Status"
 
 #. SysConfig
 msgid "Strict"
@@ -27650,11 +27650,17 @@ msgstr "Verifiziert den SSL-Hostnamen"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL verify mode"
-msgstr ""
+msgstr "SSL Verifizierungsmodus"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
 msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"Die Anfrage abbrechen, falls die SSL-Verifikation fehlschlägt. Das "
+"Deaktivieren überspringt die SSL-Verifikation vollständig. Nur mit Vorsicht "
+"deaktivieren! Die Verifikation zu überspringen ist ein Sicherheitsrisiko! "
+"Hauptsächlich für Testzwecke, für selbst-signierte SSL-Zertifikate oder "
+"falls man weiß, was man tut."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Erroneous value in RequiredArgs."
@@ -27670,27 +27676,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This key is already used"
-msgstr ""
+msgstr "Dieser Schlüssel wird bereits verwendet"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This key is not allowed"
-msgstr ""
+msgstr "Dieser Schlüssel ist nicht erlaubt"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Link type"
-msgstr ""
+msgstr "Verknüpfungsart"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the link type."
-msgstr ""
+msgstr "Verknüpfungsart auswählen."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Forwards: Referencing (Source) -> Referenced (Target)"
-msgstr ""
+msgstr "Vorwärts: Referenzierend (Quelle) -> Referenziert (Ziel)"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Backwards: Referenced (Source) -> Referencing (Target)"
-msgstr ""
+msgstr "Rückwärts: Referenziert (Quelle) -> Referenzierend (Ziel)"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Link Direction"
@@ -27699,10 +27705,13 @@ msgstr "Link-Richtung"
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
 msgstr ""
+"Das referenzierende Objekt ist das, welches dieses Dynamische Feld "
+"beinhaltet. Das referenzierte Objekt ist das, welches als Wert des "
+"Dynamischen ausgewählt wird."
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
 msgid "Empty fields indicate that the current values are kept"
-msgstr ""
+msgstr "Leere Felder zeigen an, dass aktuelle Werte beibehalten werden"
 
 #. SysConfig
 msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
@@ -27710,16 +27719,20 @@ msgstr ""
 
 #. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_NONE - keine Verifikation des Mail-Server Hosts"
 
 #. SysConfig
 msgid "SSL_VERIFY_PEER - verify the mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_PEER - den Mail-Server Host verifizieren"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
 msgstr ""
+"Zeit in Sekunden die zur aktuellen Zeit hinzugefügt wird wenn eine Wartezeit "
+"ausgewählt wird. Beispiele: 86400 = 1 Tag oder 604800 = 1 Woche."
 
 #. SysConfig
 msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
 msgstr ""
+"Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/"
+"IMAPTLS-E-Mail-Konten abgeholt werden."
