@@ -74,7 +74,7 @@ sub Run {
         my $Success = 0;
 
         # update preferences
-        if ( $AllowedKeys{ $Key } ) {
+        if ( $AllowedKeys{$Key} ) {
             $Success = $UserObject->SetPreferences(
                 UserID => $Self->{CurrentUserID},
                 Key    => $Key,
@@ -135,7 +135,7 @@ sub Run {
                 );
             }
 
-            next GROUP unless ( $Self->{CurrentUserID} != $Self->{EditUserID} || $Preferences{$Group}{Active} );
+            next GROUP unless ( $Self->{CurrentUserID} != $EditUserID || $Preferences{$Group}{Active} );
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
