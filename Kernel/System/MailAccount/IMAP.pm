@@ -125,11 +125,11 @@ sub Fetch {
     my $CommunicationLogStatus = 'Successful';
     COUNT:
     for ( 1 .. 200 ) {
-        my $Fetch = $Self->_Fetch(
+        my $FetchOK = $Self->_Fetch(
             %Param,
             CommunicationLogObject => $CommunicationLogObject,
         );
-        if ( !$Fetch ) {
+        if ( !$FetchOK ) {
             $CommunicationLogStatus = 'Failed';
         }
 
@@ -155,42 +155,45 @@ sub _Fetch {
     my $Type = $Self->_Type();
 
     # check needed stuff
-    for (qw(Login Password Host Trusted QueueID)) {
-        if ( !defined $Param{$_} ) {
-            $CommunicationLogObject->ObjectLog(
-                ObjectLogType => 'Connection',
-                Priority      => 'Error',
-                Key           => "Kernel::System::MailAccount::$Type",
-                Value         => "$_ not defined!",
-            );
+    KEY:
+    for my $Key (qw(Login Password Host Trusted QueueID)) {
+        next KEY if defined $Key;
 
-            $CommunicationLogObject->ObjectLogStop(
-                ObjectLogType => 'Connection',
-                Status        => 'Failed',
-            );
-            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+        $CommunicationLogObject->ObjectLog(
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => "Kernel::System::MailAccount::$Type",
+            Value         => "$_ not defined!",
+        );
 
-            return;
-        }
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
+        );
+        $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+
+        return;
     }
-    for (qw(Login Password Host)) {
-        if ( !$Param{$_} ) {
-            $CommunicationLogObject->ObjectLog(
-                ObjectLogType => 'Connection',
-                Priority      => 'Error',
-                Key           => "Kernel::System::MailAccount::$Type",
-                Value         => "Need $_!",
-            );
 
-            $CommunicationLogObject->ObjectLogStop(
-                ObjectLogType => 'Connection',
-                Status        => 'Failed',
-            );
+    KEY:
+    for my $Key (qw(Login Password Host)) {
+        next KEY if $Param{$Key};
 
-            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+        $CommunicationLogObject->ObjectLog(
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => "Kernel::System::MailAccount::$Type",
+            Value         => "Need $_!",
+        );
 
-            return;
-        }
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
+        );
+
+        $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+
+        return;
     }
 
     my $Debug = $Param{Debug} || 0;
@@ -200,14 +203,12 @@ sub _Fetch {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # MaxEmailSize is in kB in SysConfig
+    # MaxEmailSize is in kB in SysConfig, default is 6 MiB, that is 6 mebibyte
     my $MaxEmailSize = $ConfigObject->Get('PostMasterMaxEmailSize') || 1024 * 6;
 
-    # MaxPopEmailSession
     my $MaxPopEmailSession = $ConfigObject->Get('PostMasterReconnectMessage') || 20;
-
-    my $Timeout      = 60;
-    my $FetchCounter = 0;
+    my $Timeout            = 60;
+    my $FetchCounter       = 0;
 
     $Self->{Reconnect} = 0;
 
@@ -257,8 +258,7 @@ sub _Fetch {
     }
 
     my $IMAPOperation = sub {
-        my $Operation = shift;
-        my @Params    = @_;
+        my ( $Operation, @Params ) = @_;
 
         my $IMAPObject = $Connect{IMAPObject};
         my $ScalarResult;
@@ -267,13 +267,13 @@ sub _Fetch {
 
         eval {
             if ($Wantarray) {
-                @ArrayResult = $IMAPObject->$Operation( @Params, );
+                @ArrayResult = $IMAPObject->$Operation(@Params);
             }
             else {
-                $ScalarResult = $IMAPObject->$Operation( @Params, );
+                $ScalarResult = $IMAPObject->$Operation(@Params);
             }
 
-            return 1;
+            return 1;    # eval block was successful
         } || do {
             my $Error = $@;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -300,8 +300,10 @@ sub _Fetch {
 
     eval {
         $IMAPOperation->( 'select', $IMAPFolder, ) || die "Could not select: $@\n";
+
+        # get a reference to an array of message numbers
         $Messages         = $IMAPOperation->( 'messages', ) || die "Could not retrieve messages : $@\n";
-        $NumberOfMessages = scalar @{$Messages};
+        $NumberOfMessages = scalar $Messages->@*;
 
         if ($CMD) {
             print "$Type: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. ";
@@ -329,11 +331,11 @@ sub _Fetch {
     }
     elsif ($NumberOfMessages) {
         MESSAGE_NO:
-        for my $Messageno ( @{$Messages} ) {
+        for my $Messageno ( $Messages->@* ) {
 
             # check if reconnect is needed
             $FetchCounter++;
-            if ( ($FetchCounter) > $MaxPopEmailSession ) {
+            if ( $FetchCounter > $MaxPopEmailSession ) {
                 $Self->{Reconnect} = 1;
 
                 if ($CMD) {
@@ -356,7 +358,7 @@ sub _Fetch {
 
             # check maximum message size
             my $MessageSize = $IMAPOperation->( 'size', $Messageno, );
-            if ( !( defined $MessageSize ) ) {
+            if ( !defined $MessageSize ) {
                 my $ErrorMessage = "$Type: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
