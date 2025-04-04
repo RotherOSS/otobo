@@ -723,7 +723,7 @@ sub Run {
     if ( $Self->{ArticleFilterActive} ) {
 
         # get article filter settings from session string
-        my $ArticleFilterSessionString = $Self->{ 'ArticleFilter' . $Self->{TicketID} };
+        my $ArticleFilterSessionString = $Self->{Session}{ 'ArticleFilter' . $Self->{TicketID} };
 
         # set article filter for this ticket from user preferences
         if ( !$ArticleFilterSessionString ) {
