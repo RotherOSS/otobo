@@ -284,8 +284,8 @@ sub Run {
     my $View = $ParamObject->GetParam( Param => 'View' ) || '';
 
     # lookup latest used view mode
-    if ( !$View && $Self->{ 'UserTicketOverview' . $Self->{Action} } ) {
-        $View = $Self->{ 'UserTicketOverview' . $Self->{Action} };
+    if ( !$View && $Self->{Session}{ 'UserTicketOverview' . $Self->{Action} } ) {
+        $View = $Self->{Session}{ 'UserTicketOverview' . $Self->{Action} };
     }
 
     # otherwise use Preview as default as in LayoutTicket
