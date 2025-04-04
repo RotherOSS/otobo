@@ -96,6 +96,26 @@ package FakeClient {
         return wantarray ? @Lines : \@Lines;
     }
 
+    # called in Kernel::System::MailAccount::IMAP, see also 'get' above
+    sub message_string {
+        my ( $Self, $Idx ) = @_;
+
+        if ( $FakeClientEnv{fail_fetch}->{Messages}->{$Idx} ) {
+            my $FailType = $FakeClientEnv{fail_fetch}->{Type} || '';
+
+            die 'dummy exception' if $FailType eq 'exception';
+            return;
+        }
+
+        my $Filename = $FakeClientEnv{emails}->{$Idx};
+
+        my $FH            = IO::File->new( $Filename, 'r', );
+        my @Lines         = <$FH>;
+        my $MessageString = join "\n", @Lines;
+
+        return wantarray ? @Lines : $MessageString;
+    }
+
     sub delete {
         my ( $Self, $Idx ) = @_;
 
@@ -116,6 +136,13 @@ package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
         my $Self = shift;
 
         return scalar keys $FakeClientEnv{'emails'}->%*;
+    }
+
+    # The AUTOLOAD would provide the value '1', but Kernel::System::MailAccount::IMAP needs an arrayref
+    sub messages {
+        return [
+            sort keys $FakeClientEnv{'emails'}->%*
+        ];
     }
 }
 
