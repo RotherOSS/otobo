@@ -47,7 +47,7 @@ sub Connect {
         }
     }
 
-    my $Type          = 'POP3STLS';
+    my $Type          = 'POP3TLS';
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # connect to host
