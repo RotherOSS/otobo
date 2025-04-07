@@ -29,62 +29,32 @@ use parent qw(Kernel::System::MailAccount::POP3);
 
 # OTOBO modules
 
+# same dependencies as in IMAP.pm
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationLog',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
-sub Connect {
-    my ( $Self, %Param ) = @_;
+# these private subs override the subs in the parant class
 
-    # check needed stuff
-    for (qw(Login Password Host Timeout Debug)) {
-        if ( !defined $Param{$_} ) {
-            return (
-                Successful => 0,
-                Message    => "Need $_!",
-            );
-        }
-    }
+sub _Type {
+    return 'POP3TLS';
+}
 
-    my $Type          = 'POP3TLS';
-    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
-
-    # connect to host
-    # A IO::Socket::INET socket is created first, later a STLS command will be dispatched and
-    # the socket is upgraded to IO::Socket::SSL.
-    my $PopObject = Net::POP3->new(
-        $Param{Host},
-        Timeout => $Param{Timeout},
-        Debug   => $Param{Debug},
-    );
-
-    return (
-        Successful => 0,
-        Message    => "$Type: Can't connect to $Param{Host}"
-    ) unless $PopObject;
+sub _StartTLS {
+    my ( undef, $PopObject ) = @_;
 
     # upgrade to SSL
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
     $PopObject->starttls(
         SSL             => 1,
         SSL_verify_mode => $SSLVerifyMode,
     );
 
-    # authentication
-    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $NOM ) {
-        $PopObject->quit();
-        return (
-            Successful => 0,
-            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
-        );
-    }
-
-    return (
-        Successful => 1,
-        PopObject  => $PopObject,
-        NOM        => $NOM,
-        Type       => $Type,
-    );
+    return;
 }
 
 1;
