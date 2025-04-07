@@ -5170,6 +5170,39 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Article" Required="1" Valid="1">
+        <Description Translatable="1">Defines for which article types the editing of subject, body and attachment is enabled. "Both" includes "Phone" and "Internal".</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Internal">
+                <Item ValueType="Option" Value="Phone" Translatable="1">Phone</Item>
+                <Item ValueType="Option" Value="Internal" Translatable="1">Internal</Item>
+                <Item ValueType="Option" Value="Both" Translatable="1">Both</Item>
+                <Item ValueType="Option" Value="None" Translatable="1">None</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ArticleCustomerVisible" Required="1" Valid="1">
+        <Description Translatable="1">Enables or disables the editing of articles which are visible for the customer in general.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###TimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">Sets the time units in the ticket note screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomer" Required="1" Valid="1">
+        <Description Translatable="1">Adds customer visibility of the article to the article edit screen of the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomerDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines if the note in the ticket note screen of the agent interface is visible for the customer by default.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
@@ -14778,6 +14811,34 @@ Thanks for your help!
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
+                <Item Key="AgentTicketArticleRestore">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore</Item>
+                        <Item Key="Prio">10</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleDelete">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete</Item>
+                        <Item Key="Prio">20</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleVersion">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion</Item>
+                        <Item Key="Prio">30</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleEdit">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
+                        <Item Key="Prio">40</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
                 <Item Key="AgentTicketForward">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
@@ -14849,6 +14910,34 @@ Thanks for your help!
                         <Item Key="Valid"></Item>
                     </Hash>
                 </DefaultItem>
+                <Item Key="AgentTicketArticleRestore">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore</Item>
+                        <Item Key="Prio">10</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleDelete">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete</Item>
+                        <Item Key="Prio">20</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleVersion">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion</Item>
+                        <Item Key="Prio">30</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketArticleEdit">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
+                        <Item Key="Prio">40</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
                 <Item Key="AgentTicketCompose">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
