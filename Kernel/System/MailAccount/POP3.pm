@@ -16,13 +16,16 @@
 
 package Kernel::System::MailAccount::POP3;
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
 # core modules
+use Net::POP3 3.08 ();
 
 # CPAN modules
-use Net::POP3;
+use IO::Socket::SSL ();
 
 # OTOBO modules
 
