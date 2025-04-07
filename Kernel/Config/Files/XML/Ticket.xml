@@ -5135,13 +5135,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###NoteMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.</Description>
-        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###Subject" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Sets the default subject for notes added in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
@@ -5196,7 +5189,7 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomer" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomer" Required="0" Valid="1">
         <Description Translatable="1">Adds customer visibility of the article to the article edit screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
