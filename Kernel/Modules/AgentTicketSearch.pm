@@ -215,6 +215,29 @@ sub Run {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
+    my @SetInnerFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
+
+        my @CurrentInnerFields = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+        for my $DF (@CurrentInnerFields) {
+            my $InnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DF->{DF},
+            );
+
+            # necessary to not overwrite cached data of field config by altering the reference
+            my %InnerFieldConfig = $InnerFieldConfigRef->%*;
+
+            $InnerFieldConfig{Label} = $DynamicFieldConfig->{Label} . '::' . $InnerFieldConfig{Label};
+            push @SetInnerFields, \%InnerFieldConfig;
+        }
+    }
+
+    push @{$DynamicField}, @SetInnerFields;
+
     # collect all searchable article field definitions and add the fields to the attributes array
     my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
@@ -830,6 +853,29 @@ sub Run {
             ObjectType  => ['Ticket'],
             FieldFilter => $Config->{SearchCSVDynamicField} || {},
         );
+
+        my @CSVSetInnerFields;
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$CSVDynamicField} ) {
+
+            next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
+
+            my @CurrentInnerFields = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+            for my $DF (@CurrentInnerFields) {
+                my $CSVInnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DF->{DF},
+                );
+
+                # necessary to not overwrite cached data of field config by altering the reference
+                my %CSVInnerFieldConfig = $CSVInnerFieldConfigRef->%*;
+
+                $CSVInnerFieldConfig{Label} = $DynamicFieldConfig->{Label} . '::' . $CSVInnerFieldConfig{Label};
+                push @CSVSetInnerFields, \%CSVInnerFieldConfig;
+            }
+        }
+
+        push @{$CSVDynamicField}, @CSVSetInnerFields;
 
         # CSV and Excel output
         if (
