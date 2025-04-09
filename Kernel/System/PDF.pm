@@ -20,6 +20,8 @@ use strict;
 use warnings;
 use experimental 'bitwise'; # can be removed when "use v5.28" is active
 use feature 'bitwise';      # can be removed when "use v5.28" is active
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -38,7 +40,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::PDF - pdf lib
+Kernel::System::PDF - PDF lib
 
 =head1 DESCRIPTION
 
@@ -61,8 +63,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # read string width cache
     $Self->{CacheStringWidth} = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -104,6 +105,7 @@ sub DocumentNew {
             Priority => 'error',
             Message  => 'Can not create new Document!',
         );
+
         return;
     }
 
@@ -126,7 +128,7 @@ sub DocumentNew {
     $Self->{Document}->{LogoFile} = $ConfigObject->Get('PDF::LogoFile');
 
     # create a new document
-    $Self->{PDF} = PDF::API2->new();
+    $Self->{PDF} = PDF::API2->new;
 
     # check pdf object
     if ( !$Self->{PDF} ) {
@@ -685,6 +687,7 @@ sub Table {
                 Message  => "Need $_!"
             );
             $Param{State} = 1;
+
             return;
         }
     }
@@ -694,6 +697,7 @@ sub Table {
             Message  => "Need a PDF Document!"
         );
         $Param{State} = 1;
+
         return;
     }
     if ( !$Self->{Page} ) {
@@ -702,6 +706,7 @@ sub Table {
             Message  => "Need a Page!"
         );
         $Param{State} = 1;
+
         return;
     }
 
@@ -865,10 +870,9 @@ sub Table {
                                     PaddingRight    => $Param{PaddingRight},
                                     PaddingBottom   => $Param{PaddingBottom},
                                     PaddingLeft     => $Param{PaddingLeft},
-                                    BackgroundColor =>
-                                        $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
-                                    Border      => $Param{Border},
-                                    BorderColor => $Param{BorderColor},
+                                    BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
+                                    Border          => $Param{Border},
+                                    BorderColor     => $Param{BorderColor},
                                 );
 
                                 # deactivate cell and delete content
@@ -923,16 +927,14 @@ sub Table {
                                         Height    => $NewOutputHeight,
                                         Font      => $Param{CellData}->[$Row]->[$Column]->{Font},
                                         FontSize  => $Param{CellData}->[$Row]->[$Column]->{FontSize},
-                                        FontColor =>
-                                            $Param{CellData}->[$Row]->[$Column]->{FontColor},
+                                        FontColor => $Param{CellData}->[$Row]->[$Column]->{FontColor},
                                         Align           => $Param{CellData}->[$Row]->[$Column]->{Align},
                                         Lead            => $Param{CellData}->[$Row]->[$Column]->{Lead},
                                         PaddingTop      => $Param{PaddingTop},
                                         PaddingRight    => $Param{PaddingRight},
                                         PaddingBottom   => $Param{PaddingBottom},
                                         PaddingLeft     => $Param{PaddingLeft},
-                                        BackgroundColor =>
-                                            $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
+                                        BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
                                         Border      => $Param{Border},
                                         BorderColor => $Param{BorderColor},
                                     );
@@ -1096,6 +1098,7 @@ sub Text {
             Priority => 'error',
             Message  => "Need a PDF Document!"
         );
+
         return;
     }
     if ( !$Self->{Page} ) {
@@ -1103,6 +1106,7 @@ sub Text {
             Priority => 'error',
             Message  => "Need a Page!"
         );
+
         return;
     }
 
@@ -2442,6 +2446,7 @@ sub _TableCellOutput {
             Priority => 'error',
             Message  => "Need a PDF Document!"
         );
+
         return;
     }
     if ( !$Self->{Page} ) {
@@ -2449,6 +2454,7 @@ sub _TableCellOutput {
             Priority => 'error',
             Message  => "Need a Page!"
         );
+
         return;
     }
     my %Dim;
