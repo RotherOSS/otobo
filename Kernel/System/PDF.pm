@@ -155,8 +155,9 @@ sub DocumentNew {
     );
 
     # add font directory
+    # the font path from the OS and from PDF::API2 still have precedence
     my $FontDir = $ConfigObject->Get('Home') . '/var/fonts';
-    $Self->{PDF}->addFontDirs($FontDir);
+    $Self->{PDF}->add_to_font_path($FontDir);
 
     if ( !$Param{Testfonts} ) {
 
