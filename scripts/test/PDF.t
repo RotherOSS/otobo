@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -22,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use List::Util qw(any);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -29,14 +31,20 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 # get needed objects
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my $PDFObject  = $Kernel::OM->Get('Kernel::System::PDF');
+isa_ok( $PDFObject, ['Kernel::System::PDF'], 'got an instance of Kernel::System::PDF' );
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# Restore the database at end of the script
+{
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::UnitTest::Helper' => {
+            RestoreDatabase => 1,
+        },
+    );
+    $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+}
+
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $Home         = $ConfigObject->Get('Home');
 
 # create a pdf document
 my $DocumentNew1 = $PDFObject->DocumentNew(
@@ -44,11 +52,12 @@ my $DocumentNew1 = $PDFObject->DocumentNew(
     Encode    => 'latin1',
     Testfonts => 1,
 );
+is( $DocumentNew1, 1, 'DocumentNew() 1' );
+isa_ok( $PDFObject->{PDF}, ['PDF::API2'], 'got an instance of PDF::API2' );
 
-ok(
-    $DocumentNew1,
-    "DocumentNew1()",
-);
+# DejaVueSans fonts are provided by OTOBO
+my @FontDirs = $PDFObject->{PDF}->font_path;
+ok( ( any { $_ eq "$Home/var/fonts" } @FontDirs ), '$Home/var/fonts is the font path' );
 
 # create a blank page
 my $PageBlankNew1 = $PDFObject->PageBlankNew(
@@ -77,10 +86,7 @@ my $PageNew1 = $PDFObject->PageNew(
     FooterRight  => 'Footer Right Text',
 );
 
-ok(
-    $PageNew1,
-    "PageNew1()",
-);
+ok( $PageNew1, 'PageNew() 1' );
 
 # test _StringWidth() - test width calculation
 my $StringWidthText   = 'abcikwAXIJWZ 123 öäüß !$-';
@@ -2640,11 +2646,7 @@ my $DocumentNew2 = $PDFObject->DocumentNew(
     Encode    => 'latin1',
     Testfonts => 1,
 );
-
-ok(
-    $DocumentNew2,
-    "DocumentNew2()",
-);
+is( $DocumentNew2, 1, 'DocumentNew() 2' );
 
 # create a blank page
 my $PageBlankNew2 = $PDFObject->PageBlankNew(
@@ -2660,11 +2662,6 @@ ok(
     $PageBlankNew2,
     "PageBlankNew2()",
 );
-
-# get config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $Home = $ConfigObject->Get('Home');
 
 my $FileContent1 = $MainObject->FileRead(
     Location => $Home . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt',
@@ -2727,11 +2724,7 @@ my $DocumentNew3 = $PDFObject->DocumentNew(
     Encode    => 'utf-8',
     Testfonts => 1,
 );
-
-ok(
-    $DocumentNew3,
-    "DocumentNew3()",
-);
+is( $DocumentNew3, 1, 'DocumentNew() 3' );
 
 # create a blank page
 my $PageBlankNew3 = $PDFObject->PageBlankNew(
@@ -2809,11 +2802,7 @@ my $DocumentNew4 = $PDFObject->DocumentNew(
     Encode    => 'utf-8',
     Testfonts => 1,
 );
-
-ok(
-    $DocumentNew4,
-    "DocumentNew4()",
-);
+is( $DocumentNew4, 1, 'DocumentNew() 4' );
 
 # create a blank page
 my $PageBlankNew4 = $PDFObject->PageBlankNew(
