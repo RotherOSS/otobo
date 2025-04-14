@@ -788,16 +788,16 @@ $TableCalculate{1}{Width}  = 300;
 $TableCalculate{1}{Border} = 1;
 
 $TableCalculate{1}{CellData}[0][0]{Content}
-    = "Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n    Manage your communication!";
+    = "Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n    Manage your communication!";
 $TableCalculate{1}{CellData}[0][1]{Content}
-    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n\tManage your communication!\n";
+    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n\tManage your communication!\n";
 $TableCalculate{1}{CellData}[1][0]{Content}
-    = "\tWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n    Manage your communication!\n\t";
+    = "\tWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n    Manage your communication!\n\t";
 $TableCalculate{1}{CellData}[1][1]{Content}
-    = "\r\r\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\rYour OTOBO Team\n\n    Manage your communication!\r\n";
+    = "\r\r\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\rYour OTOBO Team\n\n    Manage your communication!\r\n";
 
 $TableCalculate{1}{ReturnCellData}[0][0]{Content}
-    = "Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n    Manage your communication!";
+    = "Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n    Manage your communication!";
 $TableCalculate{1}{ReturnCellData}[0][0]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][0]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][0]{FontSize}        = 10;
@@ -806,7 +806,7 @@ $TableCalculate{1}{ReturnCellData}[0][0]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[0][0]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[0][1]{Content}
-    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n  Manage your communication!\n";
+    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n  Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[0][1]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][1]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][1]{FontSize}        = 10;
@@ -815,7 +815,7 @@ $TableCalculate{1}{ReturnCellData}[0][1]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[0][1]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][0]{Content}
-    = "  Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\n\n\nYour OTOBO Team\n\n    Manage your communication!\n  ";
+    = "  Welcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\n\n\nYour OTOBO Team\n\n    Manage your communication!\n  ";
 $TableCalculate{1}{ReturnCellData}[1][0]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][0]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][0]{FontSize}        = 10;
@@ -824,7 +824,7 @@ $TableCalculate{1}{ReturnCellData}[1][0]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[1][0]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][1]{Content}
-    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our mailing lists http://lists.otobo.org/.\nYour OTOBO Team\n\n    Manage your communication!\n";
+    = "\nWelcome to OTOBO!\n\nthank you for installing OTOBO.\n\nYou will find updates and patches at http://otobo.org/. Online\ndocumentation is available at https://doc.otobo.org/. You can also\ntake advantage of our forums at https://otobo.io/forums/ .\nYour OTOBO Team\n\n    Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[1][1]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][1]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][1]{FontSize}        = 10;
