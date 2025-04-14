@@ -485,7 +485,7 @@ sub Run {
             QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -1252,7 +1252,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # set the object ID (TicketID or ArticleID) depending on the field configration
+            # set the object ID (TicketID or ArticleID) depending on the field configuration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set dynamic field; when ObjectType=Article and no article will be created ignore
@@ -1508,7 +1508,7 @@ sub AgentMove {
             },
         );
 
-        if ( $Self->{DynamicField} ) {
+        if ( IsArrayRefWithData( $Self->{DynamicField} ) ) {
             $LayoutObject->Block(
                 Name => 'WidgetDynamicFields',
                 Data => {
