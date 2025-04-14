@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Do not use RestoreDatabae here, in our tests the first contained package remains installed
 #   with this option.
@@ -137,7 +137,7 @@ $OTOBOVersion .= '.x';
 my $RandomID = $Helper->GetRandomID();
 
 my %Packages = (
-    'Package1' => << "EOF",
+    'Package1' => <<"EOF",
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>Package1$RandomID</Name>
@@ -145,7 +145,7 @@ my %Packages = (
     <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
+    <Description Lang="en">Yet another OTOBO package that is only used as a test case in IfNotPackage.t.</Description>
     <Framework>$OTOBOVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>
@@ -161,7 +161,7 @@ my %Packages = (
 </otobo_package>
 EOF
 
-    'Package2' => << "EOF",
+    'Package2' => <<"EOF",
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>Package2$RandomID</Name>
@@ -169,7 +169,7 @@ EOF
     <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
+    <Description Lang="en">Yet another OTOBO package that is only used as a test case in IfNotPackage.t.</Description>
     <Framework>$OTOBOVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>
