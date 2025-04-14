@@ -147,7 +147,7 @@ my %Packages = (
     <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
+    <Description Lang="en">Yet another OTOBO package that is only used as a test case in IfNotPackage.t.</Description>
     <Framework>$OTOBOVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>
@@ -171,7 +171,7 @@ EOF
     <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otobo.io/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
+    <Description Lang="en">Yet another OTOBO package that is only used as a test case in IfNotPackage.t.</Description>
     <Framework>$OTOBOVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>
