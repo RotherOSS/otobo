@@ -29,6 +29,14 @@
         </ul>
     </div>
     <div class="Clear Spacing"></div>
+    <legend class="SpacingTop">[% Translate("Running the OTOBO Daemon in a Docker based installation") | html %]</legend>
+    <div class="InfoParagraph">
+        <ul>
+            <li>[% Translate("Check with 'docker compose ps' whether a service with the name daemon is running.") | html %]</li>
+            <li>[% Translate("When the service daemon is not running then try starting it with 'docker compose start daemon'") | html %]</li>
+        </ul>
+    </div>
+    <div class="Clear Spacing"></div>
 </div>
 <div class="ContentFooter Center">
     <button id="DaemonFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close this dialog") | html %]</span></button>
