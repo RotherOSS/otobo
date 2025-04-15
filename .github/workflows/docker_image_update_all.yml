@@ -6,12 +6,14 @@ name: 'DockerImageUpdateAll'
 on:
   workflow_dispatch:
 
+  # This workflow should be triggered manually.
+
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     strategy:
       # create different images
-      # note that there is no release build for the otobodockerupdatetest-web-kerberos target
+      # note that there is no release build for the otobo-web-kerberos target
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
         docker_tag: [ 'rel-11_1', 'latest-11_1' ]
@@ -84,6 +86,15 @@ jobs:
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'
         run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
+
+      -
+        # a workaround for a build failure for the 11.0.7 release
+        # see https://github.com/RotherOSS/otobo/issues/4103
+        # can't use github.sha here as we need the commit of the checked out branch
+        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.8'
+        if: ${{ matrix.target == 'otobo-web' && matrix.patch == 'rel-11_0_8' }}
+        run: |
+          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
       -
         # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
