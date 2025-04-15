@@ -67,6 +67,7 @@ sub Run {
 
     # check if the user is in the Admin group
     # if that is the case, extend the error with a link
+    # Note that Core.Agent.Daemon.js grabs the onclick event of the link and opens a popup
     if ( $Groups{admin} ) {
         $NotificationDetails{Link}      = $LayoutObject->{Baselink} . '#';
         $NotificationDetails{LinkClass} = 'DaemonInfo';
