@@ -225,6 +225,7 @@ sub TableCreate {
             push @{ $Foreign{$ForeignKey} }, $Tag;
         }
     }
+
     for my $Tag (@Column) {
 
         # type translation
@@ -853,13 +854,16 @@ sub Insert {
     return $SQL;
 }
 
+# This method changes the attribute 'Type' of the passed in hashref
 sub _TypeTranslation {
     my ( $Self, $Tag ) = @_;
 
-    if ( $Tag->{Type} =~ /^DATE$/i ) {
+    # The types SMALLINT, BIGINT, INTEGER, DECIMAL, and LONGBLOB are supported natively
+
+    if ( $Tag->{Type} =~ m/^DATE$/i ) {
         $Tag->{Type} = 'DATETIME';
     }
-    if ( $Tag->{Type} =~ /^VARCHAR$/i ) {
+    elsif ( $Tag->{Type} =~ m/^VARCHAR$/i ) {
         if ( $Tag->{Size} > 16777215 ) {
             $Tag->{Type} = 'LONGTEXT';
         }
@@ -873,7 +877,7 @@ sub _TypeTranslation {
             $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
         }
     }
-    if ( $Tag->{Type} =~ /^DECIMAL$/i ) {
+    elsif ( $Tag->{Type} =~ m/^DECIMAL$/i ) {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
 

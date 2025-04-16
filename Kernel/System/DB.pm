@@ -2249,16 +2249,14 @@ sub _Encrypt {
 sub _TypeCheck {
     my ( $Self, $Tag ) = @_;
 
-    if (
-        $Tag->{Type}
-        && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i
-        )
-    {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'Error',
-            Message  => "Unknown data type '$Tag->{Type}'!",
-        );
-    }
+    return 1 unless $Tag->{Type};
+    return 1 if $Tag->{Type} =~ m/^(?:DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i;
+
+    # warn about unknown data type but still report success
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'Error',
+        Message  => "Unknown data type '$Tag->{Type}'!",
+    );
 
     return 1;
 }
@@ -2266,12 +2264,14 @@ sub _TypeCheck {
 sub _NameCheck {
     my ( $Self, $Tag ) = @_;
 
-    if ( $Tag->{Name} && length $Tag->{Name} > 30 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'Error',
-            Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
-        );
-    }
+    return 1 unless $Tag->{Name};
+    return 1 if length $Tag->{Name} <= 30;
+
+    # warn about long names but still report success
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'Error',
+        Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
+    );
 
     return 1;
 }
@@ -2279,14 +2279,14 @@ sub _NameCheck {
 sub _SpecialCharactersGet {
     my ( $Self, %Param ) = @_;
 
-    my %SpecialCharacter = (
+    my %CharacterIsSpecial = (
         '(' => 1,
         ')' => 1,
         '&' => 1,
         '|' => 1,
     );
 
-    return \%SpecialCharacter;
+    return \%CharacterIsSpecial;
 }
 
 sub _EncodeInputList {
