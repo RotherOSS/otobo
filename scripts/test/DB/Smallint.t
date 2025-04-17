@@ -22,7 +22,9 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Data::Peek qw(DDump);
+use Data::Peek        qw(DDump);
+use JSON::PP          ();
+use Types::Serialiser ();
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
@@ -87,21 +89,60 @@ my @Tests = (
         Data          => 32768,
         InsertSuccess => 0,
     },
+
+    # Booleans
+    {
+        Name          => '$JSON::PP::true',
+        Data          => $JSON::PP::true,
+        ExpectedValue => 1,
+    },
+    {
+        Name          => 'JSON::PP::true()',
+        Data          => JSON::PP::true(),
+        ExpectedValue => 1,
+    },
+    {
+        Name          => '$JSON::PP::false',
+        Data          => $JSON::PP::false,
+        ExpectedValue => 0,
+    },
+    {
+        Name          => 'JSON::PP::false()',
+        Data          => JSON::PP::false(),
+        ExpectedValue => 0,
+    },
+    {
+        Name          => '$Types::Serialiser::true',
+        Data          => $Types::Serialiser::true,
+        ExpectedValue => 1,
+    },
+    {
+        Name          => 'Types::Serialiser::true()',
+        Data          => Types::Serialiser::true(),
+        ExpectedValue => 1,
+    },
+    {
+        Name          => '$Types::Serialiser::false',
+        Data          => $Types::Serialiser::false,
+        ExpectedValue => 0,
+    },
+    {
+        Name          => 'Types::Serialiser::false()',
+        Data          => Types::Serialiser::false(),
+        ExpectedValue => 0,
+    },
 );
 
 for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
 
-        my $TestData = $Test->{Data};
-
+        my @BindVariables = ( \$Test->{Data} );
         my $InsertSuccess = 0;
         my $InsertLives   = lives {
             $InsertSuccess = $DBObject->Do(
                 SQL  => 'INSERT INTO test_smallint_table ( test_smallint ) VALUES ( ? )',
-                Bind => [
-                    \$TestData,
-                ],
+                Bind => \@BindVariables,
             );
         };
         ok( $InsertLives, 'Insert() did not throw an exception' );
@@ -116,28 +157,28 @@ for my $Test (@Tests) {
 
         # Fetch without WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_smallint FROM test_smallint_table',
-            Limit => 1,
+            SQL => 'SELECT test_smallint FROM test_smallint_table',
         );
 
         my $RowCount = 0;
         while ( my ($RetrievedSmallint) = $DBObject->FetchrowArray ) {
             diag 'RetrievedSmallint: ', scalar DDump $RetrievedSmallint;
-            is( $RetrievedSmallint, $TestData, 'SELECT test_smallint' );
+            my $ExpectedSmallint = $Test->{ExpectedValue} // $Test->{Data};
+            is( $RetrievedSmallint, $ExpectedSmallint, 'SELECT test_smallint' );
             $RowCount++;
         }
         is( $RowCount, 1, 'only one row found' );
 
         # Fetch one row with WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_smallint FROM test_smallint_table WHERE test_smallint = ?',
-            Bind  => [ \$TestData, ],
-            Limit => 1,
+            SQL  => 'SELECT test_smallint FROM test_smallint_table WHERE test_smallint = ?',
+            Bind => \@BindVariables,
         );
 
         $RowCount = 0;
         while ( my ($RetrievedSmallint) = $DBObject->FetchrowArray ) {
-            is( $RetrievedSmallint, $TestData, "SELECT test_smallint with WHERE" );
+            my $ExpectedSmallint = $Test->{ExpectedValue} // $Test->{Data};
+            is( $RetrievedSmallint, $ExpectedSmallint, "SELECT test_smallint with WHERE" );
             $RowCount++;
         }
         is( $RowCount, 1, 'only one row found with WHERE' );
