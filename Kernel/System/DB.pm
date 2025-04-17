@@ -28,8 +28,9 @@ use utf8;
 use List::Util qw(shuffle);
 
 # CPAN modules
-use DBI             ();
-use DBIx::Connector ();
+use DBI               ();
+use DBIx::Connector   ();
+use Types::Serialiser ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -499,18 +500,27 @@ sub Error {
 
 to insert, update or delete values
 
-    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
+    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO list_of_mammals (name) VALUES ('dog')" );
 
-    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM table" );
+    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM list_of_mammals" );
 
-you also can use DBI bind values (used for large strings):
+you also can use DBI bind values. The usage of bind values is recommended for avoiding SQL injections
+and for passing long strings. Bind variables are passed as reference to plain scalars.
 
-    my $Var1 = 'dog1';
-    my $Var2 = 'dog2';
+Boolean values that are supported by C<Types::Serialiser> can be passed as well. Just like
+simple scalars, these must be passed by reference.
+
+    my $Var1 = 'Balto'; # serum run to Nome in 1925
+    my $Var2 = 'Togo';  # also serum run to Nome in 1925
 
     my $InsertSuccess = $DBObject->Do(
-        SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
-        Bind => [ \$Var1, \$Var2 ],
+        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?)",
+        Bind => [
+            \$Var1,
+            \$Var2,
+            \$Types::Serialiser::true,
+            \Types::Serialiser::as_bool('')
+        ],
     );
 
 The special value B<current_timestamp> is replaced by the current date and time.
@@ -537,13 +547,16 @@ sub Do {
     if ( $Param{Bind} ) {
         for my $Data ( $Param{Bind}->@* ) {
             if ( ref $Data eq 'SCALAR' ) {
-                push @Array, $$Data;
+                push @Array, $Data->$*;
+            }
+            elsif ( ref $Data eq 'REF' && Types::Serialiser::is_bool( $Data->$* ) ) {
+                push @Array, $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => 'No SCALAR param in Bind!',
+                    Message  => qq{Invalid reference type in Bind!},
                 );
 
                 return;
@@ -876,6 +889,9 @@ sub Prepare {
             my $RefType = ref $Data;
             if ( $RefIsValid{$RefType} ) {
                 push @BindVariables, $DoArray ? $Data : $Data->$*;
+            }
+            elsif ( !$DoArray && $RefType eq 'REF' && Types::Serialiser::is_bool( $Data->$* ) ) {
+                push @BindVariables, $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
