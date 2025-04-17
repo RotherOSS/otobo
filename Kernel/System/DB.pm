@@ -783,8 +783,9 @@ Internally, the attribute C<Cursor> will be set to the prepared statement handle
     my $Var2 = 'dog2';
 
     my $BindVariables = $DBObject->Prepare(
-        SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
-        Bind   => [ \($Var1, $Var2) ],
+        SQL     => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
+        Bind    => [ \($Var1, $Var2) ],
+        Execute => 0,
     );
 
 will return
