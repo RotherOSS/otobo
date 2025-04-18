@@ -13,16 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# This page has been added for OTOBOTicketInvoker.
+# See AdminGenericInterfaceInvokerDefault.tt for the original template.
 # --
-# ---
-# OTOBOTicketInvoker
-# ---
-#<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceInvokerDefault">
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceInvokerTicket">
-# ---
     <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
     [% USE BreadcrumbLink = String("AdminGenericInterfaceWebservice") %]
@@ -87,12 +81,7 @@
             </div>
             <div class="Content">
                 <form action="[% Env("CGIHandle") %]" class="Validate" method="post">
-# ---
-# OTOBOTicketInvoker
-# ---
-#                    <input type="hidden" name="Action" value="AdminGenericInterfaceInvokerDefault" />
                     <input type="hidden" name="Action" value="AdminGenericInterfaceInvokerTicket" />
-# ---
                     <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
                     <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID" />
                     <input type="hidden" name="InvokerType" value="[% Data.InvokerType | html %]" />
@@ -101,15 +90,11 @@
                     [% END %]
 
                     <fieldset class="TableLike">
-# ---
-# OTOBOTicketInvoker
-# ---
                         <br/>
                         <legend>
                             <span>[% Translate("General invoker data") | html %]</span>
                         </legend>
                         <br/>
-# ---
                         <label for="Invoker" class="Mandatory">
                             <span class="Marker">*</span>
                             [% Translate("Name") | html %]:
@@ -145,9 +130,6 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
-# ---
-# OTOBOTicketInvoker
-# ---
 
                         <br/>
                         <legend>
@@ -234,7 +216,6 @@
                             <span>[% Translate("Mapping") | html %]</span>
                         </legend>
                         <br/>
-# ---
 
                         <label for="MappingOutbound">[% Translate("Mapping for outgoing request data") | html %]:</label>
                         <div class="Field">
@@ -261,9 +242,6 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
-# ---
-# OTOBOTicketInvoker
-# ---
 
                         <br/>
                         <legend>
@@ -293,12 +271,8 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
-# ---
 
                         [% IF Data.Mode == 'Change' %]
-# ---
-# OTOBOTicketInvoker
-# ---
 
                             <br/>
                             <legend>
@@ -306,7 +280,6 @@
                             </legend>
                             <br/>
 
-# ---
                             <label for="EventsTable">[% Translate("Event Triggers") | html %]:</label>
                             <div class="Field W50pc">
                                 <table class="DataTable W50pc" id="EventsTable" summary="List of all configured events">
