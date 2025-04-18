@@ -47,7 +47,7 @@ sub Run {
         Name => 'OTOBOConnector',
     );
 
-    # This setting is provided by OTOBOTicketInvoker package.
+    # This setting has been introduced for OTOBOTicketInvoker
     my @Data = (
         {
             'GenericInterface::Invoker::Settings::ResponseDynamicField' => {
