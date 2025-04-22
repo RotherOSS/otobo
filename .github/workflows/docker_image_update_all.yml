@@ -40,6 +40,12 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline'
+          -
+            docker_tag: 'rel-11_0_6'
+            fix_cldr:   1
+          -
+            docker_tag: 'rel-11_0_7'
+            fix_cldr:   1
 
     steps:
 
@@ -92,7 +98,7 @@ jobs:
         # see https://github.com/RotherOSS/otobo/issues/4103
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.8'
-        if: ${{ matrix.target == 'otobo-web' && matrix.patch == 'rel-11_0_8' }}
+        if: ${{ matrix.target == 'otobo-web' && matrix.fix_cldr }}
         run: |
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
