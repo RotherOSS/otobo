@@ -653,8 +653,8 @@ sub TicketListShow {
     delete $Param{Env};
 
     # lookup latest used view mode
-    if ( !$Param{View} && $Self->{Session}{ 'UserTicketOverview' . $Env->{Action} } ) {
-        $Param{View} = $Self->{Session}{ 'UserTicketOverview' . $Env->{Action} };
+    if ( !$Param{View} && $Self->{ 'UserTicketOverview' . $Env->{Action} } ) {
+        $Param{View} = $Self->{ 'UserTicketOverview' . $Env->{Action} };
     }
 
     # set default view mode to 'small'
@@ -760,7 +760,7 @@ sub TicketListShow {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
-    my $PageShown               = $Self->{Session}{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
     my $Group                   = 'TicketOverview' . $View . 'PageShown';
 
     # get data selection
