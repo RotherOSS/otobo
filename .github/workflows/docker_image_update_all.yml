@@ -6,20 +6,22 @@ name: 'DockerImageUpdateAll'
 on:
   workflow_dispatch:
 
+  # This workflow should be triggered manually.
+
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     strategy:
       # create different images
-      # note that there is no release build for the otobodockerupdatetest-web-kerberos target
+      # note that there is no release build for the otobo-web-kerberos target
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
-        docker_tag: [ 'rel-10_1_9', 'rel-10_1_10', 'rel-10_1_11', 'latest-10_1' ]
+        docker_tag: [ 'rel-10_1_10', 'rel-10_1_11', 'rel-10_1_12', 'latest-10_1' ]
         include:
           -
             # this currently has to be updated every release
             docker_tag: 'latest-10_1'
-            patch:      'rel-10_1_11'
+            patch:      'rel-10_1_12'
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
