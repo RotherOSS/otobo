@@ -14,14 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+# TODO: RegisterOM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self and $Kernel::OM
+
+our $Self;
 
 # get environment object
 my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
@@ -62,14 +69,10 @@ $Self->True(
     "PerlInfoGet w/ BundledModules - retrieved Perl version.",
 );
 
+# check version of an abritrary module
 $Self->True(
-    $PerlInfo{Modules}{CGI} =~ /^\d.\d\d$/,
-    "PerlInfoGet w/ BundledModules - found version for CGI $PerlInfo{Modules}->{CGI}",
-);
-
-$Self->True(
-    $PerlInfo{Modules}->{'JSON::PP'} =~ /^\d.\d\d/,
-    "PerlInfoGet w/ BundledModules - found version for JSON::PP $PerlInfo{Modules}->{'JSON::PP'}",
+    $PerlInfo{Modules}->{'YAML'} =~ /^\d.\d\d/,
+    "PerlInfoGet w/ BundledModules - found version for YAML $PerlInfo{Modules}->{'JSON::PP'}",
 );
 
 my $Version = $EnvironmentObject->ModuleVersionGet(
@@ -103,11 +106,8 @@ for my $Key (qw(Database Host Type User Version)) {
 my %OTOBOInfo = $EnvironmentObject->OTOBOInfoGet();
 
 for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
-    $Self->Note( Note => "got '$OTOBOInfo{$Key}' for $Key" );
-    $Self->True(
-        $OTOBOInfo{$Key},
-        "OTOBOInfoGet - returned value for $Key",
-    );
+    diag "got '$OTOBOInfo{$Key}' for $Key";
+    ok( $OTOBOInfo{$Key}, "OTOBOInfoGet - returned value for $Key" );
 }
 
-$Self->DoneTesting();
+done_testing;
