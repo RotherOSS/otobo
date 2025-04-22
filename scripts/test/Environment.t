@@ -25,38 +25,23 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-# TODO: RegisterOM
-use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get environment object
 my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
 
 my %OSInfo = $EnvironmentObject->OSInfoGet();
-
 for my $Key (qw(Hostname OS OSName User)) {
-    $Self->Note( Note => "got '$OSInfo{$Key}' for $Key" );
-    $Self->True(
-        $OSInfo{$Key},
-        "OSInfoGet - returned $Key",
-    );
+    diag "OSInfo: got '$OSInfo{$Key}' for $Key";
+    ok( $OSInfo{$Key}, "OSInfoGet - returned $Key" );
 }
 
-$Self->True(
-    $OSInfo{OSName} !~ m{\A Unknown version }xms ? 1 : 0,
-    "OSInfoGet - OSName is not unknown but '$OSInfo{OSName}'",
-);
+ok( $OSInfo{OSName} !~ m{\A Unknown version }xms, "OSInfoGet - OSName is not unknown but '$OSInfo{OSName}'" );
 
 my %PerlInfo = $EnvironmentObject->PerlInfoGet();
-
-$Self->True(
-    $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/,
-    "PerlInfoGet - retrieved Perl version.",
-);
-
-$Self->False(
-    $PerlInfo{Modules},
+ok( $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/, "PerlInfoGet - retrieved Perl version." );
+ok(
+    !$PerlInfo{Modules},
     "PerlInfoGet - no module versions if not specified.",
 );
 
@@ -64,13 +49,10 @@ $Self->False(
     BundledModules => 1,
 );
 
-$Self->True(
-    $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/,
-    "PerlInfoGet w/ BundledModules - retrieved Perl version.",
-);
+ok( $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/, "PerlInfoGet w/ BundledModules - retrieved Perl version." );
 
 # check version of an abritrary module
-$Self->True(
+ok(
     $PerlInfo{Modules}->{'YAML'} =~ /^\d.\d\d/,
     "PerlInfoGet w/ BundledModules - found version for YAML $PerlInfo{Modules}->{'JSON::PP'}",
 );
@@ -79,7 +61,7 @@ my $Version = $EnvironmentObject->ModuleVersionGet(
     Module => 'MIME::Parser',
 );
 
-$Self->True(
+ok(
     $Version =~ /^\d\.\d\d\d$/,
     "ModuleVersionGet - Version for MIME::Parser is $Version.",
 );
@@ -88,25 +70,21 @@ $Version = $EnvironmentObject->ModuleVersionGet(
     Module => 'SCHMIME::Parser',
 );
 
-$Self->False(
-    $Version,
+ok(
+    !$Version,
     "ModuleVersionGet - Version for SCMIME::Parser does not exist.",
 );
 
 my %DBInfo = $EnvironmentObject->DBInfoGet();
 
 for my $Key (qw(Database Host Type User Version)) {
-    $Self->Note( Note => "got '$DBInfo{$Key}' for $Key" );
-    $Self->True(
-        $DBInfo{$Key} =~ /\w\w/,
-        "DBInfoGet - returned value for $Key",
-    );
+    diag "DBInfo: got '$DBInfo{$Key}' for $Key";
+    ok( $DBInfo{$Key} =~ m/\w\w/, "DBInfoGet - returned value for $Key" );
 }
 
 my %OTOBOInfo = $EnvironmentObject->OTOBOInfoGet();
-
 for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
-    diag "got '$OTOBOInfo{$Key}' for $Key";
+    diag "OTOBOInfo: got '$OTOBOInfo{$Key}' for $Key";
     ok( $OTOBOInfo{$Key}, "OTOBOInfoGet - returned value for $Key" );
 }
 
