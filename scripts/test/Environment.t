@@ -30,30 +30,30 @@ use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 # get environment object
 my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
 
+# OSInfo
 my %OSInfo = $EnvironmentObject->OSInfoGet();
 for my $Key (qw(Hostname OS OSName User)) {
     diag "OSInfo: got '$OSInfo{$Key}' for $Key";
     ok( $OSInfo{$Key}, "OSInfoGet - returned $Key" );
 }
-
 ok( $OSInfo{OSName} !~ m{\A Unknown version }xms, "OSInfoGet - OSName is not unknown but '$OSInfo{OSName}'" );
 
+# PerlInfo
 my %PerlInfo = $EnvironmentObject->PerlInfoGet();
-ok( $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/, "PerlInfoGet - retrieved Perl version." );
-ok(
-    !$PerlInfo{Modules},
-    "PerlInfoGet - no module versions if not specified.",
-);
+diag "PerlInfo: got '$PerlInfo{PerlVersion}' for PerlVersion";
+ok( $PerlInfo{PerlVersion} =~ m/^\d.\d\d.\d/, "PerlInfoGet - retrieved Perl version." );
+ok( !$PerlInfo{Modules},                      "PerlInfoGet - no module versions if not specified." );
 
+# PerlInfo with bundled modules
 %PerlInfo = $EnvironmentObject->PerlInfoGet(
     BundledModules => 1,
 );
-
-ok( $PerlInfo{PerlVersion} =~ /^\d.\d\d.\d/, "PerlInfoGet w/ BundledModules - retrieved Perl version." );
+diag "PerlInfo: got '$PerlInfo{PerlVersion}' for PerlVersion, even with BundledModules => 1";
+ok( $PerlInfo{PerlVersion} =~ m/^\d.\d\d.\d/, "PerlInfoGet w/ BundledModules - retrieved Perl version." );
 
 # check version of an abritrary module
 ok(
-    $PerlInfo{Modules}->{'YAML'} =~ /^\d.\d\d/,
+    $PerlInfo{Modules}->{YAML} =~ m/^\d.\d\d/,
     "PerlInfoGet w/ BundledModules - found version for YAML $PerlInfo{Modules}->{'JSON::PP'}",
 );
 
@@ -62,7 +62,7 @@ my $Version = $EnvironmentObject->ModuleVersionGet(
 );
 
 ok(
-    $Version =~ /^\d\.\d\d\d$/,
+    $Version =~ m/^\d\.\d\d\d$/,
     "ModuleVersionGet - Version for MIME::Parser is $Version.",
 );
 
