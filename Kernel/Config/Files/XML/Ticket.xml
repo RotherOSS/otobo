@@ -5175,11 +5175,11 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ArticleCustomerVisible" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###ArticleCustomerVisible" Required="0" Valid="0">
         <Description Translatable="1">Enables or disables the editing of articles which are visible for the customer in general.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###TimeUnits" Required="0" Valid="1">
