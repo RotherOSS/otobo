@@ -127,6 +127,6 @@ jobs:
                     body: `
                       The workflow docker_image_update_test has run.
                       There is nothing to do.
-                      The curious can look for the tag ${{ env.otobo_ref }} on Docker Hub.`,
+                      The curious can look for the Docker image ${{ env.otobo_ref }} on Docker Hub.`,
                     labels: [ 'Action DockerImageUpdateAutobuild' ]
                 })
