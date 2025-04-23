@@ -1,12 +1,14 @@
 %YAML 1.1
 ---
 name: 'DockerImageUpdateAll'
-# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
 on:
-  workflow_dispatch:
 
-  # This workflow should be triggered manually.
+  # The trigger on 'workflow_dispatch' allows to start the workflow manually
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_all.yml
+  workflow_dispatch:
 
 jobs:
   CheckDockerImageUpdate:
@@ -19,7 +21,7 @@ jobs:
         docker_tag: [ 'rel-11_0_6', 'rel-11_0_7', 'rel-11_0_8', 'latest-11_0' ]
         include:
           -
-            # this currently has to be updated every release
+            # this has currently to be updated every release
             docker_tag: 'latest-11_0'
             patch:      'rel-11_0_8'
           -
@@ -49,7 +51,9 @@ jobs:
 
     steps:
 
-      - name: Setting up the environment file (rel)
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (rel)
         if:   ${{ startsWith(matrix.docker_tag, 'rel') }}
         run: |
           patch=${{ matrix.docker_tag }}
@@ -63,7 +67,9 @@ jobs:
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
-      - name: Setting up the environment file (latest)
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (latest)
         if:   ${{ startsWith(matrix.docker_tag, 'latest') }}
         run: |
           patch=${{ matrix.patch }}
@@ -125,7 +131,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
-        # otobo_first_time hasn't run yet, so /opt/otobodockerupdatetest is still empty
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
