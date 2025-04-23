@@ -37,7 +37,7 @@ jobs:
             echo "otobo_branch=rel-${major_minor}"
             echo "otobo_base_image=${{ matrix.base_image }}"
             echo "otobo_docker_tag=${docker_tag}"
-            echo "otobo_ref=${lowercased_repository}:${docker_tag}_test"
+            echo "otobo_ref=${lowercased_repository}:${docker_tag}"
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
@@ -120,9 +120,9 @@ jobs:
         uses: actions/github-script@v7
         with:
             script: |
-                github.rest.issues.createIssue({
+                github.rest.issues.create({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    title: 'Automated issue by docker_image_updater_test.yml',
-                    body: 'The workflow docker_image_update_test has run. Nothing to do'
+                    title: 'Automated issue create by docker_image_updater_test.yml',
+                    body: 'The workflow docker_image_update_test has run. Nothing to do.'
                 })
