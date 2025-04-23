@@ -1,9 +1,17 @@
 %YAML 1.1
 ---
 name: 'DockerImageUpdateAutobuild'
-# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow checks for updated base images and create autobuild images on Docker Hub.
+# The autobuild images can be tested and then released to the public.
+# A Github issue is created automatically for each autobuild image.
 
 on:
+
+  # The trigger on 'workflow_dispatch' allows to start the workflow manually
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_autobuild.yml
   workflow_dispatch:
 
   # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
@@ -153,7 +161,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
-        # otobo_first_time hasn't run yet, so /opt/otobodockerupdatetest is still empty
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
         if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' }}
         run: |
@@ -189,3 +197,21 @@ jobs:
           tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      -
+        # create an issue that reminds people that manual action must be performed
+        name: Create an issue
+        uses: actions/github-script@v7
+        with:
+            script: |
+                github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: 'Automated issue create by docker_image_updater_autobuild.yml',
+                    body: `
+                      The workflow docker_image_update_autobuild has run.
+                      There is work to do. Test the Docker image ${{ env.otobo_ref }}
+                      That should be available on Docker Hub.
+                      Release the image when things look fine`,
+                    labels: [ 'Action DockerImageUpdateAutobuild' ]
+                })
