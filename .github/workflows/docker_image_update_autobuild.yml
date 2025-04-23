@@ -201,6 +201,7 @@ jobs:
       -
         # create an issue that reminds people that manual action must be performed
         name: Create an issue
+        if: steps.check.outputs.needs-updating == 'true'
         uses: actions/github-script@v7
         with:
             script: |
