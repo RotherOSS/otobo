@@ -124,9 +124,9 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     title: 'Automated issue create by docker_image_updater_test.yml',
-                    body: |
+                    body: `
                       The workflow docker_image_update_test has run.
                       There is nothing to do.
-                      The curious can look for  ${{ env.otobo_ref }} on Docker Hub.
+                      The curious can look for the tag ${{ env.otobo_ref }} on Docker Hub.`,
                     labels: [ 'Action DockerImageUpdateAutobuild' ]
                 })
