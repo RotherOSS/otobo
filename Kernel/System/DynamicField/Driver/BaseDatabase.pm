@@ -110,7 +110,7 @@ sub ValueSet {
             $Value = \@Values;
         }
         else {
-            $Value = $Param{Value};
+            $Value = [ $Param{Value} ];
         }
     }
     else {
