@@ -352,10 +352,10 @@ sub SearchObjects {
     elsif ( $Param{ExternalSource} ) {
         my $SearchAttribute = $DynamicFieldConfig->{Config}{ImportSearchAttribute} || 'UserLogin';
 
-        $SearchParams{$SearchAttribute} = "$Param{Term}";
+        $SearchParams{$SearchAttribute} = $Param{Term};
     }
     else {
-        $SearchParams{Search} = "$Param{Term}";
+        $SearchParams{Search} = $Param{Term};
     }
 
     # return a list of customeruser IDs
