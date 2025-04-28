@@ -509,7 +509,7 @@ sub SearchObjects {
         $SearchParams{$SearchAttribute} = "$Param{Term}";
     }
     else {
-        $SearchParams{Search} = "*$Param{Term}*";
+        $SearchParams{Search} = "$Param{Term}";
     }
 
     # return a list of customeruser IDs
