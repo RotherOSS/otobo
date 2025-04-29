@@ -2,9 +2,11 @@
 ---
 name: 'DockerImageUpdateAutobuild'
 
-# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+# This workflow has been adapted from the workflow
+# https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
-# This workflow checks for updated base images and create autobuild images on Docker Hub.
+# This workflow checks whether there are updated base images and
+# creates autobuild images on Docker Hub.
 # The autobuild images can be tested and then released to the public.
 # A Github issue is created automatically for each autobuild image.
 
@@ -14,14 +16,17 @@ on:
   # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_autobuild.yml
   workflow_dispatch:
 
-  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
+  # The trigger on 'schedule' declares that the workflow should run daily. The time is in UTC declared in cron syntax.
+  # So '37 2 * * *' is daily at 2:37 UTC.
   # The scheduled jobs run only on the default branch.
   schedule:
-  - cron: '37 2 * * *'
+    - cron: '37 2 * * *'
 
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
+    outputs:
+      summary: ${{ steps.collect_summary.outputs.summary }}
     strategy:
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
@@ -199,20 +204,32 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
-        # create an issue that reminds people that manual action must be performed
-        name: Create an issue
+        name: Collect summary for creating an issue
+        id: collect_summary
         if: steps.check.outputs.needs-updating == 'true'
+        run: echo "${{ env.otobo_ref }}\n" >> "$GITHUB_OUTPUT"
+
+  # create an issue that reminds people that manual action must be performed
+  CreateIssue:
+    needs: CheckDockerImageUpdate
+    runs-on: 'ubuntu-latest'
+    steps:
+      -
+        name: Create an issue
+        id: create_issue
+        if: needs.CheckDockerImageUpdate.outputs.summary != ''
         uses: actions/github-script@v7
         with:
-            script: |
-                github.rest.issues.create({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    title: 'Automated issue create by docker_image_updater_autobuild.yml',
-                    body: `
-                      The workflow docker_image_update_autobuild has run.
-                      There is work to do. Test the Docker image ${{ env.otobo_ref }}
-                      That should be available on Docker Hub.
-                      Release the image when things look fine`,
-                    labels: [ 'Action DockerImageUpdateAutobuild' ]
-                })
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Issue create by docker_image_updater_autobuild.yml',
+              body: `
+                The workflow docker_image_update_autobuild has run.
+                There is work to do. Test the newly created Docker images.
+                They should be available on Docker Hub.
+                Release the images when things look fine
+                ${{ needs.CheckDockerImageUpdate.outputs.summary }}
+              labels: [ 'Action DockerImageUpdateAutobuild' ]
+            })
