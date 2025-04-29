@@ -229,8 +229,8 @@ jobs:
                 The workflow docker_image_update_autobuild has run.
                 There is work to do. Test the newly created Docker images.
                 They should be available on Docker Hub.
-                Release the images when things look fine
-                ${{ needs.CheckDockerImageUpdate.outputs.summary }}
+                Release the images when things look fine.
+                ${{ needs.CheckDockerImageUpdate.outputs.summary }}`
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
     steps:
