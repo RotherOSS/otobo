@@ -915,26 +915,16 @@ or
                 }
             }
         ],
-        ResultType => 'HASH',   # optional, 'ARRAY' or 'HASH', defaults to 'ARRAY'
     );
 
 Returns:
 
-    $List = {
-        1 => 'ItemOne',
-        2 => 'ItemTwo',
-        3 => 'ItemThree',
-        4 => 'ItemFour',
-    };
-
-or
-
-    $List = (
-        1,
-        2,
-        3,
-        4
-    );
+    $List = [
+        'ItemOne',
+        'ItemTwo',
+        'ItemThree',
+        'ItemFour',
+    ];
 
 =cut
 
@@ -952,6 +942,7 @@ sub DynamicFieldListMask {
     my $ResultType = $Param{ResultType} || 'ARRAY';
     $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
 
+    # track fields in hash to avoid returning duplicates
     my %DFList;
 
     # cycle through content rows
@@ -997,10 +988,7 @@ sub DynamicFieldListMask {
         }
     }
 
-    return $Self->DynamicFieldList(
-        %Param,
-        FieldFilter => \%DFList,
-    );
+    return [ keys %DFList ];
 }
 
 =head2 DynamicFieldListGet()
