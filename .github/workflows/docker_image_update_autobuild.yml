@@ -207,7 +207,7 @@ jobs:
         name: Collect summary for creating an issue
         id: collect_summary
         if: steps.check.outputs.needs-updating == 'true'
-        run: echo "${{ env.otobo_ref }}\n" >> "$GITHUB_OUTPUT"
+        run: echo "summary=${{ steps.collect_summary.outputs.summary }}{{ env.otobo_ref }}\n" >> $GITHUB_OUTPUT
 
   # create an issue that reminds people that manual action must be performed
   CreateIssue:
@@ -233,3 +233,9 @@ jobs:
                 ${{ needs.CheckDockerImageUpdate.outputs.summary }}
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
+    steps:
+      -
+        name: Write a summary
+        id: write_summary
+        run: |
+            echo “${{ needs.CheckDockerImageUpdate.outputs.summary }} >> $GITHUB_STEP_SUMMARY
