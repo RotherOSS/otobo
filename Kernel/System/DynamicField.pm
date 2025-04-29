@@ -943,6 +943,7 @@ sub DynamicFieldListMask {
     $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
 
     # track fields in hash to avoid returning duplicates
+    my $Counter = 1;
     my %DFList;
 
     # cycle through content rows
@@ -958,7 +959,7 @@ sub DynamicFieldListMask {
         }
 
         if ( $Element->{DF} ) {
-            $DFList{ $Element->{DF} } = 1;
+            $DFList{ $Element->{DF} } ||= $Counter++;
         }
         elsif ( $Element->{Grid} ) {
             if ( !IsArrayRefWithData( $Element->{Grid}{Rows} ) ) {
@@ -981,14 +982,14 @@ sub DynamicFieldListMask {
             for my $Row ( $Element->{Grid}{Rows}->@* ) {
                 for my $RowElement ( $Row->@* ) {
                     if ( $RowElement->{DF} ) {
-                        $DFList{ $RowElement->{DF} } = 1;
+                        $DFList{ $RowElement->{DF} } ||= $Counter++;
                     }
                 }
             }
         }
     }
 
-    return [ keys %DFList ];
+    return [ sort { $DFList{$a} <=> $DFList{$b} } keys %DFList ];
 }
 
 =head2 DynamicFieldListGet()
