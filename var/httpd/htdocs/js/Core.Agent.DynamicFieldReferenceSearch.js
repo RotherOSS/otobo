@@ -169,8 +169,8 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                 var Visible = false;
 
                 if (!$(this).val()) {
-                    $(this).parent().find('input[type=hidden]').val('');
-                    $('.' + $(this).parent().find('input[type=hidden]').attr('id')).fadeOut('fast', function() {
+                    $(this).siblings('input[type=hidden]').val('');
+                    $('.' + $(this).siblings('input[type=hidden]').attr('id')).fadeOut('fast', function() {
 
                         if (!$(this).find('.Reference').hasClass('Hidden')) {
                             Visible = true;
