@@ -28,6 +28,7 @@ jobs:
     outputs:
       summary: ${{ steps.collect_summary.outputs.summary }}
     strategy:
+      max-parallel: 1
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
         docker_tag: [ 'latest-10_0-autobuild', 'latest-10_1-autobuild', 'latest-11_0-autobuild' ]
@@ -204,6 +205,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
+        # this might work because max-paralled has been set to 1
         name: Collect summary for creating an issue
         id: collect_summary
         if: steps.check.outputs.needs-updating == 'true'
