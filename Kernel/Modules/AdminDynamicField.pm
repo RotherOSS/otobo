@@ -549,7 +549,7 @@ sub _DynamicFieldsListShow {
                             Valid          => $Valid,
                             ConfigDialog   => $ConfigDialog,
                             FieldTypeName  => $FieldTypeName,
-                            ObjectTypeName => $ObjectTypeName,
+                            ObjectTypeName => $DynamicFieldData->{ObjectType},
                         },
                     );
                 }
