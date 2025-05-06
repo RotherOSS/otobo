@@ -60,7 +60,7 @@ sub Run {
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Source = $Self->{UserRepository} || '';
+    my $Source = $Self->{Session}{UserRepository} || '';
     my %Errors;
 
     # ------------------------------------------------------------ #

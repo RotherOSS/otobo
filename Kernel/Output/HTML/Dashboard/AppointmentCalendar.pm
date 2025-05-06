@@ -71,7 +71,7 @@ sub new {
 
     # set default filter if not set yet
     if ( !$Self->{Filter} ) {
-        $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'Today';
+        $Self->{Filter} = $Self->{Session}{$PreferencesKey} || $Self->{Config}->{Filter} || 'Today';
     }
 
     # setup the prefrences keys

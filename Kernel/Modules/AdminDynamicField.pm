@@ -430,7 +430,7 @@ sub _DynamicFieldsListShow {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'AdminDynamicFieldsOverviewPageShown';
-    my $PageShown               = $Self->{$PageShownPreferencesKey} || 35;
+    my $PageShown               = $Self->{Session}{$PageShownPreferencesKey} || 35;
     my $Group                   = 'DynamicFieldsOverviewPageShown';
 
     # get data selection
