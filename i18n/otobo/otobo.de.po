@@ -27237,14 +27237,6 @@ msgid "Defines the default CSS used for displaying articles."
 msgstr "Definiert das Standard-CSS zur Anzeige von Artikeln."
 
 #. SysConfig
-msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr "Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin Handbuch unter https://doc.otobo.org/."
-
-#. SysConfig
-msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr "Legt die Standardsprache für das Frontend fest. Welche Sprachen zur Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' angezeigt."
-
-#. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
 msgstr "Definiert das Infomodul für den Kundenbereich. Optionen für den Newsticker UseMarquee: 1/0. Optionen für NotifyPriority: Hinweis/Fehler/Erfolg/Info."
 
