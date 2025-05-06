@@ -5,7 +5,7 @@
 - 2025-02-26 10:58:16 +0100 Update translation files
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Püttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-04-22 15:58:42 +0200 Update the list of the last three releases in rel-10_1
 - 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
