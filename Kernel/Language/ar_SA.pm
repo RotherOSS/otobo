@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.915557667934094;
+    $Self->{Completeness}        = 0.91510928096294;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4746,6 +4746,9 @@ sub Data {
         'Failed to load Content!' => 'فشل تحميل المحتوى!',
         'Destination unknown.' => 'الوجهة غير معروفة.',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'مطلوب معرف المقالة!',
         'No TicketID for ArticleID (%s)!' => 'لا يوجد معرف تذكرة لمعرف المقالة (%s)!',
@@ -6449,6 +6452,8 @@ Thanks for your help!
         'A Website' => 'موقع ويب',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'قائمة بالحقول الديناميكية التي تم دمجها في التذكرة الرئيسية أثناء عملية الدمج. سيتم تعيين الحقول الديناميكية الفارغة في التذكرة الرئيسية فقط.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'صورة',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'تسمح وحدة قائمة التحكم في الوصول (ACL) بإغلاق تذاكر الأصل فقط في حالة إغلاق كافة التذاكر التابعة بالفعل ( تظهر "الحالة" أي حالات غير متوفرة للتذكرة الأصلية حتى يتم إغلاق كافة تذاكر التابعة).',
@@ -7017,9 +7022,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'يحدد وحدة نمطية للنظرة العامة تعرض طريقة عرض دفتر عناوين لقائمة مستخدمي العملاء.',
         'Defines available article actions for Chat articles.' => 'يضبط إجراءات العناصر المتوفرة لعناصر الدردشة.',
-        'Defines available article actions for Email articles.' => 'تعيين إجراءات المقالة المتاحة لعناصر البريد الإلكتروني.',
         'Defines available article actions for Internal articles.' => 'تعريف إجراءات المقالات المتاحة للمقالات الداخلية.',
         'Defines available article actions for Phone articles.' => 'تعريف إجراءات المقالات المتاحة لمقالات الهاتف.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'تعريف إجراءات المقالة المتوفرة للمقالات غير الصالحة.',
         'Defines available groups for the admin overview screen.' => 'تعيين المجموعات المتوفرة لنظرة عامة على المسؤول.',
         'Defines chat communication channel.' => 'يحدد قناة اتصال الدردشة.',

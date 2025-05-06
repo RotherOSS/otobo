@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.902091254752852;
+    $Self->{Completeness}        = 0.90164713335445;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4749,6 +4749,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Bejegyzésazonosító szükséges!',
         'No TicketID for ArticleID (%s)!' => 'Nincs jegyazonosító a bejegyzésazonosítóhoz (%s)!',
@@ -6449,6 +6452,8 @@ Az Ön segélyszolgálat csapata
         'A Website' => 'Egy weboldal',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Azon dinamikus mezők listája, amelyek az egyesítési művelet során egyesítve lesznek a fő jeggyel. A fő jegyen belül csak az üres dinamikus mezők lesznek beállítva.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Egy kép',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már minden gyermekjegyük le van zárva (a „State” azt jelzi, hogy mely állapotok nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva).',
@@ -7017,9 +7022,9 @@ Az Ön segélyszolgálat csapata
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Egy áttekintő modult határoz meg egy ügyfél-felhasználó lista címjegyzék nézetének megjelenítéséhez.',
         'Defines available article actions for Chat articles.' => 'Meghatározza az elérhető bejegyzésműveleteket a csevegés bejegyzéseknél.',
-        'Defines available article actions for Email articles.' => 'Meghatározza az elérhető bejegyzésműveleteket az e-mail bejegyzéseknél.',
         'Defines available article actions for Internal articles.' => 'Meghatározza az elérhető bejegyzésműveleteket a belső bejegyzéseknél.',
         'Defines available article actions for Phone articles.' => 'Meghatározza az elérhető bejegyzésműveleteket a telefonos bejegyzéseknél.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Meghatározza az elérhető bejegyzésműveleteket az érvénytelen bejegyzéseknél.',
         'Defines available groups for the admin overview screen.' => 'Meghatározza az elérhető csoportokat az adminisztrátori áttekintő képernyőhöz.',
         'Defines chat communication channel.' => 'Csevegés kommunikációs csatornát határoz meg.',

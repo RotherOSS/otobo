@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.256178707224335;
+    $Self->{Completeness}        = 0.25609756097561;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4751,6 +4751,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
         'No TicketID for ArticleID (%s)!' => '',
@@ -6440,6 +6443,8 @@ Thanks for your help!
         'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modul ACL, který umožňuje uzavření rodičovského tiketu pouze v případě, že jsou již uzavřeny všechny jeho děti ("Stav" ukazuje, které stavy nejsou k dispozici, dokud nejsou uzavřeny všechny podřízené tickety).',
@@ -7008,9 +7013,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             '',
         'Defines available article actions for Chat articles.' => '',
-        'Defines available article actions for Email articles.' => '',
         'Defines available article actions for Internal articles.' => '',
         'Defines available article actions for Phone articles.' => '',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '',
         'Defines available groups for the admin overview screen.' => '',
         'Defines chat communication channel.' => '',

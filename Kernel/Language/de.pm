@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99936628643853;
+    $Self->{Completeness}        = 0.999366487171365;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4744,6 +4744,9 @@ sub Data {
         'Failed to load Content!' => 'Inhalt konnte nicht geladen werden!',
         'Destination unknown.' => 'Ziel unbekannt.',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArticleID wird benötigt!',
         'No TicketID for ArticleID (%s)!' => 'Keine TicketID für ArticleID (%s)!',
@@ -6447,6 +6450,8 @@ Ihr Helpdesk-Team
         'A Website' => 'Eine Webseite',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Eine Liste der Dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere Dynamische Felder im Haupt-Ticket geändert.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Ein Bild',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. ("Status" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind).',
@@ -7015,9 +7020,9 @@ Ihr Helpdesk-Team
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Definiert ein Übersichtsmodul, dass eine Adressbuchansicht der Kundenbenutzerliste anzeigt.',
         'Defines available article actions for Chat articles.' => 'Legt verfügbare Artikel-Aktionen für Chat-Artikel fest.',
-        'Defines available article actions for Email articles.' => 'Legt verfügbare Artikel-Aktionen für E-Mail-Artikel fest.',
         'Defines available article actions for Internal articles.' => 'Legt verfügbare Artikel-Aktionen für interne Artikel fest.',
         'Defines available article actions for Phone articles.' => 'Legt verfügbare Artikel-Aktionen für Telefon-Artikel fest.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Legt verfügbare Artikel-Aktionen für ungültige Artikel fest.',
         'Defines available groups for the admin overview screen.' => 'Legt verfügbare Gruppen für die Administrator-Übersicht fest.',
         'Defines chat communication channel.' => 'Legt den Chat-Kommunikationskanal fest.',
@@ -8667,8 +8672,8 @@ Ihr Helpdesk-Team
             'Führt das System im "Demo" Modus aus. Wenn die Einstellung aktivier ist, können Agenten Einstellungen, wie die Sprachauswahl oder das Design über die Agenten Weboberfläche ändern. Diese Einstellungen sind nur für die aktuelle Sitzung gültig. Agenten können ihr Passwort nicht ändern.',
         'Russian' => 'Russisch',
         'S/MIME Certificates' => 'S/MIME-Zertifikate',
-        'SSL_VERIFY_NONE - no verification of mail server host' => '',
-        'SSL_VERIFY_PEER - verify the mail server host' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => 'SSL_VERIFY_NONE - keine Verifikation des Mail-Server Hosts',
+        'SSL_VERIFY_PEER - verify the mail server host' => 'SSL_VERIFY_PEER - den Mail-Server Host verifizieren',
         'Salutations' => 'Anreden',
         'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9429,7 +9434,7 @@ Ihr Helpdesk-Team
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Nutzt Rich-Text zum Betrachten und Bearbeiten von: Artikeln, Begrüßungen, Signaturen, Standard Vorlagen, Automatische Antworten und Benachrichtigungen.',
         'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
-            '',
+            'Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/IMAPTLS-E-Mail-Konten abgeholt werden.',
         'Vietnam' => 'Vietnamesisch',
         'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
         'Watch this ticket' => 'Dieses Ticket beobachten',

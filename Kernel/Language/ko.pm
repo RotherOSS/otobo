@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.876901140684411;
+    $Self->{Completeness}        = 0.876464998416218;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4744,6 +4744,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArticleID이 필요합니다!',
         'No TicketID for ArticleID (%s)!' => 'ArticleID (%s)에 대한 TicketID가 없습니다!',
@@ -6444,6 +6447,8 @@ Thanks for your help!
         'A Website' => '웹 사이트',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '병합 작업 중에 주 티켓에 병합되는 동적 필드 목록입니다. 기본 티켓에서 비어있는 동적 필드만 설정됩니다.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => '사진',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '모든 자식 티켓이 이미 닫힌 경우에만 부모 티켓을 닫을 수있는 ACL 모듈 ( "상태"는 모든 자식 티켓이 닫힐 때까지 부모 티켓에 사용할 수없는 상태를 보여줍니다).',
@@ -7012,9 +7017,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Customer User List의 주소록보기를 보여주는 개요 모듈을 정의합니다.',
         'Defines available article actions for Chat articles.' => '채팅 기사에 대해 사용 가능한 기사 작업을 정의합니다.',
-        'Defines available article actions for Email articles.' => '전자 메일 아티클에 대해 사용 가능한 아티클 동작을 정의합니다.',
         'Defines available article actions for Internal articles.' => '내부 기사에 대해 사용가능한 기사 조치를 정의합니다.',
         'Defines available article actions for Phone articles.' => '전화 기사에 대해 사용가능한 기사 조치를 정의합니다.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '유효하지 않은 기사에 대해 사용 가능한 기사 조치를 정의합니다.',
         'Defines available groups for the admin overview screen.' => '관리자 개요 화면에 사용할 수 있는 그룹을 정의합니다.',
         'Defines chat communication channel.' => '채팅 통신 채널을 정의합니다.',

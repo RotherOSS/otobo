@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99936628643853;
+    $Self->{Completeness}        = 0.998891352549889;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4752,6 +4752,9 @@ sub Data {
         'Failed to load Content!' => 'Kunne ikke laste inn innhold!',
         'Destination unknown.' => 'Ukjent destinasjon.',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArtikkelID er nødvendig!',
         'No TicketID for ArticleID (%s)!' => 'Ingen TicketID for ArticleID (%s)!',
@@ -6454,6 +6457,8 @@ Ditt Helpdesk-team
         'A Website' => 'En hjemmeside',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'En liste over dynamiske felt som er slått sammen til hovedsaken under en fletteoperasjon. Kun dynamiske felt som er tomme i hovedsaken vil bli satt.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Et bilde',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL-modul som lar en stenge overordnede saker kun hvis alle undersakene deres har blitt stengte ("Status" viser hvilke statuser som ikke er tilgjengelige inntil alle undersaker er stengte).',
@@ -7022,9 +7027,9 @@ Ditt Helpdesk-team
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Definerer en oversiktsmodul for å vise adressebokvisningen til en kundebrukerliste.',
         'Defines available article actions for Chat articles.' => 'Definerer tilgjengelige artikkelhandlinger for Chat-artikler.',
-        'Defines available article actions for Email articles.' => 'Definerer tilgjengelige artikkelhandlinger for e-postartikler.',
         'Defines available article actions for Internal articles.' => 'Definerer tilgjengelige artikkelhandlinger for interne artikler.',
         'Defines available article actions for Phone articles.' => 'Definerer tilgjengelige artikkelhandlinger for telefonartikler.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Definerer tilgjengelige artikkelhandlinger for ugyldige artikler.',
         'Defines available groups for the admin overview screen.' => 'Definerer tilgjengelige grupper for administrasjonsoversiktsskjermen.',
         'Defines chat communication channel.' => 'Definerer chat kommunikasjonskanal.',

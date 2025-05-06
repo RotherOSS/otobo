@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.612484157160963;
+    $Self->{Completeness}        = 0.612290148875515;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4746,6 +4746,9 @@ bin/otobo.Daemon.pl status\').',
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
         'No TicketID for ArticleID (%s)!' => 'Tidak ada TicketID untuk ArticleID (%s)!',
@@ -6446,6 +6449,8 @@ Helpdesk Team Anda
         'A Website' => 'Sebuah situs',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Daftar bidang dinamis yang bergabung ke dalam tiket utama selama operasi gabungan. Hanya bidang dinamis yang kosong dalam tiket utama akan ditetapkan.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Sebuah gambar',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL modul yang memungkinkan penutupan tiket orangtua hanya jika semua anak-anaknya sudah ditutup ("State"  yang menyatakan tidak tersedia untuk tiket orangtua sampai semua tiket anak ditutup).',
@@ -7014,9 +7019,9 @@ Helpdesk Team Anda
         'Defines an overview module to show the address book view of a customer user list.' =>
             '',
         'Defines available article actions for Chat articles.' => '',
-        'Defines available article actions for Email articles.' => '',
         'Defines available article actions for Internal articles.' => '',
         'Defines available article actions for Phone articles.' => '',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '',
         'Defines available groups for the admin overview screen.' => '',
         'Defines chat communication channel.' => '',

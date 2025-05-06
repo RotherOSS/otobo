@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.966096324461344;
+    $Self->{Completeness}        = 0.965631929046563;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4750,6 +4750,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '需要信件ID！',
         'No TicketID for ArticleID (%s)!' => '信件ID (%s)没有工单ID！',
@@ -6448,6 +6451,8 @@ Thanks for your help!
         'A Website' => '网址',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '在合并工单过程中合并到主工单的动态字段列表，只有主工单中为空的动态字段才会被设置。',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => '图片',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL模块仅在所有子工单都关闭后才允许关闭父工单（除非所有子工单都已经关闭，否则父工单显示的“状态”均不可用）。',
@@ -7016,9 +7021,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             '定义一个概览模块以显示客户用户列表的通讯录视图。',
         'Defines available article actions for Chat articles.' => '定义聊天信件的可用信件操作。',
-        'Defines available article actions for Email articles.' => '定义电子邮件信件的可用信件操作。',
         'Defines available article actions for Internal articles.' => '定义内部信件的可用信件操作。',
         'Defines available article actions for Phone articles.' => '定义电话信件的可用信件操作。',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '定义无效信件的可用信件操作。',
         'Defines available groups for the admin overview screen.' => '为管理员概览屏幕定义可用组。',
         'Defines chat communication channel.' => '定义聊天通信渠道。',

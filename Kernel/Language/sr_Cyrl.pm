@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.900506970849176;
+    $Self->{Completeness}        = 0.900063351282864;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4744,6 +4744,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Неопходан ArticleID!',
         'No TicketID for ArticleID (%s)!' => 'Нема TicketID за овај ArticleID (%s)!',
@@ -6444,6 +6447,8 @@ Thanks for your help!
         'A Website' => 'Вебсајт',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Листа динамичких поља која су споајена у главни тикет током операције спајања. Биће подешена само динамичка поља која су празна у главном тикету.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Слика',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL модул који дозвољава да надређени тикети буду затворени само ако су већ затворени сви подређени тикети ("State" показује која стања нису доступна за надређени тикет док се не затворе сви подређени тикети).',
@@ -7012,9 +7017,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Дефинише модул прегледа за приказ адресара клијент корисника.',
         'Defines available article actions for Chat articles.' => 'Дефинише омогућене акције за чланке ћаскања.',
-        'Defines available article actions for Email articles.' => 'Дефинише омогућене акције за чланке имејлова.',
         'Defines available article actions for Internal articles.' => 'Дефинише омогућене акције за интерне чланке.',
         'Defines available article actions for Phone articles.' => 'Дефинише омогућене акције за чланке позива.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Дефинише омогућене акције за неважеће чланке.',
         'Defines available groups for the admin overview screen.' => 'Дефинише доступне категорије за екран администраторског прегледа.',
         'Defines chat communication channel.' => 'Дефинише комуникациони канал ћаскања.',

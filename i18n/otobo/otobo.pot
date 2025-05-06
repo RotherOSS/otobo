@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-02-26 09:57+0000\n"
+"POT-Creation-Date: 2025-05-06 14:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13546,6 +13546,10 @@ msgstr ""
 msgid "Destination unknown."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
 msgstr ""
@@ -17482,6 +17486,10 @@ msgid "A list of dynamic fields that are merged into the main ticket during a me
 msgstr ""
 
 #. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
 msgid "A picture"
 msgstr ""
 
@@ -19102,15 +19110,15 @@ msgid "Defines available article actions for Chat articles."
 msgstr ""
 
 #. SysConfig
-msgid "Defines available article actions for Email articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for Phone articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
 msgstr ""
 
 #. SysConfig

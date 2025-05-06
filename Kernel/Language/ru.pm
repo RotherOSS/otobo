@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.867553865652725;
+    $Self->{Completeness}        = 0.867120684193855;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4755,6 +4755,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Требуется ArticleID!',
         'No TicketID for ArticleID (%s)!' => 'Отсутствует TicketID для ArticleID (%s)!',
@@ -6455,6 +6458,8 @@ Thanks for your help!
         'A Website' => 'Веб сайт',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Список динамических полей, которые объединяются в главной заявке при слиянии. Только динамические поля, имеющие пустые значения в главной заявке будут установлены/заполнены.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Рисунок',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL модуль, который позволяет закрывать родительские заявки только после того как все младшие закрыты ("State" задает доступные состояния для родительских заявок до закрытия всех младших',
@@ -7023,9 +7028,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Задает модуль просмотра для отображения списка клиентов в формате адресной книги.',
         'Defines available article actions for Chat articles.' => 'Задает список допустимых действий с сообщениями Чата.',
-        'Defines available article actions for Email articles.' => 'Задает список допустимых действий с почтовыми сообщениями.',
         'Defines available article actions for Internal articles.' => 'Задает список допустимых действий с внутренними сообщениями/заметками.',
         'Defines available article actions for Phone articles.' => 'Задает список допустимых действий с телефонными сообщениями.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Задает список допустимых действий с недействительными сообщениями.',
         'Defines available groups for the admin overview screen.' => 'Задает перечень групп доступных администратору в его панели.',
         'Defines chat communication channel.' => '',

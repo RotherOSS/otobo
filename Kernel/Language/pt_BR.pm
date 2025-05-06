@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.927756653992395;
+    $Self->{Completeness}        = 0.927304402914159;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4749,6 +4749,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'O Id do Artigo é necessário!',
         'No TicketID for ArticleID (%s)!' => 'Nenhum ID do Ticket para o ID da Nota (%s)!',
@@ -6449,6 +6452,8 @@ Obrigado pela ajuda!
         'A Website' => 'Um website',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Uma lista de campos dinâmicos que são agrupados no ticket principal durante uma operação de agrupamento. Somente campos dinâmicos vazios no ticket principal serão definidos.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Uma figura',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Módulo ACL que permite fechar os chamados-pais somente se todos os seus filhos já estejam fechados ("Estado" mostra quais estados não estão disponíveis para o chamado-pai até que todos os chamados-filhos estejam fechados).',
@@ -7017,9 +7022,9 @@ Obrigado pela ajuda!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Define um módulo de visão geral para mostrar a visão de caderno de endereço de uma lista de usuário cliente.',
         'Defines available article actions for Chat articles.' => 'Define as ações de artigo disponíveis para artigos de Chat.',
-        'Defines available article actions for Email articles.' => 'Define ações de artigo disponíveis para artigos de E-mail.',
         'Defines available article actions for Internal articles.' => 'Define ações de artigo disponíveis para artigos Internos.',
         'Defines available article actions for Phone articles.' => 'Define ações de artigo disponíveis para artigos de Telefonema.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Define ações de artigo disponíveis para artigos inválidos.',
         'Defines available groups for the admin overview screen.' => 'Define grupos disponíveis para a tela de visão geral de Administração.',
         'Defines chat communication channel.' => 'Define o canal de comunicação de chat.',
