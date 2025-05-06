@@ -112,3 +112,5 @@ jobs:
         name: 'Run local composite action'
         if:   steps.changes.outputs.context_and_dockerfile == 'true'
         uses: ./.github/actions/docker_image_builder
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
