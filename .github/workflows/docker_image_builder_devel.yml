@@ -82,6 +82,13 @@ jobs:
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
+      -
+        # the name of the Dockerfile might depent on the release branch
+        name: Get the name of the Dockerfile
+        id: get-dockerfile
+        env:
+          dockerfile: ${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(github.ref_name, 'rel-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}
+
       - name: 'check out the relevant OTOBO branch'
         uses: actions/checkout@v4
 
@@ -94,7 +101,7 @@ jobs:
           filters: |
             context_and_dockerfile:
               - '${{ matrix.context }}/**'
-              - '${{ matrix.dockerfile }}'
+              - '${{ env.dockerfile }}'
 
       -
         # login to Docker Hub before the composite action
@@ -113,4 +120,4 @@ jobs:
         if:   steps.changes.outputs.context_and_dockerfile == 'true'
         uses: ./.github/actions/docker_image_builder
         with:
-          dockerfile: ${{ matrix.dockerfile }}
+          dockerfile: ${{ env.dockerfile }}
