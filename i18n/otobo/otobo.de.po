@@ -56,8 +56,7 @@ msgstr ""
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
 "PO-Revision-Date: 2025-03-29 10:29+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
-">\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25948,6 +25947,7 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27656,11 +27656,6 @@ msgstr "SSL Verifizierungsmodus"
 #, fuzzy
 msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
-"Die Anfrage abbrechen, falls die SSL-Verifikation fehlschlägt. Das "
-"Deaktivieren überspringt die SSL-Verifikation vollständig. Nur mit Vorsicht "
-"deaktivieren! Die Verifikation zu überspringen ist ein Sicherheitsrisiko! "
-"Hauptsächlich für Testzwecke, für selbst-signierte SSL-Zertifikate oder "
-"falls man weiß, was man tut."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Erroneous value in RequiredArgs."
@@ -27704,10 +27699,7 @@ msgstr "Link-Richtung"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
-msgstr ""
-"Das referenzierende Objekt ist das, welches dieses Dynamische Feld "
-"beinhaltet. Das referenzierte Objekt ist das, welches als Wert des "
-"Dynamischen ausgewählt wird."
+msgstr "Das referenzierende Objekt ist das, welches dieses Dynamische Feld beinhaltet. Das referenzierte Objekt ist das, welches als Wert des Dynamischen ausgewählt wird."
 
 #. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
 msgid "Empty fields indicate that the current values are kept"
@@ -27727,12 +27719,37 @@ msgstr "SSL_VERIFY_PEER - den Mail-Server Host verifizieren"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
-msgstr ""
-"Zeit in Sekunden die zur aktuellen Zeit hinzugefügt wird wenn eine Wartezeit "
-"ausgewählt wird. Beispiele: 86400 = 1 Tag oder 604800 = 1 Woche."
+msgstr "Zeit in Sekunden die zur aktuellen Zeit hinzugefügt wird wenn eine Wartezeit ausgewählt wird. Beispiele: 86400 = 1 Tag oder 604800 = 1 Woche."
 
 #. SysConfig
 msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr "Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/IMAPTLS-E-Mail-Konten abgeholt werden."
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
 msgstr ""
-"Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/"
-"IMAPTLS-E-Mail-Konten abgeholt werden."
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+

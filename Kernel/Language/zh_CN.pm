@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.917003140421714;
+    $Self->{Completeness}        = 0.916031674884207;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2979,6 +2979,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => '工单已锁定',
         'Undo & close' => '撤销并关闭',
+        'All fields marked with an asterisk (*) are mandatory.' => '所有带“*”的字段都是强制要求输入的字段.',
         'Ticket Settings' => '工单设置',
         'Queue invalid.' => '队列无效。',
         'Service invalid.' => '服务无效。',
@@ -5055,6 +5056,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '需要信件ID！',
         'No TicketID for ArticleID (%s)!' => '信件ID (%s)没有工单ID！',
@@ -6851,6 +6855,8 @@ Thanks for your help!
         'A Website' => '网址',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '在合并工单过程中合并到主工单的动态字段列表，只有主工单中为空的动态字段才会被设置。',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => '图片',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL模块仅在所有子工单都关闭后才允许关闭父工单（除非所有子工单都已经关闭，否则父工单显示的“状态”均不可用）。',
@@ -7438,9 +7444,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             '定义一个概览模块以显示客户用户列表的通讯录视图。',
         'Defines available article actions for Chat articles.' => '定义聊天信件的可用信件操作。',
-        'Defines available article actions for Email articles.' => '定义电子邮件信件的可用信件操作。',
         'Defines available article actions for Internal articles.' => '定义内部信件的可用信件操作。',
         'Defines available article actions for Phone articles.' => '定义电话信件的可用信件操作。',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '定义无效信件的可用信件操作。',
         'Defines available groups for the admin overview screen.' => '为管理员概览屏幕定义可用组。',
         'Defines chat communication channel.' => '定义聊天通信渠道。',
@@ -8173,6 +8179,8 @@ Thanks for your help!
             '禁止发送提醒通知给工单负责人（需要启用Ticket::Responsible设置）。',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '当工单关闭时，取消到最近浏览页/仪表板的重定向。',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             '在全文搜索使用了停止词时显示一个警告并阻止搜索。',
         'Display communication log entries.' => '显示通信日志条目。',
@@ -8638,6 +8646,8 @@ Thanks for your help!
         'Import and export object information.' => '导入和导出对象信息。',
         'Import appointments screen.' => '导入预约屏幕。',
         'Import/Export' => '导入/导出',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             '选择队列的时候默认包括子队列的工单。',
         'Include unknown customers in ticket filter.' => '在工单过滤器中包括未知客户。',
@@ -8775,6 +8785,7 @@ Thanks for your help!
         'Mark this ticket as junk!' => '标记这个工单为垃圾!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '在编写工单屏幕客户信息表格（电话和邮件）的最大尺寸（单位：字符）。',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -9814,6 +9825,8 @@ Thanks for your help!
             '这个配置定义了是否只显示有效的动态字段，还是显示所有的（包括无效的）。',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             '此配置定义为计算工单的工作时间而可以执行的最大迭代次数。注意：将此配置设置为高有可能会影响性能。',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '此配置注册一个OutputFilter模块，该模块注入javascript功能以删除PendingTime。',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9982,8 +9995,6 @@ Thanks for your help!
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
             '',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
-            '字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。',
         'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>

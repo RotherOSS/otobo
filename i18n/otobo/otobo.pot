@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-02-26 11:03+0000\n"
+"POT-Creation-Date: 2025-05-06 14:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -8775,6 +8775,10 @@ msgid "Undo & close"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "All fields marked with an asterisk (*) are mandatory."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
 msgstr ""
 
@@ -14470,6 +14474,10 @@ msgstr ""
 msgid "Destination unknown."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
 msgstr ""
@@ -18642,6 +18650,10 @@ msgid "A list of dynamic fields that are merged into the main ticket during a me
 msgstr ""
 
 #. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
 msgid "A picture"
 msgstr ""
 
@@ -20326,15 +20338,15 @@ msgid "Defines available article actions for Chat articles."
 msgstr ""
 
 #. SysConfig
-msgid "Defines available article actions for Email articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for Phone articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
 msgstr ""
 
 #. SysConfig
@@ -21930,6 +21942,10 @@ msgid "Disables the redirection to the last screen overview / dashboard after a 
 msgstr ""
 
 #. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
 msgid "Display a warning and prevent search when using stop words within fulltext search."
 msgstr ""
 
@@ -23126,6 +23142,10 @@ msgid "Import/Export"
 msgstr ""
 
 #. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
 msgstr ""
 
@@ -23583,6 +23603,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark ticket as unseen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
 msgstr ""
 
 #. SysConfig
@@ -26170,6 +26194,10 @@ msgid "This configuration defines the number of iterations that should be perfor
 msgstr ""
 
 #. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
 msgid "This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime."
 msgstr ""
 
@@ -26671,10 +26699,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
 msgstr ""
 
 #. SysConfig

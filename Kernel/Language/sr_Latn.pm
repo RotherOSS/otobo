@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.855241513384178;
+    $Self->{Completeness}        = 0.854474824443448;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2979,6 +2979,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'Tiket je zaključan.',
         'Undo & close' => 'Odustani & zatvori',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Sva polja označena zvezdicom (*) su obavezna.',
         'Ticket Settings' => 'Podešavanje tiketa',
         'Queue invalid.' => 'Nevažeći red.',
         'Service invalid.' => 'Nevažeća usluga.',
@@ -5055,6 +5056,9 @@ sub Data {
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Neophodan ArticleID!',
         'No TicketID for ArticleID (%s)!' => 'Nema TicketID za ovaj ArticleID (%s)!',
@@ -6853,6 +6857,8 @@ Vaša tehnička podrška
         'A Website' => 'Vebsajt',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Lista dinamičkih polja koja su spoajena u glavni tiket tokom operacije spajanja. Biće podešena samo dinamička polja koja su prazna u glavnom tiketu.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Slika',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL modul koji dozvoljava da nadređeni tiketi budu zatvoreni samo ako su već zatvoreni svi podređeni tiketi ("State" pokazuje koja stanja nisu dostupna za nadređeni tiket dok se ne zatvore svi podređeni tiketi).',
@@ -7440,9 +7446,9 @@ Vaša tehnička podrška
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Definiše modul pregleda za prikaz adresara klijent korisnika.',
         'Defines available article actions for Chat articles.' => 'Definiše omogućene akcije za članke ćaskanja.',
-        'Defines available article actions for Email articles.' => 'Definiše omogućene akcije za članke imejlova.',
         'Defines available article actions for Internal articles.' => 'Definiše omogućene akcije za interne članke.',
         'Defines available article actions for Phone articles.' => 'Definiše omogućene akcije za članke poziva.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Definiše omogućene akcije za nevažeće članke.',
         'Defines available groups for the admin overview screen.' => 'Definiše dostupne kategorije za ekran administratorskog pregleda.',
         'Defines chat communication channel.' => 'Definiše komunikacioni kanal ćaskanja.',
@@ -8175,6 +8181,8 @@ Vaša tehnička podrška
             'Onemogućuje slanje obaveštenja podsetnika odgovornom operateru tiketa (Ticket::Responsible mora biti uključeno).',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             'Onemogućuje preusmeravanje na poslednji ekran pregleda / kontrolnu tablu pošto je tiket zatvoren.',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Prikaži upozorenje i onemogući pretragu ako su upotrebljene zaustavne reči u pretrazi kompletnog teksta.',
         'Display communication log entries.' => 'Prikazuje stavke komunikacionih logova.',
@@ -8640,6 +8648,8 @@ Vaša tehnička podrška
         'Import and export object information.' => 'Informacije o uvozu i izvozu objekata',
         'Import appointments screen.' => 'Ekran za uvoz termina.',
         'Import/Export' => 'Uvoz/Izvoz',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Kod izbora reda, podrazumevano uključi i tikete podredova.',
         'Include unknown customers in ticket filter.' => 'Uključite nepoznate klijente u filter tiketa.',
@@ -8777,6 +8787,7 @@ Vaša tehnička podrška
         'Mark this ticket as junk!' => 'Označi ovaj tiket kao besmislen junk!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maksimalna dužina (u znacima) klijentske info tabele (telefon i imejl) na ekranu pisanja imejla.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -9816,6 +9827,8 @@ Vaša tehnička podrška
             '',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             '',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9983,8 +9996,6 @@ Vaša tehnička podrška
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Kada su tiketi spojeni, klijent može biti informisan imejlom postavljanjem polja za potvrdu "Obavesti pošiljaoca". U prostoru za tekst, možete definisati unapred formatirani tekst koji kasnije biti modifikovan od strane operatera.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
-            '',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Definiše da li će biti prikupljane informacije iz članaka korišćenjem filtera definisanim u Ticket::Frontend::ZoomCollectMetaFilters.',
