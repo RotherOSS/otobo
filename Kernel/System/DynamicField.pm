@@ -893,6 +893,107 @@ sub DynamicFieldList {
     return;
 }
 
+=head2 DynamicFieldListMask()
+
+retrieve DynamicField list from given mask definition
+
+    my $List = $DynamicFieldObject->DynamicFieldListMask();
+
+or
+
+    my $List = $DynamicFieldObject->DynamicFieldListMask(
+        Content    => [
+            { DF => 'FieldName1' },
+            {
+                Grid => {
+                    Columns => 2,
+                    Rows    => [
+                        [
+                            { DF => 'FieldName2' },
+                        ],
+                    ],
+                }
+            }
+        ],
+    );
+
+Returns:
+
+    $List = [
+        'ItemOne',
+        'ItemTwo',
+        'ItemThree',
+        'ItemFour',
+    ];
+
+=cut
+
+sub DynamicFieldListMask {
+    my ( $Self, %Param ) = @_;
+
+    if ( !IsArrayRefWithData( $Param{Content} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Content!',
+        );
+        return;
+    }
+
+    my $ResultType = $Param{ResultType} || 'ARRAY';
+    $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
+
+    # track fields in hash to avoid returning duplicates
+    my %DFSeen;
+    my @DFList;
+
+    # cycle through content rows
+    CONTENTELEMENT:
+    for my $Element ( $Param{Content}->@* ) {
+        if ( !IsHashRefWithData($Element) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Misconfigured Definition!",
+            );
+
+            next CONTENTELEMENT;
+        }
+
+        if ( $Element->{DF} ) {
+            next CONTENTELEMENT if $DFSeen{ $Element->{DF} }++;
+            push @DFList, $Element->{DF};
+        }
+        elsif ( $Element->{Grid} ) {
+            if ( !IsArrayRefWithData( $Element->{Grid}{Rows} ) ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Misconfigured Grid - need Rows as Array!",
+                );
+
+                next ELEMENT;
+            }
+            if ( $Element->{Grid}{Columns} !~ /^0*[1-9]\d*$/ ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Misconfigured Grid - need Columns as integer > 0!",
+                );
+
+                next ELEMENT;
+            }
+
+            for my $Row ( $Element->{Grid}{Rows}->@* ) {
+                for my $RowElement ( $Row->@* ) {
+                    if ( $RowElement->{DF} ) {
+                        next CONTENTELEMENT if $DFSeen{ $RowElement->{DF} }++;
+                        push @DFList, $RowElement->{DF};
+                    }
+                }
+            }
+        }
+    }
+
+    return \@DFList;
+}
+
 =head2 DynamicFieldListGet()
 
 get list of valid dynamic fields with complete data ordered by the "Field Order" field in the DB

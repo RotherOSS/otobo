@@ -1,12 +1,14 @@
 %YAML 1.1
 ---
 name: 'DockerImageUpdateAll'
-# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
 on:
-  workflow_dispatch:
 
-  # This workflow should be triggered manually.
+  # The trigger on 'workflow_dispatch' allows to start the workflow manually
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_all.yml
+  workflow_dispatch:
 
 jobs:
   CheckDockerImageUpdate:
@@ -40,10 +42,18 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline'
+          -
+            docker_tag: 'rel-11_0_6'
+            fix_cldr:   1
+          -
+            docker_tag: 'rel-11_0_7'
+            fix_cldr:   1
 
     steps:
 
-      - name: Setting up the environment file (rel)
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (rel)
         if:   ${{ startsWith(matrix.docker_tag, 'rel') }}
         run: |
           patch=${{ matrix.docker_tag }}
@@ -57,7 +67,9 @@ jobs:
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
-      - name: Setting up the environment file (latest)
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (latest)
         if:   ${{ startsWith(matrix.docker_tag, 'latest') }}
         run: |
           patch=${{ matrix.patch }}
@@ -91,8 +103,8 @@ jobs:
         # a workaround for a build failure for the 11.0.7 release
         # see https://github.com/RotherOSS/otobo/issues/4103
         # can't use github.sha here as we need the commit of the checked out branch
-        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.8'
-        if: ${{ matrix.target == 'otobo-web' && matrix.patch == 'rel-11_0_8' }}
+        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.6 and 11.0.7'
+        if: ${{ matrix.target == 'otobo-web' && matrix.fix_cldr }}
         run: |
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
@@ -119,7 +131,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
-        # otobo_first_time hasn't run yet, so /opt/otobodockerupdatetest is still empty
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"

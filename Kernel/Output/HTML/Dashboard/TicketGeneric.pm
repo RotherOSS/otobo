@@ -225,7 +225,7 @@ sub new {
         }
     }
     else {
-        $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
+        $Self->{Filter} = $Self->{Session}{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
     }
 
     # The additional filter are at the moment only relevant for the customer user information center.

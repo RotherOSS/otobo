@@ -147,8 +147,8 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('Select the attribute which tickets will be searched by'),
             InputType       => 'Selection',
             SelectionData   => {
-                'Number' => 'Number',
-                'Title'  => 'Title',
+                'TicketNumber' => 'TicketNumber',
+                'Title'        => 'Title',
             },
             PossibleNone => 1,
             Multiple     => 0,

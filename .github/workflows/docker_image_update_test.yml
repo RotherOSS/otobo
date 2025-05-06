@@ -1,32 +1,27 @@
 %YAML 1.1
 ---
 name: 'DockerImageUpdateTest'
-# Adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
-# TODO: check the relevant tags in rel-10_0, rel-10_1, rel-11_0 and trigger rebuilds in these commits
-# TODO: saner setup which branch uses which base image
+# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow can be used as a playground for experimenting with new features.
 
 on:
 
-  # The trigger on 'workflow_dispatch' allows manual start
-  # on https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_checker.yml
+  # The trigger on 'workflow_dispatch' allows to start the workflow manually
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_test.yml
   workflow_dispatch:
-
-#  # The trigger on 'schedule' allows to run daily. Time is in UTC declared in cron syntax.
-#  # The scheduled jobs run only on the default branch.
-#  schedule:
-#    - cron: '37 6 * * *'
 
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
     strategy:
 
-      # set up a loop over OTOBO branches
+      # set up a loop over OTOBO branches, for now only a single branch
       matrix:
-        major_minor: [ '11_0_6', ]
+        major_minor: [ '11_0_8', ]
         include:
-          - major_minor: '11_0_6'
+          - major_minor: '11_0_8'
             base_image: 'perl:5.38-bookworm'
 
     steps:
@@ -42,7 +37,7 @@ jobs:
             echo "otobo_branch=rel-${major_minor}"
             echo "otobo_base_image=${{ matrix.base_image }}"
             echo "otobo_docker_tag=${docker_tag}"
-            echo "otobo_image=${lowercased_repository}:${docker_tag}"
+            echo "otobo_ref=${lowercased_repository}:${docker_tag}"
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
@@ -80,15 +75,15 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.otobo_image }}
+          tags: ${{ env.otobo_ref }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max`
+          cache-to: type=gha,mode=max
 
       -
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_image -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
         # login to Docker Hub only after the build
@@ -115,6 +110,23 @@ jobs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: otobo-web
-          tags: ${{ env.otobo_image }}
+          tags: ${{ env.otobo_ref }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max`
+          cache-to: type=gha,mode=max
+
+      -
+        # create an issue that reminds people that manual action must be performed
+        name: Create an issue
+        uses: actions/github-script@v7
+        with:
+            script: |
+                github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: 'Automated issue create by docker_image_updater_test.yml',
+                    body: `
+                      The workflow docker_image_update_test has run.
+                      There is nothing to do.
+                      The curious can look for the Docker image ${{ env.otobo_ref }} on Docker Hub.`,
+                    labels: [ 'Action DockerImageUpdateAutobuild' ]
+                })

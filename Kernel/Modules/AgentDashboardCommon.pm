@@ -567,8 +567,8 @@ sub Run {
         }
 
         my $Key = $UserSettingsKey . $Name;
-        if ( defined $Self->{$Key} ) {
-            $Backends{$Name} = $Self->{$Key};
+        if ( defined $Self->{Session}{$Key} ) {
+            $Backends{$Name} = $Self->{Session}{$Key};
         }
         else {
             $Backends{$Name} = $Config->{$Name}->{Default};
@@ -583,7 +583,7 @@ sub Run {
     # set order of plugins
     my $Key = $UserSettingsKey . 'Position';
     my @Order;
-    my $Value = $Self->{$Key};
+    my $Value = $Self->{Session}{$Key};
 
     if ($Value) {
         @Order = split /;/, $Value;
@@ -736,7 +736,7 @@ sub Run {
                     Data => {
                         %{ $Element{Config} },
                         %{$Param},
-                        Data     => $Self->{ $Param->{Name} },
+                        Data     => $Self->{Session}{ $Param->{Name} },
                         NamePref => $Param->{Name},
                         Name     => $Name,
                         NameForm => $NameForm,
