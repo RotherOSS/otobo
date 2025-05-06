@@ -1,4 +1,21 @@
 
+# OTOBO 10.0.24 2025-05-06
+- 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
+- 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
+- 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
+- 2025-04-14 13:21:14 +0200 Fix references to doc.otobo.org/doc (https://github.com/RotherOSS/otobo/issues/4253)
+- 2025-03-27 10:23:06 +0100 CodePolicy fails for *.po files (https://github.com/RotherOSS/otobo/issues/4235)
+- 2025-03-26 07:51:07 +0100 Added Empty operator to listing in SearchSQLGet POD.
+- 2025-03-25 10:05:13 +0100 [Bugfix]   The dynamic field title is not translated. (https://github.com/RotherOSS/otobo/issues/4196)
+- 2025-03-22 13:01:35 +0100 Document which commit is checked out
+- 2025-03-22 13:00:41 +0100 Fix spelling in a code comment
+- 2025-03-21 09:43:08 +0100 Corrected wording in sysconfig description.
+- 2025-03-19 08:17:39 +0100 Bumped tj-actions/changed-files from 43 to 46.
+- 2025-02-26 11:21:05 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
+
+
 # OTOBO 10.0.23 2025-02-26
 - 2025-02-20 15:34:09 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
 - 2025-02-21 18:55:19 +0100 Spelling: don't use dir as a shortcut for directory
@@ -1070,5 +1087,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
