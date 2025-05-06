@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2025-02-26 09:57+0000\n"
+"POT-Creation-Date: 2025-05-06 14:35+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -14369,6 +14369,10 @@ msgstr ""
 msgid "Destination unknown."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
 msgstr ""
@@ -18514,6 +18518,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
 msgid "A picture"
 msgstr ""
 
@@ -20490,15 +20498,15 @@ msgid "Defines available article actions for Chat articles."
 msgstr ""
 
 #. SysConfig
-msgid "Defines available article actions for Email articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for Phone articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
 msgstr ""
 
 #. SysConfig
