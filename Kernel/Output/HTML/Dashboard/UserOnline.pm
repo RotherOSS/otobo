@@ -69,7 +69,7 @@ sub new {
     }
 
     if ( !$Self->{Filter} ) {
-        $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'Agent';
+        $Self->{Filter} = $Self->{Session}{$PreferencesKey} || $Self->{Config}->{Filter} || 'Agent';
     }
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';

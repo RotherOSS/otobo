@@ -155,7 +155,7 @@ sub _ShowOverview {
 
     # Get personal page shown count.
     my $PageShownPreferencesKey = 'AdminCommunicationLogPageShown';
-    my $PageShown               = $Self->{$PageShownPreferencesKey} || 25;
+    my $PageShown               = $Self->{Session}{$PageShownPreferencesKey} || 25;
     my $Group                   = 'CommunicationLogPageShown';
 
     # Prepare filters.

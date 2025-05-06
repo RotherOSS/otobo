@@ -64,12 +64,24 @@ sub Run {
         my $Key   = $ParamObject->GetParam( Param => 'Key' );
         my $Value = $ParamObject->GetParam( Param => 'Value' );
 
+        my %AllowedKeys;
+        for my $Config ( values %{ $Kernel::OM->Get('Kernel::Config')->Get('Preferences::UpdateAJAX::Allowed') // {} } ) {
+            %AllowedKeys = (
+                %AllowedKeys,
+                $Config->%*,
+            );
+        }
+
+        my $Success = 0;
+
         # update preferences
-        my $Success = $UserObject->SetPreferences(
-            UserID => $Self->{CurrentUserID},
-            Key    => $Key,
-            Value  => $Value,
-        );
+        if ( $AllowedKeys{$Key} ) {
+            $Success = $UserObject->SetPreferences(
+                UserID => $Self->{CurrentUserID},
+                Key    => $Key,
+                Value  => $Value,
+            );
+        }
 
         # update session
         if ($Success) {
@@ -113,6 +125,7 @@ sub Run {
         my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
         my $IsPwdReset = 0;
 
+        GROUP:
         for my $Group (@Groups) {
 
             # check preferences setting
@@ -122,6 +135,8 @@ sub Run {
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
                 );
             }
+
+            next GROUP unless ( $Self->{CurrentUserID} != $EditUserID || $Preferences{$Group}{Active} );
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );

@@ -603,7 +603,7 @@ sub Run {
             }
         }
 
-        my $SkinSelected = $Self->{'UserSkin'};
+        my $SkinSelected = $Self->{Session}{UserSkin};
 
         # check if the skin is valid
         my $SkinValid = 0;

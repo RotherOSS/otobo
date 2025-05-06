@@ -1084,6 +1084,19 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );
         }
 
+        # TODO: in the long run, modules should use the user/session data in $Param{Session}
+        #       and we should remove most special "direct" parameters here
+        for my $Key (
+            qw(
+                UserID    UserLogin        UserFullname         UserEmail       UserTimeZone
+                UserRequestedURL UserLastPwChangeTime UserRefreshTime LastScreenOverview
+            )
+            )
+        {
+
+            $Param{$Key} = $UserData{$Key};
+        }
+
         # check module registry
         my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{Action} };
         if ( !$ModuleReg ) {
@@ -1256,7 +1269,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 # use module
                 my $PreModuleObject = $PreModule->new(
                     %Param,
-                    %UserData,
+                    Session   => \%UserData,
                     ModuleReg => $ModuleReg,
                 );
                 my $Output = $PreModuleObject->PreRun();
@@ -1275,7 +1288,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
-            %UserData,
+            Session   => \%UserData,
             ModuleReg => $ModuleReg,
             Debug     => $Self->{Debug},
         );

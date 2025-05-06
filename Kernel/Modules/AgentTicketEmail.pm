@@ -2157,7 +2157,7 @@ sub Run {
         }
 
         # get redirect screen
-        my $NextScreen = $Self->{UserCreateNextMask} || 'AgentTicketEmail';
+        my $NextScreen = $Self->{Session}{UserCreateNextMask} || 'AgentTicketEmail';
 
         # redirect
         return $LayoutObject->Redirect(
