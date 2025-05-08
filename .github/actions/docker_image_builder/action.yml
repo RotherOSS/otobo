@@ -120,7 +120,7 @@ runs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest","${{ matrix.repository }}:latest-10_0","${{ matrix.repository }}:latest-10_0-autobuild"
+          tags: ${{ env.otobo_ref }},"${{ inputs.repository }}:latest","${{ inputs.repository }}:latest-10_0","${{ inputs.repository }}:latest-10_0-autobuild"
           target: ${{ inputs.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

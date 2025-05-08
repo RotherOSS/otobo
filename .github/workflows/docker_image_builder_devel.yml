@@ -117,3 +117,4 @@ jobs:
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
           latest: ${{ matrix.latest }}
+          repository: ${{ matrix.repository }}
