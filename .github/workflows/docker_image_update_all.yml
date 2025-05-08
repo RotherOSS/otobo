@@ -11,19 +11,20 @@ jobs:
     runs-on: 'ubuntu-latest'
     strategy:
       # create different images
-      # note that there is no release build for the otobodockerupdatetest-web-kerberos target
+      # note that there is no release build for the otobo-web-kerberos target
+      # this currently has to be updated every release
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
-        docker_tag: [ 'rel-10_0_20', 'rel-10_0_21', 'rel-10_0_22', 'latest-10_0', 'latest' ]
+        docker_tag: [ 'rel-10_0_22', 'rel-10_0_23', 'rel-10_0_24', 'latest-10_0', 'latest' ]
         include:
           -
             # this currently has to be updated every release
             docker_tag: 'latest'
-            patch:      'rel-10_0_22'
+            patch:      'rel-10_0_24'
           -
             # this currently has to be updated every release
             docker_tag: 'latest-10_0'
-            patch:      'rel-10_0_22'
+            patch:      'rel-10_0_24'
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'

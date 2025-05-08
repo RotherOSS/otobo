@@ -23,7 +23,7 @@ jobs:
           -
             # this currently has to be updated every release
             docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_22'
+            patch:      'rel-10_0_24'
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
