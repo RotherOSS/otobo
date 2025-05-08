@@ -16,14 +16,15 @@ jobs:
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
+      # this currently has to be updated every release
       matrix:
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
-        docker_tag: [ 'rel-11_0_6', 'rel-11_0_7', 'rel-11_0_8', 'latest-11_0' ]
+        docker_tag: [ 'rel-11_0_7', 'rel-11_0_8', 'rel-11_0_9', 'latest-11_0' ]
         include:
           -
             # this has currently to be updated every release
             docker_tag: 'latest-11_0'
-            patch:      'rel-11_0_8'
+            patch:      'rel-11_0_9'
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'

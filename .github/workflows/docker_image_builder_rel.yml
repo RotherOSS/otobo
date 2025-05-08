@@ -25,40 +25,36 @@ jobs:
     strategy:
 
       # create different images
-      # note that there is no release build for the otobo-web-kerberos target
+      # note that there no Docker image is built for the otobo-web-kerberos target
       matrix:
-        target:     [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        tag_prefix: [ '' ]
         include:
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
-            latest:     true
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
             repository: 'rotheross/otobo-elasticsearch'
-            latest:     true
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
-            latest:     true
           -
             target:     'otobo-nginx-kerberos-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-            latest:     true
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
-            latest:     true
 
     steps:
 
@@ -67,8 +63,8 @@ jobs:
         # they can be used in the later steps.
         name: Setup
         run: |
-          branch="${{ github.ref_name }}"                     # e.g rel-10_0_22
-          docker_tag="$branch"
+          branch="${{ github.ref_name }}"                     # e.g rel-10_0_24
+          docker_tag="${{ matrix.tag_prefix }}$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
@@ -101,7 +97,11 @@ jobs:
       -
         # Uses a local composite action.
         # The repository must already be checked out.
+        # The label ${{ matrix.repository }}:latest is just set for compatability. Using latest-10_0 is recommended
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          context: ${{ matrix.context }}
+          target: ${{ matrix.target }}
+          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest","${{ matrix.repository }}:latest-10_0"
