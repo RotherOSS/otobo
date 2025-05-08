@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.944070584716614;
+    $Self->{Completeness}        = 0.942925444494248;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2981,6 +2981,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'Saken har blitt låst',
         'Undo & close' => 'Angre og lukk',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Ticket Settings' => 'Oppsett av saker',
         'Queue invalid.' => 'Ugyldig kø.',
         'Service invalid.' => 'Tjenesten er ugyldig.',
@@ -5057,6 +5058,9 @@ sub Data {
         'Failed to load Content!' => 'Kunne ikke laste inn innhold!',
         'Destination unknown.' => 'Ukjent destinasjon.',
 
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArtikkelID er nødvendig!',
         'No TicketID for ArticleID (%s)!' => 'Ingen TicketID for ArticleID (%s)!',
@@ -6858,6 +6862,8 @@ Ditt Helpdesk-team
         'A Website' => 'En hjemmeside',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'En liste over dynamiske felt som er slått sammen til hovedsaken under en fletteoperasjon. Kun dynamiske felt som er tomme i hovedsaken vil bli satt.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Et bilde',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL-modul som lar en stenge overordnede saker kun hvis alle undersakene deres har blitt stengte ("Status" viser hvilke statuser som ikke er tilgjengelige inntil alle undersaker er stengte).',
@@ -7445,9 +7451,9 @@ Ditt Helpdesk-team
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Definerer en oversiktsmodul for å vise adressebokvisningen til en kundebrukerliste.',
         'Defines available article actions for Chat articles.' => 'Definerer tilgjengelige artikkelhandlinger for Chat-artikler.',
-        'Defines available article actions for Email articles.' => 'Definerer tilgjengelige artikkelhandlinger for e-postartikler.',
         'Defines available article actions for Internal articles.' => 'Definerer tilgjengelige artikkelhandlinger for interne artikler.',
         'Defines available article actions for Phone articles.' => 'Definerer tilgjengelige artikkelhandlinger for telefonartikler.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Definerer tilgjengelige artikkelhandlinger for ugyldige artikler.',
         'Defines available groups for the admin overview screen.' => 'Definerer tilgjengelige grupper for administrasjonsoversiktsskjermen.',
         'Defines chat communication channel.' => 'Definerer chat kommunikasjonskanal.',
@@ -8180,6 +8186,8 @@ Ditt Helpdesk-team
             'Deaktiverer sending av påminnelsesvarsler til den ansvarlige agenten for en sak (Ticket::Responsible må være aktivert).',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             'Deaktiverer omdirigering til siste skjermoversikt / dashbord etter at en sak er stengt.',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Vis en advarsel og forhindre søk når du bruker stoppord i fulltekstsøk.',
         'Display communication log entries.' => 'Vis kommunikasjonsloggoppføringer.',
@@ -8645,6 +8653,8 @@ Ditt Helpdesk-team
         'Import and export object information.' => 'Informasjon for import- og eksport-objekt.',
         'Import appointments screen.' => 'Side for avtaleimport.',
         'Import/Export' => 'Import/Eksport',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Inkluder saker til underkøer som standard når du velger en kø.',
         'Include unknown customers in ticket filter.' => 'Inkluder ukjente kunder i saksfilteret.',
@@ -8782,6 +8792,7 @@ Ditt Helpdesk-team
         'Mark this ticket as junk!' => 'Marker denne saken som søppel!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maks. størrelse (antall tegn) for kundelisten (telefon og e-post) i opprett-skjermen.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -9821,6 +9832,8 @@ Ditt Helpdesk-team
             'Denne konfigurasjonen definerer om bare gyldige eller alle (ugyldige) dynamiske felt skal vises.',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             'Denne konfigurasjonen definerer antall iterasjoner som skal utføres ved maks for å beregne arbeidstiden for en sak. OBS: Å sette denne konfigurasjonen til høy kan føre til ytelsesproblemer.',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             'Denne konfigurasjonen registrerer en OutputFilter-modul som injiserer javascript-funksjonaliteten for å fjerne PendingTime.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9989,8 +10002,6 @@ Ditt Helpdesk-team
             'Når saker er slått sammen, kan kunden informeres per e-post ved å sette avkrysningsboksen "Informer avsender". I dette tekstområdet kan du definere en forhåndsformatert tekst som senere kan endres av agentene.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
             'Om utvidet kundeinformasjon vises i saksutskriftsskjermen i kundegrensesnittet.',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
-            'Om felt skal fylles ut automatisk (1), og i så fall også skjules for saksformlene (2).',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Hvorvidt man skal samle inn metainformasjon fra artikler ved hjelp av filtre konfigurert i Ticket::Frontend::ZoomCollectMetaFilters.',
         'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>

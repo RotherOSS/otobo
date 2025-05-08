@@ -1,4 +1,67 @@
 
+# OTOBO 11.0.9 2025-05-06
+- 2025-05-06 16:57:27 +0200 Create new OTOBO language files.
+- 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
+- 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Püttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
+- 2025-05-05 07:50:09 +0200 [Bugfix]   Correct object type param in AdminDynamicField clone link (https://github.com/RotherOSS/otobo/issues/4321)
+- 2025-04-30 13:56:36 +0200 [Bugfix]   Assigned customer user cannot be removed (https://github.com/RotherOSS/otobo/issues/4319) - in progress
+- 2025-04-30 13:56:17 +0200 The docker_image_update_autobuild.yml should notify developers when there are new autobuilds (https://github.com/RotherOSS/otobo/issues/4278) - in progress
+- 2025-04-29 14:33:19 +0200 Implement method to derive dynamic fields from given definition (https://github.com/RotherOSS/otobo/issues/4314)
+- 2025-04-28 17:08:48 +0200 [Changed]  Remove automatic wildcards from customer user reference field search. (https://github.com/RotherOSS/otobo/issues/4305)
+- 2025-04-28 17:05:20 +0200 [Bugfix]   Issue with Reference Filters for "Customeruser" in Ticket Objects (Version 11.0.x). (https://github.com/RotherOSS/otobo/issues/4229)
+- 2025-04-24 15:02:07 +0200 [Bugfix]   Issue with "Database" Dynamic Fields (Multiselect) Causing Internal Server Error When Left Empty (https://github.com/RotherOSS/otobo/issues/4301)
+- 2025-04-24 12:10:48 +0200 [Bugfix]   TicketReference search does not correctly search for ticket numbers. (https://github.com/RotherOSS/otobo/issues/4303)
+- 2025-04-22 15:58:42 +0200 Update the list of the last three releases in rel-10_1
+- 2025-04-22 15:49:15 +0200 Locale::CLDR is already at version 0.46.0 in rel-11_0_8
+- 2025-04-22 15:46:45 +0200 A saner description for the Local::CLDR fixes
+- 2025-04-22 15:40:35 +0200 Updating Locale::CLDR only needed in rel-11_0_6 and rel-11_0_7
+- 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
+- 2025-04-17 18:00:58 +0200 Add missing parameter 'Execute => 0' in POD
+- 2025-04-15 12:54:59 +0200 Add the workaround for build rel-11_0_8 concerning Locale::CLDR
+- 2025-04-14 13:21:14 +0200 Fix references to doc.otobo.org/doc (https://github.com/RotherOSS/otobo/issues/4253)
+- 2025-04-11 08:48:31 +0200 AgentTicketMove shows DynamicField Widget when Ticket::Frontend::MoveType is "New window" (https://github.com/RotherOSS/otobo/issues/4265)
+- 2025-04-08 09:19:47 +0200 [Enhanced] Include Set-inner dynamic fields into searchable fields for ticket search frontends (https://github.com/RotherOSS/otobo/issues/4261)
+- 2025-04-02 15:45:26 +0200 [Bugfix]   Date and DateTime dynamic fields do not respect default value when shown via ACL (https://github.com/RotherOSS/otobo/issues/4241)
+- 2025-03-31 13:36:20 +0200 [Bugfix]   DynamicField DateTime hinders ticket creation in CustomerTicketMessage (https://github.com/RotherOSS/otobo/issues/4238)
+- 2025-03-31 15:15:50 +0200 [Tidied]   Links to documentation are incorrect in some places (https://github.com/RotherOSS/otobo/issues/4246)
+- 2025-03-28 09:49:23 +0000 Translated using Weblate (German)
+- 2025-03-28 10:08:02 +0100 [Enhanced] Include package MarkTicketSeenUnseen into core (https://github.com/RotherOSS/otobo/issues/3122) - in progress
+- 2025-03-27 09:44:25 +0100 Fix new failures in unit tests (https://github.com/RotherOSS/otobo/issues/3931)
+- 2025-03-27 16:05:03 +0100 [Bugfix]   DynamicField checkbox search fields do not behave correctly (https://github.com/RotherOSS/otobo/issues/4239)
+- 2025-03-27 10:23:06 +0100 CodePolicy fails for *.po files (https://github.com/RotherOSS/otobo/issues/4235)
+- 2025-03-26 07:51:07 +0100 Added Empty operator to listing in SearchSQLGet POD.
+- 2025-03-25 15:12:59 +0100 [Bugfix]   The dynamic field title is not translated. (https://github.com/RotherOSS/otobo/issues/4196)
+- 2025-03-25 13:05:54 +0100 Revert "Issue #4196: Added translations for dynamic field title attributes."
+- 2025-03-25 10:59:45 +0100 Revert "Issue #4196: Added translations for dynamic field title attributes."
+- 2025-03-22 13:01:35 +0100 Document which commit is checked out
+- 2025-03-22 13:00:41 +0100 Fix spelling in a code comment
+- 2025-03-21 09:43:08 +0100 Corrected wording in sysconfig description.
+- 2025-03-19 14:54:08 +0100 Update Ticket.xml
+- 2025-03-19 08:17:39 +0100 Bumped tj-actions/changed-files from 43 to 46.
+- 2025-03-12 11:12:11 +0100 [Tidied]   Replace object dependencies in agent ticket modules with ObjectManagerDisabled (https://github.com/RotherOSS/otobo/issues/4212)
+- 2025-03-07 20:27:28 +0100 [Bugfix]   Fix breaking interaction of Exporter and Module::Refresh, leading to internal server errors after adding/removing certain modules (e.g. Kernel/Language) during package (de)installation. (https://github.com/RotherOSS/otobo/issues/3762)
+- 2025-03-01 17:12:39 +0100 Eliminate "sleep" in scripts/test/Selenium/Customer/CustomerTicketOverview.t (https://github.com/RotherOSS/otobo/issues/4202)
+- 2025-03-01 16:38:15 +0100 Try to enhance the code comment that explains why Translatable()
+- 2025-02-27 16:00:23 +0100 [Enhanced] Added option "Ticket::Frontend::AsteriskExplanation" for showing mandatory field explanation on forms. (https://github.com/RotherOSS/otobo/issues/3954)
+- 2025-02-27 13:22:01 +0100 Github workflows: update autobuild updaters.
+- 2025-02-26 13:29:53 +0100 Update CHANGES.
+- 2025-02-26 11:21:05 +0100 Tidying: align the code between POP3S and POPTLS
+- 2025-02-26 11:18:30 +0100 Tidying: fix incorrect type in messages: POP3TLS is correct
+- 2025-02-26 11:21:05 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
+- 2025-02-26 11:01:00 +0100 Update CHANGES.
+- 2025-02-26 10:59:26 +0100 Update CHANGES.
+- 2025-02-26 10:57:40 +0100 Create new OTOBO language files.
+- 2025-02-26 10:50:37 +0100 Update CHANGES.
+- 2025-01-31 20:05:28 +0000 Translated using Weblate (Portuguese)
+- 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
+- 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
+- 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-02 14:54:36 +0200 Update translation files
+
+
 # OTOBO 11.0.8 2025-02-26
 - 2025-02-26 11:21:05 +0100 Tidied.
 - 2025-02-20 15:34:09 +0100 [Security] Change Hash algorithm of the password history; Add option to enable host key verification for email communication; Use cryptographically secure method for shared secret suggestions in 2FA; Thanks to the KPN REDteam (https://github.com/RotherOSS/otobo/issues/4181)
@@ -2470,3 +2533,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
+
