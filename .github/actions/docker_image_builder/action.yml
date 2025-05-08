@@ -1,16 +1,30 @@
 %YAML 1.1
 ---
 
-# Local composite action for building Docker images and pushing them to Docker Hub.
-# Intended to be uses by the workflows docker_image_builder_rel.yml and
-# docker_image_builder_devel.yml
+# This is a local composite action for building Docker images and pushing them to Docker Hub.
+# This action is ntended to be used by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml.
 name: 'DockerImageBuilder'
 
 description: 'Composite action for building Docker images and pushing them to Docker Hub'
 
 inputs:
   dockerfile:
-    description: 'Name of the Dockerfile for building the Docker image'
+    description: |
+      Name of the Dockerfile for building the Docker image.
+    required: true
+  context:
+    description: |
+      Relative path in the sandbox which serves as the context for building the Docker image.
+    required: true
+  target:
+    description: |
+      Target in the Dockerfile which will be built.
+    required: true
+  dockerhub_tags:
+    description: |
+      List of tags under which the new Docker image should be available on Docker hub.
+    required: true
 
 #outputs:
 
@@ -28,11 +42,9 @@ runs:
         shell: bash
         run: |
           echo 'env: '    $ENV_AS_JSON
-          echo 'matrix: ' $MATRIX_AS_JSON
           echo 'github: ' $GITHUB_AS_JSON
         env:
           ENV_AS_JSON:    ${{ toJSON(env) }}
-          MATRIX_AS_JSON: ${{ toJSON(matrix) }}
           GITHUB_AS_JSON: ${{ toJSON(github) }}
 
       - name: 'Set up Docker Buildx'
@@ -41,12 +53,12 @@ runs:
       -
         # Build the image but do not push it to Docker Hub yet.
         # Enable caching with Github Actions Cache, which is limited to 10 GB.
-        # context: .  indicates that the current checkout is used
+        # context: .  indicates that the top level ot the current checkout is used as the build context.
         name: Build
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: ${{ matrix.context }}
+          context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
           build-args: |
@@ -56,7 +68,7 @@ runs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: ${{ matrix.target }}
+          target: ${{ inputs.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -73,11 +85,11 @@ runs:
         # finally upload to DockerHub - without latest update
         # the built image is already available in the job
         name: Push to DockerHub
-        if:   ${{ matrix.latest != true }}
+        if:   ${{ inputs.latest != true }}
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ${{ matrix.context }}
+          context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
           build-args: |
@@ -87,7 +99,7 @@ runs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           tags: ${{ env.otobo_ref }}
-          target: ${{ matrix.target }}
+          target: ${{ inputs.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -95,11 +107,11 @@ runs:
         # finally upload to DockerHub - with latest update
         # the built image is already available in the job
         name: Push to DockerHub (latest)
-        if:   ${{ matrix.latest == true }}
+        if:   ${{ inputs.latest == true }}
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ${{ matrix.context }}
+          context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
           build-args: |
@@ -108,7 +120,7 @@ runs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-10_1","${{ matrix.repository }}:latest-10_1-autobuild"
-          target: ${{ matrix.target }}
+          tags: ${{ inputs.dockerhub_tags }}
+          target: ${{ inputs.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
