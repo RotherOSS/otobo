@@ -21,6 +21,10 @@ inputs:
     description: |
       Target in the Dockerfile which will be built.
     required: true
+  latest:
+    description: |
+      Indicate wether tag with latest will be pushed as well.
+    required: true
 
 #outputs:
 
@@ -81,7 +85,7 @@ runs:
         # finally upload to DockerHub - without latest update
         # the built image is already available in the job
         name: Push to DockerHub
-        if:   ${{ matrix.latest != true }}
+        if:   ${{ inputs.latest != true }}
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -103,7 +107,7 @@ runs:
         # finally upload to DockerHub - with latest update
         # the built image is already available in the job
         name: Push to DockerHub (latest)
-        if:   ${{ matrix.latest == true }}
+        if:   ${{ inputs.latest == true }}
         uses: docker/build-push-action@v6
         with:
           push: true

@@ -116,3 +116,4 @@ jobs:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          latest: ${{ matrix.latest }}
