@@ -21,13 +21,9 @@ inputs:
     description: |
       Target in the Dockerfile which will be built.
     required: true
-  latest:
+  dockerhub_tags:
     description: |
-      Indicate wether tag with latest will be pushed as well.
-    required: true
-  repository:
-    description: |
-      Actually only used for constructing the tags when the latest tags should be added.
+      List of tags under which the new Docker image should be available on Docker hub.
     required: true
 
 #outputs:
@@ -124,7 +120,7 @@ runs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }},"${{ inputs.repository }}:latest","${{ inputs.repository }}:latest-10_0","${{ inputs.repository }}:latest-10_0-autobuild"
+          tags: ${{ inputs.dockerhub_tags }}
           target: ${{ inputs.target }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

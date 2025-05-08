@@ -28,7 +28,6 @@ jobs:
       matrix:
         target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         tag_prefix: [ 'devel-' ]
-        latest: [ false ]
         include:
           -
             target:     'otobo-web'
@@ -116,5 +115,4 @@ jobs:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
-          latest: ${{ matrix.latest }}
-          repository: ${{ matrix.repository }}
+          dockerhub_tags: ${{ env.otobo_ref }}
