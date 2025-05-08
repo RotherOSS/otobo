@@ -25,6 +25,10 @@ inputs:
     description: |
       Indicate wether tag with latest will be pushed as well.
     required: true
+  repository:
+    description: |
+      Actually only used for constructing the tags when the latest tags should be added.
+    required: true
 
 #outputs:
 
