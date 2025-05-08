@@ -1,16 +1,22 @@
 %YAML 1.1
 ---
 
-# Local composite action for building Docker images and pushing them to Docker Hub.
-# Intended to be uses by the workflows docker_image_builder_rel.yml and
-# docker_image_builder_devel.yml
+# This is a local composite action for building Docker images and pushing them to Docker Hub.
+# This action is ntended to be used by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml.
 name: 'DockerImageBuilder'
 
 description: 'Composite action for building Docker images and pushing them to Docker Hub'
 
 inputs:
   dockerfile:
-    description: 'Name of the Dockerfile for building the Docker image'
+    description: |
+      Name of the Dockerfile for building the Docker image.
+    required: true
+  context:
+    description: |
+      Relative path in the sandbox which serves as the context for building the Docker image.
+    required: true
 
 #outputs:
 
@@ -41,12 +47,12 @@ runs:
       -
         # Build the image but do not push it to Docker Hub yet.
         # Enable caching with Github Actions Cache, which is limited to 10 GB.
-        # context: .  indicates that the current checkout is used
+        # context: .  indicates that the top level ot the current checkout is used as the build context.
         name: Build
         uses: docker/build-push-action@v6
         with:
           load: true
-          context: ${{ matrix.context }}
+          context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
           build-args: |
@@ -77,7 +83,7 @@ runs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ${{ matrix.context }}
+          context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           pull: true
           build-args: |
