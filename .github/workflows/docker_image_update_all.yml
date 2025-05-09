@@ -221,51 +221,13 @@ jobs:
           ref: ${{ env.otobo_branch }}
 
       -
-        # needed for build arg GIT_COMMIT
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'get the commit SHA of the current checkout'
-        if: steps.check.outputs.needs-updating == 'true'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
-
-      -
-        # a workaround for a build failure for the 11.0.7 release
-        # see https://github.com/RotherOSS/otobo/issues/4103
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
-        if: ${{ matrix.target == 'otobo-web' && matrix.fix_cldr }}
-        run: |
-          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
-
-      -
-        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
-        # Caching with Github Actions Cache, limited to 10 GB
-        # context: .  indicates that the current checkout is used
-        name: Build
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          load: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      -
         # Uses a local composite action.
         name: 'Run local composite action'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
           target: ${{ matrix.target }}
+          fix_cldr: matrix.fix_cldr
 
       -
         # login to Docker Hub only after the build
@@ -302,6 +264,7 @@ jobs:
         # this might work because max-paralled has been set to 1
         name: Collect summary, even though no issue is created
         id: collect_summary
+        if: steps.check.outputs.needs-updating == 'true'
         run: echo "summary=${{ steps.collect_summary.outputs.summary }}${{ env.otobo_ref }} ${{ steps.check.outputs.needs-updating }}  \n" >> $GITHUB_OUTPUT
 
   # Write Summary

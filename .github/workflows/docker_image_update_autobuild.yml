@@ -144,42 +144,13 @@ jobs:
           ref: ${{ env.otobo_branch }}
 
       -
-        # needed for build arg GIT_COMMIT
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'get the commit SHA of the current checkout'
-        if: steps.check.outputs.needs-updating == 'true'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
-
-      -
-        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
-        # Caching with Github Actions Cache, limited to 10 GB
-        # context: .  indicates that the current checkout is used
-        name: Build
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          load: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      -
         # Uses a local composite action.
         name: 'Run local composite action'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
           target: ${{ matrix.target }}
+          fix_cldr: false
 
       -
         # login to Docker Hub only after the build
@@ -217,7 +188,7 @@ jobs:
         name: Collect summary for creating an issue
         id: collect_summary
         if: steps.check.outputs.needs-updating == 'true'
-        run: echo "summary=${{ steps.collect_summary.outputs.summary }}{{ env.otobo_ref }}\n" >> $GITHUB_OUTPUT
+        run: echo "summary=${{ steps.collect_summary.outputs.summary }}${{ env.otobo_ref }} ${{ steps.check.outputs.needs-updating }}  \n" >> $GITHUB_OUTPUT
 
   # Write Summary
   WriteSummary:
