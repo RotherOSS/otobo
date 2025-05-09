@@ -228,7 +228,7 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-            echo “### Summary, still WIP" >> $GITHUB_STEP_SUMMARY
+            echo '### Summary, still WIP' >> $GITHUB_STEP_SUMMARY
 
   # create an issue that reminds people that manual action must be performed
   CreateIssue:
