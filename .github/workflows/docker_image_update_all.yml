@@ -313,5 +313,5 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-            echo “${{ needs.CheckDockerImageUpdate.outputs.summary }} >> $GITHUB_STEP_SUMMARY
+            echo “### Summary, still WIP" >> $GITHUB_STEP_SUMMARY
 

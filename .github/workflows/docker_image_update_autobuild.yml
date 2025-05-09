@@ -214,9 +214,10 @@ jobs:
 
       -
         # this might work because max-paralled has been set to 1
-        name: Collect summary for creating an issue}}
+        name: Collect summary for creating an issue
         id: collect_summary
-        run: echo "summary=${{ steps.collect_summary.outputs.summary }}${{ env.otobo_ref }} ${{ steps.check.outputs.needs-updating }}  \n" >> $GITHUB_OUTPUT
+        if: steps.check.outputs.needs-updating == 'true'
+        run: echo "summary=${{ steps.collect_summary.outputs.summary }}{{ env.otobo_ref }}\n" >> $GITHUB_OUTPUT
 
   # Write Summary
   WriteSummary:
@@ -227,7 +228,7 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-            echo “${{ needs.CheckDockerImageUpdate.outputs.summary }} >> $GITHUB_STEP_SUMMARY
+            echo “### Summary, still WIP" >> $GITHUB_STEP_SUMMARY
 
   # create an issue that reminds people that manual action must be performed
   CreateIssue:
@@ -237,6 +238,7 @@ jobs:
       -
         name: Create an issue
         id: create_issue
+        # this is broken as summary is overwritten in loop iterations
         if: needs.CheckDockerImageUpdate.outputs.summary != ''
         uses: actions/github-script@v7
         with:
@@ -250,6 +252,6 @@ jobs:
                 There is work to do. Test the newly created Docker images.
                 They should be available on Docker Hub.
                 Release the images when things look fine.
-                ${{ needs.CheckDockerImageUpdate.outputs.summary }}`
+                ${{ needs.CheckDockerImageUpdate.outputs.summary }}`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
