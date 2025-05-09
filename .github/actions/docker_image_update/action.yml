@@ -27,6 +27,16 @@ runs:
   steps:
 
       -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      -
+        name: 'check out the relevant OTOBO branch'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.otobo_branch }}
+
+      -
         # needed for build arg GIT_COMMIT
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'

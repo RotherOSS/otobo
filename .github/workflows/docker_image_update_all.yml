@@ -195,7 +195,7 @@ jobs:
 
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
-        name: Check whether base image was updated
+        name: Check whether the base image was updated
         id: check
         uses: lucacome/docker-image-update-checker@v2
         with:
@@ -206,19 +206,7 @@ jobs:
         # print the result in any case
         name: Report the check result
         run: |
-          echo "The OTOBO web image needs updating: ${{ steps.check.outputs.needs-updating }}"
-
-      -
-        name: Set up Docker Buildx
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/setup-buildx-action@v3
-
-      -
-        name: 'check out the relevant OTOBO branch'
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ env.otobo_branch }}
+          echo '- Image ${{ matrix.target }} ${{ matrix.docker_tag }} must be updated:  ${{ steps.check.outputs.needs-updating }}' >> $GITHUB_STEP_SUMMARY
 
       -
         # Uses a local composite action.
