@@ -26,19 +26,13 @@ jobs:
       # create different images
       # note that there no Docker image is built for the otobo-web-kerberos target
       matrix:
-        target: [ 'otobo-web', 'otobo-web-kerberos', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         tag_prefix: [ 'devel-' ]
         include:
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
-            repository: 'rotheross/otobo'
-          -
-            target:     'otobo-web-kerberos'
-            dockerfile: 'otobo.kerberos.web.dockerfile'
-            context:    '.'
-            tag_prefix: 'devel-kerberos'
             repository: 'rotheross/otobo'
           -
             target:     'otobo-elasticsearch'
