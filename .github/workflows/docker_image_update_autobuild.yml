@@ -167,11 +167,12 @@ jobs:
           cache-to: type=gha,mode=max
 
       -
-        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
-        name: Info
-        if: ${{ steps.check.outputs.needs-updating == 'true' && matrix.target == 'otobo-web' }}
-        run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+        # Uses a local composite action.
+        name: 'Run local composite action'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: ./.github/actions/docker_image_update
+        with:
+          target: ${{ matrix.target }}
 
       -
         # login to Docker Hub only after the build

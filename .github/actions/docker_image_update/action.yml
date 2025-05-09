@@ -1,0 +1,31 @@
+%YAML 1.1
+---
+
+# This is a local composite action for building Docker images and pushing them to Docker Hub.
+# This action is ntended to be used by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml.
+name: 'DockerImageUpdate'
+
+description: 'Composite action for updating Docker images'
+
+inputs:
+  target:
+    description: |
+      Target in the Dockerfile which will be built.
+    required: true
+
+#outputs:
+
+runs:
+
+  using: 'composite'
+
+  steps:
+
+      -
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
+        name: Info
+        if: inputs.target == 'otobo-web' }}
+        run: |
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+
