@@ -63,6 +63,9 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ "fonts-indic"\
+ "fonts-noto"\
+ "fonts-noto-cjk"\
  "libqrencode-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
