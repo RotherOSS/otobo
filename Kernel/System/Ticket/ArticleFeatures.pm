@@ -130,9 +130,10 @@ sub IsArticleDeleted {
 Mark an article as Deleted.
 
     my $Success = $ArticleFeaturesObject->ArticleDelete(
-        ArticleID => 123,   # required
-        TicketID  => 100,   # required
-        UserID    => 1,     # required
+        ArticleID => 123,           # required
+        TicketID  => 100,           # required
+        UserID    => 1,             # required
+        UserLogin => 'some_login',  # required
     );
 
 Returns db success:
