@@ -18,11 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self %Param));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -105,25 +108,15 @@ for my $Test (@Tests) {
         Mode   => 'NotNumeric',
         Action => 'return',
     );
-
-    $Self->Is(
-        $Result,
-        $Test->{ResultReturn},
-        "$Test->{Name} - return",
-    );
+    is( $Result, $Test->{ResultReturn}, "$Test->{Name} - return" );
 
     $Result = $LanguageObject->Time(
         %{ $Test->{Data} },
         Action => 'get',
     );
-
-    $Self->Is(
-        $Result,
-        $Test->{ResultGet},
-        "$Test->{Name} - get",
-    );
+    is( $Result, $Test->{ResultGet}, "$Test->{Name} - get" );
 
     FixedTimeUnset();
 }
 
-$Self->DoneTesting();
+done_testing;

@@ -1,0 +1,349 @@
+---
+Activities:
+  Activity-20aea56b7c73899fad0fca3f751785e6:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-20aea56b7c73899fad0fca3f751785e6
+    ID: '60'
+    Name: Service level requirement (SLR) identification and documentation
+  Activity-2e430c7482fbc6ea842b048ca8721966:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-2e430c7482fbc6ea842b048ca8721966
+    ID: '61'
+    Name: Service level monitoring and performance reporting implementation
+  Activity-52b17726557c54423e10937ff49bb40e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-52b17726557c54423e10937ff49bb40e
+    ID: '62'
+    Name: Service level and underpinning agreement scope review implementation
+  Activity-77023741ec8a0126a38146ee50735b76:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-77023741ec8a0126a38146ee50735b76
+    ID: '63'
+    Name: Service level agreement reporting coordination and implementation
+  Activity-7d655a6496eaaaaa8823532f6b01e354:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-7d655a6496eaaaaa8823532f6b01e354
+    ID: '64'
+    Name: Service level verification with SLA framework
+  Activity-80d5b656cbc215e42f7534422124560c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:30
+    EntityID: Activity-80d5b656cbc215e42f7534422124560c
+    ID: '65'
+    Name: Service level agreement (SLA) negotiation and agreement documentation
+  Activity-a8d9a503d63d5c8cdf200843114daeb9:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Activity-a8d9a503d63d5c8cdf200843114daeb9
+    ID: '66'
+    Name: Service level operational level agreement scope review implementation
+  Activity-b5390a5d17f168c8e29c9a8dfbc71247:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Activity-b5390a5d17f168c8e29c9a8dfbc71247
+    ID: '67'
+    Name: Service level review and service improvement plan (SIP) implementation
+  Activity-c62df7113f09abfbedaeb0d04b3f1b93:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Activity-c62df7113f09abfbedaeb0d04b3f1b93
+    ID: '68'
+    Name: Service level incident mgmt. and awareness implementation
+  Activity-decef9f641bccf042b614c057da6dc6c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Activity-decef9f641bccf042b614c057da6dc6c
+    ID: '69'
+    Name: Service level measurement metrics implementation
+  Activity-ea0768fae4121c4422563e270a23ba71:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:31
+    Config: {}
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Activity-ea0768fae4121c4422563e270a23ba71
+    ID: '70'
+    Name: Service level business relationship management implementation
+Process:
+  Activities:
+  - Activity-20aea56b7c73899fad0fca3f751785e6
+  - Activity-2e430c7482fbc6ea842b048ca8721966
+  - Activity-52b17726557c54423e10937ff49bb40e
+  - Activity-77023741ec8a0126a38146ee50735b76
+  - Activity-7d655a6496eaaaaa8823532f6b01e354
+  - Activity-80d5b656cbc215e42f7534422124560c
+  - Activity-a8d9a503d63d5c8cdf200843114daeb9
+  - Activity-b5390a5d17f168c8e29c9a8dfbc71247
+  - Activity-c62df7113f09abfbedaeb0d04b3f1b93
+  - Activity-decef9f641bccf042b614c057da6dc6c
+  - Activity-ea0768fae4121c4422563e270a23ba71
+  ChangeTime: 2017-10-31 22:38:31
+  Config:
+    Description: "Best practice IT Service Management Service Level Management process
+      inspired by ITIL®.\r\n\r\nThe service level management process turns customer
+      demands into agreed and contracted service products. It also ensures the ongoing
+      monitoring and reporting of service level agreements to make sure the quality
+      and quantity is aligned with the business demand.\r\n\r\nConfiguration: The
+      functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-20aea56b7c73899fad0fca3f751785e6:
+        Transition-1da5a51839597bc96c592e48bd9e2af2:
+          ActivityEntityID: Activity-80d5b656cbc215e42f7534422124560c
+      Activity-2e430c7482fbc6ea842b048ca8721966:
+        Transition-5e5dc88ae591639b67c661116705464a:
+          ActivityEntityID: Activity-77023741ec8a0126a38146ee50735b76
+      Activity-52b17726557c54423e10937ff49bb40e:
+        Transition-36948cae0da61b97d05259254c538c56:
+          ActivityEntityID: Activity-a8d9a503d63d5c8cdf200843114daeb9
+      Activity-77023741ec8a0126a38146ee50735b76:
+        Transition-590a5d4320a52d8ed5f32a4183c44f00:
+          ActivityEntityID: Activity-b5390a5d17f168c8e29c9a8dfbc71247
+      Activity-7d655a6496eaaaaa8823532f6b01e354:
+        Transition-45a6bd77906a4051e06e8287b767c00f:
+          ActivityEntityID: Activity-20aea56b7c73899fad0fca3f751785e6
+      Activity-80d5b656cbc215e42f7534422124560c:
+        Transition-0e934b8768a9f81be403747ce3e818cc:
+          ActivityEntityID: Activity-2e430c7482fbc6ea842b048ca8721966
+      Activity-a8d9a503d63d5c8cdf200843114daeb9:
+        Transition-7d443182b150ba0252a5c1abe9f893e5:
+          ActivityEntityID: Activity-ea0768fae4121c4422563e270a23ba71
+      Activity-b5390a5d17f168c8e29c9a8dfbc71247:
+        Transition-016991944db02b16ec321d71458f9da1:
+          ActivityEntityID: Activity-decef9f641bccf042b614c057da6dc6c
+      Activity-c62df7113f09abfbedaeb0d04b3f1b93: {}
+      Activity-decef9f641bccf042b614c057da6dc6c:
+        Transition-a98fe3dd597517028e1bd25064cf8f0c:
+          ActivityEntityID: Activity-52b17726557c54423e10937ff49bb40e
+      Activity-ea0768fae4121c4422563e270a23ba71:
+        Transition-fc66c2f85fea9b7dfd0fd9a412ecfc17:
+          ActivityEntityID: Activity-c62df7113f09abfbedaeb0d04b3f1b93
+    StartActivity: Activity-7d655a6496eaaaaa8823532f6b01e354
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:38:30
+  EntityID: Process-fd50f8deabe695ba84036d3ba4cb7a66
+  ID: '13'
+  Layout:
+    Activity-20aea56b7c73899fad0fca3f751785e6:
+      left: '600'
+      top: '150'
+    Activity-2e430c7482fbc6ea842b048ca8721966:
+      left: '1400'
+      top: '150'
+    Activity-52b17726557c54423e10937ff49bb40e:
+      left: '3000'
+      top: '150'
+    Activity-77023741ec8a0126a38146ee50735b76:
+      left: '1800'
+      top: '150'
+    Activity-7d655a6496eaaaaa8823532f6b01e354:
+      left: '200'
+      top: '150'
+    Activity-80d5b656cbc215e42f7534422124560c:
+      left: '1000'
+      top: '150'
+    Activity-a8d9a503d63d5c8cdf200843114daeb9:
+      left: '3400'
+      top: '150'
+    Activity-b5390a5d17f168c8e29c9a8dfbc71247:
+      left: '2200'
+      top: '150'
+    Activity-c62df7113f09abfbedaeb0d04b3f1b93:
+      left: '4200'
+      top: '150'
+    Activity-decef9f641bccf042b614c057da6dc6c:
+      left: '2600'
+      top: '150'
+    Activity-ea0768fae4121c4422563e270a23ba71:
+      left: '3800'
+      top: '150'
+  Name: Service Design::Service Level Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-1da5a51839597bc96c592e48bd9e2af2
+  - Transition-5e5dc88ae591639b67c661116705464a
+  - Transition-36948cae0da61b97d05259254c538c56
+  - Transition-590a5d4320a52d8ed5f32a4183c44f00
+  - Transition-45a6bd77906a4051e06e8287b767c00f
+  - Transition-0e934b8768a9f81be403747ce3e818cc
+  - Transition-7d443182b150ba0252a5c1abe9f893e5
+  - Transition-016991944db02b16ec321d71458f9da1
+  - Transition-a98fe3dd597517028e1bd25064cf8f0c
+  - Transition-fc66c2f85fea9b7dfd0fd9a412ecfc17
+Transitions:
+  Transition-016991944db02b16ec321d71458f9da1:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-016991944db02b16ec321d71458f9da1
+    ID: '58'
+    Name: Service level review and service improvement plan (SIP) implemented
+  Transition-0e934b8768a9f81be403747ce3e818cc:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-0e934b8768a9f81be403747ce3e818cc
+    ID: '59'
+    Name: Service level agreement negotiated and documented
+  Transition-1da5a51839597bc96c592e48bd9e2af2:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-1da5a51839597bc96c592e48bd9e2af2
+    ID: '60'
+    Name: Service level requirement identified and documented
+  Transition-36948cae0da61b97d05259254c538c56:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-36948cae0da61b97d05259254c538c56
+    ID: '61'
+    Name: Service level and underpinning agreement scope review implemented
+  Transition-45a6bd77906a4051e06e8287b767c00f:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-45a6bd77906a4051e06e8287b767c00f
+    ID: '62'
+    Name: Service level verified with SLA framework
+  Transition-590a5d4320a52d8ed5f32a4183c44f00:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-590a5d4320a52d8ed5f32a4183c44f00
+    ID: '63'
+    Name: Service level agreement reporting implemented
+  Transition-5e5dc88ae591639b67c661116705464a:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-5e5dc88ae591639b67c661116705464a
+    ID: '64'
+    Name: Service level monitoring and performance reporting implemented
+  Transition-7d443182b150ba0252a5c1abe9f893e5:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-7d443182b150ba0252a5c1abe9f893e5
+    ID: '65'
+    Name: Service level operational level agreement scope review implemented
+  Transition-a98fe3dd597517028e1bd25064cf8f0c:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-a98fe3dd597517028e1bd25064cf8f0c
+    ID: '66'
+    Name: Service level measurement metrics implemented
+  Transition-fc66c2f85fea9b7dfd0fd9a412ecfc17:
+    ChangeTime: 2017-10-31 22:38:31
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:31
+    EntityID: Transition-fc66c2f85fea9b7dfd0fd9a412ecfc17
+    ID: '67'
+    Name: Service level business relationship management implemented

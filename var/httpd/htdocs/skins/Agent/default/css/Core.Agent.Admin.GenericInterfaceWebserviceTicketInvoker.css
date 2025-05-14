@@ -1,0 +1,100 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  GenericInterface
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Additional headers
+ */
+
+.HeaderContainer .Item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    max-width: 70%;
+    position: relative;
+}
+
+.HeaderContainer .Item .OutboundHeaderKey,
+.HeaderContainer .Item .OutboundHeaderValue {
+    display: block;
+    width: 350px;
+}
+
+.HeaderContainer .Item .OutboundHeaderValue {
+    margin-top: 5px;
+}
+
+.HeaderContainer .Item .ValueRows > div {
+    position: relative;
+}
+
+.HeaderContainer .Item > .RemoveButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 0px;
+    top: 0px;
+    background: #eee;
+    line-height: 25px;
+    text-align: center;
+}
+
+.HeaderContainer .Item .ValueRows > div:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.HeaderContainer .Item .ValueRows > div .RemoveButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 350px;
+    right: auto;
+    margin-top: -12px;
+    top: 50%;
+    color: #ccc;
+    background: none;
+    line-height: 25px;
+    text-align: center;
+}
+
+.HeaderContainer .Item > .RemoveButton:hover {
+    background: #ddd;
+}
+
+.HeaderContainer .Item .ValueRows > div .RemoveButton:hover {
+    color: #fff;
+}
+
+/**
+ * @subsubsection     Outbound headers
+ */
+
+.CallForAction.AddValue {
+    padding: 4px 7px 4px;
+}
+
+.CallForAction.AddValue > span {
+    vertical-align: middle;
+}
+
+}/* end @media */

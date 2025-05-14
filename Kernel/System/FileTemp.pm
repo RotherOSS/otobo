@@ -19,7 +19,12 @@ package Kernel::System::FileTemp;
 use strict;
 use warnings;
 
-use File::Temp qw( tempfile tempdir );
+# core modules
+use File::Temp qw(tempdir tempfile);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

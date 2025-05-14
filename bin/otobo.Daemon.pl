@@ -17,26 +17,27 @@
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;    # activates the feature 'say', available since Perl 5.10
 use strict;
 use warnings;
 use utf8;
-use feature qw(say);
 
 use File::Basename qw(basename dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use File::Path qw();
+use File::Path  ();
 use Time::HiRes qw(sleep);
-use Fcntl qw(:flock);
+use Fcntl       qw(:flock);    ## no perlimports
+use File::Copy  qw(move);
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # Disable warnings for redefined subroutines by setting our own WARN signal handler.
 #   Forcing package reloads in the object manager when discarding objects triggers warnings like these:
@@ -253,6 +254,7 @@ sub Start {
     };
 
     # Linux::Inotify2 is not yet required. Therefore it might not be available.
+    # Note: it is not sure whether reloading the config has any effect when %DaemonModules is not updated.
     my $LinuxInotify2IsAvailable = eval {
         require Linux::Inotify2;
         Linux::Inotify2->import();
@@ -260,7 +262,7 @@ sub Start {
         return 1;
     };
 
-    # Watch the Config files for modifications and force a reload of the Config.
+    # Watch config files for modifications and force a reload of the config.
     if ($LinuxInotify2IsAvailable) {
 
         my $Inotify  = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
@@ -277,7 +279,7 @@ sub Start {
 
         for my $ConfigFile (
             "$Home/Kernel/Config.pm",
-            map {"$Home/Kernel/$_.pm"} qw(ZZZAuto ZZZAAuto ZZZACL ZZZProcessManagement)
+            map {"$Home/Kernel/$_.pm"} qw(ZZZAAuto ZZZACL ZZZProcessManagement)
             )
         {
             $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
@@ -448,7 +450,7 @@ sub Status {
         if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
 
             # if no exclusive lock, daemon might be running, send signal to the PID
-            my $RegisteredPID = do { local $/; <$FH> };
+            my $RegisteredPID = do { local $/; <$FH> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
             close $FH;
 
             if ($RegisteredPID) {
@@ -513,7 +515,7 @@ sub _PIDLock {
             return;
         }
 
-        my $RegisteredPID = do { local $/; <$FH> };
+        my $RegisteredPID = do { local $/; <$FH> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
         close $FH;
 
         if ($RegisteredPID) {
@@ -549,7 +551,7 @@ sub _PIDUnlock {
 
     # wait if PID is exclusively locked (and do a shared lock for reading)
     flock $FH, LOCK_SH;
-    my $RegisteredPID = do { local $/; <$FH> };
+    my $RegisteredPID = do { local $/; <$FH> };                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
     close $FH;
 
     unlink $PIDFile;
@@ -572,7 +574,6 @@ sub _LogFilesSet {
     # get log rotation type and backup old logs if logs should be rotated by OTOBO
     my $RotationType = lc $ConfigObject->Get('Daemon::Log::RotationType') || 'otobo';
     if ( $RotationType eq 'otobo' ) {
-        use File::Copy qw(move);
         if ( -e "$FileStdOut.log" ) {
             move( "$FileStdOut.log", "$FileStdOut-$SystemTime.log" );
         }
@@ -604,7 +605,7 @@ sub _LogFilesSet {
     for my $LogFile (@LogFiles) {
 
         # skip if is not a backup file
-        next LOGFILE if ( $LogFile !~ m{(?: .* /)* $Param{Module} (?: OUT|ERR ) - (\d+) \.log}igmx );
+        next LOGFILE unless $LogFile =~ m{(?: .* /)* $Param{Module} (?: OUT|ERR ) - (\d+) \.log}igmx;
 
         # do not delete files during keep period if they have content
         next LOGFILE if ( ( $1 > $DaysToKeepTime ) && -s $LogFile );

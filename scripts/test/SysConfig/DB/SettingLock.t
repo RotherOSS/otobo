@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
+
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -541,7 +544,7 @@ for my $Test (@Tests) {
                 Force  => 1,
             );
 
-            my $EffectiveValueStrg = << 'EOF';
+            my $EffectiveValueStrg = <<'EOF';
 # OTOBO config file (Unit Tests)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZAAuto;

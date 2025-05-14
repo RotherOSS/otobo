@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -70,7 +70,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminGenericAgent screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericAgent;IncludeInvalid=1");
 
         # Check if needed frontend module is registered in sysconfig.
         if ( !$ConfigObject->Get('Frontend::Module')->{AdminGenericAgent} ) {
@@ -181,7 +181,6 @@ $Selenium->RunTest(
 
         # check breadcrumb on Add job screen
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Generic Agent Job Management', 'Add Job' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),

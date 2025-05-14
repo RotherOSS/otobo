@@ -29,6 +29,15 @@
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include inactive processes") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include inactive processes") | html %]</label>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
                 <h2><label for="Filter">[% Translate("Filter for Processes") | html %]</label></h2>
             </div>
             <div class="Content">
@@ -69,7 +78,7 @@
                             <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntitiesImport" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <input type="checkbox" id="OverwriteExistingEntitiesImport" name="OverwriteExistingEntities" value="1" checked>
                                 <label for="OverwriteExistingEntitiesImport">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
                             <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Upload process configuration") | html %]">
@@ -99,7 +108,7 @@
                             <div id="ExampleProcessError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="ExampleProcessServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked>
                                 <label for="OverwriteExistingEntitiesExample">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
                             <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import Ready2Adopt process") | html %]">

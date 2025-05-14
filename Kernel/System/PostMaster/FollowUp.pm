@@ -34,8 +34,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
@@ -295,8 +294,8 @@ sub Run {
         );
     }
 
-    # set lock
-    if ( $GetParam{'X-OTOBO-FollowUp-Lock'} ) {
+    # set lock if ticket does not belong to root@localhost
+    if ( $GetParam{'X-OTOBO-FollowUp-Lock'} && $UserInfo{UserID} ne 1 ) {
 
         $TicketObject->TicketLockSet(
             Lock     => $GetParam{'X-OTOBO-FollowUp-Lock'},
@@ -544,6 +543,18 @@ sub Run {
         OrigHeader           => \%GetParam,
     );
     return if !$ArticleID;
+
+    for my $Flag (qw/Crypted CryptedOK Signed SignedOK/) {
+        if ( $GetParam{$Flag} ) {
+            my $Success = $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{TicketID},
+                ArticleID => $ArticleID,
+                Key       => $Flag,
+                Value     => $GetParam{$Flag},
+                UserID    => 1,
+            );
+        }
+    }
 
     $Self->{CommunicationLogObject}->ObjectLog(
         ObjectLogType => 'Message',

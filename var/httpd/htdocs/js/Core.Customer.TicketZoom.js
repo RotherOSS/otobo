@@ -190,7 +190,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * This function activates attachments, replybutton, info, and builds the article list.
      */
     function BuildArticles(){
-        $('#oooArticleListExpanded > li:not(#FollowUp)').each( function() {
+        $('#oooArticleListExpanded > li:not(.Activity):not(.EmptyMessage)').each( function() {
             var Article = $(this);
             var Header  = Article.children('.MessageHeader').first();
 
@@ -252,12 +252,17 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             ZoomExpand = $('#ZoomExpand').val(),
             $Form,
             FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
+            ActivityCount = $('#oooArticleListExpanded > .Activity').length;
+
 
         // otobo
         BuildArticles();
         $('#ReplyButton').on('click', function(Event){
             Event.preventDefault();
+
+            // hide all open activities
+            $('.Activity.Visible .CloseButton').trigger('click');
+
             $FollowUp.show();
             $FollowUp.addClass('Visible');
             Core.UI.InputFields.Activate();
@@ -266,65 +271,106 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             if ( $(window).width() < 768 ) {
                 $('#ReplyButton').hide();
             }
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
+
+            //set correct initial size after show()
+            let initialRTESize = window.getComputedStyle(document.querySelector(".RichTextHolder")).getPropertyValue("--RTE-init-size-large");
+            $RTE.parent().css("height", initialRTESize);
         });
-        $('#CloseButton').on('click', function(Event){
+
+        $('.ActivityStartButton').on('click', function(Event){
             Event.preventDefault();
-            $FollowUp.hide();
-            $FollowUp.removeClass('Visible');
+            var DialogEntityID = $(this).attr('id').replace( /^Button_/, '' ),
+                $DialogWidget  = $( '#Process_' + DialogEntityID );
+
+            // hide all open activities
+            $('.Activity.Visible .CloseButton').trigger('click');
+
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
-            $('#ReplyButton').show();
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
+
+            if ( Core.Config.Get('HideActivatedActivityDialogButton') == '1' ) {
+                // show all process dialog buttons
+                $('.ActivityStartButton').show();
+
+                // hide button which was clicked
+                $(this).hide();
+            }
+        });
+
+        $('.CloseButton').on('click', function(Event){
+            Event.preventDefault();
+            var ParentWidget = $(this).closest('li');
+            ParentWidget.hide();
+            ParentWidget.removeClass('Visible');
+            $('html').css({scrollTop: $('#Body').height()});
+            if ( ParentWidget.attr('id') === 'FollowUp' ) {
+                $('#ReplyButton').show();
+            }
+
+            if ( Core.Config.Get('HideActivatedActivityDialogButton') == '1' ) {
+
+                // show all process dialog buttons
+                $('.ActivityStartButton').show();
+            }
         });
 
         // scroll events
-        $(window).scroll( function() {
-            // change Header on scroll
-            if ( $(window).width() > 767 ) {
-                if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
-                    $("#oooHeader").height( '56px' );
-                    $("#oooHeader").css( 'padding-top', '8px' );
-                    $("#oooHeader .oooCategory").fadeOut(200);
-                }
-                else if ( $(window).scrollTop() < 8 ) {
-                    $("#oooHeader").height( '123px' );
-                    $("#oooHeader").css( 'padding-top', '22px' );
-                    $("#oooHeader .oooCategory").fadeIn(200);
-                }
-            }
-
-            // track active article
-            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 2,
-                StartIndex  = ActiveIndex,
-                ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
-
-            if ( ActiveChild.length ) {
-                $('#oooArticleList > .oooActive').removeClass('oooActive');
-
-                // scroll down
-                if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
-                    var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
-                    while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
-                        ActiveChild = NextChild;
-                        ActiveIndex++;
-                        NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+        if ( $('#oooArticleList > li').length ) {
+            $(window).scroll( function() {
+                // change Header on scroll
+                if ( $(window).width() > 767 ) {
+                    if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
+                        $("#oooHeader").height( '56px' );
+                        $("#oooHeader").css( 'padding-top', '8px' );
+                        $("#oooHeader .oooCategory").fadeOut(200);
+                    }
+                    else if ( $(window).scrollTop() < 8 ) {
+                        $("#oooHeader").height( '123px' );
+                        $("#oooHeader").css( 'padding-top', '22px' );
+                        $("#oooHeader .oooCategory").fadeIn(200);
                     }
                 }
-                // scroll up
-                else {
+
+                // track active article
+                var ActiveIndex = $('#oooArticleList > .oooActive').index() + 1 + ActivityCount,
+                    StartIndex  = ActiveIndex,
+                    ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
+
+                if ( ActiveChild.length ) {
                     $('#oooArticleList > .oooActive').removeClass('oooActive');
-                    var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
-                    while ( ActiveIndex > 2 && ActiveChild.offset().top > $(window).scrollTop() + 240) {
-                        ActiveChild = PrevChild;
-                        ActiveIndex--;
-                        PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+
+                    // scroll down
+                    if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
+                        var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                        while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
+                            ActiveChild = NextChild;
+                            ActiveIndex++;
+                            NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                        }
+                    }
+                    // scroll up
+                    else {
+                        $('#oooArticleList > .oooActive').removeClass('oooActive');
+                        var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                        while ( ActiveIndex > 1 + ActivityCount && ActiveChild.offset().top > $(window).scrollTop() + 240) {
+                            ActiveChild = PrevChild;
+                            ActiveIndex--;
+                            PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                        }
+                    }
+                    $('#oooArticleList > li:nth-child(' + ( ActiveIndex - ActivityCount ) +')').addClass('oooActive');
+                    if ( ActiveIndex !== StartIndex ) {
+                        $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
                     }
                 }
-
-                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - 1 ) +')').addClass('oooActive');
-                if ( ActiveIndex !== StartIndex ) {
-                    $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
-                }
-            }
-        });
+            });
+        }
 
         // TODO: connect to scrollevent
         $('#oooArticleListExpanded .MessageBody').each( function() {
@@ -358,15 +404,17 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Event.preventDefault();
         });*/
         /* Set statuses saved in the hidden fields for all visible messages if ZoomExpand is present */
-        if (!ZoomExpand || isNaN(ZoomExpand)) {
-            $('#Messages > li').attr('data-articlestate', "true");
-            ResizeIframe($VisibleIframe);
-        }
-        else {
-            /* Set statuses saved in the hidden fields for all messages */
-            $('#Messages > li:not(:last)').attr('data-articlestate', "untouched");
-            $('#Messages > li:last').attr('data-articlestate', "true");
-            ResizeIframe($VisibleIframe.get(0));
+        if ( $VisibleIframe.length ) {
+            if (!ZoomExpand || isNaN(ZoomExpand)) {
+                $('#Messages > li').attr('data-articlestate', "true");
+                ResizeIframe($VisibleIframe);
+            }
+            else {
+                /* Set statuses saved in the hidden fields for all messages */
+                $('#Messages > li:not(:last)').attr('data-articlestate', "untouched");
+                $('#Messages > li:last').attr('data-articlestate', "true");
+                ResizeIframe($VisibleIframe.get(0));
+            }
         }
 
         // init browser link message close button
@@ -391,36 +439,30 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             });
         }
 
-        // Bind event to State field.
-        $('#StateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', ['PriorityID', 'TicketID'].concat(DynamicFieldNames));
-        });
+        /*
+         * If on document load there are Error classes present, there were validation errors on server side.
+         * Open the respective activity dialogs..
+         */
+        var $ServerErrors = $('input.ServerError, textarea.ServerError, select.ServerError');
 
-        // Bind event to Priority field.
-        $('#PriorityID').on('change', function () {
-            Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TicketID'].concat(DynamicFieldNames));
-        });
-
-        // Bind event to AttachmentUpload button.
-        $('#Attachment').on('change', function () {
-            var $Form = $('#Attachment').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
-        // Bind event to AttachmentDelete button.
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
-        });
+        if ($ServerErrors.length) {
+            var $DialogWidget = $ServerErrors.first().closest('li.Activity');
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
+        }
 
         $('a.AsPopup').on('click', function () {
             Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
             return false;
         });
+
+        /*
+         * Set neccessary CSS values for TicketInfo
+         */
+        if ( $('#oooArticleList').children().length == 0 ) {
+            $('#oooTicketInfo.oooTicketInfoPermanent').css('margin-top', '0px').css('top', 'revert').css('max-height', 'revert');
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -247,7 +247,10 @@ sub CustomerPreferencesForm {
             ConfigItem => $Preferences{$Group},
             Debug      => $Self->{Debug},
         );
-        my @Params = $Object->Param( UserData => $Param{UserData} );
+        my @Params = $Object->Param(
+            UserData => $Param{UserData},
+            Customer => 1
+        );
         next PRIO if !@Params;
 
         # show item

@@ -19,12 +19,15 @@ package Kernel::Modules::AgentSplitSelection;
 use strict;
 use warnings;
 
-use Mail::Address;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
-
-use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,7 +215,7 @@ sub Run {
                 ID          => 'ProcessEntityID',
                 Class       => 'Modernize',
                 Sort        => 'AlphanumericValue',
-                Translation => 0,
+                Translation => 1,
             );
         }
     }

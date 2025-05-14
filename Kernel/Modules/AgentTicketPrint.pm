@@ -19,9 +19,13 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -75,7 +79,7 @@ sub Run {
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # Check if ACL restrictions exist.
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
 
         my %AclActionLookup = reverse %AclAction;
 
@@ -101,6 +105,11 @@ sub Run {
     $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
     $Filename .= '.pdf';
 
+    my $CleanedFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Filename,
+        Type     => 'Attachment',
+    );
+
     # Return the PDF document.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $PDFString   = $Kernel::OM->Get('Kernel::Output::PDF::Ticket')->GeneratePDF(
@@ -112,7 +121,7 @@ sub Run {
     );
 
     return $LayoutObject->Attachment(
-        Filename    => $Filename,
+        Filename    => $CleanedFilename,
         ContentType => "application/pdf",
         Content     => $PDFString,
         Type        => 'inline',

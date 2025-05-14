@@ -57,6 +57,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
+    # Print a cpanfile with the required modules for Kernel/cpan-lib
+    # This file is only used for sporadic updates
+    bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile
+
 =head1 DESCRIPTION
 
 This scripts can be used for checking whether required Perl modules are installed.
@@ -70,22 +74,23 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use Getopt::Long qw(GetOptions);
-use Term::ANSIColor qw(color);
-use Pod::Usage qw(pod2usage);
+use Getopt::Long                   qw(GetOptions);
+use Term::ANSIColor                qw(color);
+use Pod::Usage                     qw(pod2usage);
 use Module::Metadata 1.000031      ();
 use CPAN::Meta::Requirements 2.140 ();
+use Term::ReadLine;    # avoids error when checking for Term::ReadLine::Gnu
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Environment ();
+use Kernel::System::Environment   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
@@ -162,40 +167,42 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
-    'apache:mod_perl'  => 1,
-    'db:mysql'         => 1,
-    'div:bcrypt'       => 1,
-    'div:hanextra'     => 1,
-    'div:ldap'         => 1,
-    'div:xmlparser'    => 1,
-    'div:xslt'         => 1,
-    'mail'             => 1,
-    'mail:imap'        => 1,
-    'mail:ntlm'        => 1,
-    'mail:sasl'        => 1,
-    'performance:csv'  => 1,
-    'performance:json' => 1,
+    'apache:mod_perl' => 1,
+    'db:mysql'        => 1,
+    'div:bcrypt'      => 1,
+    'div:hanextra'    => 1,
+    'div:ldap'        => 1,
+    'div:xmlparser'   => 1,
+    'div:xslt'        => 1,
+    'mail'            => 1,
+    'mail:imap'       => 1,
+    'mail:ntlm'       => 1,
+    'mail:sasl'       => 1,
 );
 
 # defines a set of features considered standard for docker environments
 my %IsDockerFeature = (
-    'db:mysql'          => 1,
-    'db:odbc'           => 1,
-    'db:postgresql'     => 1,
-    'db:sqlite'         => 1,
-    'devel:encoding'    => 1,
-    'devel:test'        => 1,
-    'div:bcrypt'        => 1,
-    'div:ldap'          => 1,
-    'div:readonly'      => 1,
-    'div:xslt'          => 1,
-    'mail:imap'         => 1,
-    'mail:ntlm'         => 1,
-    'mail:sasl'         => 1,
-    'performance:csv'   => 1,
-    'performance:json'  => 1,
-    'performance:redis' => 1,
-    'plack'             => 1,
+    'db:mysql'           => 1,
+    'db:odbc'            => 1,
+    'db:postgresql'      => 1,
+    'db:sqlite'          => 1,
+    'devel:debugging'    => 1,
+    'devel:encoding'     => 1,
+    'devel:test'         => 1,
+    'devel:i18n'         => 1,
+    'div:bcrypt'         => 1,
+    'div:cldr'           => 1,
+    'div:qrcode'         => 1,
+    'div:ldap'           => 1,
+    'div:xslt'           => 1,
+    'gazelle'            => 1,
+    'graph:graphviz'     => 1,
+    'mail:imap'          => 1,
+    'mail:ntlm'          => 1,
+    'mail:sasl'          => 1,
+    'performance:redis'  => 1,
+    'storage:s3'         => 1,
+    'auth:openidconnect' => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -208,14 +215,15 @@ my %FeatureDescription = (
     'db:oracle'         => 'Support for database Oracle',
     'db:postgresql'     => 'Support for database PostgreSQL',
     'db:sqlite'         => 'Support for database SQLLite',
+    'devel:debugging'   => 'Features which can be useful in development environments',
     'devel:encoding'    => 'Modules for debugging encoding issues',
     'devel:test'        => 'Modules for running the test suite',
+    'devel:i18n'        => 'Modules for dealing with translation and internationalisation',
     'div'               => 'Various features for additional functionality',
+    'gazelle'           => 'Required packages if you want to use Gazelle webserver',
     'mail'              => 'Features enabling communication with a mail-server',
-    'performance:json'  => 'Fast JSON handling',
-    'performance:csv '  => 'Tast CSV handline',
     'performance:redis' => 'Modules for running with Redis Cache Server',
-    'plack'             => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
+    'storage:s3'        => 'AWS S3 compatible storage',
     'zzznone'           => 'Uncategorized',
 );
 
@@ -235,19 +243,21 @@ my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
+my $DoPrintBundledCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'          => \$DoPrintHelp,
-    'inst'            => \$DoPrintInstCommand,
-    'list'            => \$DoPrintPackageList,
-    'all'             => \$DoPrintAllModules,
-    'features'        => \$DoPrintFeatures,
-    'finst=s{1,}'     => \@FeatureInstList,
-    'flist=s{1,}'     => \@FeatureList,
-    'cpanfile'        => \$DoPrintCpanfile,
-    'docker-cpanfile' => \$DoPrintDockerCpanfile,
+    'help|h'           => \$DoPrintHelp,
+    'inst'             => \$DoPrintInstCommand,
+    'list'             => \$DoPrintPackageList,
+    'all'              => \$DoPrintAllModules,
+    'features'         => \$DoPrintFeatures,
+    'finst=s{1,}'      => \@FeatureInstList,
+    'flist=s{1,}'      => \@FeatureList,
+    'cpanfile'         => \$DoPrintCpanfile,
+    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
+    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -263,6 +273,7 @@ elsif (
     && !$DoPrintFeatures
     && !$DoPrintCpanfile
     && !$DoPrintDockerCpanfile
+    && !$DoPrintBundledCpanfile
     )
 {
     $DoPrintHelp = 1;
@@ -278,7 +289,7 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -325,6 +336,40 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Const::Fast',
+        Required  => 1,
+        Comment   => 'Support for readonly Perl variables',
+        InstTypes => {
+            aptget => 'libconst-fast-perl',
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
+        },
+    },
+    {
+        Module    => 'Capture::Tiny',
+        Required  => 1,
+        Comment   => 'Neater interface for capturing STDOUT and STDERR.',
+        InstTypes => {
+            aptget => 'libcapture-tiny-perl',
+            emerge => 'dev-perl/Capture-Tiny',
+            zypper => 'perl-Capture-Tiny',
+            ports  => 'devel/p5-Capture-Tiny',
+        },
+    },
+    {
+        Module    => 'JSON::XS',
+        Required  => 1,
+        Comment   => 'JSON parsing and generation',
+        InstTypes => {
+            aptget => 'libjson-xs-perl',
+            emerge => 'dev-perl/JSON-XS',
+            yum    => 'perl-JSON-XS',
+            zypper => 'perl-JSON-XS',
+            ports  => 'converters/p5-JSON-XS',
+        },
+    },
+    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
@@ -364,6 +409,18 @@ my @NeededModules = (
         ],
     },
     {
+        Module          => 'CSS::Minifier::XS',
+        Required        => 1,
+        VersionRequired => '>= 0.09',                        # released in 2013
+        Comment         => 'A CSS minifier written in XS',
+        InstTypes       => {
+            aptget => 'libcss-minifier-xs-perl',
+            emerge => 'dev-perl/CSS-Minifier-XS',
+            zypper => 'perl-CSS-Minifier-XS',
+            ports  => 'textproc/p5-CSS-Minifier-XS',
+        },
+    },
+    {
         Module    => 'Convert::BinHex',
         Required  => 1,
         InstTypes => {
@@ -384,6 +441,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'DBIx::Connector',
+        Required  => 1,
+        Comment   => 'Sane persistent database connection',
+        InstTypes => {
+            aptget => 'libdbix-connector-perl',
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Digest::SHA',
         Required  => 1,
         InstTypes => {
@@ -391,6 +459,29 @@ my @NeededModules = (
             emerge => 'dev-perl/Digest-SHA',
             zypper => 'perl-Digest-SHA',
             ports  => 'security/p5-Digest-SHA'
+        },
+    },
+    {
+        Module    => 'File::chmod',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libfile-chmod-perl',
+            emerge => 'dev-perl/File-chmod',
+            zypper => 'perl-File-chmod',
+            ports  => 'devel/p5-File-chmod',
+        },
+    },
+    {
+        Module          => 'HTTP::Message',
+        Required        => 1,
+        VersionRequired => '>= 6.18',
+        Comment         => 'HTTP style message',
+        InstTypes       => {
+            aptget => 'libhttp-message-perl',
+            emerge => 'dev-perl/HTTP-Message',
+            zypper => 'perl-HTTP-Message',
+            yum    => 'perl-HTTP-Message',
+            ports  => undef,
         },
     },
     {
@@ -408,6 +499,42 @@ my @NeededModules = (
             emerge => 'dev-perl/IO-Socket-SSL',
             zypper => 'perl-IO-Socket-SSL',
             ports  => 'security/p5-IO-Socket-SSL',
+        },
+    },
+    {
+        Module    => 'JavaScript::Minifier::XS',
+        Required  => 1,
+        Comment   => 'A JavaScript minifier written in XS',
+        InstTypes => {
+            aptget => 'libjavascript-minifier-xs-perl',
+            emerge => 'dev-perl/JavaScript-Minifier-XS',
+            zypper => 'perl-JavaScript-Minifier-XS',
+            ports  => 'textproc/p5-JavaScript-Minifier-XS',
+        },
+    },
+    {
+
+        # List::Util is a core module and has a double life
+        # in the Scalar::List::Utils distribution.
+        Module          => 'List::Util',
+        Required        => 1,
+        VersionRequired => '>= 1.45',
+        InstTypes       => {
+            aptget => 'libscalar-list-utils-perl',
+            emerge => 'perl-core/Scalar-List-Utils',
+            zypper => 'perl-Scalar-List-Utils',
+            ports  => 'devel/p5-Scalar-List-Utils',
+        },
+    },
+    {
+        Module          => 'List::AllUtils',
+        Required        => 1,
+        VersionRequired => '>= 0.11',
+        InstTypes       => {
+            aptget => 'liblist-allutils-perl',
+            emerge => 'dev-perl/Scalar-List-Utils',
+            zypper => 'perl-List-AllUtils',
+            ports  => 'devel/p5-List-AllUtils',
         },
     },
     {
@@ -445,11 +572,8 @@ my @NeededModules = (
     {
         Module          => 'Net::DNS',
         Required        => 1,
-        VersionRequired => '!= 0.60',
-        VersionComments => [
-            qq{Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.},
-        ],
-        InstTypes => {
+        VersionRequired => '>= 1.05',
+        InstTypes       => {
             aptget => 'libnet-dns-perl',
             emerge => 'dev-perl/Net-DNS',
             zypper => 'perl-Net-DNS',
@@ -465,6 +589,29 @@ my @NeededModules = (
             emerge => 'dev-perl/Net-SMTP-SSL',
             zypper => 'perl-Net-SMTP-SSL',
             ports  => 'devel/p5-Net-SMTP-SSL',
+        },
+    },
+    {
+        Module    => 'Path::Class',
+        Comment   => 'Neater path manipulation and some utils',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libpath-class-perl',
+            emerge => 'dev-perl/Path-Class',
+            zypper => 'perl-Path-Class',
+            ports  => 'devel/p5-Path-Class',
+        },
+    },
+    {
+        Module    => 'Plack',
+        Required  => 1,
+        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
+        InstTypes => {
+            aptget => 'libplack-perl',
+            emerge => 'dev-perl/Plack',
+            zypper => 'perl-Plack',
+            yum    => 'perl-Plack',
+            ports  => undef,
         },
     },
     {
@@ -500,6 +647,39 @@ my @NeededModules = (
             emerge => 'dev-perl/Template-Toolkit',
             zypper => 'perl-Template-Toolkit',
             ports  => 'www/p5-Template-Toolkit',
+        },
+    },
+    {
+        Module          => 'Text::CSV',
+        Required        => 1,
+        VersionRequired => '>= 1.95',     # released 2017-04-27
+        InstTypes       => {
+            aptget => 'libtext-csv-perl',
+            emerge => 'dev-perl/Text-CSV',
+            zypper => 'perl-Text-CSV',
+            ports  => 'textproc/p5-Text-CSV',
+        },
+    },
+    {
+        Module          => 'Text::CSV_XS',
+        Required        => 1,
+        VersionRequired => '>= 1.34',                                    # released 2017-11-05
+        Comment         => 'A fast backend that is used by Text::CSV',
+        InstTypes       => {
+            aptget => 'libtext-csv-xs-perl',
+            emerge => 'dev-perl/Text-CSV_XS',
+            zypper => 'perl-Text-CSV_XS',
+            ports  => 'textproc/p5-Text-CSV_XS',
+        },
+    },
+    {
+        Module    => 'Text::Trim',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtext-trim-perl',
+            emerge => 'dev-perl/Text-Trim',
+            zypper => 'perl-Text-Trim',
+            ports  => 'devel/p5-Text-Trim',
         },
     },
     {
@@ -545,10 +725,11 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'YAML::XS',
-        Required  => 1,
-        Comment   => 'Required for fast YAML processing.',
-        InstTypes => {
+        Module          => 'YAML::XS',
+        Required        => 1,
+        VersionRequired => '>= 0.62',
+        Comment         => 'Required for fast and correct YAML processing.',
+        InstTypes       => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
             zypper => 'perl-YAML-LibYAML',
@@ -565,6 +746,45 @@ my @NeededModules = (
             # This is a core Perl module which should be available on most distributions.
             # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
             yum => 'perl-Unicode-Collate',
+        },
+    },
+
+    # Feature storage:s3
+    {
+        Module          => 'Mojolicious',
+        VersionRequired => '>= 9.22',
+        Features        => ['storage:s3'],
+        Comment         => 'support for the REST requests to the S3 storage',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Cpanel::JSON::XS',
+        Features  => ['storage:s3'],
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Mojolicious::Plugin::AWS',
+        Features  => ['storage:s3'],
+        Comment   => 'support for S3 using Mojo::UserAgent',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
 
@@ -647,28 +867,6 @@ my @NeededModules = (
             ports  => 'www/mod_perl2',
         },
     },
-    {
-        Module    => 'Apache::DBI',
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
-        InstTypes => {
-            aptget => 'libapache-dbi-perl',
-            emerge => 'dev-perl/Apache-DBI',
-            zypper => 'perl-Apache-DBI',
-            ports  => 'www/p5-Apache-DBI',
-        },
-    },
-    {
-        Module    => 'Apache2::Reload',
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Avoids web server restarts on mod_perl.',
-        InstTypes => {
-            aptget => 'libapache2-reload-perl',
-            emerge => 'dev-perl/Apache-Reload',
-            zypper => 'apache2-mod_perl',
-            ports  => 'www/mod_perl2',
-        },
-    },
 
     # Feature mail
     {
@@ -723,28 +921,6 @@ my @NeededModules = (
 
     # Feature performance
     {
-        Module    => 'JSON::XS',
-        Features  => ['performance:json'],
-        Comment   => 'Recommended for faster AJAX/JavaScript handling.',
-        InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
-        },
-    },
-    {
-        Module    => 'Text::CSV_XS',
-        Comment   => 'Recommended for faster CSV handling.',
-        Features  => ['performance:csv'],
-        InstTypes => {
-            aptget => 'libtext-csv-xs-perl',
-            emerge => 'dev-perl/Text-CSV_XS',
-            zypper => 'perl-Text-CSV_XS',
-            ports  => 'textproc/p5-Text-CSV_XS',
-        },
-    },
-    {
         Module    => 'Redis',
         Comment   => 'For usage with Redis Cache Server.',
         Features  => ['performance:redis'],
@@ -769,43 +945,10 @@ my @NeededModules = (
         },
     },
 
-    # Feature plack
-    {
-        Module    => 'CGI::Emulate::PSGI',
-        Features  => ['plack'],
-        Comment   => 'Support old fashioned CGI in a PSGI application',
-        InstTypes => {
-            aptget => 'libcgi-emulate-psgi-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'CGI::PSGI',
-        Features  => ['plack'],
-        Comment   => 'Adapt CGI.pm to the PSGI protocol',
-        InstTypes => {
-            aptget => 'libcgi-psgi-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'DBIx::Connector',
-        Features  => ['plack'],
-        Comment   => 'Sane persistent database connection',
-        InstTypes => {
-            aptget => 'libdbix-connector-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
+    # Feature gazelle
     {
         Module    => 'Gazelle',
-        Features  => ['plack'],
+        Features  => ['gazelle'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
             aptget => undef,    # not in any Debian package
@@ -816,7 +959,7 @@ my @NeededModules = (
     },
     {
         Module    => 'Linux::Inotify2',
-        Features  => ['plack'],
+        Features  => ['gazelle'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => 'liblinux-inotify2-perl',
@@ -825,53 +968,23 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module    => 'Path::Class',
-        Features  => ['plack'],
-        Comment   => 'Neater path manipulation and some utils',
-        InstTypes => {
-            aptget => 'libpath-class-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Plack',
-        Features  => ['plack'],
-        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Plack::App::File',
-        Features  => ['plack'],
-        Comment   => 'Serve static files',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Plack::Middleware::ForceEnv',
-        Features  => ['plack'],
-        Comment   => 'Set environment variables',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
+
+    # Deflater not used yet, see https://github.com/RotherOSS/otobo/issues/1053
+    #{
+    #    Module    => 'Plack::Middleware::Deflater',
+    #    Required  => 1,
+    #    Features  => ['plack'],
+    #    Comment   => 'Compress generated and static content',
+    #    InstTypes => {
+    #        aptget => undef,
+    #        emerge => undef,
+    #        zypper => undef,
+    #        ports  => undef,
+    #    },
+    #},
     {
         Module    => 'Plack::Middleware::Header',
-        Features  => ['plack'],
+        Required  => 1,
         Comment   => 'Set HTTP headers',
         InstTypes => {
             aptget => 'libplack-middleware-header-perl',
@@ -881,19 +994,8 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Plack::Middleware::Refresh',
-        Features  => ['plack'],
-        Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'Plack::Middleware::ReverseProxy',
-        Features  => ['plack'],
+        Required  => 1,
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
             aptget => 'libplack-middleware-reverseproxy-perl',
@@ -902,13 +1004,28 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
 
-        Module    => 'SOAP::Transport::HTTP::Plack',
-        Features  => ['plack'],
-        Comment   => 'PSGI SOAP adapter',
+    # Feature graph
+    {
+        Module          => 'GraphViz2',
+        Features        => ['graph:graphviz'],
+        VersionRequired => '>= 2.67',                          # released 2022-07-21
+        Comment         => q{A wrapper for AT&T's Graphviz},
+        InstTypes       => {
+            aptget => undef,                                   # available only in Debian testing
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+
+    # Feature auth
+    {
+        Module    => 'Crypt::JWT',
+        Features  => ['auth:openidconnect'],
+        Comment   => 'Required for authentication via OpenIDConnect.',
         InstTypes => {
-            aptget => undef,    # not in any Debian package
+            aptget => undef,
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -951,6 +1068,19 @@ my @NeededModules = (
         },
     },
     {
+        Module                => 'Locale::CLDR',
+        Features              => ['div:cldr'],
+        VersionRequired       => '== 0.44.1',
+        DockerVersionRequired => '== 0.46.0',
+        Comment               => 'localisation from the CLDR project',
+        InstTypes             => {
+            aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'XML::LibXSLT',
         Features  => ['div:xslt'],
         Comment   => 'Required for Generic Interface XSLT mapping module.',
@@ -961,37 +1091,63 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'XML::Parser',
-        Features  => ['div:xmlparser'],
-        Comment   => 'Recommended for XML processing.',
+        Module    => 'Text::QRCode',
+        Features  => ['div:qrcode'],
+        Comment   => 'Support for QR code in PDF files',
         InstTypes => {
-            aptget => 'libxml-parser-perl',
-            emerge => 'dev-perl/XML-Parser',
-            zypper => 'perl-XML-Parser',
-            ports  => 'textproc/p5-XML-Parser',
+            aptget => 'libtext-qrcode-perl',
+        },
+    },
+
+    # Feature devel:debugging
+    {
+        Module          => 'Data::Dump',
+        VersionRequired => '>= 1.25',
+        Features        => ['devel:debugging'],
+        Comment         => 'nicer formatting when dumping data structures',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {
-        Module    => 'Const::Fast',
-        Features  => ['div:readonly'],
-        Comment   => 'Support for readonly Perl variables',
-        InstTypes => {
-            aptget => 'libconst-fast-perl',
+        Module          => 'Data::Dx',
+        VersionRequired => '>= 0.000010',
+        Features        => ['devel:debugging'],
+        Comment         => 'convenient and informative dumping data structures',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        # The module Term::ReadLine::Gnu requires that Term::ReadLine is already loaded
+        # before it is loaded. That is why Term::ReadLine is loaded on top of this script.
+        Module          => 'Term::ReadLine::Gnu',
+        VersionRequired => '>= 1.35',                                                     # released in 2016
+        Features        => ['devel:debugging'],
+        Comment         => 'command history in Perl debugger and in Dev::Tools::Shell',
+        InstTypes       => {
+            aptget => undef,
             emerge => undef,
             zypper => undef,
             ports  => undef,
         },
     },
 
-    # Feature devel
+    # Feature devel:encoding
     {
-        Module          => 'Selenium::Remote::Driver',
-        VersionRequired => '>= 1.40',
-        Features        => ['devel:test'],
-        Comment         => 'used by Kernel::System::UnitTest::Selenium',
-        InstTypes       => {
-            aptget => undef,    # not in any Debian package
+        Module    => 'Data::Peek',
+        Features  => [ 'devel:encoding', 'devel:test' ],
+        Comment   => 'for deeply inspecting scalars, especially strings',
+        InstTypes => {
+            aptget => 'libdata-peek-perl',
             emerge => undef,
+            yum    => 'perl-Data-Peek',
             zypper => undef,
             ports  => undef,
         },
@@ -1001,6 +1157,20 @@ my @NeededModules = (
         Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
+            aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+
+    # Feature devel:test
+    {
+        Module          => 'Selenium::Remote::Driver',
+        VersionRequired => '>= 1.49',
+        Features        => ['devel:test'],
+        Comment         => 'used by Kernel::System::UnitTest::Selenium',
+        InstTypes       => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
@@ -1051,7 +1221,49 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+    {
+        Module    => 'Unicode::GCString',
+        Features  => ['devel:test'],
+        Comment   => 'support for formatting test results',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Locale::PO',
+        Features  => ['devel:i18n'],
+        Comment   => 'module for manipulating .po entries',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
 );
+
+# Add CLDR language packs. It is not decided yet whether all 50 languages are added.
+# So let's first go for the languages that have a translation quote of more than 80%.
+# See https://translate.otobo.org/projects/otobo10/otobo/.
+for my $Code (qw(Ar De Es Fr Hu Ko Nb Pt Ru Sr Zh)) {
+    push @NeededModules,
+        {
+            Module                => "Locale::CLDR::Locales::$Code",
+            Features              => ['div:cldr'],
+            VersionRequired       => '== 0.44.1',
+            DockerVersionRequired => '== 0.46.0',
+            Comment               => 'language packs from the CLDR project',
+            InstTypes             => {
+                aptget => undef,    # not in any Debian package
+                emerge => undef,
+                zypper => undef,
+                ports  => undef,
+            },
+        };
+}
 
 # Sanity check.
 for my $Module (@NeededModules) {
@@ -1098,6 +1310,21 @@ elsif ($DoPrintDockerCpanfile) {
 END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 1 );
+}
+elsif ($DoPrintBundledCpanfile) {
+    say <<'END_HEADER';
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+END_HEADER
+
+    my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+    PrintCpanfile( \@BundledModules, 1, 0, 0 );
 }
 elsif ($DoPrintInstCommand) {
 
@@ -1168,7 +1395,8 @@ else {
     if ($DoPrintAllModules) {
         MODULE:
         for my $Module (@NeededModules) {
-            next MODULE if !$Module->{Features};
+            next MODULE unless $Module->{Features};
+
             for my $Feature ( @{ $Module->{Features} } ) {
                 $Features{$Feature}++;
             }
@@ -1249,7 +1477,7 @@ else {
 sub Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
-    print "  " x ( $Depends + 1 );
+    print '  ' x ( $Depends + 1 );
     print "o $Module->{Module}";
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;
@@ -1259,18 +1487,10 @@ sub Check {
 
     if ( defined $Metadata ) {
 
-        my $ErrorMessage;
+        my $ErrorMessage = '';
+        if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
-        # Test if all module dependencies are installed by requiring the module.
-        #   Don't do this for Net::DNS as it seems to take very long (>20s) in a
-        #   mod_perl environment sometimes.
-        my %DontRequire = (
-            'Net::DNS'        => 1,
-            'Email::Valid'    => 1,    # uses Net::DNS internally
-            'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
-        );
-
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            # Note that this message might not give the actual reason why the module can't be loaded
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
@@ -1296,17 +1516,23 @@ sub Check {
             }
         }
 
-        if ( $Module->{VersionRequired} ) {
+        # There might be a version requirement
+        my $VersionRequired = $ENV{OTOBO_RUNS_UNDER_DOCKER}
+            ?
+            ( $Module->{DockerVersionRequired} // $Module->{VersionRequired} )
+            :
+            $Module->{VersionRequired};
+        if ($VersionRequired) {
 
             # Check the required version range.
             # The version range is given in META.json, or cpanfile, style.
             # E.g. '4.0, != 4.043, < 5.000'
             my $Requirements = CPAN::Meta::Requirements->new;
-            $Requirements->add_string_requirement( $Module->{Module} => $Module->{VersionRequired} );
+            $Requirements->add_string_requirement( $Module->{Module} => $VersionRequired );
             my $IsAccepted = $Requirements->accepts_module( $Module->{Module} => $Version );
 
             if ( !$IsAccepted ) {
-                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
+                $ErrorMessage .= "Version $Version installed but $VersionRequired is required! ";
                 if ( $Module->{VersionComments} ) {
                     $ErrorMessage .= join "\n", '', $Module->{VersionComments}->@*;
                 }

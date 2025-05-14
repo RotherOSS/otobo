@@ -35,13 +35,14 @@ use Kernel::System::VariableCheck qw(:all);
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
 
-    my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields();
+    my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields(
+        ObjectType => [ 'Ticket', 'Article' ],
+    );
     $Self->{DynamicFields} = $DynamicFields;
 
     my $ValidDynamicFieldScreenList = $ZnunyHelperObject->_ValidDynamicFieldScreenListGet(
@@ -58,26 +59,19 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get objects
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LanguageObject     = $Kernel::OM->Get('Kernel::Language');
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+    my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LanguageObject    = $Kernel::OM->Get('Kernel::Language');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
-
-    my %DynamicFields         = %{ $Self->{DynamicFields} };
-    my %DynamicFieldScreens   = %{ $Self->{DynamicFieldScreens} };
-    my %DefaultColumnsScreens = %{ $Self->{DefaultColumnsScreens} };
 
     # check needed stuff
     NEEDED:
     for my $Needed (qw(Element Type)) {
-
         $Param{$Needed} = $ParamObject->GetParam( Param => $Needed );
+
         next NEEDED if $Param{$Needed};
     }
 
@@ -87,7 +81,6 @@ sub Run {
     # Edit
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Edit' ) {
-
         return $Self->_ShowEdit(
             %Param,
             Data => \%Config,
@@ -278,7 +271,6 @@ sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %DynamicFields         = %{ $Self->{DynamicFields} };
     my %DynamicFieldScreens   = %{ $Self->{DynamicFieldScreens} };
@@ -287,7 +279,7 @@ sub _ShowOverview {
     # show output
     $LayoutObject->Block( Name => 'Overview' );
 
-    for my $DynamicFieldScreen ( sort keys %DynamicFieldScreens ) {
+    for my $DynamicFieldScreen ( sort { $DynamicFieldScreens{$a} cmp $DynamicFieldScreens{$b} } keys %DynamicFieldScreens ) {
 
         # output row for DynamicFieldScreen
         $LayoutObject->Block(
@@ -299,7 +291,7 @@ sub _ShowOverview {
         );
     }
 
-    for my $DefaultColumnsScreen ( sort keys %DefaultColumnsScreens ) {
+    for my $DefaultColumnsScreen ( sort { $DefaultColumnsScreens{$a} cmp $DefaultColumnsScreens{$b} } keys %DefaultColumnsScreens ) {
 
         # output row for DefaultColumns
         $LayoutObject->Block(
@@ -401,7 +393,7 @@ sub _ShowEdit {
     );
 
     # shows sidebar selection
-    for my $Element ( sort keys %OtherElements ) {
+    for my $Element ( sort { $OtherElements{$a} cmp $OtherElements{$b} } keys %OtherElements ) {
 
         # output row
         $LayoutObject->Block(

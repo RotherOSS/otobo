@@ -16,18 +16,26 @@
 
 package Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
 );
 
 =head1 NAME
@@ -56,6 +64,40 @@ sub new {
     bless( $Self, $Type );
 
     return $Self;
+}
+
+=head2 Params()
+
+Returns the configuration params for this transition action module
+
+    my @Params = $Object->Params();
+
+Each element is a hash reference that describes the config parameter.
+Currently only the keys I<Key>, I<Value> and I<Optional> are used.
+
+=cut
+
+sub Params {
+    my ($Self) = @_;
+
+    my @Params = (
+        {
+            Key   => 'Fieldname (replace with the real fieldname)',
+            Value => 'New value (required)',
+        },
+        {
+            Key      => 'UserID',
+            Value    => '1 (can overwrite the logged in user)',
+            Optional => 1,
+        },
+        {
+            Key      => 'TicketID',
+            Value    => '12345 (set dynamic field value of other than the process ticket itself)',
+            Optional => 1,
+        },
+    );
+
+    return @Params;
 }
 
 =head2 Run()
@@ -121,6 +163,23 @@ sub Run {
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    my $TicketID = delete $Param{Config}->{TicketID};
+
+    if ($TicketID) {
+        if ( !$Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $TicketID ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "'$TicketID' is not a valid TicketID.",
+            );
+
+            return;
+        }
+    }
+    else {
+        $TicketID = $Param{Ticket}->{TicketID};
+    }
+
     for my $CurrentDynamicField ( sort keys %{ $Param{Config} } ) {
 
         # get required DynamicField config
@@ -152,7 +211,7 @@ sub Run {
         # try to set the configured value
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{Ticket}->{TicketID},
+            ObjectID           => $TicketID,
             Value              => $Param{Config}->{$CurrentDynamicField},
             UserID             => $Param{UserID},
         );
@@ -165,7 +224,7 @@ sub Run {
                     . "Can't set value '"
                     . $Param{Config}->{$CurrentDynamicField}
                     . "' for DynamicField '$CurrentDynamicField',"
-                    . "TicketID '" . $Param{Ticket}->{TicketID} . "'!",
+                    . "TicketID '" . $TicketID . "'!",
             );
             return;
         }

@@ -16,14 +16,17 @@
 
 use strict;
 use warnings;
+use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-# prevent used once warning
-use Kernel::System::ObjectManager;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 $Self->True(
@@ -370,81 +373,7 @@ my @Tests = (
 </otobo_config>
             ',
         },
-        ExpectedResult => [
-            {
-                'XMLFilename'      => undef,
-                'XMLContentParsed' => {
-                    'Name'        => 'Test1',
-                    'Required'    => '1',
-                    'Description' => [
-                        {
-                            'Translatable' => '1',
-                            'Content'      => 'Test 1.'
-                        },
-                    ],
-                    'Valid' => '1',
-                    'Value' => [
-                        {
-                            'Item' => [
-                                {
-                                    'Content'    => '123',
-                                    'ValueType'  => 'String',
-                                    'ValueRegex' => '.*'
-                                },
-                            ],
-                        },
-                    ],
-                    'Navigation' => [
-                        {
-                            'Content' => 'Core::Ticket'
-                        },
-                    ],
-                },
-                'XMLContentRaw' => '<Setting Name="Test1" Required="1" Valid="1">
-        <Description Translatable="1">Test 1.</Description>
-        <Navigation>Core::Ticket</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex=".*">123</Item>
-        </Value>
-    </Setting>'
-            },
-            {
-                'XMLContentParsed' => {
-                    'Description' => [
-                        {
-                            'Content'      => 'Test 2.',
-                            'Translatable' => '1'
-                        },
-                    ],
-                    'Name'       => 'Test2',
-                    'Required'   => '1',
-                    'Navigation' => [
-                        {
-                            'Content' => 'Core::Ticket'
-                        },
-                    ],
-                    'Value' => [
-                        {
-                            'Item' => [
-                                {
-                                    'ValueType' => 'File',
-                                    'Content'   => '/usr/bin/gpg'
-                                },
-                            ],
-                        },
-                    ],
-                    'Valid' => '1'
-                },
-                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
-        <Description Translatable="1">Test 2.</Description>
-        <Navigation>Core::Ticket</Navigation>
-        <Value>
-            <Item ValueType="File">/usr/bin/gpg</Item>
-        </Value>
-    </Setting>',
-                'XMLFilename' => undef
-            }
-        ],
+        ExpectedResult => [],
     },
     {
         Description => 'Missing surrounding otobo_config element',
@@ -493,7 +422,7 @@ my @Tests = (
         ExpectedResult => [],
     },
     {
-        Description => 'Setting without Name attribute',
+        Description => 'Setting without Name attribute is skipped',
         Config      => {
             XMLInput => '<?xml version="1.0" encoding="utf-8"?>
 <otobo_config version="2.0" init="Application">
@@ -514,7 +443,44 @@ my @Tests = (
 </otobo_config>
             ',
         },
-        ExpectedResult => [],
+        ExpectedResult => [
+            {
+                'XMLContentParsed' => {
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Name'       => 'Test2',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Required' => '1',
+                    'Valid'    => '1',
+                    'Value'    => [
+                        {
+                            'Item' => [
+                                {
+                                    'Content'   => '/usr/bin/gpg',
+                                    'ValueType' => 'File'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
+        <Description Translatable="1">Test 2.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="File">/usr/bin/gpg</Item>
+        </Value>
+    </Setting>',
+                'XMLFilename' => undef
+            }
+        ]
     },
     {
         Description => 'Setting with comments',
@@ -527,10 +493,10 @@ my @Tests = (
         <Value>
             <Array>
                 <Item>1</Item>
-#               <Item>2</Item>
+#               <Item>not commented out</Item>
 <!--
-                <Item>2</Item>
-                <Item>2</Item>
+                <Item>commented out</Item>
+                <Item>commented out</Item>
 -->
                 <Item>2</Item>
             </Array>
@@ -565,6 +531,9 @@ my @Tests = (
                                             'Content' => '1',
                                         },
                                         {
+                                            'Content' => 'not commented out',
+                                        },
+                                        {
                                             'Content' => '2',
                                         },
                                     ],
@@ -579,12 +548,16 @@ my @Tests = (
         <Value>
             <Array>
                 <Item>1</Item>
-
-
+#               <Item>not commented out</Item>
+<!--
+                <Item>commented out</Item>
+                <Item>commented out</Item>
+-->
                 <Item>2</Item>
             </Array>
         </Value>
     </Setting>',
+                'XMLFilename' => undef,
             },
         ],
     },
@@ -594,11 +567,17 @@ for my $Test (@Tests) {
 
     my @Result = $SysConfigXMLObject->SettingListParse( %{ $Test->{Config} } );
 
+    # For development the output of is() is more useful
+    #is(
+    #    \@Result,
+    #    $Test->{ExpectedResult},
+    #    $Test->{Description} . ': SettingListParse(): checking with is',
+    #);
     $Self->IsDeeply(
         \@Result,
         $Test->{ExpectedResult},
-        $Test->{Description} . ': SettingLisParse(): Result must match expected one.',
+        $Test->{Description} . ': SettingListParse(): Result must match expected one.',
     );
 }
 
-$Self->DoneTesting();
+done_testing;

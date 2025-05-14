@@ -21,11 +21,9 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Group::CustomerLink');
-
-my ( $Result, $ExitCode );
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -42,7 +40,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 );
 
 # try to execute command without any options
-$ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 $Self->Is(
     $ExitCode,
     1,

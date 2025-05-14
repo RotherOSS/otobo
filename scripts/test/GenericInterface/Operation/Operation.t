@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger  ();
+use Kernel::GenericInterface::Operation ();
+
+our $Self;
 
 # get helper object
 # skip SSL certificate verification
@@ -129,7 +132,7 @@ $Self->True(
     'OperationObject call empty data provided',
 );
 
-# run with invalid data
+# run with empty array data
 $ReturnData = $OperationObject->Run(
     Data => [],
 );
@@ -138,9 +141,9 @@ $Self->Is(
     'HASH',
     'OperationObject call response',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
-    'OperationObject call invalid data provided',
+    'OperationObject call empty array data provided',
 );
 
 # run with some data
@@ -152,6 +155,17 @@ $ReturnData = $OperationObject->Run(
 $Self->True(
     $ReturnData->{Success},
     'OperationObject call data provided',
+);
+
+# run with some array data
+$ReturnData = $OperationObject->Run(
+    Data => {
+        [ 'one', 'two', 'three' ]
+    },
+);
+$Self->True(
+    $ReturnData->{Success},
+    'OperationObject call array data provided',
 );
 
 $Self->DoneTesting();

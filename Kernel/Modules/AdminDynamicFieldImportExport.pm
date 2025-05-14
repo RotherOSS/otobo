@@ -14,8 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 package Kernel::Modules::AdminDynamicFieldImportExport;
 
 use strict;
@@ -31,7 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::System::YAML',
     'Kernel::System::ZnunyHelper',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 use Kernel::System::VariableCheck qw(:all);
@@ -54,7 +52,6 @@ sub Run {
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
     my $YAMLObject         = $Kernel::OM->Get('Kernel::System::YAML');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
@@ -75,8 +72,6 @@ sub Run {
     # Import
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Import' ) {
-
-        my $Success;
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -260,7 +255,9 @@ sub Run {
         # convert the dynamicfielddata hash to string
         my $DynamicFieldDataYAML = $YAMLObject->Dump( Data => \%Data );
 
-        my $TimeStamp = $TimeObject->CurrentTimestamp();
+        # Get the current time formatted like '2016-01-31 14:05:45'.
+        # Hoping that nobody has registered object params for Kernel::System::DateTime
+        my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
         # send the result to the browser
         $HTML = $LayoutObject->Attachment(
@@ -294,8 +291,6 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     $LayoutObject->Block( Name => 'ActionOverview' );
@@ -451,8 +446,6 @@ sub _DynamicFieldShow {
 
             next DYNAMICFIELDSCREEN if grep { $DynamicField eq $_ } @DynamicFieldsAlreadyUsed;
             next DYNAMICFIELDSCREEN if !IsHashRefWithData( $Param{Data}->{DynamicFieldsScreens}->{$DynamicField} );
-
-            my $DynamicFieldsScreensData = $Param{Data}->{DynamicFieldsScreens}->{$DynamicField};
 
             my %DynamicFieldData = (
                 Name  => $DynamicField,

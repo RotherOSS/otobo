@@ -20,33 +20,35 @@ package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
+use v5.24;    # activates the feature 'current_sub' for support of __SUB__, available since Perl 5.16
 use strict;
 use warnings;
-use feature qw(current_sub);
 
 # core modules
-use Carp ();
+use Carp         ();
 use Scalar::Util qw(weaken);
 
 # CPAN modules
+use Try::Tiny;
 
 # use the "standard" modules directly, so that persistent environments
 # like mod_perl and FastCGI pre-load them at startup
 
 # OTOBO modules
-use Kernel::Config;
-use Kernel::Output::HTML::Layout;
-use Kernel::System::Auth;
-use Kernel::System::AuthSession;
-use Kernel::System::Cache;
-use Kernel::System::DateTime;
-use Kernel::System::DB;
-use Kernel::System::Encode;
-use Kernel::System::Group;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Web::Request;
-use Kernel::System::User;
+## no perlimports
+use Kernel::Output::HTML::Layout ();
+use Kernel::System::Auth         ();
+use Kernel::System::AuthSession  ();
+use Kernel::System::Cache        ();
+use Kernel::System::DateTime     ();
+use Kernel::System::DB           ();
+use Kernel::System::Encode       ();
+use Kernel::System::Group        ();
+use Kernel::System::Log          ();
+use Kernel::System::Main         ();
+use Kernel::System::Web::Request ();
+use Kernel::System::User         ();
+## use perlimports
 
 =head1 NAME
 
@@ -54,7 +56,7 @@ Kernel::System::ObjectManager - Central singleton manager and object instance ge
 
 =head1 SYNOPSIS
 
-    # In top level scripts only!
+    # In top level scripts, or otobo.psgi, only!
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # Everywhere: get a singleton instance (and create it, if needed).
@@ -62,7 +64,7 @@ Kernel::System::ObjectManager - Central singleton manager and object instance ge
 
     # Remove singleton objects and all their dependencies.
     $Kernel::OM->ObjectsDiscard(
-        Objects            => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
+        Objects => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
     );
 
 =head1 DESCRIPTION
@@ -170,6 +172,7 @@ attempt to destroy them.
 
 sub new {
     my ( $Type, %Param ) = @_;
+
     my $Self = bless {}, $Type;
 
     $Self->{Debug} = delete $Param{Debug};
@@ -188,7 +191,7 @@ sub new {
 
 =head2 Get()
 
-Retrieves a singleton object, and if it not yet exists, implicitly creates one for you.
+Retrieves a singleton object, and if it does not exist yet, implicitly creates one for you.
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -231,6 +234,14 @@ It is also possible to pass in constructor parameters:
         },
     );
 
+When no constructor parameters are passed in, then the registered parameter are passed in. This
+effect can be avoided by passing an empty set of parameters.
+
+    my $AlternativeUserObject = $Kernel::OM->Create(
+        'Kernel::System::User',
+        ObjectParams => {},
+    );
+
 By default, this method will C<die>, if the package cannot be instantiated or the constructor returns undef.
 You can suppress this with C<< Silent => 1 >>, for example to not cause exceptions when trying
 to load modules based on user configuration.
@@ -261,19 +272,29 @@ sub Create {
 sub _ObjectBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Package = $Param{Package};
-    eval {
+    my $Package     = $Param{Package};
+    my $LoadSuccess = try {
         my $FileName = $Param{Package} =~ s{::}{/}smxgr;
+
         require $FileName . '.pm';
-    };
-    if ($@) {
-        if ( $Param{Silent} ) {
-            return;    # don't throw
-        }
-        $Self->_DieWithError(
-            Error => "$Package could not be loaded: $@",
-        );
+
+        1;    # indicate success
     }
+    catch {
+        if ( $Param{Silent} ) {
+            0;    # don't rethrow in Silent mode, but indicate failure
+        }
+        else {
+
+            # rethrow in normal mode
+            $Self->_DieWithError(
+                Error => "$Package could not be loaded: $@",
+            );
+        }
+    };
+
+    # This only happens in silent mode
+    return unless $LoadSuccess;
 
     # Kernel::Config does not declare its dependencies (they would have to be in
     #   Kernel::Config::Defaults), so assume [] in this case.
@@ -373,23 +394,21 @@ sub ObjectInstanceRegister {
 
 =head2 ObjectParamAdd()
 
-Adds arguments that will be passed to constructors of classes
-when they are created, in the same format as the C<L<new()>> method
-receives them.
+Merge the arguments that will be passed to constructors of classes
+when they are created. The format in the same as for the C<L<new()>> method
+of the objects. Existing constructor arguments are overwritten. Already
+existing constructor arguments, that are not in the new list,  are kept.
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Ticket' => {
-            Key => 'Value',
+            KeyW => 'ValueX',
+            KeyX => 22,
+            KeyY => undef,
+            KeyZ => [ 1 .. 10 ],
         },
     );
 
-To remove a key again, send undef as a value:
-
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Ticket' => {
-            Key => undef,               # this will remove the key from the hash
-        },
-    );
+Always returns an empty list.
 
 =cut
 
@@ -397,20 +416,18 @@ sub ObjectParamAdd {
     my ( $Self, %Param ) = @_;
 
     for my $Package ( sort keys %Param ) {
-        if ( ref( $Param{$Package} ) eq 'HASH' ) {
+        if ( ref $Param{$Package} eq 'HASH' ) {
             for my $Key ( sort keys %{ $Param{$Package} } ) {
-                if ( defined $Key ) {
-                    $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
-                }
-                else {
-                    delete $Self->{Param}->{$Package}->{$Key};
-                }
+                $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
             }
         }
         else {
+
+            # Attention: things might break when $Param{$Package} is not a hash ref
             $Self->{Param}->{$Package} = $Param{$Package};
         }
     }
+
     return;
 }
 
@@ -508,9 +525,9 @@ sub ObjectsDiscard {
     }
 
     # During an OTOBO package upgrade the packagesetup code module has just
-    # recently been copied to it's location in the file system.
+    # recently been copied to its location in the file system.
     # In a persistent Perl environment an old version of the module might still be loaded,
-    # as watchdogs like Apache2::Reload haven't had a chance to reload it.
+    # as watchdogs like Kernel::System::ModuleRefresh haven't had a chance to reload it.
     # So we need to make sure that the new version is being loaded.
     # Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
     # This is only needed in persistent Perl environment, but does no harm in a CGI environment.

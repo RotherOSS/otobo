@@ -33,7 +33,7 @@ sub Run {
     my $Self = shift;
 
     # Skip the plugin, if the support data collection isn't running in a web request.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
     my %Environment = %ENV;
 
@@ -51,8 +51,6 @@ sub Run {
     {
         delete $Environment{$NotNeededString};
     }
-
-    my @Result;
 
     for my $Variable ( sort { $a cmp $b } keys %Environment ) {
         $Self->AddResultInformation(

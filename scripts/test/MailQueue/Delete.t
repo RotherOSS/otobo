@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -134,7 +134,7 @@ my $CreateTestData = sub {
     my $Result = $MailQueueObject->Create( %ElementData, );
     $Self->True(
         $Result,
-        'Created the test element successfuly.'
+        'Created the test element successfully.'
     );
 
     return \%ElementData;

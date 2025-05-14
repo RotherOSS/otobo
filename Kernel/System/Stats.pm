@@ -19,13 +19,14 @@ package Kernel::System::Stats;
 use strict;
 use warnings;
 
-use MIME::Base64;
-
+# core modules
 use POSIX qw(ceil);
 
-use Kernel::Language qw(Translatable);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Output::HTML::Statistics::View;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -45,11 +46,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Stats - stats lib
+Kernel::System::Stats - statistics lib
 
 =head1 DESCRIPTION
 
-All stats functions.
+All statistics functions.
 
 =head2 Explanation for the time zone parameter
 
@@ -84,8 +85,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # temporary directory
     $Self->{StatsTempDir} = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/stats/';
@@ -217,6 +217,7 @@ sub StatsGet {
         # Don't store complex structure in memory as it will be modified later.
         CacheInMemory => 0,
     );
+
     return $Cache if ref $Cache eq 'HASH';
 
     # get hash from storage
@@ -668,13 +669,14 @@ fetches all statistics that the current user may see
         UserID   => $UserID,
     );
 
-    Returns
+Returns a hashref with the statistic ID as the key:
 
     {
         6 => {
             Title => "Title of stat",
             ...
-        }
+        },
+        ...
     }
 
 =cut
@@ -1048,7 +1050,7 @@ sub GetStaticFiles {
 
 =head2 GetDynamicFiles()
 
-Get all static objects
+Get all dynamic files
 
     my $FileHash = $StatsObject->GetDynamicFiles();
 
@@ -1118,7 +1120,7 @@ get behaviours that a statistic supports
         ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
     );
 
-    returns
+Returns:
 
     {
         ProvidesDashboardWidget => 1,
@@ -1129,6 +1131,7 @@ get behaviours that a statistic supports
 
 sub GetObjectBehaviours {
     my ( $Self, %Param ) = @_;
+
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
@@ -1535,7 +1538,7 @@ sub Import {
 
 =head2 GetParams()
 
-    get all edit params from stats for view
+get all edit params from stats for view
 
     my $Params = $StatsObject->GetParams( StatID => '123' );
 
@@ -1604,8 +1607,8 @@ sub StatsRun {
     my %GetParam = %{ $Param{GetParam} };
     my @Result;
 
-    # Perform calculations on the slave DB, if configured.
-    local $Kernel::System::DB::UseSlaveDB = 1;
+    # Perform calculations on the mirror DB, if configured.
+    local $Kernel::System::DB::UseMirrorDB = 1;
 
     # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {
@@ -1875,24 +1878,19 @@ sub StringAndTimestamp2Filename {
         $DateTimeObject->ToTimeZone( TimeZone => $Param{TimeZone} );
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    $Param{String} = $MainObject->FilenameCleanUp(
-        Filename => $Param{String},
-        Type     => 'Attachment',
+    my @FilenameParts = (
+        $Param{String},
+        $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' )
     );
-
-    my $Filename = $Param{String} . '_';
-    $Filename .= $DateTimeObject->Format( Format => '%Y-%m-%d_%H:%M' );
-
     if ( defined $Param{TimeZone} ) {
-        my $TimeZone = $MainObject->FilenameCleanUp(
-            Filename => $Param{TimeZone},
-            Type     => 'Attachment',
-        );
-        $Filename .= '_TimeZone_' . $TimeZone;
+        push @FilenameParts, 'TimeZone' => $Param{TimeZone};
     }
 
-    return $Filename;
+    # this also replaces the ':' in the timestamp
+    return $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => join( '_', @FilenameParts ),
+        Type     => 'Attachment',
+    );
 }
 
 =head2 StatNumber2StatID()
@@ -2169,7 +2167,7 @@ sub StatsCleanUp {
 
 =head2 _GenerateStaticStats()
 
-    take the stat configuration and get the stat table
+take the stat configuration and get the stat table
 
     my @StatArray = $StatsObject->_GenerateStaticStats(
         ObjectModule => $Stat->{ObjectModule},
@@ -2252,7 +2250,7 @@ sub _GenerateStaticStats {
 
 =head2 _GenerateDynamicStats()
 
-    take the stat configuration and get the stat table
+take the stat configuration and get the stat table
 
     my @StatArray = $StatsObject->_GenerateDynamicStats(
         ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
@@ -2527,10 +2525,7 @@ sub _GenerateDynamicStats {
 
     # get the selected Xvalue
     my $Xvalue = {};
-    my (
-        $VSYear,     $VSMonth,     $VSDay,     $VSHour,     $VSMinute,     $VSSecond,
-        $VSStopYear, $VSStopMonth, $VSStopDay, $VSStopHour, $VSStopMinute, $VSStopSecond
-    );
+    my ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond );
     my $TimeAbsolutStopUnixTime = 0;
     my $Count                   = 0;
     my $MonthArrayRef           = _MonthArray();
@@ -2869,7 +2864,16 @@ sub _GenerateDynamicStats {
         # all elements which are shown with multiselectfields
         if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues;
+            SELECTEDVALUE:
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
+
+                if ( !defined $Ref1->{Values}{$Ref2} ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'notice',
+                        Message  => "\"$Ref2\" is used as $Ref1->{Name} but is not present. Skipping it. (StatID $Param{StatID} - \"$Param{Title}\")",
+                    );
+                    next SELECTEDVALUE;
+                }
 
                 # Do not translate the values, please see bug#12384 for more information.
                 $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
@@ -3917,8 +3921,8 @@ sub _AutomaticSampleImport {
             }
 
             my $Content = '';
-            while (<$Filehandle>) {                                    ## no critic qw(Community::WhileDiamondDefaultAssignment)
-                $Content .= $_;
+            while ( my $Line = <$Filehandle> ) {
+                $Content .= $Line;
             }
             close $Filehandle;
 
@@ -3937,7 +3941,7 @@ sub _AutomaticSampleImport {
 
 Converts the given date/time string from OTOBO time zone to the given time zone.
 
-    my $String = $StatsObject->_FromOTOBOTimeZone(
+    my $TimeStamp = $StatsObject->_FromOTOBOTimeZone(
         String   => '2016-02-20 20:00:00',
         TimeZone => 'Europe/Berlin',
     );
@@ -3986,7 +3990,7 @@ sub _FromOTOBOTimeZone {
 
 Converts the given date/time string from the given time zone to OTOBO time zone.
 
-    my $String = $StatsObject->_ToOTOBOTimeZone(
+    my $TimeStamp = $StatsObject->_ToOTOBOTimeZone(
         String    => '2016-02-20 18:00:00',
         TimeZone  => 'Europe/Berlin',
     );
@@ -4475,6 +4479,7 @@ sub _TimeStamp2DateTime {
     my ( $Self, %Param, ) = @_;
 
     my $TimeStamp = $Param{TimeStamp};
+
     return $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

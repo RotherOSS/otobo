@@ -16,9 +16,16 @@
 
 package Kernel::Modules::AgentLinkObject;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -27,10 +34,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -43,9 +47,8 @@ sub Run {
         # save user preferences (shown columns)
 
         # Needed objects
-        my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my $JSONObject  = $Kernel::OM->Get('Kernel::System::JSON');
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -84,7 +87,7 @@ sub Run {
         if ($AdditionalLinkListWithDataJSON) {
 
             # decode JSON string
-            my $AdditionalLinkListWithData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+            my $AdditionalLinkListWithData = $JSONObject->Decode(
                 Data => $AdditionalLinkListWithDataJSON,
             );
 
@@ -107,6 +110,7 @@ sub Run {
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $LinkTableStrg,
+            Charset     => $LayoutObject->{UserCharset},
             Type        => 'inline',
             NoCache     => 1,
         );
@@ -305,12 +309,9 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        # get target identifier and redirect URL
+        # get target identifier and target components
         my $TargetIdentifier = $ParamObject->GetParam( Param => 'TargetIdentifier' );
-        my $Redirect         = $ParamObject->GetParam( Param => 'Redirect' );
-
-        # get target components
-        my @Target = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
+        my @Target           = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
 
         if (
             $Target[0]       # TargetObject
@@ -341,7 +342,7 @@ sub Run {
             }
 
             # delete link from database
-            my $Success = $LinkObject->LinkDelete(
+            $LinkObject->LinkDelete(
                 Object1 => $Form{SourceObject},
                 Key1    => $Form{SourceKey},
                 Object2 => $Target[0],
@@ -351,19 +352,11 @@ sub Run {
             );
         }
 
-        # build empty JSON output
-        my $JSON = $LayoutObject->JSONEncode(
+        # send a simple JSON response
+        return $LayoutObject->JSONReply(
             Data => {
                 Success => 1,
-            },
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+            }
         );
     }
 
@@ -392,7 +385,7 @@ sub Run {
         );
 
         # split the identifier
-        my @Type = split q{::}, $TypeIdentifier;
+        my @Type = split /::/, $TypeIdentifier;
 
         if ( $Type[0] && $Type[1] && ( $Type[1] eq 'Source' || $Type[1] eq 'Target' ) ) {
 
@@ -617,10 +610,10 @@ sub Run {
     my $SearchList;
     if (
         %SearchParam
-        || $Kernel::OM->Get('Kernel::Config')->Get('Frontend::AgentLinkObject::WildcardSearch')
+        ||
+        $Kernel::OM->Get('Kernel::Config')->Get('Frontend::AgentLinkObject::WildcardSearch')
         )
     {
-
         $SearchList = $LinkObject->ObjectSearch(
             Object       => $Form{TargetObject},
             SubObject    => $Form{TargetSubObject},
@@ -690,69 +683,73 @@ sub Run {
         $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED} = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
     }
 
-    # get possible types list
-    my %PossibleTypesList = $LinkObject->PossibleTypesList(
-        Object1 => $Form{SourceObject},
-        Object2 => $Form{TargetObject},
-        UserID  => $Self->{UserID},
-    );
-
-    # define blank line entry
-    my %BlankLine = (
-        Key      => '-',
-        Value    => '-------------------------',
-        Disabled => 1,
-    );
-
     # create the selectable type list
-    my $Counter = 0;
     my @SelectableTypesList;
-    POSSIBLETYPE:
-    for my $PossibleType ( sort { lc $a cmp lc $b } keys %PossibleTypesList ) {
+    {
 
-        # lookup type id
-        my $TypeID = $LinkObject->TypeLookup(
-            Name   => $PossibleType,
-            UserID => $Self->{UserID},
+        # get possible types list
+        my %PossibleTypesList = $LinkObject->PossibleTypesList(
+            Object1 => $Form{SourceObject},
+            Object2 => $Form{TargetObject},
+            UserID  => $Self->{UserID},
         );
 
-        # get type
-        my %Type = $LinkObject->TypeGet(
-            TypeID => $TypeID,
-            UserID => $Self->{UserID},
+        # define blank line entry
+        my %BlankLine = (
+            Key      => '-',
+            Value    => '-------------------------',
+            Disabled => 1,
         );
 
-        # create the source name
-        my %SourceName;
-        $SourceName{Key}   = $PossibleType . '::Source';
-        $SourceName{Value} = $Type{SourceName};
+        my $Counter = 0;
 
-        push @SelectableTypesList, \%SourceName;
+        POSSIBLETYPE:
+        for my $PossibleType ( sort { lc $a cmp lc $b } keys %PossibleTypesList ) {
 
-        next POSSIBLETYPE if !$Type{Pointed};
+            # lookup type id
+            my $TypeID = $LinkObject->TypeLookup(
+                Name   => $PossibleType,
+                UserID => $Self->{UserID},
+            );
 
-        # create the target name
-        my %TargetName;
-        $TargetName{Key}   = $PossibleType . '::Target';
-        $TargetName{Value} = $Type{TargetName};
+            # get type
+            my %Type = $LinkObject->TypeGet(
+                TypeID => $TypeID,
+                UserID => $Self->{UserID},
+            );
 
-        push @SelectableTypesList, \%TargetName;
-    }
-    continue {
+            # create the source name
+            push @SelectableTypesList,
+                {
+                    Key   => $PossibleType . '::Source',
+                    Value => $Type{SourceName},
+                };
 
-        # add blank line
-        push @SelectableTypesList, \%BlankLine;
+            next POSSIBLETYPE unless $Type{Pointed};
 
-        $Counter++;
-    }
+            # create the target name
+            push @SelectableTypesList,
+                {
+                    Key   => $PossibleType . '::Target',
+                    Value => $Type{TargetName},
+                };
+        }
+        continue {
 
-    # removed last (empty) entry
-    pop @SelectableTypesList;
+            # add blank line between each type, per type there are one or two entries
+            push @SelectableTypesList, \%BlankLine;
 
-    # add blank lines on top and bottom of the list if more then two linktypes
-    if ( $Counter > 2 ) {
-        unshift @SelectableTypesList, \%BlankLine;
-        push @SelectableTypesList, \%BlankLine;
+            $Counter++;
+        }
+
+        # removed last (empty) entry
+        pop @SelectableTypesList;
+
+        # add blank lines on top and bottom of the list if more then two linktypes
+        if ( $Counter > 2 ) {
+            unshift @SelectableTypesList, \%BlankLine;
+            push @SelectableTypesList, \%BlankLine;
+        }
     }
 
     # create link type string

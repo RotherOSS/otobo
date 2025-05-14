@@ -255,7 +255,7 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFileStrg";
+    my $Options    = "smime -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -586,7 +586,7 @@ sub Verify {
         # Determine email address(es) from attributes of signer certificate.
         my %SignerCertAttributes;
         $Self->_FetchAttributesFromCert( $SignerFile, \%SignerCertAttributes );
-        my @SignersArray = split( ', ', $SignerCertAttributes{Email} );
+        my @SignersArray = split /, /, $SignerCertAttributes{Email};
 
         # Include additional certificate attributes in the message:
         #   - signer(s) email address(es)
@@ -2412,20 +2412,13 @@ sub _Init {
     $Self->{Bin}         = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
     $Self->{CertPath}    = $ConfigObject->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $ConfigObject->Get('SMIME::PrivatePath');
+    $Self->{Cipher}      = $ConfigObject->Get('SMIME::Cipher') || 'aes256';
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $ConfigObject->Get('SMIME::CacheTTL') || 86400 );
 
-    if ( $^O =~ m{mswin}i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{Cmd} = qq{"$Self->{Bin}"};
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from openssl
-        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
-    }
+    # make sure that we are getting POSIX (i.e. english) messages from openssl
+    $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
     # Note that RANDFILE will keep the assigned value while the current process is running.
@@ -2504,9 +2497,9 @@ sub _FetchAttributesFromCert {
         FILTER:
         for my $Filter ( sort keys %Filters ) {
 
-            next FILTER if $Line !~ m{ \A $Filters{$Filter} \z }xms;
+            next FILTER unless $Line =~ m{ \A $Filters{$Filter} \z }xms;
 
-            my $Match = $1 || '';
+            my $Match = $1 || '';    # fall back to '' just in case the filter regex has no capture
 
             # email filter is allowed to match multiple times for alternate names (SubjectAltName)
             if ( $Filter eq 'Email' ) {
@@ -2583,10 +2576,7 @@ sub _FetchAttributesFromCert {
 sub _CleanOutput {
     my ( $Self, $Output ) = @_;
 
-    # remove spurious warnings that appear on Windows
-    if ( $^O =~ m{mswin}i ) {
-        $Output =~ s{Loading 'screen' into random state - done\r?\n}{}igms;
-    }
+    # nothing to do
 
     return $Output;
 }
@@ -2738,8 +2728,7 @@ sub _NormalizePrivateSecretFiles {
     for my $File (@WrongPrivateSecretList) {
 
         # build the correct file name
-        $File =~ m{(.+) \. P}smxi;
-        my $Hash = $1;
+        my ($Hash) = $File =~ m{(.+) \. P}smxi;
 
         my $CorrectFile;
         my @UsedPrivateSecretFiles;
@@ -2911,9 +2900,7 @@ sub _ReHashCertificates {
         );
 
         # split filename into Hash.Index (12345678.0 -> 12345678 / 0)
-        $File =~ m{ (.+) \. (\d+) }smx;
-        my $Hash  = $1;
-        my $Index = $2;
+        my ( $Hash, $Index ) = $File =~ m{ (.+) \. (\d+) }smx;
 
         # get new hash from certificate attributes
         my $NewHash     = $CertificateAttributes{Hash};

@@ -31,8 +31,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
@@ -126,6 +125,18 @@ sub Run {
             Value         => "Article could not be created!",
         );
         return;
+    }
+
+    for my $Flag (qw/Crypted CryptedOK Signed SignedOK/) {
+        if ( $GetParam{$Flag} ) {
+            my $Success = $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{TicketID},
+                ArticleID => $ArticleID,
+                Key       => $Flag,
+                Value     => $GetParam{$Flag},
+                UserID    => 1,
+            );
+        }
     }
 
     $Self->{CommunicationLogObject}->ObjectLookupSet(

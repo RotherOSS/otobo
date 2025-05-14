@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -49,7 +49,7 @@ $Selenium->RunTest(
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup;IncludeInvalid=1");
 
         # Check overview AdminGroup.
         $Selenium->find_element( "table",             'css' );
@@ -87,7 +87,6 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Add screen.
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Group Management', 'Add Group' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
@@ -252,6 +251,8 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGroup");
 
         # Check class of invalid Group in the overview table.
         $Self->True(

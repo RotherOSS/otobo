@@ -19,13 +19,15 @@ package Kernel::System::PostMaster::Filter::DetectBounceEmail;
 use strict;
 use warnings;
 
-use Sisimai::Data;
-use Sisimai::Message;
+# core modules
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Log',
-);
+# CPAN modules
+use Sisimai::Data    ();
+use Sisimai::Message ();
+
+# OTOBO modules
+
+our @ObjectDependencies = ();
 
 sub new {
     my ( $Type, %Param ) = @_;

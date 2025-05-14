@@ -26,6 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 
 # get HTMLUtils object
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
@@ -662,20 +663,62 @@ END_INPUT
         Result => {
             Output => <<'END_OUTPUT',
 <style type="    text/css">
-div &gt; span {
+div > span {
     width: 200px;
 }
 </style>
 <style type=" text/CSS ">
-div &gt; span {
+div > span {
     width: expression( FormerlyEvilJS() );
 }
 </style>
 <style type="text/css">
-div &gt; span &gt; div {
+div > span > div {
     width: 200px;
 }
 </style>
+END_OUTPUT
+            Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name  => 'Style tag. CSS embedded in HTML comment',
+        Input => <<'END_INPUT',
+<sTYle type =  "    text/css">          <!--div > span {
+    width: 200px;
+}
+/* <<<< */
+         -->   </stylE>
+END_INPUT
+        Result => {
+            Output => <<'END_OUTPUT',
+<style type="    text/css">          <!--div > span {
+    width: 200px;
+}
+/* &lt;&lt;&lt;&lt; */
+         -->   </style>
+END_OUTPUT
+            Replace => 0,
+        },
+        Line => __LINE__,
+    },
+    {
+        Name  => 'Style tag. CSS embedded in broken HTML comment',
+        Input => <<'END_INPUT',
+<sTYle type =  "    text/css">          < !--div > span {
+    width: 200px;
+}
+/* <<<< */
+         -->   </stylE>
+END_INPUT
+        Result => {
+            Output => <<'END_OUTPUT',
+<style type="    text/css">          &lt; !--div > span {
+    width: 200px;
+}
+/* &lt;&lt;&lt;&lt; */
+         -->   </style>
 END_OUTPUT
             Replace => 0,
         },
@@ -933,7 +976,7 @@ for my $Test (@TestsWithDefaultConfig) {
         else {
             ok( !$Result{Replace}, 'not replaced', );
         }
-        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+        TextEqOrDiff( $Result{String}, $Test->{Result}->{Output}, 'output' );
     };
 }
 
@@ -1166,7 +1209,7 @@ You should be able to continue reading these lessons, however.
         Line => __LINE__,
     },
     {
-        Name   => 'stype with remote background image protocol-relative URL, NoExtSrcLoad',
+        Name   => 'style with remote background image protocol-relative URL, NoExtSrcLoad',
         Input  => '<a href="localhost" style="background-image:url(//localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
@@ -1334,8 +1377,137 @@ for my $Test (@TestsWithExplicitConfig) {
         else {
             ok( !$Result{Replace}, 'not replaced', );
         }
-        is( $Result{String}, $Test->{Result}->{Output}, 'output' );
+        TextEqOrDiff( $Result{String}, $Test->{Result}->{Output}, 'output' );
     };
+}
+
+# Some tests concerning special characters.
+#
+# Note that the 'Replace' attribute of the result is usually 0. This is because
+# the replacements done be HTML::Scrubber directly are not counted.
+#
+# Special cases are:
+#   CharOnlyStripped: when only a single character is passed
+my @TestsWithSpecialChars = (
+    {
+        Name             => 'less-than sign',
+        Char             => q{<},
+        Replacement      => '&lt;',
+        CharOnlyStripped => 1,
+        Line             => __LINE__,
+    },
+    {
+        Name        => 'greater-than sign',
+        Char        => q{>},
+        Replacement => '&gt;',
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'ampersand',
+        Char        => q{&},
+        Replacement => '&',
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'quotation mark',
+        Char        => q{"},
+        Replacement => q{"},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'apostrophe',
+        Char        => q{'},
+        Replacement => q{'},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'snowman',
+        Char        => q{⛄},
+        Replacement => q{⛄},
+        Line        => __LINE__,
+    },
+    {
+        Name        => 'semicolon',
+        Char        => q{;},
+        Replacement => q{;},
+        Line        => __LINE__,
+    },
+);
+
+for my $Test (@TestsWithSpecialChars) {
+
+    subtest "Special char '$Test->{Name}' (line @{[ $Test->{Line} // '???' ]})" => sub {
+
+        my $ToDo = $Test->{Todo} ? todo( $Test->{Todo} ) : undef;
+
+        # replacement by HTML::Scrubber are not counted
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => $Test->{Char},
+            );
+            is( $Result{Replace}, 0, 'char only replaced' );
+            if ( $Test->{CharOnlyStripped} ) {
+                is( $Result{String}, '', 'char only result, stripped' );
+            }
+            else {
+                is( $Result{String}, $Test->{Replacement}, 'char only result' );
+            }
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => qq{before $Test->{Char} after},
+            );
+            is( $Result{Replace}, 0,                                     'surrounded char replaced' );
+            is( $Result{String},  qq{before $Test->{Replacement} after}, 'surrounded char result' );
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String => qq{<b>$Test->{Char}</b>},
+            );
+            is( $Result{Replace}, 0,                               'bold char replaced' );
+            is( $Result{String},  qq{<b>$Test->{Replacement}</b>}, 'bold char result' );
+        }
+
+        {
+            my %Result = $HTMLUtilsObject->Safety(
+                String   => qq{<applet>$Test->{Char}</applet>},
+                NoApplet => 1,
+            );
+            is( $Result{Replace}, 0,                        'applet replaced' );
+            is( $Result{String},  qq{$Test->{Replacement}}, 'applet result' );
+        }
+    };
+}
+
+# A test case where the child combinator is used in CSS
+{
+    my $String = <<'END_HTML';
+<html>
+<head>
+  <title>A Meaningful Page Title</title>
+  <style>
+    div > p {
+        background-color: gold;
+        border: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+  <div><p>gold</p</div>
+  <pre>greater: ></pre>
+<body>
+</html>
+END_HTML
+    my %Result = $HTMLUtilsObject->Safety(
+        String => $String,
+    );
+
+    # all '>' in text content, except style, are replaced by '&gt;'
+    my $ExpectedScrubbedString = $String =~ s/greater: >/greater: &gt;/r;
+
+    TextEqOrDiff( $Result{String}, $ExpectedScrubbedString, 'greater sign encoded' );
 }
 
 done_testing;

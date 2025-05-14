@@ -40,7 +40,7 @@ sub Run {
     my ( $CommandOutput, $ExitCode );
 
     {
-        local *STDOUT;
+        local *STDOUT;                             ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:utf8', \$CommandOutput;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute();
     }

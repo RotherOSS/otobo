@@ -20,14 +20,18 @@ use warnings;
 use utf8;
 
 # use ../ as lib location
-use File::Basename;
-use FindBin qw($RealBin);
+use File::Basename qw(dirname);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
-use Kernel::System::ObjectManager;
+# core modules
+use Getopt::Long qw(GetOptions);
 
-use Getopt::Long;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -43,7 +47,7 @@ my %Options = (
     Verbose        => 0,
     OTRS6path      => '/opt/otrs/',
 );
-Getopt::Long::GetOptions(
+GetOptions(
     'help',            \$Options{Help},
     'non-interactive', \$Options{NonInteractive},
     'OTRS-6-path',     \$Options{OTRS6path},

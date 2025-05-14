@@ -91,9 +91,9 @@
 [% END %]
             </div>
         </fieldset>
+[% IF Data.TeamIDStrg %]
         <fieldset class="TableLike">
             <legend><span>[% Translate("Resource") | html %]</span></legend>
-[% IF Data.TeamIDStrg %]
             <label for="TeamID">[% Translate("Team") | html %]:</label>
             <div class="Field">
 [% IF Data.PermissionLevel < 2 %]
@@ -111,14 +111,8 @@
                 [% Data.ResourceIDStrg %]
 [% END %]
             </div>
-[% ELSE %]
-            <div class="Field">
-                <p class="FieldExplanation">
-                    [% Translate("This feature is currently not available.") | html %]
-                </p>
-            </div>
-[% END %]
         </fieldset>
+[% END %]
         <fieldset class="TableLike">
             <legend><span>[% Translate("Date/Time") | html %]</span></legend>
             <label for="StartDay">[% Translate("Start date") | html %]:</label>

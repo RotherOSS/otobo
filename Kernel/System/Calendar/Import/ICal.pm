@@ -16,13 +16,18 @@
 
 package Kernel::System::Calendar::Import::ICal;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Data::ICal;
-use Data::ICal::Entry::Event;
-use Date::ICal;
+# core modules
 
+# CPAN modules
+use Data::ICal               ();
+use Data::ICal::Entry::Alarm ();
+use Data::ICal::Entry::Event ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -56,7 +61,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $ImportObject = $Kernel::OM->Get('Kernel::System::Calendar::Export::ICal');
+    my $ImportObject = $Kernel::OM->Get('Kernel::System::Calendar::Import::ICal');
 
 =cut
 
@@ -298,7 +303,7 @@ sub Import {
         {
             my ( $Frequency, $Until, $Interval, $Count, $DayNames, $MonthDay, $Months );
 
-            my @Rules = split ';', $Properties->{'rrule'}->[0]->{'value'};
+            my @Rules = split /;/, $Properties->{'rrule'}->[0]->{'value'};
 
             RULE:
             for my $Rule (@Rules) {
@@ -343,7 +348,7 @@ sub Import {
                     my @Days;
 
                     # SU,MO,TU,WE,TH,FR,SA
-                    for my $DayName ( split( ',', $DayNames ) ) {
+                    for my $DayName ( split( /,/, $DayNames ) ) {
 
                         if ( uc $DayName eq 'MO' ) {
                             push @Days, 1;
@@ -400,7 +405,7 @@ sub Import {
 
                     # Custom
                     # FREQ=MONTHLY;UNTIL=20170101T080000Z;BYMONTHDAY=16,31'
-                    my @Days = split( ',', $MonthDay );
+                    my @Days = split( /,/, $MonthDay );
 
                     $Parameters{Recurring}           = 1;
                     $Parameters{RecurrenceType}      = "CustomMonthly";
@@ -427,7 +432,7 @@ sub Import {
                     next ENTRY;
                 }
 
-                my @Months = split( ',', $Months || '' );
+                my @Months = split( /,/, $Months || '' );
 
                 my $StartTimeObject = $Kernel::OM->Create(
                     'Kernel::System::DateTime',
@@ -527,7 +532,7 @@ sub Import {
                 && $Properties->{'x-otobo-team'}->[0]->{'value'}
                 )
             {
-                my @Teams = split( ",", $Properties->{'x-otobo-team'}->[0]->{'value'} );
+                my @Teams = split( /,/, $Properties->{'x-otobo-team'}->[0]->{'value'} );
 
                 if (@Teams) {
                     my @TeamIDs;
@@ -551,7 +556,7 @@ sub Import {
                 && $Properties->{'x-otobo-resource'}->[0]->{'value'}
                 )
             {
-                my @Resources = split( ",", $Properties->{'x-otobo-resource'}->[0]->{'value'} );
+                my @Resources = split( /,/, $Properties->{'x-otobo-resource'}->[0]->{'value'} );
 
                 if (@Resources) {
                     my @Users;
@@ -583,14 +588,14 @@ sub Import {
                 )
             {
                 # extract lowercase plugin key
-                $PluginField =~ /x-otobo-plugin-(.*)$/;
-                my $PluginKeyLC = $1;
+                my ($PluginKeyLC) = $PluginField =~ m/x-otobo-plugin-(.*)$/;
 
                 # get proper plugin key
                 my $PluginKey = $PluginKeys->{$PluginKeyLC};
-                next PLUGINFIELD if !$PluginKey;
 
-                my @PluginData = split( ",", $Properties->{$PluginField}->[0]->{'value'} );
+                next PLUGINFIELD unless $PluginKey;
+
+                my @PluginData = split /,/, $Properties->{$PluginField}->[0]->{'value'};
                 $LinkedObjects{$PluginKey} = \@PluginData;
             }
         }
@@ -764,10 +769,8 @@ sub _FormatTime {
 
     # Include additional optional repeatable properties used by some iCalendar implementations, in
     #   order to prevent Perl warnings.
-    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic qw(Subroutines::RequireFinalReturn OTOBO::RequireCamelCase)
-        qw(
-            uid acknowledged related-to description
-        );
+    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic qw(OTOBO::RequireCamelCase)
+        return qw(uid acknowledged related-to description);
     }
 
     sub Data::ICal::Entry::Event::optional_repeatable_properties {    ## no critic qw(OTOBO::RequireCamelCase)
@@ -790,6 +793,7 @@ sub _FormatTime {
             );
         }
 
+        # adding an empty string is the only difference to the original subroutine
         push @Properties, '';
 
         return @Properties;

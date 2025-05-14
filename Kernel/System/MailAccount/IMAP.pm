@@ -18,11 +18,12 @@ package Kernel::System::MailAccount::IMAP;
 
 use strict;
 use warnings;
+use v5.24;
 
 # core modules
 
 # CPAN modules
-use Net::IMAP::Simple;
+use Net::IMAP::Simple ();
 
 # OTOBO modules
 
@@ -38,10 +39,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Connect {
@@ -119,7 +117,7 @@ sub Fetch {
             $CommunicationLogStatus = 'Failed';
         }
 
-        last COUNT if !$Self->{Reconnect};
+        last COUNT unless $Self->{Reconnect};
     }
 
     $CommunicationLogObject->CommunicationStop(
@@ -181,7 +179,7 @@ sub _Fetch {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # MaxEmailSize
+    # MaxEmailSize is in kB in SysConfig
     my $MaxEmailSize = $ConfigObject->Get('PostMasterMaxEmailSize') || 1024 * 6;
 
     # MaxPopEmailSession
@@ -199,7 +197,7 @@ sub _Fetch {
         Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
-    my %Connect = ();
+    my %Connect;
     eval {
         %Connect = $Self->Connect(
             Host     => $Param{Host},
@@ -436,7 +434,7 @@ sub _Fetch {
                     my $PostMasterObject = $Kernel::OM->Create(
                         'Kernel::System::PostMaster',
                         ObjectParams => {
-                            %{$Self},
+                            $Self->%*,
                             Email                  => \@Lines,
                             Trusted                => $Param{Trusted} || 0,
                             Debug                  => $Debug,
@@ -467,8 +465,7 @@ sub _Fetch {
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::IMAP',
-                            Value         =>
-                                "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues/)!",
+                            Value         => "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!",
                         );
 
                         $MessageStatus = 'Failed';
@@ -503,6 +500,12 @@ sub _Fetch {
             if ($CMD) {
                 print "\n";
             }
+
+            # Discarding ticket object to enable triggering of
+            # ticket events even in case of mail server timeout
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::Ticket'],
+            );
         }
     }
 

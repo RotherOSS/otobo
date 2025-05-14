@@ -86,7 +86,11 @@ sub ArticleRender {
     my %ArticleFields = $LayoutObject->ArticleFields(%Param);
 
     # Get dynamic fields and accounted time
-    my %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
+    my %ArticleMetaFields;
+
+    if ( !$Param{VersionView} ) {
+        %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
+    }
 
     # Get data from modules like Google CVE search
     my @ArticleModuleMeta = $Self->_ArticleModuleMeta(%Param);
@@ -101,7 +105,15 @@ sub ArticleRender {
         || 0;
 
     # Show HTML if RichText is enabled and HTML attachment isn't missing.
-    my $ShowHTML         = $RichTextEnabled;
+    my $ShowHTML = $RichTextEnabled;
+
+    my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
+
+    if ( $Article{ArticleDeleted} && $ArticleStorage ne 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
+        $Param{DeletedVersionID}    = $Article{DeletedVersionID};
+        $Param{ShowDeletedArticles} = 1;
+    }
+
     my $HTMLBodyAttachID = $Kernel::OM->Get('Kernel::Output::HTML::Article::MIMEBase')->HTMLBodyAttachmentIDGet(
         %Param,
     );
@@ -117,13 +129,36 @@ sub ArticleRender {
         $ExcludePlainText = 0;
     }
 
-    # Get attachment index (excluding body attachments).
-    my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-        ArticleID        => $Param{ArticleID},
-        ExcludePlainText => $ExcludePlainText,
-        ExcludeHTMLBody  => $RichTextEnabled,
-        ExcludeInline    => $RichTextEnabled,
-    );
+    my %AtmIndex;
+
+    if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
+
+        # Get attachment index (excluding body attachments).
+        %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID        => $Param{ArticleID},
+            ExcludePlainText => $ExcludePlainText,
+            ExcludeHTMLBody  => $RichTextEnabled,
+            ExcludeInline    => $RichTextEnabled,
+            VersionView      => $Param{VersionView},
+            SourceArticleID  => $Param{SourceArticleID},
+        );
+    }
+
+    else {
+        my $ArticleBackendObjectDB = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
+            ArticleStorageModule => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
+        );
+
+        # Get attachment index (excluding body attachments).
+        %AtmIndex = $ArticleBackendObjectDB->ArticleAttachmentIndex(
+            ArticleID        => $Param{DeletedVersionID},
+            ExcludePlainText => $ExcludePlainText,
+            ExcludeHTMLBody  => $RichTextEnabled,
+            ExcludeInline    => $RichTextEnabled,
+            VersionView      => 1,
+            SourceArticleID  => $Param{ArticleID}
+        );
+    }
 
     my @ArticleAttachments;
 
@@ -153,14 +188,23 @@ sub ArticleRender {
                     UserID    => $Param{UserID} || 1,
                 );
 
+                my $SourceArticleID = $Param{SourceArticleID} || $Param{DeletedVersionID};
+
+                if ( $Article{ArticleDeleted} && $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
+                    $SourceArticleID = '';
+                }
+
                 # run module
                 my %Data = $Object->Run(
                     File => {
                         %File,
                         FileID => $FileID,
                     },
-                    TicketID => $Param{TicketID},
-                    Article  => \%Article,
+                    TicketID        => $Param{TicketID},
+                    Article         => \%Article,
+                    VersionView     => $Param{VersionView},
+                    SourceArticleID => $SourceArticleID,
+                    ArticleDeleted  => $Article{ArticleDeleted} || ''
                 );
 
                 if (%Data) {
@@ -234,6 +278,11 @@ sub ArticleRender {
         }
     }
 
+    my %Flags = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
+        ArticleID => $Article{ArticleID},
+        UserID    => 1,
+    );
+
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentTicketZoom/ArticleRender/MIMEBase',
         Data         => {
@@ -254,6 +303,10 @@ sub ArticleRender {
             SenderInitials => $LayoutObject->UserInitialsGet(
                 Fullname => $Article{FromRealname},
             ),
+            Crypt           => \%Flags,
+            VersionView     => $Param{VersionView},
+            SourceArticleID => $Param{SourceArticleID},
+            VersionID       => $Param{VersionID}
         },
     );
 

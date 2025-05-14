@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -494,7 +494,7 @@ for my $Test (@Tests) {
             ObjectType => 'Ticket',
         },
         ObjectID => -1,
-        UserID   => 1,
+        UserID   =>  1,
     },
 );
 

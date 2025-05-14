@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 #
 # Tests for comparing DateTime objects via operators
@@ -129,10 +129,9 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
         'Comparison via ' . $Operator . ' with undef instead of DateTime object must fail',
     );
 
-    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $Self->False(
-        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Time")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-        'Comparison via ' . $Operator . ' with Time object instead of DateTime object must fail',
+        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Calendar")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+        'Comparison via ' . $Operator . ' with Calendar object instead of DateTime object must fail',
     );
 }
 

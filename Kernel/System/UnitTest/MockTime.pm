@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::UnitTest::MockTime;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use v5.24;
@@ -69,7 +70,7 @@ To be used in test scripts for mocking time.
 # This time, seconds since 1970, will be used by 'time' when set.
 my $FixedTime;
 
-# override the core functions
+# override the core functions during the lifetime of the current process
 BEGIN {
 
     *CORE::GLOBAL::time = sub {
@@ -99,8 +100,7 @@ makes it possible to override the system time as long as this object lives.
 You can pass an optional time parameter that should be used, if not,
 the current system time will be used.
 
-All calls to methods of Kernel::System::Time and Kernel::System::DateTime will
-use the given time afterwards.
+All calls to methods of Kernel::System::DateTime will use the given time afterwards.
 
     FixedTimeSet(366475757);         # with Timestamp
     FixedTimeSet($DateTimeObject);   # with previously created DateTime object
@@ -108,6 +108,10 @@ use the given time afterwards.
 
 Returns:
     Timestamp
+
+Be careful with using this this function as unwanted side effects may occur. One example
+is the communication with S3 compatible storage. The S3 protocol includes a timestamp
+which is used for a sanity check an the server side.
 
 =cut
 

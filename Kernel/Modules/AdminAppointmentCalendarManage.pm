@@ -19,7 +19,7 @@ package Kernel::Modules::AdminAppointmentCalendarManage;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::AsynchronousExecutor);
@@ -42,6 +42,15 @@ sub new {
         'MIMEBase_Body',
         'MIMEBase_AttachmentName',
     ];
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -108,6 +117,17 @@ sub Run {
         );
 
         $GetParam{$Key} = $SafeGetParam{String};
+    }
+
+    # transfer param IncludeInvalid
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $GetParam{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
     }
 
     my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -703,13 +723,47 @@ sub _Overview {
 
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
-    # get all calendars user has RW access to
-    my @Calendars = $CalendarObject->CalendarList(
-        UserID     => $Self->{UserID},
-        Permission => 'rw',
-    );
+    # get all calendars user has RW access to and apply valid state filter
+    my @Calendars;
+    if ( $Self->{IncludeInvalid} ) {
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 0 - All states
+            ValidID => 0,
+        );
+    }
+    else {
+
+        # fetch valid
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 1 - All valid
+            ValidID => 1,
+        );
+
+        # fetch invalid-temporarily
+        push @Calendars, $CalendarObject->CalendarList(
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+
+            # from CalendarList POD: 3 - All temporarily invalid
+            ValidID => 3,
+        );
+    }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalidChecked} ? 'checked' : '',
+        },
+    );
 
     $LayoutObject->Block(
         Name => 'CalendarFilter',
@@ -992,6 +1046,10 @@ sub _TicketAppointments {
         {
             Key   => 'Plus_60',
             Value => $LayoutObject->{LanguageObject}->Translate('+1 hour'),
+        },
+        {
+            Key   => 'Plus_480',
+            Value => $LayoutObject->{LanguageObject}->Translate('+1 day'),
         },
     );
 

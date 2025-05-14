@@ -21,7 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::EventHandler);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -69,8 +74,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -124,8 +128,10 @@ sub BackendForArticle {
 
     if ( !$Param{CommunicationChannelID} ) {
         my @BaseArticles = $Self->ArticleList(
-            TicketID  => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
+            TicketID            => $Param{TicketID},
+            ArticleID           => $Param{ArticleID},
+            ShowDeletedArticles => $Param{ShowDeletedArticles} || '',
+            VersionView         => $Param{VersionView}
         );
         if (@BaseArticles) {
             $Param{CommunicationChannelID} = $BaseArticles[0]->{CommunicationChannelID};
@@ -352,6 +358,7 @@ Set article flags.
         Key       => 'Seen',
         Value     => 1,
         UserID    => 123,
+        ArticleDeleted => 1, #Optional
     );
 
 Events:
@@ -376,6 +383,8 @@ sub ArticleFlagSet {
 
     # check if set is needed
     return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
+
+    return 1 if $Param{ArticleDeleted};
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -628,10 +637,35 @@ sub ArticleAccountedTimeGet {
         Bind => [ \$Param{ArticleID} ],
     );
 
+    # Sum the result rows, even if usually there is only one row.
     my $AccountedTime = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Row[0] =~ s/,/./g;
-        $AccountedTime = $AccountedTime + $Row[0];
+    while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
+        $TimeUnit =~ s/,/./g;
+        $AccountedTime += $TimeUnit;
+    }
+
+    return $AccountedTime if $AccountedTime;
+
+    # article not found in time_accounting table, check if it is deleted and sum former times
+    return if !$DBObject->Prepare(
+        SQL   => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1 ORDER BY id DESC',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1,
+    );
+
+    if ( my ($DeletedArticleID) = $DBObject->FetchrowArray ) {
+
+        # db query
+        return if !$DBObject->Prepare(
+            SQL  => 'SELECT time_unit FROM time_accounting_version WHERE article_id = ?',
+            Bind => [ \$DeletedArticleID ],
+        );
+
+        # Sum the result rows, even if usually there is only one row.
+        while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
+            $TimeUnit =~ s/,/./g;
+            $AccountedTime += $TimeUnit;
+        }
     }
 
     return $AccountedTime;
@@ -1148,7 +1182,9 @@ sub ArticleSearchableFieldsList {
 Returns an array-hash with the meta articles of the current ticket.
 
     my @MetaArticles = $ArticleObject->_MetaArticleList(
-        TicketID => 123,
+        TicketID            => 123,
+        ShowDeletedArticles => 1, #Optional
+        VersionView         => 1, #Optional
     );
 
 Returns:
@@ -1165,6 +1201,7 @@ Returns:
             CreateTime             => '2017-03-01 00:00:00',
             ChangeBy               => 1,
             ChangeTime             => '2017-03-01 00:00:00',
+            ArticleDeleted         => 1, #If article is deleted
         },
         { ... },
     )
@@ -1184,7 +1221,16 @@ sub _MetaArticleList {
         return;
     }
 
-    my $CacheKey = '_MetaArticleList::' . $Param{TicketID};
+    my $ShowDeletedArticles = $Param{ShowDeletedArticles} ? 1 : 0;
+    my $VersionView         = $Param{VersionView}         ? 1 : 0;
+
+    my $CacheKey
+        = '_MetaArticleList::'
+        . $Param{TicketID}
+        . '::Deleted::'
+        . $ShowDeletedArticles
+        . '::Version::'
+        . $VersionView;
 
     my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
@@ -1198,15 +1244,40 @@ sub _MetaArticleList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return if !$DBObject->Prepare(
-        SQL => '
-            SELECT id, ticket_id, communication_channel_id, article_sender_type_id, is_visible_for_customer,
-                        create_by, create_time, change_by, change_time
-            FROM article
-            WHERE ticket_id = ?
-            ORDER BY id ASC',
-        Bind => [ \$Param{TicketID} ],
-    );
+    if ( !$ShowDeletedArticles && !$VersionView ) {
+        return if !$DBObject->Prepare(
+            SQL => "
+                SELECT a.id, a.ticket_id, a.communication_channel_id, a.article_sender_type_id, a.is_visible_for_customer,
+                a.create_by, a.create_time, a.change_by, a.change_time, 0
+                FROM article a WHERE a.ticket_id = ? ORDER BY a.id ASC",
+            Bind => [ \$Param{TicketID} ],
+        );
+    }
+    elsif ($VersionView) {
+        return if !$DBObject->Prepare(
+            SQL => "
+                    SELECT av.id, av.ticket_id, av.communication_channel_id, av.article_sender_type_id, av.is_visible_for_customer,
+                    av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
+                    FROM article_version av WHERE av.ticket_id = ? AND av.article_delete <> 1
+                    ORDER BY av.id",
+            Bind => [ \$Param{TicketID} ],
+        );
+    }
+    else {
+        return if !$DBObject->Prepare(
+            SQL => "SELECT * FROM (
+                        SELECT a.id, a.ticket_id, a.communication_channel_id, a.article_sender_type_id, a.is_visible_for_customer,
+                        a.create_by, a.create_time, a.change_by, a.change_time, 0 AS article_delete
+                        FROM article a WHERE a.ticket_id = ?
+                    UNION
+                        SELECT av.source_article_id AS id, av.ticket_id, av.communication_channel_id, av.article_sender_type_id, av.is_visible_for_customer,
+                        av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
+                        FROM article_version av WHERE av.ticket_id = ? AND av.article_delete = 1
+                    ) at
+                    ORDER BY at.create_time ASC, at.id ASC",
+            Bind => [ \$Param{TicketID}, \$Param{TicketID} ],
+        );
+    }
 
     my @Index;
     my $Count;
@@ -1222,6 +1293,12 @@ sub _MetaArticleList {
         $Result{ChangeBy}               = $Row[7];
         $Result{ChangeTime}             = $Row[8];
         $Result{ArticleNumber}          = ++$Count;
+
+        # key shall only exist if value is 1
+        if ( $Row[9] ) {
+            $Result{ArticleDeleted} = 1;
+        }
+
         push @Index, \%Result;
     }
 
@@ -1262,10 +1339,14 @@ sub _ArticleCacheClear {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # MetaArticleIndex()
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => '_MetaArticleList::' . $Param{TicketID},
-    );
+    for my $VersionView ( 0 .. 1 ) {
+        for my $ShowDeletedArticles ( 0 .. 1 ) {
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => $Self->{CacheType},
+                Key  => '_MetaArticleList::' . $Param{TicketID} . '::Deleted::' . $ShowDeletedArticles . '::Version::' . $VersionView,
+            );
+        }
+    }
 
     return 1;
 }

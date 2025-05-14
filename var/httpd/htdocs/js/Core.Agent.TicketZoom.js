@@ -100,17 +100,19 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 ArticleID: ArticleID
             };
 
-            // Mark old row as readed
-            $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
-            $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
-                $(this).closest('li').addClass('Seen');
-            });
-
             // Mark article as seen in backend
             Core.AJAX.FunctionCall(
                 Core.Config.Get('CGIHandle'),
                 Data,
-                function () {}
+                function (Response) {
+                    if ( Response == 1 ) {
+                        // Mark old row as readed
+                        $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+                        $('.TimelineView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
+                            $(this).closest('li').addClass('Seen');
+                        });
+                    }
+                }
             );
         }, parseInt(Timeout, 10));
     };
@@ -503,13 +505,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
     /**
      * @private
-     * @name InitProcessWidget
+     * @name InitOverviewWidget
      * @memberof Core.Agent.TicketZoom
      * @function
      * @description
      *      This function initializes events for process widget.
      */
-     function InitProcessWidget() {
+     function InitOverviewWidget() {
         var WidgetWidth, FieldsPerRow, FieldMargin, FieldWidth;
 
         if ($('.DynamicFieldAutoResize').length > 0) {
@@ -647,7 +649,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ArticleFilterDialog = parseInt(Core.Config.Get('ArticleFilterDialog'), 10),
             AsyncWidgetActions = Core.Config.Get('AsyncWidgetActions') || {},
             TimelineView = Core.Config.Get('TimelineView'),
-            ProcessWidget = Core.Config.Get('ProcessWidget');
+            OverviewWidget = Core.Config.Get('OverviewWidget');
 
         // create open popup event for dropdown elements
         if (MenuItems.length > 0) {
@@ -667,10 +669,10 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // Check, if ZoomExpand is active or not.
         //   Only active on tickets with less than 400 articles (see bug#8424).
-        //   Since passed value is a regular 0/1 string, make sure it's a boolean first. To do this, convert it to
-        //   integer by performing addition on it (+) and then use double not (!!) for casting it to boolean.
-        //   !! + "1" === false;
-        //   !! + "0" === true;
+        //   Since passed value is a regular string, either "0" or "1", make sure it's a boolean first. To do this, convert it to
+        //   integer by performing unary plus on it (+) and then use double not (!!) for casting it to boolean.
+        //   !! + "1"   evaluates to true;
+        //   !! + "0"   evaluates to false;
         ZoomExpand = !! + Core.Config.Get('ZoomExpand');
 
         Core.UI.Resizable.Init($('#ArticleTableBody'), ArticleTableHeight, function (Event, UI, Height) {
@@ -736,7 +738,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 $(this).closest('table').find('tr').removeClass('Active').end().end().addClass('Active');
 
                 // Mark old row as readed
-                $(this).closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+                //$(this).closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
 
                 // Load content of new article
                 LoadArticle($(this).find('input.ArticleInfo').val(), $(this).find('input.ArticleID').val());
@@ -828,8 +830,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         // initialize events for process widget
-        if (typeof ProcessWidget !== 'undefined' && parseInt(ProcessWidget, 10) === 1) {
-            InitProcessWidget();
+        if (typeof OverviewWidget !== 'undefined' && parseInt(OverviewWidget, 10) === 1) {
+            InitOverviewWidget();
         }
 
         Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
@@ -842,6 +844,46 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         $('a.SplitSelection').unbind('click.SplitSelection').bind('click.SplitSelection', function() {
             Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
             return false;
+        });
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('a.ArticleDelete').unbind('click.ArticleDelete').bind('click.ArticleDelete', function() {
+                Core.Agent.ArticleFeatures.OpenDeleteConfirmDialog($(this).attr('href'));
+                return false;
+            });
+        });
+
+        $('a.ArticleDelete').unbind('click.ArticleDelete').bind('click.ArticleDelete', function() {
+            Core.Agent.ArticleFeatures.OpenDeleteConfirmDialog($(this).attr('href'));
+            return false;
+        });
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('a.ArticleRestore').unbind('click.ArticleRestore').bind('click.ArticleRestore', function() {
+                Core.Agent.ArticleFeatures.OpenUndoDeleteConfirmDialog($(this).attr('href'));
+                return false;
+            });
+        });
+
+        $('a.ArticleRestore').unbind('click.ArticleRestore').bind('click.ArticleRestore', function() {
+            Core.Agent.ArticleFeatures.OpenUndoDeleteConfirmDialog($(this).attr('href'));
+            return false;
+        });
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('#ArticleVersion').on('change', function () {
+                var PopupType = 'TicketAction';
+                var VersionID = $("#ArticleVersion").prop('selectedIndex');
+
+                if ( $('#ArticleVersion').val() != "" ) {
+                    var URL = Core.Config.Get('CGIHandle') + '?Action=AgentTicketArticleVersionView;TicketID='+$("input[name='TicketID']").val() + ';VersionID=' + VersionID +
+                                ';ArticleID='+$('#ArticleVersion').val()+';SourceArticleID='+$("input[name='ArticleID']").val()+';VersionView=1;OTOBOAgentInterface='+$("input[name='OTOBOAgentInterface']").val();
+
+                    Core.UI.Popup.OpenPopup(URL, PopupType);
+                    $('#ArticleVersion').val('');
+                }
+                return false;
+            });
         });
     };
 

@@ -18,12 +18,22 @@ package Kernel::System::DynamicField::Driver::Checkbox;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+use List::Util qw(sum);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -36,11 +46,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Checkbox
+Kernel::System::DynamicField::Driver::Checkbox - checkbox dynamic field
 
 =head1 DESCRIPTION
 
-DynamicFields Checkbox Driver delegate
+DynamicFields Checkbox driver delegate
 
 =head1 PUBLIC INTERFACE
 
@@ -55,11 +65,14 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
+
+    # Checkbox dynamic fields are stored in the database table attribute dynamic_field_value.value_int
+    $Self->{ValueKey}       = 'ValueInt';
+    $Self->{TableAttribute} = 'value_int';
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -69,28 +82,26 @@ sub new {
         'IsFiltrable'                  => 1,
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
     my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Checkbox');
 
     EXTENSION:
-    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
+    for my $ExtensionKey ( sort keys $DynamicFieldDriverExtensions->%* ) {
 
         # skip invalid extensions
-        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
+        next EXTENSION unless IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
 
         # create a extension config shortcut
         my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
 
-        # check if extension has a new module
+        # check if extension declares a new parent module
         if ( $Extension->{Module} ) {
 
-            # check if module can be loaded
-            if (
-                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
-                )
-            {
+            # load extension module and bail out when that fails
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
@@ -112,68 +123,119 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
+    # get raw values of the dynamic field
     my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        FieldID  => $Param{DynamicFieldConfig}{ID},
         ObjectID => $Param{ObjectID},
     );
 
-    return if !$DFValue;
-    return if !IsArrayRefWithData($DFValue);
-    return if !IsHashRefWithData( $DFValue->[0] );
-
-    return $DFValue->[0]->{ValueInt};
+    return $Self->ValueStructureFromDB(
+        ValueDB    => $DFValue,
+        ValueKey   => $Self->{ValueKey},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
+        Set        => $Param{Set},
+    );
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    # check value for just 1 or 0
-    if ( defined $Param{Value} && !$Param{Value} ) {
-        $Param{Value} = 0;
+    # transform empty values into 0 to be able to use ValueStructureToDB
+    if ( $Param{Set} && $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        for my $i ( 0 .. $#{ $Param{Value} } ) {
+            for my $j ( 0 .. $#{ $Param{Value}[$i] } ) {
+                if ( defined $Param{Value}[$i][$j] && !$Param{Value}[$i][$j] ) {
+                    $Param{Value}[$i][$j] = 0;
+                }
+                elsif ( $Param{Value}[$i][$j] && $Param{Value}[$i][$j] !~ m{\A [0|1]? \z}xms ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Value $Param{Value}[$i][$j] is invalid for Checkbox fields!",
+                    );
+                    return;
+                }
+            }
+        }
     }
-    elsif ( $Param{Value} && $Param{Value} !~ m{\A [0|1]? \z}xms ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Value $Param{Value} is invalid for Checkbox fields!",
-        );
-        return;
+    elsif ( $Param{Set} || $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        for my $i ( 0 .. $#{ $Param{Value} } ) {
+            if ( defined $Param{Value}[$i] && !$Param{Value}[$i] ) {
+                $Param{Value}[$i] = 0;
+            }
+            elsif ( $Param{Value}[$i] && $Param{Value}[$i] !~ m{\A [0|1]? \z}xms ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Value $Param{Value}[$i] is invalid for Checkbox fields!",
+                );
+                return;
+            }
+        }
+    }
+    else {
+        if ( defined $Param{Value} && !$Param{Value} ) {
+            $Param{Value} = 0;
+        }
+        elsif ( $Param{Value} && $Param{Value} !~ m{\A [0|1]? \z}xms ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Value $Param{Value} is invalid for Checkbox fields!",
+            );
+            return;
+        }
     }
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => [
-            {
-                ValueInt => $Param{Value},
-            },
-        ],
-        UserID => $Param{UserID},
+    my $DBValue = $Self->ValueStructureToDB(
+        Value      => $Param{Value},
+        ValueKey   => $Self->{ValueKey},
+        Set        => $Param{Set},
+        MultiValue => $Param{DynamicFieldConfig}{Config}{MultiValue},
     );
 
-    return $Success;
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+        FieldID  => $Param{DynamicFieldConfig}->{ID},
+        ObjectID => $Param{ObjectID},
+        Value    => $DBValue,
+        UserID   => $Param{UserID},
+    );
 }
 
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check value for just 1 or 0
-    if ( defined $Param{Value} && !$Param{Value} ) {
-        $Param{Value} = 0;
+    # check values
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = @{ $Param{Value} };
     }
-    elsif ( $Param{Value} && $Param{Value} !~ m{\A [0|1]? \z}xms ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Value $Param{Value} is invalid for Checkbox fields!",
-        );
-        return;
+    else {
+        @Values = ( $Param{Value} );
     }
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
-        Value => {
-            ValueInt => $Param{Value},
-        },
-        UserID => $Param{UserID}
-    );
+    for my $Value (@Values) {
+
+        # check value for just 1 or 0
+        if ( defined $Value && !$Value ) {
+            $Value = 0;
+        }
+        elsif ( $Value && $Value !~ m{\A [0|1]? \z}xms ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Value $Value is invalid for Checkbox fields!",
+            );
+            return;
+        }
+    }
+
+    my $Success;
+    for my $Value (@Values) {
+        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
+            Value => {
+                $Self->{ValueKey} => $Value,
+            },
+            UserID => $Param{UserID},
+        );
+        return if !$Success;
+    }
 
     return $Success;
 }
@@ -225,17 +287,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldConfig   = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName     = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldNameUsed = $FieldName . "Used";
+    my $FieldLabel    = $Param{DynamicFieldConfig}->{Label};
 
-    my $Value;
-
-    # set the field value or default
-    if ( $Param{UseDefaultValue} ) {
-        $Value = $FieldConfig->{DefaultValue} || '';
-    }
-    $Value = $Param{Value} // $Value;
+    my @Values;
 
     # extract the dynamic field value from the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -243,29 +300,64 @@ sub EditFieldRender {
         %Param,
     );
 
+    # cover the single value case
+    if ( !$FieldConfig->{MultiValue} ) {
+        $FieldValue = [$FieldValue];
+    }
+
     # set values from ParamObject if present
-    if ( defined $FieldValue && IsHashRefWithData($FieldValue) ) {
-        if (
-            !defined $FieldValue->{FieldValue}
-            && defined $FieldValue->{UsedValue}
-            && $FieldValue->{UsedValue} eq '1'
-            )
-        {
-            $Value = '0';
-        }
-        elsif (
-            defined $FieldValue->{FieldValue}
-            && $FieldValue->{FieldValue} eq '1'
-            && defined $FieldValue->{UsedValue}
-            && $FieldValue->{UsedValue} eq '1'
-            )
-        {
-            $Value = '1';
+    if ( defined $FieldValue && $FieldValue->@* ) {
+
+        VALUE_ITEM:
+        for my $ValueItem ( $FieldValue->@* ) {
+            next VALUE_ITEM unless defined $ValueItem;
+            next VALUE_ITEM unless IsHashRefWithData($ValueItem);
+            next VALUE_ITEM unless defined $ValueItem->{UsedValue};
+            next VALUE_ITEM unless defined $ValueItem->{UsedValue} eq '1';
+
+            my $ValueIsUsed = ( $ValueItem->{UsedValue} // '' ) eq '1';
+            if ( !defined $ValueItem->{FieldValue} && $ValueIsUsed ) {
+                push @Values, {
+                    FieldValue => 0,
+                    UsedValue  => 1,
+                };
+                next VALUE_ITEM;
+            }
+
+            push @Values, {
+                FieldValue => $ValueItem->{FieldValue},
+                UsedValue  => $ValueItem->{UsedValue},
+            };
         }
     }
 
-    # set as checked if necessary
-    my $FieldChecked = ( defined $Value && $Value eq '1' ? 'checked="checked"' : '' );
+    if ( !@Values ) {
+
+        my @SimpleValues;
+
+        if ( !defined $Param{Value} ) {
+
+            # do nothing
+        }
+        elsif ( ref $Param{Value} eq 'ARRAY' ) {
+            push @SimpleValues, $Param{Value}->@*;
+        }
+        else {
+            push @SimpleValues, $Param{Value};
+        }
+
+        if ( !@SimpleValues && $Param{UseDefaultValue} ) {
+
+            # might be undef
+            push @SimpleValues, $FieldConfig->{DefaultValue};
+        }
+
+        if ( !@SimpleValues ) {
+            push @SimpleValues, undef;
+        }
+
+        @Values = map { { FieldValue => $_ } } @SimpleValues;
+    }
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldCheckbox';
@@ -273,9 +365,17 @@ sub EditFieldRender {
         $FieldClass .= ' ' . $Param{Class};
     }
 
-    # set field as mandatory
-    if ( $Param{Mandatory} ) {
+    # set classes according to mandatory and acl hidden params
+    if ( $Param{ACLHidden} && $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required_IfVisible';
+    }
+    elsif ( $Param{Mandatory} ) {
         $FieldClass .= ' Validate_Required';
+    }
+
+    # set readonly css class
+    if ( $Param{Readonly} ) {
+        $FieldClass .= ' Readonly';
     }
 
     # set error css class
@@ -283,114 +383,143 @@ sub EditFieldRender {
         $FieldClass .= ' ServerError';
     }
 
-    my $FieldNameUsed = $FieldName . "Used";
-
-    my $HTMLString = <<"EOF";
-<input type="hidden" id="$FieldNameUsed" name="$FieldNameUsed" value="1" />
-EOF
-
-    if ( $Param{ConfirmationNeeded} ) {
-
-        # set checked property
-        my $FieldUsedChecked0 = '';
-        my $FieldUsedChecked1 = '';
-        if ( $FieldValue->{UsedValue} ) {
-            $FieldUsedChecked1 = 'checked="checked"';
-        }
-        else {
-            $FieldUsedChecked0 = 'checked="checked"';
-        }
-
-        my $FieldNameUsed0 = $FieldNameUsed . '0';
-        my $FieldNameUsed1 = $FieldNameUsed . '1';
-        my $TranslatedDesc = $Param{LayoutObject}->{LanguageObject}->Translate(
-            'Ignore this field.',
-        );
-
-        if ( !$Param{NoIgnoreField} ) {
-            $HTMLString = <<"EOF";
-<input type="radio" id="$FieldNameUsed0" name="$FieldNameUsed" value="" $FieldUsedChecked0 />
-$TranslatedDesc
-<div class="clear"></div>
-<input type="radio" id="$FieldNameUsed1" name="$FieldNameUsed" value="1" $FieldUsedChecked1 />
-EOF
-        }
+    # set ajaxupdate class
+    if ( $Param{AJAXUpdate} ) {
+        $FieldClass .= ' FormUpdate';
     }
 
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+    my %FieldTemplateData = (
+        'FieldNameUsed' => $FieldNameUsed,
+        'FieldClass'    => $FieldClass,
+        'FieldName'     => $FieldName,
     );
 
-    $HTMLString .= <<"EOF";
-<input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" $FieldChecked value="1" />
-EOF
+    my %Confirmation = (
+        ConfirmationNeeded => $Param{ConfirmationNeeded},
+    );
 
-    if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+    $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
+    $FieldTemplateData{Readonly}          = $Param{Readonly} ? 1 : 0;
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
-    }
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/Checkbox'
+        :
+        'DynamicField/Agent/Checkbox';
 
-    if ( $Param{ServerError} ) {
+    my %Error = (
+        ServerError => $Param{ServerError},
+        Mandatory   => $Param{Mandatory},
+    );
+    my @ResultHTML;
+    for my $ValueIndex ( 0 .. $#Values ) {
+        my $Value = $Values[$ValueIndex];
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
+        # set suffix and adjust ids for template
+        my $Suffix = $Param{DynamicFieldConfig}{Config}{MultiValue} ? '_' . $ValueIndex : '';
+        $FieldTemplateData{FieldID}     = $FieldName . $Suffix;
+        $FieldTemplateData{FieldIDUsed} = $FieldNameUsed . $Suffix;
+        $FieldTemplateData{DivID}       = $FieldName . $Suffix;
+
+        if ( $Confirmation{ConfirmationNeeded} ) {
+
+            # set checked property
+            $Confirmation{FieldUsedChecked0} = '';
+            $Confirmation{FieldUsedChecked1} = '';
+            if ( $Value->{UsedValue} ) {
+                $Confirmation{FieldUsedChecked1} = 'checked ';
             }
-        );
-        my $DivID = $FieldName . 'ServerError';
+            else {
+                $Confirmation{FieldUsedChecked0} = 'checked ';
+            }
 
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
-    }
+            $Confirmation{FieldNameUsed0} = $FieldNameUsed . '0';
+            $Confirmation{FieldIDUsed0}   = $FieldNameUsed . '0' . $Suffix;
+            $Confirmation{FieldNameUsed1} = $FieldNameUsed . '1';
+            $Confirmation{FieldIDUsed1}   = $FieldNameUsed . '1' . $Suffix;
+            $Confirmation{Description}    = Translatable('Ignore this field.');
 
-    if ( $Param{AJAXUpdate} ) {
-
-        my $FieldsToUpdate = '';
-        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
-
-            # Remove current field from updatable fields list.
-            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
-
-            # Quote all fields, put commas between them.
-            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
+            $Confirmation{NoIgnoreField} = $Param{NoIgnoreField};
         }
 
-        # Add JS to call FormUpdate() on change event.
-        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
-\$('#$FieldName').on('change', function () {
-    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
-});
-EOF
+        if ( !$ValueIndex ) {
+            if ( $Error{ServerError} ) {
+                $Error{DivIDServerError} = $FieldName . 'ServerError' . $Suffix;
+                $Error{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+            }
+            if ( $Error{Mandatory} ) {
+                $Error{DivIDMandatory}       = $FieldName . 'Error' . $Suffix;
+                $Error{FieldRequiredMessage} = Translatable('This field is required.');
+            }
+        }
+
+        # set as checked if necessary
+        my $FieldChecked = ( defined $Value->{UsedValue} ? $Value->{UsedValue} eq 1 : 1 ) && defined $Value->{FieldValue} && $Value->{FieldValue} eq 1;
+        $FieldTemplateData{FieldChecked} = $FieldChecked ? 'checked ' : '';
+
+        push @ResultHTML, $Param{LayoutObject}->Output(
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+                %Confirmation,
+                %Error,
+            },
+        );
     }
 
-    # call EditLabelRender on the common backend
+    # build template html
+    my $TemplateHTML;
+    if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
+
+        # adjust ids for template
+        $FieldTemplateData{FieldID} = $FieldName . '_Template';
+        $FieldTemplateData{DivID}   = $FieldName . '_Template';
+
+        if ( $Confirmation{ConfirmationNeeded} ) {
+
+            # set checked property
+            $Confirmation{FieldUsedChecked0} = 'checked ';
+
+            $Confirmation{FieldNameUsed0} = $FieldNameUsed . '0';
+            $Confirmation{FieldIDUsed0}   = $FieldNameUsed . '0_Template';
+            $Confirmation{FieldNameUsed1} = $FieldNameUsed . '1';
+            $Confirmation{FieldIDUsed1}   = $FieldNameUsed . '1_Template';
+            $Confirmation{Description}    = Translatable('Ignore this field.');
+
+            $Confirmation{NoIgnoreField} = $Param{NoIgnoreField};
+        }
+
+        $TemplateHTML = $Param{LayoutObject}->Output(
+            TemplateFile => $FieldTemplateFile,
+            Data         => {
+                %FieldTemplateData,
+                %Confirmation,
+            },
+        );
+    }
+
+    # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
-        FieldName => $FieldName,
+        FieldName => $FieldConfig->{MultiValue} ? $FieldName . '_0' : $FieldName,
     );
 
     my $Data = {
-        Field => $HTMLString,
         Label => $LabelString,
     };
+
+    if ( $FieldConfig->{MultiValue} ) {
+        $Data->{MultiValue}         = \@ResultHTML;
+        $Data->{MultiValueTemplate} = $TemplateHTML;
+    }
+    else {
+        $Data->{Field} = $ResultHTML[0];
+    }
 
     return $Data;
 }
@@ -400,7 +529,7 @@ sub EditFieldValueGet {
 
     my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    my %Data;
+    my $Value;
 
     # check if there is a Template and retrieve the dynamic field value from there
     if (
@@ -410,11 +539,10 @@ sub EditFieldValueGet {
         )
         )
     {
-        # get dynamic field value form Template
-        $Data{FieldValue} = $Param{Template}->{$FieldName};
-
-        # get dynamic field used value form Template
-        $Data{UsedValue} = $Param{Template}->{ $FieldName . 'Used' };
+        $Value = {
+            FieldValue => $Param{Template}->{$FieldName},
+            UsedValue  => $Param{Template}->{ $FieldName . 'Used' },
+        };
     }
 
     # otherwise get dynamic field value from the web request
@@ -423,120 +551,159 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            my @DataValues = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @DataUsed   = $Param{ParamObject}->GetArray( Param => $FieldName . 'Used' );
 
-        # get dynamic field value from param
-        $Data{FieldValue} = $Param{ParamObject}->GetParam( Param => $FieldName );
+            # delete template used value
+            pop @DataUsed;
 
-        # get dynamic field used value from param
-        $Data{UsedValue} = $Param{ParamObject}->GetParam( Param => $FieldName . 'Used' );
+            # NOTE deleting actual template value only necessary when default value is 1
+            if ( $Param{DynamicFieldConfig}->{Config}{DefaultValue} ) {
+                pop @DataValues;
+            }
+
+            my @CheckedValues;
+            INDEX:
+            for my $Index (@DataValues) {
+                next INDEX unless $Index;
+
+                $CheckedValues[ $Index - 1 ] = 1;
+            }
+
+            for my $ValueIndex ( 0 .. $#DataUsed ) {
+                push $Value->@*, {
+                    FieldValue => $CheckedValues[$ValueIndex],
+                    UsedValue  => $DataUsed[$ValueIndex],
+                };
+            }
+        }
+        else {
+            $Value = {
+                FieldValue => $Param{ParamObject}->GetParam( Param => $FieldName ),
+                UsedValue  => $Param{ParamObject}->GetParam( Param => $FieldName . 'Used' ),
+            };
+
+        }
     }
 
     # check if return value structure is needed
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
-        return \%Data;
+        return $Value;
     }
 
     # check if return template structure is needed
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
-        return {
-            $FieldName          => $Data{FieldValue},
-            $FieldName . 'Used' => $Data{UsedValue},
-        };
+
+        # transform data into needed structure and return based on multivalue
+        if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+            my @ReturnStructure;
+            for my $ValueItem ( $Value->@* ) {
+                push @ReturnStructure, {
+                    $FieldName          => $ValueItem->{FieldValue},
+                    $FieldName . 'Used' => $ValueItem->{UsedValue},
+                };
+            }
+            return \@ReturnStructure;
+        }
+        else {
+            return {
+                $FieldName          => $Value->{FieldValue},
+                $FieldName . 'Used' => $Value->{UsedValue},
+            };
+        }
     }
 
     # return undef if the hidden value is not present
-    return if !$Data{UsedValue};
-
-    # set the correct return value
-    my $Value = '0';
-    if ( $Data{FieldValue} ) {
-        $Value = $Data{FieldValue};
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        return if !sum map { $_->{UsedValue} } $Value->@*;
+    }
+    else {
+        return if !$Value->{UsedValue};
     }
 
-    return $Value;
+    # set the correct return value
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        return [ map { ( defined $_->{FieldValue} ) ? 1 : 0 } $Value->@* ];
+    }
+    else {
+        return ( defined $Value->{FieldValue} ) ? 1 : 0;
+    }
 }
 
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
     # get the field value from the http request
-    my $FieldValue = $Self->EditFieldValueGet(
+    my $Value = $Self->EditFieldValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ParamObject        => $Param{ParamObject},
-
-        # not necessary for this backend but place it for consistency reasons
-        ReturnValueStructure => 1,
     );
-    my $Value = $FieldValue->{FieldValue} || '';
 
     my $ServerError;
     my $ErrorMessage;
 
+    if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        $Value = [$Value];
+    }
+
     # perform necessary validations
-    if ( $Param{Mandatory} && !$Value ) {
-        $ServerError = 1;
+
+    for my $ValueItem ( @{$Value} ) {
+
+        # validate only 0 or 1 as possible values
+        if ( $ValueItem && $ValueItem ne 1 ) {
+            $ServerError  = 1;
+            $ErrorMessage = 'The field content is invalid';
+        }
     }
 
-    # validate only 0 or 1 as possible values
-    if ( $Value && $Value ne 1 ) {
-        $ServerError  = 1;
-        $ErrorMessage = 'The field content is invalid';
-    }
-
-    # create resulting structure
-    my $Result = {
+    # return resulting structure
+    return {
         ServerError  => $ServerError,
         ErrorMessage => $ErrorMessage,
     };
-
-    return $Result;
 }
 
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # check for Null value
-    if ( !defined $Param{Value} ) {
-        return {
-            Value => '',
-            Title => '',
-            Link  => '',
-        };
+    # get raw Value strings from field value
+    my @Values = !ref $Param{Value}
+        ? ( $Param{Value} )
+        : scalar $Param{Value}->@* ? $Param{Value}->@*
+        :                            ('');
+
+    my @ReadableValues;
+    my @ReadableTitles;
+    for my $ValueItem (@Values) {
+        $ValueItem //= '';
+
+        $ValueItem = $ValueItem ? 'Checked' : 'Unchecked';
+
+        # translate value
+        $ValueItem = $Param{LayoutObject}->{LanguageObject}->Translate($ValueItem);
+
+        # set title as value after update and before limit
+        push @ReadableTitles, $ValueItem;
+
+        push @ReadableValues, $ValueItem;
     }
 
-    # convert value to user friendly string
-    my $Value = 'Checked';
-    if ( $Param{Value} ne 1 ) {
-        $Value = 'Unchecked';
-    }
+    my $ValueSeparator = '<br>';
 
-    # always translate value
-    $Value = $Param{LayoutObject}->{LanguageObject}->Translate($Value);
-
-    # in this backend there is no need for HTMLOutput
-    # Title is always equal to Value
-    my $Title = $Value;
-
-    # this field type does not support the Link Feature
-    my $Link;
-
-    # create return structure
-    my $Data = {
-        Value => $Value,
-        Title => $Title,
-        Link  => $Link,
+    # return a data structure
+    return {
+        Value => '' . join( $ValueSeparator, @ReadableValues ),
+        Title => '' . join( ', ',            @ReadableTitles ),
+        Link  => undef,    # this field type does not support the Link Feature
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     my $Value;
     my @DefaultValue;
@@ -551,12 +718,21 @@ sub SearchFieldRender {
     }
 
     # get the field value, this function is always called after the profile is loaded
-    my $FieldValue = $Self->SearchFieldValueGet(%Param);
+    my $FieldValues = $Self->SearchFieldValueGet(
+        %Param,
+    );
 
-    # set values from profile if present
-    if ( defined $FieldValue ) {
-        $Value = $FieldValue;
+    if ( defined $FieldValues ) {
+        $Value = $FieldValues;
     }
+
+    # since search field is multiple => 1, do value transformation on array basis
+    if ( !IsArrayRefWithData($Value) ) {
+        $Value = [$Value];
+    }
+
+    # check and set class if necessary
+    my $FieldClass = 'DynamicFieldDropdown Modernize';
 
     for my $Item ( @{$Value} ) {
 
@@ -570,10 +746,8 @@ sub SearchFieldRender {
         else {
             $Item = -1;
         }
-    }
 
-    # check and set class if necessary
-    my $FieldClass = 'DynamicFieldDropdown Modernize';
+    }
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
         Data => {
@@ -595,12 +769,10 @@ sub SearchFieldRender {
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -647,10 +819,9 @@ sub SearchFieldParameterBuild {
     }
 
     if ($Value) {
+        if ( ref $Value eq 'ARRAY' ) {
 
-        if ( ref $Value eq "ARRAY" ) {
             my @DisplayItemList;
-            ITEM:
             for my $Item ( @{$Value} ) {
 
                 # set the display value
@@ -674,7 +845,6 @@ sub SearchFieldParameterBuild {
 
             # combine different values into one string
             $DisplayValue = join ' + ', @DisplayItemList;
-
         }
         else {
 
@@ -750,18 +920,26 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    # transform value data type
+    my @Values;
+    if ( ref $Param{Value} eq 'ARRAY' ) {
+        @Values = $Param{Value}->@*;
+    }
+    else {
+        @Values = ( $Param{Value} );
+    }
+
+    # Create a comma separated list
+    my $Value = join ', ', map { $_ // '' } @Values;
 
     # Title is always equal to Value
     my $Title = $Value;
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -795,7 +973,34 @@ sub TemplateValueTypeGet {
 sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Value = int( rand(2) );
+    my $Value;
+
+    if ( $Param{SetCount} ) {
+        if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                for my $j ( 0 .. int( rand(3) ) ) {
+                    $Value->[$i][$j] = int( rand(2) );
+                }
+            }
+        }
+        else {
+            for my $i ( 0 .. $Param{SetCount} - 1 ) {
+                $Value->[$i] = int( rand(2) );
+            }
+        }
+
+        $Param{Set} = 1;
+    }
+
+    elsif ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
+        for my $j ( 0 .. int( rand(3) ) ) {
+            $Value->[$j] = int( rand(2) );
+        }
+    }
+
+    else {
+        $Value = int( rand(2) );
+    }
 
     my $Success = $Self->ValueSet(
         %Param,
@@ -832,21 +1037,17 @@ sub ObjectMatch {
 sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
-    # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    # return historical values from database
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
     );
-
-    # return the historical values from database
-    return $HistoricalValues;
 }
 
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    return if !defined $Param{Key};
-
+    return unless defined $Param{Key};
     return '' if $Param{Key} eq '';
 
     my $Value = defined $Param{Key} && $Param{Key} eq '1' ? 'Checked' : 'Unchecked';
@@ -870,9 +1071,12 @@ sub ColumnFilterValuesGet {
         1 => 'Checked',
     };
 
-    # get historical values from database
-    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
-        TicketIDs => $Param{TicketIDs},
+    # article uses the same routine as ticket
+    my $ObjectType = $Param{DynamicFieldConfig}{ObjectType} eq 'Article' ? 'Ticket' : $Param{DynamicFieldConfig}{ObjectType};
+
+    # get column filter values from database
+    my $ColumnFilterValues = $Kernel::OM->Get("Kernel::System::${ObjectType}::ColumnFilter")->DynamicFieldFilterValuesGet(
+        %Param,
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
     );

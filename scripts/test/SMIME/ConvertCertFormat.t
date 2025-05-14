@@ -21,14 +21,12 @@ use utf8;
 
 # core modules
 use File::Path qw(mkpath rmtree);
-use Devel::Peek;
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use Kernel::System::Crypt::SMIME;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -73,7 +71,7 @@ $ConfigObject->Set(
 );
 
 # check if openssl is located there
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {

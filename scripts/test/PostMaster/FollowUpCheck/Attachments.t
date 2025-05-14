@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::System::PostMaster;
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::PostMaster ();
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -89,7 +92,7 @@ my $Subject = $TicketObject->TicketSubjectBuild(
 my @Tests = (
     {
         Name  => 'Ticket number in body, no attachments (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: Test
@@ -101,7 +104,7 @@ EOF
     },
     {
         Name  => 'Ticket number in body of HTML email, no attachments (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Content-Type: text/html; charset="iso-8859-1"; format=flowed
@@ -114,7 +117,7 @@ EOF
     },
     {
         Name  => 'Plain email, ticket number in body, attachment without ticket number (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -144,7 +147,7 @@ EOF
     },
     {
         Name  => 'Plain email, attachment with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -174,7 +177,7 @@ EOF
     },
     {
         Name  => 'HTML email, body with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -226,7 +229,7 @@ EOF
 
     {
         Name  => 'HTML email, attachment with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200

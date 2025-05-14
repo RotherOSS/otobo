@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -760,7 +760,7 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
             Value1             => '2013-08-21 16:45:00',
             Value2             => '2013-08-21 16:45:01',
-            ,
+
         },
         Success => 1,
     },
@@ -817,7 +817,7 @@ my @Tests = (
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Value1             => '2013-08-21 00:00:00',
             Value2             => '2013-08-22 00:00:00',
-            ,
+
         },
         Success => 1,
     },

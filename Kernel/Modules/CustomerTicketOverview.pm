@@ -23,7 +23,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,7 +97,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
-                    StateType            => 'Open',
+                    StateType            => 'CustomerOpen',
                     OrderBy              => $OrderByCurrent,
                     SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
@@ -109,7 +109,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
-                    StateType            => 'Closed',
+                    StateType            => 'CustomerClosed',
                     OrderBy              => $OrderByCurrent,
                     SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
@@ -176,7 +176,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerIDRaw  => \@CustomerIDs,
-                    StateType      => 'Open',
+                    StateType      => 'CustomerOpen',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
@@ -188,7 +188,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerIDRaw  => \@CustomerIDs,
-                    StateType      => 'Closed',
+                    StateType      => 'CustomerClosed',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
@@ -228,7 +228,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     %Selection,
-                    StateType           => 'Open',
+                    StateType           => 'CustomerOpen',
                     OrderBy             => $OrderByCurrent,
                     SortBy              => $SortBy,
                     CustomerUserID      => $Self->{UserID},
@@ -244,7 +244,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     %Selection,
-                    StateType           => 'Closed',
+                    StateType           => 'CustomerClosed',
                     OrderBy             => $OrderByCurrent,
                     SortBy              => $SortBy,
                     CustomerUserID      => $Self->{UserID},
@@ -695,17 +695,11 @@ sub ShowTicketStatus {
     my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
     # Check if the last customer subject or ticket title should be shown.
-    # If ticket title should be shown, check if there are articles, because ticket title
-    # could be related with a subject of an article which does not visible for customer (see bug#13614).
-    # If there is no subject, set to 'Untitled'.
     if ( $SmallViewColumnHeader eq 'LastCustomerSubject' ) {
         $Subject = $Article{Subject} || '';
     }
-    elsif ( $SmallViewColumnHeader eq 'TicketTitle' && $ArticleList[0] ) {
-        $Subject = $Ticket{Title};
-    }
     else {
-        $Subject = Translatable('Untitled!');
+        $Subject = $Ticket{Title};
     }
 
     # Condense down the subject.

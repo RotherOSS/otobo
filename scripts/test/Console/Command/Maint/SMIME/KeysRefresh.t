@@ -18,15 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+use File::Copy qw(copy move);
+use File::Path qw(mkpath rmtree);
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::Crypt::SMIME ();
 
-use Kernel::System::Crypt::SMIME;
-use File::Copy;
-use File::Path();
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -46,7 +49,7 @@ my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
 my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
-File::Path::rmtree($CertPath);
+rmtree($CertPath);
 File::Path::rmtree($PrivatePath);
 File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
@@ -70,7 +73,7 @@ $ConfigObject->Set(
 );
 
 # check if OpenSSL is located there
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {
@@ -98,7 +101,7 @@ my $CreateDir = sub {
     my $Directory = $_[0];
 
     if ( !-d $Directory ) {
-        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-d $Directory ) {
             $Self->True(
@@ -450,14 +453,14 @@ for my $Test (@Tests) {
 }
 
 # remove temporary directory
-$Success = File::Path::rmtree( $Home . '/var/tmp/SMIMETest' );
+$Success = rmtree( $Home . '/var/tmp/SMIMETest' );
 $Self->True(
     $Success,
     'Removed temporary Certificates and Private Keys root directory with true',
 );
 
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
+rmtree($CertPath);
+rmtree($PrivatePath);
 
 # cleanup cache is done by RestoreDatabase
 

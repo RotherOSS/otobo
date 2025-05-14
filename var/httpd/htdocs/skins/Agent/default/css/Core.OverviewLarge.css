@@ -43,26 +43,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #EmptyMessageLarge {
    padding: 7px;
-   border: 1px solid #DDD;
+   border: 1px solid var(--colBGMediumDark);
    min-height: 0px;
 }
 
 .OverviewLarge > li {
     position: relative;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-bottom: 1px solid var(--colBGMediumDark);
+    border-left: 1px solid var(--colBGMediumDark);
+    border-right: 1px solid var(--colBGMediumDark);
 }
 
 .OverviewLarge > li:first-child {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--colBGMediumDark);
 }
 
 .OverviewLarge > li ul.InlineActions {
     position: absolute;
     top: -35px;
     right: 0px;
-    background-color: #777;
+    background-color: var(--colTextLight);
     padding-left: 5px;
     height: 35px;
     cursor: auto;
@@ -146,19 +146,19 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewLarge > li:hover > .Content,
 .OverviewLarge > li:hover {
-    border-left-color: #fef235 !important;
+    border-left-color: var(--colHighlight) !important;
 }
 
 .OverviewLarge > li:last-child {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--colBGMediumDark);
 }
 
 .OverviewLarge > li:nth-child(even) {
-    background-color: #F5F5F5;
+    background-color: var(--colBGLight);
 }
 
 .OverviewLarge > li:nth-child(even) .Content {
-    border-left-color: #f5f5f5;
+    border-left-color: var(--colBGLight);
 }
 
 .OverviewLarge div.Checkbox {
@@ -191,7 +191,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     top: 37px;
     width: 25px;
     height: 15px;
-    border: 1px solid #bbb;
+    border: 1px solid var(--colBGDark);
 }
 
 .RTL .OverviewLarge div.Flag {
@@ -242,7 +242,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 }
 
 .OverviewLarge h2 a {
-    color: #00023c;
+    color: var(--colTextDark);
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -264,7 +264,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 }
 
 .OverviewLarge .Infos table tr.Middle {
-    border-top: 1px dotted #CCC;
+    border-top: 1px dotted var(--colBGDark);
 }
 
 .OverviewLarge .Infos table tr.Middle td {
@@ -275,7 +275,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     width: 50%;
     padding: 0 0 8px 10px;
     overflow: hidden;
-    border-left: 1px dotted #CCC;
+    border-left: 1px dotted var(--colBGDark);
     line-height: 16px;
     overflow: hidden;
     white-space: nowrap;
@@ -299,7 +299,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewLarge .Infos table td label {
     display: block;
-    color: #888;
+    color: var(--colTextLight);
     font-weight: bold;
 }
 
@@ -307,8 +307,8 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     cursor: default;
     position: relative;
     overflow: hidden;
-    background: #EEEEEE;
-    border-bottom: 1px solid #CCC;
+    background: var(--colBGLightMedium);
+    border-bottom: 1px solid var(--colBGDark);
     min-height: 28px;
 }
 
@@ -323,8 +323,8 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewLarge .Preview > ul {
     margin: 0 5px 2px;
-    background-color: #FFF;
-    border: 1px solid #ccc;
+    background-color: var(--colElement);
+    border: 1px solid var(--colBGDark);
 }
 
 .OverviewLarge .Preview li {
@@ -335,13 +335,13 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 .OverviewLarge .Preview h3 {
     margin: 0;
     font-size: 12px;
-    background: #E8E8E8;
-    border: 1px solid #E1E1E1;
+    background: var(--colBGLightMedium);
+    border: 1px solid var(--colBGMedium);
 }
 
 .OverviewLarge .Preview li.Active h3 {
-    background: #e0e0e0;
-    border-color: #D7D7D7;
+    background: var(--colBGMedium);
+    border-color: var(--colBGMediumDark);
 }
 
 .RTL .OverviewLarge .Preview li.Active h3 {
@@ -353,25 +353,25 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     height: 17px;
     padding: 0 4px;
     line-height: 16px;
-    color: #A3A09B;
+    color: var(--colTextLight);
     display: block;
     overflow: hidden;
 }
 
 .OverviewLarge li:hover .Preview h3 a {
-    color: #5E584F;
+    color: var(--colTextMedium);
 }
 
 .OverviewLarge .Preview li.Active h3 a {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .OverviewLarge li:hover .Preview li.Active h3 a {
-    color: #0E0E0E;
+    color: var(--colTextDark);
 }
 
 .OverviewLarge .Preview h3 .Subject {
-    color: #0F0F0F;
+    color: var(--colTextDark);
 }
 
 .OverviewLarge .Preview h3 .Headline {
@@ -392,7 +392,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewLarge .Preview li div.HiddenBlock {
     display: none;
-    border-right: 1px solid #E8E8E8;
+    border-right: 1px solid var(--colBGMedium);
     padding-top: 0;
     padding-bottom: 0;
     overflow: auto;

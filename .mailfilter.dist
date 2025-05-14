@@ -73,8 +73,8 @@ cc ${SYS_HOME}/var/INBOX.Backup.${MONTHFOLDER}
 xfilter "${SYS_HOME}/bin/otobo.Console.pl Maint::PostMaster::Read"
 
 
-# spool all the rest (which the otobo.PostMaster.pl can't process!)
-# If the database is down or the otobo.PostMaster.pl exit was not '0'!
+# spool all the rest (which the console command Maint::PostMaster::Read can't process!)
+# If the database is down or the Maint::PostMaster::Read exit was not '0'!
 
 to $DEFAULT
 

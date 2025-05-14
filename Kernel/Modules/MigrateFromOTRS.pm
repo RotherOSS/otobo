@@ -16,7 +16,6 @@
 
 package Kernel::Modules::MigrateFromOTRS;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
 use strict;
 use warnings;
@@ -29,7 +28,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -304,11 +303,10 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
-            NoEncode    => 1,                                                         # return a Perl string that may have characters greater 255
         );
     }
 
@@ -472,8 +470,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Intro' ) {
 
         # for the HTTP check in Intro.tt
-        my $HTTPS = $ParamObject->HTTPS('HTTPS');
-        $FieldData{Scheme} = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
+        $FieldData{Scheme} = $ParamObject->HttpsIsOn ? 'https' : 'http';
     }
     else {
         # cache progress
@@ -575,30 +572,16 @@ sub _Finish {
         UserID      => 1,
     );
 
-    # check web server - is a restart needed?
+    # A restart should never be needed as otobo.psgi checks for changed modules.
+    # But keep the old code for future reference.
     my $Webserver;
-
-    # Only if we have mod_perl we have to restart.
-    if ( exists $ENV{MOD_PERL} ) {
-        eval 'require mod_perl';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-        if ( defined $mod_perl::VERSION ) {
-            $Webserver = 'systemctl restart apache2';
-            if ( -f '/etc/SuSE-release' ) {
-                $Webserver = 'rcapache2 restart';
-            }
-            elsif ( -f '/etc/redhat-release' ) {
-                $Webserver = 'service httpd restart';
-            }
+    if (0) {
+        $Webserver = 'systemctl restart apache2';
+        if ( -f '/etc/SuSE-release' ) {
+            $Webserver = 'rcapache2 restart';
         }
-    }
-
-    # Check if Apache::Reload is loaded.
-    for my $Module ( sort keys %INC ) {
-        $Module =~ s/\//::/g;
-        $Module =~ s/\.pm$//g;
-
-        if ( $Module eq 'Apache2::Reload' ) {
-            $Webserver = '';
+        elsif ( -f '/etc/redhat-release' ) {
+            $Webserver = 'service httpd restart';
         }
     }
 
@@ -613,11 +596,7 @@ sub _Finish {
     # Under Docker the scheme is correctly recognised as there are only two relevant cases:
     #   a) HTTP should actually be used
     #   b) HTTPS should be used and it works because nginx sets HTTPS
-    my $Scheme;
-    {
-        my $HTTPS = $ParamObject->HTTPS('HTTPS');
-        $Scheme = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
-    }
+    my $Scheme = $ParamObject->HttpsIsOn ? 'https' : 'http';
 
     # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
     # This is not very helpful as port 8443 is not exposed on the Docker host.
@@ -625,9 +604,9 @@ sub _Finish {
     # Another, maybe better, approach is to simple provide a relative link to '../index.pl'.
     # Fun fact: the FQDN can specified with a port.
     my $Host =
-        $ParamObject->HTTP('HTTP_X_FORWARDED_SERVER')    # for the HTTPS case, the hostname that nginx sees
-        || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
-        || $ConfigObject->Get('FQDN');                   # a fallback
+        $ParamObject->Header('X-Forwarded-Server')    # for the HTTPS case, the hostname that nginx sees
+        || $ParamObject->Header('Host')               # should work in the HTTP case, in Docker or not in Docker
+        || $ConfigObject->Get('FQDN');                # a fallback
 
     return {
         Webserver   => $Webserver,

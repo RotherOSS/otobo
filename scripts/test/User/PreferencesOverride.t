@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
@@ -59,6 +59,8 @@ for my $Key ( sort keys %UserData ) {
     next KEY if $Key =~ m/PageShown$/smx;
     next KEY if $Key =~ m/NextMask$/smx;
     next KEY if $Key =~ m/RefreshTime$/smx;
+    next KEY if $Key =~ m/MarkTicketSeenRedirectURL$/smx;
+    next KEY if $Key =~ m/MarkTicketUnseenRedirectURL$/smx;
 
     # These are actually user preferences.
     next KEY if $Key =~ m/UserEmail$/smx;

@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::HTMLUtils',
     'Kernel::System::LinkObject',
     'Kernel::System::Log',
     'Kernel::System::State',
@@ -63,6 +64,167 @@ sub new {
     bless( $Self, $Type );
 
     return $Self;
+}
+
+=head2 Params()
+
+Returns the configuration params for this transition action module
+
+    my @Params = $Object->Params();
+
+Each element is a hash reference that describes the config parameter.
+Currently only the keys I<Key>, I<Value> and I<Optional> are used.
+
+=cut
+
+sub Params {
+    my ($Self) = @_;
+
+    my @Params = (
+        {
+            Key   => 'Title',
+            Value => 'A title (required)',
+        },
+        {
+            Key   => 'CommunicationChannel',
+            Value => 'Email|Phone|Internal (required)',
+        },
+        {
+            Key      => 'From',
+            Value    => 'agent@example.tld',
+            Optional => 1,
+        },
+        {
+            Key      => 'To',
+            Value    => 'customer@example.tld',
+            Optional => 1,
+        },
+        {
+            Key   => 'Subject',
+            Value => 'A subject (required)',
+        },
+        {
+            Key   => 'Body',
+            Value => 'A text for the article (required)',
+        },
+        {
+            Key   => 'ContentType',
+            Value => 'text/html; charset=utf-8 (required)',
+        },
+        {
+            Key      => 'CustomerID',
+            Value    => '12345',
+            Optional => 1,
+        },
+        {
+            Key      => 'CustomerUser',
+            Value    => 'customer@example.tld',
+            Optional => 1,
+        },
+        {
+            Key   => 'IsVisibleForCustomer',
+            Value => '0|1 (required)',
+        },
+        {
+            Key      => 'DynamicField_<Name> (replace <Name>)',
+            Value    => 'A value',
+            Optional => 1,
+        },
+        {
+            Key      => 'Attachments',
+            Value    => '...',
+            Optional => 1,
+        },
+        {
+            Key   => 'State',
+            Value => 'open (required)',
+        },
+        {
+            Key   => 'Lock',
+            Value => 'lock|unlock (required)',
+        },
+        {
+            Key   => 'Owner',
+            Value => 'ownerlogin (required)',
+        },
+        {
+            Key   => 'Priority',
+            Value => '3 normal (required)',
+        },
+        {
+            Key   => 'Queue',
+            Value => 'Misc (required)',
+        },
+        {
+            Key      => 'Type',
+            Value    => 'A type',
+            Optional => 1,
+        },
+        {
+            Key      => 'Service',
+            Value    => 'ServiceName',
+            Optional => 1,
+        },
+        {
+            Key      => 'SLA',
+            Value    => 'SLA-Name',
+            Optional => 1,
+        },
+        {
+            Key      => 'Responsible',
+            Value    => 'responsiblelogin',
+            Optional => 1,
+        },
+        {
+            Key      => 'TimeUnit',
+            Value    => '15',
+            Optional => 1,
+        },
+        {
+            Key   => 'HistoryType',
+            Value => 'EmailCustomer|AddNote|WebRequestCustomer|... (required)',
+        },
+        {
+            Key   => 'HistoryComment',
+            Value => 'Article created (required)',
+        },
+        {
+            Key   => 'SenderType',
+            Value => 'agent|customer|system (required)',
+        },
+        {
+            Key      => 'PendingTime',
+            Value    => '2022-19-21 14:25:00',
+            Optional => 1,
+        },
+        {
+            Key      => 'PendingTimeDiff',
+            Value    => 'diff in minutes',
+            Optional => 1,
+        },
+        {
+            Key      => 'LinkAs',
+            Value    => 'Normal|Parent|Child|...',
+            Optional => 1,
+        },
+        {
+            Key      => 'ArchiveFlag',
+            Value    => 'y|n',
+            Optional => 1,
+        },
+        {
+            Key      => 'UserID',
+            Value    => '1 (can overwrite the logged in user)',
+            Optional => 1,
+        },
+        {
+            Key      => 'StoreTicketIDDynamicField',
+            Value    => 'NameX (name of DynamicField holding the id of the created ticket in the original ticket)',
+            Optional => 1,
+        },
+    );
+
+    return @Params;
 }
 
 =head2 Run()
@@ -140,6 +302,35 @@ sub Run {
 
     # override UserID if specified as a parameter in the TA config
     $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # Convert DynamicField value to HTML string, see bug#14229.
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+    if ( $Param{Config}->{Body} =~ /OTOBO_TICKET_DynamicField_/ ) {
+        MATCH:
+        for my $Match ( sort keys %{ $Param{Ticket} } ) {
+            if ( $Match =~ m/DynamicField_(.*)/ && $Param{Ticket}->{$Match} ) {
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $1,
+                );
+
+                # Check if there is HTML content.
+                my $IsHTMLContent = $DynamicFieldBackendObject->HasBehavior(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsHTMLContent',
+                );
+
+                # Avoid double conversion to HTML for dynamic fields with HTML content.
+                next MATCH if $IsHTMLContent;
+                $Param{Ticket}->{$Match} = $HTMLUtilsObject->ToHTML(
+                    String => $Param{Ticket}->{$Match},
+                );
+            }
+        }
+    }
 
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
@@ -330,14 +521,10 @@ sub Run {
     # set a field filter (all valid dynamic fields have to have set to 1 like NameX => 1)
     my %FieldFilter;
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
-        if ( $Attribute =~ m{\A DynamicField_ ( [a-zA-Z0-9]+ ) \z}msx ) {
+        if ( $Attribute =~ m{\A DynamicField_ ( [a-zA-Z0-9\-]+ ) \z}msx ) {
             $FieldFilter{$1} = 1;
         }
     }
-
-    # get dynamic field objects
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # get the dynamic fields for ticket
     my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
@@ -376,6 +563,42 @@ sub Run {
                     . " $ObjectID from Ticket: "
                     . $Param{Ticket}->{TicketID} . '!',
             );
+            return;
+        }
+    }
+
+    # store created ticket id
+    if ( $Param{Config}->{StoreTicketIDDynamicField} ) {
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+            Name => $Param{Config}->{StoreTicketIDDynamicField},
+        );
+
+        if ( !$DynamicFieldConfig || !IsHashRefWithData($DynamicFieldConfig) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "Couldn't get DynamicField $Param{Config}->{StoreTicketIDDynamicField} for Ticket $Param{Ticket}->{TicketID}."
+            );
+
+            return;
+        }
+
+        # set the value
+        my $Success = $DynamicFieldBackendObject->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Param{Ticket}->{TicketID},
+            Value              => $TicketID,
+            UserID             => $Param{UserID},
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "Couldn't set DynamicField Value on $DynamicFieldConfig->{ObjectType}:"
+                    . " for Ticket: $Param{Ticket}->{TicketID}!",
+            );
+
             return;
         }
     }

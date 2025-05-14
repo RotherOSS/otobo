@@ -25,11 +25,11 @@ use MIME::Base64 qw(encode_base64);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketCreate   ();                                                         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();                                                         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                               qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 # set up object attributes
 $Kernel::OM->ObjectParamAdd(
@@ -606,7 +606,7 @@ sub TestTicketDelete {
     TICKETID:
     for my $TicketID (@TicketIDs) {
 
-        next TICKETID if !$TicketID;
+        next TICKETID unless $TicketID;
 
         my $TicketDelete = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -5161,7 +5161,8 @@ for my $QueueData (@Queues) {
 
 # delete group
 my $Success = $DBObject->Do(
-    SQL => "DELETE FROM groups_table WHERE id = $GroupID",
+    SQL  => 'DELETE FROM groups_table WHERE id = ?',
+    Bind => [ \$GroupID ],
 );
 ok( $Success, "Group with ID $GroupID is deleted!" );
 
@@ -5240,4 +5241,4 @@ for my $DynamicFieldID ( sort keys $DeleteFieldList->%* ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-done_testing();
+done_testing;

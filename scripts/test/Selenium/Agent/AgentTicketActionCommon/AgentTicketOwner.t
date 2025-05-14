@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -24,16 +25,18 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Test2::Require::OTOBO::Selenium;         # run Selenium tests only when Selenium is configured
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-$Selenium->RunTest(
-    sub {
-
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# Force indention of eight spaces in order to reduce diffs with
+# the version where RunTest was used.
+{
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+    {
 
         # Enable change owner to everyone feature.
         $Helper->ConfigSettingChange(
@@ -76,10 +79,10 @@ $Selenium->RunTest(
 
         # Create test users and login first.
         my @TestUser;
-        for my $User ( 1 .. 2 ) {
+        for my $Count ( 1 .. 2 ) {
             my $TestUserLogin = $Helper->TestUserCreate(
                 Groups => [ 'admin', 'users' ],
-            ) || die "Did not get test user";
+            ) || die "Did not get test user $Count";
 
             push @TestUser, $TestUserLogin;
         }
@@ -93,16 +96,9 @@ $Selenium->RunTest(
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
         # Get test users ID.
-        my @UserID;
-        for my $UserID (@TestUser) {
-            my $TestUserID = $UserObject->UserLookup(
-                UserLogin => $UserID,
-            );
+        my @UserID = map { $UserObject->UserLookup( UserLogin => $_ ) } @TestUser;
 
-            push @UserID, $TestUserID;
-        }
-
-        my $DateTimeSettings = $Kernel::OM->Create('Kernel::System::DateTime')->Get();
+        my $DateTimeSettings = $Kernel::OM->Create('Kernel::System::DateTime')->Get;
         my %Values           = (
             'OutOfOffice'           => 'on',
             'OutOfOfficeStartYear'  => $DateTimeSettings->{Year},
@@ -149,8 +145,7 @@ $Selenium->RunTest(
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
+            JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
         # Check page.
@@ -159,11 +154,12 @@ $Selenium->RunTest(
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
-            $Element->is_enabled();
-            $Element->is_displayed();
+            $Element->is_enabled;
+            $Element->is_displayed;
         }
 
         # Check out of office user message without filter.
+        # Note that there is no leading '1: '
         is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
             $UserData{UserFullname},
@@ -171,30 +167,60 @@ $Selenium->RunTest(
         );
 
         # The convoluted way of getting the focus seems to work.
-        my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
+        # Focussing in the NewOwner input field should open a dropdown with user selection.
+        # Also a clickable area, labeled as 'Filters', should be shown below the list.
+        my $SearchElement = $Selenium->find_element_by_css('#NewOwnerID_Search');
         ok( $SearchElement, '#NewOwnerID_Search found' );
         $SearchElement->execute_script(q{arguments[0].focus();});
         $Selenium->find_element_by_css_ok( '#NewOwnerID_Search', 'element with id=NewOwnerID_Search still exists' );
 
-        # Click on filter button in input fileld.
-        $Selenium->execute_script("\$('.InputField_Filters').click();");
+        # Click on the button 'Filters' below the owner selection.
+        $Selenium->execute_script(q{ $('.InputField_Filters').click(); });
 
         # Enable 'Previous Owner' filter.
-        $Selenium->execute_script("\$('.InputField_FiltersList').children('input').click();");
-
-        # Check out of office user message with filter.
+        # This filters the selection list of new owners.
+        my $PreviousOwnerElement = $Selenium->find_element_by_css(q{.InputField_FiltersList > input[type='checkbox'] });
         is(
-            $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
-            "1: $UserData{UserFullname}",
-            "Out of office message is found for the user - $TestUser[1]"
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).next('span').text(); }),
+            'Previous Owner',
+            q{Checkbox labelled as 'Previous Owner'},
+        );
+        is(
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).prop('checked'); }),
+            0,
+            'Filter checkbox initially unchecked',
         );
 
-        # Change ticket user owner by clicking
-        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();");
+        # TODO: but the list of users is not changed in the remote controlled browser
+        $PreviousOwnerElement->execute_script(q{ $(arguments[0]).click() });
+        is(
+            $PreviousOwnerElement->execute_script(q{ return $(arguments[0]).prop('checked'); }),
+            1,
+            'Filter checkbox checked after clicking',
+        );
+
+        # Only one previous owner, the user $UserID[1] should be available.
+        # Verify the label for that owner. $UserData{UserFullname} included the out-of-office message.
+        # Also note that the prefix '1: ' has been added to the label.
+        my $UserSelectionElement = $Selenium->find_element( qq{#NewOwnerID option[value="$UserID[1]"]}, 'css' );
+        is(
+            $UserSelectionElement->execute_script(q{ return $(arguments[0]).text(); }),
+            "1: $UserData{UserFullname}",
+            "Out of office message is found for the user $TestUser[1]"
+        );
+
+        # Change ticket owner by simulating a click.
+        # simple click does not work due to lazy loading
+
+        $UserSelectionElement->execute_script(q{document.querySelector('label[for="NewOwnerID"]').click();});
+        sleep(5);
+        $UserSelectionElement->execute_script(q{document.querySelectorAll('#NewOwnerID_Select ul li a')[0].click(); });
+        sleep(5);
+        $UserSelectionElement->execute_script(q{document.querySelectorAll('#NewOwnerID_Select ul li a')[0].click(); });
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
@@ -224,7 +250,7 @@ $Selenium->RunTest(
         # Create Note article.
         $Selenium->find_element( "#Subject",        'css' )->send_keys('TestSubject');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('TestBody');
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -340,7 +366,7 @@ $Selenium->RunTest(
         );
 
         # Submit.
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick;
 
         $SendEmails->();
 
@@ -390,6 +416,6 @@ $Selenium->RunTest(
             Type => 'Ticket',
         );
     }
-);
+}
 
 done_testing();

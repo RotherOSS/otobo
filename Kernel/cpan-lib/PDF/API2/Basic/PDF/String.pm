@@ -1,27 +1,22 @@
-#=======================================================================
+# Code in the PDF::API2::Basic::PDF namespace was originally copied from the
+# Text::PDF distribution.
 #
-#   THIS IS A REUSED PERL MODULE, FOR PROPER LICENCING TERMS SEE BELOW:
+# Copyright Martin Hosken <Martin_Hosken@sil.org>
 #
-#   Copyright Martin Hosken <Martin_Hosken@sil.org>
-#
-#   No warranty or expression of effectiveness, least of all regarding
-#   anyone's safety, is implied in this software or documentation.
-#
-#   This specific module is licensed under the Perl Artistic License.
-#
-#=======================================================================
+# Martin Hosken's code may be used under the terms of the MIT license.
+# Subsequent versions of the code have the same license as PDF::API2.
+
 package PDF::API2::Basic::PDF::String;
 
 use base 'PDF::API2::Basic::PDF::Objind';
 
 use strict;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 =head1 NAME
 
-PDF::API2::Basic::PDF::String - PDF String type objects and superclass
-for simple objects that are basically stringlike (Number, Name, etc.)
+PDF::API2::Basic::PDF::String - Low-level PDF string object
 
 =head1 METHODS
 
@@ -186,21 +181,21 @@ sub as_pdf {
     my ($self) = @_;
     my $str = $self->{'val'};
 
-    if ($self->{' isutf'}) {
-        $str = join('', map { sprintf('%04X' , $_) } unpack('U*', $str) );
-        return "<FEFF$str>";
-    }
-    elsif ($self->{' ishex'}) { # imported as hex ?
+    if ($self->{' ishex'}) { # imported as hex ?
         $str = unpack('H*', $str);
         return "<$str>";
     }
+    elsif ($self->{' isutf'} or (utf8::is_utf8($str) and $str =~ /[^[:ascii:]]/)) {
+        $str = join('', map { sprintf('%04X' , $_) } unpack('U*', $str) );
+        return "<FEFF$str>";
+    }
     else {
-        if ($str =~ m/[^\n\r\t\b\f\040-\176\200-\377]/oi) {
-            $str =~ s/(.)/sprintf('%02X', ord($1))/oge;
+        if ($str =~ m/[^\n\r\t\b\f\040-\176\200-\377]/) {
+            $str =~ s/(.)/sprintf('%02X', ord($1))/sge;
             return "<$str>";
         }
         else {
-            $str =~ s/([\n\r\t\b\f\\()])/\\$out_trans{$1}/ogi;
+            $str =~ s/([\n\r\t\b\f\\()])/\\$out_trans{$1}/g;
             return "($str)";
         }
     }
@@ -213,7 +208,7 @@ Outputs the string in PDF format, complete with necessary conversions
 =cut
 
 sub outobjdeep {
-    my ($self, $fh, $pdf, %opts) = @_;
+    my ($self, $fh, $pdf) = @_;
 
     $fh->print($self->as_pdf($pdf));
 }

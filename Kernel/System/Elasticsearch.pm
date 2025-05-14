@@ -15,16 +15,18 @@
 # --
 
 package Kernel::System::Elasticsearch;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw( :all );
 
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',
@@ -32,8 +34,17 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Group',
     'Kernel::System::Log',
+    'Kernel::System::SysConfig',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+);
+
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
+    'Kernel::System::GeneralCatalog',
+    'Kernel::System::ITSMConfigItem',
 );
 
 =head1 NAME
@@ -346,14 +357,15 @@ sub TicketSearch {
         # handle dynamic fields
         if ( $FulltextFields->{DynamicField} ) {
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-            my $CustomerFields     = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom###DynamicField');
+            my $ZoomConfig         = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom') || {};
+            my $CustomerFields     = $ZoomConfig->{DynamicField};
 
             DYNAMICFIELD:
             for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
                 my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                     Name => $DynamicFieldName,
                 );
-                next DYNAMICFIELD if !$DynamicField;
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
 
                 # agent search
                 if ( $Param{UserID} ) {
@@ -642,12 +654,29 @@ sub ConfigItemSearch {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
         my @SearchFields   = (
-            @{ $FulltextFields->{Basic} },
-            @{ $FulltextFields->{XML} },
+            @{ $FulltextFields->{Basic} // [] },
         );
 
         if ( $FulltextFields->{Attachments} ) {
             push @SearchFields, ( 'Attachments.Content', 'Attachments.Filename' );
+        }
+
+        # handle dynamic fields
+        if ( $FulltextFields->{DynamicField} ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+            DYNAMICFIELD:
+            for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
+
+                # add all config item dynamic fields
+                if ( $DynamicField->{ObjectType} eq 'ITSMConfigItem' ) {
+                    push @SearchFields, "DynamicField_$DynamicFieldName";
+                }
+            }
         }
 
         push @Musts, {

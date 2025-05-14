@@ -122,6 +122,13 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         CustomerID => '123',
         CustomerID => ['123', 'ABC'],
 
+        # CustomerIDRaw (optional) as STRING or as ARRAYREF
+        # CustomerID without QueryCondition checking.
+        # The param CustomerID will be ignored when CustomerIDRaw is set.
+        # The raw values will be quoted and combined with 'OR' for the query.
+        CustomerIDRaw => '123 + 345',
+        CustomerIDRaw => ['123', 'ABC','123 && 456','ABC % efg'],
+
         # CustomerUserLogin (optional) as STRING as ARRAYREF
         CustomerUserLogin => 'uid123',
         CustomerUserLogin => ['uid123', 'uid777'],
@@ -409,7 +416,7 @@ sub _GetParams {
         CreatedTypes CreatedTypeIDs CreatedPriorities
         CreatedPriorityIDs CreatedStates CreatedStateIDs
         CreatedQueues CreatedQueueIDs StateType CustomerID
-        CustomerUserLogin )
+        CustomerIDRaw CustomerUserLogin )
         )
     {
 
@@ -525,9 +532,6 @@ sub _GetDynamicFields {
     # dynamic fields search parameters for ticket search
     my %DynamicFieldSearchParameters;
 
-    # get single params
-    my %AttributeLookup;
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -536,7 +540,6 @@ sub _GetDynamicFields {
 
     my %DynamicFieldsRaw;
     if ( $Param{DynamicField} ) {
-        my %SearchParams;
         if ( IsHashRefWithData( $Param{DynamicField} ) ) {
             $DynamicFieldsRaw{ $Param{DynamicField}->{Name} } = $Param{DynamicField};
         }
@@ -552,7 +555,7 @@ sub _GetDynamicFields {
 
         # Compatibility with older versions of the web service.
         for my $ParameterName ( sort keys %Param ) {
-            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
                 $DynamicFieldsRaw{$1} = $Param{$ParameterName};
             }
         }

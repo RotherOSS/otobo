@@ -16,27 +16,29 @@
 
 package Kernel::Modules::AgentStatistics;
 
+use v5.24;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    for my $NeededData (qw( UserID Subaction AccessRo SessionID ))
-    {
+    for my $NeededData (qw( UserID Subaction AccessRo SessionID )) {
         if ( !$Param{$NeededData} ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing.', $NeededData ),
@@ -59,15 +61,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # set breadcrumbpath for overview screen and it will be used as base for other screens
-    @{ $Self->{BreadcrumbPath} } = (
-        {
-            Name =>
-                $LayoutObject->{LanguageObject}->Translate('Statistics Overview'),
-            Link => 'AgentStatistics;Subaction=Overview',
-        }
-    );
 
     my $Subaction = $Self->{Subaction};
 
@@ -115,9 +108,9 @@ sub Run {
 sub OverviewScreen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get Params
     $Param{SearchPageShown} = $ConfigObject->Get('Stats::SearchPageShown')   || 50;
@@ -193,23 +186,21 @@ sub OverviewScreen {
     }
 
     # build output
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Overview'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        Data => {
-            %Pagination,
-            %Param,
-            AccessRw       => $Self->{AccessRw},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-        TemplateFile => 'AgentStatisticsOverview',
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Overview'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            Data => {
+                %Pagination,
+                %Param,
+                AccessRw => $Self->{AccessRw},
+            },
+            TemplateFile => 'AgentStatisticsOverview',
+        ),
+        $LayoutObject->Footer();
 }
 
 sub ImportScreen {
@@ -217,36 +208,34 @@ sub ImportScreen {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my %Errors = %{ $Param{Errors} // {} };
+    my %Errors = ( $Param{Errors} // {} )->%*;
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Import'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsImport',
-        Data         => {
-            %Errors,
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Import'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsImport',
+            Data         => {
+                %Errors,
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub ImportAction {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    my %Errors;
 
     # challenge token check for write action
     $LayoutObject->ChallengeTokenCheck();
 
-    my $UploadFile = $ParamObject->GetParam( Param => 'File' );
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $UploadFile  = $ParamObject->GetParam( Param => 'File' );
+    my %Errors;
     if ($UploadFile) {
         my %UploadStuff = $ParamObject->GetUploadAll(
             Param    => 'File',
@@ -336,7 +325,6 @@ sub EditScreen {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get param
     if ( !( $Param{StatID} = $ParamObject->GetParam( Param => 'StatID' ) ) ) {
@@ -375,22 +363,20 @@ sub EditScreen {
         );
     }
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Edit'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsEdit',
-        Data         => {
-            %Frontend,
-            %{$Stat},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Edit'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsEdit',
+            Data         => {
+                %Frontend,
+                %{$Stat},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub EditAction {
@@ -398,7 +384,6 @@ sub EditAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Errors;
 
@@ -710,7 +695,6 @@ sub ViewScreen {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @Errors;
     if ( ref $Param{Errors} eq 'ARRAY' ) {
@@ -757,29 +741,28 @@ sub ViewScreen {
         UserID => $Self->{UserID},
     );
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('View'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsView',
-        Data         => {
-            AccessRw => $Self->{AccessRw},
-            Errors   => \@Errors,
-            %Frontend,
-            %{$Stat},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('View'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsView',
+            Data         => {
+                AccessRw => $Self->{AccessRw},
+                Errors   => \@Errors,
+                %Frontend,
+                %{$Stat},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddScreen {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
@@ -824,28 +807,26 @@ sub AddScreen {
         $Frontend{ShowFormInitially} = 1;
     }
 
-    # generate manual link
-    my $ManualVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-    $ManualVersion =~ m{^(\d{1,2}).+};
-    $ManualVersion = $1;
+    # generate version for links to the manual,
+    # only major and minor version are relevant, like 11.0 for version 11.0.1
+    my ($ManualVersion) = $ConfigObject->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
     # build output
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Add New Statistic'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsAdd',
-        Data         => {
-            %Frontend,
-            %Errors,
-            ManualVersion  => $ManualVersion,
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Add New Statistic'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsAdd',
+            Data         => {
+                %Frontend,
+                %Errors,
+                ManualVersion => $ManualVersion,
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddAction {
@@ -853,7 +834,6 @@ sub AddAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Errors;
 
@@ -948,7 +928,6 @@ sub RunAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $Name (qw(Format StatID Name Cached)) {
         $Param{$Name} = $ParamObject->GetParam( Param => $Name );
@@ -1059,8 +1038,10 @@ sub GeneralSpecificationsWidgetAJAX {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
         Type        => 'inline',
         NoCache     => 1,

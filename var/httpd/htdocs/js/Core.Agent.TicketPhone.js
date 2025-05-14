@@ -37,11 +37,8 @@ Core.Agent.TicketPhone = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
-            FromExternalCustomerName = Core.Config.Get('FromExternalCustomerName'),
-            FromExternalCustomerEmail = Core.Config.Get('FromExternalCustomerEmail'),
-            Fields = ['TypeID', 'Dest', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID'],
-            ModifiedFields;
+        var FromExternalCustomerName = Core.Config.Get('FromExternalCustomerName'),
+            FromExternalCustomerEmail = Core.Config.Get('FromExternalCustomerEmail');
 
         // Bind event to customer radio button.
         $('.CustomerTicketRadio').on('change', function () {
@@ -67,18 +64,10 @@ Core.Agent.TicketPhone = (function (TargetNS) {
                 Core.Agent.CustomerSearch.AddTicketCustomer('FromCustomer', FromExternalCustomerEmail, FromExternalCustomerName, true);
         }
 
-        // Bind events to specific fields
-        $.each(Fields, function(Index, Value) {
-            ModifiedFields = Core.Data.CopyObject(Fields).concat(DynamicFieldNames);
-            ModifiedFields.splice(Index, 1);
-
-            FieldUpdate(Value, ModifiedFields);
-        });
-
         // Bind event to OwnerSelection get all button.
         $('#OwnerSelectionGetAll').on('click', function () {
             $('#OwnerAll').val('1');
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', ['NewUserID'], function() {
+            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'OwnerAll', function() {
                 $('#NewUserID').focus();
             });
             return false;
@@ -87,7 +76,7 @@ Core.Agent.TicketPhone = (function (TargetNS) {
         // Bind event to ResponsibleSelection get all button.
         $('#ResponsibleSelectionGetAll').on('click', function () {
             $('#ResponsibleAll').val('1');
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', ['NewResponsibleID'], function() {
+            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'ResponsibleAll', function() {
                 $('#NewResponsibleID').focus();
             });
             return false;
@@ -96,27 +85,11 @@ Core.Agent.TicketPhone = (function (TargetNS) {
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $(this), function () {
-                Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });
     };
-
-    /**
-     * @private
-     * @name FieldUpdate
-     * @memberof Core.Agent.TicketPhone.Init
-     * @function
-     * @param {String} Value - FieldID
-     * @param {Array} ModifiedFields - Fields
-     * @description
-     *      Create on change event handler
-     */
-    function FieldUpdate (Value, ModifiedFields) {
-        $('#' + Value).on('change', function () {
-            Core.AJAX.FormUpdate($('#NewPhoneTicket'), 'AJAXUpdate', Value, ModifiedFields);
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

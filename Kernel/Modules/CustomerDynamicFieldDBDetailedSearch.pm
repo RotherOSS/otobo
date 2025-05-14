@@ -41,6 +41,8 @@ sub Run {
 
     # get params
     $Param{DynamicFieldName} = $ParamObject->GetParam( Param => 'DynamicFieldName' );
+    $Param{DynamicFieldID}   = $ParamObject->GetParam( Param => 'DynamicFieldID' );
+    $Param{ActivityDialogID} = $ParamObject->GetParam( Param => 'ActivityDialogID' );
 
     # CustomerUserID and CustomerID are fixed.
     $Param{CustomerUserID} = $Self->{UserLogin};
@@ -48,6 +50,12 @@ sub Run {
 
     # get the pure DynamicField name without prefix
     my $DynamicFieldName = substr( $Param{DynamicFieldName}, 13 );
+
+    # In Process Context, ActivityDialogID has to be stripped from DynamicFieldName
+    my $DynamicFieldNameLong = $DynamicFieldName;
+    if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} ne '' ) {
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
+    }
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -129,7 +137,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResultAction',
             Data => {
-                FieldName   => $DynamicFieldName,
+                FieldName   => $DynamicFieldNameLong,
                 SearchParam => $SearchAttributeParameters,
             },
         );
@@ -137,7 +145,8 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResult',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldID   => $Param{DynamicFieldID},
+                DynamicFieldName => $DynamicFieldNameLong,
             },
         );
 
@@ -231,7 +240,9 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchOverview',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldName => $DynamicFieldNameLong,
+                DynamicFieldID   => $Param{DynamicFieldID},
+                ActivityDialogID => $Param{ActivityDialogID},
             },
         );
 
@@ -339,7 +350,7 @@ sub Run {
         TemplateFile => 'CustomerDynamicFieldDBDetailedSearch',
         Data         => {
             %Param,
-            DynamicFieldName => $DynamicFieldName,
+            DynamicFieldName => $DynamicFieldNameLong,
         }
     );
     $Output .= $LayoutObject->CustomerFooter( Type => 'Small' );

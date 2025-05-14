@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Mapping;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+# core modules
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -69,8 +71,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed params
     for my $Needed (qw(DebuggerObject MappingConfig)) {
@@ -121,6 +122,7 @@ sub new {
 
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{Type};
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
 
         return $Self->{DebuggerObject}->Error( Summary => "Can't load mapping backend module!" );
@@ -156,20 +158,30 @@ perform data mapping in backend
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Mapping handler!'
-        );
-    }
-
     # return if data is empty
-    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+    if ( !defined $Param{Data} ) {
 
         return {
             Success => 1,
             Data    => {},
+        };
+    }
+
+    # return if data is empty
+    if ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
+
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    # return if data is empty
+    if ( ref $Param{Data} eq 'ARRAY' && ( !scalar @{ $Param{Data} } ) ) {
+
+        return {
+            Success => 1,
+            Data    => [],
         };
     }
 

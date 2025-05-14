@@ -16,16 +16,21 @@
 
 package Kernel::GenericInterface::Requester;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Storable;
+# core modules
+use Storable qw(dclone);
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Invoker;
-use Kernel::GenericInterface::Mapping;
-use Kernel::GenericInterface::Transport;
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::GenericInterface::Debugger  ();
+use Kernel::GenericInterface::Invoker   ();
+use Kernel::GenericInterface::Mapping   ();
+use Kernel::GenericInterface::Transport ();
+use Kernel::System::VariableCheck       qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
@@ -48,13 +53,10 @@ create an object. Do not create it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Run()
@@ -133,8 +135,7 @@ sub Run {
 
         return {
             Success      => 0,
-            ErrorMessage =>
-                "Could not load web service configuration for web service $Param{WebserviceID}",
+            ErrorMessage => "Could not load web service configuration for web service $Param{WebserviceID}",
         };
     }
 
@@ -152,7 +153,6 @@ sub Run {
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
-
         return {
             Success      => 0,
             ErrorMessage => "Could not initialize debugger",
@@ -203,19 +203,20 @@ sub Run {
         PastExecutionData => $Param{PastExecutionData},
     );
 
-    my $FunctionResult = $InvokerObject->PrepareRequest(
+    my $PrepareRequestResult = $InvokerObject->PrepareRequest(
         Data => $Param{Data},
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$PrepareRequestResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+        my $Summary = $PrepareRequestResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'RequesterRequestPrepare',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $PrepareRequestResult->{Data} // $Summary,
         );
     }
 
@@ -223,7 +224,7 @@ sub Run {
     #   there are cases in which the requester does not need to do anything, for this cases
     #   StopCommunication can be sent. in this cases the request will be successful with out sending
     #   the request actually.
-    elsif ( $FunctionResult->{StopCommunication} && $FunctionResult->{StopCommunication} eq 1 ) {
+    elsif ( $PrepareRequestResult->{StopCommunication} && $PrepareRequestResult->{StopCommunication} eq 1 ) {
 
         return {
             Success => 1,
@@ -231,20 +232,18 @@ sub Run {
     }
 
     # Extend the data include payload/
-    $DataInclude{RequesterRequestPrepareOutput} = $FunctionResult->{Data};
+    $DataInclude{RequesterRequestPrepareOutput} = $PrepareRequestResult->{Data};
 
     my %CustomHeader;
-    if ( $FunctionResult->{Header} ) {
-        %CustomHeader = (
-            CustomHeader => $FunctionResult->{Header},
-        );
+    if ( $PrepareRequestResult->{Header} ) {
+        $CustomHeader{CustomHeader} = $PrepareRequestResult->{Header};
     }
 
     #
     # Map the outgoing data.
     #
 
-    my $DataOut = $FunctionResult->{Data};
+    my $DataOut = $PrepareRequestResult->{Data};
 
     $DebuggerObject->Debug(
         Summary => "Outgoing data before mapping",
@@ -252,53 +251,45 @@ sub Run {
     );
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound} ) ) {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig  =>
-                $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
+            MappingConfig  => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
 
         # If mapping initialization failed, bail out.
         if ( ref $MappingOutObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $DebuggerObject->Error(
+
+            return $DebuggerObject->Error(
                 Summary => 'MappingOut could not be initialized',
                 Data    => $MappingOutObject,
             );
-
-            return $DebuggerObject->Error(
-                Summary => $FunctionResult->{ErrorMessage},
-            );
         }
 
-        $FunctionResult = $MappingOutObject->Map(
+        my $MapResult = $MappingOutObject->Map(
             Data        => $DataOut,
             DataInclude => \%DataInclude,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MapResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+            my $Summary = $MapResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'RequesterRequestMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MapResult->{Data} // $Summary,
             );
         }
 
         # Extend the data include payload.
-        $DataInclude{RequesterRequestMapOutput} = $FunctionResult->{Data};
+        $DataInclude{RequesterRequestMapOutput} = $MapResult->{Data};
 
-        $DataOut = $FunctionResult->{Data};
+        $DataOut = $MapResult->{Data};
 
         $DebuggerObject->Debug(
             Summary => "Outgoing data after mapping",
@@ -320,30 +311,39 @@ sub Run {
         );
     }
 
-    # Read request content.
-    $FunctionResult = $TransportObject->RequesterPerformRequest(
+    # Some invokers have a custom function for assessing the request response
+    my %CustomHandler;
+    if ( $InvokerObject->{BackendObject}->can('AssessResponse') ) {
+        $CustomHandler{CustomResponseAssessor} = sub {
+            return $InvokerObject->AssessResponse(@_);
+        };
+    }
+
+    # Perform a request and return the parsed request result when everything went fine
+    my $RequesterPerformRequestResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
         %CustomHeader,
+        %CustomHandler,
     );
 
     my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$RequesterPerformRequestResult->{Success} ) {
 
-        my $Summary     = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+        my $Summary     = $RequesterPerformRequestResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
         my $ErrorReturn = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'RequesterRequestPerform',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $RequesterPerformRequestResult->{Data} // $Summary,
         );
 
         # Send error to Invoker.
         my $Response = $InvokerObject->HandleResponse(
             ResponseSuccess      => 0,
-            ResponseErrorMessage => $FunctionResult->{ErrorMessage},
+            ResponseErrorMessage => $RequesterPerformRequestResult->{ErrorMessage},
         );
 
         if ($IsAsynchronousCall) {
@@ -364,12 +364,12 @@ sub Run {
     }
 
     # Extend the data include payload.
-    $DataInclude{RequesterResponseInput} = $FunctionResult->{Data};
+    $DataInclude{RequesterResponseInput} = $RequesterPerformRequestResult->{Data};
 
-    my $DataIn      = $FunctionResult->{Data};
-    my $SizeExeeded = $FunctionResult->{SizeExeeded} || 0;
+    my $DataIn       = $RequesterPerformRequestResult->{Data};
+    my $SizeExceeded = $RequesterPerformRequestResult->{SizeExceeded} || 0;
 
-    if ($SizeExeeded) {
+    if ($SizeExceeded) {
         $DebuggerObject->Debug(
             Summary => "Incoming data before mapping was too large for logging",
             Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
@@ -383,55 +383,46 @@ sub Run {
     }
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound} ) ) {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig  =>
-                $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
+            MappingConfig  => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
 
         # If mapping initialization failed, bail out.
         if ( ref $MappingInObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $DebuggerObject->Error(
-                Summary => 'MappingOut could not be initialized',
-                Data    => $MappingInObject,
-            );
-
             return $DebuggerObject->Error(
-                Summary => $FunctionResult->{ErrorMessage},
+                Summary => 'MappingIn could not be initialized',
+                Data    => $MappingInObject,
             );
         }
 
-        $FunctionResult = $MappingInObject->Map(
+        my $MapResult = $MappingInObject->Map(
             Data        => $DataIn,
             DataInclude => \%DataInclude,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MapResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+            my $Summary = $MapResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'RequesterResponseMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MapResult->{Data} // $Summary,
             );
         }
 
         # Extend the data include payload.
-        $DataInclude{RequesterResponseMapOutput} = $FunctionResult->{Data};
+        $DataInclude{RequesterResponseMapOutput} = $MapResult->{Data};
 
-        $DataIn = $FunctionResult->{Data};
+        $DataIn = $MapResult->{Data};
 
-        if ($SizeExeeded) {
+        if ($SizeExceeded) {
             $DebuggerObject->Debug(
                 Summary => "Incoming data after mapping was too large for logging",
                 Data    =>
@@ -450,44 +441,42 @@ sub Run {
     # Handle response data in Invoker.
     #
 
-    $FunctionResult = $InvokerObject->HandleResponse(
+    my $HandleResponseResult = $InvokerObject->HandleResponse(
         ResponseSuccess => 1,
         Data            => $DataIn,
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$HandleResponseResult->{Success} ) {
 
-        my $Summary     = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+        my $Summary     = $HandleResponseResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
         my $ErrorReturn = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'RequesterResponseProcess',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $HandleResponseResult->{Data} // $Summary,
         );
 
         if ($IsAsynchronousCall) {
 
             RESPONSEKEY:
-            for my $ResponseKey ( sort keys %{$FunctionResult} ) {
+            for my $ResponseKey ( sort keys %{$HandleResponseResult} ) {
 
                 # Skip Success and ErrorMessage as they are set already.
                 next RESPONSEKEY if $ResponseKey eq 'Success';
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
                 # Add any other key from the invoker HandleResponse() in Data.
-                $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey};
+                $ErrorReturn->{$ResponseKey} = $HandleResponseResult->{$ResponseKey};
             }
         }
 
         return $ErrorReturn;
     }
 
-    $DataIn = $FunctionResult->{Data};
-
     return {
         Success => 1,
-        Data    => $DataIn,
+        Data    => $HandleResponseResult->{Data},
     };
 }
 
@@ -510,9 +499,12 @@ handles errors by
         PastExecutionData => $PastExecutionDataStructure,   # optional
     );
 
+a hash reference indicating failure is returned.
+The attribute C<ErrorMessage> of the returned hashref is set to the parameter C<Summary>.
+
     my $ReturnData = {
         Success      => 0,
-        ErrorMessage => $Param{Summary},
+        ErrorMessage => 'an error occurred'.
     };
 
 =cut
@@ -526,6 +518,7 @@ sub _HandleError {
         )
     {
         next NEEDED if $Param{$Needed};
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Got no $Needed!",
@@ -549,20 +542,21 @@ sub _HandleError {
         PastExecutionData => $Param{PastExecutionData},
     );
 
+    # TODO: why is Success always 0 ?
     my $ReturnData = {
         Success      => 0,
         ErrorMessage => $ErrorHandlingResult->{ErrorMessage} || $Param{Summary},
         Data         => $ErrorHandlingResult->{ReScheduleData},
     };
 
-    return $ReturnData if !$Param{InvokerObject}->{BackendObject}->can('HandleError');
+    return $ReturnData unless $Param{InvokerObject}->{BackendObject}->can('HandleError');
 
     my $HandleErrorData;
     if ( !defined $Param{Data} || IsString( $Param{Data} ) ) {
         $HandleErrorData = $Param{Data} // '';
     }
     else {
-        $HandleErrorData = Storable::dclone( $Param{Data} );
+        $HandleErrorData = dclone( $Param{Data} );
     }
     $Param{DebuggerObject}->Debug(
         Summary => 'Error data before mapping',

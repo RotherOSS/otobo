@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -155,7 +155,7 @@ $Selenium->RunTest(
                     Priority      => 'Error',
                     Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                     Value         =>
-                        "Could not process message. Raw mail saved (report it on https://github.com/RotherOSS/otobo/issues/)!",
+                        "Could not process message. Raw mail saved (report it on https://github.com/RotherOSS/otobo/issues)!",
                 );
 
                 $MessageStatus = 'Failed';

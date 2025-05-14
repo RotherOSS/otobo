@@ -70,10 +70,11 @@ sub new {
     # create new db connect if DSN is given
     if ( $Self->{CustomerCompanyMap}->{Params}->{DSN} ) {
         $Self->{DBObject} = Kernel::System::DB->new(
-            DatabaseDSN  => $Self->{CustomerCompanyMap}->{Params}->{DSN},
-            DatabaseUser => $Self->{CustomerCompanyMap}->{Params}->{User},
-            DatabasePw   => $Self->{CustomerCompanyMap}->{Params}->{Password},
-            Type         => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DatabaseDSN             => $Self->{CustomerCompanyMap}->{Params}->{DSN},
+            DatabaseUser            => $Self->{CustomerCompanyMap}->{Params}->{User},
+            DatabasePw              => $Self->{CustomerCompanyMap}->{Params}->{Password},
+            Type                    => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DisconnectOnDestruction => 1,
         ) || die('Can\'t connect to database!');
 
         # remember that we have the DBObject not from parent call
@@ -175,8 +176,7 @@ sub CustomerCompanyList {
 
     # dynamic field handling
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicFieldConfigs       = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerCompany',
         Valid      => 1,
     );
@@ -396,24 +396,18 @@ sub CustomerCompanySearchDetail {
         }
     }
 
-    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    # dynamic field handling
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    # Check all configured change dynamic fields, build lookup hash by name.
-    my %CustomerCompanyDynamicFieldName2Config;
-    my $CustomerCompanyDynamicFields = $DynamicFieldObject->DynamicFieldListGet(
+    my $DynamicFieldConfigs       = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerCompany',
     );
-    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
-        $CustomerCompanyDynamicFieldName2Config{ $DynamicField->{Name} } = $DynamicField;
-    }
 
     my $SQLDynamicFieldFrom     = '';
     my $SQLDynamicFieldWhere    = '';
     my $DynamicFieldJoinCounter = 1;
 
     DYNAMICFIELD:
-    for my $DynamicField ( @{$CustomerCompanyDynamicFields} ) {
+    for my $DynamicField ( @{$DynamicFieldConfigs} ) {
 
         my $SearchParam = $Param{ "DynamicField_" . $DynamicField->{Name} };
 
@@ -459,6 +453,7 @@ sub CustomerCompanySearchDetail {
                             . "' on field '"
                             . $DynamicField->{Name} . "'!",
                     );
+
                     return;
                 }
 
@@ -907,29 +902,28 @@ sub CustomerCompanyUpdate {
     }
 
     # check needed stuff
-    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        if (
-            !$Param{ $Entry->[0] }
-            && $Entry->[5] ne 'dynamic_field'    # ignore dynamic fields here
-            && $Entry->[4]
-            && $Entry->[0] ne 'UserPassword'
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Entry->[0]!"
-            );
-            return;
-        }
-    }
-
-    my @Fields;
-    my @Values;
-
     FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        next FIELD if $Entry->[0] =~ /^UserPassword$/i;
-        next FIELD if $Entry->[5] eq 'dynamic_field';     # skip dynamic fields
+        next FIELD if $Param{ $Entry->[0] };             # worry only about empty fields, '0' is considered as being empty
+        next FIELD if $Entry->[5] eq 'dynamic_field';    # do not complain about missing dynamic fields
+        next FIELD if !$Entry->[4];                      # complain only about missing required fields
+        next FIELD if $Entry->[0] eq 'UserPassword';     # do not complain about missing password field
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $Entry->[0]!"
+        );
+
+        return;
+    }
+
+    # Collect the info needed for the SQL UPDATE statement
+    # The readonly flag is not honored here.
+    my ( @Fields, @Values );
+    FIELD:
+    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
+        next FIELD if $Entry->[0] =~ m/^UserPassword$/i;    # skip the password field
+        next FIELD if $Entry->[5] eq 'dynamic_field';       # skip dynamic fields
         push @Fields, $Entry->[2] . ' = ?';
         push @Values, \$Param{ $Entry->[0] };
     }
@@ -991,6 +985,12 @@ sub _CustomerCompanyCacheClear {
     # delete all search cache entries
     $Self->{CacheObject}->CleanUp(
         Type => $Self->{CacheType} . '_CustomerCompanyList',
+    );
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerCompanySearchDetail',
+    );
+    $Self->{CacheObject}->CleanUp(
+        Type => $Self->{CacheType} . '_CustomerSearchDetailDynamicFields',
     );
 
     for my $Function (qw(CustomerCompanyList)) {

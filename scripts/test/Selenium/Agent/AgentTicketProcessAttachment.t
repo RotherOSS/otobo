@@ -82,7 +82,6 @@ $Selenium->RunTest(
 
         my @DeactivatedProcesses;
         my $ProcessName = "TestProcess";
-        my $TestProcessExists;
 
         # If there had been some active processes before testing, set them to inactive.
         PROCESS:
@@ -197,10 +196,9 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
-        $Selenium->execute_script(
-            q{
-                return CKEDITOR.instances.RichText.setData('This is a test text');
-            }
+        $Selenium->execute_script(q{ return CKEditorInstances['RichText'].setData('This is a test text'); });
+        $Selenium->WaitFor(
+            JavaScript => "return (\$('#RichText').val() == '<p>This is a test text</p>');"
         );
 
         # Submit.
@@ -221,7 +219,7 @@ $Selenium->RunTest(
         );
 
         # Get test ticket ID.
-        my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
+        my @TicketZoomUrl = split /Action=AgentTicketZoom;TicketID=/, $Url;
         my $TicketID      = $TicketZoomUrl[1];
 
         # Verify article attachment is created.

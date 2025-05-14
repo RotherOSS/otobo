@@ -108,10 +108,15 @@ Core.AJAX = (function (TargetNS) {
     function ToggleAJAXLoader(FieldID, Show) {
         var $Element = $('#' + FieldID),
             $Loader = $('#' + AJAXLoaderPrefix + FieldID),
-            LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
+            LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>',
+            $MultivalueButtons = $Element.parent().siblings('.AddRemoveValueRow');
 
-        // Ignore hidden fields
-        if ($Element.is('[type=hidden]')) {
+        // Ignore hidden fields, except for database and autocomplete
+        if (
+            $Element.is('[type=hidden]')
+            && !$Element.hasClass('DynamicFieldDB')
+            && !$Element.parent().find('.ui-autocomplete-input').length
+        ) {
             return;
         }
         // Element not present, reset counter and ignore
@@ -146,9 +151,15 @@ Core.AJAX = (function (TargetNS) {
             else {
                 $Loader.show();
             }
+            if ($MultivalueButtons.length) {
+                $MultivalueButtons.hide();
+            }
         }
         else {
             $Loader.hide();
+            if ($MultivalueButtons.length) {
+                $MultivalueButtons.show();
+            }
         }
     }
 
@@ -261,7 +272,7 @@ Core.AJAX = (function (TargetNS) {
             Range,
             StartRange = 0,
             NewPosition = 0,
-            CKEditorObj = parent.CKEDITOR;
+            CKEditorObj;
 
         if ($Element.length) {
             $ParentBody = $Element;
@@ -272,20 +283,22 @@ Core.AJAX = (function (TargetNS) {
             // parent.CKEDITOR to be the CKEDITOR object of the parent window which contains the iframe. This is why we want to use only
             // CKEDITOR in this case (see bug#12680).
             if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL') && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
-                CKEditorObj = CKEDITOR;
+                CKEditorObj = window.editor;
             }
 
             // add the text to the RichText editor
-            if (CKEditorObj && CKEditorObj.instances.RichText) {
-                CKEditorObj.instances.RichText.focus();
+            if (CKEditorInstances && CKEditorInstances[$Element.attr('id')]) {
+                CKEditorObj = CKEditorInstances[$Element.attr('id')];
+
+                // TODO: probably reintroduce 75c5b5bfe3673279c03dba2f57350e6c79e7ae84
+                CKEditorObj.editing.view.focus();
                 window.setTimeout(function () {
 
                     // In some circumstances, this command throws an error (although inserting the HTML works)
                     // Because the intended functionality also works, we just wrap it in a try-catch-statement
                     try {
-
                         // set new text
-                        CKEditorObj.instances.RichText.setData(Value);
+                        CKEditorObj.setData(Value);
                     }
                     catch (Error) {
                         $.noop();
@@ -348,6 +361,11 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            if (DataKey === 'Restrictions_Visibility_Std') {
+                HideShowFieldsStd(DataValue);
+                return;
+            }
+
             // special case to update ticket attachments
             if (DataKey === 'TicketAttachments') {
                 UpdateTicketAttachments(DataValue);
@@ -356,8 +374,19 @@ Core.AJAX = (function (TargetNS) {
 
             var $Element = $('#' + DataKey);
 
-            if ((!$Element.length || !DataValue) && !$Element.is('textarea')) {
-                return;
+            if ((!$Element.length || typeof DataValue == 'undefined') && !$Element.is('textarea')) {
+
+                // catch multivalue case where DataKey is present in attribute name
+                $Element = $('[name=' + DataKey + ']');
+
+                // date time elements
+                if ( !$Element.length ) {
+                    $Element = $('[name=' + DataKey +  'Used]').parent('div.DynamicFieldDate');
+                }
+
+                if ((!$Element.length || typeof DataValue == 'undefined')) {
+                    return;
+                }
             }
 
             // Select elements
@@ -401,12 +430,65 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            // date time
+            if ( $Element.hasClass('DynamicFieldDate') ) {
+
+                // empty value, set current date and used unchecked
+                //  '==' instead of '===' to cover possibility of DataValue being an integer
+                if ( !DataValue || DataValue == "0" ) {
+                    Core.UI.InputFields.SetDate($Element);
+                }
+
+                // unknown, expected to be valid date
+                else if ( isNaN(DataValue) ) {
+                    Core.UI.InputFields.SetDate($Element, DataValue);
+                }
+
+                // integer value, which represents an offset
+                else {
+
+                    // get timestamp of current date
+                    var CurrentDate = new Date();
+                    var Timestamp = CurrentDate.valueOf();
+
+                    // add or subtract offset
+                    // NOTE Timestamp is in milliseconds and offset in seconds, therefor we have to multiply offset by 1000
+                    Timestamp += ( parseInt(DataValue) * 1000 );
+
+                    // Date constructor is able to deal with timestamps, no need to pass a date string
+                    Core.UI.InputFields.SetDate($Element, Timestamp);
+                }
+                return;
+            }
+
+            // reference fields
+            // both hidden and visible input element need to be set
+            var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
+            if ( $ReferenceElement.length ) {
+                if ( typeof DataValue == 'object' && DataValue[0] ) {
+                    $Element.val( DataValue[0][0] );
+                    $ReferenceElement.val( DataValue[0][1] );
+                }
+                else {
+                    $Element.val( '' );
+                    $ReferenceElement.val( '' );
+                }
+                return;
+            }
+
             // Other form elements
             $Element.val(DataValue);
 
             // Trigger custom redraw event for InputFields
             if ($Element.hasClass('Modernize')) {
                 $Element.trigger('redraw.InputField');
+            }
+
+            // relevant for customer.pl - trigger a blur after
+            // update to prevent label being displayed in front
+            // of value - see issue #3944
+            if ( $Element.is('input[type=text]')  ) {
+                $Element.trigger('blur');
             }
         });
     }
@@ -430,15 +512,100 @@ Core.AJAX = (function (TargetNS) {
                 if ( $( '#' + FieldInfo[0] + 'Used' ).length > 0 ) {
                     Field = $( '#' + FieldInfo[0] + 'Used' );
                 }
+                else if ( $( '#' + FieldInfo[0] + '_0' ).length > 0 ) {
+                    Field = $( '#' + FieldInfo[0] + '_0' );
+                }
+                else if ( $( '#' + FieldInfo[0] + 'Used_0' ).length ) {
+                    Field = $( '#' + FieldInfo[0] + 'Used_0' );
+                }
                 else {
                     continue;
                 }
             }
 
+            var $FieldRow        = Field.closest('.Row'),
+                $FieldCell       = Field.closest('.FieldCell'),
+                MultiValueFields = [],
+                MultiColumnIndex;
+
+            // if field is set, gather names of inner fields to deal with them recursively
+            let InnerFields = [],
+                $SetDiv = $FieldCell.find('div.DFSetOuterField');
+            if ( $SetDiv ) {
+                $SetDiv.find('div.FieldCell div.Field').each(function() {
+                    let $InnerField;
+
+                    // date, date time and checkbox
+                    $InnerField = $(this).find('input[id$=Used]');
+
+                    // select
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('select');
+                    }
+
+                    // autocomplete, text and script
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('input[type=text]');
+                    }
+
+                    // textarea and richtext
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('textarea');
+                    }
+
+                    if ($InnerField) {
+                        if ( $(this).closest('div.Row').hasClass('MultiValue') ) {
+                            if ( $(this).closest('div.FieldCell').hasClass('MultiValue_0') ) {
+                                InnerFields.push($InnerField.attr('id'));
+                            }
+                        }
+                        else {
+                            InnerFields.push($InnerField.attr('id'));
+                        }
+                    }
+                });
+            }
+
+            if ( $FieldRow.hasClass('MultiValue') ) {
+                if ( $FieldRow.hasClass('MultiColumn') ) {
+                    $('.MultiValue_0', $FieldRow).each( function ( Index ) {
+                        if ( $(this).is( $FieldCell ) ) {
+                            MultiColumnIndex = Index;
+                        }
+                    });
+
+                    var ValueRowIndex = 1,
+                        ValueRow      = $( '.MultiValue_' + ValueRowIndex, $FieldRow );
+
+                    while ( ValueRow.length ) {
+                        MultiValueFields.push( ValueRow[ MultiColumnIndex ] );
+                        ValueRowIndex++;
+                        ValueRow = $( '.MultiValue_' + ValueRowIndex, $FieldRow );
+                    }
+                }
+                else {
+                    MultiValueFields = $( '> .FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
+                }
+            }
+
             // field has to be hidden
             if ( FieldInfo[1] == 0 ) {
-                Field.parent().parent('div.Row').hide();
-                Field.parent().parent('div.Row').addClass("ooo.ACLHidden");
+                $FieldCell.addClass("oooACLHidden");
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    MultiValueFields.forEach( function( Cell ) {
+                        $(Cell).addClass("oooACLHidden");
+                    });
+                    if ( $FieldRow.hasClass('MultiColumn') ) {
+                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
+                    }
+                }
+                if ( !$FieldRow.hasClass('MultiColumn') || $FieldRow.children('.FieldCell:visible').length == 0 ) {
+                    $FieldRow.addClass('oooACLHidden');
+                    if ( $FieldRow.hasClass('MultiValue') ) {
+                        // delete only sibling elements of first multivalues
+                        $( '.FieldCell[class^=MultiValue]:not(.MultiValue_0)', $FieldRow ).remove();
+                    }
+                }
 
                 // hidden fields cannot be mandatory
                 if ( Field.hasClass("Validate_Required") ) {
@@ -452,6 +619,17 @@ Core.AJAX = (function (TargetNS) {
                         FieldData.addClass("Validate_Required_IfVisible");
                     }
                 }
+                else if ( Field.hasClass("Validate_DnDUpload") ) {
+                    Field.removeClass("Validate_DnDUpload");
+                    Field.addClass("Validate_DnDUpload_IfVisible");
+
+                    // handling of database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload") ) {
+                        FieldData.removeClass("Validate_DnDUpload");
+                        FieldData.addClass("Validate_DnDUpload_IfVisible");
+                    }
+                }
                 else if ( Field.hasClass("Validate_DependingRequiredAND") ) {
                     Field.removeClass("Validate_DependingRequiredAND");
                     Field.addClass("Validate_DependingRequired_IfVisibleAND");
@@ -460,14 +638,25 @@ Core.AJAX = (function (TargetNS) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '0']);
+                    });
+                    HideShowFields(VisibilityStructure);
+                }
             }
             // field has to be shown again
-            else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") ) {
-                Field.parent().parent('div.Row').show();
-                // if it was hidden via autoselect before
-                Field.parent().show();
-                $("label[for='" + Field[0] + "']").show();
-                Field.parent().parent('div.Row').removeClass("ooo.ACLHidden");
+            else if ( $FieldCell.hasClass("oooACLHidden") ) {
+                $FieldCell.removeClass('oooACLHidden');
+                $FieldRow.removeClass("oooACLHidden");
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    MultiValueFields.forEach( function( Cell ) {
+                        $(Cell).removeClass("oooACLHidden");
+                    });
+                }
 
                 // restore validation on mandatory fields
                 if ( Field.hasClass("Validate_Required_IfVisible") ) {
@@ -481,6 +670,17 @@ Core.AJAX = (function (TargetNS) {
                         FieldData.addClass("Validate_Required");
                     }
                 }
+                else if ( Field.hasClass("Validate_DnDUpload_IfVisible") ) {
+                    Field.removeClass("Validate_DnDUpload_IfVisible");
+                    Field.addClass("Validate_DnDUpload");
+
+                    // handling database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload_IfVisible") ) {
+                        FieldData.removeClass("Validate_DnDUpload_IfVisible");
+                        FieldData.addClass("Validate_DnDUpload");
+                    }
+                }
                 else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleAND");
                     Field.addClass("Validate_DependingRequiredAND");
@@ -491,13 +691,77 @@ Core.AJAX = (function (TargetNS) {
                 }
 
                 // init modernization on select fields hidden initially
-                Core.UI.InputFields.InitSelect( $('select#'+ FieldInfo[0]) );
+                Core.UI.InputFields.InitSelect( $('select.Modernize'), $FieldCell );
 
                 // trigger custom redraw event for InputFields, as it is not executed for hidden fields, when they are emptied
                 if ( Field.hasClass('Modernize')) {
                     Field.trigger('redraw.InputField');
                 }
 
+                if ( $FieldRow.hasClass('MultiValue') ) {
+                    Core.UI.InputFields.InitSelect( $('select[name=' + FieldInfo[0] + ']') );
+                    MultiValueFields.forEach( function( $Cell ) {
+                        if ( Field.hasClass('Modernize')) {
+                            $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
+                        }
+                    });
+                }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '1']);
+                    });
+                    HideShowFields(VisibilityStructure);
+                }
+            }
+        }
+    }
+
+    /**
+     * @private
+     * @name HideShowFieldsStd
+     * @memberof Core.AJAX
+     * @function
+     * @param {Object} Data - The field data. Currently only can include Article.
+     * @description
+     *      Toggles visibility of Standardfields
+     */
+    function HideShowFieldsStd(Visibility) {
+        for ( var i = 0; i < Visibility.length; i++ ) {
+            var FieldInfo = Visibility[i];
+
+            if ( FieldInfo[1] == 0 ) {
+                if (FieldInfo[0] === 'Article') {
+                    $('#Subject').parent('div.Row').addClass("oooACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required") ) {
+                        $('#Subject').removeClass("Validate_Required");
+                        $('#Subject').addClass("Validate_Required_IfVisible");
+                    }
+                    $('#RichText').parent('div.RichTextHolder').addClass("oooACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required") ) {
+                        $('#RichText').removeClass("Validate_Required");
+                        $('#RichText').addClass("Validate_Required_IfVisible");
+                    }
+                    $('#oooAttachments').parent('div.Row').addClass("oooACLHidden");
+                }
+            }
+
+            else {
+                if (FieldInfo[0] === 'Article') {
+                    $('#Subject').parent('div.Row').removeClass("oooACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required_IfVisible") ) {
+                        $('#Subject').removeClass("Validate_Required_IfVisible");
+                        $('#Subject').addClass("Validate_Required");
+                    }
+                    $('#RichText').parent('div.RichTextHolder').removeClass("oooACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required_IfVisible") ) {
+                        $('#RichText').removeClass("Validate_Required_IfVisible");
+                        $('#RichText').addClass("Validate_Required");
+                    }
+                    $('#oooAttachments').parent('div.Row').removeClass("oooACLHidden");
+                }
             }
         }
     }
@@ -551,6 +815,31 @@ Core.AJAX = (function (TargetNS) {
                     return;
                 }
 
+                // TODO MultiValue Think about a solution to transfer unchecked value
+                if ($(this).is(':checkbox, :radio')) {
+                    if ($(this).is(':checked')) {
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
+                    }
+                }
+                else if ($(this).is('select')) {
+                    $.each($(this).find('option:selected'), function(){
+                        QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                    });
+                }
+                else {
+                    QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
+                }
+            });
+            $Element.closest('form').find('.DynamicFieldText').filter('[disabled=disabled]').each(function () {
+                var Name = $(this).attr('name') || '';
+
+                // only look at fields with name
+                // only add element to the string, if there is no key in the data hash with the same name
+                if (!Name.length || typeof Ignore[Name] !== 'undefined'){
+                    return;
+                }
+
+                // TODO MultiValue Think about a solution to transfer unchecked value
                 if ($(this).is(':checkbox, :radio')) {
                     if ($(this).is(':checked')) {
                         QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || 'on') + ";";
@@ -577,27 +866,31 @@ Core.AJAX = (function (TargetNS) {
      * @param {jQueryObject} $EventElement - The jQuery object of the element(s) which are included in the form that should be submitted.
      * @param {String} Subaction - The subaction parameter for the perl module.
      * @param {String} ChangedElement - The name of the element which was changed by the user.
-     * @param {Object} FieldsToUpdate - DEPRECATED.
-     *                      This used to be the names of the fields that should be updated with the server answer,
-     *                      but is not needed any more and will be removed in a future version of OTOBO.
      * @param {Function} [SuccessCallback] - Callback function to be executed on AJAX success (optional).
      * @description
      *      Submits a special form via ajax and updates the form with the data returned from the server
      */
-    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, FieldsToUpdate, SuccessCallback) {
+    TargetNS.FormUpdate = function ($EventElement, Subaction, ChangedElement, SuccessCallback) {
         var URL = Core.Config.Get('Baselink'),
             Data = GetAdditionalDefaultData(),
             QueryString;
+
+        $EventElement.find('input[name="AJAXAction"]').each(function () {
+            Data.Action = $(this).val();
+        });
+
+        var ChangedElementWithIndex = ChangedElement;
+        if ( $('[name=' + ChangedElement + ']', '.DFSetOuterField').length ) {
+            var DFRegex = RegExp('^DynamicField_[^_]+');
+            ChangedElement = DFRegex.exec(ChangedElement)[0];
+        }
 
         Data.Subaction = Subaction;
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
-        if (FieldsToUpdate) {
-            $.each(FieldsToUpdate, function (Index, Value) {
-                ToggleAJAXLoader(Value, true);
-            });
-        }
+        var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
+        ToggleAJAXLoader($ChangedElement.attr('id'), true);
 
         return $.ajax({
             type: 'POST',
@@ -616,7 +909,7 @@ Core.AJAX = (function (TargetNS) {
                     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Invalid JSON from: " + URL, 'CommunicationError'));
                 }
                 else {
-                    UpdateFormElements(Response, FieldsToUpdate);
+                    UpdateFormElements(Response);
                     if (typeof SuccessCallback === 'function') {
                         SuccessCallback();
                     }
@@ -624,11 +917,8 @@ Core.AJAX = (function (TargetNS) {
                 }
             },
             complete: function () {
-                if (FieldsToUpdate) {
-                    $.each(FieldsToUpdate, function (Index, Value) {
-                        ToggleAJAXLoader(Value, false);
-                    });
-                }
+                var $ChangedElement = $('[name="' + ChangedElementWithIndex + '"]');
+                ToggleAJAXLoader($ChangedElement.attr('id'), false);
             },
             error: function(XHRObject, Status, Error) {
                 HandleAJAXError(XHRObject, Status, Error)

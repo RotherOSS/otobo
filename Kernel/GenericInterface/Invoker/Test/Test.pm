@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Invoker::Test::Test;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsString IsStringWithData);
+# core modules
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -97,6 +99,7 @@ sub PrepareRequest {
     }
 
     # check request for system time
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( IsStringWithData( $Param{Data}->{GetSystemTime} ) && $Param{Data}->{GetSystemTime} ) {
         $ReturnData{SystemTime} = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
     }
@@ -110,6 +113,9 @@ sub PrepareRequest {
 =head2 HandleResponse()
 
 handle response data of the configured remote web service.
+This invoker is primarily meant for test scripts. It expects that the message
+from the remote service contains the attribute TicketNumber. The handler extracts the TicketNumber
+and returns it. There are no side effects.
 
     my $Result = $InvokerObject->HandleResponse(
         ResponseSuccess      => 1,              # success status of the remote web service
@@ -147,31 +153,38 @@ sub HandleResponse {
         };
     }
 
-    # we need a TicketNumber
-    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+    my $ReturnData;
+    if ( ref $Param{Data} eq 'HASH' ) {
 
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
-    }
+        # we need a TicketNumber
+        if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
 
-    # prepare TicketNumber
-    my %ReturnData = (
-        TicketNumber => $Param{Data}->{TicketNumber},
-    );
-
-    # check Action
-    if ( IsStringWithData( $Param{Data}->{Action} ) ) {
-        if ( $Param{Data}->{Action} !~ m{ \A ( .*? ) Test \z }xms ) {
-
-            return $Self->{DebuggerObject}->Error(
-                Summary => 'Got Action but it is not in required format!',
-            );
+            return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
         }
-        $ReturnData{Action} = $1;
-    }
 
+        # prepare TicketNumber
+        $ReturnData = {
+            TicketNumber => $Param{Data}->{TicketNumber},
+        };
+
+        # check Action
+        if ( IsStringWithData( $Param{Data}->{Action} ) ) {
+            if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
+                $ReturnData->{Action} = $1;
+            }
+            else {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => 'Got Action but it is not in required format!',
+                );
+            }
+        }
+    }
+    else {
+        $ReturnData = $Param{Data};
+    }
     return {
         Success => 1,
-        Data    => \%ReturnData,
+        Data    => $ReturnData,
     };
 }
 

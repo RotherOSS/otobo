@@ -37,22 +37,15 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var UpdateFields = Core.Config.Get('DynamicFieldNames');
-
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
             var $TemplateSelect = $(this);
             Core.Agent.TicketAction.ConfirmTemplateOverwrite('RichText', $TemplateSelect, function () {
-                Core.AJAX.FormUpdate($TemplateSelect.closest('form'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+                Core.AJAX.FormUpdate($TemplateSelect.closest('form'), 'AJAXUpdate', 'StandardTemplateID');
             });
             return false;
         });
 
-        // Bind event to State field.
-        $('#NextStateID').on('change', function () {
-            UpdateFields.push('StandardTemplateID');
-            Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'NextStateID', UpdateFields);
-        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

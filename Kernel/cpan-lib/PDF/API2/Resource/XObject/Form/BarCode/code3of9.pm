@@ -5,7 +5,7 @@ use base 'PDF::API2::Resource::XObject::Form::BarCode';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 sub new {
     my ($class, $pdf, %options) = @_;
@@ -49,7 +49,7 @@ my @extended_map = (
     'Z',  '%K', '%L', '%M', '%N', '%O', '%W', '+A', '+B', '+C',
     '+D', '+E', '+F', '+G', '+H', '+I', '+J', '+K', '+L', '+M',
     '+N', '+O', '+P', '+Q', '+R', '+S', '+T', '+U', '+V', '+W',
-    '+X', '+Y', '+Z', '%P', '%Q', '%R', '%S', '%T'
+    '+X', '+Y', '+Z', '%P', '%Q', '%R', '%S', '%T',
 );
 
 sub encode_3of9_char {

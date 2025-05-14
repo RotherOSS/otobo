@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Make sure that the ticket object gets recreated for each loop.
 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );

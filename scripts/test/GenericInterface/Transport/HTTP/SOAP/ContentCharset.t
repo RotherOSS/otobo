@@ -14,16 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use HTTP::Request ();
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Transport::HTTP::SOAP;
+# OTOBO modules
+use Kernel::System::ObjectManager                   ();
+use Kernel::GenericInterface::Debugger              ();
+use Kernel::GenericInterface::Transport::HTTP::SOAP ();
+
+$Kernel::OM = Kernel::System::ObjectManager->new();
+
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -70,12 +79,18 @@ my @Tests = (
         ContentType => 'text/xml;charset=UTF-8',
     },
     {
+        # The charset is not declared as UTF-8. Thus ProviderProcessRequest()
+        # has no reason to decode the content. Thus expect the encoded value as the result.
+        UseEncoded  => 1,
         Name        => 'ISO-8859-1 Complex Content Type',
         Value       => 'c™',
         ContentType => 'application/soap+xml;charset=iso-8859-1;action="urn:MyService/MyAction"',
     },
     {
-        Name        => 'ISO-8859-1 Single Content Type',
+        # The charset is not declared as UTF-8. Thus ProviderProcessRequest()
+        # has no reason to decode the content. Thus expect the encoded value as the result.
+        UseEncoded  => 1,
+        Name        => 'ISO-8859-1 Simple Content Type',
         Value       => 'c™',
         ContentType => 'text/xml;charset=iso-8859-1;',
     },
@@ -91,9 +106,11 @@ my @Tests = (
     },
 );
 
+plan( scalar @Tests );
+
 for my $Test (@Tests) {
 
-    my $Request = << "EOF";
+    my $Request = <<"END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -102,28 +119,36 @@ for my $Test (@Tests) {
       </tic:Test>
    </soapenv:Body>
 </soapenv:Envelope>
-EOF
+END_XML
 
-    # Fake STDIN and fill it with the request.
-    open my $StandardInput, '<', \"$Request";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-    local *STDIN = $StandardInput;
+    # prepare the test request
+    $EncodeObject->EncodeOutput( \$Request );
+    my $HTTPRequest = HTTP::Request->new(
+        'POST',
+        'http://www.example.com',
+        [
+            'Content-Type'   => $Test->{ContentType},
+            'Content-Length' => length $Request,
+        ],
+        $Request,
+    );
 
-    # Fake environment variables as it gets it from the request.
-    local $ENV{'CONTENT_LENGTH'} = length $Request;
-    local $ENV{'CONTENT_TYPE'}   = $Test->{ContentType};
+    # force the ParamObject to use the new request params
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
+    );
 
     my $Result = $SOAPObject->ProviderProcessRequest();
 
     # Convert original value to UTF-8 (if needed).
-    if ( $Test->{ContentType} =~ m{UTF-8}mxsi ) {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Test->{Value} );
+    if ( $Test->{UseEncoded} ) {
+        $EncodeObject->EncodeOutput( \$Test->{Value} );
     }
 
-    $Self->Is(
+    is(
         $Result->{Data}->{Test},
         $Test->{Value},
         "$Test->{Name} Result value",
     );
 }
-
-$Self->DoneTesting();

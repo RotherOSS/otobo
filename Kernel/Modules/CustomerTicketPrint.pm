@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -73,7 +73,7 @@ sub Run {
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # Check if ACL restrictions exist.
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
 
         my %AclActionLookup = reverse %AclAction;
 
@@ -96,6 +96,10 @@ sub Run {
         $Ticket{TicketNumber},
         $DateTimeObject->Format( Format => '%Y-%m-%d_%H-%M' ),
     );
+    my $CleanedFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Filename,
+        Type     => 'Attachment',
+    );
 
     # Return PDF document.
     my $PDFString = $Kernel::OM->Get('Kernel::Output::PDF::Ticket')->GeneratePDF(
@@ -105,7 +109,7 @@ sub Run {
     );
 
     return $LayoutObject->Attachment(
-        Filename    => $Filename,
+        Filename    => $CleanedFilename,
         ContentType => 'application/pdf',
         Content     => $PDFString,
         Type        => 'inline',

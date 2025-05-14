@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,13 +90,56 @@ sub _Add {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %GetParam;
+
+    # check if we clone from an existing field
+    my $CloneFieldID = $ParamObject->GetParam( Param => "CloneFieldID" );
+    if ($CloneFieldID) {
+        my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $CloneFieldID,
+        );
+
+        # if we found a field config, copy its content for usage in _ShowScreen
+        if ( IsHashRefWithData($FieldConfig) ) {
+
+            # copy standard stuff
+            for my $Key (qw(ObjectType FieldType Label Name ValidID)) {
+                $GetParam{$Key} = $FieldConfig->{$Key};
+            }
+
+            # iterate over special stuff and copy in-depth content as flat list
+            CONFIGKEY:
+            for my $ConfigKey ( keys $FieldConfig->{Config}->%* ) {
+                next CONFIGKEY if $ConfigKey eq 'PartOfSet';
+
+                my $DFDetails = $FieldConfig->{Config};
+                if ( $ConfigKey eq 'PossibleValues' ) {
+                    $GetParam{PossibleValues} = $DFDetails->{PossibleValues};
+                }
+                elsif ( IsHashRefWithData( $DFDetails->{$ConfigKey} ) ) {
+                    my $ConfigContent = $DFDetails->{$ConfigKey};
+                    for my $ContentKey ( keys $ConfigContent->%* ) {
+                        $GetParam{$ContentKey} = $ConfigContent->{$ContentKey};
+                    }
+                }
+                else {
+                    $GetParam{$ConfigKey} = $DFDetails->{$ConfigKey};
+                }
+            }
+        }
+        $GetParam{CloneFieldID} = $CloneFieldID;
+    }
+
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
-        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
+        $GetParam{$Needed} //= $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
+    }
+
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     # Get the object type and field type display name.
@@ -105,6 +148,13 @@ sub _Add {
     my $ObjectTypeName = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
     my $FieldTypeName  = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName}      || '';
 
+    # check namespace validity
+    my $Namespaces = $ConfigObject->Get('DynamicField::Namespaces');
+    my $Namespace  = '';
+    if ( IsArrayRefWithData($Namespaces) && $GetParam{NamespaceFilter} ) {
+        $Namespace = ( grep { $_ eq $GetParam{NamespaceFilter} } $Namespaces->@* ) ? $GetParam{NamespaceFilter} : '';
+    }
+
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
@@ -112,6 +162,7 @@ sub _Add {
         BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
+        Namespace      => $Namespace,
     );
 }
 
@@ -133,6 +184,31 @@ sub _AddAction {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID Tooltip Namespace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is alphanumeric.
@@ -143,6 +219,8 @@ sub _AddAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -160,27 +238,6 @@ sub _AddAction {
             $Errors{NameServerError}        = 'ServerError';
             $Errors{NameServerErrorMessage} = Translatable('There is another field with the same name.');
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -254,6 +311,7 @@ sub _AddAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
+        Tooltip                  => $GetParam{Tooltip},
     };
 
     # Create a new field.
@@ -274,9 +332,26 @@ sub _AddAction {
         );
     }
 
-    return $LayoutObject->Redirect(
-        OP => "Action=AdminDynamicField",
-    );
+    my $RedirectString = "Action=AdminDynamicField";
+
+    if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
+        $RedirectString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
+        $RedirectString .= ";NamespaceFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{NamespaceFilter},
+            },
+        );
+    }
+
+    return $LayoutObject->Redirect( OP => $RedirectString );
 }
 
 sub _Change {
@@ -293,6 +368,10 @@ sub _Change {
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Needed ),
             );
         }
+    }
+
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
     }
 
     # Get the object type and field type display name.
@@ -393,6 +472,31 @@ sub _ChangeAction {
         );
     }
 
+    if ( $GetParam{FieldOrder} ) {
+
+        # Check if field order is numeric and positive.
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
+
+            # Add server error error class.
+            $Errors{FieldOrderServerError}        = 'ServerError';
+            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
+        }
+    }
+
+    for my $ConfigParam (
+        qw(
+            ObjectType ObjectTypeName FieldType FieldTypeName
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID Tooltip Namespace
+        )
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
+    for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
+        $GetParam{$FilterParam} = $ParamObject->GetParam( Param => $FilterParam );
+    }
+
     if ( $GetParam{Name} ) {
 
         # Check if name is lowercase.
@@ -403,6 +507,8 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} =
                 Translatable('The field does not contain only ASCII letters and numbers.');
         }
+
+        $GetParam{Name} = $GetParam{Namespace} ? $GetParam{Namespace} . '-' . $GetParam{Name} : $GetParam{Name};
 
         # Check if name is duplicated.
         my %DynamicFieldsList = %{
@@ -437,27 +543,6 @@ sub _ChangeAction {
             $Errors{NameServerErrorMessage} = Translatable('The name for this field should not change.');
             $Param{InternalField}           = $DynamicFieldData->{InternalField};
         }
-    }
-
-    if ( $GetParam{FieldOrder} ) {
-
-        # Check if field order is numeric and positive.
-        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
-
-            # Add server error error class.
-            $Errors{FieldOrderServerError}        = 'ServerError';
-            $Errors{FieldOrderServerErrorMessage} = Translatable('The field must be numeric.');
-        }
-    }
-
-    for my $ConfigParam (
-        qw(
-            ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
-        )
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # Uncorrectable errors.
@@ -562,6 +647,7 @@ sub _ChangeAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
+        Tooltip                  => $GetParam{Tooltip},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -621,6 +707,25 @@ sub _ChangeAction {
         );
     }
 
+    my $FilterString = '';
+
+    if ( IsStringWithData( $GetParam{ObjectTypeFilter} ) ) {
+        $FilterString .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{ObjectTypeFilter},
+            },
+        );
+    }
+    if ( IsStringWithData( $GetParam{NamespaceFilter} ) ) {
+        $FilterString .= ";NamespaceFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $GetParam{NamespaceFilter},
+            },
+        );
+    }
+
     # If the user would like to continue editing the dynamic field, just redirect to the change screen.
     if (
         defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
@@ -629,24 +734,37 @@ sub _ChangeAction {
     {
         return $LayoutObject->Redirect(
             OP =>
-                "Action=$Self->{Action};Subaction=Change;ObjectType=$DynamicFieldData->{ObjectType};FieldType=$DynamicFieldData->{FieldType};ID=$FieldID"
+                "Action=$Self->{Action};Subaction=Change;ObjectType=$DynamicFieldData->{ObjectType};FieldType=$DynamicFieldData->{FieldType};ID=$FieldID$FilterString"
         );
     }
     else {
 
-        # Otherwise return to overview.
-        return $LayoutObject->Redirect( OP => "Action=AdminDynamicField" );
+        # otherwise return to overview
+        return $LayoutObject->Redirect( OP => "Action=AdminDynamicField$FilterString" );
     }
 }
 
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
+    my $Namespace = $Param{Namespace};
     $Param{DisplayFieldName} = 'New';
 
-    if ( $Param{Mode} eq 'Change' ) {
-        $Param{ShowWarning}      = 'ShowWarning';
-        $Param{DisplayFieldName} = $Param{Name};
+    if ( $Param{Mode} eq 'Change' || $Param{Name} ) {
+
+        if ( !$Param{CloneFieldID} ) {
+            $Param{ShowWarning}      = 'ShowWarning';
+            $Param{DisplayFieldName} = $Param{Name};
+        }
+
+        # check for namespace
+        if ( $Param{Name} =~ /(.*)-(.*)/ ) {
+            $Namespace = $1;
+            $Param{PlainFieldName} = $2 unless $Param{CloneFieldID};
+        }
+        else {
+            $Param{PlainFieldName} = $Param{Name};
+        }
     }
 
     $Param{DeletedString} = $Self->{DeletedString};
@@ -701,6 +819,26 @@ sub _ShowScreen {
         Sort          => 'NumericKey',
         Class         => 'Modernize W75pc Validate_Number',
     );
+
+    my $NamespaceList = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::Namespaces');
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        my $NamespaceStrg = $LayoutObject->BuildSelection(
+            Data          => $NamespaceList,
+            Name          => 'Namespace',
+            SelectedValue => $Namespace || '',
+            PossibleNone  => 1,
+            Translation   => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize W75pc',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                NamespaceStrg => $NamespaceStrg,
+            },
+        );
+    }
 
     my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
@@ -809,15 +947,26 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
-    my $ReadonlyInternalField = '';
+    # define tooltip
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'Tooltip',
+        Data => {
+            %Param,
+            Tooltip => $Tooltip,
+        },
+    );
 
     # Internal fields can not be deleted and name should not change.
+    my $ReadonlyInternalField = '';
     if ( $Param{InternalField} ) {
         $LayoutObject->Block(
             Name => 'InternalField',
             Data => {%Param},
         );
-        $ReadonlyInternalField = 'readonly="readonly"';
+        $ReadonlyInternalField = 'readonly';
     }
 
     my $DynamicFieldName = $Param{Name};
@@ -864,15 +1013,38 @@ sub _ShowScreen {
         );
     }
 
+    my $FilterStrg = '';
+    if ( IsStringWithData( $Param{ObjectTypeFilter} ) ) {
+        $FilterStrg .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $Param{ObjectTypeFilter},
+            },
+        );
+    }
+
+    if ( IsArrayRefWithData($NamespaceList) ) {
+        if ( IsStringWithData( $Param{NamespaceFilter} ) ) {
+            $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $Param{NamespaceFilter},
+                },
+            );
+        }
+    }
+
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicFieldContactWD',
         Data         => {
             %Param,
+            FilterStrg             => $FilterStrg,
             ValidityStrg           => $ValidityStrg,
             DynamicFieldOrderStrg  => $DynamicFieldOrderStrg,
             ValueCounter           => $ValueCounter,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
+            Tooltip                => $Tooltip,
         },
     );
 
@@ -893,8 +1065,6 @@ sub _GetPossibleValues {
     my $EmptyValueCounter     = 0;
     my $DuplicateValueCounter = 0;
 
-    # Get possible values.
-    my $Values;
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
         my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex );
@@ -941,7 +1111,7 @@ sub _ComputeFields {
             $Param{GetParam}->{$Field} = '';
             next FIELD;
         }
-        my @Attributes = split ',', $Param{GetParam}->{$Field};
+        my @Attributes = split /,/, $Param{GetParam}->{$Field};
         $Param{GetParam}->{$Field} = '';
         ATTRIBUTE:
         for my $Attribute (@Attributes) {
@@ -957,7 +1127,7 @@ sub _ComputeFields {
     }
 
     # Add and filter (= allow only possible values) complete sorted field.
-    my @SortOrderComputed = split ',', $Param{GetParam}->{SortOrder};
+    my @SortOrderComputed = split /,/, $Param{GetParam}->{SortOrder};
     @SortOrderComputed = grep { $Param{PossibleValues}->{$_} } @SortOrderComputed;
     my %PreSorted = map { $_ => 1 } @SortOrderComputed;
     FIELD:
@@ -977,7 +1147,7 @@ sub _ComputeFields {
             push @Computed, 'ValidID';
         }
         ATTRIBUTE:
-        for my $Attribute ( split ',', $Param{GetParam}->{$Field} ) {
+        for my $Attribute ( split /,/, $Param{GetParam}->{$Field} ) {
             next ATTRIBUTE if $Attribute eq '';
             $Attribute =~ s{ \A \s+ }{}xms;
             $Attribute =~ s{ \s+ \z }{}xms;

@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -37,7 +37,6 @@ $Selenium->RunTest(
         my $Home = $ConfigObject->Get('Home');
         my %Attachments;
         my $Count;
-        my $IsLinkedBreadcrumbText;
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -53,7 +52,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to AdminAttachment screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAttachment;IncludeInvalid=1");
 
         # check overview AdminAttachment
         $Selenium->find_element( "table",             'css' );

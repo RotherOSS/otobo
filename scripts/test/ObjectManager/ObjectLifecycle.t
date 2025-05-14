@@ -18,16 +18,16 @@ use strict;
 use warnings;
 use v5.24;
 
+# core modules
+use Scalar::Util qw(weaken);
+
+# CPAN modules
+
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::ObjectManager ();
 
-use vars (qw($Self));
-
-use Scalar::Util qw/weaken/;
-
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
-use Kernel::System::ObjectManager;
+our $Self;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
@@ -84,7 +84,6 @@ my @Objects = (
     'Kernel::System::SysConfig',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::UnitTest',
     'Kernel::System::User',

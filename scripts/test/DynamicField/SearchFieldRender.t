@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -24,9 +24,8 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-#use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
-use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::Layout  ();
 use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
@@ -35,7 +34,7 @@ our $Self;
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # use a fixed year to compare the time selection results
-#my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
+#my $TimeObject = $Kernel::OM->Get('Kernel::System::DateTime');
 #FixedTimeSet(
 #    $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 #);

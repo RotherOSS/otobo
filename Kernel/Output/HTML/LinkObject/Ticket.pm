@@ -19,11 +19,15 @@ package Kernel::Output::HTML::LinkObject::Ticket;
 use strict;
 use warnings;
 
+# core modules
 use List::Util qw(first);
 
-use Kernel::Output::HTML::Layout;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Output::HTML::Layout  ();
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -96,11 +100,19 @@ sub new {
 
 =head2 TableCreateComplex()
 
-return an array with the block data
+return a list of table definitions
+
+Note:
+
+normally it returns a hash reference
+
+my @BlockData = $BackendObject->TableCreateComplex(
+    ObjectLinkListWithData => $ObjectLinkListRef,
+);
 
 Return
 
-    %BlockData = (
+    my @BlockData = (
         {
             ObjectName  => 'TicketID',
             ObjectID    => '14785',
@@ -110,14 +122,12 @@ Return
             Headline  => [
                 {
                     Content => 'Number#',
-                    Width   => 130,
                 },
                 {
                     Content => 'Title',
                 },
                 {
                     Content => 'Created',
-                    Width   => 110,
                 },
             ],
             ItemList => [
@@ -155,11 +165,50 @@ Return
                     },
                 ],
             ],
+            AllColumns => [
+                {
+                    ColumnName      => 'EscalationTime',
+                    ColumnTranslate => 'Service Time',
+                },
+                {
+                    ColumnName      => 'EscalationResponseTime',
+                    ColumnTranslate => 'First Response Time',
+                },
+                {
+                    ColumnName      => 'EscalationSolutionTime',
+                    ColumnTranslate => 'Solution Time',
+                },
+                {
+                    ColumnName      => 'EscalationUpdateTime',
+                    ColumnTranslate => 'Update Time',
+                },
+                {
+                    ColumnName      => 'PendingTime',
+                    ColumnTranslate => 'Pending till',
+                },
+                {
+                    ColumnName      => 'CustomerCompanyName',
+                    ColumnTranslate => 'Customer Name',
+                },
+                {
+                    ColumnName      => 'CustomerID',
+                    ColumnTranslate => 'Customer ID',
+                },
+                {
+                    ColumnName      => 'CustomerName',
+                    ColumnTranslate => 'Customer User Name',
+                },
+                {
+                    ColumnName      => 'CustomerUserID',
+                    ColumnTranslate => 'Customer User ID',
+                },
+                {
+                    ColumnName      => 'DynamicField_XXX',
+                    ColumnTranslate => 'XXX',
+                },
+                ....
+            ],
         },
-    );
-
-    @BlockData = $BackendObject->TableCreateComplex(
-        ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
 =cut
@@ -545,6 +594,7 @@ sub TableCreateComplex {
                     my $ValueStrg = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,
+                        HTMLOutput         => 0,
                         ValueMaxChars      => 20,
                         LayoutObject       => $Self->{LayoutObject},
                     );

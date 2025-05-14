@@ -3,41 +3,43 @@ use strict;
 use warnings;
 use Module::CPANfile;
 
+our $VERSION = "1.001";
+
 sub new {
-    my $class = shift;
+	my $class = shift;
 
-    my $self = {};
-    bless $self, $class;
+	my $self = {};
+	bless $self, $class;
 
-    return $self;
+	return $self;
 }
 
 sub discover {
-    my $self = shift;
-    my ($cpanfile_path) = @_;
+	my $self = shift;
+	my ($cpanfile_path) = @_;
 
-    my $cpanfile = Module::CPANfile->load($cpanfile_path);
+	my $cpanfile = Module::CPANfile->load($cpanfile_path);
 
-    my $prereqs = $cpanfile->prereqs->as_string_hash;
+	my $prereqs = $cpanfile->prereqs->as_string_hash;
 
-    my @deps;
-    foreach my $phase ( keys %$prereqs ) {
-        foreach my $type ( keys %{ $prereqs->{$phase} } ) {
-            foreach my $module ( keys %{ $prereqs->{$phase}->{$type} } ) {
-                my $version = $prereqs->{$phase}->{$type}->{$module};
+	my @deps;
+	foreach my $phase ( keys %$prereqs ) {
+		foreach my $type ( keys %{ $prereqs->{$phase} } ) {
+			foreach my $module ( keys %{ $prereqs->{$phase}->{$type} } ) {
+				my $version = $prereqs->{$phase}->{$type}->{$module};
 
-                next if $module eq 'perl';
+				next if $module eq 'perl';
 
-                push @deps,
-                  {
-                    module  => $module,
-                    version => $version,
-                  };
-            }
-        }
-    }
+				push @deps,
+					{
+					module  => $module,
+					version => $version,
+					};
+			}
+		}
+	}
 
-    return @deps;
+	return @deps;
 }
 
 1;

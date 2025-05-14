@@ -204,8 +204,6 @@ sub AddItem {
         $DefaultValue = $Param{DefaultItem} && $Param{DefaultItem}->{Content} || '';
     }
 
-    my $RemoveThisEntry = $Kernel::OM->Get('Kernel::Language')->Translate("Remove this entry");
-
     my $Result = "<input type='password' id='$Param{Name}$IDSuffix'
         value='$DefaultValue' name='$Param{Name}' class='$Class Entry'/>";
 

@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -58,7 +62,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminUser screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;IncludeInvalid=1");
 
         # check overview AdminUser
         $Selenium->find_element( "table",             'css' );
@@ -349,7 +353,6 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
 
             # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
-            my @TaskIDs;
             my @AllTasks = $SchedulerDBObject->TaskList(
                 Type => 'AsynchronousExecutor',
             );
@@ -484,4 +487,4 @@ $Selenium->RunTest(
 
 );
 
-$Self->DoneTesting();
+done_testing;

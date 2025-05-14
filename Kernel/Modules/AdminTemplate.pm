@@ -30,6 +30,19 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -40,8 +53,21 @@ sub Run {
     my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
     my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
+    my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # ------------------------------------------------------------ #
     # change
@@ -62,6 +88,27 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        if ( $Self->{LightAdmin} ) {
+            my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $ID );
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission for the template.
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this template.'),
+                );
+            }
+        }
+
         $Output .= $LayoutObject->Notify( Info => Translatable('Template updated!') )
             if ( $Notification && $Notification eq 'Update' );
 
@@ -87,6 +134,20 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
+        if ( $Self->{LightAdmin} ) {
+            my @CheckedIDs;
+            for my $ID (@NewIDs) {
+                my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                    ID     => $ID,
+                    UserID => $Self->{UserID},
+                );
+                if ( $Permission eq 'rw' ) {
+                    push @CheckedIDs, $ID;
+                }
+            }
+            @NewIDs = @CheckedIDs;
+        }
+
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -119,6 +180,20 @@ sub Run {
         if ($NameExists) {
             $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
+        }
+
+        if ( $Self->{LightAdmin} ) {
+            my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $GetParam{ID} );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission to change the template.
+            if ( $Permission ne 'rw' ) {
+                $Errors{NoPermission} = 1;
+            }
         }
 
         # if no errors occurred
@@ -216,6 +291,20 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
+        if ( $Self->{LightAdmin} ) {
+            my @CheckedIDs;
+            for my $ID (@NewIDs) {
+                my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                    ID     => $ID,
+                    UserID => $Self->{UserID},
+                );
+                if ( $Permission eq 'rw' ) {
+                    push @CheckedIDs, $ID;
+                }
+            }
+            @NewIDs = @CheckedIDs;
+        }
+
         my ( %GetParam, %Errors );
 
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
@@ -318,6 +407,20 @@ sub Run {
 
         my $ID = $ParamObject->GetParam( Param => 'ID' );
 
+        if ( $Self->{LightAdmin} ) {
+            my %Queues     = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $ID );
+            my $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => [ keys %Queues ],
+                UserID   => $Self->{UserID},
+                Default  => 'rw',
+            );
+
+            # No permission to delete the template.
+            if ( $Permission ne 'rw' ) {
+                return $LayoutObject->ErrorScreen();
+            }
+        }
+
         my $Delete = $StandardTemplateObject->StandardTemplateDelete(
             ID => $ID,
         );
@@ -385,7 +488,21 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
     );
 
-    my %AttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentList( Valid => 1 );
+    my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
+    my %AttachmentData      = $StdAttachmentObject->StdAttachmentList( Valid => 1 );
+
+    if ( $Self->{LightAdmin} ) {
+        for my $Key ( sort keys %AttachmentData ) {
+            my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+                ID     => $Key,
+                UserID => $Self->{UserID},
+            );
+            if ( $Permission ne 'rw' ) {
+                delete $AttachmentData{$Key};
+            }
+        }
+    }
+
     $Param{AttachmentOption} = $LayoutObject->BuildSelection(
         Data         => \%AttachmentData,
         Name         => 'IDs',
@@ -449,6 +566,7 @@ sub _Overview {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -457,6 +575,13 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
@@ -467,7 +592,7 @@ sub _Overview {
     my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
     my %List                   = $StandardTemplateObject->StandardTemplateList(
         UserID => 1,
-        Valid  => 0,
+        Valid  => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # if there are any results, they are shown
@@ -483,10 +608,23 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        ID:
         for my $ID ( sort { $ListGet{$a}->{SortName} cmp $ListGet{$b}->{SortName} } keys %ListGet )
         {
 
             my %Data = %{ $ListGet{$ID} };
+
+            # check queue permissions of linked templates.
+            if ( $Self->{LightAdmin} ) {
+                my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $Data{ID} );
+                $Data{Permission} = $QueueObject->QueueListPermission(
+                    QueueIDs => [ keys %Queues ],
+                    UserID   => $Self->{UserID},
+                    Default  => 'rw',
+                );
+                next ID if !$Data{Permission};
+            }
+
             my @SelectedAttachment;
             my %SelectedAttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $ID,

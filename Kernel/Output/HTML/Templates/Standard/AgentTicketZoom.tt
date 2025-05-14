@@ -73,7 +73,7 @@
     <div class="Headline NoMargin">
         <div class="Flag" title="[% Translate(Data.Priority) | html %]"><span class="PriorityID-[% Data.PriorityID | html %]">[% Translate(Data.Priority) | html %]</span></div>
         <h1>
-            [% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber %] &mdash; [% Data.Title | html %]
+            [% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %] &mdash; [% Data.Title | html %]
         </h1>
     </div>
 
@@ -210,7 +210,7 @@
                 </div>
             </div>
 
-[% RenderBlockStart("ProcessWidget") %]
+[% RenderBlockStart("OverviewWidget") %]
             <div class="WidgetSimple Expanded" id="DynamicFieldsWidget">
                 <div class="Header">
                     <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
@@ -220,9 +220,21 @@
                 <div class="LightRow Bottom">
                     <ul class="Actions">
                         <li><strong>[% Translate(Data.ActivityName) | html %]:</strong></li>
+[% RenderBlockStart("ActivityDialogDirectSubmit") %]
+                        <li>
+                            <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") | html %]" method="post">
+                                <input type="hidden" name="Action" value="AgentTicketProcess"/>
+                                <input type="hidden" name="Subaction" value="StoreActivityDialog"/>
+                                <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                                <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+                                <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+                                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Translate(Data.Name) | html %]" class="CallForAction Fullsize Center" type="submit">[% Translate(Data.Name) | html %]</button>
+                            </form>
+                        </li>
+[% RenderBlockEnd("ActivityDialogDirectSubmit") %]
 [% RenderBlockStart("ActivityDialog") %]
                         <li>
-                            <a title="[% Translate(Data.Name) | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Translate(Data.Name) | html %]</a>
+                            <a title="[% Translate(Data.Name) | html %]" class="CallForAction AsPopup PopupType_TicketAction NextActivityDialog" href="[% Env("Baselink") %]Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]"><span>[% Translate(Data.Name) | html %]</span></a>
                         </li>
 [% RenderBlockEnd("ActivityDialog") %]
                     </ul>
@@ -235,42 +247,83 @@
                 <div class="Content ProcessInfo">
                     <div class="ProcessInformation">
                         <fieldset>
-[% RenderBlockStart("ProcessWidgetDynamicFieldGroups") %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldGroupSeparator") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldGroups") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldGroupSeparator") %]
                             <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldGroupSeparator") %]
-[% RenderBlockStart("ProcessWidgetDynamicField") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldGroupSeparator") %]
+[% RenderBlockStart("OverviewWidgetDynamicField") %]
+[% RenderBlockStart("StandardField") %]
                             <div class="FieldContainer DynamicFieldAutoResize">
                                 <label title="[% Data.Label | html %]">
                                     [% Data.Label | html %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldValueOverlayTrigger") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldValueOverlayTrigger") %]
                                     <a href="#" class="ShowFieldInfoOverlay">+</a>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldValueOverlayTrigger") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldValueOverlayTrigger") %]
                                 </label>
                                 <p class="Value CutValue DynamicField_[% Data.Name %]">
 <!-- OutputFilterHook_WidgetDynamicFieldBegin -->
-[% RenderBlockStart("ProcessWidgetDynamicFieldLink") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldLink") %]
                                     <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
-[% RenderBlockEnd("ProcessWidgetDynamicFieldLink") %]
-[% RenderBlockStart("ProcessWidgetDynamicFieldPlain") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldLink") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldPlain") %]
                                     [% Data.Value %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldPlain") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldPlain") %]
 <!-- OutputFilterHook_WidgetDynamicFieldEnd -->
                                 </p>
                                 <p class="ValueLong">
-[% RenderBlockStart("ProcessWidgetDynamicFieldValueLong") %]
+[% RenderBlockStart("OverviewWidgetDynamicFieldValueLong") %]
                                     [% Data.Value %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldValueLong") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldValueLong") %]
                                 </p>
                                 <div class="Clear"></div>
                             </div>
-[% RenderBlockEnd("ProcessWidgetDynamicField") %]
-[% RenderBlockEnd("ProcessWidgetDynamicFieldGroups") %]
+[% RenderBlockEnd("StandardField") %]
+[% RenderBlockStart("SetField") %]
+                            <div class="SetDynamicField">
+[% RenderBlockStart("DynamicFieldSetSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Label) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetSeparator") %]
+                                <div>
+[% RenderBlockStart("SetDynamicField") %]
+                                    <div class="FieldContainer DynamicFieldAutoResize">
+                                        <label title="[% Data.Label | html %]">
+                                            [% Data.Label | html %]
+[% RenderBlockStart("SetDynamicFieldValueOverlayTrigger") %]
+                                            <a href="#" class="ShowFieldInfoOverlay">+</a>
+[% RenderBlockEnd("SetDynamicFieldValueOverlayTrigger") %]
+                                        </label>
+                                        <p class="Value CutValue DynamicField_[% Data.Name %]">
+<!-- OutputFilterHook_SetDynamicFieldBegin -->
+[% RenderBlockStart("SetDynamicFieldLink") %]
+                                            <span title="[% Data.Title %]"><a href="[% Data.Link | Interpolate %]"[% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+[% RenderBlockEnd("SetDynamicFieldLink") %]
+[% RenderBlockStart("SetDynamicFieldPlain") %]
+                                            [% Data.Value %]
+[% RenderBlockEnd("SetDynamicFieldPlain") %]
+<!-- OutputFilterHook_SetDynamicFieldEnd -->
+                                        </p>
+                                        <p class="ValueLong">
+[% RenderBlockStart("SetDynamicFieldValueLong") %]
+                                            [% Data.Value %]
+[% RenderBlockEnd("SetDynamicFieldValueLong") %]
+                                        </p>
+                                        <div class="Clear"></div>
+                                    </div>
+[% RenderBlockStart("DynamicFieldSetValueSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetValueSeparator") %]
+[% RenderBlockEnd("SetDynamicField") %]
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("SetField") %]
+[% RenderBlockEnd("OverviewWidgetDynamicField") %]
+[% RenderBlockEnd("OverviewWidgetDynamicFieldGroups") %]
                         </fieldset>
                     </div>
                 </div>
             </div>
-[% RenderBlockEnd("ProcessWidget") %]
+[% RenderBlockEnd("OverviewWidget") %]
 
             <div id="ArticleTree">
 [% Data.ArticleTree %]
@@ -352,7 +405,7 @@
                     <table id="ArticleTable" class="DataTable [% Data.TableClasses | html %]">
                         <thead>
                             <tr>
-                                <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
+                                <th class="No Sortable InitialSorting [% Data.ZoomExpandSortOrder %]"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="UnreadArticles">
                                     <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
                                         <span class="UnreadArticles">
@@ -366,6 +419,11 @@
                                 <th class="Channel Sortable"><a href="#">[% Translate("Via") | html %]</a></th>
                                 <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
                                 <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
+                                <th class="ArticleEdit Sortable Center">
+                                    <a href="#" title="[% Translate("Article Edited") | html %]">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </th>
                                 <th class="Attachments Last Center">
                                     <a href="#" title="[% Translate("Attachments") | html %]">
                                         <i class="fa fa-paperclip"></i>
@@ -375,7 +433,7 @@
                         </thead>
                         <tbody>
 [% RenderBlockStart("TreeItem") %]
-                            <tr class="[% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
+                            <tr class="[% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% IF Data.ArticleDeleted == "1" %] ArticleDeleted [% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
                                 <td class="No">
                                     [% Data.ArticleNumber | html %]
                                     <input type="hidden" class="ArticleInfo" name="Link[% Data.ArticleNumber | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.ArticleNumber | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
@@ -446,6 +504,15 @@
 # Other date formats cannot be sorted reliably.
                                     <input type="hidden" class="SortData" value="[% Data.CreateTime | html %]" />
                                 </td>
+                                <td class="Center">
+                                    <div title="[% Translate("The article was edited") | html %]">
+                                        [% IF Data.IsEdited == "1" %]
+                                            <p class="EditIcon"><i class="fa fa-clone"></i></p>
+                                        [% END %]
+                                    </div>
+                                    <input type="hidden" class="SortData" value="[% Data.IsEdited | html %]" />
+                                </td>
+
                                 <td class="Attachments Center Attachment Fixed NonTextContent">
 [% RenderBlockStart("TreeItemAttachment") %]
 [% PROCESS ArticleAttachments.tt %]

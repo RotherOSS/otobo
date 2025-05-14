@@ -19,11 +19,14 @@ package Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer;
 use strict;
 use warnings;
 
-use Kernel::System::EmailParser;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
     'Kernel::System::Crypt::SMIME',
 );
 

@@ -22,17 +22,21 @@ use utf8;
 
 our $ObjectManagerDisabled = 1;
 
-use POSIX qw/ceil/;
-use Kernel::System::EmailParser;
+# core modules
+use List::Util qw(any);
+use POSIX      qw(ceil);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # set debug
     $Self->{Debug} = 0;
@@ -75,7 +79,6 @@ sub new {
                 }
             }
         }
-
         elsif (
             defined $Self->{ArticleView}
             || defined $Self->{ZoomExpand}
@@ -119,23 +122,14 @@ sub new {
         }
     }
 
-    # Please note: ZoomTimeline is an OTOBOCommunity feature
     if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
         $Self->{ZoomTimeline} = 0;
     }
 
-    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
-        if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
-            $Self->{DoNotShowBrowserLinkMessage} = 1;
-        }
-        else {
-            $Self->{DoNotShowBrowserLinkMessage} = 0;
-        }
-    }
+    # whether the message "To open links in the following article, ..." is shown
+    $Self->{DoNotShowBrowserLinkMessage} //= $UserPreferences{UserAgentDoNotShowBrowserLinkMessage};
 
-    if ( !defined $Self->{ZoomExpandSort} ) {
-        $Self->{ZoomExpandSort} = $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort');
-    }
+    $Self->{ZoomExpandSort} //= $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort');
 
     $Self->{ArticleFilterActive} = $ConfigObject->Get('Ticket::Frontend::TicketArticleFilter');
 
@@ -162,7 +156,7 @@ sub new {
         );
     }
 
-    # get zoom settings depending on ticket type
+    # get display settings for AgentTicketZoom, e.g. which widgets are shown
     $Self->{DisplaySettings} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
 
     # this is a mapping of history types which is being used
@@ -225,7 +219,7 @@ sub new {
         )
     {
         $ConfigObject->Set(
-            Key   => 'Loader::Module::AgentTicketZoom###003-OTOBOCommunity',
+            Key   => 'Loader::Module::AgentTicketZoom###003-DynamicField',
             Value => {
                 JavaScript => [
                     'Core.Agent.TicketZoom.TimelineView.js',
@@ -233,6 +227,15 @@ sub new {
             },
         );
     }
+
+    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
+        TicketID  => $Self->{TicketID},
+        UserID    => $Self->{UserID},
+        GetStatus => 1
+    );
+
+    $Self->{ShowDeletedArticles} = $ArticleShowStatus ? 1 : 0;
+    $Self->{ArticleStorage}      = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
 
     return $Self;
 }
@@ -412,7 +415,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -468,6 +471,7 @@ sub Run {
                 Content     => $WidgetOutput->{Output} // ' ',
                 Type        => 'inline',
                 NoCache     => 1,
+                Charset     => 'utf-8',
             );
         }
         else {
@@ -488,12 +492,21 @@ sub Run {
     if ( $Self->{Subaction} eq 'MarkAsSeen' ) {
         my $Success = 1;
 
-        # always show archived tickets as seen
-        if ( $Ticket{ArchiveFlag} ne 'y' ) {
-            $Success = $Self->_ArticleItemSeen(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $Self->{ArticleID},
-            );
+        my $IsArticleDeleted = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleDeleted(
+            ArticleID => $Self->{ArticleID},
+        );
+
+        if ($IsArticleDeleted) {
+            $Success = 2;
+        }
+        else {
+            # always show archived tickets as seen
+            if ( $Ticket{ArchiveFlag} ne 'y' ) {
+                $Success = $Self->_ArticleItemSeen(
+                    TicketID  => $Self->{TicketID},
+                    ArticleID => $Self->{ArticleID}
+                );
+            }
         }
 
         return $LayoutObject->Attachment(
@@ -509,8 +522,9 @@ sub Run {
         my $Count = $ParamObject->GetParam( Param => 'Count' );
 
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Self->{ArticleID},
+            TicketID            => $Self->{TicketID},
+            ArticleID           => $Self->{ArticleID},
+            ShowDeletedArticles => $Self->{ShowDeletedArticles}
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(
@@ -649,7 +663,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -712,7 +726,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -788,48 +802,18 @@ sub Run {
         }
     }
 
-    # return if HTML email
-    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-
-        # check needed ArticleID
-        if ( !$Self->{ArticleID} ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Need ArticleID!') );
-        }
-
-        # get article data
-        my %Article = $ArticleObject->ArticleGet(
-            TicketID      => $Self->{TicketID},
-            ArticleID     => $Self->{ArticleID},
-            DynamicFields => 0,
-        );
-
-        # check if article data exists
-        if ( !%Article ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Invalid ArticleID!') );
-        }
-
-        # if it is a HTML email, return here
-        return $LayoutObject->Attachment(
-            Filename => $ConfigObject->Get('Ticket::Hook')
-                . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
-            Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
-            Content     => $Article{Body},
-        );
-    }
-
     # generate output
-    my $Output = $LayoutObject->Header(
-        Value    => $Ticket{TicketNumber},
-        TicketID => $Ticket{TicketID},
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $Self->MaskAgentZoom(
-        Ticket    => \%Ticket,
-        AclAction => \%AclAction
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Value    => $Ticket{TicketNumber},
+            TicketID => $Ticket{TicketID},
+        ),
+        $LayoutObject->NavigationBar,
+        $Self->MaskAgentZoom(
+            Ticket    => \%Ticket,
+            AclAction => \%AclAction
+        ),
+        $LayoutObject->Footer;
 }
 
 sub MaskAgentZoom {
@@ -860,7 +844,7 @@ sub MaskAgentZoom {
         TemplateTypes => 1,
     );
 
-    # get cofig object
+    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # generate shown articles
@@ -884,6 +868,7 @@ sub MaskAgentZoom {
     my @ArticleBoxAll = $ArticleObject->ArticleList(
         TicketID             => $Self->{TicketID},
         IsVisibleForCustomer => $IsVisibleForCustomer,
+        ShowDeletedArticles  => $Self->{ShowDeletedArticles}
     );
 
     if ( IsArrayRefWithData( $Self->{ArticleFilter}->{CommunicationChannelID} ) ) {
@@ -1097,7 +1082,9 @@ sub MaskAgentZoom {
             next WIDGET;
         }
         my $Success = eval { $MainObject->Require( $Config->{Module} ) };
-        next WIDGET if !$Success;
+
+        next WIDGET unless $Success;
+
         my $Module = eval { $Config->{Module}->new(%$Self) };
         if ( !$Module ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1105,16 +1092,18 @@ sub MaskAgentZoom {
                 Message  => "new() of Widget module $Config->{Module} not successful!",
 
             );
+
             next WIDGET;
         }
+
         my $WidgetOutput = $Module->Run(
             Ticket    => \%Ticket,
             AclAction => \%AclAction,
             Config    => $Config,
         );
-        if ( !$WidgetOutput ) {
-            next WIDGET;
-        }
+
+        next WIDGET unless $WidgetOutput;
+
         $WidgetOutput->{Rank} //= $Key;
         my $Location = $WidgetOutput->{Location} || $Config->{Location};
         push @{ $Widgets{$Location} }, $WidgetOutput;
@@ -1337,6 +1326,7 @@ sub MaskAgentZoom {
         $MoveQueues{0}         = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
         $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
             Name           => 'DestQueueID',
+            TreeView       => $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0,
             Data           => \%MoveQueues,
             Class          => 'Modernize Small',
             CurrentQueueID => $Ticket{QueueID},
@@ -1526,47 +1516,88 @@ sub MaskAgentZoom {
         'TicketID' => $Self->{TicketID}
     );
 
-    # show process widget  and activity dialogs on process tickets
+    # collect data for overview widget
+    my %WidgetData;
+    if ( $IsProcessTicket || $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} ) {
+        %WidgetData = $IsProcessTicket
+            ? (
+                WidgetDisplay            => $Self->{DisplaySettings}{ProcessDisplay},
+                WidgetTitle              => $Self->{DisplaySettings}{ProcessDisplay}{WidgetTitle},
+                WidgetDynamicFieldGroups => $Self->{DisplaySettings}{ProcessWidgetDynamicFieldGroups},
+            )
+            : (
+                WidgetDisplay            => $Self->{DisplaySettings}{DynamicFieldWidgetDisplay},
+                WidgetTitle              => $Self->{DisplaySettings}{DynamicFieldWidgetDisplay}{WidgetTitle},
+                WidgetDynamicFieldGroups => $Self->{DisplaySettings}{DynamicFieldWidgetDynamicFieldGroups},
+
+            );
+
+        $WidgetData{WidgetDynamicField} = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+            ->{ ( $IsProcessTicket ? 'ProcessWidgetDynamicField' : 'DynamicFieldWidgetDynamicField' ) } // {};
+    }
+
+    # decide if widget should be shown
+    my $ShowWidget = 0;
+
+    # always show if we have a process ticket for activity dialogs
     if ($IsProcessTicket) {
+        $ShowWidget = 1;
+    }
 
-        $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
+    # else show only if dynamic fields are defined and at least one of them has a value
+    elsif ( IsHashRefWithData( $WidgetData{WidgetDynamicField} ) ) {
+        DFVALUE:
+        for my $FieldName ( keys $WidgetData{WidgetDynamicField}->%* ) {
+            next DFVALUE unless $Ticket{"DynamicField_$FieldName"};
 
-        # get the DF where the ProcessEntityID is stored
-        my $ProcessEntityIDField = 'DynamicField_'
-            . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
+            $ShowWidget = 1;
 
-        # get the DF where the AtivityEntityID is stored
-        my $ActivityEntityIDField = 'DynamicField_'
-            . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
+            last DFVALUE;
+        }
+    }
 
-        my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
-            ProcessEntityID => $Ticket{$ProcessEntityIDField},
-        );
-        my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
-            Interface        => 'AgentInterface',
-            ActivityEntityID => $Ticket{$ActivityEntityIDField},
-        );
+    # show overview widget with either dynamic field data or with process and activity dialog data
+    if ($ShowWidget) {
 
         # send data to JS
         $LayoutObject->AddJSData(
-            Key   => 'ProcessWidget',
+            Key   => 'OverviewWidget',
             Value => 1,
         );
 
-        # output the process widget in the main screen
+        # output the overview widget in the main screen
         $LayoutObject->Block(
-            Name => 'ProcessWidget',
+            Name => 'OverviewWidget',
             Data => {
-                WidgetTitle => $Param{WidgetTitle},
+                WidgetTitle => $WidgetData{WidgetTitle},
             },
         );
 
-        # get next activity dialogs
+        # collect and render process data if necessary
+        my $ActivityName;
         my $NextActivityDialogs;
-        if ( $Ticket{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
+        my $ProcessEntityIDField;
+        if ($IsProcessTicket) {
+
+            # get the DF where the ProcessEntityID is stored
+            $ProcessEntityIDField = 'DynamicField_'
+                . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
+
+            # get the DF where the AtivityEntityID is stored
+            my $ActivityEntityIDField = 'DynamicField_'
+                . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
+
+            my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+                Interface        => 'AgentInterface',
+                ActivityEntityID => $Ticket{$ActivityEntityIDField},
+            );
+
+            # get next activity dialogs
+            if ( $Ticket{$ActivityEntityIDField} ) {
+                $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
+            }
+            $ActivityName = $ActivityData->{Name};
         }
-        my $ActivityName = $ActivityData->{Name};
 
         if ($NextActivityDialogs) {
 
@@ -1641,16 +1672,37 @@ sub MaskAgentZoom {
                         Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     );
-                    $LayoutObject->Block(
-                        Name => 'ActivityDialog',
-                        Data => {
-                            ActivityDialogEntityID
-                                => $NextActivityDialogs->{$NextActivityDialogKey},
-                            Name            => $ActivityDialogData->{Name},
-                            ProcessEntityID => $Ticket{$ProcessEntityIDField},
-                            TicketID        => $Ticket{TicketID},
-                        },
-                    );
+
+                    # check if direct submit is active for this activity dialog
+                    my $DirectSubmit = $ActivityDialogData->{DirectSubmit};
+                    if ( any { $ActivityDialogData->{Fields}{$_}{Display} } keys $ActivityDialogData->{Fields}->%* ) {
+                        $DirectSubmit = 0;
+                    }
+
+                    if ($DirectSubmit) {
+                        $LayoutObject->Block(
+                            Name => 'ActivityDialogDirectSubmit',
+                            Data => {
+                                ActivityDialogEntityID
+                                    => $NextActivityDialogs->{$NextActivityDialogKey},
+                                Name            => $ActivityDialogData->{SubmitButtonText} || $ActivityDialogData->{Name},
+                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                                TicketID        => $Ticket{TicketID},
+                            },
+                        );
+                    }
+                    else {
+                        $LayoutObject->Block(
+                            Name => 'ActivityDialog',
+                            Data => {
+                                ActivityDialogEntityID
+                                    => $NextActivityDialogs->{$NextActivityDialogKey},
+                                Name            => $ActivityDialogData->{Name},
+                                ProcessEntityID => $Ticket{$ProcessEntityIDField},
+                                TicketID        => $Ticket{TicketID},
+                            },
+                        );
+                    }
                 }
             }
             else {
@@ -1660,86 +1712,80 @@ sub MaskAgentZoom {
                 );
             }
         }
-    }
 
-    # get dynamic field config for frontend module
-    my $DynamicFieldFilter = {
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
-        %{
-            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
-                ->{ProcessWidgetDynamicField}
-                || {}
-        },
-    };
+        # get dynamic field config for frontend module
+        my $DynamicFieldFilter = {
+            %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
+            %{
+                $WidgetData{WidgetDynamicField} || {}
+            },
+        };
 
-    # get the dynamic fields for ticket object
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $DynamicFieldFilter || {},
-    );
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+        # get the dynamic fields for ticket object
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+            Valid       => 1,
+            ObjectType  => ['Ticket'],
+            FieldFilter => $DynamicFieldFilter || {},
+        );
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # to store dynamic fields to be displayed in the process widget and in the sidebar
-    my (@FieldsWidget);
+        # to store dynamic fields to be displayed in the overview widget
+        my (@FieldsWidget);
 
-    # cycle trough the activated Dynamic Fields for ticket object
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
+        # cycle trough the activated Dynamic Fields for ticket object
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
-        # use translation here to be able to reduce the character length in the template
-        my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
+            # use translation here to be able to reduce the character length in the template
+            my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
 
-        if (
-            $IsProcessTicket &&
-            $Self->{DisplaySettings}->{ProcessWidgetDynamicField}->{ $DynamicFieldConfig->{Name} }
-            )
-        {
-            my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                LayoutObject       => $LayoutObject,
+            if ( $WidgetData{WidgetDynamicField}{ $DynamicFieldConfig->{Name} } ) {
+                my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    LayoutObject       => $LayoutObject,
 
-                # no ValueMaxChars here, enough space available
-            );
+                    # no ValueMaxChars here, enough space available
+                );
 
-            push @FieldsWidget, {
-                $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
-                Name                        => $DynamicFieldConfig->{Name},
-                Title                       => $ValueStrg->{Title},
-                Value                       => $ValueStrg->{Value},
-                ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                Label                       => $Label,
-                Link                        => $ValueStrg->{Link},
-                LinkPreview                 => $ValueStrg->{LinkPreview},
+                push @FieldsWidget, {
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    Name                        => $DynamicFieldConfig->{Name},
+                    Title                       => $ValueStrg->{Title},
+                    Value                       => $ValueStrg->{Value},
+                    ValueKey                    => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                    Label                       => $Label,
+                    Link                        => $ValueStrg->{Link},
+                    LinkPreview                 => $ValueStrg->{LinkPreview},
 
-                # Include unique parameter with dynamic field name in case of collision with others.
-                #   Please see bug#13362 for more information.
-                "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
-            };
+                    # Include unique parameter with dynamic field name in case of collision with others.
+                    #   Please see bug#13362 for more information.
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
+                };
+            }
         }
-    }
 
-    if ($IsProcessTicket) {
+        # build dynamic field lookup hash for widget groups
+        my %DynamicFieldLookup = map { ( $_->{Name} => $_ ) } $DynamicField->@*;
 
-        # output dynamic fields registered for a group in the process widget
+        # output dynamic fields registered for a group in the overview widget
         my @FieldsInAGroup;
         for my $GroupName (
-            sort keys %{ $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups} }
+            sort keys %{ $WidgetData{WidgetDynamicFieldGroups} }
             )
         {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroups',
+                Name => 'OverviewWidgetDynamicFieldGroups',
             );
 
-            my $GroupFieldsString = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
+            my $GroupFieldsString = $WidgetData{WidgetDynamicFieldGroups}{$GroupName};
 
             $GroupFieldsString =~ s{\s}{}xmsg;
-            my @GroupFields = split( ',', $GroupFieldsString );
+            my @GroupFields = split /,/, $GroupFieldsString;
 
             if ( $#GroupFields + 1 ) {
 
@@ -1750,53 +1796,156 @@ sub MaskAgentZoom {
 
                         $ShowGroupTitle = 1;
                         $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicField',
+                            Name => 'OverviewWidgetDynamicField',
                             Data => {
                                 Label => $Field->{Label},
                                 Name  => $Field->{Name},
                             },
                         );
 
-                        $LayoutObject->Block(
-                            Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
-                        );
+                        my $DFConfig = $DynamicFieldLookup{ $Field->{Name} };
 
-                        if ( $Field->{Link} ) {
+                        # set field
+                        if ( $DFConfig->{FieldType} eq 'Set' ) {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldLink',
-                                Data => {
-                                    $Field->{Name} => $Field->{Title},
-                                    %Ticket,
+                                Name => 'SetField',
+                            );
 
-                                    # alias for ticket title, Title will be overwritten
-                                    TicketTitle => $Ticket{Title},
-                                    Value       => $Field->{Value},
-                                    Title       => $Field->{Title},
-                                    Link        => $Field->{Link},
-                                    LinkPreview => $Field->{LinkPreview},
+                            $LayoutObject->Block(
+                                Name => 'DynamicFieldSetSeparator',
+                                Data => {
+                                    Label => $Field->{Label},
+                                },
+                            );
+
+                            my @IncludedFields = $Self->_GetIncludedFieldOrdered(
+                                Include => $DFConfig->{Config}{Include},
+                            );
+
+                            for my $IncludeField (@IncludedFields) {
+
+                                my $IncludeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                                    Name => $IncludeField,
+                                );
+                                my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
+                                    DynamicFieldConfig => $IncludeDFConfig,
+                                    Value              => $Ticket{ 'DynamicField_' . $IncludeDFConfig->{Name} },
+                                    LayoutObject       => $LayoutObject,
+
+                                    # no ValueMaxChars here, enough space available
+                                );
+
+                                my %IncludeField = (
+                                    $IncludeDFConfig->{Name} => $ValueStrg->{Title},
+                                    Name                     => $IncludeDFConfig->{Name},
+                                    Title                    => $ValueStrg->{Title},
+                                    Value                    => $ValueStrg->{Value},
+                                    ValueKey                 => $Ticket{ 'DynamicField_' . $IncludeDFConfig->{Name} },
+                                    Label                    => $IncludeDFConfig->{Label},
+                                    Link                     => $ValueStrg->{Link},
+                                    LinkPreview              => $ValueStrg->{LinkPreview},
 
                                     # Include unique parameter with dynamic field name in case of collision with others.
                                     #   Please see bug#13362 for more information.
-                                    "DynamicField_$Field->{Name}" => $Field->{Title},
-                                },
-                            );
+                                    "DynamicField_$IncludeDFConfig->{Name}" => $ValueStrg->{Title},
+                                );
+                                $LayoutObject->Block(
+                                    Name => 'SetDynamicField',
+                                    Data => {
+                                        Name  => $IncludeField{Name},
+                                        Label => $IncludeField{Label},
+                                    }
+                                );
+                                $LayoutObject->Block(
+                                    Name => 'SetDynamicFieldValueOverlayTrigger',
+                                );
+
+                                if ( $IncludeDFConfig->{Link} ) {
+                                    $LayoutObject->Block(
+                                        Name => 'SetDynamicFieldLink',
+                                        Data => {
+                                            $IncludeField{Name} => $IncludeField{Title},
+                                            %Ticket,
+
+                                            # alias for ticket title, Title will be overwritten
+                                            TicketTitle => $Ticket{Title},
+                                            Value       => $IncludeField{Value},
+                                            Title       => $IncludeField{Title},
+                                            Link        => $IncludeField{Link},
+                                            LinkPreview => $IncludeField{LinkPreview},
+
+                                            # Include unique parameter with dynamic field name in case of collision with others.
+                                            #   Please see bug#13362 for more information.
+                                            "DynamicField_$IncludeField{Name}" => $IncludeField{Title},
+                                        },
+                                    );
+                                }
+                                else {
+                                    $LayoutObject->Block(
+                                        Name => 'SetDynamicFieldPlain',
+                                        Data => {
+                                            Value => $IncludeField{Value},
+                                            Title => $IncludeField{Title},
+                                        },
+                                    );
+                                }
+                                push @FieldsInAGroup, $Field->{Name};
+                            }
                         }
+
+                        # standard field
                         else {
                             $LayoutObject->Block(
-                                Name => 'ProcessWidgetDynamicFieldPlain',
+                                Name => 'StandardField',
                                 Data => {
-                                    Value => $Field->{Value},
-                                    Title => $Field->{Title},
+                                    Name  => $Field->{Name},
+                                    Label => $Field->{Label},
                                 },
                             );
+
+                            $LayoutObject->Block(
+                                Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
+                            );
+
+                            if ( $Field->{Link} ) {
+                                $LayoutObject->Block(
+                                    Name => 'OverviewWidgetDynamicFieldLink',
+                                    Data => {
+                                        $Field->{Name} => $Field->{Title},
+                                        %Ticket,
+
+                                        # alias for ticket title, Title will be overwritten
+                                        TicketTitle => $Ticket{Title},
+                                        Value       => $Field->{Value},
+                                        Title       => $Field->{Title},
+                                        Link        => $Field->{Link},
+                                        LinkPreview => $Field->{LinkPreview},
+
+                                        # Include unique parameter with dynamic field name in case of collision with others.
+                                        #   Please see bug#13362 for more information.
+                                        "DynamicField_$Field->{Name}" => $Field->{Title},
+                                    },
+                                );
+                            }
+                            else {
+                                $LayoutObject->Block(
+                                    Name => 'OverviewWidgetDynamicFieldPlain',
+                                    Data => {
+                                        Value => $Field->{Value},
+                                        Title => $Field->{Title},
+                                    },
+                                );
+                            }
+                            push @FieldsInAGroup, $Field->{Name};
+
                         }
-                        push @FieldsInAGroup, $Field->{Name};
+
                     }
                 }
 
                 if ($ShowGroupTitle) {
                     $LayoutObject->Block(
-                        Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                        Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                         Data => {
                             Name => $GroupName,
                         },
@@ -1805,7 +1954,7 @@ sub MaskAgentZoom {
             }
         }
 
-        # output dynamic fields not registered in a group in the process widget
+        # output dynamic fields not registered in a group in the overview widget
         my @RemainingFieldsWidget;
         for my $Field (@FieldsWidget) {
 
@@ -1815,13 +1964,13 @@ sub MaskAgentZoom {
         }
 
         $LayoutObject->Block(
-            Name => 'ProcessWidgetDynamicFieldGroups',
+            Name => 'OverviewWidgetDynamicFieldGroups',
         );
 
         if ( $#RemainingFieldsWidget + 1 ) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldGroupSeparator',
+                Name => 'OverviewWidgetDynamicFieldGroupSeparator',
                 Data => {
                     Name =>
                         $LayoutObject->{LanguageObject}->Translate('Fields with no group'),
@@ -1831,45 +1980,155 @@ sub MaskAgentZoom {
         for my $Field (@RemainingFieldsWidget) {
 
             $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicField',
-                Data => {
-                    Label => $Field->{Label},
-                    Name  => $Field->{Name},
-                },
+                Name => 'OverviewWidgetDynamicField',
             );
 
-            $LayoutObject->Block(
-                Name => 'ProcessWidgetDynamicFieldValueOverlayTrigger',
-            );
+            my ($DFConfig) = grep { $_->{Name} eq $Field->{Name} } $DynamicField->@*;
 
-            if ( $Field->{Link} ) {
+            # set field
+            if ( $DFConfig->{FieldType} eq 'Set' ) {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldLink',
+                    Name => 'SetField',
+                );
+
+                $LayoutObject->Block(
+                    Name => 'DynamicFieldSetSeparator',
                     Data => {
-                        $Field->{Name} => $Field->{Title},
-                        %Ticket,
-
-                        # alias for ticket title, Title will be overwritten
-                        TicketTitle => $Ticket{Title},
-                        Value       => $Field->{Value},
-                        Title       => $Field->{Title},
-                        Link        => $Field->{Link},
-
-                        # Include unique parameter with dynamic field name in case of collision with others.
-                        #   Please see bug#13362 for more information.
-                        "DynamicField_$Field->{Name}" => $Field->{Title},
+                        Label => $Field->{Label},
                     },
                 );
+
+                my @IncludedFields = $Self->_GetIncludedFieldOrdered(
+                    Include => $DFConfig->{Config}{Include},
+                );
+
+                for my $ValueIndex ( 0 .. $#{ $Ticket{ 'DynamicField_' . $Field->{Name} } } ) {
+                    my $ValueItem = $Ticket{ 'DynamicField_' . $Field->{Name} }[$ValueIndex];
+
+                    for my $IncludeField (@IncludedFields) {
+
+                        my $IncludeDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                            Name => $IncludeField,
+                        );
+                        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
+                            DynamicFieldConfig => $IncludeDFConfig,
+                            Value              => $ValueItem->{ $IncludeDFConfig->{Name} },
+                            LayoutObject       => $LayoutObject,
+
+                            # no ValueMaxChars here, enough space available
+                        );
+
+                        my %IncludeField = (
+                            $IncludeDFConfig->{Name} => $ValueStrg->{Title},
+                            Name                     => $IncludeDFConfig->{Name},
+                            Title                    => $ValueStrg->{Title},
+                            Value                    => $ValueStrg->{Value},
+                            ValueKey                 => $ValueItem->{ $IncludeDFConfig->{Name} },
+                            Label                    => $IncludeDFConfig->{Label},
+                            Link                     => $ValueStrg->{Link},
+                            LinkPreview              => $ValueStrg->{LinkPreview},
+
+                            # Include unique parameter with dynamic field name in case of collision with others.
+                            #   Please see bug#13362 for more information.
+                            "DynamicField_$IncludeDFConfig->{Name}" => $ValueStrg->{Title},
+                        );
+                        $LayoutObject->Block(
+                            Name => 'SetDynamicField',
+                            Data => {
+                                Name  => $IncludeField{Name},
+                                Label => $IncludeField{Label},
+                            }
+                        );
+                        $LayoutObject->Block(
+                            Name => 'SetDynamicFieldValueOverlayTrigger',
+                        );
+
+                        if ( $IncludeDFConfig->{Link} ) {
+                            $LayoutObject->Block(
+                                Name => 'SetDynamicFieldLink',
+                                Data => {
+                                    $IncludeField{Name} => $IncludeField{Title},
+                                    %Ticket,
+
+                                    # alias for ticket title, Title will be overwritten
+                                    TicketTitle => $Ticket{Title},
+                                    Value       => $IncludeField{Value},
+                                    Title       => $IncludeField{Title},
+                                    Link        => $IncludeField{Link},
+                                    LinkPreview => $IncludeField{LinkPreview},
+
+                                    # Include unique parameter with dynamic field name in case of collision with others.
+                                    #   Please see bug#13362 for more information.
+                                    "DynamicField_$IncludeField{Name}" => $IncludeField{Title},
+                                },
+                            );
+                        }
+                        else {
+                            $LayoutObject->Block(
+                                Name => 'SetDynamicFieldPlain',
+                                Data => {
+                                    Value => $IncludeField{Value},
+                                    Title => $IncludeField{Title},
+                                },
+                            );
+                        }
+                        push @FieldsInAGroup, $Field->{Name};
+                    }
+                    if ( $ValueIndex != $#{ $Ticket{ 'DynamicField_' . $Field->{Name} } } ) {
+                        $LayoutObject->Block(
+                            Name => 'DynamicFieldSetValueSeparator',
+                        );
+                    }
+                }
             }
+
+            # standard field
             else {
                 $LayoutObject->Block(
-                    Name => 'ProcessWidgetDynamicFieldPlain',
+                    Name => 'StandardField',
                     Data => {
-                        Value => $Field->{Value},
-                        Title => $Field->{Title},
+                        Name  => $Field->{Name},
+                        Label => $Field->{Label},
                     },
                 );
+
+                $LayoutObject->Block(
+                    Name => 'OverviewWidgetDynamicFieldValueOverlayTrigger',
+                );
+
+                if ( $Field->{Link} ) {
+                    $LayoutObject->Block(
+                        Name => 'OverviewWidgetDynamicFieldLink',
+                        Data => {
+                            $Field->{Name} => $Field->{Title},
+                            %Ticket,
+
+                            # alias for ticket title, Title will be overwritten
+                            TicketTitle => $Ticket{Title},
+                            Value       => $Field->{Value},
+                            Title       => $Field->{Title},
+                            Link        => $Field->{Link},
+                            LinkPreview => $Field->{LinkPreview},
+
+                            # Include unique parameter with dynamic field name in case of collision with others.
+                            #   Please see bug#13362 for more information.
+                            "DynamicField_$Field->{Name}" => $Field->{Title},
+                        },
+                    );
+                }
+                else {
+                    $LayoutObject->Block(
+                        Name => 'OverviewWidgetDynamicFieldPlain',
+                        Data => {
+                            Value => $Field->{Value},
+                            Title => $Field->{Title},
+                        },
+                    );
+                }
+                push @FieldsInAGroup, $Field->{Name};
+
             }
+
         }
     }
 
@@ -2145,7 +2404,8 @@ sub _ArticleTree {
             Name => 'ArticleList',
             Data => {
                 %Param,
-                TableClasses => $TableClasses,
+                ZoomExpandSortOrder => $Self->{ZoomExpandSort} eq 'reverse' ? 'Descending' : 'Ascending',
+                TableClasses        => $TableClasses,
             },
         );
 
@@ -2228,13 +2488,17 @@ sub _ArticleTree {
                 Subject      => $Article{Subject} || '',
             );
 
-            my %ArticleFields = $LayoutObject->ArticleFields(%Article);
+            my %ArticleFields = $LayoutObject->ArticleFields(
+                %Article,
+                ShowDeletedArticles => $Self->{ShowDeletedArticles}
+            );
 
             # Get transmission status information for email articles.
             my $TransmissionStatus;
             if ( $Article{ChannelName} && $Article{ChannelName} eq 'Email' ) {
                 $TransmissionStatus = $ArticleObject->BackendForArticle(%Article)->ArticleTransmissionStatus(
-                    ArticleID => $Article{ArticleID},
+                    ArticleID           => $Article{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
                 );
             }
 
@@ -2301,10 +2565,24 @@ sub _ArticleTree {
             }
 
             # Get attachment index (excluding body attachments).
-            my %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
-                ArticleID => $Article{ArticleID},
-                %{ $Self->{ExcludeAttachments} },
-            );
+            my %AtmIndex;
+
+            if ( !$Article{ArticleDeleted} || $Self->{ArticleStorage} =~ m/ArticleStorageFS/ ) {
+                %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
+                    ArticleID           => $Article{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles},
+                    %{ $Self->{ExcludeAttachments} },
+                );
+            }
+            else {
+                %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
+                    ArticleID           => $Article{DeletedVersionID},
+                    SourceArticleID     => $Article{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles},
+                    VersionView         => 1,
+                    %{ $Self->{ExcludeAttachments} }
+                );
+            }
             $Article{Atms} = \%AtmIndex;
 
             # show attachment info
@@ -2348,11 +2626,15 @@ sub _ArticleTree {
 
         # get articles for later use
         my @TimelineArticleBox = $ArticleObject->ArticleList(
-            TicketID => $Self->{TicketID},
+            TicketID            => $Self->{TicketID},
+            ShowDeletedArticles => $Self->{ShowDeletedArticles}
         );
 
         for my $ArticleItem (@TimelineArticleBox) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleItem} );
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+                %{$ArticleItem},
+                ShowDeletedArticles => $Self->{ShowDeletedArticles}
+            );
 
             my %Article = $ArticleBackendObject->ArticleGet(
                 TicketID      => $Self->{TicketID},
@@ -2370,7 +2652,10 @@ sub _ArticleTree {
 
         my $ArticlesByArticleID = {};
         for my $Article ( sort @TimelineArticleBox ) {
-            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+                %{$Article},
+                ShowDeletedArticles => $Self->{ShowDeletedArticles}
+            );
 
             # Get attachment index (excluding body attachments).
             my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
@@ -2654,8 +2939,9 @@ sub _ArticleTree {
                 $Item->{ArticleData} = $ArticlesByArticleID->{ $Item->{ArticleID} };
 
                 my %ArticleFields = $LayoutObject->ArticleFields(
-                    TicketID  => $Item->{ArticleData}->{TicketID},
-                    ArticleID => $Item->{ArticleData}->{ArticleID},
+                    TicketID            => $Item->{ArticleData}->{TicketID},
+                    ArticleID           => $Item->{ArticleData}->{ArticleID},
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
                 );
                 $Item->{ArticleData}->{ArticleFields} = \%ArticleFields;
 
@@ -2671,9 +2957,10 @@ sub _ArticleTree {
                 $Item->{ArticleData}->{ArticleMetaFields} = \%ArticleMetaFields;
 
                 my @ArticleActions = $LayoutObject->ArticleActions(
-                    TicketID  => $Item->{ArticleData}->{TicketID},
-                    ArticleID => $Item->{ArticleData}->{ArticleID},
-                    Type      => 'OnLoad',
+                    TicketID            => $Item->{ArticleData}->{TicketID},
+                    ArticleID           => $Item->{ArticleData}->{ArticleID},
+                    Type                => 'OnLoad',
+                    ShowDeletedArticles => $Self->{ShowDeletedArticles}
                 );
 
                 $Item->{ArticleData}->{ArticlePlain} = $LayoutObject->ArticlePreview(
@@ -2883,7 +3170,8 @@ sub _TicketItemSeen {
     my ( $Self, %Param ) = @_;
 
     my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-        TicketID => $Param{TicketID},
+        TicketID            => $Param{TicketID},
+        ShowDeletedArticles => $Self->{ShowDeletedArticles}
     );
 
     for my $Article (@Articles) {
@@ -2899,13 +3187,18 @@ sub _TicketItemSeen {
 sub _ArticleItemSeen {
     my ( $Self, %Param ) = @_;
 
+    my $IsArticleDeleted = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->IsArticleDeleted(
+        ArticleID => $Param{ArticleID}
+    );
+
     # mark shown article as seen
     $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagSet(
-        TicketID  => $Param{TicketID},
-        ArticleID => $Param{ArticleID},
-        Key       => 'Seen',
-        Value     => 1,
-        UserID    => $Self->{UserID},
+        TicketID       => $Param{TicketID},
+        ArticleID      => $Param{ArticleID},
+        Key            => 'Seen',
+        Value          => 1,
+        UserID         => $Self->{UserID},
+        ArticleDeleted => $IsArticleDeleted
     );
 
     return 1;
@@ -2922,15 +3215,13 @@ sub _ArticleItem {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # Get article data.
-    # my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
-
     # show article actions
     my @MenuItems = $LayoutObject->ArticleActions(
         %Param,
-        TicketID  => $Param{Ticket}->{TicketID},
-        ArticleID => $Param{Article}->{ArticleID},
-        Type      => $Param{Type},
+        TicketID            => $Param{Ticket}->{TicketID},
+        ArticleID           => $Param{Article}->{ArticleID},
+        Type                => $Param{Type},
+        ShowDeletedArticles => $Self->{ShowDeletedArticles}
     );
 
     push @{ $Self->{MenuItems} }, \@MenuItems;
@@ -2943,6 +3234,7 @@ sub _ArticleItem {
         ShowBrowserLinkMessage => $Self->{DoNotShowBrowserLinkMessage} ? 0 : 1,
         Type                   => $Param{Type},
         MenuItems              => \@MenuItems,
+        ShowDeletedArticles    => $Self->{ShowDeletedArticles}
     );
 }
 
@@ -2954,7 +3246,7 @@ sub _CollectArticleAttachments {
 
     my %Attachments;
 
-    # get cofig object
+    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # download type
@@ -3018,8 +3310,9 @@ sub _ArticleBoxGet {
     my @ArticleBox;
     for my $Index (@ArticleIndexes) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
+            TicketID            => $Self->{TicketID},
+            ArticleID           => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
+            ShowDeletedArticles => $Self->{ShowDeletedArticles}
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(
@@ -3103,6 +3396,33 @@ sub _ArticleRender {
         ArticleActions => $Param{MenuItems},
         UserID         => $Self->{UserID},
     );
+}
+
+sub _GetIncludedFieldOrdered {
+    my ( $Self, %Param ) = @_;
+
+    my @Return;
+
+    ITEM:
+    for my $IncludeItem ( @{ $Param{Include} } ) {
+
+        if ( $IncludeItem->{Grid} ) {
+            for my $Row ( @{ $IncludeItem->{Grid}{Rows} } ) {
+
+                COLUMN:
+                for my $DFEntry ( $Row->@* ) {
+                    next COLUMN if !$DFEntry->{DF};
+
+                    push @Return, $DFEntry->{DF};
+                }
+            }
+        }
+        elsif ( $IncludeItem->{DF} ) {
+            push @Return, $IncludeItem->{DF};
+        }
+    }
+
+    return @Return;
 }
 
 1;

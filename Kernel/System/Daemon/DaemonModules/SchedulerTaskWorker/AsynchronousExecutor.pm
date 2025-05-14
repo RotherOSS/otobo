@@ -130,7 +130,7 @@ sub Run {
         local $SIG{CHLD} = 'DEFAULT';
 
         # Localize the standard error, everything will be restored after the eval block.
-        local *STDERR;
+        local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
         # Redirect the standard error to a variable.
         open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)

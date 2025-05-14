@@ -16,9 +16,9 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Driver::postgresql;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
@@ -28,7 +28,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DB ();
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -40,11 +40,11 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::postgresql
 
 =head1 SYNOPSIS
 
-    # CloneDB postgresql driver
+    # CloneDBs postgresql Driver delegate
 
 =head1 DESCRIPTION
 
-This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
+This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base>.
 Please look there for a detailed reference of the functions.
 
 =head1 PUBLIC INTERFACE
@@ -76,10 +76,11 @@ sub CreateOTRSDBConnection {
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
-        DatabaseDSN  => $Param{OTRSDatabaseDSN},
-        DatabaseUser => $Param{DBUser},
-        DatabasePw   => $Param{DBPassword},
-        Type         => $Param{DBType},
+        DatabaseDSN             => $Param{OTRSDatabaseDSN},
+        DatabaseUser            => $Param{DBUser},
+        DatabasePw              => $Param{DBPassword},
+        Type                    => $Param{DBType},
+        DisconnectOnDestruction => 1,
     );
 
     if ( !$OTRSDBObject ) {
@@ -256,7 +257,7 @@ sub GetColumnInfos {
 }
 
 # Translate column infos
-# return DATA_TYPE
+# return a copy of the passed in ColumnInfo with a translated DATA_TYPE
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -272,11 +273,13 @@ sub TranslateColumnInfos {
         }
     }
 
-    my %ColumnInfos = %{ $Param{ColumnInfos} };
+    my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
-    my %Result;
+    # no translation is necessary for the same DBType
+    return \%ColumnInfos if $Param{DBType} =~ m/postgresql/;
 
-    if ( $Param{DBType} =~ /mysql/ ) {
+    if ( $Param{DBType} =~ m/mysql/ ) {
+        my %Result;
         $Result{VARCHAR} = 'VARCHAR';
         $Result{TEXT}    = 'TEXT';
         $Result{BLOB}    = 'TEXT';
@@ -300,12 +303,8 @@ sub TranslateColumnInfos {
 
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
-    elsif ( $Param{DBType} =~ /postgresql/ ) {
-
-        # no translation necessary
-        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
-    }
-    elsif ( $Param{DBType} =~ /oracle/ ) {
+    elsif ( $Param{DBType} =~ m/oracle/ ) {
+        my %Result;
         $Result{VARCHAR2} = 'VARCHAR';
         $Result{TEXT}     = 'TEXT';
         $Result{CLOB}     = 'TEXT';
@@ -348,8 +347,8 @@ sub AlterTableAddColumn {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
     }
 
-    if ( $ColumnInfos{IS_NULLABLE} =~ /no/ ) {
-        $SQL .= " NOT NULL";
+    if ( $ColumnInfos{IS_NULLABLE} =~ m/no/ ) {
+        $SQL .= ' NOT NULL';
     }
 
     my $Success = $Param{DBObject}->Do(

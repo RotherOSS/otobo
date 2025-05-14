@@ -25,7 +25,7 @@
     [% BreadcrumbPath = [
             {
                 Name => Translate('Dynamic Fields Management'),
-                Link => 'AdminDynamicField',
+                Link => 'AdminDynamicField' _ Data.FilterStrg,
             },
         ]
     %]
@@ -51,7 +51,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminDynamicField[% Data.FilterStrg %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -64,6 +64,8 @@
             <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
             <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
             <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
+            <input type="hidden" name="ObjectTypeFilter" value="[% Data.ObjectTypeFilter | html %]" />
+            <input type="hidden" name="NamespaceFilter" value="[% Data.NamespaceFilter | html %]" />
             <input type="hidden" name="ID" value="[% Data.ID | html %]" />
             <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
 
@@ -77,7 +79,7 @@
                             <fieldset class="TableLike">
                                 <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
                                 <div class="Field">
-                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.Name | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
+                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.PlainFieldName | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
                                     <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required, and the value should be alphabetic and numeric characters only.") | html %]</p></div>
                                     <div id="NameServerError" class="TooltipErrorMessage"><p>[% Translate(Data.NameServerErrorMessage) | html %]</p></div>
                                     <p class="FieldExplanation">[% Translate("Must be unique and only accept alphabetic and numeric characters.") | html %]</p>
@@ -100,6 +102,22 @@
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>[% Translate("This field is required and must be numeric.") | html %]</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>[% Translate(Data.FieldOrderServerErrorMessage) | html %]</p></div>
                                     <p class="FieldExplanation">[% Translate("This is the order in which this field will be shown on the screens where is active.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+
+[% RenderBlockStart("DynamicFieldNamespace") %]
+                                <label for="Namespace">[% Translate("Namespace") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.NamespaceStrg %]
+                                    <p class="FieldExplanation">[% Translate("This is the namespace in which this field will be used as prefix with the name.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+[% RenderBlockEnd("DynamicFieldNamespace") %]
+
+                                <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
+                                <div class="Field">
+                                    <textarea id="TooltipValue" class="W75pc" rows="3" cols="80" name="Tooltip">[% Data.Tooltip | html %]</textarea>
+                                    <p class="FieldExplanation">[% Translate("This is the tooltip message shown inside the customer interface.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>
@@ -245,11 +263,13 @@
                                 [% Translate("Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.") | html %]
                                 <br/>
                                 [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>[</span>% Data.Field1 | uri %<span>]</span>
+                                <br/>
+                                [% Translate("You can reference the field with its own field name. You can also refer to other fields, e.g. with 'DynamicField_OtherFieldName'.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="DFWebServiceLink" for="Link">[% Translate("Link for preview") | html %]:</label>
+                        <label class="DFWebServiceLink" for="LinkPreview">[% Translate("Link for preview") | html %]:</label>
                         <div class="Field DFWebServiceLink">
                             <input id="LinkPreview" class="W50pc" type="text" maxlength="500" value="[% Data.LinkPreview | html %]" name="LinkPreview"/>
                             <p class="FieldExplanation">
@@ -271,7 +291,7 @@
                     <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                     [% END %]
                     [% Translate("or") | html %]
-                    <a href="[% Env("Baselink") %]Action=AdminDynamicField">[% Translate("Cancel") | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=AdminDynamicField[% Data.FilterStrg %]">[% Translate("Cancel") | html %]</a>
                 </div>
                 <div class="Clear"></div>
             </fieldset>

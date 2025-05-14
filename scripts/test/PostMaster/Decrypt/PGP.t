@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::PostMaster ();
 
 our $Self;
-
-use Kernel::System::PostMaster;
 
 # Get helper object.
 $Kernel::OM->ObjectParamAdd(
@@ -59,7 +62,7 @@ $ConfigObject->Set(
 );
 
 # Check if GPG is located there.
-if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+if ( !$ConfigObject->Get('PGP::Bin') || !-e $ConfigObject->Get('PGP::Bin') ) {
 
     if ( -e '/usr/bin/gpg' ) {
         $ConfigObject->Set(

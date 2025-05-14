@@ -14,13 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+# core modules
 
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and the unit test driver $Self
 
-1;
+# package variables
+our $Self;                                       # optional, when Kernel::System::UnitTest::Driver is used
+
+# use the test funktions from Test2::V0
+like( '⛄ on 🏔 ', qr/⛄/, 'look here, a snow man' );
+
+# or the unittest driver, may be mixed with Test2::V0
+$Self->True( '⛄', 'look here, another snow man' );
+
+done_testing;

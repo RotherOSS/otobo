@@ -16,10 +16,8 @@
 
 package Kernel::System::Log;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 use v5.24;
 use strict;
@@ -27,8 +25,11 @@ use warnings;
 
 # core modules
 use Carp ();
+use Try::Tiny;
 
 # CPAN modules
+use DateTime 1.08 ();
+use DateTime::Locale ();
 
 # OTOBO modules
 
@@ -36,7 +37,14 @@ use Carp ();
 # This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
+);
+
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
     'Kernel::System::Encode',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -54,6 +62,7 @@ All log functions.
 create a log object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'InstallScriptX',  # not required, but highly recommend
@@ -74,7 +83,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless {}, $Type;
+    my $Self = bless { IPC => 0 }, $Type;
 
     if ( !$Kernel::OM ) {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
@@ -83,8 +92,9 @@ sub new {
     # extract some values from the config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    $Self->{ProductVersion} = $ConfigObject->Get('Product') . ' ';
-    $Self->{ProductVersion} .= $ConfigObject->Get('Version');
+    # Needed for determining the log time. Trust that the OTOBO time zone is set to a sensible value.
+    # The default, both here and in Framework.xml, is UTC.
+    $Self->{OTOBOTimeZone} = $ConfigObject->Get('OTOBOTimeZone') || 'UTC';
 
     # get system id
     my $SystemID = $ConfigObject->Get('SystemID');
@@ -98,29 +108,62 @@ sub new {
     my $MinLevel = lc( $ConfigObject->Get('MinimumLogLevel') || 'debug' );
     $Self->{MinimumLevelNum} = $LogLevel{$MinLevel};
 
-    # load log backend
+    # load log backend, rethrow exception when there is an error
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
-    if ( !eval "require $GenericModule" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-        die "Can't load log backend module $GenericModule! $@";
+    try {
+        my $FileName = "$GenericModule.pm" =~ s{::}{/}smxgr;
+
+        require $FileName;
     }
+    catch {
+        die "Can't load log backend module $GenericModule! $_";
+    };
 
     # create backend handle
     $Self->{Backend} = $GenericModule->new(
         %Param,
     );
 
-    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    # The code has hardcoded values for the flags passed to shmget(). Therefore
+    # there is no need to load IPC::SysV. Using the availablity of IPC::SysV as an indicator
+    # whether shmget() works is not a good idea. IPC::SysV is a core module.
+    # TODO: actually use the constants from IPC::SysV.
+    #return $Self unless eval 'require IPC::SysV';
 
     # Setup IPC for shared access to the last log entries.
-    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;    # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
-    if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
+    # In environments with strict security access to shmget() and shmctl() may be blocked. In those cases
+    # the functions would return undef.
+    #
+    # The flags are bit based and oct 1777 indicates that the first nine bits set.
+    # The bits 0-7, that is oct 777, indicate full access for everybody.
+    # Bit 8, that is oct 1000, aka IPC_CREAT, and it indicates that a new segment
+    # is allocated when there isn't one already.
+    # Bit 9, that is oct 2000, aka IPC_EXCL is not set. It would mandate exclusive use.
+    # Altogether this means that an existing segment is reused, even when the Kernel::System::Log
+    # object is recreated.
+    #
+    # Note that 0 is a valid shared memory segment ID. In Docker containers it happens regularly that
+    # the segment used here is the first allocated segment with the ID 0.
+    my $Flags = oct 1777;
+    $Self->{IPCSHMSegment} = shmget $IPCKey, $Self->{IPCSize}, $Flags;
 
-        # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
-        $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
-        if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
+    # Try somethin more gentle when the direct creation failesy. First allocate a small segment first and then reset/resize it.
+    if ( !defined $Self->{IPCSHMSegment} ) {
+
+        $Self->{IPCSHMSegment} = shmget $IPCKey, 1, $Flags;
+
+        # But even the allocation of only a small segment might fail. In this case
+        # let's proceed without IPC.
+        return $Self unless defined $Self->{IPCSHMSegment};
+
+        if ( !shmctl $Self->{IPCSHMSegment}, 0, 0 ) {
+
+            # $Self is not completely constructed, but already in an usable state.
+            # So we can already use it for logging.
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -130,12 +173,12 @@ sub new {
             return $Self;
         }
 
-        # Re-initialize SHM segment.
-        $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
-    }
+        # Try again to allocate the shared memory segment.
+        $Self->{IPCSHMSegment} = shmget $IPCKey, $Self->{IPCSize}, $Flags;
 
-    # Continue without IPC.
-    return $Self unless $Self->{IPCSHMSegment};
+        # The gently approach failed so, so we give up and continue without IPC.
+        return $Self unless defined $Self->{IPCSHMSegment};
+    }
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
@@ -190,8 +233,8 @@ sub Log {
     my $Caller  = $Param{Caller} || 0;
 
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 );
+    my ( undef, undef, $Line1, undef ) = caller( $Caller + 0 );
+    my ( undef, undef, undef, $Subroutine2 ) = caller( $Caller + 1 );
 
     $Subroutine2 ||= $0;
 
@@ -204,10 +247,49 @@ sub Log {
         Line      => $Line1,
     );
 
-    my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime'
-    );
-    my $LogTime = $DateTimeObject->ToCTimeString();
+    # Get current timestamp while honoring the OTOBO time zone.
+    # The reason why Kernel::System::DateTime is not used here, is that there were infinite loops
+    # during global destruction.
+    # See https://github.com/RotherOSS/otobo/issues/1099
+    my $LogTime;
+    if ( $Self->{OTOBOTimeZone} eq 'UTC' ) {
+
+        # This is the regular case. The value is always in English and not locale dependent.
+        # E.g. 'Sat Jul 17 09:25:15 2021'
+        $LogTime = gmtime;
+    }
+    else {
+
+        # honor the non-UTC OTOBO time zone
+
+        # It is not obvious why we can't simply use something like:
+        #{
+        #    local $ENV{TZ} = $Self->{OTOBOTimeZone};
+        #    # calling POSIX::tzset() only necessary up to Perl 5.8.9, https://perldoc.perl.org/5.8.9/perldelta
+        #    $LogTime = localtime;
+        #}
+
+        # This code has been extracted from Kernel::System::DateTime::ToCTimeString().
+        # Use English abbreviation for the day of the week and for the month.
+        my $Locale = DateTime::Locale->load('en_US');
+
+        # replicate the ctime format
+        my $Format = '%a %b %{day} %H:%M:%S %Y';
+
+        # Create object with current date/time and format it.
+        $LogTime = try {
+            DateTime->now(
+                time_zone => $Self->{OTOBOTimeZone},
+                locale    => $Locale,
+            )->strftime($Format);
+        }
+        catch {
+
+            # Ignore errors when DateTime has problems and fall back to UTC.
+            # A string is given back as gmtime is evaluated in scalar context.
+            gmtime;
+        };
+    }
 
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
@@ -216,12 +298,15 @@ sub Log {
             . $LogTime . "\n\n", $^V;
         $Error .= " Message: $Message\n\n";
 
-        if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {
+        # More info when we are in a web context.
+        # But don't try to get an object when we are already in global destruction.
+        if ( $ENV{GATEWAY_INTERFACE} && ${^GLOBAL_PHASE} ne 'DESTRUCT' ) {
 
-            my $RemoteAddress = $ENV{REMOTE_ADDR} || '-';
-            my $RequestURI    = $ENV{REQUEST_URI} || '-';
+            my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+            my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
+            my $RequestURI  = $ParamObject->RequestURI() || '-';
 
-            $Error .= " RemoteAddress: $RemoteAddress\n";
+            $Error .= " RemoteAddress: $RemoteAddr\n";
             $Error .= " RequestURI: $RequestURI\n\n";
         }
 
@@ -230,18 +315,21 @@ sub Log {
         COUNT:
         for ( my $Count = 0; $Count < 30; $Count++ ) {
 
-            my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + $Count );
+            my ( $Package1, undef, $Line1, undef ) = caller( $Caller + $Count );
 
-            last COUNT if !$Line1;
+            last COUNT unless $Line1;
 
-            my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
+            my ( undef, undef, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
 
             # if there is no caller module use the file name
             $Subroutine2 ||= $0;
 
             # print line if upper caller module exists
-            my $VersionString = eval {
-                return $Package1->VERSION || '';
+            my $VersionString = try {
+                $Package1->VERSION || '';
+            }
+            catch {
+                '';    # ignore exception, set version string to the empty string
             };
 
             # version is present
@@ -250,6 +338,9 @@ sub Log {
             }
 
             $Error .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
+
+            # shorten the traceback, exclude the Plack app and middleware before HTTPExceptions
+            last COUNT if $Subroutine2 =~ m/^Plack::Middleware::HTTPExceptions::try/;
 
             last COUNT unless $Line2;
         }
@@ -340,7 +431,7 @@ to clean up tmp log data from shared memory (ipc)
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    return 1 if !$Self->{IPC};
+    return 1 unless $Self->{IPC};
 
     shmwrite( $Self->{IPCSHMSegment}, '', 0, $Self->{IPCSize} ) || die $!;
 
@@ -362,11 +453,11 @@ dump a perl variable to log
 sub Dumper {
     my ( $Self, @Data ) = @_;
 
-    require Data::Dumper;
+    require Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller(1);
+    my ( undef, undef, $Line1, undef ) = caller(0);
+    my ( undef, undef, undef, $Subroutine2 ) = caller(1);
 
     $Subroutine2 ||= $0;
 

@@ -100,6 +100,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 CustomerUserID: CustomerUserID
             },
             SignatureURL;
+
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
 
             $('#CustomerID').val(Response.CustomerID);
@@ -118,7 +119,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($Form, 'AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'Signature', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'CryptKeyID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+                Core.AJAX.FormUpdate($Form, 'AJAXUpdate', 'ServiceID');
 
                 // Update signature if needed.
                 if ($('#Dest').val() !== '') {
@@ -129,12 +130,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     $('#Signature').attr('src', SignatureURL);
                 }
             }
-            if (Core.Config.Get('Action') === 'AgentTicketProcess' &&
-                typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined'){
+            if (Core.Config.Get('Action') === 'AgentTicketProcess') {
                 // reset service
                 $('#ServiceID').attr('selectedIndex', 0);
                 // update services (trigger ServiceID change event)
-                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
+                Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID');
             }
         });
     }
@@ -615,9 +615,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                             $('#CustomerID').val('');
                         }
 
-                        if (Core.Config.Get('Action') === 'AgentTicketProcess' && typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined') {
+                        if (Core.Config.Get('Action') === 'AgentTicketProcess') {
                             // update services (trigger ServiceID change event)
-                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID', Core.Config.Get('CustomerFieldsToUpdate'));
+                            Core.AJAX.FormUpdate($('#CustomerID').closest('form'), 'AJAXUpdate', 'ServiceID');
                         }
                     }
                 });
@@ -671,6 +671,46 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         if (CustomerValue === '') {
             return false;
+        }
+
+        var CurrentQuotation,
+            MultiEntry = [''],
+            SeenAt     = 0,
+            n          = 0;
+
+        // do a manual split that keeps track of quotation
+        for ( var i = 0; i < CustomerValue.length; i++ ) {
+            var Char = CustomerValue.charAt(i);
+
+            if ( CurrentQuotation ) {
+                MultiEntry[n] += Char;
+                if ( Char === CurrentQuotation ) {
+                    CurrentQuotation = undefined;
+                }
+            }
+            else if ( Char === '"' || Char === "'" ) {
+                MultiEntry[n]    += Char;
+                CurrentQuotation  = Char;
+            }
+            else if ( SeenAt === 1 && ( Char === ',' || Char === ";" ) ) {
+                n++;
+                SeenAt        = 0;
+                MultiEntry[n] = '';
+            }
+            else {
+                if ( Char === '@' ) {
+                    SeenAt = 1;
+                }
+                MultiEntry[n] += Char;
+            }
+        }
+
+        if ( n > 0 ) {
+            for ( var m = 0; m <= n; m++ ) {
+                TargetNS.AddTicketCustomer( Field, MultiEntry[m].trim() );
+            }
+
+            return true;
         }
 
         // check for duplicated entries
@@ -748,6 +788,22 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $(this).val(CustomerValue);
             }
 
+            if($(this).hasClass('MoveCustomerButton')) {
+                $(this).on('click', function () {
+                    var MoveCustomerKey = $('.CustomerKey', $(this).parent()).val(),
+                        MoveCustomerVal = $('.CustomerTicketText', $(this).parent()).val(),
+                        TargetField     =
+                            $(this).hasClass('ToMove')  ? 'ToCustomer'  :
+                            $(this).hasClass('CcMove')  ? 'CcCustomer'  :
+                            $(this).hasClass('BccMove') ? 'BccCustomer' : '';
+
+                    // remove the current entry
+                    $('.RemoveButton', $(this).parent()).click();
+
+                    // add the customer to the target field
+                    TargetNS.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
+                });
+            }
         });
         // show container
         $('#TicketCustomerContent' + Field).parent().removeClass('Hidden');
@@ -787,7 +843,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             && $('#CryptKeyID').length
             )
         {
-            Core.AJAX.FormUpdate($('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
+            Core.AJAX.FormUpdate($('#' + Field).closest('form'), 'AJAXUpdate');
         }
 
         // now that we know that at least one customer has been added,
@@ -845,7 +901,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             && $('#CryptKeyID').length
             )
         {
-            Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
+            Core.AJAX.FormUpdate($Form, 'AJAXUpdate');
         }
 
         if(!$('.CustomerContainer input[type="radio"]').is(':checked')){

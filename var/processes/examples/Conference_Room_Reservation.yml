@@ -1,0 +1,225 @@
+---
+Activities:
+  Activity-308135de70bad697eced5a51aef3c762:
+    ActivityDialogs: []
+    ChangeTime: 2016-08-09 16:52:01
+    Config: {}
+    CreateTime: 2016-08-09 16:52:01
+    EntityID: Activity-308135de70bad697eced5a51aef3c762
+    ID: '3'
+    Name: Process End
+  Activity-8b3a1ae3723626d3c96070200aaf0275:
+    ActivityDialogs:
+    - ActivityDialog-cf484da010aa073803bc41fd6570a79f
+    ChangeTime: 2016-08-09 16:55:26
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-cf484da010aa073803bc41fd6570a79f
+    CreateTime: 2016-08-09 16:33:15
+    EntityID: Activity-8b3a1ae3723626d3c96070200aaf0275
+    ID: '1'
+    Name: Reservation Request
+  Activity-be6e20d5782ce4785da2519bb359700b:
+    ActivityDialogs:
+    - ActivityDialog-52cfa2e0b20861e2e72d350e265c4a41
+    ChangeTime: 2016-08-09 16:51:07
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-52cfa2e0b20861e2e72d350e265c4a41
+    CreateTime: 2016-08-09 16:51:07
+    EntityID: Activity-be6e20d5782ce4785da2519bb359700b
+    ID: '2'
+    Name: Decission Room Reservation
+ActivityDialogs:
+  ActivityDialog-52cfa2e0b20861e2e72d350e265c4a41:
+    ChangeTime: 2016-09-30 09:04:41
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Approval Room Reservation
+      FieldOrder:
+      - DynamicField_PreProcReservationDecision
+      Fields:
+        DynamicField_PreProcReservationDecision:
+          DefaultValue: ''
+          DescriptionLong: Please make your decission
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-09 16:47:32
+    EntityID: ActivityDialog-52cfa2e0b20861e2e72d350e265c4a41
+    ID: '2'
+    Name: Approval Room Reservation
+  ActivityDialog-cf484da010aa073803bc41fd6570a79f:
+    ChangeTime: 2016-09-30 10:46:49
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Enter Conference Room Data
+      FieldOrder:
+      - CustomerID
+      - DynamicField_PreProcConferenceRoomNo
+      - DynamicField_TicketCalendarStartTime
+      - DynamicField_TicketCalendarEndTime
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '1'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: If necessary, please add additional Information
+          DescriptionShort: ''
+          Display: '1'
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcConferenceRoomNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_TicketCalendarEndTime:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_TicketCalendarStartTime:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: Send Reservation to Office Mgmt.
+    CreateTime: 2016-08-09 16:35:19
+    EntityID: ActivityDialog-cf484da010aa073803bc41fd6570a79f
+    ID: '1'
+    Name: Enter Conference Room Data
+Process:
+  Activities:
+  - Activity-308135de70bad697eced5a51aef3c762
+  - Activity-8b3a1ae3723626d3c96070200aaf0275
+  - Activity-be6e20d5782ce4785da2519bb359700b
+  ChangeTime: 2016-09-30 10:42:24
+  Config:
+    Description: "Conference Room Reservation Mgmt.\r\n\r\nThe Decision will be displayed
+      as external-note in the CustomerTicketZoom."
+    Path:
+      Activity-308135de70bad697eced5a51aef3c762: {}
+      Activity-8b3a1ae3723626d3c96070200aaf0275:
+        Transition-02a58cc7512df63740875719de13bec9:
+          ActivityEntityID: Activity-be6e20d5782ce4785da2519bb359700b
+      Activity-be6e20d5782ce4785da2519bb359700b:
+        Transition-0588874158b7d9bc4e66f88dd0d44d9e:
+          ActivityEntityID: Activity-308135de70bad697eced5a51aef3c762
+          TransitionAction:
+          - TransitionAction-ffc933db74381ba5e3efcd225e25ffb8
+        Transition-6a5ada244e5a45be8f4cbc2eeee019bd:
+          ActivityEntityID: Activity-308135de70bad697eced5a51aef3c762
+          TransitionAction:
+          - TransitionAction-ffc933db74381ba5e3efcd225e25ffb8
+    StartActivity: Activity-8b3a1ae3723626d3c96070200aaf0275
+    StartActivityDialog: ActivityDialog-cf484da010aa073803bc41fd6570a79f
+  CreateTime: 2016-08-09 15:56:04
+  EntityID: Process-f4dc9fe11d5c9af1bad6aab3b5822a7f
+  ID: '1'
+  Layout:
+    Activity-308135de70bad697eced5a51aef3c762:
+      left: '1046'
+      top: '88'
+    Activity-8b3a1ae3723626d3c96070200aaf0275:
+      left: '165'
+      top: '62'
+    Activity-be6e20d5782ce4785da2519bb359700b:
+      left: '421'
+      top: '262'
+  Name: Conference Room Reservation Mgmt.
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TransitionAction-ffc933db74381ba5e3efcd225e25ffb8
+  - TransitionAction-ffc933db74381ba5e3efcd225e25ffb8
+  Transitions:
+  - Transition-02a58cc7512df63740875719de13bec9
+  - Transition-0588874158b7d9bc4e66f88dd0d44d9e
+  - Transition-6a5ada244e5a45be8f4cbc2eeee019bd
+TransitionActions:
+  TransitionAction-ffc933db74381ba5e3efcd225e25ffb8:
+    ChangeTime: 2016-08-10 12:11:37
+    Config:
+      Config:
+        CommunicationChannel: Internal
+        IsVisibleForCustomer: '1'
+        Body: Dear ladies and gentelmen, the decission regarding your request for
+          room <OTOBO_TICKET_DynamicField_PreProcConferenceRoomNo_Value> was set to
+          <OTOBO_TICKET_DynamicField_PreProcReservationDecision_Value>. Kind Regards
+          Your Office Management
+        ContentType: text/plain; charset=ISO-8859-15
+        From: Office Management
+        HistoryComment: Info to Requester
+        HistoryType: EmailCustomer
+        SenderType: system
+        Subject: Room Reservation Information
+        To: Conference Room Requester
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate
+    CreateTime: 2016-08-09 16:58:59
+    EntityID: TransitionAction-ffc933db74381ba5e3efcd225e25ffb8
+    ID: '3'
+    Name: Create Article for Info to Room Requester
+Transitions:
+  Transition-02a58cc7512df63740875719de13bec9:
+    ChangeTime: 2016-08-10 12:05:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: ^
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-09 16:51:47
+    EntityID: Transition-02a58cc7512df63740875719de13bec9
+    ID: '1'
+    Name: Queue is not empty
+  Transition-0588874158b7d9bc4e66f88dd0d44d9e:
+    ChangeTime: 2016-09-30 10:41:58
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReservationDecision:
+              Match: otobo5s-approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-09 16:52:39
+    EntityID: Transition-0588874158b7d9bc4e66f88dd0d44d9e
+    ID: '2'
+    Name: PreProcReservationDecision approved
+  Transition-6a5ada244e5a45be8f4cbc2eeee019bd:
+    ChangeTime: 2016-09-30 10:42:18
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReservationDecision:
+              Match: otobo5s-rejected
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-09 16:53:07
+    EntityID: Transition-6a5ada244e5a45be8f4cbc2eeee019bd
+    ID: '3'
+    Name: PreProcReservationDecision rejected

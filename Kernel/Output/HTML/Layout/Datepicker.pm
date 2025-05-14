@@ -18,6 +18,13 @@ package Kernel::Output::HTML::Layout::Datepicker;
 
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -25,9 +32,15 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Datepicker - Datepicker data
 
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
 =head1 DESCRIPTION
 
-All valid functions.
+All date picker functions.
 
 =head1 PUBLIC INTERFACE
 

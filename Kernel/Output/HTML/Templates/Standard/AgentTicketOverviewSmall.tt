@@ -264,7 +264,7 @@
 [% RenderBlockStart("RecordTicketData") %]
 [% RenderBlockStart("RecordTicketNumber") %]
                     <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber %]</a>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber | html %]</a>
                     </td>
 [% RenderBlockEnd("RecordTicketNumber") %]
 [% RenderBlockStart("RecordEscalationTime") %]

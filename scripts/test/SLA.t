@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -77,14 +82,11 @@ my @UserIDs;
 }
 
 # create needed random service names
-my @SLAName;
-for my $Counter ( 1 .. 10 ) {
-    push @SLAName, 'UnitTest' . $Helper->GetRandomID();
-}
+my @SLAName = map { 'UnitTest' . $Helper->GetRandomID } ( 1 .. 10 );
 
 # create some test services
 my @ServiceIDs;
-for my $Counter ( 1 .. 3 ) {
+for ( 1 .. 3 ) {
 
     # add a service
     my $ServiceID = $ServiceObject->ServiceAdd(
@@ -764,6 +766,4 @@ $Self->Is(
     "Test $TestCount: SLAList()",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

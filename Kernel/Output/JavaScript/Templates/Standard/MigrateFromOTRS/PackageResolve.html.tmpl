@@ -8,12 +8,12 @@
 <div class="Field">
     <h3>{{ "Package" | Translate}}: {{ Package.PackageName }}</h3>
 {% if Package.IgnoreType and Package.IgnoreType === 'Uninstall' %}
-    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Uninstall" value="uninstall" checked="checked"/>
+    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Uninstall" value="uninstall" checked>
     <label for="Package_{{ Package.PackageName }}-Uninstall">{{ "Uninstall from OTOBO" | Translate }}</label>
     <br/>
     <p class="PackageComment">{{ Package.Comment | Translate }}</p>
 {% elseif Package.IgnoreType and Package.IgnoreType === 'Ignore' %}
-    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Ignore" value="ignore" checked="checked"/>
+    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Ignore" value="ignore" checked>
     <label for="Package_{{ Package.PackageName }}-Ignore">{{ "Ignore" | Translate }}</label>
     <br/>
     <p class="PackageComment">{{ Package.Comment | Translate }}</p>
@@ -21,7 +21,7 @@
     <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Migrate" value="migrate" />
     <label for="Package_{{ Package.PackageName }}-Migrate">{{ "Migrate" | Translate }}</label>
     <br/>
-    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Uninstall" value="uninstall" checked="checked"/>
+    <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Uninstall" value="uninstall" checked>
     <label for="Package_{{ Package.PackageName }}-Uninstall">{{ "Uninstall from OTOBO" | Translate }}</label>
     <br/>
     <input type="radio" name="Package_{{ Package.PackageName }}" id="Package_{{ Package.PackageName }}-Ignore" value="ignore" />

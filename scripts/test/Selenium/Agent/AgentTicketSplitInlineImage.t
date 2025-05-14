@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -113,10 +111,7 @@ $Selenium->RunTest(
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Login as test user.
         $Selenium->Login(
@@ -195,10 +190,7 @@ $Selenium->RunTest(
             ],
             NoAgentNotify => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "ArticleCreate - ID $ArticleID",
-        );
+        ok( $ArticleID, "ArticleCreate - ID $ArticleID" );
 
         # Navigate to zoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
@@ -236,19 +228,22 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
-        # Wait for the CKE to load.
+        # Wait for the CKEditor to load.
+        my $RichTextElement = $Selenium->find_element( '#RichText', 'css' );
         $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+            JavaScript => [
+                q{ return arguments[0].classList.contains('HasCKEInstance') },
+                $RichTextElement,
+            ],
         );
 
         my $CKEditorValue = $Selenium->execute_script(
-            "return CKEDITOR.instances.RichText.getData()"
+            q{ return CKEditorInstances['RichText'].getData() }
         );
 
         # Check if there is inline image in process screen.
         $ContentID =~ s/@/%40/g;
-        $Self->True(
+        ok(
             index( $CKEditorValue, $ContentID ) > -1,
             "RichText contains inline image.",
         );
@@ -277,7 +272,7 @@ $Selenium->RunTest(
 
             # Image attachment.
             if ( $Attachment{ContentType} =~ /^image\/png/ ) {
-                $Self->Is(
+                is(
                     $Attachment{Disposition},
                     'inline',
                     'Inline image attachment found',
@@ -323,10 +318,7 @@ $Selenium->RunTest(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
@@ -334,11 +326,7 @@ $Selenium->RunTest(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -353,11 +341,7 @@ $Selenium->RunTest(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -372,11 +356,7 @@ $Selenium->RunTest(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
@@ -384,11 +364,7 @@ $Selenium->RunTest(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-
-        $Self->True(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
@@ -407,10 +383,7 @@ $Selenium->RunTest(
                 UserID   => $TestUserID,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - ID $TicketID",
-        );
+        ok( $Success, "Ticket is deleted - ID $TicketID" );
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
@@ -438,4 +411,4 @@ $Selenium->RunTest(
     },
 );
 
-done_testing();
+done_testing;

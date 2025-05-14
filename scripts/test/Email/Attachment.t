@@ -40,12 +40,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::System::EmailParser;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::EmailParser ();
+
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -302,14 +305,14 @@ for my $Test (@Tests) {
 
     # some MIME::Tools workaround
     my $Email = ${$Header} . "\n" . ${$Body};
-    my @Array = split '\n', $Email;
+    my @Array = split /\n/, $Email;
 
     # Processing with Send headersif constant SEND set to 1
     if ($SEND) {
         my %Result;
-        for my $Header ( split '\n', ${$Body} ) {
+        for my $Header ( split /\n/, ${$Body} ) {
             if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$2} = ( split ': ', $Header )[1];
+                $Result{$2} = ( split /: /, $Header )[1];
             }
         }
 
@@ -340,7 +343,7 @@ for my $Test (@Tests) {
 
     for my $Header ( @{$Headers} ) {
         if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-            $Result{$2} = ( split ': ', $Header )[1];
+            $Result{$2} = ( split /: /, $Header )[1];
         }
     }
 

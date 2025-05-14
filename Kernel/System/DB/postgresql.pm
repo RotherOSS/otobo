@@ -16,8 +16,16 @@
 
 package Kernel::System::DB::postgresql;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -27,30 +35,21 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Class;
 }
 
 sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}       = 'limit';
-    $Self->{'DB::DirectBlob'}  = 0;
-    $Self->{'DB::QuoteSingle'} = '\'';
-
-    #$Self->{'DB::QuoteBack'}            = '\\';
-    $Self->{'DB::QuoteBack'} = '';
-
-    #$Self->{'DB::QuoteSemicolon'}       = '\\';
-    $Self->{'DB::QuoteSemicolon'} = '';
-
-    #$Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
+    $Self->{'DB::Limit'}                = 'limit';
+    $Self->{'DB::DirectBlob'}           = 0;
+    $Self->{'DB::QuoteSingle'}          = '\'';
+    $Self->{'DB::QuoteBack'}            = '';
+    $Self->{'DB::QuoteSemicolon'}       = '';
     $Self->{'DB::QuoteUnderscoreStart'} = '\\';
     $Self->{'DB::QuoteUnderscoreEnd'}   = '';
     $Self->{'DB::CaseSensitive'}        = 1;
@@ -81,6 +80,9 @@ EOF
 
     # how to delete all rows of a table, use with sprintf for inserting the table name
     $Self->{'DB::PurgeTable'} = 'DELETE FROM %s';
+
+    # this is primarily needed during migration
+    $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
@@ -127,6 +129,7 @@ sub Quote {
             }
         }
     }
+
     return $Text;
 }
 
@@ -143,7 +146,7 @@ sub DatabaseCreate {
     }
 
     # return SQL
-    return ("CREATE DATABASE $Param{Name}");
+    return "CREATE DATABASE $Param{Name}";
 }
 
 sub DatabaseDrop {
@@ -155,11 +158,12 @@ sub DatabaseDrop {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
 
     # return SQL
-    return ("DROP DATABASE $Param{Name}");
+    return "DROP DATABASE $Param{Name}";
 }
 
 sub TableCreate {
@@ -168,19 +172,19 @@ sub TableCreate {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart     = '';
-    my $SQLEnd       = '';
-    my $SQL          = '';
-    my @Column       = ();
-    my $TableName    = '';
-    my $ForeignKey   = ();
-    my %Foreign      = ();
-    my $IndexCurrent = ();
-    my %Index        = ();
-    my $UniqCurrent  = ();
-    my %Uniq         = ();
-    my $PrimaryKey   = '';
-    my @Return       = ();
+    my $SQLStart = '';
+    my $SQLEnd   = '';
+    my $SQL      = '';
+    my @Column;
+    my $TableName = '';
+    my $ForeignKey;
+    my %Foreign;
+    my $IndexCurrent;
+    my %Index;
+    my $UniqCurrent;
+    my %Uniq;
+    my $PrimaryKey = '';
+    my @Return;
 
     for my $Tag (@Param) {
 
@@ -245,11 +249,9 @@ sub TableCreate {
         }
 
         # auto increment
-        if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-            $SQL = "    $Tag->{Name} serial";
-            if ( $Tag->{Type} =~ /^bigint$/i ) {
-                $SQL = "    $Tag->{Name} bigserial";
-            }
+        if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
+            my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
+            $SQL .= "    $Tag->{Name} $PseudoType";
         }
 
         # normal data type
@@ -330,6 +332,7 @@ sub TableCreate {
                 );
         }
     }
+
     return @Return;
 }
 
@@ -351,9 +354,11 @@ sub TableDrop {
             }
         }
         $SQL .= "DROP TABLE $Tag->{Name}";
-        return ($SQL);
+
+        return $SQL;
     }
-    return ();
+
+    return;
 }
 
 sub TableAlter {
@@ -362,14 +367,14 @@ sub TableAlter {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart      = '';
-    my @SQL           = ();
-    my @Index         = ();
-    my $IndexName     = ();
+    my $SQLStart = '';
+    my @SQL;
+    my @Index;
+    my $IndexName     = '';
     my $ForeignTable  = '';
     my $ReferenceName = '';
-    my @Reference     = ();
-    my $Table         = '';
+    my @Reference;
+    my $Table = '';
 
     # put two literal dollar characters in a string
     # this is needed for the postgres 'do' statement
@@ -431,11 +436,10 @@ EOF
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
 
-                my $PseudoType = 'serial';
-                if ( $Tag->{Type} =~ /^bigint$/i ) {
-                    $PseudoType = 'bigserial';
-                }
+                my $PseudoType = lc $Tag->{Type} eq 'bigint' ? 'bigserial' : 'serial';
                 push @SQL, $SQLStart . " ADD $Tag->{Name} $PseudoType NOT NULL";
+
+                # if there is an AutoIncrement column no other changes are needed
                 next TAG;
             }
 
@@ -480,10 +484,18 @@ EOF
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . " RENAME $Tag->{NameOld} TO $Tag->{NameNew}";
             }
-            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
-            # if there is an AutoIncrement column no other changes are needed
-            next TAG if $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i;
+            # auto increment
+            if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
+                my $PseudoType = $Tag->{Type} =~ m/^bigint$/i ? 'bigserial' : 'serial';
+                push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
+
+                # if there is an AutoIncrement column no other changes are needed
+                next TAG;
+            }
+
+            # normal data type
+            push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
 
             # set default as null
             push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP NOT NULL";
@@ -562,6 +574,7 @@ EOF
             push @Reference, $Tag;
         }
     }
+
     return @SQL;
 }
 
@@ -575,9 +588,11 @@ sub IndexCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
+
     my $CreateIndexSQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
     my @Array          = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
@@ -608,7 +623,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($CreateIndexSQL);
+    return $CreateIndexSQL;
 }
 
 sub IndexDrop {
@@ -621,6 +636,7 @@ sub IndexDrop {
                 Priority => 'error',
                 Message  => "Need $_!",
             );
+
             return;
         }
     }
@@ -658,8 +674,9 @@ sub ForeignKeyCreate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -712,6 +729,7 @@ sub ForeignKeyDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -750,7 +768,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($DropForeignKeySQL);
+    return $DropForeignKeySQL;
 }
 
 sub UniqueCreate {
@@ -763,6 +781,7 @@ sub UniqueCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -796,7 +815,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($CreateUniqueSQL);
+    return $CreateUniqueSQL;
 }
 
 sub UniqueDrop {
@@ -809,6 +828,7 @@ sub UniqueDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -834,7 +854,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($DropUniqueSQL);
+    return $DropUniqueSQL;
 }
 
 sub Insert {
@@ -844,9 +864,9 @@ sub Insert {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $SQL    = '';
-    my @Keys   = ();
-    my @Values = ();
+    my $SQL = '';
+    my @Keys;
+    my @Values;
     TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
@@ -863,7 +883,7 @@ sub Insert {
 
             # do not use auto increment values, in other cases use something like
             # SELECT setval('table_id_seq', (SELECT max(id) FROM table));
-            if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
+            if ( $Tag->{Type} && $Tag->{Type} =~ m/^AutoIncrement$/i ) {
                 next TAG;
             }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
@@ -919,7 +939,8 @@ sub Insert {
         }
     }
     $SQL .= "($Key)\n    VALUES\n    ($Value)";
-    return ($SQL);
+
+    return $SQL;
 }
 
 sub _TypeTranslation {

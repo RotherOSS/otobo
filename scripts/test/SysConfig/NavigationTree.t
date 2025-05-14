@@ -21,9 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use Kernel::Config;
+our $Self;
 
 # Get needed objects
 $Kernel::OM->ObjectParamAdd(
@@ -34,7 +32,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
 # Basic tests

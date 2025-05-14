@@ -19,13 +19,17 @@ package Kernel::System::PostMaster;
 use strict;
 use warnings;
 
-use Kernel::System::EmailParser;
-use Kernel::System::PostMaster::DestQueue;
-use Kernel::System::PostMaster::NewTicket;
-use Kernel::System::PostMaster::FollowUp;
-use Kernel::System::PostMaster::Reject;
+# core modules
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::EmailParser           ();
+use Kernel::System::PostMaster::DestQueue ();
+use Kernel::System::PostMaster::NewTicket ();
+use Kernel::System::PostMaster::FollowUp  ();
+use Kernel::System::PostMaster::Reject    ();
+use Kernel::System::VariableCheck         qw(IsHashRefWithData);
 
 our %ObjectManagerFlags = (
     NonSingleton => 1,
@@ -69,34 +73,30 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    # check needed objects
+    # check needed parameters
     $Self->{Email}                  = $Param{Email}                  || die "Got no Email!";
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
+    # create needed objects
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
     );
-
-    # create needed objects
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new( %{$Self} );
     $Self->{NewTicketObject} = Kernel::System::PostMaster::NewTicket->new( %{$Self} );
     $Self->{FollowUpObject}  = Kernel::System::PostMaster::FollowUp->new( %{$Self} );
     $Self->{RejectObject}    = Kernel::System::PostMaster::Reject->new( %{$Self} );
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # check needed config options
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     for my $Option (qw(PostmasterUserID PostmasterX-Header)) {
         $Self->{$Option} = $ConfigObject->Get($Option)
             || die "Found no '$Option' option in configuration!";
     }
 
-    # should I use x-otobo headers?
-    $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
+    # should I use X-OTOBO headers?
+    $Self->{Trusted} = $Param{Trusted} // 1;
 
     if ( $Self->{Trusted} ) {
 
@@ -165,7 +165,9 @@ sub Run {
     # get config objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # run all PreFilterModules (modify email params)
+    # Run the PreFilterModules.
+    # These filter modules may modify the email parameters in %GetParam, including
+    # the body and the attachments.
     if ( ref $ConfigObject->Get('PostMaster::PreFilterModule') eq 'HASH' ) {
 
         my %Jobs = %{ $ConfigObject->Get('PostMaster::PreFilterModule') };

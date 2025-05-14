@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get selenium object
 # OTOBO modules
@@ -49,7 +49,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminMailAccount
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;IncludeInvalid=1");
 
         # check AdminMailAccount screen
         $Selenium->find_element( "table",             'css' );
@@ -76,7 +76,6 @@ $Selenium->RunTest(
 
         # check breadcrumb on Add screen
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Mail Account Management', 'Add Mail Account' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
@@ -205,6 +204,8 @@ $Selenium->RunTest(
             Value   => '2',
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # check class of invalid EmailAccount in the overview table
         $Self->True(

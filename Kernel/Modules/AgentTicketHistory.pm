@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -81,7 +81,7 @@ sub Run {
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # check if ACL restrictions exist
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
 
         my %AclActionLookup = reverse %AclAction;
 
@@ -154,10 +154,10 @@ sub Run {
             #   values stored previously in older format might not be compatible with new human readable form.
             #   Please see bug#11520 for more information.
             #
-            # HistoryType: TicketDynamicFieldUpdate
+            # HistoryType: ArticleDynamicFieldUpdate & TicketDynamicFieldUpdate
             #   - Old: %%FieldName%%$FieldName%%Value%%$HistoryValue%%OldValue%%$HistoryOldValue
             #   - New: %%$FieldName%%$HistoryOldValue%%$HistoryValue
-            if ( $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
+            if ( $Data->{HistoryType} eq 'ArticleDynamicFieldUpdate' || $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
                 @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
             }
 

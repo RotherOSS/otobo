@@ -108,16 +108,32 @@ if no config option is provided or one that does not match the options above, th
 sub Map {
     my ( $Self, %Param ) = @_;
 
-    # check data - only accept undef or hash ref
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # check data - only accept undef, array ref or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Mapping Test backend!'
+            Summary => 'Got Data but it is not a hash or array ref in Mapping Test backend!'
         );
     }
 
     # return if data is empty
-    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+    if ( !defined $Param{Data} ) {
+
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    if ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
+
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    if ( ref $Param{Data} eq 'ARRAY' && !scalar @{ $Param{Data} } ) {
 
         return {
             Success => 1,
@@ -131,7 +147,6 @@ sub Map {
         || !defined $Self->{MappingConfig}->{Config}->{TestOption}
         )
     {
-
         return {
             Success => 1,
             Data    => $Param{Data},
@@ -146,16 +161,22 @@ sub Map {
         );
     }
 
-    # parse data according to configuration
     my $ReturnData = {};
-    if ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToUpper' ) {
-        $ReturnData = $Self->_ToUpper( Data => $Param{Data} );
-    }
-    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToLower' ) {
-        $ReturnData = $Self->_ToLower( Data => $Param{Data} );
-    }
-    elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'Empty' ) {
-        $ReturnData = $Self->_Empty( Data => $Param{Data} );
+    if ( ref $Param{Data} eq 'HASH' ) {
+
+        # parse data according to configuration
+        if ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToUpper' ) {
+            $ReturnData = $Self->_ToUpper( Data => $Param{Data} );
+        }
+        elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'ToLower' ) {
+            $ReturnData = $Self->_ToLower( Data => $Param{Data} );
+        }
+        elsif ( $Self->{MappingConfig}->{Config}->{TestOption} eq 'Empty' ) {
+            $ReturnData = $Self->_Empty( Data => $Param{Data} );
+        }
+        else {
+            $ReturnData = $Param{Data};
+        }
     }
     else {
         $ReturnData = $Param{Data};

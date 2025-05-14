@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Filter';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 sub outfilt {
     my ($self, $str, $isend) = @_;

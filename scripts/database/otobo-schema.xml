@@ -1172,6 +1172,245 @@
     </ForeignKey>
 </Table>
 
+<!-- article version meta data -->
+<Table Name="article_version">
+    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="ticket_id" Required="false" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_sender_type_id" Required="false" Size="6" Type="SMALLINT"></Column>
+    <Column Name="communication_channel_id" Required="false" Size="20" Type="BIGINT"></Column>
+    <Column Name="is_visible_for_customer" Required="false" Size="6" Type="SMALLINT"></Column>
+    <Column Name="search_index_needs_rebuild" Required="false" Size="6" Type="SMALLINT"></Column>
+    <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"></Column>
+    <Column Name="create_time" Required="false" Type="DATE"></Column>
+    <Column Name="create_by" Required="false" Size="11" Type="INTEGER"></Column>
+    <Column Name="change_time" Required="false" Type="DATE"></Column>
+    <Column Name="change_by" Required="false" Size="11" Type="INTEGER"></Column>
+    <Column Name="source_article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="version_create_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Column Name="version_create_time" Required="true" Type="DATE"></Column>
+    <Column Name="article_delete" Required="false" Size="1" Type="INTEGER"></Column>
+    <Index Name="article_version_article_sender_type_id">
+        <IndexColumn Name="article_sender_type_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_communication_channel_id">
+        <IndexColumn Name="communication_channel_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_search_index_needs_rebuild">
+        <IndexColumn Name="search_index_needs_rebuild">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_ticket_id">
+        <IndexColumn Name="ticket_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_create_by_id">
+        <IndexColumn Name="create_by">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_change_by_id">
+        <IndexColumn Name="change_by">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_version_create_by_id">
+        <IndexColumn Name="version_create_by">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="article_sender_type">
+        <Reference Foreign="id" Local="article_sender_type_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="change_by">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="communication_channel">
+        <Reference Foreign="id" Local="communication_channel_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="create_by">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Foreign="id" Local="ticket_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="version_create_by">
+        </Reference>
+    </ForeignKey>
+</Table>
+
+<!-- article_flag version -->
+<Table Name="article_flag_version">
+    <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_key" Required="true" Size="50" Type="VARCHAR"></Column>
+    <Column Name="article_value" Required="true" Size="50" Type="VARCHAR"></Column>
+    <Column Name="create_time" Required="true" Type="DATE"></Column>
+    <Column Name="create_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Index Name="article_flag_version_article_id">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_flag_version_article_id_create_by">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+        <IndexColumn Name="create_by">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_flag_version_create_by_id">
+        <IndexColumn Name="create_by">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="article_version">
+        <Reference Foreign="id" Local="article_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="create_by">
+        </Reference>
+    </ForeignKey>
+</Table>
+
+<!-- article version data for MIME based backends (Email, Phone etc.) -->
+<Table Name="article_data_mime_version">
+    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="a_from" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_reply_to" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_to" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_cc" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_bcc" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_subject" Required="false" Size="300" Type="VARCHAR"></Column>
+    <Column Name="a_message_id" Required="false" Size="300" Type="VARCHAR"></Column>
+    <Column Name="a_message_id_md5" Required="false" Size="32" Type="VARCHAR"></Column>
+    <Column Name="a_in_reply_to" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_references" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="a_content_type" Required="false" Size="250" Type="VARCHAR"></Column>
+    <Column Name="a_body" Required="false" Size="65536" Type="VARCHAR"></Column>
+    <Column Name="incoming_time" Required="true" Size="11" Type="INTEGER"></Column>
+    <Column Name="content_path" Required="false" Size="250" Type="VARCHAR"></Column>
+    <Column Name="create_time" Required="true" Type="DATE"></Column>
+    <Column Name="create_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Column Name="change_time" Required="true" Type="DATE"></Column>
+    <Column Name="change_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Index Name="article_data_mime_version_article_id">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_data_mime_version_message_id_md5">
+        <IndexColumn Name="a_message_id_md5">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_data_mime_version_create_by_id">
+        <IndexColumn Name="create_by">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_data_mime_version_change_by_id">
+        <IndexColumn Name="change_by">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="article_version">
+        <Reference Foreign="id" Local="article_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="change_by">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="create_by">
+        </Reference>
+    </ForeignKey>
+</Table>
+
+<!-- article attachment version data for MIME based backends (Email, Phone etc.) -->
+<Table Name="article_data_mime_att_version">
+    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="filename" Required="false" Size="250" Type="VARCHAR"></Column>
+    <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"></Column>
+    <Column Name="content_type" Required="false" Size="300" Type="VARCHAR"></Column>
+    <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"></Column>
+    <Column Name="content_alternative" Required="false" Size="50" Type="VARCHAR"></Column>
+    <Column Name="disposition" Required="false" Size="15" Type="VARCHAR"></Column>
+    <Column Name="content" Required="false" Type="LONGBLOB"></Column>
+    <Column Name="create_time" Required="true" Type="DATE"></Column>
+    <Column Name="create_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Column Name="change_time" Required="true" Type="DATE"></Column>
+    <Column Name="change_by" Required="true" Size="11" Type="INTEGER"></Column>
+    <Index Name="article_data_mime_att_version_article_id">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_data_mime_att_version_create_by_id">
+        <IndexColumn Name="create_by">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_data_mime_att_version_change_by_id">
+        <IndexColumn Name="change_by">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="article_version">
+        <Reference Foreign="id" Local="article_id">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="change_by">
+        </Reference>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Foreign="id" Local="create_by">
+        </Reference>
+    </ForeignKey>
+</Table>
+
+<!-- article - history relation -->
+<Table Name="article_version_history">
+    <Column Name="id" Required="true" AutoIncrement="true" PrimaryKey="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="history_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Column Name="article_id" Required="true" Size="20" Type="BIGINT"></Column>
+    <Index Name="article_version_history_article_id">
+        <IndexColumn Name="article_id">
+        </IndexColumn>
+    </Index>
+    <Index Name="article_version_history_history_id">
+        <IndexColumn Name="history_id">
+        </IndexColumn>
+    </Index>
+    <ForeignKey ForeignTable="ticket_history">
+        <Reference Foreign="id" Local="history_id">
+        </Reference>
+    </ForeignKey>
+</Table>
+
+<!-- time_accounting version - accounted time for tickets -->
+<Table Name="time_accounting_version">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="false" Type="BIGINT"/>
+    <Column Name="time_unit" Required="true" Size="10,2"  Type="DECIMAL"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="time_accounting_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_version">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- time_accounting - accounted time for tickets -->
 <Table Name="time_accounting">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
@@ -1206,6 +1445,7 @@
     <Column Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="preselected_ticket_state_id" Required="false" Type="INTEGER"></Column>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -1477,7 +1717,7 @@
     <Column Name="session_id" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_key" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="data_value" Required="false" Size="10000" Type="VARCHAR"/>
-    <Column Name="serialized" Required="true" Type="SMALLINT"/>
+    <Column Name="serialized" Required="false" Type="SMALLINT"/>
     <Index Name="sessions_session_id_data_key">
         <IndexColumn Name="session_id"/>
         <IndexColumn Name="data_key"/>
@@ -1644,9 +1884,23 @@
     <Column Name="process_change" Required="true" Type="INTEGER"/>
 </Table>
 
+<!-- form_cache -->
+<Table Name="form_cache">
+    <Column Name="session_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="form_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="cache_key" Required="true" Size="382" Type="VARCHAR"/>
+    <Column Name="cache_value" Required="false" Type="LONGBLOB"/>
+    <Column Name="serialized" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Index Name="session_id_form_id">
+        <IndexColumn Name="session_id" Size="32"/>
+        <IndexColumn Name="form_id" Size="32"/>
+    </Index>
+</Table>
+
 <!-- web_upload_cache -->
 <Table Name="web_upload_cache">
-    <Column Name="form_id" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="form_id" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
@@ -1842,6 +2096,32 @@
     </Index>
 </Table>
 
+<!-- report - stats_report-->
+<Table Name="stats_report">
+    <Column AutoIncrement="true" Name="id" PrimaryKey="true" Required="true" Type="INTEGER"></Column>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"></Column>
+    <Column Name="config" Required="true" Type="LONGBLOB"></Column>
+    <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"></Column>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"></Column>
+    <Column Name="create_time" Required="true" Type="DATE"></Column>
+    <Column Name="create_by" Required="true" Type="INTEGER"></Column>
+    <Column Name="change_time" Required="true" Type="DATE"></Column>
+    <Column Name="change_by" Required="true" Type="INTEGER"></Column>
+    <Unique Name="stats_report_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <Unique Name="stats_report_config_md5">
+        <UniqueColumn Name="config_md5"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- virtual_fs -->
 <Table Name="virtual_fs">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
@@ -2000,7 +2280,7 @@
 </Table>
 
 <Table Name="dynamic_field_value">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <!-- foreign key to the dynamic_field -->
     <Column Name="field_id" Required="true" Type="INTEGER"/>
     <!-- the current object to link to (e. g. ticket or article ID) -->
@@ -2009,6 +2289,8 @@
     <Column Name="value_text" Required="false" Type="VARCHAR" Size="3800" />
     <Column Name="value_date" Required="false" Type="DATE" />
     <Column Name="value_int" Required="false" Type="BIGINT" />
+    <Column Name="index_value" Required="false" Type="SMALLINT" />
+    <Column Name="index_set" Required="false" Type="SMALLINT" />
 
     <!-- search objects with certain field content -->
     <Index Name="dynamic_field_value_search_text">
@@ -2075,6 +2357,21 @@
         <UniqueColumn Name="object_name"/>
         <UniqueColumn Name="object_type"/>
     </Unique>
+</Table>
+
+<Table Name="dynamic_field_script_event">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="field_id" Required="true" Type="INTEGER"/>
+    <Column Name="event" Required="true" Type="VARCHAR" Size="191" />
+</Table>
+
+<!-- dynamic field definitions for frontends -->
+<Table Name="frontend_mask_definition">
+    <Column Name="mask" Required="true" PrimaryKey="true" Type="VARCHAR" Size="80" />
+    <Column Name="definition" Required="true" Type="LONGBLOB" />
+    <Column Name="dynamic_field" Required="true" Type="LONGBLOB" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
 </Table>
 
 <Table Name="pm_process">
@@ -2713,6 +3010,110 @@
         <Reference Local="create_by" Foreign="id" />
         <Reference Local="change_by" Foreign="id" />
     </ForeignKey>
+</Table>
+
+<!-- data_storage -->
+<Table Name="data_storage">
+    <Column Name="ds_type" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="ds_key" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="ds_value" Required="false" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- ImportExport -->
+<Table Name="imexport_template">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="imexport_object" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="imexport_format" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="name" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT" />
+    <Column Name="comments" Required="false" Size="200" Type="VARCHAR" />
+    <Column Name="create_time" Required="false" Type="DATE" />
+    <Column Name="create_by" Required="false" Type="INTEGER" />
+    <Column Name="change_time" Required="false" Type="DATE" />
+    <Column Name="change_by" Required="false" Type="INTEGER" />
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+</Table>
+<Table Name="imexport_object">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="template_id" Required="true" Type="BIGINT" />
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
+    <Index Name="imexport_object_template_id">
+        <IndexColumn Name="template_id" />
+    </Index>
+</Table>
+<Table Name="imexport_format">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="template_id" Required="true" Type="BIGINT" />
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
+    <Index Name="imexport_format_template_id">
+        <IndexColumn Name="template_id" />
+    </Index>
+</Table>
+<Table Name="imexport_mapping">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="template_id" Required="true" Type="BIGINT" />
+    <Column Name="position" Required="true" Type="INTEGER" />
+    <Index Name="imexport_mapping_template_id">
+        <IndexColumn Name="template_id" />
+    </Index>
+</Table>
+<Table Name="imexport_mapping_object">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="mapping_id" Required="true" Type="BIGINT" />
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
+    <Index Name="imexport_mapping_object_mapping_id">
+        <IndexColumn Name="mapping_id" />
+    </Index>
+</Table>
+<Table Name="imexport_mapping_format">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="mapping_id" Required="true" Type="BIGINT" />
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
+    <Index Name="imexport_mapping_format_mapping_id">
+        <IndexColumn Name="mapping_id" />
+    </Index>
+</Table>
+<Table Name="imexport_search">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="template_id" Required="true" Type="BIGINT" />
+    <Column Name="data_key" Required="true" Size="100" Type="VARCHAR" />
+    <Column Name="data_value" Required="true" Size="200" Type="VARCHAR" />
+    <Index Name="imexport_search_template_id">
+        <IndexColumn Name="template_id" />
+    </Index>
+</Table>
+
+<!-- Translations -->
+<Table Name="translation_item">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
+    <Column Name="language" Required="true" Size="50" Type="VARCHAR" />
+    <Column Name="content" Required="true" Size="600" Type="VARCHAR" />
+    <Column Name="translation" Required="true" Size="600" Type="VARCHAR" />
+    <Column Name="flag" Required="true" Size="1" Type="VARCHAR" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="import_param" Required="false" Type="SMALLINT" />
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+    <Index Name="translation_item_language">
+        <IndexColumn Name="language" />
+    </Index>
 </Table>
 
 </database>

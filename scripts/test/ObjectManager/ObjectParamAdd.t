@@ -18,37 +18,38 @@ use strict;
 use warnings;
 use v5.24;
 
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::ObjectManager ();
 
-use vars (qw($Self));
+my $ObjectManager = Kernel::System::ObjectManager->new();
 
-use Kernel::System::ObjectManager;
-
-local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data => 'Test payload',
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
         Data => 'Test payload',
     },
     'ObjectParamAdd set key',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data2 => 'Test payload 2',
     },
 );
-
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
         Data  => 'Test payload',
         Data2 => 'Test payload 2',
@@ -56,30 +57,36 @@ $Self->IsDeeply(
     'ObjectParamAdd set key',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
-        Data => undef,
+        Data  => undef,
+        Data3 => undef,
     },
 );
-
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
+        Data  => undef,
         Data2 => 'Test payload 2',
+        Data3 => undef,
     },
-    'ObjectParamAdd removed key',
+    'ObjectParamAdd keys with undefined value',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data2 => undef,
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
-    {},
-    'ObjectParamAdd removed key',
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
+    {
+        Data  => undef,
+        Data2 => undef,
+        Data3 => undef,
+    },
+    'ObjectParamAdd another key with undefined value',
 );
 
-$Self->DoneTesting();
+done_testing;

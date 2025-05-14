@@ -32,31 +32,28 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a linux system
-    if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-        return $Self->GetResults();
-    }
+    # Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
+    return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd/i;
 
     my $MemInfoFile;
     my ( $MemTotal, $MemFree, $SwapTotal, $SwapFree );
 
     # If used OS is a linux system
     if ( -e "/proc/meminfo" && open( $MemInfoFile, '<', "/proc/meminfo" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        while (<$MemInfoFile>) {
-            my $TmpLine = $_;
-            if ( $TmpLine =~ /MemTotal/ ) {
+        while ( my $TmpLine = <$MemInfoFile> ) {
+            if ( $TmpLine =~ m/MemTotal/ ) {
                 $TmpLine =~ s/^.*?(\d+).*$/$1/;
                 $MemTotal = int($TmpLine);
             }
-            elsif ( $TmpLine =~ /MemFree/ ) {
+            elsif ( $TmpLine =~ m/MemFree/ ) {
                 $TmpLine =~ s/^.*?(\d+).*$/$1/;
                 $MemFree = int($TmpLine);
             }
-            elsif ( $TmpLine =~ /SwapTotal/ ) {
+            elsif ( $TmpLine =~ m/SwapTotal/ ) {
                 $TmpLine =~ s/^.*?(\d+).*$/$1/;
                 $SwapTotal = int($TmpLine);
             }
-            elsif ( $TmpLine =~ /SwapFree/ ) {
+            elsif ( $TmpLine =~ m/SwapFree/ ) {
                 $TmpLine =~ s/^.*?(\d+).*$/$1/;
                 $SwapFree = int($TmpLine);
             }

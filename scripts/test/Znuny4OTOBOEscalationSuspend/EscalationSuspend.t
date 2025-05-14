@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
 
@@ -34,8 +34,6 @@ our $Self;
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
 plan(24);
-
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -49,7 +47,6 @@ my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
 my $ZnunyHelperObject    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
-my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
     ChannelName => 'Internal',
 );
@@ -95,8 +92,6 @@ my $Pending        = 5;                # minutes
 my $Success;
 my $TicketEscalationIndexBuild;
 my $TicketWorkingTimeSuspendCalculate;
-my %TicketGetClosed;
-my $TicketGetClosed;
 my $SuspendStateActive;
 
 # create a queue for testing
@@ -420,7 +415,10 @@ $Self->Is(
     '$Ticket{Created}',
 );
 
-my $SystemTime = $TimeObject->SystemTime();
+my $SystemTime = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {},
+)->ToEpoch();
 
 # if systemTime is greater SystemPendingTime Create CustomerArticle..
 # Der Kunde Antwortet via E-Mail mit den fehlenden Informationen. Das Ticket wird in den Status "open"
@@ -497,9 +495,12 @@ my $TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalc
     Suspended    => $SuspendStateActive,       # should be 1
 );
 
-my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-    SystemTime => $TicketEscalationSuspendCalculat,
-);
+my $TimeStamp = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        Epoch => $TicketEscalationSuspendCalculat,
+    }
+)->ToString();
 
 $Self->IsNot(
     $TimeStamp,

@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,14 +25,13 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
@@ -162,11 +161,8 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
         }
 
-        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
-        # TODO: https://github.com/RotherOSS/otobo/issues/932
-        sleep 11;
-
         # Get Process list.
+        # This works without waiting because the files in Kernel/Config/Files are reloaded for each request.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
             UserID      => $TestUserID,
@@ -190,8 +186,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length;' );
         $Selenium->find_element( ".Primary.CallForAction", 'css' )->VerifiedClick();
 
-        my @Ticket          = split( 'TicketID=', $Selenium->get_current_url() );
-        my $TicketIDProcess = $Ticket[1];
+        my ( undef, $TicketIDProcess ) = split /TicketID=/, $Selenium->get_current_url;
 
         # Navigate to zoom view and create note visible for customer.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDProcess");
@@ -278,13 +273,15 @@ $Selenium->RunTest(
                 Key   => 'Ticket::Frontend::CustomerTicketOverview###ColumnHeader',
                 Value => $ColumnHeader,
             );
-            sleep 1;
 
             my $TitleElement = $Selenium->find_element_by_css(
                 qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}
             );
             ok( $TitleElement, "Customer Ticket Overview table title element found" );
-            $TitleElement->text_like( qr{\QUntitled!\E}, "Customer Ticket Overview table contains 'Untitled!' as ticket title part" );
+            $TitleElement->text_like(
+                qr{\QSome Ticket Title\E},
+                "Customer Ticket Overview table contains 'Some Ticket Title' as ticket title part"
+            );
 
             # No check whether the table contains article as the customer interface has been changed.
         }
@@ -460,8 +457,7 @@ $Selenium->RunTest(
         {
             $CacheObject->CleanUp( Type => $Cache );
         }
-
     }
 );
 
-done_testing();
+done_testing;

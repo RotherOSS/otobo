@@ -21,18 +21,18 @@ use v5.24;
 use utf8;
 
 # use ../ and ../Kernel/cpan-lib as lib location
-use FindBin qw($RealBin);
+use FindBin qw($RealBin);    ## no perlimports, not sure why perlimports wants $Dir
 use lib "$RealBin/..";
 use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Cwd qw(getcwd abs_path);
+use Cwd          qw(abs_path getcwd);
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # file scoped option variables
 my (
@@ -207,7 +207,7 @@ else {
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
         open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-        while (<$In>) {
+        while ( my $s = <$In> ) {
             $IsInstalled = 1;
         }
         if ( !$IsInstalled ) {
@@ -525,7 +525,7 @@ sub MySQLBackupForMigrateFromOTRS {
         return;
     }
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 Execute the following SQL scripts in the given order:
     - $PreprocessFile
     - $AdaptedSchemaDumpFile
@@ -537,7 +537,7 @@ END_MESSAGE
     my $Cnt = 0;
     for my $Command (@Commands) {
         $Cnt++;
-        if ( !system($Command ) ) {
+        if ( !system($Command) ) {
             say "done command $Cnt";
         }
         else {
@@ -577,6 +577,7 @@ END_MESSAGE
 
             # substitutions for changing the character set
             $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/CHARACTER SET .*?\s//;                            # for CREATE COLUMN
             $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
             $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
             $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
@@ -734,7 +735,7 @@ sub OracleBackupForMigrateFromOTRS {
     # output files
     my $PostprocessFile = qq{$Directory/${DatabaseName}_post.sql};
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 These instruction are preliminary.
 
 Clear the user 'otobo':

@@ -50,7 +50,7 @@
         <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
         <Navigation>Core</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">OTOBO 10</Item>
+            <Item ValueType="String" ValueRegex="">OTOBO 11</Item>
         </Value>
     </Setting>
     <Setting Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
@@ -276,6 +276,52 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="CustomerPreferencesGroups###Skin" Required="1" Valid="1">
+        <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Skin</Item>
+                <Item Key="PreferenceGroup">UserProfile</Item>
+                <Item Key="Label" Translatable="1">Skin</Item>
+                <Item Key="Desc" Translatable="1">Select your preferred layout for the software.</Item>
+                <Item Key="Key" Translatable="1">Skin</Item>
+                <Item Key="PrefKey">UserSkin</Item>
+                <Item Key="Prio">500</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="AgentColorDefinitions" Required="1" Valid="1">
+        <Description Translatable="1">Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="MainDark">#00023c</Item>
+                <Item Key="MainLight">#000099</Item>
+                <Item Key="MainHover">#001bff</Item>
+                <Item Key="BGElement">#fff</Item>
+                <Item Key="BGLight">#f7f7f9</Item>
+                <Item Key="BGLightMedium">#eeeef2</Item>
+                <Item Key="BGMedium">#e5e5eb</Item>
+                <Item Key="BGMediumDark">#cdcdd8</Item>
+                <Item Key="BGDark">#bfc0ce</Item>
+                <Item Key="TextLight">#7f809d</Item>
+                <Item Key="TextMedium">#54557c</Item>
+                <Item Key="TextDark">#00023c</Item>
+                <Item Key="TextErr">#ea2400</Item>
+                <Item Key="TextWarn">#f5af36</Item>
+                <Item Key="TextLink">#001bff</Item>
+                <Item Key="Highlight">#fef235</Item>
+                <Item Key="NotifyOK">#c4cdfa</Item>
+                <Item Key="NotifyWarn">#fffccc</Item>
+                <Item Key="NotifyErr">#f9bcb2</Item>
+                <Item Key="HoverLight">#fffccc</Item>
+                <Item Key="HoverDark">#fef235</Item>
+                <Item Key="ShadowDark">rgba(0,2,71,0.16)</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="CustomerColorDefinitions" Required="1" Valid="1">
         <Description Translatable="1">Color definitions for the customer interface.</Description>
         <Navigation>Frontend::Customer</Navigation>
@@ -283,6 +329,7 @@
             <Hash>
                 <Item Key="MainDark">#00023c</Item>
                 <Item Key="MainLight">#001bff</Item>
+                <Item Key="MainHover">#000099</Item>
                 <Item Key="BGLight">#f7f7f9</Item>
                 <Item Key="BGDark">#bfbfce</Item>
                 <Item Key="TextDark">#00023c</Item>
@@ -291,8 +338,71 @@
                 <Item Key="NotifyOK">#c4cdfa</Item>
                 <Item Key="NotifyWarn">#fffccc</Item>
                 <Item Key="NotifyErr">#f9bcb2</Item>
-                <Item Key="HoverLight">#6d83f2</Item>
-                <Item Key="HoverDark">#000099</Item>
+                <Item Key="HoverLight">#c4cdfa</Item>
+                <Item Key="HoverDark">#6d83f2</Item>
+                <Item Key="ShadowMain">rgba(0,27,255,0.24)</Item>
+                <Item Key="ShadowDark">rgba(4,0,71,0.16)</Item>
+            </Hash>
+        </Value>
+    </Setting>
+   <Setting Name="SkinColorDefinition::highcontrast" Required="1" Valid="1">
+        <Description Translatable="1">Color definitions for Agent interface highcontrast skin.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="MainDark">#333</Item>
+                <Item Key="MainLight">#333</Item>
+                <Item Key="MainHover">#fff</Item>
+                <Item Key="BGElement">#ffffff</Item>
+                <Item Key="BGLight">#ffffff</Item>
+                <Item Key="BGLightMedium">#fff</Item>
+                <Item Key="BGMedium">#ccc</Item>
+                <Item Key="BGMediumDark">#ccc</Item>
+                <Item Key="BGDark">#000000</Item>
+                <Item Key="TextLight">#ffffff</Item>
+                <Item Key="TextMedium">#777</Item>
+                <Item Key="TextDark">#000000</Item>
+                <Item Key="TextErr">#000000</Item>
+                <Item Key="TextWarn">#000000</Item>
+                <Item Key="TextLink">#001bff</Item>
+                <Item Key="Highlight">#fef235</Item>
+                <Item Key="NotifyOK">#c4cdfa</Item>
+                <Item Key="NotifyWarn">#fffccc</Item>
+                <Item Key="NotifyErr">#ea2400</Item>
+                <Item Key="HoverLight">#ccc</Item>
+                <Item Key="HoverDark">#000</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Customer::Skin###001-high-contrast" Required="1" Valid="1">
+        <Description Translatable="1">Default skin for the customer interface.</Description>
+        <Navigation>Frontend::Base::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="InternalName">highcontrast</Item>
+                <Item Key="VisibleName" Translatable="1">High Contrast</Item>
+                <Item Key="Description" Translatable="1">High contrast skin for visually impaired users.</Item>
+                <Item Key="HomePage">www.otobo.org</Item>
+            </Hash>
+        </Value>
+    </Setting>
+   <Setting Name="CustomerSkinColorDefinition::highcontrast" Required="1" Valid="1">
+        <Description Translatable="1">Color definitions for Customer Interface highcontrast skin.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="MainDark">#333</Item>
+                <Item Key="MainLight">#001bff</Item>
+                <Item Key="BGLight">#ffffff</Item>
+                <Item Key="BGDark">#000000</Item>
+                <Item Key="TextDark">#000000</Item>
+                <Item Key="TextLight">#ffffff</Item>
+                <Item Key="Highlight">#ffffff</Item>
+                <Item Key="NotifyOK">#e0e0e0</Item>
+                <Item Key="NotifyWarn">#fffccc</Item>
+                <Item Key="NotifyErr">#f9bcb2</Item>
+                <Item Key="HoverLight">#e0e0e0</Item>
+                <Item Key="HoverDark">#b5b5b5</Item>
                 <Item Key="ShadowMain">rgba(0,27,255,0.24)</Item>
                 <Item Key="ShadowDark">rgba(4,0,71,0.16)</Item>
             </Hash>
@@ -362,6 +472,17 @@
             <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::DefaultInterface" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="index.pl">
+                <Item ValueType="Option" Value="index.pl" Translatable="1">Agent Interface</Item>
+                <Item ValueType="Option" Value="customer.pl" Translatable="1">Customer Interface</Item>
+                <Item ValueType="Option" Value="public.pl" Translatable="1">Public Interface</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -373,7 +494,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.22.1/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-44.1.0/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -391,10 +512,45 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
+            <Item ValueType="String" ValueRegex=""></Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-44.1.0-content.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-44.1.0-editor.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=""></Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-44.1.0-content.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-44.1.0-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
@@ -533,7 +689,7 @@
         <Description Translatable="1">Determines the way the linked objects are displayed in each zoom mask.</Description>
         <Navigation>Core::LinkObject</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="Simple">
+            <Item ValueType="Select" SelectedID="Complex">
                 <Item ValueType="Option" Value="Simple" Translatable="1">Simple</Item>
                 <Item ValueType="Option" Value="Complex" Translatable="1">Complex</Item>
             </Item>
@@ -835,8 +991,7 @@
             </Hash>
         </Value>
     </Setting>
-<!-- not properly implemented -->
-<!--    <Setting Name="Frontend::NotifyModule###2500-AgentSessionLimit" Required="1" Valid="1">
+    <Setting Name="Frontend::NotifyModule###2500-AgentSessionLimit" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.</Description>
         <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
@@ -844,7 +999,7 @@
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentSessionLimit</Item>
             </Hash>
         </Value>
-    </Setting> -->
+    </Setting>
     <Setting Name="Frontend::NotifyModule###3000-ShowAgentOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows all the currently logged in agents in the agent interface.</Description>
         <Navigation>Frontend::Agent::FrontendNotification</Navigation>
@@ -964,6 +1119,17 @@
             <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">57600</Item>
         </Value>
     </Setting>
+    <Setting Name="SessionSameSite" Required="1" Valid="1">
+        <Description Translatable="1">Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.</Description>
+        <Navigation>Core::Session</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Lax">
+                <Item ValueType="Option" Value="Strict" Translatable="1">Strict</Item>
+                <Item ValueType="Option" Value="Lax"    Translatable="1">Lax</Item>
+                <Item ValueType="Option" Value="None"   Translatable="1">None</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="SessionMaxIdleTime" Required="1" Valid="1">
         <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.</Description>
         <Navigation>Core::Session</Navigation>
@@ -997,6 +1163,13 @@
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="AgentSessionLimitPriorWarning" Required="0" Valid="0">
+        <Description Translatable="1">Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.</Description>
+        <Navigation>Core::Session</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">90</Item>
         </Value>
     </Setting>
     <Setting Name="AgentSessionLimit" Required="0" Valid="1">
@@ -2692,17 +2865,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
-        <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
-        <Navigation>Core::Event::Package</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
-                <Item Key="Event">(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)</Item>
-                <Item Key="Transaction">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="Events###Package" Required="1" Valid="1">
         <Description Translatable="1">List of all Package events to be displayed in the GUI.</Description>
         <Navigation>Frontend::Admin</Navigation>
@@ -2713,6 +2875,28 @@
                 <Item>PackageUpgrade</Item>
                 <Item>PackageUninstall</Item>
             </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
+        <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
+        <Navigation>Core::Event::Package</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
+                <Item Key="Event">Package(?:Install|Reinstall|Upgrade|Uninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Package::EventModulePost###9000-SyncWithS3" Required="0" Valid="0">
+        <Description Translatable="1">Package event module trigger package reinstall in containers.</Description>
+        <Navigation>Core::Event::Package</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::SyncWithS3</Item>
+                <Item Key="Event">Package(?:Install|Reinstall|Upgrade|Uninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Events###DynamicField" Required="1" Valid="1">
@@ -2734,44 +2918,6 @@
                 <Item>LinkObjectLinkAdd</Item>
                 <Item>LinkObjectLinkDelete</Item>
             </Array>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicFields::ObjectType###CustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField object registration.</Description>
-        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer</Item>
-                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerCompany</Item>
-                <Item Key="Prio">120</Item>
-                <Item Key="UseObjectName">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DynamicFields::ObjectType###CustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField object registration.</Description>
-        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Customer User</Item>
-                <Item Key="Module">Kernel::System::DynamicField::ObjectType::CustomerUser</Item>
-                <Item Key="Prio">130</Item>
-                <Item Key="UseObjectName">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
-        <Navigation>Core::SOAP</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="">some_user</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SOAP::Password" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
-        <Navigation>Core::SOAP</Navigation>
-        <Value>
-            <Item ValueType="Password">some_pass</Item>
         </Value>
     </Setting>
     <Setting Name="SOAP::Keep-Alive" Required="1" Valid="1" ConfigLevel="200">
@@ -3006,6 +3152,13 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="SMIME::Cipher" Required="0" Valid="1">
+        <Description Translatable="1">Select the algorithm used for encryption. Fallback is aes256. Try "/usr/bin/openssl enc -ciphers" to get a list of ciphers supported by your system (written without the leading '-').</Description>
+        <Navigation>Core::Crypt::SMIME</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\w[\w\d-]+$">aes256</Item>
+        </Value>
+    </Setting>
     <Setting Name="NotificationSenderName" Required="1" Valid="1">
         <Description Translatable="1">Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).</Description>
         <Navigation>Core::Email</Navigation>
@@ -3069,7 +3222,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
+        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.</Description>
         <Navigation>Core::Permission</Navigation>
         <Value>
             <Array>
@@ -3102,6 +3255,20 @@ You can log in via the following URL:
                 <Item Key="DE">Germany</Item>
                 <Item Key="CH">Switzerland</Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ReferenceData::TranslatedCountryNames" Required="0" Valid="0">
+        <Description Translatable="1">Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.</Description>
+        <Navigation>Core::ReferenceData</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="ReferenceData::TranslatedLanguageNames" Required="0" Valid="0">
+        <Description Translatable="1">Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.</Description>
+        <Navigation>Core::ReferenceData</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="PerformanceLog" Required="0" Valid="1" ConfigLevel="200">
@@ -3506,7 +3673,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="CustomerPanelLoginURL" Required="0" Valid="0">
-        <Description Translatable="1">Defines an alternate login URL for the customer panel..</Description>
+        <Description Translatable="1">Defines an alternate login URL for the customer panel.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">http://host.example.com/cgi-bin/login.pl</Item>
@@ -4922,7 +5089,7 @@ via the Preferences button after logging in.
                         <Item Key="Order">4000</Item>
                     </Hash>
                 </Item>
-                <Item Key="OTOBOGroup">
+                <Item Key="OTOBOTeamServices">
                     <Hash>
                         <Item Key="Title" Translatable="1">OTOBO Team Services</Item>
                         <Item Key="Order">5000</Item>
@@ -4994,6 +5161,19 @@ via the Preferences button after logging in.
                     <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminUser###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.User.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Frontend::Navigation###AdminUser###001-Framework" Required="0" Valid="0">
@@ -6411,7 +6591,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Registration</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage system registration.</Item>
                 <Item Key="IconBig">fa-edit</Item>
                 <Item Key="IconSmall"></Item>
@@ -6486,7 +6666,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Support Data Collector</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage support data.</Item>
                 <Item Key="IconBig">fa-search</Item>
                 <Item Key="IconSmall"></Item>
@@ -6556,7 +6736,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Cloud Services</Item>
-                <Item Key="Block">OTOBOGroup</Item>
+                <Item Key="Block">OTOBOTeamServices</Item>
                 <Item Key="Description" Translatable="1">Manage OTOBO Team cloud services.</Item>
                 <Item Key="IconBig">fa-cloud</Item>
                 <Item Key="IconSmall"></Item>
@@ -6925,6 +7105,148 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Module###AdminCustomerAccept" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Privacy Policy</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminCustomerAccept###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.CustomerAccept.js</Item>
+                    </Array>
+                </Item>
+
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminCustomerAccept###001-Framework" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminCustomerAccept" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Privacy Policy</Item>
+                <Item Key="Block">Customer Frontend</Item>
+                <Item Key="Description" Translatable="1">Configure the privacy policy.</Item>
+                <Item Key="IconBig">fa-file-text-o</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminAbout" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">About</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminAbout###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.About.js</Item>
+                    </Array>
+                </Item>
+
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminAbout###001-Framework" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminAbout" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">About</Item>
+                <Item Key="Block">Customer Frontend</Item>
+                <Item Key="Description" Translatable="1">Configure the About information.</Item>
+                <Item Key="IconBig">fa-file-text-o</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="CustomerFrontend::Module###CustomerDashboard" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
@@ -6942,6 +7264,27 @@ via the Preferences button after logging in.
                     <Item Key="Description">Customer Dashboard</Item>
                     <Item Key="Title"></Item>
                     <Item Key="NavBarName">Dashboard</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerGenericContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Generic Content</Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName">GenericContent</Item>
                 </Hash>
             </Item>
         </Value>
@@ -6988,6 +7331,33 @@ via the Preferences button after logging in.
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.Preferences.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::CustomerAccept###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Accept.css</Item>
+                        <Item>Core.GenericContent.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::CustomerGenericContent###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.GenericContent.css</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7087,10 +7457,11 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText">That's new in OTOBO 10</Item>
-                        <Item Key="MainText">Highlights: Brand new customer portal, Elasticsearch, flexible forms, more safety, better performance</Item>
-                        <Item Key="FooterText">Explore &gt;</Item>
-                        <Item Key="Link">https://otobo.io/en/service-management-plattform/helpdesk/</Item>
+                        <Item Key="HeaderText">OTOBO 11.0 | Service Management</Item>
+                        <Item Key="MainText">OTOBO 11.0 takes your service management to the next level with enhanced flexibility. And, with the simultaneous release of CMDB 11.0, you'll get seamless integration between your asset management and service management workflows.</Item>
+                        <Item Key="FooterText">Learn more &gt;</Item>
+                        <Item Key="Link">https://otobo.io/en/otobo-11-0-2-major-release/</Item>
+                        <Item Key="NewTab">0</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -7116,7 +7487,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerDashboard::Tiles###PlainText-01" Required="0" Valid="1">
+    <Setting Name="CustomerDashboard::Tiles###PlainText-01" Required="0" Valid="0">
         <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
@@ -7150,15 +7521,13 @@ via the Preferences button after logging in.
                                 <Item Key="https://duckduckgo.com/">1</Item>
                                 <Item Key="https://www.wikipedia.org">2</Item>
                                 <Item Key="https://www.openstreetmap.org">3</Item>
-                                <Item Key="https://protonvpn.com/">4</Item>
                             </Hash>
                         </Item>
                         <Item Key="Images">
                             <Hash>
                                 <Item Key="https://cdn3.iconfinder.com/data/icons/social-media-logos-flat-colorful-1/2048/5364_-_DuckDuckGo-512.png">1</Item>
-                                <Item Key="https://cdn3.iconfinder.com/data/icons/inficons-round-brand-set-2/512/wikipedia-512.png">2</Item>
+                                <Item Key="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNTEycHgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnIGlkPSJfeDMzXzc3LXdpa2lwZWRpYS13Ij48Zz48cGF0aCBkPSJNNDg1Ljk5OSwxMDguODUxbC0wLjIxNCw4Ljc2N2MtMjAuMTkzLDAuNTc2LTMyLjM0MSwxMS4zNTUtNDAuMTAxLDI4Ljk2MmMtMTcuOTY2LDQxLjUzOC03NC4yMzUsMTcyLjQ3Mi0xMTEuNjA0LDI1Ny43MDMgICAgaC05Ljc3M2wtNTguODU3LTEzOC43N2MtMjMuMzU1LDQ1LjcwNS00OS4wODIsOTMuNDI0LTcxLjI4NywxMzguNzdjLTAuMjE3LDAuMjE2LTEwLjc4LDAtMTAuNzgtMC4yMTYgICAgYy0zMy43MDQtNzguODM1LTY5LjA2MS0xNTcuMDk0LTEwMi44MzgtMjM2LjE0NWMtOC4xOTEtMTkuMTg3LTM1LjUtNTAuMzA0LTU0LjMyNy01MC4wODhjMC0yLjIyOC0wLjIxNi03LjE4Ni0wLjIxNi0xMC4yMDUgICAgaDExNi4zNDd2OS45ODljLTEzLjc5OCwwLjc5LTM3Ljk0Myw5LjU1OC0zMS4xMTcsMjQuNTc3YzE1LjczNywzNS43MTYsNzQuNDUxLDE3Mi42ODgsOTAuMjYsMjA3LjM5OSAgICBjMTAuNzgtMjEuMzQ0LDQxLjUzOC03OC40NzUsNTQuMTE0LTEwMi42MjJjLTkuOTg4LTIwLjMzNi00Mi4xMTItOTYuMjI1LTUyLjMxNy0xMTQuOTgxYy02Ljk3MS0xMi43OTItMjUuOTQxLTEzLjk0MS00MC4xLTE0LjE1NyAgICB2LTkuOTg5bDEwMi40MDYsMC4yMTZ2OS40MTRjLTEzLjk0MSwwLjQzMi0yNy4zNzksNS42MDUtMjEuMTI4LDE4Ljc1NmMxMy41ODEsMjguNzQ2LDIxLjk4OSw0OC45MzksMzQuNTY2LDc1LjI0MSAgICBjNC4wMjQtNy43NjIsMjQuOTM4LTQ5Ljg3MywzNC41NjYtNzIuNDM5YzYuMzk3LTE0LjgwMy0yLjgwNC0yMC41NTMtMjcuNzM5LTIxLjEyNmMwLjIxNS0yLjU4OCwwLTcuNDAyLDAuMjE1LTkuNzc1ICAgIGMzMS45MDgtMC4yMTUsNzkuODQyLTAuMjE1LDg4LjQ2NS0wLjQzMXY5Ljc3M2MtMTYuMTcsMC41NzUtMzIuOTEzLDkuMTk4LTQxLjc1MywyMi43ODFsLTQyLjU0Miw4OC4yNDkgICAgYzQuNTk4LDExLjU3MSw0NS40ODgsMTAyLjYyLDQ5LjcyNywxMTIuNjEybDg3Ljk2My0yMDMuMDg4Yy02LjE4LTE2LjYwMS0yNi4xNTgtMjAuMTk0LTMzLjkyLTIwLjMzOHYtOS45ODlsOTEuODQyLDAuNzkgICAgTDQ4NS45OTksMTA4Ljg1MXoiLz48L2c+PC9nPjxnIGlkPSJMYXllcl8xIi8+PC9zdmc+">2</Item>
                                 <Item Key="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/openstreetmap-512.png">3</Item>
-                                <Item Key="https://protonvpn.com/assets/img/media/protonvpn-sign-green.png">4</Item>
                             </Hash>
                         </Item>
                     </Hash>
@@ -7166,7 +7535,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerDashboard::Tiles###PlainPicture-01" Required="0" Valid="1">
+    <Setting Name="CustomerDashboard::Tiles###PlainPicture-01" Required="0" Valid="0">
         <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
@@ -7180,6 +7549,141 @@ via the Preferences button after logging in.
                         <Item Key="Image">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/Example.png</Item>
                     </Hash>
                 </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerDashboard::Tiles###InfoTile-01" Required="0" Valid="1">
+        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.</Description>
+        <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Order">7</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::InfoTile</Item>
+                <Item Key="Template">Dashboard/TileInfoEntries</Item>
+                <Item Key="Config">
+                    <Hash>
+                        <Item Key="TextColor">#00023c</Item>
+                        <Item Key="BackgroundColor">#fff</Item>
+                        <Item Key="Order">
+                            <Hash>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerDashboardContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                   <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Create tickets.</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                    <Item Key="Title" Translatable="1">New Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminCustomerDashboardInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module for dashboard info tile in customer interface.</Description>
+        <Navigation>Frontend::Admin::CustomerDashboardInfoTile</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Customer Info</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminCustomerDashboardInfoTile###002-ExtendedCustomerDashboardInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Loader module for dashboard info tile in customer interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.CustomerDashboardInfoTile.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminCustomerDashboardInfoTile###002-ExtendedCustomerDashboardInfoTile" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">CustomerDashboard Info Tile</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminCustomerDashboardInfoTile" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Customer Info</Item>
+                <Item Key="Block">Administration</Item>
+                <Item Key="Description" Translatable="1">Manage Customer Dashboard Info Tile Entries</Item>
+                <Item Key="IconBig">fa-wrench</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="CustomerFrontend::NotifyModule###8-CustomerAnnouncement-Check" Required="0" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.</Description>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerAnnouncementCheck</Item>
+                <Item Key="Segregation">###</Item>
+                <Item Key="UseMarquee">1</Item>
+                <Item Key="NotifyPriority">Error</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7267,6 +7771,27 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerGenericContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Show various content.</Item>
+                    <Item Key="Title" Translatable="1">Info</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="CustomerFrontend::Module###PictureUpload" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
@@ -7305,13 +7830,11 @@ via the Preferences button after logging in.
             <Item ValueType="String" ValueRegex="">AdminInit</Item>
         </Value>
     </Setting>
-    <Setting Name="PublicFrontend::FooterLinks" Required="0" Valid="0">
-        <Description Translatable="1">Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.</Description>
+    <Setting Name="PublicFrontend::Active" Required="1" Valid="1">
+        <Description Translatable="1">Activate the public frontend.</Description>
         <Navigation>Frontend::Public</Navigation>
         <Value>
-            <Hash>
-                <Item Key="https://www.otobo.org">OTOBO Homepage</Item>
-            </Hash>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="PublicFrontend::CommonParam###Action" Required="1" Valid="1">
@@ -7319,6 +7842,23 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Item ValueType="String">PublicDefault</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Active" Required="1" Valid="1">
+        <Description Translatable="1">Activate the customer frontend.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::FooterLinks" Required="0" Valid="0">
+        <Description Translatable="1">Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. &lt;OTOBO_CONFIG_HttpType&gt;, &lt;OTOBO_CONFIG_FQDN&gt; and &lt;OTOBO_CONFIG_ScriptAlias&gt; will be substituted.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="&lt;OTOBO_CONFIG_HttpType&gt;://&lt;OTOBO_CONFIG_FQDN&gt;/&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerGenericContent&amp;Key=About">About</Item>
+                <Item Key="&lt;OTOBO_CONFIG_HttpType&gt;://&lt;OTOBO_CONFIG_FQDN&gt;/&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerAccept&amp;Review=1">Privacy Policy</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
@@ -7733,7 +8273,7 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">News about OTOBO.</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
-                <Item Key="Group"></Item>
+                <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTL">360</Item>
                 <Item Key="Mandatory">0</Item>
@@ -8165,15 +8705,6 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Loader::Agent::CommonJS###100-CKEditor" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/ckeditor-4.22.1/ckeditor.js</Item>
-            </Array>
-        </Value>
-    </Setting>
     <Setting Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the customer interface.</Description>
         <Navigation>Frontend::Base::Loader</Navigation>
@@ -8185,7 +8716,6 @@ via the Preferences button after logging in.
                 <Item>Core.Default.css</Item>
                 <Item>Core.Form.css</Item>
                 <Item>Core.Dialog.css</Item>
-                <Item>Core.Tooltip.css</Item>
                 <Item>Core.Control.css</Item>
                 <Item>Core.Table.css</Item>
                 <Item>Core.InputFields.css</Item>
@@ -8194,6 +8724,7 @@ via the Preferences button after logging in.
                 <Item>Core.Icons.css</Item>
                 <Item>Core.Footer.css</Item>
                 <Item>Core.Items.css</Item>
+                <Item>ExtendedCDBInfo.Tile.css</Item>
             </Array>
         </Value>
     </Setting>
@@ -8247,15 +8778,7 @@ via the Preferences button after logging in.
                 <Item>Core.Customer.Responsive.js</Item>
                 <Item>Core.UI.NavigationBar.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Customer::CommonJS###100-CKEditor" Required="1" Valid="1">
-        <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/ckeditor-4.22.1/ckeditor.js</Item>
+                <Item>ExtendedCDBInfo.Tile.js</Item>
             </Array>
         </Value>
     </Setting>
@@ -8600,7 +9123,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Sets the minutes a notification is shown for notice about upcoming system maintenance period.</Description>
         <Navigation>Core::SystemMaintenance</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">30</Item>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">120</Item>
         </Value>
     </Setting>
     <Setting Name="SystemMaintenance::IsActiveDefaultNotification" Required="0" Valid="1">
@@ -9034,15 +9557,34 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
+    <Setting Name="CustomerGenericHTMLContent::ModuleMap###01-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the inner content to the chosen key.</Description>
+        <Navigation>Frontend::Customer::View::CustomerGenericHTMLContent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Accept">Accept</Item>
+                <Item Key="About">About</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerGenericHTMLContent::HeaderMap###01-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Defines the headers which will be shown to generic content for the requested key.</Description>
+        <Navigation>Frontend::Customer::View::CustomerGenericHTMLContent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="About">About</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="SimpleBruteForceProtection::GeneralSettings" Required="0" Valid="1">
         <Description Translatable="1">Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.</Description>
         <Navigation>Core::Auth</Navigation>
         <Value>
-                <Hash>
-                    <Item Key="KeepCacheDuration">60</Item>
-                    <Item Key="MaxAttempt">3</Item>
-                    <Item Key="BanDuration">30</Item>
-                </Hash>
+            <Hash>
+                <Item Key="KeepCacheDuration">60</Item>
+                <Item Key="MaxAttempt">3</Item>
+                <Item Key="BanDuration">30</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::ExcludedQueues" Required="0" Valid="1">
@@ -9329,17 +9871,17 @@ via the Preferences button after logging in.
                 <Item Key="Attributes">
                     <Array>
                         <Item>UserLogin</Item>
-                        <Item>UserFullName</Item>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
                         <Item>UserEmail</Item>
-                        <Item>CustomerCompanyName</Item>
                     </Array>
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
                         <Item Key="UserLogin">Login</Item>
-                        <Item Key="UserFullName">Name</Item>
+                        <Item Key="UserFirstname">Name</Item>
+                        <Item Key="UserLastname">Name</Item>
                         <Item Key="UserEmail">Email</Item>
-                        <Item Key="CustomerCompanyName">Company</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -9410,7 +9952,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationDeploymentHistory###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationDeploymentHistory###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -9430,7 +9972,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminSystemConfigurationDeploymentHistory###004-OTOBOCommunity" Required="0" Valid="0">
+    <Setting Name="Frontend::Navigation###AdminSystemConfigurationDeploymentHistory###001-Framework" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
@@ -9466,7 +10008,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationSettingHistory###004-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationSettingHistory###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -9487,7 +10029,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminSystemConfigurationSettingHistory###004-OTOBOCommunity" Required="0" Valid="0">
+    <Setting Name="Frontend::Navigation###AdminSystemConfigurationSettingHistory###001-Framework" Required="0" Valid="0">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
@@ -9523,7 +10065,7 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminSystemConfigurationUser###001-OTOBOCommunity" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminSystemConfigurationUser###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -9645,8 +10187,8 @@ via the Preferences button after logging in.
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
                         <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.io/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
-                        <Item Key="NavBar"></Item>
-                        <Item Key="Type"></Item>
+                        <Item Key="NavBar">Ticket</Item>
+                        <Item Key="Type">Menu</Item>
                         <Item Key="Block"></Item>
                         <Item Key="AccessKey">e</Item>
                         <Item Key="Prio">10000</Item>
@@ -9655,4 +10197,240 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
+    <!-- Begin Statistic Reports -->
+    <Setting Name="Frontend::Module###AgentStatisticsReports" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Title" Translatable="1">Statistics Reports</Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>stats</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                            <Item>stats</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Statistics reports.</Item>
+                    <Item Key="NavBarName">Statistics Reports</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AgentStatisticsReports###004" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>thirdparty/nvd3-1.7.1/nv.d3.css</Item>
+                        <Item>Core.Agent.StatisticsReports.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOLineChart.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOMultiBarChart.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOStackedAreaChart.js</Item>
+                        <Item>Core.UI.AdvancedChart.js</Item>
+                        <Item>Core.Agent.StatisticsReports.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AgentStatisticsReports###004" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                                <Item>stats</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                                <Item>stats</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1"></Item>
+                        <Item Key="Name" Translatable="1">Reports</Item>
+                        <Item Key="Link">Action=AgentStatisticsReports;Subaction=Overview</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Reports</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block"></Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">100</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###StatsReportsGenerateCron" Required="1" Valid="1" ReadOnly="1">
+        <Description Translatable="1">Automatically generate statistics reports and email them to the specified recipients.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">StatsReportsGenerateCron</Item>
+                <Item Key="Schedule">*/10 * * * *</Item> <!-- default: every 10 minutes -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Stats::Reports::GenerateCron</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PhantomJS::Bin" Required="0" Valid="0">
+        <Description Translatable="1">Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.</Description>
+        <Navigation>Core::PhantomJS</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="File">/usr/bin/phantomjs</Item>
+        </Value>
+    </Setting>
+    <Setting Name="GoogleChrome::Bin" Required="0" Valid="0">
+        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.</Description>
+        <Navigation>Core::GoogleChrome</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="File">/usr/bin/chromium</Item>
+        </Value>
+    </Setting>
+    <!-- End Statistic Reports -->
+
+    <!-- Custom Translations -->
+    <Setting Name="Frontend::AdminModuleGroups###002-Translations" Required="1" Valid="1">
+        <Description Translatable="1">Defines available groups for the admin overview screen.</Description>
+        <Navigation>Frontend::Base::NavBarModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Translations">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Languages</Item>
+                        <Item Key="Order">4500</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminTranslations" Required="1" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Translations</Item>
+                <Item Key="Block">Translations</Item>
+                <Item Key="Description" Translatable="1">Create and manage custom translations.</Item>
+                <Item Key="IconBig">fa-language</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminTranslations" Required="1" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">Translations</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminTranslations###002-Translations" Required="1" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Translations.Admin.Default.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.Translations.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::TranslationsDebug" Required="1" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Enables or disables the debug mode for translations module.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
+    <Setting Name="Translations::ObjectList" Required="1" Valid="1">
+        <Description Translatable="1">Defines the data objects avaliable to be translated.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DynamicFieldLabel" Translatable="1">Dynamic Field Labels</Item>
+                <Item Key="DynamicFieldContent" Translatable="1">Dynamic Field Contents</Item>
+                <Item Key="GeneralLabel" Translatable="1">General Label</Item>
+                <Item Key="Priority" Translatable="1">Priorities</Item>
+                <Item Key="Queue" Translatable="1">Queues</Item>
+                <Item Key="Service" Translatable="1">Services</Item>
+                <Item Key="SLA" Translatable="1">SLAs</Item>
+                <Item Key="Template" Translatable="1">Templates</Item>
+                <Item Key="State" Translatable="1">Ticket States</Item>
+                <Item Key="Type" Translatable="1">Ticket Types</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Translations::TranslateParentChild" Required="0" Valid="1">
+        <Description Translatable="1">Defines if parent-child translations for queues and services should be generated automatically.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Translations::AllowModifyAll" Required="1" Valid="1">
+        <Description Translatable="1">Defines if user can modify all possible values/labels of dynamic fields in one data table.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
 </otobo_config>

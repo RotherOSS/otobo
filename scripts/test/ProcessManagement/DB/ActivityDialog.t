@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # get needed objects
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
@@ -254,7 +258,7 @@ my @Tests = (
         Name   => 'ActivityDialogAdd Test 15: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name     => "ActivityDialog-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name     => "ActivityDialog-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             Config   => {
                 DescriptionShort => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.-',
                 Fields           => {
@@ -640,7 +644,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityDialogsList[1],
             EntityID => $RandomID . '-1-U',
-            Name     => "ActivityDialog-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            Name     => "ActivityDialog-$RandomID -!Â§\$%&/()=?Ã*ÃÃL:L@,.--U",
             Config   => {
                 DescriptionShort => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.--U',
                 Fields           => {
@@ -727,7 +731,7 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the ActivityDialog
-        print "Force a gap between create and update ActivityDialog, Waiting 2s\n";
+        note "Force a gap between create and update ActivityDialog, Waiting 2s";
 
         # wait 2 seconds
         FixedTimeAddSeconds(2);
@@ -1011,6 +1015,4 @@ $Self->IsDeeply(
     "ActivityDialogListGet Test 2: Correct List | Cache",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

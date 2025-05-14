@@ -1,0 +1,230 @@
+---
+Activities:
+  Activity-04e957233fc18708662254a3465c1dd0:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:07
+    Config: {}
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Activity-04e957233fc18708662254a3465c1dd0
+    ID: '118'
+    Name: Change evaluation of predicted performance
+  Activity-2ce99630e1044eb40098541599471939:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:07
+    Config: {}
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Activity-2ce99630e1044eb40098541599471939
+    ID: '119'
+    Name: Change evaluation planning
+  Activity-2e782be898c572256c255af6d38bbca5:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:07
+    Config: {}
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Activity-2e782be898c572256c255af6d38bbca5
+    ID: '120'
+    Name: Change evaluation report
+  Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:07
+    Config: {}
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61
+    ID: '121'
+    Name: Change evaluation wait for next release point
+  Activity-745d17a920fd2a20c048422dbf60cd4b:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:07
+    Config: {}
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Activity-745d17a920fd2a20c048422dbf60cd4b
+    ID: '122'
+    Name: Change evaluation of current performance
+  Activity-7a1df51901e5f6c261cc2d8f0544535f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:17
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+    ID: '91'
+    Name: ITSM Change Management
+Process:
+  Activities:
+  - Activity-04e957233fc18708662254a3465c1dd0
+  - Activity-2ce99630e1044eb40098541599471939
+  - Activity-2e782be898c572256c255af6d38bbca5
+  - Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61
+  - Activity-745d17a920fd2a20c048422dbf60cd4b
+  - Activity-7a1df51901e5f6c261cc2d8f0544535f
+  ChangeTime: 2017-10-31 22:40:06
+  Config:
+    Description: "Best practice IT Service Management Change Evaluation process inspired
+      by ITIL®.\r\n\r\nThe Change Evaluation process evaluates each phase of the life
+      cycle of major changes prior to authorizing the next phase. It ensures a save
+      implementation of major changes.\r\n\r\nConfiguration: The functional and hierarchical
+      escalation transitions are not configured. They should be modified to fulfil
+      your business rules."
+    Path:
+      Activity-04e957233fc18708662254a3465c1dd0:
+        Transition-2d9ef4bf55bef6b08afa4c825cb291a8:
+          ActivityEntityID: Activity-745d17a920fd2a20c048422dbf60cd4b
+          TransitionAction: []
+        Transition-6af1fc2458fee49382595feebb75629b:
+          ActivityEntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+      Activity-2ce99630e1044eb40098541599471939:
+        Transition-2cac09235acaa795ce0df0d93e4821ca:
+          ActivityEntityID: Activity-04e957233fc18708662254a3465c1dd0
+      Activity-2e782be898c572256c255af6d38bbca5: {}
+      Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61:
+        Transition-0e051df94cbd44eda381ae4f5290d69a:
+          ActivityEntityID: Activity-745d17a920fd2a20c048422dbf60cd4b
+      Activity-745d17a920fd2a20c048422dbf60cd4b:
+        Transition-5c967ea93ba47d042089dce354765bc3:
+          ActivityEntityID: Activity-2e782be898c572256c255af6d38bbca5
+        Transition-79fed9e6efa835e30e806b49373da9bc:
+          ActivityEntityID: Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61
+        Transition-f89cfa42e66e8d2426dbe4879fa1d2e1:
+          ActivityEntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+      Activity-7a1df51901e5f6c261cc2d8f0544535f: {}
+    StartActivity: Activity-2ce99630e1044eb40098541599471939
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:40:06
+  EntityID: Process-2ba7ba774e81136f7024a4471102bc07
+  ID: '20'
+  Layout:
+    Activity-04e957233fc18708662254a3465c1dd0:
+      left: '217'
+      top: '335'
+    Activity-2ce99630e1044eb40098541599471939:
+      left: '218'
+      top: '91'
+    Activity-2e782be898c572256c255af6d38bbca5:
+      left: '958'
+      top: '222'
+    Activity-48ac1b9e9f558d0942c2b8f2ac1a0f61:
+      left: '555'
+      top: '0'
+    Activity-745d17a920fd2a20c048422dbf60cd4b:
+      left: '557'
+      top: '225'
+    Activity-7a1df51901e5f6c261cc2d8f0544535f:
+      left: '557'
+      top: '463'
+  Name: Service Transition::Change Evaluation
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-2d9ef4bf55bef6b08afa4c825cb291a8
+  - Transition-6af1fc2458fee49382595feebb75629b
+  - Transition-2cac09235acaa795ce0df0d93e4821ca
+  - Transition-0e051df94cbd44eda381ae4f5290d69a
+  - Transition-5c967ea93ba47d042089dce354765bc3
+  - Transition-79fed9e6efa835e30e806b49373da9bc
+  - Transition-f89cfa42e66e8d2426dbe4879fa1d2e1
+Transitions:
+  Transition-0e051df94cbd44eda381ae4f5290d69a:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-0e051df94cbd44eda381ae4f5290d69a
+    ID: '130'
+    Name: Change evaluation next release point announced
+  Transition-2cac09235acaa795ce0df0d93e4821ca:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-2cac09235acaa795ce0df0d93e4821ca
+    ID: '131'
+    Name: Change evaluation planned
+  Transition-2d9ef4bf55bef6b08afa4c825cb291a8:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-2d9ef4bf55bef6b08afa4c825cb291a8
+    ID: '132'
+    Name: Change evaluation predicted performance okay
+  Transition-5c967ea93ba47d042089dce354765bc3:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-5c967ea93ba47d042089dce354765bc3
+    ID: '133'
+    Name: Change evaluation current performance okay & Change closed successful
+  Transition-6af1fc2458fee49382595feebb75629b:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-6af1fc2458fee49382595feebb75629b
+    ID: '134'
+    Name: Change evaluation predicted performance NOT okay
+  Transition-79fed9e6efa835e30e806b49373da9bc:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-79fed9e6efa835e30e806b49373da9bc
+    ID: '135'
+    Name: Change evaluation current performance okay & Change in progress
+  Transition-f89cfa42e66e8d2426dbe4879fa1d2e1:
+    ChangeTime: 2017-10-31 22:40:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:06
+    EntityID: Transition-f89cfa42e66e8d2426dbe4879fa1d2e1
+    ID: '136'
+    Name: Change evaluation current performance NOT okay

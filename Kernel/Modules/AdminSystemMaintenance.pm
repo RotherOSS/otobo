@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -30,6 +30,15 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -44,6 +53,19 @@ sub Run {
 
     my $SystemMaintenanceID = $ParamObject->GetParam( Param => 'SystemMaintenanceID' ) || '';
     my $WantSessionID       = $ParamObject->GetParam( Param => 'WantSessionID' )       || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     my $SessionVisibility = 'Collapsed';
 
@@ -246,7 +268,7 @@ sub Run {
             );
         }
 
-        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Add' ) {
+        if ( ( $ParamObject->GetParam( Param => 'Notification' ) // '' ) eq 'Add' ) {
 
             # add notification
             push @NotifyData, {
@@ -255,7 +277,7 @@ sub Run {
             };
         }
 
-        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Update' ) {
+        if ( ( $ParamObject->GetParam( Param => 'Notification' ) // '' ) eq 'Update' ) {
 
             # add notification
             push @NotifyData, {
@@ -435,7 +457,7 @@ sub Run {
                 ),
             );
         }
-        return $LayoutObject->Redirect( OP => 'Action=AdminSystemMaintenance' );
+        return $LayoutObject->Redirect( OP => "Action=AdminSystemMaintenance" );
 
     }
 
@@ -444,8 +466,16 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
+        my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        my %ValidLookup = reverse %ValidList;
+        my @ValidIDs    = $ValidLookup{'valid'};
+        if ( $Self->{IncludeInvalid} ) {
+            push @ValidIDs, ( $ValidLookup{'invalid'}, $ValidLookup{'invalid-temporarily'} );
+        }
+
         my $SystemMaintenanceList = $SystemMaintenanceObject->SystemMaintenanceListGet(
-            UserID => $Self->{UserID},
+            UserID   => $Self->{UserID},
+            ValidIDs => \@ValidIDs,
         );
 
         if ( !scalar @{$SystemMaintenanceList} ) {
@@ -503,6 +533,9 @@ sub Run {
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemMaintenance',
+            Data         => {
+                IncludeInvalidChecked => $Param{IncludeInvalidChecked},
+            },
         );
         $Output .= $LayoutObject->Footer();
         return $Output;
@@ -577,7 +610,7 @@ sub _ShowEdit {
         && $SystemMaintenanceData->{ShowLoginMessage} == '1'
         )
     {
-        $Param{Checked} = 'checked="checked"';
+        $Param{Checked} = 'checked ';
     }
 
     my $Output = $LayoutObject->Header();

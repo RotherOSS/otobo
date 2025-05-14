@@ -41,8 +41,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
@@ -335,7 +334,7 @@ sub Run {
         return;
     }
 
-    my $TicketCreateMessage = <<"Message";
+    my $TicketCreateMessage = <<"END_MESSAGE";
 New Ticket created:
 
 TicketNumber: $NewTn
@@ -345,7 +344,7 @@ State: $State
 CustomerID: $GetParam{'X-OTOBO-CustomerNo'}
 CustomerUser: $GetParam{'X-OTOBO-CustomerUser'}
 
-Message
+END_MESSAGE
 
     for my $Value (qw(Type Service SLA Lock)) {
 
@@ -611,7 +610,20 @@ Message
             TicketID => $TicketID,
             UserID   => $Param{InmailUserID},
         );
+
         return;
+    }
+
+    for my $Flag (qw/Crypted CryptedOK Signed SignedOK/) {
+        if ( $GetParam{$Flag} ) {
+            my $Success = $ArticleObject->ArticleFlagSet(
+                TicketID  => $TicketID,
+                ArticleID => $ArticleID,
+                Key       => $Flag,
+                Value     => $GetParam{$Flag},
+                UserID    => 1,
+            );
+        }
     }
 
     $Self->{CommunicationLogObject}->ObjectLookupSet(

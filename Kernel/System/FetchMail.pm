@@ -19,8 +19,13 @@ package Kernel::System::FetchMail;
 use strict;
 use warnings;
 
-use IPC::Open3;
-use Symbol;
+# core modules
+use IPC::Open3 qw(open3);
+use Symbol     qw(gensym);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -292,8 +297,8 @@ sub Fetch {
 
     if ($ProcessID) {
 
-        while (<$ERRFH>) {
-            $ErrorMessage .= $_;
+        while ( my $Line = <$ERRFH> ) {
+            $ErrorMessage .= $Line;
         }
         waitpid( $ProcessID, 0 );
         $ExitCode = $? >> 8;

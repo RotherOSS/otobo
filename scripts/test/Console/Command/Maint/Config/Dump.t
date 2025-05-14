@@ -14,37 +14,70 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use Capture::Tiny qw(capture);
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Dump');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-my ( $Result, $ExitCode );
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $DumpCommand  = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Dump');
+my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
+my $ThawedCompleteDump;
 {
-    local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute('Home');
+    # run the console command and capture the output
+    my $DumpAllCommand = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::DumpAll');
+    my ( $JSONString, undef, $ExitCode ) = capture {
+        return $DumpAllCommand->Execute;
+    };
+    is( $ExitCode, 0, "command ran successfully" );
+
+    # Get a data structure from the printed JSON
+    $ThawedCompleteDump = $JSONObject->Decode( Data => $JSONString );
+    ref_ok(
+        $ThawedCompleteDump,
+        'HASH',
+        'got hash from DumpAll'
+    );
 }
 
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code",
+my @Keys = qw(
+    Home
+    CurrentDeploymentID
+    ACLKeysLevel1Change
+    PerformanceLog::File
+    Loader::Agent::CommonCSS
 );
 
-chomp $Result;
+for my $Key (@Keys) {
+    subtest "config dump for key '$Key'" => sub {
 
-$Self->Is(
-    $Result,
-    $Kernel::OM->Get('Kernel::Config')->Get('Home'),
-    "Result",
-);
+        # run the console command and capture the output
+        my ( $JSONString, undef, $ExitCode ) = capture {
+            return $DumpCommand->Execute($Key);
+        };
 
-$Self->DoneTesting();
+        is( $ExitCode, 0, "command ran successfully" );
+        is(
+            $JSONObject->Decode( Data => $JSONString ),
+            $ConfigObject->Get($Key),
+            'verify Dump command',
+        );
+        is(
+            $ThawedCompleteDump->{$Key},
+            $ConfigObject->Get($Key),
+            'verify DumpAll command',
+        );
+    };
+}
+
+done_testing;

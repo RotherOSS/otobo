@@ -293,8 +293,6 @@ sub TicketAcl {
     my %NewData;
     my $UseNewMasterParams = 0;
 
-    my %NewDefaultActionData;
-
     if ( $Param{ReturnType} eq 'Action' ) {
 
         if ( !IsHashRefWithData( $Param{Data} ) ) {
@@ -553,6 +551,7 @@ sub TicketAcl {
             Process        => 1,
             ActivityDialog => 1,
             Form           => 1,
+            FormStd        => 1,
         );
 
         if ( $SpecialReturnTypes{ $Param{ReturnType} } ) {

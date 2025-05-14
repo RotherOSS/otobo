@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -36,8 +36,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my $Output;
 
     # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -205,13 +203,13 @@ sub Run {
 
     # get time option
     if ( !$GetParam{TimeSearchType} ) {
-        $GetParam{'TimeSearchType::None'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::None'} = 'checked ';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-        $GetParam{'TimeSearchType::TimePoint'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimePoint'} = 'checked ';
     }
     elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-        $GetParam{'TimeSearchType::TimeSlot'} = 'checked="checked"';
+        $GetParam{'TimeSearchType::TimeSlot'} = 'checked ';
     }
 
     # set result form env
@@ -229,6 +227,8 @@ sub Run {
             Data         => {%Param},
         );
 
+        # TODO: why not ContentType => 'application/opensearchdescription+xml',
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescription.xml',
             ContentType => 'text/xml',
@@ -775,9 +775,8 @@ sub Run {
 
                 return $LayoutObject->Attachment(
                     Filename    => $FileName . '.xlsx',
-                    ContentType =>
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    Content => $Excel,
+                    ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    Content     => $Excel,
                 );
             }
         }
@@ -1731,13 +1730,14 @@ sub MaskForm {
     }
 
     $Param{ServicesStrg} = $LayoutObject->BuildSelection(
-        Data       => \%ServiceList,
-        Name       => 'ServiceIDs',
-        Multiple   => 1,
-        Size       => 5,
-        SelectedID => $Param{ServiceIDs},
-        TreeView   => $TreeView,
-        Class      => 'Modernize',
+        Data        => \%ServiceList,
+        Name        => 'ServiceIDs',
+        Multiple    => 1,
+        Size        => 5,
+        SelectedID  => $Param{ServiceIDs},
+        TreeView    => $TreeView,
+        Class       => 'Modernize',
+        Translation => $TreeView,
     );
     $Param{TypesStrg} = $LayoutObject->BuildSelection(
         Data => {
@@ -1745,12 +1745,13 @@ sub MaskForm {
                 UserID => $Self->{UserID},
             ),
         },
-        Name       => 'TypeIDs',
-        SelectedID => $Param{TypeIDs},
-        Multiple   => 1,
-        Size       => 5,
-        SelectedID => $Param{TypeIDs},
-        Class      => 'Modernize',
+        Name        => 'TypeIDs',
+        SelectedID  => $Param{TypeIDs},
+        Multiple    => 1,
+        Size        => 5,
+        SelectedID  => $Param{TypeIDs},
+        Class       => 'Modernize',
+        Translation => 1,
     );
     $Param{StatesStrg} = $LayoutObject->BuildSelection(
         Data => {

@@ -19,9 +19,11 @@
 
 # First, we add a method to Kernel::System::Valid.
 
-use Kernel::System::Valid;    ## no critic (Modules::RequireExplicitPackage)
+## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::System::Valid;    ## no critic (Modules::RequireFilenameMatchesPackage)
+use Kernel::System::Valid ();    ## no perlimports
+
+package Kernel::System::Valid;   ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;
@@ -41,7 +43,7 @@ use warnings;
 use v5.24;
 use utf8;
 
-use Kernel::System::State;
+use Kernel::System::State ();      ## no perlimports
 
 our @ObjectDependencies = (
     'Kernel::System::Log'
@@ -57,6 +59,7 @@ our @ObjectDependencies = (
     *Kernel::System::State::StateLookup = sub {
         my $Self = shift;
 
+        $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'info',
             Message  => 'Calling the modified method Kernel::System::State::StateLookup',

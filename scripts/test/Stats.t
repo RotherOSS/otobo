@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -487,7 +487,7 @@ my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
 my $Home  = $ConfigObject->Get('Home');
 my ( $Result, $ExitCode );
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Generate');
     $ExitCode = $CommandObject->Execute( '--number', $Stat4->{StatNumber}, '--target-directory', "$Home/var/tmp/" );

@@ -19,8 +19,11 @@ package Kernel::Output::HTML::Dashboard::Image;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -56,6 +59,7 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
         TemplateFile => 'AgentDashboardImage',
         Data         => {

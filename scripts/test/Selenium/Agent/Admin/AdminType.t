@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -53,7 +53,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminType screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminType;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -209,13 +209,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Default ticket type cannot be set to invalid.
-        $Self->True(
-            index(
-                $Selenium->get_page_source(),
-                "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
-            ) > -1,
+        $Selenium->content_contains(
+            "The ticket type is set as a default ticket type, so it cannot be set to invalid!",
             "$TypeRandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
-        ) || die;
+        );
 
         # Reset default ticket type.
         $Helper->ConfigSettingChange(
@@ -223,9 +220,6 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $DefaultTicketType
         );
-
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
 
         # Set test type to invalid.
         $Selenium->find_element( "#Name", 'css' )->clear();

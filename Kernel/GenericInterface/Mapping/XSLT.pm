@@ -19,8 +19,13 @@ package Kernel::GenericInterface::Mapping::XSLT;
 use strict;
 use warnings;
 
+# core modules
+use Storable qw(dclone);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Storable;
 
 our $ObjectManagerDisabled = 1;
 
@@ -118,20 +123,34 @@ sub Map {
     # Check data - only accept undef or hash ref or array ref.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash or array ref in Mapping XSLT backend!'
+            Summary => 'Got Data but it is not a hash or array ref in Mapping XSLT backend!',
+            Data    => $Param{Data},
         );
     }
 
     # Check included data - only accept undef or hash ref.
     if ( defined $Param{DataInclude} && !IsHashRefWithData( $Param{DataInclude} ) ) {
-
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got DataInclude but it is not a hash ref in Mapping XSLT backend!'
         );
     }
 
     # Return if data is empty.
-    if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+    if ( !defined $Param{Data} ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    if ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    if ( ref $Param{Data} eq 'ARRAY' && !scalar @{ $Param{Data} } ) {
         return {
             Success => 1,
             Data    => {},
@@ -153,6 +172,7 @@ sub Map {
     LIBREQUIRED:
     for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require($LibRequired);
+
         next LIBREQUIRED if $LibFound;
 
         return $Self->{DebuggerObject}->Error(
@@ -198,49 +218,82 @@ sub Map {
         && IsArrayRefWithData( $Config->{DataInclude} )
         )
     {
-        my $MergedData = Storable::dclone( $Param{Data} );
-        DATAINCLUDEMODULE:
-        for my $DataIncludeModule ( @{ $Config->{DataInclude} } ) {
-            next DATAINCLUDEMODULE if !$Param{DataInclude}->{$DataIncludeModule};
+        if ( ref $Param{Data} eq 'ARRAY' ) {
 
-            # Clone the data include hash to prevent circular data structure references
-            $MergedData->{DataInclude}->{$DataIncludeModule} = Storable::dclone( $Param{DataInclude}->{$DataIncludeModule} );
+            my @Collector;
+            for my $Data ( $Param{Data}->@* ) {
+
+                push @Collector, $Self->_MergeData(
+                    Data        => $Data,
+                    Config      => $Config,
+                    DataInclude => $Param{DataInclude},
+                );
+            }
+            $Param{Data} = \@Collector;
+        }
+        else {
+
+            $Param{Data} = $Self->_MergeData(
+                Data        => $Param{Data},
+                Config      => $Config,
+                DataInclude => $Param{DataInclude},
+            );
         }
 
         $Self->{DebuggerObject}->Debug(
             Summary => 'Data merged with DataInclude before mapping',
-            Data    => $MergedData,
+            Data    => $Param{Data},
         );
-
-        $Param{Data} = $MergedData;
     }
-
-    # Note: XML::Simple was chosen over alternatives like XML::LibXML and XML::Dumper
-    #   due to its simplicity and because we just require a straightforward conversion.
-    # Other modules provide more possibilities but don't allow directly exporting a complete
-    #   and clean structure.
-    # Reference:
-    #   http://www.perlmonks.org/?node_id=490846
-    #   http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
 
     # XSTL regex recursion.
     if ( IsArrayRefWithData( $Config->{PreRegExFilter} ) ) {
-        $Self->_RegExRecursion(
-            Data   => $Param{Data},
-            Config => $Config->{PreRegExFilter},
-        );
+
+        if ( ref $Param{Data} eq 'ARRAY' ) {
+
+            for my $Data ( $Param{Data}->@* ) {
+                $Self->_RegExRecursion(
+                    Data   => $Data,
+                    Config => $Config->{PreRegExFilter},
+                );
+            }
+        }
+        else {
+            $Self->_RegExRecursion(
+                Data   => $Param{Data},
+                Config => $Config->{PreRegExFilter},
+            );
+        }
         $Self->{DebuggerObject}->Debug(
             Summary => 'Data before mapping after Pre RegExFilter',
             Data    => $Param{Data},
         );
     }
 
-    # Convert data to xml structure.
+    # Convert data to XML string.
+    #
+    # Note: XML::Simple was chosen over alternatives like XML::LibXML and XML::Dumper
+    #   due to its simplicity and because we just require a straightforward conversion.
+    #   Internally XML::LibXML::SAX is used for parsing XML, there is no dependency
+    #   on XML::Parser and expat.
+    #   Other modules provide more possibilities but don't allow directly exporting a complete
+    #   and clean structure.
+    # Reference:
+    #   http://www.perlmonks.org/?node_id=490846
+    #   http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
     $Kernel::OM->Get('Kernel::System::Main')->Require('XML::Simple');
-    my $XMLSimple = XML::Simple->new();
-    my $XMLPre;
-    eval {
-        $XMLPre = $XMLSimple->XMLout(
+
+    # Set the preferred parser for XML::Simple.
+    #   Override the default XML::Sax::Expat which is based on XML::Parser, which is based on expat.
+    #   Override potential settings in $ENV{XML_SIMPLE_PREFERRED_PARSER}.
+    local $XML::Simple::PREFERRED_PARSER = 'XML::LibXML::SAX::Parser';
+
+    my $XMLSimple = XML::Simple->new;
+    my $XMLPre    = eval {
+
+        # Note that the default behavior for SuppressEmpty applies.
+        # This means that attributes with undefined values will be added as empty elements.
+        $XMLSimple->XMLout(
             $Param{Data},
             AttrIndent => 1,
             ContentKey => '-content',
@@ -256,10 +309,17 @@ sub Map {
         );
     }
 
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'XML pre mapping',
+        Data    => {
+            Message => $@,
+            XMLIn   => $XMLPre,
+        },
+    );
+
     # Transform xml data.
-    my ( $XMLSource, $Result );
-    eval {
-        $XMLSource = XML::LibXML->load_xml(
+    my $XMLSource = eval {
+        XML::LibXML->load_xml(
             string   => $XMLPre,
             no_cdata => 1,
         );
@@ -270,8 +330,8 @@ sub Map {
             Data    => $XMLPre,
         );
     }
-    eval {
-        $Result = $StyleSheet->transform($XMLSource);
+    my $Result = eval {
+        $StyleSheet->transform($XMLSource);
     };
     if ( !$Result ) {
         return $Self->{DebuggerObject}->Error(
@@ -286,15 +346,17 @@ sub Map {
         );
     }
 
-    # Convert data back to perl structure.
-    my $ReturnData;
-    eval {
-        $ReturnData = $XMLSimple->XMLin(
+    # Convert data back to Perl structure.
+    my $ReturnData = eval {
+        $XMLSimple->XMLin(
             $XMLPost,
             ForceArray => 0,
             ContentKey => '-content',
             NoAttr     => 1,
             KeyAttr    => [],
+
+            # from XML to JSON map empty and undef values to '' instead of {}
+            SuppressEmpty => '',
         );
     };
     if ( !$ReturnData ) {
@@ -309,14 +371,31 @@ sub Map {
 
     # XST regex recursion.
     if ( IsArrayRefWithData( $Config->{PostRegExFilter} ) ) {
+
         $Self->{DebuggerObject}->Debug(
             Summary => 'Data after mapping before Post RegExFilter',
             Data    => $ReturnData,
         );
-        $Self->_RegExRecursion(
-            Data   => $ReturnData,
-            Config => $Config->{PostRegExFilter},
-        );
+
+        # keep the code orthogonal with pre regex subst above,
+        # even when currently the ReturnData converted from
+        # xml most likely will have a RootElement anyway.
+        if ( ref $ReturnData eq 'ARRAY' ) {
+
+            for my $Data ( $ReturnData->@* ) {
+
+                $Self->_RegExRecursion(
+                    Data   => $Data,
+                    Config => $Config->{PostRegExFilter},
+                );
+            }
+        }
+        else {
+            $Self->_RegExRecursion(
+                Data   => $ReturnData,
+                Config => $Config->{PostRegExFilter},
+            );
+        }
     }
 
     return {
@@ -374,6 +453,23 @@ sub _RegExRecursion {
     }
 
     return 1;
+}
+
+sub _MergeData {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+
+    my $MergedData = dclone( $Param{Data} );
+    DATAINCLUDEMODULE:
+    for my $DataIncludeModule ( @{ $Config->{DataInclude} } ) {
+        next DATAINCLUDEMODULE if !$Param{DataInclude}->{$DataIncludeModule};
+
+        # Clone the data include hash to prevent circular data structure references
+        $MergedData->{DataInclude}->{$DataIncludeModule} = dclone( $Param{DataInclude}->{$DataIncludeModule} );
+    }
+
+    return $MergedData;
 }
 
 1;

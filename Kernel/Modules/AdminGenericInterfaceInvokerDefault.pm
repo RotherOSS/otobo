@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -444,6 +444,59 @@ sub _ChangeAction {
         }
 
         $WebserviceData->{Config}->{Requester}->{ErrorHandling} = $ErrorHandlingConfig;
+    }
+
+    # added for OTOBOTicketInvoker
+
+    # Take care of invoker dependent configuration if invoker was renamed.
+    if ( $GetParam->{OldInvoker} ne $GetParam->{Invoker} ) {
+
+        # Invoker controller mapping.
+        if (
+            IsHashRefWithData(
+                $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{InvokerControllerMapping}
+            )
+            )
+        {
+
+            my $InvokerControllerMappingConfig
+                = $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{InvokerControllerMapping};
+
+            INVOKER:
+            for my $Invoker ( sort keys %{$InvokerControllerMappingConfig} ) {
+                next INVOKER if $Invoker ne $GetParam->{OldInvoker};
+
+                $InvokerControllerMappingConfig->{ $GetParam->{Invoker} }
+                    = delete $InvokerControllerMappingConfig->{ $GetParam->{OldInvoker} };
+            }
+
+            $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{InvokerControllerMapping}
+                = $InvokerControllerMappingConfig;
+        }
+
+        # Outbound header config.
+        if (
+            IsHashRefWithData(
+                $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{OutboundHeaders}->{Specific}
+            )
+            )
+        {
+
+            my $OutboundHeaderConfig
+                = $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{OutboundHeaders}->{Specific};
+
+            INVOKER:
+            for my $Invoker ( sort keys %{$OutboundHeaderConfig} ) {
+                next INVOKER if $Invoker ne $GetParam->{OldInvoker};
+
+                $OutboundHeaderConfig->{ $GetParam->{Invoker} }
+                    = delete $OutboundHeaderConfig->{ $GetParam->{OldInvoker} };
+            }
+
+            $WebserviceData->{Config}->{Requester}->{Transport}->{Config}->{OutboundHeaders}->{Specific}
+                = $OutboundHeaderConfig;
+        }
+
     }
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
@@ -901,21 +954,11 @@ sub _MappingTypeCheck {
 sub _JSONResponse {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # Build JSON output.
-    my $JSON = $LayoutObject->JSONEncode(
+    # return JSON output.
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONReply(
         Data => {
             Success => $Param{Success} // 0,
         },
-    );
-
-    # Send JSON response.
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
     );
 }
 

@@ -19,13 +19,19 @@ package Kernel::System::StdAttachment;
 use strict;
 use warnings;
 
-use MIME::Base64;
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Queue',
     'Kernel::System::Valid',
 );
 
@@ -652,6 +658,69 @@ sub StdAttachmentStandardTemplateMemberList {
     );
 
     return %Data;
+}
+
+=for stopwords ro rw
+
+=head2 StdAttachmentStandardTemplatePermission()
+
+Get the lowest permission level of all linked queues (attachment->template->queue).
+Returns nothing if the user has no 'ro' on at least one linked queue, 'ro' if the user has no 'rw' on
+at least one linked queue and 'rw' if the user has full permission on all queues or no link exists at all.
+
+    my $Permission = $StdAttachmentObject->StdAttachmentStandardTemplatePermission(
+        ID      => $AttachmentID,
+        UserID  => $Param{UserID},
+        Default => 'ro',            # (optional) lowest permission level
+    );
+
+=cut
+
+sub StdAttachmentStandardTemplatePermission {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(ID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
+    # Get all linked templates.
+    my %TemplateList = $Self->StdAttachmentStandardTemplateMemberList( AttachmentID => $Param{ID} );
+
+    # 'rw' is the default permission on not linked attachments.
+    return 'rw' if !%TemplateList;
+
+    my $Permission;
+
+    for my $TemplateID ( keys %TemplateList ) {
+
+        # Get all queues linked with the template.
+        my %Queues             = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => $TemplateID );
+        my $TemplatePermission = $QueueObject->QueueListPermission(
+            QueueIDs => [ keys %Queues ],
+            UserID   => $Param{UserID},
+            Default  => 'rw',
+        );
+
+        if ( !defined $Permission ) {
+            $Permission = $TemplatePermission // '';
+
+            return 'ro' if $Permission eq 'ro';
+        }
+        elsif ( $Permission ne $TemplatePermission ) {
+            return 'ro';
+        }
+    }
+
+    return $Permission;
 }
 
 1;

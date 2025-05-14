@@ -21,13 +21,14 @@ use utf8;
 
 # core modules
 use File::Path qw(mkpath rmtree);
+use Storable   qw(dclone);
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use Kernel::Output::HTML::ArticleCheck::SMIME;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::Output::HTML::ArticleCheck::SMIME ();
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
@@ -572,7 +573,7 @@ my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
 for my $Test (@TestVariations) {
 
     # make a deep copy as the references gets modified over the tests
-    $Test = Storable::dclone($Test);
+    $Test = dclone($Test);
 
     my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 

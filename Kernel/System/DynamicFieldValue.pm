@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicFieldValue
+Kernel::System::DynamicFieldValue - support for dynamic fields
 
 =head1 DESCRIPTION
 
@@ -48,13 +48,10 @@ create a DynamicFieldValue object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 ValueSet()
@@ -72,6 +69,8 @@ L</ValueGet()>.
                 ValueText          => 'some text',            # optional, one of these fields must be provided
                 ValueDateTime      => '1977-12-12 12:00:00',  # optional
                 ValueInt           => 123,                    # optional
+                IndexValue         => 0,                      # optional
+                IndexSet           => 5,                      # optional
             },
             ...
         ],
@@ -95,12 +94,12 @@ sub ValueSet {
     }
 
     # return if no Value was provided
-    if ( ref $Param{Value} ne 'ARRAY' || !$Param{Value}->[0] )
-    {
+    if ( ref $Param{Value} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Param{Value}!"
         );
+
         return;
     }
 
@@ -131,10 +130,12 @@ sub ValueSet {
             ValueText     => scalar $Param{Value}->[$Counter]->{ValueText},
             ValueInt      => scalar $Param{Value}->[$Counter]->{ValueInt},
             ValueDateTime => scalar $Param{Value}->[$Counter]->{ValueDateTime},
+            IndexValue    => scalar $Param{Value}->[$Counter]->{IndexValue},
+            IndexSet      => scalar $Param{Value}->[$Counter]->{IndexSet},
         );
 
         # data validation
-        return if !$Self->ValueValidate( Value => \%Value );
+        return unless $Self->ValueValidate( Value => \%Value );
 
         # data conversions
 
@@ -167,11 +168,12 @@ sub ValueSet {
         # create a new value entry
         return if !$DBObject->Do(
             SQL =>
-                'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int)'
-                . ' VALUES (?, ?, ?, ?, ?)',
+                'INSERT INTO dynamic_field_value (field_id, object_id, value_text, value_date, value_int, index_value, index_set)'
+                . ' VALUES (?, ?, ?, ?, ?, ?, ?)',
             Bind => [
-                \$Param{FieldID},     \$Param{ObjectID},
-                \$Value->{ValueText}, \$Value->{ValueDateTime}, \$Value->{ValueInt},
+                \$Param{FieldID},      \$Param{ObjectID},
+                \$Value->{ValueText},  \$Value->{ValueDateTime}, \$Value->{ValueInt},
+                \$Value->{IndexValue}, \$Value->{IndexSet},
             ],
         );
     }
@@ -250,7 +252,7 @@ sub ValueGet {
     # cache expiration); return only specified one dynamic field
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT id, value_text, value_date, value_int, field_id
+            'SELECT id, value_text, value_date, value_int, field_id, index_value, index_set
             FROM dynamic_field_value
             WHERE object_id = ?
             ORDER BY id',
@@ -275,6 +277,8 @@ sub ValueGet {
             ValueText     => $Data[1],
             ValueDateTime => $Data[2],
             ValueInt      => $Data[3],
+            IndexValue    => $Data[5],
+            IndexSet      => $Data[6],
         };
     }
 
@@ -434,13 +438,13 @@ sub ObjectValuesDelete {
 
 checks if the given value is valid for the value type.
 
-    my $Success = $DynamicFieldValueObject->ValueValidate(
-        Value    =>  {
-                ValueText          => 'some text',            # optional, one of these fields must be provided
-                ValueDateTime      => '1977-12-12 12:00:00',  # optional
-                ValueInt           => 123,                    # optional
-            },
-        UserID   => $UserID,
+    my $IsValid = $DynamicFieldValueObject->ValueValidate(
+        Value  =>  {
+            ValueText          => 'some text',            # optional, one of these fields must be provided
+            ValueDateTime      => '1977-12-12 12:00:00',  # optional
+            ValueInt           => 123,                    # optional
+        },
+        UserID => $UserID,
     );
 
 =cut
@@ -448,9 +452,9 @@ checks if the given value is valid for the value type.
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    return if !IsHashRefWithData( $Param{Value} );
+    return unless IsHashRefWithData( $Param{Value} );
 
-    my %Value = %{ $Param{Value} };
+    my %Value = $Param{Value}->%*;
 
     # validate date
     if ( $Value{ValueDateTime} ) {
@@ -463,15 +467,15 @@ sub ValueValidate {
             String => $Value{ValueDateTime},
         );
 
-        return if !defined $SystemTime;
+        return unless defined $SystemTime;
 
         # convert back to time stamp to check errors
-        my $TimeStamp = $DateTimeObject->ToString();
+        my $TimeStamp = $DateTimeObject->ToString;
 
-        return if !$TimeStamp;
+        return unless $TimeStamp;
 
         # compare if the date is the same
-        return if !( $Value{ValueDateTime} eq $TimeStamp );
+        return unless $Value{ValueDateTime} eq $TimeStamp;
     }
 
     # validate integer
@@ -487,6 +491,9 @@ sub ValueValidate {
         }
     }
 
+    # no validation for ValueText
+
+    # report as valid when no check found a reason to complain
     return 1;
 }
 

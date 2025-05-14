@@ -13,20 +13,28 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use Test2::Tools::HTTP;
-use HTTP::Request::Common;
+use Test2::Tools::HTTP qw(
+    http_code
+    http_content
+    http_content_type
+    http_is_error
+    http_is_success
+    http_request
+    http_response
+);
+use HTTP::Request::Common qw(GET);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # This test checks whether the URLs / and /index.html work
 
@@ -76,6 +84,7 @@ http_request(
     http_response {
         http_code(404);
         http_is_error();
+        http_content( match(qr/URL was not found/) );
     },
     "testing $NonExistentURL",
 );

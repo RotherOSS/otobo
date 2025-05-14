@@ -23,8 +23,8 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use LWP::UserAgent;
-use XML::FeedPP;
+use LWP::UserAgent ();
+use XML::FeedPP    ();
 
 # OTOBO modules
 

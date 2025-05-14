@@ -18,7 +18,13 @@ package Kernel::Output::HTML::Layout::AJAX;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::JSON ();
 
 our $ObjectManagerDisabled = 1;
@@ -26,6 +32,12 @@ our $ObjectManagerDisabled = 1;
 =head1 NAME
 
 Kernel::Output::HTML::Layout::AJAX - all AJAX-related HTML functions
+
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 =head1 DESCRIPTION
 

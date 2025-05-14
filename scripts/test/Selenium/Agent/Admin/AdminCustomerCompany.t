@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -46,7 +46,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminCustomerCompany screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerCompany");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerCompany;IncludeInvalid=1");
 
         # Check overview AdminCustomerCompany.
         $Selenium->find_element( "table",             'css' );
@@ -76,7 +76,6 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Add screen.
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Customer Management', 'Add Customer' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),

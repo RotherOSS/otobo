@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use File::Basename qw(basename);
-use List::Util qw(sum);
+use List::Util     qw(sum);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -42,13 +42,6 @@ sub new {
     }
 
     return $Self;
-}
-
-sub FormIDCreate {
-    my ( $Self, %Param ) = @_;
-
-    # return requested form id
-    return time() . '.' . rand(12341241);
 }
 
 sub FormIDRemove {

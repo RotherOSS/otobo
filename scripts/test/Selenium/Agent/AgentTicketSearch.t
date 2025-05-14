@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
@@ -294,12 +294,16 @@ $Selenium->RunTest(
             "Ticket $TitleRandom not found on search page with string longer then 30 characters",
         );
 
+        # Unset fixed time before potentially interacting with S3 as S3 includes a sanity check of the timestamps.
+        FixedTimeUnset();
+
         # Enable warn on stop word usage.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
             Value => 1,
         );
+        FixedTimeSet($SystemTime);
 
         # Recreate article object and update article index for static DB.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket::Article'] );
@@ -688,10 +692,12 @@ $Selenium->RunTest(
         );
 
         # Verify tree selection view in AgentTicketSearch for multiple fields. See bug#14494.
+        FixedTimeUnset();
         $Helper->ConfigSettingChange(
             Key   => 'ModernizeFormFields',
             Value => 0,
         );
+        FixedTimeSet($SystemTime);
 
         # Refresh screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
@@ -857,8 +863,7 @@ $Selenium->RunTest(
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-
     },
 );
 
-$Self->DoneTesting();
+done_testing();

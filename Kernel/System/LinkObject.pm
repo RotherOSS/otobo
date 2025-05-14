@@ -16,10 +16,18 @@
 
 package Kernel::System::LinkObject;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw( Kernel::System::EventHandler );
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -34,11 +42,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::LinkObject - to link objects like tickets, faq entries, ...
+Kernel::System::LinkObject - to link objects like tickets, FAQ entries, config items ...
 
 =head1 DESCRIPTION
 
-All functions to link objects like tickets, faq entries, ...
+All functions to link objects like tickets, FAQ entries, config items ...
 
 =head1 PUBLIC INTERFACE
 
@@ -53,8 +61,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Initialize event handler.
     $Self->EventHandlerInit(
@@ -69,17 +76,18 @@ sub new {
 
 =head2 PossibleTypesList()
 
-return a hash of all possible types
-
-Return
-    %PossibleTypesList = (
-        'Normal'      => 1,
-        'ParentChild' => 1,
-    );
+return a hash of all possible link types between specific object types from the SysConfig.
 
     my %PossibleTypesList = $LinkObject->PossibleTypesList(
         Object1 => 'Ticket',
         Object2 => 'FAQ',
+    );
+
+Returns:
+
+    %PossibleTypesList = (
+        'Normal'      => 1,
+        'ParentChild' => 1,
     );
 
 =cut
@@ -94,14 +102,15 @@ sub PossibleTypesList {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    # get possible link list
-    my %PossibleLinkList = $Self->PossibleLinkList();
+    # get complete possible link list from the SysConfig
+    my %PossibleLinkList = $Self->PossibleLinkList;
 
-    # remove not needed entries
+    # links where the source or the target object does not match are filtered out
     POSSIBLELINK:
     for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
@@ -109,55 +118,52 @@ sub PossibleTypesList {
         my $Object1 = $PossibleLinkList{$PossibleLink}->{Object1};
         my $Object2 = $PossibleLinkList{$PossibleLink}->{Object2};
 
-        next POSSIBLELINK
-            if ( $Object1 eq $Param{Object1} && $Object2 eq $Param{Object2} )
-            || ( $Object2 eq $Param{Object1} && $Object1 eq $Param{Object2} );
+        # keep this this link when the passed in objects are covered in any direction
+        next POSSIBLELINK if ( $Object1 eq $Param{Object1} && $Object2 eq $Param{Object2} );
+        next POSSIBLELINK if ( $Object2 eq $Param{Object1} && $Object1 eq $Param{Object2} );
 
         # remove entry from list if objects don't match
         delete $PossibleLinkList{$PossibleLink};
     }
 
-    # get type list
-    my %TypeList = $Self->TypeList();
-
-    # check types
+    # The type of the link must also be declared in the SysConfig.
+    # Filter out all links where the type is not valid and activated.
+    my %TypeList = $Self->TypeList;
     POSSIBLELINK:
     for my $PossibleLink ( sort keys %PossibleLinkList ) {
 
         # extract type
         my $Type = $PossibleLinkList{$PossibleLink}->{Type} || '';
 
+        # the type exists, let's keep it
         next POSSIBLELINK if $TypeList{$Type};
 
         # remove entry from list if type doesn't exist
         delete $PossibleLinkList{$PossibleLink};
     }
 
-    # extract the type list
-    my %PossibleTypesList;
-    for my $PossibleLink ( sort keys %PossibleLinkList ) {
+    # extract the list of possible link types
+    my %TypeIsPossible =
+        map { $_->{Type} => 1 }
+        values %PossibleLinkList;
 
-        # extract type
-        my $Type = $PossibleLinkList{$PossibleLink}->{Type};
-
-        $PossibleTypesList{$Type} = 1;
-    }
-
-    return %PossibleTypesList;
+    return %TypeIsPossible;
 }
 
 =head2 PossibleObjectsList()
 
-return a hash of all possible objects
-
-Return
-    %PossibleObjectsList = (
-        'Ticket' => 1,
-        'FAQ'    => 1,
-    );
+return a hash where the keys are the names of the possible objects.
+The values are always the number one.
 
     my %PossibleObjectsList = $LinkObject->PossibleObjectsList(
         Object => 'Ticket',
+    );
+
+Returns:
+
+    %PossibleObjectsList = (
+        'Ticket' => 1,
+        'FAQ'    => 1,
     );
 
 =cut
@@ -172,6 +178,7 @@ sub PossibleObjectsList {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -204,9 +211,12 @@ sub PossibleObjectsList {
 
 =head2 PossibleLinkList()
 
-return a 2 dimensional hash list of all possible links
+return a 2 dimensional hash list of all possible links from the SysConfig.
 
-Return
+    my %PossibleLinkList = $LinkObject->PossibleLinkList();
+
+Returns:
+
     %PossibleLinkList = (
         001 => {
             Object1 => 'Ticket',
@@ -219,8 +229,6 @@ Return
             Type    => 'ParentChild',
         },
     );
-
-    my %PossibleLinkList = $LinkObject->PossibleLinkList();
 
 =cut
 
@@ -294,7 +302,7 @@ sub PossibleLinkList {
     }
 
     # get type list
-    my %TypeList = $Self->TypeList();
+    my %TypeList = $Self->TypeList;
 
     # check types
     POSSIBLELINK:
@@ -344,6 +352,7 @@ sub LinkAdd {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -354,14 +363,15 @@ sub LinkAdd {
             Priority => 'error',
             Message  => 'Impossible to link object with itself!',
         );
+
         return;
     }
 
-    # lookup the object ids
+    # look up the object ids
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        # lookup the object id
+        # look up the object id
         $Param{ $Object . 'ID' } = $Self->ObjectLookup(
             Name => $Param{$Object},
         );
@@ -389,15 +399,16 @@ sub LinkAdd {
             Message  =>
                 "Not possible to create a '$Param{Type}' link between $Param{SourceObject} and $Param{TargetObject}!",
         );
+
         return;
     }
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
 
-    # lookup type id
+    # look up type id
     my $TypeID = $Self->TypeLookup(
         Name   => $Param{Type},
         UserID => $Param{UserID},
@@ -407,7 +418,7 @@ sub LinkAdd {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # check if link already exists in database
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT source_object_id, source_key, state_id
             FROM link_relation
@@ -448,6 +459,7 @@ sub LinkAdd {
                 Message  => "Link already exists between these two objects "
                     . "with a different state id '$Existing{StateID}'!",
             );
+
             return;
         }
 
@@ -456,7 +468,7 @@ sub LinkAdd {
             TypeID => $TypeID,
         );
 
-        return 1 if !$TypeData{Pointed};
+        return 1 unless $TypeData{Pointed};
         return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
             && $Existing{SourceKey} eq $Param{SourceKey};
 
@@ -465,6 +477,7 @@ sub LinkAdd {
             Priority => 'error',
             Message  => 'Link already exists between these two objects in opposite direction!',
         );
+
         return;
     }
 
@@ -513,12 +526,12 @@ sub LinkAdd {
     # get backend of source object
     my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
 
-    return if !$BackendSourceObject;
+    return unless $BackendSourceObject;
 
     # get backend of target object
     my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
 
-    return if !$BackendTargetObject;
+    return unless $BackendTargetObject;
 
     # run pre event module of source object
     $BackendSourceObject->LinkAddPre(
@@ -540,7 +553,7 @@ sub LinkAdd {
         UserID       => $Param{UserID},
     );
 
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => '
             INSERT INTO link_relation
             (source_object_id, source_key, target_object_id, target_key,
@@ -608,8 +621,6 @@ sub LinkAdd {
 
 deletes old links from database
 
-return true
-
     $True = $LinkObject->LinkCleanup(
         State  => 'Temporary',
         Age    => ( 60 * 60 * 24 ),
@@ -627,16 +638,17 @@ sub LinkCleanup {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
 
-    return if !$StateID;
+    return unless $StateID;
 
     # get time object
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -646,7 +658,7 @@ sub LinkCleanup {
     my $DeleteTime = $DateTimeObject->ToString();
 
     # delete the link
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             DELETE FROM link_relation
             WHERE state_id = ?
@@ -667,8 +679,6 @@ sub LinkCleanup {
 =head2 LinkDelete()
 
 deletes a link
-
-return true
 
     $True = $LinkObject->LinkDelete(
         Object1 => 'Ticket',
@@ -691,15 +701,16 @@ sub LinkDelete {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    # lookup the object ids
+    # look up the object ids
     OBJECT:
     for my $Object (qw(Object1 Object2)) {
 
-        # lookup the object id
+        # look up the object id
         $Param{ $Object . 'ID' } = $Self->ObjectLookup(
             Name => $Param{$Object},
         );
@@ -714,7 +725,7 @@ sub LinkDelete {
         return;
     }
 
-    # lookup type id
+    # look up type id
     my $TypeID = $Self->TypeLookup(
         Name   => $Param{Type},
         UserID => $Param{UserID},
@@ -724,7 +735,7 @@ sub LinkDelete {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get the existing link
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT source_object_id, source_key, target_object_id, target_key, state_id
             FROM link_relation
@@ -757,13 +768,13 @@ sub LinkDelete {
         $Existing{StateID}        = $Row[4];
     }
 
-    return 1 if !%Existing;
+    return 1 unless %Existing;
 
-    # lookup the object names
+    # look up the object names
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        # lookup the object name
+        # look up the object name
         $Existing{$Object} = $Self->ObjectLookup(
             ObjectID => $Existing{ $Object . 'ID' },
         );
@@ -778,7 +789,7 @@ sub LinkDelete {
         return;
     }
 
-    # lookup state
+    # look up state
     $Existing{State} = $Self->StateLookup(
         StateID => $Existing{StateID},
     );
@@ -786,12 +797,12 @@ sub LinkDelete {
     # get backend of source object
     my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
 
-    return if !$BackendSourceObject;
+    return unless $BackendSourceObject;
 
     # get backend of target object
     my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
 
-    return if !$BackendTargetObject;
+    return unless $BackendTargetObject;
 
     # run pre event module of source object
     $BackendSourceObject->LinkDeletePre(
@@ -814,7 +825,7 @@ sub LinkDelete {
     );
 
     # delete the link
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => '
             DELETE FROM link_relation
             WHERE (
@@ -912,6 +923,7 @@ sub LinkDeleteAll {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -972,7 +984,18 @@ sub LinkDeleteAll {
 
 get all existing links for a given object
 
-Return
+    my $LinkList = $LinkObject->LinkList(
+        Object    => 'Ticket',
+        Key       => '321',
+        Object2   => 'FAQ',         # (optional)
+        State     => 'Valid',
+        Type      => 'ParentChild', # (optional)
+        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID    => 1,
+    );
+
+Returns:
+
     $LinkList = {
         Ticket => {
             Normal => {
@@ -1003,16 +1026,6 @@ Return
         },
     };
 
-    my $LinkList = $LinkObject->LinkList(
-        Object    => 'Ticket',
-        Key       => '321',
-        Object2   => 'FAQ',         # (optional)
-        State     => 'Valid',
-        Type      => 'ParentChild', # (optional)
-        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
-        UserID    => 1,
-    );
-
 =cut
 
 sub LinkList {
@@ -1025,17 +1038,18 @@ sub LinkList {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
 
-    # lookup object id
+    # look up object id
     my $ObjectID = $Self->ObjectLookup(
         Name => $Param{Object},
     );
-    return if !$ObjectID;
+    return unless $ObjectID;
 
-    # lookup state id
+    # look up state id
     my $StateID = $Self->StateLookup(
         Name => $Param{State},
     );
@@ -1044,7 +1058,7 @@ sub LinkList {
     my $TypeID;
     if ( $Param{Type} ) {
 
-        # lookup type id
+        # look up type id
         $TypeID = $Self->TypeLookup(
             Name   => $Param{Type},
             UserID => $Param{UserID},
@@ -1084,13 +1098,13 @@ sub LinkList {
             ObjectID => $ObjectID,
         );
 
-        # add to lookup unless restricted
+        # add to look-up unless restricted
         next OBJECTID if $Param{Object2} && $Param{Object2} ne $ObjectName;
         $ObjectNameLookup{$ObjectID} = $ObjectName;
     }
 
     # shortcut: we have a restriction for Object2 but no matching links
-    return {} if !%ObjectNameLookup;
+    return {} unless %ObjectNameLookup;
 
     # get names and pointed info for used types
     my %TypeNameLookup;
@@ -1155,7 +1169,23 @@ sub LinkList {
 
 get all existing links for a given object with data of the other objects
 
-Return
+    my $LinkList = $LinkObject->LinkListWithData(
+        Object                          => 'Ticket',
+        Key                             => '321',
+        Object2                         => 'FAQ',         # (optional)
+        State                           => 'Valid',
+        Type                            => 'ParentChild', # (optional)
+        Direction                       => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID                          => 1,
+        ObjectParameters                => {              # (optional) backend specific flags
+            Ticket => {
+                IgnoreLinkedTicketStateTypes => 0|1,
+            },
+        },
+    );
+
+Returns:
+
     $LinkList = {
         Ticket => {
             Normal => {
@@ -1186,21 +1216,6 @@ Return
         },
     };
 
-    my $LinkList = $LinkObject->LinkListWithData(
-        Object                          => 'Ticket',
-        Key                             => '321',
-        Object2                         => 'FAQ',         # (optional)
-        State                           => 'Valid',
-        Type                            => 'ParentChild', # (optional)
-        Direction                       => 'Target',      # (optional) default Both (Source|Target|Both)
-        UserID                          => 1,
-        ObjectParameters                => {              # (optional) backend specific flags
-            Ticket => {
-                IgnoreLinkedTicketStateTypes => 0|1,
-            },
-        },
-    );
-
 =cut
 
 sub LinkListWithData {
@@ -1213,6 +1228,7 @@ sub LinkListWithData {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1221,8 +1237,8 @@ sub LinkListWithData {
     my $LinkList = $Self->LinkList(%Param);
 
     # check link list
-    return if !$LinkList;
-    return if ref $LinkList ne 'HASH';
+    return unless $LinkList;
+    return unless ref $LinkList eq 'HASH';
 
     # add data to hash
     OBJECT:
@@ -1297,16 +1313,8 @@ sub LinkListWithData {
 
 =head2 LinkKeyList()
 
-return a hash with all existing links of a given object
-
-Return
-    %LinkKeyList = (
-        5   => 1,
-        9   => 1,
-        12  => 1,
-        212 => 1,
-        332 => 1,
-    );
+return a hash with links to and from a given object. The type of the linked object
+must be specified. The other restrictions are optional.
 
     my %LinkKeyList = $LinkObject->LinkKeyList(
         Object1   => 'Ticket',
@@ -1316,6 +1324,16 @@ Return
         Type      => 'ParentChild', # (optional)
         Direction => 'Target',      # (optional) default Both (Source|Target|Both)
         UserID    => 1,
+    );
+
+Returns:
+
+    %LinkKeyList = (
+        5   => 1,
+        9   => 1,
+        12  => 1,
+        212 => 1,
+        332 => 1,
     );
 
 =cut
@@ -1330,6 +1348,7 @@ sub LinkKeyList {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1342,8 +1361,8 @@ sub LinkKeyList {
     );
 
     # check link list
-    return if !$LinkList;
-    return if ref $LinkList ne 'HASH';
+    return unless $LinkList;
+    return unless ref $LinkList eq 'HASH';
 
     # extract typelist
     my $TypeList = $LinkList->{ $Param{Object2} };
@@ -1372,15 +1391,6 @@ sub LinkKeyList {
 
 return a hash with all existing links of a given object
 
-Return
-    %LinkKeyList = (
-        5   => $DataOfItem5,
-        9   => $DataOfItem9,
-        12  => $DataOfItem12,
-        212 => $DataOfItem212,
-        332 => $DataOfItem332,
-    );
-
     my %LinkKeyList = $LinkObject->LinkKeyListWithData(
         Object1   => 'Ticket',
         Key1      => '321',
@@ -1389,6 +1399,16 @@ Return
         Type      => 'ParentChild', # (optional)
         Direction => 'Target',      # (optional) default Both (Source|Target|Both)
         UserID    => 1,
+    );
+
+Returns:
+
+    %LinkKeyList = (
+        5   => $DataOfItem5,
+        9   => $DataOfItem9,
+        12  => $DataOfItem12,
+        212 => $DataOfItem212,
+        332 => $DataOfItem332,
     );
 
 =cut
@@ -1403,6 +1423,7 @@ sub LinkKeyListWithData {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1415,8 +1436,8 @@ sub LinkKeyListWithData {
     );
 
     # check link list
-    return if !$LinkList;
-    return if ref $LinkList ne 'HASH';
+    return unless $LinkList;
+    return unless ref $LinkList eq 'HASH';
 
     # extract typelist
     my $TypeList = $LinkList->{ $Param{Object2} };
@@ -1443,15 +1464,17 @@ sub LinkKeyListWithData {
 
 =head2 ObjectLookup()
 
-lookup a link object
+look up a link object per name or ID.
 
-    $ObjectID = $LinkObject->ObjectLookup(
+An ID is generated when ObjectLookup() is called the first time with that name.
+
+    my $ObjectID = $LinkObject->ObjectLookup(
         Name => 'Ticket',
     );
 
-    or
+An empty list is returned when the ID does not exist:
 
-    $Name = $LinkObject->ObjectLookup(
+    my $Name = $LinkObject->ObjectLookup(
         ObjectID => 12,
     );
 
@@ -1466,6 +1489,7 @@ sub ObjectLookup {
             Priority => 'error',
             Message  => 'Need ObjectID or Name!',
         );
+
         return;
     }
 
@@ -1477,13 +1501,14 @@ sub ObjectLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
-        return if !$DBObject->Prepare(
+        return unless $DBObject->Prepare(
             SQL => '
                 SELECT name
                 FROM link_object
@@ -1504,6 +1529,7 @@ sub ObjectLookup {
                 Priority => 'error',
                 Message  => "Link object id '$Param{ObjectID}' not found in the database!",
             );
+
             return;
         }
 
@@ -1525,6 +1551,7 @@ sub ObjectLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get needed object
@@ -1537,7 +1564,7 @@ sub ObjectLookup {
         for my $Try ( 1 .. 3 ) {
 
             # ask the database
-            return if !$DBObject->Prepare(
+            return unless $DBObject->Prepare(
                 SQL => '
                     SELECT id
                     FROM link_object
@@ -1564,13 +1591,14 @@ sub ObjectLookup {
                     Priority => 'error',
                     Message  => "Invalid object name '$Param{Name}' is given!",
                 );
+
                 return;
             }
 
             next TRY if $Try == 1;
 
             # insert the new object
-            return if !$DBObject->Do(
+            return unless $DBObject->Do(
                 SQL  => 'INSERT INTO link_object (name) VALUES (?)',
                 Bind => [ \$Param{Name} ],
             );
@@ -1590,16 +1618,20 @@ sub ObjectLookup {
 
 =head2 TypeLookup()
 
-lookup a link type
+look up either a link type id or a link type name.
 
-    $TypeID = $LinkObject->TypeLookup(
+A passed in name is checked whether it is UTF-8 valid and leading and trailing
+white space is trimmed. A new id is created when a name is looked up
+for the first time. In this case a new row is inserted into the database table B<link_type>.
+
+    my $TypeID = $LinkObject->TypeLookup(
         Name   => 'Normal',
         UserID => 1,
     );
 
-    or
+or
 
-    $Name = $LinkObject->TypeLookup(
+    my $Name = $LinkObject->TypeLookup(
         TypeID => 56,
         UserID => 1,
     );
@@ -1615,6 +1647,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => 'Need TypeID or Name!',
         );
+
         return;
     }
 
@@ -1624,6 +1657,7 @@ sub TypeLookup {
             Priority => 'error',
             Message  => 'Need UserID!'
         );
+
         return;
     }
 
@@ -1635,13 +1669,14 @@ sub TypeLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
-        return if !$DBObject->Prepare(
+        return unless $DBObject->Prepare(
             SQL   => 'SELECT name FROM link_type WHERE id = ?',
             Bind  => [ \$Param{TypeID} ],
             Limit => 1,
@@ -1659,6 +1694,7 @@ sub TypeLookup {
                 Priority => 'error',
                 Message  => "Link type id '$Param{TypeID}' not found in the database!",
             );
+
             return;
         }
 
@@ -1674,6 +1710,8 @@ sub TypeLookup {
     }
     else {
 
+        # the name of a link type was given
+
         # get check item object
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
@@ -1688,6 +1726,7 @@ sub TypeLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
@@ -1699,7 +1738,7 @@ sub TypeLookup {
         for my $Try ( 1 .. 2 ) {
 
             # ask the database
-            return if !$DBObject->Prepare(
+            return unless $DBObject->Prepare(
                 SQL   => 'SELECT id FROM link_type WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
@@ -1718,11 +1757,12 @@ sub TypeLookup {
                     Priority => 'error',
                     Message  => "Invalid type name '$Param{Name}' is given!",
                 );
+
                 return;
             }
 
             # insert the new type
-            return if !$DBObject->Do(
+            return unless $DBObject->Do(
                 SQL => '
                     INSERT INTO link_type
                     (name, valid_id, create_time, create_by, change_time, change_by)
@@ -1737,6 +1777,7 @@ sub TypeLookup {
                 Priority => 'error',
                 Message  => "Link type '$Param{Name}' not found in the database!",
             );
+
             return;
         }
 
@@ -1754,9 +1795,14 @@ sub TypeLookup {
 
 =head2 TypeGet()
 
-get a link type
+get data about a link type from the link type id
 
-Return
+    my %TypeData = $LinkObject->TypeGet(
+        TypeID => 444,
+    );
+
+Returns:
+
     $TypeData{TypeID}
     $TypeData{Name}
     $TypeData{SourceName}
@@ -1766,10 +1812,6 @@ Return
     $TypeData{CreateBy}
     $TypeData{ChangeTime}
     $TypeData{ChangeBy}
-
-    %TypeData = $LinkObject->TypeGet(
-        TypeID => 444,
-    );
 
 =cut
 
@@ -1783,6 +1825,7 @@ sub TypeGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -1793,13 +1836,14 @@ sub TypeGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # ask the database
-    return if !$DBObject->Prepare(
+    # ask the database for the name
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT id, name, create_time, create_by, change_time, change_by
             FROM link_type
@@ -1828,6 +1872,7 @@ sub TypeGet {
             Priority => 'error',
             Message  => "Linktype '$Type{Name}' does not exist!",
         );
+
         return;
     }
 
@@ -1851,9 +1896,9 @@ sub TypeGet {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  =>
-                "The $Argument '$Type{$Argument}' is invalid in SysConfig (LinkObject::Type)!",
+            Message  => "The $Argument '$Type{$Argument}' is invalid in SysConfig (LinkObject::Type)!",
         );
+
         return;
     }
 
@@ -1875,8 +1920,11 @@ sub TypeGet {
 
 return a 2 dimensional hash list of all valid link types
 
-Return
-    $TypeList{
+    my %TypeList = $LinkObject->TypeList;
+
+Returns:
+
+    %TypeList = (
         Normal => {
             SourceName => 'Normal',
             TargetName => 'Normal',
@@ -1885,9 +1933,7 @@ Return
             SourceName => 'Parent',
             TargetName => 'Child',
         },
-    }
-
-    my %TypeList = $LinkObject->TypeList();
+    );
 
 =cut
 
@@ -1935,7 +1981,10 @@ sub TypeList {
 
 return a 2 dimensional hash list of all type groups
 
-Return
+    my %TypeGroupList = $LinkObject->TypeGroupList();
+
+Returns:
+
     %TypeGroupList = (
         001 => [
             'Normal',
@@ -1950,8 +1999,6 @@ Return
             'RelevantTo',
         ],
     );
-
-    my %TypeGroupList = $LinkObject->TypeGroupList();
 
 =cut
 
@@ -1997,10 +2044,8 @@ sub TypeGroupList {
         }
     }
 
-    # get type list
-    my %TypeList = $Self->TypeList();
-
     # check types
+    my %TypeList = $Self->TypeList;
     TYPEGROUP:
     for my $TypeGroup ( sort keys %TypeGroupList ) {
 
@@ -2051,6 +2096,7 @@ sub PossibleType {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2073,13 +2119,13 @@ sub PossibleType {
 
 =head2 StateLookup()
 
-lookup a link state
+look up a link state
 
     $StateID = $LinkObject->StateLookup(
         Name => 'Valid',
     );
 
-    or
+or
 
     $Name = $LinkObject->StateLookup(
         StateID => 56,
@@ -2096,6 +2142,7 @@ sub StateLookup {
             Priority => 'error',
             Message  => 'Need StateID or Name!',
         );
+
         return;
     }
 
@@ -2107,13 +2154,14 @@ sub StateLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
-        return if !$DBObject->Prepare(
+        return unless $DBObject->Prepare(
             SQL => '
                 SELECT name
                 FROM link_state
@@ -2134,6 +2182,7 @@ sub StateLookup {
                 Priority => 'error',
                 Message  => "Link state id '$Param{StateID}' not found in the database!",
             );
+
             return;
         }
 
@@ -2155,6 +2204,7 @@ sub StateLookup {
             Type => $Self->{CacheType},
             Key  => $CacheKey,
         );
+
         return $Cache if $Cache;
 
         # get database object
@@ -2182,6 +2232,7 @@ sub StateLookup {
                 Priority => 'error',
                 Message  => "Link state '$Param{Name}' not found in the database!",
             );
+
             return;
         }
 
@@ -2201,14 +2252,15 @@ sub StateLookup {
 
 return a hash list of all valid link states
 
-Return
-    $StateList{
-        4 => 'Valid',
-        8 => 'Temporary',
-    }
-
     my %StateList = $LinkObject->StateList(
         Valid => 0,   # (optional) default 1 (0|1)
+    );
+
+Returns:
+
+    %StateList = (
+        4 => 'Valid',
+        8 => 'Temporary',
     );
 
 =cut
@@ -2235,7 +2287,7 @@ sub StateList {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask database
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => "SELECT id, name FROM link_state $SQLWhere",
     );
 
@@ -2252,7 +2304,7 @@ sub StateList {
 
 checks read permission for a given object and UserID.
 
-    $Permission = $LinkObject->ObjectPermission(
+    my $Permission = $LinkObject->ObjectPermission(
         Object  => 'Ticket',
         Key     => 123,
         UserID  => 1,
@@ -2270,6 +2322,7 @@ sub ObjectPermission {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2277,8 +2330,8 @@ sub ObjectPermission {
     # get backend object
     my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
-    return   if !$BackendObject;
-    return 1 if !$BackendObject->can('ObjectPermission');
+    return   unless $BackendObject;
+    return 1 unless $BackendObject->can('ObjectPermission');
 
     return $BackendObject->ObjectPermission(
         %Param,
@@ -2289,16 +2342,17 @@ sub ObjectPermission {
 
 return a hash of object descriptions
 
-Return
-    %Description = (
-        Normal => '',
-        Long   => '',
-    );
-
-    %Description = $LinkObject->ObjectDescriptionGet(
+    my %Description = $LinkObject->ObjectDescriptionGet(
         Object  => 'Ticket',
         Key     => 123,
         UserID  => 1,
+    );
+
+Returns:
+
+    %Description = (
+        Normal => '',
+        Long   => '',
     );
 
 =cut
@@ -2313,6 +2367,7 @@ sub ObjectDescriptionGet {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2320,7 +2375,7 @@ sub ObjectDescriptionGet {
     # get backend object
     my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
-    return if !$BackendObject;
+    return unless $BackendObject;
 
     # get object description
     my %Description = $BackendObject->ObjectDescriptionGet(
@@ -2333,6 +2388,13 @@ sub ObjectDescriptionGet {
 =head2 ObjectSearch()
 
 return a hash reference of the search results.
+
+    $ObjectList = $LinkObject->ObjectSearch(
+        Object       => 'ITSMConfigItem',
+        SubObject    => 'Computer'         # (optional)
+        SearchParams => $HashRef,          # (optional)
+        UserID       => 1,
+    );
 
 Returns:
 
@@ -2348,13 +2410,6 @@ Returns:
         },
     };
 
-    $ObjectList = $LinkObject->ObjectSearch(
-        Object       => 'ITSMConfigItem',
-        SubObject    => 'Computer'         # (optional)
-        SearchParams => $HashRef,          # (optional)
-        UserID       => 1,
-    );
-
 =cut
 
 sub ObjectSearch {
@@ -2367,6 +2422,7 @@ sub ObjectSearch {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2374,7 +2430,7 @@ sub ObjectSearch {
     # get backend object
     my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
-    return if !$BackendObject;
+    return unless $BackendObject;
 
     # search objects
     my $SearchList = $BackendObject->ObjectSearch(
@@ -2397,6 +2453,7 @@ sub _LinkListRaw {
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
+
             return;
         }
     }
@@ -2440,7 +2497,7 @@ sub _LinkListRaw {
 
         # get all links for object/state/type (for better caching)
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        return if !$DBObject->Prepare(
+        return unless $DBObject->Prepare(
             SQL  => $SQL,
             Bind => \@Bind,
         );

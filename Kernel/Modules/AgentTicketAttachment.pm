@@ -15,10 +15,18 @@
 # --
 
 package Kernel::Modules::AgentTicketAttachment;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
 use strict;
 use warnings;
+use v5.24;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -26,26 +34,26 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    # get needed objects
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get ArticleID
+    # get IDs
     my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
 
-    # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $VersionView     = $ParamObject->GetParam( Param => 'VersionView' )     || '';
+    my $SourceArticleID = $ParamObject->GetParam( Param => 'SourceArticleID' ) || '';
+    my $ArticleDeleted  = $ParamObject->GetParam( Param => 'ArticleDeleted' )  || '';
 
     # check params
     if ( !$FileID || !$ArticleID || !$TicketID ) {
@@ -53,6 +61,7 @@ sub Run {
             Message  => 'FileID, TicketID and ArticleID are needed!',
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 
@@ -62,16 +71,28 @@ sub Run {
 
     # get needed objects
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
+        TicketID            => $TicketID,
+        ArticleID           => $ArticleID,
+        ShowDeletedArticles => 1,
+        VersionView         => $VersionView
     );
 
     # check permissions
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID      => $TicketID,
-        ArticleID     => $ArticleID,
-        DynamicFields => 0,
+        TicketID        => $TicketID,
+        ArticleID       => $ArticleID,
+        DynamicFields   => 0,
+        VersionView     => $VersionView,
+        SourceArticleID => $SourceArticleID,
     );
+
+    my $ArticleBackendObjectDB;
+
+    if ( $Article{ArticleDeleted} ) {
+        $ArticleBackendObjectDB = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
+            ArticleStorageModule => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
+        );
+    }
 
     # check permissions
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
@@ -80,79 +101,98 @@ sub Run {
         UserID   => $Self->{UserID},
     );
     if ( !$Access ) {
-
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
-    # get a attachment
-    my %Data = $ArticleBackendObject->ArticleAttachment(
-        ArticleID => $ArticleID,
-        FileID    => $FileID,
-    );
+    # Check whether potentially the content should be converted for in browser viewing
+    my $ViewerActive = $ParamObject->GetParam( Param => 'Viewer' ) || 0;
+
+    # In most cases we can handle IO-Handle like objects as content.
+    # But require a string when the content is possible transformed by a viewer.
+    # TODO: check for output filter on AgentTicketAttachment or on ALL
+    my $ContentMayBeFilehandle = $ViewerActive ? 0 : 1;
+
+    my %Data;
+    my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
+
+    # get an attachment
+    if ( !$Article{ArticleDeleted} || $ArticleStorage eq 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS' ) {
+        %Data = $ArticleBackendObject->ArticleAttachment(
+            ArticleID              => $ArticleID,
+            VersionView            => $VersionView,
+            SourceArticleID        => $SourceArticleID,
+            FileID                 => $FileID,
+            ContentMayBeFilehandle => $ContentMayBeFilehandle,
+            ShowDeletedArticles    => 1,
+            ArticleDeleted         => $Article{ArticleDeleted}
+        );
+    }
+    else {
+        # get an attachment
+        %Data = $ArticleBackendObjectDB->ArticleAttachment(
+            ArticleID              => $ArticleID,
+            VersionView            => 1,
+            SourceArticleID        => $SourceArticleID,
+            FileID                 => $FileID,
+            ContentMayBeFilehandle => $ContentMayBeFilehandle,
+            ShowDeletedArticles    => 1,
+            ArticleDeleted         => 1
+        );
+    }
+
     if ( !%Data ) {
         $LogObject->Log(
             Message  => "No such attachment ($FileID).",
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 
-    my $Viewers = $ParamObject->GetParam( Param => 'Viewer' ) || 0;
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # find viewer for ContentType
-    my $Viewer = '';
-    if ( $Viewers && $ConfigObject->Get('MIME-Viewer') ) {
-        for ( sort keys %{ $ConfigObject->Get('MIME-Viewer') } ) {
-            if ( $Data{ContentType} =~ /^$_/i ) {
-                $Viewer = $ConfigObject->Get('MIME-Viewer')->{$_};
-                $Viewer =~ s/\<OTOBO_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
+    my $Viewer;
+    if ($ViewerActive) {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        if ( $ConfigObject->Get('MIME-Viewer') ) {
+            for ( sort keys $ConfigObject->Get('MIME-Viewer')->%* ) {
+                if ( $Data{ContentType} =~ m/^$_/i ) {
+                    $Viewer = $ConfigObject->Get('MIME-Viewer')->{$_};
+                    $Viewer =~ s/\<OTOBO_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
+                }
             }
         }
     }
 
     # show with viewer
-    if ( $Viewers && $Viewer ) {
+    if ($Viewer) {
 
-        # write tmp file
+        # Write temporary file for the HTML generating command.
+        # The file will be cleaned up at the end of the current request.
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
-        my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open my $ViewerDataFH, '>', $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
-            print $ViewerDataFH $Data{Content};
-            close $ViewerDataFH;
-        }
-        else {
+        my ( $FHContent, $FilenameContent ) = $FileTempObject->TempFile();
+        print $FHContent $Data{Content};
+        close $FHContent;
 
-            # log error
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Cant write $Filename: $!",
-            );
-
-            return $LayoutObject->ErrorScreen();
-        }
-
-        # use viewer
-        my $Content = '';
-        if ( open my $ViewerFH, '-|', "$Viewer $Filename" ) {    ## no critic qw(OTOBO::ProhibitOpen)
-            while (<$ViewerFH>) {
-                $Content .= $_;
+        # generate HTML
+        # TODO: use Capture::Tiny
+        my $GeneratedHTML = '';
+        if ( open my $ViewerFH, '-|', "$Viewer $FilenameContent" ) {    ## no critic qw(OTOBO::ProhibitOpen)
+            while ( my $s = <$ViewerFH> ) {
+                $GeneratedHTML .= $s;
             }
             close $ViewerFH;
         }
         else {
             return $LayoutObject->FatalError(
-                Message => "Can't open: $Viewer $Filename: $!",
+                Message => "Can't open: $Viewer $FilenameContent: $!",
             );
         }
 
-        # return new page
+        # return the generated HTML
         return $LayoutObject->Attachment(
             %Data,
             ContentType => 'text/html',
-            Content     => $Content,
+            Content     => $GeneratedHTML,
             Type        => 'inline',
             Sandbox     => 1,
         );

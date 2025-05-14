@@ -18,20 +18,27 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS;
 
 use strict;
 use warnings;
-
-use File::Path qw();
-use MIME::Base64 qw();
-use Unicode::Normalize qw();
+use v5.24;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use File::Copy         qw(move);
+use File::Path         qw(mkpath);
+use Unicode::Normalize ();
+use Cwd                qw(realpath);
+
+# CPAN modules
+use Plack::Util ();
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
-    'Kernel::System::DynamicFieldValue',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -44,7 +51,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS - FS based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles on the file system.
+This class provides functions to manipulate ticket articles
+in the file system.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
@@ -59,10 +67,11 @@ sub new {
     # Call new() on Base.pm to execute the common code.
     my $Self = $Type->SUPER::new(%Param);
 
+    # create a new directory every new day
     my $ArticleContentPath = $Self->BuildArticleContentPath();
     my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
-    File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+    mkpath( $ArticleDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # Check write permissions.
     if ( !-w $ArticleDir ) {
@@ -76,18 +85,87 @@ sub new {
 
     # Get activated cache backend configuration.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    return $Self if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
-    my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
-    return $Self if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+    return $Self unless $ConfigObject->Get('Cache::ArticleStorageCache');
+
+    my $CacheModule            = $ConfigObject->Get('Cache::Module') || '';
+    my %CacheModuleIsSupported = (
+        'Kernel::System::Cache::MemcachedFast' => 1,
+        'Kernel::System::Cache::Redis'         => 1,
+    );
+    return $Self unless $CacheModuleIsSupported{$CacheModule};
 
     # Turn on special cache used for speeding up article storage methods in huge systems with many
-    #   nodes and slow FS access. It will be used only in environments with configured Memcached
+    # nodes and slow FS access. It will be used only in environments
+    # with configured Memcached or Redis.
     #   backend (see config above).
     $Self->{ArticleStorageCache}    = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
     return $Self;
+}
+
+sub ArticleMoveFiles {
+    my ( $Self, %Param ) = @_;
+
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # check needed stuff
+    for my $Item (qw(Location NewArticleVersion)) {
+        if ( !$Param{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Item!",
+            );
+
+            return;
+        }
+    }
+
+    #Search files for moving
+    my @ArticleFiles = $MainObject->DirectoryRead(
+        Directory => $Param{Location},
+        Filter    => "*",
+        Silent    => 1,
+    );
+
+    #Clean path from file list
+    my @TempFiles;
+    for my $File (@ArticleFiles) {
+        $File =~ s{^.*/}{};
+        push @TempFiles, $File;
+    }
+
+    @ArticleFiles = @TempFiles;
+
+    if (@ArticleFiles) {
+        mkdir("$Param{Location}/$Param{NewArticleVersion}");
+
+        MOVE_FILES:
+        for my $File (@ArticleFiles) {
+
+            #Skip directories
+            next MOVE_FILES if ( -d "$Param{Location}/$File" );
+
+            $File = $EncodeObject->Convert2CharsetInternal(
+                Text  => $File,
+                From  => 'utf-8',
+                Check => 1,
+            );
+
+            move( "$Param{Location}/$File", "$Param{Location}/$Param{NewArticleVersion}/$File" );
+
+            $MainObject->FileDelete(
+                Location        => "$Param{Location}/$File",
+                Type            => 'Attachment',
+                NoReplace       => 1,
+                DisableWarnings => 1
+            );
+        }
+    }
+
+    return;
 }
 
 sub ArticleDelete {
@@ -100,26 +178,31 @@ sub ArticleDelete {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
 
     # delete attachments
     $Self->ArticleDeleteAttachment(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID        => $Param{ArticleID},
+        UserID           => $Param{UserID},
+        DeletedVersionID => $Param{DeletedVersionID} || 0
     );
 
     # delete plain message
     $Self->ArticleDeletePlain(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID        => $Param{ArticleID},
+        UserID           => $Param{UserID},
+        DeletedVersionID => $Param{DeletedVersionID} || 0
     );
 
     # delete storage directory
     $Self->_ArticleDeleteDirectory(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
+        ArticleID        => $Param{ArticleID},
+        UserID           => $Param{UserID},
+        DeletedVersionID => $Param{DeletedVersionID} || 0,
+        VersionIDs       => $Param{VersionIDs}       || undef
     );
 
     # Delete special article storage cache.
@@ -142,6 +225,7 @@ sub ArticleDeletePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -188,6 +272,7 @@ sub ArticleDeleteAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -198,6 +283,10 @@ sub ArticleDeleteAttachment {
     );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
 
+    if ( $Param{DeletedVersionID} ) {
+        $Path .= "/$Param{DeletedVersionID}";
+    }
+
     if ( -e $Path ) {
 
         my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -207,13 +296,33 @@ sub ArticleDeleteAttachment {
 
         for my $File (@List) {
 
-            if ( $File !~ /(\/|\\)plain.txt$/ ) {
+            if ( $File !~ /(\/|\\)plain.txt$/ && !( -d $File ) ) {
 
                 if ( !unlink "$File" ) {
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Can't remove: $File: $!!",
+                    );
+                }
+            }
+        }
+
+        #Check if version directory is empty to remove it
+        if ( $Param{DeletedVersionID} ) {
+            my @ListVersion = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $Path,
+                Filter    => "*",
+            );
+
+            if ( !@ListVersion ) {
+                my $Success = rmdir($Path);
+
+                if ( !$Success ) {
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Can't remove version directory: $Path!!",
                     );
                 }
             }
@@ -246,6 +355,7 @@ sub ArticleWritePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -266,7 +376,7 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+    mkpath( [$Path], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # write article to fs
     my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -303,58 +413,68 @@ sub ArticleWriteAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
 
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
+    $Param{ArticleID} = quotemeta $Param{ArticleID};
     $Param{ArticleID} =~ s/\0//g;
+
     my $ContentPath = $Self->_ArticleContentPathGet(
         ArticleID => $Param{ArticleID},
     );
 
     # define path
-    $Param{Path} = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
-
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # Perform FilenameCleanup here already to check for
-    #   conflicting existing attachment files correctly
-    $Param{Filename} = $MainObject->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type     => 'Local',
-    );
-
-    my $NewFileName = $Param{Filename};
-    my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
-    );
-
-    # Normalize filenames to find file names which are identical but in a different unicode form.
-    #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
-    #   Without this, the same file might be overwritten because the strings are not equal.
-    for my $Position ( sort keys %Index ) {
-        $UsedFile{ Unicode::Normalize::NFC( $Index{$Position}->{Filename} ) } = 1;
+    if ( !$Param{VersionID} ) {
+        $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{ArticleID};
     }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{ Unicode::Normalize::NFC($NewFileName) } ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
+    else {
+        $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{SourceArticleID}, $Param{ArticleID};
+    }
+
+    # Perform FilenameCleanUp here already to check for
+    #   conflicting existing attachment files correctly
+    #   Special chars in file names are replaced only on ArticleStorageFS.
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $OrigFilename = $MainObject->FilenameCleanUp(
+        Filename  => $Param{Filename},
+        Type      => 'Local',
+        NoReplace => 0,
+    );
+
+    # check for conflicts in the attachment file names
+    my $UniqueFilename = $OrigFilename;
+    {
+        my %Index = $Self->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+        );
+
+        # Normalize filenames to find file names which are identical but in a different unicode form.
+        #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
+        #   Without this, the same file might be overwritten because the strings are not equal.
+        my %UsedFile = map
+            { Unicode::Normalize::NFC( $_->{Filename} ) => 1 }
+            values %Index;
+
+        NAME_CHECK:
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            next NAME_CHECK unless $UsedFile{ Unicode::Normalize::NFC($UniqueFilename) };
+
+            # keep the extension when renaming
+            if ( $OrigFilename =~ m/^(.*)\.(.+?)$/ ) {
+                $UniqueFilename = "$1-$i.$2";
             }
             else {
-                $NewFileName = "$Param{Filename}-$i";
+                $UniqueFilename = "$OrigFilename-$i";
             }
         }
     }
 
-    $Param{Filename} = $NewFileName;
-
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        if ( !mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",
@@ -366,13 +486,14 @@ sub ArticleWriteAttachment {
     # write attachment content type to fs
     my $SuccessContentType = $MainObject->FileWrite(
         Directory       => $Param{Path},
-        Filename        => "$Param{Filename}.content_type",
+        Filename        => "$UniqueFilename.content_type",
         Mode            => 'binmode',
         Content         => \$Param{ContentType},
         Permission      => 660,
         NoFilenameClean => 1,
     );
-    return if !$SuccessContentType;
+
+    return unless $SuccessContentType;
 
     # set content id in angle brackets
     if ( $Param{ContentID} ) {
@@ -383,7 +504,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentID} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_id",
+            Filename        => "$UniqueFilename.content_id",
             Mode            => 'binmode',
             Content         => \$Param{ContentID},
             Permission      => 660,
@@ -395,7 +516,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentAlternative} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_alternative",
+            Filename        => "$UniqueFilename.content_alternative",
             Mode            => 'binmode',
             Content         => \$Param{ContentAlternative},
             Permission      => 660,
@@ -403,14 +524,15 @@ sub ArticleWriteAttachment {
         );
     }
 
-    # write attachment disposition to fs
+    # Remove the file name from the disposition
+    # Write attachment disposition to the file system.
     if ( $Param{Disposition} ) {
 
-        my ( $Disposition, $FileName ) = split ';', $Param{Disposition};
+        my ($Disposition) = split /;/, $Param{Disposition}, 2;
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.disposition",
+            Filename        => "$UniqueFilename.disposition",
             Mode            => 'binmode',
             Content         => \$Disposition || '',
             Permission      => 660,
@@ -421,13 +543,13 @@ sub ArticleWriteAttachment {
     # write attachment content to fs
     my $SuccessContent = $MainObject->FileWrite(
         Directory  => $Param{Path},
-        Filename   => $Param{Filename},
+        Filename   => $UniqueFilename,
         Mode       => 'binmode',
         Content    => \$Param{Content},
         Permission => 660,
     );
 
-    return if !$SuccessContent;
+    return unless $SuccessContent;
 
     # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
@@ -448,6 +570,7 @@ sub ArticlePlain {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -485,7 +608,7 @@ sub ArticlePlain {
             Mode      => 'binmode',
         );
 
-        return if !$Data;
+        return unless $Data;
 
         # Write to special article storage cache.
         if ( $Self->{ArticleStorageCache} ) {
@@ -499,13 +622,13 @@ sub ArticlePlain {
             );
         }
 
-        return ${$Data};
+        return $Data->$*;
     }
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
-    # return if only delete in my backend
+    # return if only retrieve in my backend
     return if $Param{OnlyMyBackend};
 
     my $Data = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticlePlain(
@@ -537,6 +660,7 @@ sub ArticleAttachmentIndexRaw {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -556,24 +680,41 @@ sub ArticleAttachmentIndexRaw {
     }
 
     my $ContentPath = $Self->_ArticleContentPathGet(
-        ArticleID => $Param{ArticleID},
+        ArticleID       => $Param{ArticleID},
+        VersionView     => $Param{VersionView}     || '',
+        SourceArticleID => $Param{SourceArticleID} || ''
     );
     my %Index;
     my $Counter = 0;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my @List;
 
     # try fs
-    my @List = $MainObject->DirectoryRead(
-        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
-        Filter    => "*",
-        Silent    => 1,
-    );
+    if ( $Param{SourceArticleID} && !$Param{ArticleDeleted} ) {
+        @List = $MainObject->DirectoryRead(
+            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{SourceArticleID}/$Param{ArticleID}",
+            Filter    => "*",
+            Silent    => 1,
+        );
+    }
+    else {
+
+        if ( $Param{ArticleDeleted} ) {
+            $Param{ArticleID} = $Param{SourceArticleID};
+        }
+
+        @List = $MainObject->DirectoryRead(
+            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+            Filter    => "*",
+            Silent    => 1,
+        );
+    }
 
     FILENAME:
     for my $Filename ( sort @List ) {
-        my $FileSizeRaw = -s $Filename;
+        my $FilesizeRaw = -s $Filename;
 
         # do not use control file
         next FILENAME if $Filename =~ /\.content_alternative$/;
@@ -647,9 +788,9 @@ sub ArticleAttachmentIndexRaw {
                 Location => $Filename,
                 Result   => 'ARRAY',
             );
-            if ( !$Content ) {
-                return;
-            }
+
+            return unless $Content;
+
             $ContentType = $Content->[0];
         }
 
@@ -660,7 +801,7 @@ sub ArticleAttachmentIndexRaw {
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,
-            FilesizeRaw        => $FileSizeRaw,
+            FilesizeRaw        => $FilesizeRaw,
             ContentType        => $ContentType,
             ContentID          => $ContentID,
             ContentAlternative => $Alternative,
@@ -683,7 +824,7 @@ sub ArticleAttachmentIndexRaw {
     return %Index if %Index;
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
@@ -718,6 +859,7 @@ sub ArticleAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -741,26 +883,41 @@ sub ArticleAttachment {
         return %{$Cache} if $Cache;
     }
 
-    # get attachment index
+    # get some data from the attachment index
     my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
+        ArticleID       => $Param{ArticleID},
+        VersionView     => $Param{VersionView},
+        SourceArticleID => $Param{SourceArticleID},
+        ArticleDeleted  => $Param{ArticleDeleted}
     );
+    my %Data = %{ $Index{ $Param{FileID} } // {} };
 
     # get content path
     my $ContentPath = $Self->_ArticleContentPathGet(
-        ArticleID => $Param{ArticleID},
+        ArticleID   => $Param{ArticleID},
+        VersionView => $Param{VersionView}
     );
-    my %Data    = %{ $Index{ $Param{FileID} } // {} };
     my $Counter = 0;
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my @List = $MainObject->DirectoryRead(
-        Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
-        Filter    => "*",
-        Silent    => 1,
-    );
+    my @List;
+
+    if ( $Param{SourceArticleID} && $Param{VersionView} ) {
+        @List = $MainObject->DirectoryRead(
+            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{SourceArticleID}/$Param{ArticleID}",
+            Filter    => "*",
+            Silent    => 1,
+        );
+    }
+    else {
+        @List = $MainObject->DirectoryRead(
+            Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
+            Filter    => "*",
+            Silent    => 1,
+        );
+    }
 
     if (@List) {
 
@@ -769,126 +926,152 @@ sub ArticleAttachment {
 
         FILENAME:
         for my $Filename (@List) {
-            next FILENAME if $Filename =~ /\.content_alternative$/;
-            next FILENAME if $Filename =~ /\.content_id$/;
-            next FILENAME if $Filename =~ /\.content_type$/;
-            next FILENAME if $Filename =~ /\/plain.txt$/;
-            next FILENAME if $Filename =~ /\.disposition$/;
+            next FILENAME if $Filename =~ m/\.content_alternative$/;
+            next FILENAME if $Filename =~ m/\.content_id$/;
+            next FILENAME if $Filename =~ m/\.content_type$/;
+            next FILENAME if $Filename =~ m/\/plain.txt$/;
+            next FILENAME if $Filename =~ m/\.disposition$/;
 
-            # add the info the the hash
+            # we have a content file
             $Counter++;
-            if ( $Counter == $Param{FileID} ) {
 
-                if ( -e "$Filename.content_type" ) {
+            # handle only the relevant content file
+            next FILENAME unless $Counter == $Param{FileID};
 
-                    # read content type
-                    my $Content = $MainObject->FileRead(
-                        Location => "$Filename.content_type",
-                    );
-                    return if !$Content;
-                    $Data{ContentType} = ${$Content};
+            if ( -e "$Filename.content_type" ) {
 
-                    # read content
-                    $Content = $MainObject->FileRead(
-                        Location => $Filename,
-                        Mode     => 'binmode',
-                    );
-                    return if !$Content;
-                    $Data{Content} = ${$Content};
+                # read content type
+                my $Content = $MainObject->FileRead(
+                    Location => "$Filename.content_type",
+                );
 
-                    # content id (optional)
-                    if ( -e "$Filename.content_id" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_id",
-                        );
-                        if ($Content) {
-                            $Data{ContentID} = ${$Content};
-                        }
-                    }
+                return unless $Content;
 
-                    # alternative (optional)
-                    if ( -e "$Filename.content_alternative" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_alternative",
-                        );
-                        if ($Content) {
-                            $Data{Alternative} = ${$Content};
-                        }
-                    }
+                $Data{ContentType} = $Content->$*;
 
-                    # disposition
-                    if ( -e "$Filename.disposition" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.disposition",
-                        );
-                        if ($Content) {
-                            $Data{Disposition} = ${$Content};
-                        }
-                    }
+                # The content does not necessarily have to be read into memory.
+                # Returning an open file handle suffices for a Plack application.
+                if ( $Param{ContentMayBeFilehandle} ) {
 
-                    # if no content disposition is set images with content id should be inline
-                    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-                        $Data{Disposition} = 'inline';
-                    }
-
-                    # converted article body should be inline
-                    elsif ( $Filename =~ m{file-[12]} ) {
-                        $Data{Disposition} = 'inline';
-                    }
-
-                    # all others including attachments with content id that are not images
-                    #   should NOT be inline
-                    else {
-                        $Data{Disposition} = 'attachment';
-                    }
+                    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
+                    open my $ContentFH, '<:raw', $Filename
+                        or return;
+                    Plack::Util::set_io_path( $ContentFH, realpath($Filename) );
+                    $Data{Content} = $ContentFH;
                 }
                 else {
 
-                    # read content
+                    # slurp in the bytes of the content
                     my $Content = $MainObject->FileRead(
                         Location => $Filename,
                         Mode     => 'binmode',
-                        Result   => 'ARRAY',
                     );
-                    return if !$Content;
-                    $Data{ContentType} = $Content->[0];
-                    my $Counter = 0;
-                    for my $Line ( @{$Content} ) {
-                        if ($Counter) {
-                            $Data{Content} .= $Line;
-                        }
-                        $Counter++;
+
+                    return unless $Content;
+
+                    $Data{Content} = $Content->$*;
+                }
+
+                # content id (optional)
+                if ( -e "$Filename.content_id" ) {
+                    my $Content = $MainObject->FileRead(
+                        Location => "$Filename.content_id",
+                    );
+                    if ($Content) {
+                        $Data{ContentID} = $Content->$*;
                     }
                 }
-                if (
-                    $Data{ContentType} =~ /plain\/text/i
-                    && $Data{ContentType} =~ /(utf\-8|utf8)/i
-                    )
-                {
-                    $EncodeObject->EncodeInput( \$Data{Content} );
-                }
 
-                chomp $Data{ContentType};
-
-                # Write to special article storage cache.
-                if ( $Self->{ArticleStorageCache} ) {
-                    $CacheObject->Set(
-                        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-                        TTL            => $Self->{ArticleStorageCacheTTL},
-                        Key            => 'ArticleAttachment' . $Param{FileID},
-                        Value          => \%Data,
-                        CacheInMemory  => 0,
-                        CacheInBackend => 1,
+                # alternative (optional)
+                if ( -e "$Filename.content_alternative" ) {
+                    my $Content = $MainObject->FileRead(
+                        Location => "$Filename.content_alternative",
                     );
+                    if ($Content) {
+                        $Data{Alternative} = $Content->$*;
+                    }
                 }
 
-                return %Data;
+                # disposition
+                if ( -e "$Filename.disposition" ) {
+                    my $Content = $MainObject->FileRead(
+                        Location => "$Filename.disposition",
+                    );
+                    if ($Content) {
+                        $Data{Disposition} = $Content->$*;
+                    }
+                }
+
+                # if no content disposition is set images with content id should be inline
+                elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
+                    $Data{Disposition} = 'inline';
+                }
+
+                # converted article body should be inline
+                elsif ( $Filename =~ m{file-[12]} ) {
+                    $Data{Disposition} = 'inline';
+                }
+
+                # all others including attachments with content id that are not images
+                #   should NOT be inline
+                else {
+                    $Data{Disposition} = 'attachment';
+                }
             }
+            else {
+
+                # read content
+                my $Content = $MainObject->FileRead(
+                    Location => $Filename,
+                    Mode     => 'binmode',
+                    Result   => 'ARRAY',
+                );
+
+                return unless $Content;
+
+                # The content type is in the first line of the content
+                $Data{ContentType} = $Content->[0];
+
+                # skip the first line when reading in the actual content
+                my $Counter = 0;
+                for my $Line ( $Content->@* ) {
+                    if ($Counter) {
+                        $Data{Content} .= $Line;
+                    }
+                    $Counter++;
+                }
+            }
+
+            $Data{ContentType} ||= '';
+
+            if (
+                $Data{ContentType} =~ /plain\/text/i
+                && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                )
+            {
+                $EncodeObject->EncodeInput( \$Data{Content} );
+            }
+
+            chomp $Data{ContentType};
+
+            # Write to special article storage cache.
+            if ( $Self->{ArticleStorageCache} ) {
+                $CacheObject->Set(
+                    Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+                    TTL            => $Self->{ArticleStorageCacheTTL},
+                    Key            => 'ArticleAttachment' . $Param{FileID},
+                    Value          => \%Data,
+                    CacheInMemory  => 0,
+                    CacheInBackend => 1,
+                );
+            }
+
+            return %Data;
         }
     }
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};

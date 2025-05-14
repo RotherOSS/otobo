@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,6 +31,19 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -38,6 +51,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
     my $RichText     = $ConfigObject->Get('Frontend::RichText');
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -61,12 +75,27 @@ sub Run {
     my $MainObject              = $Kernel::OM->Get('Kernel::System::Main');
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
 
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+
     # get the search article fields to retrieve values for
     my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
     my @ArticleSearchableFieldsKeys = sort keys %ArticleSearchableFields;
 
     # get registered transport layers
     my %RegisteredTransports = %{ $Kernel::OM->Get('Kernel::Config')->Get('Notification::Transport') || {} };
+
+    # Get permission level.
+    my $Permission = $Self->{LightAdmin} ? '' : 'rw';
 
     # ------------------------------------------------------------ #
     # change
@@ -83,6 +112,25 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        if ( $Self->{LightAdmin} ) {
+            $Data{Permission} = $QueueObject->QueueListPermission(
+                QueueIDs => $Data{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # No permission for the notification.
+            if ( !$Data{Permission} ) {
+                %Data = ();
+            }
+            elsif ( $Data{Permission} eq 'ro' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Notice',
+                    Data     => $LayoutObject->{LanguageObject}->Translate('No permission to edit this ticket notification.'),
+                );
+            }
+        }
+
         $Output .= $LayoutObject->Notify( Info => Translatable('Notification updated!') )
             if ( $Notification && $Notification eq 'Update' );
         $Self->_Edit(
@@ -131,8 +179,8 @@ sub Run {
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID IsVisibleForCustomer ArticleAttachmentInclude
             ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
-            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
-            LanguageID AgentEnabledByDefault)
+            Transports OncePerDay SendOnOutOfOffice CalendarFilter VisibleForAgent
+            VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -166,6 +214,19 @@ sub Run {
             }
             if ( !$Body || !$Check ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
+                $Error = 1;
+            }
+        }
+
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $GetParam{Data}->{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # Queue is mandatory and can only contain queues with 'rw' permission.
+            if ( !$GetParam{Data}->{QueueID} || $Permission ne 'rw' ) {
+                $GetParam{QueueIDServerError} = "ServerError";
                 $Error = 1;
             }
         }
@@ -375,8 +436,8 @@ sub Run {
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             IsVisibleForCustomer ArticleAttachmentInclude
             ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
-            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
-            LanguageID AgentEnabledByDefault)
+            Transports OncePerDay SendOnOutOfOffice CalendarFilter VisibleForAgent
+            VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -410,6 +471,19 @@ sub Run {
             }
             if ( !$Body || !$Check ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
+                $Error = 1;
+            }
+        }
+
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $GetParam{Data}->{QueueID},
+                UserID   => $Self->{UserID},
+            );
+
+            # Queue is mandatory and can only contain queues with 'rw' permission.
+            if ( !$GetParam{Data}->{QueueID} || $Permission ne 'rw' ) {
+                $GetParam{QueueIDServerError} = "ServerError";
                 $Error = 1;
             }
         }
@@ -584,6 +658,23 @@ sub Run {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
+        if ( $Self->{LightAdmin} ) {
+            my %Notification = $NotificationEventObject->NotificationGet(
+                ID     => $GetParam{ID},
+                UserID => $Self->{UserID},
+            );
+
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $Notification{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # No permission to delete the notification.
+        if ( $Permission ne 'rw' ) {
+            return $LayoutObject->ErrorScreen();
+        }
+
         my $Delete = $NotificationEventObject->NotificationDelete(
             ID     => $GetParam{ID},
             UserID => $Self->{UserID},
@@ -612,7 +703,14 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
+            if ( $Self->{LightAdmin} ) {
+                $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => $NotificationSingleData{Data}{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+            }
+
+            if ( !IsHashRefWithData( \%NotificationSingleData ) || $Permission ne 'rw' ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
@@ -633,7 +731,18 @@ sub Run {
 
             my @Data;
             for my $ItemID ( sort keys %Notificationdetails ) {
-                push @Data, $Notificationdetails{$ItemID};
+
+                # filter out notifications without rw permission on all queues.
+                $Permission = $Self->{LightAdmin} ? '' : 'rw';
+                if ( $Self->{LightAdmin} ) {
+                    $Permission = $QueueObject->QueueListPermission(
+                        QueueIDs => $Notificationdetails{$ItemID}{Data}{QueueID},
+                        UserID   => $Self->{UserID},
+                    );
+                }
+                if ( $Permission eq 'rw' ) {
+                    push @Data, $Notificationdetails{$ItemID};
+                }
             }
             $NotificationData = \@Data;
         }
@@ -666,7 +775,14 @@ sub Run {
             ID     => $NotificationID,
             UserID => $Self->{UserID},
         );
-        if ( !IsHashRefWithData( \%NotificationData ) ) {
+
+        if ( $Self->{LightAdmin} ) {
+            $Permission = $QueueObject->QueueListPermission(
+                QueueIDs => $NotificationData{Data}{QueueID},
+                UserID   => $Self->{UserID},
+            );
+        }
+        if ( !IsHashRefWithData( \%NotificationData ) || $Permission ne 'rw' ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Notification %s!', $NotificationID ),
             );
@@ -706,6 +822,30 @@ sub Run {
             Param  => 'FileUpload',
             Source => 'string',
         );
+
+        # import only works if user has 'rw' permission on all queues.
+        if ( $Self->{LightAdmin} ) {
+            my $Notifications = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $UploadStuff{Content} );
+
+            my $NoPermission;
+            NOTIFICATION:
+            for my $Notification ( @{$Notifications} ) {
+                $Permission = $QueueObject->QueueListPermission(
+                    QueueIDs => $Notification->{Data}->{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+                if ( $Permission ne 'rw' ) {
+                    $NoPermission = 1;
+                    last NOTIFICATION;
+                }
+            }
+            if ($NoPermission) {
+                my $Message = $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', 'rw' );
+                return $LayoutObject->ErrorScreen(
+                    Message => $Message,
+                );
+            }
+        }
 
         my $OverwriteExistingNotifications = $ParamObject->GetParam( Param => 'OverwriteExistingNotifications' ) || '';
 
@@ -798,6 +938,7 @@ sub _Edit {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 
     $LayoutObject->Block(
         Name => 'Overview',
@@ -932,6 +1073,53 @@ sub _Edit {
         Class              => 'Modernize W75pc',
     );
 
+    if ( $Self->{LightAdmin} ) {
+
+        # Make the queue field mandatory.
+        $Param{LightAdmin} = 1;
+
+        my %RoQueues = $QueueObject->GetAllQueues( UserID => $Self->{UserID} );
+        my %RwQueues = $QueueObject->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+        );
+
+        # Add disabled queues
+        my @DisabledQueues;
+        my @VisibleSelected;
+        if ( IsArrayRefWithData( $Param{Data}->{QueueID} ) ) {
+            for my $QueueID ( @{ $Param{Data}->{QueueID} } ) {
+                if ( $RwQueues{$QueueID} ) {
+                    push @VisibleSelected, $QueueID;
+                }
+
+                elsif ( $RoQueues{$QueueID} ) {
+
+                    # show the queue but disable it
+                    $RwQueues{$QueueID} = $RoQueues{$QueueID};
+
+                    # this can have the sideeffect that if the agent has rw on queue X::Y, but queue X gets added here,
+                    # X::Y will be disabled as part of the branch, too, but the agent cannot alter this notification anyways
+                    push @DisabledQueues,  $QueueID;
+                    push @VisibleSelected, $QueueID;
+                }
+
+                # else -> don't show queues you have no ro access
+            }
+        }
+
+        $Param{QueuesStrg} = $LayoutObject->BuildSelection(
+            Data           => \%RwQueues,
+            Size           => 5,
+            Multiple       => 1,
+            Name           => 'QueueID',
+            TreeView       => $TreeView,
+            SelectedID     => \@VisibleSelected,
+            DisabledBranch => \@DisabledQueues,
+            Class          => 'Modernize W75pc Validate_Required',
+        );
+    }
+
     $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
         Data => {
             $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
@@ -1036,6 +1224,18 @@ sub _Edit {
         );
     }
 
+    $Param{CalendarFilterStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            SendWithinHours  => Translatable('Only send within working hours'),
+            SendOutsideHours => Translatable('Only send outside working hours'),
+        },
+        Name         => 'CalendarFilter',
+        SelectedID   => $Param{Data}->{CalendarFilter},
+        Class        => 'Modernize W75pc',
+        Translation  => 1,
+        PossibleNone => 1,
+    );
+
     # create dynamic field HTML for set with historical data options
     my $PrintDynamicFieldsSearchHeader = 1;
 
@@ -1122,35 +1322,8 @@ sub _Edit {
         push @LanguageIDs, ( sort keys %DefaultUsedLanguages )[0];
     }
 
-    # get native names of languages
-    my %DefaultUsedLanguagesNative = %{ $ConfigObject->Get('DefaultUsedLanguagesNative') || {} };
-
-    my %Languages;
-    LANGUAGEID:
-    for my $LanguageID ( sort keys %DefaultUsedLanguages ) {
-
-        # next language if there is not set any name for current language
-        if ( !$DefaultUsedLanguages{$LanguageID} && !$DefaultUsedLanguagesNative{$LanguageID} ) {
-            next LANGUAGEID;
-        }
-
-        # get texts in native and default language
-        my $Text        = $DefaultUsedLanguagesNative{$LanguageID} || '';
-        my $TextEnglish = $DefaultUsedLanguages{$LanguageID}       || '';
-
-        # translate to current user's language
-        my $TextTranslated =
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate($TextEnglish);
-
-        if ( $TextTranslated && $TextTranslated ne $Text ) {
-            $Text .= ' - ' . $TextTranslated;
-        }
-
-        # next language if there is not set English nor native name of language.
-        next LANGUAGEID if !$Text;
-
-        $Languages{$LanguageID} = $Text;
-    }
+    # for the selection list
+    my %Languages = $LayoutObject->{LanguageObject}->LanguageList;
 
     # copy original list of languages which will be used for rebuilding language selection
     my %OriginalDefaultUsedLanguages = %Languages;
@@ -1313,10 +1486,10 @@ sub _Edit {
     }
 
     # set send on out of office checked value
-    $Param{SendOnOutOfOfficeChecked} = ( $Param{Data}->{SendOnOutOfOffice} ? 'checked="checked"' : '' );
+    $Param{SendOnOutOfOfficeChecked} = ( $Param{Data}->{SendOnOutOfOffice} ? 'checked ' : '' );
 
     # set once per day checked value
-    $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked="checked"' : '' );
+    $Param{OncePerDayChecked} = ( $Param{Data}->{OncePerDay} ? 'checked ' : '' );
 
     $Param{VisibleForAgentStrg} = $LayoutObject->BuildSelection(
         Data => [
@@ -1338,7 +1511,7 @@ sub _Edit {
 
     # include read-only attribute
     if ( !$Param{VisibleForAgent} ) {
-        $Param{VisibleForAgentTooltipReadonly} = 'readonly="readonly"';
+        $Param{VisibleForAgentTooltipReadonly} = 'readonly';
     }
 
     # get registered transport layers
@@ -1395,12 +1568,12 @@ sub _Edit {
 
                     my $TransportChecked = '';
                     if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
-                        $TransportChecked = 'checked="checked"';
+                        $TransportChecked = 'checked ';
                     }
 
                     # set Email transport selected on add screen
                     if ( $Transport eq 'Email' && !$Param{ID} ) {
-                        $TransportChecked = 'checked="checked"';
+                        $TransportChecked = 'checked ';
                     }
 
                     # get transport settings string from transport object
@@ -1418,7 +1591,7 @@ sub _Edit {
                     elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
                         $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
                     }
-                    my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+                    my $AgentEnabledByDefaultChecked = $AgentEnabledByDefault ? 'checked ' : '';
 
                     # transport
                     $LayoutObject->Block(
@@ -1465,6 +1638,7 @@ sub _Overview {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1473,6 +1647,13 @@ sub _Overview {
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'ActionImport' );
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
@@ -1482,18 +1663,38 @@ sub _Overview {
 
     my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
 
-    my %List = $NotificationEventObject->NotificationList();
+    my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidLookup = reverse %ValidList;
+    my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
+    if ( $Self->{IncludeInvalid} ) {
+        push @ValidIDs, $ValidLookup{'invalid'};
+    }
+
+    my %List = $NotificationEventObject->NotificationList(
+        ValidIDs => \@ValidIDs,
+    );
 
     # if there are any notifications, they are shown
     if (%List) {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        ID:
         for my $NotificationID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
             my %Data = $NotificationEventObject->NotificationGet(
                 ID => $NotificationID,
             );
+
+            if ( $Self->{LightAdmin} ) {
+                $Data{Permission} = $Kernel::OM->Get('Kernel::System::Queue')->QueueListPermission(
+                    QueueIDs => $Data{Data}{QueueID},
+                    UserID   => $Self->{UserID},
+                );
+
+                next ID if !$Data{Permission};
+            }
+
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {

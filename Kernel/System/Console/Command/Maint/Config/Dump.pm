@@ -16,23 +16,31 @@
 
 package Kernel::System::Console::Command::Maint::Config::Dump;
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::JSON',
 );
 
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Dump configuration settings.');
+    $Self->Description('Dump the specified configuration setting in JSON format.');
     $Self->AddArgument(
         Name        => 'name',
-        Description => "Specify which config setting should be dumped.",
+        Description => 'Specify which configuration setting should be dumped.',
         Required    => 1,
         ValueRegex  => qr/.*/smx,
     );
@@ -49,27 +57,16 @@ sub Run {
 
     if ( !defined $Value ) {
         $Self->PrintError("The config setting $Key could not be found.");
+
         return $Self->ExitCodeError();
     }
 
-    my $Output;
-
-    if ( ref($Value) eq 'ARRAY' ) {
-        for ( @{$Value} ) {
-            $Output .= "$_;";
-        }
-        $Output .= "\n";
-    }
-    elsif ( ref($Value) eq 'HASH' ) {
-        for my $SubKey ( sort keys %{$Value} ) {
-            $Output .= "$SubKey=$Value->{$SubKey};";
-        }
-        $Output .= "\n";
-    }
-    else {
-        $Output .= $Value . "\n";
-    }
-    print $Output;
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    print $JSONObject->Encode(
+        Data     => $Value,
+        SortKeys => 1,
+        Pretty   => 1,
+    );
 
     return $Self->ExitCodeOk();
 }

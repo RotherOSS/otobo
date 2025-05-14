@@ -175,6 +175,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .oooTicketItemCat > p.oooCategory {
     height: 0px;
+    min-height: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
 }

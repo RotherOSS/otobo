@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -1101,6 +1106,4 @@ $Self->IsDeeply(
     "ServiceParentsGet - for ServiceSon (cached)"
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

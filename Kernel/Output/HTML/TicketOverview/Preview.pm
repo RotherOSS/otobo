@@ -18,9 +18,15 @@ package Kernel::Output::HTML::TicketOverview::Preview;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -32,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::JSON',
     'Kernel::System::User',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -48,6 +55,22 @@ sub new {
 
     # get UserID param
     $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    # get JSON object
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    # set stored filters if present
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    if ( $Preferences{$StoredFiltersKey} ) {
+        my $StoredFilters = $JSONObject->Decode(
+            Data => $Preferences{$StoredFiltersKey},
+        );
+        $Self->{StoredFilters} = $StoredFilters;
+    }
 
     return $Self;
 }
@@ -186,6 +209,7 @@ sub ActionRow {
 
 sub SortOrderBar {
     my ( $Self, %Param ) = @_;
+
     return '';
 }
 
@@ -239,18 +263,12 @@ sub Run {
         Data => \%Param,
     );
 
-    my $OutputMeta = $LayoutObject->Output(
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketOverviewPreview',
         Data         => \%Param,
     );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $LayoutObject->Print( Output => \$OutputMeta );
-    }
-    else {
-        $OutputRaw .= $OutputMeta;
-    }
-    my $Output        = '';
     my $Counter       = 0;
     my $CounterOnSite = 0;
     my @TicketIDsShown;
@@ -272,7 +290,7 @@ sub Run {
     }
 
     # check if there are tickets to show
-    if ( scalar @{ $Param{TicketIDs} } ) {
+    if ( @{ $Param{TicketIDs} } ) {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
@@ -282,7 +300,7 @@ sub Run {
                 )
             {
                 push @TicketIDsShown, $TicketID;
-                my $Output = $Self->_Show(
+                my $OutputForTicket = $Self->_Show(
                     TicketID                    => $TicketID,
                     Counter                     => $CounterOnSite,
                     Bulk                        => $BulkFeature,
@@ -291,12 +309,7 @@ sub Run {
                     PreviewArticleSenderTypeIDs => \%PreviewArticleSenderTypeIDs,
                 );
                 $CounterOnSite++;
-                if ( !$Param{Output} ) {
-                    $LayoutObject->Print( Output => $Output );
-                }
-                else {
-                    $OutputRaw .= ${$Output};
-                }
+                $Output .= ${$OutputForTicket};
             }
         }
 
@@ -314,6 +327,7 @@ sub Run {
         $LayoutObject->Block( Name => 'NoTicketFound' );
     }
 
+    # check if bulk feature is enabled
     if ($BulkFeature) {
         $LayoutObject->Block(
             Name => 'DocumentFooter',
@@ -325,18 +339,13 @@ sub Run {
                 Data => \%Param,
             );
         }
-        my $OutputMeta = $LayoutObject->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketOverviewPreview',
             Data         => \%Param,
         );
-        if ( !$Param{Output} ) {
-            $LayoutObject->Print( Output => \$OutputMeta );
-        }
-        else {
-            $OutputRaw .= $OutputMeta;
-        }
     }
-    return $OutputRaw;
+
+    return $Output;
 }
 
 sub _Show {
@@ -443,22 +452,23 @@ sub _Show {
     # create human age
     $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
-        Space => ' '
+        Space => ' ',
     );
 
     # get queue object
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
-    # fetch all std. templates ...
+    # fetch all std. templates
     my %StandardTemplates = $QueueObject->QueueStandardTemplateMemberList(
         QueueID       => $Article{QueueID},
         TemplateTypes => 1,
     );
 
     $Param{StandardResponsesStrg} = $LayoutObject->BuildSelection(
-        Name  => 'ResponseID',
-        Class => 'Modernize',
-        Data  => $StandardTemplates{Answer} || {},
+        Name        => 'ResponseID',
+        Class       => 'Modernize',
+        Data        => $StandardTemplates{Answer} || {},
+        Translation => 1,
     );
 
     # customer info
@@ -1020,10 +1030,11 @@ sub _Show {
             $LayoutObject->Block(
                 Name => 'DynamicFieldTableRowRecordLink',
                 Data => {
-                    Value                       => $ValueStrg->{Value},
-                    Title                       => $ValueStrg->{Title},
-                    Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    %Ticket,
+                    Value                                      => $ValueStrg->{Value},
+                    Title                                      => $ValueStrg->{Title},
+                    Link                                       => $ValueStrg->{Link},
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                 },
             );
         }
@@ -1059,10 +1070,11 @@ sub _Show {
             $LayoutObject->Block(
                 Name => 'DynamicField_' . $DynamicFieldConfig->{Name} . '_TableRowRecordLink',
                 Data => {
-                    Value                       => $ValueStrg->{Value},
-                    Title                       => $ValueStrg->{Title},
-                    Link                        => $ValueStrg->{Link},
-                    $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                    %Ticket,
+                    Value                                      => $ValueStrg->{Value},
+                    Title                                      => $ValueStrg->{Title},
+                    Link                                       => $ValueStrg->{Link},
+                    "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                 },
             );
         }
@@ -1082,7 +1094,7 @@ sub _Show {
     # fill the rest of the Dynamic Fields row with empty cells, this will look better
     if ( $Counter > 0 && $Counter < 2 ) {
 
-        for ( $Counter + 1 ... 2 ) {
+        for ( $Counter + 1 .. 2 ) {
 
             # outout dynamic field label
             $LayoutObject->Block(
@@ -1283,6 +1295,7 @@ sub _Show {
             %AclAction,
         },
     );
+
     return \$Output;
 }
 

@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -425,8 +425,8 @@ $Selenium->RunTest(
                 Data => {
                     Description                           => 'Custom relative -2 minutes before start',
                     NotificationTemplate                  => 'Custom',
-                    NotificationCustomRelativeInput       => 1,
-                    NotificationCustomDateTimeInput       => 0,
+                    NotificationCustomRelativeInput       =>  1,
+                    NotificationCustomDateTimeInput       =>  0,
                     NotificationCustomRelativeUnitCount   => -2,
                     NotificationCustomRelativeUnit        => 'minutes',
                     NotificationCustomRelativePointOfTime => 'beforestart',

@@ -14,8 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 package Kernel::Modules::BasePassword;
 
 use strict;
@@ -32,15 +30,14 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-    my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # cancel password action if an AgentInfo should be shown
     # to prevent enless redirect loop
@@ -60,8 +57,8 @@ sub PreRun {
     return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
 
     # redirect if password change time is in scope
-    my $PasswordMaxValidTimeInDays = $Config->{Password}->{PasswordMaxValidTimeInDays} * 60 * 60 * 24;
-    my $PasswordMaxValidTill       = $TimeObject->SystemTime() - $PasswordMaxValidTimeInDays;
+    my $PasswordMaxValidTimeInSeconds = $Config->{Password}->{PasswordMaxValidTimeInDays} * 60 * 60 * 24;
+    my $PasswordMaxValidTill          = $DateTimeObject->ToEpoch() - $PasswordMaxValidTimeInSeconds;
 
     # skip public frontends
     my $FrontendType = $Self->_FrontendTypeGet();
@@ -70,7 +67,7 @@ sub PreRun {
 
     # ignore pre application module if it is calling self
     return
-        if $Self->{Action} =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept)/;
+        if $Self->{Action} =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept|AjaxAttachment)/;
 
     # if last change time is over x days
     if ( !$Self->{UserLastPwChangeTime} || $Self->{UserLastPwChangeTime} < $PasswordMaxValidTill ) {
@@ -91,7 +88,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -183,7 +179,6 @@ sub Run {
 sub _Screen {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 

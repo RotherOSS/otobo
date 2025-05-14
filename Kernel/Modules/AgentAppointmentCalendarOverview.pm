@@ -193,14 +193,14 @@ sub Run {
             # check the calendar if stored in preferences
             if ( scalar @{$CalendarSelection} ) {
                 if ( grep { $_ == $Calendar->{CalendarID} } @{$CalendarSelection} ) {
-                    $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                    $Calendar->{Checked} = 'checked ' if $CurrentCalendar <= $CalendarLimit;
                     $CurrentCalendar++;
                 }
             }
 
             # check calendar by default if limit is not yet reached
             else {
-                $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                $Calendar->{Checked} = 'checked ' if $CurrentCalendar <= $CalendarLimit;
                 $CurrentCalendar++;
             }
 
@@ -323,9 +323,9 @@ sub Run {
 
     # Get text direction from language object.
     my $TextDirection = $LayoutObject->{LanguageObject}->{TextDirection} || '';
-    $LayoutObject->AddJSData(
+    $LayoutObject->AddJSBoolean(
         Key   => 'IsRTLLanguage',
-        Value => ( $TextDirection eq 'rtl' ) ? '1' : '',
+        Value => $TextDirection eq 'rtl',
     );
 
     $LayoutObject->AddJSData(

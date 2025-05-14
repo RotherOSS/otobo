@@ -66,12 +66,11 @@ Changes or deletes the value of a config setting.
 =head2 ConfigChecksum()
 
 This function returns an MD5 sum that is generated from all available
-config files (F<Kernel/Config.pm>, F<Kernel/Config/Defaults.pm>, F<Kernel/Config/Files/*.(pm|xml)>
-except F<ZZZAAuto.pm>) and their modification timestamps.
+config files (F<Kernel/Config.pm>, F<Kernel/Config/Defaults.pm>, and F<Kernel/Config/Files/*.pm>.
+The file names and the file modification timestamps constitute the input for the checksum generation.
 
 Whenever a file is changed, added or removed, this checksum will change.
 
-This is used for example in the Loader to generate cache file names that change whenever
-the system configuration changes.
+NOTE: This method is currently not used in core OTOBO.
 
 =cut

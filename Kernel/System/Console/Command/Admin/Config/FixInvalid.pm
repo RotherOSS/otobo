@@ -19,7 +19,7 @@ package Kernel::System::Console::Command::Admin::Config::FixInvalid;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::Console::BaseCommand);
+use parent                        qw(Kernel::System::Console::BaseCommand);
 use Kernel::System::VariableCheck qw( :all );
 
 our @ObjectDependencies = (

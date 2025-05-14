@@ -16,6 +16,8 @@
 
 package Kernel::System::CustomerAuth::LDAP;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use v5.24;
 use strict;
 use warnings;
@@ -32,6 +34,9 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -80,23 +85,15 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
-        || '';
-    $Self->{SearchUserPw} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
-        || '';
-    $Self->{GroupDN}    = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
-    $Self->{AccessAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
-        || '';
-    $Self->{UserAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
-        || 'DN';
-    $Self->{UserSuffix} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
-        || '';
-    $Self->{DestCharset} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
-        || 'utf-8';
+    $Self->{SearchUserDN} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
+    $Self->{SearchUserPw} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
+    $Self->{GroupDN}      = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} )      || '';
+    $Self->{AccessAttr}   = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )   || '';
+    $Self->{UserAttr}     = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )     || 'DN';
+    $Self->{UserSuffix}   = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )   || '';
 
     # ldap filter always used
-    $Self->{AlwaysFilter} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
-        || '';
+    $Self->{AlwaysFilter} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
 
     # Net::LDAP new params
     if ( $ConfigObject->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} ) ) {
@@ -149,7 +146,8 @@ sub Auth {
     $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   'utf-8' );
 
     # get params
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;
@@ -363,6 +361,7 @@ sub Auth {
     return $Param{User};
 }
 
+# TODO: this could be simplified because $Charset is always utf-8
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 
@@ -371,16 +370,17 @@ sub _ConvertTo {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Charset || !$Self->{DestCharset} ) {
+    if ( !$Charset ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
-    # convert from input charset ($Charset) to directory charset ($Self->{DestCharset})
+    # convert from input charset ($Charset) to directory charset (utf-8)
     return $EncodeObject->Convert(
         Text => $Text,
         From => $Charset,
-        To   => $Self->{DestCharset},
+        To   => 'utf-8',
     );
 }
 

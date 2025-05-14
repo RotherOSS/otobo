@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -179,7 +179,7 @@ for my $Test (@Tests) {
     $Self->IsNot(
         $TicketID,
         undef,
-        'TicketCrete()'
+        'TicketCreate()'
     );
 
     # Create article.
@@ -200,7 +200,7 @@ for my $Test (@Tests) {
     $Self->IsNot(
         $ArticleID,
         undef,
-        'ArticleCrete()'
+        'ArticleCreate()'
     );
 
     # Get Dynamic Fields Configuration

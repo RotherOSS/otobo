@@ -21,14 +21,12 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 #
 # This test should make sure that after switching from StaticDB to RuntimeDB,
 # tickets with stale entries in article_search can still be deleted (see bug#11677).
 #
-
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {

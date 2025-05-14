@@ -18,59 +18,51 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
+my $Home   = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # get daemon status (stop if necessary)
-my $PreviousDaemonStatus = `perl $Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
-    $Self->False(
-        1,
-        "Could not determine current daemon status!",
-    );
+    fail("Could not determine current daemon status!");
     die "Could not determine current daemon status!";
 }
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    my $ResultMessage = system("perl $Daemon stop");
+    my $ResultMessage = system("$^X $Daemon stop");
 }
 else {
-    $Self->True(
-        1,
-        "Daemon was already stopped.",
-    );
+    pass("Daemon was already stopped.");
 }
 
 # Wait for slow systems
 my $SleepTime = 120;
-print "Waiting at most $SleepTime s until daemon stops\n";
+note "Waiting at most $SleepTime s until daemon stops";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `perl $Daemon status`;
+    my $DaemonStatus = `$^X $Daemon status`;
     if ( $DaemonStatus =~ m{Daemon not running}i ) {
         last ACTIVESLEEP;
     }
-    print "Sleeping for $Seconds seconds...\n";
+    note "Sleeping for $Seconds seconds...";
     sleep 1;
 }
 
-my $CurrentDaemonStatus = `perl $Daemon status`;
-
-$Self->True(
-    int $CurrentDaemonStatus =~ m{Daemon not running}i,
-    "Daemon is not running",
-);
+my $CurrentDaemonStatus = `$^X $Daemon status`;
+ok( $CurrentDaemonStatus =~ m{Daemon not running}i, "Daemon is not running" );
 
 if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
+    fail "Daemon could not be stopped.";
     die "Daemon could not be stopped.";
 }
 
@@ -84,10 +76,7 @@ for my $AsyncTask (@AsyncTasks) {
     my $Success = $SchedulerDBObject->TaskDelete(
         TaskID => $AsyncTask->{TaskID},
     );
-    $Self->True(
-        $Success,
-        "TaskDelete - Removed scheduled asynchronous task $AsyncTask->{TaskID}",
-    );
+    ok( $Success, "TaskDelete - Removed scheduled asynchronous task $AsyncTask->{TaskID}" );
 }
 
 my @Tests = (
@@ -113,12 +102,12 @@ my $Success = $WorkerObject->Run();
 
 # Wait for slow systems
 $SleepTime = 120;
-print "Waiting at most $SleepTime s until tasks are executed\n";
+note "Waiting at most $SleepTime s until tasks are executed";
 ACTIVESLEEP:
 for my $Seconds ( 1 .. $SleepTime ) {
     my @List = $SchedulerDBObject->TaskList();
     last ACTIVESLEEP if !scalar @List;
-    print "Sleeping for $Seconds seconds...\n";
+    note "Sleeping for $Seconds seconds...";
     sleep 1;
     $WorkerObject->Run();
 }
@@ -149,21 +138,18 @@ for my $Test (@Tests) {
 
         # Wait for slow systems
         $SleepTime = 120;
-        print "Waiting at most $SleepTime s until tasks are executed\n";
+        note "Waiting at most $SleepTime s until tasks are executed";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $SleepTime ) {
             my @List = $SchedulerDBObject->TaskList();
             last ACTIVESLEEP if !scalar @List;
-            print "Sleeping for $Seconds seconds...\n";
+            note "Sleeping for $Seconds seconds...";
             sleep 1;
             $WorkerObject->Run();
         }
     }
 
-    $Self->True(
-        -e $File,
-        "$Test->{Name} - $File exists with true",
-    );
+    ok( -e $File, "$Test->{Name} - $File exists" );
 
     my $ContentSCALARRef = $MainObject->FileRead(
         Location        => $File,
@@ -173,8 +159,8 @@ for my $Test (@Tests) {
         DisableWarnings => 1,
     );
 
-    $Self->Is(
-        ${$ContentSCALARRef},
+    is(
+        $ContentSCALARRef->$*,
         '123',
         "$Test->{Name} - $File content match",
     );
@@ -185,15 +171,15 @@ for my $File (@FileRemember) {
     if ( -e $File ) {
         unlink $File;
     }
-    $Self->True(
+    ok(
         !-e $File,
-        "$File removed with true",
+        "$File removed",
     );
 }
 
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    system("perl $Daemon start");
+    system("$^X $Daemon start");
 }
 
-$Self->DoneTesting();
+done_testing;

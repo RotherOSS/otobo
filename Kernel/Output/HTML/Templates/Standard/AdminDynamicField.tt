@@ -30,6 +30,41 @@
     <div class="Clear"></div>
 
     <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid dynamic fields") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid dynamic fields") | html %]</label>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterDynamicFields">[% Translate("Filter for Dynamic Fields") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterDynamicFields" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterDynamicFields" value="" title="[% Translate("Filter for dynamic fields") | html %]">
+            </div>
+[% RenderBlockStart("DynamicFieldObjectType") %]
+            <div class="Content">
+                [% Data.DynamicFieldObjectStrg %]
+                <div class="FieldExplanation">
+                    <p>[% Translate("Filter field by object type") | html %]</p>
+                </div>
+            </div>
+[% RenderBlockEnd("DynamicFieldObjectType") %]
+[% RenderBlockStart("DynamicFieldNamespace") %]
+            <div class="Content">
+                [% Data.DynamicFieldNamespaceStrg %]
+                <div class="FieldExplanation">
+                    <p>[% Translate("Filter field by namespace") | html %]</p>
+                </div>
+            </div>
+[% RenderBlockEnd("DynamicFieldNamespace") %]
+        </div>
+
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Actions") | html %]</h2>
@@ -48,37 +83,6 @@
                 </ul>
             </div>
         </div>
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2><label for="FilterDynamicFields">[% Translate("Filter for Dynamic Fields") | html %]</label></h2>
-            </div>
-            <div class="Content">
-                <input type="text" id="FilterDynamicFields" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterDynamicFields" value="" title="[% Translate("Filter for dynamic fields") | html %]">
-            </div>
-        </div>
-
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("New Dynamic Fields") | html %]</h2>
-            </div>
-            <div class="Content">
-                <div class="FieldExplanation">
-                    <p>
-                        [% Translate("Would you like to benefit from additional dynamic field types? You have full access to the following field types:") | html %]
-                    </p>
-                    <dl>
-                        <dt>[% Translate('Database') | html %]</dt>
-                        <dd>[% Translate('Use external databases as configurable data sources for this dynamic field.') | html %]</dd>
-
-                        <dt>[% Translate('Web service') | html %]</dt>
-                        <dd>[% Translate('External web services can be configured as data sources for this dynamic field.') | html %]</dd>
-
-                        <dt>[% Translate('Contact with data') | html %]</dt>
-                        <dd>[% Translate('This feature allows to add (multiple) contacts with data to tickets.') | html %]</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
 
 [% RenderBlockStart("Hint") %]
         <div class="WidgetSimple">
@@ -93,6 +97,30 @@
                 </div>
             </div>
         </div>
+
+# TODO: Add the actually new fields
+#        <div class="WidgetSimple">
+#            <div class="Header">
+#                <h2>[% Translate("New Dynamic Fields") | html %]</h2>
+#            </div>
+#            <div class="Content">
+#                <div class="FieldExplanation">
+#                    <p>
+#                        [% Translate("Would you like to benefit from additional dynamic field types? You have full access to the following field types:") | html %]
+#                    </p>
+#                    <dl>
+#                        <dt>[% Translate('Database') | html %]</dt>
+#                        <dd>[% Translate('Use external databases as configurable data sources for this dynamic field.') | html %]</dd>
+#
+#                        <dt>[% Translate('Web service') | html %]</dt>
+#                        <dd>[% Translate('External web services can be configured as data sources for this dynamic field.') | html %]</dd>
+#
+#                        <dt>[% Translate('Contact with data') | html %]</dt>
+#                        <dd>[% Translate('This feature allows to add (multiple) contacts with data to tickets.') | html %]</dd>
+#                    </dl>
+#                </div>
+#            </div>
+#        </div>
 [% RenderBlockEnd("Hint") %]
     </div>
     <div class="ContentColumn">
@@ -148,6 +176,7 @@
                             <th>[% Translate("Type") | html %]</th>
                             <th>[% Translate("Object") | html %]</th>
                             <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Copy") | html %]</th>
                             <th>[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
@@ -162,7 +191,7 @@
 [% RenderBlockStart("DynamicFieldsRow") %]
                         <tr class="MasterAction[% IF Data.ValidID != 1%] Invalid[% END %]" id="DynamicFieldID_[% Data.ID | html %]">
                             <td>
-                                <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
+                                <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %][% Data.FilterStrg %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
                             </td>
                             <td>
                                 <div>[% Translate(Data.Label) | html %]</div>
@@ -180,8 +209,15 @@
                                 <div>[% Translate(Data.Valid) | html %]</div>
                             </td>
                             <td class="Center">
+[% RenderBlockStart("CloneLink") %]
+                                <a class="DynamicFieldClone" href="[% Env("Baselink") %]Action=[% Data.ConfigDialog %];Subaction=Add;CloneFieldID=[% Data.ID | uri %][% Data.FilterStrg %];FieldType=[% Data.FieldType | uri %];ObjectType=[% Data.ObjectTypeName | uri %]" title="[% Translate("Copy this field") | html %]">
+                                    <i class="fa fa-copy"></i>
+                                </a>
+[% RenderBlockEnd("CloneLink") %]
+                            </td>
+                            <td class="Center">
 [% RenderBlockStart("DeleteLink") %]
-                                <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]
+                                <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %][% Data.FilterStrg %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]
                                     <i class="fa fa-trash-o"></i>
                                 </a>
 [% RenderBlockEnd("DeleteLink") %]

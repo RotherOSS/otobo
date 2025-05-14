@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -161,7 +161,7 @@ if ($PluginKeyTicket) {
         "TicketNumberLookup() - $TicketNumber",
     );
 
-    # crete test calendar
+    # create test calendar
     my %Calendar = $CalendarObject->CalendarCreate(
         CalendarName => 'Test Calendar ' . $RandomID,
         Color        => '#3A87AD',

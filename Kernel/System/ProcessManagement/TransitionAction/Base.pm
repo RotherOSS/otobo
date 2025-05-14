@@ -105,7 +105,7 @@ sub _ReplaceTicketAttributes {
         REPLACEMENT:
         while (
             $Param{Config}->{$Attribute}
-            && $Param{Config}->{$Attribute} =~ m{<OTOBO_TICKET_([A-Za-z0-9_]+)>}msxi
+            && $Param{Config}->{$Attribute} =~ m{<OTOBO_TICKET_([A-Za-z0-9_\-]+)>}msxi
             && $Count++ < 1000
             )
         {
@@ -135,6 +135,11 @@ sub _ReplaceTicketAttributes {
 
                 next REPLACEMENT;
             }
+            elsif ( $TicketAttribute =~ m{DynamicField_(\S+?)_Data} ) {
+                my $DynamicFieldName = $1;
+
+                $Param{Config}->{$Attribute} = $Param{Ticket}->{"DynamicField_$DynamicFieldName"};
+            }
             elsif ( $TicketAttribute =~ m{DynamicField_(\S+)} ) {
                 my $DynamicFieldName = $1;
 
@@ -156,7 +161,7 @@ sub _ReplaceTicketAttributes {
             }
 
             # if ticket value is scalar substitute all instances (as strings)
-            # this will allow replacements for "<OTOBO_TICKET_Title> <OTOBO_TICKET_Queue"
+            # this will allow replacements for "<OTOBO_TICKET_Title> <OTOBO_TICKET_Queue>"
             if ( !ref $Param{Ticket}->{$TicketAttribute} ) {
                 $Param{Config}->{$Attribute}
                     =~ s{<OTOBO_TICKET_$TicketAttribute>}{$Param{Ticket}->{$TicketAttribute} // ''}ige;
@@ -331,11 +336,10 @@ sub _ReplaceAdditionalAttributes {
                     String => $ConfigValue,
                 );
 
-                # For body, create a completed html doc for correct displaying.
+                # For body, create a completed HTML doc for correct displaying.
                 if ( $Attribute eq 'Body' ) {
                     $ConfigValue = $HTMLUtilsObject->DocumentComplete(
-                        String  => $ConfigValue,
-                        Charset => 'utf-8',
+                        String => $ConfigValue,
                     );
                 }
             }

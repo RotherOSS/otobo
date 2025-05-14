@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
@@ -209,7 +209,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # Remember created ticket, to delete the ticket at the end of the test.
-        my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+        my @TicketID = split /TicketID=/, $Selenium->get_current_url();
         push @DeleteTicketIDs, $TicketID[1];
 
         $Selenium->WaitFor(

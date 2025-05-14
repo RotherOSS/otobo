@@ -16,15 +16,21 @@
 
 package Kernel::GenericInterface::Transport::HTTP::Test;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use HTTP::Request::Common;
-use LWP::UserAgent;
-use LWP::Protocol;
+# core modules
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+use HTTP::Request::Common qw(POST);
+use LWP::UserAgent        ();
+use LWP::Protocol         ();
+use Plack::Response       ();
+
+# OTOBO modules
+use Kernel::System::Web::Exception ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -61,8 +67,7 @@ for an example);
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
@@ -121,55 +126,83 @@ sub ProviderProcessRequest {
 
 =head2 ProviderGenerateResponse()
 
-this will generate a query string from the passed data hash
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
+
+This will generate a query string from the passed data hash.
 and generate an HTTP response with this string as the body.
-This response will be printed so that the web server will
-send it to the client.
+
+The response will be thrown as an exception.
 
 =cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    my $PlackResponse;
+
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
 
-        return {
-            Success      => 0,
-            ErrorMessage => 'Test response generation failed',
-        };
+        my $ErrorMessage = 'Test response generation failed';
+
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
+
+        # a response with code 500
+        $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
+
     }
+    elsif ( !$Param{Success} ) {
+        my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
-    my $Response;
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
 
-    if ( !$Param{Success} ) {
-        $Response = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
-        $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain; charset=UTF-8");
-        $Response->date(time);
+        # a response with code 500
+        $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
     }
     else {
 
         # generate a request string from the data
-        my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
+        my $Request = POST( 'http://testhost.local/', Content => $Param{Data} );
 
-        $Response = HTTP::Response->new( 200 => "OK" );
-        $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain; charset=UTF-8");
-        $Response->add_content_utf8( $Request->content() );
-        $Response->date(time);
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        my $Content = $Request->content;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
+
+        $PlackResponse = Plack::Response->new(
+            200,
+            [ 'Content-Type' => 'text/plain; charset=UTF-8' ],
+            $Content
+        );
     }
 
+    my $SerialisedResponse = join "\n",
+        $PlackResponse->code,
+        $PlackResponse->headers->as_string,
+        $PlackResponse->body;
     $Self->{DebuggerObject}->Debug(
         Summary => 'Sending HTTP response',
-        Data    => $Response->as_string(),
+        Data    => $SerialisedResponse,
     );
 
-    # now send response to client
-    print STDOUT $Response->as_string();
-
-    return {
-        Success => 1,
-    };
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse,
+    );
 }
 
 =head2 RequesterPerformRequest()
@@ -259,9 +292,6 @@ sub request {    ## no critic qw(Subroutines::RequireArgUnpacking)
     $Response->content_type("text/plain; charset=UTF-8");
     $Response->add_content_utf8( $Request->content() );
     $Response->date(time);
-
-    #print $Request->as_string();
-    #print $Response->as_string();
 
     return $Response;
 }

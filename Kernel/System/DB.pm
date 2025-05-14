@@ -15,27 +15,21 @@
 # --
 
 package Kernel::System::DB;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
-use List::Util();
+use List::Util qw(shuffle);
 
 # CPAN modules
-use DBI;
-
-# Set a flag indicating the PSGI case.
-my $DBIxConnectorIsUsed;
-
-BEGIN {
-    $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
-}
-
-# DBIx::Connector is not used under mod_perl
-use if $DBIxConnectorIsUsed, 'DBIx::Connector';
+use DBI             ();
+use DBIx::Connector ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -49,7 +43,10 @@ our @ObjectDependencies = (
     'Kernel::System::Storable',
 );
 
-our $UseSlaveDB = 0;
+# This package variable can temporarily be set to 1.
+# The effect is that the mirror DB is used, which can
+# shed some load for computing intensive tasks, like the generation of statistics.
+our $UseMirrorDB = 0;
 
 =head1 NAME
 
@@ -63,7 +60,7 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head2 new()
 
-create database object, with database connect..
+create a database object the allows to connect to a database.
 Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
@@ -86,6 +83,25 @@ Usually you do not use it directly, instead use:
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+There are cases when a second connection to a database is needed. In these cases
+the constructor can also be called directly. In most of these cases it makes
+sense to pass the argument C<DisconnectOnDestruction> too. In other cases
+C<Finish()> can be called in order to clean up lingering database connections.
+
+    {
+        my $CustomerDBObject = Kernel::System::DB->new(
+            DatabaseDSN             => $Self->{CustomerCompanyMap}->{Params}->{DSN},
+            DatabaseUser            => $Self->{CustomerCompanyMap}->{Params}->{User},
+            DatabasePw              => $Self->{CustomerCompanyMap}->{Params}->{Password},
+            Type                    => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
+            DisconnectOnDestruction => 1,
+        ) || die('Can\'t connect to customer database!');
+
+        # do something with the customer database
+
+        # database is disconnected on destruction because DisconnectOnDestruction is set
+    }
+
 =cut
 
 sub new {
@@ -100,21 +116,25 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get config data in following order of significance:
-    #   1 - Parameters passed to constructor
+    #   1 - Parameters passed to constructor, i.e. parameters declared with ObjectParamAdd
     #   2 - Test database configuration
-    #   3 - Main database configuration
-    $Self->{DSN} =
-        $Param{DatabaseDSN} || $ConfigObject->Get('TestDatabaseDSN') || $ConfigObject->Get('DatabaseDSN');
-    $Self->{USER} =
-        $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
-    $Self->{PW} =
-        $Param{DatabasePw} || $ConfigObject->Get('TestDatabasePw') || $ConfigObject->Get('DatabasePw');
+    #   3 - Main database configuration, usually from Kernel/Config.pm
+    $Self->{DSN}  = $Param{DatabaseDSN}  || $ConfigObject->Get('TestDatabaseDSN')  || $ConfigObject->Get('DatabaseDSN');
+    $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
+    $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
-    $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
+    # mirror DB related
+    $Self->{IsMirrorDB}    = $Param{IsMirrorDB};    # a guard that stops creation of a further mirror DB
+    $Self->{_InitMirrorDB} = 0;                     # a guard that avoids reconnecting to a mirror DB
+
+    # might be useful for database migrations
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
 
     # SlowLog can be activated globally
     $Self->{SlowLog} = $Param{'Database::SlowLog'} || $ConfigObject->Get('Database::SlowLog');
+
+    # turn off persistent database connection, per default database connection is persistent
+    $Self->{DisconnectOnDestruction} = $Param{DisconnectOnDestruction};
 
     # decrypt pw (if needed)
     if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
@@ -185,37 +205,23 @@ sub new {
 
 =head2 Connect()
 
-to connect to a database
+to connect to a database. Connections are managed with DBIx::Connector.
 
-    $DBObject->Connect();
+    my $ConnectSuccess = $DBObject->Connect();
+
+Return an empty list when the connection fails.
+
+When connection succeeds than a L<DBI> database handle is returned.
+
+    my $DatabaseHandle = $DBObject->Connect();
+
+This feature should be used only in exceptional cases, as usually all access to the database
+should be handled by the instance on L<Kernel::System::DB>.
 
 =cut
 
 sub Connect {
     my $Self = shift;
-
-    # Primarily trust that an existing DB-connection is still alive.
-    # But ping the connection once in a while.
-    # Under PSGI we rely on DBI-Connector.
-    if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
-
-        my $PingTimeout = 10;     # Only ping every 10 seconds (see bug#12383).
-        my $CurrentTime = time;
-
-        if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
-            return $Self->{dbh};
-        }
-
-        # Ping to see if the connection is still alive.
-        if ( $Self->{dbh}->ping() ) {
-            $Self->{LastPingTime} = $CurrentTime;
-
-            return $Self->{dbh};
-        }
-
-        # Ping failed: cause a reconnect.
-        delete $Self->{dbh};
-    }
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -228,18 +234,15 @@ sub Connect {
     }
 
     # db connect
-    if ($DBIxConnectorIsUsed) {
+    {
 
-        my ( %ConnectAttributes, %Callbacks );
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
         {
-            # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
             if ( $Self->{Backend}->{'DB::Connect'} ) {
 
                 # run a command for initializing a session
                 my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
-                if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
-                    $Self->{Backend}->PreProcessSQL( \$DBConnectSQL );
-                }
 
                 # maybe deactivate foreign key checks
                 my $DeactivateSQL;
@@ -262,34 +265,35 @@ sub Connect {
                 };
             }
 
-            # set utf-8 on for PostgreSQL
-            # Note: This is untested for the PSGI-case
-            if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-                $ConnectAttributes{pg_enable_utf8} = 1;
-            }
-
-            # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-            # between DBI and DBIx::Connector.
-            # For DBI they are off per default, but for DBIx::Connector they are on per default.
-            # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-            #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
-            # AutoInactiveDestroy: Concerns only behavior on forks and such.
-            #                      Keep it activated as it is important for DBIx::Connector.
-            #
-            # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
-            # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
-            %ConnectAttributes = (
-                RaiseError => 0,
-                $Self->{Backend}->{'DB::Attribute'}->%*,
-            );
+            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
+            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
+            # this is no longer necessary.
+            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            #    $ConnectAttributes{pg_enable_utf8} = 1;
+            #}
         }
+
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector.
+        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
+        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+        # AutoInactiveDestroy: Concerns only behavior on forks and such.
+        #                      Keep it activated as it is important for DBIx::Connector.
+        #
+        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+        my %ConnectAttributes = (
+            RaiseError => 0,
+            $Self->{Backend}->{'DB::Attribute'}->%*,
+        );
 
         # Generation of the cache key is copied from DBI::connect_cached().
         # According to https://metacpan.org/pod/DBI#connect_cached it is OK to
         # have the callbacks with the attributes.
         # But for now, the Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
-            local $^W;
+            no warnings;    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
             join
                 "!\001",
@@ -321,16 +325,7 @@ sub Connect {
         );
 
         # this method reuses an existing connection when it is still pinging
-        $Self->{dbh} = $Cache{$CacheKey}->dbh();
-    }
-    else {
-        # When Apache::DBI is loaded a cached connection might be used
-        $Self->{dbh} = DBI->connect(
-            $Self->{DSN},
-            $Self->{USER},
-            $Self->{PW},
-            $Self->{Backend}->{'DB::Attribute'},
-        );
+        $Self->{dbh} = $Cache{$CacheKey}->dbh;
     }
 
     if ( !$Self->{dbh} ) {
@@ -343,29 +338,8 @@ sub Connect {
         return;
     }
 
-    # In the PSGI case this is included in the connection attributes
-    if ( !$DBIxConnectorIsUsed ) {
-        if ( $Self->{Backend}->{'DB::Connect'} ) {
-            $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
-        }
-
-        # maybe deactivate foreign key checks
-        if ( $Self->{DeactivateForeignKeyChecks} ) {
-            my $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
-            if ($DeactivateSQL) {
-                $Self->Do( SQL => $DeactivateSQL );
-            }
-        }
-
-        # set utf-8 on for PostgreSQL
-        # Note: This is untested for the PSGI-case
-        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-            $Self->{dbh}->{pg_enable_utf8} = 1;
-        }
-    }
-
-    if ( $Self->{SlaveDBObject} ) {
-        $Self->{SlaveDBObject}->Connect();
+    if ( $Self->{MirrorDBObject} ) {
+        $Self->{MirrorDBObject}->Connect();
     }
 
     return $Self->{dbh};
@@ -393,12 +367,12 @@ sub Disconnect {
 
     # do disconnect
     if ( $Self->{dbh} ) {
-        $Self->{dbh}->disconnect();
+        $Self->{dbh}->disconnect;
         delete $Self->{dbh};
     }
 
-    if ( $Self->{SlaveDBObject} ) {
-        $Self->{SlaveDBObject}->Disconnect();
+    if ( $Self->{MirrorDBObject} ) {
+        $Self->{MirrorDBObject}->Disconnect();
     }
 
     return 1;
@@ -410,7 +384,9 @@ to get the database version
 
     my $DBVersion = $DBObject->Version();
 
-    returns: "MySQL 5.1.1";
+returns for example:
+
+    "MySQL 5.1.1";
 
 =cut
 
@@ -421,7 +397,7 @@ sub Version {
 
     if ( $Self->{Backend}->{'DB::Version'} ) {
         $Self->Prepare( SQL => $Self->{Backend}->{'DB::Version'} );
-        while ( my @Row = $Self->FetchrowArray() ) {
+        while ( my @Row = $Self->FetchrowArray ) {
             $Version = $Row[0];
         }
     }
@@ -433,18 +409,17 @@ sub Version {
 
 to quote sql parameters
 
-    quote strings, date and time:
-    =============================
-    my $DBString = $DBObject->Quote( "This isn't a problem!" );
+Quote strings, date and time:
 
+    my $DBString = $DBObject->Quote( "This isn't a problem!" );
     my $DBString = $DBObject->Quote( "2005-10-27 20:15:01" );
 
-    quote integers:
-    ===============
+Quote integers:
+
     my $DBString = $DBObject->Quote( 1234, 'Integer' );
 
-    quote numbers (e. g. 1, 1.4, 42342.23424):
-    ==========================================
+Quote numbers (e. g. 1, 1.4, 42342.23424):
+
     my $DBString = $DBObject->Quote( 1234, 'Number' );
 
 =cut
@@ -453,7 +428,7 @@ sub Quote {
     my ( $Self, $Text, $Type ) = @_;
 
     # return undef if undef
-    return if !defined $Text;
+    return unless defined $Text;
 
     # quote strings
     if ( !defined $Type ) {
@@ -468,8 +443,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid integer in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -481,8 +458,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid number in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -518,19 +497,23 @@ sub Error {
 
 to insert, update or delete values
 
-    $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
+    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
 
-    $DBObject->Do( SQL => "DELETE FROM table" );
+    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM table" );
 
-    you also can use DBI bind values (used for large strings):
+you also can use DBI bind values (used for large strings):
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Do(
+    my $InsertSuccess = $DBObject->Do(
         SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
         Bind => [ \$Var1, \$Var2 ],
     );
+
+The special value B<current_timestamp> is replaced by the current date and time.
+
+Returns 1 in the case of success, an empty list in the case of failure.
 
 =cut
 
@@ -547,14 +530,10 @@ sub Do {
         return;
     }
 
-    if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
-        $Self->{Backend}->PreProcessSQL( \$Param{SQL} );
-    }
-
     # check bind params
     my @Array;
     if ( $Param{Bind} ) {
-        for my $Data ( @{ $Param{Bind} } ) {
+        for my $Data ( $Param{Bind}->@* ) {
             if ( ref $Data eq 'SCALAR' ) {
                 push @Array, $$Data;
             }
@@ -564,11 +543,9 @@ sub Do {
                     Priority => 'Error',
                     Message  => 'No SCALAR param in Bind!',
                 );
+
                 return;
             }
-        }
-        if ( @Array && $Self->{Backend}->{'DB::PreProcessBindData'} ) {
-            $Self->{Backend}->PreProcessBindData( \@Array );
         }
     }
 
@@ -576,7 +553,7 @@ sub Do {
     # - This avoids time inconsistencies of app and db server
     # - This avoids timestamp problems in Postgresql servers where
     #   the timestamp is sometimes 1 second off the perl timestamp.
-
+    # - This might break server side caching of statements
     $Param{SQL} =~ s{
         (?<= \s | \( | , )  # lookbehind
         current_timestamp   # replace current_timestamp by 'yyyy-mm-dd hh:mm:ss'
@@ -603,7 +580,7 @@ sub Do {
         );
     }
 
-    return if !$Self->Connect();
+    return unless $Self->Connect;
 
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
@@ -612,28 +589,92 @@ sub Do {
             Priority => 'error',
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
+
         return;
     }
 
     return 1;
 }
 
-sub _InitSlaveDB {
+=head2 DoArray()
+
+to insert, update or delete multiple values. There are two variants. You can bind the column arrays.
+For convenience, when a plain scalar is bound, then it is used for all rows.
+
+    my @Dogs   = qw(Ferdinand Wastl Bello);
+    my @Owners = qw(Madleine Ferdinand Jaques);
+
+    my $NumInserts = $DBObject->DoArray(
+        SQL  => "INSERT INTO dogs (name, relation, owner) VALUES (?, ?, ?)",
+        Bind => [ \@Dogs, 'is owned by', \@Owners ],
+    );
+
+A subroutine that generates the rows can be passed.
+
+    my $FetchTuple = sub {
+        state $Index = -1;
+        my @Dogs = (
+            [ 'Maxl', 'loves', 'Michaela' ],
+            [ 'Wussel', 'loves', 'Michaela' ],
+        );
+
+        $Index++;
+
+        return if $Index >= 2;
+        return $Dogs[$Index];
+    };
+
+    my $NumInserts = $DBObject->DoArray(
+        SQL             => "INSERT INTO dogs (name, relation, owner) VALUES (?, ?, ?)",
+        ArrayTupleFetch => $FetchTuple,
+    );
+
+=cut
+
+sub DoArray {
+    my ( $Self, %Param ) = @_;
+
+    my $BindVariables = $Self->Prepare(
+        %Param,
+        DoArray => 1,
+        Execute => 0,
+    );
+
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
+
+    # the statement handle has been prepared in Prepare()
+
+    # support the attribute ArrayTupleFetch
+    my %Attributes = ( ArrayTupleStatus => \my @TupleStatus );
+    if ( $Param{ArrayTupleFetch} ) {
+        $Attributes{ArrayTupleFetch} = $Param{ArrayTupleFetch};
+    }
+
+    # return the number of handled tuples
+    return scalar $Self->{Cursor}->execute_array(
+        \%Attributes,
+        $BindVariables->@*
+    );
+}
+
+sub _InitMirrorDB {
     my ( $Self, %Param ) = @_;
 
     # Run only once!
-    return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
+    # Report whether a mirror DB could be created in the initial call.
+    return ( $Self->{MirrorDBObject} ? 1 : 0 ) if $Self->{_InitMirrorDB}++;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MasterDSN    = $ConfigObject->Get('DatabaseDSN');
 
-    # Don't create slave if we are already in a slave, or if we are not in the master,
+    # Don't create mirror if we are already in a mirror, or if we are not in the master,
     #   such as in an external customer user database handle.
-    if ( $Self->{IsSlaveDB} || $MasterDSN ne $Self->{DSN} ) {
-        return $Self->{SlaveDBObject};
+    if ( $Self->{IsMirrorDB} || $MasterDSN ne $Self->{DSN} ) {
+        return $Self->{MirrorDBObject};
     }
 
-    my %SlaveConfiguration = (
+    my %MirrorDBConfiguration = (
         %{ $ConfigObject->Get('Core::MirrorDB::AdditionalMirrors') // {} },
         0 => {
             DSN      => $ConfigObject->Get('Core::MirrorDB::DSN'),
@@ -642,83 +683,117 @@ sub _InitSlaveDB {
         }
     );
 
-    return $Self->{SlaveDBObject} if !%SlaveConfiguration;
+    INDEX:
+    for my $Index ( shuffle keys %MirrorDBConfiguration ) {
 
-    SLAVE_INDEX:
-    for my $SlaveIndex ( List::Util::shuffle( keys %SlaveConfiguration ) ) {
+        my %MirrorDBConfig = %{ $MirrorDBConfiguration{$Index} // {} };
 
-        my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {} };
-        next SLAVE_INDEX if !%CurrentSlave;
+        # If a mirror is configured and it is not already used in the current object
+        #   and we are actually in the master connection object: then create a mirror.
+        next INDEX unless %MirrorDBConfig;
+        next INDEX unless $MirrorDBConfig{DSN};
+        next INDEX unless $MirrorDBConfig{User};
+        next INDEX unless $MirrorDBConfig{Password};
 
-        # If a slave is configured and it is not already used in the current object
-        #   and we are actually in the master connection object: then create a slave.
-        if (
-            $CurrentSlave{DSN}
-            && $CurrentSlave{User}
-            && $CurrentSlave{Password}
-            )
-        {
-            my $SlaveDBObject = Kernel::System::DB->new(
-                DatabaseDSN  => $CurrentSlave{DSN},
-                DatabaseUser => $CurrentSlave{User},
-                DatabasePw   => $CurrentSlave{Password},
-                IsSlaveDB    => 1,
-            );
+        # Create a new DB object for the mirror.
+        # Mark it as already being a mirror, so that no further mirror DB objects are created.
+        my $MirrorDBObject = Kernel::System::DB->new(
+            DatabaseDSN  => $MirrorDBConfig{DSN},
+            DatabaseUser => $MirrorDBConfig{User},
+            DatabasePw   => $MirrorDBConfig{Password},
+            IsMirrorDB   => 1,
+        );
 
-            if ( $SlaveDBObject->Connect() ) {
-                $Self->{SlaveDBObject} = $SlaveDBObject;
-                return $Self->{SlaveDBObject};
-            }
+        # work is done when connecting to the mirror DB worked
+        # otherwise try the next mirror DB config
+        if ( $MirrorDBObject->Connect ) {
+            $Self->{MirrorDBObject} = $MirrorDBObject;
+
+            return 1;
         }
+
+        # try the next mirror DB configuration if there is one
     }
 
-    # no connect was possible.
-    return;
+    # no mirror DB was configured or connect wasn't possible,
+    # $Self->{MirrorDBObject} remains undefined
+    return 0;
 }
 
 =head2 Prepare()
 
-to prepare and execute a SELECT statement
+prepares and executes a SELECT statement.
 
-    $DBObject->Prepare(
-        SQL   => "SELECT id, name FROM table",
+    my $Success = $DBObject->Prepare(
+        SQL   => 'SELECT id, name FROM table',
         Limit => 10,
     );
 
-or in case you want just to get row 10 until 30
+Or in case you want just to get row 10 until 30:
 
-    $DBObject->Prepare(
-        SQL   => "SELECT id, name FROM table",
+    my $Success = $DBObject->Prepare(
+        SQL   => 'SELECT id, name FROM table',
         Start => 10,
         Limit => 20,
     );
 
-in case you don't want utf-8 encoding for some columns, use this:
+In case you don't want utf-8 encoding for some columns, use this:
 
-    $DBObject->Prepare(
-        SQL    => "SELECT id, name, content FROM table",
+    my $Success = $DBObject->Prepare(
+        SQL    => 'SELECT id, name, content FROM table',
         Encode => [ 1, 1, 0 ],
     );
 
-It is recommended to use bind variables:
+Using bind variables is recommended:
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
 
-    $DBObject->Prepare(
-        SQL    => "SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?",
+    my $Success = $DBObject->Prepare(
+        SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Encode => [ 1, 1, 0 ],
-        Bind   => [ \$Var1, \$Var2 ],
+        Bind   => [ \($Var1, $Var2) ],
     );
+
+These are the regular use cases where C<1> is returned in the case of success. C<undef> is returned
+when there was an error. The result of the SELECT can be retrieved with C<FetchrowArray()>.
+
+This method is also used internally for methods that want to execute the prepared statement by themselves.
+This case is triggered by passing the parameter C<Execute> with the value C<0>. The returned value
+is C<undef> in case of error and an arrayref in case of success.
+The returned arrayref contains the bind variables like they are used in C<DBI>.
+Internally, the attribute C<Cursor> will be set to the prepared statement handle.
+
+    my $Var1 = 'dog1';
+    my $Var2 = 'dog2';
+
+    my $BindVariables = $DBObject->Prepare(
+        SQL     => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
+        Bind    => [ \($Var1, $Var2) ],
+        Execute => 0,
+    );
+
+will return
+
+    my $BindVariables = ['dog1', 'dog2'];
+
+In the case of an error:
+
+    my $BindVariables = undef;
+
+Another internally used parameter is C<DoArray>. That parameter indicates that the array bind values are used.
 
 =cut
 
 sub Prepare {
     my ( $Self, %Param ) = @_;
 
-    my $SQL   = $Param{SQL};
-    my $Limit = $Param{Limit} || '';
-    my $Start = $Param{Start} || '';
+    # extract parameters and set defaults
+    my $SQL     = $Param{SQL};
+    my $Limit   = $Param{Limit} || '';
+    my $Start   = $Param{Start} || '';
+    my $Execute = $Param{Execute} // 1;    # executing the passed SQL is the default
+    my $DoArray = $Param{DoArray} // 0;
 
     # check needed stuff
     if ( !$Param{SQL} ) {
@@ -733,26 +808,26 @@ sub Prepare {
     if ( $Param{Bind} && ref $Param{Bind} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Bind must be and array reference!',
+            Message  => 'Bind must be an array reference!',
         );
     }
 
-    $Self->{_PreparedOnSlaveDB} = 0;
+    $Self->{_PreparedOnMirrorDB} = 0;
 
-    # Route SELECT statements to the DB slave if requested and a slave is configured.
+    # Route SELECT statements to the DB mirror if requested and a mirror is configured.
     if (
-        $UseSlaveDB
-        && !$Self->{IsSlaveDB}
-        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
-        && $SQL =~ m{\A\s*SELECT}xms
+        $UseMirrorDB
+        && !$Self->{IsMirrorDB}
+        && $SQL =~ m{\A\s*SELECT}xms    # note that 'select' in lower case does not work
+        && $Self->_InitMirrorDB         # this is very cheap after the first call (cached)
         )
     {
-        $Self->{_PreparedOnSlaveDB} = 1;
+        $Self->{_PreparedOnMirrorDB} = 1;
 
-        return $Self->{SlaveDBObject}->Prepare(%Param);
+        return $Self->{MirrorDBObject}->Prepare(%Param);
     }
 
-    $Self->{Encode}       = $Param{Encode} // undef;
+    $Self->{Encode}       = $Param{Encode};
     $Self->{Limit}        = 0;
     $Self->{LimitStart}   = 0;
     $Self->{LimitCounter} = 0;
@@ -761,7 +836,7 @@ sub Prepare {
     if ($Limit) {
         if ($Start) {
             $Limit = $Limit + $Start;
-            $Self->{LimitStart} = $Start;
+            $Self->{LimitStart} = $Start;            # for some reason "LIMIT  100, 10" is not supported
         }
         if ( $Self->{Backend}->{'DB::Limit'} eq 'limit' ) {
             $SQL .= " LIMIT $Limit";
@@ -770,6 +845,8 @@ sub Prepare {
             $SQL =~ s{ \A \s* (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
         }
         else {
+
+            # workaround for Oracle
             $Self->{Limit} = $Limit;
         }
     }
@@ -790,51 +867,53 @@ sub Prepare {
         $LogTime = time();
     }
 
-    if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
-        $Self->{Backend}->PreProcessSQL( \$SQL );
-    }
-
     # check bind params
-    my @Array;
+    my @BindVariables;
     if ( $Param{Bind} ) {
+        my %RefIsValid = map { $_ => 1 } $DoArray ? ( 'ARRAY', '' ) : ('SCALAR');
         for my $Data ( $Param{Bind}->@* ) {
-            if ( ref $Data eq 'SCALAR' ) {
-                push @Array, $Data->$*;
+            my $RefType = ref $Data;
+            if ( $RefIsValid{$RefType} ) {
+                push @BindVariables, $DoArray ? $Data : $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => 'No SCALAR param in Bind!',
+                    Message  => qq{Invalid reference type '$RefType' in Bind!},
                 );
 
                 return;
             }
         }
-
-        if ( @Array && $Self->{Backend}->{'DB::PreProcessBindData'} ) {
-            $Self->{Backend}->PreProcessBindData( \@Array );
-        }
     }
 
-    return unless $Self->Connect();
+    return unless $Self->Connect;
 
-    # do
+    # prepare a statement handle and store it in $Self->{Cursor}
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
-    if ( !$Self->{Cursor}->execute(@Array) ) {
+    # This is only for internal use, like for SelectColArray(), SelectRowArray(), SelectMapping()
+    if ( !$Execute ) {
+        return \@BindVariables;    # always a true value
+    }
+
+    # execute the statement handle
+    if ( !$Self->{Cursor}->execute(@BindVariables) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
@@ -855,30 +934,33 @@ sub Prepare {
 
 =head2 FetchrowArray()
 
-to process the results of a SELECT statement
+to process the results of a SELECT statement.
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
         Limit => 10
     );
 
-    while (my @Row = $DBObject->FetchrowArray()) {
-        print "$Row[0]:$Row[1]\n";
+    while (my ($ID, $Name) = $DBObject->FetchrowArray) {
+        print "$ID:$Name\n";
     }
+
+Note that while we are within a fetch loop, no other database interaction may take place.
 
 =cut
 
 sub FetchrowArray {
     my $Self = shift;
 
-    if ( $Self->{_PreparedOnSlaveDB} ) {
-        return $Self->{SlaveDBObject}->FetchrowArray();
+    if ( $Self->{_PreparedOnMirrorDB} ) {
+        return $Self->{MirrorDBObject}->FetchrowArray();
     }
 
-    # work with cursors if database don't support limit
+    # work with cursors if database don't support limit, e.g. Oracle prior to 12c
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
-            $Self->{Cursor}->finish();
+            $Self->{Cursor}->finish;
+
             return;
         }
         $Self->{LimitCounter}++;
@@ -889,6 +971,7 @@ sub FetchrowArray {
         for ( 1 .. $Self->{LimitStart} ) {
             if ( !$Self->{Cursor}->fetchrow_array() ) {
                 $Self->{LimitStart} = 0;
+
                 return ();
             }
             $Self->{LimitCounter}++;
@@ -896,30 +979,11 @@ sub FetchrowArray {
         $Self->{LimitStart} = 0;
     }
 
-    # return
+    # fetch the data from the DB
     my @Row = $Self->{Cursor}->fetchrow_array();
 
-    if ( !$Self->{Backend}->{'DB::Encode'} ) {
-        return @Row;
-    }
-
-    # get encode object
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    # e. g. set utf-8 flag
-    my $Counter = 0;
-    ELEMENT:
-    for my $Element (@Row) {
-
-        next ELEMENT if !defined $Element;
-
-        if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
-            $EncodeObject->EncodeInput( \$Element );
-        }
-    }
-    continue {
-        $Counter++;
-    }
+    # The fetched row might be tweaked here
+    $Self->_EncodeInputList( \@Row );
 
     return @Row;
 }
@@ -959,7 +1023,7 @@ sub ListTables {
     return unless $Success;
 
     my @Tables;
-    while ( my ($Table) = $Self->FetchrowArray() ) {
+    while ( my ($Table) = $Self->FetchrowArray ) {
         push @Tables, lc $Table;
     }
 
@@ -994,38 +1058,191 @@ sub GetColumnNames {
 
 =head2 SelectAll()
 
-returns all available records of a SELECT statement.
-In essence, this calls Prepare() and FetchrowArray() to get all records.
+returns all available records returned by a SELECT statement.
+You can pass the same arguments as to the Prepare() method.
+
+The method uses the C<DBI> method C<selectall_arrayref>.
+This is equivalent this calling C<Prepare()> and then C<FetchrowArray()> in a loop to get all records.
 
     my $ResultAsArrayRef = $DBObject->SelectAll(
         SQL   => "SELECT id, name FROM table",
-        Limit => 10
+        Limit => 4,
     );
 
-You can pass the same arguments as to the Prepare() method.
+Returns undef (if query failed), or a reference to an array of array references if the query was successful:
 
-Returns undef (if query failed), or an array ref (if query was successful):
-
-  my $ResultAsArrayRef = [
-    [ 1, 'itemOne' ],
-    [ 2, 'itemTwo' ],
-    [ 3, 'itemThree' ],
-    [ 4, 'itemFour' ],
-  ];
+    my $ResultAsArrayRef = [
+        [ 1, 'itemOne' ],
+        [ 2, 'itemTwo' ],
+        [ 3, 'itemThree' ],
+        [ 4, 'itemFour' ],
+    ];
 
 =cut
 
 sub SelectAll {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->Prepare(%Param);
+    my $BindVariables = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
 
-    my @Records;
-    while ( my @Row = $Self->FetchrowArray() ) {
-        push @Records, \@Row;
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
+
+    # the statement handle has been prepared in Prepare()
+    my $Matrix = $Self->{dbh}->selectall_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {},                 # no attributes
+        $BindVariables->@*
+    );
+
+    return unless defined $Matrix;
+    return unless ref $Matrix eq 'ARRAY';
+
+    # The fetched rows might be tweaked here
+    for my $Row ( $Matrix->@* ) {
+        $Self->_EncodeInputList($Row);
     }
 
-    return \@Records;
+    return $Matrix;
+}
+
+=head2 SelectRowArray()
+
+returns the first available record of a SELECT statement.
+In essence, this calls C<Prepare()> and then C<FetchrowArray()> once to get the first record.
+In all cases C<finish()> is called on the statement handle. This means that no
+further rows can be retrieved with C<FetchrowArray>.
+
+    my ($ID, $Name) = $DBObject->SelectRowArray(
+        SQL   => "SELECT id, name FROM table",
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef if the query failed, or a list if the query was successful:
+
+    my ($ID, $Name) = (1, 'first');
+
+=cut
+
+sub SelectRowArray {
+    my ( $Self, %Param ) = @_;
+
+    return unless $Self->Prepare(%Param);
+
+    my @Row = $Self->FetchrowArray;
+
+    # release resources from the current statement handle
+    if ( $Self->{Cursor} ) {
+        $Self->{Cursor}->finish;
+    }
+
+    return @Row;
+}
+
+=head2 SelectColArray()
+
+returns the first column a SELECT statement.
+In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()> to get the first column.
+
+    my $MinID = 100;
+    my @IDs = $DBObject->SelectColArray(
+        SQL   => "SELECT id, name FROM table WHERE id >= ? ORDER BY id",
+        Bind  => [ \$MinID ],
+        Limit => 3,
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef if the query failed, or a list if the query was successful:
+
+    my @IDs = (100, 101, 102);
+
+=cut
+
+sub SelectColArray {
+    my ( $Self, %Param ) = @_;
+
+    my $BindVariables = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
+
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
+
+    # the statement handle has been prepared in Prepare()
+    my $Column = $Self->{dbh}->selectcol_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {},                 # no attributes
+        $BindVariables->@*
+    );
+
+    return unless defined $Column;
+
+    # The fetched column might be tweaked here
+    $Self->_EncodeInputList($Column);
+
+    return $Column->@*;
+}
+
+=head2 SelectMapping()
+
+returns a mapping with the first column as a key for the second column of the SELECT statement.
+In essence, this calls C<Prepare()> and then the DBI method C<selectcol_array()>
+to get the first two columns.
+
+    my $MinID    = 100;
+    my %IDToName = $DBObject->SelectMapping(
+        SQL   => "SELECT id, name FROM table WHERE id >= ? ORDER BY id",
+        Bind  => [ \$MinID ],
+        Limit => 3,
+    );
+
+You can pass the same arguments as to the Prepare() method.
+
+Returns undef if the query failed, or a list if the query was successful.
+The list can be used for initializing a hash.
+
+    my %IDToName = (
+        100 = 'one hundred',
+        101 = 'one hundred and one',
+        102 = 'one hundred and two',
+    );
+
+=cut
+
+sub SelectMapping {
+    my ( $Self, %Param ) = @_;
+
+    my $BindVariables = $Self->Prepare(
+        %Param,
+        Execute => 0,
+    );
+
+    return unless $BindVariables;                  # note that [] is also a true value
+    return unless ref $BindVariables eq 'ARRAY';
+
+    # The statement handle has been prepared in Prepare().
+    # selectcol_arrayref() returns the first column zipped with the second column,
+    # that is exactly what we need here.
+    my $List = $Self->{dbh}->selectcol_arrayref(
+        $Self->{Cursor},    # the prepared statement handle
+        {
+            Columns => [ 1, 2 ],
+        },
+        $BindVariables->@*
+    );
+
+    return unless defined $List;
+
+    # The fetched row might be tweaked here
+    $Self->_EncodeInputList($List);
+
+    return $List->@*;
 }
 
 =head2 GetDatabaseFunction()
@@ -1043,6 +1260,7 @@ to get database functions like
     - LikeEscapeString
     - Limit
     - ListTables
+    - PurgeTable
     - QuoteBack
     - QuoteSemicolon
     - QuoteSingle
@@ -1050,8 +1268,8 @@ to get database functions like
     - QuoteUnderscoreStart
     - ShellCommit
     - ShellConnect
+    - Substring
     - Version
-    - PurgeTable
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
@@ -1240,6 +1458,7 @@ sub SQLProcessorPost {
     if ( $Self->{Backend}->{Post} ) {
         my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
+
         return @Return;
     }
 
@@ -1255,8 +1474,8 @@ generate SQL condition query based on a search expression
         Value => '(ABC+DEF)',
     );
 
-    add SearchPrefix and SearchSuffix to search, in this case
-    for "(ABC*+DEF*)"
+add SearchPrefix and SearchSuffix to search, in this case
+for "(ABC*+DEF*)"
 
     my $SQL = $DBObject->QueryCondition(
         Key          => 'some_col',
@@ -1266,21 +1485,21 @@ generate SQL condition query based on a search expression
         Extended     => 1, # use also " " as "&&", e.g. "bob smith" -> "bob&&smith"
     );
 
-    example of a more complex search condition
+example of a more complex search condition
 
     my $SQL = $DBObject->QueryCondition(
         Key   => 'some_col',
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    for a earch condition over more columns
+for a search condition over more columns
 
     my $SQL = $DBObject->QueryCondition(
         Key   => [ 'some_col_a', 'some_col_b' ],
         Value => '((ABC&&DEF)&&!GHI)',
     );
 
-    Returns the SQL string or "1=0" if the query could not be parsed correctly.
+Returns the SQL string or "1=0" if the query could not be parsed correctly.
 
     my $SQL = $DBObject->QueryCondition(
         Key      => [ 'some_col_a', 'some_col_b' ],
@@ -1288,7 +1507,7 @@ generate SQL condition query based on a search expression
         BindMode => 1,
     );
 
-    return the SQL String with ?-values and a array with values references:
+return the SQL String with ?-values and a array with values references:
 
     $BindModeResult = (
         'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
@@ -1312,6 +1531,7 @@ sub QueryCondition {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -1429,7 +1649,7 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array     = split( //, $Param{Value} );
+    my @Array     = split //, $Param{Value};
     my $SQL       = '';
     my $Word      = '';
     my $Not       = 0;
@@ -1631,6 +1851,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ AND $/ ) {
@@ -1646,6 +1867,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ OR $/ ) {
@@ -1701,11 +1923,13 @@ sub QueryCondition {
                 'Values' => [],
             );
         }
+
         return "1=0";
     }
 
     if ($BindMode) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
@@ -1742,7 +1966,7 @@ Return the SQL String with ?-values and a array with values references in bind m
         'Values' => [1, 2, 3, 4, 5, 6],
     );
 
-    or
+or
 
     $BindModeResult = (
         'SQL'    => '( ticket_id IN (?, ?, ?, ?, ?, ?) OR ticket_id IN ( ?, ... ) )',
@@ -1753,7 +1977,7 @@ Returns the SQL string for a negated in condition:
 
     my $SQL = "ticket_id NOT IN (1, 2, 3, 4, 5, 6)"
 
-    or
+or
 
     my $SQL = "( ticket_id NOT IN ( 1, 2, 3, 4, 5, 6 ... ) AND ticket_id NOT IN ( ... ) )"
 
@@ -1767,6 +1991,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Key!",
         );
+
         return;
     }
 
@@ -1775,6 +2000,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Values!",
         );
+
         return;
     }
 
@@ -1783,6 +2009,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "QuoteType 'Like' is not allowed for 'IN' conditions!",
         );
+
         return;
     }
 
@@ -1790,10 +2017,7 @@ sub QueryInCondition {
     $Param{BindMode} //= 0;
 
     # Set the flag for string because of the other handling in the sql statement with strings.
-    my $IsString;
-    if ( !$Param{QuoteType} ) {
-        $IsString = 1;
-    }
+    my $IsString = $Param{QuoteType} ? 0 : 1;
 
     my @Values = @{ $Param{Values} };
 
@@ -1811,6 +2035,7 @@ sub QueryInCondition {
         @Values = map { $Self->Quote( $_, $Param{QuoteType} ) } @Values;
 
         # Something went wrong during the quoting, if the count is not equal.
+
         return if scalar @Values != scalar @{ $Param{Values} };
     }
 
@@ -1862,11 +2087,13 @@ sub QueryInCondition {
 
     if ( $Param{BindMode} ) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
         );
     }
+
     return $SQL;
 }
 
@@ -1878,8 +2105,8 @@ escapes special characters within a query string
         QueryString => 'customer with (brackets) and & and -',
     );
 
-    Result would be a string in which all special characters are escaped.
-    Special characters are those which are returned by _SpecialCharactersGet().
+Result would be a string in which all special characters are escaped.
+Special characters are those which are returned by _SpecialCharactersGet().
 
     $QueryStringEscaped = 'customer with \(brackets\) and \& and \-';
 
@@ -1895,6 +2122,7 @@ sub QueryStringEscape {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+
             return;
         }
     }
@@ -1938,7 +2166,7 @@ sub Ping {
         return if !$Self->{dbh};
     }
 
-    return $Self->{dbh}->ping();
+    return $Self->{dbh}->ping;
 }
 
 =head2 BeginWork()
@@ -1953,7 +2181,7 @@ sub BeginWork {
     my ($Self) = @_;
 
     # exception when there is no database handle
-    return $Self->{dbh}->begin_work();
+    return $Self->{dbh}->begin_work;
 }
 
 =head2 Rollback()
@@ -1978,11 +2206,12 @@ sub Rollback {
 
 =cut
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Decrypt {
-    my ( $Self, $Pw ) = @_;
+    my ( $Self, $CryptedPw ) = @_;
 
-    my $Length = length($Pw) * 4;
-    $Pw = pack "h$Length", $1;
+    my $Length = length($CryptedPw) * 4;
+    my $Pw     = pack "h$Length", $CryptedPw;
     $Pw = unpack "B$Length", $Pw;
     $Pw =~ s/1/A/g;
     $Pw =~ s/0/1/g;
@@ -1992,6 +2221,7 @@ sub _Decrypt {
     return $Pw;
 }
 
+# Attention: This method might be used outside this package, despite the prefix '_'
 sub _Encrypt {
     my ( $Self, $Pw ) = @_;
 
@@ -2058,15 +2288,46 @@ sub _SpecialCharactersGet {
     return \%SpecialCharacter;
 }
 
+sub _EncodeInputList {
+    my ( $Self, $List ) = @_;
+
+    return unless $Self->{Backend}->{'DB::Encode'};    # nothing to do
+
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    # The values of the row will be changed in this method.
+    # e. g. set utf-8 flag
+    my $Counter = 0;
+    ELEMENT:
+    for my $Element ( $List->@* ) {
+
+        next ELEMENT unless defined $Element;
+
+        # $Self->{Encode} might have been set in Prepare()
+        if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
+            $EncodeObject->EncodeInput( \$Element );
+        }
+    }
+    continue {
+        $Counter++;
+    }
+
+    return;
+}
+
 sub DESTROY {
     my $Self = shift;
 
-    # cleanup open statement handle if there is any and then disconnect from DB
+    # cleanup open statement handle if there is one
     if ( $Self->{Cursor} ) {
-        $Self->{Cursor}->finish();
+        $Self->{Cursor}->finish;
     }
 
-    $Self->Disconnect();
+    # persistent connection per default
+    if ( $Self->{DisconnectOnDestruction} ) {
+        $Self->Disconnect;
+    }
 
     return 1;
 }

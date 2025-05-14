@@ -19,7 +19,12 @@ package Kernel::Output::HTML::Dashboard::TicketStatsGeneric;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::DateTime qw(OTOBOTimeZoneGet);
 
 our $ObjectManagerDisabled = 1;
 
@@ -167,10 +172,10 @@ sub Run {
             # cache search result
             CacheTTL => $CacheTTL,
 
-            # tickets with create time after ... (ticket newer than this date) (optional)
+            # tickets with close time after ... (ticket that hava been closed after this date)
             TicketCloseTimeNewerDate => $TimeStart,
 
-            # tickets with created time before ... (ticket older than this date) (optional)
+            # tickets with close time before ... (ticket that have been closed before this date)
             TicketCloseTimeOlderDate => $TimeStop,
 
             CustomerID => $Param{Data}->{UserCustomerID},

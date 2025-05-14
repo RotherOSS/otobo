@@ -26,8 +26,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #OverviewBody {
     margin: 10px 16px 8px 8px;
-    border-left: 1px solid #DDD;
-    border-right: 1px solid #DDD;
+    border-left: 1px solid var(--colBGMediumDark);
+    border-right: 1px solid var(--colBGMediumDark);
 }
 
 .RTL #OverviewBody {
@@ -37,12 +37,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #EmptyMessageSmall {
     padding: 7px;
-    border: 1px solid #DDD;
+    border: 1px solid var(--colBGMediumDark);
     border-left: 0px;
 }
 
 .Overview thead tr {
-    background: #eaeaea;
+    background: var(--colBGMedium);
     z-index: 15;
 }
 

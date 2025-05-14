@@ -39,14 +39,15 @@ Core.Customer.InputFields = (function (TargetNS) {
 
         // enable input css
         $('.Row').each( function() {
-            var TextInput = $(this).find('input').first();
-            if ( TextInput.lenght === 0 ) {
+            var TextInput = $(this).find('input, textarea').first();
+            if ( TextInput.length === 0 ) {
                 return 1;
             }
 
             // fields already filled
             if ( $.trim(TextInput.value).length ) {
                 $(this).addClass('oooFull');
+                $(".Field", this).addClass('oooFull');
             }
 
             TextInput.blur( function() {

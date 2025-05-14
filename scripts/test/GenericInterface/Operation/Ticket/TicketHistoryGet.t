@@ -18,18 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use MIME::Base64;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;                                 # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger                            ();
+use Kernel::GenericInterface::Operation::Session::SessionCreate   ();         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet ();         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                                 qw(:all);
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet;
-
-use Kernel::System::VariableCheck qw(:all);
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -934,11 +934,6 @@ for my $Test (@Tests) {
                 delete $HistoryEntry->{Name};
             }
         }
-
-        use Data::Dumper;
-        print STDERR "Debug - ModuleName - RequesterResult = "
-            . Dumper($RequesterResult)
-            . "\n";    # TODO: Delete developer comment
 
         if ( ref $RequesterResult->{Data}->{TicketHistory} eq 'HASH' ) {
             my $TicketHistory = $RequesterResult->{Data}->{TicketHistory};

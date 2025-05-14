@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -256,15 +256,8 @@ $Selenium->RunTest(
             "CustomerID $TestCompany is found in the table"
         );
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
-        }
-        else {
-
+        # drag and drop tests
+        {
             # Open ticket overview setting dialog.
             $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
 

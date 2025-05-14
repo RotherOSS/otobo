@@ -20,12 +20,17 @@ use v5.24;
 use strict;
 use warnings;
 
-use Mail::Internet;
-use MIME::Parser;
-use MIME::QuotedPrint;
-use MIME::Base64;
-use MIME::Words qw(:all);
-use Mail::Address;
+# core modules
+use MIME::Base64      qw(decode_base64);
+use MIME::QuotedPrint ();
+
+# CPAN modules
+use Mail::Internet ();
+use MIME::Parser   ();
+use MIME::Words    qw(decode_mimewords);
+use Mail::Address  ();
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -63,15 +68,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
 
-    if ( $Param{Mode} && $Param{Mode} eq 'Standalone' ) {
-        return $Self;
-    }
+    return $Self if ( $Param{Mode} && $Param{Mode} eq 'Standalone' );
 
     # check needed objects
     if ( !$Param{Email} && !$Param{Entity} ) {
@@ -81,7 +83,7 @@ sub new {
     # if email is given
     if ( $Param{Email} ) {
 
-        # check if Email is an array ref
+        # check if Email is a reference to a string
         if ( ref $Param{Email} eq 'SCALAR' ) {
             my @Content = split /\n/, ${ $Param{Email} };
             for my $Line (@Content) {
@@ -90,7 +92,7 @@ sub new {
             $Param{Email} = \@Content;
         }
 
-        # check if Email is an array ref
+        # check if Email is a plain string
         if ( ref $Param{Email} eq '' ) {
             my @Content = split /\n/, $Param{Email};
             for my $Line (@Content) {
@@ -99,7 +101,7 @@ sub new {
             $Param{Email} = \@Content;
         }
 
-        $Self->{OriginalEmail} = join( '', @{ $Param{Email} } );
+        $Self->{OriginalEmail} = join '', @{ $Param{Email} };
 
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
@@ -449,18 +451,15 @@ sub GetReturnContentType {
 
 =head2 GetReturnCharset()
 
-Returns the charset of the new message body "Charset"
-(maybe the message is converted to utf-8).
+Returns the charset of the new message body "Charset".
 
     my $Charset = $ParserObject->GetReturnCharset();
 
-(e. g. 'text/plain; charset="utf-8"')
+Always returns the string C<'utf-8'>.
 
 =cut
 
 sub GetReturnCharset {
-    my $Self = shift;
-
     return 'utf-8';
 }
 
@@ -572,8 +571,7 @@ sub GetMessageBody {
             if ( $Self->{Debug} > 0 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  =>
-                        'No attachments returned from GetAttachments(), just an empty attachment!?',
+                    Message  => 'No attachments returned from GetAttachments(), just an empty attachment!?',
                 );
             }
 
@@ -870,8 +868,7 @@ sub PartsAttachments {
                         String => $PartData{Content},
                     );
                     $PartData{Content} = $HTMLUtilsObject->DocumentComplete(
-                        String  => $HTMLContent,
-                        Charset => 'utf-8',
+                        String => $HTMLContent,
                     );
                 }
                 else {
@@ -940,7 +937,8 @@ sub GetReferences {
 sub GetContentTypeParams {
     my ( $Self, %Param ) = @_;
 
-    my $ContentType = $Param{ContentType} || return;
+    return unless $Param{ContentType};
+
     if ( $Param{ContentType} =~ /charset\s*=.+?/i ) {
         $Param{Charset} = $Param{ContentType};
         $Param{Charset} =~ s/.*?charset\s*=\s*(.*?)/$1/i;
@@ -970,6 +968,7 @@ sub GetContentTypeParams {
         $Param{MimeType} = $1;
         $Param{MimeType} =~ s/"|'//g;
     }
+
     return %Param;
 }
 
@@ -1057,7 +1056,6 @@ sub _DecodeString {
 
     $BufferedString = '';
 
-    # call MIME::Words::decode_mimewords()
     for my $Entry ( decode_mimewords( $Param{String} ) ) {
         if (
             $BufferedString ne ''
@@ -1105,14 +1103,13 @@ sub _MailAddressParse {
     my ( $Self, %Param ) = @_;
 
     my $Email = $Param{Email};
+
     my $Cache = $Self->{EmailCache};
 
-    if ( $Self->{EmailCache}->{$Email} ) {
-        return @{ $Self->{EmailCache}->{$Email} };
-    }
+    return $Cache->{$Email}->@* if $Cache->{$Email};
 
     my @Chunks = Mail::Address->parse($Email);
-    $Self->{EmailCache}->{$Email} = \@Chunks;
+    $Cache->{$Email} = \@Chunks;
 
     return @Chunks;
 }

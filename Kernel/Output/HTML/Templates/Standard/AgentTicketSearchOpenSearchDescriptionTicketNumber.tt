@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 <?xml version="1.0" encoding="utf-8" ?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:ie="http://schemas.microsoft.com/Search/2008/">
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 <ShortName>[% Config("ProductName") | html %] ([% Config("Ticket::Hook") | html %])</ShortName>
 <Description>[% Config("ProductName") | html %] ([% Config("Ticket::Hook") | html %])</Description>
 <InputEncoding>[% Env("UserCharset") %]</InputEncoding>

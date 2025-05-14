@@ -49,9 +49,21 @@ Core.AJAX = (function (Namespace) {
 
              },
              {
+                 HTML: '<input type="checkbox" value="test" checked>',
+                 Result: '',
+                 Name: 'Checkbox without name, checked attribute without value'
+
+             },
+             {
                  HTML: '<input type="checkbox" value="test" name="Element" checked="checked"/>',
                  Result: 'Element=test;',
                  Name: 'Checkbox with custom value, checked'
+
+             },
+             {
+                 HTML: '<input type="checkbox" value="test" name="Element" checked>',
+                 Result: 'Element=test;',
+                 Name: 'Checkbox with custom value, checked attribute without value'
 
              },
              {
@@ -323,7 +335,7 @@ Core.AJAX = (function (Namespace) {
                 ChangeErrorHandlingForTest();
                 Core.Config.Set('Baselink', Test.URL);
                 try {
-                    Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', ['Test2'], function () {
+                    Core.AJAX.FormUpdate($('#FormUpdateErrorHandlingForm'), 'Subaction', 'Test1', function () {
                         Assert.equal(true, false, 'Error handling was not called');
                         RestoreOrignal();
                         Done();

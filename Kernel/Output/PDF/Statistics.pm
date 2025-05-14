@@ -21,7 +21,11 @@ package Kernel::Output::PDF::Statistics;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

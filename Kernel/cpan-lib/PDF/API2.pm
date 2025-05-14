@@ -3,10 +3,11 @@ package PDF::API2;
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use Carp;
 use Encode qw(:all);
+use English;
 use FileHandle;
 
 use PDF::API2::Basic::PDF::Utils;
@@ -24,14 +25,16 @@ use PDF::API2::Resource::Shading;
 
 use PDF::API2::NamedDestination;
 
+use List::Util qw(max);
 use Scalar::Util qw(weaken);
 
-our @FontDirs = ( (map { "$_/PDF/API2/fonts" } @INC),
-                  qw[ /usr/share/fonts /usr/local/share/fonts c:/windows/fonts c:/winnt/fonts ] );
+my @font_path = __PACKAGE__->set_font_path('/usr/share/fonts',
+                                           '/usr/local/share/fonts',
+                                           'c:/windows/fonts');
 
 =head1 NAME
 
-PDF::API2 - Facilitates the creation and modification of PDF files
+PDF::API2 - Create, modify, and examine PDF files
 
 =head1 SYNOPSIS
 
@@ -47,49 +50,50 @@ PDF::API2 - Facilitates the creation and modification of PDF files
     $page = $pdf->page();
 
     # Retrieve an existing page
-    $page = $pdf->openpage($page_number);
+    $page = $pdf->open_page($page_number);
 
     # Set the page size
-    $page->mediabox('Letter');
+    $page->size('Letter');
 
     # Add a built-in font to the PDF
-    $font = $pdf->corefont('Helvetica-Bold');
+    $font = $pdf->font('Helvetica-Bold');
 
-    # Add an external TTF font to the PDF
-    $font = $pdf->ttfont('/path/to/font.ttf');
+    # Add an external TrueType font to the PDF
+    $font = $pdf->font('/path/to/font.ttf');
 
     # Add some text to the page
     $text = $page->text();
     $text->font($font, 20);
-    $text->translate(200, 700);
+    $text->position(200, 700);
     $text->text('Hello World!');
 
     # Save the PDF
-    $pdf->saveas('/path/to/new.pdf');
+    $pdf->save('/path/to/new.pdf');
 
-=head1 GENERIC METHODS
+=head1 INPUT/OUTPUT METHODS
+
+=head2 new
+
+    my $pdf = PDF::API2->new(%options);
+
+Create a new PDF.
+
+The following options are available:
 
 =over
 
-=item $pdf = PDF::API2->new(%options)
+=item * file
 
-Creates a new PDF object.  If you will be saving it as a file and
-already know the filename, you can give the '-file' option to minimize
-possible memory requirements later on.
+If you will be saving the PDF to disk and already know the filename, you can
+include it here to open the file for writing immediately.  C<file> may also be
+a filehandle.
 
-B<Example:>
+=item * compress
 
-    $pdf = PDF::API2->new();
-    ...
-    print $pdf->stringify();
+By default, most of the PDF will be compressed to save space.  To turn this off
+(generally only useful for testing or debugging), set C<compress> to 0.
 
-    $pdf = PDF::API2->new();
-    ...
-    $pdf->saveas('our/new.pdf');
-
-    $pdf = PDF::API2->new(-file => 'our/new.pdf');
-    ...
-    $pdf->save();
+=back
 
 =cut
 
@@ -100,7 +104,7 @@ sub new {
     bless $self, $class;
     $self->{'pdf'} = PDF::API2::Basic::PDF::File->new();
 
-    $self->{'pdf'}->{' version'} = 4;
+    $self->{'pdf'}->{' version'} = '1.4';
     $self->{'pages'} = PDF::API2::Basic::PDF::Pages->new($self->{'pdf'});
     $self->{'pages'}->proc_set(qw(PDF Text ImageB ImageC ImageI));
     $self->{'pages'}->{'Resources'} ||= PDFDict();
@@ -109,33 +113,54 @@ sub new {
     weaken $self->{'catalog'};
     $self->{'fonts'} = {};
     $self->{'pagestack'} = [];
-    $self->{'forcecompress'} = 1;
-    $self->preferences(%options);
-    if ($options{'-file'}) {
-        $self->{' filed'} = $options{'-file'};
-        $self->{'pdf'}->create_file($options{'-file'});
-    }
-    $self->{'infoMeta'}=[qw(Author CreationDate ModDate Creator Producer Title Subject Keywords)];
 
-    my $version = eval { $PDF::API2::VERSION } || '(Unreleased Version)';
-    $self->info('Producer' => "PDF::API2 $version [$^O]");
+    # -compress is deprecated (remove the hyphen)
+    if (exists $options{'-compress'}) {
+        $options{'compress'} //= delete $options{'-compress'};
+    }
+
+    if (exists $options{'compress'}) {
+        $self->{'forcecompress'} = $options{'compress'} ? 1 : 0;
+    }
+    else {
+        $self->{'forcecompress'} = 1;
+    }
+    $self->preferences(%options);
+
+    # -file is deprecated (remove the hyphen)
+    $options{'file'} //= $options{'-file'} if $options{'-file'};
+
+    if ($options{'file'}) {
+        $self->{'pdf'}->create_file($options{'file'});
+        $self->{'partial_save'} = 1;
+    }
+
+    # Deprecated; used by info and infoMetaAttributes but not their replacements
+    $self->{'infoMeta'} = [qw(Author CreationDate ModDate Creator Producer Title
+                              Subject Keywords)];
+
+    my $version = eval { $PDF::API2::VERSION } || 'Development Version';
+    $self->producer("PDF::API2 $version ($OSNAME)");
 
     return $self;
 }
 
-=item $pdf = PDF::API2->open($pdf_file)
+=head2 open
 
-Opens an existing PDF file.
+    my $pdf = PDF::API2->open('/path/to/file.pdf', %options);
 
-B<Example:>
+Open an existing PDF file.
 
-    $pdf = PDF::API2->open('our/old.pdf');
-    ...
-    $pdf->saveas('our/new.pdf');
+The following option is available:
 
-    $pdf = PDF::API2->open('our/to/be/updated.pdf');
-    ...
-    $pdf->update();
+=over
+
+=item * compress
+
+By default, most of the PDF will be compressed to save space.  To turn this off
+(generally only useful for testing or debugging), set C<compress> to 0.
+
+=back
 
 =cut
 
@@ -144,50 +169,185 @@ sub open {
     croak "File '$file' does not exist" unless -f $file;
     croak "File '$file' is not readable" unless -r $file;
 
-    my $content;
-    my $scalar_fh = FileHandle->new();
-    CORE::open($scalar_fh, '+<', \$content) or die "Can't begin scalar IO";
-    binmode $scalar_fh, ':raw';
-
-    my $disk_fh = FileHandle->new();
-    CORE::open($disk_fh, '<', $file) or die "Can't open $file for reading: $!";
-    binmode $disk_fh, ':raw';
-    $disk_fh->seek(0, 0);
-    my $data;
-    while (not $disk_fh->eof()) {
-        $disk_fh->read($data, 512);
-        $scalar_fh->print($data);
+    my $self = {};
+    bless $self, $class;
+    foreach my $parameter (keys %options) {
+        $self->default($parameter, $options{$parameter});
     }
-    $disk_fh->close();
-    $scalar_fh->seek(0, 0);
 
-    my $self = $class->open_scalar($content, %options);
+    my $is_writable = -w $file;
+    $self->{'pdf'} = PDF::API2::Basic::PDF::File->open($file, $is_writable);
+    _open_common($self, %options);
     $self->{'pdf'}->{' fname'} = $file;
+    $self->{'opened_readonly'} = 1 unless $is_writable;
 
     return $self;
 }
 
-=item $pdf = PDF::API2->open_scalar($pdf_string)
+sub _open_common {
+    my ($self, %options) = @_;
 
-Opens a PDF contained in a string.
+    $self->{'pdf'}->{'Root'}->realise();
+    $self->{'pdf'}->{' version'} ||= '1.3';
 
-B<Example:>
+    $self->{'pages'} = $self->{'pdf'}->{'Root'}->{'Pages'}->realise();
+    weaken $self->{'pages'};
+    my @pages = proc_pages($self->{'pdf'}, $self->{'pages'});
+    $self->{'pagestack'} = [sort { $a->{' pnum'} <=> $b->{' pnum'} } @pages];
+    weaken $self->{'pagestack'}->[$_] for (0 .. scalar @{$self->{'pagestack'}});
 
-    # Read a PDF into a string, for the purpose of demonstration
-    open $fh, 'our/old.pdf' or die $@;
-    undef $/;  # Read the whole file at once
-    $pdf_string = <$fh>;
+    $self->{'catalog'} = $self->{'pdf'}->{'Root'};
+    weaken $self->{'catalog'};
 
-    $pdf = PDF::API2->open_scalar($pdf_string);
-    ...
-    $pdf->saveas('our/new.pdf');
+    $self->{'opened'} = 1;
+
+    # -compress is deprecated (remove the hyphen)
+    if (exists $options{'-compress'}) {
+        $options{'compress'} //= delete $options{'-compress'};
+    }
+
+    if (exists $options{'compress'}) {
+        $self->{'forcecompress'} = $options{'compress'} ? 1 : 0;
+    }
+    else {
+        $self->{'forcecompress'} = 1;
+    }
+    $self->{'fonts'} = {};
+    $self->{'infoMeta'} = [qw(Author CreationDate ModDate Creator Producer Title Subject Keywords)];
+    return $self;
+}
+
+=head2 save
+
+    $pdf->save('/path/to/file.pdf');
+
+Write the PDF to disk and close the file.  A filename is optional if one was
+specified while opening or creating the PDF.
+
+As a side effect, the document structure is removed from memory when the file is
+saved, so it will no longer be usable.
 
 =cut
 
 # Deprecated (renamed)
-sub openScalar { return open_scalar(@_); } ## no critic
+sub saveas { return save(@_) } ## no critic
 
-sub open_scalar {
+sub save {
+    my ($self, $file) = @_;
+
+    if ($self->{'partial_save'} and not $file) {
+        $self->{'pdf'}->close_file();
+    }
+    elsif ($self->{'opened_scalar'}) {
+        croak 'A filename argument is required' unless $file;
+        $self->{'pdf'}->append_file();
+        my $fh;
+        CORE::open($fh, '>', $file) or die "Unable to open $file for writing: $!";
+        binmode($fh, ':raw');
+        print $fh ${$self->{'content_ref'}};
+        CORE::close($fh);
+    }
+    else {
+        croak 'A filename argument is required' unless $file;
+        unless ($self->{'pdf'}->{' fname'}) {
+            $self->{'pdf'}->out_file($file);
+        }
+        elsif ($self->{'pdf'}->{' fname'} eq $file) {
+            croak "File is read-only" if $self->{'opened_readonly'};
+            $self->{'pdf'}->close_file();
+        }
+        else {
+            $self->{'pdf'}->clone_file($file);
+            $self->{'pdf'}->close_file();
+        }
+    }
+
+    # This can be eliminated once we're confident that circular references are
+    # no longer an issue.  See t/circular-references.t.
+    $self->close();
+
+    return;
+}
+
+# Deprecated (use save instead)
+#
+# This method allows for objects to be written to disk in advance of finally
+# saving and closing the file.  Otherwise, it's no different than just calling
+# save when all changes have been made.  There's no memory advantage since
+# ship_out doesn't remove objects from memory.
+sub finishobjects {
+    my ($self, @objs) = @_;
+
+    if ($self->{'partial_save'}) {
+        $self->{'pdf'}->ship_out(@objs);
+    }
+
+    return;
+}
+
+# Deprecated (use save instead)
+sub update {
+    my $self = shift();
+    croak "File is read-only" if $self->{'opened_readonly'};
+    $self->{'pdf'}->close_file();
+    return;
+}
+
+=head2 close
+
+    $pdf->close();
+
+Close an open file (if relevant) and remove the object structure from memory.
+
+PDF::API2 contains circular references, so this call is necessary in
+long-running processes to keep from running out of memory.
+
+This will be called automatically when you save or stringify a PDF.
+You should only need to call it explicitly if you are reading PDF
+files and not writing them.
+
+=cut
+
+# Deprecated (renamed)
+sub release { return $_[0]->close() }
+sub end     { return $_[0]->close() }
+
+sub close {
+    my $self = shift();
+    $self->{'pdf'}->release() if defined $self->{'pdf'};
+
+    foreach my $key (keys %$self) {
+        $self->{$key} = undef;
+        delete $self->{$key};
+    }
+
+    return;
+}
+
+=head2 from_string
+
+    my $pdf = PDF::API2->from_string($pdf_string, %options);
+
+Read a PDF document contained in a string.
+
+The following option is available:
+
+=over
+
+=item * compress
+
+By default, most of the PDF will be compressed to save space.  To turn this off
+(generally only useful for testing or debugging), set C<compress> to 0.
+
+=back
+
+=cut
+
+# Deprecated (renamed)
+sub openScalar  { return from_string(@_); } ## no critic
+sub open_scalar { return from_string(@_); } ## no critic
+
+sub from_string {
     my ($class, $content, %options) = @_;
 
     my $self = {};
@@ -201,424 +361,324 @@ sub open_scalar {
     CORE::open($fh, '+<', \$content) or die "Can't begin scalar IO";
 
     $self->{'pdf'} = PDF::API2::Basic::PDF::File->open($fh, 1);
-    $self->{'pdf'}->{'Root'}->realise();
-    $self->{'pages'} = $self->{'pdf'}->{'Root'}->{'Pages'}->realise();
-    weaken $self->{'pages'};
-    $self->{'pdf'}->{' version'} ||= 3;
-    my @pages = proc_pages($self->{'pdf'}, $self->{'pages'});
-    $self->{'pagestack'} = [sort { $a->{' pnum'} <=> $b->{' pnum'} } @pages];
-    weaken $self->{'pagestack'}->[$_] for (0 .. scalar @{$self->{'pagestack'}});
-    $self->{'catalog'} = $self->{'pdf'}->{'Root'};
-    weaken $self->{'catalog'};
-    $self->{'reopened'} = 1;
-    $self->{'forcecompress'} = 1;
-    $self->{'fonts'} = {};
-    $self->{'infoMeta'} = [qw(Author CreationDate ModDate Creator Producer Title Subject Keywords)];
+    _open_common($self, %options);
+    $self->{'opened_scalar'} = 1;
 
     return $self;
 }
 
-=item $pdf->preferences(%options)
+=head2 to_string
 
-Controls viewing preferences for the PDF.
+    my $string = $pdf->to_string();
 
-B<Page Mode Options:>
+Return the PDF document as a string.
 
-=over
-
-=item -fullscreen
-
-Full-screen mode, with no menu bar, window controls, or any other window visible.
-
-=item -thumbs
-
-Thumbnail images visible.
-
-=item -outlines
-
-Document outline visible.
-
-=back
-
-B<Page Layout Options:>
-
-=over
-
-=item -singlepage
-
-Display one page at a time.
-
-=item -onecolumn
-
-Display the pages in one column.
-
-=item -twocolumnleft
-
-Display the pages in two columns, with oddnumbered pages on the left.
-
-=item -twocolumnright
-
-Display the pages in two columns, with oddnumbered pages on the right.
-
-=back
-
-B<Viewer Options:>
-
-=over
-
-=item -hidetoolbar
-
-Specifying whether to hide tool bars.
-
-=item -hidemenubar
-
-Specifying whether to hide menu bars.
-
-=item -hidewindowui
-
-Specifying whether to hide user interface elements.
-
-=item -fitwindow
-
-Specifying whether to resize the document's window to the size of the displayed page.
-
-=item -centerwindow
-
-Specifying whether to position the document's window in the center of the screen.
-
-=item -displaytitle
-
-Specifying whether the window's title bar should display the
-document title taken from the Title entry of the document information
-dictionary.
-
-=item -afterfullscreenthumbs
-
-Thumbnail images visible after Full-screen mode.
-
-=item -afterfullscreenoutlines
-
-Document outline visible after Full-screen mode.
-
-=item -printscalingnone
-
-Set the default print setting for page scaling to none.
-
-=item -simplex
-
-Print single-sided by default.
-
-=item -duplexflipshortedge
-
-Print duplex by default and flip on the short edge of the sheet.
-
-=item -duplexfliplongedge
-
-Print duplex by default and flip on the long edge of the sheet.
-
-=back
-
-B<Initial Page Options>:
-
-=over
-
-=item -firstpage => [ $page, %options ]
-
-Specifying the page (either a page number or a page object) to be
-displayed, plus one of the following options:
-
-=over
-
-=item -fit => 1
-
-Display the page designated by page, with its contents magnified just
-enough to fit the entire page within the window both horizontally and
-vertically. If the required horizontal and vertical magnification
-factors are different, use the smaller of the two, centering the page
-within the window in the other dimension.
-
-=item -fith => $top
-
-Display the page designated by page, with the vertical coordinate top
-positioned at the top edge of the window and the contents of the page
-magnified just enough to fit the entire width of the page within the
-window.
-
-=item -fitv => $left
-
-Display the page designated by page, with the horizontal coordinate
-left positioned at the left edge of the window and the contents of the
-page magnified just enough to fit the entire height of the page within
-the window.
-
-=item -fitr => [ $left, $bottom, $right, $top ]
-
-Display the page designated by page, with its contents magnified just
-enough to fit the rectangle specified by the coordinates left, bottom,
-right, and top entirely within the window both horizontally and
-vertically. If the required horizontal and vertical magnification
-factors are different, use the smaller of the two, centering the
-rectangle within the window in the other dimension.
-
-=item -fitb => 1
-
-Display the page designated by page, with its contents magnified just
-enough to fit its bounding box entirely within the window both
-horizontally and vertically. If the required horizontal and vertical
-magnification factors are different, use the smaller of the two,
-centering the bounding box within the window in the other dimension.
-
-=item -fitbh => $top
-
-Display the page designated by page, with the vertical coordinate top
-positioned at the top edge of the window and the contents of the page
-magnified just enough to fit the entire width of its bounding box
-within the window.
-
-=item -fitbv => $left
-
-Display the page designated by page, with the horizontal coordinate
-left positioned at the left edge of the window and the contents of the
-page magnified just enough to fit the entire height of its bounding
-box within the window.
-
-=item -xyz => [ $left, $top, $zoom ]
-
-Display the page designated by page, with the coordinates (left, top)
-positioned at the top-left corner of the window and the contents of
-the page magnified by the factor zoom. A zero (0) value for any of the
-parameters left, top, or zoom specifies that the current value of that
-parameter is to be retained unchanged.
-
-=back
-
-=back
-
-B<Example:>
-
-    $pdf->preferences(
-        -fullscreen => 1,
-        -onecolumn => 1,
-        -afterfullscreenoutlines => 1,
-        -firstpage => [$page, -fit => 1],
-    );
+As a side effect, the document structure is removed from memory when the string
+is created, so it will no longer be usable.
 
 =cut
 
-sub preferences {
-    my ($self, %options) = @_;
+# Maintainer's note: The object is being destroyed because it contains
+# (contained?) circular references that would otherwise result in memory not
+# being freed if the object merely goes out of scope.  If possible, the circular
+# references should be eliminated so that to_string doesn't need to be
+# destructive.  See t/circular-references.t.
+#
+# I've opted not to just require a separate call to close() because it would
+# likely introduce memory leaks in many existing programs that use this module.
 
-    # Page Mode Options
-    if ($options{'-fullscreen'}) {
-        $self->{'catalog'}->{'PageMode'} = PDFName('FullScreen');
-    }
-    elsif ($options{'-thumbs'}) {
-        $self->{'catalog'}->{'PageMode'} = PDFName('UseThumbs');
-    }
-    elsif ($options{'-outlines'}) {
-        $self->{'catalog'}->{'PageMode'} = PDFName('UseOutlines');
-    }
-    else {
-        $self->{'catalog'}->{'PageMode'} = PDFName('UseNone');
-    }
+# Deprecated (renamed)
+sub stringify { return to_string(@_) } ## no critic
 
-    # Page Layout Options
-    if ($options{'-singlepage'}) {
-        $self->{'catalog'}->{'PageLayout'} = PDFName('SinglePage');
-    }
-    elsif ($options{'-onecolumn'}) {
-        $self->{'catalog'}->{'PageLayout'} = PDFName('OneColumn');
-    }
-    elsif ($options{'-twocolumnleft'}) {
-        $self->{'catalog'}->{'PageLayout'} = PDFName('TwoColumnLeft');
-    }
-    elsif ($options{'-twocolumnright'}) {
-        $self->{'catalog'}->{'PageLayout'} = PDFName('TwoColumnRight');
-    }
-    else {
-        $self->{'catalog'}->{'PageLayout'} = PDFName('SinglePage');
-    }
-
-    # Viewer Preferences
-    $self->{'catalog'}->{'ViewerPreferences'} ||= PDFDict();
-    $self->{'catalog'}->{'ViewerPreferences'}->realise();
-
-    if ($options{'-hidetoolbar'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'HideToolbar'} = PDFBool(1);
-    }
-    if ($options{'-hidemenubar'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'HideMenubar'} = PDFBool(1);
-    }
-    if ($options{'-hidewindowui'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'HideWindowUI'} = PDFBool(1);
-    }
-    if ($options{'-fitwindow'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'FitWindow'} = PDFBool(1);
-    }
-    if ($options{'-centerwindow'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'CenterWindow'} = PDFBool(1);
-    }
-    if ($options{'-displaytitle'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'DisplayDocTitle'} = PDFBool(1);
-    }
-    if ($options{'-righttoleft'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'Direction'} = PDFName('R2L');
-    }
-
-    if ($options{'-afterfullscreenthumbs'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'NonFullScreenPageMode'} = PDFName('UseThumbs');
-    }
-    elsif ($options{'-afterfullscreenoutlines'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'NonFullScreenPageMode'} = PDFName('UseOutlines');
-    }
-    else {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'NonFullScreenPageMode'} = PDFName('UseNone');
-    }
-
-    if ($options{'-printscalingnone'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'PrintScaling'} = PDFName('None');
-    }
-
-    if ($options{'-simplex'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'Duplex'} = PDFName('Simplex');
-    }
-    elsif ($options{'-duplexfliplongedge'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'Duplex'} = PDFName('DuplexFlipLongEdge');
-    }
-    elsif ($options{'-duplexflipshortedge'}) {
-        $self->{'catalog'}->{'ViewerPreferences'}->{'Duplex'} = PDFName('DuplexFlipShortEdge');
-    }
-
-    # Open Action
-    if ($options{'-firstpage'}) {
-        my ($page, %args) = @{$options{-firstpage}};
-        $args{'-fit'} = 1 unless scalar keys %args;
-
-        # $page can be either a page number (which needs to be wrapped
-        # in PDFNum) or a page object (which doesn't).
-        $page = PDFNum($page) unless ref($page);
-
-        if (defined $args{'-fit'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('Fit'));
-        }
-        elsif (defined $args{'-fith'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitH'), PDFNum($args{'-fith'}));
-        }
-        elsif (defined $args{'-fitb'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitB'));
-        }
-        elsif (defined $args{'-fitbh'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitBH'), PDFNum($args{'-fitbh'}));
-        }
-        elsif (defined $args{'-fitv'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitV'), PDFNum($args{'-fitv'}));
-        }
-        elsif (defined $args{'-fitbv'}) {
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitBV'), PDFNum($args{'-fitbv'}));
-        }
-        elsif (defined $args{'-fitr'}) {
-            croak 'insufficient parameters to -fitr => []' unless scalar @{$args{'-fitr'}} == 4;
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('FitR'), map { PDFNum($_) } @{$args{'-fitr'}});
-        }
-        elsif (defined $args{'-xyz'}) {
-            croak 'insufficient parameters to -xyz => []' unless scalar @{$args{'-xyz'}} == 3;
-            $self->{'catalog'}->{'OpenAction'} = PDFArray($page, PDFName('XYZ'), map { PDFNum($_) } @{$args{'-xyz'}});
-        }
-    }
-    $self->{'pdf'}->out_obj($self->{'catalog'});
-
-    return $self;
-}
-
-=item $val = $pdf->default($parameter)
-
-=item $pdf->default($parameter, $value)
-
-Gets/sets the default value for a behaviour of PDF::API2.
-
-B<Supported Parameters:>
-
-=over
-
-=item nounrotate
-
-prohibits API2 from rotating imported/opened page to re-create a
-default pdf-context.
-
-=item pageencaps
-
-enables than API2 will add save/restore commands upon imported/opened
-pages to preserve graphics-state for modification.
-
-=item copyannots
-
-enables importing of annotations (B<*EXPERIMENTAL*>).
-
-=back
-
-=cut
-
-sub default {
-    my ($self, $parameter, $value) = @_;
-
-    # Parameter names may consist of lowercase letters, numbers, and underscores
-    $parameter = lc $parameter;
-    $parameter =~ s/[^a-z\d_]//g;
-
-    my $previous_value = $self->{$parameter};
-    if (defined $value) {
-        $self->{$parameter} = $value;
-    }
-    return $previous_value;
-}
-
-=item $version = $pdf->version([$new_version])
-
-Get/set the PDF version (e.g. 1.4)
-
-=cut
-
-sub version {
+sub to_string {
     my $self = shift();
-    if (scalar @_) {
-        my $version = shift();
-        croak "Invalid version $version" unless $version =~ /^(?:1\.)?([0-9]+)$/;
-        $self->{'pdf'}->{' version'} = $1;
+
+    my $string = '';
+    if ($self->{'opened_scalar'}) {
+        $self->{'pdf'}->append_file();
+        $string = ${$self->{'content_ref'}};
     }
-    return '1.' . $self->{'pdf'}->{' version'};
+    elsif ($self->{'opened'}) {
+        my $fh = FileHandle->new();
+        CORE::open($fh, '>', \$string) || die "Can't begin scalar IO";
+        $self->{'pdf'}->clone_file($fh);
+        $self->{'pdf'}->close_file();
+        $fh->close();
+    }
+    else {
+        my $fh = FileHandle->new();
+        CORE::open($fh, '>', \$string) || die "Can't begin scalar IO";
+        $self->{'pdf'}->out_file($fh);
+        $fh->close();
+    }
+
+    # This can be eliminated once we're confident that circular references are
+    # no longer an issue.  See t/circular-references.t.
+    $self->close();
+
+    return $string;
 }
 
-=item $bool = $pdf->isEncrypted()
+=head1 METADATA METHODS
 
-Checks if the previously opened PDF is encrypted.
+=head2 title
+
+    $title = $pdf->title();
+    $pdf = $pdf->title($title);
+
+Get/set/clear the document's title.
 
 =cut
 
-sub isEncrypted {
+sub title {
     my $self = shift();
-    return defined($self->{'pdf'}->{'Encrypt'}) ? 1 : 0;
+    return $self->info_metadata('Title', @_);
 }
 
-=item %infohash = $pdf->info(%infohash)
+=head2 author
 
-Gets/sets the info structure of the document.
+    $author = $pdf->author();
+    $pdf = $pdf->author($author);
 
-B<Example:>
-
-    %h = $pdf->info(
-        'Author'       => "Alfred Reibenschuh",
-        'CreationDate' => "D:20020911000000+01'00'",
-        'ModDate'      => "D:YYYYMMDDhhmmssOHH'mm'",
-        'Creator'      => "fredos-script.pl",
-        'Producer'     => "PDF::API2",
-        'Title'        => "some Publication",
-        'Subject'      => "perl ?",
-        'Keywords'     => "all good things are pdf"
-    );
-    print "Author: $h{Author}\n";
+Get/set/clear the name of the person who created the document.
 
 =cut
 
+sub author {
+    my $self = shift();
+    return $self->info_metadata('Author', @_);
+}
+
+=head2 subject
+
+    $subject = $pdf->subject();
+    $pdf = $pdf->subject($subject);
+
+Get/set/clear the subject of the document.
+
+=cut
+
+sub subject {
+    my $self = shift();
+    return $self->info_metadata('Subject', @_);
+}
+
+=head2 keywords
+
+    $keywords = $pdf->keywords();
+    $pdf = $pdf->keywords($keywords);
+
+Get/set/clear a space-separated string of keywords associated with the document.
+
+=cut
+
+sub keywords {
+    my $self = shift();
+    return $self->info_metadata('Keywords', @_);
+}
+
+=head2 creator
+
+    $creator = $pdf->creator();
+    $pdf = $pdf->creator($creator);
+
+Get/set/clear the name of the product that created the document prior to its
+conversion to PDF.
+
+=cut
+
+sub creator {
+    my $self = shift();
+    return $self->info_metadata('Creator', @_);
+}
+
+=head2 producer
+
+    $producer = $pdf->producer();
+    $pdf = $pdf->producer($producer);
+
+Get/set/clear the name of the product that converted the original document to
+PDF.
+
+PDF::API2 fills in this field when creating a PDF.
+
+=cut
+
+sub producer {
+    my $self = shift();
+    return $self->info_metadata('Producer', @_);
+}
+
+=head2 created
+
+    $date = $pdf->created();
+    $pdf = $pdf->created($date);
+
+Get/set/clear the document's creation date.
+
+The date format is C<D:YYYYMMDDHHmmSSOHH'mm>, where C<D:> is a static prefix
+identifying the string as a PDF date.  The date may be truncated at any point
+after the year.  C<O> is one of C<+>, C<->, or C<Z>, with the following C<HH'mm>
+representing an offset from UTC.
+
+When setting the date, C<D:> will be prepended automatically if omitted.
+
+=cut
+
+sub created {
+    my $self = shift();
+    return $self->info_metadata('CreationDate', @_);
+}
+
+=head2 modified
+
+    $date = $pdf->modified();
+    $pdf = $pdf->modified($date);
+
+Get/set/clear the document's modification date.  The date format is as described
+in C<created> above.
+
+=cut
+
+sub modified {
+    my $self = shift();
+    return $self->info_metadata('ModDate', @_);
+}
+
+sub _is_date {
+    my $value = shift();
+
+    # PDF 1.7 section 7.9.4 describes the required date format.  Other than the
+    # D: prefix and the year, all components are optional but must be present if
+    # a later component is present.  No provision is made in the specification
+    # for leap seconds, etc.
+    #
+    # The Adobe PDF specifications (including 1.7) state that the offset minutes
+    # must have a trailing apostrophe.  Beginning with the ISO version of the
+    # 1.7 specification, a trailing apostrophe is not permitted after the offset
+    # minutes.  For compatibility, we accept either version as valid.
+    return unless $value =~ /^D:([0-9]{4})         # D:YYYY (required)
+                             (?:([01][0-9])        # Month (01-12)
+                             (?:([0123][0-9])      # Day (01-31)
+                             (?:([012][0-9])       # Hour (00-23)
+                             (?:([012345][0-9])    # Minute (00-59)
+                             (?:([012345][0-9])    # Second (00-59)
+                             (?:([Z+-])            # UT Offset Direction
+                             (?:([012][0-9])\'?    # UT Offset Hours
+                             (?:([012345][0-9])\'? # UT Offset Minutes
+                             )?)?)?)?)?)?)?)?$/x;
+    my ($year, $month, $day, $hour, $minute, $second, $od, $oh, $om)
+        = ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+
+    # Do some basic validation to catch accidental date formatting issues.
+    # Complete date validation is out of scope.
+    if (defined $month) {
+        return unless $month >= 1 and $month <= 12;
+    }
+    if (defined $day) {
+        return unless $day >= 1 and $day <= 31;
+    }
+    if (defined $hour) {
+        return unless $hour <= 23;
+    }
+    if (defined $minute) {
+        return unless $minute <= 59;
+    }
+    if (defined $second) {
+        return unless $second <= 59;
+    }
+    if (defined $od) {
+        return if $od eq 'Z' and defined($oh);
+    }
+    if (defined $oh) {
+        return unless $oh <= 23;
+    }
+    if (defined $om) {
+        return unless $om <= 59;
+    }
+    if (defined $oh and $om) {
+        # Apostrophe is required between offset hour and minute
+        return unless $value =~ /$oh\'$om\'?/;
+    }
+
+    return 1;
+}
+
+=head2 info_metadata
+
+    # Get all keys and values
+    %info = $pdf->info_metadata();
+
+    # Get the value of one key
+    $value = $pdf->info_metadata($key);
+
+    # Set the value of one key
+    $pdf = $pdf->info_metadata($key, $value);
+
+Get/set/clear a key in the document's information dictionary.  The standard keys
+(title, author, etc.) have their own accessors, so this is primarily intended
+for interacting with custom metadata.
+
+Pass C<undef> as the value in order to remove the key from the dictionary.
+
+=cut
+
+sub info_metadata {
+    my $self = shift();
+    my $field = shift();
+
+    # Return a hash of the Info table if called without arguments
+    unless (defined $field) {
+        return unless exists $self->{'pdf'}->{'Info'};
+        $self->{'pdf'}->{'Info'}->realise();
+        my %info;
+        foreach my $key (keys %{$self->{'pdf'}->{'Info'}}) {
+            next if $key =~ /^ /;
+            next unless defined $self->{'pdf'}->{'Info'}->{$key};
+            $info{$key} = $self->{'pdf'}->{'Info'}->{$key}->val();
+        }
+        return %info;
+    }
+
+    # Set
+    if (@_) {
+        my $value = shift();
+        $value = undef if defined($value) and not length($value);
+
+        if ($field eq 'CreationDate' or $field eq 'ModDate') {
+            if (defined ($value)) {
+                $value = 'D:' . $value unless $value =~ /^D:/;
+                croak "Invalid date string: $value" unless _is_date($value);
+            }
+        }
+
+        unless (exists $self->{'pdf'}->{'Info'}) {
+            return $self unless defined $value;
+            $self->{'pdf'}->{'Info'} = PDFDict();
+            $self->{'pdf'}->new_obj($self->{'pdf'}->{'Info'});
+        }
+        else {
+            $self->{'pdf'}->{'Info'}->realise();
+        }
+
+        if (defined $value) {
+            $self->{'pdf'}->{'Info'}->{$field} = PDFStr($value);
+        }
+        else {
+            delete $self->{'pdf'}->{'Info'}->{$field};
+        }
+
+        return $self;
+    }
+
+    # Get
+    return unless $self->{'pdf'}->{'Info'};
+    $self->{'pdf'}->{'Info'}->realise();
+    return unless $self->{'pdf'}->{'Info'}->{$field};
+    return $self->{'pdf'}->{'Info'}->{$field}->val();
+}
+
+# Deprecated; replace with individual accessors or info_metadata
 sub info {
     my ($self, %opt) = @_;
 
@@ -635,15 +695,7 @@ sub info {
     if (scalar @_) {
         foreach my $k (@{$self->{'infoMeta'}}) {
             next unless defined $opt{$k};
-            if (is_utf8($opt{$k})) {
-                $self->{'pdf'}->{'Info'}->{$k} = PDFUtf($opt{$k} || 'NONE');
-            }
-            #elsif (is_utf8($opt{$k}) || utf8::valid($opt{$k})) {
-            #    $self->{'pdf'}->{'Info'}->{$k} = PDFUtf($opt{$k} || 'NONE');
-            #}
-            else {
-                $self->{'pdf'}->{'Info'}->{$k} = PDFStr($opt{$k} || 'NONE');
-            }
+            $self->{'pdf'}->{'Info'}->{$k} = PDFStr($opt{$k} || 'NONE');
         }
         $self->{'pdf'}->out_obj($self->{'pdf'}->{'Info'});
     }
@@ -653,7 +705,9 @@ sub info {
         foreach my $k (@{$self->{'infoMeta'}}) {
             next unless defined $self->{'pdf'}->{'Info'}->{$k};
             $opt{$k} = $self->{'pdf'}->{'Info'}->{$k}->val();
-            if ((unpack('n', $opt{$k}) == 0xfffe) or (unpack('n', $opt{$k}) == 0xfeff)) {
+            if (   (unpack('n', $opt{$k}) == 0xfffe)
+                or (unpack('n', $opt{$k}) == 0xfeff))
+            {
                 $opt{$k} = decode('UTF-16', $self->{'pdf'}->{'Info'}->{$k}->val());
             }
         }
@@ -662,20 +716,7 @@ sub info {
     return %opt;
 }
 
-=item @metadata_attributes = $pdf->infoMetaAttributes(@metadata_attributes)
-
-Gets/sets the supported info-structure tags.
-
-B<Example:>
-
-    @attributes = $pdf->infoMetaAttributes;
-    print "Supported Attributes: @attr\n";
-
-    @attributes = $pdf->infoMetaAttributes('CustomField1');
-    print "Supported Attributes: @attributes\n";
-
-=cut
-
+# Deprecated; replace with info_metadata
 sub infoMetaAttributes {
     my ($self, @attr) = @_;
 
@@ -687,69 +728,28 @@ sub infoMetaAttributes {
     return @{$self->{'infoMeta'}};
 }
 
-=item $xml = $pdf->xmpMetadata($xml)
+=head2 xml_metadata
 
-Gets/sets the XMP XML data stream.
+    $xml = $pdf->xml_metadata();
+    $pdf = $pdf->xml_metadata($xml);
 
-B<Example:>
-
-    $xml = $pdf->xmpMetadata();
-    print "PDFs Metadata reads: $xml\n";
-    $xml=<<EOT;
-    <?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>
-    <?adobe-xap-filters esc="CRLF"?>
-    <x:xmpmeta
-      xmlns:x='adobe:ns:meta/'
-      x:xmptk='XMP toolkit 2.9.1-14, framework 1.6'>
-        <rdf:RDF
-          xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-          xmlns:iX='http://ns.adobe.com/iX/1.0/'>
-            <rdf:Description
-              rdf:about='uuid:b8659d3a-369e-11d9-b951-000393c97fd8'
-              xmlns:pdf='http://ns.adobe.com/pdf/1.3/'
-              pdf:Producer='Acrobat Distiller 6.0.1 for Macintosh'></rdf:Description>
-            <rdf:Description
-              rdf:about='uuid:b8659d3a-369e-11d9-b951-000393c97fd8'
-              xmlns:xap='http://ns.adobe.com/xap/1.0/'
-              xap:CreateDate='2004-11-14T08:41:16Z'
-              xap:ModifyDate='2004-11-14T16:38:50-08:00'
-              xap:CreatorTool='FrameMaker 7.0'
-              xap:MetadataDate='2004-11-14T16:38:50-08:00'></rdf:Description>
-            <rdf:Description
-              rdf:about='uuid:b8659d3a-369e-11d9-b951-000393c97fd8'
-              xmlns:xapMM='http://ns.adobe.com/xap/1.0/mm/'
-              xapMM:DocumentID='uuid:919b9378-369c-11d9-a2b5-000393c97fd8'/></rdf:Description>
-            <rdf:Description
-              rdf:about='uuid:b8659d3a-369e-11d9-b951-000393c97fd8'
-              xmlns:dc='http://purl.org/dc/elements/1.1/'
-              dc:format='application/pdf'>
-                <dc:description>
-                  <rdf:Alt>
-                    <rdf:li xml:lang='x-default'>Adobe Portable Document Format (PDF)</rdf:li>
-                  </rdf:Alt>
-                </dc:description>
-                <dc:creator>
-                  <rdf:Seq>
-                    <rdf:li>Adobe Systems Incorporated</rdf:li>
-                  </rdf:Seq>
-                </dc:creator>
-                <dc:title>
-                  <rdf:Alt>
-                    <rdf:li xml:lang='x-default'>PDF Reference, version 1.6</rdf:li>
-                  </rdf:Alt>
-                </dc:title>
-            </rdf:Description>
-        </rdf:RDF>
-    </x:xmpmeta>
-    <?xpacket end='w'?>
-    EOT
-
-    $xml = $pdf->xmpMetadata($xml);
-    print "PDF metadata now reads: $xml\n";
+Get/set the document's XML metadata stream.
 
 =cut
 
+# Deprecated (renamed, changed set return value for consistency)
 sub xmpMetadata {
+    my $self = shift();
+    if (@_) {
+        my $value = shift();
+        $self->xml_metadata($value);
+        return $value;
+    }
+
+    return $self->xml_metadata();
+}
+
+sub xml_metadata {
     my ($self, $value) = @_;
 
     if (not defined($self->{'catalog'}->{'Metadata'})) {
@@ -778,118 +778,380 @@ sub xmpMetadata {
     return $md->{' stream'};
 }
 
-=item $pdf->pageLabel($index, $options)
+=head2 version
 
-Sets page label options.
+    $version = $pdf->version($new_version);
 
-B<Supported Options:>
+Get/set the PDF version (e.g. 1.4).
+
+=cut
+
+sub version {
+    my $self = shift();
+    return $self->{'pdf'}->version(@_);
+}
+
+=head2 is_encrypted
+
+    $boolean = $pdf->is_encrypted();
+
+Returns true if the opened PDF is encrypted.
+
+=cut
+
+# Deprecated (renamed)
+sub isEncrypted { return is_encrypted(@_) }
+
+sub is_encrypted {
+    my $self = shift();
+    return defined($self->{'pdf'}->{'Encrypt'}) ? 1 : 0;
+}
+
+=head1 INTERACTIVE FEATURE METHODS
+
+=head2 outline
+
+    $outline = $pdf->outlines();
+
+Creates (if needed) and returns the document's outline tree, which is also known
+as its bookmarks or the table of contents, depending on the PDF reader.
+
+To examine or modify the outline tree, see L<PDF::API2::Outline>.
+
+=cut
+
+# Deprecated (renamed)
+sub outlines { return outline(@_) }
+
+sub outline {
+    my $self = shift();
+
+    require PDF::API2::Outlines;
+    my $obj = $self->{'pdf'}->{'Root'}->{'Outlines'};
+    if ($obj) {
+        $obj->realise();
+        bless $obj, 'PDF::API2::Outlines';
+        $obj->{' api'} = $self;
+        weaken $obj->{' api'};
+    }
+    else {
+        $obj = PDF::API2::Outlines->new($self);
+
+        $self->{'pdf'}->{'Root'}->{'Outlines'} = $obj;
+        $self->{'pdf'}->new_obj($obj) unless $obj->is_obj($self->{'pdf'});
+        $self->{'pdf'}->out_obj($obj);
+        $self->{'pdf'}->out_obj($self->{'pdf'}->{'Root'});
+    }
+
+    return $obj;
+}
+
+=head2 open_action
+
+    $pdf = $pdf->open_action($page, $location, @args);
+
+Set the destination in the PDF that should be displayed when the document is
+opened.
+
+C<$page> may be either a page number or a page object.  The other parameters are
+as described in L<PDF::API2::NamedDestination>.
+
+=cut
+
+sub open_action {
+    my ($self, $page, @args) = @_;
+
+    # $page can be either a page number or a page object
+    $page = PDFNum($page) unless ref($page);
+
+    require PDF::API2::NamedDestination;
+    my $array = PDF::API2::NamedDestination::_destination($page, @args);
+    $self->{'catalog'}->{'OpenAction'} = $array;
+    $self->{'pdf'}->out_obj($self->{'catalog'});
+    return $self;
+}
+
+=head2 page_layout
+
+    $layout = $pdf->page_layout();
+    $pdf = $pdf->page_layout($layout);
+
+Get/set the page layout that should be used when the PDF is opened.
+
+C<$layout> is one of the following:
 
 =over
 
-=item -style
+=item * single_page (or undef)
 
-Roman, roman, decimal, Alpha or alpha.
+Display one page at a time.
 
-=item -start
+=item * one_column
 
-Restart numbering at given number.
+Display the pages in one column (a.k.a. continuous).
 
-=item -prefix
+=item * two_column_left
 
-Text prefix for numbering.
+Display the pages in two columns, with odd-numbered pages on the left.
+
+=item * two_column_right
+
+Display the pages in two columns, with odd-numbered pages on the right.
+
+=item * two_page_left
+
+Display two pages at a time, with odd-numbered pages on the left.
+
+=item * two_page_right
+
+Display two pages at a time, with odd-numbered pages on the right.
 
 =back
 
-B<Example:>
-
-    # Start with Roman Numerals
-    $pdf->pageLabel(0, {
-        -style => 'roman',
-    });
-
-    # Switch to Arabic
-    $pdf->pageLabel(4, {
-        -style => 'decimal',
-    });
-
-    # Numbering for Appendix A
-    $pdf->pageLabel(32, {
-        -start => 1,
-        -prefix => 'A-'
-    });
-
-    # Numbering for Appendix B
-    $pdf->pageLabel( 36, {
-        -start => 1,
-        -prefix => 'B-'
-    });
-
-    # Numbering for the Index
-    $pdf->pageLabel(40, {
-        -style => 'Roman'
-        -start => 1,
-        -prefix => 'Index '
-    });
-
 =cut
 
-sub pageLabel {
+sub page_layout {
     my $self = shift();
 
-    $self->{'catalog'}->{'PageLabels'} ||= PDFDict();
-    $self->{'catalog'}->{'PageLabels'}->{'Nums'} ||= PDFArray();
-
-    my $nums = $self->{'catalog'}->{'PageLabels'}->{'Nums'};
-    while (scalar @_) {
-        my $index = shift();
-        my $opts = shift();
-
-        $nums->add_elements(PDFNum($index));
-
-        my $d = PDFDict();
-        $d->{'S'} = PDFName($opts->{'-style'} eq 'Roman' ? 'R' :
-                            $opts->{'-style'} eq 'roman' ? 'r' :
-                            $opts->{'-style'} eq 'Alpha' ? 'A' :
-                            $opts->{'-style'} eq 'alpha' ? 'a' : 'D');
-
-        if (defined $opts->{'-prefix'}) {
-            $d->{'P'} = PDFStr($opts->{'-prefix'});
-        }
-
-        if (defined $opts->{'-start'}) {
-            $d->{'St'} = PDFNum($opts->{'-start'});
-        }
-
-        $nums->add_elements($d);
+    unless (@_) {
+        return 'single_page' unless $self->{'catalog'}->{'PageLayout'};
+        my $layout = $self->{'catalog'}->{'PageLayout'}->val();
+        return 'single_page' if $layout eq 'SinglePage';
+        return 'one_column' if $layout eq 'OneColumn';
+        return 'two_column_left' if $layout eq 'TwoColumnLeft';
+        return 'two_column_right' if $layout eq 'TwoColumnRight';
+        return 'two_page_left'  if $layout eq 'TwoPageLeft';
+        return 'two_page_right' if $layout eq 'TwoPageRight';
+        warn "Unknown page layout: $layout";
+        return $layout;
     }
+
+    my $name = shift() // 'single_page';
+    my $layout = ($name eq 'single_page'      ? 'SinglePage'     :
+                  $name eq 'one_column'       ? 'OneColumn'      :
+                  $name eq 'two_column_left'  ? 'TwoColumnLeft'  :
+                  $name eq 'two_column_right' ? 'TwoColumnRight' :
+                  $name eq 'two_page_left'    ? 'TwoPageLeft'    :
+                  $name eq 'two_page_right'   ? 'TwoPageRight'   : '');
+
+    croak "Invalid page layout: $name" unless $layout;
+    $self->{'catalog'}->{'PageLayout'} = PDFName($layout);
+    $self->{'pdf'}->out_obj($self->{'catalog'});
+    return $self;
 }
 
-=item $pdf->finishobjects(@objects)
+=head2 page_mode
 
-Force objects to be written to file if possible.
+    # Get
+    $mode = $pdf->page_mode();
 
-B<Example:>
+    # Set
+    $pdf = $pdf->page_mode($mode);
 
-    $pdf = PDF::API2->new(-file => 'our/new.pdf');
-    ...
-    $pdf->finishobjects($page, $gfx, $txt);
-    ...
-    $pdf->save();
+Get/set the page mode, which describes how the PDF should be displayed when
+opened.
+
+C<$mode> is one of the following:
+
+=over
+
+=item * none (or undef)
+
+Neither outlines nor thumbnails should be displayed.
+
+=item * outlines
+
+Show the document outline.
+
+=item * thumbnails
+
+Show the page thumbnails.
+
+=item * full_screen
+
+Open in full-screen mode, with no menu bar, window controls, or any other window
+visible.
+
+=item * optional_content
+
+Show the optional content group panel.
+
+=item * attachments
+
+Show the attachments panel.
+
+=back
 
 =cut
 
-sub finishobjects {
-    my ($self, @objs) = @_;
+sub page_mode {
+    my $self = shift();
 
-    if ($self->{'reopened'}) {
-        die "invalid method invocation: no file, use 'saveas' instead.";
+    unless (@_) {
+        return 'none' unless $self->{'catalog'}->{'PageMode'};
+        my $mode = $self->{'catalog'}->{'PageMode'}->val();
+        return 'none'             if $mode eq 'UseNone';
+        return 'outlines'         if $mode eq 'UseOutlines';
+        return 'thumbnails'       if $mode eq 'UseThumbs';
+        return 'full_screen'      if $mode eq 'FullScreen';
+        return 'optional_content' if $mode eq 'UseOC';
+        return 'attachments'      if $mode eq 'UseAttachments';
+        warn "Unknown page mode: $mode";
+        return $mode;
     }
-    elsif ($self->{' filed'}) {
-        $self->{'pdf'}->ship_out(@objs);
+
+    my $name = shift() // 'none';
+    my $mode = ($name eq 'none'             ? 'UseNone'        :
+                $name eq 'outlines'         ? 'UseOutlines'    :
+                $name eq 'thumbnails'       ? 'UseThumbs'      :
+                $name eq 'full_screen'      ? 'FullScreen'     :
+                $name eq 'optional_content' ? 'UseOC'          :
+                $name eq 'attachments'      ? 'UseAttachments' : '');
+
+    croak "Invalid page mode: $name" unless $mode;
+    $self->{'catalog'}->{'PageMode'} = PDFName($mode);
+    $self->{'pdf'}->out_obj($self->{'catalog'});
+    return $self;
+}
+
+=head2 viewer_preferences
+
+    # Get
+    %preferences = $pdf->viewer_preferences();
+
+    # Set
+    $pdf = $pdf->viewer_preferences(%preferences);
+
+Get or set PDF viewer preferences, as described in
+L<PDF::API2::ViewerPreferences>.
+
+=cut
+
+sub viewer_preferences {
+    my $self = shift();
+    require PDF::API2::ViewerPreferences;
+    my $prefs = PDF::API2::ViewerPreferences->new($self);
+    unless (@_) {
+        return $prefs->get_preferences();
+    }
+    return $prefs->set_preferences(@_);
+}
+
+# Deprecated; the various preferences have been split out into their own methods
+sub preferences {
+    my ($self, %options) = @_;
+
+    # Page Mode Options
+    if ($options{'-fullscreen'}) {
+        $self->page_mode('full_screen');
+    }
+    elsif ($options{'-thumbs'}) {
+        $self->page_mode('thumbnails');
+    }
+    elsif ($options{'-outlines'}) {
+        $self->page_mode('outlines');
     }
     else {
-        die "invalid method invocation: no file, use 'saveas' instead.";
+        $self->page_mode('none');
     }
+
+    # Page Layout Options
+    if ($options{'-singlepage'}) {
+        $self->page_layout('single_page');
+    }
+    elsif ($options{'-onecolumn'}) {
+        $self->page_layout('one_column');
+    }
+    elsif ($options{'-twocolumnleft'}) {
+        $self->page_layout('two_column_left');
+    }
+    elsif ($options{'-twocolumnright'}) {
+        $self->page_layout('two_column_right');
+    }
+    else {
+        $self->page_layout('single_page');
+    }
+
+    # Viewer Preferences
+    if ($options{'-hidetoolbar'}) {
+        $self->viewer_preferences(hide_toolbar => 1);
+    }
+    if ($options{'-hidemenubar'}) {
+        $self->viewer_preferences(hide_menubar => 1);
+    }
+    if ($options{'-hidewindowui'}) {
+        $self->viewer_preferences(hide_window_ui => 1);
+    }
+    if ($options{'-fitwindow'}) {
+        $self->viewer_preferences(fit_window => 1);
+    }
+    if ($options{'-centerwindow'}) {
+        $self->viewer_preferences(center_window => 1);
+    }
+    if ($options{'-displaytitle'}) {
+        $self->viewer_preferences(display_doc_title => 1);
+    }
+    if ($options{'-righttoleft'}) {
+        $self->viewer_preferences(direction => 'r2l');
+    }
+
+    if ($options{'-afterfullscreenthumbs'}) {
+        $self->viewer_preferences(non_full_screen_page_mode => 'thumbnails');
+    }
+    elsif ($options{'-afterfullscreenoutlines'}) {
+        $self->viewer_preferences(non_full_screen_page_mode => 'outlines');
+    }
+    else {
+        $self->viewer_preferences(non_full_screen_page_mode => 'none');
+    }
+
+    if ($options{'-printscalingnone'}) {
+        $self->viewer_preferences(print_scaling => 'none');
+    }
+
+    if ($options{'-simplex'}) {
+        $self->viewer_preferences(duplex => 'simplex');
+    }
+    elsif ($options{'-duplexfliplongedge'}) {
+        $self->viewer_preferences(duplex => 'duplex_long');
+    }
+    elsif ($options{'-duplexflipshortedge'}) {
+        $self->viewer_preferences(duplex => 'duplex_short');
+    }
+
+    # Open Action
+    if ($options{'-firstpage'}) {
+        my ($page, %args) = @{$options{'-firstpage'}};
+        $args{'-fit'} = 1 unless keys %args;
+
+        if (defined $args{'-fit'}) {
+            $self->open_action($page, 'fit');
+        }
+        elsif (defined $args{'-fith'}) {
+            $self->open_action($page, 'fith', $args{'-fith'});
+        }
+        elsif (defined $args{'-fitb'}) {
+            $self->open_action($page, 'fitb');
+        }
+        elsif (defined $args{'-fitbh'}) {
+            $self->open_action($page, 'fitbh', $args{'-fitbh'});
+        }
+        elsif (defined $args{'-fitv'}) {
+            $self->open_action($page, 'fitv', $args{'-fitv'});
+        }
+        elsif (defined $args{'-fitbv'}) {
+            $self->open_action($page, 'fitbv', $args{'-fitbv'});
+        }
+        elsif (defined $args{'-fitr'}) {
+            $self->open_action($page, 'fitr', @{$args{'-fitr'}});
+        }
+        elsif (defined $args{'-xyz'}) {
+            $self->open_action($page, 'xyz', @{$args{'-xyz'}});
+        }
+    }
+    $self->{'pdf'}->out_obj($self->{'catalog'});
+
+    return $self;
 }
 
 sub proc_pages {
@@ -903,7 +1165,7 @@ sub proc_pages {
 
     my @pages;
     $pdf->{' apipagecount'} ||= 0;
-    foreach my $page ($object->{'Kids'}->elementsof()) {
+    foreach my $page ($object->{'Kids'}->elements()) {
         $page->realise();
         if ($page->{'Type'}->val() eq 'Pages') {
             push @pages, proc_pages($pdf, $page);
@@ -923,169 +1185,22 @@ sub proc_pages {
     return @pages;
 }
 
-=item $pdf->update()
-
-Saves a previously opened document.
-
-B<Example:>
-
-    $pdf = PDF::API2->open('our/to/be/updated.pdf');
-    ...
-    $pdf->update();
-
-=cut
-
-sub update {
-    my $self = shift();
-    $self->saveas($self->{'pdf'}->{' fname'});
-}
-
-=item $pdf->saveas($file)
-
-Save the document to $file and remove the object structure from memory.
-
-B<Example:>
-
-    $pdf = PDF::API2->new();
-    ...
-    $pdf->saveas('our/new.pdf');
-
-=cut
-
-sub saveas {
-    my ($self, $file) = @_;
-
-    if ($self->{'reopened'}) {
-        $self->{'pdf'}->append_file();
-        my $fh;
-        CORE::open($fh, '>', $file) or die "Unable to open $file for writing: $!";
-        binmode($fh, ':raw');
-        print $fh ${$self->{'content_ref'}};
-        CORE::close($fh);
-    }
-    elsif ($self->{' filed'}) {
-        $self->{'pdf'}->close_file();
-    }
-    else {
-        $self->{'pdf'}->out_file($file);
-    }
-
-    $self->end();
-}
-
-sub save {
-    my ($self, $file) = @_;
-
-    if ($self->{'reopened'}) {
-        die "invalid method invocation: use 'saveas' instead.";
-    }
-    elsif ($self->{' filed'}) {
-        $self->{'pdf'}->close_file();
-    }
-    else {
-        die "invalid method invocation: use 'saveas' instead.";
-    }
-
-    $self->end();
-}
-
-=item $string = $pdf->stringify()
-
-Return the document as a string and remove the object structure from memory.
-
-B<Example:>
-
-    $pdf = PDF::API2->new();
-    ...
-    print $pdf->stringify();
-
-=cut
-
-# Maintainer's note: The object is being destroyed because it contains
-# circular references that would otherwise result in memory not being
-# freed if the object merely goes out of scope.  If possible, the
-# circular references should be eliminated so that stringify doesn't
-# need to be destructive.
-#
-# I've opted not to just require a separate call to release() because
-# it would likely introduce memory leaks in many existing programs
-# that use this module.
-
-sub stringify {
-    my $self = shift();
-
-    my $str;
-    if ((defined $self->{'reopened'}) and ($self->{'reopened'} == 1)) {
-        $self->{'pdf'}->append_file();
-        $str = ${$self->{'content_ref'}};
-    }
-    else {
-        my $fh = FileHandle->new();
-        CORE::open($fh, '>', \$str) || die "Can't begin scalar IO";
-        $self->{'pdf'}->out_file($fh);
-        $fh->close();
-    }
-    $self->end();
-
-    return $str;
-}
-
-sub release {
-    my $self = shift();
-    $self->end();
-    return;
-}
-
-=item $pdf->end()
-
-Remove the object structure from memory.  PDF::API2 contains circular
-references, so this call is necessary in long-running processes to
-keep from running out of memory.
-
-This will be called automatically when you save or stringify a PDF.
-You should only need to call it explicitly if you are reading PDF
-files and not writing them.
-
-=cut
-
-sub end {
-    my $self = shift();
-    $self->{'pdf'}->release() if defined $self->{'pdf'};
-
-    foreach my $key (keys %$self) {
-        $self->{$key} = undef;
-        delete $self->{$key};
-    }
-
-    return;
-}
-
-=back
-
 =head1 PAGE METHODS
 
-=over
+=head2 page
 
-=item $page = $pdf->page()
+     # Add a page to the end of the document
+     $page = $pdf->page();
 
-=item $page = $pdf->page($page_number)
+     # Insert a page before the specified page number
+     $page = $pdf->page($page_number);
 
 Returns a new page object.  By default, the page is added to the end
 of the document.  If you include an existing page number, the new page
 will be inserted in that position, pushing existing pages back.
 
-If $page_number is -1, the new page is inserted as the second-last page;
-if $page_number is 0, the new page is inserted as the last page.
-
-B<Example:>
-
-    $pdf = PDF::API2->new();
-
-    # Add a page.  This becomes page 1.
-    $page = $pdf->page();
-
-    # Add a new first page.  $page becomes page 2.
-    $another_page = $pdf->page(1);
+If C<$page_number> is -1, the new page is inserted as the second-last page; if
+C<$page_number> is 0, the new page is inserted as the last page.
 
 =cut
 
@@ -1121,24 +1236,20 @@ sub page {
     return $page;
 }
 
-=item $page = $pdf->openpage($page_number)
+=head2 open_page
 
-Returns the L<PDF::API2::Page> object of page $page_number.
+    $page = $pdf->open_page($page_number);
 
-If $page_number is 0 or -1, it will return the last page in the
-document.
+Returns the L<PDF::API2::Page> object of page C<$page_number>, if it exists.
 
-B<Example:>
-
-    $pdf = PDF::API2->open('our/99page.pdf');
-    $page = $pdf->openpage(1);   # returns the first page
-    $page = $pdf->openpage(99);  # returns the last page
-    $page = $pdf->openpage(-1);  # returns the last page
-    $page = $pdf->openpage(999); # returns undef
+If $page_number is 0 or -1, it will return the last page in the document.
 
 =cut
 
-sub openpage {
+# Deprecated (renamed)
+sub openpage { return open_page(@_); } ## no critic
+
+sub open_page {
     my $self = shift();
     my $index = shift() || 0;
     my ($page, $rotate, $media, $trans);
@@ -1161,14 +1272,14 @@ sub openpage {
         weaken $page->{' apipdf'};
         weaken $page->{' api'};
         $self->{'pdf'}->out_obj($page);
-        if (($rotate = $page->find_prop('Rotate')) and (not defined($page->{' fixed'}) or $page->{' fixed'} < 1)) {
+        if (($rotate = $page->find_prop('Rotate')) and not $page->{' opened'}) {
             $rotate = ($rotate->val() + 360) % 360;
 
             if ($rotate != 0 and not $self->default('nounrotate')) {
                 $page->{'Rotate'} = PDFNum(0);
                 foreach my $mediatype (qw(MediaBox CropBox BleedBox TrimBox ArtBox)) {
                     if ($media = $page->find_prop($mediatype)) {
-                        $media = [ map { $_->val() } $media->elementsof() ];
+                        $media = [ map { $_->val() } $media->elements() ];
                     }
                     else {
                         $media = [0, 0, 612, 792];
@@ -1196,7 +1307,7 @@ sub openpage {
             $trans = '';
         }
 
-        if (defined $page->{'Contents'} and (not defined($page->{' fixed'}) or $page->{' fixed'} < 1)) {
+        if (defined $page->{'Contents'} and not $page->{' opened'}) {
             $page->fixcontents();
             my $uncontent = delete $page->{'Contents'};
             my $content = $page->gfx();
@@ -1205,7 +1316,7 @@ sub openpage {
             if ($self->default('pageencaps')) {
                 $content->{' stream'} .= ' q ';
             }
-            foreach my $k ($uncontent->elementsof()) {
+            foreach my $k ($uncontent->elements()) {
                 $k->realise();
                 $content->{' stream'} .= ' ' . unfilter($k->{'Filter'}, $k->{' stream'}) . ' ';
             }
@@ -1213,19 +1324,15 @@ sub openpage {
                 $content->{' stream'} .= ' Q ';
             }
 
-            ## $content->{'Length'} = PDFNum(length($content->{' stream'}));
-            # this will be fixed by the following code or content or filters
-
-            ## if we like compress we will do it now to do quicker saves
-            if ($self->{'forcecompress'} > 0) {
-                # $content->compressFlate();
+            # if we like compress we will do it now to do quicker saves
+            if ($self->{'forcecompress'}) {
                 $content->{' stream'} = dofilter($content->{'Filter'}, $content->{' stream'});
                 $content->{' nofilt'} = 1;
                 delete $content->{'-docompress'};
                 $content->{'Length'} = PDFNum(length($content->{' stream'}));
             }
         }
-        $page->{' fixed'} = 1;
+        $page->{' opened'} = 1;
     }
 
     $self->{'pdf'}->out_obj($page);
@@ -1234,189 +1341,32 @@ sub openpage {
     $page->{' api'} = $self;
     weaken $page->{' apipdf'};
     weaken $page->{' api'};
-    $page->{' reopened'} = 1;
     return $page;
 }
 
+=head2 import_page
 
-sub walk_obj {
-    my ($object_cache, $source_pdf, $target_pdf, $source_object, @keys) = @_;
+    $page = $pdf->import_page($source_pdf, $source_page_num, $target_page_num);
 
-    if (ref($source_object) =~ /Objind$/) {
-        $source_object->realise();
-    }
+Imports a page from C<$source_pdf> and adds it to the specified position in
+C<$pdf>.
 
-    return $object_cache->{scalar $source_object} if defined $object_cache->{scalar $source_object};
-    # die "infinite loop while copying objects" if $source_object->{' copied'};
-
-    my $target_object = $source_object->copy($source_pdf); ## thanks to: yaheath // Fri, 17 Sep 2004
-
-    # $source_object->{' copied'} = 1;
-    $target_pdf->new_obj($target_object) if $source_object->is_obj($source_pdf);
-
-    $object_cache->{scalar $source_object} = $target_object;
-
-    if (ref($source_object) =~ /Array$/) {
-        $target_object->{' val'} = [];
-        foreach my $k ($source_object->elementsof()) {
-            $k->realise() if ref($k) =~ /Objind$/;
-            $target_object->add_elements(walk_obj($object_cache, $source_pdf, $target_pdf, $k));
-        }
-    }
-    elsif (ref($source_object) =~ /Dict$/) {
-        @keys = keys(%$target_object) unless scalar @keys;
-        foreach my $k (@keys) {
-            next if $k =~ /^ /;
-            next unless defined $source_object->{$k};
-            $target_object->{$k} = walk_obj($object_cache, $source_pdf, $target_pdf, $source_object->{$k});
-        }
-        if ($source_object->{' stream'}) {
-            if ($target_object->{'Filter'}) {
-                $target_object->{' nofilt'} = 1;
-            }
-            else {
-                delete $target_object->{' nofilt'};
-                $target_object->{'Filter'} = PDFArray(PDFName('FlateDecode'));
-            }
-            $target_object->{' stream'} = $source_object->{' stream'};
-        }
-    }
-    delete $target_object->{' streamloc'};
-    delete $target_object->{' streamsrc'};
-
-    return $target_object;
-}
-
-=item $xoform = $pdf->importPageIntoForm($source_pdf, $source_page_number)
-
-Returns a Form XObject created by extracting the specified page from $source_pdf.
-
-This is useful if you want to transpose the imported page somewhat
-differently onto a page (e.g. two-up, four-up, etc.).
-
-If $source_page_number is 0 or -1, it will return the last page in the
-document.
-
-B<Example:>
-
-    $pdf = PDF::API2->new();
-    $old = PDF::API2->open('our/old.pdf');
-    $page = $pdf->page();
-    $gfx = $page->gfx();
-
-    # Import Page 2 from the old PDF
-    $xo = $pdf->importPageIntoForm($old, 2);
-
-    # Add it to the new PDF's first page at 1/2 scale
-    $gfx->formimage($xo, 0, 0, 0.5);
-
-    $pdf->saveas('our/new.pdf');
-
-B<Note:> You can only import a page from an existing PDF file.
-
-=cut
-
-sub importPageIntoForm {
-    my ($self, $s_pdf, $s_idx) = @_;
-    $s_idx ||= 0;
-
-    unless (ref($s_pdf) and $s_pdf->isa('PDF::API2')) {
-        die "Invalid usage: first argument must be PDF::API2 instance, not: " . ref($s_pdf);
-    }
-
-    my ($s_page, $xo);
-
-    $xo = $self->xo_form();
-
-    if (ref($s_idx) eq 'PDF::API2::Page') {
-        $s_page = $s_idx;
-    }
-    else {
-        $s_page = $s_pdf->openpage($s_idx);
-    }
-
-    $self->{'apiimportcache'} ||= {};
-    $self->{'apiimportcache'}->{$s_pdf} ||= {};
-
-    # This should never get past MediaBox, since it's a required object.
-    foreach my $k (qw(MediaBox ArtBox TrimBox BleedBox CropBox)) {
-        # next unless defined $s_page->{$k};
-        # my $box = walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->{$k});
-        next unless defined $s_page->find_prop($k);
-        my $box = walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->find_prop($k));
-        $xo->bbox(map { $_->val() } $box->elementsof());
-        last;
-    }
-    $xo->bbox(0, 0, 612, 792) unless defined $xo->{'BBox'};
-
-    foreach my $k (qw(Resources)) {
-        $s_page->{$k} = $s_page->find_prop($k);
-        next unless defined $s_page->{$k};
-        $s_page->{$k}->realise() if ref($s_page->{$k}) =~ /Objind$/;
-
-        foreach my $sk (qw(XObject ExtGState Font ProcSet Properties ColorSpace Pattern Shading)) {
-            next unless defined $s_page->{$k}->{$sk};
-            $s_page->{$k}->{$sk}->realise() if ref($s_page->{$k}->{$sk}) =~ /Objind$/;
-            foreach my $ssk (keys %{$s_page->{$k}->{$sk}}) {
-                next if $ssk =~ /^ /;
-                $xo->resource($sk, $ssk, walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->{$k}->{$sk}->{$ssk}));
-            }
-        }
-    }
-
-    # create a whole content stream
-    ## technically it is possible to submit an unfinished
-    ## (eg. newly created) source-page, but thats nonsense,
-    ## so we expect a page fixed by openpage and die otherwise
-    die "page not processed via openpage ..." unless $s_page->{' fixed'} == 1;
-
-    # since the source page comes from openpage it may already
-    # contain the required starting 'q' without the final 'Q'
-    # if forcecompress is in effect
-    if (defined $s_page->{'Contents'}) {
-        $s_page->fixcontents();
-
-        $xo->{' stream'} = '';
-        # openpage pages only contain one stream
-        my ($k) = $s_page->{'Contents'}->elementsof();
-        $k->realise();
-        if ($k->{' nofilt'}) {
-          # we have a finished stream here
-          # so we unfilter
-          $xo->add('q', unfilter($k->{'Filter'}, $k->{' stream'}), 'Q');
-        }
-        else {
-            # stream is an unfinished/unfiltered content
-            # so we just copy it and add the required "qQ"
-            $xo->add('q', $k->{' stream'}, 'Q');
-        }
-        $xo->compressFlate() if $self->{'forcecompress'} > 0;
-    }
-
-    return $xo;
-}
-
-=item $page = $pdf->import_page($source_pdf, $source_page_number, $target_page_number)
-
-Imports a page from $source_pdf and adds it to the specified position
-in $pdf.
-
-If $source_page_number or $target_page_number is 0 or -1, the last
+If C<$source_page_num> or C<$target_page_num> is 0, -1, or unspecified, the last
 page in the document is used.
 
 B<Note:> If you pass a page object instead of a page number for
-$target_page_number, the contents of the page will be merged into the
-existing page.
+C<$target_page_num>, the contents of the page will be merged into the existing
+page.
 
 B<Example:>
 
-    $pdf = PDF::API2->new();
-    $old = PDF::API2->open('our/old.pdf');
+    my $pdf = PDF::API2->new();
+    my $source = PDF::API2->open('source.pdf');
 
-    # Add page 2 from the old PDF as page 1 of the new PDF
-    $page = $pdf->import_page($old, 2);
+    # Add page 2 from the source PDF as page 1 of the new PDF
+    my $page = $pdf->import_page($source, 2);
 
-    $pdf->saveas('our/new.pdf');
+    $pdf->save('sample.pdf');
 
 B<Note:> You can only import a page from an existing PDF file.
 
@@ -1439,7 +1389,8 @@ sub import_page {
         $s_page = $s_idx;
     }
     else {
-        $s_page = $s_pdf->openpage($s_idx);
+        $s_page = $s_pdf->open_page($s_idx);
+        die "Unable to open page '$s_idx' in source PDF" unless defined $s_page;
     }
 
     if (ref($t_idx) eq 'PDF::API2::Page') {
@@ -1470,7 +1421,7 @@ sub import_page {
         my $box = walk_obj({}, $s_pdf->{'pdf'}, $self->{'pdf'}, $prop);
         my $method = lc $k;
 
-        $t_page->$method(map { $_->val() } $box->elementsof());
+        $t_page->$method(map { $_->val() } $box->elements());
     }
 
     $t_page->gfx->formimage($xo, 0, 0, 1);
@@ -1486,7 +1437,7 @@ sub import_page {
         }
         my @Fields = ();
         my @Annots = ();
-        foreach my $a ($s_page->{'Annots'}->elementsof()) {
+        foreach my $a ($s_page->{'Annots'}->elements()) {
             $a->realise();
             my $t_a = PDFDict();
             $self->{'pdf'}->new_obj($t_a);
@@ -1548,356 +1499,541 @@ sub import_page {
     return $t_page;
 }
 
-=item $count = $pdf->pages()
+=head2 embed_page
 
-Returns the number of pages in the document.
+    $xobject = $pdf->embed_page($source_pdf, $source_page_number);
+
+Returns a Form XObject created by extracting the specified page from a
+C<$source_pdf>.
+
+This is useful if you want to transpose the imported page somewhat differently
+onto a page (e.g. two-up, four-up, etc.).
+
+If $source_page_number is 0 or -1, it will return the last page in the document.
+
+B<Example:>
+
+    my $pdf = PDF::API2->new();
+    my $source = PDF::API2->open('source.pdf');
+    my $page = $pdf->page();
+
+    # Import Page 2 from the source PDF
+    my $object = $pdf->embed_page($source, 2);
+
+    # Add it to the new PDF's first page at 1/2 scale
+    my ($x, $y) = (0, 0);
+    $page->object($object, $x, $y, 0.5);
+
+    $pdf->save('sample.pdf');
+
+B<Note:> You can only import a page from an existing PDF file.
 
 =cut
 
-sub pages {
+# Deprecated (renamed)
+sub importPageIntoForm { return embed_page(@_) }
+
+sub embed_page {
+    my ($self, $s_pdf, $s_idx) = @_;
+    $s_idx ||= 0;
+
+    unless (ref($s_pdf) and $s_pdf->isa('PDF::API2')) {
+        croak "Invalid usage: first argument must be PDF::API2 instance, not: " . ref($s_pdf);
+    }
+
+    my ($s_page, $xo);
+
+    $xo = $self->xo_form();
+
+    if (ref($s_idx) eq 'PDF::API2::Page') {
+        $s_page = $s_idx;
+    }
+    else {
+        $s_page = $s_pdf->open_page($s_idx);
+        croak "Unable to open page $s_idx in source PDF" unless defined $s_page;
+    }
+
+    $self->{'apiimportcache'} ||= {};
+    $self->{'apiimportcache'}->{$s_pdf} ||= {};
+
+    # This should never get past MediaBox, since it's a required object.
+    foreach my $k (qw(MediaBox ArtBox TrimBox BleedBox CropBox)) {
+        # next unless defined $s_page->{$k};
+        # my $box = walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->{$k});
+        next unless defined $s_page->find_prop($k);
+        my $box = walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->find_prop($k));
+        $xo->bbox(map { $_->val() } $box->elements());
+        last;
+    }
+    $xo->bbox(0, 0, 612, 792) unless defined $xo->{'BBox'};
+
+    foreach my $k (qw(Resources)) {
+        $s_page->{$k} = $s_page->find_prop($k);
+        next unless defined $s_page->{$k};
+        $s_page->{$k}->realise() if ref($s_page->{$k}) =~ /Objind$/;
+
+        foreach my $sk (qw(XObject ExtGState Font ProcSet Properties ColorSpace Pattern Shading)) {
+            next unless defined $s_page->{$k}->{$sk};
+            $s_page->{$k}->{$sk}->realise() if ref($s_page->{$k}->{$sk}) =~ /Objind$/;
+            foreach my $ssk (keys %{$s_page->{$k}->{$sk}}) {
+                next if $ssk =~ /^ /;
+                $xo->resource($sk, $ssk, walk_obj($self->{'apiimportcache'}->{$s_pdf}, $s_pdf->{'pdf'}, $self->{'pdf'}, $s_page->{$k}->{$sk}->{$ssk}));
+            }
+        }
+    }
+
+    # create a whole content stream
+    ## technically it is possible to submit an unfinished
+    ## (eg. newly created) source-page, but that's nonsense,
+    ## so we expect a page fixed by open_page and die otherwise
+    unless ($s_page->{' opened'}) {
+        croak join(' ',
+                   "Pages may only be imported from a complete PDF.",
+                   "Save and reopen the source PDF object first");
+    }
+
+    if (defined $s_page->{'Contents'}) {
+        $s_page->fixcontents();
+
+        $xo->{' stream'} = '';
+        # open_page pages only contain one stream
+        my ($k) = $s_page->{'Contents'}->elements();
+        $k->realise();
+        if ($k->{' nofilt'}) {
+          # we have a finished stream here so we unfilter
+          $xo->add('q', unfilter($k->{'Filter'}, $k->{' stream'}), 'Q');
+        }
+        else {
+            # stream is an unfinished/unfiltered content
+            # so we just copy it and add the required "qQ"
+            $xo->add('q', $k->{' stream'}, 'Q');
+        }
+        $xo->compressFlate() if $self->{'forcecompress'};
+    }
+
+    return $xo;
+}
+
+# Used by embed_page and import_page
+sub walk_obj {
+    my ($object_cache, $source_pdf, $target_pdf, $source_object, @keys) = @_;
+
+    if (ref($source_object) =~ /Objind$/) {
+        $source_object->realise();
+    }
+
+    return $object_cache->{scalar $source_object} if defined $object_cache->{scalar $source_object};
+    # die "infinite loop while copying objects" if $source_object->{' copied'};
+
+    my $target_object = $source_object->copy($source_pdf); ## thanks to: yaheath // Fri, 17 Sep 2004
+
+    # $source_object->{' copied'} = 1;
+    $target_pdf->new_obj($target_object) if $source_object->is_obj($source_pdf);
+
+    $object_cache->{scalar $source_object} = $target_object;
+
+    if (ref($source_object) =~ /Array$/) {
+        $target_object->{' val'} = [];
+        foreach my $k ($source_object->elements()) {
+            $k->realise() if ref($k) =~ /Objind$/;
+            $target_object->add_elements(walk_obj($object_cache, $source_pdf, $target_pdf, $k));
+        }
+    }
+    elsif (ref($source_object) =~ /Dict$/) {
+        @keys = keys(%$target_object) unless scalar @keys;
+        foreach my $k (@keys) {
+            next if $k =~ /^ /;
+            next unless defined $source_object->{$k};
+            $target_object->{$k} = walk_obj($object_cache, $source_pdf, $target_pdf, $source_object->{$k});
+        }
+        if ($source_object->{' stream'}) {
+            if ($target_object->{'Filter'}) {
+                $target_object->{' nofilt'} = 1;
+            }
+            else {
+                delete $target_object->{' nofilt'};
+                $target_object->{'Filter'} = PDFArray(PDFName('FlateDecode'));
+            }
+            $target_object->{' stream'} = $source_object->{' stream'};
+        }
+    }
+    delete $target_object->{' streamloc'};
+    delete $target_object->{' streamsrc'};
+
+    return $target_object;
+}
+
+=head2 page_count
+
+    $integer = $pdf->page_count();
+
+Return the number of pages in the document.
+
+=cut
+
+# Deprecated (renamed)
+sub pages { return page_count(@_) }
+
+sub page_count {
     my $self = shift();
     return scalar @{$self->{'pagestack'}};
 }
 
-=item $pdf->mediabox($name)
+=head2 page_labels
 
-=item $pdf->mediabox($w, $h)
+    $pdf = $pdf->page_labels($page_number, %options);
 
-=item $pdf->mediabox($llx, $lly, $urx, $ury)
+Describes how pages should be numbered beginning at the specified page number.
 
-Sets the global mediabox.
+    # Generate a 30-page PDF
+    my $pdf = PDF::API2->new();
+    $pdf->page() for 1..30;
 
-B<Example:>
+    # Number pages i to v, 1 to 20, and A-1 to A-5, respectively
+    $pdf->page_labels(1, style => 'roman');
+    $pdf->page_labels(6, style => 'decimal');
+    $pdf->page_labels(26, style => 'decimal', prefix => 'A-');
 
-    $pdf = PDF::API2->new();
-    $pdf->mediabox('A4');
-    ...
-    $pdf->saveas('our/new.pdf');
+    $pdf->save('sample.pdf');
 
-    $pdf = PDF::API2->new();
-    $pdf->mediabox(595, 842);
-    ...
-    $pdf->saveas('our/new.pdf');
+The following options are available:
 
-    $pdf = PDF::API2->new;
-    $pdf->mediabox(0, 0, 595, 842);
-    ...
-    $pdf->saveas('our/new.pdf');
+=over
 
-=cut
+=item * style
 
-sub mediabox {
-    my ($self, $x1, $y1, $x2, $y2) = @_;
-    $self->{'pages'}->{'MediaBox'} = PDFArray(map { PDFNum(float($_)) } page_size($x1, $y1, $x2, $y2));
-    return $self;
-}
+One of C<decimal> (standard decimal arabic numerals), C<Roman> (uppercase roman
+numerals), C<roman> (lowercase roman numerals), C<Alpha> (uppercase letters),
+or C<alpha> (lowercase letters).
 
-=item $pdf->cropbox($name)
+There is no default numbering style.  If omitted, the page label will be just
+the prefix (if set) or an empty string.
 
-=item $pdf->cropbox($w, $h)
+=item * prefix
 
-=item $pdf->cropbox($llx, $lly, $urx, $ury)
+The label prefix for pages in this range.
 
-Sets the global cropbox.
+=item * start
 
-=cut
-
-sub cropbox {
-    my ($self, $x1, $y1, $x2, $y2) = @_;
-    $self->{'pages'}->{'CropBox'} = PDFArray(map { PDFNum(float($_)) } page_size($x1, $y1, $x2, $y2));
-    return $self;
-}
-
-=item $pdf->bleedbox($name)
-
-=item $pdf->bleedbox($w, $h)
-
-=item $pdf->bleedbox($llx, $lly, $urx, $ury)
-
-Sets the global bleedbox.
-
-=cut
-
-sub bleedbox {
-    my ($self, $x1, $y1, $x2, $y2) = @_;
-    $self->{'pages'}->{'BleedBox'} = PDFArray(map { PDFNum(float($_)) } page_size($x1, $y1, $x2, $y2));
-    return $self;
-}
-
-=item $pdf->trimbox($name)
-
-=item $pdf->trimbox($w, $h)
-
-=item $pdf->trimbox($llx, $lly, $urx, $ury)
-
-Sets the global trimbox.
-
-=cut
-
-sub trimbox {
-    my ($self, $x1, $y1, $x2, $y2) = @_;
-    $self->{'pages'}->{'TrimBox'} = PDFArray(map { PDFNum(float($_)) } page_size($x1, $y1, $x2, $y2));
-    return $self;
-}
-
-=item $pdf->artbox($name)
-
-=item $pdf->artbox($w, $h)
-
-=item $pdf->artbox($llx, $lly, $urx, $ury)
-
-Sets the global artbox.
-
-=cut
-
-sub artbox {
-    my ($self, $x1, $y1, $x2, $y2) = @_;
-    $self->{'pages'}->{'ArtBox'} = PDFArray(map { PDFNum(float($_)) } page_size($x1, $y1, $x2, $y2));
-    return $self;
-}
+An integer (default: 1) representing the first value to be used in this page
+range.
 
 =back
+
+=cut
+
+# Deprecated; replace with page_labels, updating arguments as shown
+sub pageLabel {
+    my $self = shift();
+    while (@_) {
+        my $page_index = shift();
+
+        # Pass options as a hash rather than a hashref
+        my %options = %{shift() // {}};
+
+        # Remove leading hyphens from option names
+        if (exists $options{'-prefix'}) {
+            $options{'prefix'} = delete $options{'-prefix'};
+        }
+        if (exists $options{'-start'}) {
+            $options{'start'} = delete $options{'-start'};
+        }
+        if (exists $options{'-style'}) {
+            $options{'style'} = delete $options{'-style'};
+            unless ($options{'style'} =~ /^(?:[Rr]oman|[Aa]lpha|decimal)$/) {
+                carp "Invalid -style for page labels; defaulting to decimal";
+                $options{'style'} = 'decimal';
+            }
+        }
+
+        # page_labels doesn't have a default numbering style, to be consistent
+        # with the spec.
+        $options{'style'} //= 'D';
+
+        # Set one set of page labels at a time (support for multiple sets of
+        # page labels by pageLabel was undocumented).  Switch from 0-based to
+        # 1-based numbering.
+        $self->page_labels($page_index + 1, %options);
+    }
+
+    # Return nothing (page_labels returns $self, matching other setters)
+    return;
+}
+
+sub page_labels {
+    my ($self, $page_number, %options) = @_;
+
+    # $page_number is 1-based in order to be consistent with other PDF::API2
+    # methods, but the page label numbering is 0-based.
+    my $page_index = $page_number - 1;
+
+    $self->{'catalog'}->{'PageLabels'} //= PDFDict();
+    $self->{'catalog'}->{'PageLabels'}->{'Nums'} //= PDFArray();
+
+    my $nums = $self->{'catalog'}->{'PageLabels'}->{'Nums'};
+    $nums->add_elements(PDFNum($page_index));
+
+    my $d = PDFDict();
+    if (exists $options{'style'}) {
+        unless ($options{'style'} and $options{'style'} =~ /^([rad])/i) {
+            croak 'Invalid page numbering style';
+        }
+        $d->{'S'} = PDFName($1 eq 'd' ? 'D' : $1);
+    }
+
+    if (exists $options{'prefix'}) {
+        $d->{'P'} = PDFStr($options{'prefix'} // '');
+    }
+
+    if (exists $options{'start'}) {
+        $d->{'St'} = PDFNum($options{'start'} // '');
+    }
+
+    $nums->add_elements($d);
+
+    return $self;
+}
+
+=head2 default_page_size
+
+    # Set
+    $pdf->default_page_size($size);
+
+    # Get
+    @rectangle = $pdf->default_page_size()
+
+Set the default physical size for pages in the PDF.  If called without
+arguments, return the coordinates of the rectangle describing the default
+physical page size.
+
+See L<PDF::API2::Page/"Page Sizes"> for possible values.
+
+=cut
+
+sub default_page_size {
+    my $self = shift();
+
+    # Set
+    if (@_) {
+        return $self->default_page_boundaries(media => @_);
+    }
+
+    # Get
+    my $boundaries = $self->default_page_boundaries();
+    return @{$boundaries->{'media'}};
+}
+
+=head2 default_page_boundaries
+
+    # Set
+    $pdf->default_page_boundaries(%boundaries);
+
+    # Get
+    %boundaries = $pdf->default_page_boundaries();
+
+Set default prepress page boundaries for pages in the PDF.  If called without
+arguments, returns the coordinates of the rectangles describing each of the
+supported page boundaries.
+
+See the equivalent C<page_boundaries> method in L<PDF::API2::Page> for details.
+
+=cut
+
+# Called by PDF::API2::Page::boundaries via the default_page_* methods below
+sub _bounding_box {
+    my $self = shift();
+    my $type = shift();
+
+    # Get
+    unless (scalar @_) {
+        unless ($self->{'pages'}->{$type}) {
+            return if $type eq 'MediaBox';
+
+            # Use defaults per PDF 1.7 section 14.11.2 Page Boundaries
+            return $self->_bounding_box('MediaBox') if $type eq 'CropBox';
+            return $self->_bounding_box('CropBox');
+        }
+        return map { $_->val() } $self->{'pages'}->{$type}->elements();
+    }
+
+    # Set
+    $self->{'pages'}->{$type} = PDFArray(map { PDFNum(float($_)) } @_);
+    return $self;
+}
+
+sub default_page_boundaries {
+    return PDF::API2::Page::boundaries(@_);
+}
+
+# Deprecated; use default_page_size or default_page_boundaries
+sub mediabox {
+    my $self = shift();
+    return $self->_bounding_box('MediaBox') unless @_;
+    return $self->_bounding_box('MediaBox', page_size(@_));
+}
+
+# Deprecated; use default_page_boundaries
+sub cropbox {
+    my $self = shift();
+    return $self->_bounding_box('CropBox') unless @_;
+    return $self->_bounding_box('CropBox', page_size(@_));
+}
+
+# Deprecated; use default_page_boundaries
+sub bleedbox {
+    my $self = shift();
+    return $self->_bounding_box('BleedBox') unless @_;
+    return $self->_bounding_box('BleedBox', page_size(@_));
+}
+
+# Deprecated; use default_page_boundaries
+sub trimbox {
+    my $self = shift();
+    return $self->_bounding_box('TrimBox') unless @_;
+    return $self->_bounding_box('TrimBox', page_size(@_));
+}
+
+# Deprecated; use default_page_boundaries
+sub artbox {
+    my $self = shift();
+    return $self->_bounding_box('ArtBox') unless @_;
+    return $self->_bounding_box('ArtBox', page_size(@_));
+}
 
 =head1 FONT METHODS
 
-=over
+=head2 font
 
-=item @directories = PDF::API2::addFontDirs($dir1, $dir2, ...)
+    my $font = $pdf->font($name, %options)
 
-Adds one or more directories to the search path for finding font
-files.
+Add a font to the PDF.  Returns the font object, to be used by
+L<PDF::API2::Content>.
 
-Returns the list of searched directories.
+The font C<$name> is either the name of one of the L<standard 14
+fonts|PDF::API2::Resource::Font::CoreFont/"STANDARD FONTS"> (e.g. Helvetica) or
+the path to a font file.
 
-=cut
+    my $pdf = PDF::API2->new();
+    my $font1 = $pdf->font('Helvetica-Bold');
+    my $font2 = $pdf->font('/path/to/ComicSans.ttf');
+    my $page = $pdf->page();
+    my $content = $page->text();
 
-sub addFontDirs {
-    my @dirs = @_;
-    push @FontDirs, @dirs;
-    return @FontDirs;
-}
+    $content->position(1 * 72, 9 * 72);
+    $content->font($font1, 24);
+    $content->text('Hello, World!');
 
-sub _findFont {
-    my $font = shift();
-    my @fonts = ($font, map { "$_/$font" } @FontDirs);
-    shift @fonts while scalar(@fonts) and not -f $fonts[0];
-    return $fonts[0];
-}
+    $content->position(0, -36);
+    $content->font($font2, 12);
+    $content->text('This is some sample text.');
 
-=item $font = $pdf->corefont($fontname, [%options])
+    $pdf->save('sample.pdf');
 
-Returns a new Adobe core font object.
+The path can be omitted if the font file is in the current directory or one of
+the directories returned by C<font_path>.
 
-B<Examples:>
+TrueType (ttf/otf), Adobe PostScript Type 1 (pfa/pfb), and Adobe Glyph Bitmap
+Distribution Format (bdf) fonts are supported.
 
-    $font = $pdf->corefont('Times-Roman');
-    $font = $pdf->corefont('Times-Bold');
-    $font = $pdf->corefont('Helvetica');
-    $font = $pdf->corefont('ZapfDingbats');
-
-Valid %options are:
+The following C<%options> are available:
 
 =over
 
-=item -encode
+=item * format
 
-Changes the encoding of the font from its default.
+The font format is normally detected automatically based on the file's
+extension.  If you're using a font with an atypical extension, you can set
+C<format> to one of C<truetype> (TrueType or OpenType), C<type1> (PostScript
+Type 1), or C<bitmap> (Adobe Bitmap).
 
-=item -dokern
+=item * kerning
 
-Enables kerning if data is available.
+Kerning (automatic adjustment of space between pairs of characters) is enabled
+by default if the font includes this information.  Set this option to false to
+disable.
 
-=back
-
-See Also: L<PDF::API2::Resource::Font::CoreFont>.
-
-=cut
-
-sub corefont {
-    my ($self, $name, %opts) = @_;
-    require PDF::API2::Resource::Font::CoreFont;
-    my $obj = PDF::API2::Resource::Font::CoreFont->new($self->{'pdf'}, $name, %opts);
-    $self->{'pdf'}->out_obj($self->{'pages'});
-    $obj->tounicodemap() if $opts{-unicodemap} == 1;
-    return $obj;
-}
-
-=item $font = $pdf->psfont($ps_file, [%options])
-
-Returns a new Adobe Type1 font object.
-
-B<Examples:>
-
-    $font = $pdf->psfont('Times-Book.pfa', -afmfile => 'Times-Book.afm');
-    $font = $pdf->psfont('/fonts/Synest-FB.pfb', -pfmfile => '/fonts/Synest-FB.pfm');
-
-Valid %options are:
-
-=over
-
-=item -encode
-
-Changes the encoding of the font from its default.
-
-=item -afmfile
+=item * afm_file (PostScript Type 1 fonts only)
 
 Specifies the location of the font metrics file.
 
-=item -pfmfile
+=item * pfm_file (PostScript Type 1 fonts only)
 
-Specifies the location of the printer font metrics file.  This option
-overrides the -encode option.
+Specifies the location of the printer font metrics file.  This option overrides
+the -encode option.
 
-=item -dokern
+=item * embed (TrueType fonts only)
 
-Enables kerning if data is available.
+Fonts are embedded in the PDF by default, which is required to ensure that they
+can be viewed properly on a device that doesn't have the font installed.  Set
+this option to false to prevent the font from being embedded.
 
 =back
 
 =cut
 
-sub psfont {
-    my ($self, $psf, %opts) = @_;
+sub font {
+    my ($self, $name, %options) = @_;
 
-    foreach my $o (qw(-afmfile -pfmfile)) {
-        next unless defined $opts{$o};
-        $opts{$o} = _findFont($opts{$o});
+    if (exists $options{'kerning'}) {
+        $options{'-dokern'} = delete $options{'kerning'};
     }
-    $psf = _findFont($psf);
-    require PDF::API2::Resource::Font::Postscript;
-    my $obj = PDF::API2::Resource::Font::Postscript->new($self->{'pdf'}, $psf, %opts);
 
-    $self->{'pdf'}->out_obj($self->{'pages'});
-    $obj->tounicodemap() if $opts{-unicodemap} == 1;
+    require PDF::API2::Resource::Font::CoreFont;
+    if (PDF::API2::Resource::Font::CoreFont->is_standard($name)) {
+        return $self->corefont($name, %options);
+    }
+    elsif ($name eq 'Times' and not $options{'format'}) {
+        # Accept Times as an alias for Times-Roman to follow the pattern set by
+        # Courier and Helvetica.
+        carp "Times is not a standard font; substituting Times-Roman";
+        return $self->corefont('Times-Roman', %options);
+    }
 
-    return $obj;
+    my $format = $options{'format'};
+    $format //= ($name =~ /\.[ot]tf$/i ? 'truetype' :
+                 $name =~ /\.pf[ab]$/i ? 'type1'    :
+                 $name =~ /\.bdf$/i    ? 'bitmap'   : '');
+
+    if ($format eq 'truetype') {
+        $options{'embed'} //= 1;
+        return $self->ttfont($name, %options);
+    }
+    elsif ($format eq 'type1') {
+        if (exists $options{'afm_file'}) {
+            $options{'-afmfile'} = delete $options{'afm_file'};
+        }
+        if (exists $options{'pfm_file'}) {
+            $options{'-pfmfile'} = delete $options{'pfm_file'};
+        }
+        return $self->psfont($name, %options);
+    }
+    elsif ($format eq 'bitmap') {
+        return $self->bdfont($name, %options);
+    }
+    elsif ($format) {
+        croak "Unrecognized font format: $format";
+    }
+    elsif ($name =~ /(\..*)$/) {
+        croak "Unrecognized font file extension: $1";
+    }
+    else {
+        croak "Unrecognized font: $name";
+    }
 }
 
-=item $font = $pdf->ttfont($ttf_file, [%options])
+=head2 synthetic_font
 
-Returns a new TrueType or OpenType font object.
+    $font = $pdf->synthetic_font($base_font, %options)
 
-B<Examples:>
-
-    $font = $pdf->ttfont('Times.ttf');
-    $font = $pdf->ttfont('Georgia.otf');
-
-Valid %options are:
-
-=over
-
-=item -encode
-
-Changes the encoding of the font from its default.
-
-=item -isocmap
-
-Use the ISO Unicode Map instead of the default MS Unicode Map.
-
-=item -dokern
-
-Enables kerning if data is available.
-
-=item -noembed
-
-Disables embedding of the font file.
-
-=back
+Create and return a new synthetic font object.  See
+L<PDF::API2::Resource::Font::SynFont> for details.
 
 =cut
 
-sub ttfont {
-    my ($self, $file, %opts) = @_;
+# Deprecated (renamed)
+sub synfont { return synthetic_font(@_) }
 
-    # PDF::API2 doesn't set BaseEncoding for TrueType fonts, so text
-    # isn't searchable unless a ToUnicode CMap is included.  Include
-    # the ToUnicode CMap by default, but allow it to be disabled (for
-    # performance and file size reasons) by setting -unicodemap to 0.
-    $opts{-unicodemap} = 1 unless exists $opts{-unicodemap};
-
-    $file = _findFont($file);
-    require PDF::API2::Resource::CIDFont::TrueType;
-    my $obj = PDF::API2::Resource::CIDFont::TrueType->new($self->{'pdf'}, $file, %opts);
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-    $obj->tounicodemap() if $opts{-unicodemap};
-
-    return $obj;
-}
-
-=item $font = $pdf->cjkfont($cjkname, [%options])
-
-Returns a new CJK font object.
-
-B<Examples:>
-
-    $font = $pdf->cjkfont('korean');
-    $font = $pdf->cjkfont('traditional');
-
-Valid %options are:
-
-=over
-
-=item -encode
-
-Changes the encoding of the font from its default.
-
-=back
-
-See Also: L<PDF::API2::Resource::CIDFont::CJKFont>
-
-=cut
-
-sub cjkfont {
-    my ($self, $name, %opts) = @_;
-
-    require PDF::API2::Resource::CIDFont::CJKFont;
-    my $obj = PDF::API2::Resource::CIDFont::CJKFont->new($self->{'pdf'}, $name, %opts);
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-    $obj->tounicodemap() if $opts{-unicodemap} == 1;
-
-    return $obj;
-}
-
-=item $font = $pdf->synfont($basefont, [%options])
-
-Returns a new synthetic font object.
-
-B<Examples:>
-
-    $cf  = $pdf->corefont('Times-Roman', -encode => 'latin1');
-    $sf  = $pdf->synfont($cf, -slant => 0.85);  # compressed 85%
-    $sfb = $pdf->synfont($cf, -bold => 1);      # embolden by 10em
-    $sfi = $pdf->synfont($cf, -oblique => -12); # italic at -12 degrees
-
-Valid %options are:
-
-=over
-
-=item -slant
-
-Slant/expansion factor (0.1-0.9 = slant, 1.1+ = expansion).
-
-=item -oblique
-
-Italic angle (+/-)
-
-=item -bold
-
-Emboldening factor (0.1+, bold = 1, heavy = 2, ...)
-
-=item -space
-
-Additional character spacing in ems (0-1000)
-
-=back
-
-See Also: L<PDF::API2::Resource::Font::SynFont>
-
-=cut
-
-sub synfont {
+sub synthetic_font {
     my ($self, $font, %opts) = @_;
 
     # PDF::API2 doesn't set BaseEncoding for TrueType fonts, so text
@@ -1915,13 +2051,128 @@ sub synfont {
     return $obj;
 }
 
-=item $font = $pdf->bdfont($bdf_file)
+=head2 font_path
 
-Returns a new BDF font object, based on the specified Adobe BDF file.
+    @directories = PDF::API2->font_path()
 
-See Also: L<PDF::API2::Resource::Font::BdFont>
+Return the list of directories that will be searched (in order) in addition to
+the current directory when you add a font to a PDF without including the full
+path to the font file.
 
 =cut
+
+sub font_path {
+    return @font_path;
+}
+
+=head2 add_to_font_path
+
+    @directories = PDF::API2->add_to_font_path('/my/fonts', '/path/to/fonts');
+
+Add one or more directories to the list of paths to be searched for font files.
+
+Returns the font search path.
+
+=cut
+
+# Deprecated (renamed)
+sub addFontDirs { return add_to_font_path(@_) }
+
+sub add_to_font_path {
+    # Allow this method to be called using either :: or -> notation.
+    shift() if ref($_[0]);
+    shift() if $_[0] eq __PACKAGE__;
+
+    push @font_path, @_;
+    return @font_path;
+}
+
+=head2 set_font_path
+
+    @directories = PDF::API2->set_font_path('/my/fonts', '/path/to/fonts');
+
+Replace the existing font search path.  This should only be necessary if you
+need to remove a directory from the path for some reason, or if you need to
+reorder the list.
+
+Returns the font search path.
+
+=cut
+
+sub set_font_path {
+    # Allow this method to be called using either :: or -> notation.
+    shift() if ref($_[0]);
+    shift() if $_[0] eq __PACKAGE__;
+
+    @font_path = ((map { "$_/PDF/API2/fonts" } @INC), @_);
+
+    return @font_path;
+}
+
+sub _find_font {
+    my $font = shift();
+
+    # Check the current directory
+    return $font if -f $font;
+
+    # Check the font search path
+    foreach my $directory (@font_path) {
+        return "$directory/$font" if -f "$directory/$font";
+    }
+
+    return;
+}
+
+sub corefont {
+    my ($self, $name, %opts) = @_;
+    require PDF::API2::Resource::Font::CoreFont;
+    my $obj = PDF::API2::Resource::Font::CoreFont->new($self->{'pdf'}, $name, %opts);
+    $self->{'pdf'}->out_obj($self->{'pages'});
+    $obj->tounicodemap() if $opts{-unicodemap};
+    return $obj;
+}
+
+sub psfont {
+    my ($self, $psf, %opts) = @_;
+
+    foreach my $o (qw(-afmfile -pfmfile)) {
+        next unless defined $opts{$o};
+        $opts{$o} = _find_font($opts{$o});
+    }
+    $psf = _find_font($psf) or croak "Unable to find font \"$psf\"";
+    require PDF::API2::Resource::Font::Postscript;
+    my $obj = PDF::API2::Resource::Font::Postscript->new($self->{'pdf'}, $psf, %opts);
+
+    $self->{'pdf'}->out_obj($self->{'pages'});
+    $obj->tounicodemap() if $opts{-unicodemap};
+
+    return $obj;
+}
+
+sub ttfont {
+    my ($self, $name, %opts) = @_;
+
+    # PDF::API2 doesn't set BaseEncoding for TrueType fonts, so text
+    # isn't searchable unless a ToUnicode CMap is included.  Include
+    # the ToUnicode CMap by default, but allow it to be disabled (for
+    # performance and file size reasons) by setting -unicodemap to 0.
+    $opts{-unicodemap} = 1 unless exists $opts{-unicodemap};
+
+    # -noembed is deprecated (replace with embed => 0)
+    if ($opts{'-noembed'}) {
+        $opts{'embed'} //= 1;
+    }
+    $opts{'embed'} //= 1;
+
+    my $file = _find_font($name) or croak "Unable to find font \"$name\"";
+    require PDF::API2::Resource::CIDFont::TrueType;
+    my $obj = PDF::API2::Resource::CIDFont::TrueType->new($self->{'pdf'}, $file, %opts);
+
+    $self->{'pdf'}->out_obj($self->{'pages'});
+    $obj->tounicodemap() if $opts{-unicodemap};
+
+    return $obj;
+}
 
 sub bdfont {
     my ($self, @opts) = @_;
@@ -1935,26 +2186,21 @@ sub bdfont {
     return $obj;
 }
 
-=item $font = $pdf->unifont(@fontspecs, %options)
+# Deprecated.  Use Unicode-supporting TrueType fonts instead.
+# See PDF::API2::Resource::CIDFont::CJKFont for details.
+sub cjkfont {
+    my ($self, $name, %opts) = @_;
 
-Returns a new uni-font object, based on the specified fonts and options.
+    require PDF::API2::Resource::CIDFont::CJKFont;
+    my $obj = PDF::API2::Resource::CIDFont::CJKFont->new($self->{'pdf'}, $name, %opts);
 
-B<BEWARE:> This is not a true pdf-object, but a virtual/abstract font definition!
+    $self->{'pdf'}->out_obj($self->{'pages'});
+    $obj->tounicodemap() if $opts{-unicodemap};
 
-See Also: L<PDF::API2::Resource::UniFont>.
+    return $obj;
+}
 
-Valid %options are:
-
-=over
-
-=item -encode
-
-Changes the encoding of the font from its default.
-
-=back
-
-=cut
-
+# Deprecated.  Use Unicode-supporting TrueType fonts instead.
 sub unifont {
     my ($self, @opts) = @_;
 
@@ -1964,17 +2210,107 @@ sub unifont {
     return $obj;
 }
 
-=back
+=head1 GRAPHICS METHODS
 
-=head1 IMAGE METHODS
+=head2 image
 
-=over
+    $object = $pdf->image($file, %options);
 
-=item $jpeg = $pdf->image_jpeg($file)
+Import a supported image type and return an object that can be placed as part of
+a page's content:
 
-Imports and returns a new JPEG image object.  C<$file> may be either a filename or a filehandle.
+    my $pdf = PDF::API2->new();
+    my $page = $pdf->page();
+
+    my $image = $pdf->image('/path/to/image.jpg');
+    $page->object($image, 100, 100);
+
+    $pdf->save('sample.pdf');
+
+C<$file> may be either a file name, a filehandle, or a L<GD::Image> object.
+
+See L<PDF::API2::Content/"place"> for details about placing images on a page
+once they're imported.
+
+The image format is normally detected automatically based on the file's
+extension.  If passed a filehandle, image formats GIF, JPEG, and PNG will be
+detected based on the file's header.
+
+If the file has an atypical extension or the filehandle is for a different kind
+of image, you can set the C<format> option to one of the supported types:
+C<gif>, C<jpeg>, C<png>, C<pnm>, or C<tiff>.
+
+Note: PNG images that include an alpha (transparency) channel go through a
+relatively slow process of splitting the image into separate RGB and alpha
+components as is required by images in PDFs.  If you're having performance
+issues, install PDF::API2::XS or Image::PNG::Libpng to speed this process up by
+an order of magnitude; either module will be used automatically if available.
 
 =cut
+
+sub image {
+    my ($self, $file, %options) = @_;
+
+    my $format = lc($options{'format'} // '');
+
+    if (ref($file) eq 'GD::Image') {
+        return $self->image_gd($file, %options);
+    }
+    elsif (ref($file)) {
+        $format ||= _detect_image_format($file);
+    }
+    unless (ref($file)) {
+        $format ||= ($file =~ /\.jpe?g$/i   ? 'jpeg' :
+                     $file =~ /\.png$/i     ? 'png'  :
+                     $file =~ /\.gif$/i     ? 'gif'  :
+                     $file =~ /\.tiff?$/i   ? 'tiff' :
+                     $file =~ /\.p[bgp]m$/i ? 'pnm'  : '');
+    }
+
+    if ($format eq 'jpeg') {
+        return $self->image_jpeg($file, %options);
+    }
+    elsif ($format eq 'png') {
+        return $self->image_png($file, %options);
+    }
+    elsif ($format eq 'gif') {
+        return $self->image_gif($file, %options);
+    }
+    elsif ($format eq 'tiff') {
+        return $self->image_tiff($file, %options);
+    }
+    elsif ($format eq 'pnm') {
+        return $self->image_pnm($file, %options);
+    }
+    elsif ($format) {
+        croak "Unrecognized image format: $format";
+    }
+    elsif (ref($file)) {
+        croak "Unspecified image format";
+    }
+    elsif ($file =~ /(\..*)$/) {
+        croak "Unrecognized image extension: $1";
+    }
+    else {
+        croak "Unrecognized image: $file";
+    }
+}
+
+sub _detect_image_format {
+    my $fh = shift();
+    $fh->seek(0, 0);
+    binmode $fh, ':raw';
+
+    my $test;
+    my $bytes_read = $fh->read($test, 8);
+    $fh->seek(0, 0);
+    return unless $bytes_read and $bytes_read == 8;
+
+    return 'gif'  if $test =~ /^GIF\d\d[a-z]/;
+    return 'jpeg' if $test =~ /^\xFF\xD8\xFF/;
+    return 'png'  if $test =~ /^\x89PNG\x0D\x0A\x1A\x0A/;
+    return;
+}
 
 sub image_jpeg {
     my ($self, $file, %opts) = @_;
@@ -1987,12 +2323,6 @@ sub image_jpeg {
     return $obj;
 }
 
-=item $tiff = $pdf->image_tiff($file)
-
-Imports and returns a new TIFF image object.  C<$file> may be either a filename or a filehandle.
-
-=cut
-
 sub image_tiff {
     my ($self, $file, %opts) = @_;
 
@@ -2004,28 +2334,18 @@ sub image_tiff {
     return $obj;
 }
 
-=item $pnm = $pdf->image_pnm($file)
-
-Imports and returns a new PNM image object.  C<$file> may be either a filename or a filehandle.
-
-=cut
-
 sub image_pnm {
     my ($self, $file, %opts) = @_;
 
+    $opts{'-compress'} //= $self->{'forcecompress'};
+
     require PDF::API2::Resource::XObject::Image::PNM;
-    my $obj = PDF::API2::Resource::XObject::Image::PNM->new($self->{'pdf'}, $file);
+    my $obj = PDF::API2::Resource::XObject::Image::PNM->new($self->{'pdf'}, $file, %opts);
 
     $self->{'pdf'}->out_obj($self->{'pages'});
 
     return $obj;
 }
-
-=item $png = $pdf->image_png($file)
-
-Imports and returns a new PNG image object.  C<$file> may be either a filename or a filehandle.
-
-=cut
 
 sub image_png {
     my ($self, $file, %opts) = @_;
@@ -2038,12 +2358,6 @@ sub image_png {
     return $obj;
 }
 
-=item $gif = $pdf->image_gif($file)
-
-Imports and returns a new GIF image object.  C<$file> may be either a filename or a filehandle.
-
-=cut
-
 sub image_gif {
     my ($self, $file, %opts) = @_;
 
@@ -2054,14 +2368,6 @@ sub image_gif {
 
     return $obj;
 }
-
-=item $gdf = $pdf->image_gd($gd_object, %options)
-
-Imports and returns a new image object from GD::Image.
-
-B<Options:> The only option currently supported is C<< -lossless => 1 >>.
-
-=cut
 
 sub image_gd {
     my ($self, $gd, %opts) = @_;
@@ -2074,146 +2380,204 @@ sub image_gd {
     return $obj;
 }
 
-=back
+=head2 barcode
 
-=head1 COLORSPACE METHODS
+    $object = $pdf->barcode($format, $code, %options);
 
-=over
+Generate and return a barcode that can be placed as part of a page's content:
 
-=item $cs = $pdf->colorspace_act($file)
+    my $pdf = PDF::API2->new();
+    my $page = $pdf->page();
 
-Returns a new colorspace object based on an Adobe Color Table file.
+    my $barcode = $pdf->barcode('ean13', '0123456789012');
+    $page->object($barcode, 100, 100);
 
-See L<PDF::API2::Resource::ColorSpace::Indexed::ACTFile> for a
-reference to the file format's specification.
+    my $qr_code = $pdf->barcode('qr', 'http://www.example.com');
+    $page->object($qr_code, 100, 300, 144 / $qr_code->width())
 
-=cut
+    $pdf->save('sample.pdf');
 
-sub colorspace_act {
-    my ($self, $file, %opts) = @_;
+C<$format> can be one of C<codabar>, C<code128>, C<code39> (a.k.a. 3 of 9),
+C<ean128>, C<ean13>, C<itf> (a.k.a. interleaved 2 of 5), or C<qr>.
 
-    require PDF::API2::Resource::ColorSpace::Indexed::ACTFile;
-    my $obj = PDF::API2::Resource::ColorSpace::Indexed::ACTFile->new($self->{'pdf'}, $file);
+C<$code> is the value to be encoded.  Start and stop characters are only
+required when they're not static (e.g. for Codabar).
 
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=item $cs = $pdf->colorspace_web()
-
-Returns a new colorspace-object based on the web color palette.
-
-=cut
-
-sub colorspace_web {
-    my ($self, $file, %opts) = @_;
-
-    require PDF::API2::Resource::ColorSpace::Indexed::WebColor;
-    my $obj = PDF::API2::Resource::ColorSpace::Indexed::WebColor->new($self->{'pdf'});
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=item $cs = $pdf->colorspace_hue()
-
-Returns a new colorspace-object based on the hue color palette.
-
-See L<PDF::API2::Resource::ColorSpace::Indexed::Hue> for an explanation.
-
-=cut
-
-sub colorspace_hue {
-    my ($self, $file, %opts)=@_;
-
-    require PDF::API2::Resource::ColorSpace::Indexed::Hue;
-    my $obj = PDF::API2::Resource::ColorSpace::Indexed::Hue->new($self->{'pdf'});
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=item $cs = $pdf->colorspace_separation($tint, $color)
-
-Returns a new separation colorspace object based on the parameters.
-
-I<$tint> can be any valid ink identifier, including but not limited
-to: 'Cyan', 'Magenta', 'Yellow', 'Black', 'Red', 'Green', 'Blue' or
-'Orange'.
-
-I<$color> must be a valid color specification limited to: '#rrggbb',
-'!hhssvv', '%ccmmyykk' or a "named color" (rgb).
-
-The colorspace model will automatically be chosen based on the
-specified color.
-
-=cut
-
-sub colorspace_separation {
-    my ($self, $name, @clr)=@_;
-
-    require PDF::API2::Resource::ColorSpace::Separation;
-    my $obj = PDF::API2::Resource::ColorSpace::Separation->new($self->{'pdf'}, pdfkey(), $name, @clr);
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=item $cs = $pdf->colorspace_devicen(\@tintCSx, [$samples])
-
-Returns a new DeviceN colorspace object based on the parameters.
-
-B<Example:>
-
-    $cy = $pdf->colorspace_separation('Cyan',    '%f000');
-    $ma = $pdf->colorspace_separation('Magenta', '%0f00');
-    $ye = $pdf->colorspace_separation('Yellow',  '%00f0');
-    $bk = $pdf->colorspace_separation('Black',   '%000f');
-
-    $pms023 = $pdf->colorspace_separation('PANTONE 032CV', '%0ff0');
-
-    $dncs = $pdf->colorspace_devicen( [ $cy,$ma,$ye,$bk,$pms023 ] );
-
-The colorspace model will automatically be chosen based on the first
-colorspace specified.
-
-=cut
-
-sub colorspace_devicen {
-    my ($self, $clrs, $samples) = @_;
-    $samples ||= 2;
-
-    require PDF::API2::Resource::ColorSpace::DeviceN;
-    my $obj = PDF::API2::Resource::ColorSpace::DeviceN->new($self->{'pdf'}, pdfkey(), $clrs, $samples);
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=back
-
-=head1 BARCODE METHODS
+The following options are available:
 
 =over
 
-=item $bc = $pdf->xo_codabar(%options)
+=item * bar_width
 
-=item $bc = $pdf->xo_code128(%options)
+The width of the smallest bar or space in points (72 points = 1 inch).
 
-=item $bc = $pdf->xo_2of5int(%options)
+If you're following a specification that gives bar width in mils (thousandths of
+an inch), use this conversion: C<$points = $mils / 1000 * 72>.
 
-=item $bc = $pdf->xo_3of9(%options)
+=item * bar_height
 
-=item $bc = $pdf->xo_ean13(%options)
+The base height of the barcode in points.
 
-Creates the specified barcode object as a form XObject.
+=item * bar_extend
+
+If present and applicable, bars for non-printing characters (e.g. start and stop
+characters) will be extended downward by this many points, and printing
+characters will be shown below their respective bars.
+
+This is enabled by default for EAN-13 barcodes.
+
+=item * caption
+
+If present, this value will be printed, centered, beneath the barcode, and
+should be a human-readable representation of the barcode.  This option is
+ignored for QR codes.
+
+=item * font
+
+A font object (created by L</"font">) that will be used to print the caption, or
+the printable characters when C<bar_extend> is set.
+
+Helvetica will be used by default.
+
+=item * font_size
+
+The size of the font used for printing the caption or printable characters.
+
+The default will be calculated based on the barcode size, if C<bar_extend> is
+set, or 10 otherwise.
+
+=item * quiet_zone
+
+A margin, in points, that will be place before the left and bottom edges of the
+barcode (including the caption, if present).  This is used to help barcode
+scanners tell where the barcode begins and ends.
+
+The default is the width of one encoded character, or four squares for QR codes.
+
+=item * bar_overflow
+
+Shrinks the horizontal width of bars by this amount in points to account for ink
+spread when printing.  This option is ignored for QR codes.
+
+The default is 0.01 points.
+
+=item * color
+
+Draw bars using this color, which may be any value accepted by
+L<PDF::API2::Content/"fillcolor">.
+
+The default is black.
+
+=back
+
+QR codes have
+L<additional options|PDF::API2::Resource::XObject::Form::BarCode::qrcode> for
+customizing the error correction level and other niche settings.
 
 =cut
+
+sub barcode {
+    my ($self, $format, $value, %options) = @_;
+    croak "Missing barcode format" unless defined $format;
+    croak "Missing barcode value" unless defined $value;
+
+    # Set defaults to approximately the minimums for each barcode format.
+    if ($format eq 'codabar') {
+        $options{'bar_width'} //= 1.8; # 0.025"
+        $options{'bar_extend'} //= 0;
+        $options{'quiet_zone'} //= 10 * $options{'bar_width'};
+        if ($options{'bar_extend'}) {
+            $options{'font_size'} //= 9 * $options{'bar_width'};
+        }
+
+        # Minimum height is the larger of 0.25" or 15% of barcode length.
+        my $length = (10 * length($value) + 2) * $options{'bar_width'};
+        $options{'bar_height'} //= max(18, $length * 0.15);
+    }
+    elsif ($format eq 'code128' or $format eq 'ean128' or $format eq 'code39') {
+        $options{'bar_width'} //= 1;
+        $options{'bar_extend'} //= 0;
+        $options{'quiet_zone'} //= 11 * $options{'bar_width'};
+        if ($options{'bar_extend'}) {
+            $options{'font_size'} //= 10 * $options{'bar_width'};
+        }
+
+        # Minimum height is the larger of 0.5" or 15% of barcode length.
+        my $length = 11 * (length($value) + 1) * $options{'bar_width'};
+        $options{'bar_height'} //= max(36, $length * 0.15);
+    }
+    elsif ($format eq 'itf') {
+        $options{'bar_width'} //= 1;
+        $options{'bar_height'} //= 40;
+        $options{'bar_extend'} //= 0;
+        $options{'quiet_zone'} //= 10 * $options{'bar_width'};
+        if ($options{'bar_extend'}) {
+            $options{'font_size'} //= 9 * $options{'bar_width'};
+        }
+    }
+    elsif ($format eq 'ean13') {
+        $options{'bar_width'} //= 1;
+        $options{'bar_height'} //= 64.8;
+        $options{'quiet_zone'} //= 11 * $options{'bar_width'};
+        unless ($options{'caption'}) {
+            $options{'bar_extend'} //= 5 * $options{'bar_width'};
+        }
+        if ($options{'bar_extend'}) {
+            $options{'font_size'} //= 10 * $options{'bar_width'};
+        }
+    }
+    elsif ($format eq 'qr') {
+        $options{'bar_width'} //= 1;
+        $options{'bar_height'} //= $options{'bar_width'};
+        $options{'quiet_zone'} //= 4 * $options{'bar_width'};
+    }
+    else {
+        croak "Unrecognized barcode format: $format";
+    }
+
+    if (exists $options{'caption'}) {
+        $options{'font_size'} //= 10;
+    }
+    if ($options{'bar_extend'} or $options{'font_size'}) {
+        $options{'font'} //= $self->font('Helvetica');
+    }
+
+    # Convert from new arguments to old arguments
+    $options{'-color'} = delete $options{'color'};
+    $options{'-fnsz'}  = delete $options{'font_size'};
+    $options{'-font'}  = delete $options{'font'};
+    $options{'-lmzn'}  = delete $options{'bar_extend'};
+    $options{'-mils'}  = (delete $options{'bar_width'}) * 1000 / 72;
+    $options{'-ofwt'}  = delete $options{'bar_overflow'};
+    $options{'-quzn'}  = delete $options{'quiet_zone'};
+    $options{'-zone'}  = delete $options{'bar_height'};
+
+    if ($format eq 'codabar') {
+        return $self->xo_codabar(%options, -code => $value);
+    }
+    elsif ($format eq 'code128') {
+        return $self->xo_code128(%options, -code => $value);
+    }
+    elsif ($format eq 'code39') {
+        return $self->xo_3of9(%options, -code => $value);
+    }
+    elsif ($format eq 'ean128') {
+        return $self->xo_code128(%options, -code => $value, -ean => 1);
+    }
+    elsif ($format eq 'ean13') {
+        return $self->xo_ean13(%options, -code => $value);
+    }
+    elsif ($format eq 'itf') {
+        return $self->xo_2of5int(%options, -code => $value);
+    }
+    elsif ($format eq 'qr') {
+        my $qr_class = 'PDF::API2::Resource::XObject::Form::BarCode::qrcode';
+        eval "require $qr_class";
+        my $obj = $qr_class->new($self->{'pdf'}, %options, code => $value);
+        # $self->{'pdf'}->out_obj($self->{'pages'});
+        return $obj;
+    }
+}
 
 sub xo_code128 {
     my ($self, @opts) = @_;
@@ -2270,31 +2634,180 @@ sub xo_ean13 {
     return $obj;
 }
 
-=back
+=head2 colorspace
 
-=head1 OTHER METHODS
+    $colorspace = $pdf->colorspace($type, @arguments);
+
+Colorspaces can be added to a PDF to either specifically control the output
+color on a particular device (spot colors, device colors) or to save space by
+limiting the available colors to a defined color palette (web-safe palette, ACT
+file).
+
+Once added to the PDF, they can be used in place of regular hex codes or named
+colors:
+
+    my $pdf = PDF::API2->new();
+    my $page = $pdf->page();
+    my $content = $page->graphics();
+
+    # Add colorspaces for a spot color and the web-safe color palette
+    my $spot = $pdf->colorspace('spot', 'PANTONE Red 032 C', '#EF3340');
+    my $web = $pdf->colorspace('web');
+
+    # Fill using the spot color with 100% coverage
+    $content->fill_color($spot, 1.0);
+
+    # Stroke using the first color of the web-safe palette
+    $content->stroke_color($web, 0);
+
+    # Add a rectangle to the page
+    $content->rectangle(100, 100, 200, 200);
+    $content->paint();
+
+    $pdf->save('sample.pdf');
+
+The following types of colorspaces are supported
 
 =over
 
-=item $xo = $pdf->xo_form()
+=item * spot
 
-Returns a new form XObject.
+    my $spot = $pdf->colorspace('spot', $tint, $alt_color);
+
+Spot colors are used to instruct a device (usually a printer) to use or emulate
+a particular ink color (C<$tint>) for parts of the document.  An C<$alt_color>
+is provided for devices (e.g. PDF viewers) that don't know how to produce the
+named color.  It can either be an approximation of the color in RGB, CMYK, or
+HSV formats, or a wildly different color (e.g. 100% magenta, C<%0F00>) to make
+it clear if the spot color isn't being used as expected.
+
+=item * web
+
+    my $web = $pdf->colorspace('web');
+
+The web-safe color palette is a historical collection of colors that was used
+when many display devices only supported 256 colors.
+
+=item * act
+
+    my $act = $pdf->colorspace('act', $filename);
+
+An Adobe Color Table (ACT) file provides a custom palette of colors that can be
+referenced by PDF graphics and text drawing commands.
+
+=item * device
+
+    my $devicen = $pdf->colorspace('device', @colorspaces);
+
+A device-specific colorspace allows for precise color output on a given device
+(typically a printing press), bypassing the normal color interpretation
+performed by raster image processors (RIPs).
+
+Device colorspaces are also needed if you want to blend spot colors:
+
+    my $pdf = PDF::API2->new();
+    my $page = $pdf->page();
+    my $content = $page->graphics();
+
+    # Create a two-color device colorspace
+    my $yellow = $pdf->colorspace('spot', 'Yellow', '%00F0');
+    my $spot = $pdf->colorspace('spot', 'PANTONE Red 032 C', '#EF3340');
+    my $device = $pdf->colorspace('device', $yellow, $spot);
+
+    # Fill using a blend of 25% yellow and 75% spot color
+    $content->fill_color($device, 0.25, 0.75);
+
+    # Stroke using 100% spot color
+    $content->stroke_color($device, 0, 1);
+
+    # Add a rectangle to the page
+    $content->rectangle(100, 100, 200, 200);
+    $content->paint();
+
+    $pdf->save('sample.pdf');
+
+=back
 
 =cut
 
-sub xo_form {
+sub colorspace {
     my $self = shift();
+    my $type = shift();
 
-    my $obj = PDF::API2::Resource::XObject::Form::Hybrid->new($self->{'pdf'});
-
-    $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
+    if ($type eq 'act') {
+        my $file = shift();
+        return $self->colorspace_act($file);
+    }
+    elsif ($type eq 'web') {
+        return $self->colorspace_web();
+    }
+    elsif ($type eq 'hue') {
+        # This type is undocumented until either a reference can be found for
+        # this being a standard palette like the web color palette, or POD is
+        # added to the Hue colorspace class that describes how to use it.
+        return $self->colorspace_hue();
+    }
+    elsif ($type eq 'spot') {
+        my $name = shift();
+        my $alt_color = shift();
+        return $self->colorspace_separation($name, $alt_color);
+    }
+    elsif ($type eq 'device') {
+        my @colors = @_;
+        return $self->colorspace_devicen(\@colors);
+    }
+    else {
+        croak "Unrecognized or unsupported colorspace: $type";
+    }
 }
 
-=item $egs = $pdf->egstate()
+sub colorspace_act {
+    my ($self, $file) = @_;
 
-Returns a new extended graphics state object.
+    require PDF::API2::Resource::ColorSpace::Indexed::ACTFile;
+    return PDF::API2::Resource::ColorSpace::Indexed::ACTFile->new($self->{'pdf'},
+                                                                  $file);
+}
+
+sub colorspace_web {
+    my $self = shift();
+
+    require PDF::API2::Resource::ColorSpace::Indexed::WebColor;
+    return PDF::API2::Resource::ColorSpace::Indexed::WebColor->new($self->{'pdf'});
+}
+
+sub colorspace_hue {
+    my $self = shift();
+
+    require PDF::API2::Resource::ColorSpace::Indexed::Hue;
+    return PDF::API2::Resource::ColorSpace::Indexed::Hue->new($self->{'pdf'});
+}
+
+sub colorspace_separation {
+    my ($self, $name, @clr) = @_;
+
+    require PDF::API2::Resource::ColorSpace::Separation;
+    return PDF::API2::Resource::ColorSpace::Separation->new($self->{'pdf'},
+                                                            pdfkey(),
+                                                            $name,
+                                                            @clr);
+}
+
+sub colorspace_devicen {
+    my ($self, $clrs) = @_;
+
+    require PDF::API2::Resource::ColorSpace::DeviceN;
+    return PDF::API2::Resource::ColorSpace::DeviceN->new($self->{'pdf'},
+                                                         pdfkey(),
+                                                         $clrs);
+}
+
+=head2 egstate
+
+    $resource = $pdf->egstate();
+
+Creates and returns a new extended graphics state object, described in
+L<PDF::API2::ExtGState>.
 
 =cut
 
@@ -2308,11 +2821,29 @@ sub egstate {
     return $obj;
 }
 
-=item $obj = $pdf->pattern()
+sub default {
+    my ($self, $parameter, $value) = @_;
 
-Returns a new pattern object.
+    # Parameter names may consist of lowercase letters, numbers, and underscores
+    $parameter = lc $parameter;
+    $parameter =~ s/[^a-z\d_]//g;
 
-=cut
+    my $previous_value = $self->{$parameter};
+    if (defined $value) {
+        $self->{$parameter} = $value;
+    }
+    return $previous_value;
+}
+
+sub xo_form {
+    my $self = shift();
+
+    my $obj = PDF::API2::Resource::XObject::Form::Hybrid->new($self->{'pdf'});
+
+    $self->{'pdf'}->out_obj($self->{'pages'});
+
+    return $obj;
+}
 
 sub pattern {
     my ($self, %opts) = @_;
@@ -2324,39 +2855,12 @@ sub pattern {
     return $obj;
 }
 
-=item $obj = $pdf->shading()
-
-Returns a new shading object.
-
-=cut
-
 sub shading {
     my ($self, %opts) = @_;
 
     my $obj = PDF::API2::Resource::Shading->new($self->{'pdf'}, undef, %opts);
 
     $self->{'pdf'}->out_obj($self->{'pages'});
-
-    return $obj;
-}
-
-=item $otls = $pdf->outlines()
-
-Returns a new or existing outlines object.
-
-=cut
-
-sub outlines {
-    my $self = shift();
-
-    require PDF::API2::Outlines;
-    $self->{'pdf'}->{'Root'}->{'Outlines'} ||= PDF::API2::Outlines->new($self);
-
-    my $obj = $self->{'pdf'}->{'Root'}->{'Outlines'};
-
-    $self->{'pdf'}->new_obj($obj) unless $obj->is_obj($self->{'pdf'});
-    $self->{'pdf'}->out_obj($obj);
-    $self->{'pdf'}->out_obj($self->{'pdf'}->{'Root'});
 
     return $obj;
 }
@@ -2397,16 +2901,327 @@ sub named_destination {
 
 __END__
 
+=head1 BACKWARD COMPATIBILITY
+
+Code written using PDF::API2 should continue to work unchanged for the life of
+most long-term-stable (LTS) server distributions.  Specifically, it should
+continue working for versions of Perl that were L<released|perlhist> within the
+past five years (the typical support window for LTS releases) plus six months
+(allowing plenty of time for package freezes prior to release).
+
+In PDF::API2, method names, options, and functionality change over time.
+Functionality that's documented (not just in source code comments) should
+continue working for the same time period of five years and six months, though
+deprecation warnings may be added.  There may be exceptions if your code happens
+to rely on bugs that get fixed, including when a method in PDF::API2 is changed
+to more closely follow the PDF specification.
+
+Occasional breaking changes may be unavoidable or deemed small enough in scope
+to be worth the benefit of making the change instead of keeping the old
+behavior.  These will be noted in the Changes file as items beginning with the
+phrase "Breaking Change".
+
+Undocumented features, unreleased code, features marked as experimental, and
+underlying data structures may change at any time.  An exception is for features
+that were previously released and documented, which should continue to work for
+the above time period after the documentation is removed.
+
+Before migrating to a new LTS server version, it's recommended that you upgrade
+to the latest version of PDF::API2, C<use warnings>, and check your server logs
+for deprecation messages after exercising your code.  Once these are resolved,
+it should be safe to use future PDF::API2 releases during that LTS support
+window.
+
+If your code uses a PDF::API2 method that isn't documented here, it has probably
+been deprecated.  Search for it in the Migration section below to find its
+replacement.
+
+=head1 MIGRATION
+
+Use this section to bring your existing code up to date with current method
+names and options.  If you're not getting a deprecation warning, this is
+optional, but still recommended.
+
+For example, in cases where a method was simply renamed, the old name will be
+set up as an alias for the new one, which can be maintained indefinitely.  The
+main benefit of switching to the new name is to make it easier to find the
+appropriate documentation when you need it.
+
+=over
+
+=item new(-compress => 0)
+
+=item new(-file => $filename)
+
+Remove the hyphen from the option names.
+
+=item new() with any options other than C<compress> or C<file>
+
+Replace with calls to L</"INTERACTIVE FEATURE METHODS">.  See the deprecated
+L</"preferences"> method for particular option names.
+
+=item finishobjects
+
+=item saveas
+
+=item update
+
+Replace with L</"save">.
+
+=item end
+
+=item release
+
+Replace with L</"close">.
+
+=item open_scalar
+
+=item openScalar
+
+Replace with L</"from_string">.
+
+=item stringify
+
+Replace with L</"to_string">.
+
+=item info
+
+Each of the hash keys now has its own accessor.  See L</"METADATA METHODS">.
+
+For custom keys or if you prefer to give the key names as variables (e.g. as
+part of a loop), use L</"info_metadata">.
+
+=item infoMetaAttributes
+
+Use L</"info_metadata"> without arguments to get a list of currently-set keys in
+the Info dictionary (including any custom keys).  This is slightly different
+behavior from calling C<infoMetaAttributes> without arguments, which always
+returns the standard key names and any defined custom key names, whether or not
+they're present in the PDF.
+
+Calling C<infoMetaAttributes> with arguments defines the list of Info keys that
+are supported by the deprecated C<info> method.  You can now just call
+L</"info_metadata"> with a standard or custom key and value.
+
+=item xmpMetadata
+
+Replace with L</"xml_metadata">.  Note that, when called with an argument,
+C<xml_metadata> returns the PDF object rather than the value, to line up with
+most other PDF::API2 accessors.
+
+=item isEncrypted
+
+Replace with L</"is_encrypted">.
+
+=item outlines
+
+Replace with L</"outline">.
+
+=item preferences
+
+This functionality has been split into a few methods, aligning more closely with
+the underlying PDF structure.  See the documentation for each of the methods for
+revised option names.
+
+=over
+
+=item * -fullscreen, -thumbs, -outlines
+
+Call L</"page_mode">.
+
+=item * -singlepage, -onecolumn, -twocolumnleft, -twocolumnright
+
+Call L</"page_layout">.
+
+=item * -hidetoolbar, -hidemenubar, -hidewindowui, -fitwindow, -centerwindow,
+-displaytitle, -righttoleft, -afterfullscreenthumbs, -afterfullscreenoutlines,
+-printscalingnone, -simplex, -duplexfliplongedge, -duplexflipshortedge
+
+Call L</"viewer_preferences">.
+
+=item * -firstpage
+
+Call L</"open_action">.
+
 =back
 
-=head1 KNOWN ISSUES
+=item openpage
 
-This module does not work with perl's -l command-line switch.
+Replace with L</"open_page">.
+
+=item importpage
+
+Replace with L</"import_page">.
+
+=item importPageIntoForm
+
+Replace with L</"embed_page">.
+
+=item pages
+
+Replace with L</"page_count">.
+
+=item pageLabel
+
+Replace with L</"page_labels">.  Remove hyphens from the argument names.  Add
+C<style =E<gt> 'decimal'> if there wasn't a C<-style> argument.
+
+=item mediabox
+
+=item cropbox
+
+=item bleedbox
+
+=item trimbox
+
+=item artbox
+
+Replace with L</"default_page_boundaries">.  If using page size aliases
+(e.g. "letter" or "A4"), check to ensure that the alias is still supported
+(you'll get an error if it isn't).
+
+=item synfont
+
+Replace with L</"synthetic_font">.
+
+=item addFontDirs
+
+Replace with L</"add_to_font_path">.
+
+=item corefont
+
+Replace with L</"font">.  Note that C<font> requires that the font name be an
+exact, case-sensitive match.  The full list can be found in
+L<PDF::API2::Resource::Font::CoreFont/"STANDARD FONTS">.
+
+=item ttfont
+
+Replace with L</"font">.  Replace C<-noembed =E<gt> 1> with C<embed =E<gt> 0>.
+
+=item bdfont
+
+Replace with L</"font">.
+
+=item psfont
+
+Replace with L</"font">.  Rename options C<-afmfile> and C<-pfmfile> to
+C<afm_file> and C<pfm_file>.
+
+Note that Adobe has announced that their products no longer support Postscript
+Type 1 fonts, effective early 2023.  They recommend using TrueType or OpenType
+fonts instead.
+
+=item cjkfont
+
+=item unifont
+
+These are old methods from back when Unicode was still new and poorly supported.
+Replace them with calls to L</"font"> using a TrueType or OpenType font that has
+the characters you need.
+
+If you're successfully using one of these two methods and feel they shouldn't be
+deprecated, please contact me with your use case.
+
+=item image_gd
+
+=item image_gif
+
+=item image_jpeg
+
+=item image_png
+
+=item image_pnm
+
+=item image_tiff
+
+Replace with L</"image">.
+
+=item xo_code128
+
+=item xo_codabar
+
+=item xo_2of5int
+
+=item xo_3of9
+
+=item xo_ean13
+
+Replace with L</"barcode">.  Replace arguments as follows:
+
+=over
+
+=item * C<-color>: C<color>
+
+=item * C<-fnsz>: C<font_size>
+
+=item * C<-font>: C<font>
+
+=item * C<-lmzn>: C<bar_extend>
+
+=item * C<-ofwt>: C<bar_overflow>
+
+=item * C<-quzn>: C<quiet_zone>
+
+=item * C<-zone>: C<bar_height>
+
+These options are simple renames.
+
+=item * C<-mils>: C<bar_width>
+
+This requires a conversion from mils to points.  The C<bar_width> documentation
+has sample code to do the conversion.
+
+=item * C<-ean>
+
+Specify C<ean128> as the barcode format instead of C<code128>.
+
+=back
+
+=item colorspace_act
+
+=item colorspace_web
+
+=item colorspace_separation
+
+=item colorspace_devicen
+
+Replace with L</"colorspace">.
+
+=item colorspace_hue
+
+This is deprecated because I wasn't able to find a corresponding standard.
+Please contact me if you're using it, to avoid having it be removed in a future
+release.
+
+=item default
+
+The optional changes in default behavior have all been deprecated.
+
+Replace C<pageencaps> with calls to C<save> and C<restore> when embedding or
+superimposing a page onto another, if needed.
+
+C<nounrotate> and C<copyannots> will continue to work until better options are
+available, but should not be used in new code.
+
+=back
 
 =head1 AUTHOR
 
-PDF::API2 was originally written by Alfred Reibenschuh.
+PDF::API2 is developed and maintained by Steve Simms, with patches from numerous
+contributors who are credited in the Changes file.
 
-It is currently being maintained by Steve Simms.
+It was originally written by Alfred Reibenschuh, extending code written
+by Martin Hosken.
+
+=head1 LICENSE
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the Free
+Software Foundation, either version 2.1 of the License, or (at your option) any
+later version.
+
+This library is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
 
 =cut

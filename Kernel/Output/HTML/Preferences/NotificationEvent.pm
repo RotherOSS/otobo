@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -165,7 +165,7 @@ sub Param {
                 #   notification default if there is no user preference
                 my $Use = $UserNotificationTransport->{$Identifier} // $AgentEnabledByDefault;
 
-                my $Checked     = 'checked="checked"';
+                my $Checked     = 'checked ';
                 my $HiddenValue = 1;
                 if ( !$Use ) {
                     $Checked     = '';

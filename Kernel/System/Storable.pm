@@ -19,7 +19,12 @@ package Kernel::System::Storable;
 use strict;
 use warnings;
 
-use Storable qw();
+# core modules
+use Storable ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -56,7 +61,7 @@ sub new {
 
 Dump a Perl data structure to an storable string.
 
-    my $StoableString = $StorableObject->Serialize(
+    my $StorableString = $StorableObject->Serialize(
         Data => $Data,          # must be a reference,
         Sort => 1,              # optional 1 or 0, default 0
     );
@@ -166,9 +171,8 @@ sub Clone {
         return;
     }
 
-    my $Result;
-    eval {
-        $Result = Storable::dclone( $Param{Data} );
+    my $Result = eval {
+        Storable::dclone( $Param{Data} );
     };
 
     # error handling
@@ -177,6 +181,7 @@ sub Clone {
             Priority => 'error',
             Message  => "Error cloning data: $@",
         );
+
         return;
     }
 

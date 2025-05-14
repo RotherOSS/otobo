@@ -14,57 +14,93 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-# get layout object
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
+
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+### Setting up
+
+# Minimize amount of added CSS for testing
+$Helper->ConfigSettingChange(
+    Key   => 'Frontend::RichText::DefaultCSS',
+    Value => '',
+    Valid => 1,
+);
+$Helper->ConfigSettingChange(
+    Key   => 'Frontend::RichTextArticleStyles',
+    Value => '',
+    Valid => 1,
+);
 
 my @Tests = (
     {
+        Line   => __LINE__,
         Name   => 'Empty document',
-        String => '123',
-        Result =>
-            '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">123</body></html>',
+        String => '',
+        Result => $HTMLUtilsObject->DocumentComplete(
+            String => ''
+        )
     },
     {
+        Line   => __LINE__,
+        Name   => 'Web Address without link tags',
+        String => 'You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/ .',
+        Result => $HTMLUtilsObject->DocumentComplete(
+            String => 'You should have received a copy of the GNU General Public License along with this program. If not, see <a href="https://www.gnu.org/licenses/" target="_blank" title="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a> .'
+        )
+    },
+    {
+        Line   => __LINE__,
         Name   => 'Image with ContentID, no session',
-        String =>
-            '123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234',
-        Result =>
-            '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234</body></html>',
+        String =>'123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234',
+        Result => $HTMLUtilsObject->DocumentComplete(
+            String => '123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234'
+        )
     },
     {
+        Line   => __LINE__,
         Name   => 'Image with ContentID, with session',
-        String =>
-            '123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost;SessionID=123" /> 234',
-        Result =>
-            '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234</body></html>',
-    },
-    {
-        Name   => 'Image with ContentID, with session',
-        String =>
-            '123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost&SessionID=123" /> 234',
-        Result =>
-            '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234</body></html>',
+        String =>'123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost;SessionID=123" /> 234',
+        Result => $HTMLUtilsObject->DocumentComplete(
+            String => '123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234'
+        )
     },
 );
 
 for my $Test (@Tests) {
-    my $Result = $LayoutObject->RichTextDocumentComplete(
+
+    my $Result = $Test->{Result};
+    
+    my $HTMLString = $LayoutObject->RichTextDocumentComplete(
         String => $Test->{String},
     );
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name}",
+    
+    #Remove OTOBO Copyright comment for easier testing 
+    $Result =~ s/\/\*[\s\S]*?\*\///;
+    $HTMLString =~ s/\/\*[\s\S]*?\*\///;
+
+    TextEqOrDiff(
+        "$HTMLString\n",
+        "$Result\n",
+        "$Test->{Name} (line $Test->{Line})",
     );
 }
 
-$Self->DoneTesting();
+done_testing;

@@ -20,19 +20,19 @@ use warnings;
 use v5.24;
 
 # use ../ as lib location
-use File::Basename;
-use File::Spec qw(catfile);
-use FindBin qw($RealBin);
+use File::Basename qw(dirname);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
-use Getopt::Std;
+use File::Spec  ();
+use Getopt::Std qw(getopt);
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # get options
 my %Opts;
@@ -88,7 +88,7 @@ else {
 for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
     my $IsInstalled = 0;
     open( my $Input, '-|', "which $CMD" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-    while (<$Input>) {
+    while ( my $s = <$Input> ) {
         $IsInstalled = 1;
     }
     if ( !$IsInstalled ) {
@@ -140,7 +140,7 @@ if ( $DatabaseDSN =~ m/:mysql/i ) {
 
     my $IsInstalled = 0;
     open( my $Input, '-|', "which $DBDump" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-    while (<$Input>) {
+    while ( my $s = <$Input> ) {
         $IsInstalled = 1;
     }
     if ( !$IsInstalled ) {
@@ -158,7 +158,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
 
     my $IsInstalled = 0;
     open( my $Input, '-|', "which $DBDump" );    ## no critic qw(OTOBO::ProhibitOpen)
-    while (<$Input>) {
+    while ( my $s = <$Input> ) {
         $IsInstalled = 1;
     }
     close $Input;

@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -60,7 +60,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminDynamicField screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField;IncludeInvalid=1");
 
         # create and edit Ticket and Article DynamicFieldText.
         for my $Type (qw(Ticket Article)) {

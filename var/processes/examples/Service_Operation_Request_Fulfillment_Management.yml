@@ -1,0 +1,409 @@
+---
+Activities:
+  Activity-2a7c2887e78b0dbf8e2d0ecd9b186305:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:45
+    EntityID: Activity-2a7c2887e78b0dbf8e2d0ecd9b186305
+    ID: '105'
+    Name: Request Release
+  Activity-30cd8b077f21632bd70585df9bc54b9a:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:45
+    EntityID: Activity-30cd8b077f21632bd70585df9bc54b9a
+    ID: '106'
+    Name: Request Categorisation and Priotisation
+  Activity-41db131708572ffeadc565431e4d1373:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Activity-41db131708572ffeadc565431e4d1373
+    ID: '107'
+    Name: Request Functional Escalation
+  Activity-6a70c11b2819bc8eff135d1b1305a428:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Activity-6a70c11b2819bc8eff135d1b1305a428
+    ID: '108'
+    Name: Request Audit and Assessment
+  Activity-7a1df51901e5f6c261cc2d8f0544535f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:17
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+    ID: '91'
+    Name: ITSM Change Management
+  Activity-8827c66329e3fcf5469aee0368bfc0d8:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Activity-8827c66329e3fcf5469aee0368bfc0d8
+    ID: '109'
+    Name: Request Modell Implementation
+  Activity-b379f111026b5ad0cc2253267305a9ae:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+    ID: '76'
+    Name: ITSM Incident Management
+  Activity-c5034a4ddc54b3a994760c381c6c152f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Activity-c5034a4ddc54b3a994760c381c6c152f
+    ID: '110'
+    Name: Request Record and Validation
+  Activity-ca084753eb489d8f1b7f032a1f29c431:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:46
+    Config: {}
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Activity-ca084753eb489d8f1b7f032a1f29c431
+    ID: '111'
+    Name: Request Complete
+  Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-03 22:42:31
+    Config: {}
+    CreateTime: 2017-10-03 22:42:31
+    EntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+    ID: '15'
+    Name: Process completed
+Process:
+  Activities:
+  - Activity-2a7c2887e78b0dbf8e2d0ecd9b186305
+  - Activity-30cd8b077f21632bd70585df9bc54b9a
+  - Activity-41db131708572ffeadc565431e4d1373
+  - Activity-6a70c11b2819bc8eff135d1b1305a428
+  - Activity-7a1df51901e5f6c261cc2d8f0544535f
+  - Activity-8827c66329e3fcf5469aee0368bfc0d8
+  - Activity-b379f111026b5ad0cc2253267305a9ae
+  - Activity-c5034a4ddc54b3a994760c381c6c152f
+  - Activity-ca084753eb489d8f1b7f032a1f29c431
+  - Activity-e3328a82c9e4efffe0d75d4b97371dbe
+  ChangeTime: 2017-10-31 22:39:46
+  Config:
+    Description: "Best practice IT Service Management Request Fulfillment Management
+      process inspired by ITIL®.\r\n\r\nThis Ready2Adopt process requires Ticket::Type
+      to be enabled in SysConfig. It requires the following ticket types: Service
+      Request, Incident.\r\n\r\nConfiguration: The functional and hierarchical escalation
+      transitions are not configured. They should be modified to fulfil your business
+      rules."
+    Path:
+      Activity-2a7c2887e78b0dbf8e2d0ecd9b186305:
+        Transition-0f5074ab1c7be75a99e9b63e57fab581:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+        Transition-37902aa177b3ba1dc86f8f23efa76921:
+          ActivityEntityID: Activity-6a70c11b2819bc8eff135d1b1305a428
+      Activity-30cd8b077f21632bd70585df9bc54b9a:
+        Transition-8a8f96f6e8d47ea263b51742f4d54596:
+          ActivityEntityID: Activity-2a7c2887e78b0dbf8e2d0ecd9b186305
+      Activity-41db131708572ffeadc565431e4d1373:
+        Transition-e6339676e4f776423ec5193a3302b700:
+          ActivityEntityID: Activity-8827c66329e3fcf5469aee0368bfc0d8
+      Activity-6a70c11b2819bc8eff135d1b1305a428:
+        Transition-23f6c83d11419f1f6392ea329e982c5f:
+          ActivityEntityID: Activity-41db131708572ffeadc565431e4d1373
+        Transition-9ee435dea507b5933f6978a5817fd00a:
+          ActivityEntityID: Activity-8827c66329e3fcf5469aee0368bfc0d8
+      Activity-7a1df51901e5f6c261cc2d8f0544535f:
+        Transition-37da55f776baba8502386f9270600d0b:
+          ActivityEntityID: Activity-ca084753eb489d8f1b7f032a1f29c431
+      Activity-8827c66329e3fcf5469aee0368bfc0d8:
+        Transition-11acc48fc64060bb4a2013f91d6df2b2:
+          ActivityEntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+        Transition-4e0b9ff86f5bd1f5c426200e0fb7fd6e:
+          ActivityEntityID: Activity-ca084753eb489d8f1b7f032a1f29c431
+        Transition-adcffb9e778f771aeb5322f0493409cd:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+      Activity-b379f111026b5ad0cc2253267305a9ae: {}
+      Activity-c5034a4ddc54b3a994760c381c6c152f:
+        Transition-0051f07caf95a45f7aadac6a0ccfdfda:
+          ActivityEntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+          TransitionAction: []
+        Transition-3e020c4a42fed3b0c717a3cc6f1d5cca:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+        Transition-4da179c345f644fe5ba71adf2776eee5:
+          ActivityEntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+        Transition-6b357c194e8aeb7860f337b148b35c52:
+          ActivityEntityID: Activity-30cd8b077f21632bd70585df9bc54b9a
+          TransitionAction: []
+      Activity-ca084753eb489d8f1b7f032a1f29c431: {}
+      Activity-e3328a82c9e4efffe0d75d4b97371dbe: {}
+    StartActivity: Activity-c5034a4ddc54b3a994760c381c6c152f
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:45
+  EntityID: Process-e3b367e959c00b51245c45f4a6736630
+  ID: '18'
+  Layout:
+    Activity-2a7c2887e78b0dbf8e2d0ecd9b186305:
+      left: '973'
+      top: '237'
+    Activity-30cd8b077f21632bd70585df9bc54b9a:
+      left: '590'
+      top: '238'
+    Activity-41db131708572ffeadc565431e4d1373:
+      left: '1517'
+      top: '232'
+    Activity-6a70c11b2819bc8eff135d1b1305a428:
+      left: '1240'
+      top: '375'
+    Activity-7a1df51901e5f6c261cc2d8f0544535f:
+      left: '591'
+      top: '422'
+    Activity-8827c66329e3fcf5469aee0368bfc0d8:
+      left: '1686'
+      top: '625'
+    Activity-b379f111026b5ad0cc2253267305a9ae:
+      left: '589'
+      top: '0'
+    Activity-c5034a4ddc54b3a994760c381c6c152f:
+      left: '262'
+      top: '139'
+    Activity-ca084753eb489d8f1b7f032a1f29c431:
+      left: '592'
+      top: '635'
+    Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+      left: '1704'
+      top: '71'
+  Name: Service Operation::Request Fulfillment Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-0f5074ab1c7be75a99e9b63e57fab581
+  - Transition-37902aa177b3ba1dc86f8f23efa76921
+  - Transition-8a8f96f6e8d47ea263b51742f4d54596
+  - Transition-e6339676e4f776423ec5193a3302b700
+  - Transition-23f6c83d11419f1f6392ea329e982c5f
+  - Transition-9ee435dea507b5933f6978a5817fd00a
+  - Transition-37da55f776baba8502386f9270600d0b
+  - Transition-11acc48fc64060bb4a2013f91d6df2b2
+  - Transition-4e0b9ff86f5bd1f5c426200e0fb7fd6e
+  - Transition-adcffb9e778f771aeb5322f0493409cd
+  - Transition-0051f07caf95a45f7aadac6a0ccfdfda
+  - Transition-3e020c4a42fed3b0c717a3cc6f1d5cca
+  - Transition-4da179c345f644fe5ba71adf2776eee5
+  - Transition-6b357c194e8aeb7860f337b148b35c52
+Transitions:
+  Transition-0051f07caf95a45f7aadac6a0ccfdfda:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestType:
+              Match: Change Suggestion
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-0051f07caf95a45f7aadac6a0ccfdfda
+    ID: '111'
+    Name: Request-Type = Change Suggestion
+  Transition-0f5074ab1c7be75a99e9b63e57fab581:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestReleaseable:
+              Match: NO
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-0f5074ab1c7be75a99e9b63e57fab581
+    ID: '112'
+    Name: Request-Releaseable = NO
+  Transition-11acc48fc64060bb4a2013f91d6df2b2:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-11acc48fc64060bb4a2013f91d6df2b2
+    ID: '113'
+    Name: Request CI affected
+  Transition-23f6c83d11419f1f6392ea329e982c5f:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-23f6c83d11419f1f6392ea329e982c5f
+    ID: '114'
+    Name: Request functional escalation needed
+  Transition-37902aa177b3ba1dc86f8f23efa76921:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestReleaseable:
+              Match: YES
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-37902aa177b3ba1dc86f8f23efa76921
+    ID: '115'
+    Name: Request-Releasable = YES
+  Transition-37da55f776baba8502386f9270600d0b:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-37da55f776baba8502386f9270600d0b
+    ID: '116'
+    Name: Request CI changed
+  Transition-3e020c4a42fed3b0c717a3cc6f1d5cca:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestValidity:
+              Match: INVALID
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-3e020c4a42fed3b0c717a3cc6f1d5cca
+    ID: '117'
+    Name: Request-Validity = INVALID
+  Transition-4da179c345f644fe5ba71adf2776eee5:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestType:
+              Match: Incident
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-4da179c345f644fe5ba71adf2776eee5
+    ID: '118'
+    Name: Request-Type = Incident
+  Transition-4e0b9ff86f5bd1f5c426200e0fb7fd6e:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-4e0b9ff86f5bd1f5c426200e0fb7fd6e
+    ID: '119'
+    Name: Request implemented
+  Transition-6b357c194e8aeb7860f337b148b35c52:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestValidity:
+              Match: VALID
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-6b357c194e8aeb7860f337b148b35c52
+    ID: '120'
+    Name: Request-Validity = VALID
+  Transition-8a8f96f6e8d47ea263b51742f4d54596:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-8a8f96f6e8d47ea263b51742f4d54596
+    ID: '121'
+    Name: Request categorized and prioritised
+  Transition-9ee435dea507b5933f6978a5817fd00a:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-9ee435dea507b5933f6978a5817fd00a
+    ID: '122'
+    Name: Request no escalation needed
+  Transition-adcffb9e778f771aeb5322f0493409cd:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-adcffb9e778f771aeb5322f0493409cd
+    ID: '123'
+    Name: Request not implemented
+  Transition-e6339676e4f776423ec5193a3302b700:
+    ChangeTime: 2017-10-31 22:39:46
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:46
+    EntityID: Transition-e6339676e4f776423ec5193a3302b700
+    ID: '124'
+    Name: Request functional escalation done

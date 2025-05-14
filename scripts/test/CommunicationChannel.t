@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -661,7 +661,9 @@ for my $Test (@Tests) {
         Result             => {
             ChannelsInvalid => [ $TestChannels[0]->{ChannelName} ],
         },
-        ChannelGet => {},
+        ChannelGet => {
+            ChannelID => undef,
+        },
     },
     {
         Name   => 'ChannelSync - Remove Email channel registration',
@@ -722,6 +724,8 @@ for my $Test (@Tests) {
     );
 
     if ( $Test->{ChannelGet} ) {
+
+        # This might return an empty list.
         my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
             ChannelName => $Test->{ChannelName},
         );

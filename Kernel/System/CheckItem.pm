@@ -19,7 +19,12 @@ package Kernel::System::CheckItem;
 use strict;
 use warnings;
 
-use Email::Valid;
+# core modules
+
+# CPAN modules
+use Email::Valid ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,10 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 CheckError()
@@ -269,8 +271,8 @@ sub StringClean {
     }
 
     # set default values
-    $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
-    $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
+    $Param{TrimLeft}  //= 1;
+    $Param{TrimRight} //= 1;
 
     my %TrimAction = (
         RemoveAllNewlines => qr{ [\n\r\f] }xms,
@@ -282,7 +284,7 @@ sub StringClean {
 
     ACTION:
     for my $Action ( sort keys %TrimAction ) {
-        next ACTION if !$Param{$Action};
+        next ACTION unless $Param{$Action};
 
         ${ $Param{StringRef} } =~ s{ $TrimAction{$Action} }{}xmsg;
     }

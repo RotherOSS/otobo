@@ -16,10 +16,18 @@
 
 package Kernel::System::DynamicField::Driver::Base;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData IsArrayRefWithData IsPositiveInteger);
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
@@ -28,7 +36,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Base - common fields backend functions
+Kernel::System::DynamicField::Driver::Base - common dynamic field backend functions
 
 =head1 PUBLIC INTERFACE
 
@@ -51,47 +59,44 @@ sub ValueIsDifferent {
 sub ValueDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         UserID   => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub AllValuesDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
         FieldID => $Param{DynamicFieldConfig}->{ID},
         UserID  => $Param{UserID},
     );
-
-    return $Success;
 }
 
 sub HasBehavior {
     my ( $Self, %Param ) = @_;
 
     # return fail if Behaviors hash does not exists
-    return if !IsHashRefWithData( $Self->{Behaviors} );
+    return unless IsHashRefWithData( $Self->{Behaviors} );
+
+    # avoid hash lookup with an undefined value
+    return unless defined $Param{Behavior};
 
     # return success if the dynamic field has the expected behavior
-    return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
+    return $Self->{Behaviors}->{ $Param{Behavior} } ? 1 : undef;
 }
 
 sub SearchFieldPreferences {
     my ( $Self, %Param ) = @_;
 
-    my @Preferences = (
+    return [
         {
             Type        => '',
             LabelSuffix => '',
         },
-    );
-
-    return \@Preferences;
+    ];
 }
 
 =head2 EditLabelRender()
@@ -147,7 +152,7 @@ sub EditLabelRender {
     my $LabelID    = 'Label' . $Param{FieldName};
     my $HTMLString = '';
 
-    if ( !$Param{CustomerLabel} ) {
+    if ( !$Param{CustomerInterface} ) {
         if ( $Param{Mandatory} ) {
 
             # opening tag
@@ -223,7 +228,9 @@ Searches/fetches dynamic field value.
         Search             => 'test',
     );
 
-    Returns [
+Returns:
+
+    [
         {
             ID            => 437,
             FieldID       => 23,
@@ -245,6 +252,7 @@ sub ValueSearch {
             Priority => 'error',
             Message  => "Need DynamicFieldConfig!"
         );
+
         return;
     }
 
@@ -270,13 +278,148 @@ sub ValueSearch {
         return;
     }
 
-    my $Values = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSearch(
+    return $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSearch(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         Search    => $Param{Search},
         SearchSQL => $SearchSQL,
     );
+}
 
-    return $Values;
+=head2 ValueStructureFromDB()
+
+Generates the ValueGet return structure.
+
+    my $Value = $BaseObject->ValueStructureFromDB(
+        ValueDB    => $DynamicFieldValueObject->ValueGet(),
+        ValueKey   => 'ValueText',
+        Set        => 0|1,     # optional, default: 0
+        MultiValue => 0|1,     # optional, default: 0
+        BaseArray  => 0|1,     # optional, default: 0 - return array instead of scalar on dynamic field level
+    );
+
+=cut
+
+sub ValueStructureFromDB {
+    my ( $Self, %Param ) = @_;
+
+    return unless $Param{ValueDB};
+    return unless IsArrayRefWithData( $Param{ValueDB} );
+    return unless IsHashRefWithData( $Param{ValueDB}->[0] );
+
+    if ( $Param{Set} ) {
+        if ( $Param{MultiValue} ) {
+            my @ReturnValue;
+            for my $Value ( $Param{ValueDB}->@* ) {
+                $ReturnValue[ $Value->{IndexSet} ][ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+            }
+
+            return \@ReturnValue;
+        }
+
+        if ( $Param{BaseArray} ) {
+            my @ReturnValue;
+            for my $Value ( $Param{ValueDB}->@* ) {
+                $ReturnValue[ $Value->{IndexSet} ] = [ $Value->{ $Param{ValueKey} } ];
+            }
+
+            return \@ReturnValue;
+        }
+
+        my @ReturnValue;
+        for my $Value ( $Param{ValueDB}->@* ) {
+            $ReturnValue[ $Value->{IndexSet} ] = $Value->{ $Param{ValueKey} };
+        }
+
+        return \@ReturnValue;
+    }
+
+    if ( $Param{MultiValue} ) {
+        my @ReturnValue;
+        for my $Value ( $Param{ValueDB}->@* ) {
+            $ReturnValue[ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+        }
+
+        return \@ReturnValue;
+    }
+
+    return [ $Param{ValueDB}[0]{ $Param{ValueKey} } ] if $Param{BaseArray};
+
+    return $Param{ValueDB}[0]{ $Param{ValueKey} };
+}
+
+=head2 ValueStructureToDB()
+
+Sets IndexValue and IndexSet for complex structures, if necessary.
+
+    my $DBValue = $BaseObject->ValueStructureToDB(
+        Value      => $DynamicFieldValueObject->ValueGet(),
+        ValueKey   => 'ValueText',
+        Set        => 0|1,     # optional, default: 0
+        MultiValue => 0|1,     # optional, default: 0
+    );
+
+=cut
+
+sub ValueStructureToDB {
+    my ( $Self, %Param ) = @_;
+
+    return [ { $Param{ValueKey} => undef } ] unless defined $Param{Value};
+
+    if ( $Param{Set} ) {
+        my @ReturnValue;
+        if ( $Param{MultiValue} ) {
+
+            # for a multi value field in a set, the structure is $Value[ $SetIndex ][ $MultiValueIndex ]
+            for my $i ( 0 .. $#{ $Param{Value} } ) {
+                VALUE:
+                for my $j ( 0 .. $#{ $Param{Value}[$i] } ) {
+                    next VALUE unless defined $Param{Value}[$i][$j];
+                    next VALUE if $Param{Value}[$i][$j] eq '';
+
+                    push @ReturnValue, {
+                        $Param{ValueKey} => $Param{Value}[$i][$j],
+                        IndexSet         => $i,
+                        IndexValue       => $j,
+                    };
+                }
+            }
+        }
+        else {
+            # for a single value field in a set, the structure is $Value[ $SetIndex ]
+            VALUE:
+            for my $i ( 0 .. $#{ $Param{Value} } ) {
+                next VALUE if !defined $Param{Value}[$i] || $Param{Value}[$i] eq '';
+
+                push @ReturnValue, {
+                    $Param{ValueKey} => $Param{Value}[$i],
+                    IndexSet         => $i,
+                };
+            }
+        }
+
+        return \@ReturnValue;
+    }
+
+    if ( $Param{MultiValue} ) {
+
+        # for a multi value field without set, the structure is $Value[ $MultiValueIndex ]
+        my @ReturnValue;
+        VALUE:
+        for my $j ( 0 .. $#{ $Param{Value} } ) {
+            next VALUE if !defined $Param{Value}[$j] || $Param{Value}[$j] eq '';
+
+            push @ReturnValue, {
+                $Param{ValueKey} => $Param{Value}[$j],
+                IndexValue       => $j,
+            };
+        }
+
+        return \@ReturnValue;
+    }
+
+    return [
+        { $Param{ValueKey} => $Param{Value} },
+    ];
 }
 
 1;

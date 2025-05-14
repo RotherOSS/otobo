@@ -21,9 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use Kernel::Config;
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -39,7 +37,6 @@ my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $RandomID    = $Helper->GetRandomID();
 my $SettingName = "Test$RandomID-";
 my $UserID      = 1;
-my @SettingDirtyNames;
 
 my $UnlockedAll = $SysConfigObject->SettingUnlock(
     UnlockAll => 1,

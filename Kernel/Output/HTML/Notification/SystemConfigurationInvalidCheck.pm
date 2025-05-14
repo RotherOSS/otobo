@@ -46,8 +46,7 @@ sub Run {
         CachedOnly => 1,
     );
 
-    if ( scalar @InvalidSettings ) {
-
+    if (@InvalidSettings) {
         return $LayoutObject->Notify(
             Priority => 'Error',
             Link     => $LayoutObject->{Baselink} . 'Action=AdminSystemConfiguration;Subaction=Invalid',

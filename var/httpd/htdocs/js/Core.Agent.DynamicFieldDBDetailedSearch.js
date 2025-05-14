@@ -44,6 +44,7 @@ Core.Agent.DynamicFieldDBDetailedSearch = (function(TargetNS) {
             var Elements = $(this).children(),
                 Identifier = $(this).attr('data'),
                 NewValue = '',
+                FieldID,
                 FieldName;
 
             $.each(Elements, function () {
@@ -53,11 +54,14 @@ Core.Agent.DynamicFieldDBDetailedSearch = (function(TargetNS) {
             // Get field name.
             FieldName = $('#ResultTable').attr('field');
 
+            // Get field id.
+            FieldID = $('#ResultTable').attr('data-field-id') || FieldName;
+
             // Cut the last dash away.
             NewValue = NewValue.substring(0, NewValue.length - 2);
 
             // Add the new search value.
-            parent.Core.Agent.DynamicFieldDBSearch.AddResultElement(FieldName, NewValue, Identifier, true);
+            parent.Core.Agent.DynamicFieldDBSearch.AddResultElement(FieldID, NewValue, Identifier, true, FieldName);
 
             // Close the detailed search dialog.
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));

@@ -18,19 +18,20 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+use MIME::Base64 qw(encode_base64);
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;                               # Set up $Kernel::OM and $main::Self
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketSearch   ();         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                               qw(:all);
 
-use MIME::Base64;
-
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-
-use Kernel::System::VariableCheck qw(:all);
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -275,11 +276,7 @@ my $DoSuccess      = $Kernel::OM->Get('Kernel::System::DB')->Do(
         \$TicketID1,
     ],
 );
-if ( !$DoSuccess ) {
-    done_testing();
-
-    exit 0;
-}
+bail_out('bailing out as UPDATE ticket failed') unless $DoSuccess;
 
 # create backend object and delegates
 my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -2151,4 +2148,4 @@ $Self->True(
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing;

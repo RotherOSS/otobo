@@ -202,7 +202,7 @@ sub SettingRender {
     $HTML .= "value=\"1\" ";
 
     if ($EffectiveValue) {
-        $HTML .= "checked='checked' ";
+        $HTML .= 'checked ';
     }
 
     if ( !$Param{RW} ) {
@@ -290,7 +290,7 @@ Generate HTML for new array/hash item.
 
 Returns:
 
-    $HTML = "<input type="checkbox" checked="checked" name="SettingName" value="1" id="SettingName_Array1">
+    $HTML = "<input type="checkbox" checked name="SettingName" value="1" id="SettingName_Array1">
         <input type="hidden" value="1" name="SettingName">
         <label for="SettingName_Array1" class='CheckboxLabel'>
             Enabled
@@ -323,10 +323,10 @@ sub AddItem {
     my $Result = "<input type=\"checkbox\" id=\"Checkbox_$Param{Name}$IDSuffix\" value=\"1\" ";
 
     if ($Checked) {
-        $Result .= "checked='checked' ";
+        $Result .= 'checked';
     }
 
-    $Result .= "/><input type=\"hidden\" class=\"Entry\" id=\"$Param{Name}$IDSuffix\" name=\"$Param{Name}\" value=\"";
+    $Result .= "><input type=\"hidden\" class=\"Entry\" id=\"$Param{Name}$IDSuffix\" name=\"$Param{Name}\" value=\"";
 
     if ($Checked) {
         $Result .= "1";

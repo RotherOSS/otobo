@@ -99,11 +99,6 @@ sub Output {
         $Self->FatalError;
     }
 
-    # asure compatibility with old KeepScriptTags parameter
-    if ( $Param{KeepScriptTags} && !$Param{AJAX} ) {
-        $Param{AJAX} = $Param{KeepScriptTags};
-    }
-
     # fill init Env
     if ( !$Self->{EnvRef} ) {
         %{ $Self->{EnvRef} } = %ENV;
@@ -337,11 +332,17 @@ sub Output {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
             my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data     => \%Data,
-                SortKeys => 1,
+                Data          => \%Data,
+                SortKeys      => 1,
+                TypeAllString => 1,
             );
-            $Output
-                .= "\n<script type=\"text/javascript\">//<![CDATA[\n\"use strict\";\nCore.Config.AddConfig($JSONString);\n//]]></script>";
+            $Output .= <<"END_HTML";
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.Config.AddConfig($JSONString);
+//]]></script>
+END_HTML
         }
         delete $Self->{_JSData};
     }
@@ -369,6 +370,62 @@ sub AddJSOnDocumentComplete {
     return;
 }
 
+=head2 AddJSOnDocumentCompleteIfNotExists()
+
+this functions adds JavaScript by the function C<AddJSOnDocumentComplete()> only if it does not exist yet.
+
+    my $Success = $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
+        Key  => 'identifier_key_of_your_js',
+        Code => $JSBlock,
+    );
+
+Returns:
+
+    my $Success = 1;
+
+=cut
+
+sub AddJSOnDocumentCompleteIfNotExists {
+    my ( $Self, %Param ) = @_;
+
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    # check needed stuff
+    NEEDED:
+    for my $Needed (qw(Key Code)) {
+
+        next NEEDED if defined $Param{$Needed};
+
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Parameter '$Needed' is needed!",
+        );
+
+        return;
+    }
+
+    my $Exists = 0;
+    CODEJS:
+    for my $CodeJS ( @{ $Self->{_JSOnDocumentComplete} || [] } ) {
+
+        next CODEJS if $CodeJS !~ m{ Key: \s $Param{Key}}xms;
+
+        $Exists = 1;
+
+        last CODEJS;
+    }
+
+    return 1 if $Exists;
+
+    my $AddCode = "// Key: $Param{Key}\n" . $Param{Code};
+
+    $Self->AddJSOnDocumentComplete(
+        Code => $AddCode,
+    );
+
+    return 1;
+}
+
 =head2 AddJSData()
 
 dynamically add JavaScript data that should be handed over to
@@ -394,6 +451,34 @@ sub AddJSData {
     $Self->{_JSData}->{ $Param{Key} } = $Param{Value};
 
     return;
+}
+
+=head2 AddJSBoolean()
+
+dynamically add JavaScript data that should be handed over to
+JavaScript via Core.Config.
+The truthiness of the passed value is evaluated according to Perl rules.
+Contrary to JavaScript, the string C<'0'> is considered to be false.
+
+Using this method ensures that the boolean values C<true> and C<false> are passed to JavaScript.
+
+    $LayoutObject->AddJSBoolean(
+        Key   => 'KeyBool1',  # the key to store this data
+        Value => 2 > 1        # a variable or expression that should be passed as boolean to JavaScript
+    );
+
+=cut
+
+sub AddJSBoolean {
+    my ( $Self, %Param ) = @_;
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    my $Value      = $Param{Value} ? $JSONObject->True : $JSONObject->False;
+
+    return $Self->AddJSData(
+        Key   => $Param{Key},
+        Value => $Value,
+    );
 }
 
 1;

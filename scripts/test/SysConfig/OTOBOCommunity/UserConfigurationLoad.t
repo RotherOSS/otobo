@@ -21,9 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use Kernel::Config;
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -178,6 +176,9 @@ for my $Test (@Tests) {
         my $FilePath  = $Home . '/' . $FileBasePath . $UserID . '.pm';
         my $FileClass = $FileBaseClass . $UserID;
 
+        # make sure that the user file is synced to the file system before trying to read it
+        $Kernel::OM->Get('Kernel::Config')->SyncWithS3;
+
         my %UserConfigResult;
         if ( -e $FilePath ) {
             delete $INC{$FilePath};
@@ -192,6 +193,7 @@ for my $Test (@Tests) {
                 {},
                 "$Test->{Name} ExpectedResults - Not existing user from File",
             );
+
             next USERID;
         }
 

@@ -18,16 +18,26 @@ package Kernel::System::Loader;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
-use CSS::Minifier qw();
-use JavaScript::Minifier qw();
+# core modules
+
+# CPAN modules
+use CSS::Minifier::XS        ();
+use JavaScript::Minifier::XS ();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
 );
 
 =head1 NAME
@@ -52,11 +62,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'Loader';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
+
+    # find out whether loader files are stored in S3 or in the file system
+    $Self->{S3Active}     = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{UseFSBackend} = !$Self->{S3Active};
 
     return $Self;
 }
@@ -67,16 +80,20 @@ takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
 Uses caching internally.
 
+With S3 support the returned value is the last part of the key of the object that is stored in S3.
+
+It is expected that the TargetDirectory is a directory below the OTOBO home directory.
+
     my $TargetFilename = $LoaderObject->MinifyFiles(
-        List  => [                          # optional,  minify list of files
+        List  => [                                 # optional,  minify list of files
             $Filename,
             $Filename2,
         ],
-        Checksum             => '...'       # optional, pass a checksum for the minified file
-        Content              => '...'       # optional, pass direct (already minified) content instead of a file list
-        Type                 => 'CSS',      # CSS | JavaScript
+        Checksum             => '...'              # optional, pass a checksum for the minified file
+        Content              => '...'              # optional, pass direct (already minified) content instead of a file list
+        Type                 => 'CSS',             # CSS | JavaScript
         TargetDirectory      => $TargetDirectory,
-        TargetFilenamePrefix => 'CommonCSS',    # optional, prefix for the target filename
+        TargetFilenamePrefix => 'CommonCSS',       # optional, prefix for the target filename
     );
 
 =cut
@@ -93,26 +110,34 @@ sub MinifyFiles {
             Priority => 'error',
             Message  => 'Need List or Content!',
         );
+
         return;
     }
 
     my $TargetDirectory = $Param{TargetDirectory};
-    if ( !-e $TargetDirectory ) {
-        if ( !mkdir( $TargetDirectory, 0775 ) ) {
+    $TargetDirectory =~ s!/$!!;
+
+    # create and check the target directory
+    if ( $Self->{UseFSBackend} ) {
+        if ( !-e $TargetDirectory ) {
+            if ( !mkdir( $TargetDirectory, 0775 ) ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory '$TargetDirectory': $!",
+                );
+
+                return;
+            }
+        }
+
+        if ( !$TargetDirectory || !-d $TargetDirectory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't create directory '$TargetDirectory': $!",
+                Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
             );
+
             return;
         }
-    }
-
-    if ( !$TargetDirectory || !-d $TargetDirectory ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
-        );
-        return;
     }
 
     my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
@@ -142,9 +167,8 @@ sub MinifyFiles {
         if ( $Param{List} ) {
             LOCATION:
             for my $Location ( @{$List} ) {
-                if ( !-e $Location ) {
-                    next LOCATION;
-                }
+                next LOCATION unless -e $Location;
+
                 my $FileMTime = $MainObject->FileGetMTime(
                     Location => $Location
                 );
@@ -165,15 +189,33 @@ sub MinifyFiles {
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
         $Filename .= '.js';
-
     }
 
-    if ( !-r "$TargetDirectory/$Filename" ) {
+    # Check whether the loader file already exists
+    my $LoaderFileExists = 0;
+    if ( $Self->{UseFSBackend} ) {
+        $LoaderFileExists = -r "$TargetDirectory/$Filename";
+    }
+    else {
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+
+        # the target directory is below the OTOBO home dir, adapt that to S3
+        my $FilePath = join '/', $TargetDirectory, $Filename;
+        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');    # without trailing slash
+        my $Key      = $FilePath =~ s!^$Home/!!r;                          # /opt/otobo/var/httpd becomes var/httpd
+
+        $LoaderFileExists = $StorageS3Object->ObjectExists(
+            Key => $Key,
+        );
+    }
+
+    if ( !$LoaderFileExists ) {
 
         # no cache available, so loop through all files, get minified version and concatenate
-        LOCATION: for my $Location ( @{$List} ) {
+        LOCATION:
+        for my $Location ( $List->@* ) {
 
-            next LOCATION if ( !-r $Location );
+            next LOCATION unless -r $Location;
 
             # cut out the system specific parts for the comments (for easier testing)
             # for now, only keep filename
@@ -221,11 +263,37 @@ sub MinifyFiles {
             }
         }
 
-        my $FileLocation = $MainObject->FileWrite(
-            Directory => $TargetDirectory,
-            Filename  => $Filename,
-            Content   => \$Content,
-        );
+        # When the S3 backend is active the loader file is not written to the file system.
+        # Daemons and web servers are responsible for syncing the file from S3 to the file system.
+        # There is no check whether the file is actually written to the file system or to S3.
+        # Write failures will lead to missing files, usually a 404 error, when these files are requested.
+        # It is hoped that a reload of the page will alleviate the situation, as those lost files
+        #  will be created with the next request.
+        if ( $Self->{S3Active} ) {
+
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+
+            # the target directory is below the OTOBO home dir, adapt that to S3
+            my $FilePath = join '/', $TargetDirectory, $Filename;
+            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');    # without trailing slash
+            my $Key      = $FilePath =~ s!^$Home/!!r;                          # /opt/otobo/var/httpd becomes var/httpd
+            $StorageS3Object->StoreObject(
+                Key     => $Key,
+                Content => $Content,
+            );
+        }
+        else {
+
+            # FileWrite() tries to get an exclusive lock on the target file.
+            # It is OK when the lock can't be obtained. In that case we assume
+            # that another process writes the same content to that file.
+            # Bad luck, when the file is requested before the other process has finished writing.
+            $MainObject->FileWrite(
+                Directory => $TargetDirectory,
+                Filename  => $Filename,
+                Content   => \$Content,
+            );
+        }
     }
 
     return $Filename;
@@ -288,23 +356,19 @@ sub GetMinifiedFile {
         Key  => $CacheKey,
     );
 
-    if ( ref $CacheContent eq 'SCALAR' ) {
-        return ${$CacheContent};
-    }
+    return $CacheContent->$* if ref $CacheContent eq 'SCALAR';
 
     # no cache available, read and minify file
     my $FileContents = $MainObject->FileRead(
         Location => $Location,
 
-        # It would be more correct to use UTF8 mode, but then the JavaScript::Minifier
+        # It would be more correct to use UTF8 mode, but then the JavaScript::Minifier::XS
         #   will cause timeouts due to extreme slowness on some UT servers. Disable for now.
         #   Unicode in the files still works correctly.
         #Mode     => 'utf8',
     );
 
-    if ( ref $FileContents ne 'SCALAR' ) {
-        return;
-    }
+    return unless ref $FileContents eq 'SCALAR';
 
     my $Result;
     if ( $Param{Type} eq 'CSS' ) {
@@ -345,20 +409,11 @@ sub MinifyCSS {
             Priority => 'error',
             Message  => 'Need Code Param!',
         );
+
         return;
     }
 
-    my $Result = CSS::Minifier::minify( input => $Param{Code} );
-
-    # a few optimizations can be made for the minified CSS that CSS::Minifier doesn't yet do
-
-    # remove remaining linebreaks
-    $Result =~ s/\r?\n\s*//smxg;
-
-    # remove superfluous whitespace after commas in chained selectors
-    $Result =~ s/,\s*/,/smxg;
-
-    return $Result;
+    return CSS::Minifier::XS::minify( $Param{Code} );
 }
 
 =head2 MinifyJavaScript()
@@ -370,16 +425,7 @@ returns a minified version of the given JavaScript Code.
 Warning: this function may cause a die() if there are errors in the file,
 protect against that with eval().
 
-This function internally uses the CPAN module JavaScript::Minifier.
-As of version 1.05 of that module, there is an issue with regular expressions:
-
-This will cause a die:
-
-    function test(s) { return /\d{1,2}/.test(s); }
-
-A workaround is to enclose the regular expression in parentheses:
-
-    function test(s) { return (/\d{1,2}/).test(s); }
+This function internally uses the CPAN module JavaScript::Minifier::XS.
 
 =cut
 
@@ -392,10 +438,11 @@ sub MinifyJavaScript {
             Priority => 'error',
             Message  => 'Need Code Param!',
         );
+
         return;
     }
 
-    return JavaScript::Minifier::minify( input => $Param{Code} );
+    return JavaScript::Minifier::XS::minify( $Param{Code} );
 }
 
 =head2 CacheGenerate()
@@ -462,23 +509,21 @@ Returns a list of deleted files.
 =cut
 
 sub CacheDelete {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    my @Result;
-
+    # the file system cache files are located below the OTOBO home dir
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    my $JSCacheFolder       = "$Home/var/httpd/htdocs/js/js-cache";
-    my @SkinTypeDirectories = (
-        "$Home/var/httpd/htdocs/skins/Agent",
-        "$Home/var/httpd/htdocs/skins/Customer",
-    );
-
-    my @CacheFoldersList = ($JSCacheFolder);
+    # for JavaScript there is only one cache folder
+    my @CacheFoldersList = ("$Home/var/httpd/htdocs/js/js-cache");
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Looking for all skin folders that may contain a cache folder
+    my @SkinTypeDirectories = (
+        "$Home/var/httpd/htdocs/skins/Agent",
+        "$Home/var/httpd/htdocs/skins/Customer",
+    );
     for my $Folder (@SkinTypeDirectories) {
         my @List = $MainObject->DirectoryRead(
             Directory => $Folder,
@@ -487,23 +532,27 @@ sub CacheDelete {
 
         FOLDER:
         for my $Folder (@List) {
-            next FOLDER if ( !-d $Folder );
-            my @CacheFolder = $MainObject->DirectoryRead(
+
+            next FOLDER unless -d $Folder;
+
+            # there can be no more than one css-cache subfolder
+            my ($CacheFolder) = $MainObject->DirectoryRead(
                 Directory => $Folder,
                 Filter    => 'css-cache',
             );
-            if ( @CacheFolder && -d $CacheFolder[0] ) {
-                push @CacheFoldersList, $CacheFolder[0];
+
+            if ( $CacheFolder && -d $CacheFolder ) {
+                push @CacheFoldersList, $CacheFolder;
             }
         }
     }
 
     # now go through the cache folders and delete all .js and .css files
-    my @FileTypes    = ( "*.js", "*.css" );
-    my $TotalCounter = 0;
+    my @Result;
+    my @FileTypes = ( '*.js', '*.css' );
     FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {
-        next FOLDERTODELETE if ( !-d $FolderToDelete );
+        next FOLDERTODELETE unless -d $FolderToDelete;
 
         my @FilesList = $MainObject->DirectoryRead(
             Directory => $FolderToDelete,
@@ -522,12 +571,37 @@ sub CacheDelete {
         }
     }
 
+    if ( $Self->{S3Active} ) {
+        $Self->_S3CacheDelete();
+    }
+
     # finally, also clean up the internal perl cache files
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
 
     return @Result;
+}
+
+=head2 _S3CacheDelete()
+
+deletes all the loader cache files. That is all files with the prefix I<var/httpd/htdocs>
+where the key contains neither I</js-cache/> nor I</css-cache>.
+
+Returns the success of the the discard operations.
+
+    my $Success = $LoaderObject->_S3CacheDelete();
+
+=cut
+
+sub _S3CacheDelete {
+    my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+
+    return $StorageS3Object->DiscardObjects(
+        Prefix      => 'var/httpd/htdocs/',
+        Delimiter   => '',
+        DiscardOnly => qr!/(?:css|js)-cache/!,
+    );
 }
 
 1;

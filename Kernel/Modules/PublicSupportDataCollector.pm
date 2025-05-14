@@ -19,18 +19,19 @@ package Kernel::Modules::PublicSupportDataCollector;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
 
-use HTTP::Response;
+# CPAN modules
+
+# OTOBO modules
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -66,7 +67,7 @@ sub Run {
 
     # send JSON response
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,

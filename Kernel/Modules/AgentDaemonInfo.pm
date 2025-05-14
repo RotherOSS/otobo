@@ -51,6 +51,7 @@ sub Run {
             %Data,
         },
     );
+
     return $LayoutObject->Attachment(
         NoCache     => 1,
         ContentType => 'text/html',

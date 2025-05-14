@@ -30,7 +30,7 @@
 [% RenderBlockEnd("ArchiveFlag") %]
 [% RenderBlockStart("Type") %]
                         <label>[% Translate("Type") | html %]:</label>
-                        <p class="Value FixedValueSmall" title="[% Data.Type | html %]">[% Data.Type | html %]
+                        <p class="Value FixedValueSmall" title="[% Data.Type | html %]">[% Translate(Data.Type) | html %]
                             [% IF Data.Valid != 1 %] <em class="Error">[% Translate("Note: Type is invalid!") | html %]</em> [% END %]
                         </p>
                         <div class="Clear"></div>
@@ -72,12 +72,12 @@
                         <div class="Clear"></div>
 
                         <label>[% Translate("Queue") | html %]:</label>
-                        <p class="Value" title="[% Data.Queue | html %]">[% Data.Queue | html | replace('::', '<wbr>::<wbr>') %]</p>
+                        <p class="Value" title="[% Translate(Data.Queue) | html %]">[% Translate(Data.Queue) | html | replace('::', '<wbr>::<wbr>') %]</p>
                         <div class="Clear"></div>
 
 [% RenderBlockStart("Service") %]
                         <label>[% Translate("Service") | html %]:</label>
-                        <p class="Value" title="[% Data.Service | html %]">[% Data.Service | html %]</p>
+                        <p class="Value" title="[% Translate(Data.Service) | html %]">[% Translate(Data.Service) | html | replace('::', '<wbr>::<wbr>') %]</p>
                         <div class="Clear"></div>
 [% RenderBlockEnd("Service") %]
 [% RenderBlockStart("SLA") %]
@@ -211,6 +211,11 @@
 [% RenderBlockStart("TicketDynamicField") %]
 [% IF Data.TitleField %]
                         <p title="[% Data.Text | html %]" style="[% Data.Style | html %]">[% Data.Text | html %]</p>
+[% ELSIF Data.HTMLValue %]
+                        <label>[% Translate(Data.Label) | html %]:</label>
+                        <div class="Clear"></div>
+                        [% Data.Value %]
+                        <div class="Clear"></div>
 [% ELSE %]
                         <label>[% Translate(Data.Label) | html %]:</label>
                         <p class="Value">

@@ -16,12 +16,19 @@
 
 package Kernel::Modules::AdminUser;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-
 use parent qw(Kernel::System::AsynchronousExecutor);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language             qw(Translatable);
+use Kernel::Output::HTML::Layout ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -29,8 +36,16 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -47,8 +62,20 @@ sub Run {
     my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+    my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # Get list of valid IDs.
     my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
@@ -85,25 +112,20 @@ sub Run {
             $Expires = '';
         }
 
-        # Restrict Cookie to HTTPS if it is used.
-        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 %UserData,
-                SetCookies => {
-                    SessionIDCookie => $ParamObject->SetCookie(
-                        Key      => $ConfigObject->Get('SessionName'),
-                        Value    => $NewSessionID,
-                        Expires  => $Expires,
-                        Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => $CookieSecureAttribute,
-                        HTTPOnly => 1,
-                    ),
-                },
+                SetCookies  => {},
                 SessionID   => $NewSessionID,
                 SessionName => $ConfigObject->Get('SessionName'),
             }
+        );
+        Kernel::Output::HTML::Layout->SetCookie(
+            RegisterInOM => 1,
+            Key          => 'SessionIDCookie',
+            Name         => $ConfigObject->Get('SessionName'),
+            Value        => $NewSessionID,
+            Expires      => $Expires,
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -239,7 +261,9 @@ sub Run {
                     );
                 }
                 else {
-                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Notification=Update"
+                    );
                 }
             }
             else {
@@ -365,9 +389,7 @@ sub Run {
                     );
                 }
                 else {
-                    return $LayoutObject->Redirect(
-                        OP => 'Action=AdminUser',
-                    );
+                    return $LayoutObject->Redirect( OP => 'Action=AdminUser' );
                 }
             }
             else {
@@ -404,7 +426,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        $Self->_Overview( Search => $Search );
+        $Self->_Overview(
+            Search => $Search,
+        );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Notify( Info => Translatable('Agent updated!') )
@@ -530,6 +554,13 @@ sub _Overview {
         Data => \%Param,
     );
 
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
         Name => 'ActionSearch',
@@ -546,7 +577,7 @@ sub _Overview {
     my %List = $UserObject->UserSearch(
         Search => $Param{Search} . '*',
         Limit  => $Limit,
-        Valid  => 0,
+        Valid  => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     my %ListAllItems = $UserObject->UserSearch(

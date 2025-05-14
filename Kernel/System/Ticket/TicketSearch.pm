@@ -73,7 +73,7 @@ To find tickets in your system.
         States   => ['new', 'open'],
         StateIDs => [3, 4],
 
-        # (Open|Closed) tickets for all closed or open tickets.
+        # (Open|Closed|CustomerOpen|CustomerClosed) tickets for all closed or open tickets.
         StateType => 'Open',
 
         # You also can use real state types like new, open, closed,
@@ -753,31 +753,48 @@ sub TicketSearch {
 
     # current ticket state type
     # NOTE: Open and Closed are not valid state types. It's for compat.
-    # Open   -> All states which are grouped as open (new, open, pending, ...)
-    # Closed -> All states which are grouped as closed (closed successful, closed unsuccessful)
-    if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
-        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            Type   => 'Viewable',
-            Result => 'ID',
-        );
-        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
-    }
-    elsif ( $Param{StateType} && $Param{StateType} eq 'Closed' ) {
-        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            Type   => 'Viewable',
-            Result => 'ID',
-        );
-        $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
-    }
+    # Open        -> All states which are grouped as open (new, open, pending, ...)
+    # Closed      -> All states which are grouped as closed (closed successful, closed unsuccessful)
+    # Customer... -> The same from customer perspective
+    if ( $Param{StateType} ) {
+        if ( $Param{StateType} eq 'Open' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'Closed' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'CustomerOpen' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'CustomerViewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'CustomerClosed' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'CustomerViewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
 
-    # current ticket state type
-    elsif ( $Param{StateType} ) {
-        my @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            StateType => $Param{StateType},
-            Result    => 'ID',
-        );
-        return if !$StateIDs[0];
-        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
+        # current ticket state type
+        else {
+            my @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                StateType => $Param{StateType},
+                Result    => 'ID',
+            );
+            return if !$StateIDs[0];
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
+        }
     }
 
     if ( $Param{StateTypeIDs} ) {
@@ -1456,7 +1473,8 @@ sub TicketSearch {
             my $Counter   = 0;
             TEXT:
             for my $Text (@SearchParams) {
-                next TEXT if ( !defined $Text || $Text eq '' );
+                next TEXT unless defined $Text;
+                next TEXT if $Text eq '';
 
                 $Text =~ s/\*/%/gi;
 
@@ -1533,10 +1551,25 @@ sub TicketSearch {
                         $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                 }
                 else {
-                    $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
-                        ON (st.id = dfv$DynamicFieldJoinCounter.object_id
+
+                    if ( $DynamicField->{FieldType} eq 'Lens' ) {
+
+                        $SQLFrom .= "INNER JOIN dynamic_field_value lensdfv$DynamicFieldJoinCounter
+                            ON ( st.id = lensdfv$DynamicFieldJoinCounter.object_id
+                            AND lensdfv$DynamicFieldJoinCounter.field_id = " .
+                            $DynamicField->{Config}->{ReferenceDF} . " )
+                            INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                            ON ( lensdfv$DynamicFieldJoinCounter.value_int = dfv$DynamicFieldJoinCounter.object_id
                             AND dfv$DynamicFieldJoinCounter.field_id = " .
-                        $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                            $DynamicField->{Config}->{AttributeDF} . " ) ";
+                    }
+                    else {
+
+                        $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
+                            ON (st.id = dfv$DynamicFieldJoinCounter.object_id
+                                AND dfv$DynamicFieldJoinCounter.field_id = " .
+                            $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    }
                 }
             }
             elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
@@ -1576,8 +1609,8 @@ sub TicketSearch {
         # Only look at fields which start with DynamicField_ and contain a substructure that is meant for searching.
         #   It could happen that similar scalar parameters are sent to this method, that should be ignored
         #   (see bug#13412).
-        next PARAMS if !ref $Param{$Key};
-        next PARAMS if $Key !~ /^DynamicField_(.*)$/;
+        next PARAMS unless ref $Param{$Key};
+        next PARAMS unless $Key =~ /^DynamicField_(.*)$/;
 
         my $DynamicFieldName = $1;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1623,29 +1656,28 @@ sub TicketSearch {
         # get articles created older than xxxx-xx-xx xx:xx date
         my $CompareOlderNewerDate;
         if ( $Param{ $Key . 'OlderDate' } ) {
-            if (
-                $Param{ $Key . 'OlderDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'OlderDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
-
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
 
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1654,8 +1686,10 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
+
             $CompareOlderNewerDate = $SystemTime;
 
             $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime->ToString() . "')";
@@ -1664,31 +1698,31 @@ sub TicketSearch {
 
         # get articles created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
-            if (
-                $Param{ $Key . 'NewerDate' }
-                !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-                )
-            {
+            my $SystemTime;
+            if ( $Param{ $Key . 'NewerDate' } =~ m/(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+
+                # convert param date to system time
+                $SystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Year   => $1,
+                        Month  => $2,
+                        Day    => $3,
+                        Hour   => $4,
+                        Minute => $5,
+                        Second => $6,
+                    }
+                );
+            }
+            else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
-            # convert param date to system time
-            my $SystemTime = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-
-                    Year   => $1,
-                    Month  => $2,
-                    Day    => $3,
-                    Hour   => $4,
-                    Minute => $5,
-                    Second => $6,
-                }
-            );
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
@@ -1696,6 +1730,7 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 

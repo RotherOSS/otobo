@@ -18,12 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::System::EmailParser;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::EmailParser ();
+
+our $Self;
 
 # This test should verify that an email with an unknown encoding not cause a "die".
 
@@ -31,11 +34,8 @@ use Kernel::System::EmailParser;
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
-my @Array;
 open my $IN, '<', "$Home/scripts/test/sample/EmailParser/BrokenEncoding.box";    ## no critic qw(OTOBO::ProhibitOpen)
-while (<$IN>) {
-    push @Array, $_;
-}
+my @Array = <$IN>;
 close $IN;
 
 # create local object

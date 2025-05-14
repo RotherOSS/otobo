@@ -16,12 +16,17 @@
 
 package Kernel::GenericInterface::Event::Handler;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use Storable qw(dclone);
 
-use Storable;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::GenericInterface::Requester',
@@ -47,13 +52,10 @@ invokers.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -66,6 +68,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -82,10 +85,10 @@ sub Run {
     my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
     my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 
-    my %WebserviceList   = %{ $WebserviceObject->WebserviceList( Valid => 1 ) };
+    my %WebserviceList   = $WebserviceObject->WebserviceList( Valid => 1 )->%*;
     my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
 
-    # Loop over web services.
+    # Loop over all web services.
     WEBSERVICEID:
     for my $WebserviceID ( sort keys %WebserviceList ) {
 
@@ -93,25 +96,25 @@ sub Run {
             ID => $WebserviceID,
         );
 
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config} );
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
 
         # Check invokers of the web service, to see if some might be connected to this event.
         INVOKER:
-        for my $Invoker ( sort keys %{ $WebserviceData->{Config}->{Requester}->{Invoker} } ) {
+        for my $Invoker ( sort keys $WebserviceData->{Config}->{Requester}->{Invoker}->%* ) {
 
             my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker};
 
-            next INVOKER if ref $InvokerConfig->{Events} ne 'ARRAY';
+            next INVOKER unless ref $InvokerConfig->{Events} eq 'ARRAY';
 
             INVOKEREVENT:
-            for my $InvokerEvent ( @{ $InvokerConfig->{Events} } ) {
+            for my $InvokerEvent ( $InvokerConfig->{Events}->@* ) {
 
                 # Check if the invoker is connected to this event.
-                next INVOKEREVENT if !IsHashRefWithData($InvokerEvent);
-                next INVOKEREVENT if !IsStringWithData( $InvokerEvent->{Event} );
-                next INVOKEREVENT if $InvokerEvent->{Event} ne $Param{Event};
+                next INVOKEREVENT unless IsHashRefWithData($InvokerEvent);
+                next INVOKEREVENT unless IsStringWithData( $InvokerEvent->{Event} );
+                next INVOKEREVENT unless $InvokerEvent->{Event} eq $Param{Event};
 
                 # Prepare event type.
                 my $EventType;
@@ -121,9 +124,10 @@ sub Run {
                 for my $Type ( sort keys %RegisteredEvents ) {
                     my $EventFound = grep { $_ eq $InvokerEvent->{Event} } @{ $RegisteredEvents{$Type} || [] };
 
-                    next EVENTTYPE if !$EventFound;
+                    next EVENTTYPE unless $EventFound;
 
                     $EventType = $Type;
+
                     last EVENTTYPE;
                 }
 
@@ -201,20 +205,20 @@ sub Run {
                     }
 
                     next INVOKEREVENT;
-
                 }
 
-                # execute synchronous tasks directly
+                # neither Condition nor Asynchronous: execute synchronous tasks directly
                 my $Result = $RequesterObject->Run(
                     WebserviceID => $WebserviceID,
                     Invoker      => $Invoker,
-                    Data         => Storable::dclone( $Param{Data} ),
+                    Data         => dclone( $Param{Data} ),
                 );
+
                 next INVOKEREVENT if $Result->{Success};
 
                 # check if rescheduling is requested on errors
-                next INVOKEREVENT if !IsHashRefWithData( $Result->{Data} );
-                next INVOKEREVENT if !$Result->{Data}->{ReSchedule};
+                next INVOKEREVENT unless IsHashRefWithData( $Result->{Data} );
+                next INVOKEREVENT unless $Result->{Data}->{ReSchedule};
 
                 # Use the execution time from the return data
                 my $ExecutionTime = $Result->{Data}->{ExecutionTime};
@@ -308,11 +312,16 @@ sub Run {
 sub _SerializeConfig {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Data SHash)) {
-        if ( !$Param{$Needed} ) {
-            print "Got no $Needed!\n";
-            return;
-        }
+    for my $Needed ( grep { !$Param{$_} } qw(Data SHash) ) {
+
+        my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Need $Needed!",
+        );
+
+        # do nothing when a parameter is missing
+        return;
     }
 
     my @ConfigContainer;
@@ -486,6 +495,7 @@ sub _ConditionCheck {
             Priority => 'error',
             Message  => "Invalid ConditionLinking!",
         );
+
         return;
     }
     my ( $ConditionSuccess, $ConditionFail ) = ( 0, 0 );
@@ -507,6 +517,7 @@ sub _ConditionCheck {
                 Priority => 'error',
                 Message  => "No Fields in Condition->$ConditionName found!",
             );
+
             return;
         }
 
@@ -519,6 +530,7 @@ sub _ConditionCheck {
                 Priority => 'error',
                 Message  => "Invalid Condition->$ConditionName->Type!",
             );
+
             return;
         }
 
@@ -563,6 +575,7 @@ sub _ConditionCheck {
                     Priority => 'error',
                     Message  => "Invalid Condition->Type!",
                 );
+
                 return;
             }
 
@@ -584,6 +597,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a String if Type is set to String!",
                     );
+
                     return;
                 }
 
@@ -718,6 +732,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Hash!",
                     );
+
                     return;
                 }
 
@@ -784,6 +799,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Regular expression if Type is set to Regexp!",
                     );
+
                     return;
                 }
 
@@ -799,6 +815,7 @@ sub _ConditionCheck {
                             Priority => 'error',
                             Message  => $@,
                         );
+
                         return;
                     }
                 }
@@ -895,6 +912,7 @@ sub _ConditionCheck {
                             . $ActualCondition->{Fields}->{$FieldName}->{Type}
                             . "Module for Condition->$ConditionName->Fields->$FieldName validation!",
                     );
+
                     return;
                 }
 

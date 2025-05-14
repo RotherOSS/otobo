@@ -16,15 +16,17 @@
 
 package Kernel::System::Auth::DB;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use v5.24;
 use strict;
 use warnings;
 
 # core modules
-use Digest::SHA;
+use Digest::SHA ();
 
 # CPAN modules
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
 
@@ -36,6 +38,9 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Valid',
 );
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +48,7 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get config object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get user table
@@ -89,16 +94,18 @@ sub Auth {
             Priority => 'error',
             Message  => "Need User!"
         );
+
         return;
     }
 
     # get params
-    my $User       = $Param{User}      || '';
-    my $Pw         = $Param{Pw}        || '';
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-    my $UserID     = '';
-    my $GetPw      = '';
-    my $Method     = '';
+    my $User        = $Param{User} || '';
+    my $Pw          = $Param{Pw}   || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $UserID      = '';
+    my $GetPw       = '';                                                        # the hashed password, may include salt and other settings
+    my $Method      = '';
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -141,8 +148,10 @@ sub Auth {
         if ( $GetPw =~ m{\A \$.+? \$.+? \$.* \z}xms ) {
 
             # strip Salt
-            $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/;
-            my $Magic = $1;
+            my $Magic = '';
+            if ( $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/ ) {
+                $Magic = $1;    # a successful substitution means a successful match
+            }
 
             # encode output, needed by unix_md5_crypt() only non utf8 signs
             $EncodeObject->EncodeOutput( \$Pw );
@@ -156,7 +165,6 @@ sub Auth {
                 $CryptedPw = unix_md5_crypt( $Pw, $Salt );
                 $Method    = 'unix_md5_crypt';
             }
-
         }
 
         # sha256 pw
@@ -182,13 +190,13 @@ sub Auth {
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
 
             # require module, log errors if module was not found
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') )
-            {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
                         "User: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
+
                 return;
             }
 
@@ -240,7 +248,7 @@ sub Auth {
     # crypt pw
     else {
 
-        # strip Salt only for (Extended) DES, not for any of Modular crypt's
+        # strip salt only for (Extended) DES, not for any of modular crypts
         if ( $Salt !~ /^\$\d\$/ ) {
             $Salt =~ s/^(..).*/$1/;
         }
@@ -283,8 +291,7 @@ sub Auth {
     }
 
     # login note
-    elsif ( ( ($GetPw) && ($User) && ($UserID) ) && $CryptedPw eq $GetPw ) {
-
+    elsif ( $GetPw && $User && $UserID && $CryptedPw eq $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
@@ -294,7 +301,7 @@ sub Auth {
     }
 
     # just a note
-    elsif ( ($UserID) && ($GetPw) ) {
+    elsif ( $UserID && $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  =>

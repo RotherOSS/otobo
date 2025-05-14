@@ -16,12 +16,21 @@
 
 package Kernel::System::Environment;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use POSIX;
-use ExtUtils::MakeMaker;
-use Sys::Hostname::Long;
+# core modules
+use POSIX qw(uname);
+use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimports
+use File::Spec ();
+
+# CPAN modules
+use Sys::Hostname::Long qw(hostname_long);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -51,10 +60,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 OSInfoGet()
@@ -86,7 +92,7 @@ returns:
 sub OSInfoGet {
     my ( $Self, %Param ) = @_;
 
-    my @Data = POSIX::uname();
+    my @Data = uname();
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -95,13 +101,12 @@ sub OSInfoGet {
         linux   => 'Linux',
         freebsd => 'FreeBSD',
         openbsd => 'OpenBSD',
-        darwin  => 'MacOSX',
     );
 
-    # If used OS is a linux system
+    # If used OS is a unixoid system
     my $OSName;
     my $Distribution;
-    if ( $^O =~ /(linux|unix|netbsd)/i ) {
+    if ( $^O =~ /linux|unix|netbsd/i ) {
 
         if ( $^O eq 'linux' ) {
 
@@ -118,7 +123,7 @@ sub OSInfoGet {
                 $OSName = $DistributionName . ' ' . $DistributionVersion;
             }
         }
-        elsif ( -e "/etc/issue" ) {
+        elsif ( -e '/etc/issue' ) {
 
             my $Content = $MainObject->FileRead(
                 Location => '/etc/issue',
@@ -129,13 +134,6 @@ sub OSInfoGet {
                 $OSName = $Content->[0];
             }
         }
-    }
-    elsif ( $^O eq 'darwin' ) {
-
-        my $MacVersion = `sw_vers -productVersion` || '';
-        chomp $MacVersion;
-
-        $OSName = 'MacOSX ' . $MacVersion;
     }
     elsif ( $^O eq 'freebsd' || $^O eq 'openbsd' ) {
 
@@ -211,7 +209,7 @@ sub ModuleVersionGet {
 
 =head2 PerlInfoGet()
 
-collect perl information:
+collect Perl information:
 
     my %PerlInfo = $EnvironmentObject->PerlInfoGet();
 
@@ -230,8 +228,7 @@ returns:
 
         Modules => {
             "Algorithm::Diff"  => "1.30",
-            "Apache::DBI"      => 1.62,
-            ......
+            ...
         },
     );
 
@@ -242,96 +239,366 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf '%vd',
-        $^V,
+        PerlVersion => sprintf( '%vd', $^V ),
     );
 
     if ( $Param{BundledModules} ) {
 
+        # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
         # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # Fh is not listed as it belongs to the distro CGI.
-        # TODO: list MailTools instead of Mail::Address and Mail::Internet
         # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
-        my @ModuleList = qw(
-            Algorithm::Diff
-            CGI
-            CGI::Emulate::PSGI
-            Class::Accessor
-            Class::Inspector
-            Class::ReturnValue
-            CPAN::Audit
-            CPAN::DistnameInfo
-            Data::ICal
-            Date::ICal
-            Crypt::PasswdMD5
-            Crypt::Random::Source
-            CSS::Minifier
-            Devel::StackTrace
-            Email::Valid
-            Encode::Locale
-            Excel::Writer::XLSX
-            Exporter::Tiny
-            File::Slurp
-            File::Slurp::Tiny
-            Font::TTF
-            HTML::Scrubber
-            HTTP::Message
-            IO::Interactive
-            IO::String
-            JavaScript::Minifier
-            JSON
-            JSON::PP
-            Lingua::Translit
-            Linux::Distribution
-            Locale::Codes
-            LWP
-            Mail::Address
-            Mail::Internet
-            Math::Random::ISAAC
-            Math::Random::Secure
-            MIME::Tools
-            Module::CPANfile
-            Module::Find
-            Module::Load
-            Module::Refresh
-            Mozilla::CA
-            Net::IMAP::Simple
-            Net::HTTP
-            Net::SSLGlue
-            PDF::API2
-            Pod::Strip
-            REST::Client
-            Schedule::Cron::Events
-            SOAP::Lite
-            Sys::Hostname::Long
-            Text::CSV
-            Text::Diff
-            Type::Tiny
-            YAML
-            URI
-        );
-
-        # Some modules are only needed when not running in a PSGI environment.
-        # Therefore they are not bundled in the Docker image.
-        # See .dockerignore.
-        if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            push @ModuleList, qw(
-                Apache::DBI
-                Apache2::Reload
-            );
-        }
-
-        # add module and version
-        my %ModuleToVersion;
-        for my $Module (@ModuleList) {
-            $ModuleToVersion{$Module} = $Self->ModuleVersionGet( Module => $Module );
-        }
-
+        my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+        my %ModuleToVersion =
+            map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
+            map { $_->{Module} }
+            @BundledModules;
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
 
     return %EnvPerl;
+}
+
+=head2 BundleModulesDeclarationGet()
+
+This returns the declaration of the modules that should be installed in C<Kernel/cpan-lib>.
+This list can be used as a reference for reporting and for generating a CPAN file.
+
+    my @BundledModules = $EnvironmentObject->BundleModulesDeclarationGet();
+
+returns list of hashrefs:
+
+    my @BundledModules = (
+        {
+            'Comment'         => 'Needed by Text::Diff',
+            'Module'          => 'Algorithm::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.1903',
+        },
+        ...
+    );
+
+=cut
+
+sub BundleModulesDeclarationGet {
+    my ($Self) = @_;
+
+    return (
+        {
+            'Comment'         => 'Needed by Text::Diff',
+            'Module'          => 'Algorithm::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.1903',
+        },
+        {
+            'Comment'         => 'needed by e.g. Data::ICal, but not used by OTOBO itself',
+            'Module'          => 'Class::Accessor',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.34',
+        },
+        {
+            'Comment'         => 'needed by SOAP::Lite',
+            'Module'          => 'Class::Inspector',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.31'
+        },
+        {
+            'Comment'         => 'needed by Data::ICal',
+            'Module'          => 'Class::ReturnValue',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.55',
+        },
+        {
+            'Module'          => 'CPAN::Audit',
+            'Required'        => 1,
+            'VersionRequired' => '== 20250115.001',
+        },
+        {
+            'Comment'         => 'database of adbisories used by CPAN::Audit',
+            'Module'          => 'CPANSA::DB',
+            'Required'        => 1,
+            'VersionRequired' => '== 20250109.001',
+        },
+        {
+            'Comment'         => 'needed by CPAN::Audit',
+            'Module'          => 'CPAN::DistnameInfo',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.12',
+        },
+        {
+            'Module'          => 'Crypt::PasswdMD5',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.40',
+        },
+        {
+            'Comment'         => 'needed by Math::Random::Secure, needed in Kernel::System::Main',
+            'Module'          => 'Crypt::Random::Source',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.14',
+        },
+        {
+            'Module'          => 'Data::ICal',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.22',
+        },
+        {
+            'Module'          => 'Date::ICal',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.678',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::CheckItem',
+            'Module'          => 'Email::Valid',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.202',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::CSV',
+            'Module'          => 'Excel::Writer::XLSX',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.95',
+        },
+        {
+            'Comment'         => 'needed by Type::Tiny',
+            'Module'          => 'Exporter::Tiny',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.002001',
+        },
+        {
+            'Comment'         => 'needed by Text::Diff::FormattedHTML ',
+            'Module'          => 'File::Slurp',
+            'Required'        => 1,
+            'VersionRequired' => '== 9999.32',
+        },
+        {
+            'Comment'         => 'needed by PDF::API2',
+            'Module'          => 'Font::TTF',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.06',
+        },
+        {
+            'Comment'         => 'needed by HTMLUtils, contains adaption by OTOBO',
+            'Module'          => 'HTML::Scrubber',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.20',
+        },
+        {
+            'Comment'         => 'needed by console commands',
+            'Module'          => 'IO::Interactive',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.022',
+        },
+        {
+            'Comment'         => 'needed by Font::TTF',
+            'Module'          => 'IO::String',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.08',
+        },
+        {
+            'Comment'         => 'needed by Sisimai',
+            'Module'          => 'JSON',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.94',
+        },
+        {
+            'Comment'         => 'needed by JSON, but there also in backportPP included in JSON',
+            'Module'          => 'JSON::PP',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.27203',
+        },
+        {
+            'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
+            'Module'          => 'Lingua::Translit',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.27',
+        },
+        {
+            'Comment'         => 'needed by otobo.CheckModules.pl',
+            'Module'          => 'Linux::Distribution',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.23',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
+            'Module'          => 'Locale::Codes',
+            'Required'        => 1,
+            'VersionRequired' => '== 3.76',
+        },
+        {
+            'Comment'         => 'needed by webservices',
+            'Module'          => 'LWP::Protocol::https',
+            'Required'        => 1,
+            'VersionRequired' => '== 6.11',
+        },
+        {
+            'Comment'         => 'needed in frontend and system OTOBO modules',
+            'Module'          => 'Mail::Address',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.18',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Mail',
+            'Module'          => 'Mail::Internet',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.18',
+        },
+        {
+            'Comment'         => 'needed by Math::Random::Secure, needed in Kernel::System::Main',
+            'Module'          => 'Math::Random::ISAAC',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.004',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Main for GenerateRandomString()',
+            'Module'          => 'Math::Random::Secure',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.080001',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Mail',
+            'Module'          => 'MIME::Tools',
+            'Required'        => 1,
+            'VersionRequired' => '== 5.514',
+        },
+        {
+            'Comment'         => 'needed by CPAN::Audit',
+            'Module'          => 'Module::CPANfile',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.1004',
+        },
+        {
+            'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
+            'Module'          => 'Module::Extract::VERSION',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.117',
+        },
+        {
+            'Comment'         => 'needed by Crypt::Random::Source',
+            'Module'          => 'Module::Find',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.15',
+        },
+        {
+            'Comment'         => 'needed by otobo.psgi',
+            'Module'          => 'Module::Refresh',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.17',
+        },
+        {
+            'Comment'         => 'needed by LWP::Protocol::https',
+            'Module'          => 'Mozilla::CA',
+            'Required'        => 1,
+            'VersionRequired' => '== 20200520',
+        },
+        {
+            'Comment'         => 'needed by LWP::Protocol::https',
+            'Module'          => 'Net::HTTP',
+            'Required'        => 1,
+            'VersionRequired' => '== 6.17',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
+            'Module'          => 'Net::IMAP::Simple',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.2209',
+        },
+        {
+            'Comment'         => 'needed by OTOBO email modules',
+            'Module'          => 'Net::SSLGlue',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.058',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::PDF',
+            'Module'          => 'PDF::API2',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.045',
+        },
+        {
+            'Comment'         => 'needed by console command Dev::Tools::TranslationsUpdate',
+            'Module'          => 'Pod::Strip',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.02',
+        },
+        {
+            'Comment'         => 'needed by OTOBO generic interface',
+            'Module'          => 'REST::Client',
+            'Required'        => 1,
+            'VersionRequired' => '== 273',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::CronEvent',
+            'Module'          => 'Schedule::Cron::Events',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.95',
+        },
+        {
+            'Module'          => 'needed for detecting bounced mails',
+            'Module'          => 'Sisimai',
+            'Required'        => 1,
+            'VersionRequired' => '== v4.24.1'
+        },
+        {
+            'Comment'         => 'needed by OTOBO generic interface',
+            'Module'          => 'SOAP::Lite',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.20',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Environment',
+            'Module'          => 'Sys::Hostname::Long',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.5',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Diff',
+            'Module'          => 'Text::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.44',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::Diff',
+            'Module'          => 'Text::Diff::FormattedHTML',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
+        },
+        {
+            'Comment'         => 'needed by Crypt::Random::Source',
+            'Module'          => 'Type::Tiny',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.010000',
+        },
+        {
+            'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',
+            'Module'          => 'XML::FeedPP',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.43',
+        },
+        {
+            'Comment'         => 'needed by Kernel::System::XML::Simple',
+            'Module'          => 'XML::LibXML::Simple',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.01',
+        },
+        {
+            'Comment'         => 'needed by Kernel::GenericInterface::Mapping::XSLT',
+            'Module'          => 'XML::Simple',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.25',
+        },
+        {
+            'Comment'         => 'needed by XML::FeedPP',
+            'Module'          => 'XML::TreePP',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.43',
+        },
+        {
+            'Comment'         => 'needed by Sisimai, OTOBO itself uses YAML::XS',
+            'Module'          => 'YAML',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.30',
+        }
+    );
 }
 
 =head2 DBInfoGet()

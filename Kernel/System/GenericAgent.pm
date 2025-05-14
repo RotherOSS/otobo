@@ -19,7 +19,7 @@ package Kernel::System::GenericAgent;
 use strict;
 use warnings;
 
-use Time::HiRes qw();
+use Time::HiRes ();
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -950,7 +950,7 @@ sub _JobRunTicket {
     my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
 
     # disable sending emails
-    $TicketObject->{SendNoNotification} = $Param{Config}->{New}->{SendNoNotification} ? 1 : 0;
+    local $TicketObject->{SendNoNotification} = $Param{Config}->{New}->{SendNoNotification} ? 1 : 0;
 
     # move ticket
     if ( $Param{Config}->{New}->{Queue} ) {
@@ -987,12 +987,20 @@ sub _JobRunTicket {
 
         my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{TicketID},
-            DynamicFields => 0,
+            DynamicFields => 1,
+        );
+
+        $Param{Config}->{New}->{NoteBody} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->_Replace(
+            UserID     => $Param{UserID},
+            Data       => {},
+            TicketData => \%Ticket,
+            Text       => $Param{Config}->{New}->{NoteBody},
+            RichText   => 0,
         );
 
         if ( IsHashRefWithData( \%Ticket ) ) {
 
-            my %CustomerUserData = {};
+            my %CustomerUserData = ();
             if ( IsStringWithData( $Ticket{CustomerUserID} ) ) {
                 %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
                     User => $Ticket{CustomerUserID},

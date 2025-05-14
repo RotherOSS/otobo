@@ -152,6 +152,9 @@ Core.UI.ActionRow = (function (TargetNS) {
                                 return false;
                             });
                         }
+                        if ( Value.ID == 'Move' ) {
+                            Core.UI.InputFields.Activate();
+                        }
                     }
                 });
             }

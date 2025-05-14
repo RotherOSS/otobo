@@ -19,7 +19,11 @@ package Kernel::Modules::AdminGroup;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -30,6 +34,15 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -43,6 +56,18 @@ sub Run {
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # ------------------------------------------------------------ #
     # change
@@ -310,6 +335,7 @@ sub _Overview {
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
     my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
 
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -317,10 +343,17 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'Filter' );
 
     my %List = $GroupObject->GroupList(
-        Valid => 0,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
     my $ListSize = keys %List;
     $Param{AllItemsCount} = $ListSize;

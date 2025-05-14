@@ -19,7 +19,12 @@ package Kernel::GenericInterface::Debugger;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -63,8 +68,7 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check DebuggerConfig - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{DebuggerConfig} ) ) {
@@ -172,6 +176,9 @@ sub DebugLog {
         return;
     }
 
+    # for tailoring the call stack
+    my $Caller = $Param{Caller} || 0;
+
     # if DebugLevel is not set DebugLevel from constructor is used
     $Param{DebugLevel} = $Param{DebugLevel} || $Self->{DebugLevel};
 
@@ -184,6 +191,7 @@ sub DebugLog {
 
         return;
     }
+
     my %DebugLevels = (
         debug  => 1,
         info   => 2,
@@ -193,7 +201,7 @@ sub DebugLog {
 
     # create log message
     my $DataString = '';
-    if ( IsHashRefWithData( $Param{Data} ) ) {
+    if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
         $DataString = $Kernel::OM->Get('Kernel::System::Main')->Dump( $Param{Data} );
     }
     elsif ( IsStringWithData( $Param{Data} ) ) {
@@ -228,12 +236,17 @@ DebugLog $Param{DebugLevel}:
 EOF
 
     if ( $Param{DebugLevel} eq 'error' ) {
+
+        # Do not include the sub Module: Kernel::GenericInterface::Debugger::DebugLog in the stack trace
         $LogMessage =~ s/\n//g;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Caller   => $Caller + 1,
             Priority => 'error',
             Message  => $LogMessage,
         );
+
         return 1 if !$Self->{TestMode};
+
         $LogMessage .= "\n";
     }
 
@@ -323,7 +336,9 @@ then returns data structure to be used as return value in calling function
 sub Error {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->DebugLog(
+    # Do not include the sub  Module: Kernel::GenericInterface::Debugger::Error in the stack trace
+    return unless $Self->DebugLog(
+        Caller => 1,
         %Param,
         DebugLevel => 'error',
     );

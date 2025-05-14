@@ -19,9 +19,14 @@ package Kernel::System::FormDraft;
 use strict;
 use warnings;
 
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
+use Storable     qw(dclone);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use MIME::Base64;
-use Storable;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -199,7 +204,7 @@ sub FormDraftGet {
             my $StorableContent = $RawContent;
 
             if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
-                $StorableContent = MIME::Base64::decode_base64($RawContent);
+                $StorableContent = decode_base64($RawContent);
             }
 
             # convert form and file data from yaml
@@ -224,7 +229,7 @@ sub FormDraftGet {
     my %FormDraftNoContent;
     if ( $Param{GetContent} ) {
         $CacheKeyNoContent  = 'FormDraftGet::GetContent0::ID' . $Param{FormDraftID};
-        %FormDraftNoContent = %{ Storable::dclone( \%FormDraft ) };
+        %FormDraftNoContent = %{ dclone( \%FormDraft ) };
         delete $FormDraftNoContent{FileData};
         delete $FormDraftNoContent{FormData};
     }
@@ -317,7 +322,7 @@ sub FormDraftAdd {
 
     my $Content = $StorableContent;
     if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
-        $Content = MIME::Base64::encode_base64($StorableContent);
+        $Content = encode_base64($StorableContent);
     }
 
     # add to database
@@ -431,7 +436,7 @@ sub FormDraftUpdate {
 
     my $Content = $StorableContent;
     if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
-        $Content = MIME::Base64::encode_base64($StorableContent);
+        $Content = encode_base64($StorableContent);
     }
 
     # add to database

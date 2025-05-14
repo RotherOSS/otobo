@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -29,7 +33,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 my $CommandObject     = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -37,23 +40,16 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 my ( $Result, $ExitCode );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
 
 # There are no invalid settings.
-$Self->Is(
-    $ExitCode,
-    0,
-    'Exit code'
-);
+is( $ExitCode, 0, 'Exit code' );
 
 # Check output text.
-$Self->True(
-    $Result =~ m{All settings are valid\.} ? 1 : 0,
-    'Check default result'
-);
+like( $Result, qr{All settings are valid\.}, 'Check default result' );
 
 # Get Setting.
 my %Setting = $SysConfigObject->SettingGet(
@@ -93,24 +89,17 @@ else {
     );
 }
 
-$Self->True(
-    $Success,
-    'Setting updated'
-);
+ok( $Success, 'Setting updated' );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('--non-interactive');
 }
 
-$Self->Is(
-    $ExitCode,
-    0,
-    'Exit code'
-);
+is( $ExitCode, 0, 'Exit code' );
 
-$Self->True(
+ok(
     (
         $Result
             =~ m{Auto-corrected setting:.*Ticket::Frontend::AgentTicketPhone###Priority.*Deployment successful\.}s
@@ -120,4 +109,4 @@ $Self->True(
 
 # cleanup cache is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing();

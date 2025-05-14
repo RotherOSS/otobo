@@ -37,25 +37,33 @@ Core.Agent.TicketForward = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
+        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions');
 
-        // remove a customer ticket entry
+        // add event listeners to remove or move customers
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));
             return false;
         });
+        $('.MoveCustomerButton').on('click', function () {
+            var MoveCustomerKey = $('.CustomerKey', $(this).parent()).val(),
+                MoveCustomerVal = $('.CustomerTicketText', $(this).parent()).val(),
+                TargetField     =
+                    $(this).hasClass('ToMove')  ? 'ToCustomer'  :
+                    $(this).hasClass('CcMove')  ? 'CcCustomer'  :
+                    $(this).hasClass('BccMove') ? 'BccCustomer' : '';
 
-        // update dynamic fields in form
-        $('#ComposeStateID').on('change', function () {
-            Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', DynamicFieldNames);
+            // remove the current entry
+            $('.RemoveButton', $(this).parent()).click();
+
+            // add the customer to the target field
+            Core.Agent.CustomerSearch.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
         });
 
         // change article compose options
         if (typeof ArticleComposeOptions !== 'undefined') {
             $.each(ArticleComposeOptions, function (Key, Value) {
                 $('#'+Value.Name).on('change', function () {
-                    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', Value.Name, Value.Fields);
+                    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', Value.Name);
                 });
             });
         }

@@ -16,6 +16,7 @@
 
 package Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -25,6 +26,8 @@ use parent qw(
 );
 
 # core modules
+use Scalar::Util qw(reftype);
+use MIME::Base64 qw(encode_base64);
 
 # CPAN modules
 
@@ -337,9 +340,7 @@ sub Run {
     }
 
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
-
-        if ( !$Param{Data}->{Password} )
-        {
+        if ( !$Param{Data}->{Password} ) {
             return $Self->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Password or SessionID is required!",
@@ -393,8 +394,8 @@ sub Run {
     my $Ticket = $Param{Data}->{Ticket};
 
     # remove leading and trailing spaces
-    for my $Attribute ( sort keys %{$Ticket} ) {
-        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+    for my $Attribute ( sort keys $Ticket->%* ) {
+        if ( !reftype $Ticket->{$Attribute} ) {
 
             #remove leading spaces
             $Ticket->{$Attribute} =~ s{\A\s+}{};
@@ -403,9 +404,10 @@ sub Run {
             $Ticket->{$Attribute} =~ s{\s+\z}{};
         }
     }
+
     if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
-        for my $Attribute ( sort keys %{ $Ticket->{PendingTime} } ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Ticket->{PendingTime}->%* ) {
+            if ( !reftype $Ticket->{PendingTime}->{$Attribute} ) {
 
                 #remove leading spaces
                 $Ticket->{PendingTime}->{$Attribute} =~ s{\A\s+}{};
@@ -416,7 +418,7 @@ sub Run {
         }
     }
 
-    # check Ticket attribute values
+    # check attribute values
     my $TicketCheck = $Self->_CheckTicket( Ticket => $Ticket );
 
     if ( !$TicketCheck->{Success} ) {
@@ -442,8 +444,8 @@ sub Run {
     $Article->{UserType} = $UserType;
 
     # remove leading and trailing spaces
-    for my $Attribute ( sort keys %{$Article} ) {
-        if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+    for my $Attribute ( sort keys $Article->%* ) {
+        if ( !reftype $Article->{$Attribute} ) {
 
             #remove leading spaces
             $Article->{$Attribute} =~ s{\A\s+}{};
@@ -453,8 +455,8 @@ sub Run {
         }
     }
     if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
-        for my $Attribute ( sort keys %{ $Article->{OrigHeader} } ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Article->{OrigHeader}->%* ) {
+            if ( !reftype $Article->{OrigHeader}->{$Attribute} ) {
 
                 #remove leading spaces
                 $Article->{OrigHeader}->{$Attribute} =~ s{\A\s+}{};
@@ -527,8 +529,8 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $DynamicFieldItem->%* ) {
+                if ( !reftype $DynamicFieldItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
@@ -547,13 +549,11 @@ sub Run {
         }
     }
 
-    my $Attachment;
     my @AttachmentList;
-
     if ( defined $Param{Data}->{Attachment} ) {
 
         # isolate Attachment parameter
-        $Attachment = $Param{Data}->{Attachment};
+        my $Attachment = $Param{Data}->{Attachment};
 
         # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
@@ -574,8 +574,8 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( sort keys %{$AttachmentItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $AttachmentItem->%* ) {
+                if ( !reftype $AttachmentItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
@@ -613,11 +613,13 @@ checks if the given ticket parameters are valid.
         Ticket => $Ticket,                          # all ticket parameters
     );
 
-    returns:
+returns:
 
     $TicketCheck = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $TicketCheck = {
         ErrorCode    => 'Function.Error',           # if error
@@ -800,7 +802,7 @@ checks if the given article parameter is valid.
     returns:
 
     $ArticleCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $ArticleCheck = {
@@ -1056,7 +1058,7 @@ checks if the given dynamic field parameter is valid.
     returns:
 
     $DynamicFieldCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $DynamicFieldCheck = {
@@ -1118,7 +1120,7 @@ checks if the given attachment parameter is valid.
     returns:
 
     $AttachmentCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $AttachmentCheck = {
@@ -1169,23 +1171,25 @@ sub _CheckAttachment {
 creates a ticket with its article and sets dynamic fields and attachments if specified.
 
     my $Response = $OperationObject->_TicketCreate(
-        Ticket       => $Ticket,                  # all ticket parameters
-        Article      => $Article,                 # all attachment parameters
-        DynamicField => $DynamicField,            # all dynamic field parameters
-        Attachment   => $Attachment,             # all attachment parameters
-        UserID       => 123,
+        Ticket         => $Ticket,       # all ticket parameters
+        Article        => $Article,      # all attachment parameters
+        DynamicField   => $DynamicField, # all dynamic field parameters
+        AttachmentList => $Attachment,   # all attachment parameters
+        UserID         => 123,
     );
 
-    returns:
+returns:
 
     $Response = {
-        Success => 1,                               # if everything was OK
+        Success => 1,                               # if everything is OK
         Data => {
             TicketID     => 123,
             TicketNumber => 'TN3422332',
             ArticleID    => 123,
         }
     }
+
+or
 
     $Response = {
         Success      => 0,                         # if unexpected error
@@ -1640,7 +1644,7 @@ sub _TicketCreate {
     # prepare Article DynamicFields
     my @ArticleDynamicFields;
 
-    # remove all dynamic fields form main ticket hash and set them into an array.
+    # remove all dynamic fields from main ticket hash and set them into an array.
     ARTICLEATTRIBUTE:
     for my $ArticleAttribute ( sort keys %ArticleData ) {
         if ( $ArticleAttribute =~ m{\A DynamicField_(.*) \z}msx ) {
@@ -1667,7 +1671,6 @@ sub _TicketCreate {
         );
 
         my @Attachments;
-        $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
         ATTACHMENT:
         for my $FileID ( sort keys %AttachmentIndex ) {
             next ATTACHMENT if !$FileID;
@@ -1679,7 +1682,7 @@ sub _TicketCreate {
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
             # convert content to base64, but prevent 76 chars brake, see bug#14500.
-            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
+            $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
             push @Attachments, {%Attachment};
         }
 
@@ -1691,6 +1694,7 @@ sub _TicketCreate {
 
     $TicketData{Article} = \%ArticleData;
 
+    # return ticket data and article data
     return {
         Success => 1,
         Data    => {

@@ -32,7 +32,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #Footer a,
 #Footer ul li a {
-    color: #bbb;
+    color: var(--colBGDark);
 }
 
 #Footer a:hover,
@@ -55,13 +55,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #Footer ul li {
     float: left;
     padding: 0 4px 0 4px;
-    border-left: 1px solid #9E9E9E;
+    border-left: 1px solid var(--colBGDark);
 }
 
 .RTL #Footer ul li {
     float: right;
     border-left: none;
-    border-right: 1px solid #9E9E9E;
+    border-right: 1px solid var(--colBGDark);
 }
 
 #Footer ul li:first-child {

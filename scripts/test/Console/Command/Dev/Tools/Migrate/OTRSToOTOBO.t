@@ -20,14 +20,13 @@ use v5.24;
 use utf8;
 
 # core modules
-use File::Copy;
 
 # CPAN modules
 use Test2::V0;
-use Path::Class qw(dir file);
+use Path::Class qw(dir);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 plan( tests => 4 );
 
@@ -39,7 +38,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--source" => "$Home/Kernel/Config/Files/NotExisting/Source",
@@ -59,7 +58,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
@@ -80,7 +79,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
@@ -113,7 +112,7 @@ subtest
 
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 '--cleanxmlconfig',
@@ -121,6 +120,7 @@ subtest
                 $SourceDir->stringify(),
             );
         }
+        $Stderr //= '';
         note("stderr: $Stderr");
 
         # exit code 0 indicates success

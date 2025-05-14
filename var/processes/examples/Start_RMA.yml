@@ -1,0 +1,329 @@
+---
+Activities:
+  Activity-13d7aec0ec94f1e92afe820b3c4c1f14:
+    ActivityDialogs: []
+    ChangeTime: 2016-08-11 11:31:48
+    Config: {}
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Activity-13d7aec0ec94f1e92afe820b3c4c1f14
+    ID: '6'
+    Name: Ende
+  Activity-c3d633281e8d9d2d230c4b2bdc03802e:
+    ActivityDialogs:
+    - ActivityDialog-29807571260ea168bbf8357908d58fa3
+    ChangeTime: 2016-08-11 11:31:48
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-29807571260ea168bbf8357908d58fa3
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Activity-c3d633281e8d9d2d230c4b2bdc03802e
+    ID: '7'
+    Name: Starting RMA
+  Activity-d18e060200e46f70d5e9ccec6fdfeec0:
+    ActivityDialogs:
+    - ActivityDialog-3eb331328b6efa2e0a5cc28c56d2d11a
+    - ActivityDialog-20f07ee6e846af6fa642b41db72452de
+    ChangeTime: 2016-08-11 11:31:48
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-3eb331328b6efa2e0a5cc28c56d2d11a
+        '2': ActivityDialog-20f07ee6e846af6fa642b41db72452de
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Activity-d18e060200e46f70d5e9ccec6fdfeec0
+    ID: '8'
+    Name: Gathering information
+ActivityDialogs:
+  ActivityDialog-20f07ee6e846af6fa642b41db72452de:
+    ChangeTime: 2016-08-11 11:31:48
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Please fill in the needed information.
+      FieldOrder:
+      - DynamicField_PreProcFailureDescription
+      - DynamicField_PreProcHostName
+      - DynamicField_PreProcSerialNo
+      - DynamicField_PreProcInvoiceNo
+      - DynamicField_PreProcContactPerson
+      - DynamicField_PreProcAvailability
+      Fields:
+        DynamicField_PreProcAvailability:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcContactPerson:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFailureDescription:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: _____ Asset information ______________________________________________
+          Display: '2'
+        DynamicField_PreProcHostName:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcInvoiceNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: _____ Customer information ___________________________________________
+          Display: '1'
+        DynamicField_PreProcSerialNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: ActivityDialog-20f07ee6e846af6fa642b41db72452de
+    ID: '5'
+    Name: Customer feedback
+  ActivityDialog-29807571260ea168bbf8357908d58fa3:
+    ChangeTime: 2016-08-11 11:31:48
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Is this a valid RMA?
+      FieldOrder:
+      - DynamicField_PreProcRMA
+      - CustomerID
+      - Article
+      - DynamicField_PreProcGatheringInformation
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '1'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcGatheringInformation:
+          DefaultValue: otobo5s-waiting
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        DynamicField_PreProcRMA:
+          DefaultValue: otobo5s-no
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: ActivityDialog-29807571260ea168bbf8357908d58fa3
+    ID: '6'
+    Name: Verify RMA
+  ActivityDialog-3eb331328b6efa2e0a5cc28c56d2d11a:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Is this a valid reclamation?
+      FieldOrder:
+      - DynamicField_PreProcFailureDescription
+      - DynamicField_PreProcHostName
+      - DynamicField_PreProcSerialNo
+      - DynamicField_PreProcInvoiceNo
+      - DynamicField_PreProcContactPerson
+      - DynamicField_PreProcAvailability
+      - DynamicField_PreProcGatheringInformation
+      - DynamicField_PreProcRMA
+      Fields:
+        DynamicField_PreProcAvailability:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: _____ Decision _______________________________________________________
+          Display: '1'
+        DynamicField_PreProcContactPerson:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFailureDescription:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: _____ Asset information ______________________________________________
+          Display: '2'
+        DynamicField_PreProcGatheringInformation:
+          DefaultValue: waiting for customer
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcHostName:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcInvoiceNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: _____ Customer information ___________________________________________
+          Display: '1'
+        DynamicField_PreProcRMA:
+          DefaultValue: no
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcSerialNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: ActivityDialog-3eb331328b6efa2e0a5cc28c56d2d11a
+    ID: '7'
+    Name: Agent decision
+Process:
+  Activities:
+  - Activity-13d7aec0ec94f1e92afe820b3c4c1f14
+  - Activity-c3d633281e8d9d2d230c4b2bdc03802e
+  - Activity-d18e060200e46f70d5e9ccec6fdfeec0
+  ChangeTime: 2016-08-11 11:31:48
+  Config:
+    Description: RMA process for hardware
+    Path:
+      Activity-13d7aec0ec94f1e92afe820b3c4c1f14: {}
+      Activity-c3d633281e8d9d2d230c4b2bdc03802e:
+        Transition-510c1333ab6ff1e096889ed8ff2bc88c:
+          ActivityEntityID: Activity-d18e060200e46f70d5e9ccec6fdfeec0
+          TransitionAction:
+          - TransitionAction-bd0f548e5d47c0e98da68f815855c7bd
+          - TransitionAction-9b3ae4c7537d84219c7e5b560d93bbda
+        Transition-b186b0a9d1350df20d59d9446db8faa8:
+          ActivityEntityID: Activity-13d7aec0ec94f1e92afe820b3c4c1f14
+          TransitionAction: []
+      Activity-d18e060200e46f70d5e9ccec6fdfeec0:
+        Transition-fc5a7a788c5ecc4657bd4fa7bbd8a7d2:
+          ActivityEntityID: Activity-13d7aec0ec94f1e92afe820b3c4c1f14
+          TransitionAction:
+          - TransitionAction-4081b43fa24b367e2cd643d671ff0f99
+    StartActivity: Activity-c3d633281e8d9d2d230c4b2bdc03802e
+    StartActivityDialog: ActivityDialog-29807571260ea168bbf8357908d58fa3
+  CreateTime: 2016-08-11 11:31:48
+  EntityID: Process-c29cfa782b2e27c007123ebcc06e8f86
+  ID: '3'
+  Layout:
+    Activity-13d7aec0ec94f1e92afe820b3c4c1f14:
+      left: '666'
+      top: '311'
+    Activity-c3d633281e8d9d2d230c4b2bdc03802e:
+      left: '241'
+      top: '58'
+    Activity-d18e060200e46f70d5e9ccec6fdfeec0:
+      left: '667'
+      top: '45'
+  Name: Start RMA
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TransitionAction-9b3ae4c7537d84219c7e5b560d93bbda
+  - TransitionAction-bd0f548e5d47c0e98da68f815855c7bd
+  - TransitionAction-4081b43fa24b367e2cd643d671ff0f99
+  Transitions:
+  - Transition-510c1333ab6ff1e096889ed8ff2bc88c
+  - Transition-b186b0a9d1350df20d59d9446db8faa8
+  - Transition-fc5a7a788c5ecc4657bd4fa7bbd8a7d2
+TransitionActions:
+  TransitionAction-4081b43fa24b367e2cd643d671ff0f99:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Config:
+        PendingTimeDiff: '259200'
+        State: pending reminder
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: TransitionAction-4081b43fa24b367e2cd643d671ff0f99
+    ID: '4'
+    Name: Set state = pending reminder (+3d)
+  TransitionAction-9b3ae4c7537d84219c7e5b560d93bbda:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Config:
+        Title: RMA from CustomerUser
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: TransitionAction-9b3ae4c7537d84219c7e5b560d93bbda
+    ID: '5'
+    Name: set Title = RMA from CustomerUser
+  TransitionAction-bd0f548e5d47c0e98da68f815855c7bd:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Config:
+        Type: Service Request
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: TransitionAction-bd0f548e5d47c0e98da68f815855c7bd
+    ID: '6'
+    Name: set Type = Service Request
+Transitions:
+  Transition-510c1333ab6ff1e096889ed8ff2bc88c:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcRMA:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Transition-510c1333ab6ff1e096889ed8ff2bc88c
+    ID: '5'
+    Name: waiting for customer feedback
+  Transition-b186b0a9d1350df20d59d9446db8faa8:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcRMA:
+              Match: otobo5s-no
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Transition-b186b0a9d1350df20d59d9446db8faa8
+    ID: '6'
+    Name: RMA rejected
+  Transition-fc5a7a788c5ecc4657bd4fa7bbd8a7d2:
+    ChangeTime: 2016-08-11 11:31:49
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcGatheringInformation:
+              Match: otobo5s-approved
+              Type: String
+            DynamicField_PreProcRMA:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-11 11:31:48
+    EntityID: Transition-fc5a7a788c5ecc4657bd4fa7bbd8a7d2
+    ID: '7'
+    Name: Information gathered

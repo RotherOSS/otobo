@@ -32,10 +32,10 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no Plack based webserver skip this check.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
-    return $Self->GetResults() if !$ENV{OTOBO_RUNS_UNDER_PSGI};
+    # Skip the plugin, if the support data collection isn't running in a web request.
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
+    # GATEWAY_INTERFACE implies PSGI, as since OTOBO 10.1.1 only PSGI is supported
     $Self->AddResultOk(
         Identifier => 'RunsUnderPSGI',
         Label      => Translatable('Runs under PSGI'),

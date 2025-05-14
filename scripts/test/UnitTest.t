@@ -14,27 +14,24 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use Test2::V0;
 use Test2::API qw(intercept);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-use Kernel::System::UnitTest;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Driver ();
 
 # Testing Kernel::System::UnitTest::Driver.
 # See https://metacpan.org/pod/Test2::Manual::Tooling::Testing.
-
-our $Self;
-my $UnitTestObject = Kernel::System::UnitTest::Driver->new();
+my $UnitTestObject = Kernel::System::UnitTest::Driver->new;
 
 note('Testing True() and False()');
 
@@ -72,7 +69,6 @@ for my $Test (@TestTrueFalse) {
         $UnitTestObject->False( $Test->{Value}, $Test->{Name} );
     };
 
-    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} ) {
         isa_ok( $Events->[0], ['Test2::Event::Pass'], "True() - $Test->{Name}" );
         isa_ok( $Events->[1], ['Test2::Event::Fail'], "False() - $Test->{Name}" );
@@ -166,7 +162,6 @@ for my $Test (@TestIsIsNot) {
         $UnitTestObject->IsNot( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
     };
 
-    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} eq 'Is' ) {
         isa_ok( $Events->[0], ['Test2::Event::Pass'], "Is() - $Test->{Name}" );
         isa_ok( $Events->[1], ['Test2::Event::Fail'], "IsNot() - $Test->{Name}" );
@@ -195,6 +190,11 @@ note('Testing IsDeeply() and IsNotDeeply()');
     my %Hash2 = %Hash1;
     $Hash2{AdditionalKey} = 1;
 
+    # This is a case that was encountered when converting
+    # scripts/test/DynamicField/ObjectType/Article/ObjectDataGet.t to Test2::V0
+    my %Hash3 = %Hash1;
+    $Hash3{AdditionalKeyWithUndefinedValue} = undef;
+
     my @List1 = ( 1, 2, 3, );
     my @List2 = (
         1,
@@ -212,7 +212,7 @@ note('Testing IsDeeply() and IsNotDeeply()');
     };
 
     # loop over the cross product of the values
-    my @Values = ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 );
+    my @Values = ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 );
     my $Count1 = 0;
     for my $Value1 (@Values) {
 
@@ -240,4 +240,4 @@ note('Testing IsDeeply() and IsNotDeeply()');
     }
 }
 
-$Self->DoneTesting();
+done_testing;

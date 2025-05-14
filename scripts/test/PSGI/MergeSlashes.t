@@ -22,11 +22,18 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Test2::Tools::HTTP;
-use HTTP::Request::Common;
+use Test2::Tools::HTTP qw(
+    http_header
+    http_is_redirect
+    http_is_success
+    http_isnt_success
+    http_request
+    http_response
+);
+use HTTP::Request::Common qw(GET);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # This test checks whether the redirect to the default interface works
 
@@ -129,7 +136,7 @@ http_request(
     http_response {
         http_isnt_success();
         http_is_redirect();
-        http_header( 'Location', "../../otobo/index.pl" );
+        http_header( 'Location', "../index.pl" );
     },
     "/ / is not squashed",
 );

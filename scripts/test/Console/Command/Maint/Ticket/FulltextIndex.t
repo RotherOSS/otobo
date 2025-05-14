@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -29,7 +29,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndex');
 
 for my $Argument (qw(--status --rebuild)) {

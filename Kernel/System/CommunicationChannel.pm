@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Valid',
-    'Kernel::System::XML',
     'Kernel::System::YAML',
 );
 
@@ -133,13 +132,15 @@ sub ChannelAdd {
 
 =head2 ChannelGet()
 
-Get a communication channel.
+Get a communication channel either by ID or by name.
 
     my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
         ChannelID   => '1',      # (optional) Communication channel id
                                  # or
         ChannelName => 'Email',  # (optional) Communication channel name
     );
+
+Returns an empty list in the case of an error or when no channel was found.
 
 Returns:
 
@@ -169,6 +170,7 @@ sub ChannelGet {
             Priority => 'error',
             Message  => 'Need ChannelID or ChannelName!',
         );
+
         return;
     }
 
@@ -215,7 +217,7 @@ sub ChannelGet {
         push @Bind, \$Param{ChannelName};
     }
     else {
-        $SQL .= "id = ? ";
+        $SQL .= 'id = ? ';
         push @Bind, \$Param{ChannelID};
     }
 

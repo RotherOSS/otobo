@@ -13,16 +13,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24.0;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use Test::Compile::Internal;
+use Test::Compile::Internal ();
+
+# OTBOO modules
+use Kernel::Config;
 
 # When there are extra arguments, then limit the checks to the passed files.
 # Is useful for github actions.
@@ -36,7 +39,8 @@ pass('checking only the files passed via @ARGV') if $CheckOnlyChangedFiles;
 my @Dirs = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
-# NOTE: Please create an issue when adding to this list and the reason is not acceptable.
+# NOTE: Please create an issue when adding to this list
+#    and the reason is not really acceptable.
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
@@ -46,10 +50,28 @@ my %FailureIsAccepted = (
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
+    'scripts/apache2-perl-preload_otobo_psgi.pl' => 'Apache2::ServerUtil::restart_count() only available when running under mod_perl',
 );
 
+# some modules are only expected to compile when the S3 backend is active
+{
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+    if ( !$S3Active ) {
+        for my $File (
+            'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm',
+            'Kernel/System/Package/Event/SyncWithS3.pm',
+            'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm',
+            'Kernel/System/Plack/Loader/SyncWithS3.pm',
+            )
+        {
+            $FailureIsAccepted{$File} = 'Mojolicious and Mojo::AWS::S3 are not required when S3 is not active';
+        }
+    }
+}
+
 # object for doing the actual check
-my $Internal = Test::Compile::Internal->new();
+my $Internal = Test::Compile::Internal->new;
 
 note('check syntax of the Perl modules');
 {
@@ -64,7 +86,7 @@ note('check syntax of the Perl modules');
         # in proper OTOBO. Therefore the modules in Kernel/TidyAll are skipped here.
         next FILE if $File =~ m{^Kernel/TidyAll/};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
@@ -78,7 +100,7 @@ note('check syntax of the Perl scripts');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -96,7 +118,7 @@ note('look at Perl code with an unusual extension');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }

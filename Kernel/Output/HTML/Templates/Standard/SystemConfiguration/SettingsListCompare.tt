@@ -45,7 +45,7 @@
                 <div class="WidgetSimple Expanded Setting">
                     <div class="Header">
                         <h2>
-                            <input type="checkbox" checked="checked" value="[% Setting.CurrentName | html %]" />
+                            <input type="checkbox" checked value="[% Setting.CurrentName | html %]">
                             <a href="[% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.CurrentName | uri %];DeploymentID=[% Data.DeploymentID | uri %]" target="_parent">[% Setting.CurrentName | html %]</a>
                             <span class="Label">[% Translate("New") | html %]</span>
                         </h2>

@@ -16,19 +16,28 @@
 
 package Kernel::System::SysConfig::XML;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+use XML::LibXML ();
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::XML::Simple',
 );
 
-use Kernel::System::VariableCheck qw( :all );
-
 =head1 NAME
 
-Kernel::System::SysConfig::XML - Manage system configuration settings in XML.
+Kernel::System::SysConfig::XML - Manage system configuration settings in XML files
 
 =head1 PUBLIC INTERFACE
 
@@ -37,24 +46,22 @@ Kernel::System::SysConfig::XML - Manage system configuration settings in XML.
 Create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 SettingListParse()
 
-Parses XML files into a list of perl structures and meta data.
+Parses a XML file into a list of Perl structures and meta data.
 
     my $PerlStructure = $SysConfigXMLObject->SettingListParse(
         XMLInput => '
@@ -79,7 +86,7 @@ Parses XML files into a list of perl structures and meta data.
         XMLFilename => 'Test.xml'
     );
 
-Returns:
+Returns the information for each B<Setting> tag in the XML content.
 
     [
         {
@@ -124,65 +131,112 @@ Returns:
 =cut
 
 sub SettingListParse {
-    my ( $Type, %Param ) = @_;
+    my ( $Self, %Param ) = @_;
 
-    if ( !IsStringWithData( $Param{XMLInput} ) ) {
+    my $XMLContent  = $Param{XMLInput};
+    my $XMLFilename = $Param{XMLFilename} // '';
+
+    # check sanity by looking whether we have data
+    if ( !IsStringWithData($XMLContent) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Parameter XMLInput needs to be a string!",
         );
+
         return;
     }
 
+    # try to parse the XML
+    my $Document = eval {
+        my $Parser = XML::LibXML->new();
+
+        return $Parser->parse_string($XMLContent);
+    };
+    if ($@) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid XML format found in $XMLFilename: $@",
+        );
+
+        return;
+    }
+
+    # Don't require that 'otobo_config' is the root in order to be compatible older behavior
+    my $ConfigNode;
+    {
+        ( $ConfigNode, my @OtherConfigNodes ) = $Document->findnodes('descendant-or-self::otobo_config');
+
+        if ( !$ConfigNode ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: node 'otobo_config' not found",
+            );
+
+            return;
+        }
+
+        if (@OtherConfigNodes) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: multiple 'otobo_config' nodes found",
+            );
+
+            return;
+        }
+    }
+
+    # check the config version
+    {
+        my $ConfigVersion = $ConfigNode->getAttribute('version') // '';
+        if ( $ConfigVersion ne '2.0' ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: version must be 2.0",
+            );
+
+            return;
+        }
+    }
+
+    # check sanity by looking for old-style settings
+    {
+        my (@OldStyleNodes) = $ConfigNode->findnodes('ConfigItem');
+
+        for my $Node (@OldStyleNodes) {
+            my $SettingName = $Node->getAttribute('Name') // '';
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Old ConfigItem $SettingName detected in $XMLFilename!"
+            );
+        }
+    }
+
+    # needed for creating a Perl data structure per Setting node
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
-
-    my $XMLContent = $Param{XMLInput};
-
-    # Remove all lines that starts with comment (#).
-    $XMLContent =~ s{^#.*?$}{}gm;
-
-    # Remove comments <!-- ... -->.
-    $XMLContent =~ s{<!--.*?-->}{}gsm;
-
-    my ($ConfigVersion) = $XMLContent =~ m{otobo_config.*?version="(.*?)"};
-
-    if ( $ConfigVersion ne '2.0' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Invalid XML format found in $Param{XMLFilename} (version must be 2.0)! File skipped.",
-        );
-        return;
-    }
-
-    while ( $XMLContent =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
-
-        # Old style ConfigItem detected.
-        my $SettingName = $1;
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Old ConfigItem $SettingName detected in $Param{XMLFilename}!"
-        );
-    }
 
     # Fetch XML of Setting elements.
     my @ParsedSettings;
 
-    # Note: this is strange. This allows invalid XML to be used as configuration files.
-    SETTING:
-    while (
-        $XMLContent =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
-        )
-    {
+    # Use libxml for finding the Nodes with the name 'Setting'
+    my @SettingNodes = eval {
+        my $Parser   = XML::LibXML->new();
+        my $Document = $Parser->parse_string($XMLContent);
 
-        my $RawSetting  = $+{RawSetting};
-        my $SettingName = $+{SettingName};
+        return $Document->findnodes('descendant-or-self::Setting[@Name]');
+    };
+
+    SETTING:
+    for my $SettingNode (@SettingNodes) {
+        my $RawSetting  = $SettingNode->toString(0);            # the original content
+        my $SettingName = $SettingNode->getAttribute('Name');
 
         next SETTING if !IsStringWithData($RawSetting);
         next SETTING if !IsStringWithData($SettingName);
 
+        # no need need to parse XML again, we already have a parse tree
         my $PerlStructure = $XMLSimpleObject->XMLIn(
-            XMLInput => $RawSetting,
+            XMLInput => $SettingNode,
             Options  => {
                 KeepRoot     => 1,
                 ForceArray   => 1,
@@ -196,6 +250,7 @@ sub SettingListParse {
                 Priority => 'error',
                 Message  => "Resulting Perl structure must be a hash reference with data!",
             );
+
             next SETTING;
         }
 
@@ -204,6 +259,7 @@ sub SettingListParse {
                 Priority => 'error',
                 Message  => "Resulting Perl structure must have Setting elements!",
             );
+
             next SETTING;
         }
 

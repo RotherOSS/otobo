@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -413,7 +413,7 @@ sub _Overview {
         $Search =~ s{ \A \s+ }{}xms;
         $Search =~ s{ \s+ \z }{}xms;
         $Search = 'A' . $Search . 'Z';
-        my @SearchParts = split '\*', $Search;
+        my @SearchParts = split /\*/, $Search;
         for my $SearchPart (@SearchParts) {
             $SearchPart = quotemeta($SearchPart);
         }
@@ -483,8 +483,6 @@ sub _Overview {
 
 sub _Edit {
     my ( $Self, %Param ) = @_;
-
-    my $Output = '';
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     $LayoutObject->Block(

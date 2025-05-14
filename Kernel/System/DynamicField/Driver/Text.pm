@@ -16,22 +16,27 @@
 
 package Kernel::System::DynamicField::Driver::Text;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseText);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DynamicFieldValue',
-    'Kernel::System::Main',
 );
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Text
+Kernel::System::DynamicField::Driver::Text - driver for the Text dynamic field
 
 =head1 DESCRIPTION
 
@@ -50,57 +55,15 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # Call constructor of the base class.
+    my $Self = $Type->SUPER::new;
 
-    # set field behaviors
-    $Self->{Behaviors} = {
-        'IsACLReducible'               => 0,
-        'IsNotificationEventCondition' => 1,
-        'IsSortable'                   => 1,
-        'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 1,
-        'IsCustomerInterfaceCapable'   => 1,
-        'IsLikeOperatorCapable'        => 1,
-    };
+    # Settings that are specific to the Text dynamic field
 
-    # get the Dynamic Field Backend custom extensions
-    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Text');
-
-    EXTENSION:
-    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
-
-        # skip invalid extensions
-        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
-
-        # create a extension config shortcut
-        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
-
-        # check if extension has a new module
-        if ( $Extension->{Module} ) {
-
-            # check if module can be loaded
-            if (
-                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
-                )
-            {
-                die "Can't load dynamic fields backend module"
-                    . " $Extension->{Module}! $@";
-            }
-        }
-
-        # check if extension contains more behaviors
-        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
-
-            %{ $Self->{Behaviors} } = (
-                %{ $Self->{Behaviors} },
-                %{ $Extension->{Behaviors} }
-            );
-        }
-    }
+    # set Text specific field behaviors unless an extension already set it
+    $Self->{Behaviors}->{IsSortable} //= 1;
 
     return $Self;
 }

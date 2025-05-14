@@ -84,7 +84,7 @@
 
                         <label for="GroupPermissionRO">[% Translate("Group members need to have permission") | html %]:</label>
                         <div class="Field">
-                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked"/>
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked>
                             <label for="GroupPermissionRO">[% Translate("ro") | html %]</label>
                             <br/>
                             <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>

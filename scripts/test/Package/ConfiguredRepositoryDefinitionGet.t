@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -54,10 +54,10 @@ my @Tests = (
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'https://ftp.otobo.org/pub/otobo/packages-thirdparty/'    => 'ThirdParty Addons',
-            'https://ftp.otobo.org/pub/otobo/packages/'               => 'OTOBO Addons',
-            'https://otopar.perl-services.de/std/'                    => 'OTOpar Addons',
-            'https://ftp.otobo.org/pub/otobo/packages-itsm/bundle10/' => 'ITSM Bundle'
+            'https://ftp.otobo.org/pub/otobo/packages-thirdparty/' => 'ThirdParty Addons',
+            'https://ftp.otobo.org/pub/otobo/packages/'            => 'OTOBO Addons',
+            'https://otopar.perl-services.de/std/'                 => 'OTOpar Addons',
+            'https://ftp.otobo.org/pub/otobo/packages-itsm/'       => 'OTOBO::ITSM Addons'
         },
     },
 );

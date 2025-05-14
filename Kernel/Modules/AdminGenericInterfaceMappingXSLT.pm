@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -274,6 +274,10 @@ sub _ShowEdit {
                 RichTextType   => 'CodeMirror',
             },
         );
+        $LayoutObject->AddJSData(
+            Key   => 'EditorLanguageMode',
+            Value => 'htmlmixed',
+        );
     }
 
     # Render pre regex filters.
@@ -419,8 +423,6 @@ sub _GetParams {
         $GetParam->{Error}->{Template} = 'ServerError';
     }
 
-    # Get RegEx params.
-    my %RegExFilterConfig;
     TYPE:
     for my $Type (qw(Pre Post)) {
         my $ValueCounter = $ParamObject->GetParam( Param => $Type . 'ValueCounter' ) // 0;

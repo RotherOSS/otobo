@@ -18,10 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use Storable qw(dclone);
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+
+our $Self;
 
 my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
 my $UserObject                = $Kernel::OM->Get('Kernel::System::User');
@@ -56,12 +62,15 @@ my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
 my %UserData = $UserObject->GetUserData(
     UserID => $UserID,
 );
+ok( scalar %UserData, 'first user created' );
+
 my ( $NewUserLogin, $NewUserID ) = $Helper->TestUserCreate(
     Groups => ['admin'],
 );
 my %NewUserData = $UserObject->GetUserData(
     UserID => $NewUserID,
 );
+ok( scalar %NewUserData, 'second user created' );
 
 # set customer user options
 my $CustomerUserLogin = $Helper->TestCustomerUserCreate()
@@ -992,8 +1001,6 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-
-    my $Config     = $Test->{Config};
     my $ACLSuccess = $TicketObject->TicketAcl( %{ $Test->{Config} } );
 
     if ( !$Test->{SuccessMatch} ) {
@@ -2922,7 +2929,6 @@ my $ExecuteTests = sub {
             "$Test->{Name} ACLs Set and Get from sysconfig",
         );
 
-        my $Config     = $Test->{Config};
         my $ACLSuccess = $TicketObject->TicketAcl( %{ $Test->{Config} } );
 
         # get the data from ACL
@@ -4177,7 +4183,7 @@ $NumberOfTests = $#TestsNot;
 for my $TestCase ( sort keys %TestModifiers ) {
     for my $Index ( 0 .. $NumberOfTests ) {
 
-        my $Test = Storable::dclone( $TestsNot[$Index] );
+        my $Test = dclone( $TestsNot[$Index] );
 
         $Test->{Name} = $TestModifiers{$TestCase}->[$Index]->{Name};
         $Test->{ACLs}->{'Role-Test'}->{Properties}->{User}->{Role} = $TestModifiers{$TestCase}->[$Index]->{Role};
@@ -4194,6 +4200,4 @@ $Self->True(
 );
 $ExecuteTests->( Tests => \@Tests );
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

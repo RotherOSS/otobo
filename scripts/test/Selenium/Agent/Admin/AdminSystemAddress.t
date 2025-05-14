@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -94,7 +94,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminSystemAddress screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress;IncludeInvalid=1");
 
         # Check overview AdminSystemAddress screen.
         $Selenium->find_element( "table",             'css' );

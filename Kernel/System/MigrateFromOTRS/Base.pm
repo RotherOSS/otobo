@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::MigrateFromOTRS::Base;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
 use strict;
@@ -25,11 +24,11 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use List::Util qw(first);
-use Data::Dumper;
+use List::Util     qw(first);
+use Data::Dumper   qw(Dumper);                       ## no critic qw(Modules::ProhibitEvilModules)
 use File::Basename qw(basename dirname fileparse);
-use File::Copy qw(move);
-use File::Path qw(make_path);
+use File::Copy     qw(move);
+use File::Path     qw(make_path);
 
 # CPAN modules
 
@@ -175,8 +174,8 @@ sub CleanLicenseHeader {
             $NewContent .= $Parse->{New}[1];
         }
     }
-    while (<$FileHandle>) {
-        $NewContent .= $_;
+    while ( my $Line = <$FileHandle> ) {
+        $NewContent .= $Line;
     }
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -271,7 +270,7 @@ sub MigrateXMLConfig {
     );
     my $Content = $ContentRef->$*;
 
-    # sanity checks, simply return when there is noting to do
+    # sanity checks, simply return when there is nothing to do
     return 1 unless $Content =~ m{<otrs_config};
     return 1 unless $Content =~ m{<otrs_config.*?init="(.+?)"};
     return 1 unless $Content =~ m{<otrs_config.*?version="2.0"};
@@ -720,9 +719,9 @@ get a file or directory from remote system, save to tmp directory, return Path.
         FQDN        => "192.68.0.1",
         Path        => "opt/otrs/",
         SSHUser     => "root",
-        Password       => "Pw",
-        ExcludeDirs  => ["var/article"] # Optional
-        Filename    => "RELEASE",       # Optional, if only one file to copy
+        Password    => "Pw",
+        ExcludeDirs => ["var/article"]    # Optional
+        Filename    => "RELEASE",         # Optional, if only one file to copy
         UserID      => 1,
     );
 
@@ -1273,6 +1272,7 @@ sub ResetConfigOption {
         'CustomerLogo'                                                => '1',
         'PDF::LogoFile'                                               => '1',
         'Package::RepositoryList'                                     => '1',
+        'Package::RepositoryRoot'                                     => '1',
     };
 }
 
@@ -1299,6 +1299,38 @@ sub DBSkipTables {
         sessions
         system_data
         web_upload_cache
+        access_token
+        access_token_key
+        acl_deployment
+        article_customer_flag
+        article_data_mime_send_error
+        article_data_otrs_sms
+        chat
+        chat_channel
+        chat_flag
+        chat_invite
+        chat_message
+        chat_participant
+        chat_video
+        custom_page
+        custom_page_content
+        dtt
+        dtt_attachment
+        dtt_dynamic_field
+        dtt_group
+        dtt_service
+        external_frontend_config
+        notification_view
+        queue_sms_template
+        sc_category
+        sc_item
+        sc_item_content
+        sc_item_content_category
+        search_state
+        sms_template
+        ticket_customer_flag
+        workflow_task_template
+        workflow_template
     );
 }
 
@@ -1307,9 +1339,11 @@ sub DBRenameTables {
 
     # the tables must be lower case
     return {
-        article_data_otrs_chat => 'article_data_otobo_chat',
-        groups                 => 'groups_table',              # OTRS 6.0, Znuny 6.0
-        permission_groups      => 'groups_table',              # Znuny 6.1
+        article_data_otrs_chat  => 'article_data_otobo_chat',
+        groups                  => 'groups_table',              # OTRS 6.0, Znuny 6.0
+        permission_groups       => 'groups_table',              # Znuny 6.1
+        pm_sequence_flow        => 'pm_transition',             # OTRS 7
+        pm_sequence_flow_action => 'pm_transition_action',      # OTRS 7
     };
 }
 

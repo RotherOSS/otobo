@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -24,9 +24,8 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 
-use Kernel::System::UnitTest::MockTime qw(:all);
-
 # OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
@@ -429,12 +428,11 @@ my @Test = (
             Status    => 'Failed',
         },
     },
-
 );
 
 for my $Test (@Test) {
 
-    subtest 'CommunicationLog' => sub {
+    subtest "CommunicationLog $Test->{Name}" => sub {
 
         FixedTimeSet();
 
@@ -453,7 +451,7 @@ for my $Test (@Test) {
         my $Existing                 = IsHashRefWithData($CommunicationData);
         $Self->False(
             $Existing,
-            "$Test->{Name} - Object create - Communication Get (without CommunicationID).",
+            "Object create - Communication Get (without CommunicationID).",
         );
 
         $CommunicationData = $CommunicationDBObject->CommunicationGet(
@@ -462,28 +460,28 @@ for my $Test (@Test) {
         $Existing = IsHashRefWithData($CommunicationData);
         $Self->True(
             $Existing,
-            "$Test->{Name} - Object create - Communication Get (given CommunicationID).",
+            "Object create - Communication Get (given CommunicationID).",
         );
 
         $Self->Is(
             $CommunicationData->{CommunicationID},
             $GeneratedCommunicationID,
-            "$Test->{Name} - Communication start - Generated and stored CommunicationIDs equal.",
+            "Communication start - Generated and stored CommunicationIDs equal.",
         );
         $Self->Is(
             $CommunicationData->{Transport},
             $Test->{Create}->{Transport},
-            "$Test->{Name} - Communication start - Created and stored transports equal.",
+            "Communication start - Created and stored transports equal.",
         );
         $Self->Is(
             $CommunicationData->{Direction},
             $Test->{Create}->{Direction},
-            "$Test->{Name} - Communication start - Created and stored directions equal.",
+            "Communication start - Created and stored directions equal.",
         );
         $Self->Is(
             $CommunicationData->{Status},
             $Test->{Start}->{Status},
-            "$Test->{Name} - Communication start - Created and stored status equal.",
+            "Communication start - Created and stored status equal.",
         );
 
         # Communication list
@@ -497,46 +495,46 @@ for my $Test (@Test) {
 
         $Self->True(
             $Existing,
-            "$Test->{Name} - Communication list - Communication list result.",
+            "Communication list - Communication list result.",
         );
 
         $Self->Is(
             $CommunicationList->[0]->{CommunicationID},
             $GeneratedCommunicationID,
-            "$Test->{Name} - Communication list - CommunicationID.",
+            "Communication list - CommunicationID.",
         );
 
         $Self->Is(
             $CommunicationList->[0]->{Transport},
             $Test->{Create}->{Transport},
-            "$Test->{Name} - Communication list - Transport.",
+            "Communication list - Transport.",
         );
 
         $Self->Is(
             $CommunicationList->[0]->{Direction},
             $Test->{Create}->{Direction},
-            "$Test->{Name} - Communication list - Direction.",
+            "Communication list - Direction.",
         );
 
         $Self->Is(
             $CommunicationList->[0]->{Status},
             $Test->{Start}->{Status},
-            "$Test->{Name} - Communication list - Status.",
+            "Communication list - Status.",
         );
 
         $Self->True(
             $CommunicationList->[0]->{StartTime},
-            "$Test->{Name} - Communication list - StartTime.",
+            "Communication list - StartTime.",
         );
 
         $Self->False(
             $CommunicationList->[0]->{EndTime},
-            "$Test->{Name} - Communication list - EndTime.",
+            "Communication list - EndTime.",
         );
 
         $Self->False(
             $CommunicationList->[0]->{Duration},
-            "$Test->{Name} - Communication list - Duration.",
+            "Communication list - Duration.",
         );
 
         FixedTimeAddSeconds(1);
@@ -554,53 +552,51 @@ for my $Test (@Test) {
             Direction => $Test->{Create}->{Direction},
             Status    => $Test->{Stop}->{Status},
         );
-        use Data::Dumper;
-        warn Dumper( $Test, $CommunicationListAfterStop );
 
         $Existing = IsArrayRefWithData($CommunicationListAfterStop);
 
         $Self->True(
             $Existing,
-            "$Test->{Name} - Communication stop - Communication list result.",
+            "Communication stop - Communication list result.",
         );
 
         $Self->Is(
             $CommunicationListAfterStop->[0]->{CommunicationID},
             $GeneratedCommunicationID,
-            "$Test->{Name} - Communication stop - CommunicationID.",
+            "Communication stop - CommunicationID.",
         );
 
         $Self->Is(
             $CommunicationListAfterStop->[0]->{Transport},
             $Test->{ExpectedResult}->{Transport},
-            "$Test->{Name} - Communication stop - Transport.",
+            "Communication stop - Transport.",
         );
 
         $Self->Is(
             $CommunicationListAfterStop->[0]->{Direction},
             $Test->{ExpectedResult}->{Direction},
-            "$Test->{Name} - Communication stop - Direction.",
+            "Communication stop - Direction.",
         );
 
         $Self->Is(
             $CommunicationListAfterStop->[0]->{Status},
             $Test->{ExpectedResult}->{Status},
-            "$Test->{Name} - Communication stop - Status.",
+            "Communication stop - Status.",
         );
 
         $Self->True(
             $CommunicationListAfterStop->[0]->{StartTime},
-            "$Test->{Name} - Communication stop - StartTime.",
+            "Communication stop - StartTime.",
         );
 
         $Self->True(
             $CommunicationListAfterStop->[0]->{EndTime},
-            "$Test->{Name} - Communication stop - EndTime.",
+            "Communication stop - EndTime.",
         );
 
         $Self->True(
             $CommunicationListAfterStop->[0]->{Duration},    # 1 second
-            "$Test->{Name} - Communication stop - Duration.",
+            "Communication stop - Duration.",
         );
 
         # Communication delete
@@ -611,7 +607,7 @@ for my $Test (@Test) {
 
         $Self->True(
             $Result,
-            "$Test->{Name} - Communication delete. - Given CommunicationID.",
+            "Communication delete. - Given CommunicationID.",
         );
 
         $CommunicationData = $CommunicationDBObject->CommunicationGet(
@@ -622,9 +618,9 @@ for my $Test (@Test) {
 
         $Self->False(
             $Existing,
-            "$Test->{Name} - Communication delete - Communication existing after delete (given CommunicationID).",
+            "Communication delete - Communication existing after delete (given CommunicationID).",
         );
-    }
+    };
 }
 
 subtest 'LogDelete'    => \&TestObjectLogDelete;

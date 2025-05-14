@@ -19,10 +19,13 @@ package Kernel::Modules::AdminProcessManagementPath;
 use strict;
 use warnings;
 
-use List::Util qw(first);
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 

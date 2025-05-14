@@ -24,7 +24,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @subsection  Widget Tablelike list
  */
 ul.Tablelike {
-    border: 1px solid #CCC;
+    border: 1px solid var(--colBGDark);
 }
 
 ul.Tablelike:first-child {
@@ -55,23 +55,23 @@ ul.Tablelike li.OneRow .AsBlock {
 }
 
 ul.Tablelike li:nth-child(even) {
-    background-color: #F5F5F5;
+    background-color: var(--colBGLight);
 }
 
 ul.Tablelike li:hover {
-    background: #fffccc;
+    background: var(--colHoverLight);
 }
 
 ul.Tablelike li:hover a {
-    color: #00023c;
+    color: var(--colMainDark);
 }
 
 ul.Tablelike li.Header {
-    color: #4B4B4B;
+    color: var(--colTextMedium);
     font-size: 11px;
     line-height: 20px;
     text-transform: uppercase;
-    background: #eeeeee;
+    background: var(--colBGLightMedium);
     border-top: 1px solid #FFF;
 }
 
@@ -80,7 +80,7 @@ ul.Tablelike + ul.Tablelike.AllocationList {
 }
 
 ul.Tablelike li.Header + li {
-    border-top: 1px solid #EEE;
+    border-top: 1px solid var(--colBGLightMedium);
 }
 
 /**
@@ -93,11 +93,11 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple {
     margin-bottom: 15px;
-    background: white;
-    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    background: var(--colBGElement);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
     margin-right: 2px;
     margin-left: 2px;
-    border-radius: 10px;
 }
 
 .WidgetSimple.WidgetLoading i {
@@ -111,13 +111,13 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetSimple .WidgetSimple {
-    background: #F2EFEF;
-    border: 1px solid #ddd;
+    background: var(--colBGLight);
+    border: 1px solid var(--colBGMediumDark);
     margin: 15px 10px;
 }
 
 .WidgetSimple .WidgetSimple .WidgetSimple {
-    background: #f5f5f5;
+    background: var(--colBGLight);
 }
 
 .WidgetSimple .WidgetSimple .WidgetSimple h2 {
@@ -143,7 +143,7 @@ ul.Tablelike li.Header + li {
     text-overflow: ellipsis;
     font-size: 13px;
     text-shadow: 1px 1px #fff;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .WidgetSimple > .Content {
@@ -187,7 +187,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetSimple .Buttons {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--colBGDark);
     margin: 15px -8px -10px -8px;
     padding: 10px 10px 9px 10px;
     text-align: center;
@@ -204,6 +204,10 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple .Field.LayoutGrid .AllocationList.OrderNumbers {
     list-style: decimal inside;
+}
+
+#FormDraftTable .DraftName {
+    border-right: none;
 }
 
 #FormDraftTable td:nth-child(2) {
@@ -227,7 +231,7 @@ ul.Tablelike li.Header + li {
     font-size: 11px;
     position: relative;
     padding-left: 10px;
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 .RTL .WidgetSimple .Legend li,
@@ -277,12 +281,12 @@ ul.Tablelike li.Header + li {
 
 .WidgetSimple .ShortCuts li span {
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     text-transform: uppercase;
     font-size: 9px;
     font-weight: bold;
     margin-right: 5px;
-    color: #555;
+    color: var(--colTextMedium);
     padding: 3px;
     border-radius: 3px;
 }
@@ -297,12 +301,13 @@ ul.Tablelike li.Header + li {
  */
 
 .WidgetNotice {
-    background-color: #F39C19
+    background-color: var(--colNotifyWarn);
 }
 
 .WidgetNotice .Content {
-    border: 1px solid #F6AF2F;
-    color: #442A0B;
+    border: 1px solid var(--colNotifyWarn);
+    border-radius: 10px;
+    color: var(--colTextMedium);
     font-weight: bold;
     padding-bottom: 8px;
     line-height: 140%;
@@ -334,8 +339,8 @@ ul.Tablelike li.Header + li {
     text-align: center;
     padding: 20px;
     font-size: 14px;
-    color: #777;
-    border: 1px dotted #bbb;
+    color: var(--colTextLight);
+    border: 1px dotted var(--colBGDark);
     margin-bottom: 15px;
 }
 
@@ -367,12 +372,12 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetBox > .Header h2 + h3 {
-    background-color: #EEE;
+    background-color: var(--colBGLightMedium);
     border-top: 1px solid #FFF;
-    border-bottom: 1px solid #BBB;
+    border-bottom: 1px solid var(--colBGDark);
     font-size: 16px;
     padding: 5px 5px 5px 10px;
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 .RTL .WidgetBox > .Header h2 + h3 {
@@ -382,9 +387,9 @@ ul.Tablelike li.Header + li {
 .WidgetBox > .Content {
     background: #ffffff;
     min-height: 200px;
-    border-left: 1px solid #C6C5C4;
-    border-right: 1px solid #C6C5C4;
-    border-bottom: 1px solid #C6C5C4;
+    border-left: 1px solid var(--colBGDark);
+    border-right: 1px solid var(--colBGDark);
+    border-bottom: 1px solid var(--colBGDark);
 }
 
 .Collapsed > .Content {
@@ -412,7 +417,7 @@ ul.Tablelike li.Header + li {
     left: 0;
     padding: 0 2px 0 0;
     border-left: none;
-    border-right: 1px solid #DDD;
+    border-right: 1px solid var(--colBGMediumDark);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 2px;
 }
@@ -450,7 +455,7 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetAction.WithText a {
-    color: #999;
+    color: var(--colTextLight);
     font-size: 11px;
     white-space: nowrap;
     line-height: 16px;
@@ -477,7 +482,7 @@ ul.Tablelike li.Header + li {
     position: absolute;
     left: 7px;
     top: 2px;
-    color: #00023c !important;
+    color: var(--colTextDark) !important;
 }
 
 .RTL .WidgetAction.Toggle i {
@@ -521,7 +526,7 @@ ul.Tablelike li.Header + li {
 
 /* Settings */
 .WidgetAction i {
-    color: #bbb;
+    color: var(--colBGDark);
     display: block !important;
     margin: 2px 0px 0px 2px;
     vertical-align: middle;
@@ -529,11 +534,11 @@ ul.Tablelike li.Header + li {
 
 .WidgetAction:hover i,
 .WidgetAction a:focus i {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .WidgetTooltip {
-    background-color: #fff;
+    background-color: var(--colElement);
     position: absolute;
     width: 125px;
     top: 20px;
@@ -551,14 +556,14 @@ ul.WidgetTooltip li {
     padding: 7px 13px 2px 23px;
     text-align: left;
     position: relative;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--colBGDark);
 }
 
 ul.WidgetTooltip li i {
     position: absolute;
     left: 6px;
     top: 7px;
-    color: #aaa !important;
+    color: var(--colTextLight) !important;
 }
 
 ul.WidgetTooltip li:last-child {
@@ -566,7 +571,7 @@ ul.WidgetTooltip li:last-child {
 }
 
 ul.WidgetTooltip li a {
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 ul.WidgetTooltip li a:hover {
@@ -574,13 +579,27 @@ ul.WidgetTooltip li a:hover {
 }
 
 ul.WidgetTooltip li a:hover i {
-    color: #333 !important;
+    color: var(--colTextMedium) !important;
 }
 
 .WidgetTooltip a {
     padding: 0px;
     line-height: 150%;
     font-size: 11px;
+}
+
+.oooCryptOK,
+.oooCryptNOK {
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.oooCryptOK {
+    color: var(--colNotifyOK);
+}
+
+.oooCryptNOK {
+    color: var(--colNotifyErr);
 }
 
 /**
@@ -592,7 +611,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .ActionList li.Separated {
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 1px solid var(--colBGDark);
     margin-bottom: 15px;
     padding-bottom: 10px;
 }
@@ -605,7 +624,7 @@ ul.WidgetTooltip li a:hover i {
     margin: 0;
     padding: 2px 2px 5px;
     font-size: 11px;
-    color: #888;
+    color: var(--colTextLight);
 }
 
 .WidgetSimple .ActionList select {
@@ -631,15 +650,15 @@ ul.WidgetTooltip li a:hover i {
     vertical-align: middle;
     color: white;
     font-size: 11px;
-    border: 1px solid #000099;
-    background-color: #000099;
+    border: 1px solid var(--colMainLight);
+    background-color: var(--colMainLight);
     border-bottom: none;
     cursor: pointer;
 /*    display: block; */
     position: relative;
     border-radius: 20px
 /*    padding: 0px;
-    background-color: #0000fc;
+    background-color: var(--colMainLight);
     text-align: center;
     color: #ffffff;
     cursor: pointer;
@@ -652,7 +671,7 @@ ul.WidgetTooltip li a:hover i {
     border-radius: 20px;
     border-width: 10px 15px 10px 15px;
     border-style: solid;
-    border-color: #0000fc;
+    border-color: var(--colMainLight);
     border-radius: 20px;
     width: 180px;
     height: 35px;
@@ -676,7 +695,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
-    background-color: #0000fc;
+    background-color: var(--colMainLight);
 }
 
 .CallForAction.Hidden {
@@ -703,7 +722,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction.Fullsize + .FieldExplanation {
-    border: 1px solid #ddd;
+    border: 1px solid var(--colBGMediumDark);
     padding: 5px;
     margin-top: 5px;
 }
@@ -720,8 +739,8 @@ ul.WidgetTooltip li a:hover i {
 
 .CallForAction:hover,
 .CallForAction:focus {
-    color: #00023c;
-    border-color: #aaa;
+    color: var(--colTextDark);
+    border-color: var(--colTextLight);
 }
 
 .CallForAction span,
@@ -771,7 +790,7 @@ ul.WidgetTooltip li a:hover i {
     font-size: 13px;
     width: 15px;
     text-align: center;
-    color: #fef235 !important;
+    color: var(--colHighlight) !important;
 }
 
 .RTL .CallForAction span i {
@@ -802,23 +821,28 @@ ul.WidgetTooltip li a:hover i {
     float: right;
 }
 
+#AsteriskExplanationHeader {
+    padding-bottom: 25px;
+    padding-left: 5px;
+}
+
 .CallForAction:active,
 .CallForAction:hover,
 .CallForAction:focus {
-    background-color: #0000fc;
-    border-color: #0000fc;
-    color: white;
+    background-color: var(--colMainHover);
+    border-color: var(--colMainHover);
+    color: #fff;
 }
 
 .CallForAction.Disabled {
-    background: #eee !important;
-    border: 1px solid #ccc !important;
-    border-bottom: 1px solid #bbb !important;
-    color: #c4cdfa !important;
+    background: var(--colBGLightMedium) !important;
+    border: 1px solid var(--colBGDark) !important;
+    border-bottom: 1px solid var(--colBGDark) !important;
+    color: var(--colNotifyOK) !important;
 }
 
 .CallForAction.Disabled, .CallForAction.Disabled span {
-    color: #999;
+    color: var(--colTextLight);
     cursor: no-drop;
 }
 
@@ -834,27 +858,27 @@ input.FilterBox {
 }
 
 .SearchBox input[type='text'] {
-    height: 15px;
     margin: 0px;
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    border-color: #999;
+    border-color: var(--colTextLight);
     border-right: none;
     vertical-align: bottom;
-    width: 213px;
+    width: calc(100% - 25px);
+    box-sizing: border-box;
 }
 
 .RTL .SearchBox input[type='text']{
     border-left: none;
-    border-right: 1px solid #999;
+    border-right: 1px solid var(--colTextLight);
 }
 
 .SearchBox input:focus {
-    border-color: #666;
+    border-color: var(--colTextMedium);
     border-right: none;
 }
 .RTL .SearchBox input:focus {
-    border-color: #666;
+    border-color: var(--colTextMedium);
     border-left: none;
 }
 
@@ -863,10 +887,10 @@ input.FilterBox {
     width: 25px;
     margin: 0 0 0 -4px;
     padding: 3px 3px 4px;
-    color: #333;
+    color: var(--colTextMedium);
     font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: #f2f2f2;
-    border: 1px solid #888;
+    background: var(--colBGLight);
+    border: 1px solid var(--colTextLight);
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
 }
@@ -876,17 +900,17 @@ input.FilterBox {
     margin: 0 -4px 0 0;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
-    border-right: 1px solid #888;
+    border-right: 1px solid var(--colTextLight);
 }
 
 .SearchBox button:hover {
-    border-color: #696969;
+    border-color: var(--colTextLight);
     cursor: pointer;
 }
 
 .SearchBox button:active {
     padding: 4px 3px 3px;
-    background: #e4e4e4;
+    background: var(--colBGMedium);
     outline: none;
 }
 
@@ -898,8 +922,8 @@ input.FilterBox {
 }
 
 .DropPlaceholder {
-    border: 1px dashed #DDD;
-    background: #EEE url(../img/dnd_placeholder_bg.png);
+    border: 1px dashed var(--colBGMediumDark);
+    background: var(--colBGLightMedium) url(../img/dnd_placeholder_bg.png);
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -950,8 +974,8 @@ input.FilterBox {
     list-style: none;
     border-style: solid;
     border-width: 1px 0px;
-    border-color: #CCC;
-    background-color: #EEE;
+    border-color: var(--colBGDark);
+    background-color: var(--colBGLightMedium);
 }
 
 #ProgressBar li > span {
@@ -963,14 +987,14 @@ input.FilterBox {
 
 #ProgressBar li a {
     padding: 12px 7px 13px 12px;
-    color: #484848;
+    color: var(--colTextMedium);
     text-decoration: none;
     font: 13px/18px Helvetica Neue, sans-serif;
     display: block;
     height: 42px;
     border-style: solid;
     border-width: 1px 0px;
-    border-color: #F4F4F4;
+    border-color: var(--colBGLight);
     background: url(../img/ProgressBarIsolator.png) no-repeat left 6px;
     cursor: default;
     text-align: left;
@@ -1078,13 +1102,13 @@ input.FilterBox {
  */
 
 .WidgetSimple .WidgetMessage {
-    background: #eee;
+    background: var(--colBGLightMedium);
     margin: 10px -8px !important;
     padding: 5px 20px;
     font-size: 11px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    color: #555;
+    border-top: 1px solid var(--colBGMediumDark);
+    border-bottom: 1px solid var(--colBGMediumDark);
+    color: var(--colTextMedium);
     line-height: 150%;
 }
 
@@ -1110,7 +1134,7 @@ input.FilterBox {
 }
 
 .WidgetSimple .WidgetMessage.Error {
-    background: #b8384e;
+    background: var(--colTextErr);
     color: rgba(255, 255, 255, 0.8);
     border: 0px;
 }
@@ -1137,8 +1161,8 @@ input.FilterBox {
 }
 
 .WidgetSimple .WidgetMessage button {
-    background: #eee;
-    border: 1px solid #aaa;
+    background: var(--colBGLightMedium);
+    border: 1px solid var(--colBGDark);
     display: inline-block;
     margin-right: 5px;
     transition: all ease 0.3s;
@@ -1146,7 +1170,7 @@ input.FilterBox {
 
 .WidgetSimple .WidgetMessage button:hover {
     cursor: pointer;
-    background: #ddd;
+    background: var(--colBGMediumDark);
 }
 
 /**
@@ -1176,7 +1200,7 @@ input.FilterBox {
     top: 50%;
     margin-top: -8px;
     left: 50%;
-    color: #777;
+    color: var(--colTextLight);
     margin-left: -8px;
 }
 
@@ -1214,7 +1238,7 @@ input.FilterBox {
 }
 
 .UserChatIcons i {
-    color: #999;
+    color: var(--colTextLight);
     margin-right: 3px;
 }
 
@@ -1237,7 +1261,7 @@ input.FilterBox {
 }
 
 .UserStatusIcon.Offline i {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .UserStatusIcon.Unavailable i {
@@ -1270,11 +1294,11 @@ button.HighlightError {
     display: block;
     float: left;
     padding: 7px 9px;
-    color: #333;
+    color: var(--colTextMedium);
 }
 
 .WidgetSimple.Tabs > .Header a.Disabled {
-    color: #999;
+    color: var(--colTextLight);
     cursor: not-allowed;
     text-shadow: 1px 1px 1px #fff;
 }
@@ -1282,7 +1306,7 @@ button.HighlightError {
 .WidgetSimple.Tabs > .Header a:not(.Disabled).Active,
 .WidgetSimple.Tabs > .Header a:not(.Disabled):hover,
 .WidgetSimple.Tabs > .Header a:not(.Disabled):active  {
-    background: #777;
+    background: var(--colTextLight);
     color: #fff;
 }
 

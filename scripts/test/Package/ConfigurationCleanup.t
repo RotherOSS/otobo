@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -34,21 +38,18 @@ my $Cleanup = $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => 'DELETE from package_repository',
 );
 
-$Self->True(
-    $Cleanup,
-    "Removed possibly pre-existing packages from the database (transaction)."
-);
+ok( $Cleanup, "Removed possibly pre-existing packages from the database (transaction)." );
 
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-my $CheckSettingValue = sub {
+sub CheckSettingValue {
     my %Param = @_;
 
     my %Result = $SysConfigDBObject->DefaultSettingLookup(
-        Name => "Test1",
+        Name => 'Test1',
     );
 
     my %Setting;
@@ -58,17 +59,16 @@ my $CheckSettingValue = sub {
             UserID => 1,
         );
     }
-    $Self->Is(
-        $Setting{EffectiveValue} // '',
-        $Param{Value},
-        $Param{Message},
-    );
-};
 
-my $AddSetting = sub {
+    is( $Setting{EffectiveValue} // '', $Param{Value}, $Param{Message} );
+
+    return;
+}
+
+sub AddSetting {
 
     # Add a setting without an XML counterpart
-    my $ValidSettingXML = <<'EOF',
+    my $ValidSettingXML = <<'EOF';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test1" Required="1" Valid="1">
@@ -81,7 +81,7 @@ my $AddSetting = sub {
 </otobo_config>
 EOF
 
-        my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
     my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
         XMLInput => $ValidSettingXML,
@@ -110,9 +110,9 @@ EOF
         UserID                   => 1,
     );
 
-    $CheckSettingValue->(
+    CheckSettingValue(
         Value   => 'Test setting 1',
-        Message => 'DefaultSettingAdd() Value',
+        Message => 'DefaultSettingAdd()',
     );
 
     # Modify Setting value
@@ -124,21 +124,24 @@ EOF
         UserID    => 1,
     );
 
+    my $NewValue = 'Updated setting 1';
     $SysConfigObject->SettingUpdate(
         Name                   => 'Test1',
         IsValid                => 1,
-        EffectiveValue         => 'Updated setting 1',
+        EffectiveValue         => $NewValue,
         UserModificationActive => 0,
         ExclusiveLockGUID      => $ExclusiveLockGUID,
         UserID                 => 1,
         NoValidation           => 1,
     );
 
-    $CheckSettingValue->(
-        Value   => 'Updated setting 1',
+    CheckSettingValue(
+        Value   => $NewValue,
         Message => 'SettingUpdate() Value',
     );
-};
+
+    return;
+}
 
 my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 ($Version) = $Version =~ m{^(\d+\.\d+)};
@@ -201,15 +204,15 @@ my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 # Cleanup the system.
 for my $PackageName (qw(TestPackage1 TestPackage2)) {
     if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
-        my $PackageRemove = $PackageObject->PackageUninstall(
+        my $PackageRemoveSuccess = $PackageObject->PackageUninstall(
             Name    => $PackageName,
             Version => '0.0.1',
         );
 
-        $Self->True(
-            $PackageRemove,
-            "PackageUninstall() $PackageName",
-        );
+        ok( $PackageRemoveSuccess, "PackageUninstall() $PackageName" );
+    }
+    else {
+        pass("Package $PackageName is initially not installed");
     }
 }
 
@@ -324,68 +327,54 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    $AddSetting->();
+    subtest $Test->{Name} => sub {
 
-    if ( $Test->{RemoveFile} ) {
-        for my $Filename ( @{ $Test->{RemoveFile}->{Filename} } ) {
-            unlink $Filename;
-            my $Exists = -e $Filename;
-            $Self->False(
-                $Exists,
-                "Removed File $Filename",
+        AddSetting();
+
+        if ( $Test->{RemoveFile} ) {
+            for my $Filename ( @{ $Test->{RemoveFile}->{Filename} } ) {
+                unlink $Filename;
+                ok( !-e $Filename, "Removed File $Filename" );
+            }
+        }
+
+        if ( $Test->{InstallPackage} ) {
+            my $PackageInstall = $PackageObject->PackageInstall( String => $Test->{InstallPackage}->{String} );
+            ok( $PackageInstall, "PackageInstall() $Test->{InstallPackage}->{Name}" );
+
+            CheckSettingValue(
+                Value   => $Test->{InstallPackage}->{SettingValue},
+                Message => "After install",
+            );
+        }
+        if ( $Test->{ReInstallPackage} ) {
+            my $PackageReInstall = $PackageObject->PackageReinstall( String => $Test->{ReInstallPackage}->{String} );
+            ok( $PackageReInstall, "PackageReInstall() $Test->{ReInstallPackage}->{Name}" );
+
+            CheckSettingValue(
+                Value   => $Test->{ReInstallPackage}->{SettingValue},
+                Message => "After re-install",
+            );
+        }
+        if ( $Test->{UpgradePackage} ) {
+            my $PackageUpgrade = $PackageObject->PackageUpgrade( String => $Test->{UpgradePackage}->{String} );
+            ok( $PackageUpgrade, "PackageUpgrade() $Test->{UpgradePackage}->{Name}" );
+
+            CheckSettingValue(
+                Value   => $Test->{UpgradePackage}->{SettingValue},
+                Message => "After upgrade",
+            );
+        }
+        if ( $Test->{UninstallPackage} ) {
+            my $PackageUninstall = $PackageObject->PackageUninstall( String => $Test->{UninstallPackage}->{String} );
+            ok( $PackageUninstall, "PackageUninstall() $Test->{UninstallPackage}->{Name}" );
+
+            CheckSettingValue(
+                Value   => $Test->{UninstallPackage}->{SettingValue},
+                Message => "After uninstall",
             );
         }
     }
-
-    if ( $Test->{InstallPackage} ) {
-        my $PackageInstall = $PackageObject->PackageInstall( String => $Test->{InstallPackage}->{String} );
-        $Self->True(
-            $PackageInstall,
-            "$Test->{Name} PackageInstall() $Test->{InstallPackage}->{Name}",
-        );
-
-        $CheckSettingValue->(
-            Value   => $Test->{InstallPackage}->{SettingValue},
-            Message => "$Test->{Name} After install",
-        );
-    }
-    if ( $Test->{ReInstallPackage} ) {
-        my $PackageReInstall = $PackageObject->PackageReinstall( String => $Test->{ReInstallPackage}->{String} );
-        $Self->True(
-            $PackageReInstall,
-            "$Test->{Name} PackageReInstall() $Test->{ReInstallPackage}->{Name}",
-        );
-
-        $CheckSettingValue->(
-            Value   => $Test->{ReInstallPackage}->{SettingValue},
-            Message => "$Test->{Name} After re-install",
-        );
-    }
-    if ( $Test->{UpgradePackage} ) {
-        my $PackageUpgrade = $PackageObject->PackageUpgrade( String => $Test->{UpgradePackage}->{String} );
-        $Self->True(
-            $PackageUpgrade,
-            "$Test->{Name} PackageUpgrade() $Test->{UpgradePackage}->{Name}",
-        );
-
-        $CheckSettingValue->(
-            Value   => $Test->{UpgradePackage}->{SettingValue},
-            Message => "$Test->{Name} After upgrade",
-        );
-    }
-    if ( $Test->{UninstallPackage} ) {
-        my $PackageUninstall = $PackageObject->PackageUninstall( String => $Test->{UninstallPackage}->{String} );
-        $Self->True(
-            $PackageUninstall,
-            "$Test->{Name} PackageUninstall() $Test->{UninstallPackage}->{Name}",
-        );
-
-        $CheckSettingValue->(
-            Value   => $Test->{UninstallPackage}->{SettingValue},
-            Message => "$Test->{Name} After uninstall",
-        );
-    }
-
 }
 continue {
     my %Result = $SysConfigDBObject->DefaultSettingLookup(
@@ -427,4 +416,4 @@ continue {
     }
 }
 
-$Self->DoneTesting();
+done_testing;

@@ -13,6 +13,12 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+@media only screen and (max-width: 500px) {
+    fieldset > .Row.MultiValue {
+        margin-right: calc( 25% - 36px );
+    }
+}
+
 @media only screen and (max-width: 767px) {
 
     #oooHeader {
@@ -113,13 +119,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: 48px;
         z-index: 600;
         box-shadow: 0 12px 16px 0 rgba(0, 27, 255, 0.24);
-        box-shadow: 0 12px 16px 0 val(--colShadowMain);
+        box-shadow: 0 12px 16px 0 var(--colShadowLight);
         border-radius: 24px;
     }
 
     #ReplyButton i {
         padding-left: 1px;
         font-size: 20px;
+    }
+
+    fieldset > .Row.MultiValue {
+        width: calc( 100% - 36px );
+    }
+
+    .DynamicFieldSet {
+        padding-left: 8px;
     }
 
 }
@@ -146,6 +160,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         transition: height 0.1s ease, padding-top 0.1s ease;
     }
 
+    #oooHeader.oooTicketInfoPermanent {
+        grid-template-columns: 5fr 32px 159px 162px 32px;
+    }
+
     #oooCategories {
         grid-column-start: 1;
         grid-column-end: 7;
@@ -163,6 +181,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-left: 4px;
     }
 
+}
+
+fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
+    color: var(--colMainLight)
 }
 
 #oooHeader {
@@ -189,10 +211,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooCustomerNotifications {
     background-color: #f7f7f9;
     background-color: var(--colBGLight);
-}
-
-#FollowUp {
-    display: none;
 }
 
 .oooAvatar {
@@ -224,12 +242,44 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: right;
 }
 
+.Activity {
+    display: none;
+}
+
+.EmptyMessage {
+    padding: 24px;
+}
+
+button.oooM.ActivityStartButton,
+button.oooM.ActivitySubmitButton {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+    min-width: 162px;
+    max-width: 240px;
+    padding: 1px 16px;
+}
+
 @media only screen and (min-width: 1024px) {
 
     #oooMainBox {
         display: grid;
         grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
+        grid-template-rows: auto auto;
+        grid-row-gap: 0px;
+    }
+
+    #oooArticleListExpanded.oooTicketInfoPermanent {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 5;
+    }
+
+    #ProcessActivities {
+        grid-area: 1 / 1 / 2 / 3;
     }
     
     #oooArticleList {
@@ -244,6 +294,24 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         overflow-y: auto;
         overflow-x: hidden;
         -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    #oooArticleList.oooTicketInfoPermanent {
+        max-height: calc(50vh - 93px);
+    }
+
+    #oooTicketInfo.oooTicketInfoPermanent {
+        display: block;
+        position: sticky;
+        margin-top: 24px;
+        width: unset;
+        max-width: unset;
+        min-width: unset;
+        box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+        top: calc(50vh + 29px);
+        max-height: calc(50vh - 93px);
+        overflow-y: auto;
+        box-sizing: border-box;
     }
     
     #oooArticleList > li {
@@ -291,7 +359,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #oooArticleList .oooAge {
-        display: inline-block;
+        display: block;
         text-align: right;
         float: right;
         line-height: 19px;
@@ -324,7 +392,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: auto;
     border-radius: 15px;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
-    box-shadow: 0 12px 16px 0 val(--colShadowDark);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
     background-color: #ffffff;
 }
 
@@ -437,22 +505,43 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-left: 4px;
 }
 
+/* Processes */
+
+#ProcessActivities {
+    padding: 0;
+    margin: 0;
+}
+
+#NextActivities {
+    padding-bottom: 24px;
+    text-align: right;
+}
+
+#NextActivities > form {
+    display: inline;
+}
+
+#NextActivities > button,
+#NextActivities > form > button {
+    margin-left: 16px;
+}
+
 /* Follow Up */
 
 @media only screen and (max-width: 767px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 8px;
         padding-right: 8px;
         overflow: hidden;
     }
 
-    #Messenger > .ActionRow {
+    .Messenger > .ActionRow {
         padding-left: 24px;
         padding-right: 24px;
     }
 
-    #CloseButton {
+    .CloseButton {
         float: left;
     }
 
@@ -460,24 +549,43 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (min-width: 768px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 56px;
         padding-right: 56px;
     }
 
 }
 
-#Messenger > fieldset > .Row:first-child {
+.Messenger > fieldset > .Row:first-child {
     margin-top: 32px;
 }
 
+.Row_DynamicField {
+    width: 100%;
+    row-gap: 16px;
+    column-gap: 12px;
+}
+
+.Row_DynamicField.MultiColumn {
+    width: calc( 100% + 40px );
+}
+
+.AddRemoveValueRow {
+    position: absolute;
+    left: unset;
+    right: -40px;
+    top: 20px;
+}
+
+.Row > .FieldCell > div.Field,
 .Row > div.Field,
 .Row > div.InputField_Container,
 .Row > select {
     width: 100%;
+    box-sizing: border-box;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     width: 100% !important;
 }
 
@@ -485,12 +593,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: calc( 100% - 32px);
 }
 
+.FieldCell > label,
 .Row > label,
 .RichTextHolder > label {
     left: calc( -100% + 24px );
 }
 
-iframe {
+.MessageContent iframe {
     width: 100%;
     max-height: 80vh;
 }
@@ -501,102 +610,42 @@ iframe {
     text-align: right;
 }
 
-#CloseButton {
+.CloseButton {
     margin-right: 24px;
     background-color: #bfbfce;
     background-color: var(--colBGDark);
 }
 
-#CloseButton:hover,
-#CloseButton:focus {
+.CloseButton:hover,
+.CloseButton:focus {
     background-color: #000099;
-    background-color: var(--colHoverDark);
+    background-color: var(--colMainHover);
 }
 
-/* IE */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+.FieldCell > label {
+    left: 24px;
+    top: 16px;
+    margin-top: 0px !important;
+    position: absolute;
+}
 
-    #oooHeader {
-        display: -ms-grid;
-        -ms-grid-columns: 5fr 32px 4fr 159px 162px 32px;
-        -ms-grid-rows: 48px 1fr;
-    }
+.FieldCell .oooSelected ~ label,
+.FieldCell > input:not([readonly]):hover ~ label,
+.FieldCell textarea.oooFull ~ label,
+.FieldCell input.oooFull ~ label,
+.Field:hover:not([class*='RichTextField']) ~ label,
+.Field.oooFull ~ label,
+.FieldCell .InputField_Container:hover ~ label, 
+.Field.DFSetOuterField ~ label {
+    top: -6px;
+}
 
-    #oooHeader > .oooWithSub {
-        -ms-grid-column: 1;
-        -ms-grid-row-align: center;
-        margin-left: 8px;
-    }
+.FieldCell > input:not([readonly]):focus ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus {
+    top: -6px;
+}
 
-    #oooHeader > .oooAvatar {
-        -ms-grid-column: 2;
-        -ms-grid-row-align: center;
-        margin-left: 8px;
-    }
-
-    #oooHeader > p {
-        -ms-grid-column: 3;
-        -ms-grid-row-align: center;
-        margin-left: 8px;
-    }
-
-    #oooHeader > .oooInfoBlock {
-        -ms-grid-column: 4;
-        -ms-grid-row-align: center;
-        margin-left: 8px;
-    }
-
-    #oooHeader > button {
-        -ms-grid-column: 5;
-        -ms-grid-row-align: center;
-        margin-left: 8px;
-    }
-
-    #oooHeader > i {
-        -ms-grid-column: 6;
-        -ms-grid-column-span: 1;
-        -ms-grid-row-align: center;
-        display: block;
-    }
-
-    #oooCategories {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 6;
-        -ms-grid-row: 2;
-        margin-top: 2px;
-        -ms-grid-row-align: center;
-    }
-
-    #oooArticleList {
-        display: none;
-    }
-
-    @supports (display: grid) {
-        #oooHeader {
-            display: grid;
-        }
-        #oooHeader > .oooWithSub {
-            margin-left: 0px;
-        }
-        #oooHeader > .oooAvatar {
-            margin-left: 0px;
-        }
-        #oooHeader > p {
-            margin-left: 0px;
-        }
-        #oooHeader > .oooInfoBlock {
-            margin-left: 0px;
-        }
-        #oooHeader > button {
-            margin-left: 0px;
-        }
-        #oooCategories {
-            margin-top: 0px;
-        }
-        @media only screen and (min-width: 1024px) {
-            #oooArticleList {
-                display: block;
-            }
-        }
-    }
+.Row.MultiColumn .FieldCell {
+    width: calc(100% - 40px);
 }

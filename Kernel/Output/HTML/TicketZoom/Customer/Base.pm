@@ -19,8 +19,11 @@ package Kernel::Output::HTML::TicketZoom::Customer::Base;
 use strict;
 use warnings;
 
-use Digest::MD5 qw(md5_hex);
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -123,12 +126,6 @@ sub ArticleMetaFields {
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
         %{ $ConfigObject->Get("Ticket::Frontend::CustomerTicketZoom")->{DynamicField} || {} },
-
-        # TODO: Check if there are process dynamic fields for customer interface
-        # %{
-        #     $ConfigObject->Get("Ticket::Frontend::CustomerTicketZoom")->{ProcessWidgetDynamicField}
-        #         || {}
-        # },
     };
 
     # get the dynamic fields for article object

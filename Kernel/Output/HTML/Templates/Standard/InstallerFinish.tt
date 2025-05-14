@@ -28,23 +28,6 @@
             <div class="Content">
                 <fieldset class="TableLike">
 
-[% RenderBlockStart("Restart") %]
-                    <p>
-                        [% Translate("To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.") | html %]
-                    </p>
-                    <div class="Clear SpacingTop"></div>
-
-                    <label>[% Translate("Restart your webserver") | html %]:</label>
-                    <div class="Field Error">
-                        [% Data.Webserver %]
-                    </div>
-                    <div class="Clear"></div>
-
-                    <p class="SpacingTop">
-                        [% Translate("After doing so your OTOBO is up and running.") | html %]
-                    </p>
-                    <div class="Clear SpacingTop"></div>
-[% RenderBlockEnd("Restart") %]
                     <label>[% Translate("Start page") | html %]:</label>
                     <div class="Field">
                         <a href="[% Data.Scheme || 'http' %]://[% Data.Host | html %]/[% Data.OTOBOHandle %]/index.pl">

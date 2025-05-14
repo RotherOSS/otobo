@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get selenium object
 # OTOBO modules
@@ -165,7 +165,6 @@ $Selenium->RunTest(
 
         # check breadcrumb on change screen
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
             'Manage Customer-Group Relations',
             'Change Customer Relations for Group \'' . $GroupRandomID . '\''

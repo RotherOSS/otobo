@@ -22,13 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use HTTP::Request::Common qw(GET);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and $main::Self
-
-# This setting will be picked up whenever an instance of Kernel::System::Web::Request is created.
-local $ENV{SCRIPT_NAME} = 'index.pl';
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -37,6 +35,11 @@ $Kernel::OM->ObjectParamAdd(
         Lang      => 'de',
         SessionID => 123,
     },
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            HTTPRequest => GET('/index.pl'),
+        }
+    ),
 );
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -228,8 +231,8 @@ my @Tests = (
         Result => {
             Content => '
 
-<div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
-    <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
+<div style="margin: 5px 0; padding: 0px; border: 1px solid #bfc0ce; border-radius: 2px;">
+    <div style="padding: 5px; background-color: #e5e5eb; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center; border-radius: 2px;">
         Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
         <a href="index.pl?;LoadExternalImages=1;SessionID=123">Blockierte Inhalte laden.</a>
     </div>

@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,8 +37,6 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my $Output;
 
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -156,6 +154,7 @@ sub Run {
                 my $Output = $LayoutObject->Error(
                     Message => Translatable('Appointment not found!'),
                 );
+
                 return $LayoutObject->Attachment(
                     NoCache     => 1,
                     ContentType => 'text/html',
@@ -403,7 +402,7 @@ sub Run {
             )
         {
             $Param{AllDayString}  = Translatable('Yes');
-            $Param{AllDayChecked} = 'checked="checked"';
+            $Param{AllDayChecked} = 'checked ';
 
             # start date
             $Param{StartDate} = sprintf(
@@ -945,13 +944,13 @@ sub Run {
         $Appointment{NotificationCustom} ||= '';
 
         if ( $Appointment{NotificationCustom} eq 'datetime' ) {
-            $Param{NotificationCustomDateTimeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomDateTimeInputRadio} = 'checked ';
         }
         elsif ( $Appointment{NotificationCustom} eq 'relative' ) {
-            $Param{NotificationCustomRelativeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomRelativeInputRadio} = 'checked ';
         }
         else {
-            $Param{NotificationCustomRelativeInputRadio} = 'checked="checked"';
+            $Param{NotificationCustomRelativeInputRadio} = 'checked ';
         }
 
         # notification custom string value
@@ -1026,7 +1025,7 @@ sub Run {
                 $Param{PluginData}->{$PluginKey} = [];
                 for my $LinkID ( sort keys %{$LinkList} ) {
                     push @{ $Param{PluginData}->{$PluginKey} }, $LinkList->{$LinkID};
-                    push @LinkArray, $LinkList->{$LinkID}->{LinkID};
+                    push @LinkArray,                            $LinkList->{$LinkID}->{LinkID};
                 }
 
                 $Param{PluginList}->{$PluginKey}->{LinkList} = $LayoutObject->JSONEncode(
@@ -1082,6 +1081,7 @@ sub Run {
             },
             AJAX => 1,
         );
+
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
@@ -1128,7 +1128,7 @@ sub Run {
 
                 # send JSON response
                 return $LayoutObject->Attachment(
-                    ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                    ContentType => 'application/json',
                     Content     => $JSON,
                     Type        => 'inline',
                     NoCache     => 1,
@@ -1322,7 +1322,7 @@ sub Run {
 
                 if ( $GetParam{RecurrenceCustomType} eq 'CustomWeekly' ) {
                     if ( $GetParam{Days} ) {
-                        my @Days = split( ",", $GetParam{Days} );
+                        my @Days = split /,/, $GetParam{Days};
                         $GetParam{RecurrenceFrequency} = \@Days;
                     }
                     else {
@@ -1338,7 +1338,7 @@ sub Run {
                 }
                 elsif ( $GetParam{RecurrenceCustomType} eq 'CustomMonthly' ) {
                     if ( $GetParam{MonthDays} ) {
-                        my @MonthDays = split( ",", $GetParam{MonthDays} );
+                        my @MonthDays = split /,/, $GetParam{MonthDays};
                         $GetParam{RecurrenceFrequency} = \@MonthDays;
                     }
                     else {
@@ -1354,7 +1354,7 @@ sub Run {
                 }
                 elsif ( $GetParam{RecurrenceCustomType} eq 'CustomYearly' ) {
                     if ( $GetParam{Months} ) {
-                        my @Months = split( ",", $GetParam{Months} );
+                        my @Months = split /,/, $GetParam{Months};
                         $GetParam{RecurrenceFrequency} = \@Months;
                     }
                     else {
@@ -1816,7 +1816,7 @@ sub Run {
 
     # send JSON response
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,

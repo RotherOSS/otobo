@@ -24,8 +24,8 @@ use parent qw(Kernel::System::MailAccount::IMAP);
 # core modules
 
 # CPAN modules
-use IO::Socket::SSL;
-use Net::IMAP::Simple;
+use IO::Socket::SSL   ();
+use Net::IMAP::Simple ();
 
 # OTOBO modules
 

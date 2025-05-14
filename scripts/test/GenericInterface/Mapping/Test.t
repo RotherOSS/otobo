@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Mapping;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger ();
+use Kernel::GenericInterface::Mapping  ();
+
+our $Self;
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -160,11 +163,39 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
-        Name          => 'Test with wrong Data',
-        Config        => { TestOption => 'no data' },
+        Name          => 'Test with empty array Data',
+        Config        => { TestOption => 'empty data' },
         Data          => [],
-        ResultData    => undef,
-        ResultSuccess => 0,
+        ResultData    => [],
+        ResultSuccess => 1,
+        ConfigSuccess => 1
+    },
+    {
+        Name   => 'Test with array Data',
+        Config => { TestOption => 'empty data' },
+        Data   => [
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+            four  => 'four',
+            five  => 'five',
+        ],
+        ResultData => [
+            one   => 'one',
+            two   => 'two',
+            three => 'three',
+            four  => 'four',
+            five  => 'five',
+        ],
+        ResultSuccess => 1,
+        ConfigSuccess => 1
+    },
+    {
+        Name          => 'Test with simple array Data',
+        Config        => { TestOption => 'empty data' },
+        Data          => [ "one", "two", "three" ],
+        ResultData    => [ "one", "two", "three" ],
+        ResultSuccess => 1,
         ConfigSuccess => 1
     },
     {

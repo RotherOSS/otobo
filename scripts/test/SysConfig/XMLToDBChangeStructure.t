@@ -26,8 +26,6 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::Config;
-
 # Get needed objects
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {

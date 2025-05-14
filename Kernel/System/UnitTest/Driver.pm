@@ -16,20 +16,20 @@
 
 package Kernel::System::UnitTest::Driver;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24.0;
 use utf8;
 use namespace::autoclean;
 
 # core modules
 
 # CPAN modules
-use Text::Diff;
+use Text::Diff qw(diff);
 use Test2::API qw(context);
 
 # OTOBO modules
-use Kernel::System::UnitTest::Helper;    # needed to override the builtin time functions!
+use Kernel::System::UnitTest::Helper;    ## no perlimports, needed to override the builtin time functions!
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
@@ -80,7 +80,7 @@ if it's true, returning 1 in this case or undef, otherwise.
 =cut
 
 sub True {
-    my ( $Self, $True, $Name ) = @_;
+    my ( undef, $True, $Name ) = @_;
 
     my $Context = context();
 
@@ -106,7 +106,7 @@ for a false value instead.
 =cut
 
 sub False {
-    my ( $Self, $False, $Name ) = @_;
+    my ( undef, $False, $Name ) = @_;
 
     my $Context = context();
 
@@ -143,7 +143,7 @@ Returns 1 if the values were equal, or undef otherwise.
 =cut
 
 sub Is {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my ( undef, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -178,7 +178,7 @@ for inequality instead.
 =cut
 
 sub IsNot {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my ( undef, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -226,7 +226,7 @@ Returns 1 if the data structures are the same, or undef otherwise.
 =cut
 
 sub IsDeeply {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my ( undef, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -255,7 +255,7 @@ sub IsDeeply {
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $ShouldBeDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($ShouldBe);
         local $ENV{DIFF_OUTPUT_UNICODE} = 1;
-        my $Diff = Text::Diff::diff(
+        my $Diff = diff(
             \$TestDump,
             \$ShouldBeDump,
             {
@@ -265,7 +265,7 @@ sub IsDeeply {
             }
         );
 
-        my $Output;
+        my $Output = '';
         $Output .= "Diff" . ":\n$Diff\n";
         $Output .= "Actual data" . ":\n$TestDump\n";
         $Output .= "Expected data" . ":\n$ShouldBeDump\n";
@@ -284,7 +284,7 @@ for inequality instead.
 =cut
 
 sub IsNotDeeply {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my ( undef, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -358,8 +358,6 @@ This effectively disables the check of the test plan.
 =cut
 
 sub DoneTesting {
-    my $Self = shift;
-
     my $Context = context();
     my $Ret     = $Context->done_testing();
     $Context->release();
@@ -375,7 +373,7 @@ is prepended by '# '. A newline will be appended unless there already is a newli
 =cut
 
 sub Note {
-    my ( $Self, %Param ) = @_;
+    my ( undef, %Param ) = @_;
 
     my $Context = context();
     my $Ret     = $Context->note( $Param{Note} // '' );

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.628344413815469;
+    $Self->{Completeness}        = 0.573883161512027;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -46,6 +46,8 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => 'ACL Management',
+        'Filter by valid state' => '',
+        'Include invalid ACLs' => '',
         'Actions' => 'Actions',
         'Create New ACL' => 'Create New ACL',
         'Deploy ACLs' => 'Deploy ACLs',
@@ -64,6 +66,8 @@ sub Data {
             'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Changes to the ACLs here only affect the behaviour of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.',
+        'To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear.' =>
+            '',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.',
@@ -104,10 +108,25 @@ sub Data {
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
             'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.',
 
+        # Template: AdminAbout
+        'About' => '',
+        'Toggle this widget' => 'Toggle this widget',
+        'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
+            '',
+        'Remove Language' => '',
+        'Text' => 'Text',
+        'Message body' => 'Message body',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
+        'Remove About Language' => '',
+        'Add new language' => '',
+        'Save Changes' => 'Save Changes',
+
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
+        'Include invalid calendars' => '',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -176,6 +195,8 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Add Notification',
         'Edit Notification' => 'Edit Notification',
+        'Include invalid appointment notifications' => '',
+        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Export Notifications',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -191,7 +212,6 @@ sub Data {
         'Agent preferences tooltip' => 'Agent preferences tooltip',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             'This message will be shown on the agent preferences screen as a tooltip for this notification.',
-        'Toggle this widget' => 'Toggle this widget',
         'Events' => 'Events',
         'Event' => 'Event',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
@@ -231,10 +251,7 @@ sub Data {
             'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.',
         'Remove Notification Language' => 'Remove Notification Language',
         'Subject' => 'Subject',
-        'Text' => 'Text',
-        'Message body' => 'Message body',
         'Add new notification language' => 'Add new notification language',
-        'Save Changes' => 'Save Changes',
         'Tag Reference' => 'Tag Reference',
         'Notifications are sent to an agent.' => '',
         'You can use the following tags' => 'You can use the following tags',
@@ -264,6 +281,7 @@ sub Data {
         'Attachment Management' => 'Attachment Management',
         'Add Attachment' => 'Add Attachment',
         'Edit Attachment' => 'Edit Attachment',
+        'Include invalid attachments' => '',
         'Filter for Attachments' => 'Filter for Attachments',
         'Filter for attachments' => '',
         'Filename' => 'Filename',
@@ -276,6 +294,7 @@ sub Data {
         'Auto Response Management' => 'Auto Response Management',
         'Add Auto Response' => 'Add Auto Response',
         'Edit Auto Response' => 'Edit Auto Response',
+        'Include invalid auto responses' => '',
         'Filter for Auto Responses' => 'Filter for Auto Responses',
         'Filter for auto responses' => '',
         'Response' => 'Response',
@@ -409,16 +428,43 @@ sub Data {
         'Please enter a search term to look for contacts with data.' => '',
         'Valid' => 'Valid',
 
+        # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
+        'Remove PrivacyPolicy Language' => '',
+
         # Template: AdminCustomerCompany
         'Customer Management' => 'Customer Management',
         'Add Customer' => 'Add Customer',
         'Edit Customer' => 'Edit Customer',
+        'Include invalid customer companies' => '',
         'List (only %s shown - more available)' => 'List (only %s shown - more available)',
         'total' => 'total',
         'Please enter a search term to look for customers.' => 'Please enter a search term to look for customers.',
         'Customer ID' => 'Customer ID',
         'Please note' => '',
         'This customer backend is read only!' => '',
+
+        # Template: AdminCustomerDashboardInfoTile
+        'Customer Info' => '',
+        'Customer Info Management' => '',
+        'Create new info tile entry' => '',
+        'Filter for info tile entries' => '',
+        'Create a new entry to be displayed on the info tile on the customer dashboard.' =>
+            '',
+        'Stop date' => 'Stop date',
+        'Delete info tile entry' => '',
+
+        # Template: AdminCustomerDashboardInfoTileEdit
+        'Edit customer dashboard info tile entry' => '',
+        'Date invalid!' => 'Date invalid!',
+        'Tile content' => '',
+        'Content Body' => '',
+        'Marquee content' => '',
+        'Group Selection' => '',
+
+        # Template: AdminCustomerDashboardInfoTileNew
+        'Create new customer dashboard info tile entry' => '',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Manage Customer-Group Relations',
@@ -454,6 +500,7 @@ sub Data {
         'Customer User Management' => 'Customer User Management',
         'Add Customer User' => 'Add Customer User',
         'Edit Customer User' => 'Edit Customer User',
+        'Include invalid customer users' => '',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Customer user are needed to have a customer history and to login via customer panel.',
         'List (%s total)' => 'List (%s total)',
@@ -518,10 +565,15 @@ sub Data {
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Dynamic Fields Management',
-        'Add new field for object' => 'Add new field for object',
+        'Include invalid dynamic fields' => '',
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
-        'New OTOBO Community  Fields' => '',
+        'Filter field by object type' => '',
+        'Filter field by namespace' => '',
+        'Add new field for object' => 'Add new field for object',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.',
+        'New Dynamic Fields' => '',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'Database',
@@ -532,13 +584,12 @@ sub Data {
             '',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
-        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.',
         'Dynamic Fields List' => 'Dynamic Fields List',
         'Dynamic fields per page' => 'Dynamic fields per page',
         'Label' => 'Label',
         'Order' => 'Order',
         'Object' => 'Object',
+        'Copy this field' => '',
         'Delete this field' => 'Delete this field',
 
         # Template: AdminDynamicFieldAdvanced
@@ -567,6 +618,12 @@ sub Data {
         'This field is required and must be numeric.' => 'This field is required and must be numeric.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'This is the order in which this field will be shown on the screens where is active.',
+        'Namespace' => 'Namespace',
+        'This is the namespace in which this field will be used as prefix with the name.' =>
+            '',
+        'Tooltip message:' => '',
+        'This is the tooltip message shown inside the customer interface.' =>
+            '',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             '',
         'Field type' => 'Field type',
@@ -620,6 +677,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.',
         'Example' => 'Example',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Link for preview',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.',
@@ -638,6 +697,9 @@ sub Data {
         'Searchsuffix' => '',
         'Result Limit' => '',
         'Case Sensitive' => '',
+        'Multiple Values' => '',
+        'Activate this option to allow multiple values for this field.' =>
+            '',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Default date difference',
@@ -676,6 +738,22 @@ sub Data {
         'Fields' => 'Fields',
         'Screens' => '',
 
+        # Template: AdminDynamicFieldReference
+        'Check ReferenceFilter' => '',
+        'Below you can configure filters to restrict the list of referenced objects. The filters compare an attribute of the referenced object either to an attribute of the mask you are currently editing or to a fixed string.' =>
+            '',
+        'Object attribute' => '',
+        'Select an attribute of the referenced object by which the selectable entries will be filtered.' =>
+            '',
+        'Invalid ReferenceFilter_ReferenceObjectAttribute' => '',
+        'matches mask attribute' => '',
+        'Select an attribute of the edit mask to compare the selected attribute of the referenced object against.' =>
+            '',
+        'matches string' => '',
+        'Type a string to compare the selected attribute of the referenced object against.' =>
+            '',
+        'Add ReferenceFilter' => '',
+
         # Template: AdminDynamicFieldScreen
         'Management of Dynamic Fields <-> Screens' => '',
         'Overview' => 'Overview',
@@ -702,13 +780,18 @@ sub Data {
         'Assigned Required Elements' => '',
         'Reset' => 'Reset',
 
-        # Template: AdminDynamicFieldText
-        'Number of rows' => 'Number of rows',
-        'Specify the height (in lines) for this field in the edit mode.' =>
-            'Specify the height (in lines) for this field in the edit mode.',
-        'Number of cols' => 'Number of cols',
-        'Specify the width (in characters) for this field in the edit mode.' =>
-            'Specify the width (in characters) for this field in the edit mode.',
+        # Template: AdminDynamicFieldScript
+        'Expression' => '',
+        'The function which will be evaluated.' => '',
+        'Requirements' => '',
+        'If set, the function will only be evaluated if all chosen attributes are set.' =>
+            '',
+        'Preview Triggers' => '',
+        'If set, the field will be recalculated upon AJAX updates in edit masks.' =>
+            '',
+        'Storage Triggers (Events)' => '',
+        'If set, the field will be recalculated for the following events.' =>
+            '',
         'Check RegEx' => 'Check RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.',
@@ -716,6 +799,23 @@ sub Data {
         'Invalid RegEx' => 'Invalid RegEx',
         'Error Message' => 'Error Message',
         'Add RegEx' => 'Add RegEx',
+
+        # Template: AdminDynamicFieldSet
+        'Auto Indent Code' => '',
+        'Comment/Uncomment Code' => '',
+        'Search & Replace' => '',
+        'Select All' => '',
+        'Full Screen' => '',
+        'The YAML array of included dynamic fields. Syntax: \'--- [{DF: Name},...]\'' =>
+            '',
+
+        # Template: AdminDynamicFieldText
+        'Number of rows' => 'Number of rows',
+        'Specify the height (in lines) for this field in the edit mode.' =>
+            'Specify the height (in lines) for this field in the edit mode.',
+        'Number of cols' => 'Number of cols',
+        'Specify the width (in characters) for this field in the edit mode.' =>
+            'Specify the width (in characters) for this field in the edit mode.',
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'Template',
@@ -761,6 +861,7 @@ sub Data {
         'Edit Job' => '',
         'Add Job' => '',
         'Run Job' => '',
+        'Include invalid jobs' => '',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Last run',
@@ -1049,6 +1150,46 @@ sub Data {
         'And can\'t be repeated on the same condition.' => 'And can\'t be repeated on the same condition.',
         'Add New Condition' => 'Add New Condition',
 
+        # Template: AdminGenericInterfaceInvokerTicket
+        'General invoker data' => '',
+        'Settings for outgoing request data' => '',
+        'Ticket fields' => 'Ticket fields',
+        'Only the selected ticket fields will be considered for the request data.' =>
+            '',
+        'Article fields' => '',
+        'Only the selected article fields will be considered for the request data.' =>
+            '',
+        'Ticket dynamic fields' => '',
+        'Only the selected ticket dynamic fields will be considered for the request data.' =>
+            '',
+        'Article dynamic fields' => '',
+        'Only the selected article dynamic fields will be considered for the request data.' =>
+            '',
+        'Number of articles' => '',
+        'The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent.' =>
+            '',
+        'Communication channels' => '',
+        'The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used.' =>
+            '',
+        'Customer visibility' => '',
+        'The outgoing request data will only consider articles created with the selected customer visibility.' =>
+            '',
+        'Sender Types' => '',
+        'The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used.' =>
+            '',
+        'Mapping' => '',
+        'Settings for incoming response data' => '',
+        'Remote TicketID dynamic field' => '',
+        'The selected ticket dynamic field is being used to store the remote TicketID.' =>
+            '',
+        'If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service.' =>
+            '',
+        'The selected field is already in use by the Ticket dynamic fields option.' =>
+            '',
+        'Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed.' =>
+            '',
+        'Event data' => '',
+
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => 'Mapping Simple',
         'Default rule for unmapped keys' => 'Default rule for unmapped keys',
@@ -1074,15 +1215,15 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => '',
         'MacOS Shortcuts' => '',
-        'Comment code' => '',
-        'Uncomment code' => '',
-        'Auto format code' => '',
-        'Expand/Collapse code block' => '',
+        'Comment/Uncomment code' => '',
+        'Auto indent code' => '',
+        'Jump to line' => '',
+        'Autocomplete' => '',
         'Find' => '',
         'Find next' => '',
         'Find previous' => '',
         'Find and replace' => '',
-        'Find and replace all' => '',
+        'Exit full screen' => '',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -1162,7 +1303,7 @@ sub Data {
         'Endpoint' => 'Endpoint',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1173,6 +1314,9 @@ sub Data {
         'The user name to be used to access the remote system.' => 'The user name to be used to access the remote system.',
         'BasicAuth Password' => '',
         'The password for the privileged user.' => 'The password for the privileged user.',
+        'Kerberos User' => '',
+        'Kerberos keytab file' => '',
+        'The kerberos keytab file for the privileged user.' => '',
         'Use Proxy Options' => '',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'Proxy Server',
@@ -1205,8 +1349,11 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'The full path of the certification authority directory where the CA certificates are stored in the file system.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'e.g. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => 'Controller mapping for Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
@@ -1216,6 +1363,18 @@ sub Data {
             'A specific HTTP command to use for the requests with this Invoker (optional).',
         'Default command' => 'Default command',
         'The default HTTP command to use for the requests.' => 'The default HTTP command to use for the requests.',
+        'Additional request headers (all invokers)' => '',
+        'Additional request headers (invoker specific)' => '',
+        'Remove all headers for this invoker' => '',
+        'Headers for invoker' => '',
+        'Additional response headers (all operations)' => '',
+        'Additional response headers (operation specific)' => '',
+        'Remove all headers for this operation' => '',
+        'Headers for operation' => '',
+        'Common headers' => '',
+        'Header Name' => '',
+        'Remove header' => '',
+        'Add header' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
@@ -1236,9 +1395,8 @@ sub Data {
         'Usually .Net web services use "/" as separator.' => '',
         'SOAPAction free text' => '',
         'Text to be used to as SOAPAction.' => '',
-        'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI to give SOAP methods a context, reducing ambiguities.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => 'Request name scheme',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1260,7 +1418,7 @@ sub Data {
             'Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO will process.',
         'Encoding' => 'Encoding',
         'The character encoding for the SOAP message contents.' => 'The character encoding for the SOAP message contents.',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => 'Sort options',
         'Add new first level element' => 'Add new first level element',
         'Element' => 'Element',
@@ -1270,6 +1428,7 @@ sub Data {
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => '',
         'Edit Web Service' => '',
+        'Include invalid webservices' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'The name must be unique.',
         'Clone' => 'Clone',
@@ -1285,13 +1444,9 @@ sub Data {
         'Delete web service' => 'Delete web service',
         'Do you really want to delete this web service?' => 'Do you really want to delete this web service?',
         'Ready2Adopt Web Services' => '',
-        'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
-            '',
-        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
+        'Here you can activate Ready2Adopt web services showcasing our best practices.' =>
             '',
         'Import Ready2Adopt web service' => '',
-        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
-            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'After you save the configuration you will be redirected again to the edit screen.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1340,11 +1495,52 @@ sub Data {
         'Group Management' => 'Group Management',
         'Add Group' => 'Add Group',
         'Edit Group' => 'Edit Group',
+        'Include invalid groups' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'The admin group is to get in the admin area and the stats group to get stats area.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ',
         'It\'s useful for ASP solutions. ' => 'It\'s useful for ASP solutions. ',
+
+        # Template: AdminImportExport
+        'Import/Export Management' => '',
+        'Add template' => 'Add template',
+        'Create a template to import and export object information.' => '',
+        'To use this module, you need to install ITSMConfigurationManagement or any other package that provides back end for objects to be imported and exported.' =>
+            '',
+        'Number' => 'Number',
+        'Format' => 'Format',
+        'Start Import' => '',
+        'Start Export' => '',
+        'Delete this template' => '',
+        'Step 1 of 5 - Edit common information' => '',
+        'Name is required!' => '',
+        'Object is required!' => '',
+        'Format is required!' => '',
+        'Next' => 'Next',
+        'Step 2 of 5 - Edit object information' => '',
+        'Back' => 'Back',
+        'Step 3 of 5 - Edit format information' => '',
+        'is required!' => '',
+        'Step 4 of 5 - Edit mapping information' => '',
+        'No map elements found.' => '',
+        'Up' => 'Up',
+        'Down' => 'Down',
+        'Add Mapping Element' => '',
+        'Step 5 of 5 - Edit search information' => '',
+        'Template Name' => 'Template Name',
+        'Restrict export per search' => '',
+        'Finish' => 'Finish',
+        'Import information' => '',
+        'Source File' => '',
+        'Import summary for %s' => '',
+        'Records' => '',
+        'Success' => '',
+        'Failed' => '',
+        'Duplicate names' => '',
+        'Last processed line number of import file' => '',
+        'Ok' => '',
+        'Do you really want to delete this template item?' => '',
 
         # Template: AdminLog
         'System Log' => 'System Log',
@@ -1359,6 +1555,7 @@ sub Data {
         'Add Mail Account' => 'Add Mail Account',
         'Edit Mail Account for host' => '',
         'and user account' => '',
+        'Include invalid Mail Accounts' => '',
         'Filter for Mail Accounts' => '',
         'Filter for mail accounts' => '',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
@@ -1387,13 +1584,14 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
-        'View the admin manual on Github' => '',
+        'View the admin manual' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
         'Set as favorite' => '',
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Ticket Notification Management',
+        'Include invalid notifications' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1407,13 +1605,10 @@ sub Data {
         'Article sender type' => 'Article sender type',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.',
-        'Customer visibility' => '',
         'Communication channel' => '',
         'Include attachments to notification' => 'Include attachments to notification',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Notify user just once per day about a single ticket using a selected transport.',
-        'This field is required and must have less than 4000 characters.' =>
-            '',
         'Notifications are sent to an agent or a customer.' => 'Notifications are sent to an agent or a customer.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'To get the first 20 character of the subject (of the latest agent article).',
@@ -1559,6 +1754,10 @@ sub Data {
         'Edit PostMaster Filter' => 'Edit PostMaster Filter',
         'Filter for PostMaster Filters' => '',
         'Filter for PostMaster filters' => '',
+        'Search through PostMaster filters' => '',
+        'Search all filter attributes' => '',
+        'Limit search to selected header fields' => '',
+        'Limit search to selected set fields' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1587,6 +1786,7 @@ sub Data {
         'Priority Management' => 'Priority Management',
         'Add Priority' => 'Add Priority',
         'Edit Priority' => 'Edit Priority',
+        'Include invalid priorities' => '',
         'Filter for Priorities' => '',
         'Filter for priorities' => '',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
@@ -1595,6 +1795,7 @@ sub Data {
 
         # Template: AdminProcessManagement
         'Process Management' => 'Process Management',
+        'Include inactive processes' => '',
         'Filter for Processes' => 'Filter for Processes',
         'Filter for processes' => '',
         'Create New Process' => 'Create New Process',
@@ -1650,6 +1851,10 @@ sub Data {
         'The selected required lock does not exist.' => 'The selected required lock does not exist.',
         'Submit Advice Text' => 'Submit Advice Text',
         'Submit Button Text' => 'Submit Button Text',
+        'Input Field Definition' => '',
+        'Direct submit' => '',
+        'This property won\'t take effect because there are fields configured as visible.' =>
+            '',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.',
         'Filter available fields' => 'Filter available fields',
@@ -1753,6 +1958,7 @@ sub Data {
         'Queue Management' => '',
         'Add Queue' => 'Add Queue',
         'Edit Queue' => 'Edit Queue',
+        'Include invalid queues' => '',
         'Filter for Queues' => 'Filter for Queues',
         'Filter for queues' => '',
         'A queue with this name already exists!' => 'A queue with this name already exists!',
@@ -1867,7 +2073,6 @@ sub Data {
         'Sign up now' => 'Sign up now',
         'Forgot your password?' => 'Forgot your password?',
         'Retrieve a new one' => 'Retrieve a new one',
-        'Next' => 'Next',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
             '',
         'Attribute' => 'Attribute',
@@ -1892,10 +2097,16 @@ sub Data {
         'System Registration Data' => 'System Registration Data',
         'Support Data' => 'Support Data',
 
+        # Template: AdminResponseTemplatesStatePreselection
+        'Manage ticket state pre-selections for response templates' => '',
+        'Edit Response' => '',
+        'Pre-selected ticket state' => '',
+
         # Template: AdminRole
         'Role Management' => 'Role Management',
         'Add Role' => 'Add Role',
         'Edit Role' => 'Edit Role',
+        'Include invalid roles' => '',
         'Filter for Roles' => 'Filter for Roles',
         'Filter for roles' => '',
         'Create a role and put groups in it. Then add the role to the users.' =>
@@ -1910,18 +2121,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).',
         'Toggle %s permission for all' => 'Toggle %s permission for all',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => 'move_into',
-        'Permissions to move tickets into this group/queue.' => 'Permissions to move tickets into this group/queue.',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'create',
-        'Permissions to create tickets in this group/queue.' => 'Permissions to create tickets in this group/queue.',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'note',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissions to add notes to tickets in this group/queue.',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'owner',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissions to change the owner of tickets in this group/queue.',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => 'priority',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            'Permissions to change the ticket priority in this group/queue.',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Manage Agent-Role Relations',
@@ -1935,6 +2153,7 @@ sub Data {
         'SLA Management' => 'SLA Management',
         'Edit SLA' => 'Edit SLA',
         'Add SLA' => 'Add SLA',
+        'Include invalid SLAs' => '',
         'Filter for SLAs' => '',
         'Please write only numbers!' => 'Please write only numbers!',
 
@@ -1982,6 +2201,7 @@ sub Data {
         'Salutation Management' => 'Salutation Management',
         'Add Salutation' => 'Add Salutation',
         'Edit Salutation' => 'Edit Salutation',
+        'Include invalid salutations' => '',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'e. g.',
@@ -2017,6 +2237,7 @@ sub Data {
         'Service Management' => 'Service Management',
         'Add Service' => 'Add Service',
         'Edit Service' => 'Edit Service',
+        'Include invalid services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Sub-service of',
@@ -2041,6 +2262,7 @@ sub Data {
         'Signature Management' => 'Signature Management',
         'Add Signature' => 'Add Signature',
         'Edit Signature' => 'Edit Signature',
+        'Include invalid signatures' => '',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Example signature',
@@ -2049,6 +2271,7 @@ sub Data {
         'State Management' => 'State Management',
         'Add State' => 'Add State',
         'Edit State' => 'Edit State',
+        'Include invalid states' => '',
         'Filter for States' => '',
         'Filter for states' => '',
         'Attention' => 'Attention',
@@ -2096,6 +2319,7 @@ sub Data {
         'System Email Addresses Management' => 'System Email Addresses Management',
         'Add System Email Address' => 'Add System Email Address',
         'Edit System Email Address' => 'Edit System Email Address',
+        'Include invalid system addresses' => '',
         'Add System Address' => '',
         'Filter for System Addresses' => '',
         'Filter for system addresses' => '',
@@ -2215,6 +2439,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'System Maintenance Management',
+        'Include invalid system maintenances' => '',
         'Schedule New System Maintenance' => 'Schedule New System Maintenance',
         'Filter for System Maintenances' => '',
         'Filter for system maintenances' => '',
@@ -2222,13 +2447,11 @@ sub Data {
             'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.',
-        'Stop date' => 'Stop date',
         'Delete System Maintenance' => 'Delete System Maintenance',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => '',
         'Edit System Maintenance Information' => '',
-        'Date invalid!' => 'Date invalid!',
         'Login message' => 'Login message',
         'This field must have less then 250 characters.' => '',
         'Show login message' => 'Show login message',
@@ -2243,6 +2466,7 @@ sub Data {
         'Template Management' => '',
         'Add Template' => 'Add Template',
         'Edit Template' => 'Edit Template',
+        'Include invalid templates' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'A template is a default text which helps your agents to write faster tickets, answers or forwards.',
         'Don\'t forget to add new templates to queues.' => 'Don\'t forget to add new templates to queues.',
@@ -2268,10 +2492,48 @@ sub Data {
         'Toggle active for all' => 'Toggle active for all',
         'Link %s to selected %s' => 'Link %s to selected %s',
 
+        # Template: AdminTicketMask
+        'Ticket Mask Management' => '',
+        'Change mask definition' => '',
+        'Ticket Mask' => '',
+        'Change' => '',
+        'Definition' => '',
+
+        # Template: AdminTranslations
+        'Translation Management' => '',
+        'Add Translations' => '',
+        'Edit Translations' => '',
+        'Language' => 'Language',
+        'Deploy Translations' => '',
+        'Translation States' => '',
+        'New Translation' => '',
+        'Editing Translation' => '',
+        'Translation Marked for Deletion' => '',
+        'Deployed Translation' => '',
+        'Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files.' =>
+            '',
+        'Select an object to start adding translations. Depending on your selection, single or multiple translations can be added.' =>
+            '',
+        'Edit active translations using provided text fields!' => '',
+        'List custom translations for' => '',
+        'Draft Translations' => '',
+        'Filter for Draft Translations' => '',
+        'Active Translations' => '',
+        'Filter for Active Translations' => '',
+        'Content' => 'Content',
+        'Translation' => '',
+        'Marked for Deletion' => '',
+        'Edit Translation' => '',
+        'Overwrites OTOBO translation' => '',
+        'Undo Delete Translation' => '',
+        'Delete Translation' => '',
+        'Translations' => '',
+
         # Template: AdminType
         'Type Management' => 'Type Management',
         'Add Type' => 'Add Type',
         'Edit Type' => 'Edit Type',
+        'Include invalid types' => '',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'A type with this name already exists!',
@@ -2282,6 +2544,7 @@ sub Data {
         # Template: AdminUser
         'Agent Management' => 'Agent Management',
         'Edit Agent' => 'Edit Agent',
+        'Include invalid users' => '',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Agents will be needed to handle tickets.',
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Don\'t forget to add a new agent to groups and/or roles!',
@@ -2301,6 +2564,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Manage Agent-Group Relations',
+        'Permissions to move tickets into this group/queue.' => 'Permissions to move tickets into this group/queue.',
+        'Permissions to create tickets in this group/queue.' => 'Permissions to create tickets in this group/queue.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissions to add notes to tickets in this group/queue.',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissions to change the owner of tickets in this group/queue.',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            'Permissions to change the ticket priority in this group/queue.',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => '',
@@ -2474,6 +2744,9 @@ sub Data {
         'New phone ticket from %s' => 'New phone ticket from %s',
         'New email ticket to %s' => 'New email ticket to %s',
 
+        # Template: AgentDashboardMyLastChangedTickets
+        'No tickets found.' => '',
+
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s is available!',
         'Please update now.' => 'Please update now.',
@@ -2518,7 +2791,6 @@ sub Data {
         'until' => 'until',
 
         # Template: AgentDynamicFieldDBDetailedSearch
-        'Back' => 'Back',
         'Detailed search' => '',
         'Add an additional attribute' => '',
 
@@ -2580,7 +2852,6 @@ sub Data {
             '',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             '',
-        'Off' => 'Off',
         'End' => 'End',
         'This setting can currently not be saved.' => '',
         'This setting can currently not be saved' => '',
@@ -2634,6 +2905,53 @@ sub Data {
         'Delete statistic "%s"' => 'Delete statistic "%s"',
         'Delete statistic %s' => 'Delete statistic %s',
 
+        # Template: AgentStatisticsReportsAdd
+        'Report Management' => '',
+        'Add Report' => '',
+
+        # Template: AgentStatisticsReportsEdit
+        'Edit Report' => '',
+        'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
+            '',
+        'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
+            '',
+        'Configure PhantomJS' => '',
+        'Configure GoogleChrome' => '',
+        'General settings' => '',
+        'Automatic generation settings' => '',
+        'Automatic generation times (cron)' => '',
+        'Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.' =>
+            '',
+        'Times are in the system timezone.' => '',
+        'Last automatic generation time' => '',
+        'Next planned automatic generation time' => '',
+        'Automatic generation language' => '',
+        'The language to be used when the report is automatically generated.' =>
+            '',
+        'Email subject' => '',
+        'Specify the subject for the automatically generated email.' => '',
+        'Email body' => '',
+        'Specify the text for the automatically generated email.' => '',
+        'Email recipients' => '',
+        'Specify recipient email addresses (comma separated).' => '',
+        'Output settings' => '',
+        'Headline' => '',
+        'Caption for preamble' => '',
+        'Preamble' => '',
+        'Caption for epilogue' => '',
+        'Epilogue' => '',
+        'Add statistic to report' => '',
+
+        # Template: AgentStatisticsReportsOverview
+        'Statistics Reports' => '',
+        'Edit statistics report "%s".' => '',
+        'Delete statistics report "%s"' => '',
+
+        # Template: AgentStatisticsReportsView
+        'View Report' => '',
+        'This statistics report contains configuration errors and can currently not be used.' =>
+            '',
+
         # Template: AgentStatisticsView
         'Statistics Overview' => '',
         'View Statistics' => '',
@@ -2655,8 +2973,10 @@ sub Data {
         'Set Pending Time for %s%s%s' => 'Set Pending Time for %s%s%s',
         'Change Priority of %s%s%s' => 'Change Priority of %s%s%s',
         'Change Responsible of %s%s%s' => 'Change Responsible of %s%s%s',
+        'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'The ticket has been locked',
         'Undo & close' => 'Undo & close',
+        'All fields marked with an asterisk (*) are mandatory.' => 'All fields marked with an asterisk (*) are mandatory.',
         'Ticket Settings' => 'Ticket Settings',
         'Queue invalid.' => '',
         'Service invalid.' => 'Service invalid.',
@@ -2680,6 +3000,9 @@ sub Data {
         'Text Template' => 'Text Template',
         'Setting a template will overwrite any text or attachment.' => 'Setting a template will overwrite any text or attachment.',
         'Invalid time!' => 'Invalid time!',
+
+        # Template: AgentTicketArticleVersionView
+        'Viewing Article Version#%s of current Article: #%s %s' => '',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => 'Bounce %s%s%s',
@@ -2712,10 +3035,13 @@ sub Data {
             '',
         'Customer user address book' => '',
         'Remove Ticket Customer' => 'Remove Ticket Customer',
+        'Move to Cc' => '',
+        'Move to Bcc' => '',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Please remove this entry and enter a new one with the correct value.',
         'This address already exists on the address list.' => 'This address already exists on the address list.',
         'Remove Cc' => 'Remove Cc',
+        'Move to To' => '',
         'Bcc' => 'Bcc',
         'Remove Bcc' => 'Remove Bcc',
         'Date Invalid!' => 'Date Invalid!',
@@ -2727,7 +3053,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Create New Email Ticket',
-        'Example Template' => 'Example Template',
         'To customer user' => 'To customer user',
         'Please include at least one customer user for the ticket.' => 'Please include at least one customer user for the ticket.',
         'Select this customer as the main customer.' => 'Select this customer as the main customer.',
@@ -2871,12 +3196,14 @@ sub Data {
         'No.' => 'No.',
         'Unread articles' => 'Unread articles',
         'Via' => '',
+        'Article Edited' => '',
         'Important' => 'Important',
         'Unread Article!' => 'Unread Article!',
         'Incoming message' => 'Incoming message',
         'Outgoing message' => 'Outgoing message',
         'Internal message' => 'Internal message',
         'Sending of this message has failed.' => '',
+        'The article was edited' => '',
         'Resize' => 'Resize',
         'Mark this article as read' => 'Mark this article as read',
         'Show Full Text' => 'Show Full Text',
@@ -2933,7 +3260,7 @@ sub Data {
         'go back to the previous page' => 'go back to the previous page',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Click to accept' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2952,9 +3279,6 @@ sub Data {
         'An Error Occurred' => 'An Error Occurred',
         'Error Details' => 'Error Details',
         'Traceback' => 'Traceback',
-
-        # Template: CustomerFooter
-        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3005,7 +3329,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Welcome!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',
@@ -3038,7 +3361,6 @@ sub Data {
         'Save Search as Template?' => '',
         'Save as Template?' => 'Save as Template?',
         'Save as Template' => 'Save as Template',
-        'Template Name' => 'Template Name',
         'Pick a profile name' => 'Pick a profile name',
         'Output to' => 'Output to',
 
@@ -3050,15 +3372,17 @@ sub Data {
         # Template: CustomerTicketZoom
         'Reply' => 'Reply',
         'Discard' => '',
-        'Ticket Information' => 'Ticket Information',
-        'Categories' => '',
-        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Expand article',
 
         # Template: MIMEBase
         'Article Information' => '',
+
+        # Template: TicketInfo
+        'Ticket Information' => 'Ticket Information',
+        'Categories' => '',
+        'Further actions' => '',
 
         # Template: CustomerWarning
         'Warning' => 'Warning',
@@ -3068,11 +3392,13 @@ sub Data {
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Event Information',
-        'Ticket fields' => 'Ticket fields',
 
         # Template: Error
         'Send a bugreport' => 'Send a bugreport',
         'Expand' => 'Expand',
+
+        # Template: Footer
+        'Powered by %s' => '',
 
         # Template: AttachmentList
         'Click to delete this attachment.' => '',
@@ -3100,7 +3426,6 @@ sub Data {
         'License' => 'Licence',
         'Database Settings' => 'Database Settings',
         'General Specifications and Mail Settings' => 'General Specifications and Mail Settings',
-        'Finish' => 'Finish',
         'Welcome to %s' => 'Welcome to %s',
         'Germany' => '',
         'Phone' => 'Phone',
@@ -3154,17 +3479,11 @@ sub Data {
         'New' => 'New',
         'A new database user with limited permissions will be created for this OTOBO system.' =>
             'A new database user with limited permissions will be created for this OTOBO system.',
-        'Repeat Password' => 'Repeat Password',
         'Generated password' => 'Generated password',
-
-        # Template: InstallerDBmysql
+        'Repeat Password' => 'Repeat Password',
         'Passwords do not match' => 'Passwords do not match',
 
         # Template: InstallerFinish
-        'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
-            'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.',
-        'Restart your webserver' => 'Restart your webserver',
-        'After doing so your OTOBO is up and running.' => 'After doing so your OTOBO is up and running.',
         'Start page' => 'Start page',
         'Your OTOBO Team' => 'Your OTOBO Team',
 
@@ -3230,6 +3549,10 @@ sub Data {
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
             '',
+        'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
+            'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.',
+        'Restart your webserver' => 'Restart your webserver',
+        'After doing so your OTOBO is up and running.' => 'After doing so your OTOBO is up and running.',
 
         # Template: Intro
         'This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.' =>
@@ -3372,7 +3695,6 @@ sub Data {
             'Do not allow changes to this element when the statistic is generated.',
 
         # Template: StatsParamsWidget
-        'Format' => 'Format',
         'Exchange Axis' => 'Exchange Axis',
         'Configurable Params of Static Stat' => '',
         'No element selected.' => 'No element selected.',
@@ -3393,6 +3715,13 @@ sub Data {
         # Template: YAxisWidget
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).',
+
+        # Template: StatsWidget
+        'Remove statistic' => '',
+        'If you don\'t specify a title here, the title of the statistic will be used.' =>
+            '',
+        'Preface' => '',
+        'Postface' => '',
 
         # Template: SettingHistoryListCompare
         'On ' => '',
@@ -3475,6 +3804,11 @@ sub Data {
         'Unlock' => 'Unlock',
         'Welcome %s %s' => 'Welcome %s %s',
         'Counter' => 'Counter',
+
+        # Template: TranslationsTable
+        'Filter Content' => '',
+        'Filter for Translations' => '',
+        'No content available to translate.' => '',
 
         # Template: Warning
         'Go back to the previous page' => 'Go back to the previous page',
@@ -3559,10 +3893,14 @@ sub Data {
         'Country' => 'Country',
         'Mr.' => 'Mr.',
         'Mrs.' => 'Mrs.',
+        'Manager' => '',
         'Address' => '',
         'View system log messages.' => 'View system log messages.',
         'Edit the system configuration settings.' => 'Edit the system configuration settings.',
         'Update and extend your system with software packages.' => 'Update and extend your system with software packages.',
+
+        # Perl Module: Kernel/Language.pm
+        '(in process)' => '(in process)',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
@@ -3591,6 +3929,10 @@ sub Data {
         'Negated regular expression' => 'Negated regular expression',
         'Negated regular expression (ignore case)' => 'Negated regular expression (ignore case)',
 
+        # Perl Module: Kernel/Modules/AdminAbout.pm
+        'Could not update About message!' => '',
+        'About message updated!' => '',
+
         # Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
         'System was unable to create Calendar!' => '',
         'Please contact the administrator.' => 'Please contact the administrator.',
@@ -3608,6 +3950,7 @@ sub Data {
         '+15 minutes' => '',
         '+30 minutes' => '',
         '+1 hour' => '',
+        '+1 day' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
         'No permissions' => '',
@@ -3638,6 +3981,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
+        'No permission to edit this attachment.' => '',
         'Attachment added!' => 'Attachment added!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
@@ -3656,7 +4000,6 @@ sub Data {
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
-        'Failed' => '',
         'Invalid Filter: %s!' => 'Invalid Filter: %s!',
         'Less than a second' => '',
         'sorted descending' => 'sorted descending',
@@ -3683,12 +4026,34 @@ sub Data {
             '',
         'No data found for given source!' => '',
 
+        # Perl Module: Kernel/Modules/AdminCustomerAccept.pm
+        'Could not update Privacy Policy!' => '',
+        'Privacy Policy updated!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Customer company updated!',
         'Dynamic field %s not found!' => '',
         'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => 'Customer Company %s already exists!',
         'Customer company added!' => 'Customer company added!',
+
+        # Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
+        'Start date shouldn\'t be defined after Stop date!' => 'Start date shouldn\'t be defined after Stop date!',
+        'Name is missing!' => '',
+        'Content is missing!' => '',
+        'ValidID is missing!' => '',
+        'Group is missing!' => '',
+        'There was an error creating the info tile entry' => '',
+        'Need ID!' => '',
+        'This Entry does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
+        'Could not get data for ID %s' => '',
+        'Info tile entry was added successfully!' => '',
+        'Info tile entry was updated successfully!' => '',
+        'Session has been killed!' => 'Session has been killed!',
+        'All sessions have been killed, except for your own.' => 'All sessions have been killed, except for your own.',
+        'There was an error updating the info tile entry' => '',
+        'It was not possible to delete the info tile entry: %s!' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
@@ -3724,9 +4089,9 @@ sub Data {
         'Undefined subaction.' => 'Undefined subaction.',
         'Need %s' => 'Need %s',
         'Add %s field' => '',
+        'The field must be numeric.' => 'The field must be numeric.',
         'The field does not contain only ASCII letters and numbers.' => 'The field does not contain only ASCII letters and numbers.',
         'There is another field with the same name.' => 'There is another field with the same name.',
-        'The field must be numeric.' => 'The field must be numeric.',
         'Need ValidID' => 'Need ValidID',
         'Could not create the new field' => 'Could not create the new field',
         'Need ID' => 'Need ID',
@@ -3748,12 +4113,50 @@ sub Data {
         'Prevent entry of dates in the future' => 'Prevent entry of dates in the future',
         'Prevent entry of dates in the past' => 'Prevent entry of dates in the past',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
+        'Syntax is incorrect. Please provide a parent element name in front of the double colon.' =>
+            '',
+        'An element is used as parent element, but not included itself. Please include it.' =>
+            '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+        'The referenced dynamic field' => '',
+        'Select the dynamic field that references an object' => '',
+        'The attribute of the referenced object' => '',
+        'Select the attribute dynamic field that references an object' =>
+            '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
+        'Not a valid dynamic field.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
         'Settings were saved.' => '',
         'System was not able to save the setting!' => '',
         'Setting is locked by another user!' => '',
         'System was not able to reset the setting!' => '',
         'Settings were reset.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+        'Need valid field driver.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+        'Missing Dynamic Field.' => '',
+        'No valid dynamic field "%s."' => '',
+        'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
+            '',
+        'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'Misconfigured Grid - need Rows as Array!' => '',
+        'Misconfigured Grid - need Columns as integer > 0!' => '',
+        'Misconfigured Grid - Rows can\'t be empty!' => '',
+        'Misconfigured Grid - Rows must contain entries with key \'DF\'!' =>
+            '',
+        'Missing Dynamic Field or Grid.' => '',
+        'The field must be a valid YAML containing an array of dynamic fields.' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Select at least one recipient.',
@@ -3850,6 +4253,11 @@ sub Data {
         'Regexp' => '',
         'Validation Module' => '',
 
+        # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
+        'Invisible only' => '',
+        'Visible only' => '',
+        'Visible and invisible' => '',
+
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Simple Mapping for Outgoing Data' => '',
         'Simple Mapping for Incoming Data' => '',
@@ -3891,6 +4299,8 @@ sub Data {
         'Need valid Subaction!' => '',
         'This field should be an integer.' => '',
         'File or Directory not found.' => '',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'There is another web service with the same name.',
@@ -3917,6 +4327,23 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGroup.pm
         'Group updated!' => 'Group updated!',
 
+        # Perl Module: Kernel/Modules/AdminImportExport.pm
+        'No object backend found!' => '',
+        'No format backend found!' => '',
+        'Template not found!' => '',
+        'Can\'t insert/update template!' => '',
+        'Needed TemplateID!' => '',
+        'Error occurred. Import impossible! See Syslog for details.' => '',
+        'Error occurred. Export impossible! See Syslog for details.' => '',
+        'Template List' => '',
+        'number' => '',
+        'number bigger than zero' => '',
+        'integer' => '',
+        'integer bigger than zero' => '',
+        'Element required, please insert data' => '',
+        'Invalid data, please insert a valid %s' => '',
+        'Format not found!' => '',
+
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Mail account added!',
         'Email account fetch already fetched by another process. Please try again later!' =>
@@ -3925,6 +4352,8 @@ sub Data {
         'Dispatching by selected Queue.' => 'Dispatching by selected Queue.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+        'No permission to edit this ticket notification.' => '',
+        'You need %s permissions!' => 'You need %s permissions!',
         'Agent who created the ticket' => '',
         'Agent who owns the ticket' => 'Agent who owns the ticket',
         'Agent who is responsible for the ticket' => 'Agent who is responsible for the ticket',
@@ -3937,6 +4366,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Only send within working hours' => '',
+        'Only send outside working hours' => '',
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
@@ -3948,8 +4379,6 @@ sub Data {
         'Need param Key to download!' => 'Need param Key to download!',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
-        'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!' =>
-            'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!',
         'No such package!' => 'No such package!',
         'No such file %s in package!' => 'No such file %s in package!',
         'No such file %s in local file system!' => 'No such file %s in local file system!',
@@ -4095,6 +4524,9 @@ sub Data {
         'Training' => '',
         'Development' => '',
 
+        # Perl Module: Kernel/Modules/AdminResponseTemplatesStatePreselection.pm
+        'Template updated!' => 'Template updated!',
+
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'Role updated!',
         'Role added!' => 'Role added!',
@@ -4164,13 +4596,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
-        'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
@@ -4188,24 +4620,37 @@ sub Data {
         'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
-        'Start date shouldn\'t be defined after Stop date!' => 'Start date shouldn\'t be defined after Stop date!',
         'There was an error creating the System Maintenance' => 'There was an error creating the System Maintenance',
         'Need SystemMaintenanceID!' => 'Need SystemMaintenanceID!',
         'Could not get data for SystemMaintenanceID %s' => 'Could not get data for SystemMaintenanceID %s',
         'System Maintenance was added successfully!' => '',
         'System Maintenance was updated successfully!' => '',
-        'Session has been killed!' => 'Session has been killed!',
-        'All sessions have been killed, except for your own.' => 'All sessions have been killed, except for your own.',
         'There was an error updating the System Maintenance' => 'There was an error updating the System Maintenance',
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'Was not possible to delete the SystemMaintenance entry: %s!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => 'Template updated!',
+        'No permission to edit this template.' => '',
         'Template added!' => 'Template added!',
 
         # Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
         'Change Attachment Relations for Template' => 'Change Attachment Relations for Template',
         'Change Template Relations for Attachment' => 'Change Template Relations for Attachment',
+
+        # Perl Module: Kernel/Modules/AdminTranslations.pm
+        'Translation unmarked for deletion!' => '',
+        'Error trying unmark translation for delete!' => '',
+        'Translations changed!' => '',
+        'No translations were changed!' => '',
+        'Errors trying to change translations!' => '',
+        'Translations added!' => '',
+        'No translations were given to add!' => '',
+        'Translation already exists!' => '',
+        'Translations deployed successfuly!' => '',
+        'Nothing to do!' => '',
+        'Errors ocurred when trying to deploy translation. Please check system logs!' =>
+            '',
+        'All Items' => '',
+        'Deployment Results' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'Need Type!',
@@ -4310,9 +4755,21 @@ sub Data {
         'Could not create statistic.' => 'Could not create statistic.',
         'Run: Get no %s!' => 'Run: Get no %s!',
 
+        # Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+        'Got no %s!' => '',
+        'Add New Statistics Report' => '',
+        'This name is already in use, please choose a different one.' => '',
+        'Could not create report.' => '',
+        'Need StatsReportID!' => '',
+        'Edit Statistics Report' => '',
+        'Could not find report.' => '',
+        'Please provide a valid cron entry.' => '',
+        'Could not update report.' => '',
+        'View Statistics Report' => '',
+        'Delete: Got no StatsReportID!' => '',
+
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => 'No TicketID is given!',
-        'You need %s permissions!' => 'You need %s permissions!',
         'Loading draft failed!' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Sorry, you need to be the ticket owner to perform this action.',
@@ -4327,6 +4784,12 @@ sub Data {
         'wrote' => 'wrote',
         'Message from' => 'Message from',
         'End message' => 'End message',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+        'No ArticleID is given!' => '',
+
+        # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
+        'Can\'t set this Ticket option, no TicketID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
         '%s is needed!' => '%s is needed!',
@@ -4365,9 +4828,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => 'Got no TicketID!',
         'System Error!' => 'System Error!',
-
-        # Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
-        'No ArticleID is given!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
         'Next week' => 'Next week',
@@ -4465,14 +4925,14 @@ sub Data {
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'Missing ProcessEntityID in Ticket %s!',
-        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
             'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!',
+        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
+            'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!',
         'Default Config for Process::Default%s missing!' => 'Default Config for Process::Default%s missing!',
         'Default Config for Process::Default%s invalid!' => 'Default Config for Process::Default%s invalid!',
 
@@ -4564,14 +5024,9 @@ sub Data {
         'Can\'t get for ArticleID %s!' => 'Can\'t get for ArticleID %s!',
         'Article filter settings were saved.' => 'Article filter settings were saved.',
         'Event type filter settings were saved.' => 'Event type filter settings were saved.',
-        'Need ArticleID!' => 'Need ArticleID!',
-        'Invalid ArticleID!' => 'Invalid ArticleID!',
         'Forward article via mail' => 'Forward article via mail',
         'Forward' => 'Forward',
         'Fields with no group' => 'Fields with no group',
-        'Invisible only' => '',
-        'Visible only' => '',
-        'Visible and invisible' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Article could not be opened! Perhaps it is on another article page?',
         'Show one article' => 'Show one article',
@@ -4583,11 +5038,23 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => '',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
         'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
             '',
+
+        # Perl Module: Kernel/Modules/CustomerGenericContent.pm
+        'Need Key!' => '',
+        'Invalid Key!' => '',
+        'Failed to load Content!' => '',
+        'Destination unknown.' => '',
+
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
@@ -4608,7 +5075,6 @@ sub Data {
         'Need CustomerID!' => 'Need CustomerID!',
         'My Tickets' => 'My Tickets',
         'Company Tickets' => 'Company Tickets',
-        'Untitled!' => 'Untitled!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => 'Customer Realname',
@@ -4618,6 +5084,7 @@ sub Data {
             'Please remove the following words because they cannot be used for the search:',
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
+        'Could not load process module.' => '',
         'Can\'t reopen ticket, not possible in this queue!' => 'Can\'t reopen ticket, not possible in this queue!',
         'Create a new ticket!' => 'Create a new ticket!',
 
@@ -4638,8 +5105,8 @@ sub Data {
         'Unknown Check!' => 'Unknown Check!',
         'The check "%s" doesn\'t exist!' => 'The check "%s" doesn\'t exist!',
         'Enter the password for the database user.' => 'Enter the password for the database user.',
-        'Database %s' => 'Database %s',
         'Configure MySQL' => '',
+        'Database %s' => 'Database %s',
         'Enter the password for the administrative database user.' => 'Enter the password for the administrative database user.',
         'Configure PostgreSQL' => '',
         'Configure Oracle' => '',
@@ -4649,18 +5116,20 @@ sub Data {
         'Install OTOBO - Error' => 'Install OTOBO - Error',
         'File "%s/%s.xml" not found!' => 'File "%s/%s.xml" not found!',
         'Contact your Admin!' => 'Contact your Admin!',
+        'Execution of SQL statement failed: ' => '',
         'https' => '',
         'http' => '',
         'System Settings' => 'System Settings',
         'Syslog' => '',
         'Configure Mail' => 'Configure Mail',
         'Mail Configuration' => 'Mail Configuration',
-        'Can\'t write Config file!' => 'Can\'t write Config file!',
         'Unknown Subaction %s!' => 'Unknown Subaction %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             'Can\'t connect to database, Perl module DBD::%s not installed!',
         'Can\'t connect to database, read comment!' => 'Can\'t connect to database, read comment!',
         'Database already contains data - it should be empty!' => 'Database already contains data - it should be empty!',
+        'Error: database version requirement not satisfied. Have version: %s Want version: %s' =>
+            '',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4684,6 +5153,15 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Article/Chat.pm
         'Chat' => 'Chat',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleDelete.pm
+        'Delete this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleEdit.pm
+        'Edit this article' => '',
+
+        # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketArticleRestore.pm
+        'Restore this article' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'Bounce Article to a different mail address',
@@ -4717,6 +5195,10 @@ sub Data {
         'Contact us at hello@otobo.io' => '',
         'Get Help' => '',
 
+        # Perl Module: Kernel/Output/HTML/ArticleAction/MarkArticleSeenUnseen.pm
+        'Mark article as unseen' => '',
+        'Mark as unseen' => '',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Mark',
         'Unmark' => 'Unmark',
@@ -4732,8 +5214,8 @@ sub Data {
         '"PGP SIGNED MESSAGE" header found, but invalid!' => '"PGP SIGNED MESSAGE" header found, but invalid!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-        '"S/MIME SIGNED MESSAGE" header found, but invalid!' => '"S/MIME SIGNED MESSAGE" header found, but invalid!',
-        'Ticket decrypted before' => 'Ticket decrypted before',
+        'Internal error during verification!' => '',
+        'Impossible to decrypt: private key not found!' => '',
         'Impossible to decrypt: private key for email was not found!' => 'Impossible to decrypt: private key for email was not found!',
         'Successful decryption' => 'Successful decryption',
 
@@ -4789,6 +5271,9 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => 'The start time of a ticket has been set after the end time!',
 
+        # Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
+        'Shown Tickets' => 'Shown Tickets',
+
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
         'Can\'t connect to OTOBO News server!' => '',
         'Can\'t get OTOBO News from server!' => '',
@@ -4801,7 +5286,6 @@ sub Data {
         'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'Shown Tickets' => 'Shown Tickets',
         'Shown Columns' => 'Shown Columns',
         'filter not active' => 'filter not active',
         'filter active' => 'filter active',
@@ -4822,10 +5306,6 @@ sub Data {
         'd' => 'd',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
-        'This is a' => 'This is a',
-        'email' => 'email',
-        'click here' => 'click here',
-        'to open it in a new window.' => 'to open it in a new window.',
         'Year' => 'Year',
         'Hours' => 'Hours',
         'Minutes' => 'Minutes',
@@ -4903,9 +5383,6 @@ sub Data {
             'Please make sure you\'ve chosen at least one transport method for mandatory notifications.',
         'Preferences updated successfully!' => 'Preferences updated successfully!',
 
-        # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '(in process)',
-
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Please specify an end date that is after the start date.',
 
@@ -4966,11 +5443,16 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Content' => 'Content',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Unlock to give it back to the queue',
         'Lock it to work on it' => 'Lock it to work on it',
+
+        # Perl Module: Kernel/Output/HTML/TicketMenu/ShowHideDeletedArticles.pm
+        'Hide deleted articles' => '',
+        'Click to hide deleted articles' => '',
+        'Show deleted articles' => '',
+        'Click to show deleted articles' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
         'Unwatch' => 'Unwatch',
@@ -4996,6 +5478,11 @@ sub Data {
         'Watched Tickets Reminder Reached' => 'Watched Tickets Reminder Reached',
         'Watched Tickets Total' => 'Watched Tickets Total',
 
+        # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
+        '%s Report' => '',
+        'Error: this graph could not be generated: %s.' => '',
+        'Table of Contents' => '',
+
         # Perl Module: Kernel/Output/PDF/Ticket.pm
         'Ticket Dynamic Fields' => 'Ticket Dynamic Fields',
 
@@ -5007,7 +5494,14 @@ sub Data {
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'It is currently not possible to login due to a scheduled system maintenance.',
 
+        # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+        'Authentication error. Please contact the administrator.' => '',
+        'Authentication error.' => '',
+        'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
+        'Please note that the session limit is almost reached.' => '',
         'Session limit reached! Please try again later.' => 'Session limit reached! Please try again later.',
         'Session per user limit reached!' => 'Session per user limit reached!',
 
@@ -5042,20 +5536,72 @@ sub Data {
         'This email address is already in use for another customer user.' =>
             '',
 
+        # Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
+        'Group of the agents' => '',
+        'Select the group of the agents' => '',
+        'External-source key' => '',
+        'When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => 'before/after',
         'between' => 'between',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+        'Referenced object type' => '',
+        'Select the type of the referenced object' => '',
+        'Input mode of edit field' => '',
+        'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
-        # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
+        # Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
+        'Attribute which will be searched on autocomplete' => '',
+        'Select the attribute which customer companies will be searched by' =>
+            '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'This field is required or',
         'The field content is too long!' => 'The field content is too long!',
         'Maximum size is %s characters.' => 'Maximum size is %s characters.',
+        'Full %s Text' => '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/Ticket.pm
+        'Queue of the ticket' => '',
+        'Select the queue of the ticket' => '',
+        'Type of the ticket' => '',
+        'Select the type of the ticket' => '',
+        'Select the attribute which tickets will be searched by' => '',
+        'Attribute which is displayed for values' => '',
+        'Select the type of display' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/CSV.pm
+        'Column Separator' => '',
+        'Tabulator (TAB)' => '',
+        'Semicolon (;)' => '',
+        'Colon (:)' => '',
+        'Dot (.)' => '',
+        'Comma (,)' => '',
+        'Charset' => '',
+        'Include Column Headers' => '',
+        'Column' => '',
+
+        # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
+        'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5092,15 +5638,16 @@ sub Data {
         'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
         '%s does not exist!' => '',
-        'Can\'t read OTOBO RELEASE file: %s: %s!' => '',
         'No OTOBO system found!' => '',
         'You are trying to run this script on the wrong framework version %s!' =>
             '',
         'OTOBO Version is correct: %s.' => '',
         'Check if OTRS version is correct.' => '',
-        'OTRS RELEASE file %s does not exist: %s!' => '',
-        'Can\'t read OTRS RELEASE file: %s: %s!' => '',
+        'OTRS RELEASE file %s does not exist!' => '',
+        'Can\'t read OTRS RELEASE file: %s' => '',
         'No OTRS system found!' => '',
+        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+            '',
         'OTRS Version is correct: %s.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -5184,8 +5731,6 @@ sub Data {
         'not installed' => 'not installed',
         'installed' => 'installed',
         'Unable to parse repository index document.' => 'Unable to parse repository index document.',
-        'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            'No packages for your framework version found in this repository, it only contains packages for other framework versions.',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
@@ -5218,13 +5763,20 @@ sub Data {
         'quarter' => 'quarter',
         'half-year' => 'half-year',
 
-        # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+        # Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
+        'unlimited' => 'unlimited',
+        'Attributes to be printed' => 'Attributes to be printed',
+        'Sort sequence' => 'Sort sequence',
+        'State Historic' => 'State Historic',
         'State Type' => 'State Type',
+        'State Type Historic' => 'State Type Historic',
         'Created Priority' => 'Created Priority',
         'Created State' => 'Created State',
         'Create Time' => 'Create Time',
+        'Article Create Time' => '',
         'Pending until time' => '',
         'Close Time' => 'Close Time',
+        'Historic Time Range' => 'Historic Time Range',
         'Escalation' => 'Escalation',
         'Escalation - First Response Time' => 'Escalation - First Response Time',
         'Escalation - Update Time' => 'Escalation - Update Time',
@@ -5232,6 +5784,7 @@ sub Data {
         'Agent/Owner' => 'Agent/Owner',
         'Created by Agent/Owner' => 'Created by Agent/Owner',
         'Assigned to Customer User Login' => '',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Evaluation by',
@@ -5248,16 +5801,6 @@ sub Data {
         'Article Min Time' => 'Article Min Time',
         'Article Max Time' => 'Article Max Time',
         'Number of Articles' => 'Number of Articles',
-
-        # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => 'unlimited',
-        'Attributes to be printed' => 'Attributes to be printed',
-        'Sort sequence' => 'Sort sequence',
-        'State Historic' => 'State Historic',
-        'State Type Historic' => 'State Type Historic',
-        'Historic Time Range' => 'Historic Time Range',
-        'Number' => 'Number',
-        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Solution Average',
@@ -5376,6 +5919,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO Disk Partition',
 
@@ -5457,11 +6004,6 @@ sub Data {
         'Months Between First And Last Ticket' => 'Months Between First And Last Ticket',
         'Tickets Per Month (avg)' => 'Tickets Per Month (avg)',
         'Open Tickets' => 'Open Tickets',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
-        'Default SOAP Username And Password' => 'Default SOAP Username And Password',
-        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
         'Default Admin Password' => 'Default Admin Password',
@@ -5584,12 +6126,6 @@ sub Data {
         'Please install mod_filter if mod_deflate is used.' => 'Please install mod_filter if mod_deflate is used.',
         'mod_headers Usage' => 'mod_headers Usage',
         'Please install mod_headers to improve GUI speed.' => 'Please install mod_headers to improve GUI speed.',
-        'Apache::Reload Usage' => 'Apache::Reload Usage',
-        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
-            'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.',
-        'Apache2::DBI Usage' => 'Apache2::DBI Usage',
-        'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
-            'Apache2::DBI should be used to get a better performance  with pre-established database connections.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => 'Environment Variables',
@@ -5661,13 +6197,20 @@ sub Data {
         'Chat Participant' => '',
         'Chat Message Text' => '',
 
+        # Perl Module: Kernel/System/Ticket/Mask.pm
+        'Base structure is not valid. Please provide an array with data in YAML format.' =>
+            '',
+        'Error parsing dynamic fields.' => '',
+        'No dynamic field "%s".' => '',
+        'Dynamic field "%s" not valid.' => '',
+        'Dynamic field "%s" already in use in a Set.' => '',
+
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Too many failed login attempts, please retry in %s s.' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Login failed! Your user name or password was entered incorrectly.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Logout successful.',
         'Feature not active!' => 'Feature not active!',
         'Sent password reset instructions. Please check your email.' => 'Sent password reset instructions. Please check your email.',
@@ -5699,6 +6242,9 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
+
+        # Perl Module: Kernel/System/Web/InterfacePublic.pm
+        'Could not connect to the database.' => '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'invalid-temporarily',
@@ -5822,6 +6368,9 @@ sub Data {
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
 
+        # JS File: Core.Agent.Admin.About
+        'Do you really want to delete this language?' => '',
+
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
         'Less' => '',
@@ -5833,6 +6382,10 @@ sub Data {
         'There was an error deleting the attachment. Please check the logs for more information.' =>
             '',
         'Attachment was deleted successfully.' => '',
+
+        # JS File: Core.Agent.Admin.CustomerDashboardInfoTile
+        'Do you really want to delete this customer dashboard info tile entry?' =>
+            '',
 
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
@@ -6005,6 +6558,12 @@ sub Data {
         'Deleting the template and its data. This may take a while...' =>
             '',
 
+        # JS File: Core.Agent.Admin.Translations
+        'Missing Translations' => '',
+        'At least one translation must be filled!' => '',
+        'All translations must be filled!' => '',
+        'Close' => 'Close',
+
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => '',
         'Timeline Month' => '',
@@ -6030,6 +6589,16 @@ sub Data {
         'Restore default settings' => '',
         'Are you sure you want to delete this appointment? This operation cannot be undone.' =>
             '',
+
+        # JS File: Core.Agent.ArticleFeatures
+        'Article Delete' => '',
+        'Are you sure you want to delete this article?' => '',
+        'Article deleted successfully!' => '',
+        'Article already marked as deleted.' => '',
+        'Article Restore' => '',
+        'Are you sure you want to restore this article?' => '',
+        'Article restored successfully!' => '',
+        'Article not available for restoring.' => '',
 
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
@@ -6091,6 +6660,9 @@ sub Data {
         # JS File: Core.Agent.Statistics
         'Do you really want to delete this statistic?' => 'Do you really want to delete this statistic?',
 
+        # JS File: Core.Agent.StatisticsReports
+        'Do you really want to delete this report?' => '',
+
         # JS File: Core.Agent.TicketAction
         'Select a customer ID to assign to this ticket' => '',
         'Do you really want to continue?' => 'Do you really want to continue?',
@@ -6143,6 +6715,10 @@ sub Data {
         'The key must not be empty.' => '',
         'A key with this name (\'%s\') already exists.' => '',
         'Do you really want to revert this setting to its historical value?' =>
+            '',
+
+        # JS File: Core.UI.CodeMirrorEditor
+        'Error trying to create CodeMirror instance, please check configuration!' =>
             '',
 
         # JS File: Core.UI.Datepicker
@@ -6198,6 +6774,12 @@ sub Data {
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
 
+        # JS File: ITSM.Admin.ImportExport
+        'Deleting template...' => '',
+        'There was an error deleting the template. Please check the logs for more information.' =>
+            '',
+        'Template was deleted successfully.' => '',
+
         # JS File: Core.Language.UnitTest
         'yes' => 'yes',
         'no' => 'no',
@@ -6216,6 +6798,10 @@ sub Data {
         'Expanded' => 'Expanded',
 
         # SysConfig
+        '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
         '
 Dear Customer,
 
@@ -6268,12 +6854,16 @@ Thanks for your help!
         'A Website' => 'A Website',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'A picture',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).',
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'AccountedTime',
         'Activate Elasticsearch.' => '',
+        'Activate the customer frontend.' => '',
+        'Activate the public frontend.' => '',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
             '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
@@ -6332,6 +6922,7 @@ Thanks for your help!
         'Agent Name' => 'Agent Name',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agent Name + FromSeparator + System Address Display Name',
         'Agent Preferences.' => 'Agent Preferences.',
+        'Agent Reference Dynamic Field With Data Search' => '',
         'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
@@ -6360,6 +6951,7 @@ Thanks for your help!
             'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".',
+        'Agent reference dynamic field with data search.' => '',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
             '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
@@ -6371,6 +6963,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All closed tickets.' => '',
         'All customer users of a CustomerID' => 'All customer users of a CustomerID',
         'All escalated tickets' => 'All escalated tickets',
         'All new tickets, these tickets have not been worked on yet' => 'All new tickets, these tickets have not been worked on yet',
@@ -6421,8 +7014,6 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".',
-        'Allows generic agent to execute custom command line scripts.' =>
-            '',
         'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).',
@@ -6475,12 +7066,21 @@ Thanks for your help!
         'Appointment notifications' => '',
         'Appointments' => '',
         'Arabic (Saudi Arabia)' => 'Arabic (Saudi Arabia)',
+        'Article ID: %s was deleted by "%s" (%s)' => '',
+        'Article ID: %s was edited by "%s" (%s)' => '',
+        'Article ID: %s was restored by "%s" (%s)' => '',
+        'Article Version View' => '',
+        'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
+            '',
         'ArticleTree' => 'ArticleTree',
+        'As soon as the move queue option dropdown is enabled for example in the AgentTicketZoom dialogue, it is possible to move tickets locked to other agents to another queue by activating this option.' =>
+            '',
         'Attachment Name' => 'Attachment Name',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Automated line break in text messages after x number of chars.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
+            '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
             '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.',
@@ -6518,9 +7118,9 @@ Thanks for your help!
         'Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view.' =>
             '',
         'Catalan' => 'Catalan',
-        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             '',
-        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             '',
         'Change Ticket' => '',
         'Change Ticket information' => '',
@@ -6567,14 +7167,18 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Christmas Eve',
-        'Close' => 'Close',
         'Close this ticket' => 'Close this ticket',
+        'Closed Tickets' => '',
         'Closed tickets (customer user)' => 'Closed tickets (customer user)',
         'Closed tickets (customer)' => 'Closed tickets (customer)',
         'Cloud Services' => 'Cloud Services',
         'Cloud service admin module registration for the transport layer.' =>
             'Cloud service admin module registration for the transport layer.',
         'Collect support data for asynchronous plug-in modules.' => 'Collect support data for asynchronous plug-in modules.',
+        'Color definitions for Agent interface highcontrast skin.' => '',
+        'Color definitions for Customer Interface highcontrast skin.' => '',
+        'Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications.' =>
+            '',
         'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Column ticket filters for Ticket Overviews type "Small".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
@@ -6614,6 +7218,8 @@ Thanks for your help!
             'Configure any additional readonly mirror databases that you want to use.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
             '',
+        'Configure the About information.' => '',
+        'Configure the privacy policy.' => '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure which screen should be shown after a new ticket has been created.',
         'Configure your own log text for PGP.' => 'Configure your own log text for PGP.',
@@ -6642,10 +7248,12 @@ Thanks for your help!
         'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Create and manage Service Level Agreements (SLAs).',
+        'Create and manage advanced definitions for ticket masks.' => '',
         'Create and manage agents.' => 'Create and manage agents.',
         'Create and manage appointment notifications.' => '',
         'Create and manage attachments.' => 'Create and manage attachments.',
         'Create and manage calendars.' => '',
+        'Create and manage custom translations.' => '',
         'Create and manage customer users.' => 'Create and manage customer users.',
         'Create and manage customers.' => 'Create and manage customers.',
         'Create and manage dynamic fields.' => 'Create and manage dynamic fields.',
@@ -6674,6 +7282,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'Croatian',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Custom RSS Feed',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).',
@@ -6688,6 +7297,7 @@ Thanks for your help!
         'Customer Information Center search.' => '',
         'Customer Information Center.' => 'Customer Information Center.',
         'Customer Password.' => '',
+        'Customer Reference Dynamic Field With Data Search' => '',
         'Customer Ticket Print Module.' => 'Customer Ticket Print Module.',
         'Customer User Administration' => 'Customer User Administration',
         'Customer User Information' => '',
@@ -6705,10 +7315,13 @@ Thanks for your help!
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.',
         'Customer preferences.' => 'Customer preferences.',
+        'Customer reference dynamic field with data search.' => '',
         'Customer ticket overview' => 'Customer ticket overview',
         'Customer ticket search.' => 'Customer ticket search.',
         'Customer ticket zoom' => 'Customer ticket zoom',
         'Customer user search' => 'Customer user search',
+        'CustomerCompany' => '',
+        'CustomerDashboard Info Tile' => '',
         'CustomerID search' => 'CustomerID search',
         'CustomerName' => 'CustomerName',
         'CustomerUser' => 'CustomerUser',
@@ -6749,10 +7362,14 @@ Thanks for your help!
             'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
+        'Define a result field for the TicketID of the invoker response per web service (WebserviceID => DynamicFieldName).' =>
+            '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.',
+        'Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters.' =>
+            '',
         'Define the max depth of queues.' => 'Define the max depth of queues.',
         'Define the queue comment 2.' => 'Define the queue comment 2.',
         'Define the service comment 2.' => 'Define the service comment 2.',
@@ -6817,7 +7434,7 @@ Thanks for your help!
         'Defines all the possible stats output formats.' => 'Defines all the possible stats output formats.',
         'Defines an alternate URL, where the login link refers to.' => 'Defines an alternate URL, where the login link refers to.',
         'Defines an alternate URL, where the logout link refers to.' => 'Defines an alternate URL, where the logout link refers to.',
-        'Defines an alternate login URL for the customer panel..' => 'Defines an alternate login URL for the customer panel..',
+        'Defines an alternate login URL for the customer panel.' => '',
         'Defines an alternate logout URL for the customer panel.' => 'Defines an alternate logout URL for the customer panel.',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').',
@@ -6826,9 +7443,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             '',
         'Defines available article actions for Chat articles.' => '',
-        'Defines available article actions for Email articles.' => '',
         'Defines available article actions for Internal articles.' => '',
         'Defines available article actions for Phone articles.' => '',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '',
         'Defines available groups for the admin overview screen.' => '',
         'Defines chat communication channel.' => '',
@@ -6840,6 +7457,8 @@ Thanks for your help!
         'Defines how many deployments the system should keep.' => '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Defines how the From field from the emails (sent from answers and email tickets) should look like.',
+        'Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.' =>
+            '',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
             'Defines if a pre-sorting by priority should be done in the queue view.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
@@ -6881,6 +7500,8 @@ Thanks for your help!
             'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -6915,12 +7536,16 @@ Thanks for your help!
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.',
+        'Defines if the ticket info widget is displayed permanently on the left below the article list or is available via click on the \'Information\' button.' =>
+            '',
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+        'Defines if time accounting is mandatory in the agent interface, if a note is entered.' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Defines if time accounting must be set to all tickets in bulk action.',
+        'Defines if user can modify all possible values/labels of dynamic fields in one data table.' =>
+            '',
         'Defines internal communication channel.' => '',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.',
@@ -6964,6 +7589,10 @@ Thanks for your help!
         'Defines the communication chanel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => 'Defines the config options for the autocompletion feature.',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
+        'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketUnseenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Defines the config parameters of this item, to be shown in the preferences view.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -6973,9 +7602,9 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'Defines the connections for http/ftp, via a proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Defines the customer preferences key where the shared secret key is stored.',
+        'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Defines the date input format used in forms (option or input fields).',
-        'Defines the default CSS used in rich text editors.' => 'Defines the default CSS used in rich text editors.',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -6984,11 +7613,13 @@ Thanks for your help!
             'Defines the default body of a note in the ticket free text screen of the agent interface.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+        'Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
-        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).',
+        'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
+            '',
         'Defines the default history type in the customer interface.' => 'Defines the default history type in the customer interface.',
+        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+            '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Defines the default maximum number of X-axis attributes for the time scale.',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
@@ -7155,8 +7786,8 @@ Thanks for your help!
             '',
         'Defines the groups every customer will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every customer for these groups).' =>
             '',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).',
+        'Defines the headers which will be shown to generic content for the requested key.' =>
+            '',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7214,6 +7845,8 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Defines the hours and week days of the indicated calendar, to count the working time.',
         'Defines the hours and week days to count the working time.' => 'Defines the hours and week days to count the working time.',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
@@ -7267,6 +7900,8 @@ Thanks for your help!
             'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.',
+        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7277,12 +7912,16 @@ Thanks for your help!
             '',
         'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
             '',
+        'Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info.' =>
+            '',
         'Defines the module to generate code for periodic page reloads.' =>
             'Defines the module to generate code for periodic page reloads.',
         'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
             '',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.',
+        'Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the inner content to the chosen key.' =>
+            '',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
             'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.',
         'Defines the name of the column to store the data in the preferences table.' =>
@@ -7332,19 +7971,16 @@ Thanks for your help!
             '',
         'Defines the number of hours a successful communication will be stored.' =>
             '',
+        'Defines the number of tickets shown in the widget.' => '',
         'Defines the parameters for the customer preferences table.' => 'Defines the parameters for the customer preferences table.',
-        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
-        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
-        'Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
-            'Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
             'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
@@ -7366,6 +8002,10 @@ Thanks for your help!
         'Defines the path to PGP binary.' => 'Defines the path to PGP binary.',
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
+        'Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.' =>
+            '',
+        'Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.' =>
+            '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             '',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -7377,6 +8017,10 @@ Thanks for your help!
             'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
             'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.',
+        'Defines the redirect URL for setting a ticket article to \'seen\'.' =>
+            '',
+        'Defines the redirect URL for setting a ticket article to \'unseen\'.' =>
+            '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             'Defines the required permission to show a ticket in the escalation view of the agent interface.',
         'Defines the search limit for the stats.' => 'Defines the search limit for the stats.',
@@ -7387,7 +8031,7 @@ Thanks for your help!
             'Defines the separator between the agents real name and the given queue email address.',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             '',
-        'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+        'Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted.' =>
             '',
         'Defines the source dynamic field for storing historical data.' =>
             '',
@@ -7441,14 +8085,14 @@ Thanks for your help!
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.',
         'Defines the user identifier for the customer panel.' => 'Defines the user identifier for the customer panel.',
-        'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
-            'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.',
+        'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
+            '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
@@ -7472,6 +8116,7 @@ Thanks for your help!
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.',
         'Delete expired cache from core modules.' => 'Delete expired cache from core modules.',
+        'Delete expired form cache hourly.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => 'Delete expired loader cache weekly (Sunday mornings).',
         'Delete expired sessions.' => 'Delete expired sessions.',
         'Delete expired ticket draft entries.' => '',
@@ -7489,6 +8134,8 @@ Thanks for your help!
             '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.',
+        'Determines if the statistics module may generate article lists.' =>
+            '',
         'Determines if the statistics module may generate ticket lists.' =>
             'Determines if the statistics module may generate ticket lists.',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
@@ -7503,6 +8150,8 @@ Thanks for your help!
             'Determines the next screen after new customer ticket in the customer interface.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
             'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.',
+        'Determines the next screen after the process screen of a zoomed ticket in the customer interface.' =>
+            '',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
@@ -7517,6 +8166,8 @@ Thanks for your help!
             'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determines which queues will be valid for ticket\'s recepients in the customer interface.',
+        'Dialog to show after marking a ticket as seen' => '',
+        'Dialog to show after marking a ticket as unseen' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -7527,37 +8178,56 @@ Thanks for your help!
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Display a warning and prevent search when using stop words within fulltext search.',
         'Display communication log entries.' => '',
         'Display settings to override defaults for Process Tickets.' => 'Display settings to override defaults for Process Tickets.',
+        'Display settings to override defaults for dynamic field widget for Tickets.' =>
+            '',
+        'Displayable via click' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Displays the accounted time for an article in the ticket zoom view.',
         'Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.' =>
             '',
-        'Down' => 'Down',
         'Dropdown' => 'Dropdown',
         'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Dutch stop words for fulltext index. These words will be removed from the search index.',
+        'Dynamic Field Contents' => '',
+        'Dynamic Field Information' => '',
+        'Dynamic Field Labels' => '',
+        'Dynamic Field Set' => '',
+        'Dynamic Field Set Backend GUI' => '',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields Checkbox Backend GUI',
         'Dynamic Fields Contact Data Backend GUI' => '',
         'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'Dynamic Fields Date Time Backend GUI',
         'Dynamic Fields Drop-down Backend GUI' => 'Dynamic Fields Drop-down Backend GUI',
         'Dynamic Fields GUI' => 'Dynamic Fields GUI',
+        'Dynamic Fields Lens Backend GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => 'Dynamic Fields Multiselect Backend GUI',
         'Dynamic Fields Overview Limit' => 'Dynamic Fields Overview Limit',
+        'Dynamic Fields Reference Backend GUI' => '',
         'Dynamic Fields Text Backend GUI' => 'Dynamic Fields Text Backend GUI',
         'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             'Dynamic Fields used to export the search result in CSV format.',
+        'Dynamic field event module that deletes script field events if a dynamic field of type script gets deleted.' =>
+            '',
+        'Dynamic field event module that updates PartOfSet attributes of fields which are included in a set.' =>
+            '',
+        'Dynamic fields groups for dynamic field widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.',
         'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the dynamic field widget in ticket zoom screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the email outbound screen of the agent interface.' =>
             '',
@@ -7643,6 +8313,7 @@ Thanks for your help!
         'Enables file upload in the package manager frontend.' => 'Enables file upload in the package manager frontend.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!',
+        'Enables or disables the debug mode for translations module.' => '',
         'Enables or disables the debug mode over frontend interface.' => 'Enables or disables the debug mode over frontend interface.',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.',
@@ -7672,6 +8343,7 @@ Thanks for your help!
         'Escalation view' => 'Escalation view',
         'EscalationTime' => 'EscalationTime',
         'Estonian' => 'Estonian',
+        'Evaluate all script fields.' => '',
         'Event module registration (store historical data in dynamic fields).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -7766,12 +8438,12 @@ Thanks for your help!
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             'French stop words for fulltext index. These words will be removed from the search index.',
         'Frontend' => 'Frontend',
+        'Frontend module for dashboard info tile in customer interface.' =>
+            '',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
             '',
         'Frontend module registration (disable company link if no company feature is used).' =>
             'Frontend module registration (disable company link if no company feature is used).',
-        'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
-            'Frontend module registration (disable ticket processes screen if no process available) for Customer.',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
             'Frontend module registration (disable ticket processes screen if no process available).',
         'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
@@ -7786,6 +8458,7 @@ Thanks for your help!
         'Fulltext search using Elasticsearch.' => '',
         'FulltextES' => '',
         'Galician' => 'Galician',
+        'General Label' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
@@ -7806,6 +8479,10 @@ Thanks for your help!
         'GenericInterface module registration for an error handling module.' =>
             '',
         'GenericInterface module registration for the PassThrough invoker layer.' =>
+            '',
+        'GenericInterface module registration for the TicketCreate invoker layer.' =>
+            '',
+        'GenericInterface module registration for the TicketUpdate invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => 'GenericInterface module registration for the invoker layer.',
         'GenericInterface module registration for the mapping layer.' => 'GenericInterface module registration for the mapping layer.',
@@ -7863,6 +8540,8 @@ Thanks for your help!
             'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
             'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.',
+        'If "LDAP" was selected for Customer::AuthModule and you wish to use TLS security to communicate with the LDAP server, the "verify" parameter can be specified here. See Net::LDAP::start_tls for more information about the parameter.' =>
+            '',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.' =>
             'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.' =>
@@ -7899,6 +8578,8 @@ Thanks for your help!
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.',
+        'If activated, a clicked activity button will be hidden in the customer ticket zoom frontend.' =>
+            '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             'If active, none of the regular expressions may match the user\'s email address to allow registration.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -7911,6 +8592,8 @@ Thanks for your help!
             'If any of the "SMTP" mechanisms was selected as SendmailModule, the mailhost that sends out the mails must be specified.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'If enabled debugging information for ACLs is logged.',
         'If enabled debugging information for transitions is logged.' => 'If enabled debugging information for transitions is logged.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -7958,7 +8641,12 @@ Thanks for your help!
             '',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
+        'Ignores not ticket related attributes.' => '',
+        'Import and export object information.' => '',
         'Import appointments screen.' => '',
+        'Import/Export' => '',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Include tickets of subqueues per default when selecting a queue.',
         'Include unknown customers in ticket filter.' => 'Include unknown customers in ticket filter.',
@@ -7992,7 +8680,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => 'JavaScript function for the search frontend.',
         'Jump to OTOBO!' => '',
         'Korean' => '',
-        'Language' => 'Language',
+        'Languages' => '',
         'Large' => 'Large',
         'Last Screen Overview' => '',
         'Last customer subject' => 'Last customer subject',
@@ -8002,7 +8690,9 @@ Thanks for your help!
         'Lastname, Firstname (UserLogin)' => 'Lastname, Firstname (UserLogin)',
         'LastnameFirstname' => '',
         'Latvian' => 'Latvian',
+        'Lax' => '',
         'Left' => 'Left',
+        'Lens' => '',
         'Link Object' => 'Link Object',
         'Link Object.' => 'Link Object.',
         'Link agents to groups.' => 'Link agents to groups.',
@@ -8047,8 +8737,12 @@ Thanks for your help!
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             'List of responsive CSS files to always be loaded for the customer interface.',
         'List of states for which escalations should be suspended.' => '',
+        'List of ticket masks which can be altered using AdminTicketMask.' =>
+            '',
         'List view' => 'List view',
         'Lithuanian' => 'Lithuanian',
+        'Loader module for dashboard info tile in customer interface.' =>
+            '',
         'Loader module registration for the agent interface.' => '',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => 'Lock / unlock this ticket',
@@ -8073,6 +8767,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.',
         'Malay' => 'Malay',
+        'Manage Customer Dashboard Info Tile Entries' => '',
         'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Manage PGP keys for email encryption.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Manage POP3 or IMAP accounts to fetch email from.',
@@ -8084,8 +8779,12 @@ Thanks for your help!
         'Manage support data.' => 'Manage support data.',
         'Manage system registration.' => 'Manage system registration.',
         'Manage tasks triggered by event or time based execution.' => 'Manage tasks triggered by event or time based execution.',
+        'Manage ticket state pre-selections for response templates.' => '',
         'Mark as Spam!' => 'Mark as Spam!',
         'Mark this ticket as junk!' => 'Mark this ticket as junk!',
+        'Mark ticket as seen' => '',
+        'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Max size (in characters) of the customer information table (phone and email) in the compose screen.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8170,6 +8869,8 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'My Queues',
         'My Services' => 'My Services',
+        'My last changed tickets' => '',
+        'MyLastChangedTickets dashboard widget.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8180,7 +8881,6 @@ Thanks for your help!
         'New Year\'s Day' => 'New Year\'s Day',
         'New Year\'s Eve' => 'New Year\'s Eve',
         'New process ticket' => 'New process ticket',
-        'News about OTOBO releases!' => 'News about OTOBO releases!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.',
@@ -8213,6 +8913,8 @@ Thanks for your help!
             'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
+        'Object backend module registration for the import/export module.' =>
+            '',
         'Objects to search for, how many entries and which attributs to show.' =>
             '',
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
@@ -8234,6 +8936,10 @@ Thanks for your help!
         'Out Of Office' => 'Out Of Office',
         'Out Of Office Time' => 'Out Of Office Time',
         'Out of Office users.' => '',
+        'Outbound request headers not allowed to be used in frontend configuration.' =>
+            '',
+        'Outbound response headers not allowed to be used in frontend configuration.' =>
+            '',
         'Output filter to inject the necessary Dynamic field names in hidden input.' =>
             '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
@@ -8251,6 +8957,8 @@ Thanks for your help!
         'PGP Keys' => 'PGP Keys',
         'Package event module file a scheduler task for update registration.' =>
             'Package event module file a scheduler task for update registration.',
+        'Package event module trigger package reinstall in containers.' =>
+            '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -8260,6 +8968,8 @@ Thanks for your help!
         'Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the dashboard backend of the closed tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -8318,10 +9028,15 @@ Thanks for your help!
         'ParentChild' => 'ParentChild',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '',
         'People' => 'People',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '',
+        'Permanent' => '',
         'Permitted width for compose email windows.' => 'Permitted width for compose email windows.',
         'Permitted width for compose note windows.' => 'Permitted width for compose note windows.',
         'Persian' => 'Persian',
@@ -8349,11 +9064,9 @@ Thanks for your help!
         'Process Management Path GUI' => 'Process Management Path GUI',
         'Process Management Transition Action GUI' => 'Process Management Transition Action GUI',
         'Process Management Transition GUI' => 'Process Management Transition GUI',
-        'Process Ticket.' => 'Process Ticket.',
         'Process pending tickets.' => 'Process pending tickets.',
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => '',
-        'Product News' => 'Product News',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
@@ -8363,12 +9076,13 @@ Thanks for your help!
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             '',
         'Public Calendar' => '',
+        'Public Interface' => '',
         'Public calendar.' => '',
         'Queue view' => 'Queue view',
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Rebuild the ticket index for AgentTicketQueue.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
@@ -8376,7 +9090,19 @@ Thanks for your help!
             '',
         'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Refresh interval',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu of ticket overviews to mark all articles of the ticket as unseen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as seen.' =>
+            '',
+        'Registers a link in the ticket menu to mark a ticket as unseen.' =>
+            '',
         'Registers a log module, that can be used to log communication related information.' =>
+            '',
+        'Registration of the CSV format backend module for the ImportExport feature.' =>
+            '',
+        'Registration of the JSON format backend module for the ImportExport feature.' =>
             '',
         'Reminder Tickets' => 'Reminder Tickets',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
@@ -8438,6 +9164,7 @@ Thanks for your help!
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Retains all services in listings even if they are children of invalid elements.',
+        'Richtext' => '',
         'Right' => 'Right',
         'Roles ↔ Groups' => '',
         'Romanian' => '',
@@ -8454,12 +9181,16 @@ Thanks for your help!
             '',
         'Russian' => 'Russian',
         'S/MIME Certificates' => 'S/MIME Certificates',
+        'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Salutations',
         'Sample command output' => 'Sample command output',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
+            '',
         'Schedule a maintenance period.' => 'Schedule a maintenance period.',
         'Screen after new ticket' => 'Screen after new ticket',
+        'Script (Template Toolkit)' => '',
         'Search Customer' => 'Search Customer',
         'Search Ticket.' => 'Search Ticket.',
         'Search Tickets.' => 'Search Tickets.',
@@ -8472,6 +9203,8 @@ Thanks for your help!
         'Select after which period ticket overviews should refresh automatically.' =>
             '',
         'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the algorithm used for encryption. Fallback is aes256. Try "/usr/bin/openssl enc -ciphers" to get a list of ciphers supported by your system (written without the leading \'-\').' =>
             '',
         'Select the main interface language.' => '',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
@@ -8493,7 +9226,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.',
         'Sends customer notifications just to the mapped customer.' => 'Sends customer notifications just to the mapped customer.',
-        'Sends registration information to OTOBO group.' => 'Sends registration information to OTOBO group.',
+        'Sends registration information to Rother OSS.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8607,6 +9340,8 @@ Thanks for your help!
         'Sets the default text for new email tickets in the agent interface.' =>
             'Sets the default text for new email tickets in the agent interface.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
+        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
             '',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8738,11 +9473,14 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             'Show article as rich text even if rich text writing is disabled.',
         'Show command line output.' => '',
+        'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => 'Show queues even when only locked tickets are in.',
         'Show the current owner in the customer interface.' => 'Show the current owner in the customer interface.',
         'Show the current queue in the customer interface.' => 'Show the current queue in the customer interface.',
         'Show the history for this ticket' => 'Show the history for this ticket',
         'Show the ticket history' => 'Show the ticket history',
+        'Show various content.' => '',
+        'ShowHideDeletedArticles' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8807,6 +9545,8 @@ Thanks for your help!
             'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
             'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.',
+        'Shows a link in the menu to show/hide deleted articles in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
             'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.',
         'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
@@ -8986,8 +9726,8 @@ Thanks for your help!
             'Specify the password to authenticate for the first mirror database.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Specify the username to authenticate for the first mirror database.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Start number for statistics counting. Every new stat increments this number.',
         'Started response time escalation.' => '',
@@ -8996,13 +9736,16 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             'Starts a wildcard search of the active object after the link object mask is started.',
         'Stat#' => 'Stat#',
+        'State pre-selection for Templates' => '',
         'States' => 'States',
         'Statistics overview.' => '',
+        'Statistics reports.' => '',
         'Status view' => 'Status view',
         'Stopped response time escalation.' => '',
         'Stopped solution time escalation.' => '',
         'Stopped update time escalation.' => '',
         'Stores cookies after the browser has been closed.' => 'Stores cookies after the browser has been closed.',
+        'Strict' => '',
         'Strips empty lines on the ticket preview in the queue view.' => 'Strips empty lines on the ticket preview in the queue view.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Strips empty lines on the ticket preview in the service view.',
@@ -9010,6 +9753,8 @@ Thanks for your help!
         'Suspend already escalated tickets.' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Swedish',
+        'Switch deleted article status view' => '',
+        'Switch deleted article status view.' => '',
         'System Address Display Name' => 'System Address Display Name',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
@@ -9030,6 +9775,7 @@ Thanks for your help!
             'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.',
+        'The daemon registration for sync with S3.' => '',
         'The daemon registration for the scheduler cron task manager.' =>
             'The daemon registration for the scheduler cron task manager.',
         'The daemon registration for the scheduler future task manager.' =>
@@ -9078,6 +9824,8 @@ Thanks for your help!
             '',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             '',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9100,8 +9848,10 @@ Thanks for your help!
         'This option defines the process tickets default priority.' => 'This option defines the process tickets default priority.',
         'This option defines the process tickets default queue.' => 'This option defines the process tickets default queue.',
         'This option defines the process tickets default state.' => 'This option defines the process tickets default state.',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'This option will deny the access to customer company tickets, which are not created by the customer user.',
+        'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
+            '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
@@ -9116,6 +9866,7 @@ Thanks for your help!
         'Ticket FreeText.' => 'Ticket FreeText.',
         'Ticket History.' => 'Ticket History.',
         'Ticket Lock.' => 'Ticket Lock.',
+        'Ticket Masks' => '',
         'Ticket Merge.' => 'Ticket Merge.',
         'Ticket Move.' => 'Ticket Move.',
         'Ticket Note.' => 'Ticket Note.',
@@ -9130,9 +9881,13 @@ Thanks for your help!
         'Ticket Priority.' => 'Ticket Priority.',
         'Ticket Queue Overview' => 'Ticket Queue Overview',
         'Ticket Responsible.' => 'Ticket Responsible.',
+        'Ticket States' => '',
+        'Ticket Types' => '',
         'Ticket Watcher' => 'Ticket Watcher',
         'Ticket Zoom' => '',
         'Ticket Zoom.' => 'Ticket Zoom.',
+        'Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
+            '',
         'Ticket bulk module.' => 'Ticket bulk module.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket event module that triggers the escalation stop events.',
@@ -9143,6 +9898,7 @@ Thanks for your help!
         'Ticket overview' => 'Ticket overview',
         'Ticket plain view of an email.' => 'Ticket plain view of an email.',
         'Ticket split dialog.' => '',
+        'Ticket state pre-selection for response templates' => '',
         'Ticket title' => 'Ticket title',
         'Ticket zoom view.' => 'Ticket zoom view.',
         'TicketNumber' => 'TicketNumber',
@@ -9151,8 +9907,10 @@ Thanks for your help!
         'Tickets.' => 'Tickets.',
         'Tile registration for the CustomerDashboard. Module is required.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).',
+        'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
+            '',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'To accept login information, such as an EULA or license.',
         'To download attachments.' => 'To download attachments.',
         'To view HTML attachments.' => '',
@@ -9160,6 +9918,10 @@ Thanks for your help!
             'Toggles display of OTOBO FeatureAddons list in PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".',
+        'Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR and the relevant language packs are installed.' =>
+            '',
+        'Translate the language names in the language selection. Requires that Locale::CLDR and the relevant language packs are installed.' =>
+            '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9183,7 +9945,6 @@ Thanks for your help!
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             'Unlock tickets whenever a note is added and the owner is out of office.',
         'Unlocked ticket.' => 'Unlocked ticket.',
-        'Up' => 'Up',
         'Upcoming Events' => 'Upcoming Events',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'Update Ticket "Seen" flag if every article got seen or a new Article got created.',
@@ -9204,8 +9965,11 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => 'Uses richtext for viewing and editing ticket notification.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'View performance benchmark results.',
+        'View stored article version.' => '',
         'Watch this ticket' => 'Watch this ticket',
         'Watched Tickets' => 'Watched Tickets',
         'Watched Tickets.' => 'Watched Tickets.',
@@ -9214,6 +9978,8 @@ Thanks for your help!
             'We are performing scheduled maintenance. Login is temporarily not available.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'We are performing scheduled maintenance. We should be back online shortly.',
+        'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.' =>
+            '',
         'Web Service' => '',
         'Web Services' => 'Web Services',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
@@ -9227,8 +9993,6 @@ Thanks for your help!
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
-            '',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.',
@@ -9287,6 +10051,7 @@ Thanks for your help!
         'Add to favourites',
         'Agent',
         'All occurrences',
+        'All translations must be filled!',
         'All-day',
         'An error occurred during communication.',
         'An error occurred! Please check the browser error log for more details!',
@@ -9299,13 +10064,22 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to delete this article?',
         'Are you sure you want to remove all user values?',
+        'Are you sure you want to restore this article?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article Delete',
+        'Article Restore',
+        'Article already marked as deleted.',
+        'Article deleted successfully!',
         'Article display',
         'Article filter',
+        'Article not available for restoring.',
+        'Article restored successfully!',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
+        'At least one translation must be filled!',
         'Attachment was deleted successfully.',
         'Attachments',
         'Aug',
@@ -9326,6 +10100,7 @@ Thanks for your help!
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
+        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
@@ -9355,8 +10130,10 @@ Thanks for your help!
         'Delete this Operation',
         'Delete this PostMasterFilter',
         'Delete this Template',
+        'Delete this template',
         'Delete web service',
         'Deleting attachment...',
+        'Deleting template...',
         'Deleting the field and its data. This may take a while...',
         'Deleting the mail account and its data. This may take a while...',
         'Deleting the postmaster filter and its data. This may take a while...',
@@ -9373,12 +10150,15 @@ Thanks for your help!
         'Do you really want to continue?',
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
+        'Do you really want to delete this customer dashboard info tile entry?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
+        'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
         'Do you really want to reset this setting to it\'s default value?',
@@ -9395,6 +10175,7 @@ Thanks for your help!
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
         'Error in the mail settings. Please correct and try again.',
+        'Error trying to create CodeMirror instance, please check configuration!',
         'Error: Browser Check failed!',
         'Event Type Filter',
         'Expanded',
@@ -9415,6 +10196,7 @@ Thanks for your help!
         'If you now leave this page, all open popup windows will be closed, too!',
         'Ignore',
         'Import web service',
+        'Information',
         'Information about the OTOBO Daemon',
         'Invalid date (need a future date)!',
         'Invalid date (need a past date)!',
@@ -9446,6 +10228,7 @@ Thanks for your help!
         'May',
         'May_long',
         'Migrate',
+        'Missing Translations',
         'Mo',
         'Mon',
         'Monday',
@@ -9570,6 +10353,7 @@ Thanks for your help!
         'Switch to mobile mode',
         'System Registration',
         'Team',
+        'Template was deleted successfully.',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -9583,6 +10367,7 @@ Thanks for your help!
         'There are no more drafts available.',
         'There is a package upgrade process running, click here to see status information about the upgrade progress.',
         'There was an error deleting the attachment. Please check the logs for more information.',
+        'There was an error deleting the template. Please check the logs for more information.',
         'There was an error. Please save all settings you are editing and check the logs for more information.',
         'This Activity cannot be deleted because it is the Start Activity.',
         'This Activity is already used in the Process. You cannot add it twice!',

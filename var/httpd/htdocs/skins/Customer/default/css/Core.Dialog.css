@@ -116,6 +116,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-bottom: 8px;
 }
 
+/**
+ * @subsection Dynamic Field RichText Iframe
+ */
+.OverlayDynamicFieldRichTextiFrame {
+    height: 500px;
+    width: 700px;
+    padding: 0 32px;
+}
+
 /* Table */
 .Dialog table {
     min-width: 100%;

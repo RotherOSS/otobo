@@ -19,6 +19,11 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -55,10 +60,7 @@ sub new {
     my ( $Webservice, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Webservice );
-
-    return $Self;
+    return bless {}, $Webservice;
 }
 
 =head2 WebserviceAdd()

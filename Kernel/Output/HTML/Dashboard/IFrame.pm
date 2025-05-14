@@ -19,8 +19,11 @@ package Kernel::Output::HTML::Dashboard::IFrame;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -60,6 +63,7 @@ sub Run {
     my $Title = $Self->{Config}->{Title} || '';
     $Title =~ s/\s/_/smx;
 
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
         TemplateFile => 'AgentDashboardIFrame',
         Data         => {

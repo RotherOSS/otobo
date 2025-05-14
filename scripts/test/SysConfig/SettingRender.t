@@ -21,9 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use Kernel::Config;
+our $Self;
 
 # Get needed objects
 $Kernel::OM->ObjectParamAdd(
@@ -54,7 +52,7 @@ my @Tests = (
         ],
         EffectiveValue => 1,
         ExpectedResult => '<div class="Setting" data-change-time=""><div class=\'SettingContent\'>
-<input class="" type="checkbox" id="Checkbox_TestCheckbox1" value="1" checked=\'checked\' disabled=\'disabled\' ><input type=\'hidden\' name=\'TestCheckbox1\' id="TestCheckbox1" value=\'1\' />
+<input class="" type="checkbox" id="Checkbox_TestCheckbox1" value="1" checked disabled=\'disabled\' ><input type=\'hidden\' name=\'TestCheckbox1\' id="TestCheckbox1" value=\'1\' />
 <label for=\'Checkbox_TestCheckbox1\' class=\'CheckboxLabel\'>Enabled</label>
 </div><div class="WidgetMessage Bottom">Default: Disabled</div></div>
 ',
@@ -129,40 +127,40 @@ my @Tests = (
         },
         ExpectedResult => "<div class=\"Setting\" data-change-time=\"\"><div class='Hash'>
 <div class='HashItem'>
-<input type='text' value='Description' readonly='readonly' class='Key' />
+<input type='text' value='Description' readonly class='Key' />
 <div class='SettingContent'>
-<input type='text' value='Admin' id='TestFrontendRegistration1_Hash###Description' readonly='readonly' />
+<input type='text' value='Admin' id='TestFrontendRegistration1_Hash###Description' readonly />
 </div>
 </div>
 <div class='HashItem'>
-<input type='text' value='Group' readonly='readonly' class='Key' />
+<input type='text' value='Group' readonly class='Key' />
 <div class='SettingContent'>
 <div class='Array'>
 <div class='ArrayItem'>
 <div class='SettingContent'>
-<input type='text' value='admin' id='TestFrontendRegistration1_Hash###Group_Array1' readonly='readonly' />
+<input type='text' value='admin' id='TestFrontendRegistration1_Hash###Group_Array1' readonly />
 </div>
 </div><button data-suffix='TestFrontendRegistration1_Hash###Group_Array2' class='AddArrayItem Hidden' type='button' title='Add new entry' value='Add new entry'><i class='fa fa-plus-circle'></i><span class='InvisibleText'>Add new entry</span></button>
 </div>
 </div>
 </div>
 <div class='HashItem'>
-<input type='text' value='GroupRo' readonly='readonly' class='Key' />
+<input type='text' value='GroupRo' readonly class='Key' />
 <div class='SettingContent'>
 <div class='Array'><button data-suffix='TestFrontendRegistration1_Hash###GroupRo_Array1' class='AddArrayItem Hidden' type='button' title='Add new entry' value='Add new entry'><i class='fa fa-plus-circle'></i><span class='InvisibleText'>Add new entry</span></button>
 </div>
 </div>
 </div>
 <div class='HashItem'>
-<input type='text' value='NavBarName' readonly='readonly' class='Key' />
+<input type='text' value='NavBarName' readonly class='Key' />
 <div class='SettingContent'>
-<input type='text' value='Admin' id='TestFrontendRegistration1_Hash###NavBarName' readonly='readonly' />
+<input type='text' value='Admin' id='TestFrontendRegistration1_Hash###NavBarName' readonly />
 </div>
 </div>
 <div class='HashItem'>
-<input type='text' value='Title' readonly='readonly' class='Key' />
+<input type='text' value='Title' readonly class='Key' />
 <div class='SettingContent'>
-<input type='text' value='System Registration' id='TestFrontendRegistration1_Hash###Title' readonly='readonly' />
+<input type='text' value='System Registration' id='TestFrontendRegistration1_Hash###Title' readonly />
 </div>
 </div>
 </div></div>

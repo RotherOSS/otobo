@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -24,16 +24,15 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
 
 # get needed singletons
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
+my $ACLObject   = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,

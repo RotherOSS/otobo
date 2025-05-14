@@ -42,15 +42,17 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$AccessControlRexExp ) {
-        return $LayoutObject->CustomerErrorScreen(
+        return $LayoutObject->PublicErrorScreen(
             Message => Translatable('Need config Package::RepositoryAccessRegExp'),
         );
     }
     else {
-        if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
-            return $LayoutObject->CustomerErrorScreen(
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my $RemoteAddr  = $ParamObject->RemoteAddr() || '';
+        if ( $RemoteAddr !~ /^$AccessControlRexExp$/ ) {
+            return $LayoutObject->PublicErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $ENV{REMOTE_ADDR} ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $RemoteAddr ),
             );
         }
     }

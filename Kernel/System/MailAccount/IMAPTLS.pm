@@ -16,6 +16,7 @@
 
 package Kernel::System::MailAccount::IMAPTLS;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -39,10 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Connect {
@@ -117,7 +115,7 @@ sub Fetch {
             $CommunicationLogStatus = 'Failed';
         }
 
-        last COUNT if !$Self->{Reconnect};
+        last COUNT unless $Self->{Reconnect};
     }
 
     $CommunicationLogObject->CommunicationStop(
@@ -201,7 +199,7 @@ sub _Fetch {
         Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
-    my %Connect = ();
+    my %Connect;
     eval {
         %Connect = $Self->Connect(
             Host     => $Param{Host},
@@ -406,6 +404,7 @@ sub _Fetch {
                         CommunicationLogObject => $CommunicationLogObject,
                     );
 
+                    # In case of error, mark message as failed.
                     my @Return = eval {
                         return $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     };
@@ -421,11 +420,9 @@ sub _Fetch {
                             );
                         }
 
-                        my $Lines = $IMAPOperation->( 'get', $Messageno, );
-                        my $File  = $Self->_ProcessFailed( Email => $Message );
+                        my $File = $Self->_ProcessFailed( Email => $Message );
 
-                        my $ErrorMessage = "$AuthType: Can't process mail, see log sub system ("
-                            . "$File, report it on https://github.com/RotherOSS/otobo/issues/)!";
+                        my $ErrorMessage = "$AuthType: Can't process mail, see log sub system ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Connection',
@@ -454,9 +451,16 @@ sub _Fetch {
                     last MESSAGE_NO;
                 }
             }
+
             if ($CMD) {
                 print "\n";
             }
+
+            # Discarding ticket object to enable triggering of
+            # ticket events even in case of mail server timeout
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::Ticket'],
+            );
         }
     }
 

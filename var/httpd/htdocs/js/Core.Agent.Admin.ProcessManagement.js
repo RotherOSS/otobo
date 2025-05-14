@@ -50,6 +50,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Initialize table filter
         Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         // Depending on Subaction initialize specific functions
         if (Subaction === 'ActivityNew' ||
             Subaction === 'ActivityNewAction' ||
@@ -1136,6 +1142,24 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     .data('config', Core.JSON.Stringify(DefaultFieldConfig))
                     .find('.FieldDetailsOverlay').trigger('click');
             }
+            DirectSubmitCheck();
+        }
+
+        function DirectSubmitCheck() {
+            var ShownFields = [];
+            $('#AssignedFields').children('li').each(function () {
+                var Config = Core.JSON.Parse($(this).data('config'));
+                if (Config.Display != 0) {
+                    ShownFields.push($(this));
+                }
+            });
+
+            if ( $('#DirectSubmit').is(':checked') && ShownFields.length ) {
+                $('#DirectSubmit ~ p.Warning').show();
+            }
+            else {
+                $('#DirectSubmit ~ p.Warning').hide();
+            }
         }
 
         // Initialize Allocation List
@@ -1143,6 +1167,14 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Initialize list filter
         Core.UI.Table.InitTableFilter($('#FilterAvailableFields'), $('#AvailableFields'));
+
+        // Initialize direct submit tooltip
+        $('#DirectSubmit').off('change').on('change', function() {
+            DirectSubmitCheck();
+        });
+
+        // Execute check to get correct starting value
+        DirectSubmitCheck();
 
         $('#Submit').on('click', function() {
             $('#ActivityDialogForm').submit();
@@ -1231,6 +1263,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                              }
 
                              $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfigElement));
+
+                             DirectSubmitCheck();
 
                              Core.UI.Dialog.CloseDialog($('.Dialog'));
                          }

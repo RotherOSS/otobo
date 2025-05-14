@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Mail::Address;
+use Kernel::Language              qw(Translatable);
+use Mail::Address                 ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,7 +37,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     my %Error;
     my %GetParam;
 
@@ -82,7 +81,7 @@ sub Run {
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # check if ACL restrictions exist
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
 
         my %AclActionLookup = reverse %AclAction;
 
@@ -268,7 +267,7 @@ sub Run {
 
             }
 
-            $Param{InformSenderChecked} = $GetParam{InformSender} ? 'checked="checked"' : '';
+            $Param{InformSenderChecked} = $GetParam{InformSender} ? 'checked ' : '';
 
             $Output .= $LayoutObject->Output(
                 TemplateFile => 'AgentTicketMerge',
@@ -491,6 +490,13 @@ sub Run {
             # set up rich text editor
             $LayoutObject->SetRichTextParameters(
                 Data => \%Param,
+            );
+        }
+
+        # explanatory message about asterisk
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
             );
         }
 

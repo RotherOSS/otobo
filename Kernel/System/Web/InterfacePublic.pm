@@ -16,11 +16,14 @@
 
 package Kernel::System::Web::InterfacePublic;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
-use Time::HiRes qw();
+use Time::HiRes ();
 
 # CPAN modules
 
@@ -34,40 +37,58 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Web::Request',
+    'Kernel::System::Web::Response',
 );
 
 =head1 NAME
 
 Kernel::System::Web::InterfacePublic - the public web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfacePublic;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfacePublic->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-the global public web interface
+This module generates the HTTP response for F<public.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create public web interface object
-
-    use Kernel::System::Web::InterfacePublic;
-
-    my $Debug = 0;
-    my $Interface = Kernel::System::Web::InterfacePublic->new(
-        Debug      => $Debug,
-        WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
-    );
+create the web interface object for F<public.pl>.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # performance log based on high resolution timestamps
@@ -76,10 +97,10 @@ sub new {
     # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
-            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
+            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Public',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
@@ -94,52 +115,37 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 Content()
 
-execute the object
+execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->Run();
+    my $Content = $Interface->Content();
 
 =cut
 
-sub Run {
+sub Content {
     my $Self = shift;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $QueryString = $ENV{QUERY_STRING} || '';
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Check if https forcing is active, and redirect if needed.
-    if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
+    if ( $ConfigObject->Get('HTTPSForceRedirect') && !$ParamObject->HttpsIsOn ) {
+        my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
+        my $RequestURI   = $ParamObject->RequestURI();
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-        # Some web servers do not set HTTPS environment variable, so it's not possible to easily know if we are using
-        #   https protocol. Look also for similarly named keys in environment hash, since this should prevent loops in
-        #   certain cases.
-        if (
-            (
-                !defined $ENV{HTTPS}
-                && !grep {/^HTTPS(?:_|$)/} keys %ENV
-            )
-            || $ENV{HTTPS} ne 'on'
-            )
-        {
-            my $Host = $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN');
-
-            # Redirect with 301 code. Add two new lines at the end, so HTTP headers are validated correctly.
-            print "Status: 301 Moved Permanently\nLocation: https://$Host$ENV{REQUEST_URI}\n\n";
-            return;
-        }
+        $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
     }
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
+    # get common framework params
     my %Param;
-
-    # get session id
     $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName')         || 'CSID';
     $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
+    my $QueryString = $ParamObject->QueryString() || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
@@ -195,23 +201,31 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$DBCanConnect ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => Translatable('Could not connect to the database.'),
             Comment => Translatable('Please contact the administrator.'),
-        );
+        );    # throws a Kernel::System::Web::Exception
     }
+
     if ( $ParamObject->Error() ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
             Message => $ParamObject->Error(),
             Comment => Translatable('Please contact the administrator.'),
-        );
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => sprintf( Translatable(q{The action '%s' is not available.}), $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        return 1;
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # module registry
@@ -222,10 +236,12 @@ sub Run {
             Message  =>
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => sprintf( Translatable(q{The action '%s' is not allowed.}), $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        return;
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # debug info
@@ -251,7 +267,7 @@ sub Run {
     }
 
     # ->Run $Action with $FrontendObject
-    $LayoutObject->Print( Output => \$FrontendObject->Run() );
+    my $Output = $FrontendObject->Run();
 
     # add extra scope in order to reduce diffs to InterfaceAgent
     {
@@ -301,21 +317,33 @@ sub Run {
         }
     }
 
-    return 1;
+    return $Output;
 }
 
-sub DESTROY {
-    my $Self = shift;
+=head2 Response()
 
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle stopped.',
-        );
-    }
+Generate a PSGI Response object from the content generated by C<Content()>.
 
-    return 1;
+    my $Response = $Interface->Response();
+
+=cut
+
+sub Response {
+    my ($Self) = @_;
+
+    # Note that the layout object mustn't be created before calling Content().
+    # This is because Content() might want to set object params before the initial creations.
+    # A notable example is the SetCookies parameter.
+    my $Content = $Self->Content();
+
+    # The filtered content is a string, regardless of whether the original content is
+    # a string, an array reference, or a file handle.
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $Content = $LayoutObject->ApplyOutputFilters( Output => $Content );
+
+    # The HTTP headers of the OTOBO web response object already have been set up.
+    # Enhance it with the HTTP status code and the content.
+    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
 }
 
 1;

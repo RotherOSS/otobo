@@ -19,14 +19,18 @@ package Kernel::GenericInterface::Operation::Ticket::TicketGet;
 use strict;
 use warnings;
 
-use MIME::Base64;
-
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
-
 use parent qw(
     Kernel::GenericInterface::Operation::Common
     Kernel::GenericInterface::Operation::Ticket::Common
 );
+
+# core modules
+use MIME::Base64 qw(encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 

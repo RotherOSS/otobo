@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw( :all );
-use parent qw(Kernel::System::SysConfig::Base::Framework);
+use parent                        qw(Kernel::System::SysConfig::Base::Framework);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -317,7 +317,8 @@ sub SettingAddItem {
                 my $HashKey = $Structure[$Index];
 
                 my ($Item) = grep { $HashKey eq $_->{Key} } @{ $DedicatedDefaultItem->{Item} };
-                last STRUCTURE if !$Item;
+
+                last STRUCTURE unless $Item;
 
                 $DedicatedDefaultItem = $Item->{Hash}->[0];
             }
@@ -755,7 +756,7 @@ sub _SettingRender {
                     $HashItem .= "disabled=\"disabled\" ";
                 }
 
-                $HashItem .= "readonly=\"readonly\" ";
+                $HashItem .= 'readonly ';
                 $HashItem .= "/>\n";
 
                 if ( !$Objects{$ValueType} ) {

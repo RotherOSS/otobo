@@ -19,9 +19,7 @@ package Kernel::System::PostMaster::Filter::DetectAttachment;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::System::Log',
-);
+our @ObjectDependencies = ();
 
 sub new {
     my ( $Type, %Param ) = @_;

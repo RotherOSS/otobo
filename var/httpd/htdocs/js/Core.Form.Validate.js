@@ -92,14 +92,24 @@ Core.Form.Validate = (function (TargetNS) {
             ErrorType = 'Error';
         }
 
-        // TODO: find a nicer way to ensure focus only happens on submit
+        var CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') )
+
+        // If the element, which has an validation error, is a richtext element, trigger the focus event
         window.setTimeout(function () {
-            // If the element, which has an validation error, is a richtext element, trigger the focus event
             if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+
                 if ($Element.closest('form').hasClass('oooSubmitted')) {
                     Core.UI.RichTextEditor.Focus($Element);
+                    $('.ck-placeholder').addClass('error');
                     Core.UI.ScrollTo($Element.closest('.RichTextHolder'));
-                    //$Element.focus();
+                } else if ( !CustomerInterface ) {
+                    Core.UI.ScrollTo($Element.closest('.RichTexField'));
+
+                    if ($Element.hasClass(Options.ErrorClass)) {
+                        return false;
+                    }
+
+                    Core.UI.RichTextEditor.Focus($Element);
                 }
             }
 
@@ -145,14 +155,20 @@ Core.Form.Validate = (function (TargetNS) {
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // If error field is a RTE, it is a little bit more difficult.
-            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
+            if ( $Element.hasClass('RichText') && typeof ClassicEditor != 'undefined') {
                 Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
             }
             // If server error field is RTE, action must be subscribed and loaded when event is finished because RTE is not loaded yet.
-            else if ($Element.hasClass('RichText') && parseInt(Core.Config.Get('RichTextSet'), 10) === 1)
+            else if ($Element.hasClass('RichText') && parseInt(Core.Config.Get('RichTextSet'), 10) === 1 )
             {
                 Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
                     Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
+                });
+            }
+            else if ($Element.hasClass('CodeMirrorEditor')) {
+                Core.App.Subscribe('Event.UI.CodeMirrorEditor.InstanceReady', function () {
+                    var Editor = arguments[0];
+                    Core.Form.ErrorTooltips.InitCMETooltip(Editor, InputErrorMessageHTML);
                 });
             }
             else {
@@ -211,10 +227,14 @@ Core.Form.Validate = (function (TargetNS) {
             $Element.attr('aria-invalid', false);
 
             // if error field is a RTE, it is a little bit more difficult
-            if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
+            if ( $Element.hasClass('RichText') ) {
                 Core.Form.ErrorTooltips.RemoveRTETooltip($Element);
-            } else {
-                Core.Form.ErrorTooltips.RemoveTooltip($Element);
+            }
+            else if ( $Element.hasClass('CodeMirrorEditor') ) {
+                Core.Form.ErrorTooltips.RemoveCMETooltip();
+            }
+            else {
+               Core.Form.ErrorTooltips.RemoveTooltip($Element);
             }
         }
     };
@@ -284,8 +304,7 @@ Core.Form.Validate = (function (TargetNS) {
         // keep tags if images are embedded because of inline-images
         // keep tags if codemirror plugin is used (for XSLT editor)
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            Value = CKEDITOR.instances[Element.id].getData();
-            if (typeof CKEDITOR.instances[Element.id].config.codemirror === 'undefined' && !Value.match(/<img/)) {
+            if ( !Value.match(/<img/) ) {
                 Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
             }
         }
@@ -395,10 +414,17 @@ Core.Form.Validate = (function (TargetNS) {
         DateMinuteClassPrefix = 'Validate_DateMinute_',
         DateAfterBefore,
         DateCheck,
+        CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
         $UsedObj;
 
         // Skip validation if field is not used (bug#12210)
-        $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        if (CustomerInterface) {
+            $UsedObj = $(Element).parent().siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        }
+        else {
+            $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        }
+
         if ($UsedObj.length > 0 && $UsedObj.is(':checked') === false) {
             return true;
         }

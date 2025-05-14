@@ -16,12 +16,15 @@
 
 package Kernel::Output::HTML::Layout::Loader;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
-use File::stat;
-use Digest::MD5;
+use File::stat  qw(stat);
+use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 
@@ -34,16 +37,22 @@ our $ObjectManagerDisabled = 1;
 
 Kernel::Output::HTML::Layout::Loader - CSS/JavaScript
 
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
 =head1 DESCRIPTION
 
-All valid functions.
+Support for CSS and JavaScript loader files.
 
 =head1 PUBLIC INTERFACE
 
 =head2 LoaderCreateAgentCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
-taking a list from the Loader::Agent::CommonCSS config item.
+Take a list from the SysConfig setting Loader::Agent::CommonCSS as input.
 
     $LayoutObject->LoaderCreateAgentCSSCalls(
         Skin => 'MySkin', # optional, if not provided skin is the configured by default
@@ -60,7 +69,9 @@ sub LoaderCreateAgentCSSCalls {
     # get host based default skin configuration
     my $SkinSelectedHostBased;
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+    my $ParamObject          = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                 = $ParamObject->Header('Host');
+    if ( $DefaultSkinHostBased && $Host ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -69,7 +80,7 @@ sub LoaderCreateAgentCSSCalls {
             next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
             }
         }
@@ -80,7 +91,7 @@ sub LoaderCreateAgentCSSCalls {
     # 2. use HostBased skin setting, if available
     # 3. use default skin from configuration
 
-    my $SkinSelected = $Self->{'UserSkin'};
+    my $SkinSelected = $Param{Skin} || $Self->{'UserSkin'};
 
     # check if the skin is valid
     my $SkinValid = 0;
@@ -149,10 +160,10 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(
@@ -206,19 +217,11 @@ sub LoaderCreateAgentJSCalls {
     my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
-        my @FileList;
-
-        # get global js
+        # get JS files from the SysConfig setting Loader::Agent::CommonJS
         my $CommonJSList = $ConfigObject->Get('Loader::Agent::CommonJS');
+        my @FileList     = map { $CommonJSList->{$_}->@* } ( sort keys $CommonJSList->%* );
 
-        KEY:
-        for my $Key ( sort keys %{$CommonJSList} ) {
-            next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
-
-            push @FileList, @{ $CommonJSList->{$Key} };
-        }
-
-        # get toolbar module js
+        # get toolbar module JS
         my $ToolbarModuleSettings = $ConfigObject->Get('Frontend::ToolBarModule');
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{JavaScript} ) {
@@ -232,23 +235,22 @@ sub LoaderCreateAgentJSCalls {
             BlockName => 'CommonJS',
             JSHome    => $JSHome,
         );
-
     }
 
     # now handle module specific JavaScript
     {
         my $LoaderAction = $Self->{Action} || 'Login';
-        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+        if ( $LoaderAction eq 'Logout' ) {
+            $LoaderAction = 'Login';
+        }
 
         my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
-
         my @FileList;
-
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            next MODULE unless ref $Setting->{$Module}->{JavaScript} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+            push @FileList, $Setting->{$Module}->{JavaScript}->@*;
         }
 
         $Self->_HandleJSList(
@@ -257,7 +259,6 @@ sub LoaderCreateAgentJSCalls {
             BlockName => 'ModuleJS',
             JSHome    => $JSHome,
         );
-
     }
 
     return 1;
@@ -273,7 +274,7 @@ needs to be present on the client side for JavaScript based templates.
 =cut
 
 sub LoaderCreateJavaScriptTemplateData {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -283,35 +284,35 @@ sub LoaderCreateJavaScriptTemplateData {
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+    my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                  = $ParamObject->Header('Host');
+    if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
 
             # do not use empty regexp or theme directories
-            next THEME if !$RegExp;
+            next THEME unless $RegExp;
             next THEME if $RegExp eq '';
-            next THEME if !$DefaultThemeHostBased->{$RegExp};
+            next THEME unless $DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }
     }
 
-    # locate template files
-    my $JSStandardTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . 'Standard';
-    my $JSTemplateDir         = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . $Theme;
-
     # Check if 'Standard' fallback exists
+    my $JSStandardTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . 'Standard';
     if ( !-e $JSStandardTemplateDir ) {
         $Self->FatalDie(
-            Message =>
-                "No existing template directory found ('$JSTemplateDir')! Check your Home in Kernel/Config.pm."
+            Message => "No existing template directory found ('$JSStandardTemplateDir')! Check your Home in Kernel/Config.pm."
         );
     }
 
+    # locate template files
+    my $JSTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . $Theme;
     if ( !-e $JSTemplateDir ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -320,115 +321,77 @@ sub LoaderCreateJavaScriptTemplateData {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir to 'Standard' as a fallback.
+        # Set the JS TemplateDir to 'Standard' as a fallback.
         $Theme         = 'Standard';
         $JSTemplateDir = $JSStandardTemplateDir;
     }
 
-    my $JSCustomStandardTemplateDir = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . 'Standard';
-    my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
+    # get the needed pathes
+    my $Home                 = $ConfigObject->Get('Home');
+    my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
+    my $TargetFilenamePrefix = "TemplateJS_$Theme";
 
-    my @TemplateFolders = (
-        "$JSCustomTemplateDir",
-        "$JSCustomStandardTemplateDir",
-        "$JSTemplateDir",
-        "$JSStandardTemplateDir",
-    );
-
-    my $JSHome               = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
-    my $TargetFilenamePrefix = "TemplateJS";
-
-    my $TemplateChecksum;
-
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $CacheType   = 'Loader';
-    my $CacheKey    = "LoaderCreateJavaScriptTemplateData:${Theme}:" . $ConfigObject->ConfigChecksum();
-
-    # Even getting the list of files recursively from the directories is expensive,
-    #   so cache the checksum to avoid that.
-    $TemplateChecksum = $CacheObject->Get(
+    # Even getting the list of files recursively from the directories is expensive.
+    # So cache the checksum to avoid that. The cache is per theme.
+    my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheType           = 'Loader';
+    my $CacheKey            = "LoaderCreateJavaScriptTemplateData:${Theme}";
+    my $OldTemplateChecksum = $CacheObject->Get(
         Type => $CacheType,
         Key  => $CacheKey,
     );
+    if ($OldTemplateChecksum) {
+        my $TemplateCacheFile = join '_', $TargetFilenamePrefix, "$OldTemplateChecksum.js";
 
-    if ( !$TemplateChecksum ) {
+        # Check if loader cache already exists.
+        my $CacheFileFound = 0;
+        my $S3Active       = $ConfigObject->Get('Storage::S3::Active') ? 1 : 0;
+        if ($S3Active) {
 
-        my %ChecksumData;
+            # Let's stay on the safe side here. In the S3 case it does not suffice
+            # to check for the local file. This is because other web servers
+            # might have neither the local file nor the fallback to S3.
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+            $CacheFileFound = $StorageS3Object->ObjectExists(
+                Key => "$JSCachePath/$TemplateCacheFile",
+            );
+        }
+        else {
+            $CacheFileFound = -e "$Home/$JSCachePath/$TemplateCacheFile";
+        }
 
-        TEMPLATEFOLDER:
-        for my $TemplateFolder (@TemplateFolders) {
-
-            next TEMPLATEFOLDER if !-e $TemplateFolder;
-
-            # get main object
-            my @Templates = $MainObject->DirectoryRead(
-                Directory => $TemplateFolder,
-                Filter    => '*.tmpl',
-                Recursive => 1,
+        if ($CacheFileFound) {
+            $Self->Block(
+                Name => 'CommonJS',
+                Data => {
+                    JSDirectory => 'js-cache/',
+                    Filename    => $TemplateCacheFile
+                },
             );
 
-            TEMPLATE:
-            for my $Template ( sort @Templates ) {
-
-                next TEMPLATE if !-e $Template;
-
-                my $Key = $Template;
-                $Key =~ s/^$TemplateFolder\///xmsg;
-                $Key =~ s/\.(\w+)\.tmpl$//xmsg;
-
-                # check if a template with this name does already exist
-                next TEMPLATE if $ChecksumData{$Key};
-
-                # get file metadata
-                my $Stat = stat($Template);
-                if ( !$Stat ) {
-                    print STDERR "Error: cannot stat file '$Template': $!";
-
-                    next TEMPLATE;
-                }
-
-                $ChecksumData{$Key} = $Template . $Stat->mtime();
-            }
+            return 1;
         }
-
-        # generate a checksum only of the actual used files
-        for my $Checksum ( sort keys %ChecksumData ) {
-            $TemplateChecksum .= $ChecksumData{$Checksum};
-        }
-        $TemplateChecksum = Digest::MD5::md5_hex($TemplateChecksum);
-
-        $CacheObject->Set(
-            Type  => $CacheType,
-            Key   => $CacheKey,
-            TTL   => 60 * 60 * 24,
-            Value => $TemplateChecksum,
-        );
     }
 
-    # Check if cache already exists.
-    if ( -e "$JSHome/js-cache/${TargetFilenamePrefix}_$TemplateChecksum.js" ) {
-        $Self->Block(
-            Name => 'CommonJS',
-            Data => {
-                JSDirectory => 'js-cache/',
-                Filename    => "${TargetFilenamePrefix}_$TemplateChecksum.js",
-            },
-        );
-
-        return 1;
-    }
-
-    # if it doesnt exist, go through the folders and get the template content
-    my %TemplateData;
+    # The loader file for the JavaScript templates has not been found.
+    # So we have to recreate it by going through the folders and getting the template content.
+    my $JSCustomStandardTemplateDir = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . 'Standard';
+    my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
+    my @TemplateFolders             = (
+        $JSCustomTemplateDir,
+        $JSCustomStandardTemplateDir,
+        $JSTemplateDir,
+        $JSStandardTemplateDir,
+    );
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my ( %TemplateData, %ChecksumData );
 
     TEMPLATEFOLDER:
     for my $TemplateFolder (@TemplateFolders) {
 
-        next TEMPLATEFOLDER if !-e $TemplateFolder;
+        next TEMPLATEFOLDER unless -e $TemplateFolder;
 
-        # get main object
+        # get the names of the template files in the directory
         my @Templates = $MainObject->DirectoryRead(
             Directory => $TemplateFolder,
             Filter    => '*.tmpl',
@@ -438,7 +401,7 @@ sub LoaderCreateJavaScriptTemplateData {
         TEMPLATE:
         for my $Template ( sort @Templates ) {
 
-            next TEMPLATE if !-e $Template;
+            next TEMPLATE unless -e $Template;
 
             my $Key = $Template;
             $Key =~ s/^$TemplateFolder\///xmsg;
@@ -447,18 +410,38 @@ sub LoaderCreateJavaScriptTemplateData {
             # check if a template with this name does already exist
             next TEMPLATE if $TemplateData{$Key};
 
-            my $TemplateContent = ${
-                $MainObject->FileRead(
-                    Location => $Template,
-                    Result   => 'SCALAR',
-                )
-            };
+            # get file metadata for the checksum data
+            my $Stat = stat $Template;
+
+            next TEMPLATE unless $Stat;
+
+            $ChecksumData{$Key} = $Template . $Stat->mtime;
+
+            my $TemplateContent = $MainObject->FileRead(
+                Location => $Template,
+                Result   => 'SCALAR',
+            )->$*;
 
             # Remove DTL-style comments (lines starting with #)
             $TemplateContent =~ s/^#.*\n//gm;
             $TemplateData{$Key} = $TemplateContent;
         }
     }
+
+    # generate a checksum only of the actually used files
+    # the template file name and the modification time serve as input for the checksum
+    my $ChecksumInput = join
+        '',
+        map { $ChecksumData{$_} } sort keys %ChecksumData;
+    my $TemplateChecksum = md5_hex($ChecksumInput);
+
+    # remember the checksum, so that in the next iteration in doesn't have to be recomputed
+    $CacheObject->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        TTL   => 60 * 60 * 24,
+        Value => $TemplateChecksum,
+    );
 
     my $TemplateDataJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data   => \%TemplateData,
@@ -473,7 +456,7 @@ EOF
         Checksum             => $TemplateChecksum,
         Content              => $Content,
         Type                 => 'JavaScript',
-        TargetDirectory      => "$JSHome/js-cache/",
+        TargetDirectory      => "$Home/$JSCachePath/",
         TargetFilenamePrefix => $TargetFilenamePrefix,
     );
 
@@ -495,30 +478,52 @@ needs to be present on the client side for JavaScript based translations.
 
     $LayoutObject->LoaderCreateJavaScriptTranslationData();
 
+Only the file for the current user language is created.
+
 =cut
 
 sub LoaderCreateJavaScriptTranslationData {
     my ( $Self, %Param ) = @_;
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $JSHome       = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
-
-    my $UserLanguage     = $Self->{UserLanguage};
-    my $LanguageObject   = $Self->{LanguageObject};
-    my $LanguageChecksum = $LanguageObject->LanguageChecksum();
-
+    # get the needed pathes
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+    my $Home                 = $ConfigObject->Get('Home');
+    my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
+    my $UserLanguage         = $Self->{UserLanguage};
     my $TargetFilenamePrefix = "TranslationJS_$UserLanguage";
 
-    # Check if cache already exists.
-    if ( -e "$JSHome/js-cache/${TargetFilenamePrefix}_$LanguageChecksum.js" ) {
+    # Get checksum for the language files that are relevant
+    # for the UserLanguage.
+    my $LanguageObject    = $Self->{LanguageObject};
+    my $LanguageChecksum  = $LanguageObject->LanguageChecksum;
+    my $TemplateCacheFile = join '_', $TargetFilenamePrefix, "$LanguageChecksum.js";
+
+    # Check if loader cache already exists.
+    my $CacheFileFound = 0;
+    my $S3Active       = $ConfigObject->Get('Storage::S3::Active') ? 1 : 0;
+    if ($S3Active) {
+
+        # Let's stay on the safe side here. In the S3 case it does not suffice
+        # to check for the local file. This is because other web servers
+        # might have neither the local file nor the fallback to S3.
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+        $CacheFileFound = $StorageS3Object->ObjectExists(
+            Key => "$JSCachePath/$TemplateCacheFile",
+        );
+    }
+    else {
+        $CacheFileFound = -e "$Home/$JSCachePath/$TemplateCacheFile";
+    }
+
+    if ($CacheFileFound) {
         $Self->Block(
             Name => 'CommonJS',
             Data => {
                 JSDirectory => 'js-cache/',
-                Filename    => "${TargetFilenamePrefix}_$LanguageChecksum.js",
+                Filename    => $TemplateCacheFile,
             },
         );
+
         return 1;
     }
 
@@ -563,7 +568,7 @@ EOF
         Checksum             => $LanguageChecksum,
         Content              => $Content,
         Type                 => 'JavaScript',
-        TargetDirectory      => "$JSHome/js-cache/",
+        TargetDirectory      => "$Home/$JSCachePath/",
         TargetFilenamePrefix => $TargetFilenamePrefix,
     );
 
@@ -593,12 +598,14 @@ sub LoaderCreateCustomerCSSCalls {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SkinSelected = $ConfigObject->Get('Loader::Customer::SelectedSkin')
+    my $SkinSelected = $Self->{'UserSkin'} || $ConfigObject->Get('Loader::Customer::SelectedSkin')
         || 'default';
 
     # force a skin based on host name
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Customer::SelectedSkin::HostBased');
-    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+    my $ParamObject          = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                 = $ParamObject->Header('Host');
+    if ( $DefaultSkinHostBased && $Host ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -607,7 +614,7 @@ sub LoaderCreateCustomerCSSCalls {
             next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $SkinSelected = $DefaultSkinHostBased->{$RegExp};
             }
         }
@@ -646,10 +653,10 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(
@@ -703,16 +710,9 @@ sub LoaderCreateCustomerJSCalls {
     my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
+        # get JS files from the SysConfig setting Loader::Customer::CommonJS
         my $CommonJSList = $ConfigObject->Get('Loader::Customer::CommonJS');
-
-        my @FileList;
-
-        KEY:
-        for my $Key ( sort keys %{$CommonJSList} ) {
-            next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
-
-            push @FileList, @{ $CommonJSList->{$Key} };
-        }
+        my @FileList     = map { $CommonJSList->{$_}->@* } ( sort keys $CommonJSList->%* );
 
         $Self->_HandleJSList(
             List      => \@FileList,
@@ -720,7 +720,6 @@ sub LoaderCreateCustomerJSCalls {
             BlockName => 'CommonJS',
             JSHome    => $JSHome,
         );
-
     }
 
     # now handle module specific JS
@@ -734,9 +733,9 @@ sub LoaderCreateCustomerJSCalls {
 
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            next MODULE unless ref $Setting->{$Module}->{JavaScript} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
+            push @FileList, $Setting->{$Module}->{JavaScript}->@*;
         }
 
         $Self->_HandleJSList(
@@ -769,7 +768,7 @@ sub _HandleCSSList {
         for my $CSSFile ( @{ $Param{List} } ) {
             my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
 
-            next CSSFILE if ( !-e $SkinFile );
+            next CSSFILE unless -e $SkinFile;
 
             if ( $Param{DoMinify} ) {
                 push @FileList, $SkinFile;
@@ -811,19 +810,18 @@ sub _HandleCSSList {
 sub _HandleJSList {
     my ( $Self, %Param ) = @_;
 
-    my $Content = $Param{Content};
-
-    return if !$Param{List} && !$Content;
+    return unless $Param{List};
 
     my %UsedFiles;
-
-    my @FileList;
+    my @FilesToBeMinified;
     JSFILE:
     for my $JSFile ( @{ $Param{List} // [] } ) {
+
+        # skip duplicates
         next JSFILE if $UsedFiles{$JSFile};
 
         if ( $Param{DoMinify} ) {
-            push @FileList, "$Param{JSHome}/$JSFile";
+            push @FilesToBeMinified, "$Param{JSHome}/$JSFile";
         }
         else {
             $Self->Block(
@@ -839,36 +837,23 @@ sub _HandleJSList {
         $UsedFiles{$JSFile} = 1;
     }
 
-    return 1 if $Param{List} && !@FileList;
+    return 1 unless @FilesToBeMinified;
 
-    if ( $Param{DoMinify} ) {
-        my $MinifiedFile;
+    # there are files to minify, let's do it
+    my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List                 => \@FilesToBeMinified,
+        Type                 => 'JavaScript',
+        TargetDirectory      => "$Param{JSHome}/js-cache/",
+        TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
+    );
 
-        if (@FileList) {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
-        else {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                Content              => $Content,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
-
-        $Self->Block(
-            Name => $Param{BlockName},
-            Data => {
-                JSDirectory => 'js-cache/',
-                Filename    => $MinifiedFile,
-            },
-        );
-    }
+    $Self->Block(
+        Name => $Param{BlockName},
+        Data => {
+            JSDirectory => 'js-cache/',
+            Filename    => $MinifiedFile,
+        },
+    );
 
     return 1;
 }
@@ -902,15 +887,14 @@ sub SkinValidate {
         return $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} };
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $SkinType      = $Param{SkinType};
     my $PossibleSkins = $ConfigObject->Get("Loader::${SkinType}::Skin") || {};
     my $Home          = $ConfigObject->Get('Home');
-    my %ActiveSkins;
 
-    # prepare the list of active skins
+    # Check whether the wanted skin in configured in the SysConfig
+    # and whether the skin directory exists.
+    # There is no automatic creation of the skin directory.
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
             my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};

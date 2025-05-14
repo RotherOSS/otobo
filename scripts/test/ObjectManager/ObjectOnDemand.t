@@ -25,12 +25,10 @@ use v5.24;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
-use vars (qw($Self));
+our $Self;
 
 # This test makes sure that object dependencies are only created when
 # the object actively asks for them, not earlier.
-
-use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 

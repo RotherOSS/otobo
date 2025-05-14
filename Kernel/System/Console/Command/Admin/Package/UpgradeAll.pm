@@ -16,13 +16,20 @@
 
 package Kernel::System::Console::Command::Admin::Package::UpgradeAll;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -62,6 +69,7 @@ sub Run {
     if ( $IsRunningResult{IsRunning} ) {
         $Self->Print("\nThere is another package upgrade process running\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -71,6 +79,7 @@ sub Run {
     if ( !@List ) {
         $Self->Print("\nThere are no installed packages\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -94,11 +103,9 @@ sub Run {
 
         $Self->Print("  Cloud repositories... <green>Done</green>\n\n");
     }
+    $RepositoryCloudList ||= {};
 
-    my %RepositoryListAll = ( %RepositoryList, %{ $RepositoryCloudList || {} } );
-
-    my @PackageOnlineList;
-    my %PackageSoruceLookup;
+    my %RepositoryListAll = ( %RepositoryList, $RepositoryCloudList->%* );
 
     $Self->Print("<yellow>Fetching on-line repositories...</yellow>\n");
 
@@ -110,9 +117,9 @@ sub Run {
         my $FromCloud = 0;
         if ( $RepositoryCloudList->{$URL} ) {
             $FromCloud = 1;
-
         }
 
+        # TODO: is this still useful ?
         my @OnlineList = $PackageObject->PackageOnlineList(
             URL       => $URL,
             Lang      => 'en',
@@ -129,6 +136,7 @@ sub Run {
     if ( $IsRunningResult{IsRunning} ) {
         $Self->Print("\nThere is another package upgrade process running\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -139,7 +147,7 @@ sub Run {
     eval {
         # Localize the standard error, everything will be restored after the eval block.
         # Package installation or upgrades always produce messages in STDERR for files and directories.
-        local *STDERR;
+        local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
         # Redirect the standard error to a variable.
         open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
@@ -166,6 +174,7 @@ sub Run {
     {
         $Self->Print("  All installed packages are already at their latest versions.\n");
         $Self->Print("\n<green>Done.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -196,7 +205,6 @@ sub Run {
         NotFound       => 'could not be found in the on-line repositories...',
         WrongVersion   => 'require a version higher than the one found in the on-line repositories...',
         DependencyFail => 'fail to upgrade/install their package dependencies...'
-
     );
 
     if ( IsHashRefWithData( $Result{Failed} ) ) {
@@ -212,6 +220,7 @@ sub Run {
 
     if ( !$Result{Success} ) {
         $Self->Print("\n<red>Fail.</red>\n");
+
         return $Self->ExitCodeError();
     }
 
@@ -228,6 +237,7 @@ sub Run {
     );
 
     $Self->Print("\n<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 

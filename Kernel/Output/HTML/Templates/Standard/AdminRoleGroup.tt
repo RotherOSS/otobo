@@ -217,37 +217,37 @@
                 <dl>
                     <dt>[% Translate("ro") | html %]</dt>
                     <dd>
-                        [% Translate("Read only access to the ticket in this group/queue.") | html %]
+                        [% Translate("Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.") | html %]
                     </dd>
 
                     <dt>[% Translate("move_into") | html %]</dt>
                     <dd>
-                        [% Translate("Permissions to move tickets into this group/queue.") | html %]
+                        [% Translate("Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.") | html %]
                     </dd>
 
                     <dt>[% Translate("create") | html %]</dt>
                     <dd>
-                        [% Translate("Permissions to create tickets in this group/queue.") | html %]
+                        [% Translate("Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.") | html %]
                     </dd>
 
                     <dt>[% Translate("note") | html %]</dt>
                     <dd>
-                        [% Translate("Permissions to add notes to tickets in this group/queue.") | html %]
+                        [% Translate("Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes.") | html %]
                     </dd>
 
                     <dt>[% Translate("owner") | html %]</dt>
                     <dd>
-                        [% Translate("Permissions to change the owner of tickets in this group/queue.") | html %]
+                        [% Translate("Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.") | html %]
                     </dd>
 
                     <dt>[% Translate("priority") | html %]</dt>
                     <dd>
-                        [% Translate("Permissions to change the ticket priority in this group/queue.") | html %]
+                        [% Translate("Permissions to open the priority action in this group/queue.") | html %]
                     </dd>
 
                     <dt>[% Translate("rw") | html %]</dt>
                     <dd>
-                        [% Translate("Full read and write access to the tickets in this group/queue.") | html %]
+                        [% Translate("Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.") | html %]
                     </dd>
                 </dl>
 

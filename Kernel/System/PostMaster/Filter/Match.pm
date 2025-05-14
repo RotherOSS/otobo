@@ -21,9 +21,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::System::Log',
-);
+our @ObjectDependencies = ();
 
 sub new {
     my ( $Type, %Param ) = @_;

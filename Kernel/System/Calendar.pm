@@ -19,12 +19,16 @@ package Kernel::System::Calendar;
 use strict;
 use warnings;
 
-use Digest::MD5;
-use MIME::Base64 ();
+use parent qw(Kernel::System::EventHandler);
 
-use Kernel::System::EventHandler;
+# core modules
+use Digest::MD5  ();
+use MIME::Base64 qw(decode_base64 encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use vars qw(@ISA);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,12 +70,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    @ISA = qw(
-        Kernel::System::EventHandler
-    );
+    my $Self = bless {%Param}, $Type;
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -178,7 +177,7 @@ sub CalendarCreate {
             Data => $Param{TicketAppointments},
         );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($TicketAppointments);
-        $TicketAppointments = MIME::Base64::encode_base64($TicketAppointments);
+        $TicketAppointments = encode_base64($TicketAppointments);
     }
 
     my $SQL = '
@@ -232,7 +231,7 @@ sub CalendarCreate {
 
 =head2 CalendarGet()
 
-Get calendar by name or id.
+Get calendar by name or by id.
 
     my %Calendar = $CalendarObject->CalendarGet(
         CalendarName => 'Meetings',          # (required) Calendar name
@@ -266,6 +265,10 @@ Returns Calendar data:
         ChangeBy   => 1,
         ValidID    => 1,
     );
+
+Returns an empty list when no calendar is found.
+
+Returns an empty list the the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
 
 =cut
 
@@ -334,7 +337,7 @@ sub CalendarGet {
             # decode and deserialize ticket appointment data
             my $TicketAppointments;
             if ( $Row[4] ) {
-                my $DecodedData = MIME::Base64::decode_base64( $Row[4] );
+                my $DecodedData = decode_base64( $Row[4] );
                 $TicketAppointments = $Kernel::OM->Get('Kernel::System::Storable')->Deserialize(
                     Data => $DecodedData,
                 );
@@ -584,7 +587,7 @@ sub CalendarUpdate {
             Data => $Param{TicketAppointments},
         );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($TicketAppointments);
-        $TicketAppointments = MIME::Base64::encode_base64($TicketAppointments);
+        $TicketAppointments = encode_base64($TicketAppointments);
     }
 
     my $SQL = '
@@ -1264,7 +1267,6 @@ sub TicketAppointmentProcessRule {
     return if !IsHashRefWithData( $Param{Rule} );
 
     my $Error;
-    my $AppointmentType;
     my %AppointmentData;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -1681,16 +1683,18 @@ sub TicketAppointmentTypesGet {
 
         if ( $TypeKey =~ /DynamicField$/ ) {
 
-            # get list of all valid date and date/time dynamic fields
+            # get list of all valid ticket dynamic fields
             my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
                 ObjectType => 'Ticket',
             );
 
             DYNAMICFIELD:
             for my $DynamicField ( @{$DynamicFieldList} ) {
+
+                # only date and time dynamic fields are appointments
                 next DYNAMICFIELD if $DynamicField->{FieldType} ne 'Date' && $DynamicField->{FieldType} ne 'DateTime';
 
-                my $Key = sprintf( $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name} );
+                my $Key = sprintf $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name};
                 $TicketAppointmentTypes{$Key} = $TicketAppointmentConfig->{$TypeKey};
             }
 

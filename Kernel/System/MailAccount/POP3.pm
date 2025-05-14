@@ -433,15 +433,14 @@ sub Fetch {
 
                         my $File = $Self->_ProcessFailed( Email => $Lines );
 
-                        my $ErrorMessage = "$AuthType: Can't process mail, mail saved ("
-                            . "$File, report it on https://github.com/RotherOSS/otobo/issues/)!";
+                        my $ErrorMessage = "$AuthType: Can't process mail, mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::POP3',
                             Value         =>
-                                "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues/)!",
+                                "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!",
                         );
 
                         $MessageStatus = 'Failed';
@@ -477,6 +476,12 @@ sub Fetch {
             if ($CMD) {
                 print "\n";
             }
+
+            # Discarding ticket object to enable triggering of
+            # ticket events even in case of mail server timeout
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::Ticket'],
+            );
         }
     }
 

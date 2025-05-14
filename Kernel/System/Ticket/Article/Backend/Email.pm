@@ -19,11 +19,15 @@ package Kernel::System::Ticket::Article::Backend::Email;
 use strict;
 use warnings;
 
-use Mail::Address;
-
-use Kernel::System::VariableCheck qw(:all);
-
 use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
+
+# core modules
+
+# CPAN modules
+use Mail::Address ();
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -656,8 +660,9 @@ sub SendAutoResponse {
         return;
     }
 
-    # Format sender realname and address because it maybe contains comma or other special symbols (see bug#13130).
-    my $From = Mail::Address->new( $AutoResponse{SenderRealname} // '', $AutoResponse{SenderAddress} );
+    # Format sender realname and address conformant to RFC 5322. This is relevant when the real name contain commas
+    # or other special symbols.
+    my $From = Mail::Address->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
 
     # send email
     my $ArticleID = $Self->ArticleSend(
@@ -817,6 +822,21 @@ sub ArticleCreateTransmissionError {
         Bind => \@Bind,
     );
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketID      = $ArticleObject->TicketIDLookup(
+        ArticleID => $Param{ArticleID},
+    );
+
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleTransmissionErrorCreate',
+        Data  => {
+            ArticleID => $Param{ArticleID},
+            TicketID  => $TicketID,
+        },
+        UserID => $Param{UserID} || 1,
+    );
+
     return 1;
 }
 
@@ -934,6 +954,21 @@ sub ArticleUpdateTransmissionError {
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => $SQL,
         Bind => \@Bind,
+    );
+
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketID      = $ArticleObject->TicketIDLookup(
+        ArticleID => $Param{ArticleID},
+    );
+
+    # event
+    $Self->EventHandler(
+        Event => 'ArticleTransmissionErrorUpdate',
+        Data  => {
+            ArticleID => $Param{ArticleID},
+            TicketID  => $TicketID,
+        },
+        UserID => $Param{UserID} || 1,
     );
 
     return 1;

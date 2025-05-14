@@ -18,13 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use Capture::Tiny qw(capture);
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
+our $Self;
 
 my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
 my $ServiceObject        = $Kernel::OM->Get('Kernel::System::Service');
@@ -366,17 +371,12 @@ $Self->True(
     'TicketSearch() (HASH:TicketID as ARRAYREF)',
 );
 
-my $ErrorOutput = '';
-
-{
-    local *STDERR;
-    open STDERR, '>>', \$ErrorOutput;    ## no critic qw(OTOBO::ProhibitOpen)
-
-    %TicketIDs = $TicketObject->TicketSearch(
+( undef, my $ErrorOutput, undef ) = capture {
+    my %TicketIDs = $TicketObject->TicketSearch(
         TicketID => [],
         UserID   => 1,
     );
-}
+};
 
 # Verify that search does not fail SQL syntax check when an empty array reference is passed for the TicketID param.
 #   Please see bug#14227 for more information.
@@ -1004,7 +1004,7 @@ $Self->True(
 $Self->Is(
     $ChangeTime,
     $TicketData{Changed},
-    'Change_time updated in TicketEscalationIndexBuild()',
+    'Change_time is not updated in TicketEscalationIndexBuild()',
 );
 
 # save current change_time
@@ -2684,7 +2684,6 @@ for my $Index ( 1 .. 3 ) {
     },
 );
 
-my %ExpectedResult;
 undef @TicketIDs;
 for my $Test (@Tests) {
     my $TicketID = $TicketObject->TicketCreate(
@@ -2835,4 +2834,4 @@ $Self->True(
     "TicketCountByAttribute() for more then 1000 entries correct"
 );
 
-$Self->DoneTesting();
+done_testing;

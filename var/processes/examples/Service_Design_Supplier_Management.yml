@@ -1,0 +1,193 @@
+---
+Activities:
+  Activity-4c07d60cc5256bed49a313886002adfd:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:09
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-4c07d60cc5256bed49a313886002adfd
+    ID: '79'
+    Name: Service supplier contract renewal or cancellation
+  Activity-5289ec4b6e6feb78ed4e0e09d073778a:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:09
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-5289ec4b6e6feb78ed4e0e09d073778a
+    ID: '80'
+    Name: Service supplier and contract definition
+  Activity-869542c6164f26b1faab20d2cf772a00:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:09
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-869542c6164f26b1faab20d2cf772a00
+    ID: '81'
+    Name: Service supplier and contract performance management
+  Activity-d2160c2ae07d9303ac893fe47540a9a2:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:09
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-d2160c2ae07d9303ac893fe47540a9a2
+    ID: '82'
+    Name: Service supplier and contract evaluation
+  Activity-d917259d6405c0e97699d40b006b8ef9:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:09
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-d917259d6405c0e97699d40b006b8ef9
+    ID: '83'
+    Name: Service supplier risk analysis and mitigation
+  Activity-f993773bd56c8856354df23be9105aaf:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:10
+    Config: {}
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Activity-f993773bd56c8856354df23be9105aaf
+    ID: '84'
+    Name: Service supplier and contract categorisation and SCMIS update
+Process:
+  Activities:
+  - Activity-4c07d60cc5256bed49a313886002adfd
+  - Activity-5289ec4b6e6feb78ed4e0e09d073778a
+  - Activity-869542c6164f26b1faab20d2cf772a00
+  - Activity-d2160c2ae07d9303ac893fe47540a9a2
+  - Activity-d917259d6405c0e97699d40b006b8ef9
+  - Activity-f993773bd56c8856354df23be9105aaf
+  ChangeTime: 2017-10-31 22:39:09
+  Config:
+    Description: "Best practice IT Service Management Supplier Management process
+      inspired by ITIL®.\r\n\r\nThe supplier management process ensures that all contracts
+      with service and third party providers are kept as agreed and helps to support
+      the business requirements.\r\n\r\nConfiguration: The functional and hierarchical
+      escalation transitions are not configured. They should be modified to fulfil
+      your business rules."
+    Path:
+      Activity-4c07d60cc5256bed49a313886002adfd: {}
+      Activity-5289ec4b6e6feb78ed4e0e09d073778a:
+        Transition-835cdd11641f82bccf20f1b59bcdc3c3:
+          ActivityEntityID: Activity-d2160c2ae07d9303ac893fe47540a9a2
+      Activity-869542c6164f26b1faab20d2cf772a00:
+        Transition-10d444a4f317153757fd58d01b68abbe:
+          ActivityEntityID: Activity-4c07d60cc5256bed49a313886002adfd
+      Activity-d2160c2ae07d9303ac893fe47540a9a2:
+        Transition-98920d9942c11f507faf20046e831de7:
+          ActivityEntityID: Activity-f993773bd56c8856354df23be9105aaf
+      Activity-d917259d6405c0e97699d40b006b8ef9:
+        Transition-6ce81823a0cb521da23320aca697f09e:
+          ActivityEntityID: Activity-869542c6164f26b1faab20d2cf772a00
+      Activity-f993773bd56c8856354df23be9105aaf:
+        Transition-8205cfb22c9b560b4e277b6bf1e628c3:
+          ActivityEntityID: Activity-d917259d6405c0e97699d40b006b8ef9
+    StartActivity: Activity-5289ec4b6e6feb78ed4e0e09d073778a
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:09
+  EntityID: Process-01ab2c798ed4aedecfd646b623dd1178
+  ID: '15'
+  Layout:
+    Activity-4c07d60cc5256bed49a313886002adfd:
+      left: '2200'
+      top: '150'
+    Activity-5289ec4b6e6feb78ed4e0e09d073778a:
+      left: '200'
+      top: '150'
+    Activity-869542c6164f26b1faab20d2cf772a00:
+      left: '1800'
+      top: '150'
+    Activity-d2160c2ae07d9303ac893fe47540a9a2:
+      left: '600'
+      top: '150'
+    Activity-d917259d6405c0e97699d40b006b8ef9:
+      left: '1400'
+      top: '150'
+    Activity-f993773bd56c8856354df23be9105aaf:
+      left: '1000'
+      top: '150'
+  Name: Service Design::Supplier Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-835cdd11641f82bccf20f1b59bcdc3c3
+  - Transition-10d444a4f317153757fd58d01b68abbe
+  - Transition-98920d9942c11f507faf20046e831de7
+  - Transition-6ce81823a0cb521da23320aca697f09e
+  - Transition-8205cfb22c9b560b4e277b6bf1e628c3
+Transitions:
+  Transition-10d444a4f317153757fd58d01b68abbe:
+    ChangeTime: 2017-10-31 22:39:10
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Transition-10d444a4f317153757fd58d01b68abbe
+    ID: '78'
+    Name: Service supplier and contract performance managed
+  Transition-6ce81823a0cb521da23320aca697f09e:
+    ChangeTime: 2017-10-31 22:39:10
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Transition-6ce81823a0cb521da23320aca697f09e
+    ID: '79'
+    Name: Service supplier risk analysed and mitigation implemented
+  Transition-8205cfb22c9b560b4e277b6bf1e628c3:
+    ChangeTime: 2017-10-31 22:39:10
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Transition-8205cfb22c9b560b4e277b6bf1e628c3
+    ID: '80'
+    Name: Service supplier and contract categorised and SCMIS updated
+  Transition-835cdd11641f82bccf20f1b59bcdc3c3:
+    ChangeTime: 2017-10-31 22:39:10
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Transition-835cdd11641f82bccf20f1b59bcdc3c3
+    ID: '81'
+    Name: Service supplier and contract defined
+  Transition-98920d9942c11f507faf20046e831de7:
+    ChangeTime: 2017-10-31 22:39:10
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:09
+    EntityID: Transition-98920d9942c11f507faf20046e831de7
+    ID: '82'
+    Name: Service supplier and contract evaluated

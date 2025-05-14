@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -143,7 +143,7 @@ sub _ShowOverview {
         PossibleNone => 0,
         Translation  => 1,
         Sort         => 'NumericKey',
-        Class        => 'Modernize W75pc',
+        Class        => 'Modernize W100pc',
     );
 
     $LayoutObject->Block(
@@ -775,8 +775,9 @@ sub _GetObjectLog {
         },
     );
 
+    # TODO: why ContentType application/json
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $Output,
         Type        => 'inline',
         NoCache     => 1,
@@ -789,7 +790,7 @@ sub _GetCommunicationLog {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # $Param{AccountID} can be like 'DoNotSendEmail' or 'IMAPS::1', for example.
-    my ( $AccountType, $AccountID ) = split '::', $Param{AccountID};
+    my ( $AccountType, $AccountID ) = split /::/, $Param{AccountID};
 
     my $CommunicationLogDBObj   = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
     my $CommunicationLogObjects = $CommunicationLogDBObj->ObjectLogList(
@@ -905,8 +906,9 @@ sub _GetCommunicationLog {
         },
     );
 
+    # TODO: why ContentType application/json
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $Output,
         Type        => 'inline',
         NoCache     => 1,

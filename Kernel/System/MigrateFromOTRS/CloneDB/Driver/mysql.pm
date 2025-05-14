@@ -16,9 +16,9 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Driver::mysql;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
@@ -28,7 +28,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DB ();
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -76,10 +76,11 @@ sub CreateOTRSDBConnection {
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
-        DatabaseDSN  => $Param{OTRSDatabaseDSN},
-        DatabaseUser => $Param{DBUser},
-        DatabasePw   => $Param{DBPassword},
-        Type         => $Param{DBType},
+        DatabaseDSN             => $Param{OTRSDatabaseDSN},
+        DatabaseUser            => $Param{DBUser},
+        DatabasePw              => $Param{DBPassword},
+        Type                    => $Param{DBType},
+        DisconnectOnDestruction => 1,
     );
 
     if ( !$OTRSDBObject ) {
@@ -206,7 +207,7 @@ sub GetColumnInfos {
 }
 
 # Translate column infos
-# return DATA_TYPE
+# return a copy of the passed in ColumnInfo with a translated DATA_TYPE
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -222,14 +223,12 @@ sub TranslateColumnInfos {
         }
     }
 
-    my %ColumnInfos = %{ $Param{ColumnInfos} };
+    my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
-    if ( $Param{DBType} =~ m/mysql/ ) {
+    # no translation is necessary for the same DBType
+    return \%ColumnInfos if $Param{DBType} =~ m/mysql/;
 
-        # no translation necessary
-        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
-    }
-    elsif ( $Param{DBType} =~ /postgresql/ ) {
+    if ( $Param{DBType} =~ m/postgresql/ ) {
         my %Result;
         $Result{VARCHAR}             = 'VARCHAR';
         $Result{'CHARACTER VARYING'} = 'VARCHAR';
@@ -249,7 +248,7 @@ sub TranslateColumnInfos {
 
         $ColumnInfos{DATA_TYPE} = $Result{ uc( $Param{ColumnInfos}->{DATA_TYPE} ) };
     }
-    elsif ( $Param{DBType} =~ /oracle/ ) {
+    elsif ( $Param{DBType} =~ m/oracle/ ) {
         my %Result;
         $Result{VARCHAR2} = 'VARCHAR';
         $Result{TEXT}     = 'TEXT';
@@ -287,14 +286,14 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $SQL         = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = qq{ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}};
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
     }
 
-    if ( $ColumnInfos{IS_NULLABLE} =~ /no/ ) {
-        $SQL .= " NOT NULL";
+    if ( $ColumnInfos{IS_NULLABLE} =~ m/no/ ) {
+        $SQL .= ' NOT NULL';
     }
 
     my $Success = $Param{DBObject}->Do(

@@ -16,12 +16,18 @@
 
 package Kernel::Modules::AdminCustomerUser;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use Kernel::System::CheckItem;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -31,6 +37,15 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerUser',
@@ -47,9 +62,20 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Nav    = $ParamObject->GetParam( Param => 'Nav' )    || '';
-    my $Source = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
-    my $Search = $ParamObject->GetParam( Param => 'Search' );
+    my $Nav            = $ParamObject->GetParam( Param => 'Nav' )    || '';
+    my $Source         = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerUser';
+    my $Search         = $ParamObject->GetParam( Param => 'Search' );
+    my $IncludeInvalid = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $IncludeInvalid ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $IncludeInvalid,
+        );
+
+        $Self->{IncludeInvalid} = $IncludeInvalid;
+    }
     $Search
         ||= $ConfigObject->Get('AdminCustomerUser::RunInitialWildcardSearch') ? '*' : '';
 
@@ -133,23 +159,16 @@ sub Run {
             $Expires = '';
         }
 
-        # Restrict Cookie to HTTPS if it is used.
-        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
-            SetCookies => {
-                SessionIDCookie => $ParamObject->SetCookie(
-                    Key      => $SessionName,
-                    Value    => $NewSessionID,
-                    Expires  => $Expires,
-                    Path     => $ConfigObject->Get('ScriptAlias'),
-                    Secure   => $CookieSecureAttribute,
-                    HTTPOnly => 1,
-                ),
-            },
             SessionID   => $NewSessionID,
             SessionName => $ConfigObject->Get('SessionName'),
+        );
+        $LayoutObject->SetCookie(
+            Key     => 'SessionIDCookie',
+            Name    => $SessionName,
+            Value   => $NewSessionID,
+            Expires => $Expires,
         );
 
         # log event
@@ -204,7 +223,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Download' ) {
         my $Group = $ParamObject->GetParam( Param => 'Group' ) || '';
         my $User  = $ParamObject->GetParam( Param => 'ID' )    || '';
-        my $File  = $ParamObject->GetParam( Param => 'File' )  || '';
 
         # get user data
         my %UserData    = $CustomerUserObject->CustomerUserDataGet( User => $User );
@@ -371,7 +389,7 @@ sub Run {
                 );
             }
 
-            if ( $GetParam{UserPassword} && $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
+            if ( $GetParam{UserPassword} && ( $CurrentUserData{UserPassword} // '' ) ne $GetParam{UserPassword} ) {
 
                 $UpdateSuccess = $CustomerUserObject->DeleteOnePreference(
                     Key    => 'UserLastPwChangeTime',
@@ -383,8 +401,6 @@ sub Run {
             if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
 
                 # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
@@ -636,12 +652,9 @@ sub Run {
             );
             if ($User) {
 
-                # set dynamic field values
-                my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
                 ENTRY:
                 for my $Entry ( @{ $ConfigObject->Get($Source)->{Map} } ) {
-                    next ENTRY if $Entry->[5] ne 'dynamic_field';
+                    next ENTRY unless $Entry->[5] eq 'dynamic_field';
 
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
 
@@ -652,6 +665,7 @@ sub Run {
                                 $Entry->[2],
                             ),
                         );
+
                         next ENTRY;
                     }
 
@@ -669,6 +683,7 @@ sub Run {
                                 $Entry->[2],
                             ),
                         );
+
                         next ENTRY;
                     }
                 }
@@ -863,6 +878,13 @@ sub _Overview {
         Data => \%Param,
     );
 
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block(
         Name => 'ActionSearch',
@@ -901,16 +923,19 @@ sub _Overview {
 
         # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
         # smallest Limit from all sources
-        my $Limit = 400;
+        my $Limit;
         SOURCE:
         for my $Count ( '', 1 .. 10 ) {
             next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
             my $CustomerUserMap = $ConfigObject->Get("CustomerUser$Count");
             next SOURCE if !$CustomerUserMap->{CustomerUserSearchListLimit};
-            if ( $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
+            if ( !defined $Limit || $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
                 $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
             }
         }
+
+        # as fallback take the hardcoded limit of Kernel/System/CustomerUser/DB.pm
+        $Limit //= 250;
 
         my %ListAllItems = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
@@ -931,7 +956,7 @@ sub _Overview {
 
         my %List = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
-            Valid  => 0,
+            Valid  => $Self->{IncludeInvalid} ? 0 : 1,
         );
 
         if ( keys %ListAllItems > $Limit ) {
@@ -1055,8 +1080,6 @@ sub _Edit {
     # Get layout object.
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Output = '';
-
     $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -1093,7 +1116,11 @@ sub _Edit {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # update user
-    if ( $ConfigObject->Get( $Param{Source} )->{ReadOnly} || $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i )
+    if (
+        $ConfigObject->Get( $Param{Source} )->{ReadOnly}
+        ||
+        $ConfigObject->Get( $Param{Source} )->{Module} =~ /LDAP/i
+        )
     {
         $UpdateOnlyPreferences = 1;
     }
@@ -1184,7 +1211,8 @@ sub _Edit {
             $Param{RequiredClass} .= ' Validate_Email';
         }
 
-        # build selections or input fields
+        # Build selections or input fields.
+        # An explicit selection has the highest priority.
         if ( $ConfigObject->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
             $Block = 'Option';
 
@@ -1211,7 +1239,34 @@ sub _Edit {
                 Disabled    => $UpdateOnlyPreferences ? 1 : 0,
             );
         }
-        elsif ( $Entry->[0] =~ /^ValidID/i ) {
+        elsif (
+            $Entry->[0] =~ m/^UserCountry/i
+            &&
+            $ConfigObject->Get('ReferenceData::TranslatedCountryNames')
+            )
+        {
+            $Block = 'Option';
+
+            my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CLDRCountryList(
+                Language => $LayoutObject->{UserLanguage},
+            );
+
+            # Make sure that the previous value exists in the selection list even if isn't a countr code.
+            my $PreviousCountry = $Param{ $Entry->[0] };
+            if ($PreviousCountry) {
+                $CountryList->{$PreviousCountry} //= $PreviousCountry;
+            }
+
+            $Param{Option} = $LayoutObject->BuildSelection(
+                Data         => $CountryList,
+                PossibleNone => 1,
+                Sort         => 'AlphanumericValue',
+                Name         => $Entry->[0],
+                Class        => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                SelectedID   => ( $Param{ $Entry->[0] } // 1 ),
+            );
+        }
+        elsif ( $Entry->[0] =~ m/^ValidID/i ) {
 
             # Change the validation class
             if ( $Param{RequiredClass} ) {
@@ -1229,7 +1284,7 @@ sub _Edit {
             );
         }
         elsif (
-            $Entry->[0] =~ /^UserCustomerID$/i
+            $Entry->[0] =~ m/^UserCustomerID$/i
             && $ConfigObject->Get( $Param{Source} )->{CustomerCompanySupport}
             )
         {
@@ -1398,8 +1453,7 @@ sub _Edit {
                 next PRIO;
             }
 
-            my $Module = $Preference{Module}
-                || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
 
             # load module
             if ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {

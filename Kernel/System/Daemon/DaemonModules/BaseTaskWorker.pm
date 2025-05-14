@@ -103,9 +103,10 @@ sub _CheckTaskParams {
 
     for my $Needed (qw(TaskID Data)) {
         if ( !$Param{$Needed} ) {
+            my $TaskName = $Param{TaskName} // '';
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed! - Task: $Param{TaskName}",
+                Message  => "Need $Needed! - Task: $TaskName",
             );
 
             return;

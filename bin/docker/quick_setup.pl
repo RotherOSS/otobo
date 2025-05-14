@@ -161,6 +161,7 @@ sub Main {
     my $AddCalendar           = 0;                         # must be explicitly enabled
     my $HttpType              = 'https';                   # the SysConfig setting HttpType
     my $FQDN                  = 'yourhost.example.com';    # the SysConfig setting FQDN
+    my $ActivateSyncWithS3    = 0;                         # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                   => \$HelpFlag,
@@ -174,6 +175,7 @@ sub Main {
         'add-admin-user'         => \$AddAdminUser,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
+        'activate-sync-with-S3'  => \$ActivateSyncWithS3,
         )
         || pod2usage(
             {
@@ -296,6 +298,33 @@ sub Main {
         push @Settings, (
             [ MinimumLogLevel => 'info' ],    # more verbose log output
         );
+
+        # override some settings for running with S3 storage
+        if ($ActivateSyncWithS3) {
+            push @Settings,
+
+                # activate article storage in S3
+                [ 'Ticket::Article::Backend::MIMEBase::ArticleStorage' => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageS3' ],
+
+                # activate notifications about package events via S3
+                [
+                    'Package::EventModulePost###9000-SyncWithS3' =>
+                    {
+                        Event       => '(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)',
+                        Module      => 'Kernel::System::Package::Event::SyncWithS3',
+                        Transaction => '1',
+                    }
+                ],
+
+                # with S3 sync there is no need to check the database
+                [
+                    'DaemonModules###SyncWithS3' =>
+                    {
+                        Module => 'Kernel::System::Daemon::DaemonModules::SyncWithS3',
+                    }
+                ],
+                ;
+        }
 
         my ( $Success, $Message ) = AdaptSettings( Settings => \@Settings );
 

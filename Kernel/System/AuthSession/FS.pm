@@ -219,8 +219,8 @@ sub CreateSessionID {
 
     # get remote address and the http user agent
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr      = $ParamObject->RemoteAddr()       || 'none';
-    my $RemoteUserAgent = $ParamObject->HTTP('USER_AGENT') || 'none';
+    my $RemoteAddr      = $ParamObject->RemoteAddr()         || 'none';
+    my $RemoteUserAgent = $ParamObject->Header('User-Agent') || 'none';
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -417,7 +417,7 @@ sub GetActiveSessions {
         next SESSIONID if !$StateData;
         next SESSIONID if ref $StateData ne 'SCALAR';
 
-        my @SessionData = split '####', ${$StateData};
+        my @SessionData = split /####/, ${$StateData};
 
         # get needed data
         my $UserType        = $SessionData[0] || '';
@@ -490,7 +490,7 @@ sub GetExpiredSessionIDs {
         next SESSIONID if !$StateData;
         next SESSIONID if ref $StateData ne 'SCALAR';
 
-        my @SessionData = split '####', ${$StateData};
+        my @SessionData = split /####/, ${$StateData};
 
         # get needed data
         my $UserSessionStart = $SessionData[2] || $TimeNow;

@@ -19,8 +19,6 @@ package Kernel::System::Console::Command::Maint::GenericAgent::Run;
 use strict;
 use warnings;
 
-use vars qw(%Jobs);
-
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
@@ -29,6 +27,9 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::PID',
 );
+
+# package variables
+our %Jobs;    # set up in the generic agent job configuration file
 
 sub Configure {
     my ( $Self, %Param ) = @_;
@@ -65,6 +66,7 @@ sub Configure {
     $Self->AdditionalHelp(
         "This script only runs file based generic agent jobs, database based jobs are handled by the OTOBO Daemon."
     );
+
     return;
 }
 

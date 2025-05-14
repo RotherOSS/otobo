@@ -19,12 +19,15 @@ package Kernel::System::SupportDataCollector::Plugin::OTOBO::TimeSettings;
 use strict;
 use warnings;
 
-use POSIX;
-
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use POSIX qw(tzname);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,7 +41,7 @@ sub Run {
     my $Self = shift;
 
     # Server time zone
-    my $ServerTimeZone = POSIX::tzname();
+    my $ServerTimeZone = tzname();
 
     $Self->AddResultOk(
         Identifier => 'ServerTimeZone',
@@ -85,7 +88,14 @@ sub Run {
     }
 
     # Calendar time zones
-    for my $Counter ( 1 .. 9 ) {
+    my $Maximum = $ConfigObject->Get("MaximumCalendarNumber") || 50;
+
+    COUNTER:
+    for my $Counter ( '', 1 .. $Maximum ) {
+        my $CalendarName = $ConfigObject->Get( 'TimeZone::Calendar' . $Counter . 'Name' );
+
+        next COUNTER if !$CalendarName;
+
         my $CalendarTimeZone = $ConfigObject->Get( 'TimeZone::Calendar' . $Counter );
 
         if ( defined $CalendarTimeZone ) {

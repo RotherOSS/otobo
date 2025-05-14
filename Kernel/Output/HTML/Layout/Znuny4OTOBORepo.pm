@@ -15,6 +15,13 @@ package Kernel::Output::HTML::Layout::Znuny4OTOBORepo;
 
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -26,8 +33,6 @@ Kernel::Output::HTML::Layout::Znuny4OTOBORepo - Znuny4OTOBORepo lib
 
     # No instances of this class should be created directly.
     # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 =head1 PUBLIC INTERFACE
@@ -323,59 +328,6 @@ Example html for a hook:
     }
 
     ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }xmsig;
-
-    return 1;
-}
-
-=head2 AddJSOnDocumentCompleteIfNotExists()
-
-this functions adds JavaScript by the function AddJSOnDocumentComplete only if it not exists.
-
-    my $Success = $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
-        Key  => 'identifier_key_of_your_js',
-        Code => $JSBlock,
-    );
-
-Returns:
-
-    my $Success = 1;
-
-=cut
-
-sub AddJSOnDocumentCompleteIfNotExists {
-    my ( $Self, %Param ) = @_;
-
-    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
-
-    # check needed stuff
-    NEEDED:
-    for my $Needed (qw(Key Code)) {
-
-        next NEEDED if defined $Param{$Needed};
-
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "Parameter '$Needed' is needed!",
-        );
-        return;
-    }
-
-    my $Exists = 0;
-    CODEJS:
-    for my $CodeJS ( @{ $Self->{_JSOnDocumentComplete} || [] } ) {
-
-        next CODEJS if $CodeJS !~ m{ Key: \s $Param{Key}}xms;
-        $Exists = 1;
-        last CODEJS;
-    }
-
-    return 1 if $Exists;
-
-    my $AddCode = "// Key: $Param{Key}\n" . $Param{Code};
-
-    $Self->AddJSOnDocumentComplete(
-        Code => $AddCode,
-    );
 
     return 1;
 }

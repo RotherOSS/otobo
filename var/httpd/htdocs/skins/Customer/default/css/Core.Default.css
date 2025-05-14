@@ -13,6 +13,59 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+/** 
+ * @subsection Fallback Color Definitions 
+ */
+
+ :root {
+    --colMainDark: #00023c;
+    --colMainLight: #001bff;
+    --colMainHover: #000099;
+    --colBGLight: #f7f7f9;
+    --colBGDark: #bfbfce;
+    --colTextLight: #7f809d;
+    --colTextDark: #00023c;
+    --colHighlight: #fef235;
+    --colNotifyOK: #c4cdfa;
+    --colNotifyWarn: #fffccc;
+    --colNotifyErr: #f9bcb2;
+    --colHoverLight: #c4cdfa;
+    --colHoverDark: #6d83f2;
+    --colShadowMain: rgba(0,27,255,0.24);
+    --colShadowDark: rgba(0, 2, 71, 0.16);
+}
+
+/**
+ * @subsection CKEditorResizeHandle
+ */
+
+div.ui-resizable-s {
+    position: relative;
+    bottom: 0px;
+    width: 50px;
+    box-sizing: border-box;
+    height: 5px;
+    margin: auto;
+    margin-top: -2px;
+    border-radius: 5px;
+    background-color: var(--colBGDark);
+    cursor: s-resize;
+    overflow: hidden;
+
+    i {
+        display: block;
+        margin: auto;
+        color: var(--colTextLight);
+        text-align: center;
+        font-size: 10px;
+        margin-top: -2.5px;
+    }
+}
+
+/**
+ * end @subsection CKEditorResizeHandle
+ */
+
 body {
     font-family: 'Quicksand', sans-serif;
     font-size: 14px;
@@ -30,6 +83,10 @@ span,
 h1,
 h3 {
     color: inherit;
+}
+
+a.DisabledLink {
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 767px) {
@@ -112,7 +169,7 @@ button {
 button:hover,
 button:focus {
     background-color: #000099;
-    background-color: var(--colHoverDark);
+    background-color: var(--colMainHover);
 }
 
 button,
@@ -213,4 +270,20 @@ ul.ui-autocomplete {
     background: var(--colBGLight);
     border: none;
     margin: 0;
+}
+
+/* WebKit Scrollbar for fixing ugly scrollbars in Chrome */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 4px;
+}
+  
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
 }

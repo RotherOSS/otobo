@@ -16,15 +16,23 @@
 
 package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw( :all );
 
 use parent qw(
     Kernel::GenericInterface::Operation::Common
     Kernel::GenericInterface::Operation::Ticket::Common
 );
+
+# core modules
+use Scalar::Util qw(reftype);
+use MIME::Base64 qw(encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,15 +45,14 @@ Kernel::GenericInterface::Operation::Ticket::TicketUpdate - GenericInterface Tic
 =head2 new()
 
 usually, you want to create an instance of this
-by using Kernel::GenericInterface::Operation->new();
+by using C<Kernel::GenericInterface::Operation->new();>.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed objects
     for my $Needed (qw( DebuggerObject WebserviceID )) {
@@ -118,7 +125,7 @@ if applicable the created ArticleID.
                 #     Diff => 10080, # Pending time in minutes
                 #},
             },
-            Article => {                                                          # optional
+            Article => {
                 CommunicationChannel            => 'Email',                    # CommunicationChannel or CommunicationChannelID must be provided.
                 CommunicationChannelID          => 1,
                 IsVisibleForCustomer            => 1,                          # optional
@@ -155,7 +162,7 @@ if applicable the created ArticleID.
             #    Value  => $Value,
             #},
 
-            Attachment [
+            Attachment => [
                 {
                     Content     => 'content'                                 # base64 encoded
                     ContentType => 'some content type'
@@ -164,7 +171,7 @@ if applicable the created ArticleID.
                 # ...
             ],
             #or
-            #Attachment {
+            #Attachment => {
             #    Content     => 'content'
             #    ContentType => 'some content type'
             #    Filename    => 'some fine name'
@@ -348,9 +355,7 @@ sub Run {
     }
 
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
-
-        if ( !$Param{Data}->{Password} )
-        {
+        if ( !$Param{Data}->{Password} ) {
             return $Self->ReturnError(
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: Password or SessionID is required!",
@@ -359,7 +364,9 @@ sub Run {
     }
 
     # authenticate user
-    my ( $UserID, $UserType ) = $Self->Auth(%Param);
+    my ( $UserID, $UserType ) = $Self->Auth(
+        %Param,
+    );
 
     if ( !$UserID ) {
         return $Self->ReturnError(
@@ -462,8 +469,8 @@ sub Run {
         $Ticket->{UserID} = $UserID;
 
         # remove leading and trailing spaces
-        for my $Attribute ( sort keys %{$Ticket} ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Ticket->%* ) {
+            if ( !reftype $Ticket->{$Attribute} ) {
 
                 #remove leading spaces
                 $Ticket->{$Attribute} =~ s{\A\s+}{};
@@ -473,8 +480,8 @@ sub Run {
             }
         }
         if ( IsHashRefWithData( $Ticket->{PendingTime} ) ) {
-            for my $Attribute ( sort keys %{ $Ticket->{PendingTime} } ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $Ticket->{PendingTime}->%* ) {
+                if ( !reftype $Ticket->{PendingTime}->{$Attribute} ) {
 
                     #remove leading spaces
                     $Ticket->{PendingTime}->{$Attribute} =~ s{\A\s+}{};
@@ -503,8 +510,8 @@ sub Run {
         $Article->{UserType} = $UserType;
 
         # remove leading and trailing spaces
-        for my $Attribute ( sort keys %{$Article} ) {
-            if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+        for my $Attribute ( sort keys $Article->%* ) {
+            if ( !reftype $Article->{$Attribute} ) {
 
                 #remove leading spaces
                 $Article->{$Attribute} =~ s{\A\s+}{};
@@ -514,8 +521,8 @@ sub Run {
             }
         }
         if ( IsHashRefWithData( $Article->{OrigHeader} ) ) {
-            for my $Attribute ( sort keys %{ $Article->{OrigHeader} } ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $Article->{OrigHeader}->%* ) {
+                if ( !reftype $Article->{OrigHeader}->{$Attribute} ) {
 
                     #remove leading spaces
                     $Article->{OrigHeader}->{$Attribute} =~ s{\A\s+}{};
@@ -562,19 +569,18 @@ sub Run {
         }
     }
 
-    my $DynamicField;
     my @DynamicFieldList;
     if ( defined $Param{Data}->{DynamicField} ) {
 
         # isolate DynamicField parameter
-        $DynamicField = $Param{Data}->{DynamicField};
+        my $DynamicField = $Param{Data}->{DynamicField};
 
         # homogenate input to array
         if ( ref $DynamicField eq 'HASH' ) {
             push @DynamicFieldList, $DynamicField;
         }
         else {
-            @DynamicFieldList = @{$DynamicField};
+            @DynamicFieldList = $DynamicField->@*;
         }
 
         # check DynamicField internal structure
@@ -588,15 +594,13 @@ sub Run {
             }
 
             # remove leading and trailing spaces
+            ATTRIBUTE:
             for my $Attribute ( sort keys %{$DynamicFieldItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+                next ATTRIBUTE if reftype $DynamicFieldItem->{$Attribute};
 
-                    #remove leading spaces
-                    $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
-
-                    #remove trailing spaces
-                    $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
-                }
+                # TODO: this might be a case where input data is modified
+                $DynamicFieldItem->{$Attribute} =~ s{\A\s+}{};
+                $DynamicFieldItem->{$Attribute} =~ s{\s+\z}{};
             }
 
             # check DynamicField attribute values
@@ -611,12 +615,11 @@ sub Run {
         }
     }
 
-    my $Attachment;
     my @AttachmentList;
     if ( defined $Param{Data}->{Attachment} ) {
 
         # isolate Attachment parameter
-        $Attachment = $Param{Data}->{Attachment};
+        my $Attachment = $Param{Data}->{Attachment};
 
         # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
@@ -637,8 +640,8 @@ sub Run {
             }
 
             # remove leading and trailing spaces
-            for my $Attribute ( sort keys %{$AttachmentItem} ) {
-                if ( ref $Attribute ne 'HASH' && ref $Attribute ne 'ARRAY' ) {
+            for my $Attribute ( sort keys $AttachmentItem->%* ) {
+                if ( !reftype $AttachmentItem->{$Attribute} ) {
 
                     #remove leading spaces
                     $AttachmentItem->{$Attribute} =~ s{\A\s+}{};
@@ -681,11 +684,13 @@ checks if the given ticket parameters are valid.
         Ticket => $Ticket,                          # all ticket parameters
     );
 
-    returns:
+returns:
 
     $TicketCheck = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $TicketCheck = {
         ErrorCode    => 'Function.Error',           # if error
@@ -1239,7 +1244,7 @@ sub _CheckAttachment {
         }
     }
 
-    # check Article->ContentType
+    # check Attachment->ContentType
     if ( $Attachment->{ContentType} ) {
 
         # The MIME header field Content-Type is only in some parts case insensitive,
@@ -1273,11 +1278,13 @@ check if user has permissions to update ticket attributes.
         UserID       => 123,
     );
 
-    returns:
+returns:
 
     $Response = {
         Success => 1,                               # if everything is OK
     }
+
+or
 
     $Response = {
         Success      => 0,
@@ -2058,9 +2065,9 @@ sub _TicketUpdate {
         # Convert article body to plain text, if HTML content was supplied. This is necessary since auto response code
         #   expects plain text content. Please see bug#13397 for more information.
         if (
-            ( $Article->{ContentType} // '' ) =~ m/text\/html/i
+            ( $Article->{ContentType} // '' ) =~ /text\/html/i
             ||
-            ( $Article->{MimeType} // '' ) =~ m/text\/html/i
+            ( $Article->{MimeType} // '' ) =~ /text\/html/i
             )
         {
             $PlainBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
@@ -2281,7 +2288,6 @@ sub _TicketUpdate {
         );
 
         my @Attachments;
-        $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
         ATTACHMENT:
         for my $FileID ( sort keys %AttachmentIndex ) {
             next ATTACHMENT if !$FileID;
@@ -2293,7 +2299,7 @@ sub _TicketUpdate {
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
             # convert content to base64, but prevent 76 chars brake, see bug#14500.
-            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
+            $Attachment{Content} = encode_base64( $Attachment{Content}, '' );
             push @Attachments, {%Attachment};
         }
 

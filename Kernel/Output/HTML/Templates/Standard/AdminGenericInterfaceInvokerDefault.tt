@@ -116,7 +116,7 @@
 
                         <label for="InvokerTypeDisplay">[% Translate("Invoker backend") | html %]:</label>
                         <div class="Field">
-                            <input type="text" readonly="readonly" class="W50pc" id="InvokerTypeDisplay" value="[% Data.InvokerType | html %]" />
+                            <input type="text" readonly class="W50pc" id="InvokerTypeDisplay" value="[% Data.InvokerType | html %]" />
                             <p class="FieldExplanation">
                                 [% Translate("This OTOBO invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.") | html %]
                             </p>
@@ -211,7 +211,7 @@
 [% RenderBlockStart("EventAdd") %]
                                 [% Data.EventStrg %]
 [% RenderBlockEnd("EventAdd") %]
-                                <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">[% Translate("Asynchronous") | html %]</label>
+                                <input type="checkbox" id="Asynchronous" checked class="GenericInterfaceSpacing" name="Asynchronous"><label for="Asynchronous">[% Translate("Asynchronous") | html %]</label>
                                 <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing HideOnChange" name="AddEvent" value="[% Translate("Add Event") | html %]">[% Translate("Add Event") | html %]</button>
                                 <p class="FieldExplanation">
                                     [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].

@@ -228,11 +228,7 @@ sub Run {
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
-            Data         => {
-                %Param,
-                OTOBOSTORMIsInstalled   => 0,    # OTOBOCommunity feature
-                OTOBOCONTROLIsInstalled => 0,    # OTOBOCommunity feature
-            },
+            Data         => {%Param},
         );
         $Output .= $LayoutObject->Footer();
 
@@ -280,7 +276,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( '%vd', $^V ),
                 %Param,
                 %GetParam,
                 %OSInfo,
@@ -425,7 +421,7 @@ sub Run {
         # check SupportDataSending if it is enable
         $Param{SupportDataSendingChecked} = '';
         if ( $RegistrationData{SupportDataSending} eq 'Yes' ) {
-            $Param{SupportDataSendingChecked} = 'checked="checked"';
+            $Param{SupportDataSendingChecked} = 'checked ';
         }
 
         $LayoutObject->Block(
@@ -433,7 +429,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( '%vd', $^V ),
                 %Param,
             },
         );
@@ -610,7 +606,7 @@ sub _SentDataOverview {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         my %System       = (
-            PerlVersion        => sprintf( "%vd", $^V ),
+            PerlVersion        => sprintf( '%vd', $^V ),
             OSType             => $OSInfo{OS},
             OSVersion          => $OSInfo{OSName},
             OTOBOVersion       => $ConfigObject->Get('Version'),

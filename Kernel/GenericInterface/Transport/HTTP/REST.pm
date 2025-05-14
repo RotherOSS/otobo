@@ -16,16 +16,23 @@
 
 package Kernel::GenericInterface::Transport::HTTP::REST;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use HTTP::Status;
-use MIME::Base64;
-use REST::Client;
-use URI::Escape;
-use Kernel::Config;
+# core modules
+use MIME::Base64 qw(encode_base64);
 
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
+use HTTP::Status    qw(status_message);
+use REST::Client    ();
+use URI::Escape     qw(uri_escape_utf8 uri_unescape);
+use Plack::Response ();
+
+# OTOBO modules
+use Kernel::System::VariableCheck  qw(:all);
+use Kernel::System::Web::Exception ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -46,9 +53,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
+    # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
@@ -106,22 +113,27 @@ sub ProviderProcessRequest {
         );
     }
 
+    # The HTTP::REST support works with a request object.
+    # Just like Kernel::System::Web::InterfaceAgent.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Operation;
-    my %URIData;
-    my $RequestURI = $ENV{REQUEST_URI};
+    my $RequestURI = $ParamObject->RequestURI;
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
     #   e.g. from /Ticket/1/2?UserLogin=user&Password=secret
     #   to /Ticket/1/2?.
-    $RequestURI =~ s{([^?]+)(.+)?}{$1};
+    my $QueryParamsStr = '';
+    if ( $RequestURI =~ s{([^?]+)(.+)?}{$1} ) {
 
-    # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
-    my $QueryParamsStr = $2 || '';
+        # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
+        # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
+        $QueryParamsStr = $2;
+    }
+
     my %QueryParams;
-
     if ($QueryParamsStr) {
 
         # Remove question mark '?' in the beginning.
@@ -134,14 +146,14 @@ sub ProviderProcessRequest {
         #        Password  => 'secret',
         #      );
         for my $QueryParam ( split /[;&]/, $QueryParamsStr ) {
-            my ( $Key, $Value ) = split '=', $QueryParam;
+            my ( $Key, $Value ) = split /=/, $QueryParam;
 
             # Convert + characters to its encoded representation, see bug#11917.
             $Value =~ s{\+}{%20}g;
 
             # Unescape URI strings in query parameters.
-            $Key   = URI::Escape::uri_unescape($Key);
-            $Value = URI::Escape::uri_unescape($Value);
+            $Key   = uri_unescape($Key);
+            $Value = uri_unescape($Value);
 
             # Encode variables.
             $EncodeObject->EncodeInput( \$Key );
@@ -161,7 +173,9 @@ sub ProviderProcessRequest {
         }
     }
 
-    my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+    my $Operation;
+    my %URIData;
+    my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
 
@@ -196,7 +210,7 @@ sub ProviderProcessRequest {
             my $URIValue = $+{$URIKey};
 
             # Unescape value
-            $URIValue = URI::Escape::uri_unescape($URIValue);
+            $URIValue = uri_unescape($URIValue);
 
             # Encode value.
             $EncodeObject->EncodeInput( \$URIValue );
@@ -223,7 +237,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    my $Length = $ENV{'CONTENT_LENGTH'};
+    # The body supplied by POST, PUT, and PATCH has already been read in. This should be safe
+    # as $CGI::POST_MAX has been set as an emergency brake.
+    # For Checking the length we can therefor use the actual length.
+    my $Content = $ParamObject->GetParam( Param => uc($RequestMethod) . 'DATA' );
+    my $Length  = length $Content;
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
@@ -242,20 +260,16 @@ sub ProviderProcessRequest {
     # Request bigger than allowed.
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            Summary   => status_message(413),
+            HTTPError => 413,                   # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
-    # Read request.
-    my $Content;
-    read STDIN, $Content, $Length;
-
-    # If there is no STDIN data it might be caused by fastcgi already having read the request.
-    # In this case we need to get the data from CGI.
+    # There might be a different request method.
+    # NOTE: this is redundant and kept only for compatability with older versions
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
-        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+        $Content = $ParamObject->GetParam(
             Param => $ParamName,
         );
     }
@@ -264,23 +278,24 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
-    # Convert char-set if necessary.
-    my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
-        $ContentCharset = $1;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $EncodeObject->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $EncodeObject->EncodeInput( \$Content );
+    # Convert charset if necessary.
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $EncodeObject->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            # this sets the UTF-8 flag
+            $EncodeObject->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
@@ -337,25 +352,20 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-In case of an error, error code and message are taken from environment
-(previously set on request processing).
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
-The HTTP code is set accordingly
+The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
 - C<4xx> for http errors
 - C<500> for content syntax errors
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+    $TransportObject->ProviderGenerateResponse(
         Success => 1
-        Data    => { # data payload for response, optional
+        Operation => 'TicketUpdate', # needed for determining outbound headers
+        Data      => { # data payload for response, optional
             ...
         },
     );
-
-    $Result = {
-        Success      => 1,   # 0 or 1
-        ErrorMessage => '',  # in case of error
-    };
 
 =cut
 
@@ -364,15 +374,15 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_Output(
+        $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
     }
 
     # Check data param.
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_Output(
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -393,29 +403,88 @@ sub ProviderGenerateResponse {
         $HTTPCode = 500;
     }
 
-    # Orepare data.
+    # Prepare data.
     my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => $Param{Data},
     );
 
     if ( !$JSONString ) {
-        return $Self->_Output(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error while encoding return JSON structure.',
         );
     }
 
-    # No error - return output.
-    return $Self->_Output(
+    # added for OTOBOTicketInvoker
+    # Gather additional headers.
+    my %ResponseHeaders = $Self->_HeadersGet(
+        Type      => 'Operation',
+        Operation => $Param{Operation},
+    );
+
+    # Mirror some HTTP headers when the request comes from a test script
+    # that has temporarily set GenericInterface::Transport::UnitTestHeaders.
+    # This feature allows to check outgoing HTTP headers of the generic interface.
+    # It was introduced by OTOBOTicketInvoker.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Transport::MirrorUnitTestHTTPHeaders') ) {
+
+        # The HTTP::REST support works with a request object.
+        # Just like Kernel::System::Web::InterfaceAgent.
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        # The HTTP::Headers::Fast also includes Content-Type and Content-Length,
+        # which should not be mirrored.
+        my %RequestHeaders;
+        FIELD_NAME:
+        for my $FieldName ( sort $ParamObject->Headers->header_field_names ) {
+            next FIELD_NAME if $FieldName eq 'Content-Type';
+            next FIELD_NAME if $FieldName eq 'Content-Length';
+
+            # normalize to uppercase separated by '-', e.g. FUNNY-FIELD
+            my $HeaderKey = uc $FieldName;
+            $HeaderKey =~ s{_}{-}xmsg;
+            $RequestHeaders{$HeaderKey} = $ParamObject->Header($FieldName);
+        }
+
+        # If we are in UnitTest header check mode, mirror all request headers in response.
+        # The blacklist is not considered here, as we want to verify that the blacklisted headers
+        # were not sent in the first place.
+        if ( my $MirrorHeaderPrefix = delete $RequestHeaders{UNITTESTHEADERS} ) {
+
+            # Attention: CGI::PSGI and CGI use all-uppercase names for headers.
+            # Attention: not sure wheter UntestHeaderBlackList is set in any test script
+            my %IsBlacklisted;
+            if ( defined $RequestHeaders{UNITTESTHEADERBLACKLIST} ) {
+                %IsBlacklisted = map { uc($_) => 1 } split /:/, delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
+            }
+
+            HEADER:
+            for my $Header ( sort keys %RequestHeaders ) {
+
+                next HEADER if $IsBlacklisted{$Header};
+
+                # the mirrored header are marked with a random prefix
+                $ResponseHeaders{ $MirrorHeaderPrefix . $Header } = $RequestHeaders{$Header};
+            }
+        }
+    }
+
+    # No error, still throw an exception
+    $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
+        Headers  => \%ResponseHeaders,    # added by OTOBOTicketInvoker
     );
+
+    return;                               # actually not reached
 }
 
 =head2 RequesterPerformRequest()
 
-Prepare data payload as XML structure, generate an outgoing web service request,
-receive the response and return its data.
+Emit an outgoing web service request and receive the response. The supplied data is either sent
+as JSON in the body or is added to the requested URL as a list of parameters.
+Inspect the response and report the result as not successful when there are problems.
+Return the received data otherwise.
 
     my $Result = $TransportObject->RequesterPerformRequest(
         Operation => 'remote_op', # name of remote operation to perform
@@ -424,12 +493,21 @@ receive the response and return its data.
         },
     );
 
+in case of success:
+
     $Result = {
-        Success      => 1,        # 0 or 1
-        ErrorMessage => '',       # in case of error
-        Data         => {
+        Success       => 1,
+        SizeExceeded  => 0,  # either 0 or 1 depending on the length of the response
+        Data          => {
             ...
         },
+    };
+
+in case of failure:
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'some message',
     };
 
 =cut
@@ -444,6 +522,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'REST Transport: Have no TransportConfig',
         };
     }
+
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
@@ -452,6 +531,7 @@ sub RequesterPerformRequest {
     }
     my $Config = $Self->{TransportConfig}->{Config};
 
+    # Check required config.
     NEEDED:
     for my $Needed (qw(Host DefaultCommand Timeout)) {
         next NEEDED if IsStringWithData( $Config->{$Needed} );
@@ -463,7 +543,7 @@ sub RequesterPerformRequest {
     }
 
     # Check data param.
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
         return {
             Success      => 0,
             ErrorMessage => 'REST Transport: Invalid Data',
@@ -478,8 +558,19 @@ sub RequesterPerformRequest {
         };
     }
 
-    # Create header container and add proper content type
-    my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
+    # Create header container and add proper content type.
+    # These headers will be used for calling the remote server.
+    my %Headers = ( 'Content-Type' => 'application/json' );
+
+    # Add AdditionalHeaders, but do not overwrite existing headers
+    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+            if ( !IsStringWithData( $Headers{$AdditionalHeader} ) ) {
+                $Headers{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
+            }
+        }
+    }
 
     # set up a REST session
     my $RestClient = REST::Client->new(
@@ -497,6 +588,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -504,7 +596,6 @@ sub RequesterPerformRequest {
     }
 
     # Add SSL options if configured.
-    my %SSLOptions;
     if (
         IsHashRefWithData( $Config->{SSL} )
         && IsStringWithData( $Config->{SSL}->{UseSSL} )
@@ -537,13 +628,21 @@ sub RequesterPerformRequest {
 
         # skip hostname verification
         if (
-            IsStringWithData( $Config->{SSL}->{SSLVerifyHostname} )
-            && $Config->{SSL}->{SSLVerifyHostname} eq 'No'
+            IsStringWithData( $Config->{SSL}{SSLVerifyHostname} )
+            && $Config->{SSL}{SSLVerifyHostname} eq 'No'
             )
         {
             $RestClient->getUseragent()->ssl_opts( verify_hostname => 0 );
         }
 
+        # skip certificate verification
+        if (
+            IsStringWithData( $Config->{SSL}{SSLVerifyMode} )
+            && $Config->{SSL}{SSLVerifyMode} eq 'No'
+            )
+        {
+            $RestClient->getUseragent()->ssl_opts( SSL_verify_mode => 0 );
+        }
     }
 
     # Add proxy options if configured.
@@ -578,36 +677,81 @@ sub RequesterPerformRequest {
                 && IsStringWithData( $Config->{Proxy}->{ProxyPassword} )
                 )
             {
-                $Headers->{'Proxy-Authorization'} = 'Basic ' . encode_base64(
+                $Headers{'Proxy-Authorization'} = 'Basic ' . encode_base64(
                     $Config->{Proxy}->{ProxyUser} . ':' . $Config->{Proxy}->{ProxyPassword}
                 );
             }
         }
     }
 
-    # Add authentication options if configured (hard wired to basic authentication at the moment).
-    if (
-        IsHashRefWithData( $Config->{Authentication} )
-        && IsStringWithData( $Config->{Authentication}->{AuthType} )
-        && $Config->{Authentication}->{AuthType} eq 'BasicAuth'
-        && IsStringWithData( $Config->{Authentication}->{BasicAuthUser} )
-        && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
-        )
-    {
-        $Headers->{Authorization} = 'Basic ' . encode_base64(
-            $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
-        );
+    # Add authentication options if configured.
+    if ( IsHashRefWithData( $Config->{Authentication} ) && IsStringWithData( $Config->{Authentication}->{AuthType} ) ) {
+
+        # basic auth
+        if (
+            $Config->{Authentication}->{AuthType} eq 'BasicAuth'
+            && IsStringWithData( $Config->{Authentication}->{BasicAuthUser} )
+            && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
+            )
+        {
+            $Headers{Authorization} = 'Basic ' . encode_base64(
+                $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
+            );
+        }
+
+        # kerberos
+        elsif (
+            $Config->{Authentication}->{AuthType} eq 'Kerberos'
+            && IsStringWithData( $Config->{Authentication}->{KerberosUser} )
+            && IsStringWithData( $Config->{Authentication}->{KerberosKeytab} )
+            )
+        {
+            if ( !-e $Config->{Authentication}->{KerberosKeytab} ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => "'$Config->{Authentication}->{KerberosKeytab}' does not exist.",
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => "'$Config->{Authentication}->{KerberosKeytab}' does not exist.",
+                };
+            }
+            if ( $Config->{Authentication}->{KerberosUser} =~ /[^\w\d\-\._@]/ ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => "Invalid user format '$Config->{Authentication}->{KerberosUser}'.",
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => "Invalid user format '$Config->{Authentication}->{KerberosUser}'.",
+                };
+            }
+
+            my $KinitString = 'kinit -k -t ' . $Config->{Authentication}->{KerberosKeytab} . ' ' . $Config->{Authentication}->{KerberosUser};
+            my $LogMessage  = qx{$KinitString 2>&1};
+
+            if ( IsStringWithData($LogMessage) ) {
+                $Self->{DebuggerObject}->Error(
+                    Summary => 'kinit: ' . $LogMessage,
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'kinit: ' . $LogMessage,
+                };
+            }
+        }
     }
 
     if ( $Param{CustomHeader} ) {
-        $Headers = {
-            %{$Headers},
+        %Headers = (
+            %Headers,
             %{ $Param{CustomHeader} },
-        };
+        );
 
         $Self->{DebuggerObject}->Debug(
             Summary => "Custom headers used (might overwrite authorization)",
-            Data    => join( '; ', keys %{ $Param{CustomHeader} } ),
+            Data    => join( '; ', keys $Param{CustomHeader}->%* ),
         );
     }
 
@@ -627,6 +771,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -647,40 +792,57 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
         };
     }
 
-    my @RequestParam;
     my $Controller = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Controller};
 
     # Remove any query parameters that might be in the config,
     #   For example, from the controller: /Ticket/:TicketID/?:UserLogin&:Password
     #   controller must remain  /Ticket/:TicketID/
-    $Controller =~ s{([^?]+)(.+)?}{$1};
+    my $QueryParamsStr = '';
+    if ( $Controller =~ s{([^?]+)(.+)?}{$1} ) {
 
-    # Remember the query parameters e.g. ?:UserLogin&:Password.
-    my $QueryParamsStr = $2 || '';
-
-    my @ParamsToDelete;
+        # Remember the query parameters e.g. ?:UserLogin&:Password.
+        # It is fine when $2 is not defined, that is when there is no '?' in $RequestURI
+        $QueryParamsStr = $2;
+    }
 
     # Replace any URI params with their actual value.
     #    for example: from /Ticket/:TicketID/:Other
     #    to /Ticket/1/2 (considering that $Param{Data} contains TicketID = 1 and Other = 2).
-    for my $ParamName ( sort keys %{ $Param{Data} } ) {
-        if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
-            my $ParamValue = $Param{Data}->{$ParamName};
-            $ParamValue = URI::Escape::uri_escape_utf8($ParamValue);
-            $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
-            push @ParamsToDelete, $ParamName;
+    my @ParamsToDelete;
+    if ( ref $Param{Data} eq 'HASH' ) {
+        for my $ParamName ( sort keys %{ $Param{Data} } ) {
+            if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
+                my $ParamValue = $Param{Data}->{$ParamName};
+                $ParamValue = uri_escape_utf8($ParamValue);
+                $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
+                push @ParamsToDelete, $ParamName;
+            }
+        }
+    }
+    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+        for my $Data ( $Param{Data}->@* ) {
+
+            for my $ParamName ( sort keys %{$Data} ) {
+                if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
+                    my $ParamValue = $Data->{$ParamName};
+                    $ParamValue = uri_escape_utf8($ParamValue);
+                    $Controller =~ s{:$ParamName(?=/|\?|$)}{$ParamValue}msxg;
+                    push @ParamsToDelete, $ParamName;
+                }
+            }
         }
     }
 
     $Self->{DebuggerObject}->Debug(
-        Summary => "URI after interpolating URI params from outgoing data",
-        Data    => $Controller,
+        Summary => 'URI after interpolating URI params from outgoing data',
+        Data    => "$RestCommand $Controller",
     );
 
     if ($QueryParamsStr) {
@@ -693,7 +855,7 @@ sub RequesterPerformRequest {
         for my $ParamName ( sort keys %{ $Param{Data} } ) {
             if ( $QueryParamsStr =~ m{:$ParamName(?=&|$)}msx ) {
                 my $ParamValue = $Param{Data}->{$ParamName};
-                $ParamValue = URI::Escape::uri_escape_utf8($ParamValue);
+                $ParamValue = uri_escape_utf8($ParamValue);
                 $QueryParamsStr =~ s{:$ParamName(?=&|$)}{$ParamValue}msxg;
                 push @ParamsToDelete, $ParamName;
                 $ReplaceFlag = 1;
@@ -705,8 +867,8 @@ sub RequesterPerformRequest {
             $Controller .= $QueryParamsStr;
 
             $Self->{DebuggerObject}->Debug(
-                Summary => "URI after interpolating Query params from outgoing data",
-                Data    => $Controller,
+                Summary => 'URI after interpolating Query params from outgoing data',
+                Data    => "$RestCommand $Controller",
             );
         }
     }
@@ -720,8 +882,7 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Body;
-    if ( IsHashRefWithData( $Param{Data} ) ) {
+    if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
 
         # POST, PUT and PATCH can have Data in the Body.
         if (
@@ -745,8 +906,10 @@ sub RequesterPerformRequest {
 
         # Whereas GET and the others just have a the data added to the Query URI.
         else {
-            my $QueryParams = $RestClient->buildQuery(
-                %{ $Param{Data} }
+
+            my $QueryParams = $Self->_BuildQueryParams(
+                Data       => $Param{Data},
+                RestClient => $RestClient,
             );
 
             # Check if controller already have a  question mark '?'.
@@ -770,7 +933,8 @@ sub RequesterPerformRequest {
             );
         }
     }
-    push @RequestParam, $Controller;
+
+    my @RequestParam = ($Controller);
 
     # Only POST, PUT or PATCH have a body. If it is empty
     # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
@@ -780,6 +944,7 @@ sub RequesterPerformRequest {
         || $RestCommand eq 'PATCH'
         )
     {
+        my $Body;
         if ( IsStringWithData( $Param{Data} ) ) {
             $Body = $Param{Data};
         }
@@ -787,71 +952,82 @@ sub RequesterPerformRequest {
         push @RequestParam, $Body;
     }
 
-    # Add headers to request
-    push @RequestParam, $Headers;
+    # added for OTOBOTicketInvoker
 
+    # Gather additional headers.
+    %Headers = (
+        %Headers,
+        $Self->_HeadersGet(
+            Type      => 'Invoker',
+            Operation => $Param{Operation},
+        ),
+    );
+
+    # Trigger mirror mode for headers (undocumented - only for UnitTests)
+    if ( $Config->{UnitTestHeaders} ) {
+        $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
+    }
+
+    # Add headers to request
+    push @RequestParam, \%Headers;
+
+    # the actual request to the remote service
     $RestClient->$RestCommand(@RequestParam);
 
-    my $ResponseCode = $RestClient->responseCode();
+    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '$Config->{Host}'.";
     my $ResponseError;
-    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
-        . $Config->{Host} . "'.";
-
-    if ( !IsStringWithData($ResponseCode) ) {
-        $ResponseError = $ErrorMessage;
+    if ( $Param{CustomResponseAssessor} ) {
+        $ResponseError = $Param{CustomResponseAssessor}->(
+            RestClient   => $RestClient,
+            RestCommand  => $RestCommand,
+            Controller   => $Controller,
+            ErrorMessage => $ErrorMessage,
+        );
+    }
+    else {
+        $ResponseError = _AssessResponse(
+            RestClient   => $RestClient,
+            ErrorMessage => $ErrorMessage,
+        );
     }
 
-    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
-        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
-    }
-
+    my $ResponseCode    = $RestClient->responseCode();
     my $ResponseContent = $RestClient->responseContent();
-    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
-        $ResponseError .= ' No content provided.';
-    }
 
     # Return early in case an error on response.
     if ($ResponseError) {
+        my $ResponseData = IsStringWithData($ResponseContent)
+            ?
+            "Response content: '$ResponseContent'"
+            :
+            'No content provided.';
 
-        my $ResponseData = 'No content provided.';
-        if ( IsStringWithData($ResponseContent) ) {
-            $ResponseData = "Response content: '$ResponseContent'";
-        }
-
-        # log to debugger
-        $Self->{DebuggerObject}->Error(
+        # log to debugger and return as unsuccessfull
+        return $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
             Data    => $ResponseData,
         );
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
     }
 
     # Send processed data to debugger.
-    my $SizeExeeded = 0;
+    my $SizeExceeded = 0;
     {
-        my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
+        my $MaxSizeKiloBytes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
-        $MaxSize = $MaxSize * 1024;
-        use bytes;
+        my $MaxSizeBytes = $MaxSizeKiloBytes * 1024;
+        my $SizeBytes    = bytes::length($ResponseContent);
 
-        my $ByteSize = length($ResponseContent);
-
-        if ( $ByteSize < $MaxSize ) {
+        if ( $SizeBytes < $MaxSizeBytes ) {
             $Self->{DebuggerObject}->Debug(
                 Summary => 'JSON data received from remote system',
                 Data    => $ResponseContent,
             );
         }
         else {
-            $SizeExeeded = 1;
+            $SizeExceeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data    =>
-                    'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
+                Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }
     }
@@ -877,6 +1053,7 @@ sub RequesterPerformRequest {
             $Self->{DebuggerObject}->Error(
                 Summary => $ResponseError,
             );
+
             return {
                 Success      => 0,
                 ErrorMessage => $ResponseError,
@@ -884,55 +1061,88 @@ sub RequesterPerformRequest {
         }
     }
 
+    # introduced for OTOBOTicketInvoker
+
+    # Report mirrored headers, only used for UnitTests
+    my %UnitTestHeaders;
+    if ( $Config->{UnitTestHeaders} ) {
+        HEADER:
+        for my $Header ( $RestClient->responseHeaders ) {
+            next HEADER if length($Header) < 25;
+            next HEADER if substr( $Header, 0, 25 ) ne $Config->{UnitTestHeaders};
+
+            $UnitTestHeaders{ substr( $Header, 25 ) } = $RestClient->responseHeader($Header);
+        }
+    }
+
     # All OK - return result.
     return {
-        Success     => 1,
-        Data        => $Result || undef,
-        SizeExeeded => $SizeExeeded,
+        Success         => 1,
+        Data            => $Result || undef,
+        SizeExceeded    => $SizeExceeded,
+        UnitTestHeaders => \%UnitTestHeaders,    # added by OTOBOTicketInvoker
     };
 }
 
 =begin Internal:
 
-=head2 _Output()
+=head2 _AssessResponse()
 
-Generate http response for provider and send it back to remote system.
-Environment variables are checked for potential error messages.
-Returns structure to be passed to provider.
-
-    my $Result = $TransportObject->_Output(
-        HTTPCode => 200,           # http code to be returned, optional
-        Content  => 'response',    # message content, XML response on normal execution
-    );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'Message', # error message from given summary
-    };
+Inspect the response immediately after the request.
 
 =cut
 
-sub _Output {
+sub _AssessResponse {
+    my %Param = @_;
+
+    my ( $RestClient, $ErrorMessage ) = @Param{qw(RestClient ErrorMessage)};
+
+    my $ResponseCode    = $RestClient->responseCode;
+    my $ResponseContent = $RestClient->responseContent;
+
+    my $ResponseError;    # will be returned
+
+    if ( !IsStringWithData($ResponseCode) ) {
+        $ResponseError = $ErrorMessage;
+    }
+
+    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+    }
+
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+        $ResponseError .= ' No content provided.';
+    }
+
+    return $ResponseError;
+}
+
+=head2 _ThrowWebException()
+
+creates a M<Plack::Response> object, wrap it into a M<Kernel::System::Web::Exception>
+and throw that object as an exception.
+
+    # the sub dies
+    $TransportObject->_ThrowWebException(
+        HTTPCode => 500,               # http code to be returned, optional
+        Content  => 'error message',   # message content
+        Headers  => { Key => 'Val' }   # additional headers, optional
+    );
+
+=cut
+
+sub _ThrowWebException {
     my ( $Self, %Param ) = @_;
 
     # Check params.
-    my $Success = 1;
-    my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid internal HTTPCode';
-        $Success         = 0;
-        $ErrorMessage    = 'Invalid internal HTTPCode';
     }
     elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid Content';
-        $Success         = 0;
-        $ErrorMessage    = 'Invalid Content';
     }
-
-    # Prepare protocol.
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -941,71 +1151,54 @@ sub _Output {
     # prepare data
     $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 500;
-    my $ContentType;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'application/json';
-    }
-    else {
-        $ContentType = 'text/plain';
-    }
 
-    # Calculate content length (based on the bytes length not on the characters length).
-    my $ContentLength = bytes::length( $Param{Content} );
+    my $ContentType = $Param{HTTPCode} eq 200 ? 'application/json' : 'text/plain';
 
     # Log to debugger.
-    my $DebugLevel;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $DebugLevel = 'debug';
-    }
-    else {
-        $DebugLevel = 'error';
-    }
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
         Data       => $Param{Content},
     );
 
-    # Set keep-alive.
-    my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
+    # header for the response that will be thrown
+    my @Headers;
+    push @Headers, 'Content-Type' => "$ContentType; charset=UTF-8";
+    push @Headers, 'Connection'   => ( $Self->{KeepAlive} ? 'Keep-Alive' : 'close' );
 
-    # prepare additional headers
-    my $AdditionalHeaderStrg = '';
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
+
+    # Prepare additional headers.
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            $AdditionalHeaderStrg
-                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
+            push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
         }
     }
 
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    # introduced by OTOBOTicketInvoker
+    # Set additional headers.
+    if ( $Param{Headers} ) {
+        for my $Header ( sort keys $Param{Headers}->%* ) {
+            push @Headers, $Header => $Param{Headers}->{$Header};
+        }
+    }
 
-    # Print data to http - '\r' is required according to HTTP RFCs.
-    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-    print STDOUT $AdditionalHeaderStrg;
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    # create the response
+    my $PlackResponse = Plack::Response->new(
+        $Param{HTTPCode},
+        \@Headers,
+        $Param{Content}
+    );
 
-    return {
-        Success      => $Success,
-        ErrorMessage => $ErrorMessage,
-    };
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 =head2 _Error()
@@ -1053,6 +1246,70 @@ sub _Error {
         Success      => 0,
         ErrorMessage => $Param{Summary},
     };
+}
+
+# introduced for OTOBOTicketInvoker
+sub _HeadersGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Self->{TransportConfig}->{Config}->{OutboundHeaders};
+
+    # Fallback for previously used 'additional response headers'.
+    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+        $Config = {
+            Common => $Self->{TransportConfig}->{Config}->{AdditionalHeaders},
+        };
+    }
+
+    return unless IsHashRefWithData($Config);
+
+    # the blacklisted headers are not sent
+    my %IsBlacklisted = map
+        { uc($_) => 1 }
+        @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' ) // [] };
+
+    # Common headers.
+    # These come first as specific headers might override them.
+    my %Headers;
+    if ( IsHashRefWithData( $Config->{Common} ) ) {
+        HEADER:
+        for my $Header ( sort keys $Config->{Common}->%* ) {
+            next HEADER if $IsBlacklisted{ uc $Header };
+
+            $Headers{$Header} = $Config->{Common}->{$Header};
+        }
+    }
+
+    # Operation/Invoker specific headers.
+    return %Headers unless $Param{Operation};
+    return %Headers unless ref $Config->{Specific} eq 'HASH';
+    return %Headers unless IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } );
+
+    HEADER:
+    for my $Header ( sort keys $Config->{Specific}->{ $Param{Operation} }->%* ) {
+        next HEADER if $IsBlacklisted{ uc $Header };
+
+        $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
+    }
+
+    return %Headers;
+}
+
+sub _BuildQueryParams {
+
+    my ( $Self, %Param ) = @_;
+
+    if ( ref $Param{Data} eq 'HASH' ) {
+        return $Param{RestClient}->buildQuery( $Param{Data}->%* );
+    }
+
+    my @QueryParams;
+
+    for my $Data ( $Param{Data}->@* ) {
+        push @QueryParams, $Param{RestClient}->buildQuery( $Data->%* );
+    }
+
+    return join( '&', @QueryParams)
 }
 
 =end Internal:

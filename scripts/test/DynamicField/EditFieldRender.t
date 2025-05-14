@@ -21,19 +21,125 @@ use utf8;
 # core modules
 
 # CPAN modules
+use HTTP::Request::Common qw(POST);
 use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);    # must be loaded before RegisterOM
 use Kernel::System::UnitTest::RegisterOM;                   # Set up $Kernel::OM
 use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
-use Kernel::Output::HTML::Layout ();
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::Output::HTML::Layout   ();
+use Kernel::System::VariableCheck  qw(:all);
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase  => 1,
+        UseTmpArticleDir => 1,
+    },
+);
 
 # get needed objects
-my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DFBackendObject    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+
+my $RandomID = $Helper->GetRandomID;
+diag "RandomID is $RandomID";
+
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $UserID = 1;    # root
+
+# create agents
+my $FirstUserID = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User1',
+    UserLogin     => 'TestUser1' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test1' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+ok( $FirstUserID, 'Creation of first agent' );
+
+my $SecondUserID = $UserObject->UserAdd(
+    UserFirstname => 'Test',
+    UserLastname  => 'User2',
+    UserLogin     => 'TestUser2' . $RandomID,
+    UserPw        => 'some-pass',
+    UserEmail     => 'test2' . $RandomID . 'email@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+ok( $SecondUserID, 'Creation of second agent' );
+
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    Lang         => 'en',
+    UserTimeZone => 'UTC',
+);
+
+# collect user data and build string for html selection comparison
+my %UserList = $UserObject->UserSearch(
+    Search => '*',
+    Valid  => 1,
+);
+my %UserLookup = map {
+    my $UserName = $UserObject->UserName(
+        UserID => $_,
+    );
+    my %Preferences = $UserObject->GetPreferences(
+        UserID => $_
+    );
+    my $TextEscaped = $LayoutObject->Ascii2Html(
+        Text => qq{"$UserName" <$Preferences{UserEmail}>},
+    );
+    if ( length $TextEscaped > 100 ) {
+        $TextEscaped = substr( $TextEscaped, 0, 95 ) . '[...]';
+    }
+    $_ => $TextEscaped
+} keys %UserList;
+
+my $UserSelectionString               = '';
+my $UserSelectionSelectedString       = '  <option value="" selected="selected">-</option>';
+my $UserSelectionSelectedAgent1String = '';
+my $UserSelectionSelectedAgent2String = '';
+for my $UserID ( sort { $UserLookup{$a} cmp $UserLookup{$b} } keys %UserLookup ) {
+    $UserSelectionString         = join( "\n", ( $UserSelectionString,         '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    $UserSelectionSelectedString = join( "\n", ( $UserSelectionSelectedString, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    if ( $UserID eq $FirstUserID ) {
+        $UserSelectionSelectedAgent1String
+            = join( "\n", ( $UserSelectionSelectedAgent1String, '  <option value="' . $UserID . '" selected="selected">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    else {
+        $UserSelectionSelectedAgent1String
+            = join( "\n", ( $UserSelectionSelectedAgent1String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    if ( $UserID eq $SecondUserID ) {
+        $UserSelectionSelectedAgent2String
+            = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '" selected="selected">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+    else {
+        $UserSelectionSelectedAgent2String
+            = join( "\n", ( $UserSelectionSelectedAgent2String, '  <option value="' . $UserID . '">' . $UserLookup{$UserID} . '</option>' ) );
+    }
+}
+
+# remove preceding newline which is created due to initialization with empty string
+$UserSelectionString               =~ s/^\n//;
+$UserSelectionSelectedAgent1String =~ s/^\n//;
+$UserSelectionSelectedAgent2String =~ s/^\n//;
+
+# add empty value to the top
+$UserSelectionString               = "  <option value=\"\">-</option>\n" . $UserSelectionString;
+$UserSelectionSelectedAgent1String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent1String;
+$UserSelectionSelectedAgent2String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent2String;
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -45,12 +151,84 @@ FixedTimeSet(
     )->ToEpoch()
 );
 
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    Lang         => 'en',
-    UserTimeZone => 'UTC',
+# prepare dynamic fields to include in set
+my @IncludeDFConfigs = (
+
+    # Fields to include in SetOfAgentsAndTexts
+    {
+        Name         => 'Text5' . $RandomID,
+        Label        => 'Text5',
+        LabelEscaped => 'Text5',
+        FieldOrder   => 123,
+        FieldType    => 'Text',
+        ObjectType   => 'Ticket',
+        Config       => {
+            MultiValue => 0,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Text6' . $RandomID,
+        Label        => 'Text6',
+        LabelEscaped => 'Text6',
+        FieldOrder   => 123,
+        FieldType    => 'Text',
+        ObjectType   => 'Ticket',
+        Config       => {
+            MultiValue => 1,
+            Tooltip    => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Agent1' . $RandomID,
+        Label        => 'Agent1',
+        LabelEscaped => 'Agent1',
+        FieldOrder   => 123,
+        FieldType    => 'Agent',
+        ObjectType   => 'Ticket',
+        Config       => {
+            EditFieldMode => 'Dropdown',
+            PossibleNone  => 1,
+            Multiselect   => 0,
+            MultiValue    => 0,
+            GroupFilter   => [],
+            Tooltip       => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
+    {
+        Name         => 'Agent2' . $RandomID,
+        Label        => 'Agent2',
+        LabelEscaped => 'Agent2',
+        FieldOrder   => 123,
+        FieldType    => 'Agent',
+        ObjectType   => 'Ticket',
+        Config       => {
+            EditFieldMode => 'Dropdown',
+            PossibleNone  => 1,
+            Multiselect   => 0,
+            MultiValue    => 1,
+            GroupFilter   => [],
+            Tooltip       => '',
+        },
+        ValidID => 1,
+        UserID  => $UserID,
+    },
 );
 
-my $UserID = 1;
+for my $IncludeDFConfig (@IncludeDFConfigs) {
+
+    my $Success = $DynamicFieldObject->DynamicFieldAdd(
+        $IncludeDFConfig->%*,
+    );
+
+    ok( $Success, 'Creation of set-included dynamic field ' . $IncludeDFConfig->{Name} );
+}
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
@@ -191,6 +369,29 @@ my %DynamicFieldConfigs = (
         CreateTime => '2011-02-08 15:08:00',
         ChangeTime => '2011-06-11 17:22:00',
     },
+
+    # Set, using the previously created Text5 and Text6 and agent fields
+    Set => {
+        ID            => 123,
+        InternalField => 0,
+        Name          => 'SetOfAgentsAndTexts',
+        Label         => 'Set of agents and texts',
+        LabelEscaped  => 'Set of agents and texts',
+        FieldOrder    => 123,
+        FieldType     => 'Set',
+        ObjectType    => 'Ticket',
+        Config        => {
+            MultiValue => 0,
+            Tooltip    => '',
+            Include    => [
+                { DF => 'Text5' . $RandomID },
+                { DF => 'Text6' . $RandomID },
+                { DF => 'Agent1' . $RandomID },
+                { DF => 'Agent2' . $RandomID },
+            ],
+        },
+        ValidID => 1,
+    },
 );
 
 # define tests
@@ -200,7 +401,6 @@ my @Tests = (
         Config  => undef,
         Success => 0,
     },
-
     {
         Name    => 'Empty Config',
         Config  => {},
@@ -244,6 +444,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Field => <<"EOF",
+
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="" />
 EOF
             Label => <<"EOF",
@@ -667,7 +868,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -688,7 +889,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -711,7 +912,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -737,7 +938,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -763,7 +964,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -789,7 +990,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -815,7 +1016,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -839,7 +1040,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required.
@@ -870,7 +1071,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
         This is an error.
@@ -898,11 +1099,11 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used0" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="" checked="checked" />
+<input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used0" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="" checked  />
 Ignore this field.
 <div class="clear"></div>
 <input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used1" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1"  />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked  value="1">
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
@@ -1135,7 +1336,13 @@ EOF
     {
         Name   => 'Dropdown: No Possible None',
         Config => {
-            DynamicFieldConfig   => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => {
+                $DynamicFieldConfigs{Dropdown}->%*,
+                Config => {
+                    $DynamicFieldConfigs{Dropdown}{Config}->%*,
+                    PossibleNone => 0,
+                },
+            },
             LayoutObject         => $LayoutObject,
             ParamObject          => $ParamObject,
             Value                => 1,
@@ -1197,7 +1404,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
+<select class="DynamicFieldText Modernize MyClass FormUpdate" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
@@ -1513,7 +1720,13 @@ EOF
     {
         Name   => 'Multiselect: No Possible None',
         Config => {
-            DynamicFieldConfig   => $DynamicFieldConfigs{Multiselect},
+            DynamicFieldConfig => {
+                $DynamicFieldConfigs{Multiselect}->%*,
+                Config => {
+                    $DynamicFieldConfigs{Multiselect}{Config}->%*,
+                    PossibleNone => 0,
+                },
+            },
             LayoutObject         => $LayoutObject,
             ParamObject          => $ParamObject,
             Value                => 1,
@@ -1549,7 +1762,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<select class="DynamicFieldText Modernize MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
+<select class="DynamicFieldText Modernize MyClass FormUpdate" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
@@ -1576,7 +1789,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -1720,6 +1934,7 @@ EOF
   <option value="58">58</option>
   <option value="59">59</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -1741,7 +1956,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -1885,6 +2101,7 @@ EOF
   <option value="58">58</option>
   <option value="59">59</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -1913,7 +2130,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2057,6 +2275,7 @@ EOF
   <option value="58">58</option>
   <option value="59">59</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -2085,7 +2304,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2229,6 +2449,7 @@ EOF
   <option value="58">58</option>
   <option value="59">59</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -2257,7 +2478,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2401,6 +2623,7 @@ EOF
   <option value="58">58</option>
   <option value="59">59</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -2423,7 +2646,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass Validate_Required" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass Validate_Required" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2572,6 +2796,7 @@ EOF
         This field is required.
     </p>
 </div>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" class="Mandatory">
@@ -2596,7 +2821,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="DynamicFieldText DateSelection MyClass ServerError" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked class="DynamicFieldText DateSelection MyClass ServerError" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText DateSelection MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2745,6 +2971,7 @@ EOF
         This is an error.
     </p>
 </div>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
@@ -2768,7 +2995,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2826,6 +3054,7 @@ EOF
   <option value="2017">2017</option>
   <option value="2018">2018</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -2847,7 +3076,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2905,6 +3135,7 @@ EOF
   <option value="2017">2017</option>
   <option value="2018">2018</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -2931,7 +3162,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -2989,6 +3221,7 @@ EOF
   <option value="2017">2017</option>
   <option value="2018">2018</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -3015,7 +3248,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -3073,6 +3307,7 @@ EOF
   <option value="2017">2017</option>
   <option value="2018">2018</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -3101,7 +3336,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -3159,6 +3395,7 @@ EOF
   <option value="2017">2017</option>
   <option value="2018">2018</option>
 </select>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -3181,7 +3418,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass Validate_Required" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass Validate_Required" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -3244,6 +3482,7 @@ EOF
         This field is required.
     </p>
 </div>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" class="Mandatory">
@@ -3268,7 +3507,8 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="DynamicFieldText MyClass ServerError" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
+<div class="DynamicFieldDate">
+<input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked class="DynamicFieldText MyClass ServerError" title="Check to activate this date" >&nbsp;<select class="Validate_DateMonth DynamicFieldText MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
   <option value="3">03</option>
@@ -3331,6 +3571,7 @@ EOF
         This is an error.
     </p>
 </div>
+</div>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
@@ -3338,6 +3579,164 @@ $DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
 
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Set: Correct Value',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Set},
+            LayoutObject       => $LayoutObject,
+            ParamObject        => $ParamObject,
+
+            # a list of Set values
+            Value => [
+
+                # actually only on Set value in the list
+                {
+
+                    # value for the first dynamic field in the set
+                    "Text5$RandomID" => 'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+
+                    # value for the second dynamic field in the set
+                    "Text6$RandomID" => [
+                        'Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                        'Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN',
+                    ],
+
+                    # value for the third dynamic field in the set
+                    "Agent1$RandomID" => $FirstUserID,
+
+                    # value for the fourth dynamic field in the set
+                    "Agent2$RandomID" => [
+                        $FirstUserID,
+                        $SecondUserID,
+                    ],
+                },
+            ],
+            Class => 'MyClass',
+        },
+        ExpectedResults => {
+            Field => <<"EOF",
+<input type="hidden" id="DynamicField_$DynamicFieldConfigs{Set}->{Name}_0" name="SetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
+<fieldset class="DynamicFieldSet">
+                        <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
+                            <div class="FieldCell" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[0]->{Name}_0" for="DynamicField_$IncludeDFConfigs[0]->{Name}_0">
+$IncludeDFConfigs[0]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[0]->{Name}_0" name="DynamicField_$IncludeDFConfigs[0]->{Name}_0" title="$IncludeDFConfigs[0]->{LabelEscaped}" value="Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField MultiValue" style="grid-template-columns: 1fr">
+                            <div class="FieldCell MultiValue_0" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text3: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="FieldCell MultiValue_1" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="MultiValue_Template" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[1]->{Name}_0" for="DynamicField_$IncludeDFConfigs[1]->{Name}_0">
+$IncludeDFConfigs[1]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<input type="text" class="DynamicFieldText W50pc" id="DynamicField_$IncludeDFConfigs[1]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[1]->{Name}_0" title="$IncludeDFConfigs[1]->{LabelEscaped}" value="Text4: 🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN" />
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
+                            <div class="FieldCell" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[2]->{Name}_0" for="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
+$IncludeDFConfigs[2]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[2]->{Name}_0" name="DynamicField_$IncludeDFConfigs[2]->{Name}_0">
+$UserSelectionSelectedAgent1String
+</select>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                        <div class="Row Row_DynamicField MultiValue" style="grid-template-columns: 1fr">
+                            <div class="FieldCell MultiValue_0" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionSelectedAgent1String
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="FieldCell MultiValue_1" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_1" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionSelectedAgent2String
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                            <div class="MultiValue_Template" style="grid-column: 1 / span 1">
+                                <label id="LabelDynamicField_$IncludeDFConfigs[3]->{Name}_0_0" for="DynamicField_$IncludeDFConfigs[3]->{Name}_0_0">
+$IncludeDFConfigs[3]->{LabelEscaped}:
+</label>
+                                <div class="Field">
+<select class="DynamicFieldReference DynamicFieldText Modernize FormUpdate" id="DynamicField_$IncludeDFConfigs[3]->{Name}_0_Template" name="DynamicField_$IncludeDFConfigs[3]->{Name}_0">
+$UserSelectionString
+</select>
+                                </div>
+                                <div class="AddRemoveValueRow">
+                                    <a class="RemoveValueRow"><i class="fa fa-minus-square"></i></a>
+                                    <a class="AddValueRow"><i class="fa fa-plus-square"></i></a>
+                                </div>
+                            </div>
+                        </div>
+</fieldset>
+EOF
+            Label => <<"EOF",
+<label id="LabelDynamicField_$DynamicFieldConfigs{Set}->{Name}" for="DynamicField_$DynamicFieldConfigs{Set}->{Name}">
+$DynamicFieldConfigs{Set}->{LabelEscaped}:
+</label>
+EOF
         },
         Success => 1,
     },
@@ -3355,29 +3754,36 @@ for my $Test (@Tests) {
 
             if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
-                # create a new CGI object to simulate a web request
-                my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
-
-                my $LocalParamObject = Kernel::System::Web::Request->new(
-                    WebRequest => $WebRequest,
-                );
-
-                %Config = (
-                    %Config,
-                    ParamObject => $LocalParamObject,
+                # create a new HTTP::Request object to simulate a web request
+                my $HTTPRequest = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
+                $Config{ParamObject} = Kernel::System::Web::Request->new(
+                    HTTPRequest => $HTTPRequest,
                 );
             }
             $FieldHTML = $DFBackendObject->EditFieldRender(%Config);
         }
         else {
-            $FieldHTML = $DFBackendObject->EditFieldRender( %{ $Test->{Config} } );
+            $FieldHTML = $DFBackendObject->EditFieldRender;
         }
 
         if ( $Test->{Success} ) {
 
+            # TODO Have a look at the newlines produced during template rendering. See Issue #1135
+            $FieldHTML->{Field} =~ s/^\n+//;
+            $FieldHTML->{Field} =~ s/\n+$//;
+            $FieldHTML->{Field} =~ s/\n{2,}/\n/g;
+
+            # Remove lines which consist only of whitespace
+            $FieldHTML->{Field} =~ s/^\s+\n//gm;
+
             # Heredocs always have the newline, even if it is not expected
             if ( $FieldHTML->{Field} !~ m{\n$} ) {
-                chomp $Test->{ExpectedResults}->{Field};
+
+                # chomp $Test->{ExpectedResults}->{Field};
+
+                # TODO Have a look at the newlines produced during template rendering. See Issue #1135
+                $Test->{ExpectedResults}->{Field} =~ s/^\n+//;
+                $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
             }
 
             is(

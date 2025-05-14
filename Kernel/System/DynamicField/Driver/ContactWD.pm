@@ -18,12 +18,21 @@ package Kernel::System::DynamicField::Driver::ContactWD;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Language',
@@ -36,7 +45,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::ContactWD
+Kernel::System::DynamicField::Driver::ContactWD - driver for the ContactWD dynamic field
 
 =head1 DESCRIPTION
 
@@ -55,11 +64,10 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -215,13 +223,17 @@ sub EditFieldRender {
     }
 
     # check and set class if necessary
-    my $FieldClass = 'DynamicFieldContactWD W50pc';
+    # The CSS class DynamicFieldContactWD is needed for Autocomplete
+    my $FieldClass = 'W50pc DynamicFieldContactWD';
     if ( defined $Param{Class} && $Param{Class} ne '' ) {
         $FieldClass .= ' ' . $Param{Class};
     }
 
-    # set field as mandatory
-    if ( $Param{Mandatory} ) {
+    # set classes according to mandatory and acl hidden params
+    if ( $Param{ACLHidden} && $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required_IfVisible';
+    }
+    elsif ( $Param{Mandatory} ) {
         $FieldClass .= ' Validate_Required';
     }
 
@@ -235,49 +247,34 @@ sub EditFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
 
-    my $HTMLString = <<"EOF";
-<input type="hidden" id="$FieldName" name="$FieldName" value="$ValueEscaped" />
-<input type="text" class="$FieldClass" id="Autocomplete_$FieldName" name="Autocomplete_$FieldName" title="$FieldLabelEscaped" value="$VisibleValue" />
-EOF
+    my %FieldTemplateData = (
+        'FieldName'         => $FieldName,
+        'ValueEscaped'      => $ValueEscaped,
+        'FieldClass'        => $FieldClass,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'VisibleValue'      => $VisibleValue,
+        'DivID'             => $FieldName,
+    );
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
 
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{ServerError} = $Param{ServerError};
     }
 
     # Get default agent autocomplete config.
@@ -292,6 +289,17 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
+    );
+
+    my $FieldTemplateFile = $Param{CustomerInterface}
+        ?
+        'DynamicField/Customer/ContactWD'
+        :
+        'DynamicField/Agent/ContactWD';
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
     );
 
     my $Data = {
@@ -387,18 +395,16 @@ sub DisplayValueRender {
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    # set HTMLOuput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     $Value = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
     my $Title = $Value;
 
-    # HTMLOuput transformations
-    if ( $Param{HTMLOutput} ) {
+    # HTMLOutput transformations
+    if ($HTMLOutput) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
             Max  => $Param{ValueMaxChars} || '',
@@ -418,22 +424,19 @@ sub DisplayValueRender {
         }
     }
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = '';
@@ -459,7 +462,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";
@@ -527,7 +530,7 @@ sub SearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
@@ -560,7 +563,7 @@ sub StatsSearchFieldParameterBuild {
     # search for a wild card in the value
     if ( $Value && $Value =~ m{\*} ) {
 
-        # change oprator
+        # change operator
         $Operator = 'Like';
     }
 
@@ -674,19 +677,18 @@ sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
     # we need a value to look up for
-    return '' if !$Param{Key};
+    return '' unless $Param{Key};
 
     # get all valid contacts
     my $Contacts = $Param{DynamicFieldConfig}->{Config}->{ContactsWithData};
 
     # check for contact to look up
-    return '' if !IsHashRefWithData($Contacts) || !$Contacts->{ $Param{Key} };
+    return '' unless IsHashRefWithData($Contacts);
+    return '' unless $Contacts->{ $Param{Key} };
 
     # get contact name
-    my $Name = $Contacts->{ $Param{Key} }->{Name};
-    return '' if !$Name;
-
-    return $Name;
+    # TODO: why exclude the name '0' ?
+    return $Contacts->{ $Param{Key} }->{Name} || '';
 }
 
 1;

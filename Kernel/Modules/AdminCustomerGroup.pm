@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -562,8 +562,8 @@ sub _Change {
             TYPE:
             for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
                 next TYPE if !$Type;
-                my $Mark     = $Type eq 'rw'                    ? "Highlight"          : '';
-                my $Selected = $Param{$Context}->{$Type}->{$ID} ? ' checked="checked"' : '';
+                my $Mark     = $Type eq 'rw'                    ? 'Highlight' : '';
+                my $Selected = $Param{$Context}->{$Type}->{$ID} ? ' checked ' : '';
                 $LayoutObject->Block(
                     Name => 'ChangeRowItem',
                     Data => {

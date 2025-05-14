@@ -19,9 +19,13 @@ package Kernel::System::Daemon::SchedulerDB;
 use strict;
 use warnings;
 
-use MIME::Base64;
-use Time::HiRes;
+# core modules
+use MIME::Base64 qw(decode_base64 encode_base64);
+use Time::HiRes  ();
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -469,8 +473,8 @@ sub TaskLock {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # get database object
@@ -1242,8 +1246,8 @@ sub FutureTaskToExecute {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # get needed objects
@@ -1401,8 +1405,8 @@ sub CronTaskToExecute {
     # get cron config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::SchedulerCronTaskManager::Task') || {};
 
-    # do noting if there are no cron tasks definitions in SysConfig
-    return 1 if !IsHashRefWithData($Config);
+    # do nothing if there are no cron tasks definitions in SysConfig
+    return 1 unless IsHashRefWithData($Config);
 
     # get needed objects
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
@@ -1426,6 +1430,7 @@ sub CronTaskToExecute {
                     Message  => "Config option Daemon::SchedulerCronTaskManager::Task###$CronjobKey is invalid."
                         . " Need '$Needed' parameter!",
                 );
+
                 next CRONJOBKEY;
             }
         }
@@ -1436,6 +1441,7 @@ sub CronTaskToExecute {
                 Message  => "Config option Daemon::SchedulerCronTaskManager::Task###$CronjobKey is invalid."
                     . " TaskName parameter '$JobConfig->{TaskName}' is already used by another task!",
             );
+
             next CRONJOBKEY;
         }
 
@@ -1468,7 +1474,7 @@ sub CronTaskToExecute {
 
 =head2 CronTaskCleanup()
 
-removes recurrent tasks that does not have a matching a cron tasks definition in SysConfig
+removes recurrent tasks that do not have a matching cron tasks definition in SysConfig.
 
     my $Success = $SchedulerDBObject->CronTaskCleanup();
 
@@ -1480,8 +1486,8 @@ sub CronTaskCleanup {
     # get cron config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::SchedulerCronTaskManager::Task') || {};
 
-    # do noting if there are no cron tasks definitions in SysConfig
-    return 1 if !IsHashRefWithData($Config);
+    # do nothing if there are no cron tasks definitions in SysConfig
+    return 1 unless IsHashRefWithData($Config);
 
     # get needed objects
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
@@ -1604,7 +1610,7 @@ sub GenericAgentTaskToExecute {
     # get a list of generic agent jobs
     my %JobList = $GenericAgentObject->JobList();
 
-    # do noting if there are no generic agent jobs
+    # do nothing if there are no generic agent jobs
     return 1 if !%JobList;
 
     # get CRON event objects
@@ -1676,7 +1682,7 @@ sub GenericAgentTaskCleanup {
     # get a list of generic agent jobs
     my %JobList = $GenericAgentObject->JobList();
 
-    # do noting if there are no generic agent jobs
+    # do nothing if there are no generic agent jobs
     return 1 if !%JobList;
 
     my %GenericAgentJobLookup;
@@ -2108,8 +2114,8 @@ sub RecurrentTaskExecute {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # lock the entry in database

@@ -19,10 +19,15 @@ package Kernel::Output::HTML::ArticleCheck::PGP;
 use strict;
 use warnings;
 
-use MIME::Parser;
-use Kernel::System::EmailParser;
+# core modules
+
+# CPAN modules
+use MIME::Parser ();
+
+# OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

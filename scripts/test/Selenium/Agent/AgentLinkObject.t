@@ -333,12 +333,8 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
 
-        # There might be relevant browsers where DragAndDrop() is not working via Selenium.
-        my %BrowserIsExcluded = ();
-        if ( $BrowserIsExcluded{ $Selenium->{browser_name} } ) {
-            note("TODO: DragAndDrop is currently disabled in $Selenium->{browser_name}");
-        }
-        else {
+        # drag and drop tests
+        {
 
             # Remove Age from left side, and put it to the right side.
             $Selenium->DragAndDrop(

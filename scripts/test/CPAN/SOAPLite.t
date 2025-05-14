@@ -16,20 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
-
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
 
 # core modules
 
 # CPAN modules
 use SOAP::Lite;
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+
+pass('SOAP::Lite could be loaded');
 
 # set up object params
 $Kernel::OM->ObjectParamAdd(
@@ -39,49 +39,57 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $RandomID = $Helper->GetRandomID();
-
-# define SOAP variables
-my $SOAPUser     = 'User' . $RandomID;
-my $SOAPPassword = $RandomID;
-
-# update sysconfig settings, but do not deploy them
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'SOAP::User',
-    Value => $SOAPUser,
-);
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'SOAP::Password',
-    Value => $SOAPPassword,
-);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
 
+ok( $Host, 'got the test hostname' );
+
 # Create SOAP Object and use RPC interface to test SOAP Lite
-my $SOAPObject;
+my ( $SOAPUser, $SOAPPassword, $SOAPObject );
+SKIP:
 {
-    my $Proxy = $ConfigObject->Get('HttpType')
+    skip "rpc.pl is no longer supported";
+
+    # define SOAP variables
+    my $RandomID     = $Helper->GetRandomID();
+    my $SOAPUser     = 'User' . $RandomID;
+    my $SOAPPassword = $RandomID;
+
+    # update sysconfig settings, but do not deploy them
+    $Helper->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'SOAP::User',
+        Value => $SOAPUser,
+    );
+    $Helper->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'SOAP::Password',
+        Value => $SOAPPassword,
+    );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Proxy        = $ConfigObject->Get('HttpType')
         . '://'
         . $Host
         . '/'
         . $ConfigObject->Get('ScriptAlias')
         . 'rpc.pl';
+    note "SOAP::Lite proxy: $Proxy";
+
     my $URI = $ConfigObject->Get('HttpType')
         . '://'
         . $Host
         . '/OTOBO::RPC';
-    $Self->Note( Note => "SOAP::Lite proxy: $Proxy" );
-    $Self->Note( Note => "SOAP::Lite uri: $URI" );
+    note "SOAP::Lite uri: $URI";
+
     $SOAPObject = SOAP::Lite->new(
         proxy => $Proxy,
         uri   => $URI,
     );
+
+    ok( $SOAPObject, 'got the SOAP object' );
 }
 
 # Tests for number of params in SOAP call
@@ -144,7 +152,9 @@ my @Tests = (
     },
 );
 
+SKIP:
 for my $Test (@Tests) {
+    skip "rpc.pl is no longer supported";
 
     # send SOAP request
     my $SOAPMessage = $SOAPObject->Dispatch(
@@ -160,25 +170,15 @@ for my $Test (@Tests) {
     if ( IsHashRefWithData( $SOAPMessage->fault() ) ) {
         $FaultString = $SOAPMessage->fault()->{faultstring};
     }
+    is( $FaultString, undef, "$Test->{Name}: Message fault should be undefined" );
 
     # get result from SOAP message if any
     my $Result;
     if ( $SOAPMessage->result() ) {
         $Result = $SOAPMessage->result();
     }
-
-    $Self->Is(
-        $FaultString,
-        undef,
-        "$Test->{Name}: Message fault should be undefined",
-    );
-
-    $Self->IsNot(
-        $Result,
-        undef,
-        "$Test->{Name}: Message result should have a value",
-    );
+    isnt( $Result, undef, "$Test->{Name}: Message result should have a value" );
 }
 
 # cleanup is done by RestoreDatabase()
-$Self->DoneTesting();
+done_testing();

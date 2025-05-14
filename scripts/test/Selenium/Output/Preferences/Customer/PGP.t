@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use File::Path qw(mkpath rmtree);
 
@@ -47,7 +47,7 @@ $Selenium->RunTest(
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # check if gpg is located there
-        if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+        if ( !$ConfigObject->Get('PGP::Bin') || !-e $ConfigObject->Get('PGP::Bin') ) {
 
             # maybe it's a mac with macport
             if ( -e '/opt/local/bin/gpg' ) {

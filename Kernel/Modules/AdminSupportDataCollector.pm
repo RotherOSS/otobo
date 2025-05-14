@@ -16,12 +16,17 @@
 
 package Kernel::Modules::AdminSupportDataCollector;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::SupportDataCollector::PluginBase;
+# core modules
 
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::SupportDataCollector::PluginBase ();
+use Kernel::System::VariableCheck                    qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -347,8 +352,11 @@ sub _GenerateSupportBundle {
         },
     );
 
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $JSONString,
         Type        => 'inline',
         NoCache     => 1,
@@ -413,8 +421,8 @@ sub _DownloadSupportBundle {
 
     return $LayoutObject->Attachment(
         Filename    => $Filename,
-        ContentType => 'application/octet-stream; charset=' . $LayoutObject->{UserCharset},
-        Content     => $$Content,
+        ContentType => 'application/octet-stream',
+        Content     => $Content->$*,
     );
 }
 
@@ -567,8 +575,11 @@ sub _SendSupportBundle {
         },
     );
 
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $JSONString,
         Type        => 'inline',
         NoCache     => 1,

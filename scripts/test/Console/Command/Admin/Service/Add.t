@@ -18,14 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+
+our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Service::Add');
-
-my ( $Result, $ExitCode );
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -39,7 +42,7 @@ my $ParentServiceName = "ParentService" . $Helper->GetRandomID();
 my $ChildServiceName  = "ChildService" . $Helper->GetRandomID();
 
 # try to execute command without any options
-$ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 $Self->Is(
     $ExitCode,
     1,
@@ -104,6 +107,4 @@ $Self->Is(
     "Parent (two levels) and child service same name - $ServiceName - is created",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

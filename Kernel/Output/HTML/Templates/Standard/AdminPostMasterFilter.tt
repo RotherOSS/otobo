@@ -70,6 +70,31 @@
         </div>
 [% RenderBlockEnd("Filter") %]
 
+[% RenderBlockStart("Search") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="SearchTerm">[% Translate("Filter for PostMaster Filters") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]?Action=AdminPostMasterFilter" enctype="multipart/form-data" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="text" id="SearchTerm" class="FilterBox" name="SearchTerm" value="[% Data.SearchTerm | html %]" title="[% Translate("Search through PostMaster filters") | html %]">
+                    <div class="FieldExplanation">
+                        <p>[% Translate("Search all filter attributes") | html %]</p>
+                    </div>
+                    [% Data.SearchFilterStrg %]
+                    <div class="FieldExplanation">
+                        <p>[% Translate("Limit search to selected header fields") | html %]</p>
+                    </div>
+                    [% Data.SearchValueStrg %]
+                    <div class="FieldExplanation">
+                        <p>[% Translate("Limit search to selected set fields") | html %]</p>
+                    </div>
+                    <button id="SubmitSearch" class="CallForAction Fullsize Center SpacingTop" type="submit">[% Translate("Search") | html %]</button>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Search") %]
+
 [% IF Env("Subaction") == 'Update' || Env("Subaction") == "AddAction" %]
         <div class="WidgetSimple">
             <div class="Header">

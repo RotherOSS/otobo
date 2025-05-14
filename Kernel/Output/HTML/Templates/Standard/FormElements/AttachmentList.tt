@@ -34,6 +34,7 @@
 #       FieldName="MyName"
 #       MaxFiles="2"
 #       Mandatory="true"
+#       ACLHidden="true"
 #       FileTypes="pdf,jpg,jpeg"
 #       FormID="3849738474.3343434"
 #   %]
@@ -71,7 +72,7 @@
     </span>
 </div>
 <input
-    class="AjaxDnDUpload [% IF Mandatory %]Validate_DnDUpload[% END %]"
+    class="AjaxDnDUpload [% IF ACLHidden && Mandatory %]Validate_DnDUpload_IfVisible[% ELSIF Mandatory %]Validate_DnDUpload[% END %]"
     [% IF !Single %] multiple="multiple"[% END %]
     id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %]"
     name="[% IF FieldName %][% FieldName | html %][% ELSE %]FileUpload[% END %]"

@@ -24,8 +24,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use Kernel::System::VariableCheck qw(DataIsDifferent);
-
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Define DB test parameters.
@@ -159,10 +157,6 @@ my @Tests              = (
                             Datatype   => 'TEXT',
                             Label      => 'Login'
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ],
                     [
                         {
@@ -175,10 +169,6 @@ my @Tests              = (
                             Data       => $CustomerUsers[1],
                             Identifier => $CustomerUsers[1]
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ]
                 ],
                 ExecuteDatabaseSearchByConfig  => 1,
@@ -218,10 +208,6 @@ my @Tests              = (
                             Datatype   => 'TEXT',
                             Label      => 'Login'
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ],
                 ],
                 DatabaseSearchByAttributesName => "Search param '$CustomerCompanyNames[0]' - no TicketID",
@@ -259,10 +245,6 @@ my @Tests              = (
                             Datatype   => 'TEXT',
                             Label      => 'Login'
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ],
                     [
                         {
@@ -275,10 +257,6 @@ my @Tests              = (
                             Data       => $CustomerUsers[1],
                             Identifier => $CustomerUsers[1]
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ]
                 ],
                 ExecuteDatabaseSearchByConfig  => 1,
@@ -334,10 +312,6 @@ my @Tests              = (
                             Datatype   => 'TEXT',
                             Label      => 'Login'
                         },
-                        {
-                            Data  => undef,
-                            Label => undef
-                        }
                     ],
                 ],
                 DatabaseSearchByAttributesName => "Search param '$CustomerCompanyNames[0]' - with TicketID",
@@ -502,8 +476,6 @@ for my $Test (@Tests) {
 
     for my $Scenario ( @{ $Test->{TestScenario} } ) {
 
-        my $DataIsDifferent;
-
         # Execute 'DatabaseSearchByConfig' function and check return result.
         if ( $Scenario->{ExecuteDatabaseSearchByConfig} ) {
             my @DatabaseSearchByConfigResult = $DynamicFieldDBObject->DatabaseSearchByConfig(
@@ -511,12 +483,9 @@ for my $Test (@Tests) {
                 Config => $DynamicFieldConfig->{Config},
             );
 
-            $DataIsDifferent = DataIsDifferent(
-                Data1 => \@DatabaseSearchByConfigResult,
-                Data2 => \@{ $Scenario->{DatabaseSearchByConfigResult} },
-            );
-            $Self->False(
-                $DataIsDifferent,
+            is(
+                \@DatabaseSearchByConfigResult,
+                $Scenario->{DatabaseSearchByConfigResult},
                 "DatabaseSearchByConfig() - $Scenario->{DatabaseSearchByConfigName} is correct"
             );
         }
@@ -529,12 +498,9 @@ for my $Test (@Tests) {
                 %{ $Scenario->{DatabaseSearchByAttributes} },
             );
 
-            $DataIsDifferent = DataIsDifferent(
-                Data1 => \%DatabaseSearchByAttributesResult,
-                Data2 => \%{ $Scenario->{DatabaseSearchByAttributesResult} },
-            );
-            $Self->False(
-                $DataIsDifferent,
+            is(
+                \%DatabaseSearchByAttributesResult,
+                $Scenario->{DatabaseSearchByAttributesResult},
                 "DatabaseSearchByAttributes() - $Scenario->{DatabaseSearchByAttributesName} is correct"
             );
         }

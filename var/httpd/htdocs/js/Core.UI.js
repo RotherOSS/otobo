@@ -572,7 +572,8 @@ Core.UI = (function (TargetNS) {
             }
 
             // If SessionUseCookie is disabled use Session cookie in AjaxAttachment. See bug#14432.
-            if (Core.Config.Get('SessionUseCookie') === '0') {
+            // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
+            if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
                 if (CGIHandle.indexOf('index') > -1) {
                     SessionName =  Core.Config.Get('SessionName');
                 }

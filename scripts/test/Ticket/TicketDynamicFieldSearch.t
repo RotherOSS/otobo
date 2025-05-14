@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -408,7 +408,7 @@ $Self->IsDeeply(
     {
         $TicketData[0]{TicketID} => $TicketData[0]{TicketNumber},
         $TicketData[1]{TicketID} => $TicketData[1]{TicketNumber},
-        ,
+
     },
     'Search for two fields, match two tickets',
 );

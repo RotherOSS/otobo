@@ -31,6 +31,10 @@ use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
+skip_all(
+    'CustomerTicketProcess is not a separately usable module anymore as of OTOBO 10.1. All ActivityDialog functionality is called from CustomerTicketZoom. Test has to be rewritten.'
+);
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -432,7 +436,7 @@ $Selenium->RunTest(
                 $Selenium->content_contains( 'open',         "Ticket open state found on page" );
 
                 # Remember created ticket, to delete the ticket at the end of the test.
-                my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+                my @TicketID = split /TicketID=/, $Selenium->get_current_url();
                 push @DeleteTicketIDs, $TicketID[1];
 
                 # Go on next step in Process ticket.
@@ -486,7 +490,7 @@ $Selenium->RunTest(
                 $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
 
                 # Remember created ticket, to delete the ticket at the end of the test.
-                @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+                @TicketID = split /TicketID=/, $Selenium->get_current_url();
                 push @DeleteTicketIDs, $TicketID[1];
 
                 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

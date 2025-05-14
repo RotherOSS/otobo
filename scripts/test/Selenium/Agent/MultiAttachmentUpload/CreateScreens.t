@@ -14,19 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Output::HTML::Layout;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::Output::HTML::Layout ();
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -81,7 +83,7 @@ $Selenium->RunTest(
         my @PostLoginSessions = $AuthSessionObject->GetAllSessionIDs();
 
         # If there are no other sessions before login, take token from only available one.
-        if ( !scalar @PreLoginSessions ) {
+        if ( !@PreLoginSessions ) {
             $SessionToken = $PostLoginSessions[0];
         }
 
@@ -94,8 +96,8 @@ $Selenium->RunTest(
         }
 
         # Check screens.
-        for my $Action (qw(AgentTicketPhone AgentTicketEmail))
-        {
+        # For each screen Test1.pdf and Test1.doc are uploaded and then deleted.
+        for my $Action (qw(AgentTicketPhone AgentTicketEmail)) {
 
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action;$SessionName=$SessionToken");
             $Selenium->WaitFor(
@@ -126,7 +128,7 @@ $Selenium->RunTest(
 
             # Verify dialog message.
             my $FileTypeMessage = "The following files are not allowed to be uploaded: $CheckFileTypeFilename";
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$FileTypeMessage\")').length"
                 ),
@@ -150,16 +152,20 @@ $Selenium->RunTest(
             $Location = "$Home/scripts/test/sample/Cache/Test1.pdf";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
+
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 2"
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 2"
             );
+
+            # Waiting for js to finish work to prevent erroneous upload of previous files
+            $Selenium->WaitFor( JavaScript => 'return $.active == 0' );
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.txt";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -168,7 +174,7 @@ $Selenium->RunTest(
             );
 
             # Verify alert text.
-            $Self->Is(
+            is(
                 $Selenium->get_alert_text(),
                 'Sorry, you can only upload 2 files.',
                 "$Action - alert for max files shown correctly",
@@ -177,30 +183,34 @@ $Selenium->RunTest(
             # Accept alert.
             $Selenium->accept_alert();
 
+            # Wait until the attachment list is updated, two elements are expected
             my $Count = 2;
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === $Count"
+            );
 
-            # Remove the existing files.
+            # Remove the two existing files.
             for my $DeleteExtension (qw(doc pdf)) {
 
-                # Delete Attachment.
-                $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
+                # Delete attachment.
+                # There had been sporadic errros when selecting the trashbin with
+                # the XPath selector (//a[\@class='AttachmentDelete'])[$Count].
+                # Therefore a css selector is used here.
+                ( $Selenium->find_elements( 'a.AttachmentDelete', 'css' ) )[ $Count - 1 ]->click();
                 $Count--;
-                sleep 2;
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === $Count"
+                    JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === $Count"
                 );
 
                 # Check if deleted.
-                $Self->True(
+                ok(
                     $Selenium->execute_script(
                         "return \$('.AttachmentDelete i').length === $Count"
                     ),
                     "$Action - Upload '$DeleteExtension' file deleted"
                 );
-                sleep 1;
             }
 
             # Limit the max size per file (to 6 KB).
@@ -220,8 +230,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
 
             my $CheckMaxAllowedSizeFilename = 'Test1.png';
@@ -235,7 +244,7 @@ $Selenium->RunTest(
             # Verify dialog message.
             my $MaxAllowedSizeMessage
                 = "The following files exceed the maximum allowed size per file of 6 KB and were not uploaded: $CheckMaxAllowedSizeFilename";
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$MaxAllowedSizeMessage\")').length"
                 ),
@@ -262,12 +271,11 @@ $Selenium->RunTest(
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
             );
 
             # Check if uploaded.
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.txt\")').length"
                 ),
@@ -286,7 +294,7 @@ $Selenium->RunTest(
             # Verify dialog message.
             my $UploadAgainMessage
                 = "The following files were already uploaded and have not been uploaded again: $CheckUploadAgainFilename";
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$UploadAgainMessage\")').length"
                 ),
@@ -314,7 +322,7 @@ $Selenium->RunTest(
 
             # Verify dialog message.
             my $UploadMaxMessage = "No space left for the following files: $CheckMaxSizeFilename";
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$UploadMaxMessage\")').length"
                 ),
@@ -324,9 +332,8 @@ $Selenium->RunTest(
             # Confirm dialog action.
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
-
         }
     }
 );
 
-$Self->DoneTesting();
+done_testing;

@@ -24,10 +24,10 @@ use utf8;
 
 # core modules
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
-use File::Find qw();
-use File::stat qw();
-use Getopt::Long qw(GetOptions);
+use FindBin        qw($RealBin);
+use File::Find     qw(find);
+use File::stat     qw(stat);
+use Getopt::Long   qw(GetOptions);
 
 # CPAN modules
 
@@ -190,7 +190,7 @@ sub Run {
 
     my $OtoboDirectory = dirname($RealBin);
     say "Setting permissions on $OtoboDirectory";
-    File::Find::find(
+    find(
         {
             wanted => sub {
                 SetPermissions( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID );
@@ -253,12 +253,12 @@ sub SetFilePermissions {
     }
     else {
         # Executable bit for script files.
-        EXEXUTABLE_REGEX:
+        EXECUTABLE_REGEX:
         for my $ExecutableRegex (@ExecutableFiles) {
             if ( $RelativeFile =~ $ExecutableRegex ) {
                 $TargetPermission = 0770;
 
-                last EXEXUTABLE_REGEX;
+                last EXECUTABLE_REGEX;
             }
         }
 
@@ -281,7 +281,7 @@ sub SetFilePermissions {
     }
 
     # There seem to be cases when stat does not work on a dangling link, skip in this case.
-    my $Stat = File::stat::stat($File) || return;
+    my $Stat = stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
         if ($DryRun) {
             print sprintf(

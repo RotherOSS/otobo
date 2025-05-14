@@ -29,45 +29,45 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Add a user.');
+    $Self->Description('Add an agent.');
     $Self->AddOption(
         Name        => 'user-name',
-        Description => "User name for the new user.",
+        Description => "User name for the new agent.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'first-name',
-        Description => "First name of the new user.",
+        Description => "First name of the new agent.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'last-name',
-        Description => "Last name of the new user.",
+        Description => "Last name of the new agent.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'email-address',
-        Description => "Email address of the new user.",
+        Description => "Email address of the new agent.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'password',
-        Description => "Password for the new user. If left empty, a password will be created automatically.",
+        Description => "Password for the new agent. If left empty, a password will be created automatically.",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'group',
-        Description => "Name of the group to which the new user should be added (with rw permissions!).",
+        Description => "Name of the group to which the new agent should be added (with rw permissions!).",
         Required    => 0,
         HasValue    => 1,
         Multiple    => 1,
@@ -113,7 +113,7 @@ sub Run {
     );
 
     if ( !$UserID ) {
-        $Self->PrintError("Can't add user.");
+        $Self->PrintError("Can't add agent.");
         return $Self->ExitCodeError();
     }
 

@@ -71,14 +71,6 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                 });
             }
 
-            // remove/destroy CKEditor instances
-            // This is needed to initialize other instances (in other activity dialogs)
-            // without a page reload
-            if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances) {
-                $.each(CKEDITOR.instances, function (Key) {
-                    CKEDITOR.instances[Key].destroy();
-                });
-            }
 
             if ($('#ProcessEntityID').val()) {
 
@@ -146,7 +138,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         Core.UI.InitAjaxDnDUpload();
 
                         // move help triggers into field rows for dynamic fields
-                        $('.Row > .FieldHelpContainer').each(function () {
+                        $('.Row > .FieldCell > .FieldHelpContainer').each(function () {
                             if (!$(this).next('label').find('.Marker').length) {
                                 $(this).prependTo($(this).next('label'));
                             }
@@ -154,6 +146,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                                 $(this).insertAfter($(this).next('label').find('.Marker'));
                             }
                         });
+
 
                         // Initially display dynamic fields with TreeMode = 1 correctly
                         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
@@ -173,8 +166,18 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                         Core.TicketProcess.Init();
 
+                        Core.UI.InputFields.InitMultiValueDynamicFields();
+
+                        QuickDateButtons.Init();
+
                         // Publish event when first activity dialog has loaded, so other code can know to execute again.
                         Core.App.Publish('TicketProcess.Init.FirstActivityDialog.Load', [$ElementToUpdate]);
+
+                        // NOTE this code aims to resemble the functionality of the submit event in Core.UI.InputFields.Init(), currently located in var/https/htdocs/js/Core.UI.InputFields.js Line 320, which does not take effect in AgentTicketProcess for an yet unknown reason
+                        $('button[type=submit]').on('click', function(Event) {
+                            $('.DynamicFieldText').attr('disabled', false);
+                            return true;
+                        });
                     }
                     else {
 

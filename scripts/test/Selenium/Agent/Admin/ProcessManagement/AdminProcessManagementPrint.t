@@ -57,7 +57,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminProcessManagement screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;IncludeInvalid=1");
 
         # Create new test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();

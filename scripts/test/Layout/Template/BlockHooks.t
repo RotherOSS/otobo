@@ -20,9 +20,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use File::Basename qw();
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -37,7 +35,7 @@ my @Tests = (
         Name       => 'Simple test, no hooks',
         HookConfig => {},
         Blocks     => [qw(Block1 Block11 Block1 Block2)],
-        Result     => <<EOF,
+        Result     => <<'EOF',
 Content1
 Content11
 Content1
@@ -56,7 +54,7 @@ EOF
             },
         },
         Blocks => [qw(Block1 Block11 Block1 Block2)],
-        Result => <<EOF,
+        Result => <<'EOF',
 <!--HookStartBlock1-->
 Content1
 Content11
@@ -81,7 +79,7 @@ EOF
             },
         },
         Blocks => [qw(Block1 Block11 Block1 Block2)],
-        Result => <<EOF,
+        Result => <<'EOF',
 <!--HookStartBlock1-->
 Content1
 <!--HookStartBlock11-->

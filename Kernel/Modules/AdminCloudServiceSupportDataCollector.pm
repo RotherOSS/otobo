@@ -108,7 +108,7 @@ sub Run {
                 );
             }
             else {
-                $Param{SupportDataSendingChecked} = 'checked="checked"';
+                $Param{SupportDataSendingChecked} = 'checked ';
             }
 
             $LayoutObject->Block(

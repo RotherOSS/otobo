@@ -57,10 +57,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
     text-overflow: ellipsis;
-    height: 17px;
-    overflow: hidden;
+    overflow: auto;
     display: block;
-    white-space: nowrap;
+    max-height: 69.5px;
+    word-wrap: break-word;
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
@@ -77,6 +77,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 19px;
     height: 18px;
     text-align: center;
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField {
+    margin-left: calc(12.5% - 2px);
+}
+
+.WidgetSimple > .Content.ProcessInfo fieldset .SetDynamicField > div {
+    margin-left: calc( 12.5% + 20px );
 }
 
 .FieldSetSeparator {
@@ -137,17 +145,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+[class*="Row_DynamicField"] .FieldExplanation {
+    margin-left: calc( 30% + 10px );
+}
+
 .FieldHelp {
     display: block;
 }
 
 .Centered {
     text-align: center;
-}
-
-textarea {
-    font-family: Quicksand, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: 5px;
 }
 
 .FieldHelpContainer {

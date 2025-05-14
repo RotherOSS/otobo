@@ -19,7 +19,7 @@ package Kernel::System::Log::SysLog;
 use strict;
 use warnings;
 
-use Sys::Syslog qw();
+use Sys::Syslog ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

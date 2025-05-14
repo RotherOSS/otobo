@@ -37,8 +37,8 @@ sub Run {
 
     my $Commandline = "df -lHx tmpfs -x iso9660 -x udf -x squashfs";
 
-    # current MacOS and FreeBSD does not support the -x flag for df
-    if ( $^O =~ /(darwin|freebsd)/i ) {
+    # currently FreeBSD does not support the -x flag for df
+    if ( $^O =~ /(freebsd)/i ) {
         $Commandline = "df -lH";
     }
 

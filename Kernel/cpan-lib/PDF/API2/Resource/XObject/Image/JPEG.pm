@@ -5,7 +5,7 @@ use base 'PDF::API2::Resource::XObject::Image';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use IO::File;
 use PDF::API2::Util;
@@ -81,13 +81,13 @@ sub read_jpeg {
     $self->height($h);
     $self->bpc($p);
 
-    if ($c == 3) {
+    if (defined($c) and $c == 3) {
         $self->colorspace('DeviceRGB');
     }
-    elsif ($c == 4) {
+    elsif (defined($c) and $c == 4) {
         $self->colorspace('DeviceCMYK');
     }
-    elsif ($c == 1) {
+    elsif (defined($c) and $c == 1) {
         $self->colorspace('DeviceGray');
     }
 

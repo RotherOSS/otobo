@@ -14,29 +14,50 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars qw( $Self %Param );
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get needed objects
 my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+isa_ok( $JSONObject, ['Kernel::System::JSON'], 'got a JSON object' );
 
 # Tests for JSON encode method
-my @Tests = (
+my $Twelve      = 12;
+my @EncodeTests = (
     {
         Input  => undef,
-        Result => undef,
-        Name   => 'JSON - undef test',
+        Result => q{null},
+        Name   => 'JSON - undef',
+    },
+    {
+        Input  => [ 1, undef, "3", undef, 5 ],
+        Result => q{[1,null,"3",null,5]},
+        Name   => 'JSON - array containing two undefs'
     },
     {
         Input  => '',
         Result => '""',
-        Name   => 'JSON - empty test',
+        Name   => 'JSON - empty string',
+    },
+    {
+        Input  => q{"},
+        Result => q{"\""},
+        Name   => 'JSON - double quote',
+    },
+    {
+        Input  => q{'},
+        Result => q{"'"},
+        Name   => 'JSON - single quote',
     },
     {
         Input  => 'Some Text',
@@ -44,14 +65,208 @@ my @Tests = (
         Name   => 'JSON - simple'
     },
     {
+        Input  => q{🎋 - U+1F38B - TANABATA TREE},
+        Result => q{"🎋 - U+1F38B - TANABATA TREE"},
+        Name   => 'JSON - tanabata tree'
+    },
+    {
         Input  => 42,
         Result => '42',
-        Name   => 'JSON - simple'
+        Name   => 'JSON - positive integer'
     },
+    {
+        Input  => $Twelve,
+        Result => '12',
+        Name   => 'JSON - positive integer from the variable $Twelve'
+    },
+    {
+        Input  => -1_000_001,
+        Result => '-1000001',
+        Name   => 'JSON - negative integer'
+    },
+    {
+        Input  => 0,
+        Result => '0',
+        Name   => 'JSON - integer zero'
+    },
+
+    # stringification and numification
+    {
+        Input  => 288 . "",
+        Result => '"288"',
+        Name   => 'JSON - stringified by concatenating an empty string'
+    },
+    {
+        Input  => "$Twelve",
+        Result => '"12"',
+        Name   => 'JSON - stringified by putting in double quotes'
+    },
+    {
+        Input  => "$Twelve" + 0,
+        Result => '12',
+        Name   => 'JSON - "$Twelve" numified by adding zero',
+    },
+    {
+        Input  => "$Twelve asdf" + 0,
+        Result => '12',
+        Name   => 'JSON - "$Twelve asdf" numified by adding zero',
+    },
+    {
+        Input  => "asdf" + 6,
+        Result => '6',
+        Name   => 'JSON - non-numeral string plus six',
+    },
+    {
+        Input  => "$Twelve" * 1,
+        Result => '12',
+        Name   => 'JSON - "$Twelve" numified by multiplying with one',
+    },
+    {
+        Input  => "$Twelve asdf" * 1,
+        Result => '12',
+        Name   => 'JSON - "$Twelve asdf" numified by multiplying with one',
+    },
+
+    # TypeAllString
+    # These tests were meant for Cpanel::JSON::XS
+    #    {
+    #        Input  => -12,
+    #        Result => '"-12"',
+    #        Name   => 'JSON - TypeAllString with -12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => 12,
+    #        Result => '"12"',
+    #        Name   => 'JSON - TypeAllString with 12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => +12,
+    #        Result => '"12"',
+    #        Name   => 'JSON - TypeAllString with +12',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => 0,
+    #        Result => '"0"',
+    #        Name   => 'JSON - TypeAllString with number zero',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => "0",
+    #        Result => '"0"',
+    #        Name   => 'JSON - TypeAllString with string containing the digit zero',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => "Çe pa un niméro",
+    #        Result => '"Çe pa un niméro"',
+    #        Name   => 'JSON - TypeAllString with Kouri-Vini',
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input => {
+    #            AAA => "Çe pa un niméro",
+    #            BBB => 0,
+    #            CCC => "0",
+    #            DDD => -12,
+    #            EEE => "-12",
+    #            FFF => [ "Çe pa un niméro", 0, "0", -12, "-12" ],
+    #        },
+    #        Result => <<'END_JSON',
+    #{
+    #   "AAA" : "Çe pa un niméro",
+    #   "BBB" : "0",
+    #   "CCC" : "0",
+    #   "DDD" : "-12",
+    #   "EEE" : "-12",
+    #   "FFF" : [
+    #      "Çe pa un niméro",
+    #      "0",
+    #      "0",
+    #      "-12",
+    #      "-12"
+    #   ]
+    #}
+    #END_JSON
+    #        Name   => 'JSON - TypeAllString with nested data',
+    #        Params => {
+    #            Pretty        => 1,
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => $JSONObject->True(),
+    #        Result => '"true"',
+    #        Name   => q{JSON - TypeAllString bool true, don't do this in production},
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+    #    {
+    #        Input  => $JSONObject->False(),
+    #        Result => '"false"',
+    #        Name   => q{JSON - TypeAllString bool false, don't do this in production},
+    #        Params => {
+    #            TypeAllString => 1,
+    #        },
+    #    },
+
+    # more about zero
+    {
+        Input  => -0,
+        Result => '0',
+        Name   => 'JSON - negative integer zero'
+    },
+    {
+        Input  => 0.000,
+        Result => q{0},                 # not obvious why there is no fractional part
+        Name   => 'JSON - float zero'
+    },
+    {
+        Input  => -0.000,
+        Result => q{-0},                         # not obvious why there is no fractional part
+        Name   => 'JSON - negative float zero'
+    },
+    {
+        Input  => 000 . 000,
+        Result => q{"00"},
+        Name   => 'JSON - strange octal float zero'
+    },
+    {
+        Input  => -000 . 000,
+        Result => q{"00"},
+        Name   => 'JSON - negative strange octal float zero'
+    },
+    {
+        Input  => '0',
+        Result => '"0"',
+        Name   => 'JSON - string zero'
+    },
+    {
+        Input  => '-0',
+        Result => '"-0"',
+        Name   => 'JSON - string negative zero'
+    },
+
+    # more data structures
     {
         Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => '[1,2,"3","Foo",5]',
-        Name   => 'JSON - simple'
+        Name   => 'JSON - simple array'
     },
     {
         Input => {
@@ -62,16 +277,90 @@ my @Tests = (
         Result => '{"Key1":"Value1","Key2":42,"Key3":"Another Value"}',
         Name   => 'JSON - simple'
     },
+
+    # Booleans
     {
-        Input  => Kernel::System::JSON::True(),
+        Input  => $JSONObject->True(),
         Result => 'true',
         Name   => 'JSON - bool true'
     },
     {
-        Input  => Kernel::System::JSON::False(),
+        Input  => $JSONObject->False(),
         Result => 'false',
         Name   => 'JSON - bool false'
     },
+    {
+        Input  => $JSONObject->ToBoolean(),
+        Result => 'false',
+        Name   => 'ToBoolean() without arg',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(undef),
+        Result => 'false',
+        Name   => 'ToBoolean() with undef',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('0'),
+        Result => 'false',
+        Name   => 'ToBoolean() with string q{0}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(''),
+        Result => 'false',
+        Name   => 'ToBoolean() with empty string',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number 0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(0.0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number 0.0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(-0),
+        Result => 'false',
+        Name   => 'ToBoolean() with number -0',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( 4 < -4 ),
+        Result => 'false',
+        Name   => 'ToBoolean() with false expression',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( 0 + "0 but true" ),
+        Result => 'false',
+        Name   => 'ToBoolean() with number q{0 but true}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean(-0.00001),
+        Result => 'true',
+        Name   => 'ToBoolean() with non-zero number',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('0.0'),
+        Result => 'true',
+        Name   => 'ToBoolean() with string q{0.0}',
+    },
+    {
+        Input  => $JSONObject->ToBoolean('⛄'),
+        Result => 'true',
+        Name   => 'ToBoolean() with arbitrary string',
+    },
+    {
+        Input  => $JSONObject->ToBoolean( -4 < 4 ),
+        Result => 'true',
+        Name   => 'ToBoolean() with true expression',
+    },
+    {
+        Input  => $JSONObject->ToBoolean("0 but true"),
+        Result => 'true',
+        Name   => 'ToBoolean() with string q{0 but true}',
+    },
+
+    # still more data structures
     {
         Input => [
             [ 1, 2, "Foo", "Bar" ],
@@ -143,27 +432,19 @@ my @Tests = (
     },
 );
 
-for my $Test (@Tests) {
-
-    my %Params;
-    if ( $Test->{Params} ) {
-        %Params = %{ $Test->{Params} };
-    }
+for my $Test (@EncodeTests) {
 
     my $JSON = $JSONObject->Encode(
         Data     => $Test->{Input},
         SortKeys => 1,
-        %Params,
+        %{ $Test->{Params} // {} },
     );
 
-    $Self->Is(
-        $JSON,
-        $Test->{Result},
-        $Test->{Name},
-    );
+    is( $JSON, $Test->{Result}, "encode: $Test->{Name}" );
 }
 
-@Tests = (
+# Tests for JSON decode method
+my @DecodeTests = (
     {
         Result      => undef,
         InputDecode => undef,
@@ -177,17 +458,17 @@ for my $Test (@Tests) {
     {
         Result      => 'Some Text',
         InputDecode => '"Some Text"',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - simple text'
     },
     {
         Result      => 42,
         InputDecode => '42',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - simple number'
     },
     {
         Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
-        Name        => 'JSON - simple'
+        Name        => 'JSON - array with strings and numbers" '
     },
     {
         Result => {
@@ -217,16 +498,28 @@ for my $Test (@Tests) {
         Name => 'JSON - complex structure'
     },
     {
-        Result      => 1,
-        InputDecode =>
-            'true',
-        Name => 'JSON - booleans'
+        Result       => 1,
+        VerifyScalar => 1,
+        InputDecode  => 'true',
+        Name         => 'JSON - boolean true'
+    },
+    {
+        Result       => 0,
+        VerifyScalar => 1,
+        InputDecode  => 'false',
+        Name         => 'JSON - boolean false'
     },
     {
         Result      => undef,
         InputDecode =>
-            'false',
-        Name => 'JSON - booleans2'
+            'null',
+        Name => 'JSON - null'
+    },
+    {
+        Result      => [ undef, undef, undef ],
+        InputDecode =>
+            '[null, null, null]',
+        Name => 'JSON - array with three undefined values'
     },
     {
         Result => {
@@ -269,17 +562,39 @@ for my $Test (@Tests) {
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@DecodeTests) {
 
-    my $JSON = $JSONObject->Decode(
+    my $Thingy = $JSONObject->Decode(
         Data => $Test->{InputDecode},
     );
+    is( $Thingy, $Test->{Result}, "Decode: $Test->{Name}" );
 
-    $Self->IsDeeply(
-        scalar $JSON,
-        scalar $Test->{Result},
-        $Test->{Name},
-    );
+    # double check because 'is()' does not complain about instances JSON::PP::Boolean
+    if ( $Test->{VerifyScalar} ) {
+        is( ref $Thingy, '', "Decode: $Test->{Name}, result is not a reference" );
+    }
 }
 
-$Self->DoneTesting();
+# Testing IsBool()
+subtest 'IsBool() for non-Booleans' => sub {
+    is( $JSONObject->IsBool(),      undef, 'no argument' );
+    is( $JSONObject->IsBool(undef), undef, 'explicit undef' );
+    is( $JSONObject->IsBool(''),    undef, 'empty string' );
+    is( $JSONObject->IsBool(1),     undef, 'integer 1' );
+    is( $JSONObject->IsBool(2),     undef, 'integer 2' );
+
+    # not sure why these return an empty string instead of undef
+    is( $JSONObject->IsBool('true'),                 '', 'string "true"' );
+    is( $JSONObject->IsBool('⊨ - U+022A8 - TRUE'), '', 'a string' );
+};
+
+subtest 'IsBool() for Booleans' => sub {
+    is( $JSONObject->IsBool( $JSONObject->True ),             1, 'true' );
+    is( $JSONObject->IsBool( $JSONObject->False ),            1, 'false' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(undef) ), 1, 'unded boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(0) ),     1, '0 boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(1) ),     1, '1 boolified' );
+    is( $JSONObject->IsBool( $JSONObject->ToBoolean(' ') ),   1, 'single space boolified' );
+};
+
+done_testing;

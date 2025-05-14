@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::Copy qw(copy);
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use File::Copy;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -39,8 +43,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # Wait to get daemon fully stopped before test continues.
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -57,7 +61,7 @@ my $RunTasks = sub {
 
     # Localize the standard error, to prevent redefining warnings.
     #   WARNING: This also hides any task run errors.
-    local *STDERR;
+    local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
     # Redirect the standard error to a variable.
     open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
@@ -76,7 +80,7 @@ my $RunTasks = sub {
 
         sleep 1;
 
-        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+        note "Waiting $Sec secs for scheduler tasks to be executed";
     }
 };
 
@@ -286,4 +290,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$^X $Daemon start");
 }
 
-$Self->DoneTesting();
+done_testing;

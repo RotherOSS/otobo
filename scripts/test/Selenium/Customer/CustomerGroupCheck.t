@@ -233,7 +233,7 @@ $Selenium->RunTest(
         $Selenium->content_contains( $CustomerIDs[1],     "Queue is $CustomerIDs[1] in Ticket Information" );
 
         # check buttons
-        $Selenium->find_element_by_xpath_ok(q{//div[@id='oooHeader']/button[@id='ReplyButton']});
+        $Selenium->find_element_by_xpath_ok(q{//div[@id='oooHeader']/div/button[@id='ReplyButton']});
         $Selenium->find_element_by_xpath_ok(q{//button[contains(@value, 'Submit' )]});
         $Selenium->LogExecuteCommandActive(1);
 

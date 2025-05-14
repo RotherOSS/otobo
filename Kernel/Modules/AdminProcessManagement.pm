@@ -15,14 +15,20 @@
 # --
 
 package Kernel::Modules::AdminProcessManagement;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 
+use v5.24;
 use strict;
 use warnings;
-use Data::Dumper;
+use utf8;
 
+# core modules
+use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -32,6 +38,15 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -66,6 +81,19 @@ sub Run {
             },
         ];
     }
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     # get needed objects
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -102,8 +130,7 @@ sub Run {
             }
 
             # extract file name without extension
-            $ExampleProcessFilename =~ m{(.*?)\.yml$}smx;
-            $FileWithoutExtension = $1;
+            ($FileWithoutExtension) = $ExampleProcessFilename =~ m{(.*?)\.yml$}smx;
 
             # run _pre.pm if available
             if ( -e "$Home/var/processes/examples/" . $FileWithoutExtension . "_pre.pm" ) {
@@ -579,7 +606,8 @@ sub Run {
 
         my $SkinSelectedHostBased;
         my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-        if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        my $Host                 = $ParamObject->Header('Host');
+        if ( $DefaultSkinHostBased && $Host ) {
             REGEXP:
             for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -588,7 +616,7 @@ sub Run {
                 next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
                 # check if regexp is matching
-                if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                if ( $Host =~ m/$RegExp/i ) {
                     $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
                 }
             }
@@ -1109,7 +1137,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1183,7 +1211,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1254,7 +1282,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1361,7 +1389,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1427,7 +1455,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1525,13 +1553,14 @@ sub Run {
         }
 
         my $Output = $LayoutObject->Output(
-            TemplateFile => "AdminProcessManagementProcessAccordion",
+            TemplateFile => 'AdminProcessManagementProcessAccordion',
             Data         => {},
         );
 
         # send HTML response
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
             NoCache     => 1,
@@ -1575,7 +1604,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1637,8 +1666,21 @@ sub _ShowOverview {
 
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
+    # fetch state list to filter processes by states
+    my $StateList   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State')->StateList( UserID => $Self->{UserID} );
+    my %StateLookup = reverse %{$StateList};
+
+    # apply restrictions from checkbox
+    my @ProcessStates = ( $StateLookup{'Active'}, $StateLookup{'FadeAway'} );
+    if ( $Self->{IncludeInvalid} ) {
+        push @ProcessStates, $StateLookup{'Inactive'};
+    }
+
     # get a process list
-    my $ProcessList = $ProcessObject->ProcessList( UserID => $Self->{UserID} );
+    my $ProcessList = $ProcessObject->ProcessList(
+        UserID         => $Self->{UserID},
+        StateEntityIDs => \@ProcessStates,
+    );
 
     if ( IsHashRefWithData($ProcessList) ) {
 

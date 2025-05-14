@@ -38,8 +38,11 @@ file. For changes do customer data sources you can copy the definitions
 from F<Kernel/Config/Defaults.pm> and paste them into this file.
 The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
 
-This specific F<Kernel/Config.pm> originated from F<scripts/docker/Config.pm.dist>.
-That dist file contains some settings specific to OTOBO under Docker.
+=head2 Specifics for running OTOBO under Docker.
+
+This Docker specific F<Kernel/Config.pm> originated from the dist file
+F<scripts/docker/Config.pm.docker.dist>.
+That dist file changes or adds some settings that are specific to running OTOBO under Docker.
 
 =over 4
 
@@ -47,6 +50,11 @@ That dist file contains some settings specific to OTOBO under Docker.
 
 The setting is I<db> instead of I<127.0.0.1>. This is because under Docker
 the MySQL database is running in a separate container.
+
+=item DatabasePw
+
+A different default password is used in the Docker case, as that potential
+mixups with a database running on the Docker host are less likely.
 
 =item LogModule and LogModule::LogFile
 
@@ -60,13 +68,20 @@ Use Redis for caching.
 
 =item TestHTTPHostname
 
-Set to I<localhost:5000> for running the test scripts in the otobo_web_1 container.
+Set to I<web:5000> so that test scripts don't necessarily have to run in the same container
+as the web server. Especially important for the Selenium tests where HTTP requests are sent
+from the selenium-chrome container.
+
+=item S3 specific settings
+
+S3 settings can be copied from _Kernel/Config/Defaults.pm_.
 
 =back
 
 =cut
 
 use v5.24;
+use strict;
 use warnings;
 use utf8;
 
@@ -88,7 +103,7 @@ sub Load {
 
     # The password of database user. You also can use bin/otobo.Console.pl Maint::Database::PasswordCrypt
     # for crypted passwords
-    $Self->{DatabasePw} = 'some-pass';
+    $Self->{DatabasePw} = 'otobo-docker-databasepw';
 
     # The database DSN for MySQL ==> more: "perldoc DBD::mysql"
     $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
@@ -107,12 +122,12 @@ sub Load {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 
     # ---------------------------------------------------- #
-    # fs root directory
+    # fs root directory, without trailing slash            #
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otobo';
 
     # ---------------------------------------------------- #
-    # setting for running OTOBO under Docker, see the POD  #
+    # modified settings for running OTOBO under Docker     #
     # ---------------------------------------------------- #
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
@@ -122,7 +137,9 @@ sub Load {
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
-    # activate Selenium tests if the the host is available
+    # ---------------------------------------------------- #
+    # activate Selenium tests if the the host is available #
+    # ---------------------------------------------------- #
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'selenium-chrome',
         check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
@@ -135,22 +152,12 @@ sub Load {
     # insert your own config settings "here"               #
     # config settings taken from Kernel/Config/Defaults.pm #
     # ---------------------------------------------------- #
+
     # $Self->{SessionUseCookie} = 0;
     # $Self->{CheckMXRecord} = 0;
 
     # ---------------------------------------------------- #
-
-    # ---------------------------------------------------- #
-    # data inserted by installer                           #
-    # ---------------------------------------------------- #
-    # $DIBI$
-
-    # ---------------------------------------------------- #
-    # ---------------------------------------------------- #
-    #                                                      #
     # end of your own config options!!!                    #
-    #                                                      #
-    # ---------------------------------------------------- #
     # ---------------------------------------------------- #
 
     return 1;

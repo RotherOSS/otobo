@@ -19,9 +19,14 @@ package Kernel::Modules::AgentTicketEmailOutbound;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Mail::Address;
+use Kernel::Language              qw(Translatable);
+use Mail::Address                 ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -29,8 +34,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # Try to load draft if requested.
     if (
@@ -45,6 +49,67 @@ sub new {
         );
     }
 
+    # get config for frontend module
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    # get the dynamic fields for this screen
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $Config->{DynamicField} || {},
+    );
+
+    my $Definition = $Kernel::OM->Get('Kernel::System::Ticket::Mask')->DefinitionGet(
+        Mask => $Self->{Action},
+    ) || {};
+
+    $Self->{DynamicField}   = [];
+    $Self->{MaskDefinition} = $Definition->{Mask};
+
+    # align sysconfig and ticket mask data I
+    for my $DynamicField ( @{ $DynamicFieldList // [] } ) {
+        if ( exists $Definition->{DynamicFields}{ $DynamicField->{Name} } ) {
+            my $Parameters = delete $Definition->{DynamicFields}{ $DynamicField->{Name} } // {};
+
+            for my $Attribute ( keys $Parameters->%* ) {
+                $DynamicField->{$Attribute} = $Parameters->{$Attribute};
+            }
+        }
+        else {
+            push $Self->{MaskDefinition}->@*, {
+                DF        => $DynamicField->{Name},
+                Mandatory => $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ? 1 : 0,
+            };
+
+            if ( $Config->{DynamicField}{ $DynamicField->{Name} } == 2 ) {
+                $DynamicField->{Mandatory} = 1;
+            }
+        }
+
+        push $Self->{DynamicField}->@*, $DynamicField;
+    }
+
+    # align sysconfig and ticket mask data II
+    for my $DynamicFieldName ( keys $Definition->{DynamicFields}->%* ) {
+        push $Self->{DynamicField}->@*, $DynamicFieldObject->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+
+        my $Parameters = $Definition->{DynamicFields}{$DynamicFieldName} // {};
+
+        for my $Attribute ( keys $Parameters->%* ) {
+            $Self->{DynamicField}[-1]{$Attribute} = $Parameters->{$Attribute};
+        }
+    }
+
+    # get form id
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $Kernel::OM->Get('Kernel::System::Web::Request'),
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
+
     $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
@@ -55,28 +120,34 @@ sub Run {
 
     my $Output;
 
-    # get ticket object
+    # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ACL restrictions
-    $TicketObject->TicketAcl(
-        Data          => '-',
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
+    my $ACL = $TicketObject->TicketAcl(
+        Data          => \%PossibleActions,
+        Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
+
+    # fetch the actual acl action data
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check if ACL restrictions exist
-    if ( IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
+
+        my %AclActionLookup = reverse %AclAction;
 
         # show error screen if ACL prohibits this action
-        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
-
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
             return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
     }
@@ -108,7 +179,7 @@ sub Run {
                 NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
                 Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
                 TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
-                FormID ElementChanged
+                ElementChanged
             )
             )
         {
@@ -122,6 +193,9 @@ sub Run {
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # get config for frontend module
+        my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
         # get list type
         my $TreeView = 0;
         if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
@@ -134,22 +208,12 @@ sub Run {
             QueueID        => $QueueID,
         );
 
-        # get config for frontend module
-        my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-        # get the dynamic fields for this screen
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-            Valid       => 1,
-            ObjectType  => [ 'Ticket', 'Article' ],
-            FieldFilter => $Config->{DynamicField} || {},
-        );
-
         # get dynamic field backend object
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
@@ -202,7 +266,7 @@ sub Run {
 
             # remove all attachments from the Upload cache
             my $RemoveSuccess = $UploadCacheObject->FormIDRemove(
-                FormID => $GetParam{FormID},
+                FormID => $Self->{FormID},
             );
             if ( !$RemoveSuccess ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -233,7 +297,7 @@ sub Run {
                 for my $ID ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
                     $UploadCacheObject->FormIDAddFile(
-                        FormID      => $GetParam{FormID},
+                        FormID      => $Self->{FormID},
                         Disposition => 'attachment',
                         %AttachmentsData,
                     );
@@ -242,7 +306,7 @@ sub Run {
                 # send a list of attachments in the upload cache back to the client side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-                    FormID => $GetParam{FormID},
+                    FormID => $Self->{FormID},
                 );
 
                 for my $Attachment (@TicketAttachments) {
@@ -320,7 +384,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -356,7 +420,6 @@ sub Form {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Got no TicketID!'),
             Comment => Translatable('System Error!'),
@@ -388,7 +451,6 @@ sub Form {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
@@ -400,7 +462,6 @@ sub Form {
     my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
 
     # get lock state
-    my $Output = '';
     if ( $Config->{RequiredLock} ) {
         if ( !$TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
@@ -441,19 +502,18 @@ sub Form {
                 OwnerID  => $Self->{UserID},
             );
             if ( !$AccessOk ) {
-                my $Output = $LayoutObject->Header(
-                    Type      => 'Small',
-                    BodyClass => 'Popup',
-                );
-                $Output .= $LayoutObject->Warning(
-                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => Translatable('Please change the owner first.'),
-                );
-                $Output .= $LayoutObject->Footer(
-                    Type => 'Small',
-                );
-
-                return $Output;
+                return join '',
+                    $LayoutObject->Header(
+                        Type      => 'Small',
+                        BodyClass => 'Popup',
+                    ),
+                    $LayoutObject->Warning(
+                        Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                        Comment => Translatable('Please change the owner first.'),
+                    ),
+                    $LayoutObject->Footer(
+                        Type => 'Small',
+                    );
             }
             else {
                 $LayoutObject->Block(
@@ -476,9 +536,8 @@ sub Form {
         );
     }
 
+    # Get selected or last customer article.
     my %Data;
-
-    # Get selected article.
     if ( $GetParam{ArticleID} ) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
             TicketID  => $Self->{TicketID},
@@ -498,11 +557,10 @@ sub Form {
             );
         }
     }
-
-    # Get the last customer article of the ticket.
     else {
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-        my @MetaArticles  = $ArticleObject->ArticleList(
+
+        # Get last customer article.
+        my @MetaArticles = $ArticleObject->ArticleList(
             TicketID   => $Self->{TicketID},
             SenderType => 'customer',
             OnlyLast   => 1,
@@ -583,7 +641,7 @@ sub Form {
         for my $ID ( sort keys %AllStdAttachments ) {
             my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
             $UploadCacheObject->FormIDAddFile(
-                FormID => $GetParam{FormID},
+                FormID => $Self->{FormID},
                 %AttachmentsData,
             );
         }
@@ -591,7 +649,7 @@ sub Form {
 
     # get all attachments meta data
     my @Attachments = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
     # check some values
@@ -623,7 +681,6 @@ sub Form {
 
             # load module
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Jobs{$Job}->{Module} ) ) {
-
                 return $LayoutObject->FatalError();
             }
             my $Object = $Jobs{$Job}->{Module}->new(
@@ -634,7 +691,6 @@ sub Form {
             # get params
             PARAMETER:
             for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-
                 if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
                     @{ $GetParam{$Parameter} } = $ParamObject->GetArray( Param => $Parameter );
                     next PARAMETER;
@@ -657,23 +713,16 @@ sub Form {
         }
     }
 
-    # create HTML strings for all dynamic fields
-    my %DynamicFieldHTML;
-
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
-
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    # remember dynamic field validation results if erroneous
+    my %DynamicFieldPossibleValues;
+
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+    for my $DynamicFieldConfig ( $Self->{DynamicField}->@* ) {
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
 
         my $PossibleValuesFilter;
 
@@ -717,35 +766,18 @@ sub Form {
             }
         }
 
-        # to store dynamic field value from database (or undefined)
-        my $Value;
-
-        # only get values for Ticket fields (all screens based on AgentTicketActionCommon
-        # create a new article, then article fields will be always empty at the beginning)
-        if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
-
-            # get value stored on the database from Ticket
-            $Value = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-        }
-
-        # get field HTML
-        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-            $DynamicFieldBackendObject->EditFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                Value                => $Value,
-                Mandatory            =>
-                $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                LayoutObject    => $LayoutObject,
-                ParamObject     => $ParamObject,
-                AJAXUpdate      => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
-            );
+        $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
     }
 
-    # build view ...
-    # start with page ...
-    $Output .= $LayoutObject->Header(
+    # extract dynamic field values from ticket data
+    my %TicketDFValues =
+        map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+        grep { $_->{ObjectType} eq 'Ticket' }
+        $Self->{DynamicField}->@*;
+
+    # build view
+    # start with page
+    my $Output = $LayoutObject->Header(
         Value     => $Ticket{TicketNumber},
         Type      => 'Small',
         BodyClass => 'Popup',
@@ -757,11 +789,13 @@ sub Form {
     );
 
     $Output .= $Self->_Mask(
-        TicketNumber => $Ticket{TicketNumber},
-        TicketID     => $Self->{TicketID},
-        Title        => $Ticket{Title},
-        QueueID      => $Ticket{QueueID},
-        NextStates   => $Self->_GetNextStates(
+        TicketNumber   => $Ticket{TicketNumber},
+        TicketID       => $Self->{TicketID},
+        Title          => $Ticket{Title},
+        CustomerID     => $Ticket{CustomerID},
+        CustomerUserID => $Ticket{CustomerUserID},
+        QueueID        => $Ticket{QueueID},
+        NextStates     => $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
         ),
@@ -777,7 +811,8 @@ sub Form {
         Attachments         => \@Attachments,
         %Data,
         %GetParam,
-        DynamicFieldHTML => \%DynamicFieldHTML,
+        DFPossibleValues => \%DynamicFieldPossibleValues,
+        DFValues         => \%TicketDFValues,
     );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',
@@ -812,13 +847,6 @@ sub SendEmail {
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
 
     # get needed objects
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -891,9 +919,11 @@ sub SendEmail {
 
         # Reset FormDraftID to prevent updating existing draft.
         if ( $FormDraftAction eq 'Add' && $GetParam{FormDraftID} ) {
-            $ParamObject->{Query}->param(
-                -name  => 'FormDraftID',
-                -value => '',
+
+            # meddling with the innards of Kernel::System::Web::Request
+            $ParamObject->SetArray(
+                Param  => 'FormDraftID',
+                Values => ['']
             );
         }
 
@@ -937,7 +967,7 @@ sub SendEmail {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -946,7 +976,7 @@ sub SendEmail {
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
@@ -1027,7 +1057,7 @@ sub SendEmail {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # prepare subject
+    # get information on the current ticket
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
         DynamicFields => 1,
@@ -1038,15 +1068,16 @@ sub SendEmail {
 
     # get all attachments meta data
     my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
-    # create HTML strings for all dynamic fields
-    my %DynamicFieldHTML;
+    # remember dynamic field validation results if erroneous
+    my %DynamicFieldValidationResult;
+    my %DynamicFieldPossibleValues;
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $PossibleValuesFilter;
@@ -1091,16 +1122,18 @@ sub SendEmail {
             }
         }
 
+        $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $PossibleValuesFilter;
+
         my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
             ParamObject          => $ParamObject,
-            Mandatory            =>
-                $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+
+            # Mandatory is added to the configs by $Self->new
+            Mandatory => $DynamicFieldConfig->{Mandatory},
         );
 
         if ( !IsHashRefWithData($ValidationResult) ) {
-
             return $LayoutObject->ErrorScreen(
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
@@ -1110,23 +1143,10 @@ sub SendEmail {
 
         # propagate validation error to the Error variable to be detected by the frontend
         if ( $ValidationResult->{ServerError} ) {
-            $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
+            $Error{ $DynamicFieldConfig->{Name} }                        = ' ServerError';
+            $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
         }
 
-        # get field HTML
-        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-            $DynamicFieldBackendObject->EditFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory            =>
-                $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError     => $ValidationResult->{ServerError}  || '',
-                ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject    => $LayoutObject,
-                ParamObject     => $ParamObject,
-                AJAXUpdate      => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
-            );
     }
 
     # transform pending time, time stamp based on user time zone
@@ -1156,7 +1176,7 @@ sub SendEmail {
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
             }
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                Address => $Email->address()
+                Address => $Email->address(),
             );
             if ($IsLocal) {
                 $Error{ $Line . 'IsLocalAddress' } = 'ServerError';
@@ -1178,7 +1198,6 @@ sub SendEmail {
 
     # run compose modules
     my %ArticleParam;
-
     if ( ref( $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
         for my $Job ( sort keys %Jobs ) {
@@ -1210,7 +1229,7 @@ sub SendEmail {
             $Object->Run(
                 %GetParam,
                 StoreNew => 1,
-                Config   => $Jobs{$Job}
+                Config   => $Jobs{$Job},
             );
 
             # get options that have been removed from the selection
@@ -1235,22 +1254,36 @@ sub SendEmail {
             # ticket params
             %ArticleParam = (
                 %ArticleParam,
-                $Object->ArticleOption( %GetParam, %ArticleParam, Config => $Jobs{$Job} ),
+                $Object->ArticleOption(
+                    %GetParam,
+                    %ArticleParam,
+                    Config => $Jobs{$Job},
+                ),
             );
 
             # get errors
             %Error = (
                 %Error,
-                $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+                $Object->Error(
+                    %GetParam,
+                    Config => $Jobs{$Job},
+                ),
             );
         }
     }
 
-    # check if there is an error
+    # Check whether there is an error.
+    # An error is not necessarily bad, often it is just that a form draft has been loaded.
     if (%Error) {
-
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output  = $LayoutObject->Header(
+
+        # extract dynamic field values from ticket data
+        my %TicketDFValues =
+            map  { 'DynamicField_' . $_->{Name} => $Ticket{ 'DynamicField_' . $_->{Name} } }
+            grep { $_->{ObjectType} eq 'Ticket' }
+            $Self->{DynamicField}->@*;
+
+        my $Output = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
         );
@@ -1266,11 +1299,13 @@ sub SendEmail {
         }
 
         $Output .= $Self->_Mask(
-            TicketNumber => $Ticket{TicketNumber},
-            Title        => $Ticket{Title},
-            TicketID     => $Self->{TicketID},
-            QueueID      => $QueueID,
-            NextStates   => $Self->_GetNextStates(
+            TicketNumber   => $Ticket{TicketNumber},
+            Title          => $Ticket{Title},
+            CustomerID     => $Ticket{CustomerID},
+            CustomerUserID => $Ticket{CustomerUserID},
+            TicketID       => $Self->{TicketID},
+            QueueID        => $QueueID,
+            NextStates     => $Self->_GetNextStates(
                 %GetParam,
                 %ACLCompatGetParam,
             ),
@@ -1279,12 +1314,15 @@ sub SendEmail {
             MultipleCustomerCc  => \@MultipleCustomerCc,
             MultipleCustomerBcc => \@MultipleCustomerBcc,
             Attachments         => \@Attachments,
-            DynamicFieldHTML    => \%DynamicFieldHTML,
             %GetParam,
+            DFPossibleValues => \%DynamicFieldPossibleValues,
+            DFErrors         => \%DynamicFieldValidationResult,
+            DFValues         => \%TicketDFValues,
         );
         $Output .= $LayoutObject->Footer(
             Type => 'Small',
         );
+
         return $Output;
     }
 
@@ -1295,7 +1333,7 @@ sub SendEmail {
 
     # get pre loaded attachments
     my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
-        FormID => $GetParam{FormID},
+        FormID => $Self->{FormID},
     );
 
     # get submit attachment
@@ -1312,7 +1350,6 @@ sub SendEmail {
 
         # remove unused inline images
         my @NewAttachmentData;
-
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
@@ -1342,7 +1379,6 @@ sub SendEmail {
 
     # send email
     my $To = '';
-
     KEY:
     for my $Key (qw(To Cc Bcc)) {
         next KEY if !$GetParam{$Key};
@@ -1386,7 +1422,6 @@ sub SendEmail {
 
     # error page
     if ( !$ArticleID ) {
-
         return $LayoutObject->ErrorScreen(
             Comment => Translatable('Please contact the administrator.'),
         );
@@ -1405,8 +1440,9 @@ sub SendEmail {
     # set dynamic fields
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
         # set the object ID (TicketID or ArticleID) depending on the field configuration
         my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
@@ -1448,8 +1484,8 @@ sub SendEmail {
         }
     }
 
-    # remove pre-submitted attachments
-    $UploadCacheObject->FormIDRemove( FormID => $GetParam{FormID} );
+    # remove all form data
+    $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
     # If form was called based on a draft,
     #   delete draft since its content has now been used.
@@ -1513,13 +1549,12 @@ sub AjaxUpdate {
 
     my @ExtendedData;
 
-    # get config object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # run compose modules
     if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
-
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
@@ -1565,18 +1600,15 @@ sub AjaxUpdate {
 
             my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
             if ($Key) {
-                push(
-                    @ExtendedData,
-                    {
-                        Name         => $Key,
-                        Data         => \%Data,
-                        SelectedID   => $GetParam{$Key},
-                        Translation  => 1,
-                        PossibleNone => 1,
-                        Multiple     => $Multiple,
-                        Max          => 100,
-                    }
-                );
+                push @ExtendedData, {
+                    Name         => $Key,
+                    Data         => \%Data,
+                    SelectedID   => $GetParam{$Key},
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Multiple     => $Multiple,
+                    Max          => 100,
+                };
             }
         }
     }
@@ -1586,20 +1618,13 @@ sub AjaxUpdate {
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
-
     # get needed objects
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
@@ -1630,9 +1655,12 @@ sub AjaxUpdate {
     # update Dynamic Fields Possible Values via AJAX
     my @DynamicFieldAJAX;
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
@@ -1648,9 +1676,6 @@ sub AjaxUpdate {
         # convert possible values key => value to key => key for ACLs using a Hash slice
         my %AclData = %{$PossibleValues};
         @AclData{ keys %AclData } = keys %AclData;
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # set possible values filter from ACLs
         my $ACL = $TicketObject->TicketAcl(
@@ -1678,16 +1703,14 @@ sub AjaxUpdate {
         ) || $PossibleValues;
 
         # add dynamic field to the list of fields to update
-        push(
-            @DynamicFieldAJAX,
+        push @DynamicFieldAJAX,
             {
                 Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data        => $DataValues,
                 SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                 Max         => 100,
-            }
-        );
+            };
     }
 
     my $JSON = $LayoutObject->BuildSelectionJSON(
@@ -1706,7 +1729,7 @@ sub AjaxUpdate {
     );
 
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -1730,10 +1753,6 @@ sub _GetNextStates {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
-        OnlyDynamicFields => 1
-    );
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1756,7 +1775,8 @@ sub _Mask {
         Data         => $Param{NextStates},
         Name         => 'ComposeStateID',
         PossibleNone => 1,
-        Class        => 'Modernize',
+        Translation  => 1,
+        Class        => 'Modernize FormUpdate',
         %State,
     );
 
@@ -1767,9 +1787,13 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $Error ( sort keys %{ $Param{Errors} } ) {
-            $Param{$Error} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$Error} );
+            $Param{$Error} = $LayoutObject->Ascii2Html(
+                Text => $Param{Errors}->{$Error},
+            );
         }
     }
+
+    my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
     # pending data string
     $Param{PendingDateString} = $LayoutObject->BuildDateSelection(
@@ -1781,6 +1805,7 @@ sub _Mask {
         Class                => $Param{Errors}->{DateInvalid}                           || ' ',
         Validate             => 1,
         ValidateDateInFuture => 1,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     # Multiple-Autocomplete
@@ -1922,43 +1947,23 @@ sub _Mask {
         );
     }
 
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
+    # render dynamic fields
+    {
+        my %DynamicFieldConfigs = map { $_->{Name} => $_ } $Self->{DynamicField}->@*;
 
-    # Dynamic fields
-    # cycle through the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        # skip fields that HTML could not be retrieved
-        next DYNAMICFIELD if !IsHashRefWithData(
-            $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
-        );
-
-        # get the HTML strings form $Param
-        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
-
-        $LayoutObject->Block(
-            Name => 'DynamicField',
-            Data => {
-                Name  => $DynamicFieldConfig->{Name},
-                Label => $DynamicFieldHTML->{Label},
-                Field => $DynamicFieldHTML->{Field},
-            },
-        );
-
-        # example of dynamic fields order customization
-        $LayoutObject->Block(
-            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data => {
-                Name  => $DynamicFieldConfig->{Name},
-                Label => $DynamicFieldHTML->{Label},
-                Field => $DynamicFieldHTML->{Field},
+        $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
+            Content              => $Self->{MaskDefinition},
+            DynamicFields        => \%DynamicFieldConfigs,
+            LayoutObject         => $LayoutObject,
+            ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
+            DynamicFieldValues   => $Param{DFValues},
+            PossibleValuesFilter => $Param{DFPossibleValues},
+            Errors               => $Param{DFErrors},
+            Object               => {
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
+                UserID         => $Self->{UserID},
+                $Param{DFValues}->%*,
             },
         );
     }
@@ -1983,12 +1988,8 @@ sub _Mask {
         );
     }
 
-    # Show the customer user address book if the module is registered and java script support is available.
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentCustomerUserAddressBook}
-        && $LayoutObject->{BrowserJavaScriptSupport}
-        )
-    {
+    # Show the customer user address book if the module is registered.
+    if ( $ConfigObject->Get('Frontend::Module')->{AgentCustomerUserAddressBook} ) {
         $Param{OptionCustomerUserAddressBook} = 1;
     }
 
@@ -2054,11 +2055,6 @@ sub _Mask {
         );
     }
 
-    $LayoutObject->AddJSData(
-        Key   => 'DynamicFieldNames',
-        Value => $DynamicFieldNames,
-    );
-
     my $LoadedFormDraft;
     if ( $Self->{LoadedFormDraftID} ) {
         $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
@@ -2107,54 +2103,25 @@ sub _Mask {
         );
     }
 
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
+    }
+
     # create & return output
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketEmailOutbound',
         Data         => {
             %Param,
+            FormID         => $Self->{FormID},
             FormDraft      => $Config->{FormDraft},
             FormDraftID    => $Self->{LoadedFormDraftID},
             FormDraftTitle => $LoadedFormDraft ? $LoadedFormDraft->{Title} : '',
             FormDraftMeta  => $LoadedFormDraft,
         },
     );
-}
-
-sub _GetFieldsToUpdate {
-    my ( $Self, %Param ) = @_;
-
-    my @UpdatableFields;
-
-    # set the fields that can be updateable via AJAXUpdate
-    if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields = qw( ComposeStateID );
-    }
-
-    # get config for frontend module
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
-
-    # get the dynamic fields for this screen
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Config->{DynamicField} || {},
-    );
-
-    # cycle through the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsACLReducible',
-        );
-        next DYNAMICFIELD if !$IsACLReducible;
-
-        push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
-    }
-
-    return \@UpdatableFields;
 }
 
 sub _GetExtendedParams {
@@ -2167,7 +2134,7 @@ sub _GetExtendedParams {
     my %GetParam;
     for my $Key (
         qw(To Cc Bcc Subject Body ComposeStateID IsVisibleForCustomer IsVisibleForCustomerPresent
-        ArticleID TimeUnits Year Month Day Hour Minute FormID FormDraftID Title)
+        ArticleID TimeUnits Year Month Day Hour Minute FormDraftID Title)
         )
     {
         my $Value = $ParamObject->GetParam( Param => $Key );
@@ -2178,78 +2145,76 @@ sub _GetExtendedParams {
 
     $GetParam{EmailTemplateID} = $ParamObject->GetParam( Param => 'EmailTemplateID' ) || '';
 
-    # create form id
-    if ( !$GetParam{FormID} ) {
-        $GetParam{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
-
     # hash for check duplicated entries
     my %AddressesList;
     my @MultipleCustomer;
-    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
-    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
+    my $CustomersNumberTo = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $Selected          = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    if ($CustomersNumber) {
+    if ($CustomersNumberTo) {
         my $CustomerCounter = 1;
-        for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
-            my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
-            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
-                || '';
-            my $CustomerQueue = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count )
-                || '';
-            if ($CustomerElement) {
 
-                if ( $GetParam{To} ) {
-                    $GetParam{To} .= ', ' . $CustomerElement;
-                }
-                else {
-                    $GetParam{To} = $CustomerElement;
-                }
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberTo ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
 
-                # check email address
-                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
-                my $CustomerError    = '';
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
+            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
 
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
-                    $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
-                    $CustomerError    = 'ServerError';
-                }
+            next COUNT unless $CustomerElement;
 
-                my $CustomerDisabled = '';
-                my $CountAux         = $CustomerCounter++;
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled="disabled"';
-                    $CountAux         = $Count . 'Error';
-                }
+            my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )   || '';
+            my $CustomerQueue    = $ParamObject->GetParam( Param => 'CustomerQueue_' . $Count ) || '';
 
-                if ( $CustomerQueue ne '' ) {
-                    $CustomerQueue = $Count;
-                }
-
-                push @MultipleCustomer, {
-                    Count            => $CountAux,
-                    CustomerElement  => $CustomerElement,
-                    CustomerSelected => $CustomerSelected,
-                    CustomerKey      => $CustomerKey,
-                    CustomerError    => $CustomerError,
-                    CustomerErrorMsg => $CustomerErrorMsg,
-                    CustomerDisabled => $CustomerDisabled,
-                    CustomerQueue    => $CustomerQueue,
-                };
-                $AddressesList{$CustomerElement} = 1;
+            if ( $GetParam{To} ) {
+                $GetParam{To} .= ', ' . $CustomerElement;
             }
+            else {
+                $GetParam{To} = $CustomerElement;
+            }
+
+            # check email address
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerError    = '';
+            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerError = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            my $CustomerDisabled = '';
+            my $CountAux         = $CustomerCounter++;
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled="disabled"';
+                $CountAux         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueue ne '' ) {
+                $CustomerQueue = $Count;
+            }
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $CustomerElement,
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+                CustomerQueue    => $CustomerQueue,
+            };
+            $AddressesList{$CustomerElement} = 1;
         }
     }
 
@@ -2258,61 +2223,63 @@ sub _GetExtendedParams {
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
-        for my $Count ( 1 ... $CustomersNumberCc ) {
+
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberCc ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElementCc = $ParamObject->GetParam( Param => 'CcCustomerTicketText_' . $Count );
-            my $CustomerKeyCc     = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )
-                || '';
-            my $CustomerQueueCc = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count )
-                || '';
 
-            if ($CustomerElementCc) {
+            next COUNT unless $CustomerElementCc;
 
-                if ( $GetParam{Cc} ) {
-                    $GetParam{Cc} .= ', ' . $CustomerElementCc;
-                }
-                else {
-                    $GetParam{Cc} = $CustomerElementCc;
-                }
+            my $CustomerKeyCc   = $ParamObject->GetParam( Param => 'CcCustomerKey_' . $Count )   || '';
+            my $CustomerQueueCc = $ParamObject->GetParam( Param => 'CcCustomerQueue_' . $Count ) || '';
 
-                # check email address
-                my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
-                my $CustomerErrorCc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorCc = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
-                    $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
-                    $CustomerErrorCc    = 'ServerError';
-                }
-
-                my $CustomerDisabledCc = '';
-                my $CountAuxCc         = $CustomerCounterCc++;
-                if ( $CustomerErrorCc ne '' ) {
-                    $CustomerDisabledCc = 'disabled="disabled"';
-                    $CountAuxCc         = $Count . 'Error';
-                }
-
-                if ( $CustomerQueueCc ne '' ) {
-                    $CustomerQueueCc = $Count;
-                }
-
-                push @MultipleCustomerCc, {
-                    Count            => $CountAuxCc,
-                    CustomerElement  => $CustomerElementCc,
-                    CustomerKey      => $CustomerKeyCc,
-                    CustomerError    => $CustomerErrorCc,
-                    CustomerErrorMsg => $CustomerErrorMsgCc,
-                    CustomerDisabled => $CustomerDisabledCc,
-                    CustomerQueue    => $CustomerQueueCc,
-                };
-                $AddressesList{$CustomerElementCc} = 1;
+            if ( $GetParam{Cc} ) {
+                $GetParam{Cc} .= ', ' . $CustomerElementCc;
             }
+            else {
+                $GetParam{Cc} = $CustomerElementCc;
+            }
+
+            # check email address
+            my $CustomerErrorMsgCc = 'CustomerGenericServerErrorMsg';
+            my $CustomerErrorCc    = '';
+            for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerErrorCc = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
+                $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
+                $CustomerErrorCc    = 'ServerError';
+            }
+
+            my $CustomerDisabledCc = '';
+            my $CountAuxCc         = $CustomerCounterCc++;
+            if ( $CustomerErrorCc ne '' ) {
+                $CustomerDisabledCc = 'disabled="disabled"';
+                $CountAuxCc         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueueCc ne '' ) {
+                $CustomerQueueCc = $Count;
+            }
+
+            push @MultipleCustomerCc, {
+                Count            => $CountAuxCc,
+                CustomerElement  => $CustomerElementCc,
+                CustomerKey      => $CustomerKeyCc,
+                CustomerError    => $CustomerErrorCc,
+                CustomerErrorMsg => $CustomerErrorMsgCc,
+                CustomerDisabled => $CustomerDisabledCc,
+                CustomerQueue    => $CustomerQueueCc,
+            };
+            $AddressesList{$CustomerElementCc} = 1;
         }
     }
 
@@ -2321,61 +2288,63 @@ sub _GetExtendedParams {
 
     if ($CustomersNumberBcc) {
         my $CustomerCounterBcc = 1;
-        for my $Count ( 1 ... $CustomersNumberBcc ) {
+
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberBcc ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
             my $CustomerElementBcc = $ParamObject->GetParam( Param => 'BccCustomerTicketText_' . $Count );
-            my $CustomerKeyBcc     = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )
-                || '';
-            my $CustomerQueueBcc = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count )
-                || '';
 
-            if ($CustomerElementBcc) {
+            next COUNT unless $CustomerElementBcc;
 
-                if ( $GetParam{Bcc} ) {
-                    $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
-                }
-                else {
-                    $GetParam{Bcc} = $CustomerElementBcc;
-                }
+            my $CustomerKeyBcc   = $ParamObject->GetParam( Param => 'BccCustomerKey_' . $Count )   || '';
+            my $CustomerQueueBcc = $ParamObject->GetParam( Param => 'BccCustomerQueue_' . $Count ) || '';
 
-                # check email address
-                my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
-                my $CustomerErrorBcc    = '';
-                for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerErrorBcc = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
-                    $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
-                    $CustomerErrorBcc    = 'ServerError';
-                }
-
-                my $CustomerDisabledBcc = '';
-                my $CountAuxBcc         = $CustomerCounterBcc++;
-                if ( $CustomerErrorBcc ne '' ) {
-                    $CustomerDisabledBcc = 'disabled="disabled"';
-                    $CountAuxBcc         = $Count . 'Error';
-                }
-
-                if ( $CustomerQueueBcc ne '' ) {
-                    $CustomerQueueBcc = $Count;
-                }
-
-                push @MultipleCustomerBcc, {
-                    Count            => $CountAuxBcc,
-                    CustomerElement  => $CustomerElementBcc,
-                    CustomerKey      => $CustomerKeyBcc,
-                    CustomerError    => $CustomerErrorBcc,
-                    CustomerErrorMsg => $CustomerErrorMsgBcc,
-                    CustomerDisabled => $CustomerDisabledBcc,
-                    CustomerQueue    => $CustomerQueueBcc,
-                };
-                $AddressesList{$CustomerElementBcc} = 1;
+            if ( $GetParam{Bcc} ) {
+                $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
             }
+            else {
+                $GetParam{Bcc} = $CustomerElementBcc;
+            }
+
+            # check email address
+            my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
+            my $CustomerErrorBcc    = '';
+            for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerErrorBcc = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
+                $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
+                $CustomerErrorBcc    = 'ServerError';
+            }
+
+            my $CustomerDisabledBcc = '';
+            my $CountAuxBcc         = $CustomerCounterBcc++;
+            if ( $CustomerErrorBcc ne '' ) {
+                $CustomerDisabledBcc = 'disabled="disabled"';
+                $CountAuxBcc         = $Count . 'Error';
+            }
+
+            if ( $CustomerQueueBcc ne '' ) {
+                $CustomerQueueBcc = $Count;
+            }
+
+            push @MultipleCustomerBcc, {
+                Count            => $CountAuxBcc,
+                CustomerElement  => $CustomerElementBcc,
+                CustomerKey      => $CustomerKeyBcc,
+                CustomerError    => $CustomerErrorBcc,
+                CustomerErrorMsg => $CustomerErrorMsgBcc,
+                CustomerDisabled => $CustomerDisabledBcc,
+                CustomerQueue    => $CustomerQueueBcc,
+            };
+            $AddressesList{$CustomerElementBcc} = 1;
         }
     }
 

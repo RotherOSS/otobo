@@ -30,9 +30,6 @@ otobo.psgi - OTOBO PSGI application
     # new process for every request , useful for development
     plackup --server Shotgun bin/psgi-bin/otobo.psgi
 
-    # with profiling (untested)
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -48,241 +45,50 @@ in F<otobo.web.dockerfile>.
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as:
+In order to activate profiling install L<Plack::Middleware::Profiler::NYTProf>
+and activate profiling by assigning C<$ProfilingIsActive> a true value. There is no need
+to start Plack with special options or with a special environment.
 
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
-For actual profiling append C<&NYTProf=mymarker> to a request.
-This creates a file called nytprof-mymarker.out, which you can process with
-
-    nytprofhtml -f nytprof-mymarker.out
-
-Then point your browser at nytprof/index.html.
+See L<https://metacpan.org/pod/Plack::Middleware::Profiler::NYTProf> for the available options.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
-# expect that otobo.psgi is two level below the OTOBO root dir
+# expect that otobo.psgi is two level below the OTOBO home dir
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
-# This package is used by rpc.pl.
-# NOTE: this is mostly untested
-package OTOBO::RPC {
-
-    use Kernel::System::ObjectManager;
-
-    sub new {
-        my $Self = shift;
-
-        my $Class = ref($Self) || $Self;
-
-        return bless {} => $Class;
-    }
-
-    sub Dispatch {
-        my ( $Self, $User, $Pw, $Object, $Method, %Param ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # We want to keep providing the TimeObject as legacy API for now.
-        ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-        $CommonObject{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject} = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        return $CommonObject{$Object}->$Method(%Param);
-    }
-
-=item DispatchMultipleTicketMethods()
-
-to dispatch multiple ticket methods and get the TicketID
-
-    my $TicketID = $RPC->DispatchMultipleTicketMethods(
-        $SOAP_User,
-        $SOAP_Pass,
-        'TicketObject',
-        [ { Method => 'TicketCreate', Parameter => \%TicketData }, { Method => 'ArticleCreate', Parameter => \%ArticleData } ],
-    );
-
-=cut
-
-    sub DispatchMultipleTicketMethods {
-        my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-
-        # common objects
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-        $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        my $TicketID;
-        my $Counter;
-
-        for my $MethodParamEntry ( @{$MethodParamArrayRef} ) {
-
-            my $Method    = $MethodParamEntry->{Method};
-            my %Parameter = %{ $MethodParamEntry->{Parameter} };
-
-            # push ticket id to params if there is no ticket id
-            if ( !$Parameter{TicketID} && $TicketID ) {
-                $Parameter{TicketID} = $TicketID;
-            }
-
-            my $ReturnValue = $CommonObject{$Object}->$Method(%Parameter);
-
-            # remember ticket id if method was TicketCreate
-            if ( !$Counter && $Object eq 'TicketObject' && $Method eq 'TicketCreate' ) {
-                $TicketID = $ReturnValue;
-            }
-
-            $Counter++;
-        }
-
-        return $TicketID;
-    }
-}
-
 # core modules
-use Data::Dumper;
+use Cwd            qw(abs_path);
+use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules)
+use Encode         ();              ## no perlimports
+use File::Basename qw(dirname);
+use File::Path     qw(make_path);
 
 # CPAN modules
-use DateTime ();
-use Template ();
-use Encode qw(:all);
-use CGI                ();
-use CGI::Carp          ();
-use CGI::Emulate::PSGI ();
-use CGI::PSGI;
-use Module::Refresh;
-use Plack::Builder;
-use Plack::Request;
-use Plack::Response;
-use Plack::App::File;
-use SOAP::Transport::HTTP::Plack;
+use DateTime 1.08    ();                                   ## no perlimports
+use Template         ();                                   ## no perlimports
+use Plack::Builder   qw(builder enable enable_if mount);
+use Plack::Request   ();
+use Plack::Response  ();
+use Plack::App::File ();
+use Plack::App::Directory;
 
 # OTOBO modules
-use Kernel::GenericInterface::Provider;
-use Kernel::System::ObjectManager;
-use Kernel::System::Web::InterfaceAgent           ();
-use Kernel::System::Web::InterfaceCustomer        ();
-use Kernel::System::Web::InterfaceInstaller       ();
-use Kernel::System::Web::InterfaceMigrateFromOTRS ();
-use Kernel::System::Web::InterfacePublic          ();
+use Kernel::Config;                                        # assure that Kernel/Config.pm exists, though the file might be modified later
+use Kernel::System::ModuleRefresh ();                      # based on Module::Refresh
+use Kernel::System::ObjectManager ();
+use Kernel::System::Web::App      ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -290,37 +96,92 @@ eval {
     require Net::DNS;
 };
 
-# this might improve performance
-CGI->compile(':cgi');
+# Put the modules in %INC into %Module::Refresh::CACHE.
+# This is important for Kernel/Config.pm as that file might be modified by installer.pl
+# between the start of the web server and the first use of $ModuleRefreshMiddleware or $SyncFromS3Middleware.
+Kernel::System::ModuleRefresh->new;
+
+# Activate profiling only when Plack::Middleware::Profiler::NYTProf is installed.
+my $ProfilingIsActive = 0;
+
+# The OTOBO home is determined from the location of otobo.psgi.
+my $Home = abs_path("$Bin/../..");
+
+# The question whether there is a S3 backend must the resolved early.
+# Beware that $S3Active won't be updated when S3 is activated afterwards.
+my $S3Active = Kernel::Config->new( Level => 'Clear' )->Get('Storage::S3::Active');
+
+# The S3 backend object will be needed in the SyncFromS3 middleware
+if ($S3Active) {
+    require Kernel::System::Storage::S3;
+}
 
 ################################################################################
 # Middlewares
 ################################################################################
 
-# conditionally enable profiling, UNTESTED
-my $NYTProfMiddleWare = sub {
+# Set a single entry in %ENV.
+# $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
+# This setting is used internally by Kernel::System::Log, and in the support data collector.
+# In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
+# In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+my $SetSystemEnvMiddleware = sub {
     my $App = shift;
 
     return sub {
         my $Env = shift;
 
-        # this is used only for Support Data Collection
+        # only the side effects are important
+        local $ENV{GATEWAY_INTERFACE} = 'CGI/1.1';
+
+        # enable for debugging UrlMap
+        #local $ENV{PLACK_URLMAP_DEBUG} = 1;
+
+        return $App->($Env);
+    };
+};
+
+# Set a single entry in the PSGI environment.
+my $SetPSGIEnvMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
-        # check whether this request runs under Devel::NYTProf
-        my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
-            $ProfilingIsOn = 1;
-            DB::enable_profile("nytprof-$1.out");
-        }
+        return $App->($Env);
+    };
+};
 
-        # do the work
-        my $Res = $App->($Env);
+# Determine, and possibly munge, the script name.
+# This needs to be done early, as access checking middlewares need that info.
 
-        # clean up profiling, write the output file
-        DB::finish_profile() if $ProfilingIsOn;
+# TODO: is this still relevant ?
+# $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+# $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+# The extracted ScriptFileName should be something like:
+#     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
+# Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+# are gracefully ignored.
 
-        return $Res;
+# Force a new manifestation of $Kernel::OM.
+# This middleware must be enabled before there is any access to the classes that are
+# managed by the OTOBO object manager. Inversely this means that applications that follow this middleware
+# can make use of $Kernel::OM, e.g $Kernel::OM->Get('Kernel::Config').
+# Completion of the middleware destroys the localised $Kernel::OM, thus
+# triggering event handlers.
+my $ManageObjectsMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # make sure that the managed objects will be recreated for the current request
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+        return $App->($Env);
     };
 };
 
@@ -359,7 +220,7 @@ my $MergeSlashesMiddleware = sub {
     };
 };
 
-# Translate '/' is translated to '/index.html'
+# '/' is translated to '/index.html', just like Apache DirectoryIndex
 my $ExactlyRootMiddleware = sub {
     my $App = shift;
 
@@ -374,41 +235,103 @@ my $ExactlyRootMiddleware = sub {
     };
 };
 
-# This is inspired by Plack::Middleware::Refresh. But we roll our own middleware,
-# as OTOOB has special requirements.
-# The modules in Kernel/Config/Files must be exempted from the reloading
-# as it is OK when they are removed. These not removed modules are reloaded
-# for every request in Kernel::Config::Defaults::new().
-my $ModuleRefreshMiddleware;
-{
-    my $RefreshCooldown = 10;
-    my $LastRefreshTime = time - 10;
-    Module::Refresh->new();
+# With S3 support, loader files are initially stored in S3.
+# Sync them to the local file system so that Plack::App::File can deliver them.
+# Checking the name is sufficient as the loader files contain a checksum.
+my $SyncFromS3Middleware = sub {
+    my $App = shift;
 
-    $ModuleRefreshMiddleware = sub {
-        my $App = shift;
+    return sub {
+        my $Env = shift;
 
-        return sub {
-            my $Env = shift;
+        # We need a path like 'skins/Agent/default/css-cache/CommonCSS_1ecc5b62f0219ea138682633a165f251.css'
+        # Double slashes are not ignored in S3.
+        my $PathBelowHtdocs = $Env->{PATH_INFO};
+        $PathBelowHtdocs =~ s!/$!!;
+        $PathBelowHtdocs =~ s!^/!!;
 
-            # don't do work for every request, just every $RefreshCooldown secondes
-            if ( time > $LastRefreshTime + $RefreshCooldown ) {
+        # The location on the file system is something like:
+        # /opt/otobo/var/httpd/htdocs/skins/Customer/css-cache
+        my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
-                $LastRefreshTime = time;
+        if ( !-e $Location ) {
 
-                # refresh modules, igoring the files in Kernel/Config/Files
-                MODULE:
-                for my $Module ( sort keys %INC ) {
-                    next MODULE if $Module =~ m[^Kernel/Config/Files/];
+            # Use the same approach for static files as used in $ModuleRefreshMiddleware.
+            # Check for every request whether Kernel/Config.pm has been modified
+            Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
 
-                    Module::Refresh->refresh_module_if_modified($Module);
-                }
-            }
+            # make sure that the directory where the object should be stored exists
+            # make_path() croaks when the dir can't be created
+            make_path( dirname($Location) );
 
-            return $App->($Env);
-        };
+            my $StorageS3Object = Kernel::System::Storage::S3->new(
+                ConfigObject => Kernel::Config->new( Level => 'Clear' ),
+            );
+            my $S3Key = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
+            $StorageS3Object->SaveObjectToFile(
+                Key      => $S3Key,
+                Location => $Location,
+            );
+        }
+
+        return $App->($Env);
     };
-}
+};
+
+# This middleware is inspired by Plack::Middleware::Refresh. But we roll our own implementation,
+# as OTOOB has special requirements. All loaded modules are refreshed after a cooldown time
+# of 10s has passed since the last refresh cycle.
+#
+# An exception is Kernel/Config.pm which is checked for every request. This is mostly for
+# installer.pl and migration.pl which actually modify this file.
+#
+# The modules in Kernel/Config/Files must be exempted from the reloading
+# as it is OK when they are changed or removed. These existing module files are reloaded
+# for every request in Kernel::Config::Defaults::new().
+my $ModuleRefreshMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # Fill %Module::Refresh::CACHE with all entries in %INC if that hasn't happened before.
+        # Add $RelativeFile to %Module::Refresh::CACHE as $RelativeFile was required above and thus surely is in %INC.
+        # Check for every request whether Kernel/Config.pm has been modified.
+        Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
+
+        # make sure that there is a refresh in the first iteration
+        state $LastRefreshTime = 0;
+
+        # don't do work for every request, just every $RefreshCooldown secondes
+        my $Now                     = time;
+        my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
+        my $RefreshCooldown         = 10;
+
+        # Maybe useful for debugging, these variables can be printed out in frontend modules.
+        # See https://github.com/RotherOSS/otobo/issues/1422
+        #$Kernel::Now = $Now;
+        #$Kernel::SecondsSinceLastRefresh = $SecondsSinceLastRefresh;
+        #$Kernel::LastRefreshTime         = $LastRefreshTime;
+
+        if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
+
+            $LastRefreshTime = $Now;
+
+            # refresh modules,
+            # igoring non-OTOBO modules, Kernel/Config.pm and the module files in Kernel/Config/Files
+            MODULE:
+            for my $Module ( sort keys %INC ) {
+                next MODULE unless $Module =~ m[^(?:Kernel|var/packagesetup)/];
+                next MODULE if $Module eq 'Kernel/Config.pm';
+                next MODULE if $Module =~ m[^Kernel/Config/Files/];
+
+                Kernel::System::ModuleRefresh->refresh_module_if_modified($Module);
+            }
+        }
+
+        return $App->($Env);
+    };
+};
 
 ################################################################################
 # Apps
@@ -435,8 +358,17 @@ my $HelloApp = sub {
 my $DumpEnvApp = sub {
     my $Env = shift;
 
+    # collect some useful info
     local $Data::Dumper::Sortkeys = 1;
-    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Data::Dumper->Dump(
+        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC, '🦦' ],
+        [qw(Title Time Env ENV INC_array INC_hash otter)],
+    );
+
+    # add some unicode
+    $Message .= "unicode: 🦦 ⛄ 🥨\n";
+
+    # emit the content as UTF-8
     utf8::encode($Message);
 
     return [
@@ -446,31 +378,94 @@ my $DumpEnvApp = sub {
     ];
 };
 
-# Handler andler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
+# Handler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
 # Would also work for /dummy if mounted accordingly.
-# Redirect via a relative URL to otobo/index.pl.
-# No permission check,
+# Redirect via a relative URL to Frontend::DefaultInterface.
+# There is no permission check.
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    # construct a relative path to otobo/index.pl
-    my $Req      = Plack::Request->new($Env);
-    my $OrigPath = $Req->path();
-    my $Levels   = $OrigPath =~ tr[/][];
-    my $NewPath  = join '/', map( {'..'} ( 1 .. $Levels ) ), 'otobo/index.pl';
+    # determine the default interface,
+    # fall back to the Agent interface when the configured default interface is not activated.
+    my $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
+    my $Active    = 1;
+    if ( $Interface eq 'customer.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+    }
+    elsif ( $Interface eq 'public.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+    }
+
+    if ( !$Active ) {
+        $Interface = 'index.pl';
+    }
+
+    # Construct a relative path to the default interface.
+    # In $OrigPath multiple sequential slashes seem to be collapsed to a single slash. This might result
+    # in broken redirects. But it looks like the broken redirects are redirected again and finally
+    # we end up in the default interface. All is fine as long we don't walk up too high, i.e. above 'otobo/'.
+    my $Redirect;
+    if ( $Env->{PATH_INFO} eq '' ) {
+
+        # Special case for https://example.com/otobo . The path below 'otobo' is empty. So for redirecting
+        # we needed information how we got here. Often REQUEST_URI is '/otobo' but this is not guaranteed.
+        my ($LastComponent) = reverse split /\//, $Env->{REQUEST_URI};
+        $Redirect = join '/', $LastComponent, $Interface;    # e.g. otobo/index.pl
+    }
+    else {
+
+        # hike up the appropriate number of levels, e.g. '',  '..',  or '../../../..'
+        my $OrigPath = Plack::Request->new($Env)->path;
+        my $Levels   = $OrigPath =~ tr[/][];
+        $Redirect = join '/', ( map {'..'} ( 1 .. ( $Levels - 1 ) ) ), $Interface;
+    }
 
     # redirect
-    my $Res = Plack::Response->new();
-    $Res->redirect($NewPath);
+    my $Res = Plack::Response->new;
+    $Res->redirect($Redirect);
 
-    # send the PSGI response
-    return $Res->finalize();
+    # send the PSGI response arrayref
+    return $Res->finalize;
+};
+
+# Check whether PublicFrontend::Active is on. If so serve the public interface.
+# Otherwise act as if the public interface does not exist and redirect to the default interface.
+my $CheckPublicInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfacePublic',
+    )->to_app->($Env) if $Active;
+
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'public.pl';
+
+    return $RedirectOtoboApp->($Env);
+};
+
+# Check whether CustomerFrontend::Active is on. If so serve the customer interface.
+# Otherwise act as if the customer interface does not exist and redirect to the default interface.
+my $CheckCustomerInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceCustomer',
+    )->to_app->($Env) if $Active;
+
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'customer.pl';
+
+    return $RedirectOtoboApp->($Env);
 };
 
 # Serve the static assets in var/httpd/htdocs.
+# When S3 is supported there is a check whether missing files can be fetched from S3.
 # Access is granted for all.
-# Set the Cache-Control headers as in apache2-httpd.include.conf
-my $StaticApp = builder {
+my $HtdocsApp = builder {
 
     # Cache css-cache for 30 days
     enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Plack::Middleware::Header',
@@ -488,142 +483,146 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new( root => "$FindBin::Bin/../../var/httpd/htdocs" )->to_app();
+    # loader files might have to be synced from S3
+    enable_if {
+        $S3Active
+            &&
+            (
+                $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$}
+                ||
+                $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$}
+            )
+    }
+    $SyncFromS3Middleware;
+
+    # serve static files without directory listing
+    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
-# Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
+# Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
+# Support for public.pl if PublicFrontend::Active is on.
+# Redirect to Frontend::DefaultInterface as a fallback
 my $OTOBOApp = builder {
 
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';    # forbidden files
+    # compress the output
+    # do not enable 'Plack::Middleware::Deflater', as there were errors with 'Wide characters in print'
+    #enable 'Plack::Middleware::Deflater',
+    #    content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
-    # a simplistic detection whether we are behind a revers proxy
+    # a simplistic detection whether we are behinde a reverse proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # Per default it would enable mysql_auto_reconnect.
-    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
+    # enable profiling only when Plack::Middleware::Profiler::NYTProf is installed
+    if ($ProfilingIsActive) {
 
-    # conditionally enable profiling
-    enable $NYTProfMiddleWare;
+        # Store the profile id also in a closed over variable,
+        # so that it is available in report_dir
+        my $ProfileID;
 
-    # Check ever 10s for changed Perl modules.
+        enable 'Profiler::NYTProf',
+
+            # in case that only specific pages should be profiled
+            #enable_profile => sub { return $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ? 1 : 0; }, # untested
+
+            # Order by time, in order to make it easier looking at the latest report.
+            # Add a human readable timestamp.
+            # Add the process ID in order to see whether requests ran in the same process.
+            generate_profile_id => sub {
+                my ( $Minute, $Hour, $MonthDay, $MonthZeroBased ) = (gmtime)[ 1, 2, 3, 4 ];
+
+                $ProfileID = sprintf '%02d-%02d-%02d:%02d-%f-%d',
+                $MonthZeroBased + 1,
+                $MonthDay,
+                $Hour,
+                $Minute,
+                Time::HiRes::time(),
+                $$;
+
+                return $ProfileID;
+            },
+
+            # generate a new directory for each report
+            report_dir => sub {
+                my $ReportDir = "var/httpd/htdocs/nytprof/$ProfileID";
+                make_path($ReportDir);
+
+                return "var/httpd/htdocs/nytprof/$ProfileID";
+            },
+            ;
+    }
+
+    # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
     enable $ModuleRefreshMiddleware;
 
+    # add the Content-Length header, unless it already is set
+    # this applies also to content from Kernel::System::Web::Exception
+    enable 'Plack::Middleware::ContentLength';
+
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
-    # Set the appropriate %ENV and file handles
-    CGI::Emulate::PSGI->handler(
+    # set up %ENV
+    enable $SetSystemEnvMiddleware;
 
-        # logic taken from the scripts in bin/cgi-bin
-        sub {
-            my $Env = shift;
+    # set up $Env
+    enable $SetPSGIEnvMiddleware;
 
-            # make sure to have a clean CGI.pm for each request, see CGI::Compile
-            CGI::initialize_globals() if defined &CGI::initialize_globals;
+    # force destruction and recreation of managed objects
+    enable $ManageObjectsMiddleware;
 
-            # 0=off;1=on;
-            my $Debug = 0;
+    # The actual functionality of OTOBO is implemented as a set of Plack apps.
+    # Dispatching is done with an URL map.
+    # Kernel::System::Web::App loads the interface modules and calls the Response() method.
+    # Add "Debug => 1" in order to enable debugging.
 
-            # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
-            # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like:
-            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
-            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-            # are gracefully ignored.
-            my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+    # enable for debugging
+    #mount '/dump_env' => $DumpEnvApp;
+    #mount '/hello'    => $HelloApp;
 
-            # Fallback to agent login if we could not determine handle...
-            $ScriptFileName //= 'index.pl';
+    mount '/index.pl' => Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceAgent',
+    )->to_app;
 
-            # nph-genericinterface.pl has specific logging
-            my @ObjectManagerArgs;
-            if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                push @ObjectManagerArgs,
-                    'Kernel::System::Log' => {
-                        LogPrefix => 'GenericInterfaceProvider',
-                    },
-                    ;
-            }
+    mount '/installer.pl' => builder {
 
-            local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
+        # check the SecureMode
+        # Alternatively we could use Plack::Middleware::Access, but that modules is not available as a Debian package
+        enable 'OTOBO::SecureModeAccessFilter',
+            rules => [
+                deny => 'securemode_is_on',
+            ];
 
-            # find the relevant interface class
-            my $Interface;
-            {
-                if ( $ScriptFileName eq 'index.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'customer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'public.pl' ) {
-                    $Interface = Kernel::System::Web::InterfacePublic->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'installer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'migration.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    $Interface = Kernel::GenericInterface::Provider->new();
-                }
-                else {
-
-                    # fallback
-                    warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug => $Debug,
-                    );
-                }
-            }
-
-            # do the work
-            $Interface->Run();
-        }
-    );
-};
-
-# Port of rpc.pl
-# See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
-# TODO: this is not tested yet.
-# TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $Soap = SOAP::Transport::HTTP::Plack->new();
-
-my $RPCApp = builder {
-
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # OTOBO_RUNS_UNDER_PSGI is a signal that PSGI is used
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
-
-    sub {
-        my $Env = shift;
-
-        return $Soap->dispatch_to(
-            'OTOBO::RPC'
-        )->handler( Plack::Request->new($Env) );
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceInstaller',
+        )->to_app;
     };
+
+    mount '/migration.pl' => builder {
+
+        # check the SecureMode
+        # Alternatively we could use Plack::Middleware::Access, but that modules is not available as a Debian package
+        enable 'OTOBO::SecureModeAccessFilter',
+            rules => [
+                deny => 'securemode_is_on',
+            ];
+
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceMigrateFromOTRS',
+        )->to_app;
+    };
+
+    mount '/nph-genericinterface.pl' => Kernel::System::Web::App->new(
+        Interface => 'Kernel::GenericInterface::Provider',
+    )->to_app;
+
+    # the following interfaces can be deactivated in the SysConfig
+    mount '/customer.pl' => $CheckCustomerInterfaceApp;
+    mount '/public.pl'   => $CheckPublicInterfaceApp;
+
+    # redirect to Frontend::DefaultInterface when in doubt
+    mount '/' => $RedirectOtoboApp;
 };
 
 ################################################################################
@@ -635,6 +634,11 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
+    # users can overwrite the 404 page
+    # note that 404 below /otobo/ already redirects to Frontend::DefaultInterface
+    enable "Plack::Middleware::ErrorDocument",
+        404 => "$Home/var/httpd/htdocs/404.html";
+
     # fiddling with slashes
     enable $MergeSlashesMiddleware;
     enable $ExactlyRootMiddleware;
@@ -642,33 +646,31 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
+    # directory listing for the nytprof directory
+    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
+
     # Server the static assets in var/httpd/htdocs.
-    mount '/otobo-web' => $StaticApp;
+    mount '/otobo-web' => $HtdocsApp;
 
     # Alternative mounts are also possible.
     # Note that Frontend::WebPath needs to be adapted when the path is changed.
-    #mount '/otobo/assets' => $StaticApp;
+    #mount '/otobo/assets' => $HtdocsApp;
 
-    # the most basic App
-    mount '/hello' => $HelloApp;
+    # uncomment for trouble shooting
+    #mount '/hello'          => $HelloApp;
+    #mount '/dump_env'       => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/customer.pl'             => $OTOBOApp;
-    mount '/otobo/index.pl'                => $OTOBOApp;
-    mount '/otobo/installer.pl'            => $OTOBOApp;
-    mount '/otobo/migration.pl'            => $OTOBOApp;
-    mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
-    mount '/otobo/public.pl'               => $OTOBOApp;
-
-    # some SOAP stuff
-    mount '/otobo/rpc.pl' => $RPCApp;
+    mount '/otobo' => $OTOBOApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt" )->to_app();
-    mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
+    mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
+    mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
+    mount "/health"     => Plack::App::File->new( file => "$Home/var/httpd/htdocs/health" )->to_app;
+
+    # otherwise an error 404 it thrown, which is handled by Plack::Middleware::ErrorDocument
 };
 
-# for debugging, only dump the PSGI environment
+# enable for debugging: dump debugging info, including the PSGI environment, for any request
 #$DumpEnvApp;

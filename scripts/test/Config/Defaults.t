@@ -14,19 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+use List::AllUtils qw(none);
 
-our $Self;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-use Kernel::Config::Files::ZZZAAuto;
-
-=head1 SYNOPSIS
+=head1 DESCRIPTION
 
 This test verifies that the settings defined in Defaults.pm match those in ZZZAAuto.pm (XML default config cache).
 
@@ -36,8 +38,7 @@ settings and cause unexpected test failures.
 =cut
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # Checksum file content as an array ref.
 my $ChecksumFileArrayRef = $MainObject->FileRead(
@@ -59,22 +60,24 @@ my @ConfigFiles = $MainObject->DirectoryRead(
     Filter    => '*.xml',
 );
 
+# Skip test when there non-standard XML files in the directory
 for my $ConfigFile (@ConfigFiles) {
 
     $ConfigFile =~ s{^${Home}/(.*/[^/]+.xml)$}{$1}xmsg;
 
-    if ( !grep { $_ =~ $ConfigFile } @{$ChecksumFileArrayRef} ) {
+    # This check also works for Kernel/Config/Files/XML/DockerConfig.xml
+    # as in Docker builds the DockerConfig,xml.dist is copied before ARCHIVE is generated.
+    if ( none { $_ =~ $ConfigFile } $ChecksumFileArrayRef->@* ) {
         skip_all("Custom configuration file found ($ConfigFile), skipping test...");
     }
 }
 
-my $DefaultConfig = {};
-bless $DefaultConfig, 'Kernel::Config::Defaults';
+my $DefaultConfig = bless {}, 'Kernel::Config::Defaults';
 $DefaultConfig->Kernel::Config::Defaults::LoadDefaults();
 
-my $ZZZAAutoConfig = {};
-bless $ZZZAAutoConfig, 'Kernel::Config::Files::ZZZAAuto';
-Kernel::Config::Files::ZZZAAuto->Load($ZZZAAutoConfig);
+# Kernel::Config::Files::ZZZAAuto should be available as a Kernel::Config object had been created.
+my $ZZZAAutoConfig = bless {}, 'Kernel::Config::Files::ZZZAAuto';
+$ZZZAAutoConfig->Load($ZZZAAutoConfig);
 
 # These entries are hashes
 my %CheckSubEntries = (
@@ -158,7 +161,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
                         Default => 1,
                     );
 
-                    $Self->IsDeeply(
+                    is(
                         \$DefaultConfigSetting->{$DefaultConfigSubEntryElement},
                         \$Setting{EffectiveValue},
                         "$DefaultConfigEntry->$DefaultConfigSubEntry->$DefaultConfigSubEntryElement must be the same in Defaults.pm and setting default value",
@@ -172,7 +175,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
                     Default => 1,
                 );
 
-                $Self->IsDeeply(
+                is(
                     \$DefaultConfigSetting,
                     \$Setting{EffectiveValue},
                     "$DefaultConfigEntry->$DefaultConfigSubEntry must be the same in Defaults.pm and setting default value",
@@ -187,7 +190,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
             Default => 1,
         );
 
-        $Self->IsDeeply(
+        is(
             \$DefaultConfig->{$DefaultConfigEntry},
             \$Setting{EffectiveValue},
             "$DefaultConfigEntry must be the same in Defaults.pm and and setting default value",
@@ -195,4 +198,4 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
     }
 }
 
-$Self->DoneTesting();
+done_testing;

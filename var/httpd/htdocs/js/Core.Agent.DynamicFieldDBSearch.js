@@ -49,25 +49,34 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @private
      * @param {string} Field name of the DF
      * @param {string} TicketID
+     * @param {string} FieldID id of the DF
      * @description Open the detailed search screen
      */
-    function OpenDetailedSearchDialog(Field, TicketID) {
+    function OpenDetailedSearchDialog(Field, TicketID, FieldID) {
 
         // declare variables
         var SearchIFrameURL,
             SearchIFrame,
             FrontendInterface;
 
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + FieldID).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) {
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+        }
+        else {
+            ActivityDialogID = '';
+        }
+
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
             FrontendInterface = 'CustomerDynamicFieldDBDetailedSearch';
-            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field;
+            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';DynamicFieldID=' + FieldID + ';ActivityDialogID=' + ActivityDialogID;
             SearchIFrameURL += SerializeData(Core.App.GetSessionInformation());
             SearchIFrame = '<iframe width="700px" height="500px" class="TextOption Customer" src="' + SearchIFrameURL + '"></iframe>';
         }
         else {
             FrontendInterface = 'AgentDynamicFieldDBDetailedSearch';
-            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';TicketID=' + TicketID;
+            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';DynamicFieldID=' + FieldID + ';TicketID=' + TicketID;
             SearchIFrameURL += SerializeData(Core.App.GetSessionInformation());
             SearchIFrame = '<iframe class="TextOption Customer" src="' + SearchIFrameURL + '"></iframe>';
         }
@@ -90,10 +99,18 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             SearchIFrame,
             FrontendInterface;
 
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) {
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+        }
+        else {
+            ActivityDialogID = '';
+        }
+
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
             FrontendInterface = 'CustomerDynamicFieldDBDetails';
-            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';ID=' + IdentifierKey;
+            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';ID=' + IdentifierKey + ';ActivityDialogID=' + ActivityDialogID;
             SearchIFrameURL += SerializeData(Core.App.GetSessionInformation());
             SearchIFrame = '<iframe width="700px" height="500px" class="TextOption Customer" src="' + SearchIFrameURL + '"></iframe>';
         }
@@ -118,8 +135,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         function InitDynamicFields($Context) {
             var ActiveAutoComplete = Core.Config.Get('ActiveAutoComplete');
 
-            $('.DynamicFieldDB[type="text"]', $Context).each(function () {
-                TargetNS.InitElement($(this).attr('id'), ActiveAutoComplete);
+            $('.FieldCell > .Field > .DynamicFieldDB[type="text"]', $Context).each(function () {
+                TargetNS.InitElement($(this).closest('.Field').find('.DynamicFieldDB[name]').attr('name'), ActiveAutoComplete, $(this).attr('id'));
             });
         }
 
@@ -138,7 +155,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         // change the position of the label for DB fields
         if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
-            $('fieldset > .Row').each( function() {
+            $('fieldset > .Row > .FieldCell').each( function() {
                 var $DBField = $('.Field > input.DynamicFieldDB', $(this)).first();
 
                 if ( $DBField.length ) {
@@ -156,9 +173,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @function
      * @param {String} DynamicFieldName to be used
      * @param {Boolean} ActiveAutoComplete Set to false, if autocomplete should only be started by click on a button next to the input field
+     * @param {String} DynamicFieldID to be used
      * @description This function initialize dynamic field database search
      */
-    TargetNS.InitElement = function(DynamicFieldName, ActiveAutoComplete) {
+    TargetNS.InitElement = function(DynamicFieldName, ActiveAutoComplete, DynamicFieldID) {
         var $Element,
             Value,
             FrontendInterface,
@@ -177,6 +195,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             IgnoreList,
             QueryString;
 
+        if ( !DynamicFieldID ) {
+            DynamicFieldID = DynamicFieldName;
+        }
+
         if (ActiveAutoComplete == undefined || DynamicFieldName == undefined) {
             return;
         }
@@ -187,13 +209,22 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             return;
         }
 
-        $Element = $('#' + Core.App.EscapeSelector(DynamicFieldName))
+        $Element = $('#' + Core.App.EscapeSelector(DynamicFieldID));
 
         if ($Element.length == 0) {
             return;
         }
 
         if(isJQueryObject($Element)) {
+
+            // check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
+            var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $Element.closest('form')).val();
+            if (typeof ActivityDialogID !== 'undefined') {
+                ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+            }
+            else {
+                ActivityDialogID = '';
+            }
 
             // Get the ticket id.
             /TicketID=(\d+)/.exec(document.URL);
@@ -208,8 +239,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             });
 
             // Register event for the detailed search dialog
-            $('#DynamicFieldDBDetailedSearch_' + DynamicFieldName).on('click', function () {
-                OpenDetailedSearchDialog($(this).attr('field'), TicketID);
+            $('#DynamicFieldDBDetailedSearch_' + DynamicFieldID).on('click', function () {
+                OpenDetailedSearchDialog($(this).closest('.Field').find('.DynamicFieldDB[name]').attr('name'), TicketID, $(this).attr('field'));
                 return false;
             });
 
@@ -265,6 +296,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";Term="+encodeURIComponent(Request.term);
                     QueryString += ";MaxResults="+Core.Config.Get('Autocomplete.MaxResultsDisplayed');
                     QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
+                    QueryString += ";ActivityDialogID="+encodeURIComponent(ActivityDialogID);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
 
                     URL = Core.Config.Get('Baselink');
@@ -324,7 +356,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     IdentifierValue = UI.item.value;
                     ObjectID = $(this).attr('id');
 
-                    Core.Agent.DynamicFieldDBSearch.AddResultElement(ObjectID, IdentifierValue, IdentifierKey);
+                    var DoFormUpdate = true;
+                    Core.Agent.DynamicFieldDBSearch.AddResultElement(ObjectID, IdentifierValue, IdentifierKey, false, DynamicFieldName, DoFormUpdate);
 
                     Event.preventDefault();
                     return false;
@@ -332,13 +365,13 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             });
 
             // check if we already have values and restore the selection
-            FieldValue = $('#' + DynamicFieldName + 'Data').val();
+            FieldValue = $('#' + DynamicFieldID + 'Data').val();
             if (FieldValue) {
 
                 FieldIdentifiers = FieldValue.split(',');
 
                 // clear the value field
-                $('#' + DynamicFieldName + 'Data').val('');
+                $('#' + DynamicFieldID + 'Data').val('');
 
                 $.each(FieldIdentifiers, function() {
 
@@ -350,6 +383,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     Data = {
                         Action: FrontendInterface,
                         DynamicFieldName: DynamicFieldName,
+                        ActivityDialogID: ActivityDialogID,
                         Search: DynamicFieldName + 'Restore' + this,
                         Identifier: this,
                         TicketID: TicketID
@@ -393,7 +427,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                                 Label = Label.substring(0, Label.length - 2);
 
                                 // restore the selection
-                                TargetNS.AddResultElement(DynamicFieldName, Label, Key);
+                                TargetNS.AddResultElement(DynamicFieldID, Label, Key, false, DynamicFieldName);
                             });
                         }
 
@@ -410,10 +444,15 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} ElementValue The result element value.
      * @param {String} IdentifierKey The result element identifier key.
      * @param {Boolean} Focus The parameter for focus element.
+     * @param {String} FieldName The DynamicField field name.
      * @description This function add a result element entry
      * @returns {boolean}
      */
-    TargetNS.AddResultElement = function (Field, ElementValue, IdentifierKey, Focus) {
+    TargetNS.AddResultElement = function (Field, ElementValue, IdentifierKey, Focus, FieldName, DoFormUpdate) {
+
+        if ( !FieldName ) {
+            FieldName = Field;
+        }
 
         var IsDuplicated = false;
 
@@ -426,7 +465,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             var ElementChunks = $(this).attr('id').split('_');
 
-            if (ElementChunks[1] === IdentifierKey) {
+            if (ElementChunks[1] == IdentifierKey) {
                 IsDuplicated = true;
             }
         });
@@ -436,7 +475,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         }
 
         // check if multiple entries are allowed
-        TargetNS.CheckMultiselect(Field, ElementValue, IdentifierKey, Focus);
+        TargetNS.CheckMultiselect(Field, ElementValue, IdentifierKey, Focus, FieldName, DoFormUpdate);
 
         return false;
     };
@@ -449,13 +488,18 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} IdentifierKey The result element identifier key.
      * @param {String} SelectAllowed True if (multi)select is allowed.
      * @param {Boolean} Focus The parameter for focus element.
+     * @param {String} FieldName The dynamic field name
      * @description This function add a result element entry
      * @returns {boolean}
      */
-    TargetNS.AddResultElementAction = function (Field, ElementValue, IdentifierKey, SelectAllowed, Focus) {
+    TargetNS.AddResultElementAction = function (Field, ElementValue, IdentifierKey, SelectAllowed, Focus, FieldName, DoFormUpdate) {
+
+        if ( !FieldName ) {
+            FieldName = Field;
+        }
 
         // clone database result entry
-        var $Clone = $('.ResultElementTemplate' + Field).clone(),
+        var $Clone = $('#' + Field + ' ~ div.Field > .ResultElementTemplate' + Field).clone(),
             Suffix,
             DataInputValue,
             ID;
@@ -468,7 +512,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         Suffix = '_' + IdentifierKey;
 
         // remove unnecessary classes
-        $Clone.removeClass('Hidden ResultElementTemplate' + Field);
+        $Clone.removeClass('Hidden ResultElementTemplate' + FieldName);
 
         // copy values and change ids and names
         $Clone.find(':input').each(function(){
@@ -477,6 +521,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             $(this).attr('id', ID + Suffix);
             $(this).val(ElementValue);
+            $(this).attr('title', ElementValue);
         });
 
         // bind a click event on the details link
@@ -499,7 +544,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             else {
                 // Register event for the filter dialog
                 $(this).on('click', function () {
-                    OpenDetailsDialog($(this).attr('field'), IdentifierKey);
+                    OpenDetailsDialog($(this).closest('.FieldCell').find('[name]').attr('name'), IdentifierKey);
                     return false;
                 });
             }
@@ -542,6 +587,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             $('#' + Field).val('');
         }
 
+        if ( DoFormUpdate ) {
+            Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', FieldName );
+        }
+
         return false;
     };
 
@@ -552,9 +601,14 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} ElementValue The result element value.
      * @param {String} IdentifierKey The ID of the DF
      * @param {Boolean} Focus The parameter for focus element.
+     * @param {String} FieldName Name of the element
      * @description This function shows an alert dialog for duplicated entries.
      */
-    TargetNS.CheckMultiselect = function(Field, ElementValue, IdentifierKey, Focus){
+    TargetNS.CheckMultiselect = function(Field, ElementValue, IdentifierKey, Focus, FieldName, DoFormUpdate) {
+
+        if ( !FieldName ) {
+            FieldName = Field;
+        }
 
         // declare variables
         var FrontendInterface,
@@ -569,11 +623,25 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             FrontendInterface = 'AgentDynamicFieldDBSearch';
         }
 
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) {
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+        }
+        else {
+            ActivityDialogID = '';
+        }
+
+        var FieldID = Field;
+        var IndexOfActivityDialogID = Field.indexOf('_' + ActivityDialogID);
+        if ( ActivityDialogID != '' && IndexOfActivityDialogID > 0 ) {
+            FieldName = Field.substr(0, IndexOfActivityDialogID);
+        }
+
         URL = Core.Config.Get('Baselink');
         Data = {
             Action: FrontendInterface,
             Subaction: 'AJAXGetDynamicFieldConfig',
-            DynamicFieldName: Field
+            DynamicFieldName: FieldName
         };
 
         Core.AJAX.FunctionCall(URL, Data, function (Response) {
@@ -583,7 +651,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                 Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
             }
             else {
-                TargetNS.AddResultElementAction(Field, ElementValue, IdentifierKey, Response[0].Multiselect, Focus);
+                TargetNS.AddResultElementAction(FieldID, ElementValue, IdentifierKey, Response[0].Multiselect, Focus, FieldName, DoFormUpdate);
                 return true;
             }
 
@@ -617,7 +685,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         else {
             $.each(DataInputValueChunks, function(Index, Value) {
 
-                if (Value !== RemoveValue) {
+                if (Value != RemoveValue) {
                     DataInputValueNew = DataInputValueNew + Value + ',';
                 }
             });

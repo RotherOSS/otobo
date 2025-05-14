@@ -64,10 +64,12 @@ sub Run {
     my %UploadStuff = $Kernel::OM->Get('Kernel::System::Web::Request')->GetUploadAll(
         Param => 'UserPGPKey',
     );
-    return 1 if !$UploadStuff{Content};
+
+    return 1 unless $UploadStuff{Content};
 
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
-    return 1 if !$PGPObject;
+
+    return 1 unless $PGPObject;
 
     my $Message = $PGPObject->KeyAdd( Key => $UploadStuff{Content} );
     if ( !$Message ) {
@@ -75,40 +77,42 @@ sub Run {
             Type => 'Error',
             What => 'Message',
         );
+
         return;
     }
-    else {
-        if ( $Message =~ /gpg: key (.*):/ ) {
-            my @Result = $PGPObject->PublicKeySearch( Search => $1 );
-            if ( $Result[0] ) {
-                $UploadStuff{Filename} = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
-            }
+
+    my ( $PGPKeyID, $Filename );
+    if ( ($PGPKeyID) = $Message =~ m/gpg: key (.*):/ ) {
+        my ($Result) = $PGPObject->PublicKeySearch( Search => $PGPKeyID );
+        if ($Result) {
+            $Filename = "$Result->{Identifier}-$Result->{Bit}-$Result->{Key}.$Result->{Type}";
         }
-
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Param{UserData}->{UserID},
-            Key    => 'PGPKeyID',                   # new parameter PGPKeyID
-            Value  => $1,                           # write KeyID on a per user base
-        );
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Param{UserData}->{UserID},
-            Key    => 'PGPFilename',
-            Value  => $UploadStuff{Filename},
-        );
-
-        #        $Self->{UserObject}->SetPreferences(
-        #            UserID => $Param{UserData}->{UserID},
-        #            Key => 'UserPGPKey',
-        #            Value => $UploadStuff{Content},
-        #        );
-        #        $Self->{UserObject}->SetPreferences(
-        #            UserID => $Param{UserData}->{UserID},
-        #            Key => "PGPContentType",
-        #            Value => $UploadStuff{ContentType},
-        #        );
-        $Self->{Message} = $Message;
-        return 1;
     }
+
+    $Self->{UserObject}->SetPreferences(
+        UserID => $Param{UserData}->{UserID},
+        Key    => 'PGPKeyID',                   # new parameter PGPKeyID
+        Value  => $PGPKeyID,                    # write KeyID on a per user base, might be undefined
+    );
+    $Self->{UserObject}->SetPreferences(
+        UserID => $Param{UserData}->{UserID},
+        Key    => 'PGPFilename',
+        Value  => $Filename,                    # might be undefined
+    );
+
+    #        $Self->{UserObject}->SetPreferences(
+    #            UserID => $Param{UserData}->{UserID},
+    #            Key => 'UserPGPKey',
+    #            Value => $UploadStuff{Content},
+    #        );
+    #        $Self->{UserObject}->SetPreferences(
+    #            UserID => $Param{UserData}->{UserID},
+    #            Key => "PGPContentType",
+    #            Value => $UploadStuff{ContentType},
+    #        );
+    $Self->{Message} = $Message;
+
+    return 1;
 }
 
 sub Download {

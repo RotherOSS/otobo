@@ -15,24 +15,15 @@
 # --
 ## nofilter(TidyAll::Plugin::OTOBO::TT::Format)
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
-                    </fieldset>
-                </div>
+        </fieldset>
 [% RenderBlockStart("Footer") %]
-                <div class="PopupFooter">
-                    <button class="Primary" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
+        <div class="ActionRow">
 [% RenderBlockStart("SubmitAdviceText") %]
-                    <span class="AdviceText">[% Translate(Data.AdviceText) | html %]</span>
+            <p class="AdviceText">[% Translate(Data.AdviceText) | html %]</p>
 [% RenderBlockEnd("SubmitAdviceText") %]
-                </div>
+            <button class="oooXS CloseButton">[% Translate("Discard") | html %]</button><!--
+            --><button class="Primary oooXS" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
+        </div>
 [% RenderBlockEnd("Footer") %]
-            </div>
-        </form>
     </div>
-</div>
-
-[% RenderBlockStart("FooterJS") %]
-<script type="text/javascript">
-[% PROCESS JSDataInsert %]
-[% PROCESS JSOnDocumentCompleteInsert %]
-</script>
-[% RenderBlockEnd("FooterJS") %]
+</form>

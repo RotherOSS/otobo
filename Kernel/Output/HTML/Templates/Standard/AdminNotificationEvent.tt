@@ -38,6 +38,17 @@
 
     <div class="Clear"></div>
     <div class="SidebarColumn">
+[% RenderBlockStart("IncludeInvalid") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Filter by valid state") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid notifications") | html %]" [% Data.IncludeInvalidChecked | html %]/>
+                <label for="IncludeInvalid">[% Translate("Include invalid notifications") | html %]</label>
+            </div>
+        </div>
+[% RenderBlockEnd("IncludeInvalid") %]
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
             <div class="Header">
@@ -144,6 +155,7 @@
                             <td>[% Translate(Data.Valid) | html %]</td>
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                            [% IF Data.Permission != 'ro' %]
                             <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i><span class="InvisibleText">[% Translate("Export") | html %]</span></a></td>
                             <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i><span class="InvisibleText">[% Translate("Copy") | html %]</span></a></td>
                             <td class="Center">
@@ -151,6 +163,11 @@
                                     <i class="fa fa-trash-o"></i>
                                 </a>
                             </td>
+                            [% ELSE %]
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            [% END %]
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
                         <tr class="FilterMessage Hidden">
@@ -287,11 +304,24 @@
                         </div>
                         <div class="Clear"></div>
 
+                        [% IF Data.LightAdmin %]
+                        <label for="QueueID" class="Mandatory">
+                            <span class="Marker">*</span>[% Translate("Queue") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.QueuesStrg %]
+                            <div id="QueueIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                        [% ELSE %]
                         <label for="QueueID">[% Translate("Queue") | html %]: </label>
                         <div class="Field">
                             [% Data.QueuesStrg %]
                         </div>
                         <div class="Clear"></div>
+                        [% END %]
 
                         <label for="LockID">[% Translate("Lock") | html %]: </label>
                         <div class="Field">
@@ -437,6 +467,12 @@
                         <div class="Field">
                             <input type="checkbox" name="SendOnOutOfOffice" id="SendOnOutOfOffice" value="1" [% Data.SendOnOutOfOfficeChecked %] />
                             [% Translate("Also send if the user is currently out of office.") | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="CalendarFilter">[% Translate("Calendar") | html %]: </label>
+                        <div class="Field">
+                            [% Data.CalendarFilterStrg %]
                         </div>
                         <div class="Clear"></div>
 
@@ -656,7 +692,7 @@
                     </div>
                 </div>
             </div>
-
+        [% IF Data.Permission != 'ro' %]
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <h2>[% Translate("Save Changes") | html %]</h2>
@@ -681,7 +717,7 @@
                     </fieldset>
                 </div>
             </div>
-
+        [% END %]
         </form>
 
         <div class="WidgetSimple SpacingTop Collapsed">

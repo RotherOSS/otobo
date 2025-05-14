@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Operation;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsStringWithData);
+# core modules
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -67,8 +69,7 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed objects.
     for my $Needed (qw(DebuggerObject Operation OperationType WebserviceID)) {
@@ -93,6 +94,7 @@ sub new {
 
     # Load backend module.
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
 
         return $Self->{DebuggerObject}->Error(

@@ -21,9 +21,13 @@ use warnings;
 
 use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use Storable qw(dclone);
 
-use Storable;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -92,7 +96,8 @@ sub Run {
         NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
         %Param,
     );
-    return if !$CheckResult;
+
+    return unless $CheckResult;
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
@@ -102,9 +107,10 @@ sub Run {
         WebserviceID      => $Param{Data}->{WebserviceID},
         Invoker           => $Param{Data}->{Invoker},
         Asynchronous      => 1,
-        Data              => Storable::dclone( $Param{Data}->{Data} ),
+        Data              => dclone( $Param{Data}->{Data} ),
         PastExecutionData => $Param{Data}->{PastExecutionData},
     );
+
     return 1 if $Result->{Success};
 
     my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(

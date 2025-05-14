@@ -16,7 +16,7 @@ package Kernel::System::Console::Command::Znuny4OTOBO::DefaultColumnsScreen::Add
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::Console::BaseCommand);
+use parent                        qw(Kernel::System::Console::BaseCommand);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -71,8 +71,6 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 

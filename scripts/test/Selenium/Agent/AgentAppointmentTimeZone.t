@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
@@ -185,14 +185,13 @@ $Selenium->RunTest(
         my $StartDate = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
 
         # Check start time.
-        $StartDate =~ /(\d{2}:\d{2}:\d{2})$/;
-        my $StartTime = $1;
+        my ($StartTime) = $StartDate =~ m/(\d{2}:\d{2}:\d{2})$/;
         is(
             $StartTime,
             sprintf(
                 '%02d:%02d:00',
-                $DateTimeObject->Get()->{Hour},
-                $DateTimeObject->Get()->{Minute}
+                $DateTimeObject->Get->{Hour},
+                $DateTimeObject->Get->{Minute}
             ),
             'Start time in local time'
         );
@@ -231,14 +230,13 @@ $Selenium->RunTest(
         );
 
         # Check start time again.
-        $StartDateTZ =~ /(\d{2}:\d{2}:\d{2}\s\(.*?\))$/;
-        my $StartTimeTZ = $1;
+        my ($StartTimeTZ) = $StartDateTZ =~ m/(\d{2}:\d{2}:\d{2}\s\(.*?\))$/;
         is(
             $StartTimeTZ,
             sprintf(
                 '%02d:%02d:00 (%s)',
-                $DateTimeObject->Get()->{Hour},
-                $DateTimeObject->Get()->{Minute},
+                $DateTimeObject->Get->{Hour},
+                $DateTimeObject->Get->{Minute},
                 $UserTimeZone
             ),
             "Start time in user's time zone"

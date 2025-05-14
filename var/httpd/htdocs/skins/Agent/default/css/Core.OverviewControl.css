@@ -28,12 +28,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .OverviewControl {
-    background-color: #FFF;
+    background-color: var(--colElement);
 }
 
 .OverviewControl > div {
     padding: 0 16px 0 8px;
-    background: #f7f7f9;
+    background: var(--colBGLight);
 }
 
 .RTL .OverviewControl > div {
@@ -63,21 +63,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: center;
     margin-top: 5px;
     vertical-align: middle;
-    background: #ccc;
-    color: #333;
+    background: var(--colBGDark);
+    color: var(--colTextMedium);
 }
 
 .OverviewZoom .Active a,
 .OverviewZoom .Active a:hover {
-    background: #5D5D5D;
+    background: var(--colTextMedium);
     color: #fff;
 }
 
 .OverviewZoom a:hover {
     border-bottom: 0px !important;
     padding-bottom: 0px !important;
-    background: #BBBBBB;
-    color: #333;
+    background: var(--colBGDark);
+    color: var(--colTextMedium);
 }
 
 .OverviewZoom + .Pagination {
@@ -117,7 +117,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 16px;
     margin-left: 10px;
     margin-top: 3px;
-    background-color: #999;
+    background-color: var(--colBGDark);
 }
 
 .RTL .OverviewHeaderMediumLarge div.IconContainer span.Flag {

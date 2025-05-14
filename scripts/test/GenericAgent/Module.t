@@ -24,9 +24,8 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
-my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject                 = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject                = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $InternalArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
@@ -40,8 +39,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my %Jobs;
 
 # create a Ticket to test JobRun and JobRunTicket
 my $TicketID = $TicketObject->TicketCreate(

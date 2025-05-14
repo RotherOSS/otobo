@@ -14,10 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
-[%- INCLUDE "HTTPHeaders.tt" -%]
-# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
-X-OTOBO-Login: [% Env("Baselink") %]
-
 <!DOCTYPE html>
 <html>
 [% InsertTemplate("Copyright.tt") %]
@@ -84,7 +80,7 @@ X-OTOBO-Login: [% Env("Baselink") %]
 
 </head>
 <!-- end header -->
-<body class="[% Data.BodyClass | html %] LoginScreen">
+<body class="[% Data.BodyClass | html %] LoginScreen" style="[% Data.ColorDefinitions | html %]">
     <div id="AppWrapper">
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
@@ -187,7 +183,7 @@ X-OTOBO-Login: [% Env("Baselink") %]
 <!--
 # TODO: Implement
 #                                <div class="Field">
-#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly="readonly" />
+#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly />
 #                                    <label for="Remember">Remember my login on this computer</label>
 #                                </div>
 #                                <div class="Clear"></div>
@@ -224,7 +220,7 @@ X-OTOBO-Login: [% Env("Baselink") %]
                                         [% Translate("Username") | html %]:
                                 </label>
                                 <div>
-                                    <input placeholder="[% Translate("Username") | html %]" type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
+                                    <input placeholder="[% Translate("Username") | html %]" type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly/>
                                     <div id="PasswordUserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>

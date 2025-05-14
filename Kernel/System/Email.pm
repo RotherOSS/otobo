@@ -15,16 +15,21 @@
 # --
 
 package Kernel::System::Email;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;
 use strict;
 use warnings;
 
-use Mail::Address;
-use MIME::Entity;
-use MIME::Parser;
-use MIME::Words;
+# core modules
 
+# CPAN modules
+use Mail::Address  ();
+use Mail::Internet ();
+use MIME::Entity   ();
+use MIME::Parser   ();
+use MIME::Words    qw(encode_mimewords);
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -60,8 +65,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -299,11 +303,6 @@ sub Send {
     # Check from
     if ( !$Param{From} ) {
         $Param{From} = $ConfigObject->Get('AdminEmail') || 'otobo@localhost';
-    }
-
-    # Replace all <br/> tags with <br /> tags (with a space) to show newlines in Lotus Notes.
-    if ( $Param{MimeType} && lc $Param{MimeType} eq 'text/html' ) {
-        $Param{Body} =~ s{\Q<br/>\E}{<br />}xmsgi;
     }
 
     # Map ReplyTo into Reply-To if present.
@@ -566,6 +565,7 @@ sub Send {
             );
 
             my $Parser = MIME::Parser->new();
+            $Parser->output_to_core('ALL');
 
             $Parser->output_dir( $ConfigObject->Get('TempDir') );
             $Entity = $Parser->parse_data( $Header . $EncryptedMessage );
@@ -732,9 +732,9 @@ sub SendExecute {
     }
 
     # Normalize 'To', always use an arrayref.
-    my $To = $Param{'To'};
-    if ( !( ref $To ) ) {
-        $To = [ split( ',', $To, ) ];
+    my $To = $Param{To};
+    if ( !ref $To ) {
+        $To = [ split /,/, $To ];
     }
 
     my $LogMessage = sprintf(
@@ -790,17 +790,14 @@ Check mail configuration
 
     my %Check = $SendObject->Check();
 
-Note that this methods can only be used for backends that do not require additional parameters in the C<Check()> method.
-See L<https://github.com/znuny/Znuny/pull/26>.
-
 =cut
 
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    my %Check = $Self->{Backend}->Check();
+    my %Check = $Self->{Backend}->Check(%Param);
 
-    if ( $Check{Successful} ) {
+    if ( $Check{Success} ) {
         return ( Successful => 1 );
     }
     else {
@@ -995,7 +992,7 @@ sub _EncodeMIMEWords {
     # return if no content is given
     return '' if !defined $Param{Line};
 
-    return MIME::Words::encode_mimewords(
+    return encode_mimewords(
         Encode::encode(
             $Param{Charset},
             $Param{Line},
@@ -1027,11 +1024,11 @@ sub _CreateMimeEntity {
 
     my $DefaultHeaders = $ConfigObject->Get('Sendmail::DefaultHeaders') || {};
     if ( IsHashRefWithData($DefaultHeaders) ) {
-        %Header = %{$DefaultHeaders};
+        %Header = $DefaultHeaders->%*;
     }
 
     if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
-        for my $HeaderName ( sort keys %{ $Param{CustomHeaders} } ) {
+        for my $HeaderName ( keys $Param{CustomHeaders}->%* ) {
             $Header{$HeaderName} = $Param{CustomHeaders}->{$HeaderName};
         }
     }
@@ -1039,10 +1036,11 @@ sub _CreateMimeEntity {
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject Charset Reply-To)) {
         next ATTRIBUTE if !$Param{$Attribute};
+
         $Header{$Attribute} = $Param{$Attribute};
     }
 
-    # Check look param/
+    # Check loop parameter
     if ( $Param{Loop} ) {
         $Header{'X-Loop'}          = 'yes';
         $Header{'Precedence:'}     = 'bulk';
@@ -1052,7 +1050,8 @@ sub _CreateMimeEntity {
     # Do some encodings.
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject)) {
-        next ATTRIBUTE if !$Header{$Attribute};
+        next ATTRIBUTE unless $Header{$Attribute};
+
         $Header{$Attribute} = $Self->_EncodeMIMEWords(
             Field   => $Attribute,
             Line    => $Header{$Attribute},
@@ -1060,37 +1059,31 @@ sub _CreateMimeEntity {
         );
     }
 
-    # Check if it's html, add text attachment.
+    # For HTML mails create a plain text version of the body.
+    # Put both, the HTML version and the plaintext version into a multipart/alternative.
     my $HTMLEmail = 0;
     if ( $Param{MimeType} && $Param{MimeType} =~ /html/i ) {
         $HTMLEmail = 1;
 
-        # Add html as first attachment.
-        my $Attach = {
-            Content     => $Param{Body},
-            ContentType => "text/html; charset=\"$Param{Charset}\"",
-            Filename    => '',
-        };
-        if ( !$Param{Attachment} ) {
-            @{ $Param{Attachment} } = ($Attach);
-        }
-        else {
-            @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
-        }
+        # Add HTML as first attachment.
+        $Param{Attachment} //= [];
+        unshift
+            $Param{Attachment}->@*,
+            {
+                Content     => $Param{Body},
+                ContentType => qq{text/html; charset="$Param{Charset}"},
+                Filename    => '',
+            };
 
         # Remember html body for later comparison.
         $Param{HTMLBody} = $Param{Body};
 
-        # Add ASCII body.
+        # Strip the HTML from the HTML mail.
         $Param{MimeType} = 'text/plain';
         $Param{Body}     = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
             String => $Param{Body},
         );
-
     }
-
-    my $Product = $ConfigObject->Get('Product');
-    my $Version = $ConfigObject->Get('Version');
 
     if ( $ConfigObject->Get('Secure::DisableBanner') ) {
 
@@ -1099,22 +1092,23 @@ sub _CreateMimeEntity {
         $Header{'X-Mailer'} = undef;
     }
     else {
+        my $Product = $ConfigObject->Get('Product');
+        my $Version = $ConfigObject->Get('Version');
         $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
         $Header{'X-Powered-By'} = 'OTOBO (https://otobo.org/)';
     }
     $Header{Type} = $Param{MimeType} || 'text/plain';
 
     # Define email encoding.
-    if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
+    # First heck if we need to force the encoding.
+    if ( $ConfigObject->Get('SendmailEncodingForce') ) {
+        $Header{Encoding} = $ConfigObject->Get('SendmailEncodingForce');
+    }
+    elsif ( $Param{Charset} && $Param{Charset} =~ m/^iso/i ) {
         $Header{Encoding} = '8bit';
     }
     else {
         $Header{Encoding} = 'quoted-printable';
-    }
-
-    # Check if we need to force the encoding.
-    if ( $ConfigObject->Get('SendmailEncodingForce') ) {
-        $Header{Encoding} = $ConfigObject->Get('SendmailEncodingForce');
     }
 
     # Check and create message id.
@@ -1145,7 +1139,10 @@ sub _CreateMimeEntity {
     # build MIME::Entity, Data should be bytes, not utf-8
     # see http://bugs.otrs.org/show_bug.cgi?id=9832
     $EncodeObject->EncodeOutput( \$Param{Body} );
-    my $Entity = MIME::Entity->build( %Header, Data => $Param{Body} );
+
+    # sort the mail fields just to have reproducible output
+    my @SortedHeaders = map { $_ => $Header{$_} } sort keys %Header;
+    my $Entity        = MIME::Entity->build( @SortedHeaders, Data => $Param{Body} );
 
     # Set In-Reply-To and References header
     my $Header = $Entity->head();
@@ -1154,7 +1151,8 @@ sub _CreateMimeEntity {
     }
     KEY:
     for my $Key ( 'In-Reply-To', 'References' ) {
-        next KEY if !$Param{$Key};
+        next KEY unless $Param{$Key};
+
         $Header->replace( $Key, $Param{$Key} );
     }
 
@@ -1192,7 +1190,7 @@ sub _CreateMimeEntity {
                     # Don't attach duplicate html attachment (aka file-2).
                     next ATTACHMENT if
                         $Upload->{Filename} eq 'file-2'
-                        && $Upload->{ContentType} =~ /html/i
+                        && $Upload->{ContentType} =~ m/html/i
                         && $Upload->{Content} eq $Param{HTMLBody};
 
                     # Skip, but remember all attachments except inline images.

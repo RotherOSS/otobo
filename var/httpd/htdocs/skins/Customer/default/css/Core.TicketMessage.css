@@ -13,7 +13,35 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+@media only screen and (max-width: 500px) {
+    fieldset > .Row.MultiValue {
+        margin-right: calc( 25% - 36px );
+    }
+}
+
 @media only screen and (max-width: 767px) {
+
+    .Row {
+        margin-left: calc( 25% - 76px );
+        margin-right: calc( 25% - 76px );
+    }
+
+    .Row > label {
+        position: relative;
+        left: calc( -100% + 24px );
+    }
+
+    fieldset .Row :not(.oooCheckboxContainer, .oooDateContainer) > label {
+        position: absolute;
+        left: 24px;
+        top: 16px;
+    }
+
+    .oooCheckboxContainer label {
+        position: unset;
+        left: unset;
+        top: unset;
+    }
 
     #oooHeader {
         height: 128px;
@@ -24,6 +52,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-top: 40px;
     }
 
+    div.FieldCell:first-child,
     .Row:first-child {
         margin-top: 0px;
     }
@@ -37,25 +66,62 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         border-radius: 0px;
     }
 
-    .Row > div.Field,
-    .Row > div.InputField_Container,
-    .Row > select,
-    #cke_RichText,
-    #RichText {
-        width: calc( 50% + 150px ) !important;
-        margin-left: calc( 25% - 76px );
+    .FieldCell {
+        position: relative;
     }
 
-    #Subject {
-        width: calc( 50% + 118px ) !important;
-        margin-left: calc( 25% - 76px );
+    fieldset .Field {
+        width: 100%;
     }
 
-    .Row > label,
-    .RichTextHolder > label {
-        left: calc( -50% - 126px );
+    fieldset .Row > input {
+        width: 100%;
+        box-sizing: border-box;
     }
 
+    .AddRemoveValueRow {
+        position: absolute;
+        right: -38px;
+        top: 21px;
+    }
+    
+    /* Grids */
+
+    .Row.MultiColumn div.Field {
+        width: 100% !important;
+        margin-left: 0px;
+    }
+
+    .Row.MultiColumn {
+        column-gap: 12px;
+    }
+
+    .Row.MultiColumn .FieldCell > label,
+    .Row.MultiColumn > label {
+        left: 16px;
+    }
+    
+    .Row.MultiColumn .AddRemoveValueRow {
+        position: absolute;
+        right: -40px;
+        top: 21px;
+    }
+
+    /* Dynamic Field Sets */
+
+
+    .FieldCell .DFSetOuterField + label {
+        top: calc(-100% + 66px);
+    }
+
+    .DynamicFieldSet {
+        padding-top: 40px;
+    }
+
+    .DynamicFieldSet .Row_DynamicField .Field {
+        margin-left: 0px;
+    }
+    
 }
 
 @media only screen and (min-width: 768px) {
@@ -70,6 +136,42 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooHeader > h1 {
         padding-top: 48.5px;
+    }
+
+    .Row_DynamicField {
+        width: 66%;
+        margin-left: 17%;
+        row-gap: 16px;
+        column-gap: 12px;
+    }
+
+    .Row_DynamicField.MultiColumn {
+        width: calc( 66% + 40px );
+    }
+
+    .FieldCell > div.Field,
+    .FieldCell > div.InputField_Container,
+    .FieldCell > select {
+        width: 100%;
+        margin-left: 0;
+        box-sizing: border-box;
+    }
+
+    .Row.MultiColumn .AddRemoveValueRow,
+    .Row.MultiValue .AddRemoveValueRow {
+        position: absolute;
+        left: unset;
+        right: -40px;
+        top: 20px;
+        margin-top: 0px;
+    }
+
+    .AddRemoveValueRow {
+        position: absolute;
+        display: inline;
+        margin-top: 20px;
+        left: calc( 83% - 16px );
+        width: 33px;
     }
 
     .Row > div.Field,
@@ -91,6 +193,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: calc( -66% + 24px );
     }
 
+}
+
+.FieldCell > label {
+    left: 24px;
+    top: 16px;
+    margin-top: 0px !important;
+    position: absolute;
+}
+
+fieldset .FieldCell .oooSelected ~ label,
+fieldset .FieldCell > input:not([readonly]):hover ~ label,
+fieldset .FieldCell textarea.oooFull ~ label,
+fieldset .FieldCell input.oooFull ~ label,
+fieldset .Field:hover:not([class*='RichTextField']) ~ label,
+fieldset .Field.oooFull ~ label,
+fieldset .FieldCell .InputField_Container:hover ~ label,
+fieldset .Field.DFSetOuterField ~ label {
+    top: -6px;
+}
+
+fieldset .FieldCell > input:not([readonly]):focus ~ label,
+fieldset label.oooFocus,
+fieldset .Field ~ label.oooFocus {
+    top: -6px;
+}
+
+fieldset .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
+    color: var(--colMainLight)
+}
+
+.Row.MultiColumn .FieldCell {
+    width: calc(100% - 40px);
 }
 
 .TicketCompose ~ #oooFooter {

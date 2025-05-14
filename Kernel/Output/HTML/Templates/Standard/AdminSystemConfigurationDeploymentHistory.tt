@@ -98,7 +98,7 @@
                             </td>
                             <td class="Center">
                             [% IF Item.DeploymentRestore %]
-                                <a class="DeploymentRestore OTOBOCommunityRequired" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeploymentRestore;DeploymentID=[% Item.DeploymentID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Restore this deployment.") | html %]">
+                                <a class="DeploymentRestore" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeploymentRestore;DeploymentID=[% Item.DeploymentID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Restore this deployment.") | html %]">
                                     <i class="fa fa-undo"></i>
                                     <span class="InvisibleText">[% Translate("Restore") | html %]</span>
                                 </a>

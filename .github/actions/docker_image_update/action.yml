@@ -1,0 +1,82 @@
+%YAML 1.1
+---
+
+# This is a local composite action for building Docker images and pushing them to Docker Hub.
+# This action is ntended to be used by the workflows docker_image_builder_rel.yml and
+# docker_image_builder_devel.yml.
+name: 'DockerImageUpdate'
+
+description: 'Composite action for updating Docker images'
+
+inputs:
+  target:
+    description: |
+      Target in the Dockerfile which will be built.
+    required: true
+  fix_cldr:
+    description: |
+      Whether the CLDR workaround is needed
+    required: true
+
+#outputs:
+
+runs:
+
+  using: 'composite'
+
+  steps:
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      -
+        name: 'check out the relevant OTOBO branch'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.otobo_branch }}
+
+      -
+        # needed for build arg GIT_COMMIT
+        # can't use github.sha here as we need the commit of the checked out branch
+        name: 'get the commit SHA of the current checkout'
+        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
+
+      -
+        # a workaround for a build failure for the 11.0.7 release
+        # see https://github.com/RotherOSS/otobo/issues/4103
+        # can't use github.sha here as we need the commit of the checked out branch
+        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
+        if: ${{ inputs.target == 'otobo-web' && inputs.fix_cldr }}
+        run: |
+          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
+
+      -
+        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
+        # Caching with Github Actions Cache, limited to 10 GB
+        # context: .  indicates that the current checkout is used
+        name: Build
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          pull: true
+          build-args: |
+            BUILD_DATE=${{ env.otobo_build_date }}
+            DOCKER_TAG=${{ env.otobo_docker_tag }}
+            GIT_REPO=${{ github.repositoryUrl }}
+            GIT_BRANCH=${{ env.otobo_branch }}
+            GIT_COMMIT=${{ env.otobo_commit }}
+          target: ${{ inputs.target }}
+          tags: ${{ env.otobo_ref }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      -
+        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
+        name: Info
+        if: inputs.target == 'otobo-web' }}
+        run: |
+          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
+

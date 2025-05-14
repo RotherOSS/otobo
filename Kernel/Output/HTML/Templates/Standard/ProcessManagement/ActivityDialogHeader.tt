@@ -67,6 +67,7 @@
             <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
             <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
             <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+            <input type="hidden" name="ActivityEntityID" value="[% Data.ActivityEntityID | html %]"/>
             <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
             <input type="hidden" name="IsMainWindow" id="IsMainWindow" value="[% Data.IsMainWindow | html %]"/>
             <input type="hidden" name="IsProcessEnroll" id="IsProcessEnroll" value="[% Data.IsProcessEnroll | html %]"/>
@@ -102,3 +103,9 @@
 [% RenderBlockEnd("Header") %]
                 <div class="Content">
                     <fieldset class="TableLike">
+[% RenderBlockStart("AsteriskExplanation") %]
+                        <div class="Field">
+                            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]

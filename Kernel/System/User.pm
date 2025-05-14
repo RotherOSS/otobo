@@ -19,8 +19,13 @@ package Kernel::System::User;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
-use Digest::SHA;
+# core modules
+use Digest::SHA ();
+
+# CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -57,8 +62,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -368,18 +372,22 @@ sub GetUserData {
 
 =head2 UserAdd()
 
-to add new users
+adds a new user. Additional parameters starting with 'User', like 'UserMobile', will be added
+to the User preferences.
 
     my $UserID = $UserObject->UserAdd(
         UserFirstname => 'Huber',
         UserLastname  => 'Manfred',
-        UserLogin     => 'mhuber',
-        UserPw        => 'some-pass', # not required
-        UserEmail     => 'email@example.com',
-        UserMobile    => '1234567890', # not required
+        UserTitle     => 'Prof.',                # optional
+        UserLogin     => 'mhuber',               # required, must be unique disregarding case
+        UserPw        => 'some-pass',            # optional
+        UserEmail     => 'email@example.com',    # required, will be checked, added as user preference
+        UserMobile    => '1234567890',           # optional, added as user preference
+        ChangeUserID  => 123,                    # ID of the user that creates the new user
         ValidID       => 1,
-        ChangeUserID  => 123,
     );
+
+Returns the id of the added user when the user could be added.
 
 =cut
 
@@ -397,7 +405,7 @@ sub UserAdd {
         }
     }
 
-    # check if a user with this login (username) already exits
+    # check if a user with this login (username) already exists
     if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -469,14 +477,14 @@ sub UserAdd {
             Priority => 'notice',
             Message  => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
         );
+
         return;
     }
 
     # log notice
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message  =>
-            "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+        Message  => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
     );
 
     # set password
@@ -494,7 +502,7 @@ sub UserAdd {
         next USERPREFERENCE if $UserPreference eq 'UserEmail' && !$Param{UserEmail};
 
         # Set user preferences.
-        # Native user data will not be overwriten (handeled by SetPreferences()).
+        # Native user data will not be overwriten. This is handled by a black list in SetPreferences().
         $Self->SetPreferences(
             UserID => $UserID,
             Key    => $UserPreference,
@@ -781,31 +789,40 @@ to set users passwords
 sub SetPassword {
     my ( $Self, %Param ) = @_;
 
+    # This method is similar to Kernel::System::CustomerUser::DB::SetPassword()
+
+    my $Login = $Param{UserLogin};
+    my $Pw    = $Param{PW} || '';
+
     # check needed stuff
-    if ( !$Param{UserLogin} ) {
+    if ( !$Login ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
+
         return;
     }
 
     # get old user data
-    my %User = $Self->GetUserData( User => $Param{UserLogin} );
+    my %User = $Self->GetUserData( User => $Login );
     if ( !$User{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No such User!',
         );
+
         return;
     }
 
-    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigSection = 'AuthModule::DB';
 
-    my $CryptType = $ConfigObject->Get('AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType = $ConfigObject->Get("${ConfigSection}::CryptType") || 'sha2';
+
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -816,37 +833,37 @@ sub SetPassword {
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = crypt( $Pw, $Login );
     }
 
-    # crypt with md5
+    # crypt with unix_md5_crypt
     elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = unix_md5_crypt( $Pw, $Login );
     }
 
     # crypt with md5 (compatible with Apache's .htpasswd files)
     elsif ( $CryptType eq 'apr1' ) {
 
-        # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        # encode output, needed by apache_md5_crypt() only non utf8 signs
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = apache_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = apache_md5_crypt( $Pw, $Login );
     }
 
     # crypt with sha1
     elsif ( $CryptType eq 'sha1' ) {
 
         my $SHAObject = Digest::SHA->new('sha1');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -855,7 +872,7 @@ sub SetPassword {
     elsif ( $CryptType eq 'sha512' ) {
 
         my $SHAObject = Digest::SHA->new('sha512');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -863,16 +880,17 @@ sub SetPassword {
     # bcrypt
     elsif ( $CryptType eq 'bcrypt' ) {
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message  => "User: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
 
-        my $Cost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
+        my $Cost = $ConfigObject->Get("${ConfigSection}::bcryptCost") // 12;
 
         # Don't allow values smaller than 9 for security.
         $Cost = 9 if $Cost < 9;
@@ -880,10 +898,10 @@ sub SetPassword {
         # Current Crypt::Eksblowfish::Bcrypt limit is 31.
         $Cost = 31 if $Cost > 31;
 
-        my $Salt = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 16 );
+        my $Salt = $MainObject->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
@@ -906,7 +924,7 @@ sub SetPassword {
         my $SHAObject = Digest::SHA->new('sha256');
 
         # encode output, needed by sha256_hex() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
@@ -914,7 +932,8 @@ sub SetPassword {
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
@@ -1080,13 +1099,16 @@ sub UserName {
 
 =head2 UserList()
 
-return a hash with all users
+return a hash with user information.
 
     my %List = $UserObject->UserList(
         Type          => 'Short', # Short|Long, default Short
         Valid         => 1,       # default 1
         NoOutOfOffice => 1,       # (optional) default 0
     );
+
+Per default only valid users are reported. When the parameter Valid is passed with the value 0,
+then invalid users are reported as well.
 
 =cut
 
@@ -1207,7 +1229,7 @@ generate a random password
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default
     my $Size = $Param{Size} || 8;
 
     my $Password = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
@@ -1282,6 +1304,38 @@ sub SetPreferences {
 
     # set preferences
     return $PreferencesObject->SetPreferences(%Param);
+}
+
+=head2 ObjectAttributesGet()
+
+returns the attributes an agent can have on the system.
+
+    my %Attributes = $UserObject->ObjectAttributesGet();
+
+=cut
+
+sub ObjectAttributesGet {
+    my ( $Self, %Param ) = @_;
+
+    my %UserAttributes = (
+        ChangeTime             => 1,
+        CreateTime             => 1,
+        UserEmail              => 1,
+        UserFirstname          => 1,
+        UserFullname           => 1,
+        UserID                 => 1,
+        UserLastLogin          => 1,
+        UserLastLoginTimestamp => 1,
+        UserLastname           => 1,
+        UserLogin              => 1,
+        UserLoginFailed        => 1,
+        UserMobile             => 1,
+        UserTimeZone           => 1,
+        UserTitle              => 1,
+        ValidID                => 1,
+    );
+
+    return %UserAttributes;
 }
 
 sub _UserCacheClear {
@@ -1574,9 +1628,8 @@ sub UserLoginExistsCheck {
             $Flag = 1;
         }
     }
-    if ($Flag) {
-        return 1;
-    }
+
+    return 1 if $Flag;
     return 0;
 }
 

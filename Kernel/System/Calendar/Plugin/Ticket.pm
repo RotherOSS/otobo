@@ -19,7 +19,11 @@ package Kernel::System::Calendar::Plugin::Ticket;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -29,7 +33,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Calendar::Plugin::Ticket - Ticket plugin
+Kernel::System::Calendar::Plugin::Ticket - Ticket plugin for calendar appointments
 
 =head1 DESCRIPTION
 
@@ -109,6 +113,7 @@ returns a hash of linked tickets to an appointment
 
     my $Success = $TicketPluginObject->LinkList(
         AppointmentID => 123,
+        PluginURL     => 'https://otobo.example.org/otobo/index.pl?Action=AgentTicketZoom;TicketID=%s',
         UserID        => 1,
     );
 

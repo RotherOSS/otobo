@@ -14,24 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Language;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Test2::Require::OTOBO::Selenium;         # run Selenium tests only when Selenium is configured
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-$Selenium->RunTest(
-    sub {
-
+{
+    {
         my $Helper                 = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
         my $TicketObject           = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -72,10 +73,7 @@ $Selenium->RunTest(
             Comment         => 'Some comment',
             UserID          => $TestUserID,
         );
-        $Self->True(
-            $QueueID,
-            "QueueID $QueueID is created",
-        );
+        ok( $QueueID, "QueueID $QueueID is created" );
 
         # Create test template.
         my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
@@ -86,10 +84,7 @@ $Selenium->RunTest(
             ValidID      => 1,
             UserID       => $TestUserID,
         );
-        $Self->True(
-            $TemplateID,
-            "TemplateID $TemplateID is created",
-        );
+        ok( $TemplateID, "TemplateID $TemplateID is created" );
 
         # Create queue-template relation.
         $Success = $QueueObject->QueueStandardTemplateMemberAdd(
@@ -98,10 +93,7 @@ $Selenium->RunTest(
             Active             => 1,
             UserID             => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "TemplateID '$TemplateID' is assigned to QueueID '$QueueID'",
-        );
+        ok( $Success, "TemplateID '$TemplateID' is assigned to QueueID '$QueueID'" );
 
         # Create test customer company.
         my $CustomerCompanyID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
@@ -110,10 +102,7 @@ $Selenium->RunTest(
             ValidID             => 1,
             UserID              => $TestUserID,
         );
-        $Self->True(
-            $CustomerCompanyID,
-            "CustomerCompanyID $CustomerCompanyID is created",
-        );
+        ok( $CustomerCompanyID, "CustomerCompanyID $CustomerCompanyID is created" );
 
         # Create another customer user table.
         {
@@ -145,7 +134,7 @@ $Selenium->RunTest(
             );
 
             for my $SQL ( @SQL, @SQLPost ) {
-                $Self->True(
+                ok(
                     $DBObject->Do( SQL => $SQL ),
                     "Customer user table '$CustomerUserTableName' is created",
                 );
@@ -269,7 +258,7 @@ $Selenium->RunTest(
                 ValidID        => 1,
                 UserID         => $TestUserID,
             );
-            $Self->True(
+            ok(
                 $CustomerUserLogin,
                 "CustomerUserLogin $CustomerUserLogin is created",
             );
@@ -293,7 +282,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => $TestUserID,
         );
-        $Self->True(
+        ok(
             $TicketID,
             "TicketID $TicketID is created",
         );
@@ -309,22 +298,22 @@ $Selenium->RunTest(
 
         my @Tests = (
             {
-                From    => $CustomerUsers[1]->{UserMailString},
-                WaitFor => 1,
+                From                => $CustomerUsers[1]->{UserMailString},
+                InitialNumCustomers => 1,
             },
             {
-                From    => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[3]->{UserMailString},
-                WaitFor => 1,
+                From                => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[3]->{UserMailString},
+                InitialNumCustomers => 1,
             },
             {
-                From    => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[4]->{UserMailString},
-                WaitFor => 2,
+                From                => $CustomerUsers[1]->{UserMailString} . ', ' . $CustomerUsers[4]->{UserMailString},
+                InitialNumCustomers => 2,
             },
             {
                 From => $CustomerUsers[0]->{UserMailString} . ', '
                     . $CustomerUsers[2]->{UserMailString} . ', '
                     . $CustomerUsers[4]->{UserMailString},
-                WaitFor => 2,
+                InitialNumCustomers => 2,
             },
         );
 
@@ -347,10 +336,7 @@ $Selenium->RunTest(
                 UserID               => $TestUserID,
                 IsVisibleForCustomer => 1,
             );
-            $Self->True(
-                $ArticleID,
-                "ArticleID $ArticleID is created",
-            );
+            ok( $ArticleID, "ArticleID $ArticleID is created" );
 
             # Navigate to AgentTicketCompose screen.
             $Selenium->VerifiedGet(
@@ -359,10 +345,10 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#TicketCustomerContentToCustomer .CustomerQueue').length == $Test->{WaitFor};"
+                    "return typeof(\$) === 'function' && \$('#TicketCustomerContentToCustomer .CustomerQueue').length == $Test->{InitialNumCustomers};"
             );
 
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('#TicketCustomerContentToCustomer .CustomerQueue[value*=\"$EmailAddress\"]').length;"
                 ),
@@ -385,10 +371,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "TicketID $TicketID is deleted"
-        );
+        ok( $Success, "TicketID $TicketID is deleted" );
 
         # Delete test customer users.
         for my $CustomerUser (@CustomerUsers) {
@@ -396,30 +379,21 @@ $Selenium->RunTest(
                 SQL  => "DELETE FROM customer_user WHERE login = ?",
                 Bind => [ \$CustomerUser->{UserLogin} ],
             );
-            $Self->True(
-                $Success,
-                "Customer user '$CustomerUser->{UserLogin}' is deleted",
-            );
+            ok( $Success, "Customer user '$CustomerUser->{UserLogin}' is deleted", );
         }
 
         # Delete standard template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
-        $Self->True(
-            $Success,
-            "TemplateID $TemplateID is deleted",
-        );
+        ok( $Success, "TemplateID $TemplateID is deleted", );
 
         # Delete test queue.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM queue WHERE id = ?",
             Bind => [ \$QueueID ],
         );
-        $Self->True(
-            $Success,
-            "QueueID $QueueID is deleted",
-        );
+        ok( $Success, "QueueID $QueueID is deleted", );
 
         # Set configs to original values.
         $CustomerUserConfig->{CustomerUserEmailUniqCheck} = 1;
@@ -437,13 +411,10 @@ $Selenium->RunTest(
 
         my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
         my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-        $Self->True(
-            $SQL[0],
-            'SQLProcessor() DROP TABLE',
-        );
+        ok( $SQL[0], 'SQLProcessor() DROP TABLE' );
 
         for my $SQL (@SQL) {
-            $Self->True(
+            ok(
                 $DBObject->Do( SQL => $SQL ) || 0,
                 "Do() DROP TABLE ($SQL)",
             );
@@ -458,6 +429,6 @@ $Selenium->RunTest(
             );
         }
     }
-);
+}
 
-$Self->DoneTesting();
+done_testing;

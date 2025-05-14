@@ -14,22 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use File::Path qw(rmtree make_path);
+use File::Path qw(make_path rmtree);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
-
-use File::Path();
-use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -94,53 +94,35 @@ if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') )
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+if ($SMIMEObject) {
+    pass('got SMIME support');
+}
+else {
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("$CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("$CertPath is a directory");
     }
     elsif ( !-r $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+        fail("$CertPath is readable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("$PrivatePath exists");
     }
     elsif ( !-d $PrivatePath ) {
         fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath is writable");
     }
 
     done_testing();
@@ -312,13 +294,6 @@ egi0I+rwJjXCUZHw+qq0cRV/nEr4dD5aB84f0prW5ebzV9oQewkgsT0uI2EXa9GS
 -----END CERTIFICATE-----
 ',
 );
-
-# remove \r that will have been inserted on Windows automatically
-if ( $^O =~ m{Win}i ) {
-    $Cert{1} =~ tr{\r}{}d;
-    $Cert{2} =~ tr{\r}{}d;
-    $Cert{3} =~ tr{\r}{}d;
-}
 
 my $TestText = 'hello1234567890öäüß';
 
@@ -582,20 +557,20 @@ sub GetCertificateDataFromFiles {
 
     # read certificates, private keys and secrets
     my $CertStringRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $CertificateFileName,
     );
     my $PrivateStringRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $PrivateKeyFileName,
     );
     my $PrivateSecretRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $PrivateSecretFileName,
     );
 
     # return strings instead of references
-    return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
+    return $CertStringRef->$*, $PrivateStringRef->$*, $PrivateSecretRef->$*;
 }
 
 # OpenSSL 1.0.0 subject hashes as determined by:
@@ -723,8 +698,8 @@ my %Certificates;
     );
 
     # it must fail
-    $Self->False(
-        $Data{Successful},
+    ok(
+        !$Data{Successful},
         'Sign(), failed certificate chain verification, not installed CA root certificate',
     );
 
@@ -740,7 +715,7 @@ my %Certificates;
     );
 
     # it must work
-    $Self->True(
+    ok(
         $Data{Successful},
         'Verify(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
     );

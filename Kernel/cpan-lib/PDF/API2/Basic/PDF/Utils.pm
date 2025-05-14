@@ -1,24 +1,21 @@
-#=======================================================================
+# Code in the PDF::API2::Basic::PDF namespace was originally copied from the
+# Text::PDF distribution.
 #
-#   THIS IS A REUSED PERL MODULE, FOR PROPER LICENCING TERMS SEE BELOW:
+# Copyright Martin Hosken <Martin_Hosken@sil.org>
 #
-#   Copyright Martin Hosken <Martin_Hosken@sil.org>
-#
-#   No warranty or expression of effectiveness, least of all regarding
-#   anyone's safety, is implied in this software or documentation.
-#
-#   This specific module is licensed under the Perl Artistic License.
-#
-#=======================================================================
+# Martin Hosken's code may be used under the terms of the MIT license.
+# Subsequent versions of the code have the same license as PDF::API2.
+
 package PDF::API2::Basic::PDF::Utils;
 
 use strict;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 =head1 NAME
 
-PDF::API2::Basic::PDF::Utils - Utility functions for PDF library
+PDF::API2::Basic::PDF::Utils - Convenience functions for creating low-level PDF
+objects
 
 =head1 DESCRIPTION
 
@@ -113,6 +110,9 @@ sub PDFStr {
     return PDF::API2::Basic::PDF::String->new(@_);
 }
 
+# Deprecated
+sub PDFUtf { return PDFStr(@_) }
+
 =head2 PDFStrHex
 
 Creates a hex-string via PDF::API2::Basic::PDF::String->new
@@ -122,18 +122,6 @@ Creates a hex-string via PDF::API2::Basic::PDF::String->new
 sub PDFStrHex {
     my $string = PDF::API2::Basic::PDF::String->new(@_);
     $string->{' ishex'} = 1;
-    return $string;
-}
-
-=head2 PDFUtf
-
-Creates a utf8-string via PDF::API2::Basic::PDF::String->new
-
-=cut
-
-sub PDFUtf {
-    my $string = PDF::API2::Basic::PDF::String->new(@_);
-    $string->{' isutf'} = 1;
     return $string;
 }
 

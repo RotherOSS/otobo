@@ -16,21 +16,38 @@
 
 package Kernel::Modules::AdminDynamicField;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-our $ObjectManagerDisabled = 1;
+# core modules
+use List::Util qw(any);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Kernel::System::CheckItem;
+use Kernel::Language              qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -108,6 +125,7 @@ sub _DynamicFieldDelete {
         );
     }
 
+    # encoding does not matter, as $Success is either undef or an integer
     return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
         ContentType => 'text/html',
         Content     => $Success,
@@ -123,9 +141,25 @@ sub _ShowOverview {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
+    my $ObjectTypeFilter   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ObjectTypeFilter' ) || '';
+    my $NamespaceFilter    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'NamespaceFilter' )  || '';
 
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
+    $Param{IncludeInvalid} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
+
+    my $Output = join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar;
 
     # check for possible order collisions or gaps
     my $OrderSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
@@ -143,9 +177,6 @@ sub _ShowOverview {
         }
     );
 
-    my %FieldTypes;
-    my %FieldDialogs;
-
     if ( !IsHashRefWithData($FieldTypeConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Fields configuration is not valid'),
@@ -153,6 +184,8 @@ sub _ShowOverview {
     }
 
     # get the field types (backends) and its config dialogs
+    my %FieldTypes;
+    my %FieldDialogs;
     FIELDTYPE:
     for my $FieldType ( sort keys %{$FieldTypeConfig} ) {
 
@@ -163,11 +196,11 @@ sub _ShowOverview {
         $FieldTypes{$FieldType} = $FieldTypeConfig->{$FieldType}->{DisplayName};
 
         # get the config dialog
-        $FieldDialogs{$FieldType} =
-            $FieldTypeConfig->{$FieldType}->{ConfigDialog};
+        $FieldDialogs{$FieldType} = $FieldTypeConfig->{$FieldType}->{ConfigDialog};
     }
 
     my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
+    my $Namespaces       = $ConfigObject->Get('DynamicField::Namespaces');
 
     if ( !IsHashRefWithData($ObjectTypeConfig) ) {
         return $LayoutObject->ErrorScreen(
@@ -180,19 +213,40 @@ sub _ShowOverview {
 
     # cycle thought all objects to create the select add field selects
     my @ObjectTypes;
+    my %ObjectTypesTranslated;
+
     OBJECTTYPE:
     for my $ObjectType (
         sort {
-            ( int $ObjectTypeConfig{$a}->{Prio} || 0 )
-                <=> ( int $ObjectTypeConfig{$b}->{Prio} || 0 )
+            ( int $ObjectTypeConfig{$a}->{Prio} || 0 ) <=> ( int $ObjectTypeConfig{$b}->{Prio} || 0 )
         } keys %ObjectTypeConfig
         )
     {
-        next OBJECTTYPE if !$ObjectTypeConfig->{$ObjectType};
+        next OBJECTTYPE unless $ObjectTypeConfig->{$ObjectType};
 
         my $SelectName = $ObjectType . 'DynamicField';
 
-        my @FieldList = map { { Key => $_, Value => $FieldTypes{$_} } } sort keys %FieldTypes;
+        my @FieldList;
+        my @ReferenceDynamicFields;
+        FIELDTYPE:
+        for my $FieldTypeName ( sort { $FieldDialogs{$a} cmp $FieldDialogs{$b} } keys %FieldTypes ) {
+
+            if ( IsArrayRefWithData( $FieldTypeConfig->{$FieldTypeName}{ObjectTypes} ) ) {
+                next FIELDTYPE unless any { $ObjectType eq $_ } $FieldTypeConfig->{$FieldTypeName}{ObjectTypes}->@*;
+            }
+
+            # group reference field types to show in tree view
+            my $Value = $FieldTypes{$FieldTypeName};
+            if ( $FieldDialogs{$FieldTypeName} =~ /^AdminDynamicFieldReference$/ ) {
+                $Value = 'Reference::' . $Value;
+                push @ReferenceDynamicFields, $FieldTypeName;
+            }
+
+            push @FieldList, {
+                Key   => $FieldTypeName,
+                Value => $Value,
+            };
+        }
 
         for my $Field (@FieldList) {
 
@@ -209,13 +263,25 @@ sub _ShowOverview {
             Translation   => 1,
             Sort          => 'AlphanumericValue',
             SelectedValue => '-',
+            TreeView      => 1,
             Class         => 'Modernize W75pc',
         );
+
+        # This is a workaround for Reference dynamic fields.
+        # Inject additional data into the option tag.
+        # E.g. <option value="Reference::ITSMConfigItem" data-referenced_object_type="ITSMConfigItem">&nbsp;&nbsp;ITSMConfigItem</option>
+        # See https://www.w3schools.com/tags/att_data-.asp
+        my $ReferenceFieldsStrg = join( '|', @ReferenceDynamicFields );
+        $AddDynamicFieldStrg =~ s[ (value="($ReferenceFieldsStrg)")>][ $1 data-referenced_object_type="$2">]g;
 
         my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
             ->{$ObjectType}->{DisplayName} || $ObjectType;
 
         push @ObjectTypes, $ObjectType;
+
+        if ( $ObjectTypeName ne 'Article' ) {
+            $ObjectTypesTranslated{$ObjectType} = $LayoutObject->{LanguageObject}->Translate($ObjectTypeName);
+        }
 
         # call ActionAddDynamicField block
         $LayoutObject->Block(
@@ -226,6 +292,48 @@ sub _ShowOverview {
                 ObjectType          => $ObjectType,
                 ObjectTypeName      => $ObjectTypeName,
                 SelectName          => $SelectName,
+            },
+        );
+    }
+
+    my $DynamicFieldObjectStrg = $LayoutObject->BuildSelection(
+        Data         => \%ObjectTypesTranslated,
+        Name         => 'DynamicFieldObjectType',
+        PossibleNone => 1,
+        Sort         => 'AlphanumericValue',
+        SelectedID   => $ObjectTypeFilter,
+        Class        => 'Modernize',
+    );
+
+    $LayoutObject->Block(
+        Name => 'DynamicFieldObjectType',
+        Data => {
+            %Param,
+            DynamicFieldObjectStrg => $DynamicFieldObjectStrg,
+        },
+    );
+
+    if ( IsArrayRefWithData($Namespaces) ) {
+        my %NamespaceSelection = (
+            '<none>' => '<' . $LayoutObject->{LanguageObject}->Translate('none') . '>',
+            map { $_ => $_ } $Namespaces->@*,
+        );
+
+        my $DynamicFieldNamespaceStrg = $LayoutObject->BuildSelection(
+            Data         => \%NamespaceSelection,
+            Name         => 'DynamicFieldNamespace',
+            SelectedID   => $NamespaceFilter,
+            PossibleNone => 1,
+            Translation  => 0,
+            Sort         => 'AlphanumericValue',
+            Class        => 'Modernize',
+        );
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldNamespace',
+            Data => {
+                %Param,
+                DynamicFieldNamespaceStrg => $DynamicFieldNamespaceStrg,
             },
         );
     }
@@ -248,21 +356,61 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
-    # get dynamic fields list
-    my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
+    # merge Ticket and Article into one type
+    my $ObjectTypeFilterArrayRef;
+    if ( $ObjectTypeFilter eq 'Ticket' ) {
+        $ObjectTypeFilterArrayRef = [ 'Ticket', 'Article' ];
+    }
+    else {
+        $ObjectTypeFilterArrayRef = $ObjectTypeFilter ? [$ObjectTypeFilter] : undef;
+    }
+
+    # get complete dynamic fields list
+    my $DynamicFieldsListAll = $DynamicFieldObject->DynamicFieldList(
         Valid => 0,
     );
 
+    # get filtered dynamic fields list
+    my $DynamicFieldsListFiltered = $DynamicFieldObject->DynamicFieldList(
+        ObjectType => $ObjectTypeFilterArrayRef,
+        Namespace  => $NamespaceFilter,
+        Valid      => $Self->{IncludeInvalid} ? 0 : 1,
+    );
+
+    my $FilterStrg = '';
+    if ( IsStringWithData($ObjectTypeFilter) ) {
+        $FilterStrg .= ";ObjectTypeFilter=" . $LayoutObject->Output(
+            Template => '[% Data.Filter | uri %]',
+            Data     => {
+                Filter => $ObjectTypeFilter,
+            },
+        );
+    }
+
+    if ( IsArrayRefWithData($Namespaces) ) {
+        if ( IsStringWithData($NamespaceFilter) ) {
+            $FilterStrg .= ";NamespaceFilter=" . $LayoutObject->Output(
+                Template => '[% Data.Filter | uri %]',
+                Data     => {
+                    Filter => $NamespaceFilter,
+                },
+            );
+        }
+    }
+
     # print the list of dynamic fields
     $Self->_DynamicFieldsListShow(
-        DynamicFields => $DynamicFieldsList,
-        Total         => scalar @{$DynamicFieldsList},
+        DynamicFields => $DynamicFieldsListFiltered,
+        Total         => scalar @{$DynamicFieldsListFiltered},
+        MaxFieldOrder => scalar @{$DynamicFieldsListAll},
+        FilterStrg    => $FilterStrg,
     );
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicField',
         Data         => {
             %Param,
+            FilterStrg => $FilterStrg,
         },
     );
 
@@ -378,6 +526,7 @@ sub _DynamicFieldsListShow {
                         ConfigDialog   => $ConfigDialog,
                         FieldTypeName  => $FieldTypeName,
                         ObjectTypeName => $ObjectTypeName,
+                        FilterStrg     => $Param{FilterStrg},
                     },
                 );
 
@@ -391,6 +540,16 @@ sub _DynamicFieldsListShow {
                             ConfigDialog   => $ConfigDialog,
                             FieldTypeName  => $FieldTypeName,
                             ObjectTypeName => $ObjectTypeName,
+                        },
+                    );
+                    $LayoutObject->Block(
+                        Name => 'CloneLink',
+                        Data => {
+                            %{$DynamicFieldData},
+                            Valid          => $Valid,
+                            ConfigDialog   => $ConfigDialog,
+                            FieldTypeName  => $FieldTypeName,
+                            ObjectTypeName => $DynamicFieldData->{ObjectType},
                         },
                     );
                 }
@@ -409,7 +568,7 @@ sub _DynamicFieldsListShow {
     $LayoutObject->Block(
         Name => 'MaxFieldOrder',
         Data => {
-            MaxFieldOrder => scalar @{ $Param{DynamicFields} },
+            MaxFieldOrder => $Param{MaxFieldOrder},
         },
     );
 

@@ -1,26 +1,20 @@
-#=======================================================================
+# Code in the PDF::API2::Basic::PDF namespace was originally copied from the
+# Text::PDF distribution.
 #
-#   THIS IS A REUSED PERL MODULE, FOR PROPER LICENCING TERMS SEE BELOW:
+# Copyright Martin Hosken <Martin_Hosken@sil.org>
 #
-#   Copyright Martin Hosken <Martin_Hosken@sil.org>
-#
-#   Modified for PDF::API2 by Alfred Reibenschuh <alfredreibenschuh@gmx.net>
-#
-#   No warranty or expression of effectiveness, least of all regarding
-#   anyone's safety, is implied in this software or documentation.
-#
-#   This specific module is licensed under the Perl Artistic License.
-#
-#=======================================================================
+# Martin Hosken's code may be used under the terms of the MIT license.
+# Subsequent versions of the code have the same license as PDF::API2.
+
 package PDF::API2::Basic::PDF::File;
 
 use strict;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 =head1 NAME
 
-PDF::API2::Basic::PDF::File - Holds the trailers and cross-reference tables for a PDF file
+PDF::API2::Basic::PDF::File - Low-level PDF file access
 
 =head1 SYNOPSIS
 
@@ -229,8 +223,13 @@ sub open {
         $fh = $filename;
     }
     else {
-        die "File '$filename' does not exist !" unless -f $filename;
-        $fh = IO::File->new(($update ? '+' : '') . "<$filename") || return;
+        die "File '$filename' does not exist"  unless -f $filename;
+        die "File '$filename' is not readable" unless -r $filename;
+        if ($update) {
+            die "File '$filename' is not writable" unless -w $filename;
+        }
+        $fh = IO::File->new(($update ? '+' : '') . "<$filename")
+            || die "Error opening '$filename': $!";
         $self->{' INFILE'} = $fh;
         if ($update) {
             $self->{' update'} = 1;
@@ -241,8 +240,8 @@ sub open {
     binmode $fh, ':raw';
     $fh->seek(0, 0);            # go to start of file
     $fh->read($buffer, 255);
-    unless ($buffer =~ m/^\%PDF\-1\.(\d)+\s*$cr/mo) {
-        die "$filename not a PDF file version 1.x";
+    unless ($buffer =~ /^\%PDF\-([12]\.\d+)\s*$cr/m) {
+        croak "$filename does not appear to be a valid PDF";
     }
     $self->{' version'} = $1;
 
@@ -265,6 +264,88 @@ sub open {
         $self->{$key} = $tdict->{$key};
     }
     return $self;
+}
+
+=head2 $p->version($version)
+
+Gets/sets the PDF version (e.g. 1.4)
+
+=cut
+
+sub version {
+    my $self = shift();
+
+    if (@_) {
+        my $version = shift();
+        croak "Invalid version $version" unless $version =~ /^([12]\.[0-9]+)$/;
+        $self->header_version($version);
+        if ($version >= 1.4) {
+            $self->trailer_version($version);
+        }
+        else {
+            delete $self->{'Root'}->{'Version'};
+            $self->out_obj($self->{'Root'});
+        }
+        return $version;
+    }
+
+    my $header_version = $self->header_version();
+    my $trailer_version = $self->trailer_version();
+    return $trailer_version if $trailer_version > $header_version;
+    return $header_version;
+}
+
+=head2 $version = $p->header_version($version)
+
+Gets/sets the PDF version stored in the file header.
+
+=cut
+
+sub header_version {
+    my $self = shift();
+
+    if (@_) {
+        my $version = shift();
+        croak "Invalid version $version" unless $version =~ /^([12]\.[0-9]+)$/;
+        $self->{' version'} = $version;
+    }
+
+    return $self->{' version'};
+}
+
+=head2 $version = $p->trailer_version($version)
+
+Gets/sets the PDF version stored in the document catalog.
+
+=cut
+
+sub trailer_version {
+    my $self = shift();
+
+    if (@_) {
+        my $version = shift();
+        croak "Invalid version $version" unless $version =~ /^([12]\.[0-9]+)$/;
+        $self->{'Root'}->{'Version'} = PDFName($version);
+        $self->out_obj($self->{'Root'});
+        return $version;
+    }
+
+    return unless $self->{'Root'}->{'Version'};
+    $self->{'Root'}->{'Version'}->realise();
+    return $self->{'Root'}->{'Version'}->val();
+}
+
+=head2 $prev_version = $p->require_version($version)
+
+Ensures that the PDF version is at least C<$version>.
+
+=cut
+
+sub require_version {
+    my ($self, $min_version) = @_;
+    my $current_version = $self->version();
+    $self->version($min_version) if $current_version < $min_version;
+    return $current_version;
 }
 
 =head2 $p->release()
@@ -299,6 +380,11 @@ sub release {
         delete $self->{$key};
     }
 
+    # PDFs with highly-interconnected page trees or outlines can hit Perl's
+    # recursion limit pretty easily, so disable the warning for this specific
+    # loop.
+    no warnings 'recursion';
+
     while (my $item = shift @tofree) {
         if (blessed($item) and $item->can('release')) {
             $item->release(1);
@@ -330,13 +416,6 @@ sub append_file {
     return unless $self->{' update'};
 
     my $fh = $self->{' INFILE'};
-
-    # hack to upgrade pdf-version number to support
-    # requested features in higher versions than
-    # the pdf was originally created.
-    my $version = $self->{' version'} || 4;
-    $fh->seek(0, 0);
-    $fh->print("%PDF-1.$version\n");
 
     my $tdict = PDFDict();
     $tdict->{'Prev'} = PDFNum($self->{' loc'});
@@ -400,11 +479,44 @@ sub create_file {
     }
 
     $self->{' OUTFILE'} = $fh;
-    $fh->print('%PDF-1.' . ($self->{' version'} || '2') . "\n");
+    $fh->print('%PDF-' . ($self->{' version'} // '1.4') . "\n");
     $fh->print("%\xC6\xCD\xCD\xB5\n");   # and some binary stuff in a comment
     return $self;
 }
 
+
+=head2 $p->clone_file($fname)
+
+Creates a copy of the input file at the specified filename and sets it as the
+output file for future writes.  A file handle may be passed instead of a
+filename.
+
+=cut
+
+sub clone_file {
+    my ($self, $filename) = @_;
+    my $fh;
+
+    $self->{' fname'} = $filename;
+    if (ref $filename) {
+        $fh = $filename;
+    }
+    else {
+        $fh = IO::File->new(">$filename") || die "Unable to open $filename for writing";
+        binmode($fh,':raw');
+    }
+
+    $self->{' OUTFILE'} = $fh;
+
+    my $in = $self->{' INFILE'};
+    $in->seek(0, 0);
+    my $data;
+    while (not $in->eof()) {
+        $in->read($data, 1024 * 1024);
+        $fh->print($data);
+    }
+    return $self;
+}
 
 =head2 $p->close_file
 
@@ -425,7 +537,7 @@ sub close_file {
     $tdict->{'Size'} = $self->{'Size'} || PDFNum(1);
     $tdict->{'Prev'} = PDFNum($self->{' loc'}) if $self->{' loc'};
     if ($self->{' update'}) {
-        foreach my $key (grep ($_ !~ m/^[\s\-]/, keys %$self)) {
+        foreach my $key (grep { $_ !~ m/^[\s\-]/ } keys %$self) {
             $tdict->{$key} = $self->{$key} unless defined $tdict->{$key};
         }
 
@@ -477,17 +589,23 @@ sub readval {
             if ($str =~ s|^/($reg_char+)||) {
                 my $key = PDF::API2::Basic::PDF::Name::name_to_string($1, $self);
                 ($value, $str) = $self->readval($str, %opts);
-                $result->{$key} = $value;
+                unless ((ref($value) // '') eq 'PDF::API2::Basic::PDF::Null') {
+                    $result->{$key} = $value;
+                }
             }
             elsif ($str =~ s|^/$ws_char+||) {
                 # fixes a broken key problem of acrobat. -- fredo
                 ($value, $str) = $self->readval($str, %opts);
-                $result->{'null'} = $value;
+                unless ((ref($value) // '') eq 'PDF::API2::Basic::PDF::Null') {
+                    $result->{'null'} = $value;
+                }
             }
             elsif ($str =~ s|^//|/|) {
                 # fixes again a broken key problem of illustrator/enfocus. -- fredo
                 ($value, $str) = $self->readval($str, %opts);
-                $result->{'null'} = $value;
+                unless ((ref($value) // '') eq 'PDF::API2::Basic::PDF::Null') {
+                    $result->{'null'} = $value;
+                }
             }
             else {
                 die "Invalid dictionary key";
@@ -499,7 +617,7 @@ sub readval {
         # streams can't be followed by a lone carriage-return.
         # fredo: yes they can !!! -- use the MacOS Luke.
         if (($str =~ s/^stream(?:(?:\015\012)|\012|\015)//) and ($result->{'Length'}->val != 0)) {   # stream
-            my $length = $result->{'Length'}->val;
+            my $length = $result->{'Length'}->val() + 0;
             $result->{' streamsrc'} = $fh;
             $result->{' streamloc'} = $fh->tell - length($str);
 
@@ -529,8 +647,8 @@ sub readval {
 
     # Indirect Object
     elsif ($str =~ m/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+R/s) {
-        my $num = $1;
-        $value = $2;
+        my $num = $1 + 0;
+        $value = $2 + 0;
         $str =~ s/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+R//s;
         unless ($result = $self->test_obj($num, $value)) {
             $result = PDF::API2::Basic::PDF::Objind->new();
@@ -540,7 +658,10 @@ sub readval {
         }
         $result->{' parent'} = $self;
         weaken $result->{' parent'};
-        $result->{' realised'} = 0;
+
+        # Removed to address changes being lost when an indirect object is realised twice
+        # $result->{' realised'} = 0;
+
         # gdj: FIXME: if any of the ws chars were crs, then the whole
         # string might not have been read.
     }
@@ -548,8 +669,8 @@ sub readval {
     # Object
     elsif ($str =~ m/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+obj/s) {
         my $obj;
-        my $num = $1;
-        $value = $2;
+        my $num = $1 + 0;
+        $value = $2 + 0;
         $str =~ s/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+obj//s;
         ($obj, $str) = $self->readval($str, %opts);
         if ($result = $self->test_obj($num, $value)) {
@@ -902,8 +1023,8 @@ sub remove_obj {
     delete $self->{' objects'}{$objind->uid()};
     delete $self->{' outlist_cache'}{$objind};
     delete $self->{' printed_cache'}{$objind};
-    @{$self->{' outlist'}} = grep($_ ne $objind, @{$self->{' outlist'}});
-    @{$self->{' printed'}} = grep($_ ne $objind, @{$self->{' printed'}});
+    @{$self->{' outlist'}} = grep { $_ ne $objind } @{$self->{' outlist'}};
+    @{$self->{' printed'}} = grep { $_ ne $objind } @{$self->{' printed'}};
     $self->{' objcache'}{$objind->{' objnum'}, $objind->{' objgen'}} = undef
         if $self->{' objcache'}{$objind->{' objnum'}, $objind->{' objgen'}} eq $objind;
     return $self;
@@ -924,7 +1045,7 @@ that it will not cause the data already output to be changed.
 sub ship_out {
     my ($self, @objs) = @_;
 
-    return unless defined $self->{' OUTFILE'};
+    die "No output file specified" unless defined $self->{' OUTFILE'};
     my $fh = $self->{' OUTFILE'};
     seek($fh, 0, 2); # go to the end of the file
 
@@ -947,7 +1068,7 @@ sub ship_out {
         $self->{' locs'}{$objind->uid()} = $fh->tell();
         my ($objnum, $objgen) = @{$self->{' objects'}{$objind->uid()}}[0..1];
         $fh->printf('%d %d obj ', $objnum, $objgen);
-        $objind->outobjdeep($fh, $self, 'objnum' => $objnum, 'objgen' => $objgen);
+        $objind->outobjdeep($fh, $self);
         $fh->print(" endobj\n");
 
         # Note that we've output this obj, not forgetting to update
@@ -1134,8 +1255,9 @@ sub _unpack_xref_stream {
     return unpack('n', $data)       if $width == 2;
     return unpack('N', "\x00$data") if $width == 3;
     return unpack('N', $data)       if $width == 4;
+    return unpack('Q>', $data)      if $width == 8;
 
-    die "Invalid column width: $width";
+    die "Unsupported xref stream entry width: $width";
 }
 
 sub readxrtr {
@@ -1272,17 +1394,19 @@ sub out_trailer {
         $self->ship_out();
     }
 
-    #    $size = @{$self->{' printed'}} + @{$self->{' free'}};
-    #    $tdict->{'Size'} = PDFNum($tdict->{'Size'}->val + $size);
-    # PDFSpec 1.3 says for /Size: (Required) Total number of entries in the file's
-    # cross-reference table, including the original table and all updates. Which
-    # is what the previous two lines implement.
-    # But this seems to make Acrobat croak on saving so we try the following from
-    # basil.duval@epfl.ch
+    # When writing new trailers, most dictionary entries get copied from the
+    # previous trailer, but entries related to cross-reference streams should
+    # get removed (and possibly recreated below).
+    delete $tdict->{$_} for (# Entries common to streams
+                             qw(Length Filter DecodeParms F FFilter FDecodeParms DL),
+
+                             # Entries specific to cross-reference streams
+                             qw(Index W XRefStm));
+
     $tdict->{'Size'} = PDFNum($self->{' maxobj'});
 
     my $tloc = $fh->tell();
-    $fh->print("xref\n");
+    my @out;
 
     my @xreflist = sort { $self->{' objects'}{$a->uid}[0] <=> $self->{' objects'}{$b->uid}[0] } (@{$self->{' printed'} || []}, @{$self->{' free'} || []});
 
@@ -1309,30 +1433,26 @@ sub out_trailer {
 
     $j = 0; my $first = -1; $k = 0;
     for ($i = 0; $i <= $#xreflist + 1; $i++) {
-#        if ($i == 0) {
-#            $first = $i; $j = $xreflist[0]->{' objnum'};
-#            $fh->printf("0 1\n%010d 65535 f \n", $ff);
-#        }
         if ($i > $#xreflist || $self->{' objects'}{$xreflist[$i]->uid}[0] != $j + 1) {
-            $fh->print(($first == -1 ? "0 " : "$self->{' objects'}{$xreflist[$first]->uid}[0] ") . ($i - $first) . "\n");
+            push @out, ($first == -1 ? "0 " : "$self->{' objects'}{$xreflist[$first]->uid}[0] ") . ($i - $first) . "\n";
             if ($first == -1) {
-                $fh->printf("%010d 65535 f \n", defined $freelist[$k] ? $self->{' objects'}{$freelist[$k]->uid}[0] : 0);
+                push @out, sprintf("%010d 65535 f \n", defined $freelist[$k] ? $self->{' objects'}{$freelist[$k]->uid}[0] : 0);
                 $first = 0;
             }
             for ($j = $first; $j < $i; $j++) {
                 my $xref = $xreflist[$j];
-                if (defined $freelist[$k] && defined $xref && "$freelist[$k]" eq "$xref") {
+                if (defined($freelist[$k]) and defined($xref) and "$freelist[$k]" eq "$xref") {
                     $k++;
-                    $fh->print(pack("A10AA5A4",
+                    push @out, pack("A10AA5A4",
                                     sprintf("%010d", (defined $freelist[$k] ?
                                                       $self->{' objects'}{$freelist[$k]->uid}[0] : 0)), " ",
                                     sprintf("%05d", $self->{' objects'}{$xref->uid}[1] + 1),
-                                    " f \n"));
+                                    " f \n");
                 }
                 else {
-                    $fh->print(pack("A10AA5A4", sprintf("%010d", $self->{' locs'}{$xref->uid}), " ",
+                    push @out, pack("A10AA5A4", sprintf("%010d", $self->{' locs'}{$xref->uid}), " ",
                             sprintf("%05d", $self->{' objects'}{$xref->uid}[1]),
-                            " n \n"));
+                            " n \n");
                 }
             }
             $first = $i;
@@ -1342,9 +1462,53 @@ sub out_trailer {
             $j++;
         }
     }
-    $fh->print("trailer\n");
-    $tdict->outobjdeep($fh, $self);
-    $fh->print("\nstartxref\n$tloc\n%%EOF\n");
+    if (exists $tdict->{'Type'} and $tdict->{'Type'}->val() eq 'XRef') {
+        my (@index, @stream);
+        for (@out) {
+            my @a = split;
+            @a == 2 ? push @index, @a : push @stream, \@a;
+        }
+        my $i = $self->{' maxobj'}++;
+        $self->add_obj($tdict, $i, 0);
+        $self->out_obj($tdict );
+
+        push @index, $i, 1;
+        push @stream, [$tloc, 0, 'n'];
+
+        my $len = $tloc > 0xFFFF ? 4 : 2;           # don't expect files > 4 Gb
+        my $tpl = $tloc > 0xFFFF ? 'CNC' : 'CnC';   # don't expect gennum > 255, it's absurd.
+                                                    # Adobe doesn't use them anymore anyway
+        my $stream = '';
+        my @prev = (0) x ($len + 2);
+        for (@stream) {
+            $_->[1] = 0 if $_->[2] eq 'f' and $_->[1] == 65535;
+            my @line = unpack 'C*', pack $tpl, $_->[2] eq 'n' ? 1 : 0, @{$_}[0..1];
+
+            $stream .= pack 'C*', 2,                # prepend filtering method, "PNG Up"
+                map {($line[$_] - $prev[$_] + 256) % 256 } 0 .. $#line;
+            @prev = @line;
+        }
+        $tdict->{'Size'}   = PDFNum($i + 1);
+        $tdict->{'Index'}  = PDFArray(map PDFNum( $_ ), @index);
+        $tdict->{'W'}      = PDFArray(map PDFNum( $_ ), 1, $len, 1);
+        $tdict->{'Filter'} = PDFName('FlateDecode');
+
+        $tdict->{'DecodeParms'} = PDFDict();
+        $tdict->{'DecodeParms'}->val->{'Predictor'} = PDFNum(12);
+        $tdict->{'DecodeParms'}->val->{'Columns'}   = PDFNum($len + 2);
+
+        $stream = PDF::API2::Basic::PDF::Filter::FlateDecode->new->outfilt($stream, 1);
+        $tdict->{' stream'} = $stream;
+        $tdict->{' nofilt'} = 1;
+        delete $tdict->{'Length'};
+        $self->ship_out();
+    }
+    else {
+        $fh->print("xref\n", @out, "trailer\n");
+        $tdict->outobjdeep($fh, $self);
+        $fh->print("\n");
+    }
+    $fh->print("startxref\n$tloc\n%%EOF\n");
 }
 
 

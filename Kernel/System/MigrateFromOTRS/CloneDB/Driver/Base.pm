@@ -22,10 +22,9 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
-use Encode;
-use MIME::Base64;
-use List::Util qw(any none);
-use Fcntl qw(:flock);
+use MIME::Base64 qw(decode_base64 encode_base64);
+use List::Util   qw(any none);
+use Fcntl        qw(:flock);                        ## no perlimports
 
 # CPAN modules
 
@@ -60,14 +59,9 @@ A base module for drivers.
 
 =head2 new()
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
+The constructor of the base object is usually called when the derived objects are created.
+But there can be direct instances.
 
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base' => {
-            CheckEncodingColumns => $CheckEncodingColumns,
-        },
-    );
     my $CloneDBBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base');
 
 =cut
@@ -335,7 +329,7 @@ C<Messages> a list of messages, usually indicating the errors
 Altogether, there are five loops over the tables of the source database.
 
 The first loop determines which source tables need to be copied. Source tables that are marked as to be skipped
-and source tables that have no counterpart in the target are not copied.
+and source tables that have no counterpart in the target database are not copied.
 
 The second loop examines the to be copied tables of the source and target database and compiles basically
 a list of the required actions.
@@ -471,7 +465,10 @@ sub DataTransfer {
 
     # Handle the OTOBO table columns which must be shortened.
     # Usually because of InnodB max key size in MySQL 5.6 or earlier.
-    my $MaxLenghtShortenedColumns = 190;    # int( 767 / 4 ) - 1
+    # Use a driver dependent SUBSTRING function because Oracle is not really conforming to the ANSI SQL standard.
+    my $SubstringFunction         = $SourceDBObject->GetDatabaseFunction('Substring');
+    my $MaxLengthShortenedColumns = 190;                                                 # int( 767 / 4 ) - 1
+
     my %SourceColumnsString;
 
     # Determine the columns where the source might contain NULLs that are not allowed in the target.
@@ -491,7 +488,7 @@ sub DataTransfer {
         # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
         #
         # For some columns we need to shorten the values. In order to be on the safe side
-        # we cut to $MaxLenghtShortenedColumns=190 characters.
+        # we cut to $MaxLengthShortenedColumns=190 characters.
         #
         # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
 
@@ -532,6 +529,7 @@ sub DataTransfer {
 
                 # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
+
                 if ( none { $_ eq lc( $SourceColumnInfos->{DATA_TYPE} ) } ( 'varchar', 'character varying', 'varchar2' ) ) {
                     next SOURCE_COLUMN;
                 }
@@ -573,7 +571,7 @@ sub DataTransfer {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLenghtShortenedColumns chars",
+                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLengthShortenedColumns chars",
                     Priority => 'notice',
                 );
             }
@@ -583,7 +581,7 @@ sub DataTransfer {
                 push @MaybeShortenedColumns,
                     $DoShorten
                     ?
-                    "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
+                    sprintf( $SubstringFunction, $SourceColumn, 1, $MaxLengthShortenedColumns )
                     :
                     $SourceColumn;
 
@@ -795,6 +793,7 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
+                # Translate the DATA_TYPE
                 my $TranslatedSourceColumnInfos = $TargetDBBackend->TranslateColumnInfos(
                     ColumnInfos => $SourceColumnInfos,
                     DBType      => $SourceDBObject->{'DB::Type'},

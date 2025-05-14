@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -31,11 +31,23 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     # get the dynamic fields for ticket object
-    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => ['Ticket'],
     );
+
+    # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
+    $Self->{DynamicField}->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
 
     return $Self;
 }
@@ -58,6 +70,18 @@ sub Run {
     $Self->{Profile}    = $ParamObject->GetParam( Param => 'Profile' )    || '';
     $Self->{OldProfile} = $ParamObject->GetParam( Param => 'OldProfile' ) || '';
     $Self->{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # get needed objects
     my $CheckItemObject    = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -465,9 +489,9 @@ sub Run {
             Data => $DynamicFieldHTML,
         );
 
-        # Send JSON response.
+        # Send JSON response, $LayoutObject->{Charset} is actually 'utf-8'
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $Output,
             Type        => 'inline',
             NoCache     => 1,
@@ -500,6 +524,13 @@ sub Run {
         Name => 'ActionAdd',
     );
     $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
+    $LayoutObject->Block(
         Name => 'Filter',
     );
     $LayoutObject->Block(
@@ -511,8 +542,11 @@ sub Run {
     # if there are any data, it is shown
     if (%Jobs) {
         my $Counter = 1;
+        JOB:
         for my $JobKey ( sort keys %Jobs ) {
             my %JobData = $GenericAgentObject->JobGet( Name => $JobKey );
+
+            next JOB unless $Self->{IncludeInvalid} || $JobData{Valid};
 
             # css setting and text for valid or invalid jobs
             $JobData{ShownValid} = $JobData{Valid} ? 'valid' : 'invalid';
@@ -520,7 +554,9 @@ sub Run {
             # separate each search result line by using several css
             $LayoutObject->Block(
                 Name => 'Row',
-                Data => {%JobData},
+                Data => {
+                    %JobData,
+                },
             );
         }
     }
@@ -780,13 +816,13 @@ sub _MaskUpdate {
     {
         my $SearchType = $Map{$Type} . 'SearchType';
         if ( !$JobData{$SearchType} ) {
-            $JobData{ $SearchType . '::None' } = 'checked="checked"';
+            $JobData{ $SearchType . '::None' } = 'checked ';
         }
         elsif ( $JobData{$SearchType} eq 'TimePoint' ) {
-            $JobData{ $SearchType . '::TimePoint' } = 'checked="checked"';
+            $JobData{ $SearchType . '::TimePoint' } = 'checked ';
         }
         elsif ( $JobData{$SearchType} eq 'TimeSlot' ) {
-            $JobData{ $SearchType . '::TimeSlot' } = 'checked="checked"';
+            $JobData{ $SearchType . '::TimeSlot' } = 'checked ';
         }
 
         my %Counter;
@@ -1223,11 +1259,11 @@ sub _MaskUpdate {
 
         # Check if field is Attachment type ( from OTOBODynamicFieldAttachment )
         #   this field is not updatable by Generic Agent
-        my $IsAttachement = $DynamicFieldBackendObject->HasBehavior(
+        my $IsAttachment = $DynamicFieldBackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsAttachement',
+            Behavior           => 'IsAttachment',
         );
-        next DYNAMICFIELD if $IsAttachement;
+        next DYNAMICFIELD if $IsAttachment;
 
         my $PossibleValuesFilter;
 

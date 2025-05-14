@@ -26,8 +26,6 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::Config;
-
 # Get needed objects
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -980,12 +978,12 @@ my @Tests = (
                 'UserModificationActive'   => '0',
                 'ExclusiveLockGUID'        => '0',
                 'ExclusiveLockUserID'      => undef,
-                'HasConfigLevel'           => '100',
-                'IsDirty'                  => '1',
-                'IsInvisible'              => '0',
-                'IsReadonly'               => '0',
-                'IsRequired'               => '0',
-                'IsValid'                  => '1',
+                'HasConfigLevel'           => 100,
+                'IsDirty'                  => 1,
+                'IsInvisible'              => 0,
+                'IsReadonly'               => 0,
+                'IsRequired'               => 0,
+                'IsValid'                  => 1,
                 'Name'                     => 'Ticket::Frontend::AgentTicketPriority###Body',
                 'Navigation'               => 'Frontend::Agent::Ticket::ViewPriority',
                 'XMLFilename'              => 'Sample.xml',
@@ -1019,7 +1017,7 @@ my @Tests = (
         <Description Translatable="1">Sets the default body text for notes.</Description>
         <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
         <Value>
-            <Item ValueType="Textarea"></Item>
+            <Item ValueType="Textarea"/>
         </Value>
     </Setting>'
             },
@@ -1391,18 +1389,23 @@ for my $Test (@Tests) {
 
         for my $Item ( @{ $Test->{ExpectedResult} } ) {
 
-            my @Found = grep { $DefaultSettingList[$_]->{Name} eq $Item->{Name} } 0 .. $#DefaultSettingList;
+            my ( $FoundSetting, @OtherFoundSettings ) = grep { $_->{Name} eq $Item->{Name} } @DefaultSettingList;
 
             $Self->True(
-                scalar @Found,
-                "Check if Config item ($Item->{Name}) is there.",
+                $FoundSetting,
+                "Config item ($Item->{Name}) is there.",
             );
 
-            if ( scalar @Found ) {
+            $Self->False(
+                scalar @OtherFoundSettings,
+                "Only a single item ($Item->{Name}) is there.",
+            );
+
+            if ($FoundSetting) {
 
                 # Compare
                 $Self->IsDeeply(
-                    $DefaultSettingList[ $Found[0] ],
+                    $FoundSetting,
                     $Item,
                     "Check Config Item ($Item->{Name}) deeply.",
                 );

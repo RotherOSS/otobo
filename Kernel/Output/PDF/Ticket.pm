@@ -258,14 +258,17 @@ sub GeneratePDF {
         'DateFormat',
     );
     if ( $Interface{Agent} ) {
-        $PrintedBy .= ' ' . $TicketInfo{User}{UserFullname} . ' ('
-            . $TicketInfo{User}{UserEmail} . ')'
-            . ', ' . $Time;
+        $PrintedBy .= " $TicketInfo{User}{UserFullname} ($TicketInfo{User}{UserEmail}), $Time";
     }
     elsif ( $Interface{Customer} ) {
-        $PrintedBy .= ' ' . $CustomerData{UserFullname} . ' ('
-            . $CustomerData{UserEmail} . ')'
-            . ', ' . $Time;
+        my %PrintingCustomerData = $CustomerUserObject->CustomerUserDataGet(
+            User => $Param{UserID},
+        );
+        if ( !%PrintingCustomerData ) {
+            %PrintingCustomerData = %CustomerData;
+        }
+
+        $PrintedBy .= " $PrintingCustomerData{UserFullname} ($PrintingCustomerData{UserEmail}), $Time";
     }
 
     $PDFObject->Text(
@@ -629,7 +632,7 @@ sub _PDFOutputLinkedObjects {
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
 
         # Investigate link type name.
-        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split /::/, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
         $LinkTypeName = $LayoutObject->{LanguageObject}->Translate($LinkTypeName);
 

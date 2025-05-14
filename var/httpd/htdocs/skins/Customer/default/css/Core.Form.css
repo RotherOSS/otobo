@@ -446,6 +446,19 @@ table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
     display: none;
 }
 
+fieldset .AsteriskExplanation {
+    margin-left: 17%;
+}
+
+.Messenger .AsteriskExplanation {
+    padding-top: 30px;
+    padding-bottom: 0px;
+}
+
+.AsteriskExplanationProcess {
+    padding-top: 15px;
+}
+
 /* IE */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 

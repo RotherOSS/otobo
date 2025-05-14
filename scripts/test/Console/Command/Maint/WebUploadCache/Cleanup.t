@@ -18,13 +18,20 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use Digest::MD5 qw(md5_hex);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(
+    FixedTimeAddSeconds
+    FixedTimeSet
+    FixedTimeUnset
+);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -33,8 +40,6 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::WebUploadCache::Cleanup');
-
-my ( $Result, $ExitCode );
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -92,7 +97,7 @@ for my $Module (qw(DB FS)) {
     );
 
     # delete upload cache - should not remove cached form
-    $ExitCode = $CommandObject->Execute();
+    my $ExitCode = $CommandObject->Execute();
     $Self->Is(
         $ExitCode,
         0,

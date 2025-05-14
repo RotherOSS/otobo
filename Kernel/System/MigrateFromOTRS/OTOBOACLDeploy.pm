@@ -87,13 +87,13 @@ sub Run {
 
     my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
-    my $ACLDump = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLDump(
+    my $ACLDumpSuccess = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLDump(
         ResultType => 'FILE',
         Location   => $Location,
         UserID     => 1,
     );
 
-    if ( !$ACLDump ) {
+    if ( !$ACLDumpSuccess ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the ACLs.");

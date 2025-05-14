@@ -1,0 +1,135 @@
+---
+Activities:
+  Activity-7e784910f34ba6aebadf92b339220211:
+    ActivityDialogs:
+    - ActivityDialog-7d332abd3a8a6fdb533d63e62f4e6809
+    ChangeTime: 2016-08-10 11:55:47
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-7d332abd3a8a6fdb533d63e62f4e6809
+    CreateTime: 2016-08-10 11:34:09
+    EntityID: Activity-7e784910f34ba6aebadf92b339220211
+    ID: '4'
+    Name: Office Materials Procurement Request
+  Activity-a6b295b89681e4699d32c8eb978eaf56:
+    ActivityDialogs:
+    - ActivityDialog-1cbfae9db9b63eb3ef8bb9908f7e2d63
+    ChangeTime: 2016-08-10 12:12:17
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-1cbfae9db9b63eb3ef8bb9908f7e2d63
+    CreateTime: 2016-08-10 11:34:09
+    EntityID: Activity-a6b295b89681e4699d32c8eb978eaf56
+    ID: '5'
+    Name: Office Materials Procurement in Progress
+ActivityDialogs:
+  ActivityDialog-1cbfae9db9b63eb3ef8bb9908f7e2d63:
+    ChangeTime: 2016-08-10 12:01:09
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Office Materials Procurement State
+      FieldOrder:
+      - DynamicField_PreProcMaterialsProcurementstate
+      Fields:
+        DynamicField_PreProcMaterialsProcurementstate:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-10 12:01:09
+    EntityID: ActivityDialog-1cbfae9db9b63eb3ef8bb9908f7e2d63
+    ID: '4'
+    Name: Office Materials Procurement State
+  ActivityDialog-7d332abd3a8a6fdb533d63e62f4e6809:
+    ChangeTime: 2016-08-10 11:56:06
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Office Materials Procurement Request
+      FieldOrder:
+      - CustomerID
+      - DynamicField_PreProcMaterialsProcurementItems
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '1'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcMaterialsProcurementItems:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-10 11:34:09
+    EntityID: ActivityDialog-7d332abd3a8a6fdb533d63e62f4e6809
+    ID: '3'
+    Name: Office Materials Procurement Request
+Process:
+  Activities:
+  - Activity-7e784910f34ba6aebadf92b339220211
+  - Activity-a6b295b89681e4699d32c8eb978eaf56
+  ChangeTime: 2016-08-10 12:12:19
+  Config:
+    Description: "Office Materials Procurement\r\n\r\nThe Field \"PreProcMaterialsProcurementstate\"
+      will be displayed in CustomerTicketZoom."
+    Path:
+      Activity-7e784910f34ba6aebadf92b339220211:
+        Transition-02a58cc7512df63740875719de13bec9:
+          ActivityEntityID: Activity-a6b295b89681e4699d32c8eb978eaf56
+      Activity-a6b295b89681e4699d32c8eb978eaf56: {}
+    StartActivity: Activity-7e784910f34ba6aebadf92b339220211
+    StartActivityDialog: ActivityDialog-7d332abd3a8a6fdb533d63e62f4e6809
+  CreateTime: 2016-08-10 11:34:09
+  EntityID: Process-adf27457e567fe3db29983207776eff3
+  ID: '2'
+  Layout:
+    Activity-7e784910f34ba6aebadf92b339220211:
+      left: '276'
+      top: '132'
+    Activity-a6b295b89681e4699d32c8eb978eaf56:
+      left: '687'
+      top: '218'
+  Name: Office Materials Procurement
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-02a58cc7512df63740875719de13bec9
+Transitions:
+  Transition-02a58cc7512df63740875719de13bec9:
+    ChangeTime: 2016-08-10 12:05:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: ^
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-09 16:51:47
+    EntityID: Transition-02a58cc7512df63740875719de13bec9
+    ID: '1'
+    Name: Queue is not empty

@@ -21,10 +21,13 @@ package Kernel::Output::HTML::Statistics::View;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DateTime;
+use Kernel::System::DateTime      ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -840,7 +843,7 @@ sub GeneralSpecificationsWidget {
         );
     }
 
-    my $Output = $LayoutObject->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'Statistics/GeneralSpecificationsWidget',
         Data         => {
             %Frontend,
@@ -849,7 +852,6 @@ sub GeneralSpecificationsWidget {
             %Errors,
         },
     );
-    return $Output;
 }
 
 sub XAxisWidget {
@@ -859,7 +861,6 @@ sub XAxisWidget {
 
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # if only one value is available select this value
     if ( !$Stat->{UseAsXvalue}[0]{Selected} && scalar( @{ $Stat->{UseAsXvalue} } ) == 1 ) {
@@ -871,13 +872,13 @@ sub XAxisWidget {
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
         my %BlockData;
-        $BlockData{Fixed}   = 'checked="checked"';
+        $BlockData{Fixed}   = 'checked ';
         $BlockData{Checked} = '';
         $BlockData{Block}   = $ObjectAttribute->{Block};
 
         # things which should be done if this attribute is selected
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = '';
             }
@@ -967,19 +968,18 @@ sub YAxisWidget {
 
     # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @YAxisElements;
 
     OBJECTATTRIBUTE:
     for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
         my %BlockData;
-        $BlockData{Fixed}   = 'checked="checked"';
+        $BlockData{Fixed}   = 'checked ';
         $BlockData{Checked} = '';
         $BlockData{Block}   = $ObjectAttribute->{Block};
 
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = '';
             }
@@ -1079,14 +1079,14 @@ sub RestrictionsWidget {
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
         my %BlockData;
-        $BlockData{Fixed}              = 'checked="checked"';
+        $BlockData{Fixed}              = 'checked ';
         $BlockData{Checked}            = '';
         $BlockData{Block}              = $ObjectAttribute->{Block};
         $BlockData{CSSClass}           = $ObjectAttribute->{CSSClass};
         $BlockData{HTMLDataAttributes} = $ObjectAttribute->{HTMLDataAttributes};
 
         if ( $ObjectAttribute->{Selected} ) {
-            $BlockData{Checked} = 'checked="checked"';
+            $BlockData{Checked} = 'checked ';
             if ( !$ObjectAttribute->{Fixed} ) {
                 $BlockData{Fixed} = "";
             }
@@ -2135,10 +2135,10 @@ sub _TimeOutput {
         }
 
         if ( $Param{TimeRelativeUnit} ) {
-            $TimeOutput{CheckedRelative} = 'checked="checked"';
+            $TimeOutput{CheckedRelative} = 'checked ';
         }
         else {
-            $TimeOutput{CheckedAbsolut} = 'checked="checked"';
+            $TimeOutput{CheckedAbsolut} = 'checked ';
         }
     }
 

@@ -16,12 +16,20 @@
 
 package Kernel::Output::HTML::TicketZoom::TicketInformation;
 
-use parent 'Kernel::Output::HTML::Base';
-
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
-use Kernel::Language qw(Translatable);
+use parent 'Kernel::Output::HTML::Base';
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -34,8 +42,8 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
-    my %Ticket    = %{ $Param{Ticket} };
-    my %AclAction = %{ $Param{AclAction} };
+    my %Ticket    = $Param{Ticket}->%*;
+    my %AclAction = $Param{AclAction}->%*;
 
     # Show created by name, if different then root user (ID=1).
     if ( $Ticket{CreateBy} > 1 ) {
@@ -293,13 +301,20 @@ sub Run {
     }
 
     # owner info
-    my %OwnerInfo = $UserObject->GetUserData(
-        UserID => $Ticket{OwnerID},
-    );
-    $LayoutObject->Block(
-        Name => 'Owner',
-        Data => { %Ticket, %OwnerInfo, %AclAction, %{ $OnlineData{OwnerID} // {} } },
-    );
+    {
+        my %OwnerInfo = $UserObject->GetUserData(
+            UserID => $Ticket{OwnerID},
+        );
+        $LayoutObject->Block(
+            Name => 'Owner',
+            Data => {
+                %Ticket,
+                %OwnerInfo,
+                %AclAction,
+                ( $OnlineData{OwnerID} // {} )->%*,
+            },
+        );
+    }
 
     if ( $ConfigObject->Get('Ticket::Responsible') ) {
 
@@ -358,12 +373,21 @@ sub Run {
 
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
-        %{
+        IsHashRefWithData( $Self->{DisplaySettings}{DynamicFieldWidgetDisplay} )
+        ? %{
+            $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
+                ->{DynamicFieldWidgetDynamicField}
+                || {}
+            }
+        : (),
+        $IsProcessTicket
+        ? %{
             $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-        },
+            }
+        : (),
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
     };
 
     # get the dynamic fields for ticket object
@@ -372,40 +396,34 @@ sub Run {
         ObjectType  => ['Ticket'],
         FieldFilter => $DynamicFieldFilter || {},
     );
-    my $DynamicFieldBeckendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # to store dynamic fields to be displayed in the process widget and in the sidebar
     my (@FieldsSidebar);
 
     # cycle trough the activated Dynamic Fields for ticket object
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+    for my $DynamicFieldConfig ( $DynamicField->@* ) {
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
         # Check if this field is supposed to be hidden from the ticket information box.
         #   For example, it's displayed by a different mechanism (i.e. async widget).
-        if (
-            $DynamicFieldBeckendObject->HasBehavior(
+        next DYNAMICFIELD if
+            $DynamicFieldBackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsHiddenInTicketInformation',
-            )
-            )
-        {
-            next DYNAMICFIELD;
-        }
+            );
 
         # use translation here to be able to reduce the character length in the template
         my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
 
-        my $ValueStrg = $DynamicFieldBeckendObject->DisplayValueRender(
+        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            Value              => $Ticket{"DynamicField_$DynamicFieldConfig->{Name}"},
             LayoutObject       => $LayoutObject,
-            ValueMaxChars      => $ConfigObject->
-                Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')
-                || 18,    # limit for sidebar display
+            ValueMaxChars      => $ConfigObject->Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar') || 18,    # limit for sidebar display
         );
 
         if ( $Self->{DisplaySettings}->{DynamicField}->{ $DynamicFieldConfig->{Name} } ) {
@@ -417,6 +435,7 @@ sub Run {
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
                 LinkPreview                 => $ValueStrg->{LinkPreview},
+                FieldType                   => $DynamicFieldConfig->{FieldType},
                 TitleFieldConfig            => ( $DynamicFieldConfig->{FieldType} eq 'Title' ) ? $DynamicFieldConfig->{Config} : undef,
 
                 # Include unique parameter with dynamic field name in case of collision with others.
@@ -466,6 +485,19 @@ sub Run {
                     Text       => $Field->{Label},
                     Style      => $Style,
                     TitleField => 1,
+                },
+            );
+
+            next FIELD;
+        }
+        elsif ( $Field->{FieldType} eq 'Set' ) {
+
+            $LayoutObject->Block(
+                Name => 'TicketDynamicField',
+                Data => {
+                    Label     => $Field->{Label},
+                    Value     => $Field->{Value},
+                    HTMLValue => 1,
                 },
             );
 

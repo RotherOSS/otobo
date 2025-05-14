@@ -1,0 +1,197 @@
+---
+Activities:
+  Activity-0d20d4f21c8fdc01a03d6ac22653cd42:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:53
+    EntityID: Activity-0d20d4f21c8fdc01a03d6ac22653cd42
+    ID: '112'
+    Name: Service test planning and design verification
+  Activity-0ee981fed42d66e47a8dd8a2f057d340:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:53
+    EntityID: Activity-0ee981fed42d66e47a8dd8a2f057d340
+    ID: '113'
+    Name: Service test planning and design
+  Activity-216c943dada1a5316625c82f287ba365:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:53
+    EntityID: Activity-216c943dada1a5316625c82f287ba365
+    ID: '114'
+    Name: Service test execution
+  Activity-3471eef5ec267cb6f36435d9bcc1ddb8:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:53
+    EntityID: Activity-3471eef5ec267cb6f36435d9bcc1ddb8
+    ID: '115'
+    Name: Service test cleanup and closure
+  Activity-9d336e128f9bca06fbf3e4d04fe22189:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Activity-9d336e128f9bca06fbf3e4d04fe22189
+    ID: '116'
+    Name: Service test exit criteria evaluation and reporting
+  Activity-f27b6ad48490c12a6efc6e2b882b465c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:54
+    Config: {}
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Activity-f27b6ad48490c12a6efc6e2b882b465c
+    ID: '117'
+    Name: Service test environment preparation
+Process:
+  Activities:
+  - Activity-0d20d4f21c8fdc01a03d6ac22653cd42
+  - Activity-0ee981fed42d66e47a8dd8a2f057d340
+  - Activity-216c943dada1a5316625c82f287ba365
+  - Activity-3471eef5ec267cb6f36435d9bcc1ddb8
+  - Activity-9d336e128f9bca06fbf3e4d04fe22189
+  - Activity-f27b6ad48490c12a6efc6e2b882b465c
+  ChangeTime: 2017-10-31 22:39:54
+  Config:
+    Description: "Best practice IT Service Management Service Validation and Testing
+      process inspired by ITIL®.\r\n\r\nService Validation and Testing defines the
+      testing of services during the Service Transition phase.  This will ensure that
+      new or changed services are fit for purpose (this is known as utility) and fit
+      for use (this is known as warranty).\r\n \r\nService Validation and Testing's
+      goal is to make sure the delivery of activities adds value that is agreed and
+      expected.  If testing hasn't been carried out properly, additional Incidents
+      and Problems will arise.\r\n\r\nConfiguration: The functional and hierarchical
+      escalation transitions are not configured. They should be modified to fulfil
+      your business rules."
+    Path:
+      Activity-0d20d4f21c8fdc01a03d6ac22653cd42:
+        Transition-3a3844e37b629161d0c1059ae5b677e4:
+          ActivityEntityID: Activity-f27b6ad48490c12a6efc6e2b882b465c
+      Activity-0ee981fed42d66e47a8dd8a2f057d340:
+        Transition-9d4b36d8c842c83d8ea2fc4ada40c586:
+          ActivityEntityID: Activity-0d20d4f21c8fdc01a03d6ac22653cd42
+      Activity-216c943dada1a5316625c82f287ba365:
+        Transition-cd7f0295b8221a5909ef6240a1b56eea:
+          ActivityEntityID: Activity-9d336e128f9bca06fbf3e4d04fe22189
+      Activity-3471eef5ec267cb6f36435d9bcc1ddb8: {}
+      Activity-9d336e128f9bca06fbf3e4d04fe22189:
+        Transition-0fb8bc0d368bc0b56e4a3d0011eeb306:
+          ActivityEntityID: Activity-3471eef5ec267cb6f36435d9bcc1ddb8
+      Activity-f27b6ad48490c12a6efc6e2b882b465c:
+        Transition-81ccef5cee5f7e54704d9fc80b1f5ca6:
+          ActivityEntityID: Activity-216c943dada1a5316625c82f287ba365
+    StartActivity: Activity-0ee981fed42d66e47a8dd8a2f057d340
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:53
+  EntityID: Process-747206f82ecbfa7d7a08639dee485b05
+  ID: '19'
+  Layout:
+    Activity-0d20d4f21c8fdc01a03d6ac22653cd42:
+      left: '600'
+      top: '150'
+    Activity-0ee981fed42d66e47a8dd8a2f057d340:
+      left: '200'
+      top: '150'
+    Activity-216c943dada1a5316625c82f287ba365:
+      left: '1400'
+      top: '150'
+    Activity-3471eef5ec267cb6f36435d9bcc1ddb8:
+      left: '2200'
+      top: '150'
+    Activity-9d336e128f9bca06fbf3e4d04fe22189:
+      left: '1800'
+      top: '150'
+    Activity-f27b6ad48490c12a6efc6e2b882b465c:
+      left: '1000'
+      top: '150'
+  Name: Service Operation::Service Validation and Testing
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-3a3844e37b629161d0c1059ae5b677e4
+  - Transition-9d4b36d8c842c83d8ea2fc4ada40c586
+  - Transition-cd7f0295b8221a5909ef6240a1b56eea
+  - Transition-0fb8bc0d368bc0b56e4a3d0011eeb306
+  - Transition-81ccef5cee5f7e54704d9fc80b1f5ca6
+Transitions:
+  Transition-0fb8bc0d368bc0b56e4a3d0011eeb306:
+    ChangeTime: 2017-10-31 22:39:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Transition-0fb8bc0d368bc0b56e4a3d0011eeb306
+    ID: '125'
+    Name: Service test exit criteria evaluated and reported
+  Transition-3a3844e37b629161d0c1059ae5b677e4:
+    ChangeTime: 2017-10-31 22:39:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Transition-3a3844e37b629161d0c1059ae5b677e4
+    ID: '126'
+    Name: Service test plan and design verified
+  Transition-81ccef5cee5f7e54704d9fc80b1f5ca6:
+    ChangeTime: 2017-10-31 22:39:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Transition-81ccef5cee5f7e54704d9fc80b1f5ca6
+    ID: '127'
+    Name: Service test environment prepared
+  Transition-9d4b36d8c842c83d8ea2fc4ada40c586:
+    ChangeTime: 2017-10-31 22:39:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Transition-9d4b36d8c842c83d8ea2fc4ada40c586
+    ID: '128'
+    Name: Service test planned and designed
+  Transition-cd7f0295b8221a5909ef6240a1b56eea:
+    ChangeTime: 2017-10-31 22:39:54
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:54
+    EntityID: Transition-cd7f0295b8221a5909ef6240a1b56eea
+    ID: '129'
+    Name: Service test executed

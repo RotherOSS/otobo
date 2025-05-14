@@ -48,12 +48,12 @@
                 <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
                 <fieldset class="TableLike">
 
-# example template for customizations, see hidden form at the end of the file
-#                    <label>[% Translate("Templates") | html %]:</label>
-#                    <div class="Field">
-#                        <button type="button" onclick="$('#Template1').submit()" value="[% Translate("Example Template") | html %]">[% Translate("Example Template") | html %]</button>
-#                    </div>
-#                    <div class="Clear"></div>
+[% RenderBlockStart("AsteriskExplanation") %]
+                    <div class="Field">
+                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
 
                     <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("To customer user") | html %]:</label>
                     <div class="Field">
@@ -80,11 +80,13 @@
                         <div class="CustomerTicketTemplateToCustomer Hidden">
                             <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText Radio" title="[% Translate("To customer user") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText Radio" title="[% Translate("To customer user") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="RemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketToCc" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]"><span>Cc</span></a>
+                            <a href="#" id="MoveCustomerTicketToBcc" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]"><span>Bcc</span></a>
                         </div>
 
                         <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
@@ -93,11 +95,13 @@
                             <div>
                                 <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="[% Data.Count | html %]" [% Data.CustomerSelected | html %]  [% Data.CustomerDisabled | html %] />
                                 <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
                                 </a>
+                                <a href="#" id="MoveCustomerTicketToCc_[% Data.Count | html %]"  class="MoveCustomerButton CcMove"  title="[% Translate("Move to Cc") | html %]"  name="MoveCustomerTicketToCc_[% Data.Count | html %]"><span>Cc</span></a>
+                                <a href="#" id="MoveCustomerTicketToBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketToBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
 [% RenderBlockStart("CustomerErrorExplantion") %]
                                 <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
@@ -154,11 +158,13 @@
                     <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                             <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="CcRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketCcTo" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]"><span>To</span></a>
+                            <a href="#" id="MoveCustomerTicketCcBcc" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]"><span>Bcc</span></a>
                         </div>
 
                         <div id="TicketCustomerContentCcCustomer" class="CcCustomerContainer">
@@ -166,11 +172,13 @@
 [% RenderBlockStart("CcMultipleCustomer") %]
                             <div>
                                 <input name="CcCustomerKey_[% Data.Count | html %]" id="CcCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CcCustomerTicketText_[% Data.Count %]" id="CcCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CcCustomerTicketText_[% Data.Count %]" id="CcCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="CcRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
                                 </a>
+                                <a href="#" id="MoveCustomerTicketCcTo_[% Data.Count | html %]"  class="MoveCustomerButton ToMove"  title="[% Translate("Move to To") | html %]"  name="MoveCustomerTicketCcTo_[% Data.Count | html %]"><span>To</span></a>
+                                <a href="#" id="MoveCustomerTicketCcBcc_[% Data.Count | html %]" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]" name="MoveCustomerTicketCcBcc_[% Data.Count | html %]"><span>Bcc</span></a>
 
 [% RenderBlockStart("CcCustomerErrorExplantion") %]
                                 <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
@@ -227,11 +235,13 @@
                     <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
                         <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                             <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                            <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly />
                             <a href="#" id="BccRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
                                 <i class="fa fa-minus-square-o"></i>
                                 <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
                             </a>
+                            <a href="#" id="MoveCustomerTicketBccTo" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]"><span>To</span></a>
+                            <a href="#" id="MoveCustomerTicketBccCc" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]"><span>Cc</span></a>
                         </div>
 
                         <div id="TicketCustomerContentBccCustomer" class="BccCustomerContainer">
@@ -239,11 +249,13 @@
 [% RenderBlockStart("BccMultipleCustomer") %]
                             <div>
                                 <input name="BccCustomerKey_[% Data.Count | html %]" id="BccCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
-                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="BccCustomerTicketText_[% Data.Count %]" id="BccCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                                <input class="CustomerTicketText [% Data.CustomerError | html %]" name="BccCustomerTicketText_[% Data.Count %]" id="BccCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly />
                                 <a href="#" id="BccRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
                                 </a>
+                                <a href="#" id="MoveCustomerTicketBccTo_[% Data.Count | html %]" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]" name="MoveCustomerTicketBccTo_[% Data.Count | html %]"><span>To</span></a>
+                                <a href="#" id="MoveCustomerTicketBccCc_[% Data.Count | html %]" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]" name="MoveCustomerTicketBccCc_[% Data.Count | html %]"><span>Cc</span></a>
 
 [% RenderBlockStart("BccCustomerErrorExplantion") %]
                                 <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
@@ -280,7 +292,7 @@
                     <div class="Clear"></div>
 
 [% IF Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
-                    <input type="hidden" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" readonly="readonly"/>
+                    <input type="hidden" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" readonly/>
 [% ELSE %]
                     [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
 [% END %]
@@ -336,37 +348,7 @@
                     <div class="Clear"></div>
 [% RenderBlockEnd("TicketSLA") %]
 
-[% RenderBlockStart("DynamicField") %]
-                    <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                        [% Data.Label %]
-                        <div class="Field">
-                            [% Data.Field %]
-                        </div>
-                        <div class="Clear"></div>
-                    </div>
-[% RenderBlockEnd("DynamicField") %]
-
-# example of how to use fixed dynamic field blocks for customizations
-# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
-# field names
-#[% RenderBlockStart("DynamicField_Field1") %]
-#                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                        [% Data.Label %]
-#                        <div class="Field">
-#                            [% Data.Field %]
-#                        </div>
-#                        <div class="Clear"></div>
-#                    </div>
-#[% RenderBlockEnd("DynamicField_Field1") %]
-#[% RenderBlockStart("DynamicField_Field2") %]
-#                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                        [% Data.Label %]
-#                        <div class="Field">
-#                            [% Data.Field %]
-#                        </div>
-#                        <div class="Clear"></div>
-#                    </div>
-#[% RenderBlockEnd("DynamicField_Field2") %]
+[% Data.DynamicFieldHTML %]
 
 [% RenderBlockStart("OwnerSelection") %]
                     <label for="NewUserID">[% Translate("Owner") | html %]:</label>
@@ -447,7 +429,7 @@
                     <div class="Clear"></div>
 
                     <label for="Signature">[% Translate("Signature") | html %]:</label>
-                    <div class="RichTextField">
+                    <div class="Field">
                         <input type="hidden" name="Signature" value="[% Data.Signature | html %]"/>
                         <iframe height="140" width="620" frameborder="0" id="Signature" class="Signature" src="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Signature;QueueID=[% Data.QueueID | html %]"></iframe>
                     </div>
@@ -505,15 +487,3 @@
     </div>
     <div id="CustomerTickets"></div>
 </div>
-
-# example template form for customizations
-#<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" id="Template1">
-#    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-#    <input type="hidden" name="Subaction" value="StoreNew"/>
-#    <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-#    <input type="hidden" name="ExpandCustomerName" value="2"/>
-#    <input type="hidden" name="Subject" value="Example Subject"/>
-#    <input type="hidden" name="Body" value="Name:
-#Product:
-#Comment:"/>
-#</form>

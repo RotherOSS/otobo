@@ -21,7 +21,7 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use Time::HiRes qw();
+use Time::HiRes ();
 
 our @ObjectDependencies = (
     'Kernel::Config',

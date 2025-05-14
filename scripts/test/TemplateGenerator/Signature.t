@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -120,7 +120,7 @@ for my $Test (@Tests) {
     # add signature
     my $SignatureID = $SignatureObject->SignatureAdd(
         Name => $Helper->GetRandomID() . '-Signature',
-        ,
+
         Text        => $Test->{Signature},
         ContentType => 'text/plain; charset=iso-8859-1',
         Comment     => 'some comment',

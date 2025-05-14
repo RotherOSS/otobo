@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
@@ -54,7 +54,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );

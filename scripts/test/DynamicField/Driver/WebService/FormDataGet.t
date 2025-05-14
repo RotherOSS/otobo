@@ -18,15 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
-use URI::Escape;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Disable email address checks
@@ -102,17 +103,19 @@ my $DynamicFieldDriverObject = $Kernel::OM->Get('Kernel::System::DynamicField::D
 TEST:
 for my $Test (@Tests) {
 
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
+    # create a new HTTP::Request object to simulate a web request
+    my $QueryString = $Test->{Request} // '';
+    my $HTTPRequest = GET( 'http://example.com/example?' . $QueryString );
+
+    # force the ParamObject to use the new request params
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
     );
 
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
-
+    # _FormDataGet() implicitly calls Kernel::System::Web::Request->new();
     my $FormData = $DynamicFieldDriverObject->_FormDataGet();
 
-    $Self->IsDeeply(
+    is(
         $FormData,
         $Test->{ExectedResult},
         "$Test->{Name} FormDataGet()",
@@ -124,4 +127,4 @@ continue {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

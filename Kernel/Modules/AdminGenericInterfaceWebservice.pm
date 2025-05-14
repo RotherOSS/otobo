@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -29,6 +29,15 @@ sub new {
 
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -43,6 +52,18 @@ sub Run {
     my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
     my $YAMLObject       = $Kernel::OM->Get('Kernel::System::YAML');
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # ------------------------------------------------------------ #
     # sub-action Change: load web service and show edit screen
@@ -392,7 +413,7 @@ sub Run {
 
         # Send JSON response.
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -506,8 +527,7 @@ sub Run {
             }
 
             # Extract file name.
-            $ExampleWebServiceFilename =~ m{(.*?)\.yml$}smx;
-            $FileWithoutExtension = $1;
+            ($FileWithoutExtension) = $ExampleWebServiceFilename =~ m{(.*?)\.yml$}smx;
 
             # Run _pre.pm if available.
             if ( -e "$Home/var/webservices/examples/" . $FileWithoutExtension . "_pre.pm" ) {
@@ -528,18 +548,6 @@ sub Run {
                 my $BackendPre = $Kernel::OM->Get(
                     $BackendName,
                 );
-
-                if ( $BackendPre->can('DependencyCheck') ) {
-                    my %Result = $BackendPre->DependencyCheck();
-                    if ( !$Result{Success} && $Result{ErrorMessage} ) {
-
-                        return $Self->_ShowEdit(
-                            DependencyErrorMessage => $Result{ErrorMessage},
-                            %Param,
-                            Action => 'Add',
-                        );
-                    }
-                }
 
                 my %Status = $BackendPre->Run();
                 if ( !$Status{Success} ) {
@@ -768,6 +776,13 @@ sub _ShowOverview {
         Data => \%Param,
     );
 
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
     $LayoutObject->Block( Name => 'OverviewHeader' );
@@ -777,7 +792,7 @@ sub _ShowOverview {
 
     # Get web services list.
     my $WebserviceList = $WebserviceObject->WebserviceList(
-        Valid => 0,
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
     );
 
     # Check if no web services are registered.
@@ -913,7 +928,7 @@ sub _ShowEdit {
 
         my %Frontend;
 
-        if ( 0 && %ExampleWebServicesData ) {    # OTOBOCommunity installed
+        if (%ExampleWebServicesData) {
             $Frontend{ExampleWebServiceList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Name         => 'ExampleWebService',
                 Data         => \%ExampleWebServicesData,
@@ -1048,21 +1063,25 @@ sub _ShowEdit {
         $GIInvokers{$Invoker} = $GIInvokerConfig->{$Invoker}->{ConfigDialog};
     }
 
-    # Get error handling modules data.
-    my %GIErrorHandlingModules;
-    my $GIErrorHandlingModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
-    ERRORHANDLINGMODULE:
-    for my $ErrorHandlingModules ( sort keys %{$GIErrorHandlingModuleConfig} ) {
-        next ERRORHANDLINGMODULE if !$ErrorHandlingModules;
-        $GIErrorHandlingModules{$ErrorHandlingModules} = $GIErrorHandlingModuleConfig->{$ErrorHandlingModules}->{ConfigDialog};
-    }
+    # Get error handling modules data for the configuration dialog.
+    {
+        my %GIErrorHandlingModules;
+        my $GIErrorHandlingModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
+        ERRORHANDLINGMODULE:
+        for my $ErrorHandlingModule ( sort keys $GIErrorHandlingModuleConfig->%* ) {
+            next ERRORHANDLINGMODULE unless $ErrorHandlingModule;
 
-    $Self->_OutputGIConfig(
-        GITransports           => \%GITransports,
-        GIOperations           => \%GIOperations,
-        GIInvokers             => \%GIInvokers,
-        GIErrorHandlingModules => \%GIErrorHandlingModules,
-    );
+            $GIErrorHandlingModules{$ErrorHandlingModule} = $GIErrorHandlingModuleConfig->{$ErrorHandlingModule}->{ConfigDialog};
+        }
+
+        # register the relevant data as JS data
+        $Self->_OutputGIConfig(
+            GITransports           => \%GITransports,
+            GIOperations           => \%GIOperations,
+            GIInvokers             => \%GIInvokers,
+            GIErrorHandlingModules => \%GIErrorHandlingModules,
+        );
+    }
 
     # Meta configuration for output blocks.
     my %CommTypeConfig = (
@@ -1112,12 +1131,12 @@ sub _ShowEdit {
         my @ErrorModules;
 
         ERRORMODULEKEY:
-        for my $ErrorModuleKey ( sort keys %{$ErrorModuleConfig} ) {
+        for my $ErrorModuleKey ( sort keys $ErrorModuleConfig->%* ) {
 
-            next ERRORMODULEKEY if !$ErrorModuleKey;
-            next ERRORMODULEKEY if !IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
+            next ERRORMODULEKEY unless $ErrorModuleKey;
+            next ERRORMODULEKEY unless IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
 
             # Check for active communication type filter.
             if (
@@ -1375,6 +1394,7 @@ sub _ShowEdit {
     );
 
     $Output .= $LayoutObject->Footer();
+
     return $Output;
 }
 
@@ -1482,7 +1502,7 @@ sub _DeleteAction {
 
     # Send JSON response.
     return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+        ContentType => 'application/json',
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,

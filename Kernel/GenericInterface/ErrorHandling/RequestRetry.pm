@@ -38,19 +38,17 @@ Kernel::GenericInterface::ErrorHandling::RequestRetry - Module do decide about r
 create an object. Do not create it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $ErrorObject = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Run()
@@ -86,7 +84,8 @@ sub Run {
         return $Self->_LogAndReturn( ErrorMessage => 'Got no ModuleConfig!' );
     }
     my $ModuleConfigCheck = $Self->_ModuleConfigCheck( %{ $Param{ModuleConfig} } );
-    return $ModuleConfigCheck if !$ModuleConfigCheck->{Success};
+
+    return $ModuleConfigCheck unless $ModuleConfigCheck->{Success};
 
     # Set basic information including possibly existing past execution data.
     my $RetryCount      = $Param{PastExecutionData}->{RetryCount} // 0;
@@ -102,6 +101,7 @@ sub Run {
                 String => $Param{PastExecutionData}->{RetryDateTime},
             },
         );
+
         return $Self->_LogAndReturn( ErrorMessage => 'RetryDateTime is invalid!' ) if !$CurrentRequestDateTime;
     }
     else {
@@ -117,6 +117,7 @@ sub Run {
                 String => $Param{PastExecutionData}->{InitialRequestDateTime},
             },
         );
+
         return $Self->_LogAndReturn( ErrorMessage => 'InitialRequestDateTime is invalid!' ) if !$InitialRequestDateTime;
     }
     else {
@@ -151,6 +152,7 @@ sub Run {
         )
     {
         $ReturnData{Data}->{MaximumRetryCountReached} = 1;
+
         return \%ReturnData;
     }
 
@@ -160,6 +162,7 @@ sub Run {
         $DeltaInitialToCurrentRequest = $InitialRequestDateTime->Delta( DateTimeObject => $CurrentRequestDateTime );
         if ( $DeltaInitialToCurrentRequest->{AbsoluteSeconds} >= $Param{ModuleConfig}->{RetryPeriodMax} ) {
             $ReturnData{Data}->{MaximumRetryPeriodReached} = 1;
+
             return \%ReturnData;
         }
     }
@@ -208,6 +211,7 @@ sub Run {
 
     # Schedule retry and set appropriate past execution data.
     $ReturnData{Data}->{ReSchedule} = 1;
+
     return {
         %ReturnData,
         ReScheduleData => {

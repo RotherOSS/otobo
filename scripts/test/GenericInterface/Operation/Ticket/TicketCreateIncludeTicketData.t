@@ -18,23 +18,22 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use Socket;
-use MIME::Base64;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
+use Kernel::GenericInterface::Debugger                          ();
+use Kernel::GenericInterface::Operation::Ticket::TicketCreate   ();                                                         ## no perlimports, new() from string
+use Kernel::GenericInterface::Operation::Session::SessionCreate ();                                                         ## no perlimports, new() from string
+use Kernel::System::VariableCheck                               qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-use Kernel::GenericInterface::Operation::Session::SessionCreate;
-
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+our $Self;
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Skip SSL certificate verification.
 $Kernel::OM->ObjectParamAdd(
@@ -893,7 +892,8 @@ for my $QueueData (@Queues) {
 
 # delete group
 $Success = $DBObject->Do(
-    SQL => "DELETE FROM groups_table WHERE id = $GroupID",
+    SQL  => 'DELETE FROM groups_table WHERE id = ?',
+    Bind => [ \$GroupID ],
 );
 $Self->True(
     $Success,
@@ -974,4 +974,4 @@ $Self->True(
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing;

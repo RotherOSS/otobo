@@ -20,10 +20,15 @@ package Kernel::System::Console::Command::Dev::Code::Generate::ConsoleCommand;
 use strict;
 use warnings;
 
-use File::Path     ();
-use File::Basename ();
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Path     ();
+use File::Basename qw(dirname);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -97,7 +102,7 @@ sub Run {
     );
 
     my $TargetLocationPM  = "$TargetHome/Kernel/System/Console/Command/$CommandPathPM";
-    my $TargetDirectoryPM = File::Basename::dirname($TargetLocationPM);
+    my $TargetDirectoryPM = dirname($TargetLocationPM);
 
     if ( !-d $TargetDirectoryPM ) {
         File::Path::make_path($TargetDirectoryPM);
@@ -147,7 +152,7 @@ sub Run {
     );
 
     my $TargetLocationUT  = "$TargetHome/scripts/test/Console/Command/$CommandPathUT";
-    my $TargetDirectoryUT = File::Basename::dirname($TargetLocationUT);
+    my $TargetDirectoryUT = dirname($TargetLocationUT);
 
     if ( !-d $TargetDirectoryUT ) {
         File::Path::make_path($TargetDirectoryUT);

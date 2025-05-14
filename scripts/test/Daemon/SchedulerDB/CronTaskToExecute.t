@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -31,7 +35,7 @@ my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # Get current daemon status.
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 # Check if there is permissions for daemon commands.
 if ( !defined $PreviousDaemonStatus ) {
@@ -45,8 +49,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # Wait to get daemon fully stopped before test continues.
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -72,7 +76,7 @@ my $RunTasks = sub {
 
         sleep 1;
 
-        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+        note "Waiting $Sec secs for scheduler tasks to be executed";
 
         if ( $Sec == 120 && scalar @List ) {
             $AllTaskIsDone = 0;
@@ -236,4 +240,4 @@ for my $Task (@List) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

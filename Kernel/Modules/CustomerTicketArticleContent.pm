@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -148,7 +148,6 @@ sub Run {
         ContentID          => '',
         ContentType        => 'text/html; charset="utf-8"',
         Disposition        => "inline",
-        FilesizeRaw        => bytes::length($Content),
     );
 
     # set download type to inline

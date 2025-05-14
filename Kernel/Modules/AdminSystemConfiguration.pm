@@ -19,9 +19,15 @@ package Kernel::Modules::AdminSystemConfiguration;
 use strict;
 use warnings;
 
-our $ObjectManagerDisabled = 1;
+# core modules
 
+# CPAN modules
+use URI::Escape qw(uri_unescape);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -116,17 +122,9 @@ sub Run {
             }
         }
 
-        # build JSON output
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => \@Data,
-        );
-
-        # send JSON response
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-            Content     => $JSON || '',
-            Type        => 'inline',
-            NoCache     => 1,
+        # JSON output
+        return $LayoutObject->JSONReply(
+            Data => \@Data
         );
     }
 
@@ -245,15 +243,8 @@ sub Run {
 
         my $Result = keys %UsersList;
 
-        my $JSON = $LayoutObject->JSONEncode(
-            Data => $Result // 0,
-        );
-
-        return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
+        return $LayoutObject->JSONReply(
+            Data => $Result // 0
         );
     }
 
@@ -395,7 +386,7 @@ sub Run {
         if ($SettingName) {
 
             # URL-decode setting name, just in case. Please see bug#13271 for more information.
-            $SettingName = URI::Escape::uri_unescape($SettingName);
+            $SettingName = uri_unescape($SettingName);
 
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
             my %Setting         = $SysConfigObject->SettingGet(
@@ -622,22 +613,22 @@ sub Run {
             return $LayoutObject->SecureMode();
         }
 
-        my $ManualVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-        $ManualVersion =~ m{^(\d{1,2}).+};
-        $ManualVersion = $1;
+        # generate version for links to the manual,
+        # only major and minor version are relevant, like 11.0 for version 11.0.1
+        my ($ManualVersion) = $Kernel::OM->Get('Kernel::Config')->Get('Version') =~ m/^(\d{2}\.\d+)/;
 
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminSystemConfiguration',
-            Data         => {
-                ManualVersion => $ManualVersion,
-                SettingCount  => scalar @SettingList,
-                %OutputData,
-            },
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->NavigationBar,
+            $LayoutObject->Output(
+                TemplateFile => 'AdminSystemConfiguration',
+                Data         => {
+                    ManualVersion => $ManualVersion,
+                    SettingCount  => scalar @SettingList,
+                    %OutputData,
+                },
+            ),
+            $LayoutObject->Footer;
     }
 }
 

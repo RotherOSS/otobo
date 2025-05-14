@@ -30,6 +30,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -42,10 +51,20 @@ sub Run {
 
     my %GetParam = ();
     my @Params   = (
-        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy)
+        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy IncludeInvalid)
     );
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
+    }
+
+    if ( defined $GetParam{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $GetParam{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $GetParam{IncludeInvalid};
     }
 
     # ------------------------------------------------------------ #
@@ -107,6 +126,7 @@ sub Run {
         if ( !$Delete ) {
             return $LayoutObject->ErrorScreen();
         }
+
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $Delete,
@@ -335,6 +355,13 @@ sub _Overview {
 
     $LayoutObject->Block( Name => 'ActionList' );
     $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block(
+        Name => 'IncludeInvalid',
+        Data => {
+            IncludeInvalid        => $Self->{IncludeInvalid},
+            IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+        },
+    );
     $LayoutObject->Block( Name => 'Filter' );
 
     $LayoutObject->Block(
@@ -342,7 +369,9 @@ sub _Overview {
         Data => \%Param,
     );
 
-    my %List = $MailAccount->MailAccountList( Valid => 0 );
+    my %List = $MailAccount->MailAccountList(
+        Valid => $Self->{IncludeInvalid} ? 0 : 1,
+    );
 
     # if there are any mail accounts, they are shown
     if (%List) {
@@ -359,7 +388,9 @@ sub _Overview {
 
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
-                Data => \%Data,
+                Data => {
+                    %Data,
+                },
             );
         }
     }

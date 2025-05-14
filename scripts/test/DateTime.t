@@ -14,35 +14,34 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use DateTime ();
+use Test2::V0;
 
-use Kernel::System::DateTime;
+# OTOBO modueles
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::DateTime ();
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-#
 # Tests for DateTime object with current date and time
-#
 
 # Without specific time zone
 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-$Self->Is(
-    ref $DateTimeObject,
-    'Kernel::System::DateTime',
-    'Creation of DateTime object must succeed.'
-);
+isa_ok( $DateTimeObject, ['Kernel::System::DateTime'], 'DateTime object without specific time zone' );
 
-my $Values = $DateTimeObject->Get();
+my $Values = $DateTimeObject->Get;
 
-$Self->Is(
+is(
     $Values->{TimeZone},
     $DateTimeObject->OTOBOTimeZoneGet(),
     'Time zone of DateTime object must match the one configured for data storage.'
@@ -56,8 +55,8 @@ $DateTimeObject = $Kernel::OM->Create(
     },
 );
 
-$Self->False(
-    $DateTimeObject,
+ok(
+    !$DateTimeObject,
     'Creation of DateTime object must fail for invalid time zone.'
 );
 
@@ -69,23 +68,17 @@ $DateTimeObject = $Kernel::OM->Create(
     },
 );
 
-$Self->Is(
-    ref $DateTimeObject,
-    'Kernel::System::DateTime',
-    'Creation of DateTime object must succeed.'
-);
+isa_ok( $DateTimeObject, ['Kernel::System::DateTime'], 'DateTime object with specific time zone' );
 
-$Values = $DateTimeObject->Get();
+$Values = $DateTimeObject->Get;
 
-$Self->Is(
+is(
     $Values->{TimeZone},
     'Europe/Berlin',
     'Time zone of DateTime object must match the one configured for data storage.'
 );
 
-#
 # Test for ToOTOBODateTimeZone
-#
 $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
@@ -124,7 +117,7 @@ my $ExpectedDateTimeValues = {
     TimeZone  => 'UTC',
 };
 
-$Self->IsDeeply(
+is(
     $DateTimeValues,
     $ExpectedDateTimeValues,
     'Date and time after call to ToOTOBOTimeZone must match expected values.'
@@ -315,50 +308,50 @@ my @DateTimeTestConfigs = (
     },
 );
 
-TESTCONFIG:
 for my $TestConfig (@DateTimeTestConfigs) {
+    state $TestCount = 0;
+    $TestCount++;
 
-    # Create DateTime object
-    $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => $TestConfig->{Params},
-    );
+    subtest "DateTime test $TestCount" => sub {
 
-    $Self->Is(
-        ref $DateTimeObject eq 'Kernel::System::DateTime' ? 1 : 0,
-        $TestConfig->{SuccessExpected},
-        'Creation of DateTime object must ' . ( $TestConfig->{SuccessExpected} ? '' : 'not ' ) . 'succeed.',
-    );
+        # Create DateTime object
+        $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => $TestConfig->{Params},
+        );
 
-    next TESTCONFIG if !$DateTimeObject;
+        is(
+            ref $DateTimeObject eq 'Kernel::System::DateTime' ? 1 : 0,
+            $TestConfig->{SuccessExpected},
+            'Creation of DateTime object must ' . ( $TestConfig->{SuccessExpected} ? '' : 'not ' ) . 'succeed.',
+        );
 
-    # Check values of created DateTime object
-    my $Values      = $DateTimeObject->Get();
-    my $ValuesMatch = 1;
+        return unless $DateTimeObject;
 
-    VALUENAME:
-    for my $ValueName (qw ( Year Month Day Hour Minute Second TimeZone )) {
+        # Check values of created DateTime object
+        my $Values      = $DateTimeObject->Get();
+        my $ValuesMatch = 1;
 
-        my $ExpectedValue = $TestConfig->{Params}->{$ValueName} || 0;
-        if ( !$ExpectedValue && $ValueName eq 'TimeZone' ) {
-            $ExpectedValue = $DateTimeObject->OTOBOTimeZoneGet();
+        VALUENAME:
+        for my $ValueName (qw ( Year Month Day Hour Minute Second TimeZone )) {
+
+            my $ExpectedValue = $TestConfig->{Params}->{$ValueName} || 0;
+            if ( !$ExpectedValue && $ValueName eq 'TimeZone' ) {
+                $ExpectedValue = $DateTimeObject->OTOBOTimeZoneGet();
+            }
+
+            if ( !defined $Values->{$ValueName} || $Values->{$ValueName} ne $ExpectedValue ) {
+                $ValuesMatch = 0;
+
+                last VALUENAME;
+            }
         }
 
-        if ( !defined $Values->{$ValueName} || $Values->{$ValueName} ne $ExpectedValue ) {
-            $ValuesMatch = 0;
-            last VALUENAME;
-        }
-    }
-
-    $Self->True(
-        $ValuesMatch,
-        'DateTime values must match those of creation.'
-    );
+        ok( $ValuesMatch, 'DateTime values must match those of creation.' );
+    };
 }
 
-#
 # Tests for creating and setting DateTime object via string
-#
 my @StringTestConfigs = (
     {
         Data => {
@@ -440,49 +433,93 @@ my @StringTestConfigs = (
 );
 
 for my $TestConfig (@StringTestConfigs) {
+    state $TestCount = 0;
+    $TestCount++;
+
+    subtest "string test $TestCount" => sub {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => $TestConfig->{Data},
+        );
+
+        if ($DateTimeObject) {
+            my $DateTimeValues = $DateTimeObject->Get();
+
+            is(
+                $DateTimeObject->Get(),
+                $TestConfig->{ExpectedResult},
+                'Creation of DateTime object must have expected result.',
+            );
+        }
+        else {
+            is(
+                $DateTimeObject,
+                $TestConfig->{ExpectedResult},
+                'Creation of DateTime object via string must have expected result.',
+            );
+        }
+
+        $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        if ( defined $TestConfig->{Data}->{TimeZone} ) {
+            $DateTimeObject->ToTimeZone( TimeZone => $TestConfig->{Data}->{TimeZone} );
+        }
+
+        my $Result = $DateTimeObject->Set( String => $TestConfig->{Data}->{String} );
+
+        if ( ref $TestConfig->{ExpectedResult} ) {
+            is(
+                $DateTimeObject->Get(),
+                $TestConfig->{ExpectedResult},
+                'Setting values of DateTimeObject via string must have expected result.'
+            );
+        }
+        else {
+            is(
+                $Result,
+                $TestConfig->{ExpectedResult},
+                'Setting values of DateTimeObject via string must have expected result.'
+            );
+        }
+    };
+}
+
+# Tests for creating and setting DateTime object via a CPAN DateTime object
+{
+    my $CPANDateTimeObject = DateTime->from_epoch( epoch => 1677867509 );
+    my %ExpectedResult     = (
+        Year      => 2023,
+        Month     => 3,
+        MonthAbbr => 'Mar',
+        Day       => 3,
+        DayOfWeek => 5,
+        DayAbbr   => 'Fri',
+        Hour      => 18,
+        Minute    => 18,
+        Second    => 29,
+        TimeZone  => 'UTC',
+    );
+    my $Description = 'epoch from 2023-03-03';
+
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
-        ObjectParams => $TestConfig->{Data},
+        ObjectParams => {
+            CPANDateTimeObject => $CPANDateTimeObject,
+        },
     );
 
-    if ($DateTimeObject) {
-        my $DateTimeValues = $DateTimeObject->Get();
+    is(
+        $DateTimeObject->Get(),
+        \%ExpectedResult,
+        "$Description: Creation of DateTime",
+    );
 
-        $Self->IsDeeply(
-            $DateTimeObject->Get(),
-            $TestConfig->{ExpectedResult},
-            'Creation of DateTime object via string must have expected result.',
-        );
-    }
-    else {
-        $Self->Is(
-            $DateTimeObject,
-            $TestConfig->{ExpectedResult},
-            'Creation of DateTime object via string must have expected result.',
-        );
-    }
+    $CPANDateTimeObject->set( year => 2000 );
 
-    $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    if ( defined $TestConfig->{Data}->{TimeZone} ) {
-        $DateTimeObject->ToTimeZone( TimeZone => $TestConfig->{Data}->{TimeZone} );
-    }
-
-    my $Result = $DateTimeObject->Set( String => $TestConfig->{Data}->{String} );
-
-    if ( ref $TestConfig->{ExpectedResult} ) {
-        $Self->IsDeeply(
-            $DateTimeObject->Get(),
-            $TestConfig->{ExpectedResult},
-            'Setting values of DateTimeObject via string must have expected result.'
-        );
-    }
-    else {
-        $Self->Is(
-            $Result,
-            $TestConfig->{ExpectedResult},
-            'Setting values of DateTimeObject via string must have expected result.'
-        );
-    }
+    is(
+        $DateTimeObject->Get(),
+        \%ExpectedResult,
+        "$Description: after changing the year in the source",
+    );
 }
 
 #
@@ -492,10 +529,10 @@ my $ExpectedSystemTimeZone = 'Europe/Berlin';
 local $ENV{TZ} = $ExpectedSystemTimeZone;
 my $SystemTimeZone = Kernel::System::DateTime->SystemTimeZoneGet();
 
-$Self->Is(
+is(
     $SystemTimeZone,
     $ExpectedSystemTimeZone,
     'System time zone must match expected one.'
 );
 
-$Self->DoneTesting();
+done_testing;

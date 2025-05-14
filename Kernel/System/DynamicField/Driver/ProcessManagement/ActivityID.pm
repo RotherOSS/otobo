@@ -16,12 +16,20 @@
 
 package Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseText);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -34,11 +42,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID
+Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID - driver for the ActivityID dynamic field
 
 =head1 DESCRIPTION
 
-DynamicFields Text Driver delegate
+ActivityID dynamic field.
 
 =head1 PUBLIC INTERFACE
 
@@ -53,11 +61,17 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
+
+    # ActivityID dynamic field values are stored in the database table attribute dynamic_field_value.value_text
+    $Self->{ValueKey}       = 'ValueText';
+    $Self->{TableAttribute} = 'value_text';
+
+    # Used for declaring CSS classes
+    $Self->{FieldCSSClass} = 'DynamicFieldText';
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -110,10 +124,8 @@ sub new {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
     # convert the ActivityEntityID to the Activity name
@@ -128,7 +140,7 @@ sub DisplayValueRender {
     my $Title = $Value;
 
     # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
+    if ($HTMLOutput) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
             Max  => $Param{ValueMaxChars} || '',
@@ -151,21 +163,16 @@ sub DisplayValueRender {
     # set field link form config
     my $Link = $Param{DynamicFieldConfig}->{Config}->{Link} || '';
 
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value => $Value,
         Title => $Title,
         Link  => $Link,
     };
-
-    return $Data;
 }
 
 sub ColumnFilterValuesGet {
     my ( $Self, %Param ) = @_;
-
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
 
     # set PossibleValues
     my $SelectionData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityList();

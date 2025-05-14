@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # get needed objects
 my $CacheObject            = $Kernel::OM->Get('Kernel::System::Cache');
@@ -234,7 +238,7 @@ my @Tests = (
         Name   => 'TransitionActionAdd Test 14: Correct UTF8 2',
         Config => {
             EntityID => "$RandomID-2",
-            Name     => "TransitionAction-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.",
+            Name     => "TransitionAction-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.",
             Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove',
                 Config => {
@@ -571,7 +575,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedTransitionActionsList[1],
             EntityID => $RandomID . '-2-U',
-            Name     => "TransitionAction-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.-U",
+            Name     => "TransitionAction-$RandomID--!Â§\$%&/()=?Ã*ÃÃL:L@,.-U",
             Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove-U',
                 Config => {
@@ -615,7 +619,7 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the TransitionAction
-        print "Force a gap between create and update TransitionAction, Waiting 2s\n";
+        note "Force a gap between create and update TransitionAction, Waiting 2s";
 
         # wait 2 seconds
         FixedTimeAddSeconds(2);
@@ -897,6 +901,4 @@ $Self->IsDeeply(
     "TransitionActionListGet Test 2: Correct List | Cache",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

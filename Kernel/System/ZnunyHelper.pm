@@ -283,7 +283,7 @@ sub _PostmasterXHeaderRemove {
 This function adds an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventAdd(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -365,7 +365,7 @@ sub _EventAdd {
 This function removes an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventRemove(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -513,7 +513,7 @@ sub _ValidDynamicFieldScreenListGet {
 
         # check if config is already valid / defined
         for my $CurrentConfig ( sort keys %{ $ValidScreens->{$Screen} } ) {
-            my ( $ConfigPath, $Key ) = split '###', $CurrentConfig;
+            my ( $ConfigPath, $Key ) = split /###/, $CurrentConfig;
             my $ConfigData = $ConfigObject->Get($ConfigPath);
 
             delete $ValidScreens->{$Screen}->{$CurrentConfig} if !defined $ConfigData->{$Key};
@@ -596,7 +596,7 @@ sub _DefaultColumnsGet {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -605,7 +605,7 @@ sub _DefaultColumnsGet {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -699,7 +699,7 @@ sub _DefaultColumnsEnable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -708,7 +708,7 @@ sub _DefaultColumnsEnable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -840,7 +840,7 @@ sub _DefaultColumnsDisable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -849,7 +849,7 @@ sub _DefaultColumnsDisable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1051,11 +1051,11 @@ sub _DynamicFieldsScreenGet {
     my %Config;
     CONFIGITEM:
     for my $ConfigItem ( @{ $Param{ConfigItems} } ) {
-        my @Keys = split '###', $ConfigItem;
+        my @Keys = split /###/, $ConfigItem;
 
         my $ConfigItemConfig = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($ConfigItemConfig);
             $ConfigItemConfig = $ConfigItemConfig->{ $Keys[$Index] };
         }
@@ -1166,7 +1166,7 @@ sub _DynamicFieldsScreenEnable {
         if ( $View =~ m{(\w+::)+\w+}xmsi ) {
             $FrontendPath = $View;
         }
-        my @Keys = split '###', $FrontendPath;
+        my @Keys = split /###/, $FrontendPath;
 
         if ( !$#Keys ) {
             push @Keys, 'DynamicField';
@@ -1174,7 +1174,7 @@ sub _DynamicFieldsScreenEnable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1306,7 +1306,7 @@ sub _DynamicFieldsScreenDisable {
         if ( $View =~ m{(\w+::)+\w+}xmsi ) {
             $FrontendPath = $View;
         }
-        my @Keys = split '###', $FrontendPath;
+        my @Keys = split /###/, $FrontendPath;
 
         if ( !$#Keys ) {
             push @Keys, 'DynamicField';
@@ -1314,7 +1314,7 @@ sub _DynamicFieldsScreenDisable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1473,7 +1473,6 @@ sub _DynamicFieldsDisable {
         $DynamicFieldObject->DynamicFieldUpdate(
             %{ $DynamicFieldLookup{$DynamicFieldName} },
             ValidID => $InvalidID,
-            Reorder => 0,
             UserID  => 1,
         );
     }
@@ -1988,7 +1987,6 @@ sub _DynamicFieldsScreenConfigExport {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
     my $ValidDynamicFieldScreenList = $Self->_ValidDynamicFieldScreenListGet();
 
@@ -2068,8 +2066,7 @@ Returns:
 sub _DynamicFieldsScreenConfigImport {
     my ( $Self, %Param ) = @_;
 
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
     # check needed stuff
     NEEDED:
@@ -2758,7 +2755,7 @@ sub _ServiceCreateIfNotExists {
     return $ItemID if $ItemID;
 
     # split string to check for possible sub services
-    my @ServiceArray = split( '::', $Name );
+    my @ServiceArray = split /::/, $Name;
 
     # create service with parent
     my $CompleteServiceName = '';
@@ -3066,7 +3063,7 @@ sub _QueueCreateIfNotExists {
     return $ItemID if $ItemID;
 
     # split string to check for possible sub Queues
-    my @QueueArray = split( '::', $Name );
+    my @QueueArray = split /::/, $Name;
 
     # create Queue with parent
     my $CompleteQueueName = '';
@@ -4709,7 +4706,6 @@ gets ProcessWidgetDynamicFieldGroups
 sub _ProcessWidgetDynamicFieldGroupsRemove {
     my ( $Self, %Groups ) = @_;
 
-    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -4822,7 +4818,7 @@ sub _ModuleGroupAdd {
 
     # Split module "path" (e. g. Admin###001-Framework)
     my $Module = $Param{Module};
-    my @ModulePathElements = split '###', $Module;
+    my @ModulePathElements = split /###/, $Module;
 
     my $ModuleRegistration = $FrontendList;
     for my $ModulePathElement (@ModulePathElements) {
@@ -4935,7 +4931,7 @@ sub _ModuleGroupRemove {
 
     # Split module "path" (e. g. Admin###001-Framework)
     my $Module = $Param{Module};
-    my @ModulePathElements = split '###', $Module;
+    my @ModulePathElements = split /###/, $Module;
 
     my $ModuleRegistration = $FrontendList;
     for my $ModulePathElement (@ModulePathElements) {

@@ -527,7 +527,7 @@ h2.SearchResults {
     width: 88px;
     white-space: nowrap;
     overflow: hidden;
-    background-color: white;
+    background-color: unset;
 /*    border-left: 1px solid #ddd; */
     border-radius: 10px;
     box-sizing: border-box;

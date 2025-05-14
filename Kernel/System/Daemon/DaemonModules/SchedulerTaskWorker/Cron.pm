@@ -19,10 +19,13 @@ package Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::Cron;
 use strict;
 use warnings;
 
-use IPC::Open3;
-use Symbol;
-
 use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -136,7 +139,7 @@ sub Run {
         local $SIG{CHLD} = 'DEFAULT';
 
         # Localize the standard error, everything will be restored after the eval block.
-        local *STDERR;
+        local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
         # Redirect the standard error to a variable.
         open STDERR, ">>", \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
@@ -145,8 +148,7 @@ sub Run {
         #   will be clean.
         # Prevent used once warning, setting the variable as local and then assign the value
         #   in the next statement.
-        local $Kernel::System::Console::BaseCommand::SuppressANSI;
-        $Kernel::System::Console::BaseCommand::SuppressANSI = 1;
+        local $Kernel::System::Console::BaseCommand::SuppressANSI = 1;
 
         # Run function on the module with the specified parameters in Data->{Params}
         $Result = $ModuleObject->$Function(

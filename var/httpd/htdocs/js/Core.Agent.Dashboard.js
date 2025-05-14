@@ -1335,7 +1335,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                         if ($TriggerObj.closest('th').hasClass('CustomerID') || $TriggerObj.closest('th').hasClass('CustomerUserID') || $TriggerObj.closest('th').hasClass('Responsible') || $TriggerObj.closest('th').hasClass('Owner')) {
 
                             if (!$TriggerObj.parent().find('.SelectedValue').length) {
-                                Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                                Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, function() {
 
                                     var AutoCompleteValue = $ColumnSettingsContainer
                                             .find('select')
@@ -1355,7 +1355,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                             }
                         }
                         else {
-                            Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                            Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName);
                         }
                 });
             }

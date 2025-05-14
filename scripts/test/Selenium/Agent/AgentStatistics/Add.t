@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $main::Self
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -239,7 +243,7 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Check error message if there is set wrong invalid date for x-axis
-            if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
+            if ( $StatsData->{XAxis} && $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Preview p.Error').text().trim();"),
                     "CreateTime: The selected date is not valid.",
@@ -519,4 +523,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;

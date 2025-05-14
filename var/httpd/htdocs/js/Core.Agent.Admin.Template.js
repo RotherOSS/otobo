@@ -39,6 +39,12 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     TargetNS.Init = function () {
         Core.UI.Table.InitTableFilter($('#Filter'), $('#Templates'));
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         // delete template
         TargetNS.InitTemplateDelete();
     };

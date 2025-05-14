@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get selenium object
 # OTOBO modules
@@ -84,6 +84,13 @@ $Selenium->RunTest(
             UserID => $UserID,
         );
 
+        # Intialize TimeNotifyUpcomingMaintenance config to a small value,
+        # so that the notification is initially not emitted.
+        $Helper->ConfigSettingChange(
+            Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
+            Value => 30,
+        );
+
         # Login test user
         $Selenium->Login(
             Type     => 'Agent',
@@ -95,7 +102,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminSystemMaintenance screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance;IncludeInvalid=1");
 
         # check overview screen
         $Selenium->find_element( "table",             'css' );
@@ -268,7 +275,7 @@ $Selenium->RunTest(
         # Update TimeNotifyUpcomingMaintenance config.
         $Helper->ConfigSettingChange(
             Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
-            Value => 61,
+            Value => 120,
         );
 
         # Refresh screen.
@@ -381,6 +388,8 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
+
         # check class of invalid SystemMaintenance in the overview table
         $Self->True(
             $Selenium->execute_script(
@@ -409,8 +418,8 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # click 'Go to overview'
-        $Selenium->find_element("//a[contains(\@href, 'AdminSystemMaintenance')]")->VerifiedClick();
+        # go to overview
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemMaintenance");
 
         # click to delete test SystemMaintenance
         $Selenium->find_element("//a[contains(\@href, 'Subaction=Delete;SystemMaintenanceID=$SysMainID')]")->click();

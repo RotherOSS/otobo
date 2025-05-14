@@ -20,10 +20,15 @@ use v5.24;
 use strict;
 use warnings;
 
-use Getopt::Long();
-use Term::ANSIColor();
+# core modules
+use Getopt::Long    ();
+use Term::ANSIColor ();
+
+# CPAN modules
 use IO::Interactive();
 use Encode::Locale();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -55,8 +60,7 @@ override L</Configure()> instead if you need to.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # for usage help
     $Self->{Name} = $Type;
@@ -80,10 +84,14 @@ sub new {
         $Self->{_ConfigureSuccessful} = 1;
     };
 
+    # Set up global options. For historical reasons, the attribute 'Name' is used as the
+    # option spec for Getopt::Long. This means that when e.g. the name is 'help|h' is used,
+    # then we need to specify the canonical name 'help' as well.
     $Self->{_GlobalOptions} = [
         {
-            Name        => 'help',
-            Description => 'Display help for this command.',
+            Name          => 'help|h',
+            CanonicalName => 'help',
+            Description   => 'Display help for this command.',
         },
         {
             Name        => 'no-ansi',
@@ -228,6 +236,7 @@ sub GetArgument {
 
     if ( !$Self->{_ArgumentSeen}->{$Argument} ) {
         $Self->PrintError("Argument '$Argument' was not configured and cannot be accessed.");
+
         return;
     }
 
@@ -302,7 +311,7 @@ sub AddOption {
     }
 
     $Self->{_Options} //= [];
-    push @{ $Self->{_Options} }, \%Param;
+    push $Self->{_Options}->@*, \%Param;
 
     return;
 }
@@ -326,6 +335,7 @@ sub GetOption {
 
     if ( !$Self->{_OptionSeen}->{$Option} ) {
         $Self->PrintError("Option '--$Option' was not configured and cannot be accessed.");
+
         return;
     }
 
@@ -381,7 +391,7 @@ sub PostRun {
 =head2 Execute()
 
 this method will parse/validate the command line arguments supplied by the user.
-If that was ok, the Run() method of the command will be called.
+If that was ok, the C<PreRun()>, C<Run()>, and C<PostRun()> methods of the command module will be called.
 
 =cut
 
@@ -405,6 +415,7 @@ sub Execute {
             "You cannot run otobo.Console.pl as root. Please run it as the 'otobo' user or with the help of su:"
         );
         $Self->Print("  <yellow>su -c \"bin/otobo.Console.pl MyCommand\" -s /bin/bash otobo</yellow>\n");
+
         return $Self->ExitCodeError();
     }
 
@@ -416,6 +427,7 @@ sub Execute {
     # Only run if the command was setup ok.
     if ( !$Self->{_ConfigureSuccessful} ) {
         $Self->PrintError("Aborting because the command was not successfully configured.");
+
         return $Self->ExitCodeError();
     }
 
@@ -426,6 +438,7 @@ sub Execute {
 
     if ( $ParsedGlobalOptions->{help} ) {
         print "\n" . $Self->GetUsageHelp();
+
         return $Self->ExitCodeOk();
     }
 
@@ -438,6 +451,7 @@ sub Execute {
     $Self->{_ParsedARGV} = $Self->_ParseCommandlineArguments( \@CommandlineArguments );
     if ( !%{ $Self->{_ParsedARGV} // {} } ) {
         print STDERR "\n" . $Self->GetUsageHelp();
+
         return $Self->ExitCodeError();
     }
 
@@ -459,6 +473,7 @@ sub Execute {
     eval { $Self->PreRun(); };
     if ($@) {
         $Self->PrintError($@);
+
         return $Self->ExitCodeError();
     }
 
@@ -558,8 +573,10 @@ sub GetUsageHelp {
     # Global options only show up at the end of the options section, but not in the command line string as
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
-    for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+    for my $Option ( ( $Self->{_GlobalOptions} // [] )->@* ) {
+
         next GLOBALOPTION if $Option->{Invisible};
+
         my $OptionShort = "[--$Option->{Name}]";
         $OptionsText .= sprintf " <green>%-30s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }
@@ -603,6 +620,7 @@ sub ANSI {
     my ( $Self, $ANSI ) = @_;
 
     $Self->{ANSI} = $ANSI if defined $ANSI;
+
     return $Self->{ANSI};
 }
 
@@ -612,6 +630,8 @@ shorthand method to print an error message to STDERR.
 
 It will be prefixed with 'Error: ' and colored in red,
 if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
+A trailing newline will be added.
 
 =cut
 
@@ -620,6 +640,7 @@ sub PrintError {
 
     chomp $Text;
     print STDERR $Self->_Color( 'red', "Error: $Text\n" );
+
     return;
 }
 
@@ -639,6 +660,45 @@ sub Print {
     if ( !$Self->{Quiet} ) {
         print $Self->_ReplaceColorTags($Text);
     }
+
+    return;
+}
+
+=head2 PrintWarning()
+
+this method will print the given text and a newline to STDOUT.
+
+The text will be colored in yellow if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
+
+=cut
+
+sub PrintWarning {
+    my ( $Self, $Text ) = @_;
+
+    if ( !$Self->{Quiet} ) {
+        say $Self->_Color( 'yellow', $Text );
+    }
+
+    return;
+}
+
+=head2 PrintOk()
+
+this method will print the given text and a newline to STDOUT.
+
+The text will be colored in green if the terminal supports it (see L</ANSI()>).
+No other color markup will be handled.
+
+=cut
+
+sub PrintOk {
+    my ( $Self, $Text ) = @_;
+
+    if ( !$Self->{Quiet} ) {
+        say $Self->_Color( 'green', $Text );
+    }
+
     return;
 }
 
@@ -897,7 +957,7 @@ sub _ParseGlobalOptions {
             $Lookup => \$Value,
         );
 
-        $OptionValues{ $Option->{Name} } = $Value;
+        $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
     }
 
     return \%OptionValues;
@@ -947,17 +1007,19 @@ sub _ParseCommandlineArguments {
                 }
 
                 $Self->PrintError("please provide option '--$Option->{Name}'.");
+
                 return;
             }
 
             for my $Value (@Values) {
                 if ( $Option->{HasValue} && $Value !~ $Option->{ValueRegex} ) {
                     $Self->PrintError("please provide a valid value for option '--$Option->{Name}'.");
+
                     return;
                 }
             }
 
-            $OptionValues{ $Option->{Name} } = \@Values;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = \@Values;
         }
 
         # Option with no or a single value
@@ -976,15 +1038,17 @@ sub _ParseCommandlineArguments {
                 }
 
                 $Self->PrintError("please provide option '--$Option->{Name}'.");
+
                 return;
             }
 
             if ( $Option->{HasValue} && $Value !~ $Option->{ValueRegex} ) {
                 $Self->PrintError("please provide a valid value for option '--$Option->{Name}'.");
+
                 return;
             }
 
-            $OptionValues{ $Option->{Name} } = $Value;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
         }
     }
 
@@ -1044,6 +1108,7 @@ sub _ParseCommandlineArguments {
         $Error .= join "', '", @{$Arguments};
         $Error .= "').\n";
         $Self->PrintError($Error);
+
         return;
     }
 
@@ -1065,7 +1130,7 @@ ANSI output is available and active, otherwise the text stays unchanged.
 sub _Color {
     my ( $Self, $Color, $Text ) = @_;
 
-    return $Text if !$Self->{ANSI};
+    return $Text unless $Self->{ANSI};
     return $Text if $SuppressANSI;
     return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }

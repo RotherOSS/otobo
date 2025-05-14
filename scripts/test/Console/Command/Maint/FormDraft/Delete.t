@@ -18,11 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::FormDraft::Delete');
 
@@ -90,7 +94,6 @@ FixedTimeSet(
 );
 
 # test FormDraftAdd and FormDraftListGet functions
-my $FormDraftID;
 for ( 1 .. 3 ) {
 
     # create FormDraft

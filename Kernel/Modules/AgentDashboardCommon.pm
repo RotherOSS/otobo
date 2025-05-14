@@ -15,12 +15,20 @@
 # --
 
 package Kernel::Modules::AgentDashboardCommon;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -29,10 +37,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -136,10 +141,10 @@ sub Run {
                     Code => 'Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();'
                 );
 
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+                return join '',
+                    $LayoutObject->Header,
+                    $LayoutObject->NavigationBar,
+                    $LayoutObject->Footer;
             }
         }
     }
@@ -156,10 +161,10 @@ sub Run {
                     Code => 'Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog();'
                 );
 
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+                return join '',
+                    $LayoutObject->Header,
+                    $LayoutObject->NavigationBar,
+                    $LayoutObject->Footer;
             }
         }
     }
@@ -393,7 +398,7 @@ sub Run {
             next COLUMNNAME if $FilterValue eq '';
 
             if ( $ColumnName eq 'CustomerID' ) {
-                push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
+                push @{ $ColumnFilter{$ColumnName} },           $FilterValue;
                 push @{ $ColumnFilter{ $ColumnName . 'Raw' } }, $FilterValue;
             }
             elsif ( $ColumnName eq 'CustomerUserID' ) {
@@ -485,7 +490,7 @@ sub Run {
         }
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $FilterContent,
             Type        => 'inline',
             NoCache     => 1,
@@ -848,14 +853,14 @@ sub Run {
         }
     }
 
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => $Self->{Action},
-        Data         => \%Param
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => $Self->{Action},
+            Data         => \%Param
+        ),
+        $LayoutObject->Footer;
 }
 
 sub _Element {
@@ -891,12 +896,11 @@ sub _Element {
         return if !$PermissionOK;
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # load backends
     my $Module = $Configs->{$Name}->{Module};
-    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Module);
+
+    return unless $Kernel::OM->Get('Kernel::System::Main')->Require($Module);
+
     my $Object = $Module->new(
         %{$Self},
         Config                => $Configs->{$Name},
@@ -913,15 +917,16 @@ sub _Element {
     # get module config
     my %Config = $Object->Config();
 
-    # Perform the actual data fetching and computation on the slave db, if configured
-    local $Kernel::System::DB::UseSlaveDB = 1;
+    # Perform the actual data fetching and computation on the mirror DB, if configured
+    local $Kernel::System::DB::UseMirrorDB = 1;
 
     # get module preferences
     my @Preferences = $Object->Preferences();
+
     return @Preferences if $Param{PreferencesOnly};
 
-    # Perform the actual data fetching and computation on the slave db, if configured
-    local $Kernel::System::DB::UseSlaveDB = 1;
+    # Perform the actual data fetching and computation on the mirror DB, if configured
+    local $Kernel::System::DB::UseMirrorDB = 1;
 
     if ( $Param{FilterContentOnly} ) {
         my $FilterContent = $Object->FilterContent(
@@ -940,7 +945,7 @@ sub _Element {
     if ($Backends) {
         my $Checked = '';
         if ( $Backends->{$Name} || $Configs->{$Name}->{Mandatory} ) {
-            $Checked = 'checked="checked"';
+            $Checked = 'checked ';
         }
 
         # Check whether the widget is forcibly displayed.

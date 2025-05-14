@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -87,7 +87,7 @@ $Selenium->RunTest(
         );
 
         # Open AdminAppointmentCalendarManage page.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;IncludeInvalid=1");
 
         # Add new calendar.
         my $CalendarName1 = "Calendar $RandomID 1";

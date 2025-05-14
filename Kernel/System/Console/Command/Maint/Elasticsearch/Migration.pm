@@ -26,8 +26,9 @@ use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::Console::BaseCommand);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -38,6 +39,14 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Package',
+);
+
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
+    'Kernel::System::GeneralCatalog',
+    'Kernel::System::ITSMConfigItem',
 );
 
 sub Configure {
@@ -291,7 +300,7 @@ sub MigrateCompanies {
 
         $Count++;
 
-        # create the ticket
+        # create the company in Elasticsearch
         if ( !$Param{ESObject}->CustomerCompanyAdd( CustomerID => $CustomerID ) ) {
             $Errors++;
         }
@@ -410,7 +419,7 @@ sub MigrateCustomerUsers {
 
         $Count++;
 
-        # create the ticket
+        # create the customer user in Elasticsearch
         if ( !$Param{ESObject}->CustomerUserAdd( UserLogin => $CustomerUserID ) ) {
             $Errors++;
         }
@@ -550,8 +559,8 @@ sub MigrateTickets {
             );
         }
         elsif ( $#TicketIDs > 50 && $Count % $Percent1 == 0 ) {
-            local $| = 1;
-            $Self->Print(". ");
+            $Self->Print('. ');
+            select()->flush();    # show the dot immediately
         }
 
         Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
@@ -582,11 +591,11 @@ sub MigrateConfigItems {
     }
 
     my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
-    my $ConfigItemObject     = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
-
-    my $ClassList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+    my $ClassList            = $GeneralCatalogObject->ItemList(
         Class => 'ITSM::ConfigItem::Class',
     );
+
+    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
 
     my $ExcludedClasses = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ExcludedCIClasses');
     $ExcludedClasses = { map { $_ => 1 } @{$ExcludedClasses} };
@@ -658,19 +667,20 @@ sub MigrateConfigItems {
     # if currently no active classes are defined, return
     return 1 if !@ActiveClasses;
 
-    my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
+    my @ConfigItems = $ConfigItemObject->ConfigItemSearch(
         ClassIDs => [@ActiveClasses],
+        Result   => 'ARRAY',
     );
 
     my $Count   = 0;
-    my $CICount = scalar @{$ConfigItems};
+    my $CICount = scalar @ConfigItems;
 
     my $Errors = 0;
-    for my $ConfigItemID ( @{$ConfigItems} ) {
+    for my $ConfigItemID (@ConfigItems) {
 
         $Count++;
 
-        # create the ticket
+        # create the config item in Elasticsearch
         if ( !$Param{ESObject}->ConfigItemCreate( ConfigItemID => $ConfigItemID ) ) {
             $Errors++;
         }

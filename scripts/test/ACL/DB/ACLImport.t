@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -271,7 +271,7 @@ for my $Test (@Tests) {
 
         my %ACLDataLookup = map { $_->{Name} => $_ } @{$ACLData};
 
-        my @AddedACLs = split ',', $ACLImport->{AddedACLs};
+        my @AddedACLs = split /,/, $ACLImport->{AddedACLs};
         for my $ACLName (@AddedACLs) {
 
             # cleanup possible leading whitespaces in name
@@ -291,7 +291,7 @@ for my $Test (@Tests) {
             $ACLToDelete{ $ACL->{ID} } = 1;
         }
 
-        my @UpdatedACLs = split ',', $ACLImport->{UpdatedACLs};
+        my @UpdatedACLs = split /,/, $ACLImport->{UpdatedACLs};
         for my $ACLName (@UpdatedACLs) {
 
             # cleanup possible leading whitespaces in name

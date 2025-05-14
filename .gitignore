@@ -18,7 +18,9 @@ var/log/ssl_request_log
 build.log
 otobo.iml
 *.out
+*.err
 git-*.txt
+tmp-cpan-lib
 
 # Editor swap files
 *.swn
@@ -37,7 +39,6 @@ Kernel/Config/GenericAgent.pm
 Kernel/Config.pm
 Kernel/Language/*.old
 bin/cgi-bin/.htaccess
-scripts/apache2-perl-startup2.pl
 var/virtualfs
 var/run
 var/log/*.log
@@ -94,9 +95,6 @@ var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/ModuleCode.pl
 bin/DatabaseInstall.pl
-
-# CodeHub
-var/git
 
 # ContinuousIntegrationProvisioner (vagrant VMs)
 .cache

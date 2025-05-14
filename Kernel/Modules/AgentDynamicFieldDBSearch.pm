@@ -16,9 +16,17 @@
 
 package Kernel::Modules::AgentDynamicFieldDBSearch;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -318,13 +326,16 @@ sub Run {
         # undef result if nothing to be returned
         if ( IsArrayRefWithData( $Result[0] ) ) {
 
-            # update / set the cache
-            $Kernel::OM->Get('Kernel::System::Cache')->Set(
-                Type  => $CacheType,
-                Key   => $CacheKey,
-                Value => \@Result,
-                TTL   => $CacheTTL,
-            );
+            # Setting the time to live to 0 effectively disables caching.
+            # Don't even call Set(), in order to avoid error messages from Kernel::System::Cache::Redis
+            if ($CacheTTL) {
+                $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                    Type  => $CacheType,
+                    Key   => $CacheKey,
+                    Value => \@Result,
+                    TTL   => $CacheTTL,
+                );
+            }
 
             return $Self->_Return(
                 Data => \@Result,
@@ -342,21 +353,14 @@ sub _Return {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # build JSON output
-    my $JSON;
     if ( IsArrayRefWithData( $Param{Data} ) ) {
-        $JSON = $LayoutObject->JSONEncode(
+        return $LayoutObject->JSONReply(
             Data => $Param{Data},
         );
     }
 
-    # send response
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-        Content     => $JSON || $LayoutObject->JSONEncode(
-            Data => [],
-        ),
-        Type    => 'inline',
-        NoCache => 1,
+    return $LayoutObject->JSONReply(
+        Data => [],
     );
 }
 

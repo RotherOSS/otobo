@@ -14,19 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# modules from CPAN
+use HTTP::Request::Common qw(POST);
+use Test2::V0;
 
-use CGI;
-
-use Kernel::Output::HTML::Layout;
-use Kernel::System::Web::Request;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::Web::Request ();
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -67,10 +68,7 @@ my $TicketID = $TicketObject->TicketCreate(
 );
 
 # sanity check
-$Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID",
-);
+ok( $TicketID, "TicketCreate() successful for Ticket ID $TicketID" );
 
 # create dynamic fields
 my @DynamicFields = (
@@ -111,10 +109,7 @@ for my $DynamicField (@DynamicFields) {
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd( %{$DynamicField} );
 
     # sanity check
-    $Self->True(
-        $FieldID,
-        "DynamicFieldAdd() successful for Field ID $FieldID",
-    );
+    ok( $FieldID, "DynamicFieldAdd() successful for Field ID $FieldID" );
 
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
@@ -487,151 +482,115 @@ my @Tests = (
 # execute tests
 for my $Test (@Tests) {
 
-    $ConfigObject->Set(
-        Key   => 'OTOBOTimeZone',
-        Value => $Test->{Config}->{OTOBOTimeZone},
-    );
+    my $UserTimeZone  = $Test->{Config}->{UserTimeZone}  || 'no user time zone';
+    my $OTOBOTimeZone = $Test->{Config}->{OTOBOTimeZone} || 'no OTOBO time zone';
+    my $SubtestDesc   = "Field type $Test->{Config}->{Type}, User time zone: $UserTimeZone, OTOBO time zone $OTOBOTimeZone";
 
-    # get Layout object with correct user time zone
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::Output::HTML::Layout', 'Kernel::System::Web::Request', ],
-    );
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::Output::HTML::Layout' => {
-            Lang         => 'en',
-            UserTimeZone => $Test->{Config}->{UserTimeZone},
-        },
-    );
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # for EditFieldRender test both cases, a values passed and value in a web request as they might
-    # be different
-    for my $Type ( sort keys %{ $Test->{Config}->{EditFieldRender} } ) {
-
-        # set the appropriate configuration
-        my %Config;
-        if ( $Type eq 'Value' ) {
-            %Config = (
-                %{ $Test->{Config}->{Common} },
-                %{ $Test->{Config}->{EditFieldRender}->{$Type} },
-            );
-        }
-        else {
-
-            # create a new CGI object to simulate a web request
-            my $WebRequest = CGI->new( $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam} );
-
-            my $LocalParamObject = Kernel::System::Web::Request->new(
-                WebRequest => $WebRequest,
-            );
-
-            %Config = (
-                %{ $Test->{Config}->{Common} },
-                %{ $Test->{Config}->{EditFieldRender}->{$Type} },
-                ParamObject => $LocalParamObject,
-            );
-        }
-
-        $Config{LayoutObject} = $LayoutObject;
-
-        # get EditValueRender HTML
-        my $FieldHTML = $BackendObject->EditFieldRender(%Config);
-
-        my %HTMLResult;
-
-        # get day from HTML
-        $FieldHTML->{Field} =~ m{title="Day" [^s]+ selected="selected">([^<]+)</option>}msx;
-        $HTMLResult{Day} = $1;
-
-        # reset capturing groups
-        "OTOBO" =~ m{OTOBO};
-
-        # get month from HTML
-        $FieldHTML->{Field} =~ m{title="Month" [^s]+ selected="selected">([^<]+)</option>}msx;
-        $HTMLResult{Month} = $1;
-
-        # reset capturing groups
-        "OTOBO" =~ m{OTOBO};
-
-        # get year from HTML
-        $FieldHTML->{Field} =~ m{title="Year" [^s]+ selected="selected">([^<]+)</option>}msx;
-        $HTMLResult{Year} = $1;
-
-        # reset capturing groups
-        "OTOBO" =~ m{OTOBO};
-
-        # also get Hour and Minute for DateTime fields
-        if ( $Test->{Config}->{Type} eq 'DateTime' ) {
-
-            # get hour from HTML
-            $FieldHTML->{Field} =~ m{title="Hours" [^s]+ selected="selected">([^<]+)</option>}msx;
-            $HTMLResult{Hour} = $1;
-
-            # reset capturing groups
-            "OTOBO" =~ m{OTOBO};
-
-            # get minute from HTML
-            $FieldHTML->{Field} =~ m{title="Minutes" [^s]+ selected="selected">([^<]+)</option>}msx;
-            $HTMLResult{Minute} = $1;
-
-            # reset capturing groups
-            "OTOBO" =~ m{OTOBO};
-        }
-
-        $Self->IsDeeply(
-            \%HTMLResult,
-            $Test->{ExpectedResults}->{EditFieldRender}->{$Type},
-            "EditFieldRender() for type $Type: Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
-                . (
-                    $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
-                ),
+    subtest $SubtestDesc => sub {
+        $ConfigObject->Set(
+            Key   => 'OTOBOTimeZone',
+            Value => $Test->{Config}->{OTOBOTimeZone},
         );
-    }
 
-    # create a new CGI object to simulate a web request
-    my $WebRequest = CGI->new( $Test->{Config}->{EditFieldValueGet}->{CGIParam} );
+        # get Layout object with correct user time zone
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [ 'Kernel::Output::HTML::Layout', 'Kernel::System::Web::Request', ],
+        );
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::Output::HTML::Layout' => {
+                Lang         => 'en',
+                UserTimeZone => $Test->{Config}->{UserTimeZone},
+            },
+        );
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $LocalParamObject = Kernel::System::Web::Request->new(
-        WebRequest => $WebRequest,
-    );
+        # for EditFieldRender test both cases, a values passed and value in a web request as they might
+        # be different
+        for my $Type ( sort keys $Test->{Config}->{EditFieldRender}->%* ) {
 
-    # get the value from the web request
-    my $Value = $BackendObject->EditFieldValueGet(
-        %{ $Test->{Config}->{Common} },
-        %{ $Test->{Config}->{EditFieldValueGet} },
-        ParamObject  => $LocalParamObject,
-        LayoutObject => $LayoutObject,
-    );
+            # set the appropriate configuration
+            my %Config;
+            if ( $Type eq 'Value' ) {
+                %Config = (
+                    %{ $Test->{Config}->{Common} },
+                    %{ $Test->{Config}->{EditFieldRender}->{$Type} },
+                );
+            }
+            else {
 
-    $Self->Is(
-        $Value,
-        $Test->{ExpectedResults}->{EditFieldValueGet},
-        "EditFieldValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
-            . (
-                $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
-            ),
-    );
+                # create a new HTTP::Request object to simulate a web request
+                my $HTTPRequest      = POST( '/', [ $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam}->%* ] );
+                my $LocalParamObject = Kernel::System::Web::Request->new(
+                    HTTPRequest => $HTTPRequest,
+                );
 
-    # set a value in the DB and get it
-    my $Success = $BackendObject->ValueSet(
-        %{ $Test->{Config}->{Common} },
-        %{ $Test->{Config}->{ValueSetGet} },
-    );
-    $Value = $BackendObject->ValueGet(
-        %{ $Test->{Config}->{Common} },
-        %{ $Test->{Config}->{ValueSetGet} }
-    );
+                %Config = (
+                    %{ $Test->{Config}->{Common} },
+                    %{ $Test->{Config}->{EditFieldRender}->{$Type} },
+                    ParamObject => $LocalParamObject,
+                );
+            }
 
-    $Self->Is(
-        $Value,
-        $Test->{ExpectedResults}->{ValueSetGet},
-        "ValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
-            . (
-                $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
-            ),
-    );
+            $Config{LayoutObject} = $LayoutObject;
+
+            # get EditValueRender HTML
+            my $FieldHTML = $BackendObject->EditFieldRender(%Config);
+
+            # extract the date from rendered HTML
+            my %HTMLResult;
+            ( $HTMLResult{Day} )   = $FieldHTML->{Field} =~ m{title="Day"   [^s]+ selected="selected">([^<]+)</option>}msx;
+            ( $HTMLResult{Month} ) = $FieldHTML->{Field} =~ m{title="Month" [^s]+ selected="selected">([^<]+)</option>}msx;
+            ( $HTMLResult{Year} )  = $FieldHTML->{Field} =~ m{title="Year"  [^s]+ selected="selected">([^<]+)</option>}msx;
+
+            # also get Hour and Minute for DateTime fields
+            if ( $Test->{Config}->{Type} eq 'DateTime' ) {
+                ( $HTMLResult{Hour} )   = $FieldHTML->{Field} =~ m{title="Hours" [^s]+ selected="selected">([^<]+)</option>}msx;
+                ( $HTMLResult{Minute} ) = $FieldHTML->{Field} =~ m{title="Minutes" [^s]+ selected="selected">([^<]+)</option>}msx;
+            }
+
+            is(
+                \%HTMLResult,
+                $Test->{ExpectedResults}->{EditFieldRender}->{$Type},
+                "EditFieldRender for type $Type"
+            );
+        }
+
+        # create a new HTTP::Request object to simulate a web request
+        my $HTTPRequest      = POST( '/', [ $Test->{Config}->{EditFieldValueGet}->{CGIParam}->%* ] );
+        my $LocalParamObject = Kernel::System::Web::Request->new(
+            HTTPRequest => $HTTPRequest,
+        );
+
+        # get the value from the web request
+        my $Value = $BackendObject->EditFieldValueGet(
+            %{ $Test->{Config}->{Common} },
+            %{ $Test->{Config}->{EditFieldValueGet} },
+            ParamObject  => $LocalParamObject,
+            LayoutObject => $LayoutObject,
+        );
+
+        is(
+            $Value,
+            $Test->{ExpectedResults}->{EditFieldValueGet},
+            "EditFieldValueGet"
+        );
+
+        # set a value in the DB and get it
+        my $Success = $BackendObject->ValueSet(
+            %{ $Test->{Config}->{Common} },
+            %{ $Test->{Config}->{ValueSetGet} },
+        );
+        $Value = $BackendObject->ValueGet(
+            %{ $Test->{Config}->{Common} },
+            %{ $Test->{Config}->{ValueSetGet} }
+        );
+
+        is(
+            $Value,
+            $Test->{ExpectedResults}->{ValueSetGet},
+            "ValueGet",
+        );
+    };
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

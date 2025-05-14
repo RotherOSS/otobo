@@ -109,17 +109,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @description
      *      The offset of the element for which a tooltip is shown.
      */
-        Offset,
-    /**
-     * @private
-     * @name CustomerInterface
-     * @memberof Core.Form.ErrorTooltips
-     * @member {Object}
-     * @description
-     *      Whether we are in the CustomerInterface.
-     */
-        CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
-
+        Offset;
     /**
      * @name ShowTooltip
      * @memberof Core.Form.ErrorTooltips
@@ -166,6 +156,11 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
             .append($Tooltip)
             .show();
 
+        if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
+            TooltipOffsetLeft = 48;
+            TooltipOffsetTop = 40;
+        }
+
         if (TooltipPosition === 'TongueBottom') {
             TopOffset = Offset.top + TooltipOffsetTop;
         }
@@ -176,6 +171,17 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         $TooltipContainer
             .css('left', Offset.left + TooltipOffsetLeft)
             .css('top', TopOffset);
+    };
+
+    /**
+     * @name HideRTETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @description
+     *      This function hides the tooltip for CKEditor.
+     */
+    TargetNS.HideRTETooltip = function(Element) {
+        $('#' + Element).hide().empty();
     };
 
     /**
@@ -232,7 +238,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function shows the tooltip for a rich text editor.
      */
     function ShowRTETooltip(Event) {
-        TargetNS.ShowTooltip($('#cke_' + Event.listenerData.ElementID + ' .cke_contents'), Event.listenerData.Message);
+        if ( typeof window.editor != 'undefined' ) {
+            document.querySelector('.ck-editor__editable').id = 'EditorBox';
+            TargetNS.ShowTooltip($('#EditorBox'), Event.Message);
+        }
     }
 
     /**
@@ -244,7 +253,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function remove the tooltip from a rich text editor.
      */
     function RemoveRTETooltip() {
-        TargetNS.HideTooltip();
+        TargetNS.HideRTETooltip();
     }
 
     /**
@@ -258,12 +267,17 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      */
     TargetNS.InitRTETooltip = function ($Element, Message) {
 
-        // TODO: Error Tooltips are disabled for the Customerinterface
-        if ( CustomerInterface ) { return }
-
         var ElementID = $Element.attr('id');
-        CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
-        CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);
+
+        if ( typeof window.editor === 'undefined' ) {
+            return false;
+        }
+
+        window.editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
+            if ( isFocused && $Element.val() == "" ) {
+                ShowRTETooltip({ElementID: ElementID, Message: Message});
+            }
+        } );
     };
 
     /**
@@ -275,9 +289,33 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function removes the tooltip in a rich text editor.
      */
     TargetNS.RemoveRTETooltip = function ($Element) {
-        var ElementID = $Element.attr('id');
-        CKEDITOR.instances[ElementID].removeListener('focus', ShowRTETooltip);
-        CKEDITOR.instances[ElementID].removeListener('blur', RemoveRTETooltip);
+        TargetNS.HideTooltip();
+    };
+
+    /**
+     * @name InitCMETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @param {jQueryObject} Editor - The CME instance for whom the tooltips are initialized.
+     * @param {String} Message - The string content that will be show in tooltip.
+     * @description
+     *      This function initializes the necessary stuff for a tooltip in a code mirror editor.
+     */
+    TargetNS.InitCMETooltip = function (Editor, Message) {
+
+        Editor.on('focus', function() {
+            TargetNS.ShowTooltip($(Editor.getWrapperElement()), Message);
+        });
+    };
+
+    /**
+     * @name RemoveCMETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @description
+     *      This function removes the tooltip in a code mirror editor.
+     */
+    TargetNS.RemoveCMETooltip = function () {
         TargetNS.HideTooltip();
     };
 

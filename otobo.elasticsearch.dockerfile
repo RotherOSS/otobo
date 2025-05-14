@@ -1,7 +1,10 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
 
+# The main reason for having a custom Elasticsearch image in OTOBO
+# is that additional plugins are installed.
+
 # See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use 7.17.27, because latest flag is not available
 # It is currently unclear un which OS the image is based. The User is root.

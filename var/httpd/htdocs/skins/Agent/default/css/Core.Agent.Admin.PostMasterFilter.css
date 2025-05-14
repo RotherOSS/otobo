@@ -59,5 +59,9 @@ div.InputField_InputContainer .InputField_Search {
 	max-width: 400px !important;
 }
 
+textarea[name^="MatchValue"] {
+    vertical-align: top;
+    resize: vertical;
+}
 
 } /* end @media */

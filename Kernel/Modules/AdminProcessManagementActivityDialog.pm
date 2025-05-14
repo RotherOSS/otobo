@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -131,17 +131,19 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new confguration
-        $ActivityDialogData->{Name}                       = $GetParam->{Name};
-        $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
-        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
-        $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
-        $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
-        $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
-        $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
-        $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
-        $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}           = {};
-        $ActivityDialogData->{Config}->{FieldOrder}       = [];
+        $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
+        $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
+        $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
+        $ActivityDialogData->{Config}->{Permission}           = $GetParam->{Permission};
+        $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
+        $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
+        $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
+        $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{DirectSubmit}         = $GetParam->{DirectSubmit} || 0;
+        $ActivityDialogData->{Config}->{Fields}               = {};
+        $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
@@ -386,17 +388,19 @@ sub Run {
         my $GetParam = $Self->_GetParams();
 
         # set new confguration
-        $ActivityDialogData->{Name}                       = $GetParam->{Name};
-        $ActivityDialogData->{EntityID}                   = $GetParam->{EntityID};
-        $ActivityDialogData->{Config}->{Interface}        = $GetParam->{Interface};
-        $ActivityDialogData->{Config}->{DescriptionShort} = $GetParam->{DescriptionShort};
-        $ActivityDialogData->{Config}->{DescriptionLong}  = $GetParam->{DescriptionLong};
-        $ActivityDialogData->{Config}->{Permission}       = $GetParam->{Permission};
-        $ActivityDialogData->{Config}->{RequiredLock}     = $GetParam->{RequiredLock} || 0;
-        $ActivityDialogData->{Config}->{SubmitAdviceText} = $GetParam->{SubmitAdviceText};
-        $ActivityDialogData->{Config}->{SubmitButtonText} = $GetParam->{SubmitButtonText};
-        $ActivityDialogData->{Config}->{Fields}           = {};
-        $ActivityDialogData->{Config}->{FieldOrder}       = [];
+        $ActivityDialogData->{Name}                           = $GetParam->{Name};
+        $ActivityDialogData->{EntityID}                       = $GetParam->{EntityID};
+        $ActivityDialogData->{Config}->{Interface}            = $GetParam->{Interface};
+        $ActivityDialogData->{Config}->{DescriptionShort}     = $GetParam->{DescriptionShort};
+        $ActivityDialogData->{Config}->{DescriptionLong}      = $GetParam->{DescriptionLong};
+        $ActivityDialogData->{Config}->{Permission}           = $GetParam->{Permission};
+        $ActivityDialogData->{Config}->{RequiredLock}         = $GetParam->{RequiredLock} || 0;
+        $ActivityDialogData->{Config}->{SubmitAdviceText}     = $GetParam->{SubmitAdviceText};
+        $ActivityDialogData->{Config}->{SubmitButtonText}     = $GetParam->{SubmitButtonText};
+        $ActivityDialogData->{Config}->{InputFieldDefinition} = $GetParam->{InputFieldDefinition};
+        $ActivityDialogData->{Config}->{DirectSubmit}         = $GetParam->{DirectSubmit} || 0;
+        $ActivityDialogData->{Config}->{Fields}               = {};
+        $ActivityDialogData->{Config}->{FieldOrder}           = [];
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
@@ -932,10 +936,20 @@ sub _ShowEdit {
     }
 
     # extract parameters from config
-    $Param{DescriptionShort} = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
-    $Param{DescriptionLong}  = $Param{ActivityDialogData}->{Config}->{DescriptionLong};
-    $Param{SubmitAdviceText} = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
-    $Param{SubmitButtonText} = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
+    $Param{DescriptionShort}     = $Param{ActivityDialogData}->{Config}->{DescriptionShort};
+    $Param{DescriptionLong}      = $Param{ActivityDialogData}->{Config}->{DescriptionLong};
+    $Param{SubmitAdviceText}     = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
+    $Param{SubmitButtonText}     = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
+    $Param{InputFieldDefinition} = $Param{ActivityDialogData}->{Config}->{InputFieldDefinition};
+    $Param{DirectSubmit}         = $Param{ActivityDialogData}->{Config}->{DirectSubmit} ? ' checked' : '';
+
+    # Add code mirror language mode.
+    if ( $LayoutObject->{BrowserRichText} ) {
+        $LayoutObject->AddJSData(
+            Key   => 'EditorLanguageMode',
+            Value => 'text/x-yaml',
+        );
+    }
 
     my $Output = $LayoutObject->Header(
         Value => $Param{Title},
@@ -963,7 +977,7 @@ sub _GetParams {
     # get parameters from web browser
     for my $ParamName (
         qw( Name EntityID Interface DescriptionShort DescriptionLong Permission RequiredLock SubmitAdviceText
-        SubmitButtonText )
+        SubmitButtonText InputFieldDefinition DirectSubmit )
         )
     {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';

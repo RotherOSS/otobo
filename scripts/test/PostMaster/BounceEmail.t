@@ -18,12 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::System::PostMaster;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::PostMaster ();
+
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -297,7 +300,7 @@ my $TestForceNewTicket = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'new-ticket'.",
+        "Raw queue successfully changed to follow-up 'new-ticket'.",
     );
 
     # Process the e-mail
@@ -325,7 +328,7 @@ my $TestDontReOpenClosedTicket = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'reject'.",
+        "Raw queue successfully changed to follow-up 'reject'.",
     );
 
     # Process the e-mail
@@ -352,7 +355,7 @@ my $TestOriginalEmailAsAttachmentShouldNotBounce = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'possible'.",
+        "Raw queue successfully changed to follow-up 'possible'.",
     );
 
     my ( $ReturnCode, $TicketID, ) = $ProcessEmail->(

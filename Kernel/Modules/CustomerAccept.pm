@@ -29,8 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    $Self->{InfoKey}  = $ConfigObject->Get('CustomerPanel::InfoKey');
-    $Self->{InfoFile} = $ConfigObject->Get('CustomerPanel::InfoFile');
+    $Self->{InfoKey} = $ConfigObject->Get('CustomerPanel::InfoKey');
 
     return $Self;
 }
@@ -38,7 +37,6 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
     if ( !$Self->{RequestedURL} ) {
         $Self->{RequestedURL} = 'Action=';
     }
@@ -52,7 +50,10 @@ sub PreRun {
             Key       => 'UserRequestedURL',
             Value     => $Self->{RequestedURL},
         );
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => 'Action=CustomerAccept' );
+
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+            OP => 'Action=CustomerAccept'
+        );
     }
     else {
         return;
@@ -67,10 +68,11 @@ sub Run {
         $Self->{RequestedURL} = 'Action=';
     }
     my $Accept        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Accept' ) || '';
+    my $Review        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Review' ) || '';
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    if ( $Self->{ $Self->{InfoKey} } ) {
+    if ( $Self->{ $Self->{InfoKey} } && !$Review ) {
 
         # remove requested url from session storage
         $SessionObject->UpdateSessionID(
@@ -112,11 +114,12 @@ sub Run {
 
         # show info
         $Output = $LayoutObject->CustomerHeader();
-        $Output
-            .= $LayoutObject->Output(
-                TemplateFile => $Self->{InfoFile},
-                Data         => \%Param
-            );
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'CustomerAccept',
+            Data         => {
+                AcceptButton => !$Review,
+            }
+        );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }

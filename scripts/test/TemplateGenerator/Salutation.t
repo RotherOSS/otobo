@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -137,7 +137,7 @@ for my $Test (@Tests) {
     my $SalutationID = $SalutationObject->SalutationAdd(
         Name => $Helper->GetRandomID() . '-Salutation',
         Text => $Test->{Salutation},
-        ,
+
         ContentType => 'text/plain; charset=utf-8',
         Comment     => 'some comment',
         ValidID     => 1,

@@ -19,9 +19,17 @@ use warnings;
 use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(
+    FixedTimeAddSeconds
+    FixedTimeSet
+    FixedTimeUnset
+);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -572,7 +580,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         TESTFILE:
         for my $TestFile (@TestFiles) {
 
-            my @FileParts = split '/', $TestFile;
+            my @FileParts = split /\//, $TestFile;
             my $FileName  = $FileParts[-1];
 
             # read content of the testfile

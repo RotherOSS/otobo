@@ -18,16 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use Kernel::Language;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -69,20 +69,20 @@ $Selenium->RunTest(
                 'Input' =>
                     'This is a test text with <b>some</b> <i>formatting</i> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list: <ul><li>Listitem 1</li><li>Listitem 2</li></ul>.',
                 'Expected' =>
-                    "This is a test text with <strong>some</strong> <em>formatting</em> and <a href=\"http://www.test.de\">a link</a>. Also, there is a list:\n<ul>\n\t<li>Listitem 1</li>\n\t<li>Listitem 2</li>\n</ul>\n.",
+                    q{<p>This is a test text with <strong>some</strong> <i>formatting</i> and <a href="http://www.test.de">a link</a>. Also, there is a list:</p><ul><li>Listitem 1</li><li>Listitem 2</li></ul><p>.</p>},
             },
             {
                 'Name'  => '2: Remove invalid/forbidden tags',
                 'Input' =>
                     "This text contains a script tag: <script>alert(\'bla\');</script> and a table, though the enhanced mode is not enabled: <table><tr><td>One cell</td></tr></table>.",
                 'Expected' =>
-                    "This text contains a script tag: and a table, though the enhanced mode is not enabled:One cell<br />\n.",
+                    "<p>This text contains a script tag: alert(\'bla\'); and a table, though the enhanced mode is not enabled:</p><figure class=\"table\"><table><tbody><tr><td>One cell</td></tr></tbody></table></figure><p>.</p>",
             },
             {
                 'Name'  => '3: Remove invalid/forbidden attributes',
                 'Input' =>
                     'Here is an allowed element with a forbidden attribute: <strong data-uri=\"foo\">Strong text</strong>.',
-                'Expected' => 'Here is an allowed element with a forbidden attribute: <strong>Strong text</strong>.',
+                'Expected' => '<p>Here is an allowed element with a forbidden attribute: <strong>Strong text</strong>.</p>',
             },
         );
 
@@ -94,22 +94,19 @@ $Selenium->RunTest(
 
         # wait for the CKE to load
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+            JavaScript => "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length == 1"
         );
 
         # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
         my $SetCKEContent = 1;
         eval {
             $SetCKEContent = $Selenium->execute_script(
-                q{
-                    return CKEDITOR.instances.RichText.setData('This is a test text');
-                }
+                q{return CKEditorInstances['RichText'].setData('This is a test text'); }
             );
         };
 
         # if the result is undef, the command succeeded (o_O)
-        $Self->Is(
+        is(
             $SetCKEContent,
             undef,
             "Successfully sent data to the CKE instance."
@@ -117,39 +114,32 @@ $Selenium->RunTest(
 
         # Wait until CKEditor content is updated.
         $Selenium->WaitFor(
-            JavaScript => "return CKEDITOR.instances.RichText.getData() === \"This is a test text\";",
+            JavaScript => q{return CKEditorInstances['RichText'].getData()},
         );
 
-        $Self->Is(
-            $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
-            'This is a test text',
+        is(
+            $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData()}),
+            '<p>This is a test text</p>',
             'Check plain text content.'
         );
 
         # now go through the test cases
         for my $TestCase (@TestCasesBasic) {
 
-            # wait for the CKE to load
+            # wait for the CKE to load, previous content might be more than a single line
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                JavaScript => "return typeof(\$) === 'function' && \$('.ck-editor__editable').contents().length >= 1"
             );
 
-            $Selenium->execute_script( 'CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");' );
-
-            my $EscapedText = $TestCase->{Expected};
-
-            # Escape some chars for JS usage.
-            $EscapedText =~ s{\n}{\\n}g;
-            $EscapedText =~ s{"}{\\"}g;
+            $Selenium->execute_script(qq{CKEditorInstances['RichText'].setData("$TestCase->{Input}");});
 
             # Wait until CKEditor content is updated.
             $Selenium->WaitFor(
-                JavaScript => "return CKEDITOR.instances.RichText.getData() === \"$EscapedText\";",
+                JavaScript => q{return CKEditorInstances['RichText'].getData()},
             );
 
-            $Self->Is(
-                $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
+            is(
+                $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData();}),
                 $TestCase->{Expected},
                 $TestCase->{Name}
             );
@@ -157,4 +147,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;

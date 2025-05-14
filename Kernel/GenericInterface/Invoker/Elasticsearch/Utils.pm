@@ -16,10 +16,15 @@
 
 package Kernel::GenericInterface::Invoker::Elasticsearch::Utils;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -105,7 +110,6 @@ sub PrepareRequest {
             %{$API},
         },
     };
-
 }
 
 =head2 HandleResponse()

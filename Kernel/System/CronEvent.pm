@@ -19,8 +19,12 @@ package Kernel::System::CronEvent;
 use strict;
 use warnings;
 
-use Schedule::Cron::Events;
+# core modules
 
+# CPAN modules
+use Schedule::Cron::Events ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -447,7 +451,7 @@ sub _Init {
     # if a day and month are specified validate that the month has that specific day
     # this could be removed after Schedule::Cron::Events 1.94 is released and tested
     # see https://rt.cpan.org/Public/Bug/Display.html?id=109246
-    my ( $Min, $Hour, $DayMonth, $Month, $DayWeek ) = split ' ', $Param{Schedule};
+    my ( $Min, $Hour, $DayMonth, $Month, $DayWeek ) = split ' ', $Param{Schedule};    # pattern ' ' is treated as /\s+/
     if ( IsPositiveInteger($DayMonth) && IsPositiveInteger($Month) ) {
 
         my @MonthLastDay   = ( 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );

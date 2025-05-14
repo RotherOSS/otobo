@@ -63,7 +63,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
                 $('.AgentEnabledByDefault').show();
             }
             else {
-                TooltipObject.attr('readonly', 'readonly');
+                TooltipObject.attr('readonly', true);
 
                 // hide default transport value
                 $('.AgentEnabledByDefault').hide();
@@ -77,6 +77,12 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
         // initialize table filter
         Core.UI.Table.InitTableFilter($("#FilterNotifications"), $("#Notifications"));
+
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
 
         // register dialog box for delete notification
         $('.NotificationDelete').click(function (Event) {
@@ -124,7 +130,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
                 $.each(InputField, function(index, item) {
                     $('#' + item)
                         .attr({
-                            'readonly' : 'readonly',
+                            'readonly' : true,
                             'disabled' : 'disabled'
                         })
                         .parent()

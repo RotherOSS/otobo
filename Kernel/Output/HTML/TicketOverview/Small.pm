@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -293,7 +293,6 @@ sub ActionRow {
         );
     }
 
-    my %ColumnTranslations;
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     # add translations for the allocation lists for regular columns
@@ -565,7 +564,6 @@ sub Run {
             my @ActionItems;
             if ( ref $ConfigObject->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
                 my %Menus = %{ $ConfigObject->Get('Ticket::Frontend::PreMenuModule') };
-                my @Items;
                 MENU:
                 for my $Menu ( sort keys %Menus ) {
 
@@ -709,8 +707,7 @@ sub Run {
 
             my $CSS     = '';
             my $OrderBy = $Param{OrderBy};
-            my $Link;
-            my $Title = $LayoutObject->{LanguageObject}->Translate($Item);
+            my $Title   = $LayoutObject->{LanguageObject}->Translate($Item);
 
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
                 my $TitleDesc;
@@ -1702,10 +1699,11 @@ sub Run {
                     $LayoutObject->Block(
                         Name => 'RecordDynamicFieldLink',
                         Data => {
-                            Value                       => $ValueStrg->{Value},
-                            Title                       => $ValueStrg->{Title},
-                            Link                        => $ValueStrg->{Link},
-                            $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                            %Article,
+                            Value                                      => $ValueStrg->{Value},
+                            Title                                      => $ValueStrg->{Title},
+                            Link                                       => $ValueStrg->{Link},
+                            "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                         },
                     );
                 }
@@ -1732,10 +1730,11 @@ sub Run {
                     $LayoutObject->Block(
                         Name => 'RecordDynamicField_' . $DynamicFieldConfig->{Name} . '_Link',
                         Data => {
-                            Value                       => $ValueStrg->{Value},
-                            Title                       => $ValueStrg->{Title},
-                            Link                        => $ValueStrg->{Link},
-                            $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                            %Article,
+                            Value                                      => $ValueStrg->{Value},
+                            Title                                      => $ValueStrg->{Title},
+                            Link                                       => $ValueStrg->{Link},
+                            "DynamicField_$DynamicFieldConfig->{Name}" => $ValueStrg->{Title},
                         },
                     );
                 }
@@ -1902,6 +1901,8 @@ sub _InitialColumnFilter {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'SLA'
+        || $Param{ColumnName} eq 'Type'
         )
     {
         $TranslationOption = 1;
@@ -2055,6 +2056,8 @@ sub _ColumnFilterJSON {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'SLA'
+        || $Param{ColumnName} eq 'Type'
         )
     {
         $TranslationOption = 1;

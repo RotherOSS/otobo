@@ -5,7 +5,7 @@ use base 'PDF::API2::Resource::XObject::Image';
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;

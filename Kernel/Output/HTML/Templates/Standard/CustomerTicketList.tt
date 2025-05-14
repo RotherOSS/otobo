@@ -18,13 +18,17 @@
     <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %]" class="oooTicketListItem">
         <div class="oooTicketItemDesc">
             <h3 class="oooTIDTitle">[% Data.Subject | html %]</h3>
-            <p class="oooTIDNumber ooo12g">[% Translate("Nr.") | html %] #[% Data.TicketNumber | html %]</p>
+            <p class="oooTIDNumber ooo12g">[% Config('Ticket::Hook') %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]</p>
         </div>
         <div class="oooTicketItemCat">
             <div class="oooRow1"></div>
             <div class="oooRow2"></div>
 [% RenderBlockStart("Categories") %]
-            <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% Data.Text | html %]</p>
+            [% IF Data.Config.Translate %]
+                <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</p>
+            [% ELSE %]
+                <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</p>
+            [% END %]
 [% RenderBlockEnd("Categories") %]
         </div>
         <div class="oooTicketItemAvatar">
@@ -36,7 +40,7 @@
         </div>
         <p class="oooTicketItemOwner ooo10g">[% Data.CustomerName | html %]</p>
         <p class="oooTicketItemAge ooo10g">[% Data.CustomerAge | html %]</p>
-        <h3 class="oooTicketItemInfo"><i class="ooofo ooofo-more_v ooog"></i></h3>
+        <h3 class="oooTicketItemInfo"></h3>
     </a>
 [% RenderBlockEnd("Ticket") %]
 # no Tickets present:

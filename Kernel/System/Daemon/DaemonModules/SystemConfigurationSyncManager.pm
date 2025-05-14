@@ -16,11 +16,17 @@
 
 package Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager;
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
+# core modules
 use File::Basename qw(basename);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
@@ -40,7 +46,13 @@ Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager - daemon t
 
 =head1 DESCRIPTION
 
-System Configuration deployment sync daemon
+This Daemon module performs two tasks. The first task is to check whether there is a new deployment in the database
+that is for some reason not reflected in the config cache F<Kernel/Config/Files/ZZZAAuto.pm>. It performs a new deployment when there
+is a discrepancy. When the S3 backend is active then the new ZZZ files are deployed first to the S3 compatible storage.
+This means that potential other nodes don't need to sync the deployment again. But they should restart because the config cache has changed.
+
+The second task is to reload the Daemon in case there is a change in the F<Kernel/Config/Files/*.pm> files. This happens
+after a deployment sync.
 
 =head1 PUBLIC INTERFACE
 
@@ -54,10 +66,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless $Self, $Type;
+    my $Self = bless {}, $Type;
 
-    # Get objects in constructor to save performance.
+    # Get objects in constructor in order to increase performance.
     $Self->{ConfigObject}    = $Kernel::OM->Get('Kernel::Config');
     $Self->{CacheObject}     = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{DBObject}        = $Kernel::OM->Get('Kernel::System::DB');
@@ -83,10 +94,9 @@ sub new {
     }
 
     # Do not change the following values!
-    $Self->{SleepPost} = 60;         # sleep 1 minute after each loop
-    $Self->{Discard}   = 60 * 60;    # discard every hour
-
-    $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
+    $Self->{SleepPost} = 60;    # sleep 1 minute after each loop
+    my $Discard = 60 * 60;      # discard every hour
+    $Self->{DiscardCount} = $Discard / $Self->{SleepPost};
 
     $Self->{Debug}      = $Param{Debug};
     $Self->{DaemonName} = 'Daemon: SystemConfigurationSyncManager';
@@ -112,6 +122,7 @@ sub Run {
         Objects => [ 'Kernel::Config', ],
     );
 
+    # DeploymentID before the call to ConfigurationDeploySync()
     my $OldDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
     # Execute the deployment sync
@@ -129,7 +140,7 @@ sub Run {
         local $SIG{CHLD} = 'DEFAULT';
 
         # Localize the standard error, everything will be restored after the eval block.
-        local *STDERR;
+        local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
         # Redirect the standard error to a variable.
         open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
@@ -181,7 +192,7 @@ sub Run {
     my %NewConfigFilesMD5Sum;
     FILE:
     for my $File (@ConfigFiles) {
-        my $Basename = File::Basename::basename($File);
+        my $Basename = basename($File);
 
         # Skip deployment based files.
         next FILE if $Basename eq 'ZZZAAuto.pm';
@@ -214,7 +225,7 @@ sub Run {
     return 1 if ( !$ConfigChange && !$ConfigFileChanged );
 
     # Stop all daemons and reload configuration from main daemon.
-    kill 1, getppid;
+    kill 'HUP', getppid;
 
     return 1;
 }
@@ -230,7 +241,7 @@ sub PostRun {
         print "  $Self->{DaemonName} will be stopped and set for restart!\n";
     }
 
-    return if $Self->{DiscardCount} <= 0;
+    return if $Self->{DiscardCount} <= 0;    # force a reload of this daemon module
     return 1;
 }
 

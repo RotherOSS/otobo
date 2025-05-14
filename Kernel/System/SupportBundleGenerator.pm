@@ -19,8 +19,13 @@ package Kernel::System::SupportBundleGenerator;
 use strict;
 use warnings;
 
-use Archive::Tar;
-use Cwd qw(abs_path);
+# core modules
+use Cwd          qw(abs_path);
+use Archive::Tar ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -57,8 +62,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash ref to object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # cleanup the Home variable (remove tailing "/")
     $Self->{Home} = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -101,6 +105,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -117,6 +122,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -131,6 +137,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -145,6 +152,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -159,6 +167,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -173,6 +182,7 @@ sub Generate {
             Priority => 'error',
             Message  => $Message,
         );
+
         return {
             Success => 0,
             Message => $Message,
@@ -236,7 +246,7 @@ sub Generate {
     # add files to the tar archive
     open( my $Tar, '<', $Archive );    ## no critic qw(OTOBO::ProhibitOpen)
     binmode $Tar;
-    my $TmpTar = do { local $/; <$Tar> };
+    my $TmpTar = do { local $/; <$Tar> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
     close $Tar;
 
     # remove all files
@@ -353,24 +363,26 @@ sub GenerateCustomFilesArchive {
                 Priority => 'error',
                 Message  => "$ConfigFile was not found in the modified files!",
             );
+
             next CONFIGFILE;
         }
 
-        $Content = $Self->_MaskPasswords(
+        my $MaskedContent = $Self->_MaskPasswords(
             StringToMask => $Content,
         );
 
-        $TarObject->replace_content( $ConfigFile, $Content );
+        $TarObject->replace_content( $ConfigFile, $MaskedContent );
     }
 
-    my $Write = $TarObject->write( $CustomFilesArchive, 0 );
-    if ( !$Write ) {
+    my $WriteSuccess = $TarObject->write( $CustomFilesArchive, 0 );
+    if ( !$WriteSuccess ) {
 
         # log info
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't write $CustomFilesArchive: $!",
         );
+
         return;
     }
 
@@ -383,11 +395,12 @@ sub GenerateCustomFilesArchive {
             Priority => 'error',
             Message  => "Can't read $CustomFilesArchive: $!",
         );
+
         return;
     }
 
     binmode $TARFH;
-    my $TmpTar = do { local $/; <$TARFH> };
+    my $TmpTar = do { local $/; <$TARFH> };               ## no critic qw(Variables::RequireInitializationForLocalVars)
     close $TARFH;
 
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Compress::Zlib') ) {
@@ -521,17 +534,17 @@ sub GenerateConfigurationDump {
         SkipDefaultSettings => 1,
     );
 
-    $Export = $Self->_MaskPasswords(
+    my $MaskedExport = $Self->_MaskPasswords(
         StringToMask => $Export,
         YAML         => 1
     );
 
-    return ( \$Export, 'ModifiedSettings.yml' );
+    return ( \$MaskedExport, 'ModifiedSettings.yml' );
 }
 
 =head2 GenerateSupportData()
 
-Generates a C<.json> file with the support data
+Generates a C<.json> file with the support data. Tries to make a web request when it is running outside a web server,
 
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateSupportData();
 
@@ -608,6 +621,7 @@ sub _GetCustomFileList {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -639,6 +653,7 @@ sub _GetCustomFileList {
     FILE:
     for my $File (@List) {
         my $AbsFilePath = $Self->_GetAbsPath($File);
+
         next FILE if $AdditionalIgnoredAbsPaths{$AbsFilePath};
 
         # cleanup file name
@@ -688,9 +703,7 @@ sub _GetCustomFileList {
 
             # check if is a known file, in such case, check if MD5 is the same as the expected
             #   skip file if MD5 matches
-            if ( $Self->{MD5SumLookup}->{$File} && $Self->{MD5SumLookup}->{$File} eq $MD5Sum ) {
-                next FILE;
-            }
+            next FILE if ( $Self->{MD5SumLookup}->{$File} && $Self->{MD5SumLookup}->{$File} eq $MD5Sum );
 
             # add file to list
             push @Files, $File;
@@ -710,6 +723,7 @@ sub _MaskPasswords {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }

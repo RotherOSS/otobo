@@ -17,7 +17,12 @@ package Kernel::System::Cache::Redis;
 use strict;
 use warnings;
 
-use Encode;
+# core modules
+use Encode qw(encode);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -83,10 +88,13 @@ sub Set {
 
     };
     if ($@) {
+        my $Message = $@;    # as $Kernel::OM->Get('Kernel::System::Log') might clear $@
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => $@,
+            Message  => $Message,
         );
+
         return;
     }
 

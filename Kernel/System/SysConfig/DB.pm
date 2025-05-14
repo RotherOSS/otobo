@@ -18,11 +18,14 @@ package Kernel::System::SysConfig::DB;
 
 use strict;
 use warnings;
-
-use MIME::Base64;
-use Time::HiRes();
 use utf8;
 
+# core modules
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw( :all );
 
 our @ObjectDependencies = (
@@ -55,8 +58,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheTTL} = 24 * 3600 * 30;    # 1 month
 
@@ -1161,8 +1163,8 @@ sub DefaultSettingSearch {
         my %QueryCondition = $DBObject->QueryCondition(
             Key          => $Column,
             Value        => $Param{Search},
-            SearchPrefix => "*",
-            SearchSuffix => "*",
+            SearchPrefix => '*',
+            SearchSuffix => '*',
             BindMode     => 1,
         );
 
@@ -1198,10 +1200,8 @@ sub DefaultSettingSearch {
     );
 
     my @Result;
-
-    ROW:
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @Result, $Row[0];
+    while ( my ($Name) = $DBObject->FetchrowArray ) {
+        push @Result, $Name;
     }
 
     return @Result;
@@ -4835,17 +4835,17 @@ sub DeploymentGetLast {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Return cache.
+    # Using the cache is valid, as the cache key DeploymentGetLast is deleted
+    # when a deployment is added or deleted.
     my $Cache = $CacheObject->Get(
         Type => 'SysConfigDeployment',
         Key  => $CacheKey,
     );
 
-    return %{$Cache} if ref $Cache eq 'HASH';
+    return $Cache->%* if ref $Cache eq 'HASH';
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $DeploymentID;
     return if !$DBObject->Prepare(
         SQL => '
             SELECT MAX(id)
@@ -4853,12 +4853,12 @@ sub DeploymentGetLast {
             WHERE user_id IS NULL',
     );
 
-    my @DeploymentID;
+    my $DeploymentID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $DeploymentID = $Row[0];
     }
 
-    return if !$DeploymentID;
+    return unless $DeploymentID;
 
     my %Deployment = $Self->DeploymentGet(
         DeploymentID => $DeploymentID,

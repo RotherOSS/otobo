@@ -67,7 +67,7 @@ sub Run {
         my $ErrorClass = ( $Parts[1] =~ /error/ ) ? 'Error' : '';
 
         # Create date and time object from ctime log stamp.
-        my @Time = split ' ', $Parts[0];
+        my @Time = split ' ', $Parts[0];    # pattern ' ' is treated as /\s+/
         my $DateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {

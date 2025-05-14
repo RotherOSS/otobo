@@ -20,9 +20,10 @@ package Kernel::System::AuthSession::DB;
 
 use strict;
 use warnings;
+use utf8;
 
 # core modules
-use MIME::Base64 qw();
+use MIME::Base64 qw(decode_base64 encode_base64);
 
 # CPAN modules
 
@@ -206,7 +207,7 @@ sub GetSessionIDData {
         # deserialize data if needed
         if ( $Row[3] ) {
             my $Value = eval {
-                $StorableObject->Deserialize( Data => MIME::Base64::decode_base64( $Row[2] ) );
+                $StorableObject->Deserialize( Data => decode_base64( $Row[2] ) );
             };
 
             # workaround for the oracle problem with empty
@@ -247,8 +248,8 @@ sub CreateSessionID {
 
     # get remote address and the http user agent
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr      = $ParamObject->RemoteAddr()       || 'none';
-    my $RemoteUserAgent = $ParamObject->HTTP('USER_AGENT') || 'none';
+    my $RemoteAddr      = $ParamObject->RemoteAddr()         || 'none';
+    my $RemoteUserAgent = $ParamObject->Header('User-Agent') || 'none';
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -670,7 +671,7 @@ sub _SQLCreate {
             {
 
                 # dump the data
-                $Value = MIME::Base64::encode_base64(
+                $Value = encode_base64(
                     $StorableObject->Serialize( Data => $Value )
                 );
                 $Serialized = 1;
@@ -736,7 +737,7 @@ sub _SQLCreate {
                 }
 
                 # dump the data
-                $Value = MIME::Base64::encode_base64(
+                $Value = encode_base64(
                     $StorableObject->Serialize( Data => $Value )
                 );
                 $Serialized = 1;
@@ -804,7 +805,7 @@ sub _SQLCreate {
             {
 
                 # dump the data
-                $Value = MIME::Base64::encode_base64(
+                $Value = encode_base64(
                     $StorableObject->Serialize( Data => $Value )
                 );
                 $Serialized = 1;

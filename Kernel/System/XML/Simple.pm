@@ -22,7 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use XML::LibXML::Simple;
+use XML::LibXML::Simple ();
 
 # OTOBO modules
 
@@ -45,6 +45,7 @@ Turn XML into a Perl data structure.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 
@@ -54,10 +55,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 XMLIn()
@@ -88,7 +86,7 @@ No default options are assumed.
         },
     );
 
-    Results in:
+Results in:
 
     my $PerlStructure = {
         Item => [
@@ -128,7 +126,7 @@ sub XMLIn {
 
     my $PerlStructure = eval {
 
-        my $XMLSimpleObject = XML::LibXML::Simple->new();
+        my $XMLSimpleObject = XML::LibXML::Simple->new;
 
         return $XMLSimpleObject->XMLin(
             $Param{XMLInput},
@@ -142,6 +140,7 @@ sub XMLIn {
             Priority => 'error',
             Message  => "Error parsing XML: $Error",
         );
+
         return;
     }
 

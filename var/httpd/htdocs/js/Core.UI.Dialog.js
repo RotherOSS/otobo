@@ -207,8 +207,8 @@ Core.UI.Dialog = (function (TargetNS) {
      * @param {Boolean} Params.Modal - Shows a dark background overlay behind the dialog (default: false)
      * @param {String} Params.Type - Alert|Search (default: undefined) Defines a special type of dialog.
      * @param {String} Params.Title - Defines the title of the dialog window (default: undefined).
-     * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined).
-     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined).
+     * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined). Only used for Type Alert.
+     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined). Only used for Type Alert.
      * @param {String} Params.HTML - Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML (default: undefined).
      * @param {Number} Params.PositionTop - Defines the top position of the dialog window (default: undefined).
      * @param {Number} Params.PositionBottom - Defines the bottom position of the dialog window (default: undefined).
@@ -371,7 +371,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
             // Get HTML with JS function innerHTML, because jQuery html() strips out the script blocks
             if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
-                // First get the data structure, ehich is (perhaps) already saved
+                // First get the data structure, which is (perhaps) already saved
                 // If the data does not exists Core.Data.Get returns an empty hash
                 DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
                 DialogCopySelector = Core.Data.Get($('body'), 'DialogCopySelector');
@@ -466,7 +466,6 @@ Core.UI.Dialog = (function (TargetNS) {
         Core.Data.Set($Dialog, 'DialogCounter', DialogCounter);
         // Increase the dialog number for the next possible dialog
         DialogCounter++;
-
 
         // Set position for Dialog
         if (Params.Type === 'Alert') {
@@ -576,7 +575,14 @@ Core.UI.Dialog = (function (TargetNS) {
             $(document).off('click.Dialog').on('click.Dialog', function (event) {
                 // If target element is removed before this event triggers, the enclosing div.Dialog can't be found anymore
                 // We check, if we can find a parent HTML element to be sure, that the element is not removed
-                if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
+                if (
+                    $(event.target).parents('html').length
+                    && $(event.target).closest('div.Dialog').length === 0
+
+                    // Case autocomplete dropdown in modal dialogs
+                    // NOTE: currently only occurs when using dynamic field reference search fields in ticket search or config item search
+                    && !$(event.target).hasClass('ui-menu-item-wrapper')
+                ) {
                     HandleClosingAction();
                 }
             });

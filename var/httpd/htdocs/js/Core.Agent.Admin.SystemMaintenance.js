@@ -41,6 +41,12 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         // Initialize table filter
         Core.UI.Table.InitTableFilter($('#FilterSystemMaintenances'), $('#SystemMaintenances'));
 
+        // init checkbox to include invalid elements
+        $('input#IncludeInvalid').off('change').on('change', function () {
+            var URL = Core.Config.Get("Baselink") + 'Action=' + Core.Config.Get("Action") + ';IncludeInvalid=' + ( $(this).is(':checked') ? 1 : 0 );
+            window.location.href = URL;
+        });
+
         // Initialize bind click on delete action
         $('.SystemMaintenanceDelete').on('click', function (Event) {
 

@@ -18,10 +18,14 @@ package Kernel::Modules::AgentCustomerUserAddressBook;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
-use List::Util qw(first);
+# core modules
 
-use Kernel::Language qw(Translatable);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -405,6 +409,8 @@ sub Run {
             my $Output = $LayoutObject->JSONEncode(
                 Data => \@CustomerUserLoginList,
             );
+
+            # TODO: why is the content type not 'application/json'
             return $LayoutObject->Attachment(
                 NoCache     => 1,
                 ContentType => 'text/html',
@@ -414,11 +420,14 @@ sub Run {
         }
         else {
 
-            my $Output = $LayoutObject->Header(
+            my $Header = $LayoutObject->Header(
                 Type => 'Small',
             );
-            $LayoutObject->Print( Output => \$Output );
-            $Output = '';
+
+            # As of OTOBO 10.0.x the headers were printed early.
+            # This has changed in OTOBO 10.1.1.
+            #$LayoutObject->Print( Output => \$Output );
+            #$Output = '';
 
             $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $ParamObject->GetParam( Param => 'View' )   || '';
@@ -475,36 +484,35 @@ sub Run {
                 );
             }
 
-            $Output .= $LayoutObject->CustomerUserAddressBookListShow(
-                CustomerUserIDs         => $ViewableCustomerUserLogins,
-                Total                   => scalar @{$ViewableCustomerUserLogins},
-                View                    => $Self->{View},
-                Env                     => $Self,
-                LinkPage                => $LinkPage,
-                LinkSort                => $LinkSort,
-                LinkFilter              => $LinkFilter,
-                LinkBack                => $LinkBack,
-                Profile                 => $Self->{Profile},
-                TitleName               => Translatable('Customer User Address Book'),
-                ShowColumns             => \@ShowColumns,
-                SortBy                  => $LayoutObject->Ascii2Html( Text => $Self->{SortBy} ),
-                OrderBy                 => $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} ),
-                RequestedURL            => 'Action=' . $Self->{Action} . ';' . $LinkPage,
-                Recipients              => $Recipients || {},
-                RecipientType           => $Self->{RecipientType},
-                RecipientField          => $Self->{RecipientField},
-                RecipientFieldLabel     => $Self->{RecipientFieldLabel},
-                CustomerTicketTextField =>
+            return join '',
+                $Header,
+                $LayoutObject->CustomerUserAddressBookListShow(
+                    CustomerUserIDs         => $ViewableCustomerUserLogins,
+                    Total                   => scalar @{$ViewableCustomerUserLogins},
+                    View                    => $Self->{View},
+                    Env                     => $Self,
+                    LinkPage                => $LinkPage,
+                    LinkSort                => $LinkSort,
+                    LinkFilter              => $LinkFilter,
+                    LinkBack                => $LinkBack,
+                    Profile                 => $Self->{Profile},
+                    TitleName               => Translatable('Customer User Address Book'),
+                    ShowColumns             => \@ShowColumns,
+                    SortBy                  => $LayoutObject->Ascii2Html( Text => $Self->{SortBy} ),
+                    OrderBy                 => $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} ),
+                    RequestedURL            => 'Action=' . $Self->{Action} . ';' . $LinkPage,
+                    Recipients              => $Recipients || {},
+                    RecipientType           => $Self->{RecipientType},
+                    RecipientField          => $Self->{RecipientField},
+                    RecipientFieldLabel     => $Self->{RecipientFieldLabel},
+                    CustomerTicketTextField =>
                     $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{CustomerTicketTextField}
                     || 'UserMailString',
-                LookupExcludeUserLogins => \%LookupExcludeUserLogins,
-            );
-
-            $Output .= $LayoutObject->Footer(
-                Type => 'Small',
-            );
-
-            return $Output;
+                    LookupExcludeUserLogins => \%LookupExcludeUserLogins,
+                ),
+                $LayoutObject->Footer(
+                    Type => 'Small',
+                );
         }
     }
 

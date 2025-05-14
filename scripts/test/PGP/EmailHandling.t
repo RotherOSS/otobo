@@ -16,18 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
 
-our $Self;
-
-use Kernel::Output::HTML::ArticleCheck::PGP;
-use Kernel::System::PostMaster;
-
-use Kernel::System::VariableCheck qw(:all);
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::Output::HTML::ArticleCheck::PGP ();
+use Kernel::System::PostMaster              ();
+use Kernel::System::VariableCheck           qw(:all);
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
@@ -108,7 +109,6 @@ if ( !$PGPBin || !( -e $PGPBin ) ) {
             );
         }
     }
-
 }
 
 # create local crypt object
@@ -150,63 +150,49 @@ my %Check = (
 # add PGP keys and perform sanity check
 for my $Count ( 1 .. 2 ) {
 
-    my @Keys = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-    $Self->False(
-        $Keys[0] || '',
-        "Key:$Count - KeySearch()",
-    );
-
-    # get keys
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
-        Filename  => "PGPPrivateKey-$Count.asc",
-    );
-    my $Message = $PGPObject->KeyAdd(
-        Key => ${$KeyString},
-    );
-    $Self->True(
-        $Message || '',
-        "Key:$Count - KeyAdd()",
-    );
-
-    @Keys = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-
-    $Self->True(
-        $Keys[0] || '',
-        "Key:$Count - KeySearch()",
-    );
-    for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort))
-    {
-        $Self->Is(
-            $Keys[0]->{$ID} || '',
-            $Check{$Count}->{$ID},
-            "Key:$Count - KeySearch() - $ID",
+    subtest "Key $Count" => sub {
+        my ( $Key, @OtherKeys ) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
         );
-    }
+        ok( !$Key, "KeySearch(), key not found" );
 
-    my $PublicKeyString = $PGPObject->PublicKeyGet(
-        Key => $Keys[0]->{Key},
-    );
-    $Self->True(
-        $PublicKeyString || '',
-        "Key:$Count - PublicKeyGet()",
-    );
+        # get keys
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Filename  => "PGPPrivateKey-$Count.asc",
+        );
+        my $Message = $PGPObject->KeyAdd(
+            Key => ${$KeyString},
+        );
+        ok( $Message, "KeyAdd()" );
 
-    my $PrivateKeyString = $PGPObject->SecretKeyGet(
-        Key => $Keys[0]->{KeyPrivate},
-    );
-    $Self->True(
-        $PrivateKeyString || '',
-        "Key:$Count - SecretKeyGet()",
-    );
+        ( $Key, @OtherKeys ) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
+        );
+        ok( $Key, "KeySearch(), key found" );
+
+        for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
+            is(
+                $Key->{$ID} || '',
+                $Check{$Count}->{$ID},
+                "KeySearch() - $ID",
+            );
+        }
+
+        my $PublicKeyString = $PGPObject->PublicKeyGet(
+            Key => $Key->{Key},
+        );
+        ok( $PublicKeyString, "PublicKeyGet()" );
+
+        my $PrivateKeyString = $PGPObject->SecretKeyGet(
+            Key => $Key->{KeyPrivate},
+        );
+        ok( $PrivateKeyString, "SecretKeyGet()" );
+    };
 }
 
 # tests for handling signed / encrypted emails
-my @Tests = (
+my @CryptTests = (
     {
         Name           => 'Encrypted Body, Plain Attachments',
         EmailFile      => '/scripts/test/sample/PGP/PGP_Test_2013-07-02-1977-1.eml',
@@ -250,169 +236,166 @@ my %PostMasterReturnLookup = (
     5 => 'ignored (because of X-OTOBO-Ignore header)',
 );
 
-TEST:
-for my $Test (@Tests) {
+for my $Test (@CryptTests) {
 
-    # read email content (from a file)
-    my $Email = $MainObject->FileRead(
-        Location => $ConfigObject->Get('Home') . $Test->{EmailFile},
-        Result   => 'ARRAY',
-    );
+    subtest $Test->{Name} => sub {
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-        },
-    );
-    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
-
-    # use post master to import mail into OTOBO
-    my $PostMasterObject = Kernel::System::PostMaster->new(
-        CommunicationLogObject => $CommunicationLogObject,
-        Email                  => $Email,
-        Trusted                => 1,
-    );
-    my @PostMasterResult = $PostMasterObject->Run( Queue => '' );
-
-    $CommunicationLogObject->ObjectLogStop(
-        ObjectLogType => 'Message',
-        Status        => 'Successful',
-    );
-    $CommunicationLogObject->CommunicationStop(
-        Status => 'Successful',
-    );
-
-    # sanity check (if postmaster runs correctly)
-    $Self->IsNot(
-        $PostMasterResult[0],
-        0,
-        "$Test->{Name} - PostMaster result should not be 0"
-            . " ($PostMasterReturnLookup{ $PostMasterResult[0] })",
-    );
-
-    # check if we get a new TicketID
-    $Self->IsNot(
-        $PostMasterResult[1],
-        undef,
-        "$Test->{Name} - PostMaster TicketID should not be undef",
-    );
-
-    # set the TicketID as the result form PostMaster
-    my $TicketID = $PostMasterResult[1] || 0;
-
-    if ( $PostMasterResult[1] > 0 ) {
-        push @AddedTickets, $TicketID;
-
-        # get ticket articles
-        my @Articles = $ArticleObject->ArticleList(
-            TicketID  => $TicketID,
-            OnlyFirst => 1,
+        # read email content (from a file)
+        my $Email = $MainObject->FileRead(
+            Location => $ConfigObject->Get('Home') . $Test->{EmailFile},
+            Result   => 'ARRAY',
         );
 
-        # use the first result (it should be only 1)
-        my %RawArticle;
-        if ( scalar @Articles ) {
-            %RawArticle = %{ $Articles[0] };
-        }
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Incoming',
+            },
+        );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
-        # use ArticleCheck::PGP to decrypt the article
-        my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
-            ArticleID => $Articles[0]->{ArticleID},
-            UserID    => $TestUserID,
+        # use post master to import mail into OTOBO
+        my $PostMasterObject = Kernel::System::PostMaster->new(
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => $Email,
+            Trusted                => 1,
+        );
+        my @PostMasterResult = $PostMasterObject->Run( Queue => '' );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
+        );
+        $CommunicationLogObject->CommunicationStop(
+            Status => 'Successful',
         );
 
-        my %Article = $ArticleBackendObject->ArticleGet(
-            TicketID  => $RawArticle{TicketID},
-            ArticleID => $RawArticle{ArticleID},
+        # sanity check (if postmaster runs correctly)
+        isnt(
+            $PostMasterResult[0],
+            0,
+            "PostMaster result should not be 0"
+                . " ($PostMasterReturnLookup{ $PostMasterResult[0] })",
         );
 
-        my @CheckResult = $CheckObject->Check( Article => \%Article );
+        # check if we get a new TicketID
+        isnt(
+            $PostMasterResult[1],
+            undef,
+            "PostMaster TicketID should not be undef",
+        );
 
-        # sanity destroy object
-        $CheckObject = undef;
+        # set the TicketID as the result form PostMaster
+        my $TicketID = $PostMasterResult[1] || 0;
 
-        if ( $Test->{CheckSignatureOnly} ) {
+        if ( $PostMasterResult[1] > 0 ) {
+            push @AddedTickets, $TicketID;
 
-            RESULTITEM:
-            for my $ResultItem (@CheckResult) {
+            # get ticket articles
+            my @Articles = $ArticleObject->ArticleList(
+                TicketID  => $TicketID,
+                OnlyFirst => 1,
+            );
 
-                next RESULTITEM if $ResultItem->{Key} ne 'Signed';
+            # use the first result, there should be only one
+            my %RawArticle;
+            if (@Articles) {
+                %RawArticle = $Articles[0]->%*;
+            }
+            note "TicketID: $RawArticle{TicketID}";
+            note "ArticleID: $RawArticle{ArticleID}";
 
-                $Self->True(
-                    $ResultItem->{SignatureFound},
-                    "$Test->{Name} - Signature found with true",
-                );
+            # use ArticleCheck::PGP to decrypt the article
+            my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
+                ArticleID => $Articles[0]->{ArticleID},
+                UserID    => $TestUserID,
+            );
 
-                $Self->True(
-                    $ResultItem->{Successful},
-                    "$Test->{Name} - Signature verify with true",
-                );
+            my %Article = $ArticleBackendObject->ArticleGet(
+                TicketID  => $RawArticle{TicketID},
+                ArticleID => $RawArticle{ArticleID},
+            );
 
-                last RESULTITEM;
+            my @CheckResult = $CheckObject->Check( Article => \%Article );
+
+            # sanity destroy object
+            $CheckObject = undef;
+
+            if ( $Test->{CheckSignatureOnly} ) {
+
+                RESULTITEM:
+                for my $ResultItem (@CheckResult) {
+
+                    next RESULTITEM if $ResultItem->{Key} ne 'Signed';
+
+                    ok( $ResultItem->{SignatureFound}, 'Signature found with true' );
+                    ok( $ResultItem->{Successful},     'Signature verify with true' );
+
+                    last RESULTITEM;
+                }
+
+                return;
             }
 
-            next TEST;
+            # check actual contents (subject and body)
+            %Article = $ArticleBackendObject->ArticleGet(
+                TicketID  => $RawArticle{TicketID},
+                ArticleID => $RawArticle{ArticleID},
+            );
+
+            is(
+                $Article{Subject},
+                $Test->{ArticleSubject},
+                "Decrypted article subject",
+            );
+
+            is(
+                $Article{Body},
+                $Test->{ArticleBody},
+                "Decrypted article body",
+            );
+
+            # get the list of attachments
+            my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID        => $Articles[0]->{ArticleID},
+                ExcludePlainText => 1,
+                ExcludeHTMLBody  => 1,
+                ExcludeInline    => 1,
+            );
+
+            FILEID:
+            for my $FileID ( sort keys %AtmIndex ) {
+
+                # skip non important attachments
+                next FILEID if $AtmIndex{$FileID}->{Filename} =~ m{\A file-\d+ \z}msx;
+
+                # get the attachment from the article (it should be already decrypted)
+                my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                    ArticleID => $Articles[0]->{ArticleID},
+                    FileID    => $FileID,
+                );
+
+                # read the original file (from file system)
+                my $FileStringRef = $MainObject->FileRead(
+                    Location => $ConfigObject->Get('Home')
+                        . '/scripts/test/sample/Crypt/'
+                        . $AtmIndex{$FileID}->{Filename},
+                );
+
+                # check actual contents (attachment)
+                is(
+                    $Attachment{Content},
+                    ${$FileStringRef},
+                    "Decrypted attachment $AtmIndex{$FileID}->{Filename}",
+                );
+            }
         }
-
-        # check actual contents (subject and body)
-        %Article = $ArticleBackendObject->ArticleGet(
-            TicketID  => $RawArticle{TicketID},
-            ArticleID => $RawArticle{ArticleID},
-        );
-
-        $Self->Is(
-            $Article{Subject},
-            $Test->{ArticleSubject},
-            "$Test->{Name} - Decrypted article subject",
-        );
-
-        $Self->Is(
-            $Article{Body},
-            $Test->{ArticleBody},
-            "$Test->{Name} - Decrypted article body",
-        );
-
-        # get the list of attachments
-        my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-            ArticleID        => $Articles[0]->{ArticleID},
-            ExcludePlainText => 1,
-            ExcludeHTMLBody  => 1,
-            ExcludeInline    => 1,
-        );
-
-        FILEID:
-        for my $FileID ( sort keys %AtmIndex ) {
-
-            # skip non important attachments
-            next FILEID if $AtmIndex{$FileID}->{Filename} =~ m{\A file-\d+ \z}msx;
-
-            # get the attachment from the article (it should be already decrypted)
-            my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                ArticleID => $Articles[0]->{ArticleID},
-                FileID    => $FileID,
-            );
-
-            # read the original file (from file system)
-            my $FileStringRef = $MainObject->FileRead(
-                Location => $ConfigObject->Get('Home')
-                    . '/scripts/test/sample/Crypt/'
-                    . $AtmIndex{$FileID}->{Filename},
-            );
-
-            # check actual contents (attachment)
-            $Self->Is(
-                $Attachment{Content},
-                ${$FileStringRef},
-                "$Test->{Name} - Decrypted attachment $AtmIndex{$FileID}->{Filename}",
-            );
-        }
-    }
+    };
 }
 
 # different mails to test
-@Tests = (
+my @ArticleTests = (
     {
         Name        => 'simple string',
         ArticleData => {
@@ -528,7 +511,7 @@ Reply text
 # test each mail with sign/crypt/sign+crypt
 my @TestVariations;
 
-for my $Test (@Tests) {
+for my $Test (@ArticleTests) {
     push @TestVariations, {
         Name        => $Test->{Name} . " (old API) sign only (Detached)",
         ArticleData => {
@@ -702,10 +685,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => $TestUserID,
 );
 
-$Self->True(
-    $TicketID,
-    'TicketCreate()',
-);
+ok( $TicketID, 'TicketCreate()' );
 
 my $TicketNumber = $TicketObject->TicketNumberLookup(
     TicketID => $TicketID,
@@ -714,190 +694,180 @@ my $TicketNumber = $TicketObject->TicketNumberLookup(
 push @AddedTickets, $TicketID;
 
 for my $Test (@TestVariations) {
+    subtest $Test->{Name} => sub {
 
-    my $ArticleID = $ArticleBackendObject->ArticleSend(
-        %{ $Test->{ArticleData} },
-        TicketID             => $TicketID,
-        SenderType           => 'customer',
-        IsVisibleForCustomer => 1,
-        HistoryType          => 'AddNote',
-        HistoryComment       => 'note',
-        Subject              => 'Unittest data',
-        Charset              => 'utf-8',
-        UserID               => 1,
-    );
-
-    $Self->True(
-        $ArticleID,
-        "$Test->{Name} - ArticleSend()",
-    );
-
-    # Read generated email and use it to create yet another article.
-    # This is necessary because otherwise reading the existing article will result in using the internal body
-    #   which doesn't contain signatures etc.
-    my $Email = $ArticleBackendObject->ArticlePlain(
-        ArticleID => $ArticleID,
-        UserID    => $TestUserID,
-    );
-
-    # Add ticket number to subject (to ensure mail will be attached to original ticket)
-    my @FollowUp;
-    for my $Line ( split "\n", $Email ) {
-        if ( $Line =~ /^Subject:/ ) {
-            $Line = 'Subject: ' . $TicketObject->TicketSubjectBuild(
-                TicketNumber => $TicketNumber,
-                Subject      => $Line,
-            );
-        }
-        push @FollowUp, $Line;
-    }
-    my $NewEmail = join "\n", @FollowUp;
-
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-        },
-    );
-    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
-
-    my $PostMasterObject = Kernel::System::PostMaster->new(
-        Email                  => \$NewEmail,
-        CommunicationLogObject => $CommunicationLogObject,
-    );
-
-    my @Return = $PostMasterObject->Run();
-    $Self->IsDeeply(
-        \@Return,
-        [ 2, $TicketID ],
-        "$Test->{Name} - PostMaster()",
-    );
-
-    my @Articles = $ArticleObject->ArticleList(
-        TicketID => $TicketID,
-        OnlyLast => 1,
-    );
-    my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $Articles[0]->{ArticleID},
-    );
-
-    my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
-        ArticleID => $Article{ArticleID},
-        UserID    => $TestUserID,
-    );
-
-    my @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    # Run check a second time to simulate repeated views.
-    my @FirstCheckResult = @CheckResult;
-    @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    $Self->IsDeeply(
-        \@FirstCheckResult,
-        \@CheckResult,
-        "$Test->{Name} - CheckObject() stable",
-    );
-
-    if ( $Test->{VerifySignature} ) {
-        my $SignatureVerified =
-            grep {
-                $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
-            } @CheckResult;
-
-        $Self->True(
-            $SignatureVerified,
-            "$Test->{Name} - signature verified",
-        );
-    }
-
-    if ( $Test->{VerifyDecryption} ) {
-        my $DecryptionVerified =
-            grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
-
-        $Self->True(
-            $DecryptionVerified,
-            "$Test->{Name} - decryption verified",
-        );
-    }
-
-    my %FinalArticleData = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $Article{ArticleID},
-    );
-
-    my $TestBody = $Test->{ArticleData}->{Body};
-
-    # convert test body to ASCII if it was HTML
-    if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
-        $TestBody = $HTMLUtilsObject->ToAscii(
-            String => $TestBody,
-        );
-    }
-
-    $Self->Is(
-        $FinalArticleData{Body},
-        $TestBody,
-        "$Test->{Name} - verified body content",
-    );
-
-    if ( defined $Test->{ArticleData}->{Attachment} ) {
-        my $Found;
-        my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
-            ArticleID => $Article{ArticleID},
+        my $ArticleID = $ArticleBackendObject->ArticleSend(
+            %{ $Test->{ArticleData} },
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'note',
+            Subject              => 'Unittest data',
+            Charset              => 'utf-8',
+            UserID               => 1,
         );
 
-        TESTATTACHMENT:
-        for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
+        ok( $ArticleID, "ArticleSend()" );
 
-            next TESTATTACHMENT if !$Attachment->{Filename};
+        # Read generated email and use it to create yet another article.
+        # This is necessary because otherwise reading the existing article will result in using the internal body
+        #   which doesn't contain signatures etc.
+        my $Email = $ArticleBackendObject->ArticlePlain(
+            ArticleID => $ArticleID,
+            UserID    => $TestUserID,
+        );
 
-            ATTACHMENTINDEX:
-            for my $AttachmentIndex ( sort keys %Index ) {
-
-                if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
-                    next ATTACHMENTINDEX;
-                }
-
-                # when the attachment originally does not include a ContentID at create time is not
-                #   changed to '<>', it is still empty, also if the mail is just signed but not
-                #   encrypted, the attachment is not rewritten so it keeps without the surrounding
-                #   '<>'
-                my $ExpectedContentID = $Attachment->{ContentID};
-                if ( $Attachment->{ContentID} ) {
-                    $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
-                }
-                $Self->Is(
-                    $Index{$AttachmentIndex}->{ContentID},
-                    $ExpectedContentID,
-                    "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
+        # Add ticket number to subject (to ensure mail will be attached to original ticket)
+        my @FollowUp;
+        for my $Line ( split /\n/, $Email ) {
+            if ( $Line =~ /^Subject:/ ) {
+                $Line = 'Subject: ' . $TicketObject->TicketSubjectBuild(
+                    TicketNumber => $TicketNumber,
+                    Subject      => $Line,
                 );
-                $Found = 1;
-                last ATTACHMENTINDEX;
             }
-            $Self->True(
-                $Found,
-                "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
+            push @FollowUp, $Line;
+        }
+        my $NewEmail = join "\n", @FollowUp;
+
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Incoming',
+            },
+        );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
+
+        my $PostMasterObject = Kernel::System::PostMaster->new(
+            Email                  => \$NewEmail,
+            CommunicationLogObject => $CommunicationLogObject,
+        );
+
+        my @Return = $PostMasterObject->Run();
+        is(
+            \@Return,
+            [ 2, $TicketID ],
+            "PostMaster()",
+        );
+
+        my @Articles = $ArticleObject->ArticleList(
+            TicketID => $TicketID,
+            OnlyLast => 1,
+        );
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $Articles[0]->{ArticleID},
+        );
+
+        my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
+            ArticleID => $Article{ArticleID},
+            UserID    => $TestUserID,
+        );
+
+        my @CheckResult = $CheckObject->Check( Article => \%Article );
+
+        # Run check a second time to simulate repeated views.
+        my @FirstCheckResult = @CheckResult;
+        @CheckResult = $CheckObject->Check( Article => \%Article );
+
+        is(
+            \@FirstCheckResult,
+            \@CheckResult,
+            "CheckObject() stable",
+        );
+
+        if ( $Test->{VerifySignature} ) {
+            my $SignatureVerified =
+                grep {
+                    $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
+                } @CheckResult;
+
+            ok( $SignatureVerified, "signature verified" );
+        }
+
+        if ( $Test->{VerifyDecryption} ) {
+            my $DecryptionVerified =
+                grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
+
+            ok( $DecryptionVerified, "decryption verified" );
+        }
+
+        my %FinalArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $Article{ArticleID},
+        );
+
+        my $TestBody = $Test->{ArticleData}->{Body};
+
+        # convert test body to ASCII if it was HTML
+        if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
+            $TestBody = $HTMLUtilsObject->ToAscii(
+                String => $TestBody,
             );
         }
 
-        # Remove all attachments, then run CheckObject again to verify they are not written again.
-        $ArticleBackendObject->ArticleDeleteAttachment(
-            ArticleID => $Article{ArticleID},
-            UserID    => 1,
+        is(
+            $FinalArticleData{Body},
+            $TestBody,
+            "verified body content",
         );
 
-        $CheckObject->Check( Article => \%Article );
+        if ( defined $Test->{ArticleData}->{Attachment} ) {
+            my $Found;
+            my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Article{ArticleID},
+            );
 
-        %Index = $ArticleBackendObject->ArticleAttachmentIndex(
-            ArticleID => $Article{ArticleID},
-        );
-        $Self->False(
-            scalar keys %Index,
-            "$Test->{Name} - Attachments not rewritten by ArticleCheck module"
-        );
-    }
+            TESTATTACHMENT:
+            for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
+
+                next TESTATTACHMENT if !$Attachment->{Filename};
+
+                ATTACHMENTINDEX:
+                for my $AttachmentIndex ( sort keys %Index ) {
+
+                    if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
+                        next ATTACHMENTINDEX;
+                    }
+
+                    # when the attachment originally does not include a ContentID at create time is not
+                    #   changed to '<>', it is still empty, also if the mail is just signed but not
+                    #   encrypted, the attachment is not rewritten so it keeps without the surrounding
+                    #   '<>'
+                    my $ExpectedContentID = $Attachment->{ContentID};
+                    if ( $Attachment->{ContentID} ) {
+                        $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
+                    }
+                    is(
+                        $Index{$AttachmentIndex}->{ContentID},
+                        $ExpectedContentID,
+                        "Attachment '$Attachment->{Filename}' ContentID",
+                    );
+                    $Found = 1;
+                    last ATTACHMENTINDEX;
+                }
+                ok( $Found, "Attachment '$Attachment->{Filename}' was found" );
+            }
+
+            # Remove all attachments, then run CheckObject again to verify they are not written again.
+            $ArticleBackendObject->ArticleDeleteAttachment(
+                ArticleID => $Article{ArticleID},
+                UserID    => 1,
+            );
+
+            $CheckObject->Check( Article => \%Article );
+
+            %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Article{ArticleID},
+            );
+            ok(
+                !scalar keys %Index,
+                "Attachments not rewritten by ArticleCheck module"
+            );
+        }
+    };
 }
 
 # delete PGP keys
@@ -905,35 +875,22 @@ for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
-    $Self->True(
-        $Keys[0] || '',
-        "Key:$Count - KeySearch()",
-    );
+    ok( $Keys[0] || '', "Key:$Count - KeySearch()" );
     my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
         Key => $Keys[0]->{KeyPrivate},
     );
-    $Self->True(
-        $DeleteSecretKey || '',
-        "Key:$Count - SecretKeyDelete()",
-    );
+    ok( $DeleteSecretKey, "Key:$Count - SecretKeyDelete()", );
 
     my $DeletePublicKey = $PGPObject->PublicKeyDelete(
         Key => $Keys[0]->{Key},
     );
-    $Self->True(
-        $DeletePublicKey || '',
-        "Key:$Count - PublicKeyDelete()",
-    );
+    ok( $DeletePublicKey, "Key:$Count - PublicKeyDelete()" );
 
     @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
-    $Self->False(
-        $Keys[0] || '',
-        "Key:$Count - KeySearch()",
-    );
+    ok( !$Keys[0], "Key:$Count - KeySearch()" );
 }
 
 # cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();

@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
-use CGI;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -41,11 +43,7 @@ my $PriorityID = $Kernel::OM->Get('Kernel::System::Priority')->PriorityAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $PriorityID,
-    undef,
-    "PriorityAdd() for Priority $RandomID",
-);
+ok( defined $PriorityID, "PriorityAdd() for Priority $RandomID" );
 
 my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name            => $RandomID,
@@ -57,11 +55,7 @@ my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Comment         => 'Some comment',
     UserID          => 1,
 );
-$Self->IsNot(
-    $QueueID,
-    undef,
-    "QueueAdd() for Queue $RandomID",
-);
+ok( defined $QueueID, "QueueAdd() for Queue $RandomID" );
 
 my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateAdd(
     Name    => $RandomID,
@@ -70,22 +64,14 @@ my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateAdd(
     TypeID  => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $StateID,
-    undef,
-    "StateAdd() for State $RandomID",
-);
+ok( defined $StateID, "StateAdd() for State $RandomID" );
 
 my $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeAdd(
     Name    => $RandomID,
     ValidID => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $TypeID,
-    undef,
-    "TypeAdd() for Type $RandomID",
-);
+ok( defined $TypeID, "TypeAdd() for Type $RandomID" );
 
 my @Tests = (
     {
@@ -168,36 +154,32 @@ my @Tests = (
 
 TEST:
 for my $Test (@Tests) {
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{QueryString} // '',
+
+    # force the ParamObject to use the new request params
+    my $QueryString = $Test->{QueryString} // '';
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            HTTPRequest => GET( 'http://example.com/example?' . $QueryString ),
+        }
     );
 
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
-
+    # implicitly call Kernel::System::Web::Request->new();
     my $EntityName = $Kernel::OM->Get('Kernel::System::SysConfig::ValueType::Entity')->EntityLookupFromWebRequest(
         EntityType => $Test->{EntityType} // '',
     );
 
     if ( !$Test->{Success} ) {
-        $Self->Is(
-            $EntityName,
-            undef,
-            "$Test->{Name} EntityLookupFromWebRequest() - EntityName (No Success)",
-        );
+        ok( !defined $EntityName, "$Test->{Name} EntityLookupFromWebRequest() - EntityName (No Success)" );
+
         next TEST;
     }
 
-    $Self->Is(
-        $EntityName,
-        $Test->{ExpectedValue},
-        "$Test->{Name} EntityLookupFromWebRequest() - EntityName",
-    );
-
+    is( $EntityName, $Test->{ExpectedValue}, "$Test->{Name} EntityLookupFromWebRequest() - EntityName" );
+}
+continue {
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::System::Web::Request', ],
     );
 }
 
-$Self->DoneTesting();
+done_testing;

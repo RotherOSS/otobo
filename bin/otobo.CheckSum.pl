@@ -21,14 +21,14 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use Getopt::Std;
-use Digest::MD5 qw(md5_hex);
+use Getopt::Std qw(getopt);
+use Digest::MD5 ();
 
 # CPAN modules
 
@@ -44,7 +44,7 @@ my %Compare;
 my %Opts;
 getopt( 'abd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
-    print <<EOF;
+    print <<'END_HELP';
 
 Create or compare OTOBO file checksum information.
 
@@ -57,7 +57,7 @@ Options:
  [-d]                   - Specify the path to OTOBO framework.
  [-h]                   - Display help for this command.
 
-EOF
+END_HELP
     exit 1;
 }
 
@@ -82,8 +82,8 @@ if ( $Action eq 'create' ) {
 }
 else {
     open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic qw(OTOBO::ProhibitOpen)
-    while (<$In>) {
-        my @Row = split /::/, $_;
+    while ( my $s = <$In> ) {
+        my @Row = split /::/, $s;
         chomp $Row[1];
         $Compare{ $Row[1] } = $Row[0];
     }
@@ -121,6 +121,9 @@ sub ProcessDirectory {
 
         # ignore files used for docker version obgrades
         next FILE if $File =~ m{/docker_firsttime}smx;
+
+        # ignore obsolete files
+        next FILE if $File =~ m{Kernel/Config/Files/XML/OTOBODynamicFields.xml}smx;
 
         # recurse into subdirectories, without chdir
         if ( -d $File ) {

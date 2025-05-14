@@ -20,6 +20,7 @@
     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
     <input type="hidden" name="ReplyToArticle" value="[% Data.ReplyToArticle | html %]"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
@@ -53,6 +54,9 @@
 [% RenderBlockStart("HeaderAgentTicketResponsible") %]
 [% Translate("Change Responsible of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %]
 [% RenderBlockEnd("HeaderAgentTicketResponsible") %]
+[% RenderBlockStart("HeaderAgentTicketArticleEdit") %]
+[% Translate("Edit Article \"%s\" of %s%s%s", Data.ArticleTitle, Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %]
+[% RenderBlockEnd("HeaderAgentTicketArticleEdit") %]
                  &mdash; [% Data.Title | html %]
             </h1>
                 </li>
@@ -72,6 +76,12 @@
             </ul>
         </div>
         <div class="Content">
+[% RenderBlockStart("AsteriskExplanation") %]
+            <div class="Field">
+                <p class="AsteriskExplanation" id="AsteriskExplanationHeader">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
             [% INCLUDE "FormElements/DraftNotifications.tt" %]
 [% RenderBlockStart("WidgetTicketActions") %]
             <div class="WidgetSimple Expanded">
@@ -260,36 +270,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("Priority") %]
 
-[% RenderBlockStart("TicketTypeDynamicField") %]
-                        <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                        [% Data.Label %]
-                            <div class="Field">
-                            [% Data.Field %]
-                            </div>
-                            <div class="Clear"></div>
-                        </div>
-[% RenderBlockEnd("TicketTypeDynamicField") %]
-
-# Example of how to use fixed dynamic field blocks for customizations. Block below is for fields of type 'Ticket'.
-#   NOTE: Field1 and Field2 are the names of the dynamic fields and have to be replaced with the actual field names.
-#[% RenderBlockStart("TicketTypeDynamicField_Field1") %]
-#                       <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                           [% Data.Label %]
-#                           <div class="Field">
-#                               [% Data.Field %]
-#                           </div>
-#                           <div class="Clear"></div>
-#                       </div>
-#[% RenderBlockEnd("TicketTypeDynamicField_Field2") %]
-#[% RenderBlockStart("TicketTypeDynamicField_Field2") %]
-#                       <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                           [% Data.Label %]
-#                           <div class="Field">
-#                               [% Data.Field %]
-#                           </div>
-#                           <div class="Clear"></div>
-#                       </div>
-#[% RenderBlockEnd("TicketTypeDynamicField_Field2") %]
+[% Data.DynamicFieldHTML %]
                     </fieldset>
                 </div>
             </div>
@@ -311,7 +292,7 @@
 [% ELSE %]
                             <label for="CreateArticle">[% Translate("Create an Article") | html %]:</label>
                             <div class="Field">
-                                <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" [% IF Data.CreateArticle %] checked="checked"[% END %] />
+                                <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" [% IF Data.CreateArticle %]checked[% END %]>
                             </div>
                             <div class="Clear"></div>
 [% END %]
@@ -410,7 +391,9 @@
                             <label for="IsVisibleForCustomer">[% Translate("Is visible for customer") | html %]:</label>
                             <div class="Field">
                                 <input type="checkbox" name="IsVisibleForCustomer" id="IsVisibleForCustomer"
-                                    [% IF Data.IsVisibleForCustomer %]checked="checked" [% END %]/>
+                                    [% IF Data.IsVisibleForCustomer %]checked[% END %]
+                                    [% IF Data.ArticleID != "" %]disabled[% END %]
+                                />
                             </div>
                             <div class="Clear"></div>
 
@@ -429,51 +412,7 @@
                             <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
 
-[% RenderBlockStart("ArticleTypeDynamicField") %]
-                            <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
-                            [% Data.Label %]
-                                <div class="Field">
-                                [% Data.Field %]
-[% RenderBlockStart("ArticleTypeDynamicFieldError") %]
-                                    <div id="DynamicField_[% Data.Name %]Error" class="TooltipErrorMessage">
-                                        <p>[% Translate("This field is required.") | html %]</p>
-                                    </div>
-[% RenderBlockEnd("ArticleTypeDynamicFieldError") %]
-                                </div>
-                                <div class="Clear"></div>
-                            </div>
-[% RenderBlockEnd("ArticleTypeDynamicField") %]
-
-# Example of how to use fixed dynamic field blocks for customizations. Block below is for fields of type 'Article'.
-#   NOTE: Field1 and Field2 are the names of the dynamic fields and have to be replaced with the actual field names.
-#[% RenderBlockStart("ArticleTypeDynamicField_Field1") %]
-#                            <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                                [% Data.Label %]
-#                                <div class="Field">
-#                                [% Data.Field %]
-#                                [% IF (Data.MandatoryTooltip) %]
-#                                    <div id="DynamicField_[% Data.Name %]Error" class="TooltipErrorMessage">
-#                                        <p>[% Translate("This field is required.") | html %]</p>
-#                                    </div>
-#                                [% END %]
-#                                </div>
-#                                <div class="Clear"></div>
-#                            </div>
-#[% RenderBlockEnd("ArticleTypeDynamicField_Field1") %]
-#[% RenderBlockStart("ArticleTypeDynamicField_Field2") %]
-#                            <div class="Row Row_DynamicField_[% Data.Name | html %]">
-#                                [% Data.Label %]
-#                                <div class="Field">
-#                                [% Data.Field %]
-#                                [% IF (Data.MandatoryTooltip) %]
-#                                    <div id="DynamicField_[% Data.Name %]Error" class="TooltipErrorMessage">
-#                                        <p>[% Translate("This field is required.") | html %]</p>
-#                                    </div>
-#                                [% END %]
-#                                </div>
-#                                <div class="Clear"></div>
-#                            </div>
-#[% RenderBlockEnd("ArticleTypeDynamicField_Field2") %]
+[% Data.DynamicFieldHTML %]
                         </fieldset>
                     </div>
                 </div>

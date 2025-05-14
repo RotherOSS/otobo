@@ -18,13 +18,21 @@ package Kernel::System::DynamicField::Driver::BaseTitle;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
@@ -34,12 +42,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::BaseTitle - sub module of
-Kernel::System::DynamicField::Driver::Title
+Kernel::System::DynamicField::Driver::BaseTitle - base module of the Title dynamic field
 
 =head1 DESCRIPTION
 
-Text common functions.
+Title common functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -47,6 +54,7 @@ Text common functions.
 
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
+
     if ( $Param{Operator} eq 'Like' ) {
         my $SQL = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
             Key   => "$Param{TableAlias}.value_text",
@@ -108,43 +116,39 @@ sub SearchSQLOrderFieldGet {
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
+    # take config from dynamic field config
+    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-    # call EditLabelRender on the common Driver
-    my $TitleString = $Self->EditTitleRender(
+    # get the formatted title
+    my $TitleString = $Self->_EditTitleRender(
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
     );
 
-    my $Data = {
+    return {
         Field => $TitleString,
     };
-
-    return $Data;
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
+    # do nothing
     return 1;
 }
 
 sub EditFieldValueGet {
     my ( $Self, %Param ) = @_;
 
+    # do nothing
     return 1;
 }
 
 sub EditFieldValueValidate {
     my ( $Self, %Param ) = @_;
 
+    # never fail
     return {
         ServerError  => undef,
         ErrorMessage => undef,
@@ -154,17 +158,15 @@ sub EditFieldValueValidate {
 sub DisplayValueRender {
     my ( $Self, %Param ) = @_;
 
-    # set HTMLOutput as default if not specified
-    if ( !defined $Param{HTMLOutput} ) {
-        $Param{HTMLOutput} = 1;
-    }
+    # activate HTMLOutput when it wasn't specified
+    my $HTMLOutput = $Param{HTMLOutput} // 1;
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     my $Title = $Value;
 
     # HTMLOutput transformations
-    if ( $Param{HTMLOutput} ) {
+    if ($HTMLOutput) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
             Max  => $Param{ValueMaxChars} || '',
@@ -190,27 +192,24 @@ sub DisplayValueRender {
     my $LinkPreview = $Param{DynamicFieldConfig}->{Config}->{LinkPreview} || '';
 
     # TODO: as well as the following link and linkpreview
-    # create return structure
-    my $Data = {
+    # return a data structure
+    return {
         Value       => $Value,
         Title       => $Title,
         Link        => $Link,
         LinkPreview => $LinkPreview,
     };
-
-    return $Data;
 }
 
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
-    my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
+    my $Value = $Param{DefaultValue} // '';
 
     # get the field value, this function is always called after the profile is loaded
     my $FieldValue = $Self->SearchFieldValueGet(%Param);
@@ -222,7 +221,7 @@ sub SearchFieldRender {
 
     # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
     if ( IsArrayRefWithData($Value) ) {
-        $Value = @{$Value}[0];
+        $Value = $Value->[0];
     }
 
     # check and set class if necessary
@@ -233,7 +232,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";
@@ -252,12 +251,10 @@ EOF
         AdditionalText => $AdditionalText,
     );
 
-    my $Data = {
+    return {
         Field => $HTMLString,
         Label => $LabelString,
     };
-
-    return $Data;
 }
 
 sub SearchFieldValueGet {
@@ -347,7 +344,7 @@ sub StatsSearchFieldParameterBuild {
 sub ReadableValueRender {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
     my $Title = $Value;
 
     # cut strings if needed
@@ -359,12 +356,10 @@ sub ReadableValueRender {
     }
 
     # create return structure
-    my $Data = {
+    return {
         Value => $Value,
         Title => $Title,
     };
-
-    return $Data;
 }
 
 sub TemplateValueTypeGet {
@@ -448,25 +443,23 @@ sub HistoricalValuesGet {
 sub ValueLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Value = defined $Param{Key} ? $Param{Key} : '';
-
-    return $Value;
+    return $Param{Key} // '';
 }
 
-=head2 EditTitleRender()
+=head2 _EditTitleRender()
 
-creates the title HTML to be used in edit masks.
+creates the title HTML to be used in edit masks. Actually only the title is displayed.
+There is no input possible.
 
-    my $LabelTitleHTML = $BackendObject->EditTitleRender(
+    my $TitleHTML = $BackendObject->_EditTitleRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         FieldName          => 'TheField',               # the value to be set on the 'for' attribute
         AdditionalText     => 'Between'                 # other text to be placed next to FieldName
     );
 
-
 =cut
 
-sub EditTitleRender {
+sub _EditTitleRender {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -476,6 +469,7 @@ sub EditTitleRender {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -486,6 +480,7 @@ sub EditTitleRender {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
+
         return;
     }
 
@@ -496,56 +491,47 @@ sub EditTitleRender {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
+
             return;
         }
     }
-    my $Name      = $Param{FieldName};
-    my $TitleText = $Param{DynamicFieldConfig}->{Label};
 
-    my $TitleFontStyle;
-    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleItalicValue} eq "on" ) {
-        $TitleFontStyle = 'italic';
-    }
-    else {
-        $TitleFontStyle = 'normal';
-    }
-
-    my $TitleFontWeight;
-    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleBoldValue} eq "on" ) {
-        $TitleFontWeight = 'bold';
-    }
-    else {
-        $TitleFontWeight = 'normal';
-    }
-
-    my $TitleFontUnderLine;
-    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleUnderLineValue} eq "on" ) {
-        $TitleFontUnderLine = 'underline';
-    }
-    else {
-        $TitleFontUnderLine = 'none';
-    }
-
-    my $TitleFontSize  = $Param{DynamicFieldConfig}->{Config}->{FontSize} . "px";
+    my $TitleText      = $Param{DynamicFieldConfig}->{Label};
+    my $TitleFontStyle = $Param{DynamicFieldConfig}->{Config}->{CBFontStyleItalicValue} eq 'on'
+        ?
+        'italic'
+        :
+        'normal';
+    my $TitleFontWeight = $Param{DynamicFieldConfig}->{Config}->{CBFontStyleBoldValue} eq 'on'
+        ?
+        'bold'
+        :
+        'normal';
+    my $TitleFontUnderLine = $Param{DynamicFieldConfig}->{Config}->{CBFontStyleUnderLineValue} eq 'on'
+        ?
+        'underline'
+        :
+        'none';
+    my $TitleFontSize  = $Param{DynamicFieldConfig}->{Config}->{FontSize} . 'px';
     my $TitleFontColor = $Param{DynamicFieldConfig}->{Config}->{FontColor};
     my $TitleID        = $Param{FieldName};
 
     # opening tag
-    my $HTMLString = <<"EOF";
+    my $HTMLString = <<"END_HTML";
 <div class='oooTitle' id='$TitleID'>
     <p style="font-style:$TitleFontStyle; font-weight:$TitleFontWeight; font-size:$TitleFontSize; color:$TitleFontColor; text-decoration:$TitleFontUnderLine;" >
-EOF
+END_HTML
 
-    # text
+    # the label
     $HTMLString .= $Param{LayoutObject}->Ascii2Html(
-        Text => $Param{LayoutObject}->{LanguageObject}->Translate("$TitleText")
+        Text => $Param{LayoutObject}->{LanguageObject}->Translate($TitleText)
     );
     if ( $Param{AdditionalText} ) {
-        $HTMLString .= " (";
+        $HTMLString .= ' (';
         $HTMLString .= $Param{LayoutObject}->Ascii2Html(
             Text => $Param{LayoutObject}->{LanguageObject}->Translate("$Param{AdditionalText}")
         );
-        $HTMLString .= ")";
+        $HTMLString .= ')';
     }
 
     #$HTMLString .= ":\n";
@@ -561,6 +547,8 @@ EOF
 
 sub ValueGet {
     my ( $Self, %Param ) = @_;
+
+    # return a dummy value
     return 1;
 }
 

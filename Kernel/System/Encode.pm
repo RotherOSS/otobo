@@ -21,10 +21,10 @@ use strict;
 use warnings;
 
 # core modules
-use Encode;
+use Encode ();
 
 # CPAN modules
-use Encode::Locale;
+use Encode::Locale  qw(decode_argv);
 use IO::Interactive qw(is_interactive);
 
 # OTOBO modules
@@ -73,8 +73,8 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # use "locale" as an arg to encode/decode
-    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+    # decode the command line arguments to Perl's internal format.
+    decode_argv(Encode::FB_CROAK);
 
     # check if the encodeobject is used from the command line
     # if so, we need to decode @ARGV
@@ -305,22 +305,22 @@ sub EncodeInput {
     return unless defined $What;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What unless defined ${$What};
+        return $What unless defined $What->$*;
 
         # assuming the the incoming string is already encoded in UTF-8
-        Encode::_utf8_on( ${$What} );
+        Encode::_utf8_on( $What->$* );
 
         return $What;
     }
 
     if ( ref $What eq 'ARRAY' ) {
 
-        ROW:
-        for my $Row ( @{$What} ) {
-            next ROW if !defined $Row;
+        STRING:
+        for my $String ( $What->@* ) {
+            next STRING unless defined $String;
 
             # assuming the the incoming string is already encoded in UTF-8
-            Encode::_utf8_on($Row);
+            Encode::_utf8_on($String);
         }
 
         return $What;
@@ -352,22 +352,22 @@ sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What if !defined ${$What};
-        return $What if !Encode::is_utf8( ${$What} );
+        return $What unless defined $What->$*;
+        return $What unless Encode::is_utf8( $What->$* );
 
-        ${$What} = Encode::encode_utf8( ${$What} );
+        $What->$* = Encode::encode_utf8( $What->$* );
 
         return $What;
     }
 
     if ( ref $What eq 'ARRAY' ) {
 
-        ROW:
-        for my $Row ( @{$What} ) {
-            next ROW if !defined $Row;
-            next ROW if !Encode::is_utf8( ${$Row} );
+        STRING_REF:
+        for my $StringRef ( @{$What} ) {
+            next STRING_REF unless defined $StringRef;
+            next STRING_REF unless Encode::is_utf8( $StringRef->$* );
 
-            ${$Row} = Encode::encode_utf8( ${$Row} );
+            $StringRef->$* = Encode::encode_utf8( $StringRef->$* );
         }
 
         return $What;
@@ -458,12 +458,10 @@ sub FindAsciiSupersetEncoding {
     }
 
     ENCODING:
-    for my $Encoding ( @{ $Param{Encodings} } ) {
+    for my $Encoding ( $Param{Encodings}->@* ) {
         next ENCODING unless $Encoding;
 
-        if ( $Self->EncodingIsAsciiSuperset( Encoding => $Encoding ) ) {
-            return $Encoding;
-        }
+        return $Encoding if $Self->EncodingIsAsciiSuperset( Encoding => $Encoding );
     }
 
     return 'ASCII';

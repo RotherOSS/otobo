@@ -30,13 +30,12 @@ input[type=password],
 input[type=email],
 textarea,
 select[multiple=multiple] {
-    border: 1px solid #C9C9C9;
-    border-top-color: #C0C0C0;
+    border: 1px solid var(--colBGDark);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
-    -webkit-box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
-    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    -webkit-box-shadow: inset 1px 1px 3px var(--colBGLight), inset -1px -1px 3px var(--colBGLight);
+    box-shadow: inset 1px 1px 3px var(--colBGLight), inset -1px -1px 3px var(--colBGLight);
 }
 
 select[multiple=multiple] {
@@ -54,7 +53,7 @@ select[multiple=multiple] option {
 }
 
 select[multiple=multiple] option:nth-child(odd) {
-    background-color: #f9f9f9;
+    background-color: var(--colBGLight);
 }
 
 input#Subject {
@@ -69,66 +68,66 @@ input[type=email],
 textarea {
     padding: 3px;
     font-size: 12px;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
 textarea:focus {
-    border-color: #777;
+    border-color: var(--colTextLight);
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #555;
+    color: var(--colTextMedium);
     transition: color ease 0.3s;
 }
 
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
    opacity: 1;
 }
 
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
    opacity: 1;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-   color: #555;
+   color: var(--colTextMedium);
    transition: color ease 0.3s;
 }
 
 :focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: #ccc;
+    color: var(--colBGDark);
 }
 
 :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: #ccc;
+   color: var(--colBGDark);
    opacity: 1;
 }
 
 :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: #ccc;
+   color: var(--colBGDark);
    opacity: 1;
 }
 
 :focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: #ccc;
+   color: var(--colBGDark);
 }
 
 :focus::-ms-input-placeholder { /* Microsoft Edge */
-   color: #ccc;
+   color: var(--colBGDark);
 }
 
 /**
@@ -139,6 +138,15 @@ textarea {
     font-family: monospace,fixed;
 }
 
+.DynamicFieldSet textarea,
+.Row.MultiColumn textarea {
+    resize: vertical;
+    width: 100%;
+}
+
+.Row_DynamicField textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 /**
  * @subsection  Input Readonly
@@ -147,7 +155,7 @@ input[type=text][readonly],
 input[type=password][readonly],
 input[type=email][readonly],
 textarea[readonly] {
-    background-color: #DDD;
+    background-color: var(--colBGMedium);
 }
 
 /**
@@ -234,7 +242,7 @@ a.Reset{
 
 .AddButton,
 .RemoveButton {
-    color: #00023c;
+    color: var(--colTextDark);
     font-size: 14px;
     vertical-align: middle;
 }
@@ -259,7 +267,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: inline-block;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .GetAllAJAX span {
@@ -277,7 +285,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: inline-block;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .AdditionlFieldIcon span {
@@ -298,7 +306,7 @@ button.Reset:active {
     width: 16px;
     height: 16px;
     margin-left: 3px;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .GenericAgentClearSelect span {
@@ -316,7 +324,7 @@ button.Reset:active {
     height: 16px;
     margin-left: 3px;
     display: none;
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .ShowTreeSelection span {
@@ -326,7 +334,7 @@ button.Reset:active {
 }
 
 .ShowTreeSelection:focus {
-    color: #fef235;
+    color: var(--colHighlight);
 }
 
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
@@ -343,7 +351,7 @@ button.Reset:active {
 }
 
 #TreeContainer #TreeSearch span {
-    color: #AAAAAA;
+    color: var(--colTextLight);
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
@@ -355,7 +363,7 @@ button.Reset:active {
 }
 
 .DialogTreeSearch span {
-    color: #AAAAAA;
+    color: var(--colTextLight);
     cursor: pointer;
     font-weight: bold;
     position: relative;
@@ -370,12 +378,12 @@ button.Reset:active {
 
 .JSTreeField {
     background-color: #FFFFFF;
-    border: 1px solid #ccc;
+    border: 1px solid var(--colBGDark);
     height: 72%;
     margin: 10px 12px;
-    -moz-box-shadow: inset 0px 0px 6px #ccc;
-    -webkit-box-shadow: inset 0px 0px 6px #ccc;
-    box-shadow: inset 0px 0px 6px #ccc;
+    -moz-box-shadow: inset 0px 0px 6px var(--colBGDark);
+    -webkit-box-shadow: inset 0px 0px 6px var(--colBGDark);
+    box-shadow: inset 0px 0px 6px var(--colBGDark);
     overflow: auto;
     padding: 0px 10px 10px 10px;
 }
@@ -387,7 +395,7 @@ button.Reset:active {
 }
 
 .JSTreeField .Disabled > a {
-    color: #aaa;
+    color: var(--colTextLight);
     font-style: italic;
 }
 
@@ -396,7 +404,7 @@ button.Reset:active {
 }
 
 .JSTreeField .jstree-search.jstree-clicked {
-    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .JSTreeField .jstree-clicked {
@@ -412,13 +420,13 @@ button.Reset:active {
 }
 
 .JSTreeField .jstree-hovered {
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: var(--colBGLightMedium);
+    border-color: var(--colBGMediumDark);
 }
 
 .JSTreeField a:focus {
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: var(--colBGLightMedium);
+    border-color: var(--colBGMediumDark);
 }
 
 #SubmitTree {
@@ -460,7 +468,7 @@ fieldset > legend {
 }
 
 fieldset > legend > span {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--colBGMediumDark);
     display: block;
     font-weight: bold;
     padding: 5px 0px 5px 30%;
@@ -474,20 +482,20 @@ form fieldset > p.NoValue {
 }
 
 .FieldExplanation {
-    color: #888;
+    color: var(--colTextLight);
     margin: 5px 0;
 }
 
 .SidebarColumn .FieldExplanation.Error {
-    border: 1px solid #F03432;
-    color: #F03432;
+    border: 1px solid var(--colTextErr);
+    color: var(--colTextErr);
     line-height: 150%;
     margin: 7px 0px;
     padding: 7px 10px;
 }
 
 form label.Mandatory {
-    color: #00023c !important;
+    color: var(--colTextDark) !important;
 }
 
 form label.Mandatory span.Marker {
@@ -512,11 +520,11 @@ form label.LabelError {
 .CustomerContainer,
 .CcCustomerContainer,
 .BccCustomerContainer {
-    background-color: #F2F2F2;
-    border: 1px solid #CCCCCC;
-    -moz-box-shadow: inset 1px 1px 5px #ccc;
-    -webkit-box-shadow: inset 1px 1px 5px #ccc;
-    box-shadow: inset 1px 1px 5px #ccc;
+    background-color: var(--colBGLight);
+    border: 1px solid var(--colBGDark);
+    -moz-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    -webkit-box-shadow: inset 1px 1px 5px var(--colBGDark);
+    box-shadow: inset 1px 1px 5px var(--colBGDark);
     padding: 5px 7px 10px 6px;
     width: 74%;
     position: relative;
@@ -534,7 +542,7 @@ form label.LabelError {
 .CustomerContainer .CustomerTicketText,
 .CcCustomerContainer .CustomerTicketText,
 .BccCustomerContainer .CustomerTicketText  {
-    width: 89%;
+    width: calc( 100% - 70px );
     margin-left: 7px;
 }
 
@@ -543,19 +551,19 @@ form label.LabelError {
 }
 
 .CustomerContainer .CustomerTicketText.MainCustomer {
-    background-color: #fffccc;
-    border: 1px solid #e5e5eb;
+    background-color: var(--colHoverLight);
+    border: 1px solid var(--colBGMedium);
 }
 
 .CustomerContainer .CustomerTicketText.Radio {
-    width: 84%;
+    width: calc( 100% - 88px );
     margin-left: 0px;
 }
 
 .CustomerContainer .BoxLabel,
 .CcCustomerContainer .BoxLabel,
 .BccCustomerContainer .BoxLabel {
-    background-color: #CCCCCC;
+    background-color: var(--colBGDark);
     font-size: 11px;
     right: 100%;
     top: 10px;
@@ -564,7 +572,7 @@ form label.LabelError {
     text-align: center;
     text-shadow: 1px 1px 1px #FFFFFF;
     min-width: 20px;
-    color: #555;
+    color: var(--colTextMedium);
 }
 
 #EmailRecipientsList span,
@@ -575,6 +583,22 @@ form label.LabelError {
 #EmailRecipientsList.Expanded span,
 #EmailRecipientsList.Expanded a.Expand {
     display: inline;
+}
+
+.MoveCustomerButton > span {
+    border: solid 1px;
+    font-size: 7px;
+    padding: 0.4px 0.8px;
+    border-radius: 3px;
+    color: var(--colTextDark);
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 8.5px;
+    height: 8.5px;  /*very different behaviour ff vs chrome (here w/wo radio) vs ...*/
+}
+
+.MoveCustomerButton.ToMove > span {
+    padding: 0.4px 1.5px;
 }
 
 /**
@@ -590,7 +614,7 @@ form input.Error,
 form textarea.Error,
 form input.Error:focus,
 form textarea.Error:focus {
-    border-color: #ea2400;
+    border-color: var(--colTextErr);
 }
 
 /*
@@ -605,18 +629,29 @@ div.TooltipErrorMessage {
  * @description Provides a table-like, aligned label-value structure
  */
 
-fieldset.TableLike > label,
-fieldset.TableLike > .Row > label {
+fieldset.TableLike > label:not(.ck-label),
+fieldset.TableLike > .Row > label:not(.ck-label),
+fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     display: block;
     float: left;
     line-height: 1.9em;
     width: 30%;
     text-align: right;
-    color: #929292;
+    color: var(--colTextLight);
     min-height: 17px;
     padding-top: 0.3em;
     padding-bottom: 1px;
-    text-shadow: 0 1px 0 #FAFAFA;
+    text-shadow: 0 1px 0 var(--colBGLightMedium);
+    text-wrap: wrap;
+}
+
+fieldset.TableLike .Row.MultiColumn > .FieldCell label {
+    float: none;
+    line-height: 1.9em;
+    width: auto;
+    text-align: left;
+    padding-top: 0.3em;
+    padding-bottom: 1px;
 }
 
 
@@ -632,11 +667,12 @@ fieldset.TableLike > .Row > label {
     padding-top: 3px;
     padding-bottom: 3px;
     min-height: 20px;
-    text-shadow: 0 1px 0 #FAFAFA;
+    text-shadow: 0 1px 0 var(--colBGLightMedium);
 }
 
 fieldset.TableLike > .Field,
-fieldset.TableLike > .Row > .Field {
+fieldset.TableLike > .Row > .Field,
+fieldset.TableLike .Row > .FieldCell > .Field {
     line-height: 1.9em;
     margin-left: 30%;
     margin-right: 0;
@@ -647,8 +683,139 @@ fieldset.TableLike > .Row > .Field {
     min-height: 20px;
 }
 
+fieldset.TableLike .Row > .FieldCell > .Field.RichTextField {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+fieldset.TableLike .Row.MultiValue {
+    grid-row-gap: 2px;
+}
+
+fieldset.TableLike > .Row.MultiColumn {
+    margin-left: 15%;
+    width: calc( 80% - 40px );
+    grid-column-gap: 16px;
+}
+
+fieldset.TableLike .Row.MultiColumn .FieldCell {
+    white-space: normal;
+}
+
+fieldset.TableLike .Row.MultiValue > .FieldCell > .Field {
+    display: inline-block;
+}
+
+fieldset.TableLike .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
+    margin-left: 0;
+}
+
+fieldset.TableLike .Row.MultiColumn > .FieldCell > .Field {
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    width: calc(100% - 40px);
+}
+
+fieldset.TableLike .Row.MultiColumn > .FieldCell > .RichTextField,
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .RichTextField { /* has to override normal sets */
+    width: calc(100% - 40px) !important;
+    max-width: calc(100% - 40px);
+}
+
+/* Dynamic Field Set */
+
+fieldset.TableLike .DFSetOuterField {
+    max-width: 630px; /*width 620px + left margin*/
+    width: calc( 70% - 46px );  /* width of AddRemoveValueRow + left margin*/
+    box-sizing: border-box;
+}
+
+fieldset.TableLike .DynamicFieldSet {
+    padding: 8px;
+    border: 1px solid var(--colBGDark);
+    border-radius: 4px;
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell label:not(.ck-label) {
+    width: 24%;
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .Field {
+    margin-left: 24%;
+    width: calc( 76% - 48px );
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .RichTextField {
+    width: calc( 76% - 38px ) !important;
+    max-width: calc( 76% - 38px );
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
+    margin-left: 0;
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn {
+    grid-column-gap: 8px;
+    padding-left: 8px;
+}
+
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .Field {
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    width: calc(100% - 40px);
+}
+
+/* multivalue sets. necessary because of competing CSS specificities*/
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"], .ui-resizable-s),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"], .ui-resizable-s) {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* for dropdown selectionfields due to deeper nesting */
+fieldset.TableLike .DynamicFieldSet .InputField_InputContainer {
+    width: inherit;
+    box-sizing: inherit;
+}
+
+/* TODO check if it makes sense to do this only if input is direct child */
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField input:not([type="checkbox"]) {
+    min-width: 150px; /*kind of random, not ideal*/
+    box-sizing: border-box;
+    width: 100% !important;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
+    width: unset;
+}
+
+fieldset.TableLike .DynamicFieldSet .AddRemoveValueRow {
+    grid-column: 3;
+    box-sizing: border-box;
+}
+
+fieldset.TableLike .DynamicFieldSet .Row.MultiColumn .AddRemoveValueRow {
+    grid-column: 2;
+}
+
+/* EO TODO */
+
+.RTL fieldset.TableLike > .Row.MultiColumn {
+    margin-right: 15%;
+}
+
+.RTL fieldset.TableLike > .Row.MultiColumn > .FieldCell > .Field {
+    margin-right: 0;
+    padding-right: 0;
+}
+
 .RTL fieldset.TableLike > .Field,
-.RTL fieldset.TableLike > .Row > .Field {
+.RTL fieldset.TableLike > .Row > .Field,
+.RTL fieldset.TableLike > .Row > .FieldCell > .Field {
     margin-left: 0;
     margin-right: 30%;
     padding-left: 0;
@@ -664,14 +831,17 @@ fieldset.TableLike select {
  *          for example for complex input elements.
  */
 fieldset.TableLike > .Field label,
-fieldset.TableLike > .Row > .Field label {
-    color: #929292;
+fieldset.TableLike > .Row > .Field label,
+fieldset.TableLike > .Row > .FieldCell label {
+    color: var(--colTextLight);
 }
 
-fieldset.TableLike > .Field > select,
-fieldset.TableLike > .Row > .Field > select,
-fieldset.TableLike > .Field > input,
-fieldset.TableLike > .Row > .Field > input {
+fieldset.TableLike .Row > .FieldCell > .Field > select,
+fieldset.TableLike .Row > .FieldCell > .Field > input,
+fieldset.TableLike .Field > select,
+fieldset.TableLike .Row > .Field > select,
+fieldset.TableLike .Field > input,
+fieldset.TableLike .Row > .Field > input {
     max-width: 100%;
     border-radius: 4px;
 }
@@ -703,12 +873,19 @@ fieldset.TableLike > .Row > .FloatingField {
     float: left;
 }
 
-fieldset.TableLike > .RichTextField {
-    padding-bottom: 10px;
+fieldset.TableLike .RichTextField {
+    z-index: 10;
+    position: relative;
+    min-height: 150px !important;
+    max-width: 70%;
+    padding-bottom: 2px;
+    margin-bottom: 6px;
     padding-left: 10px;
-    padding-right: 10px;
     margin-left: 30%;
     margin-right: 0;
+    box-sizing: border-box;
+    height: min-content;    /* overwritten by Core.UI.RichTextEditor.js! */
+    width: 70%;             /* overwritten by Core.UI.RichTextEditor.js! */
 }
 
 body.Popup fieldset.TableLike > .Row > .RichTextField,
@@ -758,7 +935,7 @@ body.RealPopup.RTL fieldset.TableLike > .RichTextField {
 fieldset.TableLike > .Value,
 fieldset.TableLike > .Row > .Value {
     margin-left: 30%;
-    padding: 5px 0 3px 8px;
+    padding: 0.3em 0 1px 8px;
     line-height: 1.9em;
 }
 
@@ -778,12 +955,14 @@ fieldset.TableLike > .Row > .Value img {
  *              makes the labels have a fixed size
  */
 fieldset.TableLike.FixedLabel > label,
+fieldset.TableLike.FixedLabel > .Row > .FieldCell label,
 fieldset.TableLike.FixedLabel > .Row > label {
     width: 170px;
 }
 
 fieldset.TableLike.FixedLabel > .Field,
 fieldset.TableLike.FixedLabel > .Row > .Field,
+fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
 fieldset.TableLike.FixedLabel > .Value,
 fieldset.TableLike.FixedLabel > .Row > .Value {
     margin-left: 170px;
@@ -792,14 +971,37 @@ fieldset.TableLike.FixedLabel > .Row > .Value {
     padding-right: 0;
 }
 
+fieldset.TableLike.FixedLabel .Row.MultiColumn {
+    margin-left: 100px;
+}
+
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .Field,
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .FieldCell > .Field,
+fieldset.TableLike.FixedLabel .Row.MultiColumn > .Value {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
 .RTL fieldset.TableLike.FixedLabel > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Row > .Field,
+.RTL fieldset.TableLike.FixedLabel > .Row > .FieldCell > .Field,
 .RTL fieldset.TableLike.FixedLabel > .Value,
 .RTL fieldset.TableLike.FixedLabel > .Row > .Value {
     margin-left: 0;
     margin-right: 170px;
     padding-left: 0;
     padding-right: 17px;
+}
+
+.RTL fieldset.TableLike.FixedLabel .Row.MultiColumn {
+    margin-right: 100px;
+}
+
+.RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Field,
+.RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .FieldCell > .Field,
+.RTL fieldset.TableLike.FixedLabel > .Row.MultiColumn > .Value {
+    margin-right: 0px;
+    padding-right: 0px;
 }
 
 /**
@@ -828,10 +1030,6 @@ fieldset.TableLike.FixedLabelSmall > .Row > .Value {
     margin-right: 100px;
 }
 
-fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
-fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
-    width: 143px;
-}
 fieldset.TableLike.FixedLabelSmall > p.FixedValueSmall > em.Error {
     display: block;
     font-size: 11px;
@@ -855,8 +1053,31 @@ fieldset.TableLike > .Row > label {
     overflow-wrap: break-word;
 }
 
+/* TODO: Temporary for TicketInfo in AgentTicketZoom; has to be more general; */
+fieldset.TableLike .SetDisplayValue > label {
+  display: block;
+  float: left;
+  line-height: 1.3em;
+  width: 126px;
+  text-align: right;
+  color: var(--colTextLight);
+  min-height: 17px;
+  padding-top: 0.3em;
+  padding-bottom: 1px;
+  text-shadow: 0 1px 0 var(--colBGLight);
+  overflow-wrap: break-word;
+}
+fieldset.TableLike .SetDisplayValue > .Value {
+  margin-left: 132px;
+  margin-right: 7px;
+  overflow-wrap: break-word;
+  padding: 0.3em 0 3px 8px;
+  line-height: 1.3em;
+}
+/* EO Temporary */
+
 iframe.Signature {
-    border: 1px solid #888;
+    border: 1px solid var(--colTextLight);
 }
 
 /**

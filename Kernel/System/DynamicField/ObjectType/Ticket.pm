@@ -19,8 +19,6 @@ package Kernel::System::DynamicField::ObjectType::Ticket;
 use strict;
 use warnings;
 
-use Scalar::Util;
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -51,10 +49,7 @@ by using Kernel::System::DynamicField::ObjectType::Ticket->new();
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 PostValueSet()
@@ -115,16 +110,8 @@ sub PostValueSet {
         Bind => [ \$Param{UserID}, \$Param{ObjectID} ],
     );
 
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID      => $Param{ObjectID},
-        DynamicFields => 0,
-    );
-
-    my $HistoryValue    = defined $Param{Value}    ? $Param{Value}    : '';
-    my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
+    my $HistoryValue    = $Param{Value}    // '';
+    my $HistoryOldValue = $Param{OldValue} // '';
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -205,21 +192,20 @@ sub PostValueSet {
         }
     }
 
-    $HistoryValue    //= '';
-    $HistoryOldValue //= '';
-
     # Add history entry.
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     $TicketObject->HistoryAdd(
         TicketID    => $Param{ObjectID},
-        QueueID     => $Ticket{QueueID},
         HistoryType => 'TicketDynamicFieldUpdate',
 
         # This insert is not optimal at all (not human readable), but will be kept due to backwards compatibility. The
         #   value will be converted for use in a more speaking form directly in AgentTicketHistory.pm before display.
-        Name =>
-            "\%\%FieldName\%\%$FieldName"
-            . "\%\%Value\%\%$HistoryValue"
-            . "\%\%OldValue\%\%$HistoryOldValue",
+        Name => '%%' . join(
+            '%%',
+            FieldName => $FieldName,
+            Value     => ( $HistoryValue    // '' ),
+            OldValue  => ( $HistoryOldValue // '' ),
+        ),
         CreateUserID => $Param{UserID},
     );
 

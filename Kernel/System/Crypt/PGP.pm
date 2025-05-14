@@ -971,16 +971,8 @@ sub _Init {
     $Self->{GPGBin}  = $ConfigObject->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $ConfigObject->Get('PGP::Options') || '--batch --no-tty --yes';
 
-    if ( $^O =~ m/Win/i ) {
-
-        # take care to deal properly with paths containing whitespace
-        $Self->{GPGBin} = "\"$Self->{GPGBin}\" $Self->{Options}";
-    }
-    else {
-
-        # make sure that we are getting POSIX (i.e. english) messages from gpg
-        $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
-    }
+    # make sure that we are getting POSIX (i.e. english) messages from gpg
+    $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
 
     # determine active GnuPG version
     my $VersionString = '';
@@ -1106,8 +1098,7 @@ sub _HandleLog {
     for my $Line (@ComputableLines) {
 
         # get tag
-        $Line =~ m{(:?\[GNUPG\:\]\s)(\w*)(:?\s.*)?}xms;
-        my $Tag     = $2;
+        my ( undef, $Tag ) = $Line =~ m{(:?\[GNUPG\:\]\s)(\w*)(:?\s.*)?}xms;
         my $Message = $Line;
 
         $ComputableLog{$Tag} = {
@@ -1145,7 +1136,7 @@ sub _ParseGPGKeyList {
         # The option '--with-colons' causes gpg to output a machine-parsable format where the
         # individual fields are separated by a colon (':') - for a detailed description,
         # see the file doc/DETAILS in the gpg source distribution.
-        my @Fields = split ':', $Line;
+        my @Fields = split /:/, $Line;
         my $Type   = $Fields[0];
 
         # 'sec' or 'pub' indicate the start of a info block for a specific key

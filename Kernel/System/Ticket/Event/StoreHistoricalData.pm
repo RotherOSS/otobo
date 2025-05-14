@@ -19,9 +19,13 @@ package Kernel::System::Ticket::Event::StoreHistoricalData;
 use strict;
 use warnings;
 
-use Kernel::System::DynamicFieldDB;
+# core modules
 
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::DynamicFieldDB ();
+use Kernel::System::VariableCheck  qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -242,7 +246,7 @@ sub Run {
         }
         else {
 
-            my @CommaSeparatedValues = split ',', $Param{Value};
+            my @CommaSeparatedValues = split /,/, $Param{Value};
 
             if ( IsArrayRefWithData( \@CommaSeparatedValues ) ) {
                 @IdentifierValues = @CommaSeparatedValues;

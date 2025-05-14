@@ -18,15 +18,27 @@ package Kernel::Output::HTML::Layout::Ticket;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
 Kernel::Output::HTML::Layout::Ticket - all Ticket-related HTML functions
+
+=head1 SYNOPSIS
+
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 =head1 DESCRIPTION
 
@@ -133,12 +145,29 @@ sub AgentCustomerViewTable {
     # build table
     FIELD:
     for my $Field (@MapNew) {
-        if ( $Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{ $Field->[0] } ) {
+        next FIELD unless $Field->[3];
+        next FIELD unless $Field->[3] >= $ShownType;
+        next FIELD unless $Param{Data}->{ $Field->[0] };    # TODO: value '0' is not shown
+
+        {
             my %Record = (
                 %{ $Param{Data} },
                 Key   => $Field->[1],
                 Value => $Param{Data}->{ $Field->[0] },
             );
+
+            # handle special case of translatable customer countries
+            if (
+                $ConfigObject->Get('ReferenceData::TranslatedCountryNames')
+                &&
+                $Field->[0] =~ m/^CustomerCompanyCountry/i
+                )
+            {
+                $Record{Value} = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryCode2Name(
+                    CountryCode => $Record{Value},
+                    Language    => $Self->{UserLanguage},
+                );
+            }
 
             # render dynamic field values
             if ( $Field->[5] eq 'dynamic_field' ) {
@@ -148,7 +177,7 @@ sub AgentCustomerViewTable {
 
                 my $DynamicFieldConfig = $DynamicFieldLookup{ $Field->[2] };
 
-                next FIELD if !$DynamicFieldConfig;
+                next FIELD unless $DynamicFieldConfig;
 
                 my @RenderedValues;
                 VALUE:
@@ -205,6 +234,7 @@ sub AgentCustomerViewTable {
                 Data => \%Record,
             );
 
+            # Mark invalid companies
             if (
                 $Param{Data}->{Config}->{CustomerCompanySupport}
                 && $Field->[0] eq 'CustomerCompanyName'
@@ -401,21 +431,19 @@ sub AgentQueueListOption {
                 Priority => 'error',
                 Message  => 'Need Depend Param Ajax option!',
             );
-            $Self->FatalError();
+            $Self->FatalError;
         }
         if ( !$Param{Ajax}->{Update} ) {
             $LogObject->Log(
                 Priority => 'error',
                 Message  => 'Need Update Param Ajax option()!',
             );
-            $Self->FatalError();
+            $Self->FatalError;
         }
         $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
-            . " '$Param{Name}',"
-            . " ['"
-            . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
+            . " '$Param{Name}');";
     }
 
     if ( $Param{OnChange} ) {
@@ -455,7 +483,7 @@ sub AgentQueueListOption {
             HTMLQuote     => 0,
             SelectedID    => $Param{SelectedID} || $Param{SelectedIDRefArray} || '',
             SelectedValue => $Param{Selected},
-            Translation   => 0,
+            Translation   => $TreeView,
         );
         return $Param{MoveQueuesStrg};
     }
@@ -579,7 +607,7 @@ sub AgentQueueListOption {
                             . $OptionTitleHTMLValue
                             . '>'
                             . $DSpace
-                            . $Queue[$Index]
+                            . ( $TreeView ? $Self->{LanguageObject}->Translate( $Queue[$Index] ) : $Queue[$Index] )
                             . "</option>\n";
                         $UsedData{$FullQueueName} = 1;
                     }
@@ -587,7 +615,7 @@ sub AgentQueueListOption {
             }
 
             # create selectable elements
-            my $String               = $Space . $Queue[-1];
+            my $String               = $Space . ( $TreeView ? $Self->{LanguageObject}->Translate( $Queue[-1] ) : $Queue[-1] );
             my $OptionTitleHTMLValue = '';
             if ($OptionTitle) {
                 my $HTMLValue = $HTMLUtilsObject->ToHTML(
@@ -633,7 +661,7 @@ sub AgentQueueListOption {
     }
     $Param{MoveQueuesStrg} .= "</select>\n";
 
-    if ( $Param{TreeView} ) {
+    if ($TreeView) {
         my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
         $Param{MoveQueuesStrg}
             .= ' <a href="#" title="'
@@ -720,17 +748,14 @@ sub TicketListShow {
         }
     }
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    $LayoutObject->AddJSData(
+    $Self->AddJSData(
         Key   => 'View',
         Value => $View,
     );
 
     # load overview backend module
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Backends->{$View}->{Module} ) ) {
-        return $Env->{LayoutObject}->FatalError();
+        return $Self->FatalError;
     }
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
     return if !$Object;
@@ -814,7 +839,7 @@ sub TicketListShow {
             Name => 'OverviewNavBarPageBack',
             Data => \%Param,
         );
-        $LayoutObject->AddJSData(
+        $Self->AddJSData(
             Key   => 'Profile',
             Value => $Param{Profile},
         );
@@ -999,40 +1024,29 @@ sub TicketListShow {
         }
     }
 
-    my $OutputNavBar = $Self->Output(
-        TemplateFile => 'AgentTicketOverviewNavBar',
-        Data         => { %Param, },
-    );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $Self->Print( Output => \$OutputNavBar );
-    }
-    else {
-        $OutputRaw .= $OutputNavBar;
-    }
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
 
-    # run overview backend module
-    my $Output = $Object->Run(
-        %Param,
-        Config    => $Backends->{$View},
-        Limit     => $Limit,
-        StartHit  => $StartHit,
-        PageShown => $PageShown,
-        AllHits   => $Param{Total}  || 0,
-        Output    => $Param{Output} || '',
-    );
-    if ( !$Param{Output} ) {
-        $Self->Print( Output => \$Output );
-    }
-    else {
-        $OutputRaw .= $Output;
-    }
-
-    return $OutputRaw;
+    # create nav bar and run overview backend module
+    return join '',
+        $Self->Output(
+            TemplateFile => 'AgentTicketOverviewNavBar',
+            Data         => { %Param, },
+        ),
+        $Object->Run(
+            %Param,
+            Config    => $Backends->{$View},
+            Limit     => $Limit,
+            StartHit  => $StartHit,
+            PageShown => $PageShown,
+            AllHits   => $Param{Total}  || 0,
+            Output    => $Param{Output} || '',
+        );
 }
 
 sub TicketMetaItemsCount {
     my ( $Self, %Param ) = @_;
+
     return ( 'Priority', 'New Article' );
 }
 

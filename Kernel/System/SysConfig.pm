@@ -14,34 +14,36 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 package Kernel::System::SysConfig;
 
+use v5.24;
 use strict;
 use warnings;
-use utf8;
 use namespace::autoclean;
+use utf8;
 
-use parent qw(Kernel::System::AsynchronousExecutor);
+use parent qw(Kernel::System::AsynchronousExecutor);    # for AsyncCall()
 
 # core modules
+use File::Path qw(make_path);
 
 # CPAN modules
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Kernel::Config;
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::Output::HTML::SysConfig',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Package',
     'Kernel::System::Storable',
+    'Kernel::System::Storage::S3',
     'Kernel::System::SysConfig::DB',
     'Kernel::System::SysConfig::XML',
     'Kernel::System::User',
@@ -74,24 +76,21 @@ sub new {
 
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
-    # get home directory
-    $Self->{Home} = $Self->{ConfigObject}->Get('Home');
+    # get home directory and whether the S3 backend is active
+    $Self->{Home}     = $Self->{ConfigObject}->Get('Home');
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
-    # set utf-8 if used
-    $Self->{utf8}     = 1;
-    $Self->{FileMode} = ':utf8';
-
+    # Kernel::Config is loaded because it was loaded by $Kernel::OM above.
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( Level => 'Clear' );
 
     # Load base files.
-    my $BaseDir = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
-
+    my $BaseDir    = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     FILENAME:
-    for my $Filename (qw(Framework.pm OTOBOCommunity.pm)) {
+    for my $Filename (qw(Framework.pm SettingHistory.pm UserSetting.pm)) {
         my $BaseFile = $BaseDir . $Filename;
 
         next FILENAME unless -e $BaseFile;
@@ -398,12 +397,12 @@ sub SettingGet {
 
 =head2 SettingUpdate()
 
-Update an existing SysConfig Setting.
+Update an existing SysConfig setting.
 
     my %Result = $SysConfigObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
-        EffectiveValue         => $SettingEffectiveValue,    # (optional)
+        EffectiveValue         => $SettingEffectiveValue,    # (optional) only needed when IsValid is turned on
         UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
         TargetUserID           => 2,                         # (optional) ID of the user for which the modified setting is meant,
                                                              #   leave it undef for global changes.
@@ -2195,7 +2194,7 @@ Returns:
 sub SettingNavigationToPath {
     my ( $Self, %Param ) = @_;
 
-    my @NavigationNames = split( '::', $Param{Navigation} );
+    my @NavigationNames = split /::/, $Param{Navigation};
     my @Path;
 
     INDEX:
@@ -2279,8 +2278,8 @@ sub ConfigurationEntitiesGet {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = "SysConfigEntities";
-    my $CacheKey  = "UsedEntities";
+    my $CacheType = 'SysConfigEntities';
+    my $CacheKey  = 'UsedEntities';
 
     my $CacheData = $CacheObject->Get(
         Type => $CacheType,
@@ -2288,12 +2287,14 @@ sub ConfigurationEntitiesGet {
     );
 
     # Return cached data if available.
-    return %{$CacheData} if $CacheData;
+    return $CacheData->%* if $CacheData;
 
-    my %Result = ();
+    my %Result;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
+    # Find settings that have an ValidEntityType set.
+    # TODO: this is based on a substring search in XML text, so unwanted settings might be returned too
     my @EntitySettings = $SysConfigDBObject->DefaultSettingSearch(
         Search => 'ValueEntityType',
     );
@@ -2366,6 +2367,7 @@ sub ConfigurationEntityCheck {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -2374,6 +2376,7 @@ sub ConfigurationEntityCheck {
             Priority => 'error',
             Message  => "EntityType is invalid!"
         );
+
         return;
     }
 
@@ -2391,33 +2394,22 @@ sub ConfigurationEntityCheck {
     );
 
     # Return cached data if available.
-    return @{$CacheData} if $CacheData;
+    return $CacheData->@* if $CacheData;
 
-    my %EntitySettings = $Self->ConfigurationEntitiesGet();
-
-    my @Result = ();
-
-    for my $EntityType ( sort keys %EntitySettings ) {
-
-        # Check conditions.
-        if (
-            $EntityType eq $Param{EntityType}
-            && $EntitySettings{$EntityType}{ $Param{EntityName} }
-            )
-        {
-            @Result = @{ $EntitySettings{$EntityType}->{ $Param{EntityName} } };
-        }
-    }
+    # look in the database when there is no cache
+    my %AllTypedEntities       = $Self->ConfigurationEntitiesGet;
+    my $EntitiesOfType         = $AllTypedEntities{ $Param{EntityType} } // {};
+    my $EntitiesOfTypeWithName = $EntitiesOfType->{ $Param{EntityName} } // [];
 
     # Cache the results.
     $CacheObject->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
-        Value => \@Result,
+        Value => $EntitiesOfTypeWithName,
         TTL   => 30 * 24 * 60 * 60,
     );
 
-    return @Result;
+    return $EntitiesOfTypeWithName->@*;
 }
 
 =head2 ConfigurationXML2DB()
@@ -2472,6 +2464,7 @@ sub ConfigurationXML2DB {
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
     my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
+    # parsed XML files grouped by the attribute 'init'
     my %SettingsByInit = (
         Framework   => [],
         Application => [],
@@ -2479,7 +2472,6 @@ sub ConfigurationXML2DB {
         Changes     => [],
     );
 
-    my %Data;
     FILE:
     for my $File (@Files) {
 
@@ -2507,18 +2499,18 @@ sub ConfigurationXML2DB {
             && ref $Cache->{Settings} eq 'ARRAY'
             )
         {
-            @{ $SettingsByInit{ $Cache->{Init} } } = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
+            push $SettingsByInit{ $Cache->{Init} }->@*, $Cache->{Settings}->@*;
 
             next FILE;
         }
 
-        # Read XML file.
+        # Read XML file, getting a reference to a string
         my $ConfigFile = $MainObject->FileRead(
             Location => $File,
             Mode     => 'utf8',
             Result   => 'SCALAR',
         );
-        if ( !ref $ConfigFile || !${$ConfigFile} ) {
+        if ( !ref $ConfigFile || !$ConfigFile->$* ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't open file $File: $!",
@@ -2528,14 +2520,14 @@ sub ConfigurationXML2DB {
         }
 
         # Extract otobo_config Init attribute. E.g. 'Framework', 'Config'
-        my ($InitValue) = ${$ConfigFile} =~ m{<otobo_config.*?init="(.*?)"}gsmx;
+        my ($InitValue) = $ConfigFile->$* =~ m{<otobo_config.*?init="(.*?)"}gsmx;
+        $InitValue //= '';
 
         # Check if InitValue is Valid.
         if ( !defined $SettingsByInit{$InitValue} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
+                Message  => "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
             );
 
             next FILE;
@@ -2546,11 +2538,11 @@ sub ConfigurationXML2DB {
         $XMLFilename =~ s{\A/}{}gmsx;
 
         my @ParsedSettings = $SysConfigXMLObject->SettingListParse(
-            XMLInput    => ${$ConfigFile},
+            XMLInput    => $ConfigFile->$*,
             XMLFilename => $XMLFilename,
         );
 
-        push @{ $SettingsByInit{$InitValue} }, @ParsedSettings;
+        push $SettingsByInit{$InitValue}->@*, @ParsedSettings;
 
         # There might be an error parsing file. If we cache the result, error message will not be present.
         if (@ParsedSettings) {
@@ -2573,7 +2565,7 @@ sub ConfigurationXML2DB {
         for my $Setting ( @{ $SettingsByInit{$Init} } ) {
             my $Name = $Setting->{XMLContentParsed}->{Name};
 
-            next SETTING if !$Name;
+            next SETTING unless $Name;
 
             $Settings{$Name} = $Setting;
         }
@@ -2654,23 +2646,20 @@ sub ConfigurationXML2DB {
                     IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required}                    || 0,
                     IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid}                       || 0,
                     HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel}                 || 100,
-                    UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
-                        || 0,
-                    UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
-                        || 0,
-                    UserPreferencesGroup => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
-                    XMLContentRaw        => $Settings{$SettingName}->{XMLContentRaw},
-                    XMLContentParsed     => $Settings{$SettingName}->{XMLContentParsed},
-                    XMLFilename          => $Settings{$SettingName}->{XMLFilename},
-                    EffectiveValue       => $EffectiveValue,
-                    UserID               => $Param{UserID},
-                    ExclusiveLockGUID    => $ExclusiveLockGUID,
+                    UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}    || 0,
+                    UserModificationActive   => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}      || 0,
+                    UserPreferencesGroup     => $Settings{$SettingName}->{XMLContentParsed}->{UserPreferencesGroup},
+                    XMLContentRaw            => $Settings{$SettingName}->{XMLContentRaw},
+                    XMLContentParsed         => $Settings{$SettingName}->{XMLContentParsed},
+                    XMLFilename              => $Settings{$SettingName}->{XMLFilename},
+                    EffectiveValue           => $EffectiveValue,
+                    UserID                   => $Param{UserID},
+                    ExclusiveLockGUID        => $ExclusiveLockGUID,
                 );
                 if ( !$Success ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  =>
-                            "DefaultSettingUpdate failed for Config Item: $SettingName!",
+                        Message  => "DefaultSettingUpdate failed for Config Item: $SettingName!",
                     );
                 }
 
@@ -2907,7 +2896,7 @@ sub ConfigurationNavigationTree {
 
     my @RootNavigation;
     if ( $Param{RootNavigation} ) {
-        @RootNavigation = split "::", $Param{RootNavigation};
+        @RootNavigation = split /::/, $Param{RootNavigation};
     }
 
     # Remember ancestors.
@@ -2920,7 +2909,7 @@ sub ConfigurationNavigationTree {
 
         next SETTING if !$Setting->{Navigation};
 
-        my @Path = split "::", $Setting->{Navigation};
+        my @Path = split /::/, $Setting->{Navigation};
 
         # Remember ancestors.
         for my $Index ( 1 .. $#Path ) {
@@ -3290,7 +3279,7 @@ sub ConfigurationInvalidList {
 
 =head2 ConfigurationDeploy()
 
-Write configuration items from database into a perl module file.
+Write configuration settings from database into a Perl module file.
 
     my %Result = $SysConfigObject->ConfigurationDeploy(
         Comments            => "Some comments",     # (optional)
@@ -3311,7 +3300,7 @@ Returns:
         Success => 1,           # Deployment successful.
     );
 
-    or
+or
 
     %Result = (
         Success => 0,           # Deployment failed.
@@ -3335,11 +3324,13 @@ sub ConfigurationDeploy {
 
         return %Result;
     }
+
     if ( !IsPositiveInteger( $Param{UserID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "UserID is invalid!",
         );
+
         return %Result;
     }
 
@@ -3359,7 +3350,8 @@ sub ConfigurationDeploy {
     my $BasePath = 'Kernel/Config/Files/';
 
     # Parameter 'FileName' is intentionally not documented in the API as it is only used for testing.
-    my $TargetPath = $BasePath . ( $Param{FileName} || "ZZZAAuto.pm" );
+    my $FileName   = $Param{FileName} || 'ZZZAAuto.pm';
+    my $TargetPath = $BasePath . $FileName;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -3659,11 +3651,26 @@ sub ConfigurationDeploy {
         $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
     }
 
-    # Base folder for deployment could be not present.
-    if ( !-d $BasePath ) {
-        mkdir $BasePath;
+    if ( $Self->{S3Active} ) {
+
+        # only write to S3, no extra copy in the file system
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+        my $S3Key           = $StorageS3Object->StoreObject(
+            Key     => $TargetPath,
+            Content => $EffectiveValueStrg,
+        );
+
+        # Success must be indicated with '1', as Core.Agent.Admin.SystemConfiguration.js checks for the exact value
+        $Result{Success} = $S3Key ? 1 : 0;
+
+        return %Result;
     }
 
+    # S3 is not active, writing Perl module into the file system
+    # Create Kernel/Config/Files in case that is missing. Should never happen, but who knows.
+    make_path("$Self->{Home}/$BasePath");
+
+    # Success must be indicated with '1', as Core.Agent.Admin.SystemConfiguration.js checks for the exact value
     $Result{Success} = $Self->_FileWriteAtomic(
         Filename => "$Self->{Home}/$TargetPath",
         Content  => \$EffectiveValueStrg,
@@ -3709,7 +3716,9 @@ sub ConfigurationDeployList {
 }
 
 =head2 ConfigurationDeploySync()
+
 Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
+This method also updates the user configuration files.
 
     my $Success = $SysConfigObject->ConfigurationDeploySync();
 
@@ -3718,26 +3727,15 @@ Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
 sub ConfigurationDeploySync {
     my ( $Self, %Param ) = @_;
 
-    my $Home       = $Self->{Home};
-    my $TargetPath = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
+    # Make sure that we got the latest deployment id.
+    # First syncing from the S3 backend when it is active.
+    my $CurrentDeploymentID;
+    {
+        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::Config', ] );
 
-    if ( -e $TargetPath ) {
-        if ( !require $TargetPath ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Could not load $TargetPath, $1",
-            );
-            return;
-        }
-
-        do $TargetPath;
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        $CurrentDeploymentID = $ConfigObject->Get('CurrentDeploymentID') || 0;
     }
-
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::Config', ],
-    );
-
-    my $CurrentDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -3746,8 +3744,10 @@ sub ConfigurationDeploySync {
     TRY:
     for my $Try ( 1 .. 40 ) {
         $CleanupSuccess = $SysConfigDBObject->DeploymentListCleanup();
+
         last TRY if !$CleanupSuccess;
         last TRY if $CleanupSuccess == 1;
+
         sleep .5;
     }
     if ( $CleanupSuccess != 1 ) {
@@ -3758,6 +3758,7 @@ sub ConfigurationDeploySync {
         return;
     }
 
+    # now the latest deployment from the database
     my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
 
     if ( !%LastDeployment ) {
@@ -3765,24 +3766,41 @@ sub ConfigurationDeploySync {
             Priority => 'error',
             Message  => "No deployments found in Database!",
         );
+
         return;
     }
 
     if ( $CurrentDeploymentID ne $LastDeployment{DeploymentID} ) {
 
         # Write latest deployment to ZZZAAuto.pm
-        my $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
-        my $Success            = $Self->_FileWriteAtomic(
-            Filename => $TargetPath,
-            Content  => \$EffectiveValueStrg,
-        );
+        my $PMFileContent = $LastDeployment{EffectiveValueStrg};
+        if ( $Self->{S3Active} ) {
 
-        return if !$Success;
+            # only write to S3
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+            my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
+            my $Success         = $StorageS3Object->StoreObject(
+                Key     => $ZZZFilePath,
+                Content => $PMFileContent,
+            );
+
+            return unless $Success;
+        }
+        else {
+            my $Success = $Self->_FileWriteAtomic(
+                Filename => "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm",
+                Content  => \$PMFileContent,
+            );
+
+            return unless $Success;
+        }
     }
 
-    # Sync also user specific settings (if available).
-    return 1 if !$Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
+    # Sync also user specific settings, always available in OTOBO
     $Self->UserConfigurationDeploySync();
+
+    # then update the file system from S3 if S3 is active
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
 
     return 1;
 }
@@ -3954,8 +3972,6 @@ sub ConfigurationDeploySettingsListGet {
 
     my @Settings;
     for my $ModifiedVersionID ( sort @ModifiedVersions ) {
-
-        my %Versions;
 
         # Get the modified version.
         my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGet(
@@ -4188,7 +4204,6 @@ sub ConfigurationLoad {
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     # Get the configuration sections to import (skip Default and non existing users).
-    my $ValidSections;
     my %Configuration;
     SECTION:
     for my $Section ( sort keys %ConfigurationRaw ) {
@@ -4434,7 +4449,7 @@ sub ConfigurationSearch {
         }
 
         $Param{Search} =~ s{ +}{ }g;
-        my @SearchTerms = split ' ', $Param{Search};
+        my @SearchTerms = split ' ', $Param{Search};    # pattern treated as /\s+/
 
         SEARCHTERM:
         for my $SearchTerm (@SearchTerms) {
@@ -4693,7 +4708,7 @@ This method locks provided settings(by force), updates them and deploys the chan
         Settings => [                                       # (required) List of settings to update.
             {
                 Name                   => 'Setting::Name',  # (required)
-                EffectiveValue         => 'Value',          # (optional)
+                EffectiveValue         => 'Value',          # (optional) only needed when IsValid is turned on
                 IsValid                => 1,                # (optional)
                 UserModificationActive => 1,                # (optional)
             },
@@ -4738,10 +4753,10 @@ sub SettingsSet {
             UserID => $Param{UserID},
         );
 
-        return if !$ExclusiveLockGUID;
+        return unless $ExclusiveLockGUID;
 
         my %UpdateResult = $Self->SettingUpdate(
-            %{$Setting},
+            $Setting->%*,
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => $Param{UserID},
         );
@@ -4797,7 +4812,7 @@ sub OverriddenFileNameGet {
     my $LoadedEffectiveValue = $Self->GlobalEffectiveValueGet(
         SettingName => $Param{SettingName},
     );
-    my @SettingStructure = split( '###', $Param{SettingName} );
+    my @SettingStructure = split /###/, $Param{SettingName};
 
     my $EffectiveValue = $Param{EffectiveValue};
 
@@ -4833,8 +4848,7 @@ sub OverriddenFileNameGet {
     for my $File (@FilesInDirectory) {
 
         # Get only file name, without full path and extension.
-        $File =~ m{^.*/(.*?)\.pm$};
-        my $FileName = $1;
+        my ($FileName) = $File =~ m{^.*/(.*?)\.pm$};
 
         # Skip the file that was regularly deployed.
         next FILE if $FileName eq 'ZZZAAuto';
@@ -4909,7 +4923,10 @@ sub OverriddenFileNameGet {
 
 =head2 GlobalEffectiveValueGet()
 
-Returns global effective value for provided setting name.
+Creates a new instance of C<Kernel::Config>. The creation of the object includes reloading the files in F<Kernel::Config::Files>
+and reloading the configured Autoload modules.
+Returns global effective value for provided setting name. In the parameter C<SettingName>
+the string C<'####'> is used as a level separator.
 
     my $EffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
         SettingName    => 'Setting::Name',  # (required)
@@ -4934,18 +4951,20 @@ sub GlobalEffectiveValueGet {
     }
 
     my $GlobalConfigObject = Kernel::Config->new();
-
     my $LoadedEffectiveValue;
-
-    my @SettingStructure = split( '###', $Param{SettingName} );
-    for my $Key (@SettingStructure) {
+    for my $Key ( split /###/, $Param{SettingName} ) {
         if ( !defined $LoadedEffectiveValue ) {
 
             # first iteration
             $LoadedEffectiveValue = $GlobalConfigObject->Get($Key);
         }
         elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
+
+            # descending one level into the setting data structure
             $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
+        }
+        else {
+            # additional levels are silently ignored
         }
     }
 
@@ -5004,7 +5023,7 @@ sub _IsOverriddenInModule {
     );
 
     if ( $Param{Module} eq 'Kernel::Config' ) {
-        bless( $OverriddenSettings, 'Kernel::Config' );
+        bless $OverriddenSettings, 'Kernel::Config';
         $OverriddenSettings->Load();
     }
     else {
@@ -5111,7 +5130,7 @@ sub _FileWriteAtomic {
     # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$;    # append the processs id
     {
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        my $Success = open my $FH, '>:encoding(UTF-8)', $TempFilename;    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -5249,8 +5268,6 @@ sub _DBCleanUp {
     my @SettingsDB = $SysConfigDBObject->DefaultSettingList(
         IncludeInvisible => 1,
     );
-
-    my ( $DefaultUpdated, $ModifiedUpdated );
 
     for my $SettingDB (@SettingsDB) {
 
@@ -5462,6 +5479,8 @@ sub _ConfigurationEntitiesGet {
         }
     }
 
+    # TODO: Copying the top level of the hash is not really necessary
+    #       as the values are hashrefs are themselves
     my %Result          = %{ $Param{Result} || {} };
     my $ValueEntityType = $Param{ValueEntityType} || '';
 
@@ -5482,9 +5501,7 @@ sub _ConfigurationEntitiesGet {
         if ( $Param{Value}->{Content} ) {
 
             # If there is no hash item, create new.
-            if ( !defined $Result{$ValueEntityType} ) {
-                $Result{$ValueEntityType} = {};
-            }
+            $Result{$ValueEntityType} //= {};
 
             # Extract value (without white space).
             my $Value = $Param{Value}->{Content};
@@ -5498,7 +5515,7 @@ sub _ConfigurationEntitiesGet {
 
             # Check if current config is not in the array.
             if ( !grep { $_ eq $Param{Name} } @{ $Result{$ValueEntityType}->{$Value} } ) {
-                push @{ $Result{$ValueEntityType}->{$Value} }, $Param{Name};
+                push $Result{$ValueEntityType}->{$Value}->@*, $Param{Name};
             }
         }
         else {
@@ -5664,30 +5681,22 @@ sub _EffectiveValues2PerlFile {
     $TargetPath =~ s{(.*)\.(?:.*)}{$1}msx;
     $TargetPath =~ s{ / }{::}msxg;
 
-    # Write default config file.
-    my $FileStrg = <<"EOF";
+    # return content of Perl file that contain the SysConfig
+    return <<"END_PERL_FILE";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package $TargetPath;
 use strict;
 use warnings;
 no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-EOF
-
-    if ( $Self->{utf8} ) {
-        $FileStrg .= "use utf8;\n";
-    }
-
-    $FileStrg .= <<"EOF";
+use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
 $PerlHashStrg
     return;
 }
 1;
-EOF
-
-    return $FileStrg;
+END_PERL_FILE
 }
 
 =head2 _SettingEffectiveValueCheck()
@@ -5892,6 +5901,7 @@ sub _GetSettingsToDeploy {
         KEY:
         for my $Key ( sort keys %SettingsLookup ) {
             next KEY if !$ModifiedSettingsLookup{$Key};
+
             # In case of "NotDirty" the modified settings are received as the last modified versions
             # which contain also settings which were "reset to default", even if the default changed
             # in the meantime. Thus their effective value might be outdated, and we will not overwrite

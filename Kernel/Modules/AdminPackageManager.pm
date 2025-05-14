@@ -17,13 +17,19 @@
 package Kernel::Modules::AdminPackageManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use parent qw(Kernel::System::AsynchronousExecutor);
 
-use parent('Kernel::System::AsynchronousExecutor');
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -31,8 +37,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # check if cloud services are disabled
     $Self->{CloudServicesDisabled} = $Kernel::OM->Get('Kernel::Config')->Get('CloudServices::Disabled') || 0;
@@ -43,49 +48,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # modules needed for checking SecureMode
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Source = $Self->{Session}{UserRepository} || '';
-    my %Errors;
-
-    # ------------------------------------------------------------ #
-    # check mod perl version and Apache::Reload
-    # ------------------------------------------------------------ #
-
-    if ( exists $ENV{MOD_PERL} ) {
-        if ( defined $mod_perl::VERSION ) {
-            if ( $mod_perl::VERSION >= 1.99 ) {
-
-                # check if Apache::Reload is loaded
-                my $ApacheReload = 0;
-                for my $Module ( sort keys %INC ) {
-                    $Module =~ s/\//::/g;
-                    $Module =~ s/\.pm$//g;
-                    if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                        $ApacheReload = 1;
-                    }
-                }
-                if ( !$ApacheReload ) {
-                    return $LayoutObject->ErrorScreen(
-                        Message => Translatable(
-                            'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!'
-                        ),
-                    );
-                }
-            }
-        }
-    }
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # secure mode message (don't allow this action until secure mode is enabled)
-    if ( !$ConfigObject->Get('SecureMode') ) {
-        return $LayoutObject->SecureMode();
-    }
+    return $LayoutObject->SecureMode() unless $ConfigObject->Get('SecureMode');
 
+    # load more singletons
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $Source = $Self->{Session}{UserRepository} || '';
+    my %Errors;
 
     # ------------------------------------------------------------ #
     # view diff file
@@ -233,10 +209,6 @@ sub Run {
                 Name    => $Name,
                 Version => $Version,
             },
-        );
-
-        my @RepositoryList = $PackageObject->RepositoryList(
-            Result => 'short',
         );
 
         # if visible property is not enable, return error screen
@@ -1376,7 +1348,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
@@ -1398,7 +1370,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1498,7 +1470,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
@@ -1519,7 +1491,7 @@ sub Run {
         );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
@@ -1543,26 +1515,54 @@ sub Run {
 
     # show cloud repo if system is registered
     my $RepositoryCloudList;
-    my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-    if ( $RegistrationState eq 'registered' && !$Self->{CloudServicesDisabled} ) {
-
-        $RepositoryCloudList =
-            $PackageObject->RepositoryCloudList( NoCache => 1 );
+    if ( !$Self->{CloudServicesDisabled} ) {
+        my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
+            Key => 'Registration::State',
+        ) || '';
+        if ( $RegistrationState eq 'registered' ) {
+            $RepositoryCloudList = $PackageObject->RepositoryCloudList( NoCache => 1 );
+        }
     }
+    $RepositoryCloudList //= {};
 
     # In case Source is present on repository cloud list
     #   the call for retrieving data about it, should be performed
     #   using the CloudService backend.
-    my $FromCloud = ( $RepositoryCloudList->{$Source} ? 1 : 0 );
+    my $FromCloud = $RepositoryCloudList->{$Source} ? 1 : 0;
 
     # Get the list of the installed packages early to be able to show or not the Upgrade All button
     #   in the layout block.
     my @RepositoryList = $PackageObject->RepositoryList();
 
+    my %AllRepositories = (
+        %List,
+        %RepositoryRoot,
+        %{$RepositoryCloudList},
+    );
+
+    if ( !$Source && %AllRepositories ) {
+        $Source = %RepositoryRoot
+            ?
+
+            # default repo is OTOBO Addons
+            { reverse %RepositoryRoot }->{'OTOBO Addons'} ? { reverse %RepositoryRoot }->{'OTOBO Addons'} :
+
+                # alternatively take the first repo in %RepositoryRoot
+                ( sort { $a cmp $b } keys %RepositoryRoot )[0]
+            :
+
+            # fallback is the first of all repos
+            ( sort { $a cmp $b } keys %AllRepositories )[0];
+
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => 'UserRepository',
+            Value     => $Source,
+        );
+    }
+
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
-        Data        => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
+        Data        => \%AllRepositories,
         Name        => 'Source',
         Title       => Translatable('Repository List'),
         Max         => 40,
@@ -2168,13 +2168,7 @@ sub _InstallHandling {
     if ( !$Self->{CloudServicesDisabled} ) {
         $RepositoryCloudList = $PackageObject->RepositoryCloudList();
     }
-
-    # in case Source is present on repository cloud list
-    # the package should be retrieved using the CloudService backend
-    my $FromCloud = 0;
-    if ( $Param{Source} && $RepositoryCloudList->{ $Param{Source} } ) {
-        $FromCloud = 1;
-    }
+    $RepositoryCloudList //= {};
 
     my %Response = $PackageObject->AnalyzePackageFrameworkRequirements(
         Framework => $Structure{Framework},
@@ -2256,8 +2250,7 @@ sub _InstallHandling {
     # install package
     elsif (
         $PackageObject->PackageInstall(
-            String    => $Param{Package},
-            FromCloud => $FromCloud
+            String => $Param{Package},
         )
         )
     {
@@ -2299,6 +2292,19 @@ sub _InstallHandling {
                 $LayoutObject->Block(
                     Name => 'OTOBOVerifyLogo',
                 );
+            }
+
+            # load the ITSM repo after installing ITSMCore
+            if ( $Structure{Name}->{Content} eq 'ITSMCore' ) {
+                my $NewOnlineRepoList = $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') // {};
+
+                if ( $NewOnlineRepoList->{'https://ftp.otobo.org/pub/otobo/packages-itsm/'} ) {
+                    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+                        SessionID => $Self->{SessionID},
+                        Key       => 'UserRepository',
+                        Value     => 'https://ftp.otobo.org/pub/otobo/packages-itsm/',
+                    );
+                }
             }
 
             my $Output = $LayoutObject->Header();

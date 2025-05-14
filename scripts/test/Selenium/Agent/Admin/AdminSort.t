@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
@@ -58,28 +56,18 @@ $Selenium->RunTest(
         # navigate to appropriate screen in the test
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=Admin");
 
-        my $NavigationModule = $ConfigObject->Get('Frontend::NavigationModule');
-        my @NavigationCheck;
+        my @NavigationChecks = (
+            'Dinamikus mezők',
+            'Dynamic Fields Screens',    # not yet translated to Hungarian
+            'Folyamatkezelés',
+            'Hozzáférés-vezérlési listák (ACL)',
+            'Ticket Masks',              # not yet translated to Hungarian
+            'Webszolgáltatások',
+        );
 
         # Check if needed frontend module is registered in sysconfig.
         if ( $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent} ) {
-            @NavigationCheck = (
-                'Általános ügyintéző',
-                'Dinamikus mezők',
-                'Dynamic Fields Screens',    # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
-                'Folyamatkezelés',
-                'Hozzáférés-vezérlési listák (ACL)',
-                'Webszolgáltatások',
-            );
-        }
-        else {
-            @NavigationCheck = (
-                'Dinamikus mezők',
-                'Dynamic Fields Screens',    # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
-                'Folyamatkezelés',
-                'Hozzáférés-vezérlési listák (ACL)',
-                'Webszolgáltatások',
-            );
+            unshift @NavigationChecks, 'Általános ügyintéző';
         }
 
         $Selenium->execute_script(
@@ -88,18 +76,18 @@ $Selenium->RunTest(
 
         # Check if items sort well.
         my $Count = 0;
-        for my $Item (@NavigationCheck) {
+        for my $Item (@NavigationChecks) {
             my $Navigation = $Selenium->execute_script(
                 "return \$('.WidgetSimple:eq(7) ul li:eq($Count) a span.Title').text().trim()"
             );
 
             $Navigation =~ s/\n\s+/@/g;
-            my @Navigation = split '@', $Navigation;
+            my @Navigation = split /\@/, $Navigation;
 
             is(
                 $Navigation[0],
-                $NavigationCheck[$Count],
-                "$NavigationCheck[$Count] - admin navigation item is sorted well",
+                $Item,
+                "$Item - admin navigation item is sorted well",
             ) || die 'comparison failed';
 
             # Add item to favourite.
@@ -116,43 +104,44 @@ $Selenium->RunTest(
                     "return typeof(\$) === 'function' && \$('li[data-module=\"$Favourite\"]').hasClass('IsFavourite');"
             );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('li[data-module=\"$Favourite\"]').hasClass('IsFavourite');"
                 ),
-                "$NavigationCheck[$Count] - admin navigation item is added to favourite",
+                "$Item - admin navigation item is added to favourite",
             );
-
+        }
+        continue {
             $Count++;
         }
 
         $Selenium->VerifiedRefresh();
 
         $Count = 0;
-        for my $Item (@NavigationCheck) {
+        for my $Item (@NavigationChecks) {
 
             # Check order in favoutite list.
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('.Favourites tr:eq($Count) a').text()"
                 ),
-                $NavigationCheck[$Count],
-                "$NavigationCheck[$Count] - admin navigation item is sort well",
+                $Item,
+                "$Item - admin navigation item is sort well",
             );
 
             # Check order in Admin navigation menu.
             $Count++;
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('#nav-Admin ul li:eq($Count) a').text()"
                 ),
-                $NavigationCheck[ $Count - 1 ],
-                "$NavigationCheck[$Count-1] - admin navigation item is sort well",
+                $NavigationChecks[ $Count - 1 ],
+                "$NavigationChecks[$Count-1] - admin navigation item is sort well",
             );
         }
 
-        $Count = scalar @NavigationCheck;
-        for my $Item (@NavigationCheck) {
+        $Count = scalar @NavigationChecks;
+        for my $Item (@NavigationChecks) {
 
             # Removes item from favourites.
             $Selenium->execute_script(
@@ -164,11 +153,11 @@ $Selenium->RunTest(
                     "return typeof(\$) === 'function' && \$('.DataTable .RemoveFromFavourites').length == $Count;"
             );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.DataTable .RemoveFromFavourites').length == $Count;"
                 ),
-                "$NavigationCheck[$Count-1] - admin navigation item is removed from favourite",
+                "$NavigationChecks[$Count-1] - admin navigation item is removed from favourite",
             );
 
             $Count--;
@@ -187,10 +176,7 @@ $Selenium->RunTest(
                 "AdminCustomerUser","AdminPriority","AdminProcessManagement","AdminRole","AdminSystemConfiguration",
                 "AdminLog","AdminAppointmentNotificationEvent","AdminTemplate","AdminEmail"]',
         );
-        $Self->True(
-            $Success,
-            "Set AdminNavigationBarFavourites for test user $SecondTestUserLogin."
-        );
+        ok( $Success, "Set AdminNavigationBarFavourites for test user $SecondTestUserLogin." );
 
         # Login second test created user.
         $Selenium->Login(
@@ -221,7 +207,7 @@ $Selenium->RunTest(
 
             # Check order in Admin navigation menu.
             $Count++;
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('#nav-Admin ul li:eq($Count) a').text()"
                 ),
@@ -232,4 +218,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;

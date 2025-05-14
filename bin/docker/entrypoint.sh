@@ -39,15 +39,14 @@ function handle_docker_firsttime() {
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         copy_otobo_next
-
     fi
 
-    # When /opt/otobo already exists then do no automatic update.
-    # The updating has to be triggered with an explicit 'update' command.
+    # When /opt/otobo already exists then there is no automatic update.
+    # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
-    # Note that docker_firsttime_handled is only available in otobo_web_1
+    # Note that docker_firsttime_handled is only available in the service web.
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
@@ -73,7 +72,9 @@ function start_and_check_daemon() {
 
     sleep_pid=
     while true; do
-        if [ -f "bin/otobo.Daemon.pl" ]; then
+
+        # Do not try to start the Daemon when /opt/otobo is still being created.
+        if [ -f ".copy_otobo_next_finished" ]; then
             bin/otobo.Daemon.pl start
         fi
         # the '&' activates the builtin job control system
@@ -108,14 +109,40 @@ function exec_web() {
     #   exec plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
 
     # For debugging reload the complete application for each request by passing -L Shotgun
-    #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+    #   exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
 
-    # For production use Gazelle, which is implemented in C
-    exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+    # For production use the web server Gazelle, which is implemented in C.
+    #   exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+
+    # The special loader Plack::Loader::SyncWithS3 is activated only when S3 is active. That loader module
+    # checks for updates in S3.
+    s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
+    if [[ "$s3_active" -eq "1" ]]; then
+        exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+    else
+        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+    fi
 }
 
 # preserve added files in the previous
 function copy_otobo_next() {
+
+    # The directory Kernel/cpan-lib is a special case. Perl modules
+    # from previous OTOBO versions should not override the modules
+    # that are provided in /opt/otobo_install/local. So we remove
+    # the entire directory. Potential changes in Kernel/cpan-lib,
+    # that stem from the previous installation, can be recovered from
+    # the backup done with scripts/backup.pl
+    cpan_lib_dir="$OTOBO_HOME/Kernel/cpan-lib"
+    if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
+        rm -r $cpan_lib_dir
+        {
+            date
+            echo "Removed the directory $cpan_lib_dir"
+            echo
+        } >> $update_log
+    fi
+
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
@@ -137,12 +164,22 @@ function copy_otobo_next() {
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
+
+    # Clean up files that might be lingering from previous versions of OTOBO.
+    # Currently there is only a single file. OTOBODynamicFields.xml has been
+    # replaced by DynamicFields.xml.
+    rm -f "$OTOBO_HOME/Kernel/Config/Files/XML/OTOBODynamicFields.xml"
+
+    # Indicate the time when copy_otobo_next() was last called. This is used primarily
+    # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
+    touch $OTOBO_HOME/.copy_otobo_next_finished
 }
 
 function do_update_tasks() {
 
-    # reinstall package, rebuild config, purge cache
-    # Not that this works only if OTOBO has been properly configured
+    # Reinstall packages, rebuild config, purge the cache and the cached loader files.
+    # Note that this works only if OTOBO has been properly configured,
+    # because some commands need access to the database.
     {
         echo "started do_update_tasks()"
         date
@@ -150,6 +187,7 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         date
         echo "finished do_update_tasks()"
         echo
@@ -185,6 +223,18 @@ fi
 
 # Start the OTOBO daemon
 if [ "$1" = "daemon" ]; then
+
+    # When /opt/otobo isn't a Docker volume we rirst check whether the container is started with a new image.
+    # If /opt/otobo is a volume we assume that there is a web container who does this for us.
+    if ! mountpoint -q "/opt/otobo"; then
+
+        # There is no locking as we no other container can meddle with /opt/otobo.
+        if [ -f "$otobo_next/docker_firsttime" ]; then
+            handle_docker_firsttime
+        fi
+    fi
+
+    # do some work
     start_and_check_daemon
 
     exit $?
@@ -193,7 +243,8 @@ fi
 # Start the webserver
 if [ "$1" = "web" ]; then
 
-    # first check whether the container is started with a new image
+    # First check whether the container is started with a new image.
+    # There is no locking as we assume that there aren't multiple containers trying to the same.
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi

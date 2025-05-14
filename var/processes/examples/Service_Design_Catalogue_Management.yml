@@ -1,0 +1,197 @@
+---
+Activities:
+  Activity-136df17664d1daa87f687a91a240ac7e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-136df17664d1daa87f687a91a240ac7e
+    ID: '44'
+    Name: Service definition negotiation and documentation
+  Activity-59706211cb4acdb04fef8fdcaace5558:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-59706211cb4acdb04fef8fdcaace5558
+    ID: '45'
+    Name: Service definition coordination with service portfolio management
+  Activity-6bf397e605b83d4431744eaa8b395f8c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-6bf397e605b83d4431744eaa8b395f8c
+    ID: '46'
+    Name: Service definition coord. w/ service support, supplier and SACM
+  Activity-c403f22db5427b31927379c3dc2c8bd0:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-c403f22db5427b31927379c3dc2c8bd0
+    ID: '47'
+    Name: Service definition coord. w/ business and service continuity mgmt.
+  Activity-fafa23616506a450c9c10ebae3086194:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-fafa23616506a450c9c10ebae3086194
+    ID: '48'
+    Name: Service definition transition into service catalogue
+  Activity-fef56810cc8ff8739fcf35fbe7d0da43:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:02
+    Config: {}
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Activity-fef56810cc8ff8739fcf35fbe7d0da43
+    ID: '49'
+    Name: Service definition coord. w/ business relation and service level mgmt.
+Process:
+  Activities:
+  - Activity-136df17664d1daa87f687a91a240ac7e
+  - Activity-59706211cb4acdb04fef8fdcaace5558
+  - Activity-6bf397e605b83d4431744eaa8b395f8c
+  - Activity-c403f22db5427b31927379c3dc2c8bd0
+  - Activity-fafa23616506a450c9c10ebae3086194
+  - Activity-fef56810cc8ff8739fcf35fbe7d0da43
+  ChangeTime: 2017-10-31 22:38:02
+  Config:
+    Description: "Best practice IT Service Management Service Catalogue Management
+      process inspired by ITIL®.\r\n\r\nThe service catalogue management process goal
+      is to ensure the quality and quantity of information for all services in the
+      service catalogue, no matter if in production or pipeline (details, descriptions,
+      interfaces, status, relations, requirements, etc.).\r\n\r\nConfiguration: The
+      functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-136df17664d1daa87f687a91a240ac7e:
+        Transition-f3acb95c515d4a93a49b88d4e10e2db2:
+          ActivityEntityID: Activity-59706211cb4acdb04fef8fdcaace5558
+      Activity-59706211cb4acdb04fef8fdcaace5558:
+        Transition-b31c42452dce8d5188a1a7f54715b659:
+          ActivityEntityID: Activity-fafa23616506a450c9c10ebae3086194
+          TransitionAction: []
+      Activity-6bf397e605b83d4431744eaa8b395f8c:
+        Transition-09e05e1ac6b4a38e380be17b67f3cb22:
+          ActivityEntityID: Activity-fef56810cc8ff8739fcf35fbe7d0da43
+      Activity-c403f22db5427b31927379c3dc2c8bd0:
+        Transition-e9f787bc00a74818017c851373734f61:
+          ActivityEntityID: Activity-6bf397e605b83d4431744eaa8b395f8c
+          TransitionAction: []
+      Activity-fafa23616506a450c9c10ebae3086194:
+        Transition-220527ba6b6410bb4ab6fb00c4fc16f3:
+          ActivityEntityID: Activity-c403f22db5427b31927379c3dc2c8bd0
+          TransitionAction: []
+      Activity-fef56810cc8ff8739fcf35fbe7d0da43: {}
+    StartActivity: Activity-136df17664d1daa87f687a91a240ac7e
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:38:02
+  EntityID: Process-da4835a6302d89fb40aea7b7ca7c1c00
+  ID: '10'
+  Layout:
+    Activity-136df17664d1daa87f687a91a240ac7e:
+      left: '200'
+      top: '150'
+    Activity-59706211cb4acdb04fef8fdcaace5558:
+      left: '600'
+      top: '150'
+    Activity-6bf397e605b83d4431744eaa8b395f8c:
+      left: '1800'
+      top: '150'
+    Activity-c403f22db5427b31927379c3dc2c8bd0:
+      left: '1400'
+      top: '150'
+    Activity-fafa23616506a450c9c10ebae3086194:
+      left: '1000'
+      top: '150'
+    Activity-fef56810cc8ff8739fcf35fbe7d0da43:
+      left: '2200'
+      top: '150'
+  Name: Service Design::Service Catalogue Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-f3acb95c515d4a93a49b88d4e10e2db2
+  - Transition-b31c42452dce8d5188a1a7f54715b659
+  - Transition-09e05e1ac6b4a38e380be17b67f3cb22
+  - Transition-e9f787bc00a74818017c851373734f61
+  - Transition-220527ba6b6410bb4ab6fb00c4fc16f3
+Transitions:
+  Transition-09e05e1ac6b4a38e380be17b67f3cb22:
+    ChangeTime: 2017-10-31 22:38:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Transition-09e05e1ac6b4a38e380be17b67f3cb22
+    ID: '43'
+    Name: Service definition w/ business relation and service level mgmt. coord.
+  Transition-220527ba6b6410bb4ab6fb00c4fc16f3:
+    ChangeTime: 2017-10-31 22:38:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Transition-220527ba6b6410bb4ab6fb00c4fc16f3
+    ID: '44'
+    Name: Service definition transitioned into service catalogue
+  Transition-b31c42452dce8d5188a1a7f54715b659:
+    ChangeTime: 2017-10-31 22:38:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Transition-b31c42452dce8d5188a1a7f54715b659
+    ID: '45'
+    Name: Service definition coordinated with service portfolio management
+  Transition-e9f787bc00a74818017c851373734f61:
+    ChangeTime: 2017-10-31 22:38:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Transition-e9f787bc00a74818017c851373734f61
+    ID: '46'
+    Name: Service definition w/ business and service continuity mgmt. coord.
+  Transition-f3acb95c515d4a93a49b88d4e10e2db2:
+    ChangeTime: 2017-10-31 22:38:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:02
+    EntityID: Transition-f3acb95c515d4a93a49b88d4e10e2db2
+    ID: '47'
+    Name: Service definition approved and documented

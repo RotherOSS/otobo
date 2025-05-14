@@ -16,18 +16,35 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-# get config object
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# get helper object
-# skip SSL certificate verification
+# added for OTOBOTicketInvoker
+# Set fixed header blacklists.
+for my $Type (qw(Invoker Operation)) {
+    $ConfigObject->Set(
+        Key   => 'GenericInterface::' . $Type . '::OutboundHeaderBlacklist',
+        Value => [
+            'Connection',
+            'Content-Type',
+
+            # Only for UnitTest on the client side
+            'NotAllowed',
+        ],
+    );
+}
+
+# Skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
@@ -35,13 +52,16 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# add web service to be used (empty config)
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-$Self->Is(
-    'Kernel::System::GenericInterface::Webservice',
-    ref $WebserviceObject,
-    "Create web service object",
+# activate support for mirroring HTTP headers in the transport backends
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'GenericInterface::Transport::MirrorUnitTestHTTPHeaders',
+    Value => 1,
 );
+
+# Add web service to be used (empty config).
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+isa_ok( $WebserviceObject, 'Kernel::System::GenericInterface::Webservice' );
 my $WebserviceName = 'SOAP' . $Helper->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     Name   => $WebserviceName,
@@ -58,12 +78,9 @@ my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->True(
-    $WebserviceID,
-    "Added web service",
-);
+ok( $WebserviceID, 'Added Web service' );
 
-# get remote host with some precautions for certain unit test systems
+# Get remote host with some precautions for certain unit test systems.
 my $Host = $Helper->GetTestHTTPHostname();
 
 # prepare web service config
@@ -76,8 +93,7 @@ my $RemoteSystem =
     . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
-my $Home  = $ConfigObject->Get('Home');
-my @Tests = (
+my @BasicTests = (
     {
         Name           => 'Test 1',
         SuccessRequest => '0',
@@ -99,7 +115,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name             => 'Test 2',
         SuccessRequest   => '0',
@@ -117,7 +132,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 3',
         SuccessRequest => '0',
@@ -189,7 +203,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 4',
         SuccessRequest => '1',
@@ -202,7 +215,7 @@ my @Tests = (
                 InvalidXML2 => 'test&test',
             },
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 PriorityName => '5 sehr hoch',
@@ -328,12 +341,11 @@ my @Tests = (
             },
         },
     },
-
     {
-        Name               => 'Test 5',
-        SuccessRequest     => '1',
-        RequestData        => {},
-        ExpectedReturnData => {
+        Name           => 'Test 5',
+        SuccessRequest => '1',
+        RequestData    => {},
+        ExpectedReturn => {
             Success => 1,
             Data    => {},
         },
@@ -452,14 +464,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 6',
         SuccessRequest => '1',
         RequestData    => {
             PriorityName => '5 very high',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 PriorityName => '5 very high',
@@ -505,14 +516,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 7',
         SuccessRequest => '1',
         RequestData    => {
             PriorityName => [ '5 very high', '4 high' ],
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 PriorityName => [ '5 very high', '4 high' ],
@@ -558,7 +568,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 7',
         SuccessRequest => '1',
@@ -570,7 +579,7 @@ my @Tests = (
                 },
             ],
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 PriorityName => [
@@ -621,7 +630,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 7a',
         SuccessRequest => '1',
@@ -636,7 +644,7 @@ my @Tests = (
             },
             'Element3' => {},
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 'Element1' => [
@@ -690,7 +698,6 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 8',
         SuccessRequest => '0',
@@ -700,9 +707,10 @@ my @Tests = (
                 PriorityName => [ '5 very high', '4 high' ],
             },
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Error message for error code: 123',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -745,17 +753,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 9',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -799,14 +806,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 10',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -854,17 +860,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 11',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -908,14 +913,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 12',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -963,17 +967,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 13',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1017,14 +1020,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 14',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1072,17 +1074,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 15',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1127,14 +1128,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 16',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1185,17 +1185,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 17',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDNameRequest' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1239,14 +1238,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 18',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1296,14 +1294,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 19',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1350,14 +1347,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 20',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1407,17 +1403,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 21',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1463,14 +1458,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 22a',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1527,10 +1521,10 @@ my @Tests = (
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1578,17 +1572,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 23',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1636,17 +1629,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 24',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1690,14 +1682,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 25',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1745,17 +1736,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 26',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1799,14 +1789,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 27',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1854,17 +1843,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 28',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1908,14 +1896,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 29',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -1963,17 +1950,16 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 30',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
-
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2020,14 +2006,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 31',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2080,14 +2065,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 32',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2132,14 +2116,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 33',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2187,19 +2170,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 34',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface//PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2243,19 +2226,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 35',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result '#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2299,19 +2282,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 36',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2354,19 +2337,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 37',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'SoapTestInterface'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2410,14 +2393,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 38',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2465,14 +2447,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 39',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2520,19 +2501,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 40',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction '#PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2576,19 +2557,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 41',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2631,19 +2612,19 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 42',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
-            Success      => 0,
+        ExpectedReturn => {
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'SoapTestInterface' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2687,14 +2668,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 43',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2746,14 +2726,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 44',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2804,14 +2783,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 45',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2860,14 +2838,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 46',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2918,14 +2895,13 @@ my @Tests = (
             },
         },
     },
-
     {
         Name           => 'Test 47',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
         },
-        ExpectedReturnData => {
+        ExpectedReturn => {
             Success => 1,
             Data    => {
                 Key => 'Value',
@@ -2976,101 +2952,153 @@ my @Tests = (
             },
         },
     },
-
 );
 
-# create requester object
+# Create requester object.
 my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-$Self->Is(
-    'Kernel::GenericInterface::Requester',
-    ref $RequesterObject,
-    "Create requester object",
-);
+isa_ok( $RequesterObject, 'Kernel::GenericInterface::Requester' );
 
-TEST:
-for my $Test (@Tests) {
+for my $Test (@BasicTests) {
 
-    # update web service with real config
-    my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-        ID      => $WebserviceID,
-        Name    => $WebserviceName,
-        Config  => $Test->{WebserviceConfig},
-        ValidID => 1,
-        UserID  => 1,
-    );
-    $Self->True(
-        $WebserviceUpdate,
-        "$Test->{Name} - Updated web service $WebserviceID",
-    );
+    subtest $Test->{Name} => sub {
 
-    # start requester with our web service
-    my ($InvokerName) = keys %{ $Test->{WebserviceConfig}->{Requester}->{Invoker} };
-    my $RequesterResult = $RequesterObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $InvokerName,
-        Data         => $Test->{RequestData},
-    );
+        # Update web service with real config.
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $Test->{WebserviceConfig},
+            ValidID => 1,
+            UserID  => 1,
+        );
+        ok( $WebserviceUpdate, "Updated Web service $WebserviceID" );
 
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $RequesterResult,
-        "$Test->{Name} - Requester result structure is valid",
-    );
-
-    if ( !$Test->{SuccessRequest} ) {
-
-        # check result
-        $Self->False(
-            $RequesterResult->{Success},
-            "$Test->{Name} - Requester unsuccessful result",
+        # start requester with our web service
+        my ($InvokerName) = keys %{ $Test->{WebserviceConfig}->{Requester}->{Invoker} };
+        my $RequesterResult = $RequesterObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => $InvokerName,
+            Data         => $Test->{RequestData},
         );
 
-        if ( $Test->{ExpectedReturnData} ) {
-            $Self->IsDeeply(
-                $RequesterResult,
-                $Test->{ExpectedReturnData},
-                "$Test->{Name} - Requester unsuccessful status (needs configured and running webserver)",
-            );
+        # check result
+        ref_ok( $RequesterResult, 'HASH', "Requester result structure is valid" );
+
+        # check success of result
+        if ( $Test->{SuccessRequest} ) {
+            ok( $RequesterResult->{Success}, 'request was successfull' );
+        }
+        else {
+            ok( !$RequesterResult->{Success}, 'request was not successfull' );
         }
 
-        next TEST;
-    }
-
-    $Self->True(
-        $RequesterResult->{Success},
-        "$Test->{Name} - Requester successful result",
-    );
-
-    $Self->IsDeeply(
-        $RequesterResult,
-        $Test->{ExpectedReturnData},
-        "$Test->{Name} - Requester success status (needs configured and running webserver)",
-    );
-
+        # for example:
+        # ExpectedReturn => {
+        #     Success => 1,
+        #     Data    => {
+        #         Key => 'Value',
+        #     },
+        # },
+        if ( $Test->{ExpectedReturn} ) {
+            is(
+                $RequesterResult,
+                $Test->{ExpectedReturn},
+                'request result'
+            );
+        }
+        else {
+            note('check of request result was skipped');
+        }
+    };
 }
 
-# Check headers.
-@Tests = (
+# adapted for OTOBOTicketInvoker
+# Check operation request and response headers.
+# The string $ResponseHeaderPrefix is 25 chars long. It marks the headers that should be returned by RequesterPerformRequest()
+my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
+my %DefaultConfig        = (
+    NameSpace       => 'http://otobo.org/SoapTestInterface/',
+    Endpoint        => $RemoteSystem,
+    SOAPAction      => 'No',
+    Timeout         => 120,
+    UnitTestHeaders => $ResponseHeaderPrefix,
+);
+my @CheckHeadersTests = (
     {
-        Name   => 'Standard response header',
-        Config => {},
-        Header => {
-            'Content-Type' => 'text/xml; charset=UTF-8',
+        Name   => 'Standard headers',
+        Config => {
+            %DefaultConfig,
+        },
+        ExpectedHeaders => {},
+    },
+    {
+        Name   => 'Additional common headers',
+        Config => {
+            %DefaultConfig,
+            OutboundHeaders => {
+                Common => {
+                    Key1           => 'Value1',
+                    Key2           => 'Value2',
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
+                },
+            },
+        },
+        ExpectedHeaders => {
+            Key1 => 'Value1',
+            Key2 => 'Value2',
         },
     },
     {
-        Name   => 'Additional response headers',
+        Name   => 'Additional operation specific headers',
         Config => {
-            AdditionalHeaders => {
-                Key1 => 'Value1',
-                Key2 => 'Value2',
+            %DefaultConfig,
+            OutboundHeaders => {
+                Specific => {
+                    PriorityIDName => {
+                        Key1           => 'Value3',
+                        Key2           => 'Value4',
+                        'Content-Type' => 'Invalid',    # should be filtered
+                        NotAllowed     => 'Invalid',    # should be filtered
+                    },
+                    OtherOperation => {                 # should be ignored
+                        Key1 => 'Invalid',
+                    },
+                },
             },
         },
-        Header => {
-            'Content-Type' => 'text/xml; charset=UTF-8',
-            Key1           => 'Value1',
-            Key2           => 'Value2',
+        ExpectedHeaders => {
+            Key1 => 'Value3',
+            Key2 => 'Value4',
+        },
+    },
+    {
+        Name   => 'Additional mixed headers',
+        Config => {
+            %DefaultConfig,
+            OutboundHeaders => {
+                Common => {
+                    Key1           => 'Value5',
+                    Key2           => 'Value6',
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
+                },
+                Specific => {
+                    PriorityIDName => {
+                        Key1         => 'Value7',     # should override common value
+                        Key3         => 'Value8',
+                        'Connection' => 'Invalid',    # should be filtered
+                        NotAllowed   => 'Invalid',    # should be filtered
+                    },
+                    OtherOperation => {               # should be ignored
+                        Key1 => 'Invalid',
+                    },
+                },
+            },
+        },
+        ExpectedHeaders => {
+            Key1 => 'Value7',
+            Key2 => 'Value6',
+            Key3 => 'Value8',
         },
     },
 );
@@ -3085,61 +3113,95 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
 );
 
-for my $Test (@Tests) {
+for my $Test (@CheckHeadersTests) {
 
-    # Create SOAP transport object with test configuration.
-    my $TransportObject = Kernel::GenericInterface::Transport->new(
-        DebuggerObject  => $DebuggerObject,
-        TransportConfig => {
-            Type   => 'HTTP::SOAP',
-            Config => $Test->{Config},
-        },
-    );
-    $Self->Is(
-        ref $TransportObject,
-        'Kernel::GenericInterface::Transport',
-        "$Test->{Name} - TransportObject instantiated with SOAP backend"
-    );
+    subtest $Test->{Name} => sub {
 
-    my $Response = '';
-    my $Result;
-    {
+        diag "Running check header test: $Test->{Name}";
 
-        # Redirect STDOUT from string so that the transport layer will write there.
-        local *STDOUT;
-        open STDOUT, '>:utf8', \$Response;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-
-        # Discard request object to prevent errors.
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
-
-        # Create response.
-        $Result = $TransportObject->ProviderGenerateResponse(
-            Success => 1,
-            Data    => {},
+        # Create HTTP::SOAP transport object with test configuration.
+        my $TransportObject = Kernel::GenericInterface::Transport->new(
+            DebuggerObject  => $DebuggerObject,
+            TransportConfig => {
+                Type   => 'HTTP::SOAP',
+                Config => $Test->{Config},
+            },
         );
-    }
-    $Self->True(
-        $Result,
-        "$Test->{Name} - Response created"
-    );
 
-    # Analyze headers.
-    for my $Key ( sort keys %{ $Test->{Header} } ) {
-        $Self->True(
-            index( $Response, "$Key: $Test->{Header}->{$Key}\r\n" ) != -1,
-            "$Test->{Name} - Found header '$Key' with value '$Test->{Header}->{$Key}'"
-        );
-    }
+        isa_ok( $TransportObject, 'Kernel::GenericInterface::Transport' );
+
+        # check the result of a complete cycle
+        {
+            my $Result = $TransportObject->RequesterPerformRequest(
+                Operation => 'PriorityIDName',
+                Data      => {},
+            );
+            ok( $Result, 'Request result created' );
+            is( ref $Result, 'HASH', 'Request result is a hashref' );
+
+            # Retrieve the request headers that were mirrored in the response.
+            my %MirroredHeaders = ( $Result->{UnitTestHeaders} // {} )->%*;
+
+            # Ignore standard headers.
+            # Note that CONNECTION is mirrored even though it is blacklisted.
+            delete @MirroredHeaders{qw(CONNECTION ACCEPT HOST SOAPACTION TE USER-AGENT)};
+
+            # Analyze headers.
+            # Keys were uppercase by CGI::PSGI in nph-genericinterface.pl
+            for my $Key ( sort keys $Test->{ExpectedHeaders}->%* ) {
+                is(
+                    delete $MirroredHeaders{ uc $Key },
+                    $Test->{ExpectedHeaders}->{$Key},
+                    "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+                );
+            }
+
+            is( \%MirroredHeaders, {}, 'Only expected request result headers have been found' );
+        }
+
+        # Create and check the PSGI response. The response is acutually thrown as an exception.
+        {
+            # Discard request object to prevent errors.
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+
+            # Create response. The response is acutually thrown as an exception.
+            eval {
+                $TransportObject->ProviderGenerateResponse(
+                    Success   => 1,
+                    Data      => {},
+                    Operation => 'PriorityIDName',
+                );
+            };
+            my $WebException = $@;
+            can_ok( $WebException, ['as_psgi'], 'exception with as_psgi() method' );
+            my $PSGIResponse = $WebException->as_psgi();
+            ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
+
+            # Retrieve all headers from response.
+            my %ResponseHeaders = $PSGIResponse->[1]->@*;
+
+            # Remove unused standard headers.
+            delete @ResponseHeaders{qw(Connection Content-Type Content-Length)};
+
+            # Analyze headers.
+            for my $Key ( sort keys $Test->{ExpectedHeaders}->%* ) {
+                is(
+                    delete $ResponseHeaders{$Key},
+                    $Test->{ExpectedHeaders}->{$Key},
+                    "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+                );
+            }
+
+            ok( !%ResponseHeaders, 'Only expected response headers have been found' );
+        }
+    };
 }
 
-# cleanup web service
+# Cleanup test web service.
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $WebserviceDelete,
-    "Deleted web service $WebserviceID",
-);
+ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
 
-$Self->DoneTesting();
+done_testing();

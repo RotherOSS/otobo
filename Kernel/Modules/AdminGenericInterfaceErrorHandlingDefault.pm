@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -720,21 +720,11 @@ sub _ErrorHandlingTypeCheck {
 sub _JSONResponse {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # Build JSON output.
-    my $JSON = $LayoutObject->JSONEncode(
+    # return JSON output.
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONReply(
         Data => {
             Success => $Param{Success} // 0,
         },
-    );
-
-    # Send JSON response.
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-        Content     => $JSON,
-        Type        => 'inline',
-        NoCache     => 1,
     );
 }
 

@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
@@ -864,9 +864,9 @@ my @TestsGenericAgentSchedule2CronTab = (
     {
         Name   => 'Wrong ScheduleHours lower limit',
         Config => {
-            ScheduleMinutes => [5],
+            ScheduleMinutes => [ 5],
             ScheduleHours   => [-1],
-            ScheduleDays    => [6],
+            ScheduleDays    => [ 6],
         },
         Success => 0,
     },

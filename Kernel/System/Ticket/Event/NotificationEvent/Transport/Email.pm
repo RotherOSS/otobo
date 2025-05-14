@@ -23,7 +23,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 use parent qw(Kernel::System::Ticket::Event::NotificationEvent::Transport::Base);
 
@@ -467,7 +467,7 @@ sub TransportSettingsDisplayGet {
     }
 
     # set security settings enabled
-    $Param{EmailSecuritySettings} = ( $Param{Data}->{EmailSecuritySettings} ? 'checked="checked"' : '' );
+    $Param{EmailSecuritySettings} = ( $Param{Data}->{EmailSecuritySettings} ? 'checked ' : '' );
     $Param{SecurityDisabled}      = 0;
 
     if ( $Param{EmailSecuritySettings} eq '' ) {

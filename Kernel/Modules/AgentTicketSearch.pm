@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -76,6 +76,8 @@ sub Run {
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionTicketNumber',
             Data         => \%Param,
         );
+
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionTicketNumber.xml',
             ContentType => 'application/opensearchdescription+xml',
@@ -83,11 +85,14 @@ sub Run {
             Type        => 'inline',
         );
     }
+
     if ( $Self->{Subaction} eq 'OpenSearchDescriptionFulltext' ) {
         my $Output = $LayoutObject->Output(
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionFulltext',
             Data         => \%Param,
         );
+
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionFulltext.xml',
             ContentType => 'application/opensearchdescription+xml',
@@ -176,7 +181,7 @@ sub Run {
 
         # Send JSON response.
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
@@ -209,6 +214,29 @@ sub Run {
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => $DynamicFieldFilter || {},
     );
+
+    my @SetInnerFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+
+        next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
+
+        my @CurrentInnerFields = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+        for my $DF (@CurrentInnerFields) {
+            my $InnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DF->{DF},
+            );
+
+            # necessary to not overwrite cached data of field config by altering the reference
+            my %InnerFieldConfig = $InnerFieldConfigRef->%*;
+
+            $InnerFieldConfig{Label} = $DynamicFieldConfig->{Label} . '::' . $InnerFieldConfig{Label};
+            push @SetInnerFields, \%InnerFieldConfig;
+        }
+    }
+
+    push @{$DynamicField}, @SetInnerFields;
 
     # collect all searchable article field definitions and add the fields to the attributes array
     my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
@@ -749,7 +777,7 @@ sub Run {
 
         # search via DB if FulltextES is empty
         if ( !$GetParam{FulltextES} ) {
-            local $Kernel::System::DB::UseSlaveDB = 1;
+            local $Kernel::System::DB::UseMirrorDB = 1;
 
             # perform ticket search
             @ViewableTicketIDs = $TicketObject->TicketSearch(
@@ -825,6 +853,29 @@ sub Run {
             ObjectType  => ['Ticket'],
             FieldFilter => $Config->{SearchCSVDynamicField} || {},
         );
+
+        my @CSVSetInnerFields;
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$CSVDynamicField} ) {
+
+            next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
+
+            my @CurrentInnerFields = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+            for my $DF (@CurrentInnerFields) {
+                my $CSVInnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DF->{DF},
+                );
+
+                # necessary to not overwrite cached data of field config by altering the reference
+                my %CSVInnerFieldConfig = $CSVInnerFieldConfigRef->%*;
+
+                $CSVInnerFieldConfig{Label} = $DynamicFieldConfig->{Label} . '::' . $CSVInnerFieldConfig{Label};
+                push @CSVSetInnerFields, \%CSVInnerFieldConfig;
+            }
+        }
+
+        push @{$CSVDynamicField}, @CSVSetInnerFields;
 
         # CSV and Excel output
         if (
@@ -980,7 +1031,7 @@ sub Run {
 
                     # check if header is a dynamic field and get the value from dynamic field
                     # backend
-                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+                    if ( $Header =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
 
                         # loop over the dynamic fields configured for CSV output
                         DYNAMICFIELD:
@@ -1331,6 +1382,7 @@ sub Run {
             );
 
             my $PDFString = $PDFObject->DocumentOutput();
+
             return $LayoutObject->Attachment(
                 Filename    => $Filename,
                 ContentType => "application/pdf",
@@ -1447,6 +1499,8 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => 1,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
@@ -1465,7 +1519,8 @@ sub Run {
             my %SearchStrings;
             SEARCHSTRINGPARAMNAME:
             for my $SearchStringParamName ( sort @ParamNames ) {
-                next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
+                next SEARCHSTRINGPARAMNAME unless $SearchStringParamName =~ m{\ASearchStrings\[(.*)\]\z}sm;
+
                 $SearchStrings{$1} = $ParamObject->GetParam( Param => $SearchStringParamName );
             }
 
@@ -1477,9 +1532,12 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => $StopWordCheckResult,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline'
         );
@@ -2002,7 +2060,7 @@ sub Run {
                 Sort        => 'TreeView',
                 Size        => 5,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => $TreeView,
                 Max         => 200,
                 Class       => 'Modernize',
             );
@@ -2016,7 +2074,7 @@ sub Run {
                 Sort        => 'AlphanumericValue',
                 Size        => 5,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => 1,
                 Max         => 200,
                 Class       => 'Modernize',
             );
@@ -2074,11 +2132,12 @@ sub Run {
                     Action => $Self->{Action},
                 ),
             },
-            Name       => 'StateIDs',
-            Multiple   => 1,
-            Size       => 5,
-            SelectedID => $GetParam{StateIDs},
-            Class      => 'Modernize',
+            Name        => 'StateIDs',
+            Multiple    => 1,
+            Size        => 5,
+            SelectedID  => $GetParam{StateIDs},
+            Class       => 'Modernize',
+            Translation => 1,
         );
         my %AllQueues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues(
             UserID => $Self->{UserID},
@@ -2446,7 +2505,7 @@ sub Run {
                 Sort        => 'AlphanumericValue',
                 Size        => 3,
                 Multiple    => 1,
-                Translation => 0,
+                Translation => 1,
                 Class       => 'Modernize',
             );
         }
@@ -2628,6 +2687,7 @@ sub Run {
             Data         => \%Param,
             AJAX         => 1,
         );
+
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',

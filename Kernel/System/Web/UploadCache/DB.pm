@@ -19,8 +19,13 @@ package Kernel::System::Web::UploadCache::DB;
 use strict;
 use warnings;
 
-use List::Util qw(sum);
-use MIME::Base64;
+# core modules
+use List::Util   qw(sum);
+use MIME::Base64 qw(decode_base64 encode_base64);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,13 +43,6 @@ sub new {
     bless( $Self, $Type );
 
     return $Self;
-}
-
-sub FormIDCreate {
-    my ( $Self, %Param ) = @_;
-
-    # return requested form id
-    return time() . '.' . rand(12341241);
 }
 
 sub FormIDRemove {

@@ -25,7 +25,7 @@ use utf8;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
 use Kernel::System::UnitTest::Selenium;
-use Kernel::Language;
+use Kernel::Language ();
 
 our $Self;
 
@@ -104,7 +104,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminACL screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;IncludeInvalid=1");
 
         # Check breadcrumb on Overview screen.
         $Self->True(
@@ -646,8 +646,6 @@ JAVASCRIPT
             $TicketID,
             "TicketID $TicketID is created",
         );
-
-        $Selenium->VerifiedRefresh();
 
         # Deploy ACL.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();

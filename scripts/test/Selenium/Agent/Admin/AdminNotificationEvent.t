@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -47,6 +51,15 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # In Docker ReferenceData::TranslatedLanguageNames is activated per default.
+        # For this test turn it consistently off, so that we don't have to distinguish
+        # between Docker and non-Docker installations.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'ReferenceData::TranslatedLanguageNames',
+            Value => 0,
+        );
+
         # Create string which length is over 4000 characters.
         my $TooLongString = 'A' x 4001;
 
@@ -64,7 +77,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminNotificationEvent screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;IncludeInvalid=1");
 
         # Check overview screen.
         $Selenium->find_element( "table",             'css' );
@@ -72,7 +85,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # Check breadcrumb on Overview screen.
-        $Self->True(
+        ok(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
@@ -95,7 +108,7 @@ $Selenium->RunTest(
         # Check breadcrumb on Add screen.
         my $Count = 1;
         for my $BreadcrumbText ( 'Ticket Notification Management', 'Add Notification' ) {
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
@@ -149,7 +162,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",         'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('#RecipientEmail.Error').length;" );
 
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#RecipientEmail.Error').length;"),
             "Validation for 'Additional recipient' field is correct",
         );
@@ -159,7 +172,7 @@ $Selenium->RunTest(
         my $RecipientValue = 'test1@test.com; test2@test.com; test3@test.com';
         $Selenium->find_element( "#RecipientEmail", 'css' )->send_keys($RecipientValue);
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#RecipientEmail').siblings('.FieldExplanation:eq(0)').text().trim();"
             ),
@@ -189,11 +202,11 @@ $Selenium->RunTest(
         {
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.Dialog.Modal').length;" );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script("return \$('#en_Body.ServerError').length;"),
                 'Text field has an error'
             );
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.Dialog.Modal .InnerContent p').text().trim();"),
                 'One or more errors occurred!',
                 "Server error dialog - found"
@@ -214,14 +227,14 @@ $Selenium->RunTest(
         );
 
         # Check if test NotificationEvent show on AdminNotificationEvent screen.
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('table td a:contains($NotifEventRandomID)').length;"),
             "$NotifEventRandomID NotificationEvent found on page",
         );
 
         # Check is there notification 'Notification added!' after notification is added.
         my $Notification = 'Notification added!';
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length;"),
             "$Notification - notification is found."
         );
@@ -229,42 +242,42 @@ $Selenium->RunTest(
         # Check test NotificationEvent values.
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
-        $Self->Is(
+        is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
             $NotifEventRandomID,
             "#Name stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
             $NotifEventText,
             "#Comment stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#en_Subject', 'css' )->get_value(),
             $NotifEventText,
             "#en_Subject stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#en_Body', 'css' )->get_value(),
             $TooLongString,
             "#en_Body stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#ArticleIsVisibleForCustomer', 'css' )->get_value(),
             '1',
             '#ArticleIsVisibleForCustomer stored value'
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#MIMEBase_Subject', 'css' )->get_value(),
             $NotifEventText,
             "#MIMEBase_Subject stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#ValidID', 'css' )->get_value(),
             1,
             "#ValidID stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#RecipientEmail', 'css' )->get_value(),
             $RecipientValue,
             "#RecipientEmail stored value",
@@ -277,7 +290,7 @@ $Selenium->RunTest(
             'Edit Notification: ' . $NotifEventRandomID
             )
         {
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
@@ -316,40 +329,42 @@ $Selenium->RunTest(
 
         # Check is there notification 'Notification updated!' after notification is added.
         $Notification = 'Notification updated!';
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length;"),
             "$Notification - notification is found."
         );
 
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
+
         # Check edited NotifcationEvent values.
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
-        $Self->Is(
+        is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
             "",
             "#Comment updated value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#en_Body', 'css' )->get_value(),
             $EditNotifEventText,
             "#en_Body updated value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#ArticleIsVisibleForCustomer', 'css' )->get_value(),
             '0',
             '#ArticleIsVisibleForCustomer updated value'
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#MIMEBase_Subject', 'css' )->get_value(),
             "",
             "#MIMEBase_Subject updated value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#MIMEBase_Body', 'css' )->get_value(),
             $EditNotifEventText,
             "#MIMEBase_Body updated value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#ValidID', 'css' )->get_value(),
             2,
             "#ValidID updated value",
@@ -384,7 +399,7 @@ $Selenium->RunTest(
                     JavaScript => "return \$('.AlreadyDisabled #$InputField').length === $Test->{HasClass};"
                 );
 
-                $Self->Is(
+                is(
                     $Selenium->execute_script(
                         "return \$('#$InputField').parent().hasClass('AlreadyDisabled');"
                     ),
@@ -419,7 +434,7 @@ $Selenium->RunTest(
                 Value   => $Lang->{LangCode},
             );
 
-            $Self->IsNot(
+            isnt(
                 $Selenium->execute_script(
                     "return \$('#Language_Search').closest('div').find('.Text').text().trim();"
                 ),
@@ -432,7 +447,7 @@ $Selenium->RunTest(
                 "\$('.NotificationLanguage h2:contains($Lang->{Language})').siblings().find('a').first().click();"
             );
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('.NotificationLanguage h2:contains($Lang->{Language})').closest('.WidgetSimple').hasClass('Collapsed');"
                 ),
@@ -446,7 +461,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( AlertPresent => 1 );
 
-        $Self->Is(
+        is(
             $Selenium->get_alert_text(),
             'Do you really want to delete this notification language?',
             'Check for open confirm text',
@@ -455,7 +470,7 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         eval {
-            $Self->Is(
+            is(
                 $Selenium->get_alert_text(),
                 '',
                 'Check if confirm dialog is closed',
@@ -466,7 +481,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
         # Check class of invalid NotificationEvent in the overview table.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($NotifEventRandomID)').length;"
             ),
@@ -493,8 +508,8 @@ $Selenium->RunTest(
         );
 
         # Check if test NotificationEvent is deleted.
-        $Self->False(
-            $Selenium->execute_script(
+        ok(
+            !$Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($NotifEventRandomID)').length;"
             ),
             "Test NotificationEvent is deleted - $NotifEventRandomID",
@@ -511,7 +526,7 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('#FileUpload').val().indexOf('Export_Notification_Ticket_create_notification.yml') !== -1;"
         );
 
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#FileUpload').val().indexOf('Export_Notification_Ticket_create_notification.yml') !== -1;"
             ),
@@ -579,7 +594,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Add");
 
         # Check if only Germen notification is shown.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.NotificationLanguage h2:contains(\"Deutsch - German\")').text().trim();"
             ),
@@ -592,7 +607,7 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Change;ID=$NotificationID"
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.AdditionalInformation #en_Language_Remove').hasClass('RemoveButton LanguageRemove');"
             ),
@@ -614,7 +629,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Add");
 
         # Check if default English language is shown.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.NotificationLanguage h2:contains(\"English (United States)\")').text().trim();"
             ),
@@ -634,7 +649,7 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         # Check if default English language is not shown.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.NotificationLanguage h2:contains(\"English (United States)\")').length;"
             ),
@@ -651,4 +666,4 @@ $Selenium->RunTest(
 
 );
 
-$Self->DoneTesting();
+done_testing;

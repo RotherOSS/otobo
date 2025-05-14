@@ -86,7 +86,6 @@ sub Param {
                 Class              => 'Modernize',
                 SelectedIDRefArray => \@CustomQueueIDs,
                 Multiple           => 1,
-                Translation        => 0,
                 OnChangeSubmit     => 0,
                 OptionTitle        => 1,
                 TreeView           => 1,

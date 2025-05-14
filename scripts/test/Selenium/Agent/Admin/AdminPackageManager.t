@@ -14,13 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
@@ -52,40 +58,59 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-my $RandomID = $Helper->GetRandomID();
-
 # Override Request() from WebUserAgent to always return some test data without making any
-#   actual web service calls. This should prevent instability in case cloud services are
-#   unavailable at the exact moment of this test run.
-my $CustomCode = <<"EOS";
-sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
+# actual web service calls. This should prevent instability in case cloud services are
+# unavailable at the exact moment of this test run.
+# Furthermore there are other test scripts that use the trick of modifying
+# The content is XML as expected in Module: Kernel::System::Package::PackageOnlineRepositories().
+# the Kernel::System::WebUserAgent::Request() method. This means that these overrides
+# might still be active in the running web server and we get very strange results.
+my $RandomID = $Helper->GetRandomID();
+my $XML      = <<'END_XML';
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_repository_list version="1.0">
+<Repository>
+    <Name>OTOBO Addons</Name>
+    <URL>https://otobo.io/</URL>
+</Repository>
+</otrs_repository_list>
+END_XML
+my $CustomCode = sprintf <<'END_CODE', $RandomID, $XML;
+
+# provide a  no-op Load() method as this is expected in Kernel::Config::Defaults
+sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager%s::Load {}
+
 use Kernel::System::WebUserAgent;
+
 package Kernel::System::WebUserAgent;
+
 use strict;
 use warnings;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 {
     no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+
+    my $xml = q^%s^;
+
     sub Request {
         return (
             Status  => '200 OK',
-            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""},
+            Content => \$xml,
         );
     }
 }
 1;
-EOS
+END_CODE
+
 $Helper->CustomCodeActivate(
     Code       => $CustomCode,
     Identifier => 'AdminPackageManager' . $RandomID,
 );
 
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-my $CheckBreadcrumb = sub {
-
+sub CheckBreadcrumb {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
@@ -100,9 +125,11 @@ my $CheckBreadcrumb = sub {
 
         $Count++;
     }
-};
 
-my $NavigateToAdminPackageManager = sub {
+    return;
+}
+
+sub NavigateToAdminPackageManager {
 
     # Wait until all AJAX calls finished.
     $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -116,11 +143,12 @@ my $NavigateToAdminPackageManager = sub {
         JavaScript =>
             'return typeof($) == "function" && $("#FileUpload").length;'
     );
-};
 
-my $ClickAction = sub {
+    return;
+}
 
-    my $Selector = $_[0];
+sub ClickAction {
+    my ($Selector) = @_;
 
     $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
     $Selenium->find_element($Selector)->click();
@@ -129,7 +157,9 @@ my $ClickAction = sub {
         JavaScript =>
             'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     );
-};
+
+    return;
+}
 
 $Selenium->RunTest(
     sub {
@@ -196,10 +226,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
-        $ClickAction->("//button[contains(.,'Install Package')]");
+        ClickAction("//button[contains(.,'Install Package')]");
 
         # Check breadcrumb on Install screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Install Package:',
         );
 
@@ -225,7 +255,7 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
         # This means that there is no warning about unverified packages.
@@ -247,11 +277,11 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Install Package:',
         );
 
-        $ClickAction->("//button[\@value='Continue'][\@type='submit']");
+        ClickAction("//button[\@value='Continue'][\@type='submit']");
 
         my $PackageCheck = $PackageObject->PackageIsInstalled(
             Name => 'Test',
@@ -261,27 +291,27 @@ $Selenium->RunTest(
             'Test package is installed'
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Load page with metadata of installed package.
-        $ClickAction->("//a[contains(.,'Test')]");
+        ClickAction("//a[contains(.,'Test')]");
 
         # Check breadcrumb on Package metadata screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Package Information:',
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Uninstall package.
-        $ClickAction->("//a[contains(\@href, \'Subaction=Uninstall;Name=Test' )]");
+        ClickAction("//a[contains(\@href, \'Subaction=Uninstall;Name=Test' )]");
 
         # Check breadcrumb on uninstall screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Uninstall Package:',
         );
 
-        $ClickAction->("//button[\@value='Uninstall package'][\@type='submit']");
+        ClickAction("//button[\@value='Uninstall package'][\@type='submit']");
 
         # Check if test package is uninstalled.
         $Self->True(
@@ -295,15 +325,15 @@ $Selenium->RunTest(
 
         $Selenium->find_element( 'div.ErrorScreen', 'css' );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Try to install incompatible test package.
         $Location = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackageIncompatible.opm';
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
-        $ClickAction->("//button[contains(.,'Install Package')]");
+        ClickAction("//button[contains(.,'Install Package')]");
 
-        $ClickAction->("//button[\@value='Continue'][\@type='submit']");
+        ClickAction("//button[\@value='Continue'][\@type='submit']");
 
         # Check if info for incompatible package is shown.
         $Self->True(
@@ -313,22 +343,23 @@ $Selenium->RunTest(
             'Info for incompatible package is shown'
         );
 
-        # Set default repository list.
+        # Create a repository list with a broken URL, taking care that the OTOBO repository list is not used
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Package::RepositoryList',
             Value => {
-                'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[Example] ftp://ftp.example.com/'
+                'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[AdminPackageManager.t] ftp://ftp.example.com/'
             },
         );
-
-        $NavigateToAdminPackageManager->();
-        $Selenium->InputFieldValueSet(
-            Element => '#Soruce',
-            Value   => 'ftp://ftp.example.com/pub/otobo/misc/packages/',
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => 'Package::RepositoryRoot',
         );
 
-        $ClickAction->("//button[\@name=\'GetRepositoryList']");
+        # Try to load packages from the single entry in the repository list.
+        # No packages should be loaded, as ftp.example.com isn't an OTOBO package repository.
+        NavigateToAdminPackageManager();
+        ClickAction("//button[\@name=\'GetRepositoryList']");
 
         # Check that there is a notification about no packages.
         my $Notification = 'No packages found in selected repository. Please check log for more info!';
@@ -355,4 +386,4 @@ if ($TestPackage) {
     );
 }
 
-$Self->DoneTesting();
+done_testing();

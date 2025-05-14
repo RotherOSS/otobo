@@ -16,29 +16,27 @@
 
 package Kernel::System::UnitTest::Selenium;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
 # core modules
-use File::Path qw(remove_tree);
-use Time::HiRes qw();
-use File::Spec;
-use File::Copy qw(copy);
+use File::Path  qw(remove_tree);
+use Time::HiRes ();
+use File::Spec  ();
+use File::Copy  qw(copy);
 
 # CPAN modules
 use Test2::V0;
-use Test2::API qw(context run_subtest);
-use Net::DNS::Resolver;
+use Test2::API         qw(context run_subtest);
+use Net::DNS::Resolver ();
 use Moo;
 use Try::Tiny;
-use URI;
+use URI ();
 
 # OTOBO modules
-use Kernel::Config;
-use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -113,11 +111,13 @@ has LogExecuteCommandActive => (
 
 Kernel::System::UnitTest::Selenium - run front end tests
 
+=head1 DESCRIPTION
+
 This class extends Selenium::Remote::Driver when Selenium testing is activated.
 You can use the full API of the base object. See L<https://metacpan.org/pod/Selenium::Remote::Driver>.
 
 Activating Selenium is done by adding a hash element in F<Kernel/Config.pm>.
-You need a running C<selenium> or C<phantomjs> server in order to do this successfully.
+You need a running C<selenium> server in order to do this successfully.
 Here are some examples:
 
     # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
@@ -238,47 +238,7 @@ sub BUILD {
     return;
 }
 
-=head2 button_up()
-
-In L<Selenium::Remote::Driver> 1.39 there seems to be a bug in the method C<button_up()>.
-In the original version the the type of the action is I<Pointer Down>.
-But the action I<Pointer Up> makes more sense and fixes DragAndDrop test failures.
-Therefore override that subroutine.
-
-=cut
-
-sub button_up {
-
-    my ($Self) = @_;
-
-    if (
-        $Self->{is_wd3}
-        && !( grep { $Self->browser_name() eq $_ } qw{MicrosoftEdge} )
-        )
-    {
-        my $Params = {
-            actions => [
-                {
-                    type       => "pointer",
-                    id         => 'mouse',
-                    parameters => { "pointerType" => "mouse" },
-                    actions    => [
-                        {
-                            type     => "pointerUp",
-                            duration => 0,
-                            button   => 0,
-                        },
-                    ],
-                }
-            ],
-        };
-        Selenium::Remote::Driver::_queue_action(%$Params);
-
-        return 1;
-    }
-
-    return $Self->_execute_command( { 'command' => 'buttonUp' } );
-}
+=head1 PUBLIC INTERFACE
 
 =head2 RunTest()
 
@@ -485,7 +445,7 @@ sub Login {
 
                     if ($@) {
 
-                        # login was not sucessful
+                        # login was not successful
                         note("Login attempt $Try/$MaxTries failed");
                     }
                     else {
@@ -535,10 +495,20 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
         AlertPresent   => 1,                                 # Wait until an alert, confirm or prompt dialog is present
         Callback       => sub { ... }                        # Wait until function returns true
         ElementExists  => 'xpath-selector'                   # Wait until an element is present
-        ElementExists  => ['css-selector', 'css'],
+        ElementExists  => [
+            'css-selector',
+            'css'
+        ],
         ElementMissing => 'xpath-selector',                  # Wait until an element is not present
-        ElementMissing => ['css-selector', 'css'],
+        ElementMissing => [
+            'css-selector',
+            'css'
+        ],
         JavaScript     => 'return $(".someclass").length',   # Javascript code that checks condition
+        JavaScript     => [                                  # pass an arrayref when arguments are needed
+            q{return arguments[0].length},
+            $SomeElement
+        ],
         WindowCount    => 2,                                 # Wait until this many windows are open
         Time           => 20,                                # optional, wait time in seconds (default 20)
     );
@@ -562,15 +532,15 @@ sub WaitFor {
         $Context->throw("Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.");
     }
 
-    my $TimeOut                 = $Param{Time} // 20;             # time span after which WaitFor() gives up
-    my $WaitedSeconds           = 0;                              # counting up to $TimeOut
-                                                                  # Apparently some WaitFor() call fail because some elements show up only briefly.
-                                                                  # This might cause heisenbugs.
-                                                                  # Therefore fine tune the initial sleep times.
-    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
-    my $DefaultInterval         = 0.1;
-    my $Interval                = $DefaultInterval;
-    my $FindElementSleepSeconds = 0.5;                            # sleep after a successful find_element(), no idea why this is useful
+    my $TimeOut                 = $Param{Time} // 20;              # time span after which WaitFor() gives up
+    my $WaitedSeconds           = 0;                               # counting up to $TimeOut
+                                                                   # Apparently some WaitFor() call fail because some elements show up only briefly.
+                                                                   # This might cause heisenbugs.
+                                                                   # Therefore fine tune the initial sleep times.
+    my $Interval                = 0.1;                             # starting value of intervals, except for find_element()
+    my @FindElementIntervals    = ( 0.025, 0.050, 0.075, 0.1 );    # shorter initials intervals for find_element()
+    my $IntervalIncrement       = 0.1;                             # make the intervals larger the longer the wait time is
+    my $FindElementSleepSeconds = 0.5;                             # sleep after a successful find_element(), no idea why this is useful
 
     my $Success = 0;
 
@@ -578,10 +548,11 @@ sub WaitFor {
     while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
+            my @Arguments                   = ref $Param{JavaScript} eq 'ARRAY' ? $Param{JavaScript}->@* : $Param{JavaScript};
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
 
-            my $Ret = $Self->execute_script( $Param{JavaScript} );
+            my $Ret = $Self->execute_script(@Arguments);
 
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
@@ -636,7 +607,7 @@ sub WaitFor {
             }
         }
         elsif ( $Param{ElementExists} ) {
-            my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
+            my @Arguments = ref $Param{ElementExists} eq 'ARRAY' ? $Param{ElementExists}->@* : $Param{ElementExists};
 
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
@@ -654,7 +625,7 @@ sub WaitFor {
             }
         }
         elsif ( $Param{ElementMissing} ) {
-            my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
+            my @Arguments = ref $Param{ElementMissing} eq 'ARRAY' ? $Param{ElementMissing}->@* : $Param{ElementMissing};
 
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
             $Self->LogExecuteCommandActive(0);
@@ -673,12 +644,12 @@ sub WaitFor {
         }
 
         # Interval timing is solely trial and error
-        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
-            $Interval = shift @Intervals;
+        if ( @FindElementIntervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
+            $Interval = shift @FindElementIntervals;
         }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
-        $Interval      += 0.1;
+        $Interval      += $IntervalIncrement;
 
         $Context->note("waited for $WaitedSeconds s");
     }
@@ -1100,6 +1071,7 @@ Sometimes a longer timeout is needed.
         Value   => 3,                           # (optional) Value
         Time    => 60,                          # (optional) timeout in seconds
     );
+
 =cut
 
 sub InputFieldValueSet {

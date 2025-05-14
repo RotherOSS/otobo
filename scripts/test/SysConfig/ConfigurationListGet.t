@@ -18,15 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw( IsHashRefWithData );
 
-use Kernel::Config;
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -206,7 +207,7 @@ for my $Test (@Tests) {
 
         $Self->True(
             IsHashRefWithData( \%DefaultSetting ) ? 1 : 0,
-            "$Test->{Name} DefaultSettingGet() - $SettingName, succesful",
+            "$Test->{Name} DefaultSettingGet() - $SettingName, successful",
         );
 
         # Lock setting (so it can be updated).

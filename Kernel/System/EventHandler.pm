@@ -15,11 +15,18 @@
 # --
 
 package Kernel::System::EventHandler;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -169,15 +176,16 @@ sub EventHandler {
         }
     }
 
-    # get configured modules
+    # get configured event handling modules from SysConfig
     my $Modules = $Kernel::OM->Get('Kernel::Config')->Get( $Self->{EventHandlerInit}->{Config} );
 
-    # return if there is no one
-    return 1 if !$Modules;
+    # nothing to do when there are no event handling modules
+    return 1 unless $Modules;
 
     # remember events only on normal mode
     if ( !$Self->{EventHandlerTransaction} ) {
-        push @{ $Self->{EventHandlerPipe} }, \%Param;
+        $Self->{EventHandlerPipe} //= [];
+        push $Self->{EventHandlerPipe}->@*, \%Param;
     }
 
     # get main object
@@ -189,6 +197,7 @@ sub EventHandler {
 
         # If the module has an event configuration, determine if it should be executed for this event,
         #   and store the result in a small cache to avoid repetition on jobs involving many tickets.
+        #   Values in the cache are either the number 1 or the empty string q{}.
         if ( !defined $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
             if ( !$Modules->{$Module}->{Event} ) {
                 $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } = 1;
@@ -223,13 +232,21 @@ sub EventHandler {
             # load event module
             next MODULE if !$MainObject->Require( $Modules->{$Module}->{Module} );
 
-            # execute event backend
-            my $Generic = $Modules->{$Module}->{Module}->new();
+            eval {
+                # execute event backend
+                my $Generic = $Modules->{$Module}->{Module}->new();
 
-            $Generic->Run(
-                %Param,
-                Config => $Modules->{$Module},
-            );
+                $Generic->Run(
+                    %Param,
+                    Config => $Modules->{$Module},
+                );
+            };
+            if ($@) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "$Module died with: $@",
+                );
+            }
         }
     }
 
@@ -262,6 +279,38 @@ sub EventHandlerTransaction {
     # remember, we are in destroy mode, do not execute new events
     $Self->{EventHandlerTransaction} = 1;
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
+    # set up a clean object manager here to enable correct handling of nested transactions
+    my $OuterOM = $Kernel::OM;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    # keep some objects for performance and compatibility reasons
+    # the aim of instantiating a new $Kernel::OM is to have new
+    # objects of all EventHandler-objects to set up fresh pipes
+    my @KeepObjects = (
+        'Kernel::System::Cache',
+        'Kernel::System::DB',
+        'Kernel::Config',
+        'Kernel::System::Log',
+        'Kernel::System::Encode',
+    );
+    for my $Object (@KeepObjects) {
+        $Kernel::OM->{Objects}{$Object}            = $OuterOM->{Objects}{$Object};
+        $Kernel::OM->{ObjectDependencies}{$Object} = $OuterOM->{ObjectDependencies}{$Object};
+    }
+
+    # loop protection
+    $Kernel::OM->{TransactionDepth} = ( $OuterOM->{TransactionDepth} // 0 ) + 1;
+    if ( $Kernel::OM->{TransactionDepth} > 250 ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Ran into event loop! Stopping execution. Current unprocessed events: "
+                . join( ", " . map { $_->{Event} // '' } @{ $Self->{EventHandlerPipe} // {} } ),
+        );
+
+        return;
+    }
+
     # execute events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
 
@@ -274,7 +323,7 @@ sub EventHandlerTransaction {
         }
 
         # delete event pipe
-        $Self->{EventHandlerPipe} = undef;
+        undef $Self->{EventHandlerPipe};
     }
 
     # reset transaction mode
@@ -285,8 +334,8 @@ sub EventHandlerTransaction {
 
 =head2 EventHandlerHasQueuedTransactions()
 
-Return a true value if there are queued transactions, which
-C<EventHandlerTransaction> handles, when called.
+Return a true value if there are queued transactions. The queued transactions
+are handled in C<EventHandlerTransaction()>.
 
 =cut
 

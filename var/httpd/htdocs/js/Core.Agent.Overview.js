@@ -234,7 +234,7 @@ Core.Agent.Overview = (function (TargetNS) {
                             ) {
 
                             if (!$TriggerObj.parent().find('.SelectedValue').length) {
-                                Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                                Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, function() {
                                     var AutoCompleteValue = $TriggerObj
                                             .next('.ColumnSettingsContainer')
                                             .find('select')
@@ -271,7 +271,7 @@ Core.Agent.Overview = (function (TargetNS) {
                             }
                         }
                         else {
-                            Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                            Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName);
                         }
                 });
             }

@@ -21,13 +21,13 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get layout object
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 # check the function Ascii2Html
-my $TestString = << 'END_STRING';
+my $TestString = <<'END_STRING';
 Created:
 02/19/2008 12:17:03
 http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone

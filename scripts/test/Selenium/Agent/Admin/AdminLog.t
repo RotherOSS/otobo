@@ -14,22 +14,33 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Kernel::Config;
+
+# the question whether there is a S3 backend must the resolved early
+{
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+
+    skip_all('AdminLog unreliable with multiple instances of the web server') if $S3Active;
+}
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
         my $Helper    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -88,7 +99,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # Check if the first log entry is shown in the table.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#LogEntries tr td:contains($LogMessages[0])').parent().css('display')"
             ),
@@ -97,7 +108,7 @@ $Selenium->RunTest(
         );
 
         # Check if the second log entry is not shown in the table.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#LogEntries tr td:contains($LogMessages[1])').parent().css('display')"
             ),
@@ -112,7 +123,7 @@ $Selenium->RunTest(
         );
 
         # Check if sidebar column is shown.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.SidebarColumn').css('display')"
             ),
@@ -121,7 +132,7 @@ $Selenium->RunTest(
         );
 
         # Verify log time stamp is in user default time zone (UTC).
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#LogEntries .Error:eq(0)').text().indexOf('UTC') !== -1"),
             "Log time stamp is in user default time zone (UTC) format."
         );
@@ -150,7 +161,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminLog");
 
         # Verify log time stamp is in user preference time zone (Europe/Berlin).
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#LogEntries .Error:eq(0)').text().indexOf('$UserTimeZone') !== -1"),
             "Log time stamp is in user preference time zone ($UserTimeZone) format."
         );
@@ -163,4 +174,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();

@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Digest::MD5 qw(md5_hex);
+use Kernel::Language              qw(Translatable);
+use Digest::MD5                   qw(md5_hex);
 
 our @ObjectDependencies = (
     'Kernel::System::CommunicationChannel',
@@ -61,11 +61,10 @@ sub Run {
     }
 
     # get needed object
-    my $ConfigObject               = $Kernel::OM->Get('Kernel::Config');
-    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # generate empty message
     if ( scalar @{ $Param{TicketIDs} } == 0 ) {
@@ -124,21 +123,16 @@ sub Run {
         );
 
         my $Subject;
-        my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+
+        # TODO: get config oútside the loop
         my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
         # Check if the last customer subject or ticket title should be shown.
-        # If ticket title should be shown, check if there are articles, because ticket title
-        # could be related with a subject of an article which does not visible for customer (see bug#13614).
-        # If there is no subject, set to 'Untitled'.
         if ( $SmallViewColumnHeader eq 'LastCustomerSubject' ) {
             $Subject = $Article{Subject} || '';
         }
-        elsif ( $SmallViewColumnHeader eq 'TicketTitle' && $ArticleList[0] ) {
-            $Subject = $Ticket{Title};
-        }
         else {
-            $Subject = Translatable('Untitled!');
+            $Subject = $Ticket{Title};
         }
 
         # Condense down the subject.
@@ -182,23 +176,21 @@ sub Run {
 
         # standard ticket categories
         CAT:
-        for my $CatName (qw/Queue Owner/) {
+        for my $CatName (qw/Priority Type Queue Service State Owner/) {
             next CAT if !$Ticket{$CatName};
             if ( $CategoryConfig->{$CatName} ) {
                 my $Conf = $CategoryConfig->{$CatName};
+                my $Text = $Conf->{Text} // $Ticket{$CatName};
 
-                if ( $Conf->{ColorSelection}{ $Ticket{$CatName} } ) {
-                    push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
-                        Color => $Conf->{ColorSelection}{ $Ticket{$CatName} },
-                    };
-                }
-                elsif ( $Conf->{ColorDefault} ) {
-                    push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
-                        Color => $Conf->{ColorDefault},
-                    };
-                }
+                $Conf->{ColorSelection} //= {};
+                my $Color = $Conf->{ColorSelection}{ $Ticket{$CatName} } // $Conf->{ColorDefault};
+
+                push @{ $Categories{ $Conf->{Order} } }, {
+                    Text   => $Text,
+                    Color  => $Color,
+                    Value  => $Ticket{$CatName},
+                    Config => $Conf,
+                };
             }
         }
 
@@ -248,19 +240,17 @@ sub Run {
             # build %Categories as $Categories{<Order>} = [ {Text => '', Color => ''}, ... ]
             if ( $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } ) {
                 my $Conf = $CategoryConfig->{DynamicField}{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } };
+                my $Text = $Conf->{Text} // $ValueStrg->{Value};
 
-                if ( $Conf->{ColorSelection}{ $ValueStrg->{Value} } ) {
-                    push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                        Color => $Conf->{ColorSelection}{ $ValueStrg->{Value} },
-                    };
-                }
-                elsif ( $Conf->{ColorDefault} ) {
-                    push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                        Color => $Conf->{ColorDefault},
-                    };
-                }
+                $Conf->{ColorSelection} //= {};
+                my $Color = $Conf->{ColorSelection}{ $ValueStrg->{Value} } // $Conf->{ColorDefault};
+
+                push @{ $Categories{ $Conf->{Order} } }, {
+                    Text   => $Text,
+                    Color  => $Color,
+                    Value  => $ValueStrg->{Value},
+                    Config => $Conf,
+                };
             }
         }
 

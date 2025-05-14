@@ -16,21 +16,29 @@
 
 package Kernel::System::ACL::DB::ACL;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
+    'Kernel::System::Ticket::FieldRestrictions',
     'Kernel::System::User',
     'Kernel::System::YAML',
-    'Kernel::System::Ticket::FieldRestrictions',
 );
 
 =head1 NAME
@@ -55,8 +63,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
+
+    # find out whether loader files are stored in S3 or in the file system
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('ACL::CacheTTL') || 3600 );
@@ -127,7 +137,6 @@ sub ACLAdd {
         }
 
         $ConfigMatch = $YAMLObject->Dump( Data => $Param{ConfigMatch} );
-        utf8::upgrade($ConfigMatch);
     }
 
     if ( $Param{ConfigChange} ) {
@@ -141,7 +150,6 @@ sub ACLAdd {
         }
 
         $ConfigChange = $YAMLObject->Dump( Data => $Param{ConfigChange} );
-        utf8::upgrade($ConfigChange);
     }
 
     # get database object
@@ -454,6 +462,9 @@ sub ACLUpdate {
     # define Description field if not present
     $Param{Description} //= '';
 
+    # set StopAfterMatch if undefined
+    $Param{StopAfterMatch} //= 0;
+
     my $ConfigMatch  = '';
     my $ConfigChange = '';
 
@@ -473,12 +484,10 @@ sub ACLUpdate {
 
     if ( $Param{ConfigMatch} && IsHashRefWithData( $Param{ConfigMatch} ) ) {
         $ConfigMatch = $YAMLObject->Dump( Data => $Param{ConfigMatch} );
-        utf8::upgrade($ConfigMatch);
     }
 
     if ( $Param{ConfigChange} && IsHashRefWithData( $Param{ConfigChange} ) ) {
         $ConfigChange = $YAMLObject->Dump( Data => $Param{ConfigChange} );
-        utf8::upgrade($ConfigChange);
     }
 
     # get database object
@@ -542,8 +551,8 @@ sub ACLUpdate {
         && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
         && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentConfigMatch eq $ConfigMatch
+        && $CurrentConfigChange eq $ConfigChange
         )
     {
         return 1;
@@ -824,13 +833,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
-        UserID      => 1,
+        ResultType  => 'FILE'                                      # default is 'FILE', only 'FILE' is supported
+        Location    => '/opt/otobo/Kernel/Config/Files/ZZZACL.pm', # mandatory for ResultType = 'FILE'
+        UserID      => 1,                                          # checked, but not really used
     );
 
 Returns:
-    $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+
+    $ACLDump = '/opt/otobo/Kernel/Config/Files/ZZZACL.pm';         # or undef if can't write the file
+
+or in case of S3 support
+
+    $ACLDump = 'Kernel/Config/Files/ZZZACL.pm';                    # or undef if can't write to S3
 
 =cut
 
@@ -843,12 +857,12 @@ sub ACLDump {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
-    if ( !defined $Param{ResultType} ) {
-        $Param{ResultType} = 'FILE';
-    }
+    # get defaults
+    $Param{ResultType} //= 'FILE';
 
     if ( $Param{ResultType} eq 'FILE' ) {
         if ( !$Param{Location} ) {
@@ -911,11 +925,11 @@ sub ACLDump {
         Type => 'ACLEditor_ACL',
     );
 
-    my $Output = '';
+    my $ACLItemsOutput = '';
     for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
-        $Output .= $Self->_ACLItemOutput(
+        $ACLItemsOutput .= $Self->_ACLItemOutput(
             Key        => $ACLName,
             Value      => $ACLDump{$ACLName}{Values},
             Comment    => $ACLDump{$ACLName}{Comment},
@@ -926,18 +940,8 @@ sub ACLDump {
         );
     }
 
-    # get user data of the current user to use for the file comment
-    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-        UserID => $Param{UserID},
-    );
-
-    # remove home from location path to show in file comment
-    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $Location = $Param{Location};
-    $Location =~ s{$Home\/}{}xmsg;
-
     # build comment (therefore we need to trick out the filter)
-    my $FileStart = <<'EOF';
+    my $PMFileOutput = sprintf <<'END_PM_FILE', $ACLItemsOutput;
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZACL;
@@ -948,19 +952,32 @@ use utf8;
 sub Load {
     my ($File, $Self) = @_;
 
-EOF
+%s
 
-    my $FileEnd = <<'EOF';
     return;
 }
 1;
-EOF
+END_PM_FILE
 
-    $Output = $FileStart . $Output . $FileEnd;
+    if ( $Self->{S3Active} ) {
 
-    my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+        # remove the leading /opt/otobo as the home prefix is added automatically in the S3 storage object
+        my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $ZZZFilePath = $Param{Location};
+        $ZZZFilePath =~ s{^$Home/*}{};
+
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+
+        # only write to S3, no extra copy in the file system
+        return $StorageS3Object->StoreObject(
+            Key     => $ZZZFilePath,
+            Content => $PMFileOutput,
+        );
+    }
+
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
-        Content  => \$Output,
+        Content  => \$PMFileOutput,
         Mode     => 'utf8',
         Type     => 'Local',
     );
@@ -968,8 +985,6 @@ EOF
     # update preselection cache
     #my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
     #$FieldRestrictionsObject->SetACLPreselectionCache();
-
-    return $FileLocation;
 }
 
 =head2 ACLImport()

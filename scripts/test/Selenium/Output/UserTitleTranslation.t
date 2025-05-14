@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -163,7 +163,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # Get created test ticket ID and number.
-        my @Ticket   = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket   = split /TicketID=/, $Selenium->get_current_url();
         my $TicketID = $Ticket[1];
 
         # Go to ticket zoom page of created test ticket.

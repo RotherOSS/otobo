@@ -14,18 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
 # OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet FixedTimeUnset);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -345,6 +349,9 @@ $Selenium->RunTest(
             "ArticlePreview is found"
         );
 
+        # Unset fixed time before potentially interacting with S3 as S3 includes a sanity check of the timestamps.
+        FixedTimeUnset();
+
         # Enable config 'Ticket::Frontend::Overview::PreviewArticleSenderTypes' and set value
         # to not show customer articles in preview mode.
         $Helper->ConfigSettingChange(
@@ -376,6 +383,18 @@ $Selenium->RunTest(
             $LanguageObject->Translate('QueueView') . ": Delete",
             "Title for filtered AgentTicketQueue screen is not translated.",
         );
+
+        # PR #1958
+        # set filter
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Small;Filter=Unlocked;ColumnFilterState=4"
+        );
+
+        # medium view
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Medium;ColumnFilterState=4"
+        );
+        $Selenium->find_element_by_css_ok( '.RemoveFilters', 'trash can' );
 
         # Check state ID for states 'open' and 'new'.
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
@@ -484,10 +503,6 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-
-        # Unset fixed time.
-        FixedTimeUnset();
-
     }
 );
 

@@ -46,6 +46,7 @@ sub Run {
     my $TicketID         = $ParamObject->GetParam( Param => 'TicketID' )         || '';
     my $Search           = $ParamObject->GetParam( Param => 'Term' )             || '';
     my $Identifier       = $ParamObject->GetParam( Param => 'Identifier' )       || '';
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID' ) || '';
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
     #   customer interface, CustomerIserID and CustomerID are fixed.
@@ -177,6 +178,12 @@ sub Run {
     # Get the pure DynamicField name without prefix
     $DynamicFieldName = substr( $DynamicFieldName, length 'DynamicField_' );
 
+    # In Process Context, ActivityDialogID has to be stripped from DynamicFieldName
+    my $DynamicFieldNameLong = $DynamicFieldName;
+    if ( defined $ActivityDialogID && $ActivityDialogID ne '' ) {
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
+    }
+
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $DynamicFieldName,
@@ -230,7 +237,8 @@ sub Run {
         }
 
         # result caching
-        my $CacheKey    = $DynamicFieldName . ';' . $Search . ';' . $Identifier;
+        # TODO DynamicFieldName vs. DynamicFieldNameLong
+        my $CacheKey    = $DynamicFieldNameLong . $Search . $Identifier;
         my $CacheTTL    = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType   = 'DynamicFieldDB';
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -262,13 +270,16 @@ sub Run {
         # undef result if nothing to be returned
         if ( IsArrayRefWithData( $Result[0] ) ) {
 
-            # update / set the cache
-            $CacheObject->Set(
-                Type  => $CacheType,
-                Key   => $CacheKey,
-                Value => \@Result,
-                TTL   => $CacheTTL,
-            );
+            # Setting the time to live to 0 effectively disables caching.
+            # Don't even call Set(), in order to avoid error messages from Kernel::System::Cache::Redis
+            if ($CacheTTL) {
+                $CacheObject->Set(
+                    Type  => $CacheType,
+                    Key   => $CacheKey,
+                    Value => \@Result,
+                    TTL   => $CacheTTL,
+                );
+            }
 
             return $Self->_Return(
                 Data => \@Result,
@@ -286,21 +297,14 @@ sub _Return {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # build JSON output
-    my $JSON;
     if ( IsArrayRefWithData( $Param{Data} ) ) {
-        $JSON = $LayoutObject->JSONEncode(
+        return $LayoutObject->JSONReply(
             Data => $Param{Data},
         );
     }
 
-    # send response
-    return $LayoutObject->Attachment(
-        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
-        Content     => $JSON || $LayoutObject->JSONEncode(
-            Data => [],
-        ),
-        Type    => 'inline',
-        NoCache => 1,
+    return $LayoutObject->JSONReply(
+        Data => [],
     );
 }
 

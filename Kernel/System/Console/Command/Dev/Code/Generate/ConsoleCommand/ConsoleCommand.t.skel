@@ -14,21 +14,39 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and the unit test driver $Self
+
+# package variables
+our $Self;                                       # optional, when Kernel::System::UnitTest::Driver is used
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::[% Data.CommandName %]');
 
-my ($Result, $ExitCode);
+my ( $Result, $ExitCode );
 {
-    local *STDOUT;
-    open STDOUT, '>:encoding(UTF-8)', \$Result;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$Result);
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
 }
 
-1;
+# use the test functions from Test2::V0
+like( $Result, 'look here, a snow man' );
+
+# or the unittest driver, may be mixed with Test2::V0
+$Self->Is(
+    $ExitCode,
+    0,
+    '[% Data.CommandName %] exit code',
+);
+
+done_testing;

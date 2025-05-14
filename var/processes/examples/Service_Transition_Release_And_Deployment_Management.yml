@@ -1,0 +1,394 @@
+---
+Activities:
+  Activity-0c013be5d322cffccba1d2259617fd69:
+    ActivityDialogs:
+    - ActivityDialog-3be6fd3f3b12d828793ba6d878136d1a
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-3be6fd3f3b12d828793ba6d878136d1a
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Activity-0c013be5d322cffccba1d2259617fd69
+    ID: '27'
+    Name: Deploy Release
+  Activity-20378331c9744fe77f2be5aca4909ee7:
+    ActivityDialogs:
+    - ActivityDialog-edb60729835484b0ab17a3f81248b53b
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-edb60729835484b0ab17a3f81248b53b
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Activity-20378331c9744fe77f2be5aca4909ee7
+    ID: '28'
+    Name: Plan Release
+  Activity-258044c5d5bf2cb3ad509b94de292270:
+    ActivityDialogs:
+    - ActivityDialog-024a648a586166d8a06861e7adb22d9e
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-024a648a586166d8a06861e7adb22d9e
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Activity-258044c5d5bf2cb3ad509b94de292270
+    ID: '29'
+    Name: Build Release
+  Activity-52177539a55a8b376636ec922ad5563e:
+    ActivityDialogs:
+    - ActivityDialog-481eec66311076727f6981efbecb9ac0
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-481eec66311076727f6981efbecb9ac0
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Activity-52177539a55a8b376636ec922ad5563e
+    ID: '30'
+    Name: Support in Early Life
+  Activity-57582b73819ac0fdf8a7f42aa201cb51:
+    ActivityDialogs:
+    - ActivityDialog-9603a0d546082345d1d05895e68ab1d8
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-9603a0d546082345d1d05895e68ab1d8
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Activity-57582b73819ac0fdf8a7f42aa201cb51
+    ID: '31'
+    Name: Close Release
+ActivityDialogs:
+  ActivityDialog-024a648a586166d8a06861e7adb22d9e:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      DescriptionLong: The objective of this activity is to issue necessary Work Orders
+        and Purchase Requests so that Release components are either bought from external
+        providers or internally developed.
+      DescriptionShort: Release Build
+      FieldOrder:
+      - DynamicField_PreProcReleaseDeploymentManagementPurchaseRequestsIssued
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Additional Work Order and Purchase Request details.
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementPurchaseRequestsIssued:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: ActivityDialog-024a648a586166d8a06861e7adb22d9e
+    ID: '21'
+    Name: Release Build
+  ActivityDialog-3be6fd3f3b12d828793ba6d878136d1a:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      DescriptionLong: The objective of this activity is to deploy the Release components
+        into the production environment. Within the activity, the Release Manager
+        also takes care to train users and distribute information / documentation
+        of the deployed Release or the supported Services.
+      DescriptionShort: Release Deployment
+      FieldOrder:
+      - DynamicField_PreProcReleaseDeploymentManagementReleaseComponentsDeployed
+      - DynamicField_PreProcReleaseDeploymentManagementReleaseUserDocumentationCreated
+      - DynamicField_PreProcReleaseDeploymentManagementReleaseUserTrainingCompleted
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Details about lessons learned, documents, UAT feedback,
+            etc.
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementReleaseComponentsDeployed:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementReleaseUserDocumentationCreated:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementReleaseUserTrainingCompleted:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: ActivityDialog-3be6fd3f3b12d828793ba6d878136d1a
+    ID: '22'
+    Name: Release Deployment
+  ActivityDialog-481eec66311076727f6981efbecb9ac0:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      DescriptionLong: The objective of this activity is to resolve operational issues
+        during the first period after the Release deployment and to fix any errors
+        occured in the Release.
+      DescriptionShort: Early Life Support
+      FieldOrder:
+      - DynamicField_PreProcReleaseDeploymentManagementReleaseErrorsFixed
+      - DynamicField_PreProcReleaseDeploymentManagementReleaseEarlyLifeCompleted
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Details about operational issues, errors or fixes.
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementReleaseEarlyLifeCompleted:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementReleaseErrorsFixed:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: ActivityDialog-481eec66311076727f6981efbecb9ac0
+    ID: '23'
+    Name: Early Life Support
+  ActivityDialog-9603a0d546082345d1d05895e68ab1d8:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      DescriptionLong: The objective of this activity is to formally close a Release
+        by confirming that all relevant Configuration Items are up to date.
+      DescriptionShort: Release Closure
+      FieldOrder:
+      - DynamicField_PreProcReleaseDeploymentManagementCMDBContentUpdated
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementCMDBContentUpdated:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: ActivityDialog-9603a0d546082345d1d05895e68ab1d8
+    ID: '24'
+    Name: Release Closure
+  ActivityDialog-edb60729835484b0ab17a3f81248b53b:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      DescriptionLong: The objective of this activity is to reference approved Changes
+        and to define the scope and content of Releases. Based on this information,
+        the Release Planning activity develops a schedule for building, testing and
+        deploying the Release.
+      DescriptionShort: Release planning
+      FieldOrder:
+      - DynamicField_PreProcReleaseDeploymentManagementChangeRecordReferenced
+      - Article
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Release description
+          Display: '1'
+        DynamicField_PreProcReleaseDeploymentManagementChangeRecordReferenced:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: ActivityDialog-edb60729835484b0ab17a3f81248b53b
+    ID: '25'
+    Name: Release planning
+Process:
+  Activities:
+  - Activity-0c013be5d322cffccba1d2259617fd69
+  - Activity-20378331c9744fe77f2be5aca4909ee7
+  - Activity-258044c5d5bf2cb3ad509b94de292270
+  - Activity-52177539a55a8b376636ec922ad5563e
+  - Activity-57582b73819ac0fdf8a7f42aa201cb51
+  ChangeTime: 2017-10-31 22:40:40
+  Config:
+    Description: "Best practice IT Service Management Release & Deployment process
+      inspired by ITIL®.\r\n\r\nRelease & Deployment Management aims to plan, schedule
+      and control the movement of releases to test and live environments. The primary
+      goal of Release Management and Deployment Management is to ensure that the integrity
+      of the live environment is protected and that the correct components are released."
+    Path:
+      Activity-0c013be5d322cffccba1d2259617fd69:
+        Transition-f03311c7fb2b93ae3c09be74a89fec78:
+          ActivityEntityID: Activity-52177539a55a8b376636ec922ad5563e
+          TransitionAction: []
+      Activity-20378331c9744fe77f2be5aca4909ee7:
+        Transition-f49a027bda552f0d2e278ff051ed46b2:
+          ActivityEntityID: Activity-258044c5d5bf2cb3ad509b94de292270
+          TransitionAction: []
+      Activity-258044c5d5bf2cb3ad509b94de292270:
+        Transition-7580b5b713f1c009b06555f4be24d477:
+          ActivityEntityID: Activity-0c013be5d322cffccba1d2259617fd69
+          TransitionAction: []
+      Activity-52177539a55a8b376636ec922ad5563e:
+        Transition-3a5077ccac975c0ff8b6a98faf9935e8:
+          ActivityEntityID: Activity-57582b73819ac0fdf8a7f42aa201cb51
+          TransitionAction: []
+      Activity-57582b73819ac0fdf8a7f42aa201cb51: {}
+    StartActivity: Activity-20378331c9744fe77f2be5aca4909ee7
+    StartActivityDialog: ActivityDialog-edb60729835484b0ab17a3f81248b53b
+  CreateTime: 2017-10-31 22:34:10
+  EntityID: Process-ba72771b553dfc891d3ee29a54b86006
+  ID: '7'
+  Layout:
+    Activity-0c013be5d322cffccba1d2259617fd69:
+      left: '685'
+      top: '281'
+    Activity-20378331c9744fe77f2be5aca4909ee7:
+      left: '204'
+      top: '130'
+    Activity-258044c5d5bf2cb3ad509b94de292270:
+      left: '442'
+      top: '204'
+    Activity-52177539a55a8b376636ec922ad5563e:
+      left: '932'
+      top: '351'
+    Activity-57582b73819ac0fdf8a7f42aa201cb51:
+      left: '1225'
+      top: '456'
+  Name: Service Transition::Release & Deployment Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-f03311c7fb2b93ae3c09be74a89fec78
+  - Transition-f49a027bda552f0d2e278ff051ed46b2
+  - Transition-7580b5b713f1c009b06555f4be24d477
+  - Transition-3a5077ccac975c0ff8b6a98faf9935e8
+Transitions:
+  Transition-3a5077ccac975c0ff8b6a98faf9935e8:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReleaseDeploymentManagementReleaseEarlyLifeCompleted:
+              Match: otobo5s-yes
+              Type: String
+            DynamicField_PreProcReleaseDeploymentManagementReleaseErrorsFixed:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+        '2':
+          Fields:
+            DynamicField_PreProcReleaseDeploymentManagementReleaseEarlyLifeCompleted:
+              Match: otobo5s-yes
+              Type: String
+            DynamicField_PreProcReleaseDeploymentManagementReleaseErrorsFixed:
+              Match: otobo5s-invalid
+              Type: String
+          Type: and
+      ConditionLinking: xor
+    CreateTime: 2017-10-31 22:34:10
+    EntityID: Transition-3a5077ccac975c0ff8b6a98faf9935e8
+    ID: '29'
+    Name: Early Life support completed
+  Transition-7580b5b713f1c009b06555f4be24d477:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReleaseDeploymentManagementPurchaseRequestsIssued:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:34:11
+    EntityID: Transition-7580b5b713f1c009b06555f4be24d477
+    ID: '30'
+    Name: Release built
+  Transition-f03311c7fb2b93ae3c09be74a89fec78:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReleaseDeploymentManagementReleaseComponentsDeployed:
+              Match: otobo5s-yes
+              Type: String
+            DynamicField_PreProcReleaseDeploymentManagementReleaseUserDocumentationCreated:
+              Match: otobo5s-yes
+              Type: String
+            DynamicField_PreProcReleaseDeploymentManagementReleaseUserTrainingCompleted:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:34:11
+    EntityID: Transition-f03311c7fb2b93ae3c09be74a89fec78
+    ID: '31'
+    Name: Release deployed
+  Transition-f49a027bda552f0d2e278ff051ed46b2:
+    ChangeTime: 2017-10-31 22:34:11
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcReleaseDeploymentManagementChangeRecordReferenced:
+              Match: otobo5s-yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:34:11
+    EntityID: Transition-f49a027bda552f0d2e278ff051ed46b2
+    ID: '32'
+    Name: Release planned

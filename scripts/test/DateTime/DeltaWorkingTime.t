@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -662,9 +662,9 @@ $Self->False(
     $Delta,
     'Delta working time calculation with invalid DateTime object must fail.',
 );
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
+
 $Delta = $DateTimeObject->Delta(
-    DateTimeObject => $Kernel::OM->Get('Kernel::System::Time'),
+    DateTimeObject => $Kernel::OM->Get('Kernel::System::Calendar'),
     ForWorkingTime => 1,
 );
 $Self->False(

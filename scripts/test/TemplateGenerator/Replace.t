@@ -14,15 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(
+    FixedTimeAddSeconds
+    FixedTimeSet
+    FixedTimeUnset
+);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -102,7 +112,7 @@ for my $DynamicField (@DynamicFieldsToAdd) {
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         Name => $DynamicField->{Name},
     );
-    $Self->Is(
+    is(
         ref $DynamicFieldConfig,
         'HASH',
         'DynamicFieldConfig must be a hash reference',
@@ -266,6 +276,7 @@ $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tests = (
     {
+        Line => __LINE__,
         Name => 'Simple replace',
         Data => {
             From => 'test@home.com',
@@ -275,6 +286,7 @@ my @Tests = (
         Result   => 'Test test@home.com',
     },
     {
+        Line => __LINE__,
         Name => 'Simple replace, case insensitive',
         Data => {
             From => 'test@home.com',
@@ -284,6 +296,7 @@ my @Tests = (
         Result   => 'Test test@home.com',
     },
     {
+        Line => __LINE__,
         Name => 'remove unknown tags',
         Data => {
             From => 'test@home.com',
@@ -293,6 +306,7 @@ my @Tests = (
         Result   => 'Test -',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO customer subject',    # <OTOBO_CUSTOMER_SUBJECT>
         Data => {
             From    => 'test@home.com',
@@ -303,6 +317,7 @@ my @Tests = (
         Result   => 'Test otobo',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO customer subject 3 letters',    # <OTOBO_CUSTOMER_SUBJECT[20]>
         Data => {
             From    => 'test@home.com',
@@ -313,6 +328,7 @@ my @Tests = (
         Result   => 'Test oto [...]',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO customer subject 20 letters + garbarge',    # <OTOBO_CUSTOMER_SUBJECT[20]>
         Data => {
             From    => 'test@home.com',
@@ -323,6 +339,7 @@ my @Tests = (
         Result   => 'Test otobo',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO responsible firstname',                     # <OTOBO_RESPONSIBLE_UserFirstname>
         Data => {
             From => 'test@home.com',
@@ -332,6 +349,7 @@ my @Tests = (
         Result   => "Test $TestUsers[1]->{UserFirstname} -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO_TICKET_RESPONSIBLE firstname',              # <OTOBO_RESPONSIBLE_UserFirstname>
         Data => {
             From => 'test@home.com',
@@ -341,6 +359,7 @@ my @Tests = (
         Result   => "Test $TestUsers[1]->{UserFirstname} -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO responsible password (masked)',
         Data => {
             From => 'test@home.com',
@@ -350,6 +369,7 @@ my @Tests = (
         Result   => "Test xxx -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO responsible secrets (masked)',
         Data => {
             From => 'test@home.com',
@@ -359,6 +379,7 @@ my @Tests = (
         Result   => 'Test xxx xxx',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO owner firstname',    # <OTOBO_OWNER_*>
         Data => {
             From => 'test@home.com',
@@ -368,6 +389,7 @@ my @Tests = (
         Result   => "Test $TestUsers[0]->{UserFirstname} -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO_TICKET_OWNER firstname',    # <OTOBO_OWNER_*>
         Data => {
             From => 'test@home.com',
@@ -377,6 +399,7 @@ my @Tests = (
         Result   => "Test $TestUsers[0]->{UserFirstname} -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO owner password (masked)',
         Data => {
             From => 'test@home.com',
@@ -386,6 +409,7 @@ my @Tests = (
         Result   => "Test xxx -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO owner secrets (masked)',
         Data => {
             From => 'test@home.com',
@@ -395,6 +419,7 @@ my @Tests = (
         Result   => 'Test xxx xxx',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO current firstname',    # <OTOBO_CURRENT_*>
         Data => {
             From => 'test@home.com',
@@ -404,6 +429,7 @@ my @Tests = (
         Result   => "Test $TestUsers[2]->{UserFirstname} -",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO current password (masked)',
         Data => {
             From => 'test@home.com',
@@ -413,6 +439,7 @@ my @Tests = (
         Result   => 'Test xxx -',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO current secrets (masked)',
         Data => {
             From => 'test@home.com',
@@ -422,6 +449,7 @@ my @Tests = (
         Result   => 'Test xxx xxx',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO ticket ticketid',    # <OTOBO_TICKET_*>
         Data => {
             From => 'test@home.com',
@@ -431,6 +459,7 @@ my @Tests = (
         Result   => 'Test ' . $TicketID,
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO dynamic field (text)',    # <OTOBO_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
@@ -440,6 +469,7 @@ my @Tests = (
         Result   => 'Test otobo',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO dynamic field value (text)',    # <OTOBO_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
@@ -449,6 +479,7 @@ my @Tests = (
         Result   => 'Test otobo',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO dynamic field (Dropdown)',      # <OTOBO_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
@@ -458,6 +489,7 @@ my @Tests = (
         Result   => 'Test 1',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO dynamic field value (Dropdown)',    # <OTOBO_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
@@ -467,6 +499,7 @@ my @Tests = (
         Result   => 'Test A',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO config value',                  # <OTOBO_CONFIG_*>
         Data     => {},
         RichText => 0,
@@ -474,6 +507,7 @@ my @Tests = (
         Result   => 'Test Standard',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO secret config values, must be masked (even unknown settings)',
         Data     => {},
         RichText => 0,
@@ -482,6 +516,7 @@ my @Tests = (
         Result => 'Test xxx xxx xxx xxx',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO secret config value and normal config value',
         Data     => {},
         RichText => 0,
@@ -489,6 +524,7 @@ my @Tests = (
         Result   => 'Test xxx and Standard',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO secret config values with numbers',
         Data     => {},
         RichText => 0,
@@ -497,6 +533,7 @@ my @Tests = (
         Result => 'Test xxx and xxx',
     },
     {
+        Line => __LINE__,
         Name => 'mailto-Links RichText enabled',
         Data => {
             From => 'test@home.com',
@@ -512,6 +549,7 @@ mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20%3COTOBO_CUSTOMER
             'mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
     {
+        Line => __LINE__,
         Name => 'mailto-Links',
         Data => {
             From => 'test@home.com',
@@ -531,6 +569,7 @@ mailto-Link <a href="mailto:skywalker@otobo.org?subject=From%3A%20test%40home.co
 mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER FROM',    # <OTOBO_TICKET_DynamicField_*_Value>
         Data => {
             From => 'testcustomer@home.com',
@@ -543,6 +582,7 @@ mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">
         Result   => 'Test testagent@home.com - testcustomer@home.com',
     },
     {
+        Line => __LINE__,
         Name =>
             'OTOBO AGENT + CUSTOMER BODY',    # this is an special case, it sets the Body as it is since is the Data param
         Data => {
@@ -556,9 +596,9 @@ mailto-Link <a href="mailto:skywalker@otobo.org?body=From%3A%20test%40home.com">
         Result   => "Test Line1\nLine2\nLine3 - Line1\nLine2\nLine3",
     },
     {
-        Name =>
-            'OTOBO AGENT + CUSTOMER BODY With RichText enabled'
-        ,    # this is an special case, it sets the Body as it is since is the Data param
+        # this is an special case, it sets the Body as it is since is the Data param
+        Line => __LINE__,
+        Name => 'OTOBO AGENT + CUSTOMER BODY With RichText enabled',
         Data => {
             Body => "Line1\nLine2\nLine3",
         },
@@ -574,6 +614,7 @@ Line2<br/>
 Line3",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER BODY[2]',
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -586,31 +627,33 @@ Line3",
         Result   => "Test > Line1\n> Line2 - > Line1\n> Line2",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER BODY[7] with RichText enabled',
         Data => {
-            Body => "Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9",
+            Body => qq{CustomerLine1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9},
         },
         DataAgent => {
-            Body => "Line1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9",
+            Body => qq{AgentLine1\nLine2\nLine3\nLine4\nLine5\nLine6\nLine7\nLine8\nLine9},
         },
         RichText => 1,
         Template => 'Test &lt;OTOBO_AGENT_BODY[7]&gt; - &lt;OTOBO_CUSTOMER_BODY[7]&gt;',
         Result   =>
-            'Test <div  type="cite" style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Line1<br/>
+            'Test <blockquote type="cite">AgentLine1<br/>
 Line2<br/>
 Line3<br/>
 Line4<br/>
 Line5<br/>
 Line6<br/>
-Line7</div> - <div  type="cite" style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Line1<br/>
+Line7</blockquote> - <blockquote type="cite">CustomerLine1<br/>
 Line2<br/>
 Line3<br/>
 Line4<br/>
 Line5<br/>
 Line6<br/>
-Line7</div>',
+Line7</blockquote>',
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER EMAIL',    # EMAIL without [ ] does not exists
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -623,6 +666,7 @@ Line7</div>',
         Result   => "Test Line1\nLine2\nLine3 - Line1\nLine2\nLine3",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER EMAIL[2]',
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -635,6 +679,7 @@ Line7</div>',
         Result   => "Test > Line1\n> Line2 - > Line1\n> Line2",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO COMMENT',
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -645,6 +690,7 @@ Line7</div>',
     },
 
     {
+        Line => __LINE__,
         Name => 'OTOBO COMMENT[2]',
         Data => {
             Body => "Line1\nLine2\nLine3",
@@ -654,6 +700,7 @@ Line7</div>',
         Result   => "Test > Line1\n> Line2",
     },
     {
+        Line => __LINE__,
         Name => 'OTOBO AGENT + CUSTOMER SUBJECT[2]',
         Data => {
             Subject => '0123456789'
@@ -666,6 +713,7 @@ Line7</div>',
         Result   => "Test 98 [...] - 01 [...]",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO CUSTOMER REALNAME',
         Data     => {},
         RichText => 0,
@@ -673,6 +721,7 @@ Line7</div>',
         Result   => "Test $TestCustomerLogin $TestCustomerLogin",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO CUSTOMER DATA UserFirstname',
         Data     => {},
         RichText => 0,
@@ -680,6 +729,7 @@ Line7</div>',
         Result   => "Test $TestCustomerLogin",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO CUSTOMER DATA UserPassword (masked)',
         Data     => {},
         RichText => 0,
@@ -687,6 +737,7 @@ Line7</div>',
         Result   => 'Test xxx',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO CUSTOMER DATA secret (masked)',
         Data     => {},
         RichText => 0,
@@ -694,6 +745,7 @@ Line7</div>',
         Result   => 'Test xxx xxx',
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_NOTIFICATION_RECIPIENT_UserFullname>',
         Data     => {},
         RichText => 0,
@@ -701,6 +753,7 @@ Line7</div>',
         Result   => "Test $TestUsers[3]->{UserFullname} -",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_EscalationResponseTime>',
         Data     => {},
         RichText => 0,
@@ -708,6 +761,7 @@ Line7</div>',
         Result   => "Test 07/05/2017 11:30",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_EscalationUpdateTime>',
         Data     => {},
         RichText => 0,
@@ -715,6 +769,7 @@ Line7</div>',
         Result   => "Test 07/05/2017 11:45",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_EscalationSolutionTime>',
         Data     => {},
         RichText => 0,
@@ -722,6 +777,7 @@ Line7</div>',
         Result   => "Test 07/05/2017 11:50",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_EscalationTimeWorkingTime>',
         Data     => {},
         RichText => 0,
@@ -729,6 +785,7 @@ Line7</div>',
         Result   => "Test 25 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_EscalationTime>',
         Data     => {},
         RichText => 0,
@@ -736,6 +793,7 @@ Line7</div>',
         Result   => "Test 25 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_FirstResponseTimeWorkingTime>',
         Data     => {},
         RichText => 0,
@@ -743,6 +801,7 @@ Line7</div>',
         Result   => "Test 25 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_FirstResponseTime>',
         Data     => {},
         RichText => 0,
@@ -750,6 +809,7 @@ Line7</div>',
         Result   => "Test 25 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_UpdateTimeWorkingTime>',
         Data     => {},
         RichText => 0,
@@ -757,6 +817,7 @@ Line7</div>',
         Result   => "Test 40 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_UpdateTime>',
         Data     => {},
         RichText => 0,
@@ -764,6 +825,7 @@ Line7</div>',
         Result   => "Test 40 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_SolutionTimeWorkingTime>',
         Data     => {},
         RichText => 0,
@@ -771,6 +833,7 @@ Line7</div>',
         Result   => "Test 45 m",
     },
     {
+        Line     => __LINE__,
         Name     => 'OTOBO <OTOBO_TICKET_SolutionTime>',
         Data     => {},
         RichText => 0,
@@ -795,10 +858,10 @@ for my $Test (@Tests) {
         RecipientID => $TestUsers[3]->{UserID},
         Language    => $NotificationLanguage,
     );
-    $Self->Is(
+    is(
         $Result,
         $Test->{Result},
-        "$Test->{Name} - _Replace()",
+        "$Test->{Name} - _Replace() - Line $Test->{Line}",
     );
 }
 
@@ -857,7 +920,7 @@ for my $Test (@Tests) {
         RecipientID => $TestUsers[3]->{UserID},
         Language    => $NotificationLanguage,
     );
-    $Self->Is(
+    is(
         $Result,
         $Test->{Result},
         "$Test->{Name} - _Replace()",
@@ -893,6 +956,9 @@ $Self->True(
     "AppointmentID $AppointmentID is created.",
 );
 
+# Unset fixed time before potentially interacting with S3 as S3 includes a sanity check of the timestamps.
+FixedTimeUnset();
+
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Frontend::RichText',
@@ -906,7 +972,7 @@ my $Result = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator')->_Rep
     CalendarID    => $Calendar{CalendarID},
     UserID        => $UserID,
 );
-$Self->Is(
+is(
     $Result,
     "Description Test<br/>
 description<br/>
@@ -914,6 +980,4 @@ $RandomID",
     "Appointment description tag correctly replaced.",
 );
 
-# Cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

@@ -16,12 +16,20 @@
 
 package Kernel::System::DynamicField::Driver::Dropdown;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -32,11 +40,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Dropdown
+Kernel::System::DynamicField::Driver::Dropdown - the Dropdown dynamic field
 
 =head1 DESCRIPTION
 
-DynamicFields Dropdown Driver delegate
+DynamicFields Dropdown Driver delegate.
 
 =head1 PUBLIC INTERFACE
 
@@ -51,11 +59,10 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # set field behaviors
     $Self->{Behaviors} = {
@@ -66,6 +73,7 @@ sub new {
         'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
         'IsLikeOperatorCapable'        => 1,
+        'IsSetCapable'                 => 1,
     };
 
     # get the Dynamic Field Backend custom extensions
@@ -124,12 +132,35 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "Need Value in Dropdown DynamicField!",
         );
+
         return;
     }
 
-    # Check if value parameter exists in possible values config.
-    if ( length $Param{Value} ) {
-        return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{ $Param{Value} };
+    my $Value;
+
+    if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
+        if ( !IsArrayRefWithData( $Param{Value} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need array ref in Dropdown DynamicField $Param{DynamicFieldConfig}{Name}!",
+            );
+
+            return;
+        }
+
+        $Value = $Param{Value};
+    }
+
+    else {
+        $Value = [ $Param{Value} ];
+    }
+
+    for my $ValueItem ( @{$Value} ) {
+
+        # Check if value parameter exists in possible values config.
+        if ( length $ValueItem ) {
+            return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$ValueItem};
+        }
     }
 
     return 1;

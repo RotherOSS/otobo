@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -26,7 +26,7 @@ use Test2::V0;
 use Test2::API qw/context/;
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 our $Self;
@@ -142,7 +142,7 @@ for my $Hours ( sort keys %WorkingHours ) {
     # on every day of the week and outside usual business hours.
     {
         my %Week;
-        my @WindowTime = split ',', $WorkingHours{$Hours};
+        my @WindowTime = split /,/, $WorkingHours{$Hours};
         for my $Day (qw(Sun Mon Tue Wed Thu Fri Sat)) {
             $Week{$Day} = \@WindowTime;
         }
@@ -170,18 +170,18 @@ for my $Hours ( sort keys %WorkingHours ) {
         $QueueName = "Queue-$UniqueSignature";
         $QueueID   = $QueueObject->QueueAdd(
             Name                => $QueueName,
-            ValidID             => 1,
-            GroupID             => 1,
+            ValidID             =>  1,
+            GroupID             =>  1,
             FirstResponseTime   => -10,
-            FirstResponseNotify => 80,
+            FirstResponseNotify =>  80,
             UpdateTime          => -20,
-            UpdateNotify        => 80,
+            UpdateNotify        =>  80,
             SolutionTime        => -40,
-            SolutionNotify      => 80,
-            SystemAddressID     => 1,
-            SalutationID        => 1,
-            SignatureID         => 1,
-            UserID              => 1,
+            SolutionNotify      =>  80,
+            SystemAddressID     =>  1,
+            SalutationID        =>  1,
+            SignatureID         =>  1,
+            UserID              =>  1,
             Comment             => "Queue for OTOBOEscalationEvents.t for test run at $StartingTimeStamp",
         );
         $Self->True( $QueueID, "QueueAdd() $QueueName" );

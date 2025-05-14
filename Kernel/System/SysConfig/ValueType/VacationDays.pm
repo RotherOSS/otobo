@@ -483,8 +483,6 @@ sub AddItem {
         push @Months, sprintf( "%02d", $Item );
     }
 
-    my $RemoveThisEntry = $Kernel::OM->Get('Kernel::Language')->Translate("Remove this entry");
-
     my $HTML = "";
 
     # month

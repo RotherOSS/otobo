@@ -21,12 +21,16 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use File::Basename;
-use File::Copy;
-use Lingua::Translit;
-use Pod::Strip;
+# core modules
+use File::Basename qw(basename);
+use File::Copy     qw(copy);
 
-use Kernel::Language;
+# CPAN modules
+use Lingua::Translit ();
+use Pod::Strip       ();
+
+# OTOBO modules
+use Kernel::Language              ();
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
@@ -461,16 +465,19 @@ sub HandleLanguage {
         }
 
         # add translatable strings from DB XML
-        my @DBXMLFiles = "$Home/scripts/database/otobo-initial_insert.xml";
+        my ( @DBXMLFiles, @SOPMFiles );
         if ($IsSubTranslation) {
-            @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            @SOPMFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => "$ModuleDirectory",
                 Filter    => '*.sopm',
             );
         }
+        else {
+            @DBXMLFiles = "$Home/scripts/database/otobo-initial_insert.xml";
+        }
 
         FILE:
-        for my $File (@DBXMLFiles) {
+        for my $File ( @DBXMLFiles, @SOPMFiles ) {
 
             my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                 Location => $File,
@@ -625,7 +632,7 @@ sub HandleLanguage {
         },
     );
     if ( $TranslitLanguagesMap{$Language} ) {
-        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic qw(Objects::ProhibitIndirectSyntax)
+        $TranslitObject             = Lingua::Translit->new( $TranslitLanguagesMap{$Language}->{TranslitTable} );
         $TranslitLanguageCoreObject = Kernel::Language->new(
             UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
             TranslationFile => 1,
@@ -747,7 +754,7 @@ sub WritePOFile {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Locale::PO') || die "Could not load Locale::PO";
 
     if ( !-e $Param{TargetPOFile} ) {
-        File::Copy::copy( $Param{TargetPOTFile}, $Param{TargetPOFile} )
+        copy( $Param{TargetPOTFile}, $Param{TargetPOFile} )
             || die "Could not copy $Param{TargetPOTFile} to $Param{TargetPOFile}: $!";
     }
 
@@ -981,6 +988,8 @@ EOF
     else {
 
         open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        ## no critic qw(Community::WhileDiamondDefaultAssignment)
+        # TODO: it is not obvious why both $Line and $_ are used in this block
         while (<$In>) {
             my $Line = $_;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );

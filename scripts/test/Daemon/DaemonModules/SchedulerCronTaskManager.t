@@ -18,11 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -31,7 +36,7 @@ my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otobo.Daemon.pl';
 
 # get current daemon status
-my $PreviousDaemonStatus = `$Daemon status`;
+my $PreviousDaemonStatus = `$^X $Daemon status`;
 
 # stop daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
@@ -40,8 +45,8 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $SleepTime = 2;
 
     # wait to get daemon fully stopped before test continues
-    print "A running Daemon was detected and need to be stopped...\n";
-    print 'Sleeping ' . $SleepTime . "s\n";
+    note "A running Daemon was detected and need to be stopped...";
+    note 'Sleeping ' . $SleepTime . "s";
     sleep $SleepTime;
 }
 
@@ -68,7 +73,7 @@ my $RunTasks = sub {
 
         sleep 1;
 
-        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+        note "Waiting $Sec secs for scheduler tasks to be executed";
     }
 };
 
@@ -197,8 +202,8 @@ for my $Test (@Tests) {
 
         my $EndSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        printf(
-            "Added %s seconds to time (initial adjustment) from %s to %s\n",
+        note sprintf(
+            "Added %s seconds to time (initial adjustment) from %s to %s",
             $SecondsAdd,
             $StartSystemTimeObject->ToEpoch(),
             $EndSystemTimeObject->ToEpoch(),
@@ -212,8 +217,8 @@ for my $Test (@Tests) {
         my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         FixedTimeAddSeconds( $Test->{SecondsAdd} );
         my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-        printf(
-            "  Added %s seconds to time from %s to %s\n",
+        note sprintf(
+            "  Added %s seconds to time from %s to %s",
             $Test->{SecondsAdd},
             $StartSystemTime,
             $EndSystemTime,
@@ -232,7 +237,7 @@ for my $Test (@Tests) {
         $CacheObject->CleanUp(
             Type => 'SchedulerDBRecurrentTaskExecute',
         );
-        print "  Cache cleared before task manager execution...\n";
+        note "  Cache cleared before task manager execution...";
     }
 
     # run the task manager
@@ -252,7 +257,7 @@ for my $Test (@Tests) {
             CacheInMemory  => 0,
             CacheInBackend => 1,
         );
-        print "  Cache restored after task manager execution...\n";
+        note "  Cache restored after task manager execution...";
     }
 
     my @List = $SchedulerDBObject->TaskList(
@@ -288,7 +293,7 @@ for my $Test (@Tests) {
 
             sleep 1;
 
-            print "  Waiting $Sec secs for the task to be executed\n";
+            note "  Waiting $Sec secs for the task to be executed";
         }
 
         @List = $SchedulerDBObject->TaskList(
@@ -482,4 +487,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing;

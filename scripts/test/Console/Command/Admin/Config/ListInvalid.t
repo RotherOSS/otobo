@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -30,7 +30,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 my $CommandObject     = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::ListInvalid');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -38,7 +37,7 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 my ( $Result, $ExitCode );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
@@ -98,7 +97,7 @@ $Self->True(
 );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }

@@ -16,8 +16,16 @@
 
 package Kernel::System::DB::mssql;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -27,13 +35,10 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Class;
 }
 
 sub LoadPreferences {
@@ -49,6 +54,9 @@ sub LoadPreferences {
     $Self->{'DB::QuoteUnderscoreEnd'}   = ']';
     $Self->{'DB::CaseSensitive'}        = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
+
+    # this is primarily needed during migration
+    $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
 
     # how to determine server version
     # @@VERSION returns "Microsoft SQL Server 2012 - 11.0.2218.0 (X64) Jun 12 2012 13:05:25 Copyright..."
@@ -143,20 +151,20 @@ sub TableCreate {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart     = '';
-    my $SQLEnd       = '';
-    my $SQL          = '';
-    my @Column       = ();
-    my $TableName    = '';
-    my %Default      = ();
-    my $ForeignKey   = ();
-    my %Foreign      = ();
-    my $IndexCurrent = ();
-    my %Index        = ();
-    my $UniqCurrent  = ();
-    my %Uniq         = ();
-    my $PrimaryKey   = '';
-    my @Return       = ();
+    my $SQLStart = '';
+    my $SQLEnd   = '';
+    my $SQL      = '';
+    my @Column;
+    my $TableName = '';
+    my %Default;
+    my $ForeignKey;
+    my %Foreign;
+    my $IndexCurrent;
+    my %Index;
+    my $UniqCurrent;
+    my %Uniq;
+    my $PrimaryKey = '';
+    my @Return;
 
     for my $Tag (@Param) {
 
@@ -232,7 +240,7 @@ sub TableCreate {
         }
 
         # auto increment
-        if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+        if ( $Tag->{AutoIncrement} && lc $Tag->{AutoIncrement} eq 'true' ) {
             $SQL .= ' IDENTITY(1,1) ';
         }
 
@@ -348,14 +356,14 @@ sub TableAlter {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SQLStart      = '';
-    my @SQL           = ();
-    my @Index         = ();
-    my $IndexName     = ();
+    my $SQLStart = '';
+    my @SQL;
+    my @Index;
+    my $IndexName;
     my $ForeignTable  = '';
     my $ReferenceName = '';
-    my @Reference     = ();
-    my $Table         = '';
+    my @Reference;
+    my $Table = '';
 
     my $Start = '';
     if ( $ConfigObject->Get('Database::ShellOutput') ) {
@@ -484,6 +492,9 @@ sub TableAlter {
                 else {
                     $SQLAlter .= ' NULL';
                 }
+
+                # TODO: handle AutoIncrement fields
+
                 push @SQL, $Start . $SQLAlter;
 
                 # add default
@@ -500,17 +511,17 @@ sub TableAlter {
 
             # remove possible default
             push @SQL, sprintf(
-                <<END
+                <<'END_SQL'
                 DECLARE \@defname%s VARCHAR(200), \@cmd%s VARCHAR(2000)
-                SET \@defname%s = (
+                SET @defname%s = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
                     )
                 )
-                SET \@cmd%s = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname%s
-                EXEC(\@cmd%s)
-END
+                SET @cmd%s = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname%s
+                EXEC(@cmd%s)
+END_SQL
                 ,       $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table,
                 $Table, $Tag->{Name},          $Table . $Tag->{Name}, $Table,                $Table . $Tag->{Name},
                 $Table . $Tag->{Name},
@@ -518,19 +529,19 @@ END
 
             # remove all possible constrains
             push @SQL, sprintf(
-                <<HEREDOC
-                    DECLARE \@sql%s NVARCHAR(4000)
+                <<'END_SQL'
+                    DECLARE @sql%s NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET \@sql%s = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sql%s = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
                         )
-                        IF \@sql%s IS NULL BREAK
-                        EXEC (\@sql%s)
+                        IF @sql%s IS NULL BREAK
+                        EXEC (@sql%s)
                     END
-HEREDOC
+END_SQL
                 , $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table, $Table, $Tag->{Name},
                 $Table . $Tag->{Name}, $Table . $Tag->{Name},
             );
@@ -745,9 +756,9 @@ sub Insert {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $SQL    = '';
-    my @Keys   = ();
-    my @Values = ();
+    my $SQL = '';
+    my @Keys;
+    my @Values;
     TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {

@@ -1,0 +1,182 @@
+---
+Activities:
+  Activity-0ce0070c94838c726874be11a14d6702:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:12
+    Config: {}
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Activity-0ce0070c94838c726874be11a14d6702
+    ID: '50'
+    Name: Service continuity strategy design for business requirements
+  Activity-15428149bd61ae7d689c83b59a28406f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:12
+    Config: {}
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Activity-15428149bd61ae7d689c83b59a28406f
+    ID: '51'
+    Name: Service continuity emergency declaration and testing
+  Activity-89e681f86093aa8d6016469994b3b709:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:12
+    Config: {}
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Activity-89e681f86093aa8d6016469994b3b709
+    ID: '52'
+    Name: Service continuity initialisation and policy framework projection
+  Activity-a2ffa75c1a325144609593520ecfe20b:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:12
+    Config: {}
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Activity-a2ffa75c1a325144609593520ecfe20b
+    ID: '53'
+    Name: Service continuity strategy implementation and testing
+  Activity-f277e5aa0e91aae022d98fb0a79b56d2:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:12
+    Config: {}
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Activity-f277e5aa0e91aae022d98fb0a79b56d2
+    ID: '54'
+    Name: Service continuity operation, regular review and audit
+Process:
+  Activities:
+  - Activity-0ce0070c94838c726874be11a14d6702
+  - Activity-15428149bd61ae7d689c83b59a28406f
+  - Activity-89e681f86093aa8d6016469994b3b709
+  - Activity-a2ffa75c1a325144609593520ecfe20b
+  - Activity-f277e5aa0e91aae022d98fb0a79b56d2
+  ChangeTime: 2017-10-31 22:38:12
+  Config:
+    Description: "Best practice IT Service Management Service Continuity Management
+      process inspired by ITIL®.\r\n\r\nThe service continuity management process
+      ensures that risk mitigations and risk management measures are implemented.
+      The business stability is further ensured by implemented disaster recovery plans.
+      It technically supports the business continuity management processes and ensures
+      that required services stay available during crisis and catastrophes.\r\n\r\nConfiguration:
+      The functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-0ce0070c94838c726874be11a14d6702:
+        Transition-b99ff5c98f635ea8414d22a2ae0d797e:
+          ActivityEntityID: Activity-a2ffa75c1a325144609593520ecfe20b
+      Activity-15428149bd61ae7d689c83b59a28406f:
+        Transition-e3f15288ce498d5dbe046da8dfeeeb06:
+          ActivityEntityID: Activity-0ce0070c94838c726874be11a14d6702
+      Activity-89e681f86093aa8d6016469994b3b709:
+        Transition-378778efc0efecb21cf233b55122760e:
+          ActivityEntityID: Activity-0ce0070c94838c726874be11a14d6702
+      Activity-a2ffa75c1a325144609593520ecfe20b:
+        Transition-a87f21712c5b559789865d66e35e7a09:
+          ActivityEntityID: Activity-f277e5aa0e91aae022d98fb0a79b56d2
+      Activity-f277e5aa0e91aae022d98fb0a79b56d2:
+        Transition-524fa2acc53f63616712b5c5a6f56065:
+          ActivityEntityID: Activity-15428149bd61ae7d689c83b59a28406f
+    StartActivity: Activity-89e681f86093aa8d6016469994b3b709
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:38:12
+  EntityID: Process-a01918b87708df574fc32102ddd75564
+  ID: '11'
+  Layout:
+    Activity-0ce0070c94838c726874be11a14d6702:
+      left: '600'
+      top: '200'
+    Activity-15428149bd61ae7d689c83b59a28406f:
+      left: '1000'
+      top: '400'
+    Activity-89e681f86093aa8d6016469994b3b709:
+      left: '200'
+      top: '200'
+    Activity-a2ffa75c1a325144609593520ecfe20b:
+      left: '1000'
+      top: '0'
+    Activity-f277e5aa0e91aae022d98fb0a79b56d2:
+      left: '1400'
+      top: '200'
+  Name: Service Design::Service Continuity Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-b99ff5c98f635ea8414d22a2ae0d797e
+  - Transition-e3f15288ce498d5dbe046da8dfeeeb06
+  - Transition-378778efc0efecb21cf233b55122760e
+  - Transition-a87f21712c5b559789865d66e35e7a09
+  - Transition-524fa2acc53f63616712b5c5a6f56065
+Transitions:
+  Transition-378778efc0efecb21cf233b55122760e:
+    ChangeTime: 2017-10-31 22:38:12
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Transition-378778efc0efecb21cf233b55122760e
+    ID: '48'
+    Name: Service continuity initialised and policy framework projected
+  Transition-524fa2acc53f63616712b5c5a6f56065:
+    ChangeTime: 2017-10-31 22:38:12
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Transition-524fa2acc53f63616712b5c5a6f56065
+    ID: '49'
+    Name: Service continuity ready for emergency testing
+  Transition-a87f21712c5b559789865d66e35e7a09:
+    ChangeTime: 2017-10-31 22:38:12
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Transition-a87f21712c5b559789865d66e35e7a09
+    ID: '50'
+    Name: Service continuity strategy implemented and tested
+  Transition-b99ff5c98f635ea8414d22a2ae0d797e:
+    ChangeTime: 2017-10-31 22:38:12
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Transition-b99ff5c98f635ea8414d22a2ae0d797e
+    ID: '51'
+    Name: Service continuity strategy for business requirements is designed
+  Transition-e3f15288ce498d5dbe046da8dfeeeb06:
+    ChangeTime: 2017-10-31 22:38:12
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:12
+    EntityID: Transition-e3f15288ce498d5dbe046da8dfeeeb06
+    ID: '52'
+    Name: Service continuity emergency declared and tested

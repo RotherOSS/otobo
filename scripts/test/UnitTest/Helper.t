@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -26,18 +26,14 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-use Kernel::Config;
-use Kernel::System::AsynchronousExecutor;
+use Kernel::System::AsynchronousExecutor ();
 
 our $Self;
 
 # get helper object
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Self->True(
-    $Helper,
-    "Instance created",
-);
+ok( $Helper, 'Instance created' );
 
 # testing GetRandomID()
 my %SeenRandomIDs;
@@ -84,10 +80,7 @@ $Helper->BeginWork();
 
 my $TestUserLogin = $Helper->TestUserCreate();
 
-$Self->True(
-    $TestUserLogin,
-    'Can create test user',
-);
+ok( $TestUserLogin, 'Can create test user' );
 
 $Helper->Rollback();
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
@@ -124,6 +117,7 @@ $Helper->ConfigSettingChange(
     Key   => 'nonexisting_dummy',
     Value => $Value,
 );
+$ConfigObject->SyncWithS3();
 is(
     scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
     1,
@@ -136,6 +130,7 @@ $Self->Is(
     "Runtime config updated",
 );
 
+# Kernel::Config is loaded because it was loaded by $Kernel::OM above.
 my $NewConfigObject = Kernel::Config->new();
 $Self->Is(
     scalar $NewConfigObject->Get('nonexisting_dummy'),
@@ -168,6 +163,7 @@ $Helper->CustomCodeActivate(
     Code       => $CustomCode,
     Identifier => $RandomNumber,
 );
+$ConfigObject->SyncWithS3();
 
 # Require custom code file.
 my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require($PackageName);
@@ -183,6 +179,7 @@ $Self->True(
 
 $Helper->CustomFileCleanup();
 
+# Kernel::Config is loaded because it was loaded by $Kernel::OM above.
 $NewConfigObject = Kernel::Config->new();
 $Self->Is(
     scalar $NewConfigObject->Get('nonexisting_dummy'),

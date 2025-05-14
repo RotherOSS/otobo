@@ -3,7 +3,7 @@ package PDF::API2::Lite;
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.045'; # VERSION
 
 BEGIN {
 
@@ -20,7 +20,7 @@ BEGIN {
 
 =head1 NAME
 
-PDF::API2::Lite - lite pdf creation
+PDF::API2::Lite - (do not use)
 
 =head1 SYNOPSIS
 
@@ -29,6 +29,16 @@ PDF::API2::Lite - lite pdf creation
     $img = $pdf->image('some.jpg');
     $font = $pdf->corefont('Times-Roman');
     $font = $pdf->ttfont('TimesNewRoman.ttf');
+
+=head1 DESCRIPTION
+
+This class is unmaintained (since 2007) and should not be used in new code.  It
+combines many of the methods from L<PDF::API2> and L<PDF::API2::Content> into a
+single class but isn't otherwise any easier to use.
+
+There have been many improvements and clarifications made to the rest of the
+distribution that aren't reflected here, so the term "Lite" no longer applies.
+It remains solely for compatibility with existing legacy code.
 
 =head1 METHODS
 
@@ -95,12 +105,11 @@ deallocates the pdf-structures.
 sub saveas {
     my ($self,$file)=@_;
     if($file eq '-') {
-        return $self->{api}->stringify;
+        return $self->{api}->to_string();
     } else {
-        $self->{api}->saveas($file);
+        $self->{api}->save($file);
         return $self;
     }
-    $self->{api}->end;
     foreach my $k (keys %{$self}) {
         if(blessed($k) and $k->can('release')) {
             $k->release(1);
@@ -559,13 +568,16 @@ sub textfont {
     return($self);
 }
 
-=item $txt->textlead $leading
+=item $txt->textleading $leading
 
 =cut
 
-sub textlead {
+# Deprecated: leading is the correct term for this operator
+sub textlead { return textleading(@_) }
+
+sub textleading {
     my $self=shift @_;
-    $self->{gfx}->lead(@_);
+    $self->{gfx}->leading(@_);
     return($self);
 }
 
@@ -633,10 +645,4 @@ __END__
 
 =back
 
-=head1 AUTHOR
-
-alfred reibenschuh
-
 =cut
-
-

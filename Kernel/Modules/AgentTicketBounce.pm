@@ -20,8 +20,8 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
-use Mail::Address;
+use Kernel::Language              qw(Translatable);
+use Mail::Address                 ();
 
 our $ObjectManagerDisabled = 1;
 
@@ -88,7 +88,7 @@ sub Run {
     my %AclAction = $TicketObject->TicketAclActionData();
 
     # check if ACL restrictions exist
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    if ($ACL) {
 
         my %AclActionLookup = reverse %AclAction;
 
@@ -222,10 +222,10 @@ sub Run {
         }
 
         # get template generator object
-        my $TemplateGenerator = $Kernel::OM->ObjectParamAdd(
+        $Kernel::OM->ObjectParamAdd(
             'Kernel::System::TemplateGenerator' => { %{$Self} }
         );
-        $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
         # prepare salutation
         $Param{Salutation} = $TemplateGenerator->Salutation(
@@ -296,6 +296,7 @@ $Param{Signature}";
             Name          => 'BounceStateID',
             SelectedValue => $Config->{StateDefault},
             Class         => 'Modernize',
+            Translation   => 1,
         );
 
         # add rich text editor
@@ -308,6 +309,13 @@ $Param{Signature}";
             # set up rich text editor
             $LayoutObject->SetRichTextParameters(
                 Data => \%Param,
+            );
+        }
+
+        # explanatory message about asterisk
+        if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+            $LayoutObject->Block(
+                Name => 'AsteriskExplanation',
             );
         }
 
@@ -426,10 +434,11 @@ $Param{Signature}";
                 $NextStates{''} = '-';
             }
             $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
-                Data       => \%NextStates,
-                Name       => 'BounceStateID',
-                SelectedID => $Param{BounceStateID},
-                Class      => 'Modernize',
+                Data        => \%NextStates,
+                Name        => 'BounceStateID',
+                SelectedID  => $Param{BounceStateID},
+                Class       => 'Modernize',
+                Translation => 1,
             );
 
             # add rich text editor
@@ -454,7 +463,14 @@ $Param{Signature}";
             }
 
             $Param{InformationFormat}   = $Param{Body};
-            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
+            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked ' : '';
+
+            # explanatory message about asterisk
+            if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+                $LayoutObject->Block(
+                    Name => 'AsteriskExplanation',
+                );
+            }
 
             my $Output = $LayoutObject->Header(
                 Type      => 'Small',

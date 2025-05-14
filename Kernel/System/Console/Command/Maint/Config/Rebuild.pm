@@ -18,11 +18,19 @@ package Kernel::System::Console::Command::Maint::Config::Rebuild;
 
 use strict;
 use warnings;
+use v5.24;
 
 use parent qw(Kernel::System::Console::BaseCommand);
-use Time::HiRes qw();
+
+# core modules
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::PID',
     'Kernel::System::SysConfig',
@@ -139,6 +147,7 @@ sub Run {
         );
 
         $Self->PrintError("There was a problem writing XML to DB.");
+
         return $Self->ExitCodeError();
     }
 
@@ -156,6 +165,7 @@ sub Run {
         );
 
         $Self->PrintError("There was a problem writing ZZZAAuto.pm.");
+
         return $Self->ExitCodeError();
     }
 
@@ -164,7 +174,11 @@ sub Run {
         CacheInMemory => 0,
     );
 
+    # with active S3 backend, also update the files in the file system
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
+
     $Self->Print("<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 

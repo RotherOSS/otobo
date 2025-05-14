@@ -34,6 +34,9 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Cache',
+    'Kernel::System::Loader'
 );
 
 =head1 NAME
@@ -95,6 +98,10 @@ sub ToAscii {
 
     # get length of line for forcing line breakes
     my $LineLength = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote') || 78;
+
+    # remove style tags
+    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
+    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # find <a href=....> and replace it with [x]
     my @Links;
@@ -192,10 +199,6 @@ sub ToAscii {
     # replace new lines with one space
     $Param{String} =~ s/\n/ /gs;
     $Param{String} =~ s/\r/ /gs;
-
-    # remove style tags
-    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
-    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
@@ -649,12 +652,14 @@ sub ToHTML {
 
 =head2 DocumentComplete()
 
-check and e. g. add <html> and <body> tags to given html string
+check and e. g. add <html> and <body> tags to given HTML string
 
     my $HTMLDocument = $HTMLUtilsObject->DocumentComplete(
-        String  => $String,
-        Charset => $Charset,
+        String            => $String,
+        CustomerInterface => 0, # optional 0|1, default is 0
     );
+
+The input is return unchanged if it already looks like a complete HTML document.
 
 =cut
 
@@ -662,7 +667,7 @@ sub DocumentComplete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(String Charset)) {
+    for my $Needed (qw(String)) {
         if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -673,20 +678,113 @@ sub DocumentComplete {
         }
     }
 
-    return $Param{String} if $Param{String} =~ /<html>/i;
+    # TODO: the regex would also match the string q{<b id='<HTML>'>HTML</b>}
+    return $Param{String} if $Param{String} =~ m/<html>/i;
 
-    my $Css = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText::DefaultCSS')
-        || 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Css          = '';
+
+    if ( $Param{CustomerInterface} ) {
+        $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
+    }
+    else {
+        $Css = $ConfigObject->Get('Frontend::RichText::DefaultCSS') // $Css;
+    }
 
     # escape special characters like double-quotes, e.g. used in font names with spaces
     $Css = $Self->ToHTML( String => $Css );
 
     # Use the HTML5 doctype because it is compatible with HTML4 and causes the browsers
     #   to render the content in standards mode, which is more safe than quirks mode.
-    my $Body = '<!DOCTYPE html><html><head>';
-    $Body
-        .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
-    $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+    my $Body = join '',
+        q{<!DOCTYPE html><html><head>},
+        q{<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>};
+    if ( $Param{CustomerInterface} ) {
+
+        # include quicksand and default css
+        $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
+        $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
+
+    }
+
+    my $CKEditorContentStylesPath
+        = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
+
+    my $ArticleContentStylesPath
+        = $Param{CustomerInterface} ? 'skins/Customer/default/css/RichTextArticleContent.css' : 'skins/Agent/default/css/RichTextArticleContent.css';
+
+    my $TargetDirectory
+        = $Param{CustomerInterface}
+        ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/'
+        : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
+
+    my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
+
+    # minify files uses caching internally, so files are really only minified again if needed
+    my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List => [
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorContentStylesPath",
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$ArticleContentStylesPath",
+        ],
+        Type                 => 'CSS',
+        TargetDirectory      => $TargetDirectory,
+        TargetFilenamePrefix => $FilePrefix,
+    );
+
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CachedFilename = $CacheObject->Get(
+        Type => 'HTMLUtils',
+        Key  => $FilePrefix . 'Filename',
+    );
+    my $ArticleStyles = "";
+
+    if ( !$TargetFilename ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'error minifying content css files',
+        );
+    }
+    else {
+        # file not cached, old or changed
+        if ( !$CachedFilename || $TargetFilename ne $CachedFilename ) {
+            $CacheObject->Set(
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix . 'Filename',
+                Value => $TargetFilename
+            );
+            $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location        => "$TargetDirectory/$TargetFilename",
+                Type            => 'Local',
+                DisableWarnings => 1,
+            );
+            $CacheObject->Set(
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix,
+                Value => $ArticleStyles
+            );
+            if ($CachedFilename) {
+                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+                    Location        => "$TargetDirectory/$CachedFilename",
+                    Type            => 'Local',
+                    DisableWarnings => 1,
+                );
+            }
+
+            # file in cache
+        }
+        else {
+            $ArticleStyles = $CacheObject->Get(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix
+            );
+        }
+
+        if ( $ArticleStyles ne "" ) {
+            $Body .= "<style>" . ${$ArticleStyles} . ".ck-content {" . $Css . "}</style>";
+        }
+    }
+
+    $Body .= '</head><body class="ck-content">' . $Param{String} . '</body></html>';
 
     return $Body;
 }
@@ -728,12 +826,14 @@ sub DocumentStrip {
 
 perform some sanity checks on HTML content.
 
- -  Replace <blockquote> by using
-    "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
-    because of cross mail client and browser compatibility.
+=over 4
 
- -  If there is no HTML doctype present, inject the HTML5 doctype, because it is compatible with HTML4
-    and causes the browsers to render the content in standards mode, which is safer.
+=item  If there is no HTML document type present, inject the HTML5 document type
+
+Because it is compatible with HTML4
+and causes the browsers to render the content in standards mode, which is safer.
+
+=back
 
     $HTMLBody = $HTMLUtilsObject->DocumentCleanup(
         String => $HTMLBody,
@@ -761,19 +861,6 @@ sub DocumentCleanup {
 
     # remove <base> tags - see bug#8880
     $Param{String} =~ s{<base .*?>}{}xmsi;
-
-    # replace <blockquote> by using
-    # "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
-    # because of cross mail client and browser compatability
-    my $Style = "border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt";
-    for ( 1 .. 10 ) {
-        $Param{String} =~ s{
-            <blockquote(.*?)>(.+?)</blockquote>
-        }
-        {
-            "<div $1 style=\"$Style\">$2</div>";
-        }segxmi;
-    }
 
     return $Param{String};
 }
@@ -1191,7 +1278,7 @@ sub Safety {
         ],
     );
 
-    # for some reason stype and script are not handled by new()
+    # for some reason the tags 'style' and 'script' are not handled by new()
     $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
     $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
 

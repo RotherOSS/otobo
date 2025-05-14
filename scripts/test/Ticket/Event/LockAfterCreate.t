@@ -18,10 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use HTTP::Request::Common qw(GET);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # Get config object.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -40,39 +44,27 @@ my $Success = $ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
-$Self->True(
-    $Success,
-    "Set Send Mail Module to DoNotSendEmail",
-);
+ok( $Success, "Set Send Mail Module to DoNotSendEmail" );
 
 # Set default language to English.
 $Success = $ConfigObject->Set(
     Key   => 'DefaultLanguage',
     Value => 'en',
 );
-$Self->True(
-    $Success,
-    "Set default language to English",
-);
+ok( $Success, "Set default language to English" );
 
 # Disable email checks to create new user.
 $Success = $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 0,
 );
-$Self->True(
-    $Success,
-    "Disabled CheckMXRecord",
-);
+ok( $Success, "Disabled CheckMXRecord" );
 
 $Success = $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-$Self->True(
-    $Success,
-    "Disabled CheckEmailAddress",
-);
+ok( $Success, "Disabled CheckEmailAddress" );
 
 # Enable lock after create event.
 $Success = $ConfigObject->Set(
@@ -84,10 +76,7 @@ $Success = $ConfigObject->Set(
         Transaction => 0,
     },
 );
-$Self->True(
-    $Success,
-    "Enabled event LockAfterCreate",
-);
+ok( $Success, "Enabled event LockAfterCreate" );
 
 # Create a new user for current test.
 my $UserLogin = $Helper->TestUserCreate(
@@ -161,37 +150,35 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 for my $Test (@Tests) {
 
     # Fake a web request, as Action is used by the LockAfterCreate event.
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} || '',
+    my $QueryString = $Test->{Request} // '';
+    my $HTTPRequest = GET( 'http://example.com/example?' . $QueryString );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
     );
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
 
     # Create an unlocked ticket,
     my $TicketID = $TicketObject->TicketCreate(
         %TicketCreateTemplate,
         %{ $Test->{TicketCreate} }
     );
-    $Self->True(
-        $TicketID,
-        "$Test->{Name} TicketCreate() successful for Ticket ID $TicketID",
-    );
+    ok( $TicketID, "$Test->{Name} TicketCreate() successful for Ticket ID $TicketID" );
 
     # Check ticket lock.
     my $TicketLock = $TicketObject->TicketLockGet( TicketID => $TicketID );
-    $Self->Is(
+    is(
         $TicketLock // 0,
         $Test->{Success},
         "$Test->{Name} TicketLockGet() for Ticket ID $TicketID",
     );
+}
+continue {
 
-    # Discard web request object as it is used by OM in LockAfterCreate event.
+    # Discard web request object as we need a new one in the next iteration.
     $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::Web::Request'],
+        Objects => [ 'Kernel::System::Web::Request', ],
     );
 }
 
 # Cleanup is done by RestoreDatabase.
 
-$Self->DoneTesting();
+done_testing;

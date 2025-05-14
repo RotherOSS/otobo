@@ -18,13 +18,18 @@
 use strict;
 use warnings;
 
-use File::Basename;
-use FindBin qw($RealBin);
+use File::Basename qw(dirname);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

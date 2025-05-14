@@ -19,8 +19,13 @@ package Kernel::System::Ticket::Article::Backend::Base;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::EventHandler);
+use parent 'Kernel::System::EventHandler';
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -47,7 +52,7 @@ This is a base class for article backends and should not be instantiated directl
     use strict;
     use warnings;
 
-    use parent qw(Kernel::System::Ticket::Article::Backend::Base);
+    use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
     # methods go here
 
@@ -506,6 +511,8 @@ Get article meta data.
     my %Article = $Self->_MetaArticleGet(
         ArticleID => 42,
         TicketID  => 23,
+        ShowDeletedArticles => 1, # (optional) To get deleted articles.
+        VersionView   => 1,       # (optional) To get edited version info.
     );
 
 Returns:
@@ -541,8 +548,10 @@ sub _MetaArticleGet {
 
     # Use ArticleList() internally to benefit from its ticket-level cache.
     my ($FirstMetaArticle) = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-        TicketID  => $Param{TicketID},
-        ArticleID => $Param{ArticleID},
+        TicketID            => $Param{TicketID},
+        ArticleID           => $Param{ArticleID},
+        ShowDeletedArticles => $Param{ShowDeletedArticles} || 0,
+        VersionView         => $Param{VersionView}
     );
 
     return %{ $FirstMetaArticle // {} };

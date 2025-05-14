@@ -18,15 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Output::HTML::Layout;
+# CPAN modules
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::Output::HTML::Layout ();
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -123,6 +125,13 @@ $Selenium->RunTest(
             $Selenium->WaitFor( WindowCount => 2 );
             my $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
+
+            # revert changes of commit 2cf4c40722a91df9ac0090a4048a9c7a9963df89 for AgentTicketPhone masks
+            #   because otherwise the attachment delete button disappears behind the sidebar and is not
+            #   interactive anymore
+            if ( $Action =~ /^AgentTicketPhone/ ) {
+                $Selenium->execute_script("\$('div.SidebarColumn').css('width', '270px');");
+            }
 
             # Wait until page has loaded, if necessary.
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DnDUpload').length;" );

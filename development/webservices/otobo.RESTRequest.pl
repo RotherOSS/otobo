@@ -19,8 +19,6 @@ use strict;
 use warnings;
 use utf8;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
-
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
@@ -28,6 +26,7 @@ use lib dirname($RealBin);
 
 use JSON;
 use REST::Client;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
 # This is the HOST for the web service the format is:
 # <HTTP_TYPE>:://<OTOBO_FQDN>/nph-genericinterface.pl
@@ -90,10 +89,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Get response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketSearch Example
@@ -127,10 +124,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Search Response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketCreate Example
@@ -183,10 +178,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Create Response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketUpdate Example
@@ -218,10 +211,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Update response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketHistoryGet Example
@@ -255,8 +246,6 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "History Response was:\n";
     print Dumper($Data);
-
 }

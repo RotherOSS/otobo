@@ -22,7 +22,7 @@ use warnings;
 use List::Util qw(first);
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -482,7 +482,6 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddActivityDialog' ) {
 
-        my %Params;
         my %Result;
         my $JSON;
 
@@ -499,7 +498,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
             return $LayoutObject->Attachment(
-                ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                ContentType => 'application/json',
                 Content     => $JSON,
                 Type        => 'inline',
                 NoCache     => 1,
@@ -522,7 +521,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
             return $LayoutObject->Attachment(
-                ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                ContentType => 'application/json',
                 Content     => $JSON,
                 Type        => 'inline',
                 NoCache     => 1,
@@ -549,7 +548,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
             return $LayoutObject->Attachment(
-                ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                ContentType => 'application/json',
                 Content     => $JSON,
                 Type        => 'inline',
                 NoCache     => 1,
@@ -560,7 +559,7 @@ sub Run {
         if ( ref $ActivityData->{Config}->{ActivityDialog} eq 'HASH' ) {
 
             my $CheckActivityDialog = first { $_ eq $Param{ActivityDialog} }
-            values %{ $ActivityData->{Config}->{ActivityDialog} };
+                values %{ $ActivityData->{Config}->{ActivityDialog} };
 
             if ($CheckActivityDialog) {
                 %Result = (
@@ -573,7 +572,7 @@ sub Run {
                 $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
                 return $LayoutObject->Attachment(
-                    ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                    ContentType => 'application/json',
                     Content     => $JSON,
                     Type        => 'inline',
                     NoCache     => 1,
@@ -610,7 +609,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
             return $LayoutObject->Attachment(
-                ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+                ContentType => 'application/json',
                 Content     => $JSON,
                 Type        => 'inline',
                 NoCache     => 1,
@@ -630,7 +629,7 @@ sub Run {
         $JSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,

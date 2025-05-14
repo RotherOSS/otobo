@@ -19,7 +19,7 @@ package Kernel::Output::HTML::ArticleAction::AgentTicketForward;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (

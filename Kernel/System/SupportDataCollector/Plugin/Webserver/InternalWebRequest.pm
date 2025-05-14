@@ -19,10 +19,13 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::InternalWebRequ
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
-
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = ();

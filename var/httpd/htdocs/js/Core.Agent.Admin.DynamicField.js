@@ -51,13 +51,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      * @name Redirect
      * @memberof Core.Agent.Admin.DynamicField
      * @function
-     * @param {String} FieldType - Type of DynamicField.
-     * @param {String} ObjectType
+     * @param {String} FieldType  - Type of DynamicField.
+     * @param {String} ObjectType - Type of the object to which the dynamic field is attached
+     * @param {String} OptionData - Additional data from data attributes in the option tag
      * @description
      *      Redirect to URL based on DynamicField config.
      */
-    TargetNS.Redirect = function(FieldType, ObjectType) {
-        var DynamicFieldsConfig, Action, URL, FieldOrder;
+    TargetNS.Redirect = function(FieldType, ObjectType, OptionData) {
+        var DynamicFieldsConfig, Action, URL, FieldOrder, ObjectTypeFilter, NamespaceFilter;
 
         // get configuration
         DynamicFieldsConfig = Core.Config.Get('DynamicFields');
@@ -68,8 +69,25 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         // get field order
         FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
 
+        // get object type filter
+        ObjectTypeFilter = $("#DynamicFieldObjectType").val();
+
+        // get namespace filter
+        NamespaceFilter = $("#DynamicFieldNamespace").val();
+
         // redirect to correct url
         URL = Core.Config.Get('Baselink') + 'Action=' + Action + ';Subaction=Add' + ';ObjectType=' + ObjectType + ';FieldType=' + FieldType + ';FieldOrder=' + FieldOrder;
+        if ( ObjectTypeFilter ) {
+            URL += ';ObjectTypeFilter=' + encodeURIComponent(ObjectTypeFilter);
+        }
+        if ( NamespaceFilter ) {
+            URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
+        }
+
+        // some options have additional associated data
+        if( 'referenced_object_type' in OptionData ) {
+            URL += ';ReferencedObjectType=' + OptionData.referenced_object_type;
+        }
         URL += SerializeData(Core.App.GetSessionInformation());
         window.location = URL;
     };
@@ -116,7 +134,12 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         function FieldAddAction(Type) {
             $('#' + Type + 'DynamicField').on('change', function() {
                 if ($(this).val() !== null && $(this).val() !== '') {
-                    Core.Agent.Admin.DynamicField.Redirect($(this).val(), Type);
+                    var FieldType = $(this).val().split('::').shift();
+                    Core.Agent.Admin.DynamicField.Redirect(
+                        FieldType,
+                        Type,
+                        $(this).find("option:selected").data() // the data of the selected option
+                    );
 
                     // reset select value to none
                     $(this).val('');
@@ -192,6 +215,29 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
     };
 
     /**
+     * @name DynamicFieldClone
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Bind event on dynamic field clone button.
+     */
+    TargetNS.DynamicFieldClone = function() {
+        $('.DynamicFieldClone').on('click', function (Event) {
+
+            // get field order
+            var FieldOrder = parseInt($('#MaxFieldOrder').val(), 10) + 1;
+
+            // don't interfere with MasterAction
+            Event.stopPropagation();
+            Event.preventDefault();
+
+            window.location = $(this).attr('href') + ';FieldOrder=' + FieldOrder;
+
+            return false;
+        });
+    };
+
+    /**
      * @name Init
      * @memberof Core.Agent.Admin.DynamicField
      * @function
@@ -205,9 +251,27 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         TargetNS.DynamicFieldAddAction();
         TargetNS.ShowContextSettingsDialog();
         TargetNS.DynamicFieldDelete();
+        TargetNS.DynamicFieldClone();
 
         // Initialize dynamic field filter
         Core.UI.Table.InitTableFilter($('#FilterDynamicFields'), $('#DynamicFieldsTable'));
+
+        $( "#DynamicFieldObjectType, #DynamicFieldNamespace, #IncludeInvalid" ).change(function() {
+            let ObjectTypeFilter = $("#DynamicFieldObjectType").val();
+            let NamespaceFilter = $("#DynamicFieldNamespace").val();
+            let IncludeInvalid = $("#IncludeInvalid").is(':checked') ? 1 : 0;
+            let URL = Core.Config.Get('Baselink') + 'Action=AdminDynamicField';
+            if ( ObjectTypeFilter ) {
+                URL += ';ObjectTypeFilter=' + encodeURIComponent(ObjectTypeFilter);
+            }
+            if ( NamespaceFilter ) {
+                URL += ';NamespaceFilter=' + encodeURIComponent(NamespaceFilter);
+            }
+            if ( IncludeInvalid !== undefined ) {
+                URL += ';IncludeInvalid=' + encodeURIComponent(IncludeInvalid);
+            }
+            window.location = URL;
+        });
 
         Core.Config.Set('EntityType', 'DynamicField');
 

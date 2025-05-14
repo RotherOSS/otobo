@@ -25,12 +25,11 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use Scalar::Util qw(weaken);
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -67,11 +66,6 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Class;
 
-    my %CheckEncodingColumns = (
-        'article_data_mime.a_body'              => 1,
-        'article_data_mime_attachment.filename' => 1,
-    );
-
     # create all registered backend modules
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     for my $DBType (qw(mysql oracle postgresql)) {
@@ -91,12 +85,6 @@ sub new {
         # sanity action
         $Kernel::OM->ObjectsDiscard(
             Objects => [$BackendModule],
-        );
-
-        $Kernel::OM->ObjectParamAdd(
-            $BackendModule => {
-                CheckEncodingColumns => \%CheckEncodingColumns,
-            },
         );
 
         # create a backend object
@@ -120,11 +108,13 @@ sub new {
 
 =head2 CreateOTRSDBConnection()
 
-creates the target db object.
+creates the source DB object.
 
-    my $Success = $BackendObject->CreateOTRSDBConnection(
-        OTRSDBSettings             => $OTRSDBSettings, # a hash refs including target DB settings
+    my $OTRSDBObject = $BackendObject->CreateOTRSDBConnection(
+        OTRSDBSettings => $OTRSDBSettings, # a hash refs including target DB settings
     );
+
+Return C<undef> in case of a problem. The actual error can be found in the log.
 
 =cut
 
@@ -141,19 +131,17 @@ sub CreateOTRSDBConnection {
         return;
     }
 
-    # check OTRSDBSettings (internally)
-    for my $Needed (
-        qw(DBHost DBName DBUser DBPassword DBType)
-        )
-    {
-        if ( !$Param{OTRSDBSettings}->{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed in OTRSDBSettings!",
-            );
+    NEEDED:
+    for my $Needed (qw(DBType)) {
 
-            return;
-        }
+        next NEEDED if $Param{OTRSDBSettings}->{$Needed};
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $Needed in OTRSDBSettings!",
+        );
+
+        return;
     }
 
     # set the clone db specific backend
@@ -168,9 +156,12 @@ sub CreateOTRSDBConnection {
         return;
     }
 
-    # call CreateOTRSDBConnection on the specific backend
+    # Call CreateOTRSDBConnection on the specific backend.
+    # The migration from Oracle is a bit exceptional as it is based on the DSN, the Data Source Name.
+    # MySQL and Postgresql rely on the database host and name.
+    # Thus the required settings are checked by the actual backend object itself.
     return $Self->{$CloneDBBackend}->CreateOTRSDBConnection(
-        %{ $Param{OTRSDBSettings} },
+        $Param{OTRSDBSettings}->%*,
     );
 }
 

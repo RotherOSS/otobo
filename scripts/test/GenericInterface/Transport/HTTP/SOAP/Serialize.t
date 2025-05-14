@@ -18,17 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use XML::TreePP;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger              ();
+use Kernel::GenericInterface::Transport::HTTP::SOAP ();
+use Kernel::System::VariableCheck                   qw(:all);
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Transport::HTTP::SOAP;
-
-use Kernel::System::VariableCheck qw(:all);
+our $Self;
 
 # get helper object
 # skip SSL certificate verification
@@ -55,8 +56,7 @@ my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
     },
 );
 
-# create XML object
-my $XMLObject = XML::TreePP->new();
+my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 
 my $SOAPHeader = '<?xml version="1.0" encoding="UTF-8"?>'
     . '<soap:Envelope '
@@ -359,72 +359,55 @@ for my $Test (@SoapTests) {
             . $SOAPFooter;
     }
 
-    # convert soap XML back to Perl structure for easy handling
-    $XMLObject->set( attr_prefix => '' );
+    # Convert soap XML back to Perl structure for easy handling.
+    # The root elemente 'soap::Envelope' is not part of the returned data structure.
     if ( $Test->{IsEmpty} ) {
 
         # clean XML ('null' tag is interpreted by XML parser)
         $Content =~ s{ [ ] xsi:nil="true" [ ] }{}xms;
     }
-    my $XMLContent = $XMLObject->parse($Content);
-
-    # check soap message
-    $Self->Is(
-        ref $XMLContent,
-        'HASH',
-        "Test $Test->{Name}: SOAP Message structure",
-    );
-
-    $Self->True(
-        IsHashRefWithData($XMLContent),
-        "Test $Test->{Name}: SOAP Message structure have content",
-    );
-
-    my $SoapEnvelope = $XMLContent->{'soap:Envelope'};
+    my $SoapEnvelope = $XMLSimpleObject->XMLIn( XMLInput => $Content );
 
     # check soap envelope
-    $Self->Is(
-        ref $SoapEnvelope,
+    ref_ok(
+        $SoapEnvelope,
         'HASH',
         "Test $Test->{Name}: SOAP Envelope structure",
     );
 
-    $Self->True(
+    ok(
         IsHashRefWithData($SoapEnvelope),
         "Test $Test->{Name}: SOAP Envelope structure have content",
     );
 
     # check soap:Body
-    $Self->Is(
-        ref $SoapEnvelope->{'soap:Body'},
+    ref_ok(
+        $SoapEnvelope->{'soap:Body'},
         'HASH',
         "Test $Test->{Name}: SOAP Body structure",
     );
 
-    $Self->True(
+    ok(
         IsHashRefWithData( $SoapEnvelope->{'soap:Body'} ),
         "Test $Test->{Name}: SOAP Body structure have content",
     );
 
     # check soap:Body Response
     if ( $Test->{IsEmpty} ) {
-        $Self->True(
-            exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            "Test $Test->{Name}: SOAP Response structure (exists)",
-        );
-        $Self->False(
-            defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-            "Test $Test->{Name}: SOAP Response structure (defined)",
+        is(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+            {},
+            "Test $Test->{Name}: SOAP Response structure is empty hashref",
         );
     }
     else {
-        $Self->Is(
-            ref $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+        ref_ok(
+            $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
             'HASH',
             "Test $Test->{Name}: SOAP Response structure",
         );
 
-        $Self->True(
+        ok(
             IsHashRefWithData( $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' } ),
             "Test $Test->{Name}: SOAP Response structure have content",
         );
@@ -462,14 +445,18 @@ for my $Test (@SoapTests) {
     );
 
     # deserialize with SOAP::Lite
-    my $SOAPObject = eval { SOAP::Deserializer->deserialize($Content); };
-    my $SOAPError  = $@;
+    my $SOAPObject = eval {
+        SOAP::Deserializer->deserialize($Content);
+    };
+    my $SOAPError = $@;
 
-    $Self->Is(
+    is(
         $SOAPError,
         '',
         "Test $Test->{Name}: SOAP::Lite Deserialize with no errors",
     );
+
+    # TODO: why is SoapEnvelope tested here again, and not SOAPObject ?
 
     if ( $Test->{Success} ) {
         $Self->Is(
@@ -479,13 +466,10 @@ for my $Test (@SoapTests) {
         );
 
         if ( $Test->{IsEmpty} ) {
-            $Self->True(
-                exists $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (exists)",
-            );
-            $Self->False(
-                defined $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
-                "Test $Test->{Name}: SOAP Response data parsed as normal XML True (defined)",
+            is(
+                $SoapEnvelope->{'soap:Body'}->{ $Test->{Operation} . 'Response' },
+                {},
+                "Test $Test->{Name}: SOAP Response data parsed as empty hashref",
             );
         }
         elsif ( !$Test->{Sort} ) {
@@ -531,12 +515,12 @@ for my $Test (@SoapTests) {
 
         my $SOAPBody = $SOAPObject->body();
         if ( !defined $Test->{Data} ) {
-            $Self->True(
+            ok(
                 exists $SOAPBody->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message True (exists)",
             );
-            $Self->False(
-                defined $SOAPBody->{ $Test->{Operation} . 'Response' },
+            ok(
+                !defined $SOAPBody->{ $Test->{Operation} . 'Response' },
                 "Test $Test->{Name}: SOAP Response data parsed as SOAP message False (defined)",
             );
         }
@@ -550,4 +534,4 @@ for my $Test (@SoapTests) {
     }
 }
 
-$Self->DoneTesting();
+done_testing;

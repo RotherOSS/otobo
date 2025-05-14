@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Invoker;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger ();
+use Kernel::GenericInterface::Invoker  ();
+
+our $Self;
 
 # create a Debugger instance
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
@@ -286,7 +289,7 @@ my @InvokerHandleResponseTests = (
 );
 
 for my $Test (@InvokerHandleResponseTests) {
-    my %InvokerParams = {};
+    my %InvokerParams;
     $InvokerParams{Data}                 = $Test->{Data}                 || undef;
     $InvokerParams{ResponseSuccess}      = $Test->{ResponseSuccess}      || undef;
     $InvokerParams{ResponseErrorMessage} = $Test->{ResponseErrorMessage} || undef;

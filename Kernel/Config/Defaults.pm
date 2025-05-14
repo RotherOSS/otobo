@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 # Default configuration for OTOBO. All changes to this file will be lost after an
 # update, please use AdminSystemConfiguration to configure your system.
 
@@ -22,20 +21,23 @@
 
 package Kernel::Config::Defaults;
 
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
 # core modules
-use File::stat;
-use Digest::MD5;
-use Exporter qw(import);
+use Digest::MD5    qw(md5_hex);
+use Exporter       qw(import);
+use Fcntl          qw(:flock); ## no perlimports
+use File::Basename qw(basename);
+use File::stat     qw(stat);
 
 # CPAN modules
-use Module::Refresh; # located in Kernel/cpan-lib
+use Try::Tiny;
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh (); # based on Module::Refresh
 
 our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
 
@@ -57,6 +59,9 @@ of L<Kernel::Config>, even though they are actually implemented here.
 
 loads the default values of settings that are required to run OTOBO even
 when it was not fully configured yet.
+
+These settings should be the same as the settings that are declared in
+the F<Kernel/Config/Files/XML/*.xml> files.
 
 =cut
 
@@ -112,7 +117,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTOBO 10';
+    $Self->{ProductName} = 'OTOBO 11';
 
     # --------------------------------------------------- #
     # database settings                                   #
@@ -157,15 +162,21 @@ sub LoadDefaults {
     #    $Self->{'Database::SlowLog'} = 0;
 
     # --------------------------------------------------- #
+    # otobo.psgi configuration                            #
+    # --------------------------------------------------- #
+    # default redirect
+    $Self->{'Frontend::DefaultInterface'} = 'index.pl';
+
+    # frontend activation
+    $Self->{'CustomerFrontend::Active'} = '1';
+    $Self->{'PublicFrontend::Active'} = '1';
+
+    # --------------------------------------------------- #
     # default values                                      #
     # (default values for GUIs)                           #
     # --------------------------------------------------- #
     # default valid
     $Self->{DefaultValid} = 'valid';
-
-    # DEPRECATED. Compatibilty setting for older 3.0 code.
-    # Internal charset must always be utf-8.
-    $Self->{DefaultCharset} = 'utf-8';
 
     # default language
     # (the default frontend language) [default: en]
@@ -302,6 +313,32 @@ sub LoadDefaults {
     # (URL CSS path.)
     $Self->{'Frontend::CSSPath'} = '<OTOBO_CONFIG_Frontend::WebPath>css/';
 
+    # AgentColorDefinitions
+    $Self->{'AgentColorDefinitions'} = {
+        MainDark      => '#00023c',
+        MainLight     => '#000099',
+        MainHover     => '#001bff',
+        BGElement     => '#fff',
+        BGLight       => '#f7f7f9',
+        BGLightMedium => '#eeeef2',
+        BGMedium      => '#e5e5eb',
+        BGMediumDark  => '#cdcdd8',
+        BGDark        => '#bfc0ce',
+        TextLight     => '#7f809d',
+        TextMedium    => '#54557c',
+        TextDark      => '#00023c',
+        TextErr       => '#ea2400',
+        TextWarn      => '#f5af36',
+        TextLink      => '#001bff',
+        Highlight     => '#fef235',
+        NotifyOK      => '#c4cdfa',
+        NotifyWarn    => '#fffccc',
+        NotifyErr     => '#f9bcb2',
+        HoverLight    => '#fffccc',
+        HoverDark     => '#fef235',
+        ShadowDark    => 'rgba(0,2,71,0.16)',
+    };
+
     # Frontend::ImagePath
     # (URL image path of icons for navigation.)
     $Self->{'Frontend::ImagePath'} = '<OTOBO_CONFIG_Frontend::WebPath>skins/Agent/default/img/';
@@ -406,9 +443,9 @@ sub LoadDefaults {
 
     # --------------------------------------------------- #
     # authentication settings                             #
-    # (enable what you need, auth against otobo db,        #
-    # against LDAP directory, against HTTP basic auth     #
-    # or against Radius server)                           #
+    # (enable what you need, auth against otobo db,       #
+    # against LDAP directory, against HTTP basic auth,    #
+    # against Radius server or against OpenIDConnect)     #
     # --------------------------------------------------- #
     # This is the auth. module against the otobo db
     $Self->{AuthModule} = 'Kernel::System::Auth::DB';
@@ -463,10 +500,6 @@ sub LoadDefaults {
     # is not in use.
 #    $Self->{'AuthModule::LDAP::UserLowerCase'} = 0;
 
-    # In case you need to use OTOBO in iso-charset, you can define this
-    # by using this option (converts utf-8 data from LDAP to iso).
-#    $Self->{'AuthModule::LDAP::Charset'} = 'iso-8859-1';
-
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthModule::LDAP::Params'} = {
 #        port    => 389,
@@ -479,6 +512,70 @@ sub LoadDefaults {
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthModule::LDAP::Die'} = 1;
+
+    # This is an example configuration for authorization via OpenIDConnect
+    # see https://openid.net/specs/openid-connect-core-1_0.html
+#    $Self->{AuthModule} = 'Kernel::System::Auth::OpenIDConnect';
+    # Define the authentication flow, currently supported are the authorization code flow...
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'code' ];
+    # ...and the implicit flow (choose one - currently no hybrid flow is implemented)
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'id_token' ];
+    # Define the additional scope (openid is added automatically and does not need to be
+    # defined here). Make sure to add everything you want to interpret later.
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{AdditionalScope} = [
+#        qw/profile email/
+#    ];
+    # Set the ClientID and Redirect URI exactly as defined on the authorization server
+    # for the latter the Action must be "Login"
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings} = {
+#        ClientID    => 'abc123',
+#        RedirectURI => 'https://my.otobo.server/otobo/index.pl?Action=Login',
+#    };
+    # For the authorization code flow the client secret has to be provided
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings}{ClientSecret} = 's3cr3t';
+    # Provide the URL of the well-known openid-configuration of the OpenID provider
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ProviderSettings} = {
+#        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
+#        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
+#        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
+#            SSLCertificate => 'SSL_cert_file',     # client certificate
+#            SSLKey         => 'SSL_key_file',      # client cert key
+#            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
+#            SSLCAFile      => 'SSL_ca_file',       # CA certificate
+#            SSLCADir       => 'SSL_ca_path',       # CA cert directory
+#        },
+#    };
+    # Set the token claim to be used as identifier
+#    $Self->{'AuthModule::OpenIDConnect::UID'} = 'sub';
+    # Some optional additional settings
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{Misc} = {
+#        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
+#        RandLength => 22,     # length for state and nonce random strings - default: 22
+#        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
+#    };
+    # Optionally enable user authorization via the id token - hashes can be used for complex claims
+#    $Self->{'AuthModule::OpenIDConnect::RoleMap'} = {
+#        TokenAttribute => {
+#            TokenRole1 => 'OTOBORole1',
+#            TokenRole2 => 'OTOBORole2',
+#        },
+#        TokenAttribute2 => {
+#            abc123 => {
+#                TokenRole1 => 'OTOBORole1',
+#                TokenRole3 => 'OTOBORole3',
+#            }
+#        },
+#    };
+    # Optionally enable user creation - this currently does not support complex claims; email is mandatory
+#    $Self->{'AuthModule::OpenIDConnect::UserMap'} = {
+#        email       => 'UserEmail',
+#        given_name  => 'UserFirstname',
+#        family_name => 'UserLastname',
+#    };
+    # For debugging purposes and to help with building the RoleMap e.g. you can dump all IDTokens received to the log
+#    $Self->{'AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
@@ -509,6 +606,13 @@ sub LoadDefaults {
     # check a otp (one-time password)                     #
     # after successful authentication                     #
     # as an extra security measure                        #
+    #                                                     #
+    # if agents should be able to change their own        #
+    # secret you need to enable it in the system          #
+    # configuration (go to                                #
+    # frontend->agent->view->preferences and set active   #
+    # to 1 in                                             #
+    # PreferencesGroups###GoogleAuthenticatorSecretKey)   #
     # --------------------------------------------------- #
     # This is the auth module using the google authenticator mechanism
 #    $Self->{'AuthTwoFactorModule'} = 'Kernel::System::Auth::TwoFactor::GoogleAuthenticator';
@@ -534,6 +638,7 @@ sub LoadDefaults {
 #    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
+#    $Self->{'AuthSyncModule::LDAP::GroupDN'} = 'cn=otoboallow,ou=posixGroups,dc=example,dc=com';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree
@@ -557,10 +662,6 @@ sub LoadDefaults {
 #        UserLastname  => 'sn',
 #        UserEmail     => 'mail',
 #    };
-
-    # In case you need to use OTOBO in iso-charset, you can define this
-    # by using this option (converts utf-8 data from LDAP to iso).
-#    $Self->{'AuthSyncModule::LDAP::Charset'} = 'iso-8859-1';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthSyncModule::LDAP::Params'} = {
@@ -589,6 +690,9 @@ sub LoadDefaults {
 #    $Self->{'AuthSyncModule::LDAP::UserSyncInitialGroups'} = [
 #        'users',
 #    ];
+
+    # Utilize extended nested group search?
+#    $Self->{'AuthSyncModule::LDAP::NestedGroupSearch'} = '1';
 
     # AuthSyncModule::LDAP::UserSyncGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
@@ -757,7 +861,7 @@ sub LoadDefaults {
 
     # Make sure the daemon is able to deploy the configuration to all cluster nodes that have no ZZZAAuto.pm yet.
     $Self->{DaemonModules}->{SystemConfigurationSyncManager} =  {
-      Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
+        Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
     };
 
     # --------------------------------------------------- #
@@ -950,7 +1054,6 @@ sub LoadDefaults {
       'Core.Default.css',
       'Core.Form.css',
       'Core.Dialog.css',
-      'Core.Tooltip.css',
       'Core.Control.css',
       'Core.Table.css',
       'Core.InputFields.css',
@@ -958,7 +1061,8 @@ sub LoadDefaults {
       'Core.Animations.css',
       'Core.Icons.css',
       'Core.Footer.css',
-      'Core.Items.css'
+      'Core.Items.css',
+      'ExtendedCDBInfo.Tile.css',
     ];
 
     # Agent Common CSS
@@ -1027,7 +1131,8 @@ sub LoadDefaults {
         'Core.Customer.js',
         'Core.Customer.Responsive.js',
         'Core.UI.NavigationBar.js',
-        'Core.UI.Elasticsearch.js'
+        'Core.UI.Elasticsearch.js',
+        'ExtendedCDBInfo.Tile.js',
     ];
 
     # Agent Common JS
@@ -1343,9 +1448,10 @@ via the Preferences button after logging in.
 
     # --------------------------------------------------- #
     # customer authentication settings                    #
-    # (enable what you need, auth against otobo db,        #
+    # (enable what you need, auth against otobo db,       #
     # against a LDAP directory, against HTTP basic        #
-    # authentication and against Radius server)           #
+    # authentication, using OpenIDConnect,                #
+    # and against Radius server)                          #
     # --------------------------------------------------- #
     # This is the auth. module for the otobo db
     # you can also configure it using a remote database
@@ -1407,6 +1513,51 @@ via the Preferences button after logging in.
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
 
+    # This is an example configuration for authorization via OpenIDConnect
+    # see https://openid.net/specs/openid-connect-core-1_0.html
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::OpenIDConnect';
+    # Define the authentication flow, currently supported are the authorization code flow...
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'code' ];
+    # ...and the implicit flow (choose one - currently no hybrid flow is implemented)
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'id_token' ];
+    # Define the additional scope (openid is added automatically and does not need to be
+    # defined here). Make sure to add everything you want to interpret later.
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{AdditionalScope} = [
+#        qw/profile email/
+#    ];
+    # Set the ClientID and Redirect URI exactly as defined on the authorization server
+    # for the latter the Action must be "Login"
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ClientSettings} = {
+#        ClientID    => 'abc123',
+#        RedirectURI => 'https://my.otobo.server/otobo/customer.pl?Action=Login',
+#    };
+    # For the authorization code flow the client secret has to be provided
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ClientSettings}{ClientSecret} = 's3cr3t';
+    # Provide the URL of the well-known openid-configuration of the OpenID provider
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ProviderSettings} = {
+#        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
+#        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
+#        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
+#            SSLCertificate => 'SSL_cert_file',     # client certificate
+#            SSLKey         => 'SSL_key_file',      # client cert key
+#            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
+#            SSLCAFile      => 'SSL_ca_file',       # CA certificate
+#            SSLCADir       => 'SSL_ca_path',       # CA cert directory
+#        },
+#    };
+    # Set the token claim to be used as identifier
+#    $Self->{'Customer::AuthModule::OpenIDConnect::UID'} = 'sub';
+    # Some optional additional settings
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{Misc} = {
+#        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
+#        RandLength => 22,     # length for state and nonce random strings - default: 22
+#        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#        Leeway     => 2,      # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
+#    };
+    # For debugging purposes you can dump all IDTokens received to the log
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
+
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth
@@ -1434,6 +1585,14 @@ via the Preferences button after logging in.
     # check a otp (one-time password)                     #
     # after successful authentication                     #
     # as an extra security measure                        #
+    #                                                     #
+    # if customers should be able to change their own     #
+    # secret you need to enable it in the system          #
+    # configuration (go to                                #
+    # frontend->customer->view->preferences and set       #
+    # active to 1 in                                      #
+    # CustomerPreferencesGroups###GoogleAuthenticatorSecretKey) #
+    # --------------------------------------------------- #
     # --------------------------------------------------- #
     # This is the auth module using the google authenticator mechanism
 #    $Self->{'Customer::AuthTwoFactorModule'} = 'Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator';
@@ -1611,11 +1770,13 @@ via the Preferences button after logging in.
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
 #        # Configures the character for joining customer user name parts. Join single space if it is not defined.
-#        CustomerUserNameFieldsJoin => '',
+#        CustomerUserNameFieldsJoin => ' ',
 #        # show customer user and customer tickets in customer interface
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
+#        # Translate manager flag in mapping from its Distinguished Name to cn, sAMAccountName, uid, mail, etc.
+#        TranslateManagerTo => 'sAMAccountName',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
 #        # cache time to live in sec. - cache any ldap queries
@@ -1630,15 +1791,16 @@ via the Preferences button after logging in.
 #            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
 #            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
 #            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
+#            # [ 'UserManager',       Translatable('Manager'),           'manager',             1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
 #            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
 #
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate',             'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
 #
 #            # Dynamic field example
-#            # [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef ],
+#            # [ 'DynamicField_Name_X',   undef,                          'Name_X',              0, 0, 'dynamic_field', undef, 0, undef, undef ],
 #        ],
 #    };
 
@@ -1952,6 +2114,35 @@ via the Preferences button after logging in.
     # Allow syscalls for the Dashboard
     #$Self->{'DashboardBackend::AllowCmdOutput'} = 1;
 
+
+    # ---------------------------------------------------- #
+    # These settings are for the S3 backend                #
+    # ---------------------------------------------------- #
+    #$Self->{'Storage::S3::Active'}         = 1;
+    #$Self->{'Storage::S3::Region'}         = 'eu-central-1';
+    #$Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-testing';
+    #$Self->{'Storage::S3::HomePrefix'}     = 'OTOBO';
+    #$Self->{'Storage::S3::AccessKey'}      = 'minio-otobo';
+    #$Self->{'Storage::S3::SecretKey'}      = 'minio-otobo'; # more than 8 chars
+    #$Self->{'Storage::S3::MetadataPrefix'} = 'x-amz-meta-';
+    #$Self->{'Storage::S3::Delimiter'}      = '/'; # do not change this, as OTOBO relies on the delimiter being '/'
+
+    ## Some settings are specific for localstack and MinIO.
+    #if ( 1 ) {
+
+    #    # MinIO
+    #    $Self->{'Storage::S3::Scheme'}                          = 'http';
+    #    $Self->{'Storage::S3::Host'}                            = 'minio:9000';
+    #    $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 0;
+    #}
+    #else {
+
+    #    # localstack
+    #    $Self->{'Storage::S3::Scheme'}                          = 'https';
+    #    $Self->{'Storage::S3::Host'}                            = 'localstack:4566';
+    #    $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 1;
+    #}
+
     return 1;
 }
 
@@ -1973,44 +2164,38 @@ sub new {
     # return on clear level
     if ( $Param{Level} && $Param{Level} eq 'Clear' ) {
 
-        # load config
+        # load config from Kernel/Config.pm
         $Self->Load();
 
         return $Self;
     }
 
-    # load defaults
+    # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load config
+    # load specific settings from Kernel/Config.pm
     $Self->Load();
 
+    # when in cluster mode, we must consider that files in Kernel/Config/Files
+    # might have been updated in S3
+    $Self->SyncWithS3();
+
     # load extra config files
-    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
+    if ( -d "$Self->{Home}/Kernel/Config/Files/" ) {
 
-        # It is assumed that $Self->{Home} contains no spaces as otherwise
-        # glob would see at least two patterns.
-        # Note that the order of file names is deterministic as per default
-        # glob sorts in ascending ASCII order.
-        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
-
-        # Resorting the filelist.
-        # Modules with 'Ticket' in their name have lower priority.
+        # Collect the list of .pm files in Kernel/Config/Files.pm in a particular order.
+        # Modules with 'Ticket' in their name have lower priority. Therfore we first collect
+        # the files which contain the string 'Ticket' and then all other files.
+        # Within these two blocks the files are sorted in ascending ASCII order.
+        my @Files;
         {
-            my @NewFileOrderPre;
-            my @NewFileOrderPost;
-
-            for my $File (@Files) {
-
-                if ( $File =~ m/Ticket/ ) {
-                    push @NewFileOrderPre, $File;
-                }
-                else {
-                    push @NewFileOrderPost, $File;
-                }
-            }
-
-            @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+            # It is assumed that $Self->{Home} contains no spaces as otherwise.
+            # glob would see at least two patterns.
+            # Note that the order of file names is deterministic as per default
+            # glob sorts in ascending ASCII order.
+            my @AllPMFiles = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+            push @Files, grep { $_ =~ m/Ticket/ } @AllPMFiles;
+            push @Files, grep { $_ !~ m/Ticket/ } @AllPMFiles;
         }
 
         FILE:
@@ -2030,17 +2215,17 @@ sub new {
             $Package =~ s/\//::/g;
             $Package =~ s/\.pm$//g;
 
-            eval {
+            try {
 
-                # This also adds $RelativeFile to %Module::Refresh::CACHE.
-                if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-                    Module::Refresh->refresh_module_if_modified( $RelativeFile );
-                }
-
-                # Try to load file.
+                # Load file if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
                 if ( !require $RelativeFile ) {
                     die "ERROR: Could not load $File: $!\n";
                 }
+
+                # Fill %Module::Refresh::CACHE with all entries from %INC if that hasn't happened before.
+                # Add $RelativeFile to %Module::Refresh::CACHE as $RelativeFile was required above and thus surely is in %INC.
+                # Check whether the file has been modified.
+                Kernel::System::ModuleRefresh->refresh_module_if_modified( $RelativeFile );
 
                 # Check if package has loaded and has a Load() method.
                 if (!$Package->can('Load')) {
@@ -2049,13 +2234,11 @@ sub new {
 
                 # Call package method but pass $Self as instance.
                 $Package->Load($Self);
-            };
+            }
+            catch {
 
-            if ( $@ ) {
-                my $ErrorMessage = $@;
-                print STDERR $@;
-
-                next FILE;
+                # Ignoring all problems from loading a config cache file.
+                print STDERR $_;
             }
         }
     }
@@ -2067,8 +2250,8 @@ sub new {
         die;
     }
 
-    # Don't use the MainObject here to parse the RELEASE file
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+    # Do not use the Kernel::System::Main object here to parse the RELEASE file
+    if ( open my $Product, '<', "$Self->{Home}/RELEASE" ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
@@ -2091,7 +2274,7 @@ sub new {
         die;
     }
 
-    # load config (again)
+    # load config from Kernel/Config.pm (again)
     $Self->Load();
 
     # do not use ZZZ files
@@ -2104,6 +2287,10 @@ sub new {
             next KEY unless defined $Key;
 
             if ( defined $Self->{$Key} ) {
+
+                # do the replacements only on top level string values
+                next KEY unless ref $Self->{$Key} eq '';
+
                 $Self->{$Key} =~ s/\<OTOBO_CONFIG_(.+?)\>/$Self->{$1}/g;
             }
             else {
@@ -2123,7 +2310,7 @@ sub Get {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undef>';
+        my $Value = $Self->{$What} // '<undef>';
         print STDERR "Debug: Config.pm ->Get('$What') --> $Value\n";
     }
 
@@ -2134,10 +2321,9 @@ sub Get {
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Key)) {
-        if ( !defined $Param{$_} ) {
-            $Param{$_} = '';
-        }
+    # assign default values
+    for my $Key (qw(Key)) {
+        $Param{$Key} //= '';
     }
 
     # debug
@@ -2172,32 +2358,30 @@ sub Set {
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
 # This is a no-op to mark a text as translatable in the Perl code.
-#   We use our own version here instead of importing Language::Translatable to not add a dependency.
+# We use our own version of Translatable() here instead of importing Kernel::Language::Translatable(). This
+# avoids the need to add a dependency.
 
 sub Translatable {
     return shift;
 }
 
 # Please see the documentation in Kernel/Config.pod.dist.
+# Not used in OTOBO core.
 sub ConfigChecksum {
     my $Self = shift;
 
-    my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm" );
-
-    # Ignore ZZZAAuto.pm, because this is only a cached version of the XML files which
-    # will be in the checksum. Otherwise the SysConfig cannot use its cache files.
-    @Files = grep { $_ !~ m/ZZZAAuto\.pm$/smx } @Files;
-
-    push @Files, glob( $Self->{Home} . "/Kernel/Config/Files/*.xml" );
-    push @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm";
-    push @Files, $Self->{Home} . "/Kernel/Config.pm";
+    # Collect the relevant file names.
+    # The order of the files is determined, as glob returns a sorted list.
+    my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+    push @Files, "$Self->{Home}/Kernel/Config/Defaults.pm";
+    push @Files, "$Self->{Home}/Kernel/Config.pm";
 
     # Create a string with filenames and file mtimes of the config files
     my $ConfigString;
     for my $File (@Files) {
 
         # get file metadata
-        my $Stat = stat($File);
+        my $Stat = stat $File;
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
@@ -2205,10 +2389,10 @@ sub ConfigChecksum {
             return;
         }
 
-        $ConfigString .= $File . $Stat->mtime();
+        $ConfigString .= $File . $Stat->mtime(); # modified time in seconds
     }
 
-    return Digest::MD5::md5_hex($ConfigString);
+    return md5_hex($ConfigString);
 }
 
 sub AutoloadPerlPackages {
@@ -2240,11 +2424,196 @@ sub AutoloadPerlPackages {
             }
 
             # Don't use the MainObject here to load the file.
-            eval {
+            try {
                 my $FileName = $Package =~ s{::}{/}smxgr;
+
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-            };
+            }
+            catch {
+                print STDERR "ERROR: $_!\n";
+            }
         }
+    }
+
+    return 1;
+}
+
+sub SyncWithS3 {
+    my ( $Self, %Param ) = @_;
+
+    # nothing to do when S3 backend is not enabled
+    return unless $Self->{'Storage::S3::Active'};
+
+    # assign default values
+    for my $Key (qw(ExtraFileNames)) {
+        $Param{$Key} //= [];
+    }
+
+    # pass in a unfinished config object for bootstrapping
+    my $StorageS3Object = $Kernel::OM->Create(
+        'Kernel::System::Storage::S3',
+        ObjectParams => {
+            ConfigObject => $Self
+        },
+    );
+    my $FilesPrefix = join '/', 'Kernel', 'Config', 'Files';
+
+    # only a single process should sync with S3 at one time
+    CHECK_SYNC:
+    while (1) {
+
+        # run a blocking GET request to S3, getting all keys below the prefix
+        # The keys are the pathes of files relative to Kernel/Config/Files
+        my %SubPath2Properties = $StorageS3Object->ListObjects(
+            Prefix    => "$FilesPrefix/",
+            Delimiter => '',
+        );
+
+        # Package events are not handled here as the whole web server is restarted when
+        # a package has changed. See Plack::Handler::SyncWithS3 which is activated in entrypoint.sh.
+        my $EventFileName = 'event_package.json';
+        if ( exists $SubPath2Properties{$EventFileName} ) {
+
+            # gather info about the local event file
+            my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$EventFileName";
+
+            # do not sync ZZZ*.pm files when there was a package event and the local event file does not exist
+            last CHECK_SYNC unless $Stat;
+
+            # info about the event file in S3
+            my $Properties = $SubPath2Properties{$EventFileName};
+
+            # do not sync ZZZ*.pm files when the local event file differs from the version in S3
+            last CHECK_SYNC unless $Stat->size == $Properties->{Size};
+            last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
+
+            # The event_package.json has apparently already been handled.
+            # Continue with checking the files in Kernel/Config/Files.
+        }
+
+        # find files in the file system that have been updated in the S3 storage
+        my @OutdatedFiles;
+        {
+            # Files that need to be synced are recognised by patterns or by a list.
+            my @FilePatterns = (
+                qr'ZZZZUnitTest.*\.pm$', # files that are used in the unit tests
+                qr'User/\d+\.pm$',       # user specific overrides of the SysConfig
+            );
+            my %FileIsRelevant = map
+                { $_ => 1 }
+                ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
+
+            # Essential gather/take like in Syntax::Keyword::Gather
+            my @CandidateOutdatedFiles;
+            SUB_PATH:
+            for my $SubPath ( sort keys %SubPath2Properties ) {
+
+                # collect the relevant objects
+                if ( $FileIsRelevant{$SubPath} ) {
+                    push @CandidateOutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
+
+                for my $FilePattern ( @FilePatterns ) {
+                    if ( $SubPath =~ $FilePattern ) {
+                        push @CandidateOutdatedFiles, $SubPath;
+
+                        next SUB_PATH;
+                    }
+                }
+
+                # disregard the not relevant objects
+            }
+
+            SUB_PATH:
+            for my $SubPath ( @CandidateOutdatedFiles ) {
+
+                # gather info about the local file
+                my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$SubPath";
+
+                # fetch from S3 when container just started, and the files don't exist yet in the file system
+                if ( ! $Stat ) {
+                    push @OutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
+
+                # either size of modified time must have changed
+                my $Properties = $SubPath2Properties{$SubPath};
+                if ( $Stat->size != $Properties->{Size} ) {
+                    push @OutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
+
+                # timestamp check does not consider differences within one second
+                if ( int($Stat->mtime) != int($Properties->{Mtime}) ) {
+                    push @OutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
+            }
+        }
+
+        # Find files in the file system that have been discarded in the S3 storage.
+        # Note that the regular ZZZ*.pm files are never discarded.
+        my @ObsoleteFiles;
+        {
+             # files that are used in the unit tests
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ basename($_) } }
+                glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
+
+            # user specific overrides of the SysConfig
+            # note that POSIX does not allow to match multiple digits, so we need an extra filter
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ 'User/' . basename($_) } }
+                grep { m!/\d+\.pm^! }
+                glob "$Self->{Home}/Kernel/Config/Files/User/[0-9]*.pm";
+        }
+
+        # go on reading the config files when all files are up to date
+        last CHECK_SYNC unless ( @OutdatedFiles || @ObsoleteFiles );
+
+        # not sure whether flock is the best choice here, especially when running in Gazelle
+        # https://www.perl.com/article/2/2015/11/4/Run-only-one-instance-of-a-program-at-a-time/
+        # assuming that we are not on a NFS mount
+        ## no critic qw(OTOBO::ProhibitOpen)
+        ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        ## no critic qw(InputOutput::RequireBriefOpen)
+        my $LockFile = "$Self->{Home}/Kernel/Config/Files/.s3_sync.lock";
+        open my $LockFH, '>', $LockFile or die "unable to open file $LockFile: $!";
+        my $LockAquired = flock $LockFH, LOCK_EX|LOCK_NB;
+
+        if ( ! $LockAquired ) {
+            # sombody else is already syncing the files from S3
+            # wait a bit and check whether files are up to date now
+            sleep 1;
+
+            next CHECK_SYNC;
+        }
+
+        # we got an exclusive lock, now do the work and update from S3
+        for my $FileName ( @OutdatedFiles ) {
+            my $FilePath    = join '/', $FilesPrefix, $FileName;
+            my $Location    = "$Self->{Home}/Kernel/Config/Files/$FileName";
+            $StorageS3Object->SaveObjectToFile(
+                Key      => $FilePath,
+                Location => $Location,
+            );
+        }
+
+        # we got an exclusive lock, now do the work and delete the obsolete files
+        for my $Location ( @ObsoleteFiles ) {
+
+            # ignore errors as we doublecheck anyways
+            unlink $Location;
+        }
+
+        # Doublecheck whether deployment wasn't still ongoing,
+        # or whether a new deployment had been done in the meantime.
+        next CHECK_SYNC;
     }
 
     return 1;

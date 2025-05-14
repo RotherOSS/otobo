@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Translations',
     'Kernel::System::Valid',
 );
 
@@ -677,6 +678,15 @@ sub ServiceAdd {
         Type => $Self->{CacheType},
     );
 
+    my %Services = $Self->ServiceList(
+        UserID => $Param{UserID},
+    );
+
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Services ],
+    );
+
     return $ServiceID;
 }
 
@@ -832,6 +842,15 @@ sub ServiceUpdate {
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
+    );
+
+    my %Services = $Self->ServiceList(
+        UserID => $Param{UserID},
+    );
+
+    # generate chained translations automatically
+    $Kernel::OM->Get('Kernel::System::Translations')->TranslateParentChildElements(
+        Strings => [ values %Services ],
     );
 
     return 1;

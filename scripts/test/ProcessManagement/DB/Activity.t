@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # get needed objects
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
@@ -206,7 +210,7 @@ my @Tests = (
         Name   => 'ActivityAdd Test 8: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name     => "Activity-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name     => "Activity-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             Config   => {
                 Description    => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.-',
                 ActivityDialog => {
@@ -302,8 +306,8 @@ for my $Test (@Tests) {
     },
     {
         Name         => "ActivitySearch Test2 - Correct UTF8 1",
-        ActivityName => "Activity-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
-        ,
+        ActivityName => "Activity-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
+
         Result => ["$RandomID-1"],
         Count  => 1,
     },
@@ -716,7 +720,7 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityList[1],
             EntityID => $RandomID . '-1-U',
-            Name     => "Activity-$RandomID -!Â§$%&/()=?Ã*ÃÃL:L@,.--U",
+            Name     => "Activity-$RandomID -!Â§\$%&/()=?Ã*ÃÃL:L@,.--U",
             Config   => {
                 Description => 'a Description !Â§$%&/()=?Ã*ÃÃL:L@,.--U',
             },
@@ -766,7 +770,7 @@ for my $Test (@Tests) {
     if ( $Test->{Success} ) {
 
         # try to update the Activity
-        print "Force a gap between create and update activity, Waiting 2s\n";
+        note "Force a gap between create and update activity, Waiting 2s";
 
         # wait 2 seconds
         FixedTimeAddSeconds(2);
@@ -1048,6 +1052,4 @@ $Self->IsDeeply(
     "ActivityListGet Test 2: Correct List | Cache",
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

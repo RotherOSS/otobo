@@ -22,7 +22,7 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,6 +30,15 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
 
     return $Self;
 }
@@ -40,6 +49,17 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
@@ -72,7 +92,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID      = $ParamObject->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $ParamObject->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',
@@ -362,13 +381,13 @@ sub Run {
 
         my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
-        my $ACLDump = $ACLObject->ACLDump(
+        my $ACLDumpSuccess = $ACLObject->ACLDump(
             ResultType => 'FILE',
             Location   => $Location,
             UserID     => $Self->{UserID},
         );
 
-        if ($ACLDump) {
+        if ($ACLDumpSuccess) {
 
             my $Success = $ACLObject->ACLsNeedSyncReset();
 
@@ -447,7 +466,7 @@ sub Run {
 
         # send JSON response
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            ContentType => 'application/json',
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -603,8 +622,19 @@ sub _ShowOverview {
         }
     }
 
+    # restrict valid state if needed
+    my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidLookup = reverse %ValidList;
+    my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
+    if ( $Self->{IncludeInvalid} ) {
+        push @ValidIDs, $ValidLookup{'invalid'};
+    }
+
     # get ACL list
-    my $ACLList = $ACLObject->ACLList( UserID => $Self->{UserID} );
+    my $ACLList = $ACLObject->ACLList(
+        UserID   => $Self->{UserID},
+        ValidIDs => \@ValidIDs,
+    );
 
     if ( IsHashRefWithData($ACLList) ) {
 
@@ -639,6 +669,8 @@ sub _ShowOverview {
             Data => {},
         );
     }
+
+    $Param{IncludeInvalidChecked} = $Self->{IncludeInvalid} ? 'checked' : '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminACL',
@@ -675,11 +707,15 @@ sub _ShowEdit {
     $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $ACLData->{ValidID} || $ValidLookup{valid},
+        SelectedID => $ACLData->{ValidID} || $ValidLookup{'invalid-temporarily'},
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    my $ACLKeysLevel1Match = $ConfigObject->Get('ACLKeysLevel1Match') || {};
+    # for compatability with ITSMConfigurationManagement
+    $Param{ObjectType} = 'Ticket';
+    my $ConfigPrefix = $Param{ObjectType} eq 'ConfigItem' ? 'ITSMConfigItem' : '';
+
+    my $ACLKeysLevel1Match = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel1Match' ) || {};
     $Param{ACLKeysLevel1Match} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Match,
         Name         => 'ItemAdd',
@@ -690,7 +726,7 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel1Change = $ConfigObject->Get('ACLKeysLevel1Change') || {};
+    my $ACLKeysLevel1Change = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel1Change' ) || {};
     $Param{ACLKeysLevel1Change} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Change,
         Name         => 'ItemAdd',
@@ -701,7 +737,7 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel2Possible = $ConfigObject->Get('ACLKeysLevel2::Possible') || {};
+    my $ACLKeysLevel2Possible = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::Possible' ) || {};
     $Param{ACLKeysLevel2Possible} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Possible,
         Name         => 'ItemAdd',
@@ -711,7 +747,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleAdd = $ConfigObject->Get('ACLKeysLevel2::PossibleAdd') || {};
+    my $ACLKeysLevel2PossibleAdd = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PossibleAdd' ) || {};
     $Param{ACLKeysLevel2PossibleAdd} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleAdd,
         Name         => 'ItemAdd',
@@ -721,7 +757,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleNot = $ConfigObject->Get('ACLKeysLevel2::PossibleNot') || {};
+    my $ACLKeysLevel2PossibleNot = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PossibleNot' ) || {};
     $Param{ACLKeysLevel2PossibleNot} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleNot,
         Name         => 'ItemAdd',
@@ -731,7 +767,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2Properties = $ConfigObject->Get('ACLKeysLevel2::Properties') || {};
+    my $ACLKeysLevel2Properties = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::Properties' ) || {};
     $Param{ACLKeysLevel2Properties} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Properties,
         Name         => 'ItemAdd',
@@ -741,7 +777,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PropertiesDatabase = $ConfigObject->Get('ACLKeysLevel2::PropertiesDatabase') || {};
+    my $ACLKeysLevel2PropertiesDatabase = $ConfigObject->Get( $ConfigPrefix . 'ACLKeysLevel2::PropertiesDatabase' ) || {};
     $Param{ACLKeysLevel2PropertiesDatabase} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PropertiesDatabase,
         Name         => 'ItemAdd',
@@ -771,7 +807,7 @@ sub _ShowEdit {
 
     # get list of all possible dynamic fields
     my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
-        ObjectType => 'Ticket',
+        ObjectType => $Param{ObjectType},
         ResultType => 'HASH',
     );
     my %DynamicFieldNames = reverse %{$DynamicFieldList};
@@ -808,7 +844,7 @@ sub _ShowEdit {
     $Param{PossibleActionsList} = \@PossibleActionsList;
 
     if ( defined $ACLData->{StopAfterMatch} && $ACLData->{StopAfterMatch} == 1 ) {
-        $Param{Checked} = 'checked="checked"';
+        $Param{Checked} = 'checked ';
     }
 
     my $Output = $LayoutObject->Header();
@@ -838,6 +874,9 @@ sub _ShowEdit {
         Key   => 'PossibleActionsList',
         Value => \@ACLEditPossibleActionsList,
     );
+
+    # for compatability with ITSMConfigurationManagement
+    delete $Param{ObjectType};
 
     $Output .= $LayoutObject->Output(
         TemplateFile => "AdminACL$Param{Action}",

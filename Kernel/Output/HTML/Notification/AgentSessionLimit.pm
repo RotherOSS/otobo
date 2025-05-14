@@ -30,8 +30,19 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    return '';
+    # Check if the agent session limit for the prior warning is reached
+    #   and save the message for the translation and the output.
+    my $AgentSessionLimitPriorWarningMessage
+        = $Kernel::OM->Get('Kernel::System::AuthSession')->CheckAgentSessionLimitPriorWarning();
 
+    return '' unless $AgentSessionLimitPriorWarningMessage;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->Notify(
+        Data     => $LayoutObject->{LanguageObject}->Translate($AgentSessionLimitPriorWarningMessage),
+        Priority => 'Warning',
+    );
 }
 
 1;

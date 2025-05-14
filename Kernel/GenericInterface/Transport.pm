@@ -16,11 +16,15 @@
 
 package Kernel::GenericInterface::Transport;
 
+use v5.24;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -62,8 +66,7 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
@@ -78,7 +81,8 @@ sub new {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend) ) {
         return $Self->{DebuggerObject}->Error( Summary => "Backend $Backend not found." );
     }
-    $Self->{BackendObject} = $Backend->new( %{$Self} );
+
+    $Self->{BackendObject} = $Backend->new( $Self->%* );
 
     # if the backend constructor failed, it returns an error hash, pass it on in this case
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
@@ -124,45 +128,64 @@ sub ProviderProcessRequest {
 
 generate response for an incoming web service request.
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
+
+    $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
         ErrorMessage    => '',      # in case of an error, optional
         Data            => {        # data payload for response, optional
             ...
         },
-
     );
-
-    $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
-    };
 
 =cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
     if ( !defined $Param{Success} ) {
+        $ErrorMessage = 'Missing parameter Success.';
+    }
+    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
+        $ErrorMessage = 'Data is not a hash or array reference.';
+    }
 
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Missing parameter Success.',
+    # throw errors as an exception
+    if ($ErrorMessage) {
+
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
+        );
+
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
+
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse,
         );
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # throws an exception
+    $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
-        );
-    }
-
-    return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+    return;    # actually not reached
 }
 
 =head2 RequesterPerformRequest()
 
-generate an outgoing web service request, receive the response and return its data..
+generate an outgoing web service request, receive the response and return its data.
+The actual work is done by the backend objects.
 
     my $Result = $TransportObject->RequesterPerformRequest(
         Operation       => 'remote_op', # name of remote operation to perform
@@ -170,6 +193,8 @@ generate an outgoing web service request, receive the response and return its da
             ...
         },
     );
+
+Returns:
 
     $Result = {
         Success         => 1,                   # 0 or 1
@@ -191,10 +216,10 @@ sub RequesterPerformRequest {
         );
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
+            Summary => 'Data is not a hash or array reference.',
         );
     }
 

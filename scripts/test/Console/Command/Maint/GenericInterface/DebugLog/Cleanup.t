@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::GenericInterface::DebugLog::Cleanup');
 
@@ -58,7 +58,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     {
-        local *STDOUT;
+        local *STDOUT;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Config} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );

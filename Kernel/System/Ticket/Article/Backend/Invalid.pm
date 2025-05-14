@@ -19,10 +19,12 @@ package Kernel::System::Ticket::Article::Backend::Invalid;
 use strict;
 use warnings;
 
-use parent qw(
-    Kernel::System::EventHandler
-    Kernel::System::Ticket::Article::Backend::Base
-);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
 our @ObjectDependencies = (
     'Kernel::System::CommunicationChannel',

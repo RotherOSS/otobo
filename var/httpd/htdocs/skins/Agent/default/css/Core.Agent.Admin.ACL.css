@@ -28,6 +28,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding: 4px;
 }
 
+.SidebarColumn .WidgetSimple fieldset {
+    margin-bottom: 4px;
+}
+
 a.Copy {
     background: url(../img/icons/reports.png) no-repeat left center;
     padding-left: 24px;

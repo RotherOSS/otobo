@@ -50,9 +50,9 @@
 <input type="checkbox" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.Content | html %]" alt="[% Data.Title | html %]"
     title="[% Data.Title | html %]"
 [% IF Data.Checked %]
-    checked="checked"
+    checked
 [% END %]
-    />
+>
 [% RenderBlockEnd("Checkbox") %]
 
 [% RenderBlockStart("InputText") %]

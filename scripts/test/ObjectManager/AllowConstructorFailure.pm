@@ -19,7 +19,12 @@ package scripts::test::ObjectManager::AllowConstructorFailure;
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager ();    ## no perlimports
 
 our %ObjectManagerFlags = (
     AllowConstructorFailure => 1,

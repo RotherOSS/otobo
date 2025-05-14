@@ -57,7 +57,7 @@
             <div class="Clear"></div>
         </div>
 [% END %]
-[% IF Env("REQUEST_SCHEME") == 'http' %]
+[% IF Data.Scheme == 'http' %]
         <div class="WidgetSimple SpacingTop" id="HTTPBox">
             <div class="Header">
                 <h2 class="Error">[% Translate("Insecure HTTP connection") | html %]</h2>

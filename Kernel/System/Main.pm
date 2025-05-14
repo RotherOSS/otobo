@@ -15,37 +15,36 @@
 # --
 
 package Kernel::System::Main;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+# use v5.24; # ATTENTION, beware of https://metacpan.org/dist/perl/view/pod/perlunicode.pod#The-%22Unicode-Bug%22
 use strict;
 use warnings;
+use namespace::autoclean;    # hide md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
 
 # core modules
-use Digest::MD5 qw(md5_hex);
-use Data::Dumper;
-use File::stat;
-use Unicode::Normalize;
-use List::Util qw(first);
-use Fcntl qw(:flock);
-use Encode;
+use Digest::MD5  qw(md5_hex);
+use Data::Dumper qw(Dumper);    ## no critic qw(Modules::ProhibitEvilModules)
+use File::stat   qw(stat);
+use List::Util   qw(first);
+use Fcntl        qw(:flock);    ## no perlimports
+use Encode       qw(encode);
 
 # CPAN modules
-use Math::Random::Secure qw(rand);
+use Math::Random::Secure qw(irand);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
-# md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, rand, IsStringWithData
-# should not be available as methods.
-# On the other hand, new should not be purged.
-use namespace::autoclean;
-
 our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::Storable',
 );
+
+=encoding utf8
 
 =head1 NAME
 
@@ -191,17 +190,69 @@ sub Die {
 
 =head2 FilenameCleanUp()
 
-to clean up filenames which can be used in any case (also quoting is done)
+sanitizes file names for various use cases. The file name, which should be sanitized, is passed in the
+argument C<Filename>.
+
+The parameter C<NoFilenameClean> implements the no-op case and returns the unchanged parameter C<Filename>.
+
+    # returns 'some_file_name & shutdown'
+    my $Filename = $MainObject->FilenameCleanUp(
+        Filename        => 'some_file_name & shutdown'
+        Type            => 'Local',
+        NoFilenameClean => 1,
+    );
+
+The different types of clean up are passed as the parameter C<Type>. Possible types are
+'Local', 'Attachment', 'MD5', and 'S3'.  The case of the C<Type> parameter is not significant.
+'Local' is assumed when the type is something else.
+
+    # return 32 chars in the range 0..9 and a..f
+    my $Filename = $MainObject->FilenameCleanUp(
+        Filename => 'some:file.xml',
+        Type     => 'MD5',
+    );
+
+=head3 MD5
+
+For the type 'MD5' the MD5 sum of the file name is returned.
+
+=head3 Attachment
+
+For the type 'Attachment' the file name is made HTML safe.
+
+=over 4
+
+=item white space is trimmed
+
+=item leading dots are eliminated
+
+=item characters not in C<[\w\-+.#_]> are replaced by an underscore
+
+=item enclosed alphanumerics are replaced by an underscore
+
+=item Umlauts are replaced following the German convention
+
+=item consecutive '-' are collapsed into a single '-'
+
+=item characters are chopped until total length of 220 characters is reached
+
+=back
+
+=head3 Local and S3
+
+When the type is 'Local' then the additional parameter C<NoReplace> is considered as well. When the
+parameter is either not passed or not set to a true value, then all characters
+not matching C< qr/[^\w\-+.#]/ > are replaced by an underscore. Not that C<\w> matches beyond the ASCII range,
+see the character class XPosixWord for details,
+L<https://perldoc.perl.org/perluniprops#Properties-accessible-through-%5Cp%7B%7D-and-%5CP%7B%7D>.
 
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => 'me_to/alal.xml',
-        Type     => 'Local', # Local|Attachment|MD5
+        Type     => 'Local',
     );
 
-    my $Filename = $MainObject->FilenameCleanUp(
-        Filename => 'some:file.xml',
-        Type     => 'MD5', # Local|Attachment|MD5
-    );
+The Type 'S3' is like 'Local' with two differences. First, the option 'NoReplace' is always ignored. Secondly, the
+characters B<+> and B<#> are also replaced by an underscore.
 
 =cut
 
@@ -213,23 +264,24 @@ sub FilenameCleanUp {
             Priority => 'error',
             Message  => 'Need Filename!',
         );
+
         return;
     }
 
-    # escape if cleanup is not needed
-    if ( $Param{NoFilenameClean} ) {
-        return $Param{Filename};
-    }
+    # Escape if cleaning up is not wanted.
+    # This is used in FileWrite() when the exact filenname should be used.
+    return $Param{Filename} if $Param{NoFilenameClean};
 
     my $Type = lc( $Param{Type} || 'local' );
 
     if ( $Type eq 'md5' ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Filename} );
-        $Param{Filename} = md5_hex( $Param{Filename} );
+
+        return md5_hex( $Param{Filename} );
     }
 
     # replace invalid token for attachment file names
-    elsif ( $Type eq 'attachment' ) {
+    if ( $Type eq 'attachment' ) {
 
         # trim whitespace
         $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
@@ -241,6 +293,8 @@ sub FilenameCleanUp {
         $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
         # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+        # ① - U+02460 - CIRCLED DIGIT ONE
+        # ⓿ - U+024FF - NEGATIVE CIRCLED DIGIT ZERO
         $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
 
         # replace utf8 and iso
@@ -281,52 +335,63 @@ sub FilenameCleanUp {
             }
             $Param{Filename} = $ModifiedName;
         }
+
+        return $Param{Filename};
     }
-    else {
 
-        # trim whitespace
-        $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
+    # 'Local' or 'S3' or fallback for missing or unknown types
 
-        # strip leading dots
-        $Param{Filename} =~ s/^\.+//;
+    # trim whitespace
+    $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
 
-        # only whitelisted characters allowed in filename for security
-        if ( !$Param{NoReplace} ) {
-            $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
+    # strip leading dots
+    $Param{Filename} =~ s/^\.+//;
 
-            # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
-            $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
-        }
+    # only whitelisted characters allowed in filename for security
+    if ( $Type eq 's3' ) {
 
-        # separate filename and extension
-        my $FileName = $Param{Filename};
-        my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
-            $FileName = $1;
-            $FileExt  = '.' . $2;
-        }
+        # not that '+' and '#' are also replaced by '_'
+        # no need to have '_' explicitly in the character class, as that case is covered by \w
+        $Param{Filename} =~ s/[^\w\-.]/_/g;
+    }
+    elsif ( !$Param{NoReplace} ) {
 
-        if ( length $FileName ) {
-            my $ModifiedName = $FileName . $FileExt;
+        # 'Local' or fallback for missing or unknown types
+        $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
-            while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
+        # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+        # TODO: find out when the behavior has changed
+        $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
+    }
 
-                # Remove character by character starting from the end of the filename string
-                #   until we get acceptable 220 byte long filename size including extension.
-                if ( length $FileName > 1 ) {
-                    chop $FileName;
-                }
+    # separate filename and extension
+    my $FileName = $Param{Filename};
+    my $FileExt  = '';
+    if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
+        $FileName = $1;
+        $FileExt  = '.' . $2;
+    }
 
-                # If we reached minimum filename length, remove characters from the end of the extension string.
-                else {
-                    chop $FileExt;
-                }
+    if ( length $FileName ) {
+        my $ModifiedName = $FileName . $FileExt;
 
-                $ModifiedName = $FileName . $FileExt;
+        while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
+
+            # Remove character by character starting from the end of the filename string
+            #   until we get acceptable 220 byte long filename size including extension.
+            if ( length $FileName > 1 ) {
+                chop $FileName;
             }
 
-            $Param{Filename} = $ModifiedName;
+            # If we reached minimum filename length, remove characters from the end of the extension string.
+            else {
+                chop $FileExt;
+            }
+
+            $ModifiedName = $FileName . $FileExt;
         }
+
+        $Param{Filename} = $ModifiedName;
     }
 
     return $Param{Filename};
@@ -447,7 +512,7 @@ sub FileRead {
     }
 
     # read file as string
-    my $String = do { local $/; <$FH> };
+    my $String = do { local $/; <$FH> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
     close $FH;
 
     return \$String;
@@ -510,19 +575,10 @@ sub FileWrite {
     }
 
     # set open mode (if file exists, lock it on open, done by '+<')
-    my $Exists;
-    if ( -f $Param{Location} ) {
-        $Exists = 1;
-    }
-    my $Mode = '>';
-    if ($Exists) {
-        $Mode = '+<';
-    }
-    if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
-        $Mode = '>:utf8';
-        if ($Exists) {
-            $Mode = '+<:utf8';
-        }
+    my $Exists = -f $Param{Location} ? 1    : 0;
+    my $Mode   = $Exists             ? '+<' : '>';
+    if ( $Param{Mode} && $Param{Mode} =~ m/^(utf8|utf\-8)/i ) {
+        $Mode = $Exists ? '+<:utf8' : '>:utf8';
     }
 
     # return if file can not open
@@ -558,8 +614,8 @@ sub FileWrite {
     }
 
     # write file if content is not undef
-    if ( defined ${ $Param{Content} } ) {
-        print $FH ${ $Param{Content} };
+    if ( defined $Param{Content}->$* ) {
+        print $FH $Param{Content}->$*;
     }
 
     # write empty file if content is undef
@@ -575,7 +631,7 @@ sub FileWrite {
         if ( length $Param{Permission} == 3 ) {
             $Param{Permission} = "0$Param{Permission}";
         }
-        chmod( oct( $Param{Permission} ), $Param{Location} );
+        chmod oct( $Param{Permission} ), $Param{Location};
     }
 
     return $Param{Filename} if $Param{Filename};
@@ -692,7 +748,7 @@ sub FileGetMTime {
     }
 
     # get file metadata
-    my $Stat = stat( $Param{Location} );
+    my $Stat = stat $Param{Location};
 
     if ( !$Stat ) {
         my $Error = $!;
@@ -713,10 +769,11 @@ sub FileGetMTime {
                 );
             }
         }
+
         return;
     }
 
-    return $Stat->mtime();
+    return $Stat->mtime;
 }
 
 =head2 GetReleaseInfo()
@@ -883,24 +940,41 @@ sub MD5sum {
 
 =head2 Dump()
 
-dump variable to an string
+serialize a data structure to a string in Data::Dumper format.
+Strings are dumped in their internal format when no additional parameter,
+or the additional parameter C<'binary'> is passed.
 
     my $Dump = $MainObject->Dump(
         $SomeVariable,
     );
+
+is the same as
+
+    my $Dump = $MainObject->Dump(
+        $SomeVariable,
+        'binary',
+    );
+
+Array and hash references are supported.
 
     my $Dump = $MainObject->Dump(
         {
             Key1 => $SomeVariable,
+            Key2 => [qw(a list of words)],
         },
     );
 
-    dump only in ascii characters (> 128 will be marked as \x{..})
+When the extra parameter C<'ascii'> is passed, then the UTF-8 flag is not ignored when dumping strings.
+Thus characters with code points > 127 will be dumped with escape codes. So C<'asdfÄÖÜ⛄'> will be Dumped as
+C<$VAR1 = "asdf\x{c4}\x{d6}\x{dc}\x{26c4}";>.
 
     my $Dump = $MainObject->Dump(
-        $SomeVariable,
-        'ascii', # ascii|binary - default is binary
+        'asdfÄÖÜ⛄',
+        'ascii',
     );
+
+When a string, where the UTF8-flag is not set, contains bytes > 127, then the ascii-dump will also contain those
+non-ASCII characters. This means that the option is misnamed.
 
 =cut
 
@@ -916,10 +990,8 @@ sub Dump {
         return;
     }
 
-    # check type
-    if ( !$Type ) {
-        $Type = 'binary';
-    }
+    # apply default and check the parameter 'Type'
+    $Type ||= 'binary';
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -950,7 +1022,7 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        my $String = Data::Dumper::Dumper( ${$DataNew} );
+        my $String = Dumper( ${$DataNew} );
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
@@ -959,8 +1031,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    return Data::Dumper::Dumper($Data);
-
+    return Dumper($Data);
 }
 
 =head2 DirectoryRead()
@@ -1176,16 +1247,7 @@ sub GenerateRandomString {
     my $DictionaryLength = scalar @DictionaryChars;
 
     # generate the string
-    my $String;
-
-    for ( 1 .. $Length ) {
-
-        my $Key = int Math::Random::Secure::rand $DictionaryLength;
-
-        $String .= $DictionaryChars[$Key];
-    }
-
-    return $String;
+    return join '', map { $DictionaryChars[ irand($DictionaryLength) ] } ( 1 .. $Length );
 }
 
 =begin Internal:

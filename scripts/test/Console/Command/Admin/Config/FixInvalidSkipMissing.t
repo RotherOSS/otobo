@@ -21,20 +21,18 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
     },
 );
-my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
-my $CommandObject     = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
-my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
-my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
-my $Home              = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CommandObject   = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $RunCommand = sub {
     my @Args = @_;
@@ -44,8 +42,8 @@ my $RunCommand = sub {
     $ResultOut = '';
 
     {
-        local *STDERR;
-        local *STDOUT;
+        local *STDERR;                         ## no critic qw(Variables::RequireInitializationForLocalVars)
+        local *STDOUT;                         ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDERR, '>:utf8', \$ResultErr;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         open STDOUT, '>:utf8', \$ResultOut;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute( '--non-interactive', @Args, );

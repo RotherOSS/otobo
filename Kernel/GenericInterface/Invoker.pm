@@ -19,10 +19,12 @@ package Kernel::GenericInterface::Invoker;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsStringWithData);
+# core modules
 
-# Prevent 'Used once' warning for Kernel::OM.
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -82,8 +84,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed params.
     for my $Needed (qw( DebuggerObject Invoker InvokerType WebserviceID )) {
@@ -107,6 +108,7 @@ sub new {
 
     # Load backend module.
     my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{InvokerType};
+    $Kernel::OM = $Kernel::OM;    # avoid 'once' warning
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
 
         return $Self->{DebuggerObject}->Error( Summary => "Can't load invoker backend module!" );
@@ -194,14 +196,14 @@ sub HandleResponse {
         );
     }
 
-    # Start map on backend.
+    # handle response on backend.
     return $Self->{BackendObject}->HandleResponse(%Param);
-
 }
 
 =head2 HandleError()
 
 handle error data of the configured remote web service.
+The caller must check first whether the backend object provided a C<HandleError()> method.
 
     my $Result = $InvokerObject->HandleError(
         Data => {                               # data payload
@@ -230,8 +232,30 @@ sub HandleError {
         );
     }
 
+    # handle error on backend
     return $Self->{BackendObject}->HandleError(%Param);
+}
 
+=head2 AssessResponse()
+
+callback for the transport object the provides a custom way to inspect a response.
+The caller must check first whether the backend object provided a C<AssessResponse()> method.
+
+=cut
+
+sub AssessResponse {
+    my ( $Self, %Param ) = @_;
+
+    # Check data - only accept undef or hash ref or array ref.
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
+
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash or array ref in Invoker handler (AssessResponse)!'
+        );
+    }
+
+    # handle error on backend
+    return $Self->{BackendObject}->AssessResponse(%Param);
 }
 
 1;

@@ -18,10 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # Get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -60,10 +64,7 @@ my $UserLogin = $CustomerUserObject->CustomerUserAdd(
     UserID         => 1,
 );
 
-$Self->True(
-    $UserLogin,
-    "CustomerUserAdd()",
-);
+ok( $UserLogin, "CustomerUserAdd()" );
 
 my %UserData = $CustomerUserObject->CustomerUserDataGet(
     User => $UserLogin,
@@ -151,26 +152,28 @@ my $ObjectHandlerObject = $Kernel::OM->Get('Kernel::System::DynamicField::Object
 TEST:
 for my $Test (@Tests) {
 
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
+    # force the ParamObject to use the new request params
+    my $QueryString = $Test->{Request} // '';
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            HTTPRequest => GET( 'http://example.com/example?' . $QueryString ),
+        }
     );
 
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
-
+    # implicitly call Kernel::System::Web::Request->new();
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
 
     if ( !$Test->{Success} ) {
-        $Self->IsDeeply(
+        is(
             \%ObjectData,
             {},
             "$Test->{Name} - ObjectDataGet() unsuccessful",
         );
+
         next TEST;
     }
 
-    $Self->IsDeeply(
+    is(
         \%ObjectData,
         $Test->{ExectedResult},
         "$Test->{Name} ObjectDataGet()",
@@ -182,6 +185,4 @@ continue {
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

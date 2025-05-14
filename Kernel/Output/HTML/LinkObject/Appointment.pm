@@ -19,9 +19,14 @@ package Kernel::Output::HTML::LinkObject::Appointment;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::Layout  ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -79,11 +84,19 @@ sub new {
 
 =head2 TableCreateComplex()
 
-return an array with the block data
+return a list of table definitions
+
+Note:
+
+normally it returns a hash reference
+
+my @BlockData = $BackendObject->TableCreateComplex(
+    ObjectLinkListWithData => $ObjectLinkListRef,
+);
 
 Return
 
-    %BlockData = (
+    my @BlockData = (
         {
             ObjectName => 'SourceObjectID',
             ObjectID   => 1,
@@ -95,15 +108,12 @@ Return
                 },
                 {
                     Content => 'Description',
-                    Width   => 200,
                 },
                 {
                     Content => 'Start Time',
-                    Width   => 150,
                 },
                 {
                     Content => 'End Time',
-                    Width   => 150,
                 },
             ],
             ItemList => [
@@ -129,11 +139,26 @@ Return
                     },
                 ],
             ],
+            AllColumns => [
+                {
+                    ColumnName      => 'CalendarName',
+                    ColumnTranslate => 'Calendar name',
+                },
+                {
+                    ColumnName      => 'StartTime',
+                    ColumnTranslate => 'Start date',
+                },
+                {
+                    ColumnName      => 'EndTime',
+                    ColumnTranslate => 'End date',
+                },
+                {
+                    ColumnName      => 'NotificationTime',
+                    ColumnTranslate => 'Notification',
+                },
+                ....
+            ],
         },
-    );
-
-    @BlockData = $BackendObject->TableCreateComplex(
-        ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
 =cut

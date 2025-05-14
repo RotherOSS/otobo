@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # core modules
-use Time::HiRes qw();
+use Time::HiRes ();
 
 # CPAN modules
 
@@ -101,8 +101,6 @@ continue {
     }
     sleep 1;
 }
-
-my %DeploymentIDs;
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

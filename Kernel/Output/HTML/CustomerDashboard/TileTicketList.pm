@@ -104,7 +104,7 @@ sub Run {
         );
 
         # generate appropriate message
-        if ( scalar @AllTickets == 0 ) {
+        if ( !@AllTickets ) {
             my $CustomTexts = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
             $TicketListHTML = $TicketListObject->Run(
                 TicketIDs   => [],

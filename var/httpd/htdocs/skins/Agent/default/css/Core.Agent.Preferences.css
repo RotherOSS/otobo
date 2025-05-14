@@ -36,6 +36,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 98%;
 }
 
+.Preferences .WidgetSimple.Setting .Content .SettingUpdateBox {
+    background: unset;
+}
+
 .Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox {
     width: 48px;
     display: block !important;

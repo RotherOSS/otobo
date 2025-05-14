@@ -16,22 +16,34 @@
 
 package Kernel::System::Console::Command::Maint::Ticket::Dump;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::CommunicationChannel',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::JSON',
 );
 
 sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Print a ticket and its articles to the console.');
+
+    # declare options
     $Self->AddOption(
         Name        => 'article-limit',
         Description => "Maximum number of articles to print.",
@@ -39,6 +51,15 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/\d+/smx,
     );
+    $Self->AddOption(
+        Name        => 'format',
+        Description => "Target format (JSON|Report) for which the file should be generated (defaults to Report).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^ (?: JSON | Report ) $/smx,
+    );
+
+    # declare positional arguments
     $Self->AddArgument(
         Name        => 'ticket-id',
         Description => "ID of the ticket to be printed.",
@@ -52,25 +73,38 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # 'Report' prints custom output.
+    # 'JSON' prints the Ticket data structure.
+    my $Format = $Self->GetOption('format') // 'Report';
+
+    # dynamic fields are not included in the report
+    my $DoDumpDynamicFields = $Format eq 'Report' ? 0 : 1;
+
+    # Get the data structure for the ticket
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Self->GetArgument('ticket-id'),
-        DynamicFields => 0,
+        DynamicFields => $DoDumpDynamicFields,
     );
 
     if ( !%Ticket ) {
         $Self->PrintError("Could not find ticket.");
+
         return $Self->ExitCodeError();
     }
 
-    $Self->Print( "<green>" . ( '=' x 69 ) . "</green>\n" );
+    if ( $Format eq 'Report' ) {
 
-    KEY:
-    for my $Key (qw(TicketNumber TicketID Title Created Queue State Priority Lock CustomerID CustomerUserID)) {
-        next KEY if !$Ticket{$Key};
-        $Self->Print( sprintf( "<yellow>%-20s</yellow> %s\n", "$Key:", $Ticket{$Key} ) );
+        $Self->Print( "<green>" . ( '=' x 69 ) . "</green>\n" );
+
+        KEY:
+        for my $Key (qw(TicketNumber TicketID Title Created Queue State Priority Lock CustomerID CustomerUserID)) {
+            next KEY unless $Ticket{$Key};
+
+            $Self->Print( sprintf( "<yellow>%-20s</yellow> %s\n", "$Key:", $Ticket{$Key} ) );
+        }
+
+        $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
     }
-
-    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -100,7 +134,16 @@ sub Run {
             DynamicFields => 0,
         );
 
-        next META_ARTICLE if !%Article;
+        next META_ARTICLE unless %Article;
+
+        if ( $Format ne 'Report' ) {
+            $Ticket{Articles} //= [];
+            push $Ticket{Articles}->@*, \%Article;
+
+            next META_ARTICLE;
+        }
+
+        # print the Report
 
         my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
             ChannelID => $Article{CommunicationChannelID},
@@ -109,7 +152,8 @@ sub Run {
 
         KEY:
         for my $Key (qw(ArticleID CreateTime SenderType Channel)) {
-            next KEY if !$Article{$Key};
+            next KEY unless $Article{$Key};
+
             $Self->Print( sprintf( "<yellow>%-20s</yellow> %s\n", "$Key:", $Article{$Key} ) );
         }
 
@@ -136,6 +180,14 @@ sub Run {
     }
     continue {
         $Counter++;
+    }
+
+    if ( $Format eq 'JSON' ) {
+        print $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+            Data     => \%Ticket,
+            SortKeys => 1,
+            Pretty   => 1,
+        );
     }
 
     return $Self->ExitCodeOk();

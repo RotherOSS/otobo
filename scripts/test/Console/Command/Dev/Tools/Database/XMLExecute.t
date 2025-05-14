@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -34,14 +34,12 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Database::XMLExecute');
 
-my ( $Result, $ExitCode );
-
 my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $TableCreateXML = "$Home/scripts/test/Console/Command/Dev/Tools/Database/XMLExecute/TableCreate.xml";
 my $TableDropXML   = "$Home/scripts/test/Console/Command/Dev/Tools/Database/XMLExecute/TableDrop.xml";
 
 # try to execute command without any options
-$ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 $Self->Is(
     $ExitCode,
     1,

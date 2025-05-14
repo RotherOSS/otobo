@@ -24,8 +24,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-use Kernel::Config;
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,

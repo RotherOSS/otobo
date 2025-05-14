@@ -18,13 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Mapping;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::GenericInterface::Debugger ();
+use Kernel::GenericInterface::Mapping  ();
+
+our $Self;
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -171,9 +174,9 @@ $Self->Is(
     'HASH',
     'MappingObject call response type',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
-    'MappingObject call invalid data provided',
+    'MappingObject call empty array data provided',
 );
 
 # map with some data

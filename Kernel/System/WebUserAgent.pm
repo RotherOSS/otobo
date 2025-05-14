@@ -19,10 +19,14 @@ package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
 
-use HTTP::Headers;
+# core modules
 use List::Util qw(first);
-use LWP::UserAgent;
 
+# CPAN modules
+use HTTP::Headers  ();
+use LWP::UserAgent ();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -59,8 +63,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get database object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

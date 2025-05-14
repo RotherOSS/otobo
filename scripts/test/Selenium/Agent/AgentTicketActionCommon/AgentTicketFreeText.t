@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -42,14 +42,13 @@ sub WaitForAJAX {
 
 $Selenium->RunTest(
     sub {
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
-        my $ServiceObject   = $Kernel::OM->Get('Kernel::System::Service');
-        my $SLAObject       = $Kernel::OM->Get('Kernel::System::SLA');
-        my $StateObject     = $Kernel::OM->Get('Kernel::System::State');
-        my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
+        my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
+        my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $RandomID = $Helper->GetRandomID();
         my $Success;
@@ -377,8 +376,6 @@ $Selenium->RunTest(
         }
 
         # Test cases - all fields are set except exactly one, and in the last case all fields are set.
-        # Some of these tests currently run into a time out and are marked as todo.
-        # See issue #748.
         my @ClearTests = (
             {
                 Name      => 'Clear Service field',
@@ -400,7 +397,6 @@ $Selenium->RunTest(
                 Time       => 40,
                 NewQueueID => $QueueID,
                 NewOwnerID => '',
-                ToDo       => 1
             },
             {
                 Name             => 'Clear Responsible field and set back Owner field',
@@ -416,11 +412,6 @@ $Selenium->RunTest(
             {
                 Name       => 'Set back State field - all fields are set',
                 NewStateID => $StateID,
-                ToDo       => 1
-            },
-            {
-                Name       => 'Set back Queue field - all fields are set',
-                NewQueueID => $QueueID,
             }
         );
 
@@ -428,8 +419,6 @@ $Selenium->RunTest(
         for my $Test (@ClearTests) {
 
             subtest "Test case for 'clear': $Test->{Name}" => sub {
-
-                my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
 
                 try_ok {
                     my $ExpectedErrorFieldID;
@@ -439,7 +428,6 @@ $Selenium->RunTest(
 
                         next TESTFIELD if $FieldID eq 'Name';
                         next TESTFIELD if $FieldID eq 'Time';
-                        next TESTFIELD if $FieldID eq 'ToDo';
 
                         if ( $Test->{$FieldID} eq '' ) {
                             $ExpectedErrorFieldID = $FieldID;
@@ -467,6 +455,9 @@ $Selenium->RunTest(
                             $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
                             "FieldID $ExpectedErrorFieldID is empty",
                         );
+
+                        # reset focus to clear selections
+                        $Selenium->execute_script("\$('#Title').focus();");
                     }
                     else {
                         pass("All mandatory fields are filled - successful free text fields update");

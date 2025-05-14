@@ -19,9 +19,14 @@ package Kernel::System::Console::Command::List;
 use strict;
 use warnings;
 
-use Kernel::System::Console::InterfaceConsole;
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::Console::InterfaceConsole;    ## no perlimports
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -112,6 +117,7 @@ sub ListAllCommands {
     }
 
     # Sort first by directory, then by File
+    ## no critic qw(Community::DollarAB)
     my $Sort = sub {
         my ( $DirA, $FileA ) = split( /::(?=[^:]+$)/smx, $a );
         my ( $DirB, $FileB ) = split( /::(?=[^:]+$)/smx, $b );

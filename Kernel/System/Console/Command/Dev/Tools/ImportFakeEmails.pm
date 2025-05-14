@@ -21,10 +21,14 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
-use POSIX qw(ceil);
-use Time::HiRes qw();
-use Kernel::System::PostMaster;
-use Kernel::System::MailAccount::IMAP;
+# core modules
+use POSIX       qw(ceil);
+use Time::HiRes ();
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::PostMaster ();    ## no perlimports, Kernel::System::PostMaster::Run will be overridden
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -105,7 +109,7 @@ test %s';
 
         my ( $Seconds, $MSeconds ) = Time::HiRes::gettimeofday();
         my $Email = sprintf $Self->{Email}, $Seconds, $MSeconds, "$Seconds-$MSeconds";
-        my @Lines = split "\n", $Email;
+        my @Lines = split /\n/, $Email;
 
         return wantarray ? @Lines : \@Lines;
     }

@@ -19,6 +19,12 @@ package Kernel::GenericInterface::Invoker::Test::TestSimple;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use URI::Escape qw(uri_unescape);
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -120,14 +126,21 @@ sub HandleResponse {
         };
     }
 
-    if ( $Param{Data}->{ResponseContent} && $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
+    if ( !defined $Param{Data} ) {
+        return {
+            Success => 1,
+            Data    => {},
+        };
+    }
+
+    if ( ( ref $Param{Data} eq 'HASH' ) && $Param{Data}->{ResponseContent} && $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
 
         # ResponseContent has URI like params, convert them into a hash
         my %QueryParams = split /[&=]/, $Param{Data}->{ResponseContent};
 
         # unscape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
-            $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
+            $QueryParams{$Param} = uri_unescape( $QueryParams{$Param} );
         }
 
         # fix ExecutrionTime param

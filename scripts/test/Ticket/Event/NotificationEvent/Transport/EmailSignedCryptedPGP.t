@@ -18,16 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
+# core modules
 use File::Path qw(mkpath rmtree);
 
-use Kernel::System::EmailParser;
-use Kernel::Output::HTML::ArticleCheck::PGP;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::Output::HTML::ArticleCheck::PGP ();
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
