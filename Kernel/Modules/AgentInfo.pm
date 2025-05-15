@@ -42,8 +42,8 @@ sub PreRun {
     $Self->{RequestedURL} ||= 'Action=';
 
     # no redirect when the InfoKey already is in the User preferences
-    return if $Self->{ $Self->{Session}->{InfoKey} };
-    return if $Self->{Action} eq 'AgentInfo;
+    return if $Self->{Session}->{ $Self->{InfoKey} };
+    return if $Self->{Action} eq 'AgentInfo';
 
     # The originally requested URL will be needed when presenting AgentInfo.
     # Therefore remember the requesed URL in the user session.
