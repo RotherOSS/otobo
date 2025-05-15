@@ -2,7 +2,13 @@
 ---
 name: 'DockerImageUpdateAll'
 
-# This workflow has been adapted from https://github.com/marketplace/actions/docker-image-update-checker#minimal
+# This workflow has been adapted from the workflow
+# https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow checks whether there are updated base images and
+# creates release images on Docker Hub.
+# For each supported releas branch only the last three patch level releases are checked.
+# Note that the list of release tags must be updated when there are new patch level releases.
 
 on:
 
@@ -10,27 +16,168 @@ on:
   # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_all.yml
   workflow_dispatch:
 
+  # Currenty there is no automatically scheduled rebuild.
+  #schedule:
+  #  - cron: '37 2 * * *'
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
+
+    # This long list is a workaround so that
+    # the outputs from all matrix iterations can be collected.
+    outputs:
+      otobo_web_rel_10_0_22: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_22 }}
+      otobo_web_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_23 }}
+      otobo_web_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_24 }}
+      otobo_web_latest_10_0: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0 }}
+      otobo_web_rel_10_1_11: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_11 }}
+      otobo_web_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_12 }}
+      otobo_web_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_13 }}
+      otobo_web_latest_10_1: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1 }}
+      otobo_web_rel_11_0_7: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_7 }}
+      otobo_web_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_8 }}
+      otobo_web_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_9 }}
+      otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
+
+      otobonginx_webproxy_rel_10_0_22: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_22 }}
+      otobonginx_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_23 }}
+      otobonginx_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_24 }}
+      otobonginx_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_0 }}
+      otobonginx_webproxy_rel_10_1_11: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_11 }}
+      otobonginx_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_12 }}
+      otobonginx_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_13 }}
+      otobonginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_1 }}
+      otobonginx_webproxy_rel_11_0_7: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_7 }}
+      otobonginx_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_8 }}
+      otobonginx_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_9 }}
+      otobonginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_11_0 }}
+
+      otobo_nninx_kerberos_webproxy_rel_10_0_22: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_22 }}
+      otobo_nninx_kerberos_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_23 }}
+      otobo_nninx_kerberos_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_24 }}
+      otobo_nninx_kerberos_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_0 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_11: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_11 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_12 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_13 }}
+      otobo_nninx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_1 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_7: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_7 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_8 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_9 }}
+      otobo_nninx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_11_0 }}
+
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy' ]
-        docker_tag: [ 'rel-11_1', 'latest-11_1' ]
+        target: ['otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy']
+        docker_tag: [
+          'rel-10_0_22', 'rel-10_0_23', 'rel-10_0_24', 'latest-10_0',
+          'rel-10_1_11', 'rel-10_1_12', 'rel-10_1_13', 'latest-10_1',
+          'rel-11_0_7', 'rel-11_0_8', 'rel-11_0_9', 'latest-11_0'
+        ]
         include:
+          # the latest release for every release branch - has to be updated
           -
-            # this currently has to be updated every release
-            docker_tag: 'latest-11_1'
-            patch:      'rel-11_1_1'
+            docker_tag: 'latest-10_0'
+            patch:      'rel-10_0_23'
+          -
+            docker_tag: 'latest-10_1'
+            patch:      'rel-10_1_13'
+          -
+            docker_tag: 'latest-11_0'
+            patch:      'rel-11_0_9'
+
+          # otobo-web uses different base images in the different release branches
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_0_22'
+            base_image: 'perl:5.32-buster'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_0_23'
+            base_image: 'perl:5.32-buster'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_0_24'
+            base_image: 'perl:5.32-buster'
+          -
+            target:     'otobo-web'
+            docker_tag: 'latest-10_0'
+            base_image: 'perl:5.32-buster'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_1_11'
+            base_image: 'perl:5.36-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_1_12'
+            base_image: 'perl:5.36-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-10_1_13'
+            base_image: 'perl:5.36-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'latest-10_1'
+            base_image: 'perl:5.36-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_7'
+            base_image: 'perl:5.38-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_8'
+            base_image: 'perl:5.38-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'rel-11_0_9'
+            base_image: 'perl:5.38-bookworm'
+          -
+            target:     'otobo-web'
+            docker_tag: 'latest-11_0'
+            base_image: 'perl:5.38-bookworm'
+
+          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_0_22'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_0_23'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_0_24'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_0'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_1_11'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_1_12'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_1_13'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+
+          # common info for every target; for nginx this includes the base imagie
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
-            base_image: 'perl:5.40-slim-bookworm'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
@@ -43,9 +190,6 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline'
-          -
-            docker_tag: 'rel-11_0_6'
-            fix_cldr:   1
           -
             docker_tag: 'rel-11_0_7'
             fix_cldr:   1
@@ -85,83 +229,44 @@ jobs:
           ) >> $GITHUB_ENV
 
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      -
-        name: 'check out the relevant OTOBO branch'
-        uses: actions/checkout@v4
+        # this step sets ${{ steps.check.outputs.needs-updating }}
+        name: Check whether the base image was updated
+        id: check
+        uses: lucacome/docker-image-update-checker@v2
         with:
-          ref: ${{ env.otobo_branch }}
+          base-image: ${{ env.otobo_base_image }}
+          image:      ${{ env.otobo_ref }}
 
       -
-        # needed for build arg GIT_COMMIT
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'get the commit SHA of the current checkout'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
-
-      -
-        # a workaround for a build failure for the 11.0.7 release
-        # see https://github.com/RotherOSS/otobo/issues/4103
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.6 and 11.0.7'
-        if: ${{ matrix.target == 'otobo-web' && matrix.fix_cldr }}
+        # print the result in any case
+        name: Report the check result
+        id: collect_summary
         run: |
-          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
+          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          cleaned_output_key=$(echo $output_key | tr - _)
+          echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
 
       -
-        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
-        # Caching with Github Actions Cache, limited to 10 GB
-        # context: .  indicates that the current checkout is used
-        name: Build
-        uses: docker/build-push-action@v6
+        # Use a local composite action.
+        # The action uses the inputs and the env context.
+        name: 'Run local composite action'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: ./.github/actions/docker_image_update
         with:
-          load: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
+          fix_cldr: matrix.fix_cldr
+          dockerfile: matrix.dockerfile
+          context: matrix.context
           target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
+  # Write Summary
+  WriteSummary:
+    needs: CheckDockerImageUpdate
+    runs-on: 'ubuntu-latest'
+    steps:
       -
-        # otobo_first_time hasn't run yet, so /opt/otobo is still empty
-        name: Info
+        name: Write a summary
+        id: write_summary
         run: |
-          docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
-
-      -
-        # login to Docker Hub only after the build
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      -
-        # finally upload to DockerHub
-        # the built image is already available in the job
-        name: Push to DockerHub
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cat <<END_JSON >> $GITHUB_STEP_SUMMARY
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON

@@ -41,11 +41,9 @@ sub PreRun {
     # default value
     $Self->{RequestedURL} ||= 'Action=';
 
-    # avoid recursive redirection when the AgentInfo frontend is requested
-    return if $Self->{Action} eq 'AgentInfo';
-
     # no redirect when the InfoKey already is in the User preferences
-    return if $Self->{ $Self->{InfoKey} };
+    return if $Self->{ $Self->{Session}->{InfoKey} };
+    return if $Self->{Action} eq 'AgentInfo;
 
     # The originally requested URL will be needed when presenting AgentInfo.
     # Therefore remember the requesed URL in the user session.
@@ -72,7 +70,7 @@ sub Run {
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    if ( $Self->{ $Self->{InfoKey} } ) {
+    if ( $Self->{Session}{ $Self->{InfoKey} } ) {
 
         # remove requested url from session storage
         $SessionObject->UpdateSessionID(

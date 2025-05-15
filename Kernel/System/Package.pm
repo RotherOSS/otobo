@@ -2718,7 +2718,7 @@ sub PackageIsInstalled {
     );
 
     my $Flag = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Flag = 1;
     }
 
@@ -3412,7 +3412,7 @@ sub PackageInstallOrderListGet {
     my %InstallOrder;
     my %Failed;
 
-    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
+    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(
         Callers             => {},
         InstalledVersions   => \%InstalledVersions,
         TargetPackages      => \%InstalledVersions,
