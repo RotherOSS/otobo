@@ -179,6 +179,7 @@ jobs:
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON
           )
+          echo "number of builds is $num_builds" >> $GITHUB_STEP_SUMMARY
           echo "num_builds=$num_builds" >> $GITHUB_OUTPUT
       -
         name: Create an issue
