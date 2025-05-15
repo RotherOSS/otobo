@@ -163,7 +163,9 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-          echo '${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}' >> $GITHUB_STEP_SUMMARY
+          cat <<END_JSON
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }
+          END_JSON
 
   # create an issue that reminds people that manual action must be performed
   CreateIssue:
