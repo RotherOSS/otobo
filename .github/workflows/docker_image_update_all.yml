@@ -268,5 +268,5 @@ jobs:
         id: write_summary
         run: |
           cat <<END_JSON
-          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON
