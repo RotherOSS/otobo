@@ -22,10 +22,50 @@ on:
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
+
+    # This long list is a workaround so that
+    # the outputs from all matrix iterations can be collected.
     outputs:
-      summary: ${{ steps.collect_summary.outputs.summary }}
+      otobo_web_rel_10_0_22: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_22 }}
+      otobo_web_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_23 }}
+      otobo_web_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_24 }}
+      otobo_web_latest_10_0: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0 }}
+      otobo_web_rel_10_1_11: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_11 }}
+      otobo_web_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_12 }}
+      otobo_web_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_13 }}
+      otobo_web_latest_10_1: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1 }}
+      otobo_web_rel_11_0_7: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_7 }}
+      otobo_web_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_8 }}
+      otobo_web_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_9 }}
+      otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
+
+      otobonginx_webproxy_rel_10_0_22: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_22 }}
+      otobonginx_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_23 }}
+      otobonginx_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_24 }}
+      otobonginx_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_0 }}
+      otobonginx_webproxy_rel_10_1_11: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_11 }}
+      otobonginx_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_12 }}
+      otobonginx_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_13 }}
+      otobonginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_1 }}
+      otobonginx_webproxy_rel_11_0_7: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_7 }}
+      otobonginx_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_8 }}
+      otobonginx_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_9 }}
+      otobonginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_11_0 }}
+
+      otobo_nninx_kerberos_webproxy_rel_10_0_22: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_22 }}
+      otobo_nninx_kerberos_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_23 }}
+      otobo_nninx_kerberos_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_24 }}
+      otobo_nninx_kerberos_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_0 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_11: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_11 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_12 }}
+      otobo_nninx_kerberos_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_13 }}
+      otobo_nninx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_1 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_7: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_7 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_8 }}
+      otobo_nninx_kerberos_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_9 }}
+      otobo_nninx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_11_0 }}
+
     strategy:
-      max-parallel: 1
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
@@ -189,11 +229,6 @@ jobs:
           ) >> $GITHUB_ENV
 
       -
-        name: Info
-        run: |
-          echo "Checking base image ${{ env.otobo_base_image }} of image ${{ env.otobo_ref }}"
-
-      -
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
         id: check
@@ -205,55 +240,23 @@ jobs:
       -
         # print the result in any case
         name: Report the check result
+        id: collect_summary
         run: |
-          echo '- Image ${{ matrix.target }} ${{ matrix.docker_tag }} must be updated:  ${{ steps.check.outputs.needs-updating }}' >> $GITHUB_STEP_SUMMARY
+          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          cleaned_output_key=$(echo $output_key | tr - _)
+          echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
 
       -
-        # Uses a local composite action.
+        # Use a local composite action.
+        # The action uses the inputs and the env context.
         name: 'Run local composite action'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
-          target: ${{ matrix.target }}
           fix_cldr: matrix.fix_cldr
-
-      -
-        # login to Docker Hub only after the build
-        name: Login to Docker Hub
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      -
-        # finally upload to DockerHub
-        # the built image is already available in the job
-        name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
+          dockerfile: matrix.dockerfile
+          context: matrix.context
           target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      -
-        # this might work because max-paralled has been set to 1
-        name: Collect summary, even though no issue is created
-        id: collect_summary
-        if: steps.check.outputs.needs-updating == 'true'
-        run: echo "summary=${{ steps.collect_summary.outputs.summary }}${{ env.otobo_ref }} ${{ steps.check.outputs.needs-updating }}  \n" >> $GITHUB_OUTPUT
 
   # Write Summary
   WriteSummary:
@@ -264,5 +267,4 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-            echo '### Summary, still WIP' >> $GITHUB_STEP_SUMMARY
-
+          echo '${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}' >> $GITHUB_STEP_SUMMARY

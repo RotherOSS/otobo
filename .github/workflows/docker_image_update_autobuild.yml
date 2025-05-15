@@ -25,10 +25,23 @@ on:
 jobs:
   CheckDockerImageUpdate:
     runs-on: 'ubuntu-latest'
+
+    # This long list is a workaround so that
+    # the outputs from all matrix iterations can be collected.
     outputs:
-      summary: ${{ steps.collect_summary.outputs.summary }}
+      otobo_web_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0_autobuild }}
+      otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
+      otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
+
+      otobo_nginx_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0_autobuild }}
+      otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
+      otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
+
+      otobo_nginx_kerberos_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_0_autobuild }}
+      otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
+      otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
+
     strategy:
-      max-parallel: 1
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
@@ -112,11 +125,6 @@ jobs:
           ) >> $GITHUB_ENV
 
       -
-        name: Info
-        run: |
-          echo "Checking base image ${{ env.otobo_base_image }} of image ${{ env.otobo_ref }}"
-
-      -
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
         id: check
@@ -128,55 +136,23 @@ jobs:
       -
         # print the result in any case
         name: Report the check result
+        id: collect_summary
         run: |
-          echo '- Image ${{ matrix.target }} ${{ matrix.docker_tag }} must be updated:  ${{ steps.check.outputs.needs-updating }}' >> $GITHUB_STEP_SUMMARY
+          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          cleaned_output_key=$(echo $output_key | tr - _)
+          echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
 
       -
-        # Uses a local composite action.
+        # Use a local composite action.
+        # The action uses the inputs and the env context.
         name: 'Run local composite action'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
-          target: ${{ matrix.target }}
           fix_cldr: false
-
-      -
-        # login to Docker Hub only after the build
-        name: Login to Docker Hub
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      -
-        # finally upload to DockerHub
-        # the built image is already available in the job
-        name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
+          dockerfile: matrix.dockerfile
+          context: matrix.context
           target: ${{ matrix.target }}
-          tags: ${{ env.otobo_ref }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      -
-        # this might work because max-paralled has been set to 1
-        name: Collect summary for creating an issue
-        id: collect_summary
-        if: steps.check.outputs.needs-updating == 'true'
-        run: echo "summary=${{ steps.collect_summary.outputs.summary }}${{ env.otobo_ref }} ${{ steps.check.outputs.needs-updating }}  \n" >> $GITHUB_OUTPUT
 
   # Write Summary
   WriteSummary:
@@ -187,7 +163,7 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-            echo '### Summary, still WIP' >> $GITHUB_STEP_SUMMARY
+          echo '${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}' >> $GITHUB_STEP_SUMMARY
 
   # create an issue that reminds people that manual action must be performed
   CreateIssue:
@@ -195,10 +171,19 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       -
+        name: Count number of builds
+        id: count_builds
+        # might work if there are no single quotes on the JSON
+        run: |
+          num_builds=$(jq '[.[] | select(contains("true"))] | length' <<END_JSON
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON
+          )
+          echo "num_builds=$num_builds" >> $GITHUB_OUTPUT
+      -
         name: Create an issue
         id: create_issue
-        # this is broken as summary is overwritten in loop iterations
-        if: needs.CheckDockerImageUpdate.outputs.summary != ''
+        if: steps.count_builds.outputs.num_builds >= 1
         uses: actions/github-script@v7
         with:
           script: |
