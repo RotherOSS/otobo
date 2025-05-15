@@ -44,7 +44,7 @@ sub PreRun {
     }
 
     # redirect if no primary group is selected
-    if ( !$Self->{ $Self->{InfoKey} } && $Self->{Action} ne 'AgentInfo' ) {
+    if ( !$Self->{Session}{ $Self->{InfoKey} } && $Self->{Action} ne 'AgentInfo' ) {
 
         # remove requested url from session storage
         $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
@@ -72,7 +72,7 @@ sub Run {
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    if ( $Self->{ $Self->{InfoKey} } ) {
+    if ( $Self->{Session}{ $Self->{InfoKey} } ) {
 
         # remove requested url from session storage
         $SessionObject->UpdateSessionID(
