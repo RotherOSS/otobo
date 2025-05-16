@@ -97,6 +97,7 @@ jobs:
       -
         # Uses a local composite action.
         # The repository must already be checked out.
+        # The tag ':latest' is only relevant for rel-10_0
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:

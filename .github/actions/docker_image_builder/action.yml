@@ -82,32 +82,9 @@ runs:
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
       -
-        # finally upload to DockerHub - without latest update
+        # finally upload to DockerHub using the provided dockerhub_tags
         # the built image is already available in the job
         name: Push to DockerHub
-        if:   ${{ inputs.latest != true }}
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          context: ${{ inputs.context }}
-          file: ${{ inputs.dockerfile }}
-          pull: true
-          build-args: |
-            BUILD_DATE=${{ env.otobo_build_date }}
-            DOCKER_TAG=${{ env.otobo_docker_tag }}
-            GIT_REPO=${{ github.repositoryUrl }}
-            GIT_BRANCH=${{ env.otobo_branch }}
-            GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }}
-          target: ${{ inputs.target }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      -
-        # finally upload to DockerHub - with latest update
-        # the built image is already available in the job
-        name: Push to DockerHub (latest)
-        if:   ${{ inputs.latest == true }}
         uses: docker/build-push-action@v6
         with:
           push: true
