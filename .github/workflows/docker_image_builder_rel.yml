@@ -74,14 +74,6 @@ jobs:
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
-      -
-        # the name of the Dockerfile might depend on the branch
-        # there is a special case for rel-10_0 and rel-10_1
-        name: Get the name of the Dockerfile
-        id: get-dockerfile
-        run: |
-          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(github.ref_name, 'rel-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
-
       - name: 'check out the relevant OTOBO branch'
         uses: actions/checkout@v4
 
@@ -97,11 +89,10 @@ jobs:
       -
         # Uses a local composite action.
         # The repository must already be checked out.
-        # The label ${{ matrix.repository }}:latest is just set for compatability. Using latest-10_0 is recommended
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:
-          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          dockerfile: ${{ matrix.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
-          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest","${{ matrix.repository }}:latest-10_0"
+          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-11_0","${{ matrix.repository }}:latest-11_0-autobuild"
