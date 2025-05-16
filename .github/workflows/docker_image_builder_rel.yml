@@ -74,14 +74,6 @@ jobs:
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
-      -
-        # the name of the Dockerfile might depend on the branch
-        # there is a special case for rel-10_0 and rel-10_1
-        name: Get the name of the Dockerfile
-        id: get-dockerfile
-        run: |
-          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(github.ref_name, 'rel-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
-
       - name: 'check out the relevant OTOBO branch'
         uses: actions/checkout@v4
 
