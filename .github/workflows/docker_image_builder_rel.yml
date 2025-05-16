@@ -95,4 +95,4 @@ jobs:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
-          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-10_1","${{ matrix.repository }}:latest-10_1-autobuild"
+          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-11_0","${{ matrix.repository }}:latest-11_0-autobuild"
