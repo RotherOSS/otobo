@@ -61,13 +61,17 @@ jobs:
       -
         # Store some variables in an environment file so that
         # they can be used in the later steps.
+        # The branch is something like 'rel-10_0_26'.
+        # For the Docker Hub tags we extract the major and minor versions: e.g. '10_0'
         name: Setup
         run: |
-          branch="${{ github.ref_name }}"                     # e.g rel-10_0_24
+          branch="${{ github.ref_name }}"
+          major_minor=$(echo $branch | sed -e 's/.*-\([0-9]\+_[0-9]\+\)_.*/\1/')
           docker_tag="${{ matrix.tag_prefix }}$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
+            echo "major_minor=$major_minor"
             echo "otobo_docker_tag=$docker_tag"
             echo "otobo_ref=${{ matrix.repository }}:$docker_tag"
             echo "otobo_build_date=$build_date"
@@ -87,12 +91,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
-        # Uses a local composite action.
-        # The repository must already be checked out.
+        # Use a local composite action.
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:
           dockerfile: ${{ matrix.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
-          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-11_0","${{ matrix.repository }}:latest-11_0-autobuild"
+          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-${{ env.major_minor }}","${{ matrix.repository }}:latest-${{ env.major_minor }}-autobuild"
