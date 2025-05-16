@@ -1,9 +1,47 @@
 
+# OTOBO 11.0.10 2025-05-16
+- 2025-05-16 13:47:24 +0200 Revert "Update CHANGES."
+- 2025-05-16 13:37:13 +0200 The step get-dockerfile had been removed
+- 2025-05-16 13:32:43 +0200 Update CHANGES.
+- 2025-05-16 13:26:49 +0200 Update latest tag from rel-11_0.
+- 2025-05-16 13:25:57 +0200 Remove special case that is not needed in rel-11_0
+- 2025-05-16 13:11:28 +0200 Update CHANGES.
+- 2025-05-16 13:09:28 +0200 Create new OTOBO language files.
+- 2025-05-16 12:56:40 +0200 Update the tags in Docker Hub
+- 2025-05-16 12:41:25 +0200 Don't use matrix context in shared composite action (https://github.com/RotherOSS/otobo/issues/4325) - in progress
+- 2025-05-16 11:56:52 +0200 Revert "Issue #4330: do not set the autobuild tag"
+- 2025-05-16 10:51:28 +0200 Update CHANGES.
+- 2025-05-06 16:36:09 +0200 Update translation files
+- 2025-05-15 12:02:56 +0200 [Bugfix]   Fix Regression: AgentInfo leads to redirect loop. (https://github.com/RotherOSS/otobo/issues/4342)
+- 2025-05-15 16:00:51 +0200 Install eslint in the Docker container used for the codepolicy workflow (https://github.com/RotherOSS/otobo/issues/4337) - in progress
+- 2025-05-15 15:42:26 +0200 The docker_image_update_autobuild.yml should notify developers when there are new autobuilds (https://github.com/RotherOSS/otobo/issues/4278) - in progress
+- 2025-05-15 14:22:23 +0200 [Bugfix]   Printing Tickets with Unicode codepoints outside basic multilingual plane (https://github.com/RotherOSS/otobo/issues/1848) - in progress
+- 2025-05-14 15:41:15 +0200 [Tidied]   Remove irritating no critic statements (https://github.com/RotherOSS/otobo/issues/4338)
+- 2025-05-13 13:50:34 +0200 POD correction for ArticleDelete functionality (https://github.com/RotherOSS/otobo/issues/4335)
+- 2025-05-09 13:57:27 +0200 Loop over branches in Docker Image Updater (https://github.com/RotherOSS/otobo/issues/4332) - in progress
+- 2025-05-09 11:28:07 +0200 Building otobo-web-kerberos failed.
+- 2025-05-08 17:05:21 +0200 Building otobo-web-kerberos failed.
+- 2025-05-08 16:53:57 +0200 The release action should not interfere with the autobuilds (https://github.com/RotherOSS/otobo/issues/4330)
+- 2025-05-08 16:47:52 +0200 Grab some changes from the rel-11_0 branch
+- 2025-05-08 14:59:25 +0200 Update the patch level
+- 2025-05-06 17:38:56 +0200 Remove duplicate German translation string.
+- 2025-05-06 17:08:34 +0200 Fix CHANGES.
+- 2025-05-06 17:07:42 +0200 Fix CHANGES.
+- 2025-05-06 16:48:54 +0200 Update CHANGES.
+- 2025-05-06 16:47:06 +0200 Revert "Update CHANGES."
+- 2025-05-06 16:38:27 +0200 Update CHANGES.
+- 2025-05-06 16:35:35 +0200 Create new OTOBO language files.
+- 2025-05-06 16:35:11 +0200 Fix Changes.
+- 2025-05-06 16:25:16 +0200 Update CHANGES.
+- 2025-03-28 09:56:39 +0000 Translated using Weblate (German)
+- 2025-02-26 10:58:16 +0100 Update translation files
+
+
 # OTOBO 11.0.9 2025-05-06
 - 2025-05-06 16:57:27 +0200 Create new OTOBO language files.
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Püttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-05-05 07:50:09 +0200 [Bugfix]   Correct object type param in AdminDynamicField clone link (https://github.com/RotherOSS/otobo/issues/4321)
 - 2025-04-30 13:56:36 +0200 [Bugfix]   Assigned customer user cannot be removed (https://github.com/RotherOSS/otobo/issues/4319) - in progress
@@ -58,7 +96,7 @@
 - 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
 - 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
 - 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
 - 2024-10-02 14:54:36 +0200 Update translation files
 
 
@@ -2533,5 +2571,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
