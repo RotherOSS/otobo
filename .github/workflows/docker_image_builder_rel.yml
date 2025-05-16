@@ -97,11 +97,10 @@ jobs:
       -
         # Uses a local composite action.
         # The repository must already be checked out.
-        # The label ${{ matrix.repository }}:latest is just set for compatability. Using latest-10_0 is recommended
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
-          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest","${{ matrix.repository }}:latest-10_0"
+          dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest","${{ matrix.repository }}:latest-10_0","${{ matrix.repository }}:latest-10_0-autobuild"
