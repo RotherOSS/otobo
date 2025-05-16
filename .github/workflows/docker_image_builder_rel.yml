@@ -92,7 +92,7 @@ jobs:
         name: 'Run local composite action'
         uses: ./.github/actions/docker_image_builder
         with:
-          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          dockerfile: ${{ matrix.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
           dockerhub_tags: ${{ env.otobo_ref }},"${{ matrix.repository }}:latest-11_0","${{ matrix.repository }}:latest-11_0-autobuild"
