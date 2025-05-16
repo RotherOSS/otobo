@@ -1,8 +1,21 @@
 
+# OTOBO 10.0.25 2025-05-16
+- 2025-05-15 12:02:56 +0200 [Bugfix]   Fix Regression: AgentInfo leads to redirect loop. (https://github.com/RotherOSS/otobo/issues/4342)
+- 2025-05-15 16:00:51 +0200 Install eslint in the Docker container used for the codepolicy workflow (https://github.com/RotherOSS/otobo/issues/4337) - in progress
+- 2025-05-09 10:56:19 +0200 Loop over branches in Docker Image Updater (https://github.com/RotherOSS/otobo/issues/4332) - in progress
+- 2025-05-08 16:53:57 +0200 The release action should not interfere with the autobuilds (https://github.com/RotherOSS/otobo/issues/4330)
+- 2025-05-08 16:47:52 +0200 Grab some changes from the rel-11_0 branch
+- 2025-05-08 14:59:25 +0200 Update the patch level
+- 2025-05-08 14:10:57 +0200 Don't use matrix context in shared composite action (https://github.com/RotherOSS/otobo/issues/4325)
+- 2025-05-06 16:47:06 +0200 Revert "Update CHANGES."
+- 2025-05-06 16:38:27 +0200 Update CHANGES.
+- 2025-05-06 16:35:11 +0200 Fix Changes.
+
+
 # OTOBO 10.0.24 2025-05-06
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Püttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
 - 2025-04-14 13:21:14 +0200 Fix references to doc.otobo.org/doc (https://github.com/RotherOSS/otobo/issues/4253)
@@ -1087,6 +1100,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
