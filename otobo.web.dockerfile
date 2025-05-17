@@ -269,7 +269,7 @@ RUN <<END_BASH bash
     ) >> cpanfile
 
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
-    carton install
+    /opt/otobo_install/carton install
 
     rm -rf "/root/.cpanm"
 END_BASH
