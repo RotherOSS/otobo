@@ -17,6 +17,7 @@
 !COPYING-Third-Party
 !cpanfile.docker
 !cpanfile.docker.kerberos
+!cpanfile.docker.snapshot.10_1
 !INSTALL.md
 !LICENSE
 !README.md

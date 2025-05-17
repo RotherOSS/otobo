@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.9
+
 # This is the build file for the OTOBO web docker image.
 # The services OTOBO web and OTOBO daemon use the same image.
 # There is also an extra build target otobo-web-kerberos that adds support for Kerberos.
@@ -81,17 +83,56 @@ ENV LANG=C.UTF-8
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
-# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+# The modules are installed with the command `carton` as it allows to install fixed
+# version from a previous snapshot. The idea is that the snapshot is updated when
+# performing local builds. The automatic build on Github use the saved snapshot.
+#
+# 'carton install' will update cpanfile.snapshot.
+# 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+#
+# A fatpacked script `carton` is used for building the image. This has the advantage
+# that the requirements for `carton` are not included in the generated Docker image.
+#
+# Creating the fatpacked carton script is a bit tedious. See
+# https://github.com/perl-carton/carton/issues/237 and https://github.com/miyagawa/cpanminus/pull/577.
+# The recommendation is to create the fatpack in an running container:
+#   cd /opt/otobo
+#   cpanm --local-lib local Carton
+#   cpanm --local-lib local App::FatPacker
+#   sed -e '/version::vpp/s/^/# version:vpp is not in core Perl 5.40:/' -i.bak local/lib/perl5/Menlo/CLI/Compat.pm
+#   touch cpanfile
+#   carton fatpack
+#   rm cpanfile
+# On the Docker host the fatpacked /opt/otobo_install/vendor/bin/carton can be copied to bin/docker/carton
+# in the Git sandbox.
+#   docker cp otoelfeins-web-1:/opt/otobo/vendor/bin/carton bin/docker/carton
+#   git add bin/docker/carton
+#
+# Note that the variable $DOCKER_TAG is already substituted by Docker.
 #
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
+COPY bin/docker/carton carton
 COPY cpanfile.docker cpanfile
+COPY cpanfile.docker.snapshot.11_0 cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
 ENV PATH="/opt/otobo_install/local/bin:${PATH}"
-RUN cpanm --local-lib local Carton\
- && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install\
- && rm -rf "/root/.cpanm"
+ARG DOCKER_TAG=unspecified
+RUN <<END_BASH bash
+    set -eux
+
+    cpanm --local-lib local local::lib
+
+    if [[ $DOCKER_TAG == local-* ]]
+    then
+        /opt/otobo_install/carton install
+    else
+        /opt/otobo_install/carton install --deployment
+    fi
+
+    rm -rf "/root/.cpanm"
+END_BASH
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
