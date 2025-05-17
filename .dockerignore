@@ -16,7 +16,7 @@
 !CONTRIBUTING.md
 !COPYING-Third-Party
 !cpanfile.docker
-!cpanfile.docker.snapshot
+!cpanfile.docker.snapshot.11_1
 !INSTALL.md
 !LICENSE
 !README.md

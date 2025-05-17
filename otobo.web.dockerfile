@@ -126,7 +126,7 @@ ENV LANG=C.UTF-8
 WORKDIR /opt/otobo_install
 COPY bin/docker/carton carton
 COPY cpanfile.docker cpanfile
-COPY cpanfile.docker.snapshot cpanfile.snapshot
+COPY cpanfile.docker.snapshot.11_1 cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
 ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 ARG DOCKER_TAG=unspecified
