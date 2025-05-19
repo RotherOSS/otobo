@@ -128,9 +128,6 @@ requires 'Sys::Hostname::Long', '== 1.5';
 # needed by Kernel::System::Diff
 requires 'Text::Diff', '== 1.44';
 
-# needed by Crypt::Random::Source
-requires 'Type::Tiny', '== 1.010000';
-
 # needed by Kernel::Output::HTML::Dashboard::RSS
 requires 'XML::FeedPP', '== 0.43';
 

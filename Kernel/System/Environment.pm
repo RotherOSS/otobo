@@ -246,8 +246,7 @@ sub PerlInfoGet {
 
         # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
-        # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
+        # Some modules, like Devel::REPL::Plugin::OTOBO, are supplied by OTOBO
         my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
         my %ModuleToVersion =
             map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
@@ -531,12 +530,6 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Text::Diff',
             'Required'        => 1,
             'VersionRequired' => '== 1.44',
-        },
-        {
-            'Comment'         => 'needed by Crypt::Random::Source',
-            'Module'          => 'Type::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.010000',
         },
         {
             'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',

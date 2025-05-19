@@ -92,6 +92,8 @@ requires 'Time::HiRes';
 
 requires 'Try::Tiny';
 
+requires 'Type::Tiny', '>= 1.008';
+
 requires 'Types::Serialiser';
 
 # for generating properly escaped URLs
