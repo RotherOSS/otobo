@@ -358,12 +358,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.95',
         },
         {
-            'Comment'         => 'needed by Type::Tiny',
-            'Module'          => 'Exporter::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.002001',
-        },
-        {
             'Comment'         => 'needed by PDF::API2',
             'Module'          => 'Font::TTF',
             'Required'        => 1,
