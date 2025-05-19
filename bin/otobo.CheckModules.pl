@@ -718,6 +718,17 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Type::Tiny',
+        VersionRequired => '>= 1.008',     # version provided by Debian 20.04 LTS Focal Fossa
+        Required        => 1,
+        InstTypes       => {
+            aptget => 'libtype-tiny-perl',
+            emerge => 'dev-perl/Type-Tiny',
+            zypper => 'perl-Type-Tiny',
+            ports  => 'devel/p5-Type-Tiny',
+        },
+    },
+    {
         # This module is a requirement for JSON::XS. It is listed
         # here explicitly because it is also used independently
         # from JSON::XS
