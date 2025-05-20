@@ -149,8 +149,6 @@ sub StatsParamsWidget {
     my $Stat   = $Param{Stat};
     my $StatID = $Stat->{StatID};
 
-    my $Output;
-
     # get the object name
     if ( $Stat->{StatType} eq 'static' ) {
         $Stat->{ObjectName} = $Stat->{File};
@@ -618,7 +616,7 @@ sub StatsParamsWidget {
         );
     }
 
-    $Output .= $LayoutObject->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'Statistics/StatsParamsWidget',
         Data         => {
             %{$Stat},
@@ -626,7 +624,6 @@ sub StatsParamsWidget {
         },
         AJAX => $Param{AJAX},
     );
-    return $Output;
 }
 
 sub GeneralSpecificationsWidget {
