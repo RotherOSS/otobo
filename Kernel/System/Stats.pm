@@ -968,12 +968,20 @@ sub GetStatsObjectAttributes {
 
 =head2 GetStaticFiles()
 
-Get all static files
+gets either all or unused static statistic files. Essentially these are the Perl modules
+that are located in F<Kernel/System/Stats/Static>.
 
     my $FileHash = $StatsObject->GetStaticFiles(
         OnlyUnusedFiles => 1 | 0, # optional default 0
         UserID => $UserID,
     );
+
+Returns:
+
+    $FileHash = {
+        OpenTicketCountPerDayPeriod => 1,
+        StateAction                 => 1,
+    };
 
 =cut
 
