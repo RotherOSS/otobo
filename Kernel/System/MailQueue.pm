@@ -735,9 +735,9 @@ sub Send {
 
 =head2 _SendSuccess()
 
-This method is called after a MailQueue item is successfully sent.
-It clears the item from the MailQueue, closes the communication log and
-triggers a Event Notification.
+This method is called after a MailQueue item has been sent successfully.
+It clears the item from the MailQueue, closes the communication log, and
+triggers an event notification.
 
     my $Result = $Object->_SendSuccess(
         Item => {
@@ -764,12 +764,10 @@ sub _SendSuccess {
         return;
     };
 
-    my $Result;
-
     my $Item = $Param{Item};
 
     # Delete queue element/item.
-    $Result = $Self->Delete(
+    my $Result = $Self->Delete(
         ID => $Item->{ID},
     );
 
