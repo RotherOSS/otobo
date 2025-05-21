@@ -1343,7 +1343,7 @@ sub GetStatTable {
         $Ticket{NumberOfArticles}            ||= 0;
 
         for my $ParameterName ( sort keys %Ticket ) {
-            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+            if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
 
                 # loop over the dynamic fields configured
                 DYNAMICFIELD:
