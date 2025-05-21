@@ -1585,9 +1585,9 @@ sub _DBInsert {
     );
 }
 
-=head2 _CreateCommunicationLogLookup()
+=head2 _SetCommunicationLogLookup()
 
-Creates the mail-queue item communication-log message association.
+creates the mail-queue item communication-log message association.
 It will also create the association for the article if any ArticleID was passed.
 Returns 1 always.
 
