@@ -87,7 +87,7 @@ jobs:
           # the latest release for every release branch - has to be updated
           -
             docker_tag: 'latest-10_0'
-            patch:      'rel-10_0_24'
+            patch:      'rel-10_0_25'
           -
             docker_tag: 'latest-10_1'
             patch:      'rel-10_1_14'
@@ -263,7 +263,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'check out so that the composite action becomes available'
+      -
+        name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: actions/checkout@v4
 
@@ -271,6 +272,7 @@ jobs:
         # the name of the Dockerfile might depend on the branch
         # there is a special case for rel-10_0 and rel-10_1
         name: Get the name of the Dockerfile
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
         id: get-dockerfile
         run: |
           echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
