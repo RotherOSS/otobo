@@ -274,9 +274,9 @@ jobs:
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
-          fix_cldr: matrix.fix_cldr
-          dockerfile: matrix.dockerfile
-          context: matrix.context
+          fix_cldr: ${{ matrix.fix_cldr }}
+          dockerfile: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
           target: ${{ matrix.target }}
 
   # Write Summary

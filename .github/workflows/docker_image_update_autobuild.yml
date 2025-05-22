@@ -164,8 +164,8 @@ jobs:
         uses: ./.github/actions/docker_image_update
         with:
           fix_cldr: false
-          dockerfile: matrix.dockerfile
-          context: matrix.context
+          dockerfile: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
           target: ${{ matrix.target }}
 
   # Write Summary
