@@ -16,12 +16,12 @@ inputs:
 
   dockerfile:
     description: |
-      The Dockerfile
+      Name of the Dockerfile for building the Docker image.
     required: true
 
   context:
     description: |
-      The build context.
+      Relative path in the sandbox which serves as the context for building the Docker image.
     required: true
 
   target:
@@ -51,7 +51,9 @@ runs:
         # needed for build arg GIT_COMMIT
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
+        shell: bash
+        run: |
+          echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
         # a workaround for a build failure for the 11.0.7 release
@@ -59,6 +61,7 @@ runs:
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
         if: ${{ inputs.target == 'otobo-web' && inputs.fix_cldr }}
+        shell: bash
         run: |
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
@@ -85,9 +88,11 @@ runs:
           cache-to: type=gha,mode=max
 
       -
+        # Show some files in the image just to check sanity.
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
         if: inputs.target == 'otobo-web' }}
+        shell: bash
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 

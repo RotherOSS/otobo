@@ -13,10 +13,12 @@ inputs:
     description: |
       Name of the Dockerfile for building the Docker image.
     required: true
+
   context:
     description: |
       Relative path in the sandbox which serves as the context for building the Docker image.
     required: true
+
   target:
     description: |
       Target in the Dockerfile which will be built.
@@ -67,8 +69,8 @@ runs:
             GIT_REPO=${{ github.repositoryUrl }}
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
-          tags: ${{ env.otobo_ref }}
           target: ${{ inputs.target }}
+          tags: ${{ env.otobo_ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
