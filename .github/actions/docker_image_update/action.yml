@@ -100,7 +100,6 @@ runs:
         # finally upload to DockerHub
         # the built image is already available in the job
         name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -114,6 +113,6 @@ runs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: ${{ inputs.target }}
-          tags: ${{ env.otobo_ref }}
+          tags: ${{ inputs.docker_tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
