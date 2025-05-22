@@ -45,9 +45,9 @@ jobs:
       otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
       otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
 
-      #otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
-      #otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
-      #otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
+      otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
+      otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
+      otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
 
     strategy:
       # create different images
