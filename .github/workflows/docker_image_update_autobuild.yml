@@ -33,9 +33,9 @@ jobs:
       otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
       otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
 
-      otobo_elasticsearch_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0_autobuild }}
-      otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
-      otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
+      #otobo_elasticsearch_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0_autobuild }}
+      #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
+      #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
 
       otobo_nginx_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0_autobuild }}
       otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
@@ -45,16 +45,17 @@ jobs:
       otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
       otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
 
-      otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
-      otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
-      otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
+      #otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
+      #otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
+      #otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
 
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'latest-10_0-autobuild',
           'latest-10_1-autobuild',
@@ -102,12 +103,12 @@ jobs:
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
-          -
-            target:     'otobo-elasticsearch'
-            dockerfile: 'otobo.elasticsearch.dockerfile'
-            context:    'scripts/elasticsearch'
-            repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  dockerfile: 'otobo.elasticsearch.dockerfile'
+          #  context:    'scripts/elasticsearch'
+          #  repository: 'rotheross/otobo-elasticsearch'
+          #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
@@ -144,14 +145,14 @@ jobs:
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
-      -
-        name: Login to docker.elastic.co
-        if: matrix.target == 'otobo-elasticsearch'
-        uses: docker/login-action@v3
-        with:
-          registry: docker.elastic.co
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      #-
+      #  name: Login to docker.elastic.co
+      #  if: matrix.target == 'otobo-elasticsearch'
+      #  uses: docker/login-action@v3
+      #  with:
+      #    registry: docker.elastic.co
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
