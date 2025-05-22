@@ -225,6 +225,7 @@ jobs:
                 There is work to do. Test the newly created Docker images.
                 They should be available on Docker Hub.
                 Release the images when things look fine.
-                ${{ needs.CheckDockerImageUpdate.outputs.summary }}`,
+
+                ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
