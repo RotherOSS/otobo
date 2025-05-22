@@ -91,11 +91,12 @@ runs:
         # Show some files in the image just to check sanity.
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
-        if: inputs.target == 'otobo-web' }}
+        if: inputs.target == 'otobo-web'
         shell: bash
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
+      -
         # login to Docker Hub only after the build
         name: Login to Docker Hub
         if: steps.check.outputs.needs-updating == 'true'
