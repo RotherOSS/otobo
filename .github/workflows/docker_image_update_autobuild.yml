@@ -157,6 +157,14 @@ jobs:
         uses: actions/checkout@v4
 
       -
+        # the name of the Dockerfile might depend on the branch
+        # there is a special case for rel-10_0 and rel-10_1
+        name: Get the name of the Dockerfile
+        id: get-dockerfile
+        run: |
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
+
+      -
         # Use a local composite action.
         # The action uses the inputs and the env context.
         name: 'Run local composite action'
@@ -164,7 +172,7 @@ jobs:
         uses: ./.github/actions/docker_image_update
         with:
           fix_cldr: false
-          dockerfile: ${{ matrix.dockerfile }}
+          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
 
