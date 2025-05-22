@@ -144,7 +144,7 @@ jobs:
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
-     -
+      -
         name: Login to docker.elastic.co
         if: matrix.target == 'otobo-elasticsearch'
         uses: docker/login-action@v3
