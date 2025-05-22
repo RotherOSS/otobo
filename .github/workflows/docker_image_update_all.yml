@@ -286,6 +286,7 @@ jobs:
           dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
 
       - name: 'check out so that the composite action becomes available'
         if: ${{ steps.check.outputs.needs-updating == 'true' }}

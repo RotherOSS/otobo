@@ -23,6 +23,7 @@ inputs:
     description: |
       Target in the Dockerfile which will be built.
     required: true
+
   dockerhub_tags:
     description: |
       List of tags under which the new Docker image should be available on Docker hub.
