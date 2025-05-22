@@ -138,9 +138,13 @@ jobs:
         name: Report the check result
         id: collect_summary
         run: |
-          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          output_key=${{ matrix.target }}_${{ matrix.docker_tag }}
           cleaned_output_key=$(echo $output_key | tr - _)
           echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
+
+      - name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
 
       -
         # Use a local composite action.
