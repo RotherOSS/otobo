@@ -287,6 +287,10 @@ jobs:
           context: ${{ matrix.context }}
           target: ${{ matrix.target }}
 
+      - name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
+
   # Write Summary
   WriteSummary:
     needs: CheckDockerImageUpdate
