@@ -56,13 +56,13 @@ jobs:
           # the latest release for every release branch - has to be updated
           -
             docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_23'
+            patch:      'rel-10_0_25'
           -
             docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_13'
+            patch:      'rel-10_1_14'
           -
             docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_9'
+            patch:      'rel-11_0_10'
 
           # otobo-web uses different base images in the different release branches
           -
