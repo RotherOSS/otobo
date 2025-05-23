@@ -968,8 +968,8 @@ sub GetStatsObjectAttributes {
 
 =head2 GetStaticFiles()
 
-gets either all or unused static statistic files. Essentially these are the Perl modules
-that are located in F<Kernel/System/Stats/Static>.
+gets either all or only the not yet used static statistic files. Essentially these are the Perl modules
+that are located in the folder F<Kernel/System/Stats/Static>.
 
     my $FileHash = $StatsObject->GetStaticFiles(
         OnlyUnusedFiles => 1 | 0, # optional default 0
@@ -1013,7 +1013,7 @@ sub GetStaticFiles {
         return ();
     }
 
-    my %StaticFiles;
+    my %SkipFile;
     if ( $Param{OnlyUnusedFiles} ) {
 
         # get all Stats from the db
@@ -1029,9 +1029,9 @@ sub GetStaticFiles {
                     NoObjectAttributes => 1,
                 );
 
-                # check witch one are static statistics
+                # check which ones are static statistics
                 if ( $Data->{File} && $Data->{StatType} eq 'static' ) {
-                    $StaticFiles{ $Data->{File} } = 1;
+                    $SkipFile{ $Data->{File} } = 1;
                 }
             }
         }
@@ -1040,16 +1040,15 @@ sub GetStaticFiles {
     # read files
     my %Filelist;
 
-    DIRECTORY:
+    FILENAME:
     while ( defined( my $Filename = readdir $StaticDirH ) ) {
-        next DIRECTORY if $Filename eq '.';
-        next DIRECTORY if $Filename eq '..';
+        next FILENAME if $Filename eq '.';
+        next FILENAME if $Filename eq '..';
 
-        if ( $Filename =~ m{^(.*)\.pm$}x ) {
-            if ( !defined $StaticFiles{$1} ) {
-                $Filelist{$1} = $1;
-            }
-        }
+        next FILENAME unless $Filename =~ m{^(.*)\.pm$}x;
+        next FILENAME if $SkipFile{$1};
+
+        $Filelist{$1} = $1;
     }
     closedir $StaticDirH;
 
