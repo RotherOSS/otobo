@@ -12,7 +12,8 @@ inputs:
   fix_cldr:
     description: |
       Whether the CLDR workaround is needed
-    required: true
+    required: false
+    default: 0
 
   dockerfile:
     description: |
@@ -43,6 +44,19 @@ runs:
   steps:
 
       -
+        # Print some info that is useful for development and verification.
+        # Use environment variables as the generated JSON may contain
+        # unescapted quotes which mess up bash syntax.
+        name: 'print devel output as JSON'
+        shell: bash
+        run: |
+          echo 'env: '    $ENV_AS_JSON
+          echo 'github: ' $GITHUB_AS_JSON
+        env:
+          ENV_AS_JSON:    ${{ toJSON(env) }}
+          GITHUB_AS_JSON: ${{ toJSON(github) }}
+
+      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -71,9 +85,9 @@ runs:
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
       -
-        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
-        # Caching with Github Actions Cache, limited to 10 GB
-        # context: .  indicates that the current checkout is used
+        # Build the image but do not push it to Docker Hub yet.
+        # Enable caching with Github Actions Cache, which is limited to 10 GB.
+        # context: .  indicates that the top level ot the current checkout is used as the build context.
         name: Build
         uses: docker/build-push-action@v6
         with:
