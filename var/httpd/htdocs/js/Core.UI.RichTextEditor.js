@@ -190,7 +190,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         attributes: true,
                         classes: true,
                         styles: true
-                    }, 
+                    },
                     {
                         name: 'cite',
                         attributes: true,
@@ -370,12 +370,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     const toolbarResizeObserver = new ResizeObserver(() => {
                         let toolbarHeight = $domEditableElement.find('.ck-editor__top').outerHeight();
                             let MinHeight = toolbarHeight + 100;
-    
+
                             $domEditableElement.css('min-height', MinHeight + 'px');
                     });
                     toolbarResizeObserver.observe(editor.ui.view.toolbar.element);
                 }
-                
+
 
                 //make sure editor size is adjusted whenever the toolbar changes size
                 //otherwise editor size can behave weirdly right after loading page

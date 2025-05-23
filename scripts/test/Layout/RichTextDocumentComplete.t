@@ -63,13 +63,14 @@ my @Tests = (
         Name   => 'Web Address without link tags',
         String => 'You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/ .',
         Result => $HTMLUtilsObject->DocumentComplete(
-            String => 'You should have received a copy of the GNU General Public License along with this program. If not, see <a href="https://www.gnu.org/licenses/" target="_blank" title="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a> .'
+            String =>
+                'You should have received a copy of the GNU General Public License along with this program. If not, see <a href="https://www.gnu.org/licenses/" target="_blank" title="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a> .'
         )
     },
     {
         Line   => __LINE__,
         Name   => 'Image with ContentID, no session',
-        String =>'123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234',
+        String => '123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234',
         Result => $HTMLUtilsObject->DocumentComplete(
             String => '123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234'
         )
@@ -77,7 +78,7 @@ my @Tests = (
     {
         Line   => __LINE__,
         Name   => 'Image with ContentID, with session',
-        String =>'123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost;SessionID=123" /> 234',
+        String => '123 <img src="index.pl?Action=SomeAction;FileID=0;ContentID=inline105816.238987884.1382708457.5104380.88084622@localhost;SessionID=123" /> 234',
         Result => $HTMLUtilsObject->DocumentComplete(
             String => '123 <img src="cid:inline105816.238987884.1382708457.5104380.88084622@localhost" /> 234'
         )
@@ -87,13 +88,13 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $Result = $Test->{Result};
-    
+
     my $HTMLString = $LayoutObject->RichTextDocumentComplete(
         String => $Test->{String},
     );
-    
-    #Remove OTOBO Copyright comment for easier testing 
-    $Result =~ s/\/\*[\s\S]*?\*\///;
+
+    #Remove OTOBO Copyright comment for easier testing
+    $Result     =~ s/\/\*[\s\S]*?\*\///;
     $HTMLString =~ s/\/\*[\s\S]*?\*\///;
 
     TextEqOrDiff(

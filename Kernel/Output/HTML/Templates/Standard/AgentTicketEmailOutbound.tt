@@ -50,7 +50,7 @@
         <div class="Content">
             [% INCLUDE "FormElements/DraftNotifications.tt" %]
             <fieldset class="TableLike FixedLabel">
-            
+
 [% RenderBlockStart("AsteriskExplanation") %]
                 <div class="Field">
                     <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>

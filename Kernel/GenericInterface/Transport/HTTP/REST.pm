@@ -1309,7 +1309,7 @@ sub _BuildQueryParams {
         push @QueryParams, $Param{RestClient}->buildQuery( $Data->%* );
     }
 
-    return join( '&', @QueryParams)
+    return join( '&', @QueryParams );
 }
 
 =end Internal:
