@@ -37,12 +37,7 @@ $Selenium->RunTest(
         # Get helper object.
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # Reset 'DashboardBackend###0120-TicketNew' SysConfig.
-        $Kernel::OM->Get('Kernel::System::SysConfig')->SettingReset(
-            Name => 'DashboardBackend###0120-TicketNew',
-        );
-
-        # Set 'DashboardBackend###0120-TicketNew' SysConfig.
+        # temporarily set 'DashboardBackend###0120-TicketNew' SysConfig.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => "DashboardBackend###0120-TicketNew",
