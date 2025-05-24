@@ -18,8 +18,8 @@ package Kernel::System::Auth::TwoFactor::GoogleAuthenticator;
 
 use strict;
 use warnings;
-use experimental 'bitwise'; # can be removed when "use v5.28" is active
-use feature 'bitwise';      # can be removed when "use v5.28" is active
+use experimental 'bitwise';    # can be removed when "use v5.28" is active
+use feature 'bitwise';         # can be removed when "use v5.28" is active
 
 use Digest::SHA  qw(sha1);
 use Digest::HMAC qw(hmac_hex);
