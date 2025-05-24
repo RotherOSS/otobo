@@ -42,6 +42,21 @@ jobs:
       otobo_web_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_10 }}
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
 
+      otobo_elasticsearch_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_23 }}
+      otobo_elasticsearch_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_24 }}
+      otobo_elasticsearch_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_25 }}
+      otobo_elasticsearch_latest_10_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0 }}
+
+      otobo_elasticsearch_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_12 }}
+      otobo_elasticsearch_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_13 }}
+      otobo_elasticsearch_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_14 }}
+      otobo_elasticsearch_latest_10_1: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1 }}
+
+      otobo_elasticsearch_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_8 }}
+      otobo_elasticsearch_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_9 }}
+      otobo_elasticsearch_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_10 }}
+      otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
+
       otobonginx_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_23 }}
       otobonginx_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_24 }}
       otobonginx_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_25 }}
@@ -72,12 +87,27 @@ jobs:
       otobo_nninx_kerberos_webproxy_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_10 }}
       otobo_nninx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_11_0 }}
 
+      otobo_selenium_chrome_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_23 }}
+      otobo_selenium_chrome_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_24 }}
+      otobo_selenium_chrome_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_25 }}
+      otobo_selenium_chrome_latest_10_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0 }}
+
+      otobo_selenium_chrome_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_12 }}
+      otobo_selenium_chrome_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_13 }}
+      otobo_selenium_chrome_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_14 }}
+      otobo_selenium_chrome_latest_10_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1 }}
+
+      otobo_selenium_chrome_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_8 }}
+      otobo_selenium_chrome_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_9 }}
+      otobo_selenium_chrome_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_10 }}
+      otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
+
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        target: ['otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy']
+        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'rel-10_0_23', 'rel-10_0_24', 'rel-10_0_25', 'latest-10_0',
           'rel-10_1_12', 'rel-10_1_13', 'rel-10_1_14', 'latest-10_1',
@@ -87,7 +117,7 @@ jobs:
           # the latest release for every release branch - has to be updated
           -
             docker_tag: 'latest-10_0'
-            patch:      'rel-10_0_24'
+            patch:      'rel-10_0_25'
           -
             docker_tag: 'latest-10_1'
             patch:      'rel-10_1_14'
@@ -186,6 +216,12 @@ jobs:
             context:    '.'
             repository: 'rotheross/otobo'
           -
+            target:     'otobo-elasticsearch'
+            dockerfile: 'otobo.elasticsearch.dockerfile'
+            context:    'scripts/elasticsearch'
+            repository: 'rotheross/otobo-elasticsearch'
+            base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
+          -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
@@ -197,6 +233,12 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline'
+          -
+            target:     'otobo-selenium-chrome'
+            dockerfile: 'otobo.selenium-chrome.dockerfile'
+            context:    'scripts/test/sample'
+            repository: 'rotheross/otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
           -
             docker_tag: 'rel-11_0_8'
             fix_cldr:   1
@@ -249,9 +291,33 @@ jobs:
         name: Report the check result
         id: collect_summary
         run: |
-          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          output_key=${{ matrix.target }}_${{ matrix.docker_tag }}
           cleaned_output_key=$(echo $output_key | tr - _)
           echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
+
+      -
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
+        name: Login to Docker Hub
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
+
+      -
+        # the name of the Dockerfile might depend on the branch
+        # there is a special case for rel-10_0 and rel-10_1
+        name: Get the name of the Dockerfile
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        id: get-dockerfile
+        run: |
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
 
       -
         # Use a local composite action.
@@ -260,10 +326,15 @@ jobs:
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
-          fix_cldr: matrix.fix_cldr
-          dockerfile: matrix.dockerfile
-          context: matrix.context
+          fix_cldr: ${{ matrix.fix_cldr }}
+          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
+
+      - name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
 
   # Write Summary
   WriteSummary:

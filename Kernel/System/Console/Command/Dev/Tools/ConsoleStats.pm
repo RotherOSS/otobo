@@ -48,8 +48,6 @@ sub Run {
         }
     }
 
-    ## no critic qw(Community::DollarAB)
-
     my $OptionsSort = sub {
         my $ValueResult = $OptionsCount{$b} <=> $OptionsCount{$a};
         return $ValueResult if $ValueResult;

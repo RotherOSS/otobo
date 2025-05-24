@@ -33,6 +33,10 @@ jobs:
       otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
       otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
 
+      #otobo_elasticsearch_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0_autobuild }}
+      #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
+      #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
+
       otobo_nginx_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0_autobuild }}
       otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
       otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
@@ -41,12 +45,17 @@ jobs:
       otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
       otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
 
+      otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
+      otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
+      otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
+
     strategy:
       # create different images
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        target: ['otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy']
+        #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'latest-10_0-autobuild',
           'latest-10_1-autobuild',
@@ -56,13 +65,13 @@ jobs:
           # the latest release for every release branch - has to be updated
           -
             docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_23'
+            patch:      'rel-10_0_25'
           -
             docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_13'
+            patch:      'rel-10_1_14'
           -
             docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_9'
+            patch:      'rel-11_0_10'
 
           # otobo-web uses different base images in the different release branches
           -
@@ -94,6 +103,12 @@ jobs:
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  dockerfile: 'otobo.elasticsearch.dockerfile'
+          #  context:    'scripts/elasticsearch'
+          #  repository: 'rotheross/otobo-elasticsearch'
+          #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
@@ -106,6 +121,12 @@ jobs:
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
             base_image: 'nginx:mainline'
+          -
+            target:     'otobo-selenium-chrome'
+            dockerfile: 'otobo.selenium-chrome.dockerfile'
+            context:    'scripts/test/sample'
+            repository: 'rotheross/otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
     steps:
 
@@ -124,6 +145,14 @@ jobs:
             echo "otobo_build_date=${build_date}"
           ) >> $GITHUB_ENV
 
+      #-
+      #  name: Login to docker.elastic.co
+      #  if: matrix.target == 'otobo-elasticsearch'
+      #  uses: docker/login-action@v3
+      #  with:
+      #    registry: docker.elastic.co
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
       -
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
@@ -138,9 +167,33 @@ jobs:
         name: Report the check result
         id: collect_summary
         run: |
-          output_key='${{ matrix.target }}_${{ matrix.docker_tag }}'
+          output_key=${{ matrix.target }}_${{ matrix.docker_tag }}
           cleaned_output_key=$(echo $output_key | tr - _)
           echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
+
+      -
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
+        name: Login to Docker Hub
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
+
+      -
+        # the name of the Dockerfile might depend on the branch
+        # there is a special case for rel-10_0 and rel-10_1
+        name: Get the name of the Dockerfile
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        id: get-dockerfile
+        run: |
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
 
       -
         # Use a local composite action.
@@ -149,10 +202,14 @@ jobs:
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         uses: ./.github/actions/docker_image_update
         with:
-          fix_cldr: false
-          dockerfile: matrix.dockerfile
-          context: matrix.context
+          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          context: ${{ matrix.context }}
           target: ${{ matrix.target }}
+          dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
+
+      - name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
 
   # Write Summary
   WriteSummary:
@@ -199,6 +256,5 @@ jobs:
                 There is work to do. Test the newly created Docker images.
                 They should be available on Docker Hub.
                 Release the images when things look fine.
-                ${{ needs.CheckDockerImageUpdate.outputs.summary }}`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })

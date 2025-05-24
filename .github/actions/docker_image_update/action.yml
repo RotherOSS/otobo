@@ -12,21 +12,27 @@ inputs:
   fix_cldr:
     description: |
       Whether the CLDR workaround is needed
-    required: true
+    required: false
+    default: 0
 
   dockerfile:
     description: |
-      The Dockerfile
+      Name of the Dockerfile for building the Docker image.
     required: true
 
   context:
     description: |
-      The build context.
+      Relative path in the sandbox which serves as the context for building the Docker image.
     required: true
 
   target:
     description: |
       Target in the Dockerfile which will be built.
+    required: true
+
+  dockerhub_tags:
+    description: |
+      List of tags under which the new Docker image should be available on Docker hub.
     required: true
 
 #outputs:
@@ -36,6 +42,19 @@ runs:
   using: 'composite'
 
   steps:
+
+      -
+        # Print some info that is useful for development and verification.
+        # Use environment variables as the generated JSON may contain
+        # unescapted quotes which mess up bash syntax.
+        name: 'print devel output as JSON'
+        shell: bash
+        run: |
+          echo 'env: '    $ENV_AS_JSON
+          echo 'github: ' $GITHUB_AS_JSON
+        env:
+          ENV_AS_JSON:    ${{ toJSON(env) }}
+          GITHUB_AS_JSON: ${{ toJSON(github) }}
 
       -
         name: Set up Docker Buildx
@@ -51,7 +70,9 @@ runs:
         # needed for build arg GIT_COMMIT
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'get the commit SHA of the current checkout'
-        run: echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
+        shell: bash
+        run: |
+          echo "otobo_commit=$(git log -1 '--format=format:%H')" >> $GITHUB_ENV
 
       -
         # a workaround for a build failure for the 11.0.7 release
@@ -59,13 +80,14 @@ runs:
         # can't use github.sha here as we need the commit of the checked out branch
         name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
         if: ${{ inputs.target == 'otobo-web' && inputs.fix_cldr }}
+        shell: bash
         run: |
           sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
       -
-        # build the image, not pushing yet, no pushing as DockerHub access is not set up yet
-        # Caching with Github Actions Cache, limited to 10 GB
-        # context: .  indicates that the current checkout is used
+        # Build the image but do not push it to Docker Hub yet.
+        # Enable caching with Github Actions Cache, which is limited to 10 GB.
+        # context: .  indicates that the top level ot the current checkout is used as the build context.
         name: Build
         uses: docker/build-push-action@v6
         with:
@@ -85,25 +107,19 @@ runs:
           cache-to: type=gha,mode=max
 
       -
+        # Show some files in the image just to check sanity.
         # otobo_first_time hasn't run yet, so /opt/otobo is still empty
         name: Info
-        if: inputs.target == 'otobo-web' }}
+        if: inputs.target == 'otobo-web'
+        shell: bash
         run: |
           docker run --rm -w /opt/otobo_install/otobo_next --entrypoint /bin/bash $otobo_ref -c "more git-repo.txt git-branch.txt git-commit.txt RELEASE | cat"
 
-        # login to Docker Hub only after the build
-        name: Login to Docker Hub
-        if: steps.check.outputs.needs-updating == 'true'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       -
         # finally upload to DockerHub
+        # using the provided dockerhub_tags
         # the built image is already available in the job
         name: Push to DockerHub
-        if: steps.check.outputs.needs-updating == 'true'
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -117,8 +133,6 @@ runs:
             GIT_BRANCH=${{ env.otobo_branch }}
             GIT_COMMIT=${{ env.otobo_commit }}
           target: ${{ inputs.target }}
-          tags: ${{ env.otobo_ref }}
+          tags: ${{ inputs.dockerhub_tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-
