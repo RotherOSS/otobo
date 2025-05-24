@@ -18,8 +18,8 @@ package Kernel::System::PDF;
 
 use strict;
 use warnings;
-use experimental 'bitwise'; # can be removed when "use v5.28" is active
-use feature 'bitwise';      # can be removed when "use v5.28" is active
+use experimental 'bitwise';    # can be removed when "use v5.28" is active
+use feature 'bitwise';         # can be removed when "use v5.28" is active
 use namespace::autoclean;
 use utf8;
 
@@ -922,13 +922,13 @@ sub Table {
                                         $Type = 'ReturnLeftOverHard';
                                     }
                                     my %Return = $Self->_TableCellOutput(
-                                        Text      => $Param{CellData}->[$Row]->[$Column]->{Content},
-                                        Type      => $Type,
-                                        Width     => $Param{ColumnData}->[$Column]->{OutputWidth},
-                                        Height    => $NewOutputHeight,
-                                        Font      => $Param{CellData}->[$Row]->[$Column]->{Font},
-                                        FontSize  => $Param{CellData}->[$Row]->[$Column]->{FontSize},
-                                        FontColor => $Param{CellData}->[$Row]->[$Column]->{FontColor},
+                                        Text            => $Param{CellData}->[$Row]->[$Column]->{Content},
+                                        Type            => $Type,
+                                        Width           => $Param{ColumnData}->[$Column]->{OutputWidth},
+                                        Height          => $NewOutputHeight,
+                                        Font            => $Param{CellData}->[$Row]->[$Column]->{Font},
+                                        FontSize        => $Param{CellData}->[$Row]->[$Column]->{FontSize},
+                                        FontColor       => $Param{CellData}->[$Row]->[$Column]->{FontColor},
                                         Align           => $Param{CellData}->[$Row]->[$Column]->{Align},
                                         Lead            => $Param{CellData}->[$Row]->[$Column]->{Lead},
                                         PaddingTop      => $Param{PaddingTop},
@@ -936,8 +936,8 @@ sub Table {
                                         PaddingBottom   => $Param{PaddingBottom},
                                         PaddingLeft     => $Param{PaddingLeft},
                                         BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
-                                        Border      => $Param{Border},
-                                        BorderColor => $Param{BorderColor},
+                                        Border          => $Param{Border},
+                                        BorderColor     => $Param{BorderColor},
                                     );
 
                                     # set new content
