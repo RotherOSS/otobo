@@ -14,9 +14,13 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
+
+# CPAN modules
+use Test2::V0;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
@@ -69,6 +73,7 @@ $Selenium->RunTest(
             "Setting $SettingName is resetted successfully.",
         );
 
+        ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
             Comments    => "AdminSystemConfigurationFavourites.t deployment",
             UserID      => 1,
@@ -181,4 +186,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;

@@ -1469,6 +1469,7 @@ $Selenium->RunTest(
                     "Lock setting before reset($Test->{Name}).",
                 );
 
+                ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
                 my $Success = $SysConfigObject->SettingReset(
                     Name              => $Test->{Name},
                     ExclusiveLockGUID => $Guid,

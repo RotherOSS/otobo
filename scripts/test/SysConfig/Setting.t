@@ -21,6 +21,8 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
+
 our $Self;
 
 $Kernel::OM->ObjectParamAdd(
@@ -42,7 +44,7 @@ my %DefaultSettingAddTemplate = (
     XMLFilename    => 'UnitTest.xml',
 );
 
-my $SetingsXML = << 'END_XML';
+my $SetingsXML = <<'END_XML';
 <?xml version="1.0" encoding="utf-8"?>
 <otobo_config version="2.0" init="Application">
     <Setting Name="Test0" Required="1" Valid="1">

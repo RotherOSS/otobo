@@ -41,7 +41,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $SetingsXML = << 'EOF',
+my $SetingsXML = <<'EOF',
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">
@@ -272,6 +272,7 @@ for my $Test (@Tests) {
         "$Test->{Name} SettingUpdate() - $SettingName is locked",
     );
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
     my %Result = $SysConfigObject->SettingUpdate(
         %ModifiedSettingAddTemplate,
         %{ $DefaultSettingAddParams[1] },

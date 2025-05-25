@@ -124,6 +124,7 @@ EOF
         UserID    => 1,
     );
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
     my $NewValue = 'Updated setting 1';
     $SysConfigObject->SettingUpdate(
         Name                   => 'Test1',

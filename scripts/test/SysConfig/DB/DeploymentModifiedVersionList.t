@@ -185,6 +185,7 @@ my $UpdateSettings = sub {
             UserID => 1,
         );
 
+        ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
         my %Result = $SysConfigObject->SettingUpdate(
             Name              => $SettingName,
             EffectiveValue    => $Param{EffectiveValue},

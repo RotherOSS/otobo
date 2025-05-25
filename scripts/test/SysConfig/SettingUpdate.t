@@ -171,6 +171,7 @@ for my $Test (@Tests) {
         "$Test->{Name} SettingUpdate() - $SettingName is locked",
     );
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
     my %Result = $SysConfigObject->SettingUpdate(
         %ModifiedSettingAddTemplate,
         %{ $DefaultSettingAddParams[1] },
