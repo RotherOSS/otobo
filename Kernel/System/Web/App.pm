@@ -82,8 +82,7 @@ sub call {
 
     # $Self->{Interface} was loaded in prepare_app().
     return $Self->{Interface}->new(
-        Debug   => $Self->{Debug},
-        PSGIEnv => $Env,
+        Debug => $Self->{Debug},
     )->Response;
 }
 

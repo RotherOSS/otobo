@@ -64,8 +64,7 @@ Kernel::System::Web::InterfaceAgent - the agent web interface
         my $Env = shift;
 
         my $Interface = Kernel::System::Web::InterfaceAgent->new(
-            # Debug => 1
-            PSGIEnv    => $Env,
+            Debug => 0|1,   # optional
         );
 
         # generate content (actually headers are generated as a side effect)
@@ -110,9 +109,6 @@ sub new {
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Agent',
         },
-        'Kernel::System::Web::Request' => {
-            PSGIEnv => $Param{PSGIEnv} || 0,
-        },
     );
 
     # debug info
@@ -140,15 +136,6 @@ sub Content {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    # Check if https forcing is active, and redirect if needed.
-    if ( $ConfigObject->Get('HTTPSForceRedirect') && !$ParamObject->HttpsIsOn ) {
-        my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
-        my $RequestURI   = $ParamObject->RequestURI();
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-        $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
-    }
 
     # Collect object parameters for the Layout object
     my %Param;

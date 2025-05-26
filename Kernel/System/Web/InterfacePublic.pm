@@ -53,8 +53,7 @@ Kernel::System::Web::InterfacePublic - the public web interface
         my $Env = shift;
 
         my $Interface = Kernel::System::Web::InterfacePublic->new(
-            # Debug => 1
-            PSGIEnv    => $Env,
+            Debug => 0|1,   # optional
         );
 
         # generate content (actually headers are generated as a side effect)
@@ -98,9 +97,6 @@ sub new {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Public',
-        },
-        'Kernel::System::Web::Request' => {
-            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 

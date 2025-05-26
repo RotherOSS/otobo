@@ -67,6 +67,7 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 # core modules
 use Cwd            qw(abs_path);
@@ -178,9 +179,44 @@ my $ManageObjectsMiddleware = sub {
     return sub {
         my $Env = shift;
 
-        # make sure that the managed objects will be recreated for the current request
+        # Make sure that the managed objects will be recreated for the current request.
+        # Kernel::System::ObjectManager::DESTROY() will be called when exiting the subroutine.
         local $Kernel::OM = Kernel::System::ObjectManager->new();
 
+        # The OTOBO modules which generate the content get their input
+        # from the Kernel::System::Web::Request singleton, that is the ParamObject.
+        # Make the PSGI environment available to the constructor of the ParamObject.
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Web::Request' => {
+                PSGIEnv => $Env,
+            },
+        );
+
+        return $App->($Env);
+    };
+};
+
+# force HTTPS if configured
+my $RedirectToHTTPS = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # Check if HTTPS forcing is active, and redirect if needed.
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
+            my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+            if ( !$ParamObject->HttpsIsOn ) {
+                my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
+                my $RequestURI   = $ParamObject->RequestURI();
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
+            }
+        }
+
+        # no redirecting occured, so continue work
         return $App->($Env);
     };
 };
@@ -569,8 +605,12 @@ my $OTOBOApp = builder {
     # set up $Env
     enable $SetPSGIEnvMiddleware;
 
-    # force destruction and recreation of managed objects
+    # force destruction and recreation of managed objects,
+    # in short: handle the globally available variable $Kernel::OM
     enable $ManageObjectsMiddleware;
+
+    # handle the SysConfig setting HTTPSForceRedirect
+    enable $RedirectToHTTPS;
 
     # The actual functionality of OTOBO is implemented as a set of Plack apps.
     # Dispatching is done with an URL map.
@@ -641,6 +681,8 @@ builder {
 
     # fiddling with slashes
     enable $MergeSlashesMiddleware;
+
+    # let '/' behave like '/index.html'
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
