@@ -51,9 +51,7 @@ sub prepare_app {
     my ($Self) = @_;
 
     # set defaults
-    if ( !defined $Self->rules ) {
-        $Self->rules( [] );
-    }
+    $Self->rules( [] ) unless defined $Self->rules;
 
     my @ActualRules;
     RULE:
