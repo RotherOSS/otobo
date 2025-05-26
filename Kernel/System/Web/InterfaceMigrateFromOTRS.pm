@@ -112,6 +112,7 @@ execute the object.
 Set headers in Kernels::System::Web::Request singleton as side effect.
 
     my $Content = $Interface->Content();
+
 =cut
 
 sub Content {
