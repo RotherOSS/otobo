@@ -67,9 +67,6 @@ sub new {
         'Kernel::System::Log' => {
             LogPrefix => 'GenericInterfaceProvider',
         },
-        'Kernel::System::Web::Request' => {
-            PSGIEnv => $Param{PSGIEnv} || 0,
-        },
     );
 
     # start with an empty hash for the new object

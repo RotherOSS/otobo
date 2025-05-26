@@ -64,8 +64,7 @@ Kernel::System::Web::InterfaceCustomer - the customer web interface
         my $Env = shift;
 
         my $Interface = Kernel::System::Web::InterfaceCustomer->new(
-            # Debug => 1
-            PSGIEnv    => $Env,
+            Debug => 0|1,   # optional
         );
 
         # generate content (actually headers are generated as a side effect)
@@ -109,9 +108,6 @@ sub new {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Customer',
-        },
-        'Kernel::System::Web::Request' => {
-            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
