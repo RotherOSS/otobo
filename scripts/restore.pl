@@ -110,8 +110,8 @@ elsif ( !-d $Opts{d} ) {
 # restore config
 chdir( $Opts{d} );
 
-my $ConfigBackupGz  = File::Spec->catfile( $Opts{b}, 'Config.tar.gz' );
-my $ConfigBackupBz2 = File::Spec->catfile( $Opts{b}, 'Config.tar.bz2' );
+my $ConfigBackupGz   = File::Spec->catfile( $Opts{b}, 'Config.tar.gz' );
+my $ConfigBackupBz2  = File::Spec->catfile( $Opts{b}, 'Config.tar.bz2' );
 my $ConfigBackupZstd = File::Spec->catfile( $Opts{b}, 'Config.tar.zst' );
 if ( -e $ConfigBackupGz ) {
     say "Restore $ConfigBackupGz ...";
@@ -125,7 +125,6 @@ elsif ( -e $ConfigBackupZstd ) {
     say "Restore $ConfigBackupZstd ...";
     system("tar --zstd -xf $ConfigBackupZstd");
 }
-
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -225,8 +224,8 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 chdir($Home);
 
 # extract application
-my $ApplicationBackupGz  = File::Spec->catfile( $Opts{b}, 'Application.tar.gz' );
-my $ApplicationBackupBz2 = File::Spec->catfile( $Opts{b}, 'Application.tar.bz2' );
+my $ApplicationBackupGz   = File::Spec->catfile( $Opts{b}, 'Application.tar.gz' );
+my $ApplicationBackupBz2  = File::Spec->catfile( $Opts{b}, 'Application.tar.bz2' );
 my $ApplicationBackupZstd = File::Spec->catfile( $Opts{b}, 'Application.tar.zst' );
 if ( -e $ApplicationBackupGz ) {
     say "Restore $ApplicationBackupGz ...";
@@ -242,8 +241,8 @@ elsif ( -e $ApplicationBackupZstd ) {
 }
 
 # extract vardir
-my $VarDirBackupGz  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.gz' );
-my $VarDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
+my $VarDirBackupGz   = File::Spec->catfile( $Opts{b}, 'VarDir.tar.gz' );
+my $VarDirBackupBz2  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
 my $VarDirBackupZstd = File::Spec->catfile( $Opts{b}, 'VarDir.tar.zst' );
 if ( -e $VarDirBackupGz ) {
     say "Restore $VarDirBackupGz ...";
@@ -259,8 +258,8 @@ elsif ( -e $VarDirBackupZstd ) {
 }
 
 # extract datadir
-my $DataDirBackupGz  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.gz' );
-my $DataDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
+my $DataDirBackupGz   = File::Spec->catfile( $Opts{b}, 'DataDir.tar.gz' );
+my $DataDirBackupBz2  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
 my $DataDirBackupZstd = File::Spec->catfile( $Opts{b}, 'DataDir.tar.zst' );
 if ( -e $DataDirBackupGz ) {
     say "Restore $DataDirBackupGz ...";
@@ -276,8 +275,8 @@ if ( -e $DataDirBackupZstd ) {
 }
 
 # import database
-my $DatabaseBackupGz  = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.gz' );
-my $DatabaseBackupBz2 = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' );
+my $DatabaseBackupGz   = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.gz' );
+my $DatabaseBackupBz2  = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' );
 my $DatabaseBackupZstd = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.zst' );
 if ( $DB =~ m/mysql/i ) {
     say "create $DB";
