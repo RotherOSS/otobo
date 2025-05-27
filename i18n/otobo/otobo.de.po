@@ -54,9 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-03-29 10:29+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2025-05-27 22:21+0000\n"
+"Last-Translator: Sven Oesterling <svo@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25947,7 +25948,6 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
-#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27751,9 +27751,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as (un)seen"
-msgstr ""
+msgstr "Als (un)gelesen markieren"
 
 #. SysConfig
 msgid "Mark as seen"
-msgstr ""
-
+msgstr "Als gelesen markieren"
