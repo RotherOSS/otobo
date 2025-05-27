@@ -65,6 +65,7 @@ elsif ( !-d $Opts{b} ) {
 
     exit 1;
 }
+
 if ( !$Opts{d} ) {
     say STDERR "ERROR: Need -d for destination directory";
 
@@ -76,28 +77,33 @@ elsif ( !-d $Opts{d} ) {
     exit 1;
 }
 
-my $DecompressCMD = '';
-if ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' ) ) {
-    $DecompressCMD = 'bunzip2';
-}
-elsif ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.zst' ) ) {
-    $DecompressCMD = 'zstd';
-}
-else {
-    $DecompressCMD = 'gunzip';
-}
-
-# check needed programs
-for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
-    my $IsInstalled = 0;
-    open( my $Input, '-|', "which $CMD" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-    while ( my $s = <$Input> ) {
-        $IsInstalled = 1;
+# Check needed programs.
+# The DecompressCMD is determined only from the database backup even if
+# in theory the different backup files could be compressed with different algorithms.
+{
+    my $DecompressCMD = '';
+    if ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' ) ) {
+        $DecompressCMD = 'bunzip2';
     }
-    if ( !$IsInstalled ) {
-        say STDERR "ERROR: Can't locate $CMD!";
+    elsif ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.zst' ) ) {
+        $DecompressCMD = 'zstd';
+    }
+    else {
+        $DecompressCMD = 'gunzip';
+    }
 
-        exit 1;
+    for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
+        my $IsInstalled = 0;
+        open( my $Input, '-|', "which $CMD" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+        while ( my $s = <$Input> ) {
+            $IsInstalled = 1;
+        }
+
+        if ( !$IsInstalled ) {
+            say STDERR "ERROR: Can't locate $CMD!";
+
+            exit 1;
+        }
     }
 }
 
