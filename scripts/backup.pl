@@ -103,7 +103,7 @@ if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
     $CompressCMD = 'bzip2';
     $CompressEXT = 'bz2';
 }
-if ( $CompressOption && $CompressOption =~ m/zstd/i ) {
+elsif ( $CompressOption && $CompressOption =~ m/zstd/i ) {
     $Compress    = '-zstd';
     $CompressCMD = 'zstd';
     $CompressEXT = 'zst';
