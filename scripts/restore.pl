@@ -80,6 +80,9 @@ my $DecompressCMD = '';
 if ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' ) ) {
     $DecompressCMD = 'bunzip2';
 }
+elsif ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.zst' ) ) {
+    $DecompressCMD = 'zstd';
+}
 else {
     $DecompressCMD = 'gunzip';
 }
@@ -103,6 +106,7 @@ chdir( $Opts{d} );
 
 my $ConfigBackupGz  = File::Spec->catfile( $Opts{b}, 'Config.tar.gz' );
 my $ConfigBackupBz2 = File::Spec->catfile( $Opts{b}, 'Config.tar.bz2' );
+my $ConfigBackupZstd = File::Spec->catfile( $Opts{b}, 'Config.tar.zst' );
 if ( -e $ConfigBackupGz ) {
     say "Restore $ConfigBackupGz ...";
     system("tar -xzf $ConfigBackupGz");
@@ -111,6 +115,11 @@ elsif ( -e $ConfigBackupBz2 ) {
     say "Restore $ConfigBackupBz2 ...";
     system("tar -xjf $ConfigBackupBz2");
 }
+elsif ( -e $ConfigBackupZstd ) {
+    say "Restore $ConfigBackupZstd ...";
+    system("tar --zstd -xf $ConfigBackupZstd");
+}
+
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -212,6 +221,7 @@ chdir($Home);
 # extract application
 my $ApplicationBackupGz  = File::Spec->catfile( $Opts{b}, 'Application.tar.gz' );
 my $ApplicationBackupBz2 = File::Spec->catfile( $Opts{b}, 'Application.tar.bz2' );
+my $ApplicationBackupZstd = File::Spec->catfile( $Opts{b}, 'Application.tar.zst' );
 if ( -e $ApplicationBackupGz ) {
     say "Restore $ApplicationBackupGz ...";
     system("tar -xzf $ApplicationBackupGz");
@@ -220,10 +230,15 @@ elsif ( -e $ApplicationBackupBz2 ) {
     say "Restore $ApplicationBackupBz2 ...";
     system("tar -xjf $ApplicationBackupBz2");
 }
+elsif ( -e $ApplicationBackupZstd ) {
+    say "Restore $ApplicationBackupZstd ...";
+    system("tar --zstd -xf $ApplicationBackupZstd");
+}
 
 # extract vardir
 my $VarDirBackupGz  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.gz' );
 my $VarDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
+my $VarDirBackupZstd = File::Spec->catfile( $Opts{b}, 'VarDir.tar.zst' );
 if ( -e $VarDirBackupGz ) {
     say "Restore $VarDirBackupGz ...";
     system("tar -xzf $VarDirBackupGz");
@@ -232,10 +247,15 @@ elsif ( -e $VarDirBackupBz2 ) {
     say "Restore $VarDirBackupBz2 ...";
     system("tar -xjf $VarDirBackupBz2");
 }
+elsif ( -e $VarDirBackupZstd ) {
+    say "Restore $VarDirBackupZstd ...";
+    system("tar --zstd -xf $VarDirBackupZstd");
+}
 
 # extract datadir
 my $DataDirBackupGz  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.gz' );
 my $DataDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
+my $DataDirBackupZstd = File::Spec->catfile( $Opts{b}, 'DataDir.tar.zst' );
 if ( -e $DataDirBackupGz ) {
     say "Restore $DataDirBackupGz ...";
     system("tar -xzf $DataDirBackupGz");
@@ -244,10 +264,15 @@ if ( -e $DataDirBackupBz2 ) {
     say "Restore $DataDirBackupBz2 ...";
     system("tar -xjf $DataDirBackupBz2");
 }
+if ( -e $DataDirBackupZstd ) {
+    say "Restore $DataDirBackupZstd ...";
+    system("tar --zstd -xf $DataDirBackupZstd");
+}
 
 # import database
 my $DatabaseBackupGz  = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.gz' );
 my $DatabaseBackupBz2 = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' );
+my $DatabaseBackupZstd = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.zst' );
 if ( $DB =~ m/mysql/i ) {
     say "create $DB";
     if ($DatabasePw) {
@@ -263,6 +288,12 @@ if ( $DB =~ m/mysql/i ) {
         say "Restore database into $DB ...";
         system(
             "bunzip2 -c $DatabaseBackupBz2 | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
+        );
+    }
+    elsif ( -e $DatabaseBackupZstd ) {
+        say "Restore database into $DB ...";
+        system(
+            "zstd -dcf $DatabaseBackupZstd | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
         );
     }
 }
@@ -291,6 +322,17 @@ else {
         say "Restore database into $DB ...";
         system(
             "bunzip2 -c $DatabaseBackupBz2 | psql -U$DatabaseUser $DatabaseHost $Database"
+        );
+    }
+    elsif ( -e $DatabaseBackupZstd ) {
+
+        # set password via environment variable if there is one
+        if ($DatabasePw) {
+            $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+        }
+        say "Restore database into $DB ...";
+        system(
+            "zstd -dcf $DatabaseBackupZstd | psql -U$DatabaseUser $DatabaseHost $Database"
         );
     }
 }
