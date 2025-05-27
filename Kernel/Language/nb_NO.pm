@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.942925444494248;
+    $Self->{Completeness}        = 0.942502986857826;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8097,6 +8097,8 @@ Ditt Helpdesk-team
             'Definerer brukerens avatar. Vennligst merk: å sette \'Aktiv\' til 0 vil bare forhindre agenter fra å redigere innstillingene for denne gruppen i sine personlige preferanser, men vil fortsatt tillate administratorer å redigere innstillingene til en annen brukers vegne. Bruk \'PreferenceGroup\' for å kontrollere i hvilket område disse innstillingene skal vises i brukergrensesnittet.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             'Definerer gyldige tilstandstyper for en sak. Hvis en sak er i en tilstand som har en hvilken som helst tilstandstype fra denne innstillingen, vil denne saken anses som åpen, ellers som lukket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Definerer gyldige tilstander for ulåste saker. For å låse opp saker kan skriptet "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" brukes.',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8788,7 +8790,9 @@ Ditt Helpdesk-team
         'Manage system registration.' => 'Administrer systemregistrering.',
         'Manage tasks triggered by event or time based execution.' => 'Administrer oppgaver utløst av hendelse eller tidsbasert utførelse.',
         'Manage ticket state pre-selections for response templates.' => '',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => 'Marker som søppel!',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => 'Marker denne saken som søppel!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',

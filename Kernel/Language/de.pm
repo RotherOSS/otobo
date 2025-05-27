@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998207082025997;
+    $Self->{Completeness}        = 0.997759856630824;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8089,6 +8089,8 @@ Ihr Helpdesk-Team
             'Definiert den Avatar des Benutzers. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             'Definiert die gültigen Statustypen für ein Ticket. Wenn sich ein Ticket in einem Status befindet, der einen Statustyp aus dieser Einstellung hat, gilt dieses Ticket als offen, ansonsten als geschlossen.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Bestimmt gültige Status für entsperrte Tickets. Um Tickets zu entsperren, kann das Script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" genutzt werden.',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8780,7 +8782,9 @@ Ihr Helpdesk-Team
         'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
         'Manage ticket state pre-selections for response templates.' => 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten.',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => 'Als Spam makieren!',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => 'Dieses Ticket als Junk markieren!',
         'Mark ticket as seen' => 'Ticket als gelesen markieren',
         'Mark ticket as unseen' => 'Ticket als ungelesen markieren',

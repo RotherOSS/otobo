@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.916031674884207;
+    $Self->{Completeness}        = 0.915621266427718;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8090,6 +8090,8 @@ Thanks for your help!
             '定义用户头像。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             '定义工单的有效状态类型。如果一个工单处于此设置中任一状态类型的状态，则该工单将被视为打开，否则将被视为关闭。',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '定义解锁的工单有效的状态。为解锁工单，可以使用脚本"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout"。',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8781,7 +8783,9 @@ Thanks for your help!
         'Manage system registration.' => '管理系统注册。',
         'Manage tasks triggered by event or time based execution.' => '管理事件触发或基于时间执行的任务。',
         'Manage ticket state pre-selections for response templates.' => '',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => '标记为垃圾!',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => '标记这个工单为垃圾!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
