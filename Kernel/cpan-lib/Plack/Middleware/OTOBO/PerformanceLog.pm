@@ -84,8 +84,8 @@ sub call {
     # drop old session id (if exists)
     my $SessionName = $ConfigObject->Get('SessionName') || 'SessionID';
     my $QueryString = $ParamObject->QueryString() || '';
-    my $Action = $ParamObject->GetParam( Param => 'Action' );
-    my $Subaction = $ParamObject->GetParam( Param => 'Subaction' );
+    my $Action = $ParamObject->GetParam( Param => 'Action' ) // '';
+    my $Subaction = $ParamObject->GetParam( Param => 'Subaction' ) // '';
 
     # TODO: why is the pattern =.+?; not included ?
     $QueryString =~ s/(\?|&|;|)$SessionName(=&|=;|=.+?&|=.+?$)/;/g;
