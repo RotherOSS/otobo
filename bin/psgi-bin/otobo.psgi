@@ -681,6 +681,9 @@ my $OTOBOApp = builder {
         # handle the SysConfig setting HTTPSForceRedirect
         enable $RedirectToHTTPS;
 
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Public';
+
         $CheckPublicInterfaceApp;
     };
 
