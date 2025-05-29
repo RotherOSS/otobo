@@ -86,9 +86,12 @@ sub call {
         $QueryString = "Action=$Action;Subaction=$Subaction";
     }
 
-    # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
+    # Write to PerformanceLog file only if it is smaller than size limit.
+    # The limit is given in MB.
     my $File = $ConfigObject->Get('PerformanceLog::File');
     if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
+
+        # Hoping that appending lines to a file is atomic.
         if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
 
             my $Duration = tv_interval([$StartSeconds, $StartMicroSeconds]);
