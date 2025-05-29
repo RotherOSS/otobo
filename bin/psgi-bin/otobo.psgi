@@ -75,6 +75,7 @@ use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules
 use Encode         ();              ## no perlimports
 use File::Basename qw(dirname);
 use File::Path     qw(make_path);
+use Time::HiRes    ();
 
 # CPAN modules
 use DateTime 1.08         ();                                   ## no perlimports
