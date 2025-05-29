@@ -126,15 +126,6 @@ sub Content {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # Check if https forcing is active, and redirect if needed.
-    if ( $ConfigObject->Get('HTTPSForceRedirect') && !$ParamObject->HttpsIsOn ) {
-        my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
-        my $RequestURI   = $ParamObject->RequestURI();
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-        $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
-    }
-
     # get common framework params
     my %Param;
     $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName')         || 'CSID';
