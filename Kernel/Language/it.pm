@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.618407291199761;
+    $Self->{Completeness}        = 0.618130227001195;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8083,6 +8083,8 @@ Thanks for your help!
             '',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8774,7 +8776,9 @@ Thanks for your help!
         'Manage system registration.' => 'Gestisci la registrazione del sistema.',
         'Manage tasks triggered by event or time based execution.' => '',
         'Manage ticket state pre-selections for response templates.' => 'Gestisci preselezioni dello stato dei ticket per i modelli di risposta.',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => 'Contrassegna come spam!',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => 'Marca questo ticket come spam!',
         'Mark ticket as seen' => 'Segna il ticket come visto',
         'Mark ticket as unseen' => 'Segna il ticket come non visto',

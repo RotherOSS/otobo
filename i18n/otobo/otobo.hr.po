@@ -26996,3 +26996,15 @@ msgstr ""
 msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
 msgstr ""
 
+#. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
+msgstr ""
+

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-05-06 14:56+0000\n"
+"POT-Creation-Date: 2025-05-27 15:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21734,6 +21734,10 @@ msgid "Defines the valid state types for a ticket. If a ticket is in a state whi
 msgstr ""
 
 #. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the valid states for unlocked tickets. To unlock tickets the script \"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
 
@@ -23590,7 +23594,15 @@ msgid "Manage ticket state pre-selections for response templates."
 msgstr ""
 
 #. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
 msgid "Mark as Spam!"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
 msgstr ""
 
 #. SysConfig

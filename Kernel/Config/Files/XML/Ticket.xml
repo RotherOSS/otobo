@@ -6018,13 +6018,13 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Mark as unseen</Item>
+                <Item Key="Name" Translatable="1">Mark as unseen</Item>
                 <Item Key="Description" Translatable="1">Mark ticket as unseen</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">Action=AgentTicketMarkSeenUnseen;Subaction=Unseen;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
-                <Item Key="ClusterName">Mark as (un)seen</Item>
+                <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
                 <Item Key="ClusterPriority">100</Item>
             </Hash>
         </Value>
@@ -6035,13 +6035,13 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Mark as seen</Item>
+                <Item Key="Name" Translatable="1">Mark as seen</Item>
                 <Item Key="Description" Translatable="1">Mark ticket as seen</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">Action=AgentTicketMarkSeenUnseen;Subaction=Seen;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
-                <Item Key="ClusterName">Mark as (un)seen</Item>
+                <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
                 <Item Key="ClusterPriority">200</Item>
             </Hash>
         </Value>
