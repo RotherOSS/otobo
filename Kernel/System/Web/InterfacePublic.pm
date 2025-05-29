@@ -252,9 +252,7 @@ sub Content {
 
     # Generate output using the frontend, that is Kernel::Modules::*, object.
     # The output is either a string or a IO::Handle like object.
-    my $Output = $FrontendObject->Run();
-
-    return $Output;
+    return $FrontendObject->Run();
 }
 
 =head2 Response()
