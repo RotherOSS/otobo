@@ -100,7 +100,7 @@ sub call {
                 "$StartSeconds.$StartMicroSeconds",
                 $Self->interface(),
                 $Duration,
-                'unused',
+                '-',    # not used in the AdminPerformanceLog frontend
                 $QueryString;
             close $Out;
 
