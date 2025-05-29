@@ -21,6 +21,8 @@ use strict;
 use warnings;
 use namespace::autoclean;
 
+use parent qw(Plack::Component);
+
 # core modules
 use Storable qw(dclone);
 
@@ -49,45 +51,44 @@ our @ObjectDependencies = (
 
 Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
-=head1 PUBLIC INTERFACE
+=head1 SYNOPSIS
 
-=head2 new()
+    use Kernel::GenericInterface::Provider
 
-Don't use the constructor directly, use the ObjectManager instead:
+    # declare object parameters for Kernel::System::Web::Request
 
-    my $Interface = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+    # a Plack app
+    return Kernel::GenericInterface::Provider->new(
+        Debug     => $Self->{Debug},
+    )->to_app->($Env);
 
-=cut
+=head1 DESCRIPTION
 
-sub new {
-    my ( $Class, %Param ) = @_;
+This module generates the HTTP response for the generic interface.
+It is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
-    # register object params
-    # as the PerformanceLog middleware is not used yet for this interface
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Log' => {
-            LogPrefix => 'GenericInterfaceProvider',
-        },
-    );
+=head1 PRIVATE FUNCTIONS
 
-    # start with an empty hash for the new object
-    return bless {}, $Class;
-}
-
-=head2 Content()
+=head2 _Content()
 
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 Set headers in Kernels::System::Web::Request singleton as side effect.
-Can die and throw Kernel::System::Web::Exception which is expected to be caught by Plack::Middleware::HTTPExceptions.
+Can die and throw a C<Kernel::System::Web::Exception> exception. That exception
+is expected to be caught by the middleware C<Plack::Middleware::HTTPExceptions>.
 
-    # put this in the handler script
-    my $Content = $Interface->Content();
+    my $Content = _Content();
+
+or with debugging:
+
+    my $Content = _Content( Debug => 1 );
 
 =cut
 
-sub Content {
-    my ($Self) = @_;
+sub _Content {
+
+    #my (%Param) = @_; # no params needed
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI  = $ParamObject->RequestURI();
@@ -117,7 +118,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_ThrowWebException();
+        return _ThrowWebException();
     }
 
     # Check if requested web service exists and is valid.
@@ -136,7 +137,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_ThrowWebException();
+        return _ThrowWebException();
     }
 
     my $Webservice = $WebserviceObject->WebserviceGet(%WebserviceGetData);
@@ -149,7 +150,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_ThrowWebException();
+        return _ThrowWebException();
     }
 
     # Create a debugger instance which will log the details of this communication entry.
@@ -164,7 +165,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_ThrowWebException();
+        return _ThrowWebException();
     }
 
     $DebuggerObject->Debug(
@@ -178,22 +179,22 @@ sub Content {
 
     my $ProviderConfig = $Webservice->{Config}->{Provider};
 
-    $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
+    my $TransportObject = Kernel::GenericInterface::Transport->new(
         DebuggerObject  => $DebuggerObject,
         TransportConfig => $ProviderConfig->{Transport},
     );
 
     # Bail out if transport initialization failed.
-    if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
+    if ( ref $TransportObject ne 'Kernel::GenericInterface::Transport' ) {
 
         $DebuggerObject->Error(
             Summary => 'TransportObject could not be initialized',
-            Data    => $Self->{TransportObject},
+            Data    => $TransportObject,
         );
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_ThrowWebException();
+        return _ThrowWebException();
     }
 
     # Combine all data for error handler we got so far.
@@ -204,19 +205,20 @@ sub Content {
     );
 
     # Read request content.
-    my $ProcessRequestResult = $Self->{TransportObject}->ProviderProcessRequest();
+    my $ProcessRequestResult = $TransportObject->ProviderProcessRequest();
 
     # If the request was not processed correctly, send error to client.
     if ( !$ProcessRequestResult->{Success} ) {
 
         my $Summary = $ProcessRequestResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
 
-        return $Self->_HandleError(
+        return _HandleError(
             %HandleErrorData,
-            DataInclude => {},
-            ErrorStage  => 'ProviderRequestReceive',
-            Summary     => $Summary,
-            Data        => $ProcessRequestResult->{Data} // $Summary,
+            DataInclude     => {},
+            ErrorStage      => 'ProviderRequestReceive',
+            Summary         => $Summary,
+            Data            => $ProcessRequestResult->{Data} // $Summary,
+            TransportObject => $TransportObject,
         );
     }
 
@@ -261,9 +263,9 @@ sub Content {
                 Data    => $MappingInObject,
             );
 
-            return $Self->_GenerateErrorResponse(
-                DebuggerObject => $DebuggerObject,
-                ErrorMessage   => $ProcessRequestResult->{ErrorMessage},
+            return _GenerateErrorResponse(
+                TransportObject => $TransportObject,
+                ErrorMessage    => $ProcessRequestResult->{ErrorMessage},
             ) // '';
         }
 
@@ -278,12 +280,13 @@ sub Content {
 
             my $Summary = $MappingInResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
 
-            return $Self->_HandleError(
+            return _HandleError(
                 %HandleErrorData,
-                DataInclude => \%DataInclude,
-                ErrorStage  => 'ProviderRequestMap',
-                Summary     => $Summary,
-                Data        => $MappingInResult->{Data} // $Summary,
+                DataInclude     => \%DataInclude,
+                ErrorStage      => 'ProviderRequestMap',
+                Summary         => $Summary,
+                Data            => $MappingInResult->{Data} // $Summary,
+                TransportObject => $TransportObject,
             );
         }
 
@@ -324,9 +327,9 @@ sub Content {
             $ErrorMessage = $OperationObject->{ErrorMessage};
         }
 
-        return $Self->_GenerateErrorResponse(
-            DebuggerObject => $DebuggerObject,
-            ErrorMessage   => $ErrorMessage,
+        return _GenerateErrorResponse(
+            TransportObject => $TransportObject,
+            ErrorMessage    => $ErrorMessage,
         ) // '';
     }
 
@@ -341,12 +344,13 @@ sub Content {
 
         my $Summary = $OperationResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
 
-        return $Self->_HandleError(
+        return _HandleError(
             %HandleErrorData,
-            DataInclude => \%DataInclude,
-            ErrorStage  => 'ProviderRequestProcess',
-            Summary     => $Summary,
-            Data        => $OperationResult->{Data} // $Summary,
+            DataInclude     => \%DataInclude,
+            ErrorStage      => 'ProviderRequestProcess',
+            Summary         => $Summary,
+            Data            => $OperationResult->{Data} // $Summary,
+            TransportObject => $TransportObject,
         );
     }
 
@@ -386,9 +390,9 @@ sub Content {
                 Data    => $MappingOutObject,
             );
 
-            return $Self->_GenerateErrorResponse(
-                DebuggerObject => $DebuggerObject,
-                ErrorMessage   => $OperationResult->{ErrorMessage},
+            return _GenerateErrorResponse(
+                TransportObject => $TransportObject,
+                ErrorMessage    => $OperationResult->{ErrorMessage},
             ) // '';
         }
 
@@ -401,12 +405,13 @@ sub Content {
 
             my $Summary = $MappingOutResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
 
-            return $Self->_HandleError(
+            return _HandleError(
                 %HandleErrorData,
-                DataInclude => \%DataInclude,
-                ErrorStage  => 'ProviderResponseMap',
-                Summary     => $Summary,
-                Data        => $MappingOutResult->{Data} // $Summary,
+                DataInclude     => \%DataInclude,
+                ErrorStage      => 'ProviderResponseMap',
+                Summary         => $Summary,
+                Data            => $MappingOutResult->{Data} // $Summary,
+                TransportObject => $TransportObject,
             );
         }
 
@@ -422,7 +427,7 @@ sub Content {
     }
 
     # Generate the actual response and throw it in an Kernel::System::Web::Exception.
-    $Self->{TransportObject}->ProviderGenerateResponse(
+    $TransportObject->ProviderGenerateResponse(
         Success   => 1,
         Data      => $DataOut,
         Operation => $Operation,    # introduced by OTOBOTicketInvoker
@@ -431,27 +436,41 @@ sub Content {
     return;                         # actually not reached
 }
 
-=head2 Response()
+=head1 PUBLIC INTERFACE
 
-Generate a PSGI Response object from the content generated by C<Content()>.
+=head2 call()
 
-    my $Response = $Interface->Response();
+Generate a PSGI Response object from the content generated by C<_Content()>.
+This is the subroutine that is called in F<otobo.psgi>.
+
+    my $Response = $Interface->call();
 
 =cut
 
-sub Response {
-    my ($Self) = @_;
+sub call {
 
-    # Note that no layout object must be created before calling Content().
-    # This is because Content() might want to set object params before the initial creations.
+    #my ( $Self, $Env ) = @_;      # the class and the params are not needed
+
+    # $Debug is not needed
+
+    # register object params
+    # as the PerformanceLog middleware is not used yet for this interface
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Log' => {
+            LogPrefix => 'GenericInterfaceProvider',
+        },
+    );
+
+    # Note that the layout object mustn't be created before calling _Content().
+    # This is because _Content() might want to set object params before the initial creations.
     # A notable example is the SetCookies parameter.
-    my $Content = $Self->Content();
+    my $Content = _Content();
 
-    # This code is usually never called, as Content() usually throws an exceptiom.
+    # This code is usually never reached, as _Content() usually throws an exceptiom.
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
     return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize(
-        Content => $Content
+        Content => $Content,
     );
 }
 
@@ -463,19 +482,19 @@ prepares header and content for an error response
 
 Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
 
-    $Self->_GenerateErrorResponse(
-        DebuggerObject => $DebuggerObject,
-        ErrorMessage   => $ErrorMessage,
+    _GenerateErrorResponse(
+        TransportObject => $TransportObject,
+        ErrorMessage    => $ErrorMessage,
     );
 
 =cut
 
 sub _GenerateErrorResponse {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
     # Generate the error response and throw it in an
     # Kernel::System::Web::Exception.
-    $Self->{TransportObject}->ProviderGenerateResponse(
+    $Param{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
@@ -489,7 +508,7 @@ handles errors by
 - informing operation about it (if supported)
 - calling an error handling layer
 
-    my $Output = $RequesterObject->_HandleError(
+    my $Output = _HandleError(
         DebuggerObject   => $DebuggerObject,
         WebserviceID     => 1,
         WebserviceConfig => $WebserviceConfig,
@@ -499,25 +518,28 @@ handles errors by
         Data             => $ErrorDataStructure,
         OperationObject  => $OperationObject,        # optional
         Operation        => 'OperationName',         # optional
+        TransportObject => $TransportObject,
     );
-    print STDOUT $Output;
+
+This subroutine throws an exception, which is as intended.
 
 =cut
 
 sub _HandleError {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
     NEEDED:
-    for my $Needed (qw(DebuggerObject WebserviceID WebserviceConfig DataInclude ErrorStage Summary Data)) {
+    for my $Needed (qw(DebuggerObject WebserviceID WebserviceConfig DataInclude ErrorStage Summary Data TransportObject)) {
         next NEEDED if $Param{$Needed};
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Got no $Needed!",
         );
 
-        return $Self->_GenerateErrorResponse(
-            DebuggerObject => $Param{DebuggerObject},
-            ErrorMessage   => "Got no $Needed!",
+        return _GenerateErrorResponse(
+            ErrorMessage    => "Got no $Needed!",
+            TransportObject => $Param{TransportObject},
         ) // '';
     }
 
@@ -538,9 +560,9 @@ sub _HandleError {
         || !$Param{OperationObject}->{BackendObject}->can('HandleError')
         )
     {
-        return $Self->_GenerateErrorResponse(
-            DebuggerObject => $Param{DebuggerObject},
-            ErrorMessage   => $Param{Summary},
+        return _GenerateErrorResponse(
+            ErrorMessage    => $Param{Summary},
+            TransportObject => $Param{TransportObject},
         ) // '';
     }
 
@@ -574,9 +596,9 @@ sub _HandleError {
                 Data    => $MappingErrorObject,
             );
 
-            return $Self->_GenerateErrorResponse(
-                DebuggerObject => $Param{DebuggerObject},
-                ErrorMessage   => 'MappingErr could not be initialized',
+            return _GenerateErrorResponse(
+                TransportObject => $Param{TransportObject},
+                ErrorMessage    => 'MappingErr could not be initialized',
             ) // '';
         }
 
@@ -591,9 +613,9 @@ sub _HandleError {
             },
         );
         if ( !$MappingErrorResult->{Success} ) {
-            return $Self->_GenerateErrorResponse(
-                DebuggerObject => $Param{DebuggerObject},
-                ErrorMessage   => $MappingErrorResult->{ErrorMessage},
+            return _GenerateErrorResponse(
+                TransportObject => $Param{TransportObject},
+                ErrorMessage    => $MappingErrorResult->{ErrorMessage},
             ) // '';
         }
 
@@ -615,9 +637,9 @@ sub _HandleError {
         );
     }
 
-    return $Self->_GenerateErrorResponse(
-        DebuggerObject => $Param{DebuggerObject},
-        ErrorMessage   => $Param{Summary},
+    return _GenerateErrorResponse(
+        TransportObject => $Param{TransportObject},
+        ErrorMessage    => $Param{Summary},
     ) // '';
 }
 
@@ -631,8 +653,6 @@ Generate a response with code 500 and empty content and throw it as an exception
 =cut
 
 sub _ThrowWebException {
-    my ($Self) = @_;
-
     my $ServerErrorResponse = Plack::Response->new(
         500,
         [],

@@ -90,7 +90,7 @@ use Plack::App::Directory ();
 use Kernel::Config;                                             # assure that Kernel/Config.pm exists, though the file might be modified later
 use Kernel::System::ModuleRefresh ();                           # based on Module::Refresh
 use Kernel::System::ObjectManager ();
-use Kernel::System::Web::App      ();
+use Kernel::System::Web::App      ();                           # a Plack application implementing prepare_app() and call()
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.

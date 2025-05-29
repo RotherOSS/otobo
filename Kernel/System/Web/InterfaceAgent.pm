@@ -22,6 +22,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(Plack::Component);
+
 # core modules
 
 # CPAN modules
@@ -58,70 +60,40 @@ Kernel::System::Web::InterfaceAgent - the agent web interface
 
     use Kernel::System::Web::InterfaceAgent;
 
-    # a Plack request handler
-    my $App = sub {
-        my $Env = shift;
+    # declare object parameters for Kernel::System::Web::Request
 
-        my $Interface = Kernel::System::Web::InterfaceAgent->new(
-            Debug => 0|1,   # optional
-        );
-
-        # generate content (actually headers are generated as a side effect)
-        my $Content = $Interface->Content();
-
-        # assuming all went well and HTML was generated
-        return [
-            '200',
-            [ 'Content-Type' => 'text/html' ],
-            $Content
-        ];
-    };
+    # a Plack app
+    return Kernel::System::Web::InterfaceAgent->new(
+        Debug     => $Self->{Debug},
+    )->to_app->($Env);
 
 =head1 DESCRIPTION
 
 This module generates the HTTP response for F<index.pl>.
-This class is meant to be used within a Plack request handler.
+It is meant to be used within a Plack request handler.
 See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
-=head1 PUBLIC INTERFACE
+=head1 PRIVATE FUNCTIONS
 
-=head2 new()
+=head2 _Content()
 
-create the web interface object for F<index.pl>.
-
-=cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # start with an empty hash for the new object
-    my $Self = bless {}, $Type;
-
-    # set debug level
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle started...',
-        );
-    }
-
-    return $Self;
-}
-
-=head2 Content()
-
-execute the object.
+Generate content.
 Set headers in Kernels::System::Web::Request singleton as side effect.
+Can die and throw a C<Kernel::System::Web::Exception> exception. That exception
+is expected to be caught by the middleware C<Plack::Middleware::HTTPExceptions>.
 
-    my $Content = $Interface->Content();
+    my $Content = _Content();
+
+or with debugging:
+
+    my $Content = _Content( Debug => 1 );
 
 =cut
 
-sub Content {
-    my $Self = shift;
+sub _Content {
+    my (%IncomingParam) = @_;
+
+    my $Debug = $IncomingParam{Debug} || 0;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -240,7 +212,7 @@ sub Content {
 
             # check if Cache CheckHashUser exists
             if ($CheckHashUser) {
-                my %BanStatus = $Self->_CheckAndRemoveFromBannedList(
+                my %BanStatus = _CheckAndRemoveFromBannedList(
                     PostUser                => $PostUser,
                     PreventBruteForceConfig => $PreventBruteForceConfig,
                 );
@@ -321,7 +293,7 @@ sub Content {
             if ( $PreventBruteForceConfig && $PostUser ) {
 
                 # prevent brute force
-                my $Banned = $Self->_StoreFailedLogins(
+                my $Banned = _StoreFailedLogins(
                     PostUser                => $PostUser,
                     PreventBruteForceConfig => $PreventBruteForceConfig,
                 );
@@ -444,7 +416,7 @@ sub Content {
             },
         );
 
-        my $UserTimeZone = $Self->_UserTimeZoneGet(%UserData);
+        my $UserTimeZone = _UserTimeZoneGet(%UserData);
 
         $SessionObject->UpdateSessionID(
             SessionID => $NewSessionID,
@@ -487,6 +459,7 @@ sub Content {
                 SessionName => $Param{SessionName},
             },
         );
+
         Kernel::Output::HTML::Layout->SetCookie(
             RegisterInOM => 1,
             Key          => 'SessionIDCookie',
@@ -494,6 +467,8 @@ sub Content {
             Value        => $NewSessionID,
             Expires      => $Expires,
         );
+
+        # delete the OTOBOBrowserHasCookie cookie
         Kernel::Output::HTML::Layout->SetCookie(
             RegisterInOM => 1,
             Key          => 'OTOBOBrowserHasCookie',
@@ -589,7 +564,7 @@ sub Content {
             SessionID => $Param{SessionID},
         );
 
-        $UserData{UserTimeZone} = $Self->_UserTimeZoneGet(%UserData);
+        $UserData{UserTimeZone} = _UserTimeZoneGet(%UserData);
 
         # create a new LayoutObject with %UserData
         $Kernel::OM->ObjectParamAdd(
@@ -1012,7 +987,7 @@ sub Content {
             SessionID => $Param{SessionID},
         );
 
-        $UserData{UserTimeZone} = $Self->_UserTimeZoneGet(%UserData);
+        $UserData{UserTimeZone} = _UserTimeZoneGet(%UserData);
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User' ) {
@@ -1209,7 +1184,7 @@ sub Content {
                 next MODULE unless $Kernel::OM->Get('Kernel::System::Main')->Require($PreModule);
 
                 # debug info
-                if ( $Self->{Debug} ) {
+                if ($Debug) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "PreApplication module $PreModule is used.",
@@ -1233,7 +1208,7 @@ sub Content {
         }
 
         # debug info
-        if ( $Self->{Debug} ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'Kernel::Modules::' . $Param{Action} . '->new',
@@ -1244,11 +1219,11 @@ sub Content {
             %Param,
             Session   => \%UserData,
             ModuleReg => $ModuleReg,
-            Debug     => $Self->{Debug},
+            Debug     => $Debug,
         );
 
         # debug info
-        if ( $Self->{Debug} ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
@@ -1264,7 +1239,7 @@ sub Content {
     my %Data = $SessionObject->GetSessionIDData(
         SessionID => $Param{SessionID},
     );
-    $Data{UserTimeZone} = $Self->_UserTimeZoneGet(%Data);
+    $Data{UserTimeZone} = _UserTimeZoneGet(%Data);
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,
@@ -1279,21 +1254,34 @@ sub Content {
     );
 }
 
-=head2 Response()
+=head1 PUBLIC INTERFACE
 
-Generate a PSGI Response object from the content generated by C<Content()>.
+=head2 call()
 
-    my $Response = $Interface->Response();
+Generate a PSGI Response object from the content generated by C<_Content()>.
+This is the subroutine that is called in F<otobo.psgi>.
+
+    my $Response = $Interface->call();
 
 =cut
 
-sub Response {
-    my ($Self) = @_;
+sub call {
+    my ( $Self, $Env ) = @_;
 
-    # Note that the layout object mustn't be created before calling Content().
-    # This is because Content() might want to set object params before the initial creations.
+    my $Debug = $Self->{Debug} || 0;
+
+    # debug info
+    if ($Debug) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Global handle for $Self->{Interface} started...",
+        );
+    }
+
+    # Note that the layout object mustn't be created before calling _Content().
+    # This is because _Content() might want to set object params before the initial creations.
     # A notable example is the SetCookies parameter.
-    my $Content = $Self->Content();
+    my $Content = _Content( Debug => $Debug );
 
     # The filtered content is a string, regardless of whether the original content is
     # a string, an array reference, or a file handle.
@@ -1302,7 +1290,9 @@ sub Response {
 
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
-    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
+    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize(
+        Content => $Content,
+    );
 }
 
 =begin Internal:
@@ -1312,7 +1302,8 @@ sub Response {
 =cut
 
 sub _StoreFailedLogins {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
+
     my $CurrentTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
     my $CurrentNewTimeStamp = $CurrentTimeObject->ToString();
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
@@ -1378,7 +1369,7 @@ sub _StoreFailedLogins {
 }
 
 sub _CheckAndRemoveFromBannedList {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
     # get cache
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -1428,14 +1419,14 @@ sub _CheckAndRemoveFromBannedList {
 Get time zone for the current user. This function will validate passed time zone parameter and return default user time
 zone if it's not valid.
 
-    my $UserTimeZone = $Self->_UserTimeZoneGet(
+    my $UserTimeZone = _UserTimeZoneGet(
         UserTimeZone => 'Europe/Berlin',
     );
 
 =cut
 
 sub _UserTimeZoneGet {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
     my $UserTimeZone;
 
