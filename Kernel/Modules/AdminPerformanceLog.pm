@@ -16,9 +16,9 @@
 
 package Kernel::Modules::AdminPerformanceLog;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -201,9 +201,9 @@ sub Run {
 
             # set output class
             if ( $Action{$Minute} ) {
-                my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
-                my $I       = 100 / $MaxRequest;
-                my $Width   = $Action{$Minute}->{Count} * $I || 1;
+                my $Average            = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
+                my $I                  = 100 / $MaxRequest;
+                my $WidthOfProgressbar = $Action{$Minute}->{Count} * $I || 1;
 
                 $LayoutObject->Block(
                     Name => 'ViewRow',
@@ -214,7 +214,7 @@ sub Run {
                         Min     => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
                         Average => sprintf( '%.3f', $Average ),
                         Date    => $DateTimeObject->ToString(),
-                        Width   => $Width . '%',
+                        Width   => $WidthOfProgressbar . '%',
                     },
                 );
             }
@@ -227,7 +227,7 @@ sub Run {
                         Count   => $Action{$Minute}->{Count} || '0',
                         Average => 0,
                         Date    => $DateTimeObject->ToString(),
-                        Width   => '0%',
+                        Width   => '0%',                               # progress bar not shown
                     },
                 );
             }
