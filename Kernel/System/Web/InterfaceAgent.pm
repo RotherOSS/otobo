@@ -101,9 +101,6 @@ sub new {
     # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # performance log based on high resolution timestamps
-    $Self->{PerformanceLogStart} = Time::HiRes::time();
-
     # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
@@ -1269,50 +1266,6 @@ sub Content {
         # Run $Action with $FrontendObject.
         # The output is either a string or a IO::Handle like object.
         my $Output = $FrontendObject->Run();
-
-        # log request time for AdminPerformanceLog
-        if ( $ConfigObject->Get('PerformanceLog') ) {
-            my $File = $ConfigObject->Get('PerformanceLog::File');
-
-            # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
-            if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
-                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
-
-                    # a fallback for the query string when the action is missing
-                    if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
-                        $QueryString = 'Action=' . $Param{Action} . ';Subaction=' . $Param{Subaction};
-                    }
-
-                    my $Now = Time::HiRes::time();
-                    print $Out join '::',
-                        $Now,
-                        'Agent',
-                        ( $Now - $Self->{PerformanceLogStart} ),
-                        $UserData{UserLogin},    # not used in the AdminPerformanceLog frontend
-                        "$QueryString\n";
-                    close $Out;
-
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'debug',
-                        Message  => "Response::Agent: "
-                            . ( $Now - $Self->{PerformanceLogStart} )
-                            . "s taken (URL:$QueryString:$UserData{UserLogin})",
-                    );
-                }
-                else {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => "Can't write $File: $!",
-                    );
-                }
-            }
-            else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
-                );
-            }
-        }
 
         return $Output;
     }

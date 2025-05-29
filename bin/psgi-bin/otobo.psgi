@@ -71,11 +71,11 @@ use lib "$Bin/../../Custom";
 
 # core modules
 use Cwd            qw(abs_path);
-use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules)
-use Encode         ();              ## no perlimports
+use Data::Dumper   ();                             ## no critic qw(Modules::ProhibitEvilModules)
+use Encode         ();                             ## no perlimports
 use File::Basename qw(dirname);
 use File::Path     qw(make_path);
-use Time::HiRes    ();
+use Time::HiRes    qw(gettimeofday tv_interval);
 
 # CPAN modules
 use DateTime 1.08         ();                                   ## no perlimports
@@ -623,6 +623,9 @@ my $OTOBOApp = builder {
 
         # handle the SysConfig setting HTTPSForceRedirect
         enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Agent';
 
         Kernel::System::Web::App->new(
             Interface => 'Kernel::System::Web::InterfaceAgent',
