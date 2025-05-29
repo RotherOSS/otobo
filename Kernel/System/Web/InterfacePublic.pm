@@ -22,12 +22,15 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(Plack::Component);
+
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Language qw(Translatable);
+use Kernel::Language             qw(Translatable);
+use Kernel::Output::HTML::Layout ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -47,93 +50,68 @@ Kernel::System::Web::InterfacePublic - the public web interface
 
     use Kernel::System::Web::InterfacePublic;
 
-    # a Plack request handler
-    my $App = sub {
-        my $Env = shift;
+    # declare object parameters for Kernel::System::Web::Request
 
-        my $Interface = Kernel::System::Web::InterfacePublic->new(
-            Debug => 0|1,   # optional
-        );
-
-        # generate content (actually headers are generated as a side effect)
-        my $Content = $Interface->Content();
-
-        # assuming all went well and HTML was generated
-        return [
-            '200',
-            [ 'Content-Type' => 'text/html' ],
-            $Content
-        ];
-    };
+    # a Plack app
+    return Kernel::System::Web::InterfacePublic->new(
+        Debug     => $Self->{Debug},
+    )->to_app->($Env);
 
 =head1 DESCRIPTION
 
 This module generates the HTTP response for F<public.pl>.
-This class is meant to be used within a Plack request handler.
+It is meant to be used within a Plack request handler.
 See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
-=head1 PUBLIC INTERFACE
+=head1 PRIVATE FUNCTIONS
 
-=head2 new()
+=head2 _Content()
 
-create the web interface object for F<public.pl>.
-
-=cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # start with an empty hash for the new object
-    my $Self = bless {}, $Type;
-
-    # set debug level
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle started...',
-        );
-    }
-
-    return $Self;
-}
-
-=head2 Content()
-
-execute the object.
+Generate content.
 Set headers in Kernels::System::Web::Request singleton as side effect.
+Can die and throw a C<Kernel::System::Web::Exception> exception. That exception
+is expected to be caught by the middleware C<Plack::Middleware::HTTPExceptions>.
 
-    my $Content = $Interface->Content();
+    my $Content = _Content();
+
+or with debugging:
+
+    my $Content = _Content( Debug => 1 );
 
 =cut
 
-sub Content {
-    my $Self = shift;
+sub _Content {
+    my (%IncomingParam) = @_;
+
+    my $Debug = $IncomingParam{Debug} || 0;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get common framework params
+    # Collect object parameters for the Layout object
     my %Param;
+
+    # Get the Session ID in case it was passed as a POST or GET parameter.
     $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName')         || 'CSID';
     $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     my $QueryString = $ParamObject->QueryString() || '';
+
+    # TODO: why is the pattern =.+?; not included ?
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
-    my $FrameworkParams = {
-        Lang         => '',
-        Action       => '',
-        Subaction    => '',
-        RequestedURL => $QueryString,
-    };
-    for my $Key ( sort keys %{$FrameworkParams} ) {
-        $Param{$Key} = $ParamObject->GetParam( Param => $Key )
-            || $FrameworkParams->{$Key};
+    {
+        my %FrameworkParams = (
+            Lang         => '',
+            Action       => '',
+            Subaction    => '',
+            RequestedURL => $QueryString,
+        );
+        for my $Key ( sort keys %FrameworkParams ) {
+            $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $FrameworkParams{$Key};
+        }
     }
 
     # validate language
@@ -168,7 +146,7 @@ sub Content {
         'Kernel::Output::HTML::Layout' => {
             %Param,
             SessionIDCookie => 1,
-            Debug           => $Self->{Debug},
+            Debug           => $Debug,
         },
     );
 
@@ -221,7 +199,7 @@ sub Content {
     }
 
     # debug info
-    if ( $Self->{Debug} ) {
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Kernel::Modules::' . $Param{Action} . '->new',
@@ -231,11 +209,11 @@ sub Content {
     my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
         UserID => 1,
         %Param,
-        Debug => $Self->{Debug},
+        Debug => $Debug,
     );
 
     # debug info
-    if ( $Self->{Debug} ) {
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
@@ -247,21 +225,34 @@ sub Content {
     return $FrontendObject->Run();
 }
 
-=head2 Response()
+=head1 PUBLIC INTERFACE
 
-Generate a PSGI Response object from the content generated by C<Content()>.
+=head2 call()
 
-    my $Response = $Interface->Response();
+Generate a PSGI Response object from the content generated by C<_Content()>.
+This is the subroutine that is called in F<otobo.psgi>.
+
+    my $Response = $Interface->call();
 
 =cut
 
-sub Response {
-    my ($Self) = @_;
+sub call {
+    my ( $Self, $Env ) = @_;
 
-    # Note that the layout object mustn't be created before calling Content().
-    # This is because Content() might want to set object params before the initial creations.
+    my $Debug = $Self->{Debug} || 0;
+
+    # debug info
+    if ($Debug) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Global handle for $Self->{Interface} started...",
+        );
+    }
+
+    # Note that the layout object mustn't be created before calling _Content().
+    # This is because _Content() might want to set object params before the initial creations.
     # A notable example is the SetCookies parameter.
-    my $Content = $Self->Content();
+    my $Content = _Content( Debug => $Debug );
 
     # The filtered content is a string, regardless of whether the original content is
     # a string, an array reference, or a file handle.
@@ -270,7 +261,9 @@ sub Response {
 
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
-    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
+    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize(
+        Content => $Content,
+    );
 }
 
 1;

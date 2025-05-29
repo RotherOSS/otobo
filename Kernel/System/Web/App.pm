@@ -17,7 +17,7 @@ package Kernel::System::Web::App;
 
 =head1 NAME
 
-Kernel::System::Web::App - a PSGI App module that wraps the OTOBO interface modules
+Kernel::System::Web::App - a Plack App module that wraps the OTOBO interface modules
 
 =head1 SYNOPSIS
 
@@ -25,7 +25,7 @@ Kernel::System::Web::App - a PSGI App module that wraps the OTOBO interface modu
 
 =head1 DESCRIPTION
 
-Call the C<Response()> method of the interface modules. The constructor argument I<Interface> is required.
+Call the C<call()> method of the requested interface module. The constructor argument I<Interface> is required.
 The argument I<Debug> is optional and defaults to 0.
 
     mount "/public.pl" => Kernel::System::Web::App->new(
@@ -82,8 +82,9 @@ sub call {
 
     # $Self->{Interface} was loaded in prepare_app().
     return $Self->{Interface}->new(
-        Debug => $Self->{Debug},
-    )->Response;
+        Debug     => $Self->{Debug},
+        Interface => $Self->{Interface},
+    )->to_app->($Env);
 }
 
 1;
