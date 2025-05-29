@@ -610,9 +610,6 @@ my $OTOBOApp = builder {
     # in short: handle the globally available variable $Kernel::OM
     enable $ManageObjectsMiddleware;
 
-    # handle the SysConfig setting HTTPSForceRedirect
-    enable $RedirectToHTTPS;
-
     # The actual functionality of OTOBO is implemented as a set of Plack apps.
     # Dispatching is done with an URL map.
     # Kernel::System::Web::App loads the interface modules and calls the Response() method.
@@ -622,9 +619,15 @@ my $OTOBOApp = builder {
     #mount '/dump_env' => $DumpEnvApp;
     #mount '/hello'    => $HelloApp;
 
-    mount '/index.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceAgent',
-    )->to_app;
+    mount '/index.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceAgent',
+        )->to_app;
+    };
 
     mount '/installer.pl' => builder {
 
@@ -659,8 +662,21 @@ my $OTOBOApp = builder {
     )->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
-    mount '/customer.pl' => $CheckCustomerInterfaceApp;
-    mount '/public.pl'   => $CheckPublicInterfaceApp;
+    mount '/customer.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        $CheckCustomerInterfaceApp;
+    };
+
+    mount '/public.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        $CheckPublicInterfaceApp;
+    };
 
     # redirect to Frontend::DefaultInterface when in doubt
     mount '/' => $RedirectOtoboApp;
