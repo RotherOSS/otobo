@@ -63,6 +63,7 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     # register object params
+    # as the PerformanceLog middleware is not used yet for this interface
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => 'GenericInterfaceProvider',

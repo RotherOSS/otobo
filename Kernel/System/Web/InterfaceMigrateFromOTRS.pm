@@ -16,9 +16,9 @@
 
 package Kernel::System::Web::InterfaceMigrateFromOTRS;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -89,6 +89,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # register object params
+    # as the PerformanceLog middleware is not used yet for this interface
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'MigrateFromOTRS',

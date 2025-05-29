@@ -101,13 +101,6 @@ sub new {
     # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # register object params
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Log' => {
-            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Agent',
-        },
-    );
-
     # debug info
     if ( $Self->{Debug} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

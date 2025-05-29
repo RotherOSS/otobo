@@ -59,7 +59,16 @@ sub prepare_app {
 sub call {
     my ( $Self, $Env ) = @_;
 
+    my $Interface    = $Self->interface;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Register parameters for Kernel::System::Log. This needs to be done as early as possible,
+    # before the Kernel::System::Log is first used.
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Log' => {
+            LogPrefix => ( $ConfigObject->Get('CGILogPrefix') || $Interface )
+        },
+    );
 
     # simply proceed when performance logging is deactivated
     return $Self->app->($Env) unless $ConfigObject->Get('PerformanceLog');
@@ -95,10 +104,9 @@ sub call {
         if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
 
             my $Duration = tv_interval([$StartSeconds, $StartMicroSeconds]);
-            my $Interface = $Self->interface;
             say $Out join '::',
                 "$StartSeconds.$StartMicroSeconds",
-                $Self->interface(),
+                $Interface,
                 $Duration,
                 '-',    # not used in the AdminPerformanceLog frontend
                 $QueryString;
