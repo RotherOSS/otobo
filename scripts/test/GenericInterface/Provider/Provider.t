@@ -392,7 +392,7 @@ for my $Test (@Tests) {
                     );
 
                     eval {
-                        $ResponseData = $ProviderObject->Content();
+                        $ResponseData = $ProviderObject->_Content;
                     };
                     $WebException = $@;    # assign '' in case of success
                 }
