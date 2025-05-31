@@ -2,9 +2,6 @@
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
-# Required for compressed file generation (in perlcore).
-requires 'Archive::Tar';
-
 # Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
@@ -27,8 +24,6 @@ requires 'DBI';
 
 # Sane persistent database connection
 requires 'DBIx::Connector';
-
-requires 'Digest::SHA';
 
 requires 'File::chmod';
 
@@ -86,9 +81,6 @@ requires 'Text::CSV', '>= 1.95';
 requires 'Text::CSV_XS', '>= 1.34';
 
 requires 'Text::Trim';
-
-# Required for high resolution timestamps.
-requires 'Time::HiRes';
 
 requires 'Try::Tiny';
 
@@ -194,9 +186,6 @@ requires 'Plack::Middleware::ReverseProxy';
 
     # basic test functions
     requires 'Test2::Suite';
-
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
-    requires 'Test::Simple';
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
