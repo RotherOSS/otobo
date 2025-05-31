@@ -63,8 +63,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
 =head1 DESCRIPTION
 
-This scripts can be used for checking whether required Perl modules are installed.
+This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
+
+Modules that are in Perl core in Perl 5.24 or later are no included in the list of required modules.
 
 =cut
 
@@ -312,17 +314,6 @@ my @NeededModules = (
 
     # Core
     {
-        Module    => 'Archive::Tar',
-        Required  => 1,
-        Comment   => 'Required for compressed file generation (in perlcore).',
-        InstTypes => {
-            aptget => 'perl',
-            emerge => 'perl-core/Archive-Tar',
-            zypper => 'perl-Archive-Tar',
-            ports  => 'archivers/p5-Archive-Tar',
-        },
-    },
-    {
         Module    => 'Archive::Zip',
         Required  => 1,
         Comment   => 'Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV',
@@ -435,16 +426,6 @@ my @NeededModules = (
             emerge => undef,
             zypper => undef,
             ports  => undef,
-        },
-    },
-    {
-        Module    => 'Digest::SHA',
-        Required  => 1,
-        InstTypes => {
-            aptget => 'perl',
-            emerge => 'dev-perl/Digest-SHA',
-            zypper => 'perl-Digest-SHA',
-            ports  => 'security/p5-Digest-SHA'
         },
     },
     {
@@ -694,17 +675,6 @@ my @NeededModules = (
             emerge => 'dev-perl/Text-Trim',
             zypper => 'perl-Text-Trim',
             ports  => 'devel/p5-Text-Trim',
-        },
-    },
-    {
-        Module    => 'Time::HiRes',
-        Required  => 1,
-        Comment   => 'Required for high resolution timestamps.',
-        InstTypes => {
-            aptget => 'perl',
-            emerge => 'perl-core/Time-HiRes',
-            zypper => 'perl-Time-HiRes',
-            ports  => 'devel/p5-Time-HiRes',
         },
     },
     {
@@ -1203,22 +1173,12 @@ my @NeededModules = (
         },
     },
     {
+        # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
         InstTypes => {
             aptget => 'libtest2-suite-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Test::Simple',
-        Features  => ['devel:test'],
-        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
-        InstTypes => {
-            aptget => 'perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
