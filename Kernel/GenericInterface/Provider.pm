@@ -448,12 +448,20 @@ This is the subroutine that is called in F<otobo.psgi>.
 =cut
 
 sub call {
-
-    #my ( $Self, $Env ) = @_;      # the class and the params are not needed
+    my ( undef, $Env ) = @_;    # the instance is not needed
 
     # $Debug is not needed
 
-    # register object params
+    # The OTOBO modules which generate the content get their input
+    # from the Kernel::System::Web::Request singleton, that is the ParamObject.
+    # Make the PSGI environment available to the constructor of the ParamObject.
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            PSGIEnv => $Env,
+        },
+    );
+
+    # register object params for Kernel::System::Log
     # as the PerformanceLog middleware is not used yet for this interface
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {

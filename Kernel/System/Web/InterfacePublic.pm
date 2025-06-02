@@ -241,6 +241,15 @@ sub call {
 
     my $Debug = $Self->{Debug} || 0;
 
+    # The OTOBO modules which generate the content get their input
+    # from the Kernel::System::Web::Request singleton, that is the ParamObject.
+    # Make the PSGI environment available to the constructor of the ParamObject.
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            PSGIEnv => $Env,
+        },
+    );
+
     # debug info
     if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
