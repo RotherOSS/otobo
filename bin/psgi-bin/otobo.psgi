@@ -184,15 +184,6 @@ my $ManageObjectsMiddleware = sub {
         # Kernel::System::ObjectManager::DESTROY() will be called when exiting the subroutine.
         local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-        # The OTOBO modules which generate the content get their input
-        # from the Kernel::System::Web::Request singleton, that is the ParamObject.
-        # Make the PSGI environment available to the constructor of the ParamObject.
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::Web::Request' => {
-                PSGIEnv => $Env,
-            },
-        );
-
         return $App->($Env);
     };
 };
