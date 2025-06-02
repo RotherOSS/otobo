@@ -50,8 +50,6 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
     use Kernel::System::Web::InterfaceInstaller;
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::System::Web::InterfaceInstaller->new(
         Debug     => $Self->{Debug},

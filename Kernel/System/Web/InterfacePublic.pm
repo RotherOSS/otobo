@@ -50,8 +50,6 @@ Kernel::System::Web::InterfacePublic - the public web interface
 
     use Kernel::System::Web::InterfacePublic;
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::System::Web::InterfacePublic->new(
         Debug     => $Self->{Debug},

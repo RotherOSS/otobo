@@ -49,8 +49,6 @@ Kernel::System::Web::InterfaceMigrateFromOTRS - the migration web interface
 
     use Kernel::System::Web::InterfaceMigrateFromOTRS;
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::System::Web::InterfaceMigrateFromOTRS->new(
         Debug     => $Self->{Debug},

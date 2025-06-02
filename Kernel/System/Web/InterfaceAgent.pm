@@ -60,8 +60,6 @@ Kernel::System::Web::InterfaceAgent - the agent web interface
 
     use Kernel::System::Web::InterfaceAgent;
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::System::Web::InterfaceAgent->new(
         Debug     => $Self->{Debug},

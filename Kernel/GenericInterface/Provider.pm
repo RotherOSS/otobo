@@ -55,8 +55,6 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
     use Kernel::GenericInterface::Provider
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::GenericInterface::Provider->new(
         Debug     => $Self->{Debug},

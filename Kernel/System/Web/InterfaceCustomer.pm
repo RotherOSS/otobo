@@ -61,8 +61,6 @@ Kernel::System::Web::InterfaceCustomer - the customer web interface
 
     use Kernel::System::Web::InterfaceCustomer;
 
-    # declare object parameters for Kernel::System::Web::Request
-
     # a Plack app
     return Kernel::System::Web::InterfaceCustomer->new(
         Debug     => $Self->{Debug},
