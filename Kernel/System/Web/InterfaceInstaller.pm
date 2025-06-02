@@ -176,7 +176,7 @@ sub call {
     if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => 'Global handle started...',
+            Message  => "Global handle for $Self->{Interface} started...",
         );
     }
 
