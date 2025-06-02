@@ -332,10 +332,10 @@ sub EditFieldRender {
         HTMLQuote   => 1,
     );
 
-    my %FieldTemplateData = {
+    my %FieldTemplateData = (
         'SelectionHTML' => $SelectionHTML,
         'DivID'         => $FieldName,
-    };
+    );
 
     if ( $FieldConfig->{TreeView} ) {
         $FieldTemplateData{TreeView}             = $FieldConfig->{TreeView};
@@ -356,14 +356,14 @@ sub EditFieldRender {
         $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/WebService.tt';
+    my $FieldTemplateFile = 'DynamicField/Agent/WebService';
     if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/WebService.tt';
+        $FieldTemplateFile = 'DynamicField/Customer/WebService';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(
-        'Template' => $FieldTemplateFile,
-        'Data'     => \%FieldTemplateData
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
     );
 
     if ( $Param{AJAXUpdate} ) {
