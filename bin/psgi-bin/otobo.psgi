@@ -610,10 +610,12 @@ my $OTOBOApp = builder {
     # in short: handle the globally available variable $Kernel::OM
     enable $ManageObjectsMiddleware;
 
-    # The actual functionality of OTOBO is implemented as a set of Plack apps.
-    # Dispatching is done with an URL map.
-    # The interface modules are Plack components, calling to_app() creates a PSGI app.
-    # Pass "Debug => 1" to the constructor of the components in order to enable debugging.
+    # The actual functionality of OTOBO is implemented as a collection
+    # of Plack middlewares and Plack apps. These components are tied together via an URL map.
+    # The OTOBO interface modules are actually Plack components, calling to_app() on them
+    # creates a PSGI app. Note that a Plack app is just a plain old subroutine.
+    #
+    # Pass "Debug => 1" to the constructor of the relevant component in order to enable debugging.
 
     # enable for debugging
     #mount '/dump_env' => $DumpEnvApp;
@@ -655,10 +657,14 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::InterfaceMigrateFromOTRS->new->to_app;
+        Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+            Debug => 0,
+        )->to_app;
     };
 
-    mount '/nph-genericinterface.pl' => Kernel::GenericInterface::Provider->new->to_app;
+    mount '/nph-genericinterface.pl' => Kernel::GenericInterface::Provider->new(
+        Debug => 0,
+    )->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
     mount '/customer.pl' => builder {

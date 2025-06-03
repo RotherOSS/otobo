@@ -49,6 +49,7 @@ Kernel::System::Web::InterfaceMigrateFromOTRS - the migration web interface
 
     # This module constitutes a Plack component that is meant to implement a Plack app.
     # See bin/psgi-bin/otobo.psgi on how to use it.
+
 =head1 DESCRIPTION
 
 This module generates the HTTP response for F<migration.pl>.
@@ -166,9 +167,11 @@ sub call {
 
     # debug info
     if ($Debug) {
+        my $Interface = __PACKAGE__ =~ s/.*::(\w+)$/$1/r;
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => "Global handle for $Self->{Interface} started...",
+            Message  => "Global handle for $Interface started...",
         );
     }
 
