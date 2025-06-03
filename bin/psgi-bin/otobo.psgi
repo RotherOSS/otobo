@@ -88,9 +88,14 @@ use Plack::App::Directory ();
 
 # OTOBO modules
 use Kernel::Config;                                             # assure that Kernel/Config.pm exists, though the file might be modified later
-use Kernel::System::ModuleRefresh ();                           # based on Module::Refresh
-use Kernel::System::ObjectManager ();
-use Kernel::System::Web::App      ();                           # a Plack application implementing prepare_app() and call()
+use Kernel::System::ModuleRefresh                 ();           # based on Module::Refresh
+use Kernel::System::ObjectManager                 ();
+use Kernel::GenericInterface::Provider            ();
+use Kernel::System::Web::InterfaceAgent           ();
+use Kernel::System::Web::InterfaceCustomer        ();
+use Kernel::System::Web::InterfaceInstaller       ();
+use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::System::Web::InterfacePublic          ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -458,36 +463,40 @@ my $RedirectOtoboApp = sub {
 
 # Check whether PublicFrontend::Active is on. If so serve the public interface.
 # Otherwise act as if the public interface does not exist and redirect to the default interface.
-my $CheckPublicInterfaceApp = sub {
-    my $Env = shift;
+my $CheckPublicInterfaceMiddleware = sub {
+    my $App = shift;
 
-    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+    return sub {
+        my $Env = shift;
 
-    return Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfacePublic',
-    )->to_app->($Env) if $Active;
+        my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
 
-    # trick $RedirectOtoboApp into doing the right thing
-    $Env->{PATH_INFO} = 'public.pl';
+        return $App->($Env) if $Active;
 
-    return $RedirectOtoboApp->($Env);
+        # trick $RedirectOtoboApp into doing the right thing
+        $Env->{PATH_INFO} = 'public.pl';
+
+        return $RedirectOtoboApp->($Env);
+    };
 };
 
 # Check whether CustomerFrontend::Active is on. If so serve the customer interface.
 # Otherwise act as if the customer interface does not exist and redirect to the default interface.
-my $CheckCustomerInterfaceApp = sub {
-    my $Env = shift;
+my $CheckCustomerInterfaceMiddleware = sub {
+    my $App = shift;
 
-    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+    return sub {
+        my $Env = shift;
 
-    return Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceCustomer',
-    )->to_app->($Env) if $Active;
+        my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
 
-    # trick $RedirectOtoboApp into doing the right thing
-    $Env->{PATH_INFO} = 'customer.pl';
+        return $App->($Env) if $Active;
 
-    return $RedirectOtoboApp->($Env);
+        # trick $RedirectOtoboApp into doing the right thing
+        $Env->{PATH_INFO} = 'customer.pl';
+
+        return $RedirectOtoboApp->($Env);
+    };
 };
 
 # Serve the static assets in var/httpd/htdocs.
@@ -524,7 +533,7 @@ my $HtdocsApp = builder {
     $SyncFromS3Middleware;
 
     # serve static files without directory listing
-    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
+    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app;
 };
 
 # Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
@@ -603,8 +612,8 @@ my $OTOBOApp = builder {
 
     # The actual functionality of OTOBO is implemented as a set of Plack apps.
     # Dispatching is done with an URL map.
-    # Kernel::System::Web::App loads the interface modules and calls the Response() method.
-    # Add "Debug => 1" in order to enable debugging.
+    # The interface modules are Plack components, calling to_app() creates a PSGI app.
+    # Pass "Debug => 1" to the constructor of the components in order to enable debugging.
 
     # enable for debugging
     #mount '/dump_env' => $DumpEnvApp;
@@ -618,8 +627,8 @@ my $OTOBOApp = builder {
         enable 'OTOBO::PerformanceLog',
             interface => 'Agent';
 
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceAgent',
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
         )->to_app;
     };
 
@@ -632,8 +641,8 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceInstaller',
+        Kernel::System::Web::InterfaceCustomer->new(
+            Debug => 0,
         )->to_app;
     };
 
@@ -646,14 +655,10 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceMigrateFromOTRS',
-        )->to_app;
+        Kernel::System::Web::InterfaceMigrateFromOTRS->new->to_app;
     };
 
-    mount '/nph-genericinterface.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::GenericInterface::Provider',
-    )->to_app;
+    mount '/nph-genericinterface.pl' => Kernel::GenericInterface::Provider->new->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
     mount '/customer.pl' => builder {
@@ -664,7 +669,11 @@ my $OTOBOApp = builder {
         enable 'OTOBO::PerformanceLog',
             interface => 'Customer';
 
-        $CheckCustomerInterfaceApp;
+        enable $CheckCustomerInterfaceMiddleware;
+
+        Kernel::System::Web::InterfaceCustomer->new(
+            Debug => 0,
+        )->to_app;
     };
 
     mount '/public.pl' => builder {
@@ -675,7 +684,11 @@ my $OTOBOApp = builder {
         enable 'OTOBO::PerformanceLog',
             interface => 'Public';
 
-        $CheckPublicInterfaceApp;
+        enable $CheckPublicInterfaceMiddleware;
+
+        Kernel::System::Web::InterfacePublic->new(
+            Debug => 0,
+        )->to_app;
     };
 
     # redirect to Frontend::DefaultInterface when in doubt
@@ -706,7 +719,7 @@ builder {
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
     # directory listing for the nytprof directory
-    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
+    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app;
 
     # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $HtdocsApp;
