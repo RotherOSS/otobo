@@ -48,12 +48,8 @@ Kernel::System::Web::InterfacePublic - the public web interface
 
 =head1 SYNOPSIS
 
-    use Kernel::System::Web::InterfacePublic;
-
-    # a Plack app
-    return Kernel::System::Web::InterfacePublic->new(
-        Debug     => $Self->{Debug},
-    )->to_app->($Env);
+    # This module constitutes a Plack component that is meant to implement a Plack app.
+    # See bin/psgi-bin/otobo.psgi on how to use it.
 
 =head1 DESCRIPTION
 

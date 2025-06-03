@@ -53,12 +53,8 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 =head1 SYNOPSIS
 
-    use Kernel::GenericInterface::Provider
-
-    # a Plack app
-    return Kernel::GenericInterface::Provider->new(
-        Debug     => $Self->{Debug},
-    )->to_app->($Env);
+    # This module constitutes a Plack component that is meant to implement a Plack app.
+    # See bin/psgi-bin/otobo.psgi on how to use it.
 
 =head1 DESCRIPTION
 

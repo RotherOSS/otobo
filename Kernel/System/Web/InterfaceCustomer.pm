@@ -59,12 +59,8 @@ Kernel::System::Web::InterfaceCustomer - the customer web interface
 
 =head1 SYNOPSIS
 
-    use Kernel::System::Web::InterfaceCustomer;
-
-    # a Plack app
-    return Kernel::System::Web::InterfaceCustomer->new(
-        Debug     => $Self->{Debug},
-    )->to_app->($Env);
+    # This module constitutes a Plack component that is meant to implement a Plack app.
+    # See bin/psgi-bin/otobo.psgi on how to use it.
 
 =head1 DESCRIPTION
 
