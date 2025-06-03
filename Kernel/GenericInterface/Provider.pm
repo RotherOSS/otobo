@@ -442,9 +442,9 @@ This is the subroutine that is called in F<otobo.psgi>.
 =cut
 
 sub call {
-    my ( undef, $Env ) = @_;    # the instance is not needed
+    my ( $Self, $Env ) = @_;
 
-    # $Debug is not needed
+    my $Debug = $Self->{Debug} || 0;
 
     # The OTOBO modules which generate the content get their input
     # from the Kernel::System::Web::Request singleton, that is the ParamObject.
@@ -454,6 +454,16 @@ sub call {
             PSGIEnv => $Env,
         },
     );
+
+    # debug info
+    if ($Debug) {
+        my $Interface = __PACKAGE__ =~ s/.*::(\w+)$/$1/r;
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Global handle for $Interface started...",
+        );
+    }
 
     # register object params for Kernel::System::Log
     # as the PerformanceLog middleware is not used yet for this interface

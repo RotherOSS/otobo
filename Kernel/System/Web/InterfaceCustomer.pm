@@ -1425,9 +1425,11 @@ sub call {
 
     # debug info
     if ($Debug) {
+        my $Interface = __PACKAGE__ =~ s/.*::(\w+)$/$1/r;
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => "Global handle for $Self->{Interface} started...",
+            Message  => "Global handle for $Interface started...",
         );
     }
 
