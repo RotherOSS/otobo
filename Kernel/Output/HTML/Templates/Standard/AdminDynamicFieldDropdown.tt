@@ -281,6 +281,12 @@
                                 [% Translate("If special characters (&, @, :, /, etc.) should not be encoded, use 'url' instead of 'uri' filter.") | html %]
                                 <br/>
                                 [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>[</span>% Data.Field1 | uri %<span>]</span>
+                                <br/>
+                                [% Translate("You can reference the field with its own field name. You can also refer to other fields, e.g. with 'DynamicField_OtherFieldName'.") | html %]
+                                <br/>
+                                [% Translate("If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.") | html %]
+                                <br/>
+                                [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>[</span>% FieldName = 'Namespace-Field1'; Data.$FieldName %<span>]</span>
                             </p>
                         </div>
                         <div class="Clear"></div>
