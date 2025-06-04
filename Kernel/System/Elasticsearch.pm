@@ -862,6 +862,7 @@ sub ConfigItemCreate {
     }
 
     my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
     # create the config item
     my $Result = $RequesterObject->Run(
@@ -875,19 +876,13 @@ sub ConfigItemCreate {
     );
     return if !$Result->{Success};
 
-    # update the version
-    $Result = $RequesterObject->Run(
-        WebserviceID => $Self->{WebserviceID},
-        Invoker      => 'ConfigItemManagement',
-        Asynchronous => 0,
-        Data         => {
-            Event        => 'VersionCreate',
-            ConfigItemID => $Param{ConfigItemID},
-        }
-    );
-
     # update the attachments
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ConfigItemSearchFields')->{'Attachments'} ) {
+    if (
+        $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields')
+        &&
+        $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields')->{'Attachments'}
+        )
+    {
         my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
 
         my @Attachments = $ConfigItemObject->ConfigItemAttachmentList(
