@@ -198,7 +198,8 @@ sub _PostmasterXHeaderAdd {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        UserID => 1,
+        Comments => 'PostmasterX-Header settings added',
+        UserID   => 1,
     );
 }
 
@@ -274,7 +275,8 @@ sub _PostmasterXHeaderRemove {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        UserID => 1,
+        Comments => 'PostmasterX-Header settings removed',
+        UserID   => 1,
     );
 }
 
@@ -356,7 +358,8 @@ sub _EventAdd {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        UserID => 1,
+        Comments => 'Event settings added',
+        UserID   => 1,
     );
 }
 
@@ -437,7 +440,8 @@ sub _EventRemove {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        UserID => 1,
+        Comments => 'Event settings removed',
+        UserID   => 1,
     );
 }
 
@@ -764,6 +768,7 @@ sub _DefaultColumnsEnable {
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
         UserID   => 1,
+        Comments => 'Default columns settings enabled',
     );
 
     return 1 if $NoConfigRebuild;
@@ -891,7 +896,8 @@ sub _DefaultColumnsDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            UserID => 1,
+            Comments => 'Default columns settings disabled',
+            UserID   => 1,
         );
     }
 
@@ -1203,6 +1209,7 @@ sub _DynamicFieldsScreenEnable {
 
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
+        Comments => 'DynamicFields screen settings enabled',
         UserID   => 1,
     );
 
@@ -1339,7 +1346,8 @@ sub _DynamicFieldsScreenDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            UserID => 1,
+            Comments => 'DynamicFields screen settings disabled',
+            UserID   => 1,
         );
 
         # reload the ZZZ files
@@ -4673,7 +4681,8 @@ sub _ProcessWidgetDynamicFieldGroupsAdd {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        UserID => 1,
+        Comments => 'Process widget dynamic field groups settings added',
+        UserID   => 1,
     );
 
     # reload the ZZZ files
@@ -4754,7 +4763,8 @@ sub _ProcessWidgetDynamicFieldGroupsRemove {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        UserID => 1,
+        Comments => 'Process widget dynamic field groups settings removed',
+        UserID   => 1,
     );
 
     # reload the ZZZ files
@@ -4873,7 +4883,8 @@ sub _ModuleGroupAdd {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        UserID => 1,
+        Comments => 'Module group settings added',
+        UserID   => 1,
     );
 
     return 1;
@@ -4985,7 +4996,8 @@ sub _ModuleGroupRemove {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        UserID => 1,
+        Comments => 'Module group settings removed',
+        UserID   => 1,
     );
 
     return 1;
