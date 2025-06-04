@@ -198,7 +198,7 @@ sub _PostmasterXHeaderAdd {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        Comments => 'PostmasterX-Header settings added',
+        Comments => 'PostmasterX-Header settings added.',
         UserID   => 1,
     );
 }
@@ -275,7 +275,7 @@ sub _PostmasterXHeaderRemove {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        Comments => 'PostmasterX-Header settings removed',
+        Comments => 'PostmasterX-Header settings removed.',
         UserID   => 1,
     );
 }
@@ -358,7 +358,7 @@ sub _EventAdd {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        Comments => 'Event settings added',
+        Comments => 'Event settings added.',
         UserID   => 1,
     );
 }
@@ -440,7 +440,7 @@ sub _EventRemove {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        Comments => 'Event settings removed',
+        Comments => 'Event settings removed.',
         UserID   => 1,
     );
 }
@@ -768,7 +768,7 @@ sub _DefaultColumnsEnable {
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
         UserID   => 1,
-        Comments => 'Default columns settings enabled',
+        Comments => 'Default columns settings enabled.',
     );
 
     return 1 if $NoConfigRebuild;
@@ -896,7 +896,7 @@ sub _DefaultColumnsDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            Comments => 'Default columns settings disabled',
+            Comments => 'Default columns settings disabled.',
             UserID   => 1,
         );
     }
@@ -1209,7 +1209,7 @@ sub _DynamicFieldsScreenEnable {
 
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
-        Comments => 'DynamicFields screen settings enabled',
+        Comments => 'DynamicFields screen settings enabled.',
         UserID   => 1,
     );
 
@@ -1346,7 +1346,7 @@ sub _DynamicFieldsScreenDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            Comments => 'DynamicFields screen settings disabled',
+            Comments => 'DynamicFields screen settings disabled.',
             UserID   => 1,
         );
 
@@ -4681,7 +4681,7 @@ sub _ProcessWidgetDynamicFieldGroupsAdd {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        Comments => 'Process widget dynamic field groups settings added',
+        Comments => 'Process widget dynamic field groups settings added.',
         UserID   => 1,
     );
 
@@ -4763,7 +4763,7 @@ sub _ProcessWidgetDynamicFieldGroupsRemove {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        Comments => 'Process widget dynamic field groups settings removed',
+        Comments => 'Process widget dynamic field groups settings removed.',
         UserID   => 1,
     );
 
@@ -4883,7 +4883,7 @@ sub _ModuleGroupAdd {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        Comments => 'Module group settings added',
+        Comments => 'Module group settings added.',
         UserID   => 1,
     );
 
@@ -4996,7 +4996,7 @@ sub _ModuleGroupRemove {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        Comments => 'Module group settings removed',
+        Comments => 'Module group settings removed.',
         UserID   => 1,
     );
 
@@ -5593,7 +5593,7 @@ sub _ArticleActionsAdd {
 
     my $SettingSet = $SysConfigObject->SettingsSet(
         UserID   => 1,
-        Comments => 'Article action settings added by package setup of Znuny4OTRS-MarkTicketSeenUnseen.',
+        Comments => 'Article action settings added.',
         Settings => \@Settings,
     );
 
@@ -5651,7 +5651,7 @@ sub _ArticleActionsRemove {
 
     my $SettingSet = $SysConfigObject->SettingsSet(
         UserID   => 1,
-        Comments => 'Article action settings removed by package setup of Znuny4OTRS-MarkTicketSeenUnseen.',
+        Comments => 'Article action settings removed.',
         Settings => \@Settings,
     );
 
