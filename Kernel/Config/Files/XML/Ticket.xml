@@ -14751,6 +14751,7 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dialog to show after marking a ticket as unseen</Item>
+                <Item Key="Desc" Translatable="1">Configure which screen should be shown after a ticket has been marked as unseen.</Item>
                 <Item Key="Key" Translatable="1">Dialog to show after marking a ticket as unseen</Item>
                 <Item Key="Data">
                     <Hash>
@@ -14794,6 +14795,7 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dialog to show after marking a ticket as seen</Item>
+                <Item Key="Desc" Translatable="1">Configure which screen should be shown after a ticket has been marked as seen.</Item>
                 <Item Key="Key" Translatable="1">Dialog to show after marking a ticket as seen</Item>
                 <Item Key="Data">
                     <Hash>
