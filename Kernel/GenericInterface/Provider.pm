@@ -20,6 +20,7 @@ use v5.24;
 use strict;
 use warnings;
 use namespace::autoclean;
+use utf8;
 
 use parent qw(Plack::Component);
 
