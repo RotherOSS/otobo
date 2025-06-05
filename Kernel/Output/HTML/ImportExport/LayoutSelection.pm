@@ -100,7 +100,7 @@ sub FormInputCreate {
     # generate option string
     my $String = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
         ID           => $Param{Prefix} . $Param{Item}->{Key},
-        Class        => $Param{Class},
+        Class        => $Param{Class} . ' Modernize',
         Name         => $Param{Prefix} . $Param{Item}->{Key},
         Data         => $Param{Item}->{Input}->{Data} || {},
         SelectedID   => $Param{Value},
