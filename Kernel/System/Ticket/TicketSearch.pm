@@ -16,9 +16,15 @@
 
 package Kernel::System::Ticket::TicketSearch;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -379,6 +385,7 @@ sub TicketSearch {
             Priority => 'error',
             Message  => 'Need UserID or CustomerUserID params for permission check!',
         );
+
         return;
     }
 
@@ -428,6 +435,7 @@ sub TicketSearch {
                     Priority => 'error',
                     Message  => "The given param '$Element' in '$Key' is invalid!",
                 );
+
                 return;
             }
         }
@@ -490,6 +498,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => 'Need valid SortBy (' . $SortByArray[$Count] . ')!',
             );
+
             return;
         }
         if ( $OrderByArray[$Count] ne 'Down' && $OrderByArray[$Count] ne 'Up' ) {
@@ -497,6 +506,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => 'Need valid OrderBy (' . $OrderByArray[$Count] . ')!',
             );
+
             return;
         }
     }
@@ -537,6 +547,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => $Key,
             );
+
             return if !$THRef;
 
             next ARGUMENT if $TicketHistoryJoins{$THRef};
@@ -590,6 +601,7 @@ sub TicketSearch {
 
     if ( $Param{NotTicketFlag} ) {
         my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
+
         return if !defined $TicketFlagUserID;
 
         my $Index = 1;
@@ -615,7 +627,9 @@ sub TicketSearch {
             my $TypeID = $TypeObject->TypeLookup(
                 Type => $Type,
             );
+
             return if !$TypeID;
+
             push @{ $Param{TypeIDs} }, $TypeID;
         }
     }
@@ -662,6 +676,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => 'CreatedTypeIDs',
             );
+
             return if !$THRef;
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
@@ -737,6 +752,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => 'CreatedStateIDs',
             );
+
             return if !$THRef;
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
@@ -792,7 +808,9 @@ sub TicketSearch {
                 StateType => $Param{StateType},
                 Result    => 'ID',
             );
+
             return if !$StateIDs[0];
+
             $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
         }
     }
@@ -877,6 +895,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => 'CreatedUserIDs',
             );
+
             return if !$THRef;
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
@@ -976,6 +995,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => 'CreatedQueueIDs',
             );
+
             return if !$THRef;
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
@@ -1216,6 +1236,7 @@ sub TicketSearch {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => 'CreatedPriorityIDs',
             );
+
             return if !$THRef;
 
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
@@ -1305,11 +1326,13 @@ sub TicketSearch {
     if ( $Param{TicketFlag} ) {
 
         my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
+
         return if !defined $TicketFlagUserID;
 
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
             my $Value = $Param{TicketFlag}->{$Key};
+
             return if !defined $Value;
 
             $SQLExt .= " AND tf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'";
@@ -1324,11 +1347,13 @@ sub TicketSearch {
     # add article flag extension
     if ( $Param{ArticleFlag} ) {
         my $ArticleFlagUserID = $Param{ArticleFlagUserID} || $Param{UserID};
+
         return if !defined $ArticleFlagUserID;
 
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{ArticleFlag} } ) {
             my $Value = $Param{ArticleFlag}->{$Key};
+
             return if !defined $Value;
 
             $SQLExt .= " AND taf$Index.article_key = '" . $DBObject->Quote($Key) . "'";
@@ -1344,6 +1369,7 @@ sub TicketSearch {
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{NotTicketFlag} } ) {
             my $Value = $Param{NotTicketFlag}->{$Key};
+
             return if !defined $Value;
 
             $SQLExt .= " AND (ntf$Index.ticket_value IS NULL "
@@ -1501,6 +1527,7 @@ sub TicketSearch {
                                 . $DynamicField->{Name}
                                 . "'!",
                         );
+
                         return;
                     }
                 }
@@ -1808,6 +1835,7 @@ sub TicketSearch {
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
 
@@ -1829,6 +1857,7 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'OlderDate' } . "'!",
                 );
+
                 return;
             }
             $CompareOlderNewerDate = $Time;
@@ -1849,6 +1878,7 @@ sub TicketSearch {
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
@@ -1869,6 +1899,7 @@ sub TicketSearch {
                         "Search not executed due to invalid time '"
                         . $Param{ $Key . 'NewerDate' } . "'!",
                 );
+
                 return;
             }
 
@@ -1920,6 +1951,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketChangeTimeOlderDate}'!",
             );
+
             return;
         }
 
@@ -1937,6 +1969,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketChangeTimeOlderDate} . "'!",
             );
+
             return;
         }
         $CompareChangeTimeOlderNewerDate = $Time;
@@ -1944,6 +1977,7 @@ sub TicketSearch {
         my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
             Argument => 'TicketChangeTimeOlderDate',
         );
+
         return if !$THRef;
 
         $SQLExt .= " AND ${ THRef }.create_time <= '" . $Time->ToString() . "'";
@@ -1960,6 +1994,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketChangeTimeNewerDate}'!",
             );
+
             return;
         }
 
@@ -1977,6 +2012,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketChangeTimeNewerDate} . "'!",
             );
+
             return;
         }
 
@@ -2030,6 +2066,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketLastChangeTimeOlderDate}'!",
             );
+
             return;
         }
 
@@ -2047,6 +2084,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketLastChangeTimeOlderDate} . "'!",
             );
+
             return;
         }
         $CompareLastChangeTimeOlderNewerDate = $Time;
@@ -2065,6 +2103,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketLastChangeTimeNewerDate}'!",
             );
+
             return;
         }
 
@@ -2082,6 +2121,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketLastChangeTimeNewerDate} . "'!",
             );
+
             return;
         }
 
@@ -2089,8 +2129,7 @@ sub TicketSearch {
         return if $Time > $DateTimeObject;
 
         # don't execute queries if older/newer date restriction show now valid timeframe
-        return
-            if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
+        return if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
 
         $SQLExt .= " AND st.change_time >= '" . $Time->ToString() . "'";
     }
@@ -2123,6 +2162,7 @@ sub TicketSearch {
         my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
             Argument => 'TicketCloseTimeOlderDate',
         );
+
         return if !$THRef;
 
         # check time format
@@ -2135,6 +2175,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketCloseTimeOlderDate}'!",
             );
+
             return;
         }
 
@@ -2152,6 +2193,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketCloseTimeOlderDate} . "'!",
             );
+
             return;
         }
         $CompareCloseTimeOlderNewerDate = $Time;
@@ -2181,6 +2223,7 @@ sub TicketSearch {
         my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
             Argument => 'TicketCloseTimeNewerDate',
         );
+
         return if !$THRef;
 
         if (
@@ -2192,6 +2235,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketCloseTimeNewerDate}'!",
             );
+
             return;
         }
 
@@ -2209,6 +2253,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketCloseTimeNewerDate} . "'!",
             );
+
             return;
         }
 
@@ -2266,6 +2311,7 @@ sub TicketSearch {
         my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
             Argument => 'TicketLastCloseTimeOlderDate',
         );
+
         return if !$THRef;
 
         # Check time format.
@@ -2278,6 +2324,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketLastCloseTimeOlderDate}'!",
             );
+
             return;
         }
 
@@ -2295,6 +2342,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketLastCloseTimeOlderDate} . "'!",
             );
+
             return;
         }
         $CompareLastCloseTimeOlderNewerDate = $Time;
@@ -2342,6 +2390,7 @@ sub TicketSearch {
         my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
             Argument => 'TicketLastCloseTimeNewerDate',
         );
+
         return if !$THRef;
 
         if (
@@ -2353,6 +2402,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketLastCloseTimeNewerDate}'!",
             );
+
             return;
         }
 
@@ -2370,6 +2420,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketLastCloseTimeNewerDate} . "'!",
             );
+
             return;
         }
 
@@ -2473,6 +2524,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketPendingTimeOlderDate}'!",
             );
+
             return;
         }
 
@@ -2490,6 +2542,7 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeOlderDate} . "'!",
             );
+
             return;
         }
         $ComparePendingTimeOlderNewerDate = $TimeStamp;
@@ -2508,6 +2561,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketPendingTimeNewerDate}'!",
             );
+
             return;
         }
 
@@ -2525,12 +2579,12 @@ sub TicketSearch {
                     "Search not executed due to invalid time '"
                     . $Param{TicketPendingTimeNewerDate} . "'!",
             );
+
             return;
         }
 
         # don't execute queries if older/newer date restriction show now valid timeframe
-        return
-            if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
+        return if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
 
         $SQLExt .= " AND st.until_time >= " . $TimeStamp->ToEpoch();
     }
@@ -2549,6 +2603,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => "Invalid attribute ArchiveFlags '$Param{ArchiveFlags}'!",
             );
+
             return;
         }
 
@@ -2733,6 +2788,7 @@ sub TicketSearch {
                 Priority => 'error',
                 Message  => 'Invalid ref ' . ref($CacheData) . '!'
             );
+
             return;
         }
     }
@@ -2746,6 +2802,7 @@ sub TicketSearch {
         SQL   => $SQLSelect . $SQLFrom . $SQLExt,
         Limit => $Limit
     );
+
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
@@ -2762,6 +2819,7 @@ sub TicketSearch {
                 TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
+
         return $Count;
     }
 
@@ -2775,6 +2833,7 @@ sub TicketSearch {
                 TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
+
         return %Tickets;
     }
 
@@ -2788,6 +2847,7 @@ sub TicketSearch {
                 TTL   => $Param{CacheTTL} || 60 * 4,
             );
         }
+
         return @TicketIDs;
     }
 }
