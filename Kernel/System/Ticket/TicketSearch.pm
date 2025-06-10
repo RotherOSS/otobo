@@ -37,6 +37,8 @@ Kernel::System::Ticket::TicketSearch - ticket search lib
 
 All ticket search functions.
 
+=head1 PUBLIC INTERFACE
+
 =head2 TicketSearch()
 
 To find tickets in your system.
@@ -324,13 +326,19 @@ To find tickets in your system.
         CacheTTL => 60 * 15,
     );
 
-Returns:
+The returned data structure depends on the parameter C<Result>.
 
-Result: 'ARRAY'
+=over 4
+
+=item ARRAY
+
+A potentially sorted list of the found ticket IDs is returned.
 
     @TicketIDs = ( 1, 2, 3 );
 
-Result: 'HASH'
+=item HASH
+
+The found ticked IDs are mapped to the ticket number.
 
     %TicketIDs = (
         1 => '2010102700001',
@@ -338,9 +346,13 @@ Result: 'HASH'
         3 => '2010102700003',
     );
 
-Result: 'COUNT'
+=item COUNT
+
+The number of found tickets is returned.
 
     $TicketIDs = 123;
+
+=back
 
 =cut
 
@@ -517,6 +529,8 @@ sub TicketSearch {
         $SQLSelect = 'SELECT COUNT(DISTINCT(st.id))';
     }
     else {
+
+        # The mapping of id to tn is bijectiv, so no id or tn appears more than once
         $SQLSelect = 'SELECT DISTINCT st.id, st.tn';
     }
 
@@ -1464,6 +1478,8 @@ sub TicketSearch {
     # Search article attributes.
     if ($ArticleTableJoined) {
 
+        # Using the parameters: Fulltext, ContentSearch, ConditionInline, ContentSearchPrefix, ContentSearchSuffix
+        # and the keys listed in Kernel::OM->Get('Kernel::System::Ticket::Article::ArticleSearchableFieldsList()
         $SQLExt .= $ArticleObject->ArticleSearchIndexWhereCondition( SearchParams => \%Param );
 
         # Restrict search from customers to only customer articles.
