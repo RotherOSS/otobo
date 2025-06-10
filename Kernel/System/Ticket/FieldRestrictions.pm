@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
     'Kernel::System::User',
 );
 
@@ -356,9 +357,23 @@ sub GetFieldStates {
         # 3. skip non ACL reducible fields...
         if ( !$IsACLReducible ) {
 
-            # ...but set default values of reappearing fields first
+            # ...but set actual or default values of reappearing fields first
             if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 ) {
-                if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
+                if ( $Param{TicketID} ) {
+                    my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                        TicketID      => $Param{TicketID},
+                        UserID        => $Param{UserID},
+                        DynamicFields => 1,
+                    );
+                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                        $Fields{$DFName} = {
+                            PossibleValues  => undef,
+                            NotACLReducible => 1,
+                        };
+                    }
+                }
+                elsif ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                     $NewValues{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                     $Fields{$DFName} = {
                         PossibleValues  => undef,
@@ -399,7 +414,18 @@ sub GetFieldStates {
                     $CheckACLs = 1;
 
                     # take the default value and put it also into NewValues; in the unlikely case that they will be deleted again, this will just cause a redundant second run
-                    if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
+                    if ( $Param{TicketID} ) {
+                        my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                            TicketID      => $Param{TicketID},
+                            UserID        => $Param{UserID},
+                            DynamicFields => 1,
+                        );
+                        if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                            $DFParam->{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                            $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                        }
+                    }
+                    elsif ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                         $DFParam->{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                         $NewValues{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                     }
