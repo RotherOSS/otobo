@@ -280,8 +280,7 @@ sub ArticleSearchIndexWhereCondition {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $SQLCondition = '';
-    my $SQLQuery     = '';
+    my $SQLQuery = '';
 
     my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
     my @Fields           = keys %SearchableFields;
@@ -343,11 +342,7 @@ sub ArticleSearchIndexWhereCondition {
         }
     }
 
-    if ($SQLQuery) {
-        $SQLCondition = ' AND (' . $SQLQuery . ') ';
-    }
-
-    return $SQLCondition;
+    return $SQLQuery ? " AND ($SQLQuery) " : '';
 }
 
 sub SearchStringStopWordsFind {
