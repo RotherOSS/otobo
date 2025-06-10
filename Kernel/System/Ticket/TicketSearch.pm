@@ -403,7 +403,7 @@ sub TicketSearch {
 
     # check types of given arguments
     # references to an empty array are not accepted
-    ARGUMENT:
+    KEY:
     for my $Key (
         qw(
             Types TypeIDs CreatedTypes CreatedTypeIDs States StateIDs CreatedStates CreatedStateIDs StateTypeIDs
@@ -412,8 +412,8 @@ sub TicketSearch {
         )
         )
     {
-        next ARGUMENT if !$Param{$Key};
-        next ARGUMENT if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
+        next KEY if !$Param{$Key};
+        next KEY if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
 
         # log error
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -428,7 +428,7 @@ sub TicketSearch {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # quote id array elements
-    ARGUMENT:
+    KEY:
     for my $Key (
         qw(
             TypeIDs CreatedTypeIDs StateIDs CreatedStateIDs StateTypeIDs LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs
@@ -436,7 +436,7 @@ sub TicketSearch {
         )
         )
     {
-        next ARGUMENT if !$Param{$Key};
+        next KEY if !$Param{$Key};
 
         # quote elements
         for my $Element ( @{ $Param{$Key} } ) {
@@ -550,8 +550,8 @@ sub TicketSearch {
 
     # Use also history table if required
     # Create a inner join for each param and register it.
-    my %TicketHistoryJoins = ();
-    ARGUMENT:
+    my %TicketHistoryJoins;
+    KEY:
     for my $Key ( sort keys %Param ) {
         if (
             $Param{$Key}
@@ -564,7 +564,7 @@ sub TicketSearch {
 
             return if !$THRef;
 
-            next ARGUMENT if $TicketHistoryJoins{$THRef};
+            next KEY if $TicketHistoryJoins{$THRef};
 
             $TicketHistoryJoins{$THRef} = 1;
             $SQLFrom .= sprintf
