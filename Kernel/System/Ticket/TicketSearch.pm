@@ -37,6 +37,8 @@ Kernel::System::Ticket::TicketSearch - ticket search lib
 
 All ticket search functions.
 
+=head1 PUBLIC INTERFACE
+
 =head2 TicketSearch()
 
 To find tickets in your system.
@@ -324,13 +326,19 @@ To find tickets in your system.
         CacheTTL => 60 * 15,
     );
 
-Returns:
+The returned data structure depends on the parameter C<Result>.
 
-Result: 'ARRAY'
+=over 4
+
+=item ARRAY
+
+A potentially sorted list of the found ticket IDs is returned.
 
     @TicketIDs = ( 1, 2, 3 );
 
-Result: 'HASH'
+=item HASH
+
+The found ticked IDs are mapped to the ticket number.
 
     %TicketIDs = (
         1 => '2010102700001',
@@ -338,9 +346,13 @@ Result: 'HASH'
         3 => '2010102700003',
     );
 
-Result: 'COUNT'
+=item COUNT
+
+The number of found tickets is returned.
 
     $TicketIDs = 123;
+
+=back
 
 =cut
 
@@ -391,7 +403,7 @@ sub TicketSearch {
 
     # check types of given arguments
     # references to an empty array are not accepted
-    ARGUMENT:
+    KEY:
     for my $Key (
         qw(
             Types TypeIDs CreatedTypes CreatedTypeIDs States StateIDs CreatedStates CreatedStateIDs StateTypeIDs
@@ -400,8 +412,8 @@ sub TicketSearch {
         )
         )
     {
-        next ARGUMENT if !$Param{$Key};
-        next ARGUMENT if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
+        next KEY if !$Param{$Key};
+        next KEY if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
 
         # log error
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -416,7 +428,7 @@ sub TicketSearch {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # quote id array elements
-    ARGUMENT:
+    KEY:
     for my $Key (
         qw(
             TypeIDs CreatedTypeIDs StateIDs CreatedStateIDs StateTypeIDs LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs
@@ -424,7 +436,7 @@ sub TicketSearch {
         )
         )
     {
-        next ARGUMENT if !$Param{$Key};
+        next KEY if !$Param{$Key};
 
         # quote elements
         for my $Element ( @{ $Param{$Key} } ) {
@@ -517,6 +529,8 @@ sub TicketSearch {
         $SQLSelect = 'SELECT COUNT(DISTINCT(st.id))';
     }
     else {
+
+        # The mapping of id to tn is bijectiv, so no id or tn appears more than once
         $SQLSelect = 'SELECT DISTINCT st.id, st.tn';
     }
 
@@ -536,8 +550,8 @@ sub TicketSearch {
 
     # Use also history table if required
     # Create a inner join for each param and register it.
-    my %TicketHistoryJoins = ();
-    ARGUMENT:
+    my %TicketHistoryJoins;
+    KEY:
     for my $Key ( sort keys %Param ) {
         if (
             $Param{$Key}
@@ -550,7 +564,7 @@ sub TicketSearch {
 
             return if !$THRef;
 
-            next ARGUMENT if $TicketHistoryJoins{$THRef};
+            next KEY if $TicketHistoryJoins{$THRef};
 
             $TicketHistoryJoins{$THRef} = 1;
             $SQLFrom .= sprintf
@@ -1464,6 +1478,8 @@ sub TicketSearch {
     # Search article attributes.
     if ($ArticleTableJoined) {
 
+        # Using the parameters: Fulltext, ContentSearch, ConditionInline, ContentSearchPrefix, ContentSearchSuffix
+        # and the keys listed in Kernel::OM->Get('Kernel::System::Ticket::Article::ArticleSearchableFieldsList()
         $SQLExt .= $ArticleObject->ArticleSearchIndexWhereCondition( SearchParams => \%Param );
 
         # Restrict search from customers to only customer articles.
