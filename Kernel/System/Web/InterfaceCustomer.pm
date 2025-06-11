@@ -367,6 +367,15 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 }
             }
 
+            if ( ref $AuthObject->{'AuthBackend'} eq 'Kernel::System::CustomerAuth::OpenIDConnect' ) {
+
+                # throw a Kernel::System::Web::Exception that redirects
+                $LayoutObject->Redirect(
+                    OP    => "",
+                    Login => 1,
+                );
+            }
+
             # show normal login
             return $LayoutObject->CustomerLogin(
                 Title   => 'Login',
@@ -566,6 +575,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
+                );    # throws a Kernel::System::Web::Exception
+            }
+
+            # try auth module specific logout
+            my $LogoutInfo = $Kernel::OM->Get('Kernel::System::CustomerAuth')->Logout();
+            if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
+                $LayoutObject->Redirect(
+                    ExtURL => $LogoutInfo->{LogoutURL},
                 );    # throws a Kernel::System::Web::Exception
             }
 
