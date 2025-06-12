@@ -261,35 +261,8 @@ sub GetFieldStates {
             Behavior           => 'IsACLReducible',
         );
 
-        # 1. handle hidden fields - values of invisible fields are deleted
+        # 1. handle hidden fields - values of invisible fields are kept as-is
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
-
-            my $NotEmpty = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} )
-                ?
-                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
-                :
-                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
-
-            # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
-            if ($NotEmpty) {
-
-                # delete entry and remember change
-                $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
-
-                # fields have to be added to correctly remove all content
-                if ( !$IsACLReducible ) {
-                    $Fields{$DFName} = {
-                        PossibleValues  => undef,
-                        NotACLReducible => 1,
-                    };
-                }
-                else {
-                    $Fields{$DFName} = {
-                        PossibleValues => {},
-                    };
-                }
-            }
 
             next DYNAMICFIELD;
         }
