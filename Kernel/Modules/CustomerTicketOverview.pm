@@ -119,8 +119,6 @@ sub Run {
         },
     );
 
-    my $UserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
     my @CustomerIDs;
 
     # Add filter for customer company if the company tickets are not disabled.
@@ -457,7 +455,7 @@ sub Run {
             FieldFilter => $DynamicFieldFilter || {},
         );
 
-        # reduce the dynamic fields to only the ones that are desinged for customer interface
+        # reduce the dynamic fields to only the ones that are designed for customer interface
         my @CustomerDynamicFields;
         DYNAMICFIELD:
         for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -655,11 +653,10 @@ sub ShowTicketStatus {
         Message  => 'The sub ShowTicketStatus is deprecated and will be removed in a future release.',
     );
 
-    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
-    my $TicketID                   = $Param{TicketID} || return;
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketID      = $Param{TicketID} || return;
 
     # Get last customer article.
     my @ArticleList = $ArticleObject->ArticleList(
@@ -766,7 +763,7 @@ sub ShowTicketStatus {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
