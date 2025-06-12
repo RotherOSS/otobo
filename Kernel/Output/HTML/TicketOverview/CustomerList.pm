@@ -124,7 +124,7 @@ sub Run {
 
         my $Subject;
 
-        # TODO: get config oútside the loop
+        # TODO: get config outside the loop
         my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
         # Check if the last customer subject or ticket title should be shown.
@@ -198,6 +198,7 @@ sub Run {
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
         my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+        # NOTE the sysconfig setting Ticket::Frontend::CustomerTicketOverview is not used for its original purpose anymore, but kept here due to historical reasons
         # get dynamic field config for frontend module
         my $DynamicFieldFilter = $ConfigObject->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
         my $DynamicField       = $DynamicFieldObject->DynamicFieldListGet(
