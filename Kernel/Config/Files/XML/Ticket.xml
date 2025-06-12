@@ -1878,7 +1878,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketOverview###DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic fields shown in the ticket overview screen of the customer interface.</Description>
+        <Description Translatable="1">Dynamic fields available as attributes for the settings 'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown in the ticket overview screen of the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
             <Hash>
