@@ -58,7 +58,7 @@ sub new {
 
 =head2 GroupLookup()
 
-get id or name for group
+gets either the ID or the name for a group.
 
     my $Group = $GroupObject->GroupLookup(
         GroupID => $GroupID,
@@ -79,6 +79,7 @@ sub GroupLookup {
             Priority => 'error',
             Message  => 'Need Group or GroupID!',
         );
+
         return;
     }
 
