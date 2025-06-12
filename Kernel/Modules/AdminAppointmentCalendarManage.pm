@@ -779,10 +779,12 @@ sub _Overview {
     $Param{ValidCount} = 0;
     for my $Calendar (@Calendars) {
 
-        # group name
-        $Calendar->{Group} = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
-            GroupID => $Calendar->{GroupID},
-        );
+        # get the group name when we have a group id
+        $Calendar->{Group} = $Calendar->{GroupID}
+            ? $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
+                GroupID => $Calendar->{GroupID},
+            )
+            : '';
 
         # valid text
         $Calendar->{Valid} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
