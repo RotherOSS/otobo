@@ -406,31 +406,6 @@ sub Run {
             $OwnerSort = $Sort;
         }
 
-        my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
-        my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
-
-        if ($Owner) {
-            $LayoutObject->Block(
-                Name => 'OverviewNavBarPageOwner',
-                Data => {
-                    OrderBy   => $OrderBy,
-                    OwnerSort => $OwnerSort,
-                    Filter    => $FilterCurrent,
-                },
-            );
-        }
-
-        if ($Queue) {
-            $LayoutObject->Block(
-                Name => 'OverviewNavBarPageQueue',
-                Data => {
-                    OrderBy   => $OrderBy,
-                    QueueSort => $QueueSort,
-                    Filter    => $FilterCurrent,
-                },
-            );
-        }
-
         # show header filter
         for my $Key ( sort keys %NavBarFilter ) {
             $LayoutObject->Block(
@@ -729,27 +704,6 @@ sub ShowTicketStatus {
             %Param,
         },
     );
-
-    my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
-    my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
-
-    if ($Owner) {
-        my $OwnerName = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Ticket{OwnerID} );
-        $LayoutObject->Block(
-            Name => 'RecordOwner',
-            Data => {
-                OwnerName => $OwnerName,
-            },
-        );
-    }
-    if ($Queue) {
-        $LayoutObject->Block(
-            Name => 'RecordQueue',
-            Data => {
-                %Ticket,
-            },
-        );
-    }
 
     # get the dynamic fields for this screen
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
