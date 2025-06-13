@@ -8782,7 +8782,7 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="OpenMainMenuOnHover" Required="1" Valid="1">
+    <Setting Name="OpenMainMenuOnHover" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the first level of the main menu opens on mouse hover (instead of click only).</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
