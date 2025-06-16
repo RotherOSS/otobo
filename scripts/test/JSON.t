@@ -456,6 +456,26 @@ my @DecodeTests = (
         Name        => 'JSON - malformed data test',
     },
     {
+        Result      => undef,
+        InputDecode => q{},
+        Name        => 'JSON - empty string',
+    },
+    {
+        Result      => q{},
+        InputDecode => q{""},
+        Name        => 'JSON - empty string in quotes',
+    },
+    {
+        Result      => undef,
+        InputDecode => q{ },
+        Name        => 'JSON - single space',
+    },
+    {
+        Result      => q{ },
+        InputDecode => q{" "},
+        Name        => 'JSON - single space in quotes',
+    },
+    {
         Result      => 'Some Text',
         InputDecode => '"Some Text"',
         Name        => 'JSON - simple text'
@@ -468,7 +488,7 @@ my @DecodeTests = (
     {
         Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
-        Name        => 'JSON - array with strings and numbers" '
+        Name        => 'JSON - array with strings and numbers'
     },
     {
         Result => {
@@ -493,9 +513,8 @@ my @DecodeTests = (
                 }
             },
         ],
-        InputDecode =>
-            '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
-        Name => 'JSON - complex structure'
+        InputDecode => '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
+        Name        => 'JSON - complex structure'
     },
     {
         Result       => 1,
@@ -511,15 +530,13 @@ my @DecodeTests = (
     },
     {
         Result      => undef,
-        InputDecode =>
-            'null',
-        Name => 'JSON - null'
+        InputDecode => 'null',
+        Name        => 'JSON - null'
     },
     {
         Result      => [ undef, undef, undef ],
-        InputDecode =>
-            '[null, null, null]',
-        Name => 'JSON - array with three undefined values'
+        InputDecode => '[null, null, null]',
+        Name        => 'JSON - array with three undefined values'
     },
     {
         Result => {
