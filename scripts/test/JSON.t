@@ -473,6 +473,26 @@ my @DecodeTests = (
         Name        => 'malformed data test',
     },
     {
+        Result      => undef,
+        InputDecode => q{},
+        Name        => 'JSON - empty string',
+    },
+    {
+        Result      => q{},
+        InputDecode => q{""},
+        Name        => 'JSON - empty string in quotes',
+    },
+    {
+        Result      => undef,
+        InputDecode => q{ },
+        Name        => 'JSON - single space',
+    },
+    {
+        Result      => q{ },
+        InputDecode => q{" "},
+        Name        => 'JSON - single space in quotes',
+    },
+    {
         Result      => 'Some Text',
         InputDecode => '"Some Text"',
         Name        => 'simple text'
@@ -510,9 +530,14 @@ my @DecodeTests = (
                 }
             },
         ],
+<<<<<<< HEAD
         InputDecode =>
             '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
         Name => 'complex structure'
+=======
+        InputDecode => '[[1,2,"Foo","Bar"],{"Key1":"Something","Key2":["Foo","Bar"],"Key3":{"Foo":"Bar"},"Key4":{"Bar":["f","o","o"]}}]',
+        Name        => 'JSON - complex structure'
+>>>>>>> rel-11_0
     },
     {
         Result       => 1,
@@ -529,12 +554,20 @@ my @DecodeTests = (
     {
         Result      => undef,
         InputDecode => 'null',
+<<<<<<< HEAD
         Name        => 'null'
+=======
+        Name        => 'JSON - null'
+>>>>>>> rel-11_0
     },
     {
         Result      => [ undef, undef, undef ],
         InputDecode => '[null, null, null]',
+<<<<<<< HEAD
         Name        => 'array with three undefined values'
+=======
+        Name        => 'JSON - array with three undefined values'
+>>>>>>> rel-11_0
     },
     {
         Result => {

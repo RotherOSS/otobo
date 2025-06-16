@@ -252,9 +252,9 @@ jobs:
               repo: context.repo.repo,
               title: 'Issue create by docker_image_updater_autobuild.yml',
               body: `
-                The workflow docker_image_update_autobuild has run.
+                The Github workflow DockerImageUpdateAutobuild has run.
                 There is work to do. Test the newly created Docker images.
                 They should be available on Docker Hub.
-                Release the images when things look fine.
+                Release the images when things look fine.`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
