@@ -583,7 +583,7 @@ sub Run {
             UserID            => $Self->{UserID},
         );
 
-        my $ExtraParams;
+        my $ExtraParams = '';
 
         if ( !$ConfigurationLoad ) {
 

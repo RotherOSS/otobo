@@ -784,7 +784,7 @@ sub Run {
         my $StateEntityID = $StateLookup{'Inactive'};
 
         # show error if  StateEntityID for Inactive does not exist
-        if ( !$EntityID ) {
+        if ( !$StateEntityID ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('The StateEntityID for state Inactive does not exists'),
             );
