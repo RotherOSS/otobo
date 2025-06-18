@@ -258,7 +258,6 @@ sub Create {
         ArticleID => $Param{ArticleID},
         Status    => 'Queued',
         Message   => $LogMessage,
-        UserID    => $Param{UserID},
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
@@ -820,7 +819,6 @@ sub _SendSuccess {
             ArticleID => $Item->{ArticleID},
             Status    => 'Sent',
             Message   => 'Mail successfully sent.',
-            UserID    => $Item->{UserID},
         );
     }
 
@@ -1058,7 +1056,6 @@ sub _SetArticleTransmissionError {
                 ArticleID => $ArticleID,
                 Status    => 'Error',
                 Message   => $ErrorMessage,
-                UserID    => $Param{UserID},
             );
 
             return;
@@ -1069,7 +1066,6 @@ sub _SetArticleTransmissionError {
             ArticleID => $ArticleID,
             Status    => 'Error',
             Message   => $Param{Message},
-            UserID    => $Param{UserID},
         );
 
         return 1;
@@ -1105,7 +1101,6 @@ sub _SetArticleTransmissionError {
             ArticleID => $ArticleID,
             Status    => 'Error',
             Message   => $ErrorMessage,
-            UserID    => $Param{UserID},
         );
 
         return;
@@ -1117,14 +1112,20 @@ sub _SetArticleTransmissionError {
         ArticleID => $ArticleID,
         Status    => 'Error',
         Message   => $Param{Message},
-        UserID    => $Param{UserID},
     );
     return 1;
 }
 
 =head2 _SendEventNotification()
 
-Formats a Notification and asks Event Handler to send it.
+This method is misnamed as no notification is sent directly.
+Instead it emits events named like I<ArticleEmailSendingQueued>.
+The last part of the event name is the passed C<Status>.
+
+Currently these events are not used in OTOBO core. But they
+may be used by OTOBO packages.
+
+The passed user ID is taken from the SysConfig setting I<PostMasterUserID>.
 
     my $Result = $Object->_SendEventNotification(
         ArticleID => ...,
