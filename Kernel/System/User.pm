@@ -93,7 +93,7 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
         UserID => 123,
     );
 
-    or
+or
 
     my %User = $UserObject->GetUserData(
         User          => 'franz',
@@ -1080,7 +1080,7 @@ get user name
         User => 'some-login',
     );
 
-    or
+or
 
     my $Name = $UserObject->UserName(
         UserID => 123,
@@ -1218,7 +1218,7 @@ generate a random password
 
     my $Password = $UserObject->GenerateRandomPassword();
 
-    or
+or
 
     my $Password = $UserObject->GenerateRandomPassword(
         Size => 16,
