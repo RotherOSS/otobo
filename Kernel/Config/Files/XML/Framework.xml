@@ -8662,7 +8662,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/htmx-2.0.0/htmx.min.js</Item>
+                <Item>thirdparty/htmx-2.0.4/htmx.min.js</Item>
                 <Item>thirdparty/jquery-3.7.1/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
