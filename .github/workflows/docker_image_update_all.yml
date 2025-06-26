@@ -322,7 +322,7 @@ jobs:
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         id: get-dockerfile
         run: |
-          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && (startsWith(matrix.docker_tag, 'rel-10') || startsWith(matrix.docker_tag, 'latest-10'))) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
 
       -
         # Use a local composite action.
