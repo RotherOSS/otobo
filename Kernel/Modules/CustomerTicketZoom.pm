@@ -1814,23 +1814,9 @@ sub _Mask {
         # create additional objects for process management
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
         my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-        my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-        my $ProcessData          = $ProcessObject->ProcessGet(
-            ProcessEntityID => $Param{$ProcessEntityIDField},
-        );
-
-        my $ActivityData = $ActivityObject->ActivityGet(
+        my $ActivityData         = $ActivityObject->ActivityGet(
             Interface        => 'CustomerInterface',
             ActivityEntityID => $Param{$ActivityEntityIDField},
-        );
-
-        # output process information in the sidebar
-        $LayoutObject->Block(
-            Name => 'ProcessData',
-            Data => {
-                Process  => $ProcessData->{Name}  || '',
-                Activity => $ActivityData->{Name} || '',
-            },
         );
 
         # output the process widget the the main screen
@@ -1843,20 +1829,16 @@ sub _Mask {
 
         # get next activity dialogs
         my $NextActivityDialogs;
-        if ( $Param{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = $ActivityData;
+        if (
+            $Param{$ActivityEntityIDField}
+            && IsHashRefWithData($ActivityData)
+            && IsHashRefWithData( $ActivityData->{ActivityDialog} )
+            )
+        {
+            $NextActivityDialogs = $ActivityData->{ActivityDialog} || {};
         }
 
         if ( IsHashRefWithData($NextActivityDialogs) ) {
-
-            # we don't need the whole Activity config,
-            # just the Activity Dialogs of the current Activity
-            if ( IsHashRefWithData( $NextActivityDialogs->{ActivityDialog} ) ) {
-                %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
-            }
-            else {
-                $NextActivityDialogs = {};
-            }
 
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
                 return $LayoutObject->FatalError(
