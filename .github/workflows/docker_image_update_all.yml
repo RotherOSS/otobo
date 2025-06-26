@@ -117,13 +117,13 @@ jobs:
         exclude:
           -
             target: 'otobo-selenium-chrome'
-            docker-tag: 'rel-10_1_12'
+            docker_tag: 'rel-10_1_12'
           -
             target: 'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-10_1_12'
+            docker_tag: 'rel-10_1_12'
           -
             target: 'otobo-nginx-webproxy'
-            docker-tag: 'rel-10_1_12'
+            docker_tag: 'rel-10_1_12'
         include:
           # the latest release for every release branch - has to be updated
           -
