@@ -114,6 +114,10 @@ jobs:
           'rel-10_1_12', 'rel-10_1_13', 'rel-10_1_14', 'latest-10_1',
           'rel-11_0_8',  'rel-11_0_9',  'rel-11_0_10', 'latest-11_0'
         ]
+        exclude:
+          -
+            target: 'otobo-selenium-chrome'
+            docker-tag: 'rel-10_1_12'
         include:
           # the latest release for every release branch - has to be updated
           -
