@@ -205,10 +205,6 @@ jobs:
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_1_12'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_13'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
