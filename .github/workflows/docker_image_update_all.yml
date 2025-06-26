@@ -122,6 +122,9 @@ jobs:
             target: 'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_12'
           -
+            target: 'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_0_23'
+          -
             target: 'otobo-nginx-webproxy'
             docker_tag: 'rel-10_1_12'
         include:
@@ -187,10 +190,6 @@ jobs:
             base_image: 'perl:5.38-bookworm'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_23'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_0_24'
