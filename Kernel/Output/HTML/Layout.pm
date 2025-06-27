@@ -693,12 +693,7 @@ sub Redirect {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -726,12 +721,10 @@ sub Login {
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -1732,12 +1725,7 @@ sub _AddHeadersToResponseObject {
     # Add the cookies that had been set in the constructor.
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -1893,7 +1881,6 @@ sub Footer {
         SessionIDCookie                => $Self->{SessionIDCookie},
         SessionName                    => $Self->{SessionName},
         SessionID                      => $Self->{SessionID},
-        SessionUseCookie               => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
@@ -4179,12 +4166,10 @@ sub CustomerLogin {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -4203,12 +4188,7 @@ sub CustomerLogin {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -4664,7 +4644,6 @@ sub CustomerFooter {
         SessionIDCookie          => $Self->{SessionIDCookie},
         SessionName              => $Self->{SessionName},
         SessionID                => $Self->{SessionID},
-        SessionUseCookie         => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken           => $Self->{UserChallengeToken},
         CustomerPanelSessionName => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage             => $Self->{UserLanguage},

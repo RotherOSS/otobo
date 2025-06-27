@@ -911,14 +911,6 @@ sub LoadDefaults {
     # (Delete session's witch are requested and to old?) [0|1]
     $Self->{SessionDeleteIfTimeToOld} = 1;
 
-    # SessionUseCookie
-    # (Should the session management use html cookies?
-    # It's more comfortable to send links -==> if you have a valid
-    # session, you don't have to login again.) [0|1]
-    # Note: If the client browser disabled html cookies, the system
-    # will work as usual, append SessionID to links!
-    $Self->{SessionUseCookie} = 1;
-
     # SessionUseCookieAfterBrowserClose
     # (store cookies in browser after closing a browser) [0|1]
     $Self->{SessionUseCookieAfterBrowserClose} = 0;

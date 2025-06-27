@@ -571,18 +571,6 @@ Core.UI = (function (TargetNS) {
                 return false;
             }
 
-            // If SessionUseCookie is disabled use Session cookie in AjaxAttachment. See bug#14432.
-            // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
-            if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
-                if (CGIHandle.indexOf('index') > -1) {
-                    SessionName =  Core.Config.Get('SessionName');
-                }
-                else if (CGIHandle.indexOf('customer') > -1) {
-                    SessionName =  Core.Config.Get('CustomerPanelSessionName');
-                }
-                SessionToken = ';' + SessionName + '=' + $DropObj.closest('form').find('input[name=' + SessionName + ']').val();
-            }
-
             // if the original upload field doesn't have the multiple attribute,
             // prevent uploading of more than one file
             if (!IsMultiple && SelectedFiles.length > 1) {
