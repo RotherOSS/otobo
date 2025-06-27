@@ -149,7 +149,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=1234" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;ContentID=1234" border="0">',
         ],
         AttachmentsInclude => 1,
         Attachment         => {
@@ -165,7 +165,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=_1_09B1841409B1651C003EDE23C325785D" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;ContentID=_1_09B1841409B1651C003EDE23C325785D" border="0">',
         ],
         AttachmentsInclude => 1,
         Attachment         => {
@@ -179,7 +179,7 @@ my @Tests = (
         },
         BodyRegExp => [
             '<b>Test HTML document.<\/b>',
-            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=1234" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;ContentID=1234" border="0">',
         ],
         AttachmentsInclude => 0,
         Attachment         => {
@@ -220,7 +220,7 @@ my @Tests = (
             'Frontend::RichText' => 1,
         },
         BodyRegExp => [
-            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;SessionID=123;ContentID=Untitled%2520Attachment" border="0">',
+            '<img src="[^;]+?Action=PictureUpload;FormID=[0-9.]+;ContentID=Untitled%2520Attachment" border="0">',
         ],
         AttachmentsInclude => 0,
         Attachment         => {

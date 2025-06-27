@@ -596,11 +596,11 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
         },
     },
     {
-        Name     => 'Form with SessionID (no cookie) and ChallengeToken',
+        Name     => 'Form with SessionID (no cookie) and ChallengeToken, SessionID is no longer a form parameter',
         Template => '
 <form action="#"></form>',
         Result => '
-<form action="#"><input type="hidden" name="ChallengeToken" value="TestToken"/><input type="hidden" name="SID" value="123"/></form>',
+<form action="#"><input type="hidden" name="ChallengeToken" value="TestToken"/></form>',
         Env => {
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
@@ -622,11 +622,11 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
         },
     },
     {
-        Name     => 'Link with SessionID (no cookie)',
+        Name     => 'Link with SessionID (no cookie), SessionID is no longer a form parameter',
         Template => '
 <a href="index.pl?Action=Test">link</a>',
         Result => '
-<a href="index.pl?Action=Test;SID=123">link</a>',
+<a href="index.pl?Action=Test">link</a>',
         Env => {
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
