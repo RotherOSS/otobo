@@ -218,9 +218,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 var ConfigProcess = Core.Config.Get('ConfigProcess'),
                     Path = ConfigProcess.PopupPathActivity + "EntityID=" + EntityID + ";ID=" + ActivityID,
                     SessionData = Core.App.GetSessionInformation();
-                if (!Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
-                    Path += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
-                }
 
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(Path, 'Activity');
@@ -544,9 +541,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .on('click', function () {
                 var Path = ConfigProcess.PopupPathActivity + "EntityID=" + ElementID + ";ID=" + Activity[ElementID].ID,
                     SessionData = Core.App.GetSessionInformation();
-                if (!Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
-                    Path += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
-                }
 
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(Path, 'Activity');
@@ -843,10 +837,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             if (EndActivityObject !== 'Dummy' && !$(Event.srcElement).hasClass('TransitionLabel')) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
 
-                if (!Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
-                    PopupPath += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
-                }
-
                 Core.UI.Popup.OpenPopup(PopupPath, 'Path');
             }
             Event.stopImmediatePropagation();
@@ -900,9 +890,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         if (!$(Connection.canvas).find('.Edit').length) {
             $(Connection.canvas).append('<a class="Edit" title="' + Core.Language.Translate('Edit this transition') + '" href="#"><i class="fa fa-edit"></i></a>').find('.Edit').on('click', function(Event) {
                 if (EndActivity !== 'Dummy') {
-                    if (!Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
-                        PopupPath += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
-                    }
                     Core.Agent.Admin.ProcessManagement.ShowOverlay();
                     Core.UI.Popup.OpenPopup(PopupPath, 'Path');
                 }

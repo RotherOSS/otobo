@@ -51,18 +51,11 @@ Core.Agent.CustomerUserInformationCenterSearch = (function (TargetNS) {
      *      Redirect to Customer User ID screen.
      */
     function Redirect(CustomerUserID, Event) {
-        var Session = '';
-
         Event.preventDefault();
         Event.stopPropagation();
         ShowWaitingDialog();
 
-        // add session data, if needed
-        if (!Core.Config.Get('SessionIDCookie')) {
-            Session = ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
-        }
-
-        window.location.href = Core.Config.Get('Baselink') + 'Action=AgentCustomerUserInformationCenter;CustomerUserID=' + encodeURIComponent(CustomerUserID) + Session;
+        window.location.href = Core.Config.Get('Baselink') + 'Action=AgentCustomerUserInformationCenter;CustomerUserID=' + encodeURIComponent(CustomerUserID);
     }
 
     /**

@@ -389,7 +389,7 @@ sub _PreProcessTemplateContent {
     #
     $Content =~ s{
             <form[^<>]+action="(?!https?:)[^"]*"[^<>]*>\K
-        }{[% IF Env("UserChallengeToken") %]<input type="hidden" name="ChallengeToken" value="[% Env("UserChallengeToken") | html %]"/>[% END %][% IF Env("SessionID") && !Env("SessionIDCookie") %]<input type="hidden" name="[% Env("SessionName") %]" value="[% Env("SessionID") | html %]"/>[% END %]}smxig;
+        }{[% IF Env("UserChallengeToken") %]<input type="hidden" name="ChallengeToken" value="[% Env("UserChallengeToken") | html %]"/>[% END %]}smxig;
 
     return $Content;
 }

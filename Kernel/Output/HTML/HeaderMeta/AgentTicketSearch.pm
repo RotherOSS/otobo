@@ -40,12 +40,6 @@ sub Run {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Session = '';
-    if ( !$LayoutObject->{SessionIDCookie} ) {
-        $Session = ';' . $LayoutObject->{SessionName} . '='
-            . $LayoutObject->{SessionID};
-    }
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -58,7 +52,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
-                . ';Subaction=OpenSearchDescriptionTicketNumber' . $Session,
+                . ';Subaction=OpenSearchDescriptionTicketNumber',
         },
     );
 
@@ -72,7 +66,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
-                . ';Subaction=OpenSearchDescriptionFulltext' . $Session,
+                . ';Subaction=OpenSearchDescriptionFulltext',
         },
     );
     return 1;

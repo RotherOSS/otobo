@@ -647,42 +647,6 @@ sub Redirect {
         # trimming, just to be on the safe side
         $RedirectURL =~ s/^\s+//;
         $RedirectURL =~ s/\s+$//;
-
-        # add session id to the redirect URL when appropriate
-        if (
-            !$Self->{SessionIDCookie}                             # there in no session cookie yet
-            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exist because we in Login
-            && $RedirectURL !~ m/http/i                           # ???
-            && $Self->{SessionID}                                 # when we actually have a session
-            )
-        {
-            # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
-            my ( $Target, $Fragment );
-            if ( $RedirectURL =~ m/^(.+?)#(|.+?)$/ ) {
-                $Target   = $1;
-                $Fragment = "#$2";
-            }
-            else {
-                $Target   = $RedirectURL;
-                $Fragment = '';
-            }
-
-            # find out how to correct inject the session id parameter, depending on the given target
-            my $Joiner = eval {
-
-                # either an empty query part or an empty final query param
-                return '' if $Target =~ m/(\?|&)$/;
-
-                # there is no query part yet
-                return '?' if $Target !~ m/\?/;
-
-                # add query param to existing query part
-                return '&';
-            };
-
-            # add the fragment part of the URL again
-            $RedirectURL = $Target . $Joiner . "$Self->{SessionName}=$Self->{SessionID}" . $Fragment;
-        }
     }
 
     # create an response object we can work with
@@ -5551,12 +5515,6 @@ sub RichTextDocumentServe {
         }
     }
 
-    # build base url for inline images
-    my $SessionID = '';
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
-
     # replace inline images in content with runtime url to images
     my $AttachmentLink = $Self->{Baselink} . $Param{URL};
     $Param{Data}->{Content} =~ s{
@@ -5581,11 +5539,11 @@ sub RichTextDocumentServe {
             next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
 
             if ( !$Param{ContentIDs} ){
-                $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+                $ContentID = $AttachmentLink . $AttachmentID;
             }
             #ArticleEdit inline attachments rendering
             else {
-                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
+                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}};
             }
 
             last ATTACHMENT_ID;
@@ -5627,7 +5585,7 @@ sub RichTextDocumentServe {
         }
 
         # return new runtime url
-        $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+        $ContentID = $AttachmentLink . $AttachmentID;
         $Start . $ContentID . $End;
     }egxi;
     }

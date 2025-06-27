@@ -515,10 +515,6 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             }
         });
 
-        var SessionIDCookie = Core.Config.Get('SessionIDCookie'),
-            SessionID = SessionIDCookie ? '' : Core.Config.Get('SessionID'),
-            SessionName = Core.Config.Get('SessionName'),
-            CustomerPanelSessionName = Core.Config.Get('CustomerPanelSessionName');
         $.each(CalendarConfig, function (Index, Calendar) {
             var CalendarData = {
                 ChallengeToken: $("#ChallengeToken").val(),
@@ -528,10 +524,6 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                 ResourceID: Core.Config.Get('ResourceID'),
                 TeamID: Core.Config.Get('TeamID')
             };
-            if (!SessionIDCookie) {
-                CalendarData[SessionName] = SessionID;
-                CalendarData[CustomerPanelSessionName] = SessionID;
-            }
             CalendarSources[Calendar.CalendarID] = {
                 id: Calendar.CalendarID,
                 url: Core.Config.Get('CGIHandle'),
