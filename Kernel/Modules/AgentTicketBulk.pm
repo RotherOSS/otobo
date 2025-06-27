@@ -1581,11 +1581,6 @@ sub _Mask {
 
         my $URL = $Self->{LastScreenOverview};
 
-        # add session if no cookies are enabled
-        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-            $URL .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-        }
-
         $LayoutObject->AddJSData(
             Key   => 'TicketBulkURL',
             Value => $LayoutObject->{Baselink} . $URL,

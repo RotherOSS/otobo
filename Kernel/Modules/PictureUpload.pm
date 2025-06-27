@@ -230,12 +230,8 @@ sub Run {
     }
 
     # serve new content id and url to rte
-    my $Session = '';
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $Session = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
     my $URL = $LayoutObject->{Baselink}
-        . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
+        . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew";
 
     # if ResponseType is JSON, do not return template content but a JSON structure
     if ( $ResponseType eq 'json' ) {

@@ -77,11 +77,6 @@ sub PopupClose {
 
     if ( $Param{URL} ) {
 
-        # add session if no cookies are enabled
-        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-            $Param{URL} .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-        }
-
         # send data to JS
         $Self->AddJSData(
             Key   => 'PopupClose',
