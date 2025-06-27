@@ -624,6 +624,7 @@ sub DisplayValueRender {
     }
 
     @{ $SetValue{Value} } = map { $_ // '' } $SetValue{Value}->@*;
+    @{ $SetValue{Title} } = map { $_ // '' } $SetValue{Title}->@*;
 
     my %Value;
     if ($HTMLOutput) {
