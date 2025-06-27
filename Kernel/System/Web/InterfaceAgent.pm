@@ -368,7 +368,8 @@ sub _Content {
         # create datetime object
         my $SessionDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        # create new session id
+        # Create a new session with a new session id.
+        # This makes the user data, including the user preferences, available in the user session.
         my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
             UserLastRequest => $SessionDTObject->ToEpoch(),

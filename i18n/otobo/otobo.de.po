@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-05-27 22:21+0000\n"
-"Last-Translator: Sven Oesterling <svo@rother-oss.com>\n"
+"PO-Revision-Date: 2025-06-21 12:34+0000\n"
+"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
 ">\n"
 "Language: de\n"
@@ -27590,7 +27590,8 @@ msgstr "Berechtigung, Eigentümer von Tickets in dieser Gruppe/Queue zu werden. 
 
 #. Template: AdminRoleGroup
 msgid "Permissions to open the priority action in this group/queue."
-msgstr "Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queu."
+msgstr ""
+"Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queue."
 
 #. Template: AdminRoleGroup
 msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
@@ -27651,15 +27652,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Erroneous value in RequiredArgs."
-msgstr ""
+msgstr "Fehlerhafter Wert in RequiredArgs."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Erroneous value in PreviewTriggers."
-msgstr ""
+msgstr "Fehlerhafter Wert in PreviewTriggers."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
 msgid "Erroneous value in StorageTriggers."
-msgstr ""
+msgstr "Fehlerhafter Wert in StorageTriggers."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This key is already used"
