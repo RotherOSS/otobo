@@ -178,21 +178,16 @@ sub Run {
                 "Switched from Agent to Customer ($Self->{UserLogin} -=> $UserData{UserLogin})",
         );
 
-        # build URL to customer interface
-        my $URL = $ConfigObject->Get('HttpType')
-            . '://'
-            . $ConfigObject->Get('FQDN')
-            . '/'
-            . $ConfigObject->Get('ScriptAlias')
-            . 'customer.pl';
+        # redirect to customer interface
+        my $ExtURL = join '',
+            $ConfigObject->Get('HttpType'),
+            '://',
+            $ConfigObject->Get('FQDN'),
+            '/',
+            $ConfigObject->Get('ScriptAlias'),
+            'customer.pl';
 
-        # if no sessions are used we attach the session as URL parameter
-        if ( !$ConfigObject->Get('SessionUseCookie') ) {
-            $URL .= "?$SessionName=$NewSessionID";
-        }
-
-        # redirect to customer interface with new session id
-        return $LayoutObject->Redirect( ExtURL => $URL );
+        return $LayoutObject->Redirect( ExtURL => $ExtURL );
     }
 
     # search user list

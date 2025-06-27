@@ -123,11 +123,11 @@ sub _Content {
         delete $Param{Lang};
     }
 
-    # Check if the browser sent the SessionID cookie and remember the SessionID-cookie
-    # as SessionID! This overrides a potential SessionID sent as GET or POST parameter.
+    # Remember the SessionID-cookie as SessionID!
+    # This overrides a potential SessionID sent as GET or POST parameter.
     # Setting the attribute 'SessionIDCookie' indicates that the value of the
     # attribute 'SessionID' has been set from a cookie.
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
+    {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
             $Param{SessionID} = $Param{SessionIDCookie};
@@ -811,25 +811,22 @@ sub _Content {
 
             if ( $PreAuth && $PreAuth->{RedirectURL} ) {
 
-                if ( $ConfigObject->Get('SessionUseCookie') ) {
+                # always set a cookie, so that
+                # we know already if the browser supports cookies.
+                # ( the session cookie isn't available at that time ).
 
-                    # always set a cookie, so that
-                    # we know already if the browser supports cookies.
-                    # ( the session cookie isn't available at that time ).
-
-                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                        $Expires = '';
-                    }
-
-                    # set a cookie tentatively for checking cookie support
-                    $LayoutObject->SetCookie(
-                        Key     => 'OTOBOBrowserHasCookie',
-                        Name    => 'OTOBOBrowserHasCookie',
-                        Value   => 1,
-                        Expires => $Expires,
-                    );
+                my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+                if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+                    $Expires = '';
                 }
+
+                # set a cookie tentatively for checking cookie support
+                $LayoutObject->SetCookie(
+                    Key     => 'OTOBOBrowserHasCookie',
+                    Name    => 'OTOBOBrowserHasCookie',
+                    Value   => 1,
+                    Expires => $Expires,
+                );
 
                 $LayoutObject->Redirect(
                     ExtURL => $PreAuth->{RedirectURL},
@@ -927,25 +924,22 @@ sub _Content {
 
                 if ( $PreAuth && $PreAuth->{RedirectURL} ) {
 
-                    if ( $ConfigObject->Get('SessionUseCookie') ) {
+                    # always set a cookie, so that
+                    # we know already if the browser supports cookies.
+                    # ( the session cookie isn't available at that time ).
 
-                        # always set a cookie, so that
-                        # we know already if the browser supports cookies.
-                        # ( the session cookie isn't available at that time ).
-
-                        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                            $Expires = '';
-                        }
-
-                        # set a cookie tentatively for checking cookie support
-                        $LayoutObject->SetCookie(
-                            Key     => 'OTOBOBrowserHasCookie',
-                            Name    => 'OTOBOBrowserHasCookie',
-                            Value   => 1,
-                            Expires => $Expires,
-                        );
+                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+                        $Expires = '';
                     }
+
+                    # set a cookie tentatively for checking cookie support
+                    $LayoutObject->SetCookie(
+                        Key     => 'OTOBOBrowserHasCookie',
+                        Name    => 'OTOBOBrowserHasCookie',
+                        Value   => 1,
+                        Expires => $Expires,
+                    );
 
                     $LayoutObject->Redirect(
                         ExtURL => $PreAuth->{RedirectURL},

@@ -126,7 +126,7 @@ sub _Content {
 
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
+    {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
             $Param{SessionID} = $Param{SessionIDCookie};
@@ -968,25 +968,22 @@ sub _Content {
 
             if ( $PreAuth && $PreAuth->{RedirectURL} ) {
 
-                if ( $ConfigObject->Get('SessionUseCookie') ) {
+                # always set a cookie, so that
+                # we know already if the browser supports cookies.
+                # ( the session cookie isn't available at that time ).
 
-                    # always set a cookie, so that
-                    # we know already if the browser supports cookies.
-                    # ( the session cookie isn't available at that time ).
-
-                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                        $Expires = '';
-                    }
-
-                    # set a cookie tentatively for checking cookie support
-                    $LayoutObject->SetCookie(
-                        Key     => 'OTOBOBrowserHasCookie',
-                        Name    => 'OTOBOBrowserHasCookie',
-                        Value   => 1,
-                        Expires => $Expires,
-                    );
+                my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+                if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+                    $Expires = '';
                 }
+
+                # set a cookie tentatively for checking cookie support
+                $LayoutObject->SetCookie(
+                    Key     => 'OTOBOBrowserHasCookie',
+                    Name    => 'OTOBOBrowserHasCookie',
+                    Value   => 1,
+                    Expires => $Expires,
+                );
 
                 $LayoutObject->Redirect(
                     ExtURL => $PreAuth->{RedirectURL},
@@ -1084,25 +1081,22 @@ sub _Content {
 
                 if ( $PreAuth && $PreAuth->{RedirectURL} ) {
 
-                    if ( $ConfigObject->Get('SessionUseCookie') ) {
+                    # always set a cookie, so that
+                    # we know already if the browser supports cookies.
+                    # ( the session cookie isn't available at that time ).
 
-                        # always set a cookie, so that
-                        # we know already if the browser supports cookies.
-                        # ( the session cookie isn't available at that time ).
-
-                        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                            $Expires = '';
-                        }
-
-                        # set a cookie tentatively for checking cookie support
-                        $LayoutObject->SetCookie(
-                            Key     => 'OTOBOBrowserHasCookie',
-                            Name    => 'OTOBOBrowserHasCookie',
-                            Value   => 1,
-                            Expires => $Expires,
-                        );
+                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+                        $Expires = '';
                     }
+
+                    # set a cookie tentatively for checking cookie support
+                    $LayoutObject->SetCookie(
+                        Key     => 'OTOBOBrowserHasCookie',
+                        Name    => 'OTOBOBrowserHasCookie',
+                        Value   => 1,
+                        Expires => $Expires,
+                    );
 
                     $LayoutObject->Redirect(
                         ExtURL => $PreAuth->{RedirectURL},
