@@ -260,12 +260,12 @@ sub _Content {
         # login is invalid
         if ( !$User ) {
 
-            my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-            if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                $Expires = '';
-            }
-
             # tentatively set an useless cookie, for checking cookie support
+            my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+                ?
+                '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+                :
+                '';
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $LayoutObject->SetCookie(
                 Key     => 'OTOBOBrowserHasCookie',
@@ -441,12 +441,6 @@ sub _Content {
             Value     => $UserTimeZoneOffsetDifference,
         );
 
-        # create a new LayoutObject with SessionIDCookie
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies  => {},
@@ -455,6 +449,12 @@ sub _Content {
             },
         );
 
+        # create a new LayoutObject with SessionIDCookie
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         Kernel::Output::HTML::Layout->SetCookie(
             RegisterInOM => 1,
             Key          => 'SessionIDCookie',
@@ -815,12 +815,12 @@ sub _Content {
                 # we know already if the browser supports cookies.
                 # ( the session cookie isn't available at that time ).
 
-                my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                    $Expires = '';
-                }
-
                 # set a cookie tentatively for checking cookie support
+                my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+                    ?
+                    '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+                    :
+                    '';
                 $LayoutObject->SetCookie(
                     Key     => 'OTOBOBrowserHasCookie',
                     Name    => 'OTOBOBrowserHasCookie',
@@ -928,10 +928,11 @@ sub _Content {
                     # we know already if the browser supports cookies.
                     # ( the session cookie isn't available at that time ).
 
-                    my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-                    if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-                        $Expires = '';
-                    }
+                    my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+                        ?
+                        '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+                        :
+                        '';
 
                     # set a cookie tentatively for checking cookie support
                     $LayoutObject->SetCookie(

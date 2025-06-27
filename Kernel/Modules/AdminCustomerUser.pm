@@ -153,17 +153,19 @@ sub Run {
         # get customer interface session name
         my $SessionName = $ConfigObject->Get('CustomerPanelSessionName') || 'CSID';
 
-        # create a new LayoutObject with SessionIDCookie
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
+        # create a new LayoutObject
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SessionID   => $NewSessionID,
             SessionName => $ConfigObject->Get('SessionName'),
         );
+
+        # set the session cookie
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $LayoutObject->SetCookie(
             Key     => 'SessionIDCookie',
             Name    => $SessionName,

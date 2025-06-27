@@ -689,12 +689,12 @@ sub Login {
     # the password, we know already if the browser supports cookies.
     # ( the session cookie isn't available at that time ).
     {
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
         # set a cookie tentatively for checking cookie support
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $Self->SetCookie(
             Key     => 'OTOBOBrowserHasCookie',
             Name    => 'OTOBOBrowserHasCookie',
