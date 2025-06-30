@@ -58,6 +58,10 @@ sub Run {
             Name   => 'Add valid_id to postmaster_filter.',
             Module => 'DBUpdatePostMasterFilter',
         },
+        {
+            Name   => 'Add process dynamic fields to ticket zoom dynamic field screen configs',
+            Module => 'SysConfigUpdateTicketZoomDFScreens',
+        },
     );
 
     TASK:
