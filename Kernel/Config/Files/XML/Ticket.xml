@@ -13153,6 +13153,8 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
         </Value>
     </Setting>
@@ -13195,6 +13197,8 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
         </Value>
     </Setting>
