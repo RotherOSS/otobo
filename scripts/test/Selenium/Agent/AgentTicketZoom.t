@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 sub Hex2RGB {
     my ( $Color, $Alpha ) = @_;
@@ -165,10 +163,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
             ChannelName => 'Phone',
@@ -218,10 +213,7 @@ $Selenium->RunTest(
                 ],
                 NoAgentNotify => 1,
             );
-            $Self->True(
-                $ArticleID,
-                "ArticleCreate - ID $ArticleID",
-            );
+            ok( $ArticleID, "ArticleCreate - ID $ArticleID" );
             push @ArticleIDs, $ArticleID;
         }
 
@@ -261,7 +253,7 @@ $Selenium->RunTest(
             is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}" );
         }
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('.Headline h1').text().trim();"),
             "TestTicket#::$TicketNumber — $TitleRandom",
             "Ticket::Hook and Ticket::HookDivider found, check ticket title headline",
@@ -281,14 +273,14 @@ $Selenium->RunTest(
         }
 
         # Verify article order in zoom screen.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[0]).attr('id')"
             ),
             'Row2',
             "First Article in table is second created article",
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[1]).attr('id')"
             ),
@@ -298,14 +290,14 @@ $Selenium->RunTest(
 
         # Verify selected article. Config 'NewArticleIgnoreSystemSender' is enable.
         #   Non system sender type article should be selected ( first created article ).
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[0]\"]').length"
             ),
             "First 'agent' sender type article is selected"
         );
-        $Self->False(
-            $Selenium->execute_script(
+        ok(
+            !$Selenium->execute_script(
                 "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[1]\"]').length"
             ),
             "Second 'system' sender type article is not selected"
@@ -315,14 +307,14 @@ $Selenium->RunTest(
         $Selenium->find_element("//div[\@class='tablesorter-header-inner']/a")->click();
 
         # verify change in article order on column header click, test Core.UI.Table.Sort.js
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[0]).attr('id')"
             ),
             'Row1',
             "First Article in table is first created article - JS success",
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[1]).attr('id')"
             ),
@@ -356,12 +348,14 @@ $Selenium->RunTest(
         my $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
         my $SessionName   = $Selenium->execute_script('return Core.Config.Get("SessionName");');
 
-        $Self->False(
-            ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
+        unlike(
+            $IframeElement->get_attribute('src'),
+            qr{$SessionName=},
             'Session ID not present in the IFRAME source URL'
         );
 
-        # Switch off usage of session cookies.
+        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
+        # Do it anyways.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SessionUseCookie',
@@ -371,15 +365,14 @@ $Selenium->RunTest(
         # Get current session ID.
         my $SessionID = $Selenium->execute_script('return Core.Config.Get("SessionID");');
 
-        # Reload the ticket zoom screen, but make sure to append the session ID parameter, as now the cookies will not
-        #   be used.
+        # Reload the ticket zoom screen, the session ID parameters do not have to be added
         $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[0];$SessionName=$SessionID"
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[0]"
         );
 
         # Check if the IFRAME element now DOES contain the session ID parameter.
         $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
-        $Self->True(
+        ok(
             ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
             'Session ID present in the IFRAME source URL'
         );
@@ -398,10 +391,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - ID $TicketID"
-        );
+        ok( $Success, "Ticket is deleted - ID $TicketID" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );

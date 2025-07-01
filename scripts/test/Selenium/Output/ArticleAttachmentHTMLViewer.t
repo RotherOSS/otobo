@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,15 +22,13 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
-
-# OTOBO modules
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -114,12 +113,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Check are there Download and Viewer links for test attachment.
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Download' )]"),
             "Download link for attachment is found"
         );
 
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'View' )]"),
             "View link for attachment is found"
         );
@@ -138,7 +137,7 @@ $Selenium->RunTest(
 
         # Check expected values in PDF test attachment.
         for my $ExpectedValue (qw(OTOBO.org TEST)) {
-            $Self->True(
+            ok(
                 index( $Selenium->get_page_source(), $ExpectedValue ) > -1,
                 "Value is found on screen - $ExpectedValue"
             );
@@ -201,14 +200,14 @@ $Selenium->RunTest(
         }
 
         # Check we actually got a follow-up.
-        $Self->Is(
+        is(
             $Return[0] || 0,
             2,
             "PostMaster::Run() - FollowUp",
         );
 
         # Check we actually got the same ticket ID.
-        $Self->Is(
+        is(
             $Return[1] || 0,
             $TicketID,
             "PostMaster::Run() - FollowUp/TicketID",
@@ -236,7 +235,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return document.readyState === "complete";' );
 
         # Check if article is displayed in expected encoding.
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'Munguía' ) > -1,
             'Article displayed using correct encoding'
         );
@@ -255,7 +254,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
+        ok(
             $Success,
             "Ticket with ticket id $TicketID is deleted"
         );
@@ -267,4 +266,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
