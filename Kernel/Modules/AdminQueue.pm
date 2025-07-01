@@ -665,7 +665,7 @@ sub _Edit {
     my $ListType = $ConfigObject->Get('Ticket::Frontend::ListType');
 
     # get max queue level
-    my $MaxParentLevel = ( $ConfigObject->Get('Ticket::Frontend::MaxQueueLevel') || 5 ) - 1;
+    my $MaxParentLevel = $ConfigObject->Get('Ticket::Frontend::MaxQueueLevel') - 1;
 
     # verify if queue list should be a list or a tree
     if ( $ListType eq 'tree' ) {
