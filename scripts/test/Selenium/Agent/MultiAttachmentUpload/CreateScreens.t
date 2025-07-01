@@ -43,7 +43,8 @@ $Selenium->RunTest(
             Value => '50000'
         );
 
-        # Disable SessionUseCookie. See bug#14432.
+        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
+        # Do it anyways.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SessionUseCookie',

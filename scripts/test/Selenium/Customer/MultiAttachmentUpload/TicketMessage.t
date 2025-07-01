@@ -36,7 +36,8 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # Disable SessionUseCookie. See bug#14432.
+        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
+        # Do it anyways.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SessionUseCookie',
@@ -149,4 +150,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;

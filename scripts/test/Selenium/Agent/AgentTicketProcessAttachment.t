@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -25,11 +25,9 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -187,7 +185,7 @@ $Selenium->RunTest(
         );
 
         # Check if uploaded.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
             ),
@@ -205,8 +203,7 @@ $Selenium->RunTest(
         try_ok {
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
             $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" && $(".TicketZoom").length;'
+                JavaScript => 'return typeof($) === "function" && $(".TicketZoom").length;'
             );
         };
 
@@ -253,10 +250,7 @@ $Selenium->RunTest(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
@@ -264,10 +258,7 @@ $Selenium->RunTest(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-            $Self->True(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name},", );
         }
 
         # Clean up transition actions.
@@ -276,14 +267,11 @@ $Selenium->RunTest(
                 EntityID => $Item,
                 UserID   => $TestUserID,
             );
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-            $Self->True(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -294,15 +282,12 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
 
-            $Self->True(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
@@ -311,10 +296,7 @@ $Selenium->RunTest(
             UserID => $TestUserID,
         );
 
-        $Self->True(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -361,4 +343,4 @@ $Selenium->RunTest(
     }
 );
 
-done_testing();
+done_testing;
