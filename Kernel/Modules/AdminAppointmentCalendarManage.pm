@@ -1118,7 +1118,10 @@ sub _GetTicketAppointmentParams {
             if ( $Key =~ /^${Field}_([A-Za-z0-9]+)/ ) {
                 my $RuleID = $1;
 
-                # if rule id is integer, generate random guid
+                # If the rule id is an integer then generate a random id, hoping that there are no clashes.
+                # The rule id is an integer when new rules have been added in Core.Agent.Admin.AppointmentCalendar.Manage.js
+                # The rule id is used in event handlers. Based on the rule id they can infer which rule
+                # has caused the creation of the appointment.
                 if ( IsInteger($RuleID) ) {
                     $TicketAppointmentParams{$RuleID}->{RuleID} = $MainObject->GenerateRandomString(
                         Length     => 32,

@@ -98,6 +98,7 @@ creates a new calendar for given user.
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',
@@ -253,6 +254,7 @@ Returns Calendar data:
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',
@@ -534,6 +536,7 @@ updates an existing calendar.
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',
