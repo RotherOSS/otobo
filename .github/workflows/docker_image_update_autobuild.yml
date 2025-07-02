@@ -250,7 +250,7 @@ jobs:
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'Issue create by docker_image_updater_autobuild.yml',
+              title: 'Issue created by the Github action DockerImageUpdateAutobuild',
               body: `
                 The Github workflow DockerImageUpdateAutobuild has found that
                 the base image of at least one autobuild Docker image has changed.
