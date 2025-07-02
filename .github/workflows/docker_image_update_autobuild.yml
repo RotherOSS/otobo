@@ -252,9 +252,15 @@ jobs:
               repo: context.repo.repo,
               title: 'Issue create by docker_image_updater_autobuild.yml',
               body: `
-                The Github workflow DockerImageUpdateAutobuild has run.
-                There is work to do. Test the newly created Docker images.
-                They should be available on Docker Hub.
-                Release the images when things look fine.`,
+                The Github workflow DockerImageUpdateAutobuild has found that
+                the base image of at least one autobuild Docker image has changed.
+
+                This means that there is work to do. Please test the newly created Docker images.
+                This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
+
+                Rebuild the released Docker images when things look fine. The rebuild can be done
+                via the Github action DockerImageUpdateAll.
+
+                ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
