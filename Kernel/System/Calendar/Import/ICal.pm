@@ -155,6 +155,8 @@ sub Import {
     my $PluginObject      = $Kernel::OM->Get('Kernel::System::Calendar::Plugin');
     my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
 
+    my %DeprecatedTimeZones = DateTime::TimeZone->links();
+
     ENTRY:
     for my $Entry (@Entries) {
         my $Properties = $Entry->properties();
@@ -222,12 +224,18 @@ sub Import {
                 # check timezone
                 if ( $Properties->{'dtstart'}->[0]->{'_parameters'}->{'TZID'} ) {
                     $TimezoneID = $Properties->{'dtstart'}->[0]->{'_parameters'}->{'TZID'};
+
+                    # translate deprecated timezones (ex: Europe/Amsterdam -> Europe/Brussels)
+                    if ( $DeprecatedTimeZones{$TimezoneID} ) {
+                        $TimezoneID = $DeprecatedTimeZones{$TimezoneID};
+                    }
                 }
             }
 
             my $StartTimeICal = $Self->_FormatTime(
                 Time => $Properties->{'dtstart'}->[0]->{'value'},
             );
+
             my $StartTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
@@ -257,6 +265,11 @@ sub Import {
                 # check timezone
                 if ( $Properties->{'dtend'}->[0]->{'_parameters'}->{'TZID'} ) {
                     $TimezoneID = $Properties->{'dtend'}->[0]->{'_parameters'}->{'TZID'};
+
+                    # translate deprecated timezones (ex: Europe/Amsterdam -> Europe/Brussels)
+                    if ( $DeprecatedTimeZones{$TimezoneID} ) {
+                        $TimezoneID = $DeprecatedTimeZones{$TimezoneID};
+                    }
                 }
             }
 

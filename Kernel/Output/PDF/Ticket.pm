@@ -785,23 +785,10 @@ sub _PDFOutputTicketDynamicFields {
 
         # start a new section for every title
         if ( $DynamicFieldConfig->{FieldType} eq 'Title' ) {
-            push @Sections, {
-                Title => {
-                    Text  => $DynamicFieldConfig->{Label},
-                    Style => "",
-                    Size  => $DynamicFieldConfig->{Config}{FontSize}  || 12,
-                    Color => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
-                },
-            };
+            $Sections[-1]{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
+            $Sections[-1]{CellData}[$Row][0]{Font}    = 'ProportionalBold';
 
-            if ( $DynamicFieldConfig->{Config}{CBFontStyleBoldValue} ) {
-                $Sections[-1]{Title}{Style} .= "Bold";
-            }
-            if ( $DynamicFieldConfig->{Config}{CBFontStyleItalicValue} ) {
-                $Sections[-1]{Title}{Style} .= "Italic";
-            }
-
-            $Row    = 0;
+            $Row++;
             $Output = 1;
 
             next DYNAMICFIELD;
