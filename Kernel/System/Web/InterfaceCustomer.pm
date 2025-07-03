@@ -127,9 +127,9 @@ sub _Content {
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     {
-        $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
-        if ( $Param{SessionIDCookie} ) {
-            $Param{SessionID} = $Param{SessionIDCookie};
+        my $SessionIDFromCookie = $ParamObject->GetCookie( Key => $Param{SessionName} );
+        if ($SessionIDFromCookie) {
+            $Param{SessionID} = $SessionIDFromCookie;
         }
     }
 

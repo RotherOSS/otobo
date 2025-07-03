@@ -1842,7 +1842,6 @@ sub Footer {
         WebPath                        => $WebPath,
         Action                         => $Self->{Action},
         Subaction                      => $Self->{Subaction},
-        SessionIDCookie                => $Self->{SessionIDCookie},
         SessionName                    => $Self->{SessionName},
         SessionID                      => $Self->{SessionID},
         ChallengeToken                 => $Self->{UserChallengeToken},
@@ -4605,7 +4604,6 @@ sub CustomerFooter {
         WebPath                  => $WebPath,
         Action                   => $Self->{Action},
         Subaction                => $Self->{Subaction},
-        SessionIDCookie          => $Self->{SessionIDCookie},
         SessionName              => $Self->{SessionName},
         SessionID                => $Self->{SessionID},
         ChallengeToken           => $Self->{UserChallengeToken},
@@ -6905,7 +6903,7 @@ This method may be called via the package name when C<RegisterInOM> is active.
 
    Kernel::Output::HTML::Layout->SetCookie(
        RegisterInOM => 1,
-       Key          => 'SessionIDCookie',
+       Key          => 'CookieForOTOBOSessionID',
        Name         => $Param{SessionName},
        Value        => $NewSessionID,
        Expires      => $Expires,
