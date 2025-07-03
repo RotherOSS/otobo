@@ -145,6 +145,7 @@ sub Run {
         $Self->CreateTmpAttachmentsIndex(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{TmpAttachments} // $Config,
+            Template => $IndexTemplates->{TmpAttachments}      // $IndexTemplates->{Default},
         );
     }
 
