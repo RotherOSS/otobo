@@ -370,11 +370,12 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[0]"
         );
 
-        # Check if the IFRAME element now DOES contain the session ID parameter.
+        # Check if the IFRAME element still does NOT contain the session ID parameter.
         $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
-        ok(
-            ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
-            'Session ID present in the IFRAME source URL'
+        unlike(
+            $IframeElement->get_attribute('src'),
+            qr/$SessionName/,
+            'Session ID not present in the IFRAME source URL'
         );
 
         # Clean up test data from the DB.
