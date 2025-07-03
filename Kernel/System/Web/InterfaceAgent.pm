@@ -125,12 +125,10 @@ sub _Content {
 
     # Remember the SessionID-cookie as SessionID!
     # This overrides a potential SessionID sent as GET or POST parameter.
-    # Setting the attribute 'SessionIDCookie' indicates that the value of the
-    # attribute 'SessionID' has been set from a cookie.
     {
-        $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
-        if ( $Param{SessionIDCookie} ) {
-            $Param{SessionID} = $Param{SessionIDCookie};
+        my $SessionIDFromCookie = $ParamObject->GetCookie( Key => $Param{SessionName} );
+        if ($SessionIDFromCookie) {
+            $Param{SessionID} = $SessionIDFromCookie;
         }
     }
 
