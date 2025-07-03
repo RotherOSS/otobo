@@ -1271,7 +1271,8 @@ sub InitialSetup {
         # create index for tmpattachments
         my %RequestTmpAttachments = (
             settings => $Self->IndexSettingsGet(
-                Config => $IndexConfig->{TmpAttachments} // $DefaultConfig,
+                Config   => $IndexConfig->{TmpAttachments}   // $DefaultConfig,
+                Template => $IndexTemplate->{TmpAttachments} // $DefaultTemplate,
             ),
         );
         $Success = $Self->CreateIndex(
