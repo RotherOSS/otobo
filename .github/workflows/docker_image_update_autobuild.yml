@@ -232,7 +232,6 @@ jobs:
       -
         name: Count number of builds
         id: count_builds
-        # might work if there are no single quotes on the JSON
         run: |
           num_builds=$(jq '[.[] | select(contains("true"))] | length' <<END_JSON
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
@@ -240,6 +239,18 @@ jobs:
           )
           echo "number of builds is $num_builds" >> $GITHUB_STEP_SUMMARY
           echo "num_builds=$num_builds" >> $GITHUB_OUTPUT
+
+      -
+        name: Sort JSON summary by keys
+        id: sort_json
+        if: steps.count_builds.outputs.num_builds >= 1
+        run: |
+          sorted_json=$(jq --sort-keys <<END_JSON
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON
+          )
+          echo "sorted_json=$sorted_json" >> $GITHUB_OUTPUT
+
       -
         name: Create an issue
         id: create_issue
@@ -253,7 +264,7 @@ jobs:
               title: 'Issue created by the Github action DockerImageUpdateAutobuild',
               body: `
                 The Github workflow DockerImageUpdateAutobuild has found that
-                the base image of at least one autobuild Docker image has changed.
+                the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker image has changed.
 
                 This means that there is work to do. Please test the newly created Docker images.
                 This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
@@ -261,6 +272,6 @@ jobs:
                 Rebuild the released Docker images when things look fine. The rebuild can be done
                 via the Github action DockerImageUpdateAll.
 
-                ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}`,
+                ${{ steps.sort_json.outputs.sorted_json }}`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
