@@ -16,10 +16,17 @@
 
 package Kernel::System::Queue;
 
+use v5.24;
 use strict;
 use warnings;
 
-use parent                        qw(Kernel::System::EventHandler);
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
@@ -58,8 +65,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{QueueID} = $Param{QueueID} || '';
 
