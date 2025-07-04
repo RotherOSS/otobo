@@ -220,7 +220,7 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-          cat <<END_JSON >> $GITHUB_STEP_SUMMARY
+          jq --sort-keys <<END_JSON >> $GITHUB_STEP_SUMMARY
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON
 
