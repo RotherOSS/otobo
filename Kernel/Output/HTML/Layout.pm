@@ -934,12 +934,15 @@ sub Login {
         XLoginHeader => 1,
     );
 
+    $Param{DisableStandardLogin} = $Self->_HasOnlyOIDCAuthModules();
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'Login',
         Data         => \%Param,
     );
 }
+
 
 sub ChallengeTokenCheck {
     my ( $Self, %Param ) = @_;
@@ -6697,5 +6700,23 @@ sub SetCookie {
 
     return 1;
 }
+
+sub _HasOnlyOIDCAuthModules {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+
+        my $Module = $ConfigObject->Get('AuthModule$Count');
+        if ($Module && $Module ne 'Kernel::System::Auth::OpenIDConnect') {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 
 1;
