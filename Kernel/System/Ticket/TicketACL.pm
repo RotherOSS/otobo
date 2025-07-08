@@ -16,9 +16,15 @@
 
 package Kernel::System::Ticket::TicketACL;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -174,6 +180,7 @@ sub TicketAcl {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -181,13 +188,12 @@ sub TicketAcl {
     # do not execute ACLs if UserID 1 is used
     return if $Param{UserID} && $Param{UserID} == 1;
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ACLs       = $ConfigObject->Get('TicketAcl');
-    my $AclModules = $ConfigObject->Get('Ticket::Acl::Module');
+    my $ACLs       = $ConfigObject->Get('TicketAcl');              # generic ACLs defined in the AdminACL frontend, deployed in ZZZACL.pm
+    my $AclModules = $ConfigObject->Get('Ticket::Acl::Module');    # special purpose ACLs as defined in the SysConfig
 
-    # only execute ACLs if ACL or ACL module is configured
+    # do not execute ACLs if neither TicketAcl nor Ticket::Acl::Module is configured
     if ( !$ACLs && !$AclModules ) {
         return;
     }
@@ -200,17 +206,24 @@ sub TicketAcl {
     MODULENAME:
     for my $ModuleName ( sort keys %{ $AclModules // {} } ) {
         my $Module = $AclModules->{$ModuleName};
+
         if ( $Module->{ReturnType} && $Module->{ReturnType} ne $Param{ReturnType} ) {
             next MODULENAME;
         }
+
         if ( $Module->{ReturnSubType} ) {
+
+            # TODO: this looks broken. $Module->{ReturnSubType} is a hashref, yet the value is derefenced as an array
             if ( ref( $Module->{ReturnSubType} ) eq 'HASH' ) {
                 next MODULENAME if !grep { $Param{ReturnSubType} eq $_ }
                     @{ $Module->{ReturnSubType} };
             }
             else {
 
-                # a scalar, we hope
+                # a scalar, we hope, but it could also be an array
+                # TODO: this filter looks broken
+                # !$Module->{ReturnSubType} is either q{} or 1, (or !!0, and !!1)
+                # so it is unlikely that a string comparison would give a true value
                 next MODULENAME if !$Module->{ReturnSubType} eq $Param{ReturnSubType};
             }
         }
@@ -260,7 +273,7 @@ sub TicketAcl {
     my %Checks         = %{ $CheckResult->{Checks}         || {} };
     my %ChecksDatabase = %{ $CheckResult->{ChecksDatabase} || {} };
 
-    # check ACL configuration
+    # note that %Acls is just the dereferenced $ACLs
     my %Acls;
     if ( $ConfigObject->Get('TicketAcl') ) {
         %Acls = %{ $ConfigObject->Get('TicketAcl') };
