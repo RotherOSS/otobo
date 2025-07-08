@@ -8,7 +8,10 @@
 # See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.40.x series as the base.
+# Perl 5.42.0 was released on 2025-07-04. But note that OTOBO itself is kept
+# compatible with Perl 5.24.0.
+#
+# Use the latest maintainance release of the Perl 5.42.x series as the base.
 # This assures that bug and security fixes are applied when rebuilding the image.
 #
 # The Debian version is explicitly set to bookworm, that is Debian 12.
@@ -16,8 +19,10 @@
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
+# The slim version is used for reducing the size of the image.
+#
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.40-slim-bookworm AS base
+FROM perl:5.42-slim-bookworm AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
