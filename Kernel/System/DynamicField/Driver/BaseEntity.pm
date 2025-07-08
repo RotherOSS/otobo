@@ -478,8 +478,11 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # ref comparison because EditFieldValuetet returns an arrayref except when using template value
-    if ( !ref $Value eq 'ARRAY' ) {
+    # ref comparison because EditFieldValueGet() returns an arrayref except when using template value
+    # Note: this condition is never true, and never was. The code is just kept in case
+    #   a problem crops up in the future. The intention of the code was likely:
+    #     if ( ref $Value ne 'ARRAY' ) { ... }
+    if ( ( !ref $Value ) eq 'ARRAY' ) {
         $Value = [$Value];
     }
 
