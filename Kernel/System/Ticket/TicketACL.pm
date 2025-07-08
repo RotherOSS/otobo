@@ -224,7 +224,7 @@ sub TicketAcl {
                 # TODO: this filter looks broken
                 # !$Module->{ReturnSubType} is either q{} or 1, (or !!0, and !!1)
                 # so it is unlikely that a string comparison would give a true value
-                next MODULENAME if !$Module->{ReturnSubType} eq $Param{ReturnSubType};
+                next MODULENAME if ( !$Module->{ReturnSubType} ) eq $Param{ReturnSubType};
             }
         }
 
