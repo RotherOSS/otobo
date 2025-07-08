@@ -203,9 +203,9 @@
                     <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
                 </p>
 [% RenderBlockEnd("LostPasswordLink") %]
+[% END %]
             </div>
 [% RenderBlockEnd("LoginBox") %]
-[% END %]
 
 [% RenderBlockStart("LostPassword") %]
             <div id="PasswordBox" class="Hidden">
