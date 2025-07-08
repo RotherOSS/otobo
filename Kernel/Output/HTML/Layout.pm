@@ -6709,8 +6709,10 @@ sub _HasOnlyOIDCAuthModules {
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        my $Module = $ConfigObject->Get('AuthModule$Count');
+        my $Module = $ConfigObject->Get("AuthModule$Count");
+
         if ($Module && $Module ne 'Kernel::System::Auth::OpenIDConnect') {
+
             return 0;
         }
     }
