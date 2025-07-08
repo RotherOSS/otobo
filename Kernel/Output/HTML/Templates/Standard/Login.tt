@@ -198,7 +198,6 @@
                         </form>
                     </div>
                 </div>
-[% END %]
 [% RenderBlockStart("LostPasswordLink") %]
                 <p class="Center SpacingTop">
                     <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
@@ -206,6 +205,7 @@
 [% RenderBlockEnd("LostPasswordLink") %]
             </div>
 [% RenderBlockEnd("LoginBox") %]
+[% END %]
 
 [% RenderBlockStart("LostPassword") %]
             <div id="PasswordBox" class="Hidden">
