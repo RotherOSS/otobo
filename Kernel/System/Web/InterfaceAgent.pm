@@ -326,24 +326,13 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         # login is invalid
         if ( !$User ) {
 
-            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-            if ( ref $AuthObject->{AuthBackend} eq 'Kernel::System::Auth::OpenIDConnect' ) {
-
-                # throw a Kernel::System::Web::Exception that redirects
-                $LayoutObject->Redirect(
-                    OP    => "",
-                    Login => 1,
-                );
-                return;
-            }
-
             my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
             if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
                 $Expires = '';
             }
 
             # tentatively set an useless cookie, for checking cookie support
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $LayoutObject->SetCookie(
                 Key      => 'OTOBOBrowserHasCookie',
                 Value    => 1,
@@ -389,11 +378,11 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # show normal login
             return $LayoutObject->Login(
                 Title   => 'Login',
-                Message => $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-                    Type => 'Info',
-                    What => 'Message',
+                Message => $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
+                    || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                        Type => 'Info',
+                        What => 'Message',
                     )
-                    || $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
                     || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                 LoginFailed => 1,
                 MessageType => 'Error',
@@ -627,14 +616,6 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 );    # throws a Kernel::System::Web::Exception
             }
 
-            # try auth module specific logout
-            my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout();
-            if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
-                $LayoutObject->Redirect(
-                    ExtURL => $LogoutInfo->{LogoutURL},
-                );    # throws a Kernel::System::Web::Exception
-            }
-            
             # show login screen
             return $LayoutObject->Login(
                 Title => 'Logout',

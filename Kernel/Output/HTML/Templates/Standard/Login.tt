@@ -140,6 +140,7 @@
                 <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSIF Data.MessageType == 'Error' %]ErrorBox[% END %]">
                     <span>[% Translate(Data.Message) | html %]</span>
                 </div>
+[% IF !Data.DisableStandardLogin %]
                 <div class="WidgetSimple">
                     <div class="Content">
                         <p class="Error Center Spacing"></p>
@@ -197,6 +198,7 @@
                         </form>
                     </div>
                 </div>
+[% END %]
 [% RenderBlockStart("LostPasswordLink") %]
                 <p class="Center SpacingTop">
                     <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
