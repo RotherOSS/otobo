@@ -6,7 +6,7 @@ name: 'DockerImageUpdateAll'
 # https://github.com/marketplace/actions/docker-image-update-checker#minimal
 
 # This workflow checks whether there are updated base images and
-# creates release images on Docker Hub.
+# updates the outdated release images on Docker Hub.
 # For each supported releas branch only the last three patch level releases are checked.
 # Note that the list of release tags must be updated when there are new patch level releases.
 
@@ -57,35 +57,35 @@ jobs:
       #otobo_elasticsearch_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_10 }}
       #otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
 
-      otobonginx_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_23 }}
-      otobonginx_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_24 }}
-      otobonginx_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_0_25 }}
-      otobonginx_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_0 }}
+      otobo_nginx_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_23 }}
+      otobo_nginx_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_24 }}
+      otobo_nginx_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_25 }}
+      otobo_nginx_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0 }}
 
-      otobonginx_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_12 }}
-      otobonginx_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_13 }}
-      otobonginx_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_10_1_14 }}
-      otobonginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_10_1 }}
+      otobo_nginx_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_12 }}
+      otobo_nginx_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_13 }}
+      otobo_nginx_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_14 }}
+      otobo_nginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1 }}
 
-      otobonginx_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_8 }}
-      otobonginx_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_9 }}
-      otobonginx_webproxy_rel_11_0_10: ${{ steps.collect_summary.outputs.otobonginx_webproxy_rel_11_0_10 }}
-      otobonginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobonginx_webproxy_latest_11_0 }}
+      otobo_nginx_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_8 }}
+      otobo_nginx_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_9 }}
+      otobo_nginx_webproxy_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_10 }}
+      otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
 
-      otobo_nninx_kerberos_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_23 }}
-      otobo_nninx_kerberos_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_24 }}
-      otobo_nninx_kerberos_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_0_25 }}
-      otobo_nninx_kerberos_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_0 }}
+      otobo_nginx_kerberos_webproxy_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_23 }}
+      otobo_nginx_kerberos_webproxy_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_24 }}
+      otobo_nginx_kerberos_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_25 }}
+      otobo_nginx_kerberos_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_0 }}
 
-      otobo_nninx_kerberos_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_12 }}
-      otobo_nninx_kerberos_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_13 }}
-      otobo_nninx_kerberos_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_10_1_14 }}
-      otobo_nninx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_10_1 }}
+      otobo_nginx_kerberos_webproxy_rel_10_1_12: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_12 }}
+      otobo_nginx_kerberos_webproxy_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_13 }}
+      otobo_nginx_kerberos_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_14 }}
+      otobo_nginx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1 }}
 
-      otobo_nninx_kerberos_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_8 }}
-      otobo_nninx_kerberos_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_9 }}
-      otobo_nninx_kerberos_webproxy_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_rel_11_0_10 }}
-      otobo_nninx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nninx_kerberos_webproxy_latest_11_0 }}
+      otobo_nginx_kerberos_webproxy_rel_11_0_8: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_8 }}
+      otobo_nginx_kerberos_webproxy_rel_11_0_9: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_9 }}
+      otobo_nginx_kerberos_webproxy_rel_11_0_10: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_10 }}
+      otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
 
       otobo_selenium_chrome_rel_10_0_23: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_23 }}
       otobo_selenium_chrome_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_24 }}
@@ -351,6 +351,6 @@ jobs:
         name: Write a summary
         id: write_summary
         run: |
-          cat <<END_JSON >> $GITHUB_STEP_SUMMARY
+          jq --sort-keys <<END_JSON >> $GITHUB_STEP_SUMMARY
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON

@@ -1268,6 +1268,19 @@ sub InitialSetup {
         );
         $Errors++ unless $Success;
 
+        # create index for tmpattachments
+        my %RequestTmpAttachments = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{TmpAttachments}   // $DefaultConfig,
+                Template => $IndexTemplate->{TmpAttachments} // $DefaultTemplate,
+            ),
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'tmpattachments' },
+            Request   => \%RequestTmpAttachments,
+        );
+        $Errors++ unless $Success;
+
         $Success = 0 if $Errors;
     }
 
