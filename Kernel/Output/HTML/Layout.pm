@@ -943,7 +943,6 @@ sub Login {
     );
 }
 
-
 sub ChallengeTokenCheck {
     my ( $Self, %Param ) = @_;
 
@@ -6731,7 +6730,6 @@ sub _HasOnlyOIDCAuthModules {
 
     return 1;
 }
-
 
 
 1;
