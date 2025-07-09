@@ -97,6 +97,10 @@ use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
 
+# turn warnings into warnings with stack trace
+# this should only be enabled during debugging
+#use Devel::Confess;
+
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
 eval {

@@ -1104,6 +1104,18 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Devel::Confess',
+        VersionRequired => '>= 0.009004',
+        Features        => ['devel:debugging'],
+        Comment         => 'add stack trace to warnings',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         # The module Term::ReadLine::Gnu requires that Term::ReadLine is already loaded
         # before it is loaded. That is why Term::ReadLine is loaded on top of this script.
         Module          => 'Term::ReadLine::Gnu',
