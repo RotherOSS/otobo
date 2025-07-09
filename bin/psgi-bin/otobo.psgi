@@ -90,6 +90,10 @@ use Kernel::System::ModuleRefresh ();                      # based on Module::Re
 use Kernel::System::ObjectManager ();
 use Kernel::System::Web::App      ();
 
+# turn warnings into warnings with stack trace
+# this should only be enabled during debugging
+#use Devel::Confess;
+
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
 eval {

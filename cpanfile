@@ -161,6 +161,9 @@ feature 'devel:debugging', 'Features which can be useful in development environm
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
+
     # command history in Perl debugger and in Dev::Tools::Shell
     requires 'Term::ReadLine::Gnu', '>= 1.35';
 
@@ -400,6 +403,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
+
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
 
     # command history in Perl debugger and in Dev::Tools::Shell
     requires 'Term::ReadLine::Gnu', '>= 1.35';
