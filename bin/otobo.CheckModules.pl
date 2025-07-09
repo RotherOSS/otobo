@@ -63,7 +63,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
 =head1 DESCRIPTION
 
-This scripts can be used for checking whether required Perl modules are installed.
+This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
 
 =cut
@@ -230,7 +230,7 @@ my %FeatureDescription = (
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-    import Linux::Distribution;
+    Linux::Distribution->import;
 
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
@@ -295,9 +295,12 @@ if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $E
 
 my $ExitCode = 0;    # success
 
-# This is the reference for Perl modules that are required by OTOBO or are optional.
+# The array @NeededModules is the declaration of Perl modules that are
+# either required or optional in OTOBO.
 # Modules that are required are marked by setting 'Required' to 1.
+#
 # Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+#
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
@@ -382,7 +385,7 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '>= 1.08',
+        VersionRequired => '>= 1.08',    # from 2014
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
@@ -1189,6 +1192,7 @@ my @NeededModules = (
         },
     },
     {
+        # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
@@ -1232,6 +1236,8 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+
+    # Feature devel:i18n
     {
         Module    => 'Locale::PO',
         Features  => ['devel:i18n'],
