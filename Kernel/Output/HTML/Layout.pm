@@ -943,7 +943,6 @@ sub Login {
     );
 }
 
-
 sub ChallengeTokenCheck {
     my ( $Self, %Param ) = @_;
 
@@ -4267,6 +4266,8 @@ sub CustomerLogin {
         XLoginHeader => 1,
     );
 
+    $Param{DisableStandardLogin} = $Self->_HasOnlyOIDCAuthModules( LoginType => 'Customer' );
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'CustomerLogin',
@@ -6706,12 +6707,22 @@ sub _HasOnlyOIDCAuthModules {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my $LoginType = $Param{LoginType} || 'Agent';
+
+    my $LoginModule = $LoginType eq 'Customer'
+        ? 'Customer::AuthModule'
+        : 'AuthModule';
+
+    my $OIDCAuthModule = $LoginType eq 'Customer'
+        ? 'Kernel::System::CustomerAuth::OpenIDConnect'
+        : 'Kernel::System::Auth::OpenIDConnect';
+
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        my $Module = $ConfigObject->Get("AuthModule$Count");
+        my $Module = $ConfigObject->Get("$LoginModule$Count");
 
-        if ($Module && $Module ne 'Kernel::System::Auth::OpenIDConnect') {
+        if ($Module && $Module ne $OIDCAuthModule ) {
 
             return 0;
         }
