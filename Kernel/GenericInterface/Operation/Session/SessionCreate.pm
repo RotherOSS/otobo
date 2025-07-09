@@ -101,17 +101,18 @@ sub Run {
     }
 
     for my $Needed (qw( Password )) {
-        if ( !$Param{Data}->{$Needed} ) {
+        if ( !$Param{Data}->{$Needed} && !$Param{Data}->{BearerToken} ) {
 
             return $Self->ReturnError(
                 ErrorCode    => 'SessionCreate.MissingParameter',
-                ErrorMessage => "SessionCreate: $Needed parameter is missing!",
+                ErrorMessage => "SessionCreate: Either parameter 'Password' or 'BearerToken' is needed!",
             );
         }
     }
 
     my $SessionID = $Self->CreateSessionID(
         %Param,
+        DebuggerObject => $Self->{DebuggerObject}
     );
 
     if ( !$SessionID ) {

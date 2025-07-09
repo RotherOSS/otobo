@@ -183,24 +183,29 @@ $ArticleBackendObject->EventHandlerTransaction();
 sleep 1;
 
 # search by article body
-my @BodySearchTicketIDs = $ESObject->TicketSearch(
+my $Result = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
     Fulltext   => 'deoxyribonucleicacid',
     Permission => 'ro',
     Limit      => 100,
 );
+my @BodySearchTicketIDs = $Result->{Data}->@*;
+
 my $TicketIDFound = any { $_ == $TicketID } @BodySearchTicketIDs;
 ok( $TicketIDFound, 'Search for article body successful' );
 
 # search by attachment content
-my @AttachmentContentSearchTicketIDs = $ESObject->TicketSearch(
+$Result = $ESObject->TicketSearch(
     Result     => 'ARRAY',
     UserID     => $UserID,
     Fulltext   => 'xylophone',
     Permission => 'ro',
     Limit      => 100,
 );
+
+my @AttachmentContentSearchTicketIDs = $Result->{Data}->@*;
+
 $TicketIDFound = any { $_ == $TicketID } @AttachmentContentSearchTicketIDs;
 ok( $TicketIDFound, 'Search for attachment content successful' );
 

@@ -44,9 +44,14 @@ sub Run {
     my $ParamObject      = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+    my $TokenProvider    = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenProvider');
 
     my $WebserviceID      = $ParamObject->GetParam( Param => 'WebserviceID' )      || '';
     my $CommunicationType = $ParamObject->GetParam( Param => 'CommunicationType' ) || '';
+
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # ------------------------------------------------------------ #
     # sub-action Change: load web service and show edit screen
@@ -76,6 +81,9 @@ sub Run {
             WebserviceData    => $WebserviceData,
             CommunicationType => $CommunicationType,
             Action            => 'Change',
+            Output            => $Output,
+            LayoutObject      => $LayoutObject,
+            ConfigObject      => $ConfigObject,
         );
     }
 
@@ -169,6 +177,30 @@ sub Run {
 
                 $Error{ $Needed . 'ServerError' }        = 'ServerError';
                 $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
+            }
+        }
+        elsif ( $GetParam->{AuthType} && $GetParam->{AuthType} eq 'OAuth' ) {
+
+            # Get OAuth settings.
+            for my $ParamName (qw( AuthType OAuthAccountName )) {
+                $TransportConfig->{Authentication}->{$ParamName} = $GetParam->{$ParamName};
+            }
+
+            my $Token = $TokenProvider->Fetch( AccountName => $GetParam->{OAuthAccountName} );
+
+            if ( !$Token->{Success} ) {
+                $Output .= $LayoutObject->Notify(
+                    Info     => $Token->{Error},
+                    Priority => 'Error',
+                    Link     => $ConfigObject->Get('HttpType')
+                        . '://'
+                        . $ConfigObject->Get('FQDN')
+                        . '/'
+                        . $ConfigObject->Get('ScriptAlias')
+                        . 'index.pl?Action=AdminOAuthTokenStore',
+                );
+
+                $Error{OAuthError} = $Token->{Error};
             }
         }
 
@@ -412,6 +444,9 @@ sub Run {
             WebserviceData    => $WebserviceData,
             CommunicationType => $CommunicationType,
             Action            => 'Change',
+            Output            => $Output,
+            LayoutObject      => $LayoutObject,
+            ConfigObject      => $ConfigObject,
         );
     }
 
@@ -447,10 +482,9 @@ sub Run {
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
+    my $Output       = $Param{Output};
+    my $ConfigObject = $Param{ConfigObject};
+    my $LayoutObject = $Param{LayoutObject};
 
     $Param{Type}           = 'HTTP::REST';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
@@ -466,7 +500,8 @@ sub _ShowEdit {
     {
         $Param{$ParamName} = $TransportConfig->{$ParamName};
     }
-    for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab )) {
+
+    for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab OAuthAccountName)) {
         $Param{$ParamName} = $TransportConfig->{Authentication}->{$ParamName};
     }
     for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname SSLVerifyMode )) {
@@ -499,9 +534,19 @@ sub _ShowEdit {
             Class         => 'Modernize',
         );
 
+        my $FunctionalAccounts = $Kernel::OM->Get('Kernel::System::OpenIDConnect::FunctionalAccounts');
+
+        my @OAuthAccountNames;
+        my $OAuthAccounts = $FunctionalAccounts->GetAccounts();
+
+        for my $Account (@$OAuthAccounts) {
+            push @OAuthAccountNames, $Account->{Name};
+        }
+
         # Create Authentication types select.
         $Param{AuthenticationStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'BasicAuth', 'Kerberos' ],
+
+            Data          => [ 'BasicAuth', 'Kerberos', 'OAuth' ],
             Name          => 'AuthType',
             SelectedValue => $Param{AuthType} || '-',
             PossibleNone  => 1,
@@ -509,18 +554,35 @@ sub _ShowEdit {
             Class         => 'Modernize',
         );
 
+        $Param{OAuthAccountNamesStrg} = $LayoutObject->BuildSelection(
+            Data          => \@OAuthAccountNames,
+            Name          => 'OAuthAccountName',
+            SelectedValue => $Param{OAuthAccountName} || $OAuthAccountNames[0],
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
+        );
+
         # Hide and disable authentication methods if they are not selected.
         $Param{BasicAuthHidden} = 'Hidden';
         $Param{KerberosHidden}  = 'Hidden';
+        $Param{OAuthHidden}     = 'Hidden';
+
         if ( $Param{AuthType} && $Param{AuthType} eq 'BasicAuth' ) {
+
             $Param{BasicAuthHidden}                   = '';
             $Param{BasicAuthUserServerError}          = 'Validate_Required';
             $Param{BasicAuthPasswordValidateRequired} = 'Validate_Required';
         }
         elsif ( $Param{AuthType} && $Param{AuthType} eq 'Kerberos' ) {
+
             $Param{KerberosHidden}                 = '';
             $Param{KerberosUserServerError}        = 'Validate_Required';
             $Param{KerberosKeytabValidateRequired} = 'Validate_Required';
+        }
+        elsif ( $Param{AuthType} && $Param{AuthType} eq 'OAuth' ) {
+
+            $Param{OAuthHidden} = '';
         }
 
         # Create use Proxy select.
@@ -880,14 +942,16 @@ sub _GetParams {
     my $GetParam;
 
     # Get parameters from web browser.
+
     for my $ParamName (
+
         qw(
             Host DefaultCommand MaxLength KeepAlive Timeout
             AuthType CredentialID BasicAuthUser BasicAuthPassword
             KerberosUser KerberosKeytab BearerAuthToken UseProxy
             ProxyHost ProxyUser ProxyPassword ProxyExclude UseSSL
             SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
-            SSLVerifyHostname SSLVerifyMode
+            SSLVerifyHostname SSLVerifyMode OAuthAccountName
         )
         )
     {

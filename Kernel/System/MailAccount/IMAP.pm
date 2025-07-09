@@ -31,6 +31,14 @@ use Mail::IMAPClient 3.40 ();
 use IO::Socket::SSL ();
 
 # OTOBO modules
+use Kernel::System::OpenIDConnect::OAuth2MailExtensions;
+
+no warnings('once');    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+
+# monkey patch support for XOAUTH2/OAUTHBEARER into Mail::IMAPClient
+*Mail::IMAPClient::Otobo_OAuth2 = \&Kernel::System::OpenIDConnect::OAuth2MailExtensions::ImapClientOAuth2;
+
+use warnings('once');
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,6 +46,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::PostMaster',
+    'Kernel::System::OpenIDConnect::TokenProvider',
 );
 
 # these private subs will be overriden in child classes
@@ -64,7 +73,7 @@ sub Connect {
 
     # check needed stuff
     NEEDED:
-    for my $Key (qw(Login Password Host Timeout Debug)) {
+    for my $Key (qw(Login Host Timeout Debug Auth)) {
         next NEEDED if defined $Param{$Key};
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -75,6 +84,79 @@ sub Connect {
         return (
             Successful => 0,
             Message    => "Need $_!",
+        );
+    }
+
+    my $Auth        = $Param{Auth};
+    my $AccountName = $Param{AccountName};
+
+    if ( $Auth ne 'Basic' ) {
+
+        if ( !defined $AccountName ) {
+            return (
+                Successful => 0,
+                Message    => "Need AccountName!",
+            );
+        }
+
+        my $TokenProviderObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenProvider');
+
+        my $Token = $TokenProviderObject->Fetch(
+            AccountName => $AccountName,
+        );
+
+        if ( !$Token->{Success} ) {
+            return (
+                Successful => 0,
+                Message    => "ImapTLS: $Auth Auth for account $AccountName failed invalid Token!",
+            );
+        }
+
+        my $IMAPObject = Mail::IMAPClient->new(
+            Server  => $Param{Host},
+            Timeout => $Param{Timeout},    # override the default timeout of 600s
+            $Self->_ExtraIMAPClientArgs(),
+
+            Debug => $Param{Debug},
+            Uid   => 1,
+
+            # see bug#8791: needed for some Microsoft Exchange backends
+            Ignoresizeerrors => 1,
+        );
+
+        if ( !$IMAPObject ) {
+
+            return {
+                Successful => 0,
+                Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
+            };
+        }
+
+        my $Result = $IMAPObject->Otobo_OAuth2(
+            User  => $Param{Login},
+            Token => $Token->{Token},
+            Host  => $Param{Host},
+
+            #            Port      => 143,
+            Mechanism => $Auth
+        );
+
+        if ( $Result && $IMAPObject ) {
+            return (
+                Successful => 1,
+                IMAPObject => $IMAPObject,
+            );
+        }
+        return (
+            Successful => 0,
+            Message    => "ImapTLS: Can't connect to $Param{Host}: $@\n"
+        );
+    }
+
+    if ( !defined $Param{Password} ) {
+        return (
+            Successful => 0,
+            Message    => "Need Password!",
         );
     }
 
@@ -156,7 +238,7 @@ sub _Fetch {
 
     # check needed stuff
     KEY:
-    for my $Key (qw(Login Password Host Trusted QueueID)) {
+    for my $Key (qw(Login Host Trusted QueueID)) {
         next KEY if defined $Key;
 
         $CommunicationLogObject->ObjectLog(
@@ -176,7 +258,7 @@ sub _Fetch {
     }
 
     KEY:
-    for my $Key (qw(Login Password Host)) {
+    for my $Key (qw(Login Host)) {
         next KEY if $Param{$Key};
 
         $CommunicationLogObject->ObjectLog(
@@ -222,11 +304,13 @@ sub _Fetch {
     my %Connect;
     eval {
         %Connect = $Self->Connect(
-            Host     => $Param{Host},
-            Login    => $Param{Login},
-            Password => $Param{Password},
-            Timeout  => $Timeout,
-            Debug    => $Debug
+            Host        => $Param{Host},
+            Login       => $Param{Login},
+            Password    => $Param{Password},
+            Auth        => $Param{Auth},
+            AccountName => $Param{AccountName},
+            Timeout     => $Timeout,
+            Debug       => $Debug
         );
 
         return 1;

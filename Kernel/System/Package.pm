@@ -3365,6 +3365,8 @@ sub _GetIntegratedPackages {
                 'RestorePendingInformation',
                 'RotherOSS-AccountedTimeInViews',
                 'TicketUpdateOperationExternalIdentifier',
+                'OAuth2',
+                'OAuth2-Mail',
             ],
         }
     };

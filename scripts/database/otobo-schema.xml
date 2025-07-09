@@ -1828,6 +1828,9 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Column Name="auth" Type="VARCHAR" Size="20" Required="true" Default="Basic" />
+    <Column Name="functional_account_id" Type="INTEGER" Required="false" />
+
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
@@ -1835,6 +1838,10 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
+    <ForeignKey ForeignTable="oidc_functional_accounts">
+        <Reference Local="functional_account_id" Foreign="id" />
+    </ForeignKey>
+
 </Table>
 
 <!-- postmaster_filter -->
@@ -3119,5 +3126,83 @@
         <IndexColumn Name="language" />
     </Index>
 </Table>
+
+<!-- OIDC/OAuth2-->
+
+<TableCreate Name="oidc_profiles">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
+    <Column Name="name" Required="true" Size="256" Type="VARCHAR" />
+    <Column Name="client_id" Required="true" Size="1024" Type="VARCHAR" />
+    <Column Name="client_secret" Required="true" Size="2048" Type="VARCHAR" />
+    <Column Name="redirect_uri" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="openid_config" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="ssl_options" Required="true" Size="2048" Type="VARCHAR" />
+    <Column Name="misc" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="ttl" Required="true" Type="INTEGER" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT" />
+    <Unique Name="oidc_profiles_name">
+        <UniqueColumn Name="name" />
+    </Unique>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id" />
+    </ForeignKey>
+</TableCreate>
+
+<TableCreate Name="oidc_functional_accounts">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
+    <Column Name="name" Required="true" Size="256" Type="VARCHAR" />
+    <Column Name="oidc_profile_id" Required="true" Type="INTEGER" />
+    <Column Name="grant_type" Required="true" Size="128" Type="VARCHAR" />
+    <Column Name="scopes" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="resources" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="resource_param_name" Required="true" Size="128" Type="VARCHAR" />
+    <Column Name="username" Required="false" Size="256" Type="VARCHAR" />
+    <Column Name="passwd" Required="false" Size="256" Type="VARCHAR" />
+    <Column Name="token_type" Required="true" Size="64" Type="VARCHAR" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Column Name="valid_id" Required="true" Type="SMALLINT" />
+
+    <Unique Name="oidc_functional_accounts_name">
+        <UniqueColumn Name="name" />
+    </Unique>
+    <ForeignKey ForeignTable="oidc_profiles">
+        <Reference Local="oidc_profile_id" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id" />
+    </ForeignKey>
+
+</TableCreate>
+
+<TableCreate Name="oauth2_token_storage">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
+    <Column Name="oidc_functional_account_id" Required="true" Type="INTEGER" />
+    <Column Name="token_type" Required="true" Size="20" Type="VARCHAR" />
+    <Column Name="token" Required="true" Size="4096" Type="VARCHAR" />
+    <Column Name="expires_at" Required="false" Type="INTEGER" />
+    <ForeignKey ForeignTable="oidc_functional_accounts">
+        <Reference Local="oidc_functional_account_id" Foreign="id" />
+    </ForeignKey>
+</TableCreate>
+
 
 </database>

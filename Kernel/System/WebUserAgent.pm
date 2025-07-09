@@ -139,8 +139,9 @@ If you need to set credentials
             Realm    => 'OTOBO Unittests',
             Location => 'ftp.otobo.org:80',
         },
-        SkipSSLVerification => 1, # (optional)
-        NoLog               => 1, # (optional)
+        SkipSSLVerification => 1,         # (optional)
+        SkipSSLHostnameVerification => 1, # (Optional)
+        NoLog               => 1,         # (optional)
     );
 
 =cut
@@ -160,6 +161,18 @@ sub Request {
     #   SSL certificate validation.
     if (
         $Param{SkipSSLVerification}
+
+        || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification')
+        )
+    {
+        $UserAgent->ssl_opts(
+            SSL_verify_mode => 0,
+        );
+    }
+
+    if (
+        $Param{SkipSSLHostnameVerification}
+
         || $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification')
         )
     {

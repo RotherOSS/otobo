@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Valid',
     'Kernel::System::Cache',
+    'Kernel::System::OpenIDConnect::FunctionalAccounts',
 );
 
 =head1 NAME
@@ -71,9 +72,11 @@ adds a new mail account
 
     my $MailAccountID = $MailAccount->MailAccountAdd(
         Login         => 'mail',
-        Password      => 'SomePassword',
-        Host          => 'pop3.example.com',
         Type          => 'POP3',
+        Host          => 'pop3.example.com',
+        Auth          => Basic|XOAUTH2|OAUTHBEARER # optional, defaults to Basic
+        AccountName   => FunctionalAccount Name    # mandatory if auth ne Basic
+        Password      => 'SomePassword',
         IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
         ValidID       => 1,
         Trusted       => 0,
@@ -88,7 +91,7 @@ sub MailAccountAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
+    for (qw(Login Host ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -98,13 +101,33 @@ sub MailAccountAdd {
             return;
         }
     }
-    for (qw(Login Password Host Type ValidID UserID)) {
+    for (qw(Login Host Type ValidID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
 
+            return;
+        }
+    }
+
+    my $AuthType = $Param{'Auth'} || 'Basic';
+    my $OAuth2AccountID;
+    if ( $AuthType ne 'Basic' ) {
+
+        $OAuth2AccountID = $Self->_GetOIDCAccountID(%Param);
+
+        return if !$OAuth2AccountID;
+
+        $Param{Password} = '';
+    }
+    else {
+        if ( !$Param{Password} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need Password!"
+            );
             return;
         }
     }
@@ -141,12 +164,12 @@ sub MailAccountAdd {
     return unless $DBObject->Do(
         SQL =>
             'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
-            . ' imap_folder, trusted, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' imap_folder, trusted, create_time, create_by, change_time, change_by, auth, functional_account_id)'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?, ?, ?)',
         Bind => [
             \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
             \$Param{ValidID}, \$Param{Comment},  \$Param{QueueID}, \$Param{IMAPFolder},
-            \$Param{Trusted}, \$Param{UserID},   \$Param{UserID},
+            \$Param{Trusted}, \$Param{UserID},   \$Param{UserID},  \$AuthType, \$OAuth2AccountID
         ],
     );
 
@@ -156,8 +179,8 @@ sub MailAccountAdd {
     );
 
     return unless $DBObject->Prepare(
-        SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
-        Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
+        SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ? AND auth = ? ',
+        Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type}, \$AuthType ],
     );
 
     my $ID;
@@ -174,7 +197,7 @@ returns an array of all mail account data
 
     my @MailAccounts = $MailAccount->MailAccountGetAll();
 
-(returns list of the fields for each account: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
+(returns list of the fields for each account: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID, Auth, FunctionalAccountName )
 
 =cut
 
@@ -196,25 +219,29 @@ sub MailAccountGetAll {
     # sql
     return unless $DBObject->Prepare(
         SQL =>
-            'SELECT id, login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
-            . ' create_time, change_time FROM mail_account',
+            'SELECT ma.id, ma.login, ma.pw, ma.host, ma.account_type, ma.queue_id, ma.imap_folder, ma.trusted, ma.comments, ma.valid_id, '
+            . ' ma.create_time, ma.change_time, ma.auth, ofa.name '
+            . ' FROM mail_account ma '
+            . ' LEFT JOIN oidc_functional_accounts ofa ON ma.functional_account_id = ofa.id '
     );
 
     my @Accounts;
     while ( my @Data = $DBObject->FetchrowArray() ) {
         my %Data = (
-            ID         => $Data[0],
-            Login      => $Data[1],
-            Password   => $Data[2],
-            Host       => $Data[3],
-            Type       => $Data[4] || 'POP3',    # compat for old setups
-            QueueID    => $Data[5],
-            IMAPFolder => $Data[6],
-            Trusted    => $Data[7],
-            Comment    => $Data[8],
-            ValidID    => $Data[9],
-            CreateTime => $Data[10],
-            ChangeTime => $Data[11],
+            ID          => $Data[0],
+            Login       => $Data[1],
+            Password    => $Data[2],
+            Host        => $Data[3],
+            Type        => $Data[4] || 'POP3',      # compat for old setups
+            QueueID     => $Data[5],
+            IMAPFolder  => $Data[6],
+            Trusted     => $Data[7],
+            Comment     => $Data[8],
+            ValidID     => $Data[9],
+            CreateTime  => $Data[10],
+            ChangeTime  => $Data[11],
+            Auth        => $Data[12] || 'Basic',    # compat for old setups
+            AccountName => $Data[13],
         );
 
         if ( $Data{QueueID} == 0 ) {
@@ -257,7 +284,7 @@ returns a hash of mail account data
         ID => 123,
     );
 
-(returns: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
+(returns: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID, Auth, AccountName)
 
 =cut
 
@@ -289,26 +316,31 @@ sub MailAccountGet {
     # SQL
     return unless $DBObject->Prepare(
         SQL =>
-            'SELECT login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
-            . ' create_time, change_time FROM mail_account WHERE id = ?',
+            'SELECT ma.login, ma.pw, ma.host, ma.account_type, ma.queue_id, ma.imap_folder, ma.trusted, ma.comments, ma.valid_id, '
+            . ' ma.create_time, ma.change_time, ma.auth, ofa.name '
+            . ' FROM mail_account ma '
+            . ' LEFT JOIN oidc_functional_accounts ofa ON ma.functional_account_id = ofa.id '
+            . '  WHERE ma.id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     my %Data;
     while ( my @Data = $DBObject->FetchrowArray() ) {
         %Data = (
-            ID         => $Param{ID},
-            Login      => $Data[0],
-            Password   => $Data[1],
-            Host       => $Data[2],
-            Type       => $Data[3] || 'POP3',    # compat for old setups
-            QueueID    => $Data[4],
-            IMAPFolder => $Data[5],
-            Trusted    => $Data[6],
-            Comment    => $Data[7],
-            ValidID    => $Data[8],
-            CreateTime => $Data[9],
-            ChangeTime => $Data[10],
+            ID          => $Param{ID},
+            Login       => $Data[0],
+            Password    => $Data[1],
+            Host        => $Data[2],
+            Type        => $Data[3] || 'POP3',      # compat for old setups
+            QueueID     => $Data[4],
+            IMAPFolder  => $Data[5],
+            Trusted     => $Data[6],
+            Comment     => $Data[7],
+            ValidID     => $Data[8],
+            CreateTime  => $Data[9],
+            ChangeTime  => $Data[10],
+            Auth        => $Data[11] || 'Basic',    # compat for old setups
+            AccountName => $Data[12],
         );
     }
 
@@ -347,10 +379,12 @@ update a new mail account
 
     my $UpdateSuccess = $MailAccount->MailAccountUpdate(
         ID            => 1,
-        Login         => 'mail',
-        Password      => 'SomePassword',
         Host          => 'pop3.example.com',
         Type          => 'POP3',
+        Auth          => Basic|XOAUTH2|OAUTHBEARER # optional, defaults to Basic
+        AccountName   => FunctionalAccount Name    # mandatory if auth ne Basic
+        Login         => 'mail',
+        Password      => 'SomePassword',
         IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
         ValidID       => 1,
         Trusted       => 0,
@@ -365,13 +399,34 @@ sub MailAccountUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Login Password Host Type ValidID Trusted DispatchingBy QueueID UserID)) {
+    for (qw(ID Login Host Type ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
 
+            return;
+        }
+    }
+
+    my $AuthType = $Param{'Auth'} || 'Basic';
+    my $OAuth2AccountID;
+    if ( $AuthType ne 'Basic' ) {
+
+        $OAuth2AccountID = $Self->_GetOIDCAccountID(%Param);
+
+        return if !$OAuth2AccountID;
+
+        $Param{Password} = '';
+    }
+    else {
+
+        if ( !$Param{Password} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need Password!"
+            );
             return;
         }
     }
@@ -404,11 +459,11 @@ sub MailAccountUpdate {
     return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, '
             . ' comments = ?, imap_folder = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
-            . ' change_by = ?, queue_id = ? WHERE id = ?',
+            . ' change_by = ?, queue_id = ?, auth = ?, functional_account_id = ? WHERE id = ?',
         Bind => [
             \$Param{Login},   \$Param{Password},   \$Param{Host},    \$Param{Type},
             \$Param{Comment}, \$Param{IMAPFolder}, \$Param{Trusted}, \$Param{ValidID},
-            \$Param{UserID},  \$Param{QueueID},    \$Param{ID},
+            \$Param{UserID},  \$Param{QueueID},    \$AuthType,       \$OAuth2AccountID, \$Param{ID},
         ],
     );
 
@@ -558,6 +613,8 @@ fetch emails by using backend
         DispatchingBy => 'Queue', # Queue|From
         QueueID       => 12,
         UserID        => 123,
+        Auth          => Basic|XOAUTH2|OAUTHBEARER     # optional, defaults to 'Basic'
+        AccountName   => 'OIDC FunctionalAccount Name' # mandatory if Auth ne Basic
     );
 
 =cut
@@ -566,13 +623,35 @@ sub MailAccountFetch {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Login Password Host Type Trusted DispatchingBy QueueID UserID)) {
+    for (qw(Login Host Type Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
 
+            return;
+        }
+    }
+
+    $Param{Auth} = $Param{Auth} || 'Basic';
+    if ( $Param{Auth} ne 'Basic' ) {
+
+        if ( $Param{Auth} ne 'XOAUTH2' && $Param{Auth} ne 'OAUTHBEARER' ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Auth type param must be one of 'Basic', 'XOAUTH2' or 'OAUTHBEARER' !"
+            );
+            return;
+        }
+
+        if ( !$Param{AccountName} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Auth types 'XOAUTH2' and 'OAUTHBEARER' need Functional 'AccountName' param!"
+            );
             return;
         }
     }
@@ -608,13 +687,35 @@ sub MailAccountCheck {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Login Password Host Type Timeout Debug)) {
+    for (qw(Login Host Type Timeout Debug)) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
 
+            return;
+        }
+    }
+
+    $Param{Auth} = $Param{Auth} || 'Basic';
+    if ( $Param{Auth} ne 'Basic' ) {
+
+        if ( $Param{Auth} ne 'XOAUTH2' && $Param{Auth} ne 'OAUTHBEARER' ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Auth type param must be one of 'Basic', 'XOAUTH2' or 'OAUTHBEARER' !"
+            );
+            return;
+        }
+
+        if ( !$Param{AccountName} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Auth types 'XOAUTH2' and 'OAUTHBEARER' need Functional 'AccountName' param!"
+            );
             return;
         }
     }
@@ -634,6 +735,48 @@ sub MailAccountCheck {
         Successful => 0,
         Message    => $Check{Message}
     );
+}
+
+sub _GetOIDCAccountID {
+
+    my ( $Self, %Param ) = @_;
+
+    my $AuthType = $Param{'Auth'};
+
+    if ( $AuthType ne 'XOAUTH2' && $AuthType ne 'OAUTHBEARER' ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Auth type param must be one of 'Basic', 'XOAUTH2' or 'OAUTHBEARER' !"
+        );
+        return;
+    }
+
+    if ( !$Param{AccountName} ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Auth types 'XOAUTH2' and 'OAUTHBEARER' need Functional 'AccountName' param!"
+        );
+        return;
+    }
+
+    my $FunctionalAccountsObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::FunctionalAccounts');
+
+    my $OAuth2Account = $FunctionalAccountsObject->GetAccount(
+        Name => $Param{AccountName}
+    );
+
+    if ( !$OAuth2Account ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "FunctionalAccount $Param{AccountName} not found for auth type $AuthType!",
+        );
+        return;
+    }
+
+    return $OAuth2Account->{AccountID};
 }
 
 1;

@@ -78,6 +78,30 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     };
 
     /*
+    * @name ToggleAuth
+    * @memberof Core.Agent.Admin.MailAccount
+    * @function
+    * @description
+    *      This function will show hide Password and FunctionalAccount inputs depending on wheter the Auth typ is set to 'Basic' or not
+    */
+    TargetNS.ToggleAuth = function() {
+
+        var Auth = $('.MailAuth').val();
+        if(Auth == 'Basic') {
+
+            $('.MailPassword').css('display', 'block').addClass('Validate_Required');
+            $('.MailAccount').css('display','none');
+            $('#AccountName').removeClass('Validate_Required');
+        }
+        else {
+
+            $('.MailPassword').css('display', 'none').removeClass('Validate_Required');
+            $('.MailAccount').css('display', 'block');
+            $('#AccountName').addClass('Validate_Required');
+        }
+    };
+
+    /*
     * @name Init
     * @memberof Core.Agent.Admin.MailAccount
     * @function
@@ -116,6 +140,13 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         });
 
         TargetNS.MailAccountDelete();
+        TargetNS.ToggleAuth();
+
+        $('.MailAuth').on('change', function() {
+
+            TargetNS.ToggleAuth();
+        });
+
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
