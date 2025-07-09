@@ -43,8 +43,14 @@ quick_setup.pl - a quick OTOBO setup script that is meant for development
     # also activate Elasticsearch
     bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
 
+    # create an initial regular agent
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add--user
+
     # create an initial admin agent in addition to root@localhost
     bin/docker/quick_setup.pl --db-password 'some-pass' --add-admin-user
+
+    # Use the timezone of the Antarctic Peninsula for the agents
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add-admin-user --add--user --agent-timezone-rothera
 
     # create an initial customer user
     bin/docker/quick_setup.pl --db-password 'some-pass' --add-customer-user
@@ -150,18 +156,19 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                                          # print help
-    my $DBPassword;                                        # required
-    my $HTTPPort              = 80;                        # only used for success message
-    my $SystemID              = 10;                        # distinguish between different installations
-    my $ActivateElasticsearch = 0;                         # must be explicitly enabled
-    my $AddUser               = 0;                         # must be explicitly enabled
-    my $AddAdminUser          = 0;                         # must be explicitly enabled
-    my $AddCustomerUser       = 0;                         # must be explicitly enabled
-    my $AddCalendar           = 0;                         # must be explicitly enabled
-    my $HttpType              = 'https';                   # the SysConfig setting HttpType
-    my $FQDN                  = 'yourhost.example.com';    # the SysConfig setting FQDN
-    my $ActivateSyncWithS3    = 0;                         # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                                           # print help
+    my $DBPassword;                                         # required
+    my $HTTPPort               = 80;                        # only used for success message
+    my $SystemID               = 10;                        # distinguish between different installations
+    my $ActivateElasticsearch  = 0;                         # must be explicitly enabled
+    my $AddUser                = 0;                         # must be explicitly enabled
+    my $AddAdminUser           = 0;                         # must be explicitly enabled
+    my $AgentsAreOnRotheraTime = 0;                         # must be explicitly enabled
+    my $AddCustomerUser        = 0;                         # must be explicitly enabled
+    my $AddCalendar            = 0;                         # must be explicitly enabled
+    my $HttpType               = 'https';                   # the SysConfig setting HttpType
+    my $FQDN                   = 'yourhost.example.com';    # the SysConfig setting FQDN
+    my $ActivateSyncWithS3     = 0;                         # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                   => \$HelpFlag,
@@ -173,6 +180,7 @@ sub Main {
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-user'               => \$AddUser,
         'add-admin-user'         => \$AddAdminUser,
+        'agent-timezone-rothera' => \$AgentsAreOnRotheraTime,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
@@ -346,6 +354,10 @@ sub Main {
         say $Message if defined $Message;
 
         return 0 unless $Success;
+    }
+
+    if ($AgentsAreOnRotheraTime) {
+        AgentTimeZone('Antarctica/Rothera');
     }
 
     if ($AddUser) {
@@ -790,8 +802,21 @@ sub ActivateElasticsearch {
     my ( $SetupSuccess, $FatalError ) = $ESObject->InitialSetup();
 
     return 0, 'Initial setup of Elasticsearch was not successful' unless $SetupSuccess;
-
     return $SetupSuccess;
+}
+
+# allow to set the time zone,
+# otherwise return the last set time zone or fall back to 'Europe/Berlin'
+sub AgentTimeZone {
+    my ($NewTimeZone) = @_;
+
+    state $TimeZone = 'Europe/Berlin';
+
+    if ($NewTimeZone) {
+        $TimeZone = $NewTimeZone;
+    }
+
+    return $TimeZone;
 }
 
 sub AddUser {
@@ -819,7 +844,7 @@ sub AddUser {
         UserEmail     => 'Toni.Tester@example.com',
         UserComment   => 'sample user created by quick_setup.pl',
         UserLanguage  => 'en',
-        UserTimeZone  => 'Europe/Berlin',
+        UserTimeZone  => AgentTimeZone(),
         UserMobile    => '1①๑໑༡༪၁',
         ValidID       => 1,
         ChangeUserID  => 1,
@@ -883,7 +908,7 @@ sub AddAdminUser {
         UserEmail     => 'Andy.Admin@example.com',
         UserComment   => 'admin user created by quick_setup.pl',
         UserLanguage  => 'en',
-        UserTimeZone  => 'Europe/Berlin',
+        UserTimeZone  => AgentTimeZone(),
         UserMobile    => '2②२২৵੨૨',
         ValidID       => 1,
         ChangeUserID  => 1,
