@@ -57,9 +57,11 @@ Syslog is not easily available in a Docker container.
 Log to the file F</opt/otobo/var/log/otobo.log>.
 As this specific location as it is located on the volume that is visible from the host.
 
-=item CacheModule
+=item Cache::Module and Cache::Redis
 
-Use Redis for caching.
+Use Redis as the caching backend. In out of the box Docker based installation the
+Redis server is running in the same local network as the web server. The host name is
+simply I<redis> (with "Holding back the years" quietly playing in the background).
 
 =item TestHTTPHostname
 
@@ -124,7 +126,6 @@ sub Load {
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
-    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
