@@ -1226,6 +1226,18 @@ DISTRIBUTIONS
       File::Spec 0
       File::Temp 0.16
       perl 5.004050
+  Devel-Confess-0.009004
+    pathname: H/HA/HAARG/Devel-Confess-0.009004.tar.gz
+    provides:
+      Devel::Confess 0.009004
+      Devel::Confess::Builtin 0.009004
+      Devel::Confess::Source undef
+      Devel::Confess::_Util undef
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      perl 5.006
   Devel-StackTrace-2.05
     pathname: D/DR/DROLSKY/Devel-StackTrace-2.05.tar.gz
     provides:

@@ -155,6 +155,9 @@ requires 'Plack::Middleware::ReverseProxy';
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
+
     # command history in Perl debugger and in Dev::Tools::Shell
     requires 'Term::ReadLine::Gnu', '>= 1.35';
 
