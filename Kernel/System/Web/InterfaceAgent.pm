@@ -368,11 +368,11 @@ sub Content {
             # show normal login
             return $LayoutObject->Login(
                 Title   => 'Login',
-                Message => $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-                    Type => 'Info',
-                    What => 'Message',
+                Message => $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
+                    || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                        Type => 'Info',
+                        What => 'Message',
                     )
-                    || $LayoutObject->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
                     || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                 LoginFailed => 1,
                 MessageType => 'Error',
