@@ -306,11 +306,11 @@ sub _Content {
             # show normal login
             return $LayoutObject->CustomerLogin(
                 Title   => 'Login',
-                Message => $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-                    Type => 'Info',
-                    What => 'Message',
+                Message => $AuthObject->GetLastErrorMessage()
+                    || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                        Type => 'Info',
+                        What => 'Message',
                     )
-                    || $AuthObject->GetLastErrorMessage()
                     || Translatable('Login failed! Your user name or password was entered incorrectly.'),
                 LoginFailed => 1,
                 User        => $PostUser,
