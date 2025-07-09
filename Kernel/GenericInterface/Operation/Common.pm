@@ -119,6 +119,39 @@ sub Auth {
         }
     }
 
+    # Authenthentication header
+    my $ParamObject          = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $AuthenticationHeader = $ParamObject->Header('Authorization') // '';
+    $AuthenticationHeader =~ s/^\s+|\s+$//g;    # trim whitespace
+
+    if ( $AuthenticationHeader && lc($AuthenticationHeader) =~ /^bearer / ) {
+
+        my $Token = substr( $AuthenticationHeader, 7 );
+        $Token =~ s/^\s+|\s+$//g;               # trim whitespace
+
+        my $AuthenticatorObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::Authenticator');
+        my $Result              = $AuthenticatorObject->Authenticate( Token => $Token );
+
+        if ( $Result->{Success} ) {
+
+            # report success!
+            $Self->{DebuggerObject}->Debug(
+                Summary => 'Athentication success - OAuth2 bearer token decoded:',
+                Data    => $Result->{TokenData},
+            );
+
+            return ( $Result->{UserData}->{UserID}, 'User' );
+        }
+        else {
+
+            # report failure!
+            $Self->{DebuggerObject}->Debug(
+                Summary => 'Authorization Token present but invalid!',
+                Data    => $Token,
+            );
+        }
+    }
+
     return 0;
 }
 

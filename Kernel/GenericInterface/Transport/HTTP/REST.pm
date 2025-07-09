@@ -33,6 +33,7 @@ use Plack::Response ();
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
 use Kernel::System::Web::Exception ();
+use Kernel::Language               qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -134,6 +135,7 @@ sub ProviderProcessRequest {
     }
 
     my %QueryParams;
+
     if ($QueryParamsStr) {
 
         # Remove question mark '?' in the beginning.
@@ -697,6 +699,42 @@ sub RequesterPerformRequest {
             $Headers{Authorization} = 'Basic ' . encode_base64(
                 $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
             );
+        }
+
+        # oauth
+        elsif (
+            $Config->{Authentication}->{AuthType} eq 'OAuth'
+            && IsStringWithData( $Config->{Authentication}->{OAuthAccountName} )
+            )
+        {
+
+            my $AccountName = $Config->{Authentication}->{OAuthAccountName};
+
+            my $TokenResult = $Kernel::OM->Get('Kernel::System::OpenIDConnect::TokenProvider')->Fetch(
+                AccountName => $AccountName,
+            );
+
+            if ( !$TokenResult->{Success} ) {
+
+                $Self->{DebuggerObject}->Debug(
+                    Summary => Translatable("Error fetching the OAuth2 Token"),
+                    Data    => $TokenResult->{Error},
+                );
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => $TokenResult->{Error},
+                };
+            }
+
+            my $Token = $TokenResult->{Token};
+
+            $Self->{DebuggerObject}->Debug(
+                Summary => Translatable("Attached OAuth2 Bearer Token"),
+                Data    => $Token,
+            );
+
+            $Headers{Authorization} = "Bearer $Token";
         }
 
         # kerberos

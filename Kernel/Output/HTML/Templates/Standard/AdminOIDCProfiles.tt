@@ -1,0 +1,355 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("OpenID Connect Profiles ") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('OpenID Connect Provider Profiles Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate('Add Profile'),}) %]
+        [% CASE 'Edit' %]
+            [% USE EditTitle = String(Translate("Edit Profile ")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.ProfileName ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><b>[% Translate("About OIDC Provider Profiles") | html %]</b></h2>
+            </div>
+            <div class="Content FavouriteList">
+                <p>
+                    [% Translate("This page displays an overview of configured OIDC Provider Profiles.") | html %]
+                </p>
+                <br>
+                <br>
+                <p>
+                [% IF Data.AllItemsCount != 0 %]
+                    [% Translate("You can connect OIDC Profiles with a OIDC Functional Account") | html %]
+                    <a href="?Action=AdminOAuthTokenStore">[% Translate("here") | html %]</a>.
+                [% END %]
+                </p>
+                <br>
+                <br>
+
+[% RenderBlockStart("ActionAddProfile") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AddProfile" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAddProfile") %]
+[% RenderBlockStart("ActionDelete") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Delete"/>
+                            <input type="hidden" name="ProfileName" value="[% Data.ProfileName | html %]"/>
+                            <div class="Field SpacingTop">
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Delete Profile") | html %]"><span>[% Translate("Delete Profile") | html %]</span></button>
+                            </div>
+                            <div class="Clear"></div>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionDelete") %]
+
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewHeader") %]
+            <div class="Header">
+                <h2>[% Translate("OpenID Connect Provider Profiles for outgoing Webservice calls (GenericInterface Invoker)") | html %] ([% Data.AllItemsCount | html %] [% Translate("total") | html %])</h2>
+            </div>
+[% RenderBlockEnd("OverviewHeader") %]
+[% RenderBlockStart("NoTokensDefined") %]
+            <div class="Content">
+                <p>[% Translate("There are no OIDC Provider profiles defined.") | html %]</p>
+            </div>
+[% RenderBlockEnd("NoTokensDefined") %]
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Content">
+                <table class="DataTable" id="Tokens">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Profile Name") | html %]</th>
+                            <th>[% Translate("Client ID") | html %]</th>
+                            <th>[% Translate("Provider") | html %]</th>
+                            <th>[% Translate("Valid") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;ProfileName=[% Data.ProfileName | uri %]">[% Data.ProfileName | html %]</a></td>
+                            <td class=''>[% Data.ClientID | html %]</td>
+                            <td class=''>
+                                <a target="_blank" href="[% Data.MetadataUrl | html %]">
+                                [% Translate( "Provider" ) | html %]
+                                </a>
+                            </td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdateProfile") %]
+            <div class="Header">
+                [% IF Data.Action == 'AddProfile' %]
+                    <h2>[% Translate("Add OIDC Provider Profile") | html %]</h2>
+                [% ELSE %]
+                    <h2>[% Translate("Edit OIDC Provider Profile") | html %]</h2>
+                [% END %]
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
+                    <fieldset class="TableLike">
+
+                        [% IF Data.HasDefault %]
+                            <div class="Field">
+                                <p>
+                                    <b>[% Translate("Note") | html %]:</b>
+                                    [% Translate("Since you are using OIDC as Authentication module, these values have been pre-populated with the OIDC Provider Configuration used for Login.") | html %]
+                                </p>
+                            </div>
+                        [% END %]
+
+                        <label class="Mandatory" for="ProfileName"><span class="Marker">*</span> [% Translate("Profile Name") | html %]:</label>
+                        <div class="Field">
+                        [% IF Data.Action == 'AddProfile' %]
+                            <input type="text" name="ProfileName" value="[% Data.ProfileName | html %]" class="W50pc Validate_Required" />
+                            <p class="Error">[% Data.ProfileNameServerError %]</p>
+                            <p class="FieldExplanation">
+                                [% Translate("The unique name for this Profile.") | html %]
+                            </p>
+
+                        [% ELSE %]
+                            <input type="text" name="ProfileName" value="[% Data.ProfileName | html %]" class="W50pc" readonly="readonly" />
+                            <p class="FieldExplanation">
+                                [% Translate("The unique name for this Profile.") | html %]
+                            </p>
+                        [% END %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ProviderMetadataUrl"><span class="Marker">*</span> [% Translate("Metadata Url.") | html %]:</label>
+                        <div class="Field" id="ProviderMetadataUrlField">
+                            <input type="text" name="ProviderMetadataUrl" id="ProviderMetadataUrl" value="[% Data.ProviderMetadataUrl | html %]" class="W50pc Validate_Required [% Data.ProviderMetadataUrlInvalid | html %]" maxlength="4096"/>
+                            <p class="Error">[% Data.ProviderMetadataUrlServerError %]</p>
+                            <p class="FieldExplanation">
+                                [% Translate("The Well-Known Provider Metadata Url.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ClientID"><span class="Marker">*</span> [% Translate("Client ID") | html %]:</label>
+                        <div class="Field" id="ClientIDField">
+                            <input type="text" name="ClientID" id="ClientID" value="[% Data.ClientID | html %]" class="W50pc Validate_Required [% Data.ClientIDInvalid | html %]" maxlength="4096"/>
+                            <p class="Error">[% Data.ClientIDServerError %]</p>
+                            <p class="FieldExplanation">
+                                [% Translate("The Client ID of your OAuth2 application.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ClientSecret"><span class="Marker">*</span> [% Translate("Client Secret") | html %]:</label>
+                        <div class="Field" id="ClientSecretField">
+                            <input type="password" name="ClientSecret" id="ClientSecret" value="[% Data.ClientSecret | html %]" class="W50pc Validate_Required [% Data.ClientSecretInvalid | html %]" maxlength="4096"/>
+                            <p class="Error">[% Data.ClientSecretServerError %]</p>
+                            <p class="FieldExplanation">
+                                [% Translate("The Client Secret of your OAuth2 application.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="CacheTTL"><span class="Marker">*</span> [% Translate("Cache TTL") | html %]:</label>
+                        <div class="Field" id="CacheTTLField">
+                            <input type="text" name="CacheTTL" id="CacheTTL" value="[% Data.CacheTTL | html %]" class="W50pc Validate_Required [% Data.CacheTTLInvalid | html %]" maxlength="4096"/>
+                            <p class="Error">[% Data.CacheTTLServerError %]</p>
+                            <p class="FieldExplanation">
+                                [% Translate("Time in seconds for caching provider data.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+
+
+                    <details name="details">
+                        <summary>
+                                [% Translate("SSL Options (Optional)") | html %]
+                        </summary>
+
+                            <fieldset class="TableLike">
+
+                                <label class="Mandatory" for="SSLCertificate"><span class="Marker">*</span> [% Translate("SSL Certificate") | html %]:</label>
+                                <div class="Field" id="SSLCertificateField">
+                                    <input type="text" name="SSLCertificate" id="SSLCertificate" value="[% Data.SSLCertificate | html %]" class="W50pc" maxlength="2048"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("SSL certificate path.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLKey"><span class="Marker">*</span> [% Translate("SSL Certificate Key") | html %]:</label>
+                                <div class="Field" id="SSLKeyField">
+                                    <input type="text" name="SSLKey" id="SSLKey" value="[% Data.SSLKey | html %]" class="W50pc" maxlength="2048"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("SSL certificate private key path.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLPassword"><span class="Marker">*</span> [% Translate("SSL Password") | html %]:</label>
+                                <div class="Field" id="SSLPasswordField">
+                                    <input type="text" name="SSLPassword" id="SSLPassword" value="[% Data.SSLPassword | html %]" class="W50pc" maxlength="2048"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("The SSL password.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLCAFile"><span class="Marker">*</span> [% Translate("SSL CA File") | html %]:</label>
+                                <div class="Field" id="SSLCAFileField">
+                                    <input type="text" name="SSLCAFile" id="SSLCAFile" value="[% Data.SSLCAFile | html %]" class="W50pc" maxlength="2048"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("SSL Certificate Authority file path.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLCADir"><span class="Marker">*</span> [% Translate("SSL CA Directory") | html %]:</label>
+                                <div class="Field" id="SSLCADirField">
+                                    <input type="text" name="SSLCADir" id="SSLCADir" value="[% Data.SSLCADir | html %]" class="W50pc" maxlength="2048"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("SSL Certificate Authority directory path.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLVerifyHostname"><span class="Marker">*</span> [% Translate("SSL Verify Hostname") | html %]:</label>
+                                <div class="Field" id="SSLVerifyHostnameField">
+                                    [% Data.SSLVerifyHostnameOption %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("Enable or disable SSL hostname verification. Only disable for debugging purposes!") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="SSLVerifyMode"><span class="Marker">*</span> [% Translate("SSL Verify Mode") | html %]:</label>
+                                <div class="Field" id="SSLVerifyModeField">
+                                    [% Data.SSLVerifyModeOption %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("Enable or disable SSL verification. Only disable for debugging purposes!") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                            </fieldset>
+                    </details>
+
+                    <div class="Clear"></div>
+                    <br>
+                    <br>
+
+                    <details name="details">
+                        <summary>
+                        [% Translate("Misc Options (Optional)") | html %]
+                        </summary>
+
+                        <fieldset class="TableLike">
+
+                            <label class="Mandatory" for="UseNonce"><span class="Marker">*</span> [% Translate("Use Nonce") | html %]:</label>
+                            <div class="Field">
+                                [% Data.UseNonceOption %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label class="Mandatory" for="RandLength"><span class="Marker">*</span> [% Translate("Rand Length") | html %]:</label>
+                            <div class="Field" id="RandLengthField">
+                                <input type="text" name="RandLength" id="RandLength" value="[% Data.RandLength | html %]" class="W50pc" maxlength="10"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("Random string length used for state and nonce parameters. Default is '22'.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label class="Mandatory" for="RandTTL"><span class="Marker">*</span> [% Translate("Rand TTL") | html %]:</label>
+                            <div class="Field" id="RandTTLField">
+                                <input type="text" name="RandTTL" id="RandTTL" value="[% Data.RandTTL | html %]" class="W50pc" maxlength="10"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("Time-to-live for state and nonce in seconds. Default is '300' (5 min).") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label class="Mandatory" for="Leeway"><span class="Marker">*</span> [% Translate("Leeway") | html %]:</label>
+                            <div class="Field" id="LeewayField">
+                                <input type="text" name="Leeway" id="Leeway" value="[% Data.Leeway | html %]" class="W50pc" maxlength="10"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("Time drift allowance between servers to be allowed. Default '2' seconds.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                        </fieldset>
+                    </details>
+
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("OverviewUpdateProfile") %]
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

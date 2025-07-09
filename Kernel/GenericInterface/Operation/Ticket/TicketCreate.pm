@@ -142,9 +142,15 @@ perform TicketCreate Operation. This will return the created ticket number.
                 HistoryComment                  => 'Some  history comment',    # optional
                 TimeUnit                        => 123,                        # optional
                 NoAgentNotify                   => 1,                          # optional
-                ForceNotificationToUserID       => [1, 2, 3],                  # optional
-                ExcludeNotificationToUserID     => [1, 2, 3],                  # optional
-                ExcludeMuteNotificationToUserID => [1, 2, 3],                  # optional
+                ForceNotificationToUserID       => [1, 2, 3]                   # optional
+                ExcludeNotificationToUserID     => [1, 2, 3]                   # optional
+                ExcludeMuteNotificationToUserID => [1, 2, 3]                   # optional
+                SendEmail                       => 1                           # optional, defaults to 0.
+                EmailSecurity                   => {                           # optional to enable signing/encryption
+                    Backend => 'SMIME',                                        # Backend, only SMIME supported for now
+                    Sign => 1,                                                 # optional, whether to the sign the email. needs valid SMIME cert for the queue
+                    Encrypt => 1,                                              # optional,whether to encrypt the email. needs valid customer SMIME cert (for the TO addr)
+                }
             },
 
             DynamicField => [                                                  # optional
@@ -327,18 +333,6 @@ sub Run {
     }
 
     # check needed stuff
-    if (
-        !$Param{Data}->{UserLogin}
-        && !$Param{Data}->{CustomerUserLogin}
-        && !$Param{Data}->{SessionID}
-        )
-    {
-        return $Self->ReturnError(
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: UserLogin, CustomerUserLogin or SessionID is required!",
-        );
-    }
-
     if ( $Param{Data}->{UserLogin} || $Param{Data}->{CustomerUserLogin} ) {
         if ( !$Param{Data}->{Password} ) {
             return $Self->ReturnError(
@@ -1398,31 +1392,20 @@ sub _TicketCreate {
     }
 
     # set Article From
-    my $From;
+    my $ArticleFrom;
     if ( $Article->{From} ) {
-        $From = $Article->{From};
+        $ArticleFrom = $Article->{From};
     }
 
     # use data from customer user (if customer user is in database)
     elsif ( IsHashRefWithData( \%CustomerUserData ) ) {
-        $From = '"' . $CustomerUserData{UserFullname} . '"'
+        $ArticleFrom = '"' . $CustomerUserData{UserFullname} . '"'
             . ' <' . $CustomerUserData{UserEmail} . '>';
     }
 
     # otherwise use customer user as sent from the request (it should be an email)
     else {
-        $From = $CustomerUser;
-    }
-
-    # set Article To
-    my $To;
-    if ( $Ticket->{Queue} ) {
-        $To = $Ticket->{Queue};
-    }
-    else {
-        $To = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
-            QueueID => $Ticket->{QueueID},
-        );
+        $ArticleFrom = $CustomerUser;
     }
 
     if ( !$Article->{CommunicationChannel} ) {
@@ -1447,8 +1430,141 @@ sub _TicketCreate {
         );
     }
 
-    # Create article.
-    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    # Create article and optionally send email.
+
+    my $ArticleMethodRef;
+    my $To      = $Article->{To} // '';
+    my $From    = $Article->{From} // '';
+    my $Cc      = $Article->{Cc} // '';
+    my $Bcc     = $Article->{Bcc} // '';
+    my $Subject = $Article->{Subject} || '';
+
+    my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+    my $IsLocalTo           = !$Article->{To} ? 0 : $SystemAddressObject->SystemAddressIsLocalAddress(
+        Address => $Article->{To}
+    );
+
+    my $ShallSendEmail = $Article->{SendEmail} &&
+        $Article->{To}                              &&
+        $Article->{SenderType} eq 'agent'           &&
+        $Article->{CommunicationChannel} eq 'Email' &&
+        !$IsLocalTo;
+
+    if ($ShallSendEmail) {
+
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
+        my %Queue = $QueueObject->QueueGet(
+            ID => $Ticket->{QueueID},
+        );
+
+        my %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $Queue{SystemAddressID} );
+
+        my $IsLocalFrom = !$Article->{From} ? 0 : $SystemAddressObject->SystemAddressIsLocalAddress(
+            Address => $Article->{From}
+        );
+
+        $ArticleMethodRef = $ArticleBackendObject->can('ArticleSend');
+        $To               = $Article->{To};
+        $From             = $IsLocalFrom ? $ArticleFrom : $SystemAddress{Name};
+        $Cc               = $Article->{Cc}  if $Article->{Cc}  && !$SystemAddressObject->SystemAddressIsLocalAddress( Address => $Article->{Cc} );
+        $Bcc              = $Article->{Bcc} if $Article->{Bcc} && !$SystemAddressObject->SystemAddressIsLocalAddress( Address => $Article->{Bcc} );
+
+        my $Tn = $TicketObject->TicketNumberLookup( TicketID => $TicketID );
+
+        $Subject = $TicketObject->TicketSubjectBuild(
+            TicketNumber => $Tn,
+            Subject      => $Subject,
+        );
+    }
+    else {
+
+        $ArticleMethodRef = $ArticleBackendObject->can('ArticleCreate');
+        $From             = $ArticleFrom;
+    }
+
+    # support for SMIME encryption and signing
+    my %EmailSecurityOptions;
+
+    if (
+        $ShallSendEmail
+        && $Article->{EmailSecurity}
+        &&
+        $Article->{EmailSecurity}->{Backend} eq 'SMIME'
+        )
+    {
+
+        my $QueueID = $Ticket->{QueueID};
+        if ( !$QueueID ) {
+            $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+                Queue  => $Ticket->{Queue},
+                UserID => $Param{UserID},
+            );
+        }
+
+        # prettify FROM
+        if ($ShallSendEmail) {
+            $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+                QueueID => $QueueID,
+                UserID  => $Param{UserID},
+            );
+        }
+
+        my $EmailSecurity = {
+            Backend     => 'SMIME',
+            SignKey     => undef,
+            EncryptKeys => undef,
+        };
+
+        my $SMIMEObject       = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+        my $EmailParserObject = Kernel::System::EmailParser->new(
+            Mode  => 'Standalone',
+            Debug => 0,
+        );
+        if ( $Article->{EmailSecurity}->{Sign} ) {
+
+            my $Email  = $EmailParserObject->GetEmailAddress( Email => $From );
+            my @Result = $SMIMEObject->CertificateSearch(
+                Search => $Email,
+            );
+
+            if ( scalar @Result == 1 ) {
+
+                $EmailSecurity->{SignKey} = $Result[0]->{Filename};
+            }
+            else {
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Article could not be send, SMIME Signing was requested but no SMIME signing certificate is avail.'
+                };
+            }
+        }
+        if ( $Article->{EmailSecurity}->{Encrypt} ) {
+
+            my $Email  = $EmailParserObject->GetEmailAddress( Email => $To );
+            my @Result = $SMIMEObject->CertificateSearch(
+                Search => $Email,
+            );
+
+            if ( scalar @Result == 1 ) {
+
+                $EmailSecurity->{EncryptKeys} = [ $Result[0]->{Filename} ];
+            }
+            else {
+
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Article could not be send, SMIME Encryption was requested but no unique SMIME certificate for encryption could be identified.'
+                };
+            }
+        }
+
+        $EmailSecurityOptions{EmailSecurity} = $EmailSecurity;
+    }
+
+    my $ArticleID = $ArticleMethodRef->(
+        $ArticleBackendObject,
         NoAgentNotify        => $Article->{NoAgentNotify} || 0,
         TicketID             => $TicketID,
         SenderTypeID         => $Article->{SenderTypeID} || '',
@@ -1471,6 +1587,7 @@ sub _TicketCreate {
             Subject => $Article->{Subject},
             Body    => $PlainBody,
         },
+        %EmailSecurityOptions
     );
 
     if ( !$ArticleID ) {

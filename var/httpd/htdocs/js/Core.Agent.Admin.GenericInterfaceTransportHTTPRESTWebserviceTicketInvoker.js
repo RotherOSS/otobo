@@ -281,6 +281,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
                 $('.KerberosField').find('#KerberosUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
+                $('.OAuthAuthField').addClass('Hidden');
             }
            else if ($(this).val() === 'Kerberos') {
                 $('.KerberosField').removeClass('Hidden');
@@ -291,6 +292,20 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
                 $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
+                $('.OAuthAuthField').addClass('Hidden');
+            }
+            else if ($(this).val() === 'OAuth') {
+                $('.OAuthAuthField').removeClass('Hidden');
+
+                $('.BasicAuthField').addClass('Hidden');
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
+                    $(this).removeClass('Validate_Required');
+                });
+                $('.KerberosField').addClass('Hidden');
+                $('.KerberosField').find('#KerberosUser').each(function(){
+                    $(this).removeClass('Validate_Required');
+                });
+                Core.UI.InputFields.InitSelect( $('#OAuthAccountName') );
             }
             else {
                 $('.BasicAuthField').addClass('Hidden');
@@ -301,6 +316,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
                 $('.KerberosField').find('#KerberosUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
+                $('.OAuthAuthField').addClass('Hidden');
             }
         });
 

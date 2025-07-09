@@ -238,4 +238,109 @@ $Self->True(
     'MailAccountDelete() IMAP account',
 );
 
+my $ProfileRepository = $Kernel::OM->Get('Kernel::System::OpenIDConnect::ProfileRepository');
+my $Success           = $ProfileRepository->AddProfile(
+
+    Name           => '__UnitTest_OIDCProfile',
+    ClientSettings => {
+        ClientSecret => 'XXX',
+        ClientID     => 'YYY',
+        RedirectURI  => 'ZZZ',
+    },
+    ProviderSettings => {
+        OpenIDConfiguration => 'https://somewhere.com/.well-known/openid-configuration',
+        TTL                 => 60 * 30,                                                    # optional: time period the extracted openid-configuration is cached
+        SSLOptions          =>
+            {    # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
+                SSLCertificate    => 'SSL_cert_file',    # client certificate
+                SSLKey            => 'SSL_key_file',     # client cert key
+                SSLPassword       => 'SSL_passwd_cb',    # password for client cert key
+                SSLCAFile         => 'SSL_ca_file',      # CA certificate
+                SSLCADir          => 'SSL_ca_path',      # CA cert directory
+                SSLVerifyHostname => 0,
+                SSLVerifyMode     => 0
+            }
+    },
+    Misc => {
+        UseNonce   => 1,         # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
+        RandLength => 22,        # length for state and nonce random strings - default: 22
+        RandTTL    => 60 * 5,    # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+        Leeway     => 2,         # leeway for small time differences between the OTOBO server and the OpenID provier - default: 2 s
+    },
+    UserID => 1,
+    Valid  => 1,
+);
+
+$Self->True( $Success, 'OIDC Profile created' );
+
+my $Profile = $ProfileRepository->GetProfile( Name => '__UnitTest_OIDCProfile' );
+
+my $FunctionalAccounts = $Kernel::OM->Get('Kernel::System::OpenIDConnect::FunctionalAccounts');
+
+$Success = $FunctionalAccounts->SaveAccount(
+    Name          => '__UnitTest1',
+    OIDCProfileID => $Profile->{ProfileID},
+    GrantType     => 'client_credentials',
+    Scope         => 'openid email',
+    Token         => 'access_token',
+    Valid         => 1,
+    UserID        => 1,
+);
+
+$Self->True( $Success, 'Functional account created' );
+
+my $MailAccountAddXOAUTH2 = $MailAccountObject->MailAccountAdd(
+    Login => 'mail',
+
+    #    Password      => 'SomeOtherPassword',
+    Host          => 'imap.example.com',
+    Type          => 'IMAPS',
+    ValidID       => 1,
+    Trusted       => 0,
+    IMAPFolder    => 'Foo',
+    DispatchingBy => 'Queue',              # Queue|From
+    QueueID       => 1,
+    UserID        => 1,
+    Auth          => 'XOAUTH2',
+    AccountName   => '__UnitTest1',
+);
+
+$Self->True( $MailAccountAddXOAUTH2, 'IMAP with XOAUTH2 added' );
+
+%MailAccount = $MailAccountObject->MailAccountGet(
+    ID => $MailAccountAddXOAUTH2,
+);
+
+$Self->True(
+    $MailAccount{Login} eq 'mail',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Password} eq '',
+    'MailAccountGet() - Login',
+);
+$Self->True(
+    $MailAccount{Host} eq 'imap.example.com',
+    'MailAccountGet() - Host',
+);
+$Self->True(
+    $MailAccount{Type} eq 'IMAPS',
+    'MailAccountGet() - Type',
+);
+
+$Self->True(
+    $MailAccount{IMAPFolder} eq 'Foo',
+    'MailAccountGet() - IMAPFolder',
+);
+
+$Self->True(
+    $MailAccount{Auth} eq 'XOAUTH2',
+    'MailAccountGet() - Auth',
+);
+
+$Self->True(
+    $MailAccount{AccountName} eq '__UnitTest1',
+    'MailAccountGet() - Account Name',
+);
+
 $Self->DoneTesting();

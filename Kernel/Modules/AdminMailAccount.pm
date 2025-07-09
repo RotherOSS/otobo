@@ -51,7 +51,7 @@ sub Run {
 
     my %GetParam = ();
     my @Params   = (
-        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy IncludeInvalid)
+        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy IncludeInvalid Auth AccountName)
     );
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
@@ -164,7 +164,7 @@ sub Run {
         my %Errors;
 
         # check needed data
-        for my $Needed (qw(Login Password Host)) {
+        for my $Needed (qw(Login Auth Host)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'AddInvalid' } = 'ServerError';
             }
@@ -172,6 +172,19 @@ sub Run {
         for my $Needed (qw(TypeAdd ValidID)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
+            }
+        }
+
+        if ( $GetParam{Auth} eq 'Basic' ) {
+
+            if ( !$GetParam{Password} ) {
+                $Errors{'PasswordAddInvalid'} = 'ServerError';
+            }
+        }
+        else {
+
+            if ( !$GetParam{AccountName} ) {
+                $Errors{'AccountNameAddInvalid'} = 'ServerError';
             }
         }
 
@@ -184,6 +197,7 @@ sub Run {
                 Type   => $GetParam{'TypeAdd'},
                 UserID => $Self->{UserID},
             );
+
             if ($ID) {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
@@ -245,7 +259,7 @@ sub Run {
         my %Errors;
 
         # check needed data
-        for my $Needed (qw(Login Password Host)) {
+        for my $Needed (qw(Login Auth Host)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'EditInvalid' } = 'ServerError';
             }
@@ -257,6 +271,19 @@ sub Run {
         }
         if ( !$GetParam{Trusted} ) {
             $Errors{TrustedInvalid} = 'ServerError' if ( $GetParam{Trusted} != 0 );
+        }
+
+        if ( $GetParam{Auth} eq 'Basic' ) {
+
+            if ( !$GetParam{Password} ) {
+                $Errors{'PasswordEditInvalid'} = 'ServerError';
+            }
+        }
+        else {
+
+            if ( !$GetParam{AccountName} ) {
+                $Errors{'AccountNameEditInvalid'} = 'ServerError';
+            }
         }
 
         # if no errors occurred
@@ -429,6 +456,33 @@ sub _MaskUpdateMailAccount {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
     );
 
+    $Param{AuthOption} = $LayoutObject->BuildSelection(
+        Data => {
+            Basic       => 'Basic Auth',
+            XOAUTH2     => 'XOAUTH2',
+            OAUTHBEARER => 'OAUTHBEARER',
+        },
+        Name       => 'Auth',
+        SelectedID => $Param{Auth},
+        Class      => 'Modernize Validate_Required MailAuth' . ( $Param{Errors}->{'AuthEditInvalid'} || '' ),
+    );
+
+    my $FunctionalAccountsObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::FunctionalAccounts');
+
+    my @OAuthAccountNames;
+    my $OAuthAccounts = $FunctionalAccountsObject->GetAccounts();
+
+    for my $Account (@$OAuthAccounts) {
+        push @OAuthAccountNames, $Account->{Name};
+    }
+
+    $Param{AccountOption} = $LayoutObject->BuildSelection(
+        Data       => \@OAuthAccountNames,
+        Name       => 'AccountName',
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AccountEditInvalid'} || '' ),
+        SelectedID => $Param{AccountName},
+    );
+
     $Param{TrustedOption} = $LayoutObject->BuildSelection(
         Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
         Name       => 'Trusted',
@@ -496,6 +550,32 @@ sub _MaskAddMailAccount {
         Name       => 'TypeAdd',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
+    );
+
+    $Param{AuthOptionAdd} = $LayoutObject->BuildSelection(
+        Data => {
+            Basic       => 'Basic Auth',
+            XOAUTH2     => 'XOAUTH2',
+            OAUTHBEARER => 'OAUTHBEARER',
+        },
+        Name       => 'Auth',
+        SelectedID => 'Basic',
+        Class      => 'Modernize Validate_Required MailAuth' . ( $Param{Errors}->{'AuthAddInvalid'} || '' ),
+    );
+
+    my $FunctionalAccountsObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect::FunctionalAccounts');
+
+    my @OAuthAccountNames;
+    my $OAuthAccounts = $FunctionalAccountsObject->GetAccounts();
+
+    for my $Account (@$OAuthAccounts) {
+        push @OAuthAccountNames, $Account->{Name};
+    }
+
+    $Param{AccountOptionAdd} = $LayoutObject->BuildSelection(
+        Data  => \@OAuthAccountNames,
+        Name  => 'AccountName',
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AccountAddInvalid'} || '' ),
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(

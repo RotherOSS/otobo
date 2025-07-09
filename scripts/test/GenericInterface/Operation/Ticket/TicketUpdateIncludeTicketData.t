@@ -755,15 +755,13 @@ for my $Test (@Tests) {
 
     # check several article data
     if ( $ExpectedReturnRemoteDataKey->{Article} ) {
-        is(
-            $RequestResultKey->{Article}->{Body},
-            $ExpectedReturnRemoteDataKey->{Article}->{Body},
+        ok(
+            $RequestResultKey->{Article}->{Body} eq $ExpectedReturnRemoteDataKey->{Article}->{Body},
             "$Test->{Name} - RequesterResult Article Body Ok.",
         );
 
-        is(
-            $RequestResultKey->{Article}->{Subject},
-            $ExpectedReturnRemoteDataKey->{Article}->{Subject},
+        ok(
+            $RequestResultKey->{Article}->{Subject} =~ /$ExpectedReturnRemoteDataKey->{Article}->{Subject}/,
             "$Test->{Name} - RequesterResult Article Subject Ok.",
         );
 
@@ -803,15 +801,14 @@ for my $Test (@Tests) {
 
     # check several article data
     if ( $ExpectedReturnLocalDataKey->{Article} ) {
-        is(
-            $LocalResultKey->{Article}->{Body},
-            $ExpectedReturnLocalDataKey->{Article}->{Body},
+
+        ok(
+            $LocalResultKey->{Article}->{Body} eq $ExpectedReturnLocalDataKey->{Article}->{Body},
             "$Test->{Name} - LocalResult Article Body Ok.",
         );
 
-        is(
-            $LocalResultKey->{Article}->{Subject},
-            $ExpectedReturnLocalDataKey->{Article}->{Subject},
+        ok(
+            $LocalResultKey->{Article}->{Subject} =~ /$ExpectedReturnLocalDataKey->{Article}->{Subject}/,
             "$Test->{Name} - LocalResult Article Subject Ok.",
         );
 

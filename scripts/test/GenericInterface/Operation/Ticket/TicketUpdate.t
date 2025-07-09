@@ -867,7 +867,7 @@ my @Tests = (
         Operation => 'TicketUpdate',
     },
     {
-        Name           => 'Add article (with To, Cc and Bcc parameters)',
+        Name           => 'Add article (with To,Cc and Bcc parameters)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID => $TicketID1,
@@ -1171,11 +1171,16 @@ for my $Test (@Tests) {
                 && defined $Test->{RequestData}->{Article}->{Bcc}
                 )
             {
+#                $Self->Is(
+#                    $RequesterResult->{Data}->{Ticket}->{Article}->{To},
+#                    $Ticket{CustomerUserID},
+#                    "Article parameter To is set well after TicketUpdate() - $Ticket{CustomerUserID}",
+#                );
 
                 for my $Item (qw(To Cc Bcc)) {
                     $Self->Is(
-                        $Test->{RequestData}->{Article}->{$Item},
                         $RequesterResult->{Data}->{Ticket}->{Article}->{$Item},
+                        $Test->{RequestData}->{Article}->{$Item},
                         "Article parameter $Item is set well after TicketUpdate() - $Test->{RequestData}->{Article}->{$Item}",
                     );
                 }
