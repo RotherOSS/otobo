@@ -15,6 +15,9 @@ requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
 
+# Olson time zone database, required for correct time calculations.
+requires 'DateTime::TimeZone', '>= 2.20';
+
 # A CSS minifier written in XS
 requires 'CSS::Minifier::XS', '>= 0.09';
 
