@@ -295,9 +295,10 @@ if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $E
 
 my $ExitCode = 0;    # success
 
-# This is the reference for Perl modules that are required by OTOBO or are optional.
+# The array @NeededModules is the declaration of Perl modules that are
+# either required or optional in OTOBO.
 # Modules that are required are marked by setting 'Required' to 1.
-# Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+#
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
@@ -359,36 +360,30 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '>= 1.08',
+        VersionRequired => '>= 1.08',    # from 2014
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
             zypper => 'perl-DateTime',
             ports  => 'devel/p5-TimeDate',
         },
-        Depends => [
-            {
-                Module              => 'DateTime::TimeZone',
-                Comment             => 'Olson time zone database, required for correct time calculations.',
-                VersionsRecommended => [
-                    {
-                        Version => '2.20',
-                        Comment => 'This version includes recent time zone changes for Chile.',
-                    },
-                ],
-                InstTypes => {
-                    aptget => 'libdatetime-timezone-perl',
-                    emerge => undef,
-                    zypper => 'perl-DateTime-TimeZone',
-                    ports  => undef,
-                },
-            },
-        ],
+    },
+    {
+        Module          => 'DateTime::TimeZone',
+        Comment         => 'Olson time zone database, required for correct time calculations.',
+        Required        => 1,
+        VersionRequired => '>= 2.20',                                                             # from 2018
+        InstTypes       => {
+            aptget => 'libdatetime-timezone-perl',
+            emerge => 'dev-perl/DateTime-TimeZone',
+            zypper => 'perl-DateTime-TimeZone',
+            ports  => 'devel/p5-DateTime-TimeZone',
+        },
     },
     {
         Module          => 'CSS::Minifier::XS',
         Required        => 1,
-        VersionRequired => '>= 0.09',                        # released in 2013
+        VersionRequired => '>= 0.09',                                                             # released in 2013
         Comment         => 'A CSS minifier written in XS',
         InstTypes       => {
             aptget => 'libcss-minifier-xs-perl',
@@ -1420,12 +1415,11 @@ else {
     }
 
     # try to determine module version number
-    my $Depends = 0;
 
     for my $Category ( sort keys %PrintFeatures ) {
         print $FeatureDescription{$Category} ? "\n$FeatureDescription{$Category}:\n" : "\nPackages needed for the feature '$Category':\n";
         for my $Module ( @{ $PrintFeatures{$Category} } ) {
-            Check( $Module, $Depends, $NoColors );
+            Check( $Module, $NoColors );
         }
     }
 
@@ -1442,7 +1436,6 @@ else {
                     Module   => $Module,
                     Required => 1,
                 },
-                $Depends,
                 $NoColors
             );
         }
@@ -1451,11 +1444,10 @@ else {
 }
 
 sub Check {
-    my ( $Module, $Depends, $NoColors ) = @_;
+    my ( $Module, $NoColors ) = @_;
 
-    print '  ' x ( $Depends + 1 );
-    print "o $Module->{Module}";
-    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
+    print "  o $Module->{Module}";
+    my $Length = 33 - length( $Module->{Module} );
     print '.' x $Length;
 
     # $Metadata is undefined when the module is not found in @INC
@@ -1580,12 +1572,6 @@ sub Check {
                 . 'Not installed!'
                 . color('reset')
                 . "$InstallText ($Required$Comment)\n";
-        }
-    }
-
-    if ( $Module->{Depends} ) {
-        for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 
