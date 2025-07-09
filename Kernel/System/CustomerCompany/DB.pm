@@ -371,7 +371,7 @@ sub CustomerCompanySearchDetail {
         }
     }
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject = $Self->{DBObject};
 
     # Assemble the conditions used in the WHERE clause.
     my @SQLWhere;
@@ -557,7 +557,7 @@ sub CustomerCompanySearchDetail {
         #   from the dynamic field search.
         if (@DynamicFieldCustomerIDs) {
 
-            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            my $SQLQueryInCondition = $DBObject->QueryInCondition(
                 Key      => $Self->{CustomerCompanyKey},
                 Values   => \@DynamicFieldCustomerIDs,
                 BindMode => 0,
@@ -575,7 +575,7 @@ sub CustomerCompanySearchDetail {
 
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
-        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+        my $SQLQueryInCondition = $DBObject->QueryInCondition(
             Key      => $Field->{DatabaseField},
             Values   => $Param{ $Field->{Name} },
             BindMode => 0,
