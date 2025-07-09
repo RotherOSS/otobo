@@ -79,6 +79,7 @@
             </div>
 [% RenderBlockEnd("PreLogin") %]
 [% RenderBlockStart("LoginBox") %]
+[% IF !Data.DisableStandardLogin %]
             <div id="Login">
                 <h1>[% Translate("Login") | html %]</h1>
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
@@ -116,8 +117,10 @@
                 <a id="oooRegister" class="ooo12g" href="#Signup">[% Translate("Request Account") | html %]</a>
 [% RenderBlockEnd("CreateAccountLink") %]
             </div>
+[% END %]
 [% RenderBlockEnd("LoginBox") %]
 [% RenderBlockStart("LostPassword") %]
+[% IF !Data.DisableStandardLogin %]
             <div id="Reset">
                 <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>
                 <h2>[% Translate("Request New Password") | html %]</h2>
@@ -135,8 +138,10 @@
                 </form>
 #                <p>[% Translate("A new password will be sent to your email address.") | html %]</p>
             </div>
+[% END %]
 [% RenderBlockEnd("LostPassword") %]
 [% RenderBlockStart("CreateAccount") %]
+[% IF !Data.DisableStandardLogin %]
             <div id="Signup">
                 <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>
                 <h2>[% Translate("Create Account") | html %]</h2>
@@ -169,6 +174,7 @@
                     <div class="Clear"></div>
                 </form>
             </div>
+[% END %]
 [% RenderBlockEnd("CreateAccount") %]
             <div class="Clear"></div>
         </div> <!-- /SlideArea -->
