@@ -86,23 +86,23 @@ sub new {
 
         # check if Email is a reference to a string
         if ( ref $Param{Email} eq 'SCALAR' ) {
-            my @Content = split /\n/, ${ $Param{Email} };
-            for my $Line (@Content) {
-                $Line .= "\n";
-            }
-            $Param{Email} = \@Content;
+            $Param{Email} = [
+                map { $_ . "\n" } split /\n/, $Param{Email}->$*
+            ];
         }
 
         # check if Email is a plain string
-        if ( ref $Param{Email} eq '' ) {
-            my @Content = split /\n/, $Param{Email};
-            for my $Line (@Content) {
-                $Line .= "\n";
-            }
-            $Param{Email} = \@Content;
+        elsif ( ref $Param{Email} eq '' ) {
+            $Param{Email} = [
+                map { $_ . "\n" } split /\n/, $Param{Email}
+            ];
+        }
+        else {
+            # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
         }
 
-        $Self->{OriginalEmail} = join '', @{ $Param{Email} };
+        # for GetPlainEmail()
+        $Self->{OriginalEmail} = join '', $Param{Email}->@*;
 
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
