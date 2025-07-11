@@ -19,6 +19,8 @@ package Kernel::System::EmailParser;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use MIME::Base64      qw(decode_base64);
@@ -46,10 +48,16 @@ A module to parse and encode an email.
 
 =head2 new()
 
-create an object. This module does not use the object manager. So the module must be explicitly loaded
+creates an object. This module does not use the object manager. So the module must be explicitly loaded
 before it can be used.
 
     use Kernel::System::EmailParser;
+
+    # pass in a references to an array of strings with trailing newlines
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => \@EmailLines,
+        Debug        => 0,
+    );
 
     # as string (takes more memory!)
     my $ParserObject = Kernel::System::EmailParser->new(
@@ -57,7 +65,19 @@ before it can be used.
         Debug        => 0,
     );
 
+    # or pass in a reference to a string
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => \$EmailString,
+        Debug        => 0,
+    );
+
+    # there are cases where we already have a mail parsed with MIME::Parser
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Entity => $Entity,
+    );
+
     # as stand alone mode, without parsing emails
+    # when only static subroutines like SplitAddressLine() are called
     my $ParserObject = Kernel::System::EmailParser->new(
         Mode         => 'Standalone',
         Debug        => 0,
@@ -105,22 +125,22 @@ sub new {
         $Self->{OriginalEmail} = join '', $Param{Email}->@*;
 
         # create Mail::Internet object
+        # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
-        # create a Mail::Header object with email
-        $Self->{HeaderObject} = $Self->{Email}->head();
+        # get a Mail::Header object from the Mail::Internet object
+        $Self->{HeaderObject} = $Self->{Email}->head;
 
         # create MIME::Parser object and get message body or body of first attachment
+        # Keep nested messages as attachments (see bug#1970).
         my $Parser = MIME::Parser->new();
         $Parser->output_to_core('ALL');
-
-        # Keep nested messages as attachments (see bug#1970).
         $Parser->extract_nested_messages(0);
-        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
+        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string );
     }
     else {
         $Self->{ParserParts}  = $Param{Entity};
-        $Self->{HeaderObject} = $Param{Entity}->head();
+        $Self->{HeaderObject} = $Param{Entity}->head;    # this time a MIME::Head object
         $Self->{EntityMode}   = 1;
     }
 
@@ -146,7 +166,7 @@ To get a email as a string back (plain email).
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{OriginalEmail} || $Self->{Email}->as_string();
+    return $Self->{OriginalEmail} || $Self->{Email}->as_string;
 }
 
 =head2 GetParam()
@@ -169,13 +189,14 @@ sub GetParam {
             Priority => 'error',
             Message  => 'HeaderObject is needed!',
         );
+
         return;
     }
 
-    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->unfold;
     $Self->{HeaderObject}->combine($What);
     my $Line = $Self->{HeaderObject}->get($What) || '';
-    chomp($Line);
+    chomp $Line;
     my $ReturnLine;
 
     # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
@@ -253,6 +274,7 @@ sub GetRealname {
         # removes unnecessary blank spaces, if the string has quotes.
         # This is because of bug 6059
         $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
+
         return $Realname;
     }
 
@@ -346,6 +368,7 @@ sub GetCharset {
                 Message  => "Got charset from mime body: $Self->{Charset}",
             );
         }
+
         return $Self->{Charset};
     }
 
@@ -355,11 +378,12 @@ sub GetCharset {
             Priority => 'error',
             Message  => 'HeaderObject is needed!',
         );
+
         return;
     }
 
     # find charset
-    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->unfold;
     my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
     chomp $Line;
     my %Data = $Self->GetContentTypeParams( ContentType => $Line );
@@ -447,6 +471,7 @@ sub GetReturnContentType {
                 . "' to '$ContentType'.",
         );
     }
+
     return $ContentType;
 }
 
@@ -481,7 +506,7 @@ sub GetMessageBody {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts() == 0 ) {
+    if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts == 0 ) {
         $Self->{MimeEmail} = 0;
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -489,7 +514,7 @@ sub GetMessageBody {
                 Message  => 'It\'s a plain (not mime) email!',
             );
         }
-        my $BodyStrg = join( '', @{ $Self->{Email}->body() } );
+        my $BodyStrg = join '', @{ $Self->{Email}->body };
 
         # quoted printable!
         if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
@@ -579,6 +604,7 @@ sub GetMessageBody {
             # return empty attachment
             $Self->{Charset}     = 'iso-8859-1';
             $Self->{ContentType} = 'text/plain';
+
             return '-';
         }
     }
@@ -660,6 +686,7 @@ sub PartsAttachments {
                 ContentMixed       => $ContentMixed,
             );
         }
+
         return 1;
     }
 
@@ -711,6 +738,7 @@ sub PartsAttachments {
             Message  =>
                 "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
         );
+
         return;
     }
 
@@ -891,6 +919,7 @@ sub PartsAttachments {
     }
 
     push @{ $Self->{Attachments} }, \%PartData;
+
     return 1;
 }
 
@@ -931,6 +960,7 @@ sub GetReferences {
         }
         $Checked{$Reference} = 1;
     }
+
     return @References;
 }
 
