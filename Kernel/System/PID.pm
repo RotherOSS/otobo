@@ -27,11 +27,16 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::PID - to manage PIDs
+Kernel::System::PID - to manage PIDs, that is process id locks
 
 =head1 DESCRIPTION
 
-All functions to manage process ids
+All functions to manage process id locks. Note that these process IDs are entities that are
+handled by OTOBO in the database table I<process_id>. They should not be confused with
+the process IDs of the operating system.
+
+These process IDs act a like advisory locks. They allow to check whether a task
+is already being executed. In that case the newly started task can skip further execution.
 
 =head1 PUBLIC INTERFACE
 
@@ -64,15 +69,15 @@ create a new process id lock
         Name => 'PostMasterPOP3',
     );
 
-    or to create a new PID forced, without check if already exists (this will delete any process
-    with the same name from any other host)
+or to create a new PID forced, without check if already exists (this will delete any process
+with the same name from any other host)
 
     $PIDObject->PIDCreate(
         Name  => 'PostMasterPOP3',
         Force => 1,
     );
 
-    or to create a new PID with extra TTL time
+or to create a new PID with extra time to live
 
     $PIDObject->PIDCreate(
         Name  => 'PostMasterPOP3',
@@ -193,7 +198,8 @@ delete the process id lock
         Name  => 'PostMasterPOP3',
     );
 
-    or to force delete even if the PID is registered by another host
+or to force delete even if the PID is registered by another host
+
     my $Success = $PIDObject->PIDDelete(
         Name  => 'PostMasterPOP3',
         Force => 1,
@@ -271,7 +277,7 @@ sub PIDUpdate {
     }
 
     # sql
-    my $Time = time();
+    my $Time = time;
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE process_id
