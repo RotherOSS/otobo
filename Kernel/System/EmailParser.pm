@@ -142,9 +142,6 @@ sub new {
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
-        # get a Mail::Header object from the Mail::Internet object
-        $Self->{HeaderObject} = $Self->{Email}->head;
-
         # create MIME::Parser object
         my $Parser = MIME::Parser->new();
 
@@ -162,9 +159,13 @@ sub new {
 
         # an instance of MIME::Entity was passed
         $Self->{ParserParts}  = $Param{Entity};
-        $Self->{HeaderObject} = $Param{Entity}->head;    # this time a MIME::Head object
         $Self->{EntityMode}   = 1;
     }
+
+    # Get a MIME::Head object from the toplevel MIME::Entity object.
+    # This is irrespective whether the MIME entity was created in or passed into this constructor.
+    # MIME::Head inherits from Mail::Header.
+    $Self->{HeaderObject} = $Self->{ParserParts}->head;
 
     # get NoHTMLChecks param
     if ( $Param{NoHTMLChecks} ) {
