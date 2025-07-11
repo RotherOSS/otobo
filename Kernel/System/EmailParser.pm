@@ -128,9 +128,6 @@ sub new {
         # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
-        # get a Mail::Header object from the Mail::Internet object
-        $Self->{HeaderObject} = $Self->{Email}->head;
-
         # create MIME::Parser object and get message body or body of first attachment
         # Keep nested messages as attachments (see bug#1970).
         my $Parser = MIME::Parser->new();
@@ -139,10 +136,14 @@ sub new {
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string );
     }
     else {
-        $Self->{ParserParts}  = $Param{Entity};
-        $Self->{HeaderObject} = $Param{Entity}->head;    # this time a MIME::Head object
-        $Self->{EntityMode}   = 1;
+        $Self->{ParserParts} = $Param{Entity};
+        $Self->{EntityMode}  = 1;
     }
+
+    # Get a MIME::Head object from the toplevel MIME::Entity object.
+    # This is irrespective whether the MIME entity was created in or passed into this constructor.
+    # MIME::Head inherits from Mail::Header.
+    $Self->{HeaderObject} = $Self->{ParserParts}->head;
 
     # get NoHTMLChecks param
     if ( $Param{NoHTMLChecks} ) {
