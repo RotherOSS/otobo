@@ -27,10 +27,9 @@ use MIME::Base64      qw(decode_base64);
 use MIME::QuotedPrint ();
 
 # CPAN modules
-use Mail::Internet ();
-use MIME::Parser   ();
-use MIME::Words    qw(decode_mimewords);
-use Mail::Address  ();
+use MIME::Parser  ();
+use MIME::Words   qw(decode_mimewords);
+use Mail::Address ();
 
 # OTOBO modules
 
@@ -105,7 +104,9 @@ sub new {
     if ( $Param{Email} ) {
 
         # check if Email is a reference to a string
+        my $StringRef;
         if ( ref $Param{Email} eq 'SCALAR' ) {
+            $StringRef = $Param{Email};
             $Param{Email} = [
                 map { $_ . "\n" } split /\n/, $Param{Email}->$*
             ];
@@ -113,32 +114,34 @@ sub new {
 
         # check if Email is a plain string
         elsif ( ref $Param{Email} eq '' ) {
-            $Param{Email} = [
-                map { $_ . "\n" } split /\n/, $Param{Email}
-            ];
+            $StringRef = \$Param{Email};
         }
+
+        # $Param{Email} is arrayref
         else {
-            # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
+            my $String = join '', $Param{Email}->@*;
+            $StringRef = \$String;
         }
 
         # for GetPlainEmail()
-        $Self->{OriginalEmail} = join '', $Param{Email}->@*;
+        $Self->{OriginalStringRef} = $StringRef;
 
-        # create Mail::Internet object
-        # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
-        $Self->{Email} = Mail::Internet->new( $Param{Email} );
-
-        # create MIME::Parser object and get message body or body of first attachment
+        # Create a MIME::Entity object from the Email content.
         # Keep nested messages as attachments (see bug#1970).
         my $Parser = MIME::Parser->new();
         $Parser->output_to_core('ALL');
         $Parser->extract_nested_messages(0);
-        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string );
+
+        # TODO: passing in an arrayref is deprecated
+        $Self->{ParserParts} = $Parser->parse_data($StringRef);
     }
     else {
         $Self->{ParserParts} = $Param{Entity};
         $Self->{EntityMode}  = 1;
     }
+
+    # TODO: maybe keep the attribute Email available for legacy usage
+    #$Self->{Email} = $Self->{ParserParts};
 
     # Get a MIME::Head object from the toplevel MIME::Entity object.
     # This is irrespective whether the MIME entity was created in or passed into this constructor.
@@ -150,8 +153,9 @@ sub new {
         $Self->{NoHTMLChecks} = $Param{NoHTMLChecks};
     }
 
-    # parse email at first
-    $Self->GetMessageBody();
+    # parse email at first,
+    # so that the next caller of GetMessageBody() have less work to do
+    $Self->GetMessageBody;
 
     return $Self;
 }
@@ -167,7 +171,7 @@ To get a email as a string back (plain email).
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{OriginalEmail} || $Self->{Email}->as_string;
+    return $Self->{OriginalStringRef} ? $Self->{OriginalStringRef}->$* : $Self->{ParserParts}->stringify;
 }
 
 =head2 GetParam()
@@ -515,17 +519,9 @@ sub GetMessageBody {
                 Message  => 'It\'s a plain (not mime) email!',
             );
         }
-        my $BodyStrg = join '', @{ $Self->{Email}->body };
 
-        # quoted printable!
-        if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
-            $BodyStrg = MIME::QuotedPrint::decode($BodyStrg);
-        }
-
-        # base64 decode
-        elsif ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /base64/i ) {
-            $BodyStrg = decode_base64($BodyStrg);
-        }
+        # This does the decoding for the Content-Transfer-Encoding, e.g. quoted-printable or base64
+        my $BodyStrg = $Self->{ParserParts}->bodyhandle->as_string;
 
         # charset decode
         if ( $Self->GetCharset() ) {
