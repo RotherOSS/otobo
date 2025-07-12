@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -72,12 +76,12 @@ my $SendEmail = sub {
 my $TestBackendObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 my $Success = $TestBackendObject->CleanUp();
-$Self->True(
+ok(
     $Success,
     'Initial cleanup',
 );
 
-$Self->IsDeeply(
+is(
     $TestBackendObject->EmailsGet(),
     [],
     'Test backend empty after initial cleanup',
@@ -98,7 +102,7 @@ for ( 1 .. 2 ) {
         Charset  => 'utf8',
     );
 
-    $Self->True(
+    ok(
         $Body,
         "Email delivered to backend",
     );
@@ -106,43 +110,43 @@ for ( 1 .. 2 ) {
 
 my $Emails = $TestBackendObject->EmailsGet();
 
-$Self->Is(
+is(
     scalar @{$Emails},
     2,
     "Emails fetched from backend",
 );
 
 for my $Index ( 0 .. 1 ) {
-    $Self->Is(
+    is(
         $Emails->[$Index]->{From},
         'john.smith@example.com',
         "From header",
     );
-    $Self->IsDeeply(
+    is(
         $Emails->[$Index]->{ToArray},
         ['john.smith2@example.com'],
         "To header",
     );
-    $Self->True(
+    ok(
         $Emails->[$Index]->{Header},
         "Header field",
     );
-    $Self->True(
+    ok(
         $Emails->[$Index]->{Body},
         "Body field",
     );
 }
 
 $Success = $TestBackendObject->CleanUp();
-$Self->True(
+ok(
     $Success,
     'Final cleanup',
 );
 
-$Self->IsDeeply(
+is(
     $TestBackendObject->EmailsGet(),
     [],
     'Test backend empty after final cleanup',
 );
 
-$Self->DoneTesting();
+done_testing;

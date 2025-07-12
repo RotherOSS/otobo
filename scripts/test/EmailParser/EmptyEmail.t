@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -41,34 +41,34 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 );
 
 my @Attachments = $EmailParserObject->GetAttachments();
-$Self->Is(
+is(
     scalar @Attachments,
     2,
     "Attachments",
 );
 
-$Self->Is(
+is(
     $Attachments[0]->{Filename},
     'file-1',
     "Empty body name",
 );
 
-$Self->Is(
+is(
     $Attachments[0]->{Filesize},
     '0',
     "Empty body size",
 );
 
-$Self->Is(
+is(
     $Attachments[1]->{Filename},
     'Łatwa_sprawa.txt',
     "Empty attachment name",
 );
 
-$Self->Is(
+is(
     $Attachments[1]->{Filesize},
     '0',
     "Empty attachment size",
 );
 
-$Self->DoneTesting();
+done_testing;

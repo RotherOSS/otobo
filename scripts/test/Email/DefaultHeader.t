@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -142,8 +142,9 @@ for my $Test (@Tests) {
     # check header
     KEY:
     for my $Key ( sort keys %{ $Test->{Check} || {} } ) {
-        next KEY if !$Test->{Check}->{$Key};
-        $Self->Is(
+        next KEY unless $Test->{Check}->{$Key};
+
+        is(
             $ParserObject->GetParam( WHAT => $Key ),
             $Test->{Check}->{$Key},
             "$Name GetParam(WHAT => '$Key')",
@@ -151,6 +152,4 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

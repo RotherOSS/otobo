@@ -36,6 +36,7 @@
 # Content-Transfer-Encoding: base64
 # ----------------------------------------------------------------------------------------
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -43,12 +44,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -284,7 +284,7 @@ for my $Test (@Tests) {
     if ( $Test->{CheckAttachmentsSize} ) {
 
         my $CurrentAttachmentNumber = scalar @{$AttachmentReference};
-        $Self->Is(
+        is(
             $AttachmentNumber,
             $CurrentAttachmentNumber,
             "AttachmentsSize: $Test->{Name} ",
@@ -319,7 +319,7 @@ for my $Test (@Tests) {
         # Final check Content-Type from Email Send
         for my $Name (@Tests) {
             for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
-                $Self->Is(
+                is(
                     $Result{ $Attach->{Filename} },
                     $Name->{ExpectedResults}->{ $Attach->{Filename} }
                         . '; name="' . $Attach->{Filename} . '"',
@@ -350,7 +350,7 @@ for my $Test (@Tests) {
     # Final check Content-Type from EmailParser
     for my $Name (@Tests) {
         for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
-            $Self->Is(
+            is(
                 $Result{ $Attach->{Filename} },
                 $Name->{ExpectedResults}->{ $Attach->{Filename} }
                     . '; name="' . $Attach->{Filename} . '"',
@@ -361,4 +361,4 @@ for my $Test (@Tests) {
 
 }
 
-$Self->DoneTesting();
+done_testing;
