@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -180,7 +179,7 @@ for my $Test (@Tests) {
     my $EmailParams = $PostMasterObject->GetEmailParams();
 
     for my $EmailParam ( sort keys %{ $Test->{EmailParams} } ) {
-        $Self->Is(
+        is(
             $EmailParams->{$EmailParam},
             $Test->{EmailParams}->{$EmailParam},
             "$Test->{Name} - $EmailParam",
@@ -196,6 +195,4 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup cache is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

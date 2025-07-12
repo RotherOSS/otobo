@@ -25,10 +25,8 @@ use File::Path qw(mkpath rmtree);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -83,12 +81,12 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 my $TestBackendObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 my $Success = $TestBackendObject->CleanUp();
-$Self->True(
+ok(
     $Success,
     'Initial cleanup',
 );
 
-$Self->IsDeeply(
+is(
     $TestBackendObject->EmailsGet(),
     [],
     'Test backend empty after initial cleanup',
@@ -113,52 +111,28 @@ if ( !$SMIMEObject ) {
     diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("No such $OpenSSLBin!");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin not executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("No such $CertPath!");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("No such $CertPath directory!");
     }
     elsif ( !-w $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+        fail("$CertPath not writable!");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("No such $PrivatePath!");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("No such $PrivatePath directory!");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath not writable!");
     }
 
     done_testing();
@@ -197,7 +171,7 @@ for my $Certificate (@Certificates) {
         Filename  => $Certificate->{CertificateFileName},
     );
     my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-    $Self->True(
+    ok(
         $Result{Successful} || '',
         "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}",
     );
@@ -215,7 +189,7 @@ for my $Certificate (@Certificates) {
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
-    $Self->True(
+    ok(
         $Result{Successful} || '',
         "#$Certificate->{CertificateName} PrivateAdd()",
     );
@@ -287,13 +261,13 @@ my $PostMasterObject = Kernel::System::PostMaster->new(
 
 my @Return = $PostMasterObject->Run( Queue => '' );
 
-$Self->Is(
+is(
     $Return[0] || 0,
     1,
     "Create new ticket",
 );
 
-$Self->True(
+ok(
     $Return[1] || 0,
     "Create new ticket (TicketID)",
 );
@@ -324,7 +298,7 @@ my @ArticleIndex         = $ArticleObject->ArticleList(
 
 my %FirstArticle = $ArticleBackendObject->ArticleGet( %{ $ArticleIndex[0] } );
 
-$Self->Is(
+is(
     $Ticket{Queue},
     'Junk',
     "Ticket created in $Ticket{Queue}",
@@ -333,7 +307,7 @@ $Self->Is(
 my $GetBody = $FirstArticle{Body};
 chomp($GetBody);
 
-$Self->Is(
+is(
     $GetBody,
     'Hi',
     "Body decrypted $FirstArticle{Body}",
@@ -342,12 +316,10 @@ $Self->Is(
 # Delete needed test directories.
 for my $Directory ( $CertPath, $PrivatePath ) {
     my $Success = rmtree( [$Directory] );
-    $Self->True(
+    ok(
         $Success,
         "Directory deleted - '$Directory'",
     );
 }
 
-# Cleanup is done by RestoreDatabase.
-
-done_testing();
+done_testing;

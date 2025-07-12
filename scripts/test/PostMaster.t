@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -95,7 +93,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         );
 
         # verify dynamic field creation
-        $Self->True(
+        ok(
             $FieldID,
             "DynamicFieldAdd() successful for Field $FieldName",
         );
@@ -116,7 +114,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
             );
 
             # verify dynamic field creation
-            $Self->True(
+            ok(
                 $SuccessUpdate,
                 "DynamicFieldUpdate() successful update for Field $DynamicField->{Name}",
             );
@@ -356,7 +354,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 my %FilterData = $PostMasterFilter->FilterGet(
                     Name => $Filter->{Name},
                 );
-                $Self->IsDeeply(
+                is(
                     \%FilterData,
                     $Filter,
                     "Added filter $Filter->{Name}",
@@ -407,26 +405,26 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
 
                 if ( $File != 22 ) {
-                    $Self->Is(
+                    is(
                         $Return[0] || 0,
                         1,
                         $NamePrefix . ' Run() - NewTicket',
                     );
 
-                    $Self->True(
+                    ok(
                         $Return[1] || 0,
                         $NamePrefix . ' Run() - NewTicket/TicketID',
                     );
                 }
                 else {
-                    $Self->Is(
+                    is(
                         $Return[0] || 0,
                         5,
                         $NamePrefix . ' Run() - NewTicket',
                     );
 
-                    $Self->False(
-                        $Return[1],
+                    ok(
+                        !$Return[1],
                         $NamePrefix . ' Run() - NewTicket/TicketID',
                     );
 
@@ -480,7 +478,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                     );
                     for my $Test (@Tests) {
-                        $Self->Is(
+                        is(
                             $Ticket{ $Test->{Key} },
                             $Test->{Result},
                             $NamePrefix . " $Test->{Key} check",
@@ -497,7 +495,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         DynamicFields => 1,
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '91346794644d70cd95553ab46d5f3334',
                         $NamePrefix . ' md5 body check',
@@ -512,7 +510,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                     );
                     $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '4e78ae6bffb120669f50bca56965f552',
                         $NamePrefix . ' md5 attachment check',
@@ -565,7 +563,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                     );
                     for my $Test (@Tests) {
-                        $Self->Is(
+                        is(
                             $Ticket{ $Test->{Key} } || '',
                             $Test->{Result} || '-',
                             $NamePrefix . " $Test->{Key} check",
@@ -582,7 +580,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         DynamicFields => 1,
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '44da7f29cd0cca31532f6acd50b42da8',
                         $NamePrefix . ' md5 body check',
@@ -597,7 +595,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                     );
                     $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '0596f2939525c6bd50fc2b649e40fbb6',
                         $NamePrefix . ' md5 attachment check',
@@ -614,7 +612,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
 
-                    $Self->Is(
+                    is(
                         $MD5,
                         '52f20c90a1f0d8cf3bd415e278992001',
                         $NamePrefix . ' md5 body check',
@@ -644,12 +642,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -662,7 +660,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'new',
                     $NamePrefix . ' Run() - FollowUp/State check',
@@ -672,7 +670,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $StateSet || 0,
                     $NamePrefix . ' StateSet() - pending reminder',
                 );
@@ -696,12 +694,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -724,12 +722,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#: xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -752,12 +750,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#:xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -780,12 +778,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -798,7 +796,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'open',
                     $NamePrefix . ' Run() - FollowUp/PostmasterFollowUpState check',
@@ -808,7 +806,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $StateSet || 0,
                     $NamePrefix . ' StateSet() - closed successful',
                 );
@@ -837,12 +835,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     @Return = $PostMasterObject->Run();
                 }
 
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -855,7 +853,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'new',
                     $NamePrefix . ' Run() - FollowUp/PostmasterFollowUpStateClosed check',
@@ -866,7 +864,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $Delete || 0,
                     $NamePrefix . ' TicketDelete()',
                 );
@@ -1191,12 +1189,12 @@ Some Content in Body
 
         @Return = $PostMasterObject->Run();
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         "#Filter $Type Run() - NewTicket",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "#Filter $Type Run() - NewTicket/TicketID",
     );
@@ -1214,7 +1212,7 @@ Some Content in Body
     for my $Test (@Tests) {
         next TEST if !$Test->{Check};
         for my $Key ( sort keys %{ $Test->{Check} } ) {
-            $Self->Is(
+            is(
                 $Ticket{$Key},
                 $Test->{Check}->{$Key},
                 "#Filter $Type Run('$Test->{Name}') - $Key",
@@ -1227,7 +1225,7 @@ Some Content in Body
         TicketID => $Return[1],
         UserID   => 1,
     );
-    $Self->True(
+    ok(
         $Delete || 0,
         "#Filter $Type TicketDelete()",
     );
@@ -1470,7 +1468,7 @@ for my $Test (@Tests) {
 
             @Return = $PostMasterObject->Run();
         }
-        $Self->Is(
+        is(
             $Return[0] || 0,
             $Test->{Check}->{ReturnCode} || 1,
             "#Filter $Type Run('$Test->{Name}') - NewTicket",
@@ -1483,7 +1481,7 @@ for my $Test (@Tests) {
 
         if ( !$Test->{Check}->{ReturnCode} || !$LookupRejectReturnCode{ $Test->{Check}->{ReturnCode} } ) {
 
-            $Self->True(
+            ok(
                 $Return[1] || 0,
                 "#Filter $Type Run('$Test->{Name}') - NewTicket/TicketID",
             );
@@ -1501,7 +1499,7 @@ for my $Test (@Tests) {
             for my $TestCheck ($Test) {
                 next TEST if !$TestCheck->{Check};
                 for my $Key ( sort keys %{ $TestCheck->{Check} } ) {
-                    $Self->Is(
+                    is(
                         $Ticket{$Key},
                         $TestCheck->{Check}->{$Key},
                         "#Filter $Type Run('$TestCheck->{Name}') - $Key",
@@ -1514,7 +1512,7 @@ for my $Test (@Tests) {
                 TicketID => $Return[1],
                 UserID   => 1,
             );
-            $Self->True(
+            ok(
                 $Delete || 0,
                 "#Filter $Type TicketDelete()",
             );
@@ -1542,7 +1540,7 @@ for my $DynamicField (@DynamicFieldUpdate) {
         UserID  => 1,
         %{$DynamicField},
     );
-    $Self->True(
+    ok(
         $SuccessUpdate,
         "Reverted changes on ValidID for $DynamicField->{Name} field.",
     );
@@ -1555,7 +1553,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
         ID     => $DynamicFieldID,
         UserID => 1,
     );
-    $Self->True(
+    ok(
         $FieldDelete,
         "Deleted dynamic field with id $DynamicFieldID.",
     );
@@ -1614,13 +1612,13 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
 
     my @Return = $PostMasterObject->Run();
 
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         $Test . ' Run() - NewTicket',
     );
 
-    $Self->True(
+    ok(
         $Return[1],
         $Test . ' Run() - NewTicket/TicketID',
     );
@@ -1634,7 +1632,7 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
     );
 
     for my $Field ( sort keys %{ $OwnerResponsibleTests{$Test}->{Check} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Field},
             $OwnerResponsibleTests{$Test}->{Check}->{$Field},
             $Test . ' Check Field - ' . $Field,
@@ -1679,17 +1677,15 @@ my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
     ArticleID => $ArticleID,
 );
 
-$Self->Is(
+is(
     $Index{1}->{Filename},
     'Test-123-456-789',
     "ArticleID $ArticleID has attachment with name '$Index{1}->{Filename}'",
 );
-$Self->Is(
+is(
     $Index{1}->{ContentType},
     'application/xml; charset=utf-8',
     "ArticleID $ArticleID has attachment with content-type '$Index{1}->{ContentType}'",
 );
-
-# cleanup is done by RestoreDatabase
 
 done_testing;
