@@ -129,84 +129,81 @@ my @Tests = (
     },
 );
 
-my $Count = 0;
 for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
-    $Count++;
-    my $CountSub = 0;
     for my $Test (@Tests) {
 
-        $CountSub++;
-        my $Name = "#$Count.$CountSub $Encoding $Test->{Name}";
+        subtest "$Encoding $Test->{Name}" => sub {
 
-        # set forcing of encoding
-        $ConfigObject->Set(
-            Key   => 'SendmailEncodingForce',
-            Value => $Encoding,
-        );
-
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Email'] );
-        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
-
-        my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} }, );
-
-        # start MIME::Tools workaround
-        ${$Body} =~ s/\n/\r/g;
-
-        # end MIME::Tools workaround
-        my $Email = ${$Header} . "\n" . ${$Body};
-        my @Array = split /\n/, $Email;
-
-        # parse email
-        my $ParserObject = Kernel::System::EmailParser->new(
-            Email => \@Array,
-        );
-
-        # check header
-        KEY:
-        for my $Key (qw(From To Cc Subject)) {
-            next KEY if !$Test->{Data}->{$Key};
-            is(
-                $ParserObject->GetParam( WHAT => $Key ),
-                $Test->{Data}->{$Key},
-                "$Name GetParam(WHAT => '$Key')",
+            # set forcing of encoding
+            $ConfigObject->Set(
+                Key   => 'SendmailEncodingForce',
+                Value => $Encoding,
             );
-        }
 
-        # check body
-        if ( $Test->{Data}->{Body} ) {
-            my $Body = $ParserObject->GetMessageBody();
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Email'] );
+            my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
+
+            my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} }, );
 
             # start MIME::Tools workaround
-            $Body =~ s/\r/\n/g;
-            $Body =~ s/=\n//;
-            $Body =~ s/\n$//;
-            $Body =~ s/=$//;
+            ${$Body} =~ s/\n/\r/g;
 
             # end MIME::Tools workaround
-            is(
-                $Body,
-                $Test->{Data}->{Body},
-                "$Name GetMessageBody()",
-            );
-        }
+            my $Email = ${$Header} . "\n" . ${$Body};
+            my @Array = split /\n/, $Email;
 
-        # check charset
-        if ( $Test->{Data}->{Charset} ) {
-            is(
-                $ParserObject->GetCharset(),
-                $Test->{Data}->{Charset},
-                "$Name GetCharset()",
+            # parse email
+            my $ParserObject = Kernel::System::EmailParser->new(
+                Email => \@Array,
             );
-        }
 
-        # check Content-Type
-        if ( $Test->{Data}->{Type} ) {
-            is(
-                ( split /;/, $ParserObject->GetContentType() )[0],
-                $Test->{Data}->{Type},
-                "$Name GetContentType()",
-            );
+            # check header
+            KEY:
+            for my $Key (qw(From To Cc Subject)) {
+                next KEY if !$Test->{Data}->{$Key};
+                is(
+                    $ParserObject->GetParam( WHAT => $Key ),
+                    $Test->{Data}->{$Key},
+                    "GetParam(WHAT => '$Key')",
+                );
+            }
+
+            # check body
+            if ( $Test->{Data}->{Body} ) {
+                my $Body = $ParserObject->GetMessageBody();
+
+                # start MIME::Tools workaround
+                $Body =~ s/\r/\n/g;
+                $Body =~ s/=\n//;
+                $Body =~ s/\n$//;
+                $Body =~ s/=$//;
+
+                # end MIME::Tools workaround
+                is(
+                    $Body,
+                    $Test->{Data}->{Body},
+                    "GetMessageBody()",
+                );
+            }
+
+            # check charset
+            if ( $Test->{Data}->{Charset} ) {
+                is(
+                    $ParserObject->GetCharset(),
+                    $Test->{Data}->{Charset},
+                    "GetCharset()",
+                );
+            }
+
+            # check Content-Type
+            if ( $Test->{Data}->{Type} ) {
+                is(
+                    ( split /;/, $ParserObject->GetContentType() )[0],
+                    $Test->{Data}->{Type},
+                    "GetContentType()",
+                );
+            }
         }
     }
 }
