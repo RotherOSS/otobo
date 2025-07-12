@@ -160,7 +160,7 @@ Body
 
 for my $Test (@Tests) {
 
-    my @Email = split( /\n/, $Test->{Email} );
+    my @Email = map { $_ . "\n" } split /\n/, $Test->{Email};
 
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
