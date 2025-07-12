@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -166,7 +166,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         KEY:
         for my $Key (qw(From To Cc Subject)) {
             next KEY if !$Test->{Data}->{$Key};
-            $Self->Is(
+            is(
                 $ParserObject->GetParam( WHAT => $Key ),
                 $Test->{Data}->{$Key},
                 "$Name GetParam(WHAT => '$Key')",
@@ -184,7 +184,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
             $Body =~ s/=$//;
 
             # end MIME::Tools workaround
-            $Self->Is(
+            is(
                 $Body,
                 $Test->{Data}->{Body},
                 "$Name GetMessageBody()",
@@ -193,7 +193,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
         # check charset
         if ( $Test->{Data}->{Charset} ) {
-            $Self->Is(
+            is(
                 $ParserObject->GetCharset(),
                 $Test->{Data}->{Charset},
                 "$Name GetCharset()",
@@ -202,7 +202,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
         # check Content-Type
         if ( $Test->{Data}->{Type} ) {
-            $Self->Is(
+            is(
                 ( split /;/, $ParserObject->GetContentType() )[0],
                 $Test->{Data}->{Type},
                 "$Name GetContentType()",
@@ -211,6 +211,4 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
     }
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # This test should verify that an email with an unknown encoding not cause a "die".
 
@@ -43,17 +43,17 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
 );
 
-$Self->True(
+ok(
     $EmailParserObject->GetMessageBody(),
     'Body found',
 );
 
 my @Attachments = $EmailParserObject->GetAttachments();
 
-$Self->Is(
+is(
     scalar @Attachments,
     1,
     "Found files",
 );
 
-$Self->DoneTesting();
+done_testing;
