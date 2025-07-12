@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # Test that filenames with multiple newlines are properly cleaned up.
 # See http://bugs.otrs.org/show_bug.cgi?id=10394.
@@ -45,16 +45,16 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 
 my @Attachments = $EmailParserObject->GetAttachments();
 
-$Self->Is(
+is(
     scalar @Attachments,
     3,
     "Found files",
 );
 
-$Self->Is(
+is(
     $Attachments[2]->{'Filename'} || '',
     'Test_testtestt_1231234_34_Testtesttes_testes_testtesttestt_-_testtesttes_dokumentów_Sprzedaż__testTE__...___TE#123123123_.eml',
     "Filename with multiple newlines removed",
 );
 
-$Self->DoneTesting();
+done_testing;

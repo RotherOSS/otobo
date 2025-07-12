@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -118,13 +122,13 @@ for my $Test (@Tests) {
     my ($ReferencesHeader) = $Result->{Data}->{Header} =~ m{^(References:.*?)(^\S|\z)}xms;
     my ($InReplyToHeader)  = $Result->{Data}->{Header} =~ m{^(In-Reply-To:.*?)(^\S|\z)}xms;
 
-    $Self->Is(
+    is(
         $ReferencesHeader,
         "References: $Test->{FoldedHeader}\n",
         'Check that references header is split across lines',
     );
 
-    $Self->Is(
+    is(
         $InReplyToHeader,
         "In-Reply-To: $Test->{FoldedHeader}\n",
         'Check that in-reply-to header is split across lines',
@@ -156,13 +160,13 @@ my ($XPoweredByHeader) = $Result->{Data}->{Header} =~ m{^X-Powered-By:\s+(.*?)$}
 my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
 my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 
-$Self->Is(
+is(
     $XMailerHeader,
     "$Product Mail Service ($Version)",
     "Default X-Mailer header",
 );
 
-$Self->Is(
+is(
     $XPoweredByHeader,
     "OTOBO (https://otobo.org/)",
     "Default X-Powered-By header",
@@ -185,16 +189,16 @@ $Result = $SendEmail->(
 ($XMailerHeader)    = $Result->{Data}->{Header} =~ m{^X-Mailer:\s+(.*?)$}ixms;
 ($XPoweredByHeader) = $Result->{Data}->{Header} =~ m{^X-Powered-By:\s+(.*?)$}ixms;
 
-$Self->Is(
+is(
     $XMailerHeader,
     undef,
     "Disabled X-Mailer header",
 );
 
-$Self->Is(
+is(
     $XPoweredByHeader,
     undef,
     "Disabled X-Powered-By header",
 );
 
-$Self->DoneTesting();
+done_testing;
