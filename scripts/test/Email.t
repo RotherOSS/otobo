@@ -147,13 +147,20 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
             my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} }, );
 
             # start MIME::Tools workaround
-            ${$Body} =~ s/\n/\r/g;
+            $Body->$* =~ s/\n/\r/g;
 
             # end MIME::Tools workaround
-            my $Email = ${$Header} . "\n" . ${$Body};
-            my @Array = split /\n/, $Email;
+            my $Email = $Header->$* . "\n" . $Body->$*;
 
-            # parse email
+            # The usual approach, e.g. in Maint::PostMaster::Read command, is
+            # to keep the trailing newlines in the array of lines. So let's
+            # replicate that behavior also in the test suite.
+            # Not readding the newlines works with Mail::Internet because
+            # Mail::Header adds newlines when parsing a header.
+            # MIME::Head does apparently not do so.
+            my @Array = map { $_ . "\n" } split /\n/, $Email;
+
+            # parse email, Kernel::System::EmailParser::new() would also take the original string
             my $ParserObject = Kernel::System::EmailParser->new(
                 Email => \@Array,
             );
