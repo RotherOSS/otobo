@@ -146,7 +146,7 @@ sub new {
     # Get a MIME::Head object from the toplevel MIME::Entity object.
     # This is irrespective whether the MIME entity was created in or passed into this constructor.
     # MIME::Head inherits from Mail::Header.
-    $Self->{HeaderObject} = $Self->{ParserParts}->head;
+    $Self->{HeaderObject} = $Self->{ParserParts}->head->fold;
 
     # get NoHTMLChecks param
     if ( $Param{NoHTMLChecks} ) {
