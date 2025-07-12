@@ -20,13 +20,11 @@ use utf8;
 
 # core modules
 
-# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
@@ -88,13 +86,13 @@ for my $Backend (qw(DB FS)) {
         );
     }
 
-    $Self->True(
+    ok(
         $TicketID,
         "$Backend - Ticket created",
     );
 
     my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
-    $Self->True(
+    ok(
         $ArticleIDs[0],
         "$Backend - Article created",
     );
@@ -103,7 +101,7 @@ for my $Backend (qw(DB FS)) {
         ArticleID => $ArticleIDs[0],
     );
 
-    $Self->IsDeeply(
+    is(
         $Attachments{1},
         {
             ContentAlternative => '',
@@ -117,6 +115,4 @@ for my $Backend (qw(DB FS)) {
     );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

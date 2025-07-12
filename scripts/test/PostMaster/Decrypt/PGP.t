@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # Get helper object.
 $Kernel::OM->ObjectParamAdd(
@@ -133,8 +131,8 @@ for my $Count ( 1 .. 2 ) {
         Search => $Search{$Count},
     );
 
-    $Self->False(
-        $Keys[0] || '',
+    ok(
+        !$Keys[0],
         "Key:$Count - KeySearch()",
     );
 
@@ -146,7 +144,7 @@ for my $Count ( 1 .. 2 ) {
     my $Message = $PGPObject->KeyAdd(
         Key => ${$KeyString},
     );
-    $Self->True(
+    ok(
         $Message || '',
         "Key:$Count - KeyAdd()",
     );
@@ -155,13 +153,13 @@ for my $Count ( 1 .. 2 ) {
         Search => $Search{$Count},
     );
 
-    $Self->True(
+    ok(
         $Keys[0] || '',
         "Key:$Count - KeySearch()",
     );
     for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort))
     {
-        $Self->Is(
+        is(
             $Keys[0]->{$ID} || '',
             $Check{$Count}->{$ID},
             "Key:$Count - KeySearch() - $ID",
@@ -171,7 +169,7 @@ for my $Count ( 1 .. 2 ) {
     my $PublicKeyString = $PGPObject->PublicKeyGet(
         Key => $Keys[0]->{Key},
     );
-    $Self->True(
+    ok(
         $PublicKeyString || '',
         "Key:$Count - PublicKeyGet()",
     );
@@ -179,7 +177,7 @@ for my $Count ( 1 .. 2 ) {
     my $PrivateKeyString = $PGPObject->SecretKeyGet(
         Key => $Keys[0]->{KeyPrivate},
     );
-    $Self->True(
+    ok(
         $PrivateKeyString || '',
         "Key:$Count - SecretKeyGet()",
     );
@@ -247,7 +245,7 @@ $ConfigObject->Set(
 
 my @Return = $PostMasterObject->Run( Queue => '' );
 
-$Self->Is(
+is(
     $Return[0] || 0,
     1,
     "Create new ticket",
@@ -256,7 +254,7 @@ $Self->Is(
 # Get ticket object.
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-$Self->True(
+ok(
     $Return[1] || 0,
     "Create new ticket (TicketID)",
 );
@@ -275,7 +273,7 @@ my @ArticleIndex = $ArticleObject->ArticleList(
     UserID   => 1,
 );
 
-$Self->Is(
+is(
     $Ticket{Queue},
     'Junk',
     "Ticket created in $Ticket{Queue}",
@@ -286,7 +284,7 @@ my %FirstArticle = $ArticleBackendObject->ArticleGet( %{ $ArticleIndex[0] } );
 my $GetBody = $FirstArticle{Body};
 chomp($GetBody);
 
-$Self->Is(
+is(
     $GetBody,
     'This is only a test.',
     "Body decrypted $FirstArticle{Body}",
@@ -325,13 +323,13 @@ $ConfigObject->Set(
 
 my @ReturnEncrypted = $PostMasterObject->Run( Queue => '' );
 
-$Self->Is(
+is(
     $ReturnEncrypted[0] || 0,
     1,
     "Create new ticket",
 );
 
-$Self->True(
+ok(
     $ReturnEncrypted[1] || 0,
     "Create new ticket (TicketID)",
 );
@@ -355,7 +353,7 @@ my @ArticleIndexEncrypted = $ArticleObject->ArticleList(
     UserID   => 1,
 );
 
-$Self->Is(
+is(
     $Ticket{Queue},
     'Junk',
     "Ticket created in $TicketEncrypted{Queue}",
@@ -365,7 +363,7 @@ my %FirstArticleEncrypted = $ArticleBackendObject->ArticleGet( %{ $ArticleIndexE
 
 my $GetBodyEncrypted = $FirstArticleEncrypted{Body};
 
-$Self->True(
+ok(
     scalar $GetBodyEncrypted =~ m{no text message => see attachment},
     "Body was not decrypted",
 );
@@ -375,14 +373,14 @@ for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
-    $Self->True(
+    ok(
         $Keys[0] || '',
         "Key:$Count - KeySearch()",
     );
     my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
         Key => $Keys[0]->{KeyPrivate},
     );
-    $Self->True(
+    ok(
         $DeleteSecretKey || '',
         "Key:$Count - SecretKeyDelete()",
     );
@@ -390,7 +388,7 @@ for my $Count ( 1 .. 2 ) {
     my $DeletePublicKey = $PGPObject->PublicKeyDelete(
         Key => $Keys[0]->{Key},
     );
-    $Self->True(
+    ok(
         $DeletePublicKey || '',
         "Key:$Count - PublicKeyDelete()",
     );
@@ -398,12 +396,10 @@ for my $Count ( 1 .. 2 ) {
     @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
-    $Self->False(
-        $Keys[0] || '',
+    ok(
+        !$Keys[0],
         "Key:$Count - KeySearch()",
     );
 }
 
-# Cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

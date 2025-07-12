@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -117,12 +116,12 @@ for my $Test (@Tests) {
             Status => 'Successful',
         );
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         $Test->{NewTicket},
         "#Filter Run() - NewTicket",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "#Filter  Run() - NewTicket/TicketID",
     );
@@ -132,7 +131,7 @@ for my $Test (@Tests) {
     );
 
     for my $Key ( sort keys %{ $Test->{Check} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Key},
             $Test->{Check}->{$Key},
             "#Filter Run() - $Key",
@@ -140,6 +139,4 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

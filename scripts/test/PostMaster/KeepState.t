@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -51,7 +50,7 @@ my $TicketID = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
+ok(
     $TicketID,
     'TicketCreate()',
 );
@@ -233,14 +232,14 @@ for my $Test (@Tests) {
     }
 
     # check we actually got followup
-    $Self->Is(
+    is(
         $Return[0] || 0,
         2,
         "$Test->{Name} Run() - FollowUp",
     );
 
     #check we actually got same TicketID
-    $Self->Is(
+    is(
         $Return[1] || 0,
         $MainTicket{TicketID},
         "$Test->{Name} Run() - FollowUp/TicketID",
@@ -256,13 +255,11 @@ for my $Test (@Tests) {
         DynamicFields => 0,
     );
 
-    $Self->Is(
+    is(
         $Ticket{State},
         $Test->{ExpectedResults},
         "$Test->{Name} Run() - State after FollowUp",
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

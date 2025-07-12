@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # Get needed objects.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -66,7 +65,7 @@ my $CustomerID   = $Kernel::OM->Get('Kernel::System::CustomerCompany')->Customer
     ValidID                => 1,
     UserID                 => 1,
 );
-$Self->True(
+ok(
     $CustomerID,
     "CustomerID $CustomerID is created",
 );
@@ -85,7 +84,7 @@ my $CustomerUserLogin        = $Kernel::OM->Get('Kernel::System::CustomerUser')-
     ValidID        => 1,
     UserID         => 1,
 );
-$Self->True(
+ok(
     $CustomerUserLogin,
     "CustomerUser '$CustomerUserLogin' is created",
 );
@@ -163,12 +162,12 @@ for my $Test (@Tests) {
         );
     }
 
-    $Self->Is(
+    is(
         $Return[0],
         1,
         "New ticket is created",
     );
-    $Self->True(
+    ok(
         $Return[1],
         "New created ticket ID is $Return[1]",
     );
@@ -177,18 +176,16 @@ for my $Test (@Tests) {
         TicketID => $Return[1],
     );
 
-    $Self->Is(
+    is(
         $Ticket{CustomerID} // '',
         $Test->{Result}->{CustomerID},
         "Ticket customer ID is expected",
     );
-    $Self->Is(
+    is(
         $Ticket{CustomerUserID} // '',
         $Test->{Result}->{CustomerUserID},
         "Ticket customer user ID is expected",
     );
 }
 
-# Cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;
