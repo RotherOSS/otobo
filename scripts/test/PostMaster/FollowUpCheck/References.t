@@ -21,13 +21,12 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -118,17 +117,15 @@ for my $Test (@Tests) {
             Status => 'Successful',
         );
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         $Test->{NewTicket},
         "$Test->{Name} - article created",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "$Test->{Name} - article created",
     );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

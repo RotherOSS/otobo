@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -73,7 +72,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         );
 
         # verify dynamic field creation
-        $Self->True(
+        ok(
             $FieldID,
             "DynamicFieldAdd() successful for Field $FieldName",
         );
@@ -94,7 +93,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
             );
 
             # verify dynamic field creation
-            $Self->True(
+            ok(
                 $SuccessUpdate,
                 "DynamicFieldUpdate() successful update for Field $DynamicField->{Name}",
             );
@@ -227,12 +226,12 @@ The IP address: 192.168.0.1
             Status => 'Successful',
         );
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         "#Filter Run() - NewTicket",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "#Filter Run() - NewTicket/TicketID",
     );
@@ -247,7 +246,7 @@ The IP address: 192.168.0.1
     );
 
     for my $Key ( sort keys %{ $Test->{Check} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Key},
             $Test->{Check}->{$Key},
             "#Filter Run('$Test->{Name}') - $Key",
@@ -259,7 +258,7 @@ The IP address: 192.168.0.1
         TicketID => $Return[1],
         UserID   => 1,
     );
-    $Self->True(
+    ok(
         $Delete || 0,
         "#Filter TicketDelete()",
     );
@@ -268,6 +267,4 @@ The IP address: 192.168.0.1
     $PostMasterFilter->FilterDelete( Name => $Test->{Name} );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

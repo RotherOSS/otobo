@@ -548,4 +548,4 @@ else {
     pass('Cleaned spool files');
 }
 
-done_testing();
+done_testing;
