@@ -63,7 +63,7 @@ subtest 'test PostMaster-Test1.box' => sub {
     );
 
     my @Attachments = $EmailParserObject->GetAttachments();
-    is(
+    ok(
         !$Attachments[1]->{Filename},
         "GetAttachments() - no attachments",
     );
