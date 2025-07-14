@@ -25606,10 +25606,6 @@ msgstr ""
 msgid "Include invalid appointment notifications"
 msgstr ""
 
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr ""
-
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
 msgstr ""

@@ -198,7 +198,6 @@ sub Data {
         'Add Notification' => 'Értesítés hozzáadása',
         'Edit Notification' => 'Értesítés szerkesztése',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Értesítések exportálása',
         'Filter for Notifications' => 'Szűrő az értesítésekhez',
         'Filter for notifications' => 'Szűrő az értesítésekhez',

@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Pridėti pranešimą',
         'Edit Notification' => 'Redaguoti pranešimus',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Eksportuoti pranešimus',
         'Filter for Notifications' => 'Filtruoti pranešimus',
         'Filter for notifications' => 'Filtruoti pranešimus',

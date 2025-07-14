@@ -7,7 +7,10 @@ jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
         container:
-            image: perldocker/perl-tester:5.24
+            # Previously the tag 5.24 was used, but that used Debian 10 (Buster) which fell out of the support window
+            # Found no images for Debian 11 (Bullseye)
+            # Perl 5.36 seems to be the oldest Perl for Debian 12 (Bookworm), so let's use that
+            image: perldocker/perl-tester:5.36-bookworm
         env:
             PERL5LIB: local/lib/perl5
         steps:
@@ -56,7 +59,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240808a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20250714a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'

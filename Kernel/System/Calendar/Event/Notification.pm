@@ -228,7 +228,7 @@ sub Run {
                     $AgentSendNotification = 1;
                 }
 
-                # skip sending the notification if the agent has disable it in its preferences
+                # skip sending the notification if the agent has disabled it in its preferences
                 if (
                     IsArrayRefWithData( $Notification{Data}->{VisibleForAgent} )
                     && $Notification{Data}->{VisibleForAgent}->[0]

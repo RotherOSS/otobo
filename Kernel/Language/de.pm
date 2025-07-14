@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Benachrichtigung hinzufügen',
         'Edit Notification' => 'Benachrichtigung bearbeiten',
         'Include invalid appointment notifications' => 'Ungültige Terminbenachrichtigungen anzeigen',
-        'Include invalid appoitnment notifications' => 'Ungültige Terminbenachrichtigungen anzeigen',
         'Export Notifications' => 'Benachrichtigungen exportieren',
         'Filter for Notifications' => 'Filter für Benachrichtigungen',
         'Filter for notifications' => 'Filter für Benachrichtigungen',

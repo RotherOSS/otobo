@@ -26284,10 +26284,6 @@ msgstr "Ungültige Kalender anzeigen"
 msgid "Include invalid appointment notifications"
 msgstr "Ungültige Terminbenachrichtigungen anzeigen"
 
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr "Ungültige Terminbenachrichtigungen anzeigen"
-
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
 msgstr "Ungültige Anhänge anzeigen"

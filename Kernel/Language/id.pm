@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Tambah pemberitahuan',
         'Edit Notification' => 'Ubah pemberitahuan',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Expor pemberitahuan',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

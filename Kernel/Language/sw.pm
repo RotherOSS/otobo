@@ -196,7 +196,6 @@ sub Data {
         'Add Notification' => 'Ongeza taarifa',
         'Edit Notification' => 'Hariri taarifa',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

@@ -195,7 +195,6 @@ sub Data {
         'Add Notification' => 'अधिसूचना जोड़ें',
         'Edit Notification' => 'अधिसूचनाएँ संपादित करें',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
