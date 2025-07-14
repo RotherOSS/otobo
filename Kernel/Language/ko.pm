@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => '알림 추가',
         'Edit Notification' => '알림 수정',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '알림 Export',
         'Filter for Notifications' => '알림 필터',
         'Filter for notifications' => '알림 필터',

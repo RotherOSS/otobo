@@ -201,7 +201,6 @@ sub Data {
         'Add Notification' => 'Aggiungi notifica',
         'Edit Notification' => 'Modifica notifica',
         'Include invalid appointment notifications' => 'Includi notifiche di appuntamenti non validi',
-        'Include invalid appoitnment notifications' => 'Includi notifiche di appuntamenti non validi',
         'Export Notifications' => 'Esportazione notifiche',
         'Filter for Notifications' => 'Filtro per notifiche',
         'Filter for notifications' => 'Filtro per notifiche',

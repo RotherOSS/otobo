@@ -194,7 +194,6 @@ sub Data {
         'Add Notification' => 'Добавяне на известие',
         'Edit Notification' => 'Редактиране на известие',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Експортиране на известия',
         'Filter for Notifications' => 'Филтър за известия',
         'Filter for notifications' => 'Филтър за известия',

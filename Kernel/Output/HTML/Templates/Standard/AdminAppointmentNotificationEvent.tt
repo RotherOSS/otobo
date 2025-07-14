@@ -47,7 +47,7 @@
             </div>
             <div class="Content">
                 <input type="checkbox" id="IncludeInvalid" name="IncludeInvalid" value="1" title="[% Translate("Include invalid appointment notifications") | html %]" [% Data.IncludeInvalidChecked | html %]/>
-                <label for="IncludeInvalid">[% Translate("Include invalid appoitnment notifications") | html %]</label>
+                <label for="IncludeInvalid">[% Translate("Include invalid appointment notifications") | html %]</label>
             </div>
         </div>
 [% RenderBlockEnd("IncludeInvalid") %]

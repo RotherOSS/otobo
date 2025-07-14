@@ -195,7 +195,6 @@ sub Data {
         'Add Notification' => '添加通知',
         'Edit Notification' => '編輯通知',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '導出通知',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

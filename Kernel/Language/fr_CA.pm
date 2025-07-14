@@ -200,7 +200,6 @@ sub Data {
         'Add Notification' => 'Ajouter une notification',
         'Edit Notification' => 'Éditer une notification',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

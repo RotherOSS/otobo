@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Bildirim ekle',
         'Edit Notification' => 'Bildirim Düzenle',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => 'Bildirimler İçin Filtreleme',
         'Filter for notifications' => 'Bildirimler için filtreleme',

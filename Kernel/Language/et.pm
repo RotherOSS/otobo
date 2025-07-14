@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => '',
         'Edit Notification' => 'Teavituse muutmine',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
