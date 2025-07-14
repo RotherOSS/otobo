@@ -821,4 +821,8 @@ div.InputField_ToolbarContainer ul li a:hover {
     height: 18px;
 }
 
+#ScheduleMinutes, #ScheduleHours, #ScheduleDays {
+    min-width:220px;
+}
+
 } /* end @media */
