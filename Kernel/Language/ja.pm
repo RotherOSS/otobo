@@ -196,7 +196,6 @@ sub Data {
         'Add Notification' => '通知の追加',
         'Edit Notification' => '通知の編集',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '通知をエクスポート',
         'Filter for Notifications' => '通知でフィルター',
         'Filter for notifications' => '通知でフィルター',

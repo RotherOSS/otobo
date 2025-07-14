@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Pridaj notifikáciu',
         'Edit Notification' => 'Edituj notifikáciu',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Export notifikácií',
         'Filter for Notifications' => 'Filter pre notifikácie',
         'Filter for notifications' => 'Filter pre notifikácie',

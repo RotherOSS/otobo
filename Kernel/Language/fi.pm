@@ -195,7 +195,6 @@ sub Data {
         'Add Notification' => 'Lisää ilmoitus',
         'Edit Notification' => 'Muokkaa ilmoitusta',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Vie ilmoitukset',
         'Filter for Notifications' => 'Suodata ilmoituksia',
         'Filter for notifications' => 'Suodata ilmoituksia',

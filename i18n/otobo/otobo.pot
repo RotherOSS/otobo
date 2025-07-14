@@ -491,10 +491,6 @@ msgid "Include invalid appointment notifications"
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
 msgstr ""
 

@@ -199,7 +199,6 @@ sub Data {
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Meldingen exporteren',
         'Filter for Notifications' => 'Filter voor notificaties',
         'Filter for notifications' => 'Filter voor notificaties',

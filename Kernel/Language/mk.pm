@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Додај Известување',
         'Edit Notification' => 'Уреди го Известувањето',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

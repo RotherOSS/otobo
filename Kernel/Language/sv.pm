@@ -195,7 +195,6 @@ sub Data {
         'Add Notification' => 'Lägg till Meddelande',
         'Edit Notification' => 'Redigera notifiering',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Exportmeddelanden',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

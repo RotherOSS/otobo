@@ -199,7 +199,6 @@ sub Data {
         'Add Notification' => 'הוסף התראה',
         'Edit Notification' => 'ערוך התראה',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

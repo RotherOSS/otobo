@@ -200,7 +200,6 @@ sub Data {
         'Add Notification' => 'Přidat oznámení',
         'Edit Notification' => 'Upravit oznámení',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Exportovat oznámení',
         'Filter for Notifications' => 'Filtr pro oznámení',
         'Filter for notifications' => 'Filtr pro oznámení',

@@ -195,7 +195,6 @@ sub Data {
         'Add Notification' => 'إضافة إشعار',
         'Edit Notification' => 'تحرير الإشعار',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'تصدير الإشعارات',
         'Filter for Notifications' => 'فلاتر الإشعارات',
         'Filter for notifications' => 'فلاتر الإشعارات',

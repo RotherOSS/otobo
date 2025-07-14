@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'เพิ่มการแจ้งเตือน',
         'Edit Notification' => 'แก้ไขการแจ้งเตือน',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'ส่งออกการแจ้งเตือน',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

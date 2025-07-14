@@ -198,7 +198,6 @@ sub Data {
         'Add Notification' => 'افزودن اعلان',
         'Edit Notification' => 'ویرایش اعلان',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'ارسال اطلاعات',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',

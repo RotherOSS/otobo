@@ -201,7 +201,6 @@ sub Data {
         'Add Notification' => 'Legg til varsling',
         'Edit Notification' => 'Endre varsling',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Eksporter varslinger',
         'Filter for Notifications' => 'Filter for varslinger',
         'Filter for notifications' => 'Filter for varslinger',

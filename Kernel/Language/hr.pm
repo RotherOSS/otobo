@@ -197,7 +197,6 @@ sub Data {
         'Add Notification' => 'Dodaj obavijest',
         'Edit Notification' => 'Uredi Obavijest',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Izvezi obavijesti',
         'Filter for Notifications' => 'Filter obavijesti',
         'Filter for notifications' => 'Filter obavjesti',

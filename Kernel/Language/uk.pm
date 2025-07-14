@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Додати повідомлення',
         'Edit Notification' => 'Редагувати повідомлення',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Експортувати Сповіщень',
         'Filter for Notifications' => 'Фільтр сповіщень',
         'Filter for notifications' => 'Фільтр для сповіщень',
