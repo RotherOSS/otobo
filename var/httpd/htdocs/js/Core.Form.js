@@ -361,13 +361,13 @@ Core.Form = (function (TargetNS) {
 
             if (Values.length == 1) {
                 // hide field
-                Field.parent().parent('div.Row').hide();
+                Field.closest('div.Row').hide();
                 Field.parent().hide();
                 $("label[for='" + FieldID + "']").hide();
             }
             else if ($('#'+ FieldID).parent().parent('div.Row').hasClass('oooACLHidden') == false) {
                 // show field
-                Field.parent().parent('div.Row').show();
+                Field.closest('div.Row').show();
                 Field.parent().show();
                 $("label[for='" + FieldID + "']").show();
 
