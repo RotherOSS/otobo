@@ -1469,7 +1469,7 @@ add new permissions or update existing one to the given group of a given role
             ro        => 1,
             move_into => 1,
             create    => 1,
-            note      =  1,
+            note      => 1,
             owner     => 1,
             priority  => 0,
             rw        => 0,

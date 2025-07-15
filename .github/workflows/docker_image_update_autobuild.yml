@@ -245,11 +245,13 @@ jobs:
         id: sort_json
         if: steps.count_builds.outputs.num_builds >= 1
         run: |
-          sorted_json=$(jq --sort-keys <<END_JSON
+          sorted_json=$(jq --sort-keys '.' <<END_JSON
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON
           )
-          echo "sorted_json=$sorted_json" >> $GITHUB_OUTPUT
+          echo 'sorted_json<<END_SORTED_JSON' >> $GITHUB_OUTPUT
+          echo "$sorted_json"                 >> $GITHUB_OUTPUT
+          echo 'END_SORTED_JSON'              >> $GITHUB_OUTPUT
 
       -
         name: Create an issue

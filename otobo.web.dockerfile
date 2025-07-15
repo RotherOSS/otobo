@@ -65,6 +65,7 @@ RUN apt-get update\
  "cron"\
  "default-mysql-client"\
  "graphviz"\
+ "git"\
  "ldap-utils"\
  "less"\
  "nano"\
