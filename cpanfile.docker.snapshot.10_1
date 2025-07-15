@@ -225,19 +225,19 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  CGI-4.68
-    pathname: L/LE/LEEJO/CGI-4.68.tar.gz
+  CGI-4.70
+    pathname: L/LE/LEEJO/CGI-4.70.tar.gz
     provides:
-      CGI 4.68
-      CGI::Carp 4.68
+      CGI 4.70
+      CGI::Carp 4.70
       CGI::Cookie 4.59
-      CGI::File::Temp 4.68
+      CGI::File::Temp 4.70
       CGI::HTML::Functions undef
-      CGI::MultipartBuffer 4.68
-      CGI::Pretty 4.68
-      CGI::Push 4.68
-      CGI::Util 4.67
-      Fh 4.68
+      CGI::MultipartBuffer 4.70
+      CGI::Pretty 4.70
+      CGI::Push 4.70
+      CGI::Util 4.70
+      Fh 4.70
     requirements:
       Carp 0
       Config 0
@@ -453,6 +453,25 @@ DISTRIBUTIONS
       Clone 0.47
     requirements:
       ExtUtils::MakeMaker 0
+  Clone-Choose-0.010
+    pathname: H/HE/HERMES/Clone-Choose-0.010.tar.gz
+    provides:
+      Clone::Choose 0.010
+    requirements:
+      ExtUtils::MakeMaker 0
+      Storable 0
+      perl 5.008001
+  Clone-PP-1.08
+    pathname: N/NE/NEILB/Clone-PP-1.08.tar.gz
+    provides:
+      Clone::PP 1.08
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      vars 0
+      warnings 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
@@ -557,118 +576,118 @@ DISTRIBUTIONS
       Scalar::Util 0
       Test::More 0.88
       perl 5.006
-  CryptX-0.086
-    pathname: M/MI/MIK/CryptX-0.086.tar.gz
+  CryptX-0.087
+    pathname: M/MI/MIK/CryptX-0.087.tar.gz
     provides:
-      Crypt::AuthEnc 0.086
-      Crypt::AuthEnc::CCM 0.086
-      Crypt::AuthEnc::ChaCha20Poly1305 0.086
-      Crypt::AuthEnc::EAX 0.086
-      Crypt::AuthEnc::GCM 0.086
-      Crypt::AuthEnc::OCB 0.086
-      Crypt::Checksum 0.086
-      Crypt::Checksum::Adler32 0.086
-      Crypt::Checksum::CRC32 0.086
-      Crypt::Cipher 0.086
-      Crypt::Cipher::AES 0.086
-      Crypt::Cipher::Anubis 0.086
-      Crypt::Cipher::Blowfish 0.086
-      Crypt::Cipher::CAST5 0.086
-      Crypt::Cipher::Camellia 0.086
-      Crypt::Cipher::DES 0.086
-      Crypt::Cipher::DES_EDE 0.086
-      Crypt::Cipher::IDEA 0.086
-      Crypt::Cipher::KASUMI 0.086
-      Crypt::Cipher::Khazad 0.086
-      Crypt::Cipher::MULTI2 0.086
-      Crypt::Cipher::Noekeon 0.086
-      Crypt::Cipher::RC2 0.086
-      Crypt::Cipher::RC5 0.086
-      Crypt::Cipher::RC6 0.086
-      Crypt::Cipher::SAFERP 0.086
-      Crypt::Cipher::SAFER_K128 0.086
-      Crypt::Cipher::SAFER_K64 0.086
-      Crypt::Cipher::SAFER_SK128 0.086
-      Crypt::Cipher::SAFER_SK64 0.086
-      Crypt::Cipher::SEED 0.086
-      Crypt::Cipher::Serpent 0.086
-      Crypt::Cipher::Skipjack 0.086
-      Crypt::Cipher::Twofish 0.086
-      Crypt::Cipher::XTEA 0.086
-      Crypt::Digest 0.086
-      Crypt::Digest::BLAKE2b_160 0.086
-      Crypt::Digest::BLAKE2b_256 0.086
-      Crypt::Digest::BLAKE2b_384 0.086
-      Crypt::Digest::BLAKE2b_512 0.086
-      Crypt::Digest::BLAKE2s_128 0.086
-      Crypt::Digest::BLAKE2s_160 0.086
-      Crypt::Digest::BLAKE2s_224 0.086
-      Crypt::Digest::BLAKE2s_256 0.086
-      Crypt::Digest::CHAES 0.086
-      Crypt::Digest::Keccak224 0.086
-      Crypt::Digest::Keccak256 0.086
-      Crypt::Digest::Keccak384 0.086
-      Crypt::Digest::Keccak512 0.086
-      Crypt::Digest::MD2 0.086
-      Crypt::Digest::MD4 0.086
-      Crypt::Digest::MD5 0.086
-      Crypt::Digest::RIPEMD128 0.086
-      Crypt::Digest::RIPEMD160 0.086
-      Crypt::Digest::RIPEMD256 0.086
-      Crypt::Digest::RIPEMD320 0.086
-      Crypt::Digest::SHA1 0.086
-      Crypt::Digest::SHA224 0.086
-      Crypt::Digest::SHA256 0.086
-      Crypt::Digest::SHA384 0.086
-      Crypt::Digest::SHA3_224 0.086
-      Crypt::Digest::SHA3_256 0.086
-      Crypt::Digest::SHA3_384 0.086
-      Crypt::Digest::SHA3_512 0.086
-      Crypt::Digest::SHA512 0.086
-      Crypt::Digest::SHA512_224 0.086
-      Crypt::Digest::SHA512_256 0.086
-      Crypt::Digest::SHAKE 0.086
-      Crypt::Digest::Tiger192 0.086
-      Crypt::Digest::Whirlpool 0.086
-      Crypt::KeyDerivation 0.086
-      Crypt::Mac 0.086
-      Crypt::Mac::BLAKE2b 0.086
-      Crypt::Mac::BLAKE2s 0.086
-      Crypt::Mac::F9 0.086
-      Crypt::Mac::HMAC 0.086
-      Crypt::Mac::OMAC 0.086
-      Crypt::Mac::PMAC 0.086
-      Crypt::Mac::Pelican 0.086
-      Crypt::Mac::Poly1305 0.086
-      Crypt::Mac::XCBC 0.086
-      Crypt::Misc 0.086
-      Crypt::Mode 0.086
-      Crypt::Mode::CBC 0.086
-      Crypt::Mode::CFB 0.086
-      Crypt::Mode::CTR 0.086
-      Crypt::Mode::ECB 0.086
-      Crypt::Mode::OFB 0.086
-      Crypt::PK 0.086
-      Crypt::PK::DH 0.086
-      Crypt::PK::DSA 0.086
-      Crypt::PK::ECC 0.086
-      Crypt::PK::Ed25519 0.086
-      Crypt::PK::RSA 0.086
-      Crypt::PK::X25519 0.086
-      Crypt::PRNG 0.086
-      Crypt::PRNG::ChaCha20 0.086
-      Crypt::PRNG::Fortuna 0.086
-      Crypt::PRNG::RC4 0.086
-      Crypt::PRNG::Sober128 0.086
-      Crypt::PRNG::Yarrow 0.086
-      Crypt::Stream::ChaCha 0.086
-      Crypt::Stream::RC4 0.086
-      Crypt::Stream::Rabbit 0.086
-      Crypt::Stream::Salsa20 0.086
-      Crypt::Stream::Sober128 0.086
-      Crypt::Stream::Sosemanuk 0.086
-      CryptX 0.086
-      Math::BigInt::LTM 0.086
+      Crypt::AuthEnc 0.087
+      Crypt::AuthEnc::CCM 0.087
+      Crypt::AuthEnc::ChaCha20Poly1305 0.087
+      Crypt::AuthEnc::EAX 0.087
+      Crypt::AuthEnc::GCM 0.087
+      Crypt::AuthEnc::OCB 0.087
+      Crypt::Checksum 0.087
+      Crypt::Checksum::Adler32 0.087
+      Crypt::Checksum::CRC32 0.087
+      Crypt::Cipher 0.087
+      Crypt::Cipher::AES 0.087
+      Crypt::Cipher::Anubis 0.087
+      Crypt::Cipher::Blowfish 0.087
+      Crypt::Cipher::CAST5 0.087
+      Crypt::Cipher::Camellia 0.087
+      Crypt::Cipher::DES 0.087
+      Crypt::Cipher::DES_EDE 0.087
+      Crypt::Cipher::IDEA 0.087
+      Crypt::Cipher::KASUMI 0.087
+      Crypt::Cipher::Khazad 0.087
+      Crypt::Cipher::MULTI2 0.087
+      Crypt::Cipher::Noekeon 0.087
+      Crypt::Cipher::RC2 0.087
+      Crypt::Cipher::RC5 0.087
+      Crypt::Cipher::RC6 0.087
+      Crypt::Cipher::SAFERP 0.087
+      Crypt::Cipher::SAFER_K128 0.087
+      Crypt::Cipher::SAFER_K64 0.087
+      Crypt::Cipher::SAFER_SK128 0.087
+      Crypt::Cipher::SAFER_SK64 0.087
+      Crypt::Cipher::SEED 0.087
+      Crypt::Cipher::Serpent 0.087
+      Crypt::Cipher::Skipjack 0.087
+      Crypt::Cipher::Twofish 0.087
+      Crypt::Cipher::XTEA 0.087
+      Crypt::Digest 0.087
+      Crypt::Digest::BLAKE2b_160 0.087
+      Crypt::Digest::BLAKE2b_256 0.087
+      Crypt::Digest::BLAKE2b_384 0.087
+      Crypt::Digest::BLAKE2b_512 0.087
+      Crypt::Digest::BLAKE2s_128 0.087
+      Crypt::Digest::BLAKE2s_160 0.087
+      Crypt::Digest::BLAKE2s_224 0.087
+      Crypt::Digest::BLAKE2s_256 0.087
+      Crypt::Digest::CHAES 0.087
+      Crypt::Digest::Keccak224 0.087
+      Crypt::Digest::Keccak256 0.087
+      Crypt::Digest::Keccak384 0.087
+      Crypt::Digest::Keccak512 0.087
+      Crypt::Digest::MD2 0.087
+      Crypt::Digest::MD4 0.087
+      Crypt::Digest::MD5 0.087
+      Crypt::Digest::RIPEMD128 0.087
+      Crypt::Digest::RIPEMD160 0.087
+      Crypt::Digest::RIPEMD256 0.087
+      Crypt::Digest::RIPEMD320 0.087
+      Crypt::Digest::SHA1 0.087
+      Crypt::Digest::SHA224 0.087
+      Crypt::Digest::SHA256 0.087
+      Crypt::Digest::SHA384 0.087
+      Crypt::Digest::SHA3_224 0.087
+      Crypt::Digest::SHA3_256 0.087
+      Crypt::Digest::SHA3_384 0.087
+      Crypt::Digest::SHA3_512 0.087
+      Crypt::Digest::SHA512 0.087
+      Crypt::Digest::SHA512_224 0.087
+      Crypt::Digest::SHA512_256 0.087
+      Crypt::Digest::SHAKE 0.087
+      Crypt::Digest::Tiger192 0.087
+      Crypt::Digest::Whirlpool 0.087
+      Crypt::KeyDerivation 0.087
+      Crypt::Mac 0.087
+      Crypt::Mac::BLAKE2b 0.087
+      Crypt::Mac::BLAKE2s 0.087
+      Crypt::Mac::F9 0.087
+      Crypt::Mac::HMAC 0.087
+      Crypt::Mac::OMAC 0.087
+      Crypt::Mac::PMAC 0.087
+      Crypt::Mac::Pelican 0.087
+      Crypt::Mac::Poly1305 0.087
+      Crypt::Mac::XCBC 0.087
+      Crypt::Misc 0.087
+      Crypt::Mode 0.087
+      Crypt::Mode::CBC 0.087
+      Crypt::Mode::CFB 0.087
+      Crypt::Mode::CTR 0.087
+      Crypt::Mode::ECB 0.087
+      Crypt::Mode::OFB 0.087
+      Crypt::PK 0.087
+      Crypt::PK::DH 0.087
+      Crypt::PK::DSA 0.087
+      Crypt::PK::ECC 0.087
+      Crypt::PK::Ed25519 0.087
+      Crypt::PK::RSA 0.087
+      Crypt::PK::X25519 0.087
+      Crypt::PRNG 0.087
+      Crypt::PRNG::ChaCha20 0.087
+      Crypt::PRNG::Fortuna 0.087
+      Crypt::PRNG::RC4 0.087
+      Crypt::PRNG::Sober128 0.087
+      Crypt::PRNG::Yarrow 0.087
+      Crypt::Stream::ChaCha 0.087
+      Crypt::Stream::RC4 0.087
+      Crypt::Stream::Rabbit 0.087
+      Crypt::Stream::Salsa20 0.087
+      Crypt::Stream::Sober128 0.087
+      Crypt::Stream::Sosemanuk 0.087
+      CryptX 0.087
+      Math::BigInt::LTM 0.087
     requirements:
       ExtUtils::MakeMaker 0
       Math::BigInt 0
@@ -1766,18 +1785,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.089
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.089.tar.gz
+  IO-Socket-SSL-2.095
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.095.tar.gz
     provides:
-      IO::Socket::SSL 2.089
+      IO::Socket::SSL 2.095
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.089
-      IO::Socket::SSL::OCSP_Resolver 2.089
+      IO::Socket::SSL::OCSP_Cache 2.095
+      IO::Socket::SSL::OCSP_Resolver 2.095
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.089
-      IO::Socket::SSL::SSL_HANDLE 2.089
-      IO::Socket::SSL::Session_Cache 2.089
-      IO::Socket::SSL::Trace 2.089
+      IO::Socket::SSL::SSL_Context 2.095
+      IO::Socket::SSL::SSL_HANDLE 2.095
+      IO::Socket::SSL::Session_Cache 2.095
+      IO::Socket::SSL::Trace 2.095
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -2149,8 +2168,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.40
-    pathname: S/SR/SRI/Mojolicious-9.40.tar.gz
+  Mojolicious-9.41
+    pathname: S/SR/SRI/Mojolicious-9.41.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2197,6 +2216,7 @@ DISTRIBUTIONS
       Mojo::Reactor undef
       Mojo::Reactor::EV undef
       Mojo::Reactor::Poll undef
+      Mojo::SSE undef
       Mojo::Server undef
       Mojo::Server::CGI undef
       Mojo::Server::Daemon undef
@@ -2219,7 +2239,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.40
+      Mojolicious 9.41
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2316,10 +2336,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.50
-    pathname: N/NL/NLNETLABS/Net-DNS-1.50.tar.gz
+  Net-DNS-1.51
+    pathname: N/NL/NLNETLABS/Net-DNS-1.51.tar.gz
     provides:
-      Net::DNS 1.50
+      Net::DNS 1.51
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
@@ -2330,9 +2350,9 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2002
+      Net::DNS::Parameters 2021
       Net::DNS::Question 2002
-      Net::DNS::RR 2003
+      Net::DNS::RR 2018
       Net::DNS::RR::A 2003
       Net::DNS::RR::AAAA 2003
       Net::DNS::RR::AFSDB 2002
@@ -2345,7 +2365,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2002
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2003
+      Net::DNS::RR::DELEG 2021
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2003
@@ -2405,7 +2425,7 @@ DISTRIBUTIONS
       Net::DNS::RR::SPF 2003
       Net::DNS::RR::SRV 2003
       Net::DNS::RR::SSHFP 2003
-      Net::DNS::RR::SVCB 2003
+      Net::DNS::RR::SVCB 2018
       Net::DNS::RR::TKEY 2003
       Net::DNS::RR::TLSA 2003
       Net::DNS::RR::TSIG 2003
@@ -2413,8 +2433,8 @@ DISTRIBUTIONS
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
-      Net::DNS::Resolver 2009
-      Net::DNS::Resolver::Base 2011
+      Net::DNS::Resolver 2017
+      Net::DNS::Resolver::Base 2016
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
       Net::DNS::Resolver::UNIX 2007
@@ -2423,7 +2443,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::os2 2007
       Net::DNS::Resolver::os390 2007
       Net::DNS::Text 2002
-      Net::DNS::Update 2003
+      Net::DNS::Update 2017
       Net::DNS::ZoneFile 2002
       Net::DNS::ZoneFile::Generator 2002
       Net::DNS::ZoneFile::Text 2002
@@ -2967,53 +2987,57 @@ DISTRIBUTIONS
       POSIX 0
       strict 0
       warnings 0
-  Specio-0.50
-    pathname: D/DR/DROLSKY/Specio-0.50.tar.gz
+  Specio-0.51
+    pathname: D/DR/DROLSKY/Specio-0.51.tar.gz
     provides:
-      Specio 0.50
-      Specio::Coercion 0.50
-      Specio::Constraint::AnyCan 0.50
-      Specio::Constraint::AnyDoes 0.50
-      Specio::Constraint::AnyIsa 0.50
-      Specio::Constraint::Enum 0.50
-      Specio::Constraint::Intersection 0.50
-      Specio::Constraint::ObjectCan 0.50
-      Specio::Constraint::ObjectDoes 0.50
-      Specio::Constraint::ObjectIsa 0.50
-      Specio::Constraint::Parameterizable 0.50
-      Specio::Constraint::Parameterized 0.50
-      Specio::Constraint::Role::CanType 0.50
-      Specio::Constraint::Role::DoesType 0.50
-      Specio::Constraint::Role::Interface 0.50
-      Specio::Constraint::Role::IsaType 0.50
-      Specio::Constraint::Simple 0.50
-      Specio::Constraint::Structurable 0.50
-      Specio::Constraint::Structured 0.50
-      Specio::Constraint::Union 0.50
-      Specio::Declare 0.50
-      Specio::DeclaredAt 0.50
-      Specio::Exception 0.50
-      Specio::Exporter 0.50
-      Specio::Helpers 0.50
-      Specio::Library::Builtins 0.50
-      Specio::Library::Numeric 0.50
-      Specio::Library::Perl 0.50
-      Specio::Library::String 0.50
-      Specio::Library::Structured 0.50
-      Specio::Library::Structured::Dict 0.50
-      Specio::Library::Structured::Map 0.50
-      Specio::Library::Structured::Tuple 0.50
-      Specio::OO 0.50
-      Specio::PartialDump 0.50
-      Specio::Registry 0.50
-      Specio::Role::Inlinable 0.50
-      Specio::Subs 0.50
-      Specio::TypeChecks 0.50
-      Test::Specio 0.50
+      Specio 0.51
+      Specio::Coercion 0.51
+      Specio::Constraint::AnyCan 0.51
+      Specio::Constraint::AnyDoes 0.51
+      Specio::Constraint::AnyIsa 0.51
+      Specio::Constraint::Enum 0.51
+      Specio::Constraint::Intersection 0.51
+      Specio::Constraint::ObjectCan 0.51
+      Specio::Constraint::ObjectDoes 0.51
+      Specio::Constraint::ObjectIsa 0.51
+      Specio::Constraint::Parameterizable 0.51
+      Specio::Constraint::Parameterized 0.51
+      Specio::Constraint::Role::CanType 0.51
+      Specio::Constraint::Role::DoesType 0.51
+      Specio::Constraint::Role::Interface 0.51
+      Specio::Constraint::Role::IsaType 0.51
+      Specio::Constraint::Simple 0.51
+      Specio::Constraint::Structurable 0.51
+      Specio::Constraint::Structured 0.51
+      Specio::Constraint::Union 0.51
+      Specio::Declare 0.51
+      Specio::DeclaredAt 0.51
+      Specio::Exception 0.51
+      Specio::Exporter 0.51
+      Specio::Helpers 0.51
+      Specio::Library::Builtins 0.51
+      Specio::Library::Numeric 0.51
+      Specio::Library::Perl 0.51
+      Specio::Library::String 0.51
+      Specio::Library::Structured 0.51
+      Specio::Library::Structured::Dict 0.51
+      Specio::Library::Structured::Map 0.51
+      Specio::Library::Structured::Tuple 0.51
+      Specio::OO 0.51
+      Specio::PP 0.51
+      Specio::PartialDump 0.51
+      Specio::Registry 0.51
+      Specio::Role::Inlinable 0.51
+      Specio::Subs 0.51
+      Specio::TypeChecks 0.51
+      Specio::XS 0.51
+      Test::Specio 0.51
     requirements:
       B 0
       Carp 0
       Clone 0
+      Clone::Choose 0
+      Clone::PP 0
       Devel::StackTrace 0
       Eval::Closure 0
       Exporter 0
@@ -3021,6 +3045,7 @@ DISTRIBUTIONS
       IO::File 0
       List::Util 1.33
       MRO::Compat 0
+      Module::Implementation 0
       Module::Runtime 0
       Role::Tiny 1.003003
       Role::Tiny::With 0
@@ -3335,206 +3360,206 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.88
       perl 5.008_001
-  Test-Simple-1.302212
-    pathname: E/EX/EXODIST/Test-Simple-1.302212.tar.gz
+  Test-Simple-1.302214
+    pathname: E/EX/EXODIST/Test-Simple-1.302214.tar.gz
     provides:
-      Test2 1.302212
-      Test2::API 1.302212
-      Test2::API::Breakage 1.302212
-      Test2::API::Context 1.302212
-      Test2::API::Instance 1.302212
-      Test2::API::InterceptResult 1.302212
-      Test2::API::InterceptResult::Event 1.302212
-      Test2::API::InterceptResult::Facet 1.302212
-      Test2::API::InterceptResult::Hub 1.302212
-      Test2::API::InterceptResult::Squasher 1.302212
-      Test2::API::Stack 1.302212
-      Test2::AsyncSubtest 1.302212
-      Test2::AsyncSubtest::Event::Attach 1.302212
-      Test2::AsyncSubtest::Event::Detach 1.302212
-      Test2::AsyncSubtest::Formatter 1.302212
-      Test2::AsyncSubtest::Hub 1.302212
-      Test2::Bundle 1.302212
-      Test2::Bundle::Extended 1.302212
-      Test2::Bundle::More 1.302212
-      Test2::Bundle::Simple 1.302212
-      Test2::Compare 1.302212
-      Test2::Compare::Array 1.302212
-      Test2::Compare::Bag 1.302212
-      Test2::Compare::Base 1.302212
-      Test2::Compare::Bool 1.302212
-      Test2::Compare::Custom 1.302212
-      Test2::Compare::DeepRef 1.302212
-      Test2::Compare::Delta 1.302212
-      Test2::Compare::Event 1.302212
-      Test2::Compare::EventMeta 1.302212
-      Test2::Compare::Float 1.302212
-      Test2::Compare::Hash 1.302212
-      Test2::Compare::Isa 1.302212
-      Test2::Compare::Meta 1.302212
-      Test2::Compare::Negatable 1.302212
-      Test2::Compare::Number 1.302212
-      Test2::Compare::Object 1.302212
-      Test2::Compare::OrderedSubset 1.302212
-      Test2::Compare::Pattern 1.302212
-      Test2::Compare::Ref 1.302212
-      Test2::Compare::Regex 1.302212
-      Test2::Compare::Scalar 1.302212
-      Test2::Compare::Set 1.302212
-      Test2::Compare::String 1.302212
-      Test2::Compare::Undef 1.302212
-      Test2::Compare::Wildcard 1.302212
-      Test2::Env 1.302212
-      Test2::Event 1.302212
-      Test2::Event::Bail 1.302212
-      Test2::Event::Diag 1.302212
-      Test2::Event::Encoding 1.302212
-      Test2::Event::Exception 1.302212
-      Test2::Event::Fail 1.302212
-      Test2::Event::Generic 1.302212
-      Test2::Event::Note 1.302212
-      Test2::Event::Ok 1.302212
-      Test2::Event::Pass 1.302212
-      Test2::Event::Plan 1.302212
-      Test2::Event::Skip 1.302212
-      Test2::Event::Subtest 1.302212
-      Test2::Event::TAP::Version 1.302212
-      Test2::Event::V2 1.302212
-      Test2::Event::Waiting 1.302212
-      Test2::EventFacet 1.302212
-      Test2::EventFacet::About 1.302212
-      Test2::EventFacet::Amnesty 1.302212
-      Test2::EventFacet::Assert 1.302212
-      Test2::EventFacet::Control 1.302212
-      Test2::EventFacet::Error 1.302212
-      Test2::EventFacet::Hub 1.302212
-      Test2::EventFacet::Info 1.302212
-      Test2::EventFacet::Info::Table 1.302212
-      Test2::EventFacet::Meta 1.302212
-      Test2::EventFacet::Parent 1.302212
-      Test2::EventFacet::Plan 1.302212
-      Test2::EventFacet::Render 1.302212
-      Test2::EventFacet::Trace 1.302212
-      Test2::Formatter 1.302212
-      Test2::Formatter::TAP 1.302212
-      Test2::Hub 1.302212
-      Test2::Hub::Interceptor 1.302212
-      Test2::Hub::Interceptor::Terminator 1.302212
-      Test2::Hub::Subtest 1.302212
-      Test2::IPC 1.302212
-      Test2::IPC::Driver 1.302212
-      Test2::IPC::Driver::Files 1.302212
-      Test2::Manual 1.302212
-      Test2::Manual::Anatomy 1.302212
-      Test2::Manual::Anatomy::API 1.302212
-      Test2::Manual::Anatomy::Context 1.302212
-      Test2::Manual::Anatomy::EndToEnd 1.302212
-      Test2::Manual::Anatomy::Event 1.302212
-      Test2::Manual::Anatomy::Hubs 1.302212
-      Test2::Manual::Anatomy::IPC 1.302212
-      Test2::Manual::Anatomy::Utilities 1.302212
-      Test2::Manual::Concurrency 1.302212
-      Test2::Manual::Contributing 1.302212
-      Test2::Manual::Testing 1.302212
-      Test2::Manual::Testing::Introduction 1.302212
-      Test2::Manual::Testing::Migrating 1.302212
-      Test2::Manual::Testing::Planning 1.302212
-      Test2::Manual::Testing::Todo 1.302212
-      Test2::Manual::Tooling 1.302212
-      Test2::Manual::Tooling::FirstTool 1.302212
-      Test2::Manual::Tooling::Formatter 1.302212
-      Test2::Manual::Tooling::Nesting 1.302212
-      Test2::Manual::Tooling::Plugin::TestExit 1.302212
-      Test2::Manual::Tooling::Plugin::TestingDone 1.302212
-      Test2::Manual::Tooling::Plugin::ToolCompletes 1.302212
-      Test2::Manual::Tooling::Plugin::ToolStarts 1.302212
-      Test2::Manual::Tooling::Subtest 1.302212
-      Test2::Manual::Tooling::TestBuilder 1.302212
-      Test2::Manual::Tooling::Testing 1.302212
-      Test2::Mock 1.302212
-      Test2::Plugin 1.302212
-      Test2::Plugin::BailOnFail 1.302212
-      Test2::Plugin::DieOnFail 1.302212
-      Test2::Plugin::ExitSummary 1.302212
-      Test2::Plugin::SRand 1.302212
-      Test2::Plugin::Times 1.302212
-      Test2::Plugin::UTF8 1.302212
-      Test2::Require 1.302212
-      Test2::Require::AuthorTesting 1.302212
-      Test2::Require::AutomatedTesting 1.302212
-      Test2::Require::EnvVar 1.302212
-      Test2::Require::ExtendedTesting 1.302212
-      Test2::Require::Fork 1.302212
-      Test2::Require::Module 1.302212
-      Test2::Require::NonInteractiveTesting 1.302212
-      Test2::Require::Perl 1.302212
-      Test2::Require::RealFork 1.302212
-      Test2::Require::ReleaseTesting 1.302212
-      Test2::Require::Threads 1.302212
-      Test2::Suite 1.302212
-      Test2::Todo 1.302212
-      Test2::Tools 1.302212
-      Test2::Tools::AsyncSubtest 1.302212
-      Test2::Tools::Basic 1.302212
-      Test2::Tools::Class 1.302212
-      Test2::Tools::ClassicCompare 1.302212
-      Test2::Tools::Compare 1.302212
-      Test2::Tools::Defer 1.302212
-      Test2::Tools::Encoding 1.302212
-      Test2::Tools::Event 1.302212
-      Test2::Tools::Exception 1.302212
-      Test2::Tools::Exports 1.302212
-      Test2::Tools::GenTemp 1.302212
-      Test2::Tools::Grab 1.302212
-      Test2::Tools::Mock 1.302212
-      Test2::Tools::Ref 1.302212
-      Test2::Tools::Refcount 1.302212
-      Test2::Tools::Spec 1.302212
-      Test2::Tools::Subtest 1.302212
-      Test2::Tools::Target 1.302212
-      Test2::Tools::Tester 1.302212
-      Test2::Tools::Tiny 1.302212
-      Test2::Tools::Warnings 1.302212
-      Test2::Util 1.302212
-      Test2::Util::ExternalMeta 1.302212
-      Test2::Util::Facets2Legacy 1.302212
-      Test2::Util::Grabber 1.302212
-      Test2::Util::Guard 1.302212
-      Test2::Util::HashBase 1.302212
-      Test2::Util::Importer 1.302212
-      Test2::Util::Ref 1.302212
-      Test2::Util::Sig 1.302212
-      Test2::Util::Stash 1.302212
-      Test2::Util::Sub 1.302212
-      Test2::Util::Table 1.302212
-      Test2::Util::Table::Cell 1.302212
-      Test2::Util::Table::LineBreak 1.302212
-      Test2::Util::Term 1.302212
-      Test2::Util::Times 1.302212
-      Test2::Util::Trace 1.302212
-      Test2::V0 1.302212
-      Test2::Workflow 1.302212
-      Test2::Workflow::BlockBase 1.302212
-      Test2::Workflow::Build 1.302212
-      Test2::Workflow::Runner 1.302212
-      Test2::Workflow::Task 1.302212
-      Test2::Workflow::Task::Action 1.302212
-      Test2::Workflow::Task::Group 1.302212
-      Test::Builder 1.302212
-      Test::Builder::Formatter 1.302212
-      Test::Builder::Module 1.302212
-      Test::Builder::Tester 1.302212
-      Test::Builder::Tester::Color 1.302212
-      Test::Builder::Tester::Tie 1.302212
-      Test::Builder::TodoDiag 1.302212
-      Test::More 1.302212
-      Test::Simple 1.302212
-      Test::Tester 1.302212
-      Test::Tester::Capture 1.302212
-      Test::Tester::CaptureRunner 1.302212
-      Test::Tester::Delegate 1.302212
-      Test::use::ok 1.302212
-      ok 1.302212
+      Test2 1.302214
+      Test2::API 1.302214
+      Test2::API::Breakage 1.302214
+      Test2::API::Context 1.302214
+      Test2::API::Instance 1.302214
+      Test2::API::InterceptResult 1.302214
+      Test2::API::InterceptResult::Event 1.302214
+      Test2::API::InterceptResult::Facet 1.302214
+      Test2::API::InterceptResult::Hub 1.302214
+      Test2::API::InterceptResult::Squasher 1.302214
+      Test2::API::Stack 1.302214
+      Test2::AsyncSubtest 1.302214
+      Test2::AsyncSubtest::Event::Attach 1.302214
+      Test2::AsyncSubtest::Event::Detach 1.302214
+      Test2::AsyncSubtest::Formatter 1.302214
+      Test2::AsyncSubtest::Hub 1.302214
+      Test2::Bundle 1.302214
+      Test2::Bundle::Extended 1.302214
+      Test2::Bundle::More 1.302214
+      Test2::Bundle::Simple 1.302214
+      Test2::Compare 1.302214
+      Test2::Compare::Array 1.302214
+      Test2::Compare::Bag 1.302214
+      Test2::Compare::Base 1.302214
+      Test2::Compare::Bool 1.302214
+      Test2::Compare::Custom 1.302214
+      Test2::Compare::DeepRef 1.302214
+      Test2::Compare::Delta 1.302214
+      Test2::Compare::Event 1.302214
+      Test2::Compare::EventMeta 1.302214
+      Test2::Compare::Float 1.302214
+      Test2::Compare::Hash 1.302214
+      Test2::Compare::Isa 1.302214
+      Test2::Compare::Meta 1.302214
+      Test2::Compare::Negatable 1.302214
+      Test2::Compare::Number 1.302214
+      Test2::Compare::Object 1.302214
+      Test2::Compare::OrderedSubset 1.302214
+      Test2::Compare::Pattern 1.302214
+      Test2::Compare::Ref 1.302214
+      Test2::Compare::Regex 1.302214
+      Test2::Compare::Scalar 1.302214
+      Test2::Compare::Set 1.302214
+      Test2::Compare::String 1.302214
+      Test2::Compare::Undef 1.302214
+      Test2::Compare::Wildcard 1.302214
+      Test2::Env 1.302214
+      Test2::Event 1.302214
+      Test2::Event::Bail 1.302214
+      Test2::Event::Diag 1.302214
+      Test2::Event::Encoding 1.302214
+      Test2::Event::Exception 1.302214
+      Test2::Event::Fail 1.302214
+      Test2::Event::Generic 1.302214
+      Test2::Event::Note 1.302214
+      Test2::Event::Ok 1.302214
+      Test2::Event::Pass 1.302214
+      Test2::Event::Plan 1.302214
+      Test2::Event::Skip 1.302214
+      Test2::Event::Subtest 1.302214
+      Test2::Event::TAP::Version 1.302214
+      Test2::Event::V2 1.302214
+      Test2::Event::Waiting 1.302214
+      Test2::EventFacet 1.302214
+      Test2::EventFacet::About 1.302214
+      Test2::EventFacet::Amnesty 1.302214
+      Test2::EventFacet::Assert 1.302214
+      Test2::EventFacet::Control 1.302214
+      Test2::EventFacet::Error 1.302214
+      Test2::EventFacet::Hub 1.302214
+      Test2::EventFacet::Info 1.302214
+      Test2::EventFacet::Info::Table 1.302214
+      Test2::EventFacet::Meta 1.302214
+      Test2::EventFacet::Parent 1.302214
+      Test2::EventFacet::Plan 1.302214
+      Test2::EventFacet::Render 1.302214
+      Test2::EventFacet::Trace 1.302214
+      Test2::Formatter 1.302214
+      Test2::Formatter::TAP 1.302214
+      Test2::Hub 1.302214
+      Test2::Hub::Interceptor 1.302214
+      Test2::Hub::Interceptor::Terminator 1.302214
+      Test2::Hub::Subtest 1.302214
+      Test2::IPC 1.302214
+      Test2::IPC::Driver 1.302214
+      Test2::IPC::Driver::Files 1.302214
+      Test2::Manual 1.302214
+      Test2::Manual::Anatomy 1.302214
+      Test2::Manual::Anatomy::API 1.302214
+      Test2::Manual::Anatomy::Context 1.302214
+      Test2::Manual::Anatomy::EndToEnd 1.302214
+      Test2::Manual::Anatomy::Event 1.302214
+      Test2::Manual::Anatomy::Hubs 1.302214
+      Test2::Manual::Anatomy::IPC 1.302214
+      Test2::Manual::Anatomy::Utilities 1.302214
+      Test2::Manual::Concurrency 1.302214
+      Test2::Manual::Contributing 1.302214
+      Test2::Manual::Testing 1.302214
+      Test2::Manual::Testing::Introduction 1.302214
+      Test2::Manual::Testing::Migrating 1.302214
+      Test2::Manual::Testing::Planning 1.302214
+      Test2::Manual::Testing::Todo 1.302214
+      Test2::Manual::Tooling 1.302214
+      Test2::Manual::Tooling::FirstTool 1.302214
+      Test2::Manual::Tooling::Formatter 1.302214
+      Test2::Manual::Tooling::Nesting 1.302214
+      Test2::Manual::Tooling::Plugin::TestExit 1.302214
+      Test2::Manual::Tooling::Plugin::TestingDone 1.302214
+      Test2::Manual::Tooling::Plugin::ToolCompletes 1.302214
+      Test2::Manual::Tooling::Plugin::ToolStarts 1.302214
+      Test2::Manual::Tooling::Subtest 1.302214
+      Test2::Manual::Tooling::TestBuilder 1.302214
+      Test2::Manual::Tooling::Testing 1.302214
+      Test2::Mock 1.302214
+      Test2::Plugin 1.302214
+      Test2::Plugin::BailOnFail 1.302214
+      Test2::Plugin::DieOnFail 1.302214
+      Test2::Plugin::ExitSummary 1.302214
+      Test2::Plugin::SRand 1.302214
+      Test2::Plugin::Times 1.302214
+      Test2::Plugin::UTF8 1.302214
+      Test2::Require 1.302214
+      Test2::Require::AuthorTesting 1.302214
+      Test2::Require::AutomatedTesting 1.302214
+      Test2::Require::EnvVar 1.302214
+      Test2::Require::ExtendedTesting 1.302214
+      Test2::Require::Fork 1.302214
+      Test2::Require::Module 1.302214
+      Test2::Require::NonInteractiveTesting 1.302214
+      Test2::Require::Perl 1.302214
+      Test2::Require::RealFork 1.302214
+      Test2::Require::ReleaseTesting 1.302214
+      Test2::Require::Threads 1.302214
+      Test2::Suite 1.302214
+      Test2::Todo 1.302214
+      Test2::Tools 1.302214
+      Test2::Tools::AsyncSubtest 1.302214
+      Test2::Tools::Basic 1.302214
+      Test2::Tools::Class 1.302214
+      Test2::Tools::ClassicCompare 1.302214
+      Test2::Tools::Compare 1.302214
+      Test2::Tools::Defer 1.302214
+      Test2::Tools::Encoding 1.302214
+      Test2::Tools::Event 1.302214
+      Test2::Tools::Exception 1.302214
+      Test2::Tools::Exports 1.302214
+      Test2::Tools::GenTemp 1.302214
+      Test2::Tools::Grab 1.302214
+      Test2::Tools::Mock 1.302214
+      Test2::Tools::Ref 1.302214
+      Test2::Tools::Refcount 1.302214
+      Test2::Tools::Spec 1.302214
+      Test2::Tools::Subtest 1.302214
+      Test2::Tools::Target 1.302214
+      Test2::Tools::Tester 1.302214
+      Test2::Tools::Tiny 1.302214
+      Test2::Tools::Warnings 1.302214
+      Test2::Util 1.302214
+      Test2::Util::ExternalMeta 1.302214
+      Test2::Util::Facets2Legacy 1.302214
+      Test2::Util::Grabber 1.302214
+      Test2::Util::Guard 1.302214
+      Test2::Util::HashBase 1.302214
+      Test2::Util::Importer 1.302214
+      Test2::Util::Ref 1.302214
+      Test2::Util::Sig 1.302214
+      Test2::Util::Stash 1.302214
+      Test2::Util::Sub 1.302214
+      Test2::Util::Table 1.302214
+      Test2::Util::Table::Cell 1.302214
+      Test2::Util::Table::LineBreak 1.302214
+      Test2::Util::Term 1.302214
+      Test2::Util::Times 1.302214
+      Test2::Util::Trace 1.302214
+      Test2::V0 1.302214
+      Test2::Workflow 1.302214
+      Test2::Workflow::BlockBase 1.302214
+      Test2::Workflow::Build 1.302214
+      Test2::Workflow::Runner 1.302214
+      Test2::Workflow::Task 1.302214
+      Test2::Workflow::Task::Action 1.302214
+      Test2::Workflow::Task::Group 1.302214
+      Test::Builder 1.302214
+      Test::Builder::Formatter 1.302214
+      Test::Builder::Module 1.302214
+      Test::Builder::Tester 1.302214
+      Test::Builder::Tester::Color 1.302214
+      Test::Builder::Tester::Tie 1.302214
+      Test::Builder::TodoDiag 1.302214
+      Test::More 1.302214
+      Test::Simple 1.302214
+      Test::Tester 1.302214
+      Test::Tester::Capture 1.302214
+      Test::Tester::CaptureRunner 1.302214
+      Test::Tester::Delegate 1.302214
+      Test::use::ok 1.302214
+      ok 1.302214
     requirements:
       B 0
       Data::Dumper 0
@@ -4040,32 +4065,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.78
-    pathname: O/OA/OALDERS/libwww-perl-6.78.tar.gz
+  libwww-perl-6.79
+    pathname: O/OA/OALDERS/libwww-perl-6.79.tar.gz
     provides:
-      LWP 6.78
-      LWP::Authen::Basic 6.78
-      LWP::Authen::Digest 6.78
-      LWP::Authen::Ntlm 6.78
-      LWP::ConnCache 6.78
-      LWP::Debug 6.78
-      LWP::Debug::TraceHTTP 6.78
-      LWP::DebugFile 6.78
-      LWP::MemberMixin 6.78
-      LWP::Protocol 6.78
-      LWP::Protocol::cpan 6.78
-      LWP::Protocol::data 6.78
-      LWP::Protocol::file 6.78
-      LWP::Protocol::ftp 6.78
-      LWP::Protocol::gopher 6.78
-      LWP::Protocol::http 6.78
-      LWP::Protocol::loopback 6.78
-      LWP::Protocol::mailto 6.78
-      LWP::Protocol::nntp 6.78
-      LWP::Protocol::nogo 6.78
-      LWP::RobotUA 6.78
-      LWP::Simple 6.78
-      LWP::UserAgent 6.78
+      LWP 6.79
+      LWP::Authen::Basic 6.79
+      LWP::Authen::Digest 6.79
+      LWP::Authen::Ntlm 6.79
+      LWP::ConnCache 6.79
+      LWP::Debug 6.79
+      LWP::Debug::TraceHTTP 6.79
+      LWP::DebugFile 6.79
+      LWP::MemberMixin 6.79
+      LWP::Protocol 6.79
+      LWP::Protocol::cpan 6.79
+      LWP::Protocol::data 6.79
+      LWP::Protocol::file 6.79
+      LWP::Protocol::ftp 6.79
+      LWP::Protocol::gopher 6.79
+      LWP::Protocol::http 6.79
+      LWP::Protocol::loopback 6.79
+      LWP::Protocol::mailto 6.79
+      LWP::Protocol::nntp 6.79
+      LWP::Protocol::nogo 6.79
+      LWP::RobotUA 6.79
+      LWP::Simple 6.79
+      LWP::UserAgent 6.79
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -4191,6 +4216,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
