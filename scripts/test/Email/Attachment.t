@@ -305,12 +305,11 @@ for my $Test (@Tests) {
         };
     }
 
-    # Repeat the check of whether the email conserves the content type
-    # of the attachments
-    # This time look at the mail as parsed with Kernel::System::EmailParser
+    # Repeat the check of whether the email conserves the content type of the attachments.
+    # This time look at the mail as parsed with Kernel::System::EmailParser.
     {
         my $Email        = join "\n", $Header->$*, $Body->$*;
-        my @Array        = split /\n/, $Email;    # newlines are removed
+        my @Array        = map { $_ . "\n" } split /\n/, $Email;    # newlines are first removed, then added again
         my $ParserObject = Kernel::System::EmailParser->new(
             Email => \@Array,
         );
@@ -331,7 +330,7 @@ for my $Test (@Tests) {
                 is(
                     $Filename2ContentType{ $Attach->{Filename} },
                     $Test->{ExpectedResults}->{ $Attach->{Filename} }
-                        . qq{; name="$Attach->{Filename}"},
+                        . qq{; name="$Attach->{Filename}"\n},
                     "Content type of $Attach->{Filename}",
                 );
             }
