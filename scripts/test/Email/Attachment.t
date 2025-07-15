@@ -284,12 +284,12 @@ for my $Test (@Tests) {
     # The attachments are contained in the body of the email.
     {
         my %Filename2ContentType;
-        for my $Header ( split /\n/, $Body->$* ) {
+        for my $PotentialHeader ( split /\n/, $Body->$* ) {
 
             # Look at lines like:
             #   Content-Type: text/csv; name="csvfile.csv"
-            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
-                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
+            if ( $PotentialHeader =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
+                ( undef, $Filename2ContentType{$1} ) = split /: /, $PotentialHeader;
             }
         }
 
@@ -314,15 +314,24 @@ for my $Test (@Tests) {
             Email => \@Array,
         );
 
-        # The body of the mail contains the MIME headers of the attachments.
-        # $ParserObject->{Email} is a Mail::Internet,
-        # The body still has the lines without trailing newlines.
+        # ParserParts is a MIME::Entity object.
+        # The parts are als MIME::Entity objects.
+        # The head of a part is already parsed, so we can call 'get() on it.
         my %Filename2ContentType;
-        my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
-        for my $Header ( @{$Headers} ) {
-            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
-                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
-            }
+        PART:
+        for my $Part ( $ParserObject->{ParserParts}->parts ) {
+            next PART unless $Part;
+            next PART unless $Part->head;
+
+            my $ContentType = $Part->head->get('Content-Type');
+
+            next PART unless $ContentType;
+
+            # $ContentType is something like qq{text/csv; name="csvfile.csv"\n}
+            next PART unless $ContentType =~ m/^.*?\;.*?\"(.*?)\"/x;
+
+            # got the attachment file name
+            $Filename2ContentType{$1} = $ContentType;
         }
 
         subtest "content types of attachments from parsed Email $Test->{Name}" => sub {
