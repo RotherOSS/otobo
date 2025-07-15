@@ -65,12 +65,6 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-# Constants for test(s): 1 - enabled, 0 - disabled.
-# SEND - check sending body. PARSE - check parsed body.
-
-my $SEND  = 1;
-my $PARSE = 1;
-
 my $AttachmentReference = [
     {
         Filename    => 'csvfile.csv',
@@ -269,15 +263,9 @@ my $SendEmail = sub {
 };
 
 # testing loop
-my $Count = 0;
-TEST:
 for my $Test (@Tests) {
 
-    $Count++;
-
-    my $Name = "#$Count $Test->{Name}";
-
-    # Send mail and get results.
+    # Send mail and get results as two string refs
     my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} } );
 
     # check reference attachment size
@@ -291,28 +279,28 @@ for my $Test (@Tests) {
         );
     }
 
+    # standardize in case of strange output
     if ( !$Header || ref $Header ne 'SCALAR' ) {
-
         my $String = '';
         $Header = \$String;
     }
-
     if ( !$Body || ref $Body ne 'SCALAR' ) {
-
         my $String = '';
         $Body = \$String;
     }
 
-    # some MIME::Tools workaround
-    my $Email = ${$Header} . "\n" . ${$Body};
-    my @Array = split /\n/, $Email;
+    # Test whether the constructed email conserves
+    # the content type associated with the file name.
+    # For that extract the Content-Type of the attachments.
+    # The attachments are contained in the body of the email.
+    {
+        my %Filename2ContentType;
+        for my $Header ( split /\n/, $Body->$* ) {
 
-    # Processing with Send headersif constant SEND set to 1
-    if ($SEND) {
-        my %Result;
-        for my $Header ( split /\n/, ${$Body} ) {
-            if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$2} = ( split /: /, $Header )[1];
+            # Look at lines like:
+            #   Content-Type: text/csv; name="csvfile.csv"
+            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
+                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
             }
         }
 
@@ -320,7 +308,7 @@ for my $Test (@Tests) {
         for my $Name (@Tests) {
             for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
                 is(
-                    $Result{ $Attach->{Filename} },
+                    $Filename2ContentType{ $Attach->{Filename} },
                     $Name->{ExpectedResults}->{ $Attach->{Filename} }
                         . '; name="' . $Attach->{Filename} . '"',
                     "EmailSend: $Name->{Name} ",
@@ -329,21 +317,25 @@ for my $Test (@Tests) {
         }
     }
 
-    # No need test below is constant PARSE set to 0
-    next TEST if ( !$PARSE );
+    # Repeat the check of whether the email conserves the content type
+    # ot the attachments
+    # This time look at the mail as parsed with Kernel::Syste,::EmailParaer
+    my %Filename2ContentType;
+    {
+        my $Email        = join "\n", $Header->$*, $Body->$*;
+        my @Array        = split /\n/, $Email;    # newlines are removed
+        my $ParserObject = Kernel::System::EmailParser->new(
+            Email => \@Array,
+        );
 
-    # parse email
-    my $ParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
-    );
-
-    my %Result;
-
-    my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
-
-    for my $Header ( @{$Headers} ) {
-        if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-            $Result{$2} = ( split /: /, $Header )[1];
+        # The body of the mail contains the MIME headers of the attachments.
+        # $ParserObject->{Email} is a Mail::Internet,
+        # The body still has the lines without trailing newlines.
+        my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
+        for my $Header ( @{$Headers} ) {
+            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
+                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
+            }
         }
     }
 
@@ -351,9 +343,9 @@ for my $Test (@Tests) {
     for my $Name (@Tests) {
         for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
             is(
-                $Result{ $Attach->{Filename} },
+                $Filename2ContentType{ $Attach->{Filename} },
                 $Name->{ExpectedResults}->{ $Attach->{Filename} }
-                    . '; name="' . $Attach->{Filename} . '"',
+                    . qq{; name="$Attach->{Filename}"},
                 "EmailParser: $Name->{Name} ",
             );
         }
