@@ -24,11 +24,14 @@
                 }
             }
 </script>
+# the language.js path needs to be a string constant, but it depends on the UserLanguage,
+# so we load it here instead of Core.UI.RichTextEditor or Core.UI.CKEditor5Wrapper
+<script type="module">
+import coreTranslations from "[% Config("Frontend::RichTextPath") | html %][% Data.TranslationFilename | html %]";
+window.CKEditor5CoreTranslations = coreTranslations;            
+</script>
 <script type="module" src="[% Data.JSDirectory | html %][% Data.WrapperFileName | html %]"></script>
 [% RenderBlockEnd("RichTextJS") %]
-[% RenderBlockStart("RichTextTranslationJS") %]
-<script type="module" src="[% Config("Frontend::RichTextPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
-[% RenderBlockEnd("RichTextTranslationJS") %]
 
 [% RenderBlockStart("CommonJS") %]
 <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
