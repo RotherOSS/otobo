@@ -265,6 +265,8 @@ my $SendEmail = sub {
 # testing loop
 for my $Test (@Tests) {
 
+    diag "testing '$Test->{Name}'";
+
     # Send mail and get results as two string refs
     my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} } );
 
@@ -304,23 +306,21 @@ for my $Test (@Tests) {
             }
         }
 
-        # Final check Content-Type from Email Send
-        for my $Name (@Tests) {
-            for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
+        subtest "content types of attachments $Test->{Name}" => sub {
+            for my $Attach ( @{ $Test->{Data}->{Attachment} } ) {
                 is(
                     $Filename2ContentType{ $Attach->{Filename} },
-                    $Name->{ExpectedResults}->{ $Attach->{Filename} }
-                        . '; name="' . $Attach->{Filename} . '"',
-                    "EmailSend: $Name->{Name} ",
+                    $Test->{ExpectedResults}->{ $Attach->{Filename} }
+                        . qq{; name="$Attach->{Filename}"},
+                    "Content type of $Attach->{Filename}",
                 );
             }
-        }
+        };
     }
 
     # Repeat the check of whether the email conserves the content type
-    # ot the attachments
-    # This time look at the mail as parsed with Kernel::Syste,::EmailParaer
-    my %Filename2ContentType;
+    # of the attachments
+    # This time look at the mail as parsed with Kernel::System::EmailParser
     {
         my $Email        = join "\n", $Header->$*, $Body->$*;
         my @Array        = split /\n/, $Email;    # newlines are removed
@@ -331,24 +331,24 @@ for my $Test (@Tests) {
         # The body of the mail contains the MIME headers of the attachments.
         # $ParserObject->{Email} is a Mail::Internet,
         # The body still has the lines without trailing newlines.
+        my %Filename2ContentType;
         my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
         for my $Header ( @{$Headers} ) {
             if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
                 ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
             }
         }
-    }
 
-    # Final check Content-Type from EmailParser
-    for my $Name (@Tests) {
-        for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
-            is(
-                $Filename2ContentType{ $Attach->{Filename} },
-                $Name->{ExpectedResults}->{ $Attach->{Filename} }
-                    . qq{; name="$Attach->{Filename}"},
-                "EmailParser: $Name->{Name} ",
-            );
-        }
+        subtest "content types of attachments from parsed Email $Test->{Name}" => sub {
+            for my $Attach ( @{ $Test->{Data}->{Attachment} } ) {
+                is(
+                    $Filename2ContentType{ $Attach->{Filename} },
+                    $Test->{ExpectedResults}->{ $Attach->{Filename} }
+                        . qq{; name="$Attach->{Filename}"},
+                    "Content type of $Attach->{Filename}",
+                );
+            }
+        };
     }
 
 }
