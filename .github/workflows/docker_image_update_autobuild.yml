@@ -245,7 +245,7 @@ jobs:
         id: sort_json
         if: steps.count_builds.outputs.num_builds >= 1
         run: |
-          sorted_json=$(jq --sort-keys <<END_JSON
+          sorted_json=$(jq --sort-keys '.' <<END_JSON
           ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
           END_JSON
           )
