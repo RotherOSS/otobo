@@ -287,7 +287,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 // Headers sent along with the XMLHttpRequest to the upload server.
                 headers: {}
-            }
+            },
+            translations: [
+                CKEditor5CoreTranslations,
+            ]            
         })
             .then(editor => {
                 /* Generate ID for current Editor */

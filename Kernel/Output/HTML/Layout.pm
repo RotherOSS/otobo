@@ -1843,41 +1843,19 @@ sub Footer {
         my $JSDirectoryPath = $WebPath . 'js/';
 
         # ckeditor.js is always loaded when richtext is enabled
+
+        my $ShortLanguage = lc $Self->{UserLanguage};
+        $ShortLanguage =~ s/_.*$//;
+
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory     => $JSDirectoryPath,
-                Filename        => 'ckeditor5.js',
-                WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
+                JSDirectory         => $JSDirectoryPath,
+                Filename            => 'ckeditor5.js',
+                WrapperFileName     => 'Core.UI.CKEditor5Wrapper.js',
+                TranslationFilename => 'translations/' . $ShortLanguage . '.js',
             },
         );
-
-        # assemble the path to the translation file based on the relevant URLs
-        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
-        if ( $RichTextPath && $WebPath ) {
-            my $Home = $ConfigObject->Get('Home');
-            $RichTextPath =~ s/$WebPath//s;
-            my $TranslationFile = lc "$Self->{UserLanguage}.js";
-            $TranslationFile =~ s/_/-/g;
-            my $TranslationFullPath = File::Spec->catfile(
-                $Home,
-                'var/httpd/htdocs',
-                $RichTextPath,
-                'translations',
-                $TranslationFile
-            );
-
-            # load the translation file only if it exists
-            if ( -f $TranslationFullPath ) {
-                $Self->Block(
-                    Name => 'RichTextTranslationJS',
-                    Data => {
-                        JSDirectory => 'translations/',
-                        Filename    => $TranslationFile,
-                    },
-                );
-            }
-        }
     }
 
     # add JS data
