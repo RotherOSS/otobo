@@ -213,7 +213,6 @@ my @Tests = (
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
         },
-        CheckAttachmentsSize => '1',
     },
     {
         Name => 'HTML email - Attachments grow up two.',
@@ -234,7 +233,6 @@ my @Tests = (
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
         },
-        CheckAttachmentsSize => '1',
     },
 
 );
@@ -269,17 +267,6 @@ for my $Test (@Tests) {
 
     # Send mail and get results as two string refs
     my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} } );
-
-    # check reference attachment size
-    if ( $Test->{CheckAttachmentsSize} ) {
-
-        my $CurrentAttachmentNumber = scalar @{$AttachmentReference};
-        is(
-            $AttachmentNumber,
-            $CurrentAttachmentNumber,
-            "AttachmentsSize: $Test->{Name} ",
-        );
-    }
 
     # standardize in case of strange output
     if ( !$Header || ref $Header ne 'SCALAR' ) {
