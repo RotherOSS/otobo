@@ -35,7 +35,10 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::GeneralCatalog',
     'Kernel::System::Log',
+    'Kernel::System::Queue',
+    'Kernel::System::Type',
     'Kernel::System::Valid',
     'Kernel::System::YAML',
 );
@@ -1383,10 +1386,10 @@ sub ObjectMappingGet {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get configuration for this object type
-    my $Config           = $ConfigObject->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $ConfigObject->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1395,7 +1398,7 @@ sub ObjectMappingGet {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1499,10 +1502,10 @@ sub ObjectMappingCreate {
     }
 
     # Get configuration for this object type
-    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1510,7 +1513,7 @@ sub ObjectMappingCreate {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1585,10 +1588,10 @@ sub ObjectMappingNameChange {
     }
 
     # Get configuration for this object type
-    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1596,7 +1599,7 @@ sub ObjectMappingNameChange {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1695,6 +1698,175 @@ sub GetValidDynamicFields {
     }
 
     return $DynamicFields;
+}
+
+=head2 DynamicFieldConfigTransform()
+
+Transformations of the dynamic field config needed for Import/Export, which includes transitioning IDs in field configs into names and back.
+Note that the passed in dynamic field config is modified in place.
+
+    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigTransform(
+        DynamicFieldConfig => $FieldConfig,
+        Action             => 'Import',
+    );
+
+=cut
+
+sub DynamicFieldConfigTransform {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Action DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    if ( grep { $Param{DynamicFieldConfig}{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+
+        # needed transformation: Name -> ID
+        if ( $Param{Action} eq 'Import' ) {
+
+            if ( $DynamicFieldConfig->{Config}{Queue} ) {
+                my @QueueIDs;
+                for my $QueueName ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                    push @QueueIDs, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $QueueName );
+                }
+                $DynamicFieldConfig->{Config}{Queue} = \@QueueIDs;
+            }
+            if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+                my @TypeIDs;
+                for my $TypeName ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                    push @TypeIDs, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeName );
+                }
+                $DynamicFieldConfig->{Config}{TicketType} = \@TypeIDs;
+            }
+            if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+                my %ClassName2ID = reverse %{
+                    $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                        Class => 'ITSM::ConfigItem::Class',
+                    )
+                };
+                my @ClassIDs = map
+                    { $ClassName2ID{$_} }
+                    $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+                $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassIDs;
+            }
+        }
+
+        # needed transformation: ID -> Name
+        elsif ( $Param{Action} eq 'Export' ) {
+
+            if ( $DynamicFieldConfig->{Config}{Queue} ) {
+                my @QueueNames;
+                for my $QueueID ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                    push @QueueNames, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $QueueID );
+                }
+                $DynamicFieldConfig->{Config}{Queue} = \@QueueNames;
+            }
+            if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+                my @TypeNames;
+                for my $TypeID ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                    push @TypeNames, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeID );
+                }
+                $DynamicFieldConfig->{Config}{TicketType} = \@TypeNames;
+            }
+            if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+                my %ClassID2Name = %{
+                    $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                        Class => 'ITSM::ConfigItem::Class',
+                    )
+                };
+                my @ClassNames = map
+                    { $ClassID2Name{$_} }
+                    $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+                $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassNames;
+            }
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+
+        if ( $Param{Action} eq 'Import' ) {
+            my $AttributeDF = $Self->DynamicFieldGet(
+                Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+            );
+            $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+            my $ReferenceDF = $Self->DynamicFieldGet(
+                Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+            );
+            $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
+        }
+        elsif ( $Param{Action} eq 'Export' ) {
+            my $AttributeDF = $Self->DynamicFieldGet(
+                ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+            );
+            $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+            my $ReferenceDF = $Self->DynamicFieldGet(
+                ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+            );
+            $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
+        }
+    }
+
+    # sanitize configs of set-included DFs
+    if ( $Param{Action} eq "Export" && IsArrayRefWithData( $DynamicFieldConfig->{Config}->{Include} ) ) {
+
+        # iterate the entire Include structure
+        INCLUDEELEMENT:
+        for my $IncludeElement ( $DynamicFieldConfig->{Config}{Include}->@* ) {
+
+            if ( $IncludeElement->{DF} ) {
+                delete $IncludeElement->{Definition}{ID};
+
+                # Filter off the 'PartOfSet' attribute, it is not necessary and may cause inconsistency errors later on import
+                delete $IncludeElement->{Definition}{Config}{PartOfSet};
+
+                # transform included configs recursively on export
+                $IncludeElement->{Definition} = $Self->_DynamicFieldConfigTransform(
+                    DynamicFieldConfig => $IncludeElement->{Definition},
+                    Action             => 'Export',
+                );
+            }
+            elsif ( $IncludeElement->{Grid} ) {
+
+                next INCLUDEELEMENT unless IsHashRefWithData( $IncludeElement->{Grid} );
+                next INCLUDEELEMENT unless IsArrayRefWithData( $IncludeElement->{Grid}{Rows} );
+
+                ROW:
+                for my $Row ( $IncludeElement->{Grid}{Rows}->@* ) {
+
+                    next ROW unless IsArrayRefWithData($Row);
+
+                    ROWELEMENT:
+                    for my $RowElement ( $Row->@* ) {
+                        if ( $RowElement->{DF} ) {
+                            delete $RowElement->{Definition}{ID};
+
+                            # Filter off the 'PartOfSet' attribute, it is not necessary and may cause inconsistency errors later on import
+                            delete $RowElement->{Definition}{Config}{PartOfSet};
+
+                            # transform included configs recursively on export
+                            $RowElement->{Definition} = $Self->_DynamicFieldConfigTransform(
+                                DynamicFieldConfig => $RowElement->{Definition},
+                                Action             => 'Export',
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if ( $Param{Action} eq 'Export' ) {
+        delete $Param{DynamicFieldConfig}{ID};
+    }
+
+    return $Param{DynamicFieldConfig};
 }
 
 =begin Internal:
