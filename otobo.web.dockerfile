@@ -69,6 +69,7 @@ RUN apt-get update\
  "fonts-indic"\
  "fonts-noto"\
  "fonts-noto-cjk"\
+ "fonts-noto-color-emoji"\
  "libqrencode-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
