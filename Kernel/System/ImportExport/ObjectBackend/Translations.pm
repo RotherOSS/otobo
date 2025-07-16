@@ -271,7 +271,6 @@ sub ExportDataGet {
         $Self->{ChunkingFinished} = 0;
 
         # get the complete data only on the first invocation
-        $DB::single = 1;
         $Self->{AllRows} //= $Self->_GetTranslations(
             TemplateID => $Param{TemplateID},
             UserID     => $Param{UserID},
