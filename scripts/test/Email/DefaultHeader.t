@@ -97,7 +97,7 @@ my @Tests = (
         },
     },
     {
-        Name => 'DefaultHeader - X-Header',
+        Name => 'X-Header',
         Data => {
             From    => 'john.smith@example.com',
             To      => 'john.smith2@example.com',
@@ -112,11 +112,7 @@ my @Tests = (
     },
 );
 
-my $Count = 1;
 for my $Test (@Tests) {
-
-    my $Name = "#$Count $Test->{Name}";
-
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Email'] );
     my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
@@ -132,11 +128,10 @@ for my $Test (@Tests) {
 
     # end MIME::Tools workaround
     my $Email = ${$Header} . "\n" . ${$Body};
-    my @Array = split /\n/, $Email;
 
     # parse email
     my $ParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
+        Email => $Email,
     );
 
     # check header
@@ -147,7 +142,7 @@ for my $Test (@Tests) {
         is(
             $ParserObject->GetParam( WHAT => $Key ),
             $Test->{Check}->{$Key},
-            "$Name GetParam(WHAT => '$Key')",
+            "$Test->{Name}: GetParam(WHAT => '$Key')",
         );
     }
 }
