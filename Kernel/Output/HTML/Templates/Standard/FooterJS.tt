@@ -28,7 +28,7 @@
 # so we load it here instead of Core.UI.RichTextEditor or Core.UI.CKEditor5Wrapper
 <script type="module">
 import coreTranslations from "[% Config("Frontend::RichTextPath") | html %][% Data.TranslationFilename | html %]";
-window.CKEditor5CoreTranslations = coreTranslations;            
+window.CKEditor5CoreTranslations = coreTranslations;
 </script>
 <script type="module" src="[% Data.JSDirectory | html %][% Data.WrapperFileName | html %]"></script>
 [% RenderBlockEnd("RichTextJS") %]
