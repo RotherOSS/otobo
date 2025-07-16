@@ -161,9 +161,6 @@ sub new {
         $Self->{EntityMode}   = 1;
     }
 
-    # TODO: maybe keep the attribute Email available for legacy usage
-    #$Self->{Email} = $Self->{ParserParts};
-
     # Get a MIME::Head object from the toplevel MIME::Entity object.
     # This is irrespective whether the MIME entity was created in or passed into this constructor.
     # MIME::Head inherits from Mail::Header.
