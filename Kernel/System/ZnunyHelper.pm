@@ -1639,9 +1639,25 @@ sub _DynamicFieldsCreate {
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
+    # split dynamic fields in three separate groups
+    my @NormalFields = grep { $_->{FieldType} ne 'Lens' && $_->{FieldType} ne 'Set' } @DynamicFields;
+    my @LensFields   = grep { $_->{FieldType} eq 'Lens' } @DynamicFields;
+    my @SetFields    = grep { $_->{FieldType} eq 'Set' } @DynamicFields;
+
+    # sort lens fields in case a lens has another lens as attribute dynamic field
+    my @LensFieldsSorted = sort {
+        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
+    } @LensFields;
+
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField (@DynamicFields) {
+    for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
+
+        # field config transformation
+        $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigTransform(
+            DynamicFieldConfig => $NewDynamicField,
+            Action             => 'Import',
+        );
 
         my $CreateDynamicField;
 
