@@ -6,14 +6,16 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.32.x series as the base.
-# As of 2024-07-29 this is Perl 5.32.1.
-# This assures that bug and security fixes are applied when rebuilding the image.
+# Use the latest maintainance release of the Perl 5.36.x series.
+# Perl 5.36.0 was released 2022-05-27.
 #
-# The Debian version is explicitly set to buster, that is Debian 10.
-#
-# The Perl module installer 'cpanm' is already installed.
-FROM perl:5.32-buster AS otobo-web
+# As of OTOBO 10.0.26 the Debian version is explicitly set to bookworm, that is Debian 11.
+# This is the same base image as it is used in OTOBO 10.1.x.
+# Previously Debian 10 (Buster) was used for the OTOBO 10.0.x seriest. The upgrade
+# might cause problem in installation that rely on Debian 10 being used.
+# The reason for moving away from Debian 10 (Buster) is that this version
+# is no longer in long term support.
+FROM perl:5.36-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
