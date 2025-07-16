@@ -112,8 +112,10 @@ sub Run {
     elsif ( $EncryptionMethod eq 'SMIME' ) {
 
         # Try to decrypt body with SMIME.
+        # Actually pass the complete mail as a string as
+        # the crypted body will be detected in _DecryptSMIME().
         $Param{GetParam}->{'X-OTOBO-BodyDecrypted'} = $Self->_DecryptSMIME(
-            Body        => $Self->{ParserObject}->{Email}->as_string(),
+            Body        => $Self->{ParserObject}->GetPlainEmail,
             ContentType => $ContentType,
             %Param
         ) || '';
