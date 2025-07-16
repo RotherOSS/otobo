@@ -57,13 +57,12 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
         # Verify header is already part of the config
         my $IsInConfig = any { $_ eq $Header } @PostmasterXHeader;
 
-        ok( $IsInConfig, "Headermight be in config already: $Header." );
+        ok( $IsInConfig, "Header '$Header' is in config" );
     }
 }
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
-
 my %NeededDynamicfields = (
     TicketFreeText1 => 1,
     TicketFreeText2 => 1,
@@ -147,7 +146,7 @@ my $EmailInlineImage = $MainObject->FileRead(
 );
 
 # Workaround due used email have not a From value
-unshift @{$EmailAttachment}, 'From: Sender <sender@example.com>';
+unshift $EmailAttachment->@*, 'From: Sender <sender@example.com>' . "\n";
 
 # filter test
 my @Tests = (
@@ -292,9 +291,9 @@ for my $Test (@Tests) {
         is(
             $Return[0],
             1,
-            "#Filter Run() - NewTicket",
+            "Filter Run() - NewTicket",
         );
-        ok( $Return[1] || 0, "#Filter Run() - NewTicket/TicketID" );
+        ok( $Return[1] || 0, "Filter Run() - NewTicket/TicketID" );
 
         # new/clear ticket object
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
@@ -318,7 +317,7 @@ for my $Test (@Tests) {
             TicketID => $Return[1],
             UserID   => 1,
         );
-        ok( $Delete || 0, "#Filter TicketDelete()" );
+        ok( $Delete || 0, "Filter TicketDelete()" );
 
         # remove filter
         $PostMasterFilterObject->FilterDelete( Name => $Test->{Name} );
