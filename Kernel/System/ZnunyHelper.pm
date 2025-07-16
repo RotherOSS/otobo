@@ -1934,6 +1934,14 @@ sub _DynamicFieldsConfigExport {
         }
     }
 
+    # perform transformations if necessary
+    for my $DynamicFieldConfig (@DynamicFieldConfigs) {
+        $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldConfigTransform(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Action             => 'Export',
+        );
+    }
+
     my $Data;
     if ( $ResultType eq 'hash' ) {
         %{$Data} = map { $_->{Name} => $_ } @DynamicFieldConfigs;
