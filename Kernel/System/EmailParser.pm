@@ -127,15 +127,14 @@ sub new {
         $Self->{OriginalStringRef} = $StringRef;
 
         # Create a MIME::Entity object from the Email content.
-        # Keep nested messages as attachments (see bug#1970).
         my $Parser = MIME::Parser->new();
-        $Parser->output_to_core('ALL');
-        $Parser->extract_nested_messages(0);
-
-        # TODO: passing in an arrayref is deprecated
+        $Parser->output_to_core('ALL');         # all data is held in Perl data structures, in memory
+        $Parser->extract_nested_messages(0);    # Keep nested messages as attachments (see bug#1970).
         $Self->{ParserParts} = $Parser->parse_data($StringRef);
     }
     else {
+
+        # a MIME::Entity was passed
         $Self->{ParserParts} = $Param{Entity};
         $Self->{EntityMode}  = 1;
     }
@@ -159,7 +158,9 @@ sub new {
 
 =head2 GetPlainEmail()
 
-To get a email as a string back (plain email).
+gets the complete message, that is headers and body, back as a string.
+When not in entity mode the originally passed Email is returned as a string.
+In entity mode the passed MIME::Entity object is stringified.
 
     my $Email = $ParserObject->GetPlainEmail();
 
@@ -168,7 +169,8 @@ To get a email as a string back (plain email).
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{OriginalStringRef} ? $Self->{OriginalStringRef}->$* : $Self->{ParserParts}->stringify;
+    return $Self->{OriginalStringRef}->$* if $Self->{OriginalStringRef};
+    return $Self->{ParserParts}->stringify;
 }
 
 =head2 GetParam()
@@ -267,6 +269,7 @@ to get the sender's C<RealName>.
 
 sub GetRealname {
     my ( $Self, %Param ) = @_;
+
     my $Realname = '';
 
     # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
