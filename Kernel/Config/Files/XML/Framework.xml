@@ -615,6 +615,20 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="LogModule::LogFile::MaxSize" Required="0" Valid="0">
+        <Description Translatable="1">MaxSize in Bytes until otobo.log gets rotated. Default is 104857600 (100 MB = 100 * 1024 * 1024).</Description>
+        <Navigation>Core::Log</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]*$">104857600</Item>
+        </Value>
+    </Setting>
+    <Setting Name="LogModule::LogFile::MaxKeepRotated" Required="0" Valid="0">
+        <Description Translatable="1">How many rotated otobo.log files to keep. Default is 7.</Description>
+        <Navigation>Core::Log</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]*$">7</Item>
+        </Value>
+    </Setting>
     <Setting Name="MinimumLogLevel" Required="1" Valid="1">
         <Description Translatable="1">Set the minimum log level. If you select 'error', just errors are logged. With 'debug' you get all logging messages. The order of log levels is: 'debug', 'info', 'notice' and 'error'.</Description>
         <Navigation>Core::Log</Navigation>
