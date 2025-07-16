@@ -349,6 +349,7 @@ div.InputField_ToolbarContainer {
     line-height: 21px;
     box-sizing: content-box;
     min-height: 21px;
+    white-space:nowrap;
 }
 
 div.InputField_ToolbarContainer ul {
