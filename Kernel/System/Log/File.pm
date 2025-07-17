@@ -65,6 +65,9 @@ sub _RotateOtoboLog {
 
     $Self->{AlreadyRotated} = 1;
 
+    # nothing to rotate if it does not exist yet
+    return unless -e  $Self->{LogFile};        
+
     # only rotate if MaxSize sysconfig is set
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
