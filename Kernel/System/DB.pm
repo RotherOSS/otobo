@@ -509,6 +509,7 @@ you also can use DBI bind values (used for large strings):
     my $InsertSuccess = $DBObject->Do(
         SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
         Bind => [ \$Var1, \$Var2 ],
+        MayFail => 0|1,                                           # optional, default 0
     );
 
 The special value B<current_timestamp> is replaced by the current date and time.
@@ -519,6 +520,8 @@ Returns 1 in the case of success, an empty list in the case of failure.
 
 sub Do {
     my ( $Self, %Param ) = @_;
+
+    my $MayFail = $Param{MayFail} // 0;
 
     # check needed stuff
     if ( !$Param{SQL} ) {
@@ -583,15 +586,25 @@ sub Do {
     return unless $Self->Connect;
 
     # send sql to database
+
+    my $PrintErrorFlag = $Self->{dbh}->{PrintError};
+    if ($MayFail) {
+        $Self->{dbh}->{PrintError} = 0;
+    }
+
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'error',
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
-        );
+        ) unless $MayFail;
+
+        $Self->{dbh}->{PrintError} = $PrintErrorFlag;
 
         return;
     }
+
+    $Self->{dbh}->{PrintError} = $PrintErrorFlag;
 
     return 1;
 }
