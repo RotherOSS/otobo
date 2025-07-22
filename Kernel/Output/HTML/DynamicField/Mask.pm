@@ -215,6 +215,7 @@ sub EditSectionRender {
                 Readonly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},
                 Object               => $Param{Object},
+                Class                => $Param{Class} // '',
                 %Error,
                 %InvisibleNoDefault,
             );
