@@ -124,6 +124,7 @@ sub Run {
         $Content = $HTMLUtilsObject->DocumentComplete(
             String            => $Content,
             CustomerInterface => 1,
+            CustomerUIStyles  => 1,
         );
 
         return $LayoutObject->Attachment(
