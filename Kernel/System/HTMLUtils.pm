@@ -657,7 +657,7 @@ check and e. g. add <html> and <body> tags to given HTML string
     my $HTMLDocument = $HTMLUtilsObject->DocumentComplete(
         String            => $String,
         CustomerInterface => 0, # optional 0|1, default is 0
-        CustomerUIStyles => 0, # optional 0|1, default is 0
+        CustomerUIStyles  => 0, # optional 0|1, default is 0
     );
 
 The input is return unchanged if it already looks like a complete HTML document.
@@ -786,7 +786,7 @@ sub DocumentComplete {
     }
 
     my $CSSClasses = 'ck-content';
-    if ( $Param{CustomerInterface} && $Param{CustomerUIStyles}) {
+    if ( $Param{CustomerUIStyles} ) {
         $CSSClasses .= ' CustomerUI ';
     }
 
