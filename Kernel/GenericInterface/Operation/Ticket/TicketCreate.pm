@@ -1096,7 +1096,13 @@ sub _CheckDynamicField {
     }
 
     # check DynamicField->Value
-    if ( !$Self->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
+    if (
+        !$Self->ValidateDynamicFieldValue(
+            %{$DynamicField},
+            ExternalSource => 1,
+        )
+        )
+    {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: DynamicField->Value parameter is invalid!",

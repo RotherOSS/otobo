@@ -1257,6 +1257,7 @@ sub ValidateDynamicFieldValue {
     my $ValidateValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->FieldValueValidate(
         DynamicFieldConfig => $DynamicFieldConfig,
         Value              => $Param{Value},
+        ExternalSource     => $Param{ExternalSource},
         UserID             => 1,
     );
 
