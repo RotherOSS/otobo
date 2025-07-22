@@ -97,6 +97,7 @@ sub Run {
         my $Content = $HTMLUtilsObject->DocumentComplete(
             String            => $InfoTileContent,
             CustomerInterface => 1,
+            CustomerUIStyles => 1,
         );
 
         return $LayoutObject->Attachment(

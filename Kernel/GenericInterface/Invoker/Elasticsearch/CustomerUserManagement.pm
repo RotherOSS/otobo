@@ -132,7 +132,8 @@ sub PrepareRequest {
     my $API;
 
     # set CustomerKey
-    my $BackendConfig = $ConfigObject->Get( $Param{Data}{NewData}{Source} );
+    my $Source        = $Param{Data}{NewData}{Source} || $Param{Data}{OldData}{Source};
+    my $BackendConfig = $ConfigObject->Get($Source);
     my $CustomerKeyES = "UserLogin";
     if ( $BackendConfig->{CustomerKey} ) {
         $CustomerKeyES = "";

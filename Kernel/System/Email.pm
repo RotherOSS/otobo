@@ -598,7 +598,7 @@ sub Send {
 
     # get recipients
     my @ToArray;
-    my $To = '';
+    my $To = '';    # only used for logging
 
     RECIPIENT:
     for my $Recipient (qw(To Cc Bcc)) {
@@ -703,7 +703,7 @@ Really send the mail
 
     my $Result = $SendObject->SendExecute(
         From                   => $RealFrom,
-        ToArray                => \@ToArray,
+        To                     => \@ToArray,
         Header                 => \$Param{Header},
         Body                   => \$Param{Body},
         CommunicationLogObject => $CommunicationLogObject,
