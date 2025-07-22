@@ -243,8 +243,20 @@ sub FieldValueValidate {
             push @Values, $Param{Value};
         }
 
-        for my $Value (@Values) {
-            return unless defined $PossibleValues->{$Value};
+        if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
+            my $TransformedValues = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => \@Values,
+                UserID             => $Param{UserID},
+            );
+            for my $Value ( $TransformedValues->@* ) {
+                return unless defined $PossibleValues->{$Value};
+            }
+        }
+        else {
+            for my $Value (@Values) {
+                return unless defined $PossibleValues->{$Value};
+            }
         }
     }
 
