@@ -15,6 +15,8 @@
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
+# This means that 10.0.x, 10.1.x, and 11.0.x make use of the same base image.
+#
 # The individual build targets may add additional Debian or CPAN packages.
 FROM perl:5.38-bookworm AS base
 
