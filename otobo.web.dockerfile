@@ -6,16 +6,16 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.36.x series.
-# Perl 5.36.0 was released 2022-05-27.
+# As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 11 (bookworm).
+# The version of Perl is set to 5.38 as Perl 5.36 has reached EOL in Docker Official Images.
+# Perl 5.38.0 was released 2023-07-03.
+# This means that 10.0.x, 10.1.x, and 11.0.x make use of the same base image.
 #
-# As of OTOBO 10.0.26 the Debian version is explicitly set to bookworm, that is Debian 11.
-# This is the same base image as it is used in OTOBO 10.1.x.
-# Previously Debian 10 (Buster) was used for the OTOBO 10.0.x seriest. The upgrade
+# Previously Debian 10 (Buster) was used for the OTOBO 10.0.x series. The upgrade
 # might cause problem in installation that rely on Debian 10 being used.
 # The reason for moving away from Debian 10 (Buster) is that this version
 # is no longer in long term support.
-FROM perl:5.36-bookworm AS otobo-web
+FROM perl:5.38-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
