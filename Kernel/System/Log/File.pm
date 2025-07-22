@@ -22,7 +22,7 @@ use strict;
 use warnings;
 
 use File::Basename qw(basename dirname);
-use File::Copy qw(move);
+use File::Copy     qw(move);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,7 +66,7 @@ sub _RotateOtoboLog {
     $Self->{AlreadyRotated} = 1;
 
     # nothing to rotate if it does not exist yet
-    return unless -e  $Self->{LogFile};        
+    return unless -e $Self->{LogFile};
 
     # only rotate if MaxSize sysconfig is set
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
