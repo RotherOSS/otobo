@@ -595,17 +595,17 @@ sub Delete {
 
 Send/Process a mail queue element/item.
 
-    my $List = $MailQueue->Send(
-        ID              => '...',
+    my $StatusStruct = $MailQueue->Send(
+        ID              => 495,        # only used in log messages
         Sender          => '...',
-        Recipient       => '...',
+        Recipient       => 'hello@otobo.io, test@gmail.com',      # plain email addresses separated by comma
         Message         => '...',
         Force           => '...' # optional, to force the sending even if isn't time
     );
 
 This returns something like:
 
-    $List = {
+    $StatusStruct = {
         Status  => '(Failed|Pending|Success)',
         Message => '...',                      # undef if success.
     };
