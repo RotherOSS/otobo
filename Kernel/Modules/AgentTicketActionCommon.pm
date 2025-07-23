@@ -2644,7 +2644,7 @@ sub _Mask {
 
         my %OldOwnersWithAccess;
 
-        if ($Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
             %OldOwnersWithAccess = %OldOwnersShown;
         }
         else {
@@ -2661,10 +2661,10 @@ sub _Mask {
                 my $Access = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                     UserID    => $UserID,
                     GroupName => $Group,
-                    Type      => 'owner', 
+                    Type      => 'owner',
                 );
 
-                if($Access) {
+                if ($Access) {
                     $OldOwnersWithAccess{$UserID} = $OldOwnersShown{$UserID};
                 }
             }
