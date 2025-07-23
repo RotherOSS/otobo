@@ -203,6 +203,12 @@ sub EditSectionRender {
                 %Error = $Param{Errors}{ $Field->{DF} }->%*;
             }
 
+            # catch template case
+            my $Class = '';
+            if ( $DynamicField->{Name} =~ /_Template$/ ) {
+                $Class = 'ValidationIgnore';
+            }
+
             # get field html
             my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicField,
@@ -215,7 +221,7 @@ sub EditSectionRender {
                 Readonly             => $Field->{Readonly},
                 CustomerInterface    => $Param{CustomerInterface},
                 Object               => $Param{Object},
-                Class                => $Param{Class} // '',
+                Class                => $Class,
                 %Error,
                 %InvisibleNoDefault,
             );
