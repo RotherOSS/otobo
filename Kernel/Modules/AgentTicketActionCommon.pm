@@ -2641,30 +2641,13 @@ sub _Mask {
         }
 
         # show only users with owner or rw pemissions in the queue
-
         my %OldOwnersWithAccess;
-
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
             %OldOwnersWithAccess = %OldOwnersShown;
         }
         else {
-            my $GID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID(
-                QueueID => $Ticket{QueueID},
-            );
-
-            my $Group = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
-                GroupID => $GID,
-            );
-
             for my $UserID ( sort keys %OldOwnersShown ) {
-
-                my $Access = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
-                    UserID    => $UserID,
-                    GroupName => $Group,
-                    Type      => 'owner',
-                );
-
-                if ($Access) {
+                if ( exists $ShownUsers{$UserID} ) {
                     $OldOwnersWithAccess{$UserID} = $OldOwnersShown{$UserID};
                 }
             }
