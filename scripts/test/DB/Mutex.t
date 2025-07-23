@@ -64,6 +64,8 @@ ok( !$IsMutexLocked3, 'mutex is no longer taken' );
 
 # simulate conflict
 
+use Data::Dumper;
+
 my $GotLock4 = $MutexObject->AcquireMutex( Name => $MutexName );
 ok( $GotLock4, 'acquired the mutex' );
 

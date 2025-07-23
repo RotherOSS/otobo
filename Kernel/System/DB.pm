@@ -592,7 +592,9 @@ sub Do {
         $Self->{dbh}->{PrintError} = 0;
     }
 
-    if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
+    my $RowsAffected = $Self->{dbh}->do( $Param{SQL}, undef, @Array );
+
+    if ( !defined $RowsAffected || $RowsAffected == -1 ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'error',
@@ -606,7 +608,7 @@ sub Do {
 
     $Self->{dbh}->{PrintError} = $PrintErrorFlag;
 
-    return 1;
+    return $RowsAffected;
 }
 
 =head2 DoArray()

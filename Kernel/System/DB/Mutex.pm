@@ -146,11 +146,6 @@ sub AcquireMutex {
 
     $Self->CleanOrphans();
 
-    return 1 if $Self->IsMutexHeld(
-        Name      => $Name,
-        ProcessID => $ProcessID
-    );
-
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
     );
@@ -181,18 +176,40 @@ sub AcquireMutex {
 
     if ( !$Result ) {
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => "Failed to acquire mutex $Name!",
-        );
+        # we could have failed because we already own it, try to update it
 
-        delete $Self->{LocksHeld}->{$Name};
-    }
-    else {
-        $Self->{LocksHeld}->{$Name} = $DateTimeObject->ToEpoch();
+        eval {
+
+            $Result = $Kernel::OM->Get('Kernel::System::DB')->Do(
+                    SQL  => '
+                    UPDATE named_mutex SET create_time = ?, create_by = ? 
+                    WHERE mutex_name = ? AND process_id = ? AND process_host = ?',
+                    Bind => [ \$Now, \$UserID, \$Name, \$ProcessID, \$ProcessHost ],
+            );
+        };
+        if ($@) {
+
+            # $Result is 0
+        }
+
+        # if query failed, or number of rows == 0, we do not have the lock
+        if(!$Result || $Result*1 == 0) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'debug',
+                Message  => "Failed to acquire mutex $Name!",
+            );
+
+            delete $Self->{LocksHeld}->{$Name};
+
+            return 0;
+        }
     }
 
-    return $Result ? 1 : 0;
+    # successfully acquired the lock
+    $Self->{LocksHeld}->{$Name} = $DateTimeObject->ToEpoch();
+
+    return 1;
 }
 
 =head2 ReleaseMutex()
