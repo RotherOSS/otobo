@@ -2607,6 +2607,15 @@ sub _Mask {
 
                 # skip if old owner is already in the list
                 next USER if $SeenOldOwner{ $User->{UserID} };
+
+                # skip if old owner ceased to be authorized in the ticket queue
+                my $GID        = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my %MemberList = $GroupObject->PermissionGroupGet(
+                    GroupID => $GID,
+                    Type    => 'owner',
+                );
+                next USER if !any { $_ == $User->{UserID} } keys %MemberList;
+
                 $SeenOldOwner{ $User->{UserID} } = 1;
                 my $Key   = $User->{UserID};
                 my $Value = "$Counter: $User->{UserFullname}";
