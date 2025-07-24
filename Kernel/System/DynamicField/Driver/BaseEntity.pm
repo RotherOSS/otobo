@@ -909,9 +909,9 @@ sub _TransformExternalSource {
     VALUE:
     for my $ValueItem ( $Param{ValueArray}->@* ) {
 
-        # keep empty values
+        # keep empty or undefined values as they are
         if ( !defined $ValueItem || $ValueItem eq '' ) {
-            push @Values, '';
+            push @Values, $ValueItem;
 
             next VALUE;
         }
