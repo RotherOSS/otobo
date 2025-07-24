@@ -118,7 +118,9 @@ sub ValueSet {
                     ValueArray         => $ValueItem,
                     UserID             => $Param{UserID},
                 );
-                push @Values, $TransformedValue;
+                if ( IsArrayRefWithData($TransformedValue) ) {
+                    push @Values, $TransformedValue->@*;
+                }
             }
             $Param{Value} = \@Values;
         }
@@ -188,7 +190,9 @@ sub ValueIsDifferent {
                     ValueArray         => $ValueItem,
                     UserID             => 1,
                 );
-                push @Value1, $TransformedValueItem;
+                if ( IsArrayRefWithData($TransformedValueItem) ) {
+                    push @Value1, $TransformedValueItem->@*;
+                }
             }
             $Value1 = \@Value1;
         }
