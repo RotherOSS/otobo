@@ -107,7 +107,7 @@ sub ValueSet {
 
     my $ValueKey = $Self->{ValueKey} // 'ValueText';
 
-    # perform search if neccessary
+    # perform search if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
         $Param{Value} = $Self->_TransformExternalSource(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -162,7 +162,7 @@ sub ValueIsDifferent {
     my $Value2 = !$Param{Value2} ? [] :
         ref $Param{Value2} ? $Param{Value2} : [ $Param{Value2} ];
 
-    # perform search and replace Value1 if neccessary
+    # perform search and replace Value1 if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
         $Value1 = $Self->_TransformExternalSource(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -243,8 +243,20 @@ sub FieldValueValidate {
             push @Values, $Param{Value};
         }
 
-        for my $Value (@Values) {
-            return unless defined $PossibleValues->{$Value};
+        if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
+            my $TransformedValues = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => \@Values,
+                UserID             => $Param{UserID},
+            );
+            for my $Value ( $TransformedValues->@* ) {
+                return unless defined $PossibleValues->{$Value};
+            }
+        }
+        else {
+            for my $Value (@Values) {
+                return unless defined $PossibleValues->{$Value};
+            }
         }
     }
 
@@ -479,10 +491,7 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # ref comparison because EditFieldValueGet() returns an arrayref except when using template value
-    # Note: this condition is never true, and never was. The code is just kept in case
-    #   a problem crops up in the future. The intention of the code was likely:
-    #     if ( ref $Value ne 'ARRAY' ) { ... }
-    if ( ( !ref $Value ) eq 'ARRAY' ) {
+    if ( ref $Value ne 'ARRAY' ) {
         $Value = [$Value];
     }
 

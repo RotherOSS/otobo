@@ -455,7 +455,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         $(document).ready(function () {
             $('form').each(function () {
                 if ($(this).data('validator')) {
-                    $(this).data('validator').settings.ignore = ".ck, .ck-editor__editable, .ck-content";
+                    var ExistingIgnores = ( $(this).data('validator').settings.ignore || '' ).split(', ');
+                    [".ck", ".ck-editor__editable", ".ck-content"].forEach(function(Element) {
+                        if ( ExistingIgnores.indexOf(Element) == -1 ) {
+                            ExistingIgnores.push(Element);
+                        }
+                    });
+                    $(this).data('validator').settings.ignore = ExistingIgnores.join(", ");
                     return false;
                 }
             });
