@@ -107,7 +107,7 @@ sub ValueSet {
 
     my $ValueKey = $Self->{ValueKey} // 'ValueText';
 
-    # perform search if neccessary
+    # perform search if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
         $Param{Value} = $Self->_TransformExternalSource(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -162,7 +162,7 @@ sub ValueIsDifferent {
     my $Value2 = !$Param{Value2} ? [] :
         ref $Param{Value2} ? $Param{Value2} : [ $Param{Value2} ];
 
-    # perform search and replace Value1 if neccessary
+    # perform search and replace Value1 if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
         $Value1 = $Self->_TransformExternalSource(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
@@ -491,7 +491,7 @@ sub EditFieldValueValidate {
     my $ErrorMessage;
 
     # ref comparison because EditFieldValuetet returns an arrayref except when using template value
-    if ( !ref $Value eq 'ARRAY' ) {
+    if ( ref $Value ne 'ARRAY' ) {
         $Value = [$Value];
     }
 
