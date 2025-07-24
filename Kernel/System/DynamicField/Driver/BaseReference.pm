@@ -818,6 +818,19 @@ sub ReadableValueRender {
     {
         for my $ObjectID (@Values) {
             if ($ObjectID) {
+
+                # perform external source transformation if necessary
+                if ( $Param{ExternalSource} ) {
+                    my $TransformResult = $Self->_TransformExternalSource(
+                        DynamicFieldConfig => $Param{DynamicFieldConfig},
+                        ValueArray         => [$ObjectID],
+                        UserID             => 1,
+                    );
+                    if ( IsArrayRefWithData($TransformResult) ) {
+                        $ObjectID = $TransformResult->[0];
+                    }
+                }
+
                 my %Description = $Self->ObjectDescriptionGet(
                     DynamicFieldConfig => $Param{DynamicFieldConfig},
                     ObjectID           => $ObjectID,
