@@ -2885,17 +2885,21 @@ Core.UI.InputFields = (function (TargetNS) {
         ReplaceCellIndex( $NewCell, 'Template', CellGridPosition.Row+1 );
         $Cell.after($NewCell);
         InitMultiValueCell( $NewCell );
-        DynamicFieldInit( $NewCell );
-
-        $('.DynamicFieldSet .FieldCell', $NewCell).each( function() {
-            let $SubCell = $(this);
-            DynamicFieldInit( $SubCell );
-            if ($SubCell[0] .className.split(' ').find( ClassName =>
-                            ClassName.startsWith('MultiValue_')))
-            {
-                InitMultiValueCell( $SubCell );
-            }
-        })
+        let $SubCells = $('.DynamicFieldSet .FieldCell', $NewCell);
+        if ($SubCells.length == 0) {
+            DynamicFieldInit($NewCell);
+        } else {
+            $SubCells.each( function() {
+                let $SubCell = $(this);
+                DynamicFieldInit( $SubCell );
+                if ($SubCell[0] .className.split(' ').find( ClassName =>
+                                ClassName.startsWith('MultiValue_')))
+                {
+                    InitMultiValueCell( $SubCell );
+                }
+            })
+        }
+        
     }
 
     /**
