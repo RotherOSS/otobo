@@ -234,7 +234,7 @@ creates the field and label HTML to be used in edit masks.
             'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
         },
         Template             => {                         # Optional data structure of GenericAgent etc.
-            Owner => 2,                                   # Value is accessable via field name (DynamicField_ + field name)
+            Owner => 2,                                   # Value is accessible via field name (DynamicField_ + field name)
             Title => 'Generic Agent Job was here'         # and could be a scalar, Hash- or ArrayRef
             ...
             DynamicField_ExampleField1 => 'Value 1'
@@ -553,7 +553,8 @@ sub ValueSet {
             DynamicFieldConfig => $Param{DynamicFieldConfig},
             Value1             => $NewValue,
             Value2             => $OldValue,
-            ExternalSource     => $Param{ExternalSource}
+            ExternalSource     => $Param{ExternalSource},
+            Set                => $Param{Set},
         )
         )
     {
@@ -609,6 +610,7 @@ depending on each field.
         Value2             => $Value2,                  # Dynamic Field Value
         ExternalSource     => (1|0),                    # (optional) only for specific backends
                                                         # attempt to map Value1 from external sources to OTOBO IDs
+        Set                => (1|0),                    # (optional) specify if the values stem from a Set dynamic field
     );
 
 =cut
@@ -1473,8 +1475,8 @@ creates the field HTML to be used in search masks.
                                                           #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond=59;';
                                                           #
                                                           #   $Value =  1;
-        ConfirmationCheckboxes => 0,                      # or 1, to dislay confirmation checkboxes
-        UseLabelHints          => 1,                      # or 0, default 1. To display seach hints in labels
+        ConfirmationCheckboxes => 0,                      # or 1, to display confirmation checkboxes
+        UseLabelHints          => 1,                      # or 0, default 1. To display search hints in labels
         Type                   => 'some type',            # search preference type
 
     );
@@ -1582,7 +1584,7 @@ extracts the value of a dynamic field from the param object or search profile.
     my $Value = $BackendObject->SearchFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,             # the current request data
-        Profile              => $ProfileData,             # the serach profile
+        Profile              => $ProfileData,             # the search profile
         ReturnProfileStructure => 1,                      # 0 || 1, default 0
                                                           #   Returns the structured values as got from the http request
     );
@@ -2131,7 +2133,7 @@ sub RandomValueSet {
 returns the list of database values for a defined dynamic field. This function is used to calculate
 ACLs in Search Dialog
 
-    my $HistorialValues = $BackendObject->HistoricalValuesGet(
+    my $HistoricalValues = $BackendObject->HistoricalValuesGet(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
     );
 
@@ -2194,7 +2196,7 @@ sub HistoricalValuesGet {
         return;
     }
 
-    # call HistorialValuesGet on the specific backend
+    # call HistoricalValuesGet on the specific backend
     return $Self->{$DynamicFieldBackend}->HistoricalValuesGet(%Param);
 }
 
@@ -2300,7 +2302,7 @@ checks if the dynamic field as an specified behavior
                                                          #     the field usable in the customer
                                                          #     interface
                                                          # 'IsHTMLContent' to indicate that there is
-                                                         #     HTML content (avoid duble cnversion to HTML)
+                                                         #     HTML content (avoid double cnversion to HTML)
                                                          # 'IsLikeOperatorCapable' to perform likewise
                                                          #     search in ValueSearch function
                                                          # 'IsHiddenInTicketInformation' to hide the field
@@ -2649,7 +2651,7 @@ build the search parameters to be passed to the search engine within the stats m
 
     my $DynamicFieldStatsSearchParameter = $BackendObject->StatsSearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        Value                => $Value,                 # the serach profile
+        Value                => $Value,                 # the search profile
     );
 
     Returns
