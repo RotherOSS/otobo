@@ -119,7 +119,7 @@ sub ValueSet {
                     UserID             => $Param{UserID},
                 );
                 if ( IsArrayRefWithData($TransformedValue) ) {
-                    push @Values, $TransformedValue->@*;
+                    push @Values, $TransformedValue;
                 }
             }
             $Param{Value} = \@Values;
@@ -191,7 +191,7 @@ sub ValueIsDifferent {
                     UserID             => 1,
                 );
                 if ( IsArrayRefWithData($TransformedValueItem) ) {
-                    push @Value1, $TransformedValueItem->@*;
+                    push @Value1, $TransformedValueItem;
                 }
             }
             $Value1 = \@Value1;
@@ -911,7 +911,7 @@ sub _TransformExternalSource {
 
         # keep empty values
         if ( !defined $ValueItem || $ValueItem eq '' ) {
-            push @Values, undef;
+            push @Values, '';
 
             next VALUE;
         }
