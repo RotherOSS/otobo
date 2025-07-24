@@ -109,11 +109,26 @@ sub ValueSet {
 
     # perform search if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
-        $Param{Value} = $Self->_TransformExternalSource(
-            DynamicFieldConfig => $Param{DynamicFieldConfig},
-            ValueArray         => $Param{Value},
-            UserID             => $Param{UserID},
-        );
+
+        if ( $Param{Set} ) {
+            my @Values;
+            for my $ValueItem ( $Param{Value}->@* ) {
+                my $TransformedValue = $Self->_TransformExternalSource(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ValueArray         => $ValueItem,
+                    UserID             => $Param{UserID},
+                );
+                push @Values, $TransformedValue;
+            }
+            $Param{Value} = \@Values;
+        }
+        else {
+            $Param{Value} = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => $Param{Value},
+                UserID             => $Param{UserID},
+            );
+        }
     }
 
     # for multiselect no set or multivalue structures
@@ -164,11 +179,26 @@ sub ValueIsDifferent {
 
     # perform search and replace Value1 if necessary
     if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
-        $Value1 = $Self->_TransformExternalSource(
-            DynamicFieldConfig => $Param{DynamicFieldConfig},
-            ValueArray         => $Value1,
-            UserID             => 1,
-        );
+
+        if ( $Param{Set} ) {
+            my @Value1;
+            for my $ValueItem ( $Value1->@* ) {
+                my $TransformedValueItem = $Self->_TransformExternalSource(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ValueArray         => $ValueItem,
+                    UserID             => 1,
+                );
+                push @Value1, $TransformedValueItem;
+            }
+            $Value1 = \@Value1;
+        }
+        else {
+            $Value1 = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => $Value1,
+                UserID             => 1,
+            );
+        }
     }
 
     return $Self->SUPER::ValueIsDifferent(
