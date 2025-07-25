@@ -147,7 +147,7 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('Select the attribute which tickets will be searched by'),
             InputType       => 'Selection',
             SelectionData   => {
-                'TicketNumber' => 'Number',
+                'TicketNumber' => 'TicketNumber',
                 'Title'        => 'Title',
             },
             PossibleNone => 1,
@@ -162,7 +162,7 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.'),
             InputType       => 'Selection',
             SelectionData   => {
-                'TicketNumber' => 'Number',
+                'TicketNumber' => 'TicketNumber',
             },
             PossibleNone => 1,
             Multiple     => 0,
