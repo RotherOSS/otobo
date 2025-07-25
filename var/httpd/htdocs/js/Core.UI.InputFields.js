@@ -333,7 +333,8 @@ Core.UI.InputFields = (function (TargetNS) {
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
             Textarea = $('.Field > textarea:not(.HasCKEInstance)', Element),
-            // TODO suggestion, DB fields return two elements here (correct one and resultelementtext)
+
+            // DB fields return two elements here (correct one and resultelementtext)
             TextInput = $('input[type="text"]', Element).first(),
             TextValue;
 
@@ -1385,7 +1386,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 Focused = null;
 
                 // Get width now, since we will hide the element
-                // TODO: Angucken
                 if (!$SelectObj.closest('.Row').hasClass('Row_DynamicField')) {
                     SelectWidth = $SelectObj.outerWidth();
                 }
@@ -2678,7 +2678,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
-                // TODO: Fix - the first multicalue id now has _0 and thus is different, too - what is the initial event?
+                // TODO: Fix - the first multivalue id now has _0 and thus is different, too - what is the initial event?
                 /*if ( $SelectObj.closest('.Row_DynamicField').hasClass('MultiValue') && $SelectObj.attr('id') != $SelectObj.attr('name') ) {
                     $SelectObj.off('change.multivalue').on('change.multivalue', function() {
                         $('[name=' + $SelectObj.attr('name') + ']').first().trigger('change');
@@ -2808,7 +2808,7 @@ Core.UI.InputFields = (function (TargetNS) {
         });
 
         // Some dynamic fields might not show the label for the added dynamic fields.
-        // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
+        // TODO: if labels are included in the HTML, then that should refer to the appropriate field.
         // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
         if ( CellGridPosition.Row === 0 ) {
             $Cell.children('label').show();
@@ -2899,7 +2899,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 }
             })
         }
-        
+
     }
 
     /**
