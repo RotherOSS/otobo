@@ -1151,7 +1151,7 @@ sub _DynamicFieldsScreenEnable {
         # Ticket::Frontend::CustomerTicketZoom###FollowUpDynamicField
         # Ticket::Frontend::AgentTicketSearch###SearchCSVDynamicField
         #
-        # on regular calls $View contains for examlpe "AgentTicketEmail"
+        # on regular calls $View contains for example "AgentTicketEmail"
         #
         # for the three special cases $View contains:
         # AgentTicketSearch###Defaults###DynamicField
@@ -1292,7 +1292,7 @@ sub _DynamicFieldsScreenDisable {
         # Ticket::Frontend::CustomerTicketZoom###FollowUpDynamicField
         # Ticket::Frontend::AgentTicketSearch###SearchCSVDynamicField
         #
-        # on regular calls $View contains for examlpe "AgentTicketEmail"
+        # on regular calls $View contains for example "AgentTicketEmail"
         #
         # for the three special cases $View contains:
         # AgentTicketSearch###Defaults###DynamicField
