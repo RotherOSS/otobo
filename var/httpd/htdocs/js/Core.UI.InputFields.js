@@ -2863,12 +2863,12 @@ Core.UI.InputFields = (function (TargetNS) {
         }
         // multivalue set
         else {
-            // TODO: We need a solution for sets here
-            /*$('[name^=DynamicField_]', $NewCell).each( function() {
+            // Set template uses the ValidationIgnore class to skip validation
+            $('[name^=DynamicField_]', $NewCell).each( function() {
                 if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
-                    $(this).addClass('Validate_Required');
+                    $(this).removeClass('ValidationIgnore');
                 }
-            });*/
+            });
         }
 
         //shift ValueRowIndex of all following cells in this column
