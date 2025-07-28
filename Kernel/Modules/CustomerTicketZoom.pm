@@ -2244,14 +2244,12 @@ sub _Mask {
     }
 
     # Expand option
-    my $ExpandOption = ( $ZoomExpand ? 'One'              : 'All' );
-    my $ExpandText   = ( $ZoomExpand ? 'Show one article' : 'Show all articles' );
     $LayoutObject->Block(
         Name => 'Expand',
         Data => {
             ZoomExpand   => !$ZoomExpand,
-            ExpandOption => $ExpandOption,
-            ExpandText   => $ExpandText,
+            ExpandOption => ( $ZoomExpand ? 'One'              : 'All' ),
+            ExpandText   => ( $ZoomExpand ? 'Show one article' : 'Show all articles' ),
             %Param,
         },
     );
