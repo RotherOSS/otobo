@@ -257,7 +257,7 @@ sub ArticleCustomerRecipientsGet {
     for my $ChatMessage ( @{ $Article{ChatMessageList} // [] } ) {
 
         # Process all chat messages where the sender was a customer.
-        next CHAT_MESSAGE if !$ChatMessage->{ChatterType} eq 'Customer';
+        next CHAT_MESSAGE unless $ChatMessage->{ChatterType} eq 'Customer';
 
         # Get single customer user from customer backend based on the ID address.
         my %CustomerSearch = $CustomerUserObject->CustomerSearch(

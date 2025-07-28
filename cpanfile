@@ -194,6 +194,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # a quick compile check
     requires 'Test::Compile';
 
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
     # basic test functions
     requires 'Test2::Suite';
 
@@ -421,6 +424,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # a quick compile check
     requires 'Test::Compile';
+
+    # check for strictures and warnings
+    requires 'Test::Strict';
 
     # basic test functions
     requires 'Test2::Suite';

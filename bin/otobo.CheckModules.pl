@@ -1204,6 +1204,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test::Strict',
+        Features  => ['devel:test'],
+        Comment   => 'check for strictures and warnings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],
