@@ -3574,6 +3574,18 @@ DISTRIBUTIONS
       overload 0
       perl 5.006002
       utf8 0
+  Test-Strict-0.54
+    pathname: M/MA/MANWAR/Test-Strict-0.54.tar.gz
+    provides:
+      Test::Strict 0.54
+    requirements:
+      ExtUtils::MakeMaker 6.64
+      File::Find 0.01
+      File::Spec 0.01
+      File::Temp 0.01
+      FindBin 0.01
+      Test::Builder 0.01
+      perl 5.006
   Test-TCP-2.22
     pathname: M/MI/MIYAGAWA/Test-TCP-2.22.tar.gz
     provides:

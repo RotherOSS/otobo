@@ -22,7 +22,16 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Test::Compile::Internal;
+use Test::Compile::Internal ();
+use Test::Strict;    # imports all_perl_files_ok();
+
+# OTOBO modules
+
+# Setting up Test::Strict. We want to enforce strictures and warnings,
+# but the compile check is done by Test::Compile::Internal.
+$Test::Strict::TEST_SYNTAX   = 0;
+$Test::Strict::TEST_STRICT   = 1;
+$Test::Strict::TEST_WARNINGS = 1;
 
 # OTBOO modules
 use Kernel::Config;
@@ -35,8 +44,14 @@ my %FileIsChanged         = map { $_ => 1 } @ARGV;
 # make sure that there is at least one test
 pass('checking only the files passed via @ARGV') if $CheckOnlyChangedFiles;
 
-# limit the checks to specific dirs
-my @Dirs = qw(Kernel Custom scripts bin);
+# Limit the checks to specific dirs.
+# Test::Compile::Interanal should also check Kernel/cpan-lib. Test::Strict should not.
+my @CompileDirs = qw(Kernel Custom scripts bin);
+my @StrictDirs  = grep { $_ !~ m/cpan-lib/ } grep {-d} glob('Kernel/*');
+push @StrictDirs, qw(Custom scripts bin );
+
+# Check whether strictures and warnings are enabled.
+all_perl_files_ok(@StrictDirs);
 
 # List of files that are know to have compile issues.
 # NOTE: Please create an issue when adding to this list
@@ -71,12 +86,15 @@ my %FailureIsAccepted = (
 }
 
 # object for doing the actual check
-my $Internal = Test::Compile::Internal->new();
+my $Internal = Test::Compile::Internal->new;
+
+# Sometimes it is useful to see the complete output
+#$Internal->verbose(1);
 
 note('check syntax of the Perl modules');
 {
     FILE:
-    for my $File ( $Internal->all_pm_files(@Dirs) ) {
+    for my $File ( $Internal->all_pm_files(@CompileDirs) ) {
 
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
@@ -95,7 +113,7 @@ note('check syntax of the Perl modules');
 note('check syntax of the Perl scripts');
 {
     FILE:
-    for my $File ( $Internal->all_pl_files(@Dirs) ) {
+    for my $File ( $Internal->all_pl_files(@CompileDirs) ) {
 
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
@@ -160,4 +178,4 @@ SKIP: {
     }
 }
 
-done_testing();
+done_testing;
