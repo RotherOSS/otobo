@@ -1639,58 +1639,7 @@ sub _DynamicFieldsCreate {
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
-    # add inner fields of set DFs to hash
-    my @SetDFInnerFields;
-    FIELD:
-    for my $DynamicFieldConfig (@DynamicFields) {
-        my @CurrentSetDFInnerFields;
-
-        next FIELD unless IsHashRefWithData($DynamicFieldConfig);
-
-        if ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
-
-            next FIELD unless IsArrayRefWithData( $DynamicFieldConfig->{Config}{Include} );
-
-            # iterate the entire Include structure to get the versioned dynamic field configs
-            INCLUDEELEMENT:
-            for my $IncludeElement ( $DynamicFieldConfig->{Config}{Include}->@* ) {
-
-                if ( $IncludeElement->{DF} ) {
-                    push @CurrentSetDFInnerFields, $IncludeElement->{Definition};
-                }
-                elsif ( $IncludeElement->{Grid} ) {
-
-                    next INCLUDEELEMENT unless IsHashRefWithData( $IncludeElement->{Grid} );
-                    next INCLUDEELEMENT unless IsArrayRefWithData( $IncludeElement->{Grid}{Rows} );
-
-                    ROW:
-                    for my $Row ( $IncludeElement->{Grid}{Rows}->@* ) {
-
-                        next ROW unless IsArrayRefWithData($Row);
-
-                        ROWELEMENT:
-                        for my $RowElement ( $Row->@* ) {
-                            if ( $RowElement->{DF} ) {
-                                push @CurrentSetDFInnerFields, $RowElement->{Definition};
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ( !@CurrentSetDFInnerFields ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Erroneous configuration of Set $DynamicFieldConfig->{Name}.",
-                );
-            }
-
-            push @SetDFInnerFields, @CurrentSetDFInnerFields;
-        }
-    }
-
     # check dynamic fields
-    push @DynamicFields, @SetDFInnerFields;
     my %Namespaces;
     for my $DynamicFieldConfig (@DynamicFields) {
 
