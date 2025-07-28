@@ -1843,11 +1843,6 @@ sub DynamicFieldConfigID2Name {
         $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
     }
 
-    if ( $Param{Action} eq 'Export' ) {
-        delete $Param{DynamicFieldConfig}{Config}{PartOfSet};
-        delete $Param{DynamicFieldConfig}{ID};
-    }
-
     return $Param{DynamicFieldConfig};
 }
 
