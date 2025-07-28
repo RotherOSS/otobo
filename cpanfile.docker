@@ -110,6 +110,9 @@ requires 'Unicode::Collate';
     # a quick compile check
     requires 'Test::Compile';
 
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
     # basic test functions
     requires 'Test2::Suite';
 
