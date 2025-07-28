@@ -212,14 +212,19 @@ sub TicketAcl {
         }
 
         if ( $Module->{ReturnSubType} ) {
+
+            # TODO: this looks broken. $Module->{ReturnSubType} is a hashref, yet the value is derefenced as an array
             if ( ref( $Module->{ReturnSubType} ) eq 'HASH' ) {
                 next MODULENAME if !grep { $Param{ReturnSubType} eq $_ }
                     @{ $Module->{ReturnSubType} };
             }
             else {
 
-                # a scalar, we hope
-                next MODULENAME if !$Module->{ReturnSubType} eq $Param{ReturnSubType};
+                # a scalar, we hope, but it could also be an array
+                # TODO: this filter looks broken
+                # !$Module->{ReturnSubType} is either q{} or 1, (or !!0, and !!1)
+                # so it is unlikely that a string comparison would give a true value
+                next MODULENAME if ( !$Module->{ReturnSubType} ) eq $Param{ReturnSubType};
             }
         }
 
