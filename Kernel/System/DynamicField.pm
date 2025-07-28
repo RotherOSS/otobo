@@ -1708,29 +1708,26 @@ sub GetValidDynamicFields {
     return $DynamicFields;
 }
 
-=head2 DynamicFieldConfigTransform()
+=head2 DynamicFieldConfigName2ID()
 
-Transformations of the dynamic field config needed for Import/Export, which includes transitioning IDs in field configs into names and back.
+Transformations of the dynamic field config needed for Import, which includes transitioning names in field configs into IDs.
 Note that the passed in dynamic field config is modified in place.
 
-    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigTransform(
+    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigName2ID(
         DynamicFieldConfig => $FieldConfig,
-        Action             => 'Import',
     );
 
 =cut
 
-sub DynamicFieldConfigTransform {
+sub DynamicFieldConfigName2ID {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Action DynamicFieldConfig)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!",
+        );
+        return;
     }
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
@@ -1738,87 +1735,112 @@ sub DynamicFieldConfigTransform {
     if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: Name -> ID
-        if ( $Param{Action} eq 'Import' ) {
-
-            if ( $DynamicFieldConfig->{Config}{Queue} ) {
-                my @QueueIDs;
-                for my $QueueName ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
-                    push @QueueIDs, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $QueueName );
-                }
-                $DynamicFieldConfig->{Config}{Queue} = \@QueueIDs;
+        if ( $DynamicFieldConfig->{Config}{Queue} ) {
+            my @QueueIDs;
+            for my $QueueName ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                push @QueueIDs, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $QueueName );
             }
-            if ( $DynamicFieldConfig->{Config}{TicketType} ) {
-                my @TypeIDs;
-                for my $TypeName ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
-                    push @TypeIDs, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeName );
-                }
-                $DynamicFieldConfig->{Config}{TicketType} = \@TypeIDs;
-            }
-            if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
-                my %ClassName2ID = reverse %{
-                    $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
-                        Class => 'ITSM::ConfigItem::Class',
-                    )
-                };
-                my @ClassIDs = map
-                    { $ClassName2ID{$_} }
-                    $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
-                $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassIDs;
-            }
+            $DynamicFieldConfig->{Config}{Queue} = \@QueueIDs;
         }
-
-        # needed transformation: ID -> Name
-        elsif ( $Param{Action} eq 'Export' ) {
-
-            if ( $DynamicFieldConfig->{Config}{Queue} ) {
-                my @QueueNames;
-                for my $QueueID ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
-                    push @QueueNames, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $QueueID );
-                }
-                $DynamicFieldConfig->{Config}{Queue} = \@QueueNames;
+        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+            my @TypeIDs;
+            for my $TypeName ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                push @TypeIDs, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeName );
             }
-            if ( $DynamicFieldConfig->{Config}{TicketType} ) {
-                my @TypeNames;
-                for my $TypeID ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
-                    push @TypeNames, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeID );
-                }
-                $DynamicFieldConfig->{Config}{TicketType} = \@TypeNames;
-            }
-            if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
-                my %ClassID2Name = %{
-                    $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
-                        Class => 'ITSM::ConfigItem::Class',
-                    )
-                };
-                my @ClassNames = map
-                    { $ClassID2Name{$_} }
-                    $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
-                $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassNames;
-            }
+            $DynamicFieldConfig->{Config}{TicketType} = \@TypeIDs;
+        }
+        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+            my %ClassName2ID = reverse %{
+                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                    Class => 'ITSM::ConfigItem::Class',
+                )
+            };
+            my @ClassIDs = map
+                { $ClassName2ID{$_} }
+                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassIDs;
         }
     }
     elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
 
-        if ( $Param{Action} eq 'Import' ) {
-            my $AttributeDF = $Self->DynamicFieldGet(
-                Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
-            );
-            $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
-            my $ReferenceDF = $Self->DynamicFieldGet(
-                Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
-            );
-            $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
+        # needed transformation: Name -> ID
+        my $AttributeDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
+    }
+
+    return $Param{DynamicFieldConfig};
+}
+
+=head2 DynamicFieldConfigID2Name()
+
+Transformations of the dynamic field config needed for Import/Export, which includes transitioning IDs in field configs into names.
+Note that the passed in dynamic field config is modified in place.
+
+    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
+        DynamicFieldConfig => $FieldConfig,
+    );
+
+=cut
+
+sub DynamicFieldConfigID2Name {
+    my ( $Self, %Param ) = @_;
+
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!",
+        );
+        return;
+    }
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+
+        # needed transformation: ID -> Name
+        if ( $DynamicFieldConfig->{Config}{Queue} ) {
+            my @QueueNames;
+            for my $QueueID ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                push @QueueNames, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $QueueID );
+            }
+            $DynamicFieldConfig->{Config}{Queue} = \@QueueNames;
         }
-        elsif ( $Param{Action} eq 'Export' ) {
-            my $AttributeDF = $Self->DynamicFieldGet(
-                ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
-            );
-            $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
-            my $ReferenceDF = $Self->DynamicFieldGet(
-                ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
-            );
-            $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
+        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+            my @TypeNames;
+            for my $TypeID ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                push @TypeNames, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeID );
+            }
+            $DynamicFieldConfig->{Config}{TicketType} = \@TypeNames;
         }
+        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+            my %ClassID2Name = %{
+                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                    Class => 'ITSM::ConfigItem::Class',
+                )
+            };
+            my @ClassNames = map
+                { $ClassID2Name{$_} }
+                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassNames;
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+
+        # needed transformation: ID -> Name
+        my $AttributeDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
     }
 
     if ( $Param{Action} eq 'Export' ) {
