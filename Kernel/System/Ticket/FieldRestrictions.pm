@@ -262,7 +262,7 @@ sub GetFieldStates {
             Behavior           => 'IsACLReducible',
         );
 
-        # 1. handle hidden fields - values of invisible fields are deleted
+        # 1. handle hidden fields - values of invisible fields are deleted or set to values of ticket data if present
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
 
             my $NotEmpty = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
@@ -272,11 +272,34 @@ sub GetFieldStates {
                 :
                 $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
 
+            # check if value already equals ticket value
+            my %TicketData;
+            if ( $Param{TicketID} ) {
+                %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                    TicketID      => $Param{TicketID},
+                    UserID        => $Param{UserID},
+                    DynamicFields => 1,
+                );
+
+                if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                    if ( $DFParam->{"DynamicField_$DFName"} eq $TicketData{"DynamicField_$DFName"} ) {
+                        $NotEmpty = 0;
+                    }
+                }
+            }
+
             # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
             if ($NotEmpty) {
 
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
+
+                # check if we have a ticket id and use ticket data value, if so
+                if ( $Param{TicketID} ) {
+                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                    }
+                }
 
                 # fields have to be added to correctly remove all content
                 if ( !$IsACLReducible ) {
