@@ -1753,9 +1753,8 @@ sub _DynamicFieldsCreate {
     for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
 
         # field config transformation
-        $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigTransform(
+        $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
             DynamicFieldConfig => $NewDynamicField,
-            Action             => 'Import',
         );
 
         my $CreateDynamicField;
@@ -2051,9 +2050,8 @@ sub _DynamicFieldsConfigExport {
 
     # perform transformations if necessary
     for my $DynamicFieldConfig (@DynamicFieldConfigs) {
-        $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldConfigTransform(
+        $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
             DynamicFieldConfig => $DynamicFieldConfig,
-            Action             => 'Export',
         );
     }
 
