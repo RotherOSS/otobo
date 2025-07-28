@@ -3756,6 +3756,18 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.88
       perl 5.008_001
+  Test-Strict-0.54
+    pathname: M/MA/MANWAR/Test-Strict-0.54.tar.gz
+    provides:
+      Test::Strict 0.54
+    requirements:
+      ExtUtils::MakeMaker 6.64
+      File::Find 0.01
+      File::Spec 0.01
+      File::Temp 0.01
+      FindBin 0.01
+      Test::Builder 0.01
+      perl 5.006
   Test-TCP-2.22
     pathname: M/MI/MIYAGAWA/Test-TCP-2.22.tar.gz
     provides:
@@ -4462,6 +4474,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
