@@ -1645,23 +1645,41 @@ sub _DynamicFieldsCreate {
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
-    # check dynamic fields
+    # check dynamic fields and split dynamic fields in three separate groups
     my %Namespaces;
+    my @NormalFields;
+    my @LensFields;
+    my @SetFields;
     for my $DynamicFieldConfig (@DynamicFields) {
 
+        # check for namespaces
         my $FieldName = $DynamicFieldConfig->{Name};
-
         if ( $FieldName !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Invalid DynamicField name '$FieldName'.",
             };
         }
-
         if ( $FieldName =~ /^([^-]+)-/ ) {
             $Namespaces{$1} = 1;
         }
+
+        # sort field into fitting array
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
+            push @LensFields, $DynamicFieldConfig;
+        }
+        elsif ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+            push @SetFields, $DynamicFieldConfig;
+        }
+        else {
+            push @NormalFields, $DynamicFieldConfig;
+        }
     }
+
+    # sort lens fields in case a lens has another lens as attribute dynamic field
+    my @LensFieldsSorted = sort {
+        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
+    } @LensFields;
 
     # namespace handling
     if (%Namespaces) {
@@ -1737,16 +1755,6 @@ sub _DynamicFieldsCreate {
             }
         }
     }
-
-    # split dynamic fields in three separate groups
-    my @NormalFields = grep { $_->{FieldType} ne 'Lens' && $_->{FieldType} ne 'Set' } @DynamicFields;
-    my @LensFields   = grep { $_->{FieldType} eq 'Lens' } @DynamicFields;
-    my @SetFields    = grep { $_->{FieldType} eq 'Set' } @DynamicFields;
-
-    # sort lens fields in case a lens has another lens as attribute dynamic field
-    my @LensFieldsSorted = sort {
-        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
-    } @LensFields;
 
     # create or update dynamic fields
     DYNAMICFIELD:
