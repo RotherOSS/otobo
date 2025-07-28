@@ -2642,11 +2642,11 @@ sub _Mask {
 
         # show only users with owner or rw pemissions in the queue
         my %OldOwnersWithAccess;
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
+        if ( $ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
             %OldOwnersWithAccess = %OldOwnersShown;
         }
         else {
-            for my $UserID ( sort keys %OldOwnersShown ) {
+            for my $UserID ( keys %OldOwnersShown ) {
                 if ( exists $ShownUsers{$UserID} ) {
                     $OldOwnersWithAccess{$UserID} = $OldOwnersShown{$UserID};
                 }
