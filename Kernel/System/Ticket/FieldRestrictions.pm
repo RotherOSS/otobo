@@ -266,7 +266,7 @@ sub GetFieldStates {
         # 1. handle hidden fields - values of invisible fields are deleted or set to values of ticket data if present
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
 
-            my $NotEmpty = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
+            my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
                 ref( $DFParam->{"DynamicField_$DFName"} )
                 ?
                 ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
@@ -291,13 +291,13 @@ sub GetFieldStates {
                     );
 
                     if ( !$ValueIsDifferent ) {
-                        $NotEmpty = 0;
+                        $UpdateRequired = 0;
                     }
                 }
             }
 
             # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
-            if ($NotEmpty) {
+            if ($UpdateRequired) {
 
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
