@@ -13,16 +13,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24.0;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use Test::Compile::Internal;
+use Test::Compile::Internal ();
+
+# OTBOO modules
 
 # When there are extra arguments, then limit the checks to the passed files.
 # Is useful for github actions.
@@ -36,7 +38,8 @@ pass('checking only the files passed via @ARGV') if $CheckOnlyChangedFiles;
 my @Dirs = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
-# NOTE: Please create an issue when adding to this list and the reason is not acceptable.
+# NOTE: Please create an issue when adding to this list
+#    and the reason is not really acceptable.
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
@@ -49,7 +52,7 @@ my %FailureIsAccepted = (
 );
 
 # object for doing the actual check
-my $Internal = Test::Compile::Internal->new();
+my $Internal = Test::Compile::Internal->new;
 
 note('check syntax of the Perl modules');
 {
@@ -64,7 +67,7 @@ note('check syntax of the Perl modules');
         # in proper OTOBO. Therefore the modules in Kernel/TidyAll are skipped here.
         next FILE if $File =~ m{^Kernel/TidyAll/};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
@@ -78,7 +81,7 @@ note('check syntax of the Perl scripts');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -96,7 +99,7 @@ note('look at Perl code with an unusual extension');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -138,4 +141,4 @@ SKIP: {
     }
 }
 
-done_testing();
+done_testing;
