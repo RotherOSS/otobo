@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
     'Kernel::System::User',
@@ -282,7 +283,14 @@ sub GetFieldStates {
                 );
 
                 if ( defined $TicketData{"DynamicField_$DFName"} ) {
-                    if ( $DFParam->{"DynamicField_$DFName"} eq $TicketData{"DynamicField_$DFName"} ) {
+
+                    my $ValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value1             => $DFParam->{"DynamicField_$DFName"},
+                        Value2             => $TicketData{"DynamicField_$DFName"},
+                    );
+
+                    if ( !$ValueIsDifferent ) {
                         $NotEmpty = 0;
                     }
                 }
@@ -295,10 +303,8 @@ sub GetFieldStates {
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
 
                 # check if we have a ticket id and use ticket data value, if so
-                if ( $Param{TicketID} ) {
-                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
-                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
-                    }
+                if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                    $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
                 }
 
                 # fields have to be added to correctly remove all content
