@@ -264,7 +264,7 @@ sub Run {
                     ValidID      => $ValidSelection,
                     Subaction    => 'StoreNew',
                     Title        => Translatable('Add new Calendar'),
-                    WidgetStatus => $RuleCount ? 'Expanded' : 'Collapsed',
+                    WidgetStatus => ( $RuleCount ? 'Expanded' : 'Collapsed' ),
                     %TicketAppointments,
                 },
             );
@@ -398,7 +398,7 @@ sub Run {
                 ValidID      => $ValidSelection,
                 Subaction    => 'Update',
                 Title        => Translatable('Edit Calendar'),
-                WidgetStatus => $RuleCount ? 'Expanded' : 'Collapsed',
+                WidgetStatus => ( $RuleCount ? 'Expanded' : 'Collapsed' ),
                 %TicketAppointments,
             },
         );
@@ -524,7 +524,7 @@ sub Run {
                     ValidID      => $ValidSelection,
                     Subaction    => 'Update',
                     Title        => Translatable('Edit Calendar'),
-                    WidgetStatus => $RuleCount ? 'Expanded' : 'Collapsed',
+                    WidgetStatus => ( $RuleCount ? 'Expanded' : 'Collapsed' ),
                     %TicketAppointments,
                 },
             );
