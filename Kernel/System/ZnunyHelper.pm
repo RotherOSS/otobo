@@ -22,6 +22,12 @@ package Kernel::System::ZnunyHelper;
 use strict;
 use warnings;
 
+# core modules
+use List::AllUtils qw(none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
