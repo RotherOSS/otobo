@@ -31,9 +31,9 @@ use List::Util qw(uniq);
 # OTOBO modules
 
 our @ObjectDependencies = (
-'Kernel::System::Cache',
-'Kernel::System::DB',
-'Kernel::System::Package',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
@@ -46,6 +46,9 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # target of this script is to preserve the sysconfig settings brought by the package
+    #   script is necessary because setting defaults differ between package and core functionality
 
     return 1;
 }
