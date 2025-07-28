@@ -162,7 +162,7 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.'),
             InputType       => 'Selection',
             SelectionData   => {
-                'Number' => 'Number',
+                'TicketNumber' => 'TicketNumber',
             },
             PossibleNone => 1,
             Multiple     => 0,
@@ -400,7 +400,7 @@ sub SearchObjects {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
-            # map ID to IDs if neccessary
+            # map ID to IDs if necessary
             my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
             if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
                 $AttributeName .= 's';

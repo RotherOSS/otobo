@@ -1799,42 +1799,15 @@ sub Footer {
 
         my $JSDirectoryPath = $WebPath . 'js/';
 
-        # ckeditor.js is always loaded when richtext is enabled
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory     => $JSDirectoryPath,
-                Filename        => 'ckeditor5.js',
-                WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
+                JSDirectory         => $JSDirectoryPath,
+                Filename            => 'ckeditor5.js',
+                WrapperFileName     => 'Core.UI.CKEditor5Wrapper.js',
+                TranslationFilename => $Self->_GetRichTextTranslationPath(),
             },
         );
-
-        # assemble the path to the translation file based on the relevant URLs
-        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
-        if ( $RichTextPath && $WebPath ) {
-            my $Home = $ConfigObject->Get('Home');
-            $RichTextPath =~ s/$WebPath//s;
-            my $TranslationFile = lc "$Self->{UserLanguage}.js";
-            $TranslationFile =~ s/_/-/g;
-            my $TranslationFullPath = File::Spec->catfile(
-                $Home,
-                'var/httpd/htdocs',
-                $RichTextPath,
-                'translations',
-                $TranslationFile
-            );
-
-            # load the translation file only if it exists
-            if ( -f $TranslationFullPath ) {
-                $Self->Block(
-                    Name => 'RichTextTranslationJS',
-                    Data => {
-                        JSDirectory => 'translations/',
-                        Filename    => $TranslationFile,
-                    },
-                );
-            }
-        }
     }
 
     # add JS data
@@ -3982,7 +3955,7 @@ sub BuildDateSelection {
     );
 
     # Add Datepicker JS to output if we are not rendering a multivalue template.
-    if ( $Prefix !~ /^DynamicField_/ || $Suffix ne '_Template' ) {
+    if ( $Prefix !~ /^DynamicField_/ || ($Suffix ne '_Template' && $Prefix !~ /_Template$/)) {
         my $DatepickerJS = '
         Core.UI.Datepicker.Init({
             Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .       ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
@@ -4567,38 +4540,12 @@ sub CustomerFooter {
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory     => $JSDirectoryPath,
-                Filename        => 'ckeditor5.js',
-                WrapperFileName => 'Core.UI.CKEditor5Wrapper.js',
+                JSDirectory         => $JSDirectoryPath,
+                Filename            => 'ckeditor5.js',
+                WrapperFileName     => 'Core.UI.CKEditor5Wrapper.js',
+                TranslationFilename => $Self->_GetRichTextTranslationPath(),
             },
         );
-
-        # assemble the path to the translation file based on the relevant URLs
-        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
-        if ( $RichTextPath && $WebPath ) {
-            my $Home = $ConfigObject->Get('Home');
-            $RichTextPath =~ s/$WebPath//s;
-            my $TranslationFile = lc "$Self->{UserLanguage}.js";
-            $TranslationFile =~ s/_/-/g;
-            my $TranslationFullPath = File::Spec->catfile(
-                $Home,
-                'var/httpd/htdocs',
-                $RichTextPath,
-                'translations',
-                $TranslationFile
-            );
-
-            # load the translation file only if it exists
-            if ( -f $TranslationFullPath ) {
-                $Self->Block(
-                    Name => 'RichTextTranslationJS',
-                    Data => {
-                        JSDirectory => 'translations/',
-                        Filename    => $TranslationFile,
-                    },
-                );
-            }
-        }
     }
 
     # add JS data
@@ -7023,7 +6970,7 @@ sub _HasOnlyOIDCAuthModules {
 
         my $Module = $ConfigObject->Get("$LoginModule$Count");
 
-        if ($Module && $Module ne $OIDCAuthModule ) {
+        if ( $Module && $Module ne $OIDCAuthModule ) {
 
             return 0;
         }
@@ -7032,5 +6979,29 @@ sub _HasOnlyOIDCAuthModules {
     return 1;
 }
 
+sub _GetRichTextTranslationPath {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Home         = $ConfigObject->Get('Home');
+    my $WebPath      = $ConfigObject->Get('Frontend::WebPath');
+    my $RichTextPath = $ConfigObject->Get("Frontend::RichTextPath");
+
+    my $ShortLanguage = lc $Self->{UserLanguage};
+    $ShortLanguage =~ s/_.*$//;
+
+    my $RichTextFilePath = $RichTextPath;
+    $RichTextFilePath =~ s~$WebPath~$Home/var/httpd/htdocs/~;
+
+    my $TranslationPath = $RichTextFilePath . 'translations/' . $ShortLanguage . '.js';
+
+    # check whether there is a translation avail for CKEditor5
+    if ( -e $TranslationPath ) {
+        return 'translations/' . $ShortLanguage . '.js';
+    }
+
+    return 'translations/en.js';
+}
 
 1;
