@@ -1814,6 +1814,7 @@ sub DynamicFieldConfigTransform {
     }
 
     if ( $Param{Action} eq 'Export' ) {
+        delete $Param{DynamicFieldConfig}{Config}{PartOfSet};
         delete $Param{DynamicFieldConfig}{ID};
     }
 
