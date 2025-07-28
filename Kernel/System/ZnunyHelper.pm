@@ -1639,6 +1639,150 @@ sub _DynamicFieldsCreate {
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
+    # add inner fields of set DFs to hash
+    my @SetDFInnerFields;
+    FIELD:
+    for my $DynamicFieldConfig (@DynamicFields) {
+        my @CurrentSetDFInnerFields;
+
+        next FIELD unless IsHashRefWithData($DynamicFieldConfig);
+
+        if ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+
+            next FIELD unless IsArrayRefWithData( $DynamicFieldConfig->{Config}{Include} );
+
+            # iterate the entire Include structure to get the versioned dynamic field configs
+            INCLUDEELEMENT:
+            for my $IncludeElement ( $DynamicFieldConfig->{Config}{Include}->@* ) {
+
+                if ( $IncludeElement->{DF} ) {
+                    push @CurrentSetDFInnerFields, $IncludeElement->{Definition};
+                }
+                elsif ( $IncludeElement->{Grid} ) {
+
+                    next INCLUDEELEMENT unless IsHashRefWithData( $IncludeElement->{Grid} );
+                    next INCLUDEELEMENT unless IsArrayRefWithData( $IncludeElement->{Grid}{Rows} );
+
+                    ROW:
+                    for my $Row ( $IncludeElement->{Grid}{Rows}->@* ) {
+
+                        next ROW unless IsArrayRefWithData($Row);
+
+                        ROWELEMENT:
+                        for my $RowElement ( $Row->@* ) {
+                            if ( $RowElement->{DF} ) {
+                                push @CurrentSetDFInnerFields, $RowElement->{Definition};
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ( !@CurrentSetDFInnerFields ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Erroneous configuration of Set $DynamicFieldConfig->{Name}.",
+                );
+            }
+
+            push @SetDFInnerFields, @CurrentSetDFInnerFields;
+        }
+    }
+
+    # check dynamic fields
+    push @DynamicFields, @SetDFInnerFields;
+    my %Namespaces;
+    for my $DynamicFieldConfig (@DynamicFields) {
+
+        my $FieldName = $DynamicFieldConfig->{Name};
+
+        if ( $FieldName !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Invalid DynamicField name '$FieldName'.",
+            };
+        }
+
+        if ( $FieldName =~ /^([^-]+)-/ ) {
+            $Namespaces{$1} = 1;
+        }
+    }
+
+    # namespace handling
+    if (%Namespaces) {
+
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # Get current setting value.
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => 'DynamicField::Namespaces',
+        );
+
+        my $ExistingNamespaces = $Setting{EffectiveValue};
+        my %AllNamespaces      = (
+            ( map { $_ => 1 } $ExistingNamespaces->@* ),
+            %Namespaces,
+        );
+
+        # check if namespaces need to be changed
+        my $UpdateNamespaces = 0;
+        NEWNAMESPACE:
+        for my $NewNamespace ( keys %AllNamespaces ) {
+            if ( none { $NewNamespace eq $_ } $ExistingNamespaces->@* ) {
+                $UpdateNamespaces = 1;
+                last NEWNAMESPACE;
+            }
+        }
+        if ($UpdateNamespaces) {
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                UserID    => 1,
+                Force     => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+
+            # Update setting with modified data
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => 'DynamicField::Namespaces',
+                IsValid           => 1,
+                EffectiveValue    => [ keys %AllNamespaces ],
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+            if ( !$Result{Success} ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Could not update setting DynamicField::Namespaces.',
+                };
+            }
+
+            my $Success = $SysConfigObject->SettingUnlock(
+                UserID    => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+            if ( !$Success ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Could not unlock setting DynamicField::Namespaces.',
+                };
+            }
+
+            my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+                Comments      => "DynamicFieldImport updating DynamicField::Namespaces",
+                UserID        => 1,
+                Force         => 1,
+                DirtySettings => ['DynamicField::Namespaces'],
+            );
+
+            if ( !$DeploymentResult{Success} ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Deployment failed!',
+                };
+            }
+        }
+    }
+
     # split dynamic fields in three separate groups
     my @NormalFields = grep { $_->{FieldType} ne 'Lens' && $_->{FieldType} ne 'Set' } @DynamicFields;
     my @LensFields   = grep { $_->{FieldType} eq 'Lens' } @DynamicFields;

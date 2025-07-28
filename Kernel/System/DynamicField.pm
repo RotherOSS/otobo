@@ -1727,7 +1727,7 @@ sub DynamicFieldConfigTransform {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( grep { $Param{DynamicFieldConfig}{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: Name -> ID
         if ( $Param{Action} eq 'Import' ) {
@@ -1821,14 +1821,23 @@ sub DynamicFieldConfigTransform {
         for my $IncludeElement ( $DynamicFieldConfig->{Config}{Include}->@* ) {
 
             if ( $IncludeElement->{DF} ) {
-                delete $IncludeElement->{Definition}{ID};
+
+                # get config of inner field
+                my $InnerDFConfigRef = $Self->DynamicFieldGet(
+                    Name => $IncludeElement->{DF},
+                );
+
+                # copy config to avoid unwanted side effects
+                my %InnerDFConfig = $InnerDFConfigRef->%*;
+
+                delete $InnerDFConfig{ID};
 
                 # Filter off the 'PartOfSet' attribute, it is not necessary and may cause inconsistency errors later on import
-                delete $IncludeElement->{Definition}{Config}{PartOfSet};
+                delete $InnerDFConfig{Config}{PartOfSet};
 
                 # transform included configs recursively on export
-                $IncludeElement->{Definition} = $Self->_DynamicFieldConfigTransform(
-                    DynamicFieldConfig => $IncludeElement->{Definition},
+                $IncludeElement->{Definition} = $Self->DynamicFieldConfigTransform(
+                    DynamicFieldConfig => \%InnerDFConfig,
                     Action             => 'Export',
                 );
             }
@@ -1845,14 +1854,23 @@ sub DynamicFieldConfigTransform {
                     ROWELEMENT:
                     for my $RowElement ( $Row->@* ) {
                         if ( $RowElement->{DF} ) {
-                            delete $RowElement->{Definition}{ID};
+
+                            # get config of inner field
+                            my $InnerDFConfigRef = $Self->DynamicFieldGet(
+                                Name => $RowElement->{DF},
+                            );
+
+                            # copy config to avoid unwanted side effects
+                            my %InnerDFConfig = $InnerDFConfigRef->%*;
+
+                            delete $InnerDFConfig{ID};
 
                             # Filter off the 'PartOfSet' attribute, it is not necessary and may cause inconsistency errors later on import
-                            delete $RowElement->{Definition}{Config}{PartOfSet};
+                            delete $InnerDFConfig{Config}{PartOfSet};
 
                             # transform included configs recursively on export
-                            $RowElement->{Definition} = $Self->_DynamicFieldConfigTransform(
-                                DynamicFieldConfig => $RowElement->{Definition},
+                            $RowElement->{Definition} = $Self->DynamicFieldConfigTransform(
+                                DynamicFieldConfig => \%InnerDFConfig,
                                 Action             => 'Export',
                             );
                         }
