@@ -67,6 +67,9 @@ my %FailureIsAccepted = (
 # object for doing the actual check
 my $Internal = Test::Compile::Internal->new;
 
+# Sometimes it is useful to see the complete output
+#$Internal->verbose(1);
+
 note('check syntax of the Perl modules');
 {
     FILE:
