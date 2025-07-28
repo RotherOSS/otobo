@@ -293,6 +293,9 @@ sub GetFieldStates {
                     if ( !$ValueIsDifferent ) {
                         $UpdateRequired = 0;
                     }
+                    else {
+                        $UpdateRequired = 1;
+                    }
                 }
             }
 
