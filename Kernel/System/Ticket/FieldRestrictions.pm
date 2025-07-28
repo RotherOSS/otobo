@@ -302,7 +302,7 @@ sub GetFieldStates {
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
 
-                # check if we have a ticket id and use ticket data value, if so
+                # check if we have a ticket data value and use them, if so
                 if ( defined $TicketData{"DynamicField_$DFName"} ) {
                     $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
                 }
