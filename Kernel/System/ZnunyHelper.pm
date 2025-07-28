@@ -2053,6 +2053,10 @@ sub _DynamicFieldsConfigExport {
         $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
             DynamicFieldConfig => $DynamicFieldConfig,
         );
+
+        # tidy export data
+        delete $DynamicFieldConfig->{Config}{PartOfSet};
+        delete $DynamicFieldConfig->{ID};
     }
 
     my $Data;
