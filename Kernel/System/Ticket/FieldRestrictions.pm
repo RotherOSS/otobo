@@ -263,15 +263,16 @@ sub GetFieldStates {
             Behavior           => 'IsACLReducible',
         );
 
-        # 1. handle hidden fields - values of invisible fields turning invisible are deleted or set to values of ticket data if present
-        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 && ( !$CachedVisibility || $CachedVisibility->{"DynamicField_$DFName"} )) {
+        # 1. handle hidden fields
+        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
+            next DYNAMICFIELD if $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"};
 
+            # values of visible fields turning invisible are deleted or set to values of ticket data if present
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
                 ref( $DFParam->{"DynamicField_$DFName"} ) ?
                     ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 ) :
                     $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
 
-            # check if value already equals ticket value
             my %TicketData;
             if ( $Param{TicketID} ) {
                 %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
