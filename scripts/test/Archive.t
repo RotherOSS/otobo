@@ -14,18 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
 
 # CPAN modules
+use Test::Warnings;    # must be loaded before Test2::V0
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -114,4 +115,4 @@ else {
     );
 }
 
-done_testing();
+done_testing;
