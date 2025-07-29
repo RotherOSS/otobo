@@ -60,13 +60,16 @@ $Selenium->RunTest(
             note "Waiting at most $WaitTime s until tasks are executed";
             ACTIVESLEEP:
             for my $Seconds ( 1 .. $WaitTime ) {
-                my @TaskList = $SchedulerDBObject->TaskList();
-
-                last ACTIVESLEEP unless @TaskList;
 
                 note "Sleeping for $Seconds seconds...";
                 sleep 1;
+
+                my @TaskList = $SchedulerDBObject->TaskList();
+
+                last ACTIVESLEEP unless @TaskList;
             }
+            
+            sleep 1;
 
             my @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
