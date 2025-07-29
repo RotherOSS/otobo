@@ -1215,6 +1215,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test::Warnings',
+        Features  => ['devel:test'],
+        Comment   => 'check whether the test script emits warnings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],

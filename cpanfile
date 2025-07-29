@@ -197,6 +197,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # check for strictures and warnings
     requires 'Test::Strict';
 
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
+
     # basic test functions
     requires 'Test2::Suite';
 
@@ -427,6 +430,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # check for strictures and warnings
     requires 'Test::Strict';
+
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
 
     # basic test functions
     requires 'Test2::Suite';
