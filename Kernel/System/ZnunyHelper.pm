@@ -1644,6 +1644,7 @@ sub _DynamicFieldsCreate {
 
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
+    my $Error                      = 0;
 
     # check dynamic fields and split dynamic fields in three separate groups
     my %Namespaces;
@@ -1786,6 +1787,7 @@ sub _DynamicFieldsCreate {
                 Name   => $OldDynamicFieldConfig{Name} . 'Old',
                 UserID => 1,
             );
+            $Error ||= !$Success;
 
             $CreateDynamicField = 1;
         }
@@ -1806,6 +1808,7 @@ sub _DynamicFieldsCreate {
                 Reorder    => 0,
                 UserID     => 1,
             );
+            $Error ||= !$Success;
         }
 
         # check if new field has to be created
@@ -1827,13 +1830,14 @@ sub _DynamicFieldsCreate {
             ValidID       => $NewDynamicField->{ValidID}       || $ValidID,
             UserID        => 1,
         );
+        $Error ||= ( $FieldID ? 0 : 1 );
         next DYNAMICFIELD if !$FieldID;
 
         # increase the order number
         $NextOrderNumber++;
     }
 
-    return 1;
+    return !$Error;
 }
 
 =item DynamicFieldFieldOrderAfterFieldGet()
