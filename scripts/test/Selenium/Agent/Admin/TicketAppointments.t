@@ -68,6 +68,8 @@ $Selenium->RunTest(
 
                 last ACTIVESLEEP unless @TaskList;
             }
+            
+            sleep 1;
 
             my @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
