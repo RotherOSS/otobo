@@ -3635,19 +3635,13 @@ sub _StoreActivityDialog {
         }
 
         # sanitize dynamic field name before storing value
-        my $FieldName = $DynamicFieldConfig->{Name};
-        if ( $DynamicFieldConfig->{Name} =~ /^(?<SanitizedFieldName>.+)$Self->{IDSuffix}$/ ) {
-            $FieldName = $+{SanitizedFieldName};
-        }
+        $DynamicFieldConfig->{Name} =~ s/$Self->{IDSuffix}//;
 
         my $Success = $DynamicFieldBackendObject->ValueSet(
-            DynamicFieldConfig => {
-                $DynamicFieldConfig->%*,
-                Name => $FieldName,
-            },
-            ObjectID => $TicketID,
-            Value    => $TicketParam{ 'DynamicField_' . $DynamicFieldName },
-            UserID   => $ConfigObject->Get('CustomerPanelUserID'),
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $TicketID,
+            Value              => $TicketParam{ 'DynamicField_' . $DynamicFieldName },
+            UserID             => $ConfigObject->Get('CustomerPanelUserID'),
         );
 
         if ( !$Success ) {
