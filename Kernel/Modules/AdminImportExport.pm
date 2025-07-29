@@ -261,10 +261,9 @@ sub Run {
                 if (
                     $Item->{Input}->{Regex}
                     &&
-                    !$AttributeValues{ $Item->{Key} } =~ $Item->{Input}->{Regex}
+                    $AttributeValues{ $Item->{Key} } !~ $Item->{Input}->{Regex}
                     )
                 {
-
                     $DataTypeError{ $Item->{Name} } = 1;
                     $Error = 1;
                 }
