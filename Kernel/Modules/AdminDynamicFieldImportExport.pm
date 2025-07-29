@@ -169,15 +169,10 @@ sub Run {
             }
 
             if ( !$Success ) {
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-
-                $Output .= $LayoutObject->Error(
-                    Message => 'Something went wrong during dynamic field import. Please review the logs.',
+                return $LayoutObject->ErrorScreen(
+                    Message => 'Something went wrong during dynamic field import.',
+                    Comment => 'Please review the logs.',
                 );
-
-                $Output .= $LayoutObject->Footer();
-                return $Output;
             }
         }
 
