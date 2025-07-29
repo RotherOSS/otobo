@@ -3141,6 +3141,20 @@ DISTRIBUTIONS
       Test::Builder 0.13
       Test::Builder::Tester 1.02
       perl 5.006
+  Test-Warnings-0.038
+    pathname: E/ET/ETHER/Test-Warnings-0.038.tar.gz
+    provides:
+      Test2::Warnings 0.038
+      Test::Warnings 0.038
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Test::Builder 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Test2-Tools-HTTP-0.12
     pathname: P/PL/PLICEASE/Test2-Tools-HTTP-0.12.tar.gz
     provides:
@@ -3750,6 +3764,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0

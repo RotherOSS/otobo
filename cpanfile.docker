@@ -113,6 +113,9 @@ requires 'Unicode::Collate';
     # check for strictures and warnings
     requires 'Test::Strict';
 
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
+
     # basic test functions
     requires 'Test2::Suite';
 
