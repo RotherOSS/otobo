@@ -59,7 +59,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
 =head1 DESCRIPTION
 
-This scripts can be used for checking whether required Perl modules are installed.
+This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
 
 =cut
@@ -222,7 +222,7 @@ my %FeatureDescription = (
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-    import Linux::Distribution;
+    Linux::Distribution->import;
 
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
@@ -284,9 +284,12 @@ if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~
 
 my $ExitCode = 0;    # success
 
-# This is the reference for Perl modules that are required by OTOBO or are optional.
+# The array @NeededModules is the declaration of Perl modules that are
+# either required or optional in OTOBO.
 # Modules that are required are marked by setting 'Required' to 1.
+#
 # Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+#
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
@@ -337,7 +340,7 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '>= 1.08',
+        VersionRequired => '>= 1.08',    # from 2014
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
@@ -1179,7 +1182,8 @@ else {
     if ($DoPrintAllModules) {
         MODULE:
         for my $Module (@NeededModules) {
-            next MODULE if !$Module->{Features};
+            next MODULE unless $Module->{Features};
+
             for my $Feature ( @{ $Module->{Features} } ) {
                 $Features{$Feature}++;
             }
