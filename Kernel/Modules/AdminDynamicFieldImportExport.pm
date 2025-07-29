@@ -160,11 +160,24 @@ sub Run {
                 push @DynamicFieldsImport, $ImportData->{DynamicFields}->{$DynamicField};
             }
 
+            my $Success;
             if ($OverwriteExistingEntities) {
-                $ZnunyHelperObject->_DynamicFieldsCreate(@DynamicFieldsImport);
+                $Success = $ZnunyHelperObject->_DynamicFieldsCreate(@DynamicFieldsImport);
             }
             else {
-                $ZnunyHelperObject->_DynamicFieldsCreateIfNotExists(@DynamicFieldsImport);
+                $Success = $ZnunyHelperObject->_DynamicFieldsCreateIfNotExists(@DynamicFieldsImport);
+            }
+
+            if ( !$Success ) {
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+
+                $Output .= $LayoutObject->Error(
+                    Message => 'Something went wrong during dynamic field import. Please review the logs.',
+                );
+
+                $Output .= $LayoutObject->Footer();
+                return $Output;
             }
         }
 
