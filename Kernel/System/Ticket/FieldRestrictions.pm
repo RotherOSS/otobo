@@ -265,7 +265,7 @@ sub GetFieldStates {
 
         # 1. handle hidden fields
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
-            next DYNAMICFIELD if $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"};
+            next DYNAMICFIELD if $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0;
 
             # values of visible fields turning invisible are deleted or set to values of ticket data if present
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
