@@ -98,6 +98,10 @@ sub Run {
             Name   => 'Upgrade Dynamic Fields from 10_01 OTOBOAgents Package.',
             Module => 'DBUpdateOTOBOAgentsDF',
         },
+        {
+            Name   => 'Prepare upgrading of ITSMCore and ITSMIncidentProblemManagement.',
+            Module => 'PackagePrepareITSMIncidentProblemManagement',
+        },
     );
 
     TASK:

@@ -31,13 +31,24 @@ use parent qw(Kernel::System::EventHandler);
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Queue',
+    'Kernel::System::Type',
     'Kernel::System::Valid',
     'Kernel::System::YAML',
+);
+
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
+    'Kernel::System::GeneralCatalog',
 );
 
 =head1 NAME
@@ -1383,10 +1394,10 @@ sub ObjectMappingGet {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get configuration for this object type
-    my $Config           = $ConfigObject->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $ConfigObject->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1395,7 +1406,7 @@ sub ObjectMappingGet {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1499,10 +1510,10 @@ sub ObjectMappingCreate {
     }
 
     # Get configuration for this object type
-    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1510,7 +1521,7 @@ sub ObjectMappingCreate {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1585,10 +1596,10 @@ sub ObjectMappingNameChange {
     }
 
     # Get configuration for this object type
-    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
-    my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
+    my $Config            = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $ObjectTypesConfig = $Config->{ $Param{ObjectType} };
 
-    if ( !IsHashRefWithData($ObjecTypesConfig) ) {
+    if ( !IsHashRefWithData($ObjectTypesConfig) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Configuration for dynamic field object type $Param{ObjectType} is invalid!",
@@ -1596,7 +1607,7 @@ sub ObjectMappingNameChange {
         return;
     }
 
-    if ( !$ObjecTypesConfig->{UseObjectName} ) {
+    if ( !$ObjectTypesConfig->{UseObjectName} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Dynamic field object type $Param{ObjectType} does not support this function",
@@ -1695,6 +1706,144 @@ sub GetValidDynamicFields {
     }
 
     return $DynamicFields;
+}
+
+=head2 DynamicFieldConfigName2ID()
+
+Transformations of the dynamic field config needed for Import, which includes transitioning names in field configs into IDs.
+Note that the passed in dynamic field config is modified in place.
+
+    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigName2ID(
+        DynamicFieldConfig => $FieldConfig,
+    );
+
+=cut
+
+sub DynamicFieldConfigName2ID {
+    my ( $Self, %Param ) = @_;
+
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!",
+        );
+        return;
+    }
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+
+        # needed transformation: Name -> ID
+        if ( $DynamicFieldConfig->{Config}{Queue} ) {
+            my @QueueIDs;
+            for my $QueueName ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                push @QueueIDs, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $QueueName );
+            }
+            $DynamicFieldConfig->{Config}{Queue} = \@QueueIDs;
+        }
+        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+            my @TypeIDs;
+            for my $TypeName ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                push @TypeIDs, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeName );
+            }
+            $DynamicFieldConfig->{Config}{TicketType} = \@TypeIDs;
+        }
+        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+            my %ClassName2ID = reverse %{
+                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                    Class => 'ITSM::ConfigItem::Class',
+                )
+            };
+            my @ClassIDs = map
+                { $ClassName2ID{$_} }
+                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassIDs;
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+
+        # needed transformation: Name -> ID
+        my $AttributeDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{ID};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            Name => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{ID};
+    }
+
+    return $Param{DynamicFieldConfig};
+}
+
+=head2 DynamicFieldConfigID2Name()
+
+Transformations of the dynamic field config needed for Import/Export, which includes transitioning IDs in field configs into names.
+Note that the passed in dynamic field config is modified in place.
+
+    $FieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
+        DynamicFieldConfig => $FieldConfig,
+    );
+
+=cut
+
+sub DynamicFieldConfigID2Name {
+    my ( $Self, %Param ) = @_;
+
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!",
+        );
+        return;
+    }
+
+    my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+
+    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+
+        # needed transformation: ID -> Name
+        if ( $DynamicFieldConfig->{Config}{Queue} ) {
+            my @QueueNames;
+            for my $QueueID ( $DynamicFieldConfig->{Config}{Queue}->@* ) {
+                push @QueueNames, $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $QueueID );
+            }
+            $DynamicFieldConfig->{Config}{Queue} = \@QueueNames;
+        }
+        if ( $DynamicFieldConfig->{Config}{TicketType} ) {
+            my @TypeNames;
+            for my $TypeID ( $DynamicFieldConfig->{Config}{TicketType}->@* ) {
+                push @TypeNames, $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $TypeID );
+            }
+            $DynamicFieldConfig->{Config}{TicketType} = \@TypeNames;
+        }
+        if ( $DynamicFieldConfig->{Config}{ClassIDs} ) {
+            my %ClassID2Name = %{
+                $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+                    Class => 'ITSM::ConfigItem::Class',
+                )
+            };
+            my @ClassNames = map
+                { $ClassID2Name{$_} }
+                $DynamicFieldConfig->{Config}->{ClassIDs}->@*;
+            $DynamicFieldConfig->{Config}{ClassIDs} = \@ClassNames;
+        }
+    }
+    elsif ( $Param{DynamicFieldConfig}{FieldType} eq 'Lens' ) {
+
+        # needed transformation: ID -> Name
+        my $AttributeDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{AttributeDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{AttributeDF} = $AttributeDF->{Name};
+        my $ReferenceDF = $Self->DynamicFieldGet(
+            ID => $Param{DynamicFieldConfig}{Config}{ReferenceDF},
+        );
+        $Param{DynamicFieldConfig}{Config}{ReferenceDF} = $ReferenceDF->{Name};
+    }
+
+    return $Param{DynamicFieldConfig};
 }
 
 =begin Internal:

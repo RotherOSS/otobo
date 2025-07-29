@@ -3633,6 +3633,9 @@ sub _StoreActivityDialog {
             next DYNAMICFIELD;
         }
 
+        # sanitize dynamic field name before storing value
+        $DynamicFieldConfig->{Name} =~ s/$Self->{IDSuffix}$//;
+
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $TicketID,
