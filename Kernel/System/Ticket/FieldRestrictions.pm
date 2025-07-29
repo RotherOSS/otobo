@@ -263,15 +263,13 @@ sub GetFieldStates {
             Behavior           => 'IsACLReducible',
         );
 
-        # 1. handle hidden fields - values of invisible fields are deleted or set to values of ticket data if present
-        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
+        # 1. handle hidden fields - values of invisible fields turning invisible are deleted or set to values of ticket data if present
+        if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 && ( !$CachedVisibility || $CachedVisibility->{"DynamicField_$DFName"} )) {
 
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} )
-                ?
-                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
-                :
-                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+                ref( $DFParam->{"DynamicField_$DFName"} ) ?
+                    ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 ) :
+                    $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
 
             # check if value already equals ticket value
             my %TicketData;
@@ -290,17 +288,17 @@ sub GetFieldStates {
                         Value2             => $TicketData{"DynamicField_$DFName"},
                     );
 
-                    if ( !$ValueIsDifferent ) {
-                        $UpdateRequired = 0;
+                    if ( $ValueIsDifferent ) {
+                        $UpdateRequired = 1;
                     }
                     else {
-                        $UpdateRequired = 1;
+                        $UpdateRequired = 0;
                     }
                 }
             }
 
             # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
-            if ($UpdateRequired) {
+            if ( $UpdateRequired ) {
 
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
@@ -404,8 +402,11 @@ sub GetFieldStates {
                             NotACLReducible => 1,
                         };
                     }
+
+                    next DYNAMICFIELD;
                 }
-                elsif ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
+
+                if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                     $NewValues{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                     $Fields{$DFName} = {
                         PossibleValues  => undef,
@@ -445,17 +446,20 @@ sub GetFieldStates {
                 if ( $CachedVisibility->{"DynamicField_$DFName"} == 0 ) {
                     $CheckACLs = 1;
 
-                    # take the default value and put it also into NewValues; in the unlikely case that they will be deleted again, this will just cause a redundant second run
+                    my %TicketData;
                     if ( $Param{TicketID} ) {
-                        my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                        %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
                             TicketID      => $Param{TicketID},
                             UserID        => $Param{UserID},
                             DynamicFields => 1,
                         );
-                        if ( defined $TicketData{"DynamicField_$DFName"} ) {
-                            $DFParam->{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
-                            $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
-                        }
+                    }
+
+                    # take the ticket or default value and put it also into NewValues
+                    # in the unlikely case that they will be deleted again, this will just cause a redundant second run
+                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                        $DFParam->{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
                     }
                     elsif ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                         $DFParam->{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
