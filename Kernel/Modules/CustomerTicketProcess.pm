@@ -439,6 +439,13 @@ sub _RenderAjax {
         }
     }
 
+    for my $DFName ( keys $Self->{DynamicField}->%* ) {
+
+        if ( $ActivityDialog->{Fields}{"DynamicField_$DFName"} && $ActivityDialog->{Fields}{"DynamicField_$DFName"}{DefaultValue} ) {
+            $Self->{DynamicField}{$DFName}{Config}{DefaultValue} = $ActivityDialog->{Fields}{"DynamicField_$DFName"}{DefaultValue};
+        }
+    }
+
     my $Autoselect      = $ConfigObject->Get('TicketACL::Autoselect') || undef;
     my $LoopProtection  = 100;
     my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
@@ -1196,10 +1203,7 @@ sub _OutputActivityDialog {
                 my $DialogDefaultValue = $ActivityDialog->{Fields}{ 'DynamicField_' . $Name }{DefaultValue};
 
                 if ($DialogDefaultValue) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $DialogDefaultValue;
-                }
-                elsif ($NewTicket) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $Self->{DynamicField}{$Name}{Config}{DefaultValue};
+                    $Self->{DynamicField}{$Name}{Config}{DefaultValue} = $DialogDefaultValue;
                 }
             }
 
