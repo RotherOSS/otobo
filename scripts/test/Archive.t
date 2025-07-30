@@ -22,8 +22,8 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test::Warnings;    # must be loaded before Test2::V0
 use Test2::V0;
+use Test::Warnings;    # must be loaded after Test2::V0
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
