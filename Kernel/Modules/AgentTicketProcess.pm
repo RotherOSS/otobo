@@ -530,10 +530,6 @@ sub _RenderAjax {
     my @JSONCollector;
     my $Services;
 
-    # All submitted DynamicFields
-    # get dynamic field values form http request
-    my %DynamicFieldValues;
-
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -751,6 +747,13 @@ sub _RenderAjax {
         );
         if ( !$ACLPreselection ) {
             $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+        }
+    }
+
+    for my $DFName ( keys $Self->{DynamicField}->%* ) {
+
+        if ( $ActivityDialog->{Fields}{"DynamicField_$DFName"} && $ActivityDialog->{Fields}{"DynamicField_$DFName"}{DefaultValue} ) {
+            $Self->{DynamicField}{$DFName}{Config}{DefaultValue} = $ActivityDialog->{Fields}{"DynamicField_$DFName"}{DefaultValue};
         }
     }
 
@@ -1239,7 +1242,7 @@ sub _GetParam {
             }
         }
 
-        # if no Submitted nore Ticket Param get ActivityDialog Config's Param
+        # if no Submitted nor Ticket Param get ActivityDialog Config's Param
         if ( $CurrentField ne 'CustomerID' ) {
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
         }
@@ -1796,10 +1799,7 @@ sub _OutputActivityDialog {
                 my $DialogDefaultValue = $ActivityDialog->{Fields}{ 'DynamicField_' . $Name }{DefaultValue};
 
                 if ($DialogDefaultValue) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $DialogDefaultValue;
-                }
-                elsif ($NewTicket) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $Self->{DynamicField}{$Name}{Config}{DefaultValue};
+                    $Self->{DynamicField}{$Name}{Config}{DefaultValue} = $DialogDefaultValue;
                 }
             }
 
@@ -4748,7 +4748,6 @@ sub _StoreActivityDialog {
 
         }
         elsif ( $CurrentField eq 'PendingTime' ) {
-            my $Prefix = 'PendingTime';
 
             # Make sure we have Values otherwise take an empty string
             if (
@@ -5211,9 +5210,6 @@ sub _StoreActivityDialog {
 
         # use ProcessEntityID from the web request
         $ProcessEntityID = $Param{ProcessEntityID};
-
-        # Check if we deal with a Ticket Update
-        my $UpdateTicketID = $TicketID;
     }
 
     # If we had a TicketID, get the Ticket
