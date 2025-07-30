@@ -820,15 +820,13 @@ sub ReadableValueRender {
             if ($ObjectID) {
 
                 # perform external source transformation if necessary
-                if ( $Param{ExternalSource} ) {
+                if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} && $Self->can('SearchObjects') ) {
                     my $TransformResult = $Self->_TransformExternalSource(
                         DynamicFieldConfig => $Param{DynamicFieldConfig},
                         ValueArray         => [$ObjectID],
                         UserID             => 1,
                     );
-                    if ( IsArrayRefWithData($TransformResult) ) {
-                        $ObjectID = $TransformResult->[0];
-                    }
+                    $ObjectID = $TransformResult->[0];
                 }
 
                 my %Description = $Self->ObjectDescriptionGet(
