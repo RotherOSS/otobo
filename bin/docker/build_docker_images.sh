@@ -25,27 +25,17 @@
 # this function calls "docker build"
 build () {
     local DOCKERFILE_PATH=$1;
-    local DOCKER_TAG=$2;
-    local GIT_COMMIT=$3;
-    local GIT_BRANCH=$4;
-    local BUILD_PATH=$5;
-    local IMAGE_NAME=$6;
+    local DOCKER_TARGET=$2;
+    local DOCKER_TAG=$3;
+    local GIT_COMMIT=$4;
+    local GIT_BRANCH=$5;
+    local BUILD_PATH=$6;
+    local IMAGE_NAME=$7;
 
     local ACTUAL_DOCKERFILE_PATH=$(case $DOCKERFILE_PATH in
         "otobo.kerberos.web.dockerfile")         echo "otobo.web.dockerfile" ;;
         "../../otobo.nginx-kerberos.dockerfile") echo "../../otobo.nginx.dockerfile" ;;
         *)                                       echo $DOCKERFILE_PATH ;;
-    esac)
-    local TARGET_OPTION=$(case $DOCKERFILE_PATH in
-        "otobo.web.dockerfile")                  echo "--target=otobo-web" ;;
-        "otobo.kerberos.web.dockerfile")         echo "--target=otobo-web-kerberos" ;;
-        "../../otobo.nginx.dockerfile")          echo "--target=otobo-nginx-webproxy" ;;
-        "../../otobo.nginx-kerberos.dockerfile") echo "--target=otobo-nginx-kerberos-webproxy" ;;
-        "otobo.elasticsearch.dockerfile")        echo "--target=otobo-elasticsearch" ;;
-        "otobo.nginx.dockerfile")                echo "--target=otobo-nginx-webproxy" ;;
-        "otobo.nginx-kerberos.dockerfile")       echo "--target=otobo-nginx-kerberos-webproxy" ;;
-        "otobo.selenium-chrome.dockerfile")      echo "--target=otobo-selenium-chrome" ;;
-        *)                                       echo "" ;;
     esac)
 
     # build the Docker image
@@ -58,7 +48,7 @@ build () {
     --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
     -f $BUILD_PATH/$ACTUAL_DOCKERFILE_PATH\
     -t $IMAGE_NAME\
-    $TARGET_OPTION\
+    --target="$DOCKER_TARGET"\
     $BUILD_PATH
 }
 
@@ -69,10 +59,10 @@ otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
 DOCKER_TAG="local-${otobo_version}"
 
 # build otobo
-build "otobo.web.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo:$DOCKER_TAG"
+build "otobo.web.dockerfile" "otobo-web" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo:$DOCKER_TAG"
 
 # build otobo with Kerberos support
-build "otobo.kerberos.web.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo-kerberos:$DOCKER_TAG"
+build "otobo.kerberos.web.dockerfile" "otobo-web-kerberos" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo-kerberos:$DOCKER_TAG"
 
 # Building the web container entails installing Perl distributions from CPAN.
 # The exact versions of these distributions are tracked in the file cpanfile.snapshot.
@@ -80,13 +70,13 @@ build "otobo.kerberos.web.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "o
 docker run --rm --entrypoint cat otobo-kerberos:$DOCKER_TAG /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot.11_1
 
 # build otobo-nginx-webproxy
-build "../../otobo.nginx.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-webproxy:$DOCKER_TAG"
+build "../../otobo.nginx.dockerfile" "otobo-nginx-webproxy" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-webproxy:$DOCKER_TAG"
 
 # build otobo-nginx-kerberos-webproxy
-build "../../otobo.nginx-kerberos.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-kerberos-webproxy:$DOCKER_TAG"
+build "../../otobo.nginx-kerberos.dockerfile" "otobo-nginx-kerberos-webproxy" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-kerberos-webproxy:$DOCKER_TAG"
 
 # build otobo-elasticsearch
-build "../../otobo.elasticsearch.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/elasticsearch" "otobo-elasticsearch:$DOCKER_TAG"
+build "../../otobo.elasticsearch.dockerfile" "otobo-elasticsearch" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/elasticsearch" "otobo-elasticsearch:$DOCKER_TAG"
 
 # build otobo-selenium-chrome
-build "../../../otobo.selenium-chrome.dockerfile" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/test/sample" "otobo-selenium-chrome:$DOCKER_TAG"
+build "../../../otobo.selenium-chrome.dockerfile" "otobo-selenium-chrome" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/test/sample" "otobo-selenium-chrome:$DOCKER_TAG"
