@@ -32,9 +32,9 @@ build () {
     local BUILD_PATH=$6;
     local IMAGE_NAME=$7;
 
-    # build the Docker image
+    # build the Docker image with Buildkit
     # add the option '--progress plain' for seeing the printed output
-    docker build\
+    docker buildx build\
     --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
     --build-arg "DOCKER_TAG=$DOCKER_TAG"\
     --build-arg "GIT_COMMIT=$GIT_COMMIT"\
@@ -52,7 +52,7 @@ GIT_COMMIT=$(git rev-parse HEAD)          # also works in detached HEAD
 otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
 DOCKER_TAG="local-${otobo_version}"
 
-# build otobo
+# build otobo for the services web and daemon
 build "otobo.web.dockerfile" "otobo-web" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo:$DOCKER_TAG"
 
 # build otobo with Kerberos support
