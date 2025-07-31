@@ -48,13 +48,13 @@ if ( -e $ChecksumFile ) {
     );
 }
 
-# This should be a SKIP-block
-
 if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
-    $Self->True(
-        0,
-        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
+    note(
+        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. '
+            .
+            'Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
     );
+    fail('got checksums from ARCHIVE');
 }
 else {
 
