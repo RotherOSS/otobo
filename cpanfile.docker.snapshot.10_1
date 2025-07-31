@@ -2679,11 +2679,11 @@ DISTRIBUTIONS
       overload 0
       parent 0
       strict 0
-  Path-Tiny-0.148
-    pathname: D/DA/DAGOLDEN/Path-Tiny-0.148.tar.gz
+  Path-Tiny-0.150
+    pathname: D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz
     provides:
-      Path::Tiny 0.148
-      Path::Tiny::Error 0.148
+      Path::Tiny 0.150
+      Path::Tiny::Error 0.150
     requirements:
       Carp 0
       Cwd 0
@@ -3574,6 +3574,18 @@ DISTRIBUTIONS
       overload 0
       perl 5.006002
       utf8 0
+  Test-Strict-0.54
+    pathname: M/MA/MANWAR/Test-Strict-0.54.tar.gz
+    provides:
+      Test::Strict 0.54
+    requirements:
+      ExtUtils::MakeMaker 6.64
+      File::Find 0.01
+      File::Spec 0.01
+      File::Temp 0.01
+      FindBin 0.01
+      Test::Builder 0.01
+      perl 5.006
   Test-TCP-2.22
     pathname: M/MI/MIYAGAWA/Test-TCP-2.22.tar.gz
     provides:
@@ -3658,10 +3670,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.60
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.60.tgz
+  Text-CSV_XS-1.61
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.61.tgz
     provides:
-      Text::CSV_XS 1.60
+      Text::CSV_XS 1.61
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
@@ -4216,27 +4228,20 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
