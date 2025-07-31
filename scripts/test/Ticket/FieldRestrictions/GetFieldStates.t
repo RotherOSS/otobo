@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -24,11 +25,10 @@ use utf8;
 # core modules
 
 # CPAN modules
-
 use Test2::V0;
+use Test::Warnings;    # must be loaded after Test2::V0
 
 # OTOBO modules
-
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::Config;
 
@@ -42,7 +42,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 # Objects used
-
 my $Helper                    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
 my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -51,7 +50,7 @@ my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldR
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 # Test plan
-plan 10;
+plan 11;
 
 # Test User
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
@@ -67,6 +66,9 @@ my %DynamicTestFields;
 
 # Test ACL IDs
 my @TestAclIDs;
+
+# Test Ticket IDs
+my %TestTicketIDs;
 
 # Protector
 my $LoopProtection = 99;
@@ -169,6 +171,47 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
     _RebuildConfig();
 };
 
+subtest '[Prepare] Create Test Tickets' => sub {
+
+    # first ticket with values for dynamic fields
+    my $FirstTicketID = $TicketObject->TicketCreate(
+        Title        => 'First ACL Test Ticket with dynamic field values',
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'new',
+        CustomerNo   => '123465',
+        CustomerUser => 'unittest@otobo.org',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    ok(
+        $FirstTicketID,
+        'TicketCreate()',
+    );
+
+    $TestTicketIDs{'TicketIDWithDFValues'} = $FirstTicketID;
+
+    # second ticket without values for dynamic fields
+    my $SecondTicketID = $TicketObject->TicketCreate(
+        Title        => 'Second ACL Test Ticket without dynamic field values',
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'new',
+        CustomerNo   => '123465',
+        CustomerUser => 'unittest@otobo.org',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    ok(
+        $SecondTicketID,
+        'TicketCreate()',
+    );
+
+    $TestTicketIDs{'TicketIDWithoutDFValues'} = $SecondTicketID;
+};
+
 ############################################
 # Main test routine for all test cases
 ############################################
@@ -179,7 +222,7 @@ sub TestFieldRestrictions {
 
     my $Expected = delete $Param{Expected};
 
-    # these could be overriden by specifying in
+    # these could be overridden by specifying in
     # the TestCase data table. Otherwise use
     # reasonable defaults:
     if ( !exists $Param{DynamicFields} ) {
