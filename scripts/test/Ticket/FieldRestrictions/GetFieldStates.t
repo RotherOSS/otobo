@@ -105,10 +105,61 @@ subtest '[Prepare] Create Dynamic Fields for Test' => sub {
     my $CheckboxFieldDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $CheckboxFieldID );
     ok( $CheckboxFieldDFConfig, 'Got a Checkbox DF Config.' );
 
+    # Create dynamic fields for testing HideShow dynamic field default value behavior
+    my $DropDown1FieldID = _CreateDynamicField(
+        'UnitTestDropDownField1',
+        4,
+        'Dropdown',
+
+        {
+            DefaultValue   => '',
+            Link           => '',
+            LinkPreview    => '',
+            MultiValue     => 0,
+            PossibleNone   => 1,
+            PossibleValues => {
+                a => 'a',
+                b => 'b',
+                c => 'c',
+            },
+            Tooltip            => '',
+            TranslatableValues => '0',
+            TreeView           => '0',
+        }
+    );
+    my $DropDown1FieldDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $DropDown1FieldID );
+    ok( $DropDown1FieldDFConfig, 'Got a DropDown DF Config for DropDown1.' );
+
+    my $DropDown2FieldID = _CreateDynamicField(
+        'UnitTestDropDownField2',
+        5,
+        'Dropdown',
+
+        {
+            DefaultValue   => '',
+            Link           => '',
+            LinkPreview    => '',
+            MultiValue     => 0,
+            PossibleNone   => 1,
+            PossibleValues => {
+                a => 'a',
+                b => 'b',
+                c => 'c',
+            },
+            Tooltip            => '',
+            TranslatableValues => '0',
+            TreeView           => '0',
+        }
+    );
+    my $DropDown2FieldDFConfig = $DynamicFieldObject->DynamicFieldGet( ID => $DropDown2FieldID );
+    ok( $DropDown2FieldDFConfig, 'Got a DropDown DF Config for DropDown2.' );
+
     %DynamicTestFields = map { $_->{Name} => $_ } (
         $TextFieldDFConfig,
         $DropdownFieldDFConfig,
-        $CheckboxFieldDFConfig
+        $CheckboxFieldDFConfig,
+        $DropDown1FieldDFConfig,
+        $DropDown2FieldDFConfig,
     );
 };
 
