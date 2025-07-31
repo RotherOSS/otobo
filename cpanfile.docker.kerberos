@@ -9,7 +9,7 @@ requires 'Authen::Krb5::Simple';
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 requires 'Date::Format';
@@ -31,6 +31,10 @@ requires 'Digest::SHA';
 requires 'File::chmod';
 
 requires 'List::AllUtils';
+
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
 
 requires 'LWP::UserAgent';
 
@@ -142,11 +146,20 @@ requires 'Const::Fast';
 # };
 
 # feature 'devel:test', 'Modules for running the test suite' => sub {
+    # for deeply inspecting scalars, especially strings
+    requires 'Data::Peek';
+
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', '>= 1.40';
 
     # a quick compile check
     requires 'Test::Compile';
+
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
 
     # basic test functions
     requires 'Test2::Suite';
@@ -173,9 +186,6 @@ requires 'Const::Fast';
     requires 'Net::LDAP';
 
 # };
-
-# Feature 'div:ssl' is not needed for Docker
-
 
 # Feature 'div:xmlparser' is not needed for Docker
 
@@ -216,9 +226,6 @@ requires 'Const::Fast';
 
 # };
 
-# Feature 'mail:ssl' is not needed for Docker
-
-
 # Feature 'optional' is not needed for Docker
 
 
@@ -228,13 +235,13 @@ requires 'Const::Fast';
 
 # };
 
-# feature 'performance:json', 'Support for feature performance:json' => sub {
+# feature 'performance:json', 'Fast JSON handling' => sub {
     # Recommended for faster AJAX/JavaScript handling.
     requires 'JSON::XS';
 
 # };
 
-# feature 'performance:redis', 'Support for feature performance:redis' => sub {
+# feature 'performance:redis', 'Modules for running with Redis Cache Server' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 
