@@ -218,6 +218,39 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
         }
     );
 
+    # ACLs for testing HideShow dynamic field value handling
+    _CreateACL(
+        Name        => '004-UnitTestACL_HideDropdownField1',
+        ConfigMatch => {
+        },
+        ConfigChange => {
+            PossibleNot => {
+                Form => [
+                    '[RegExp]DropDown1'
+                ]
+            }
+        }
+    );
+    _CreateACL(
+        Name        => '005-UnitTestACL_ShowDropdownField1IfQueueIsPostmaster',
+        ConfigMatch => {
+            Properties => {
+                Ticket => {
+                    Queue => [
+                        '[RegExp]Postmaster'
+                    ],
+                }
+            }
+        },
+        ConfigChange => {
+            PossibleAdd => {
+                Form => [
+                    '[RegExp]DropDown1'
+                ]
+            }
+        }
+    );
+
     _DeployACLs();
     _RebuildConfig();
 };
