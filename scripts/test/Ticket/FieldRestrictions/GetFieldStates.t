@@ -50,7 +50,7 @@ my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldR
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 # Test plan
-plan 13;
+plan 15;
 
 # Test User
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
@@ -276,7 +276,13 @@ subtest '[Prepare] Create Test Tickets' => sub {
 
     $TestTicketIDs{'TicketIDWithDFValues'} = $FirstTicketID;
 
-    # TODO add dynamic field values to ticket
+    # add dynamic field values to ticket
+    my $Success = $DynamicFieldBackendObject->ValueSet(
+        DynamicFieldConfig => $DynamicTestFields{UnitTestDropDownField1},
+        Value              => 'a',
+        ObjectID           => $FirstTicketID,
+        UserID             => 1,
+    );
 
     # second ticket without values for dynamic fields
     my $SecondTicketID = $TicketObject->TicketCreate(
@@ -566,7 +572,43 @@ my @TestCases = (
     {
         Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
         Action   => 'AgentTicketFreeText',
+        GetParam => {
+            QueueID      => '2',
+            DynamicField => {},
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
+            },
+        }
+    },
+    {
+        Name     => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
         TicketID => $TestTicketIDs{TicketIDWithDFValues},
+        GetParam => {
+            QueueID      => '2',
+            DynamicField => {},
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
+            },
+            NewValues => { DynamicField_UnitTestDropDownField1 => "a" },
+        }
+    },
+    {
+        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster and Ticket does not have a dynamic field value. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
+        TicketID => $TestTicketIDs{TicketIDWithoutDFValues},
         GetParam => {
             QueueID      => '2',
             DynamicField => {},
