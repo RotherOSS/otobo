@@ -50,7 +50,7 @@ my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldR
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 # Test plan
-plan 11;
+plan 13;
 
 # Test User
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
@@ -220,13 +220,13 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
 
     # ACLs for testing HideShow dynamic field value handling
     _CreateACL(
-        Name        => '004-UnitTestACL_HideDropdownField1',
-        ConfigMatch => {
-        },
+        Name => '004-UnitTestACL_HideDropdownField1',
+
+        # ConfigMatch => {},
         ConfigChange => {
             PossibleNot => {
                 Form => [
-                    '[RegExp]DropDown1'
+                    'UnitTestDropDownField1'
                 ]
             }
         }
@@ -245,7 +245,7 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
         ConfigChange => {
             PossibleAdd => {
                 Form => [
-                    '[RegExp]DropDown1'
+                    'UnitTestDropDownField1'
                 ]
             }
         }
@@ -275,6 +275,8 @@ subtest '[Prepare] Create Test Tickets' => sub {
     );
 
     $TestTicketIDs{'TicketIDWithDFValues'} = $FirstTicketID;
+
+    # TODO add dynamic field values to ticket
 
     # second ticket without values for dynamic fields
     my $SecondTicketID = $TicketObject->TicketCreate(
@@ -329,7 +331,6 @@ sub TestFieldRestrictions {
     my %CurFieldStates = $FieldRestrictionsObject->GetFieldStates(%Param);
 
     # assert against expected values
-
     if ( exists $Expected->{Visibility} ) {
         my $VisibilityCount      = scalar keys $CurFieldStates{Visibility}->%*;
         my $ExpectedVisibleCount = scalar keys $Expected->{Visibility}->%*;
@@ -423,6 +424,8 @@ my @TestCases = (
                 DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestDropDownField1  => 1,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
         }
     },
@@ -442,6 +445,8 @@ my @TestCases = (
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
                 DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
             NewValues => {
                 DynamicField_UnitTestSimpleTextField => ''
@@ -481,6 +486,8 @@ my @TestCases = (
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
                 DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
             PossibleValues => {
                 UnitTestDropDownField => {
@@ -510,6 +517,8 @@ my @TestCases = (
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
                 DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
             PossibleValues => {
                 UnitTestDropDownField => {
@@ -544,9 +553,31 @@ my @TestCases = (
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
                 DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 1,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
             NewValues => {
                 DynamicField_UnitTestSimpleTextField => '',
+            },
+        }
+    },
+
+    # Test Cases for Dynamic Field Value Handling in HideShow
+    {
+        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
+        TicketID => $TestTicketIDs{TicketIDWithDFValues},
+        GetParam => {
+            QueueID      => '2',
+            DynamicField => {},
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
             },
         }
     },
