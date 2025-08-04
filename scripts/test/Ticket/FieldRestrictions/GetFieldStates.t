@@ -333,6 +333,16 @@ sub TestFieldRestrictions {
         $Param{DynamicFieldBackendObject} = $DynamicFieldBackendObject;
     }
 
+    # handle cached visibility
+    if ( IsHashRefWithData( $Param{CachedVisibility} ) ) {
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => 'HiddenFields',
+            Key   => $Param{FormID},
+            Value => $Param{CachedVisibility},
+            TTL   => 60 * 20,                    # 20 min
+        );
+    }
+
     # the actual thing under test - get Field Restrictions for this test case
     my %CurFieldStates = $FieldRestrictionsObject->GetFieldStates(%Param);
 
@@ -612,6 +622,70 @@ my @TestCases = (
         GetParam => {
             QueueID      => '2',
             DynamicField => {},
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
+            },
+        }
+    },
+
+    {
+        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
+        GetParam => {
+            QueueID      => '1',
+            DynamicField => {},
+        },
+        CachedVisibility => {
+            "DynamicField_UnitTestDropDownField1" => 0,
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
+            },
+        }
+    },
+    {
+        Name     => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
+        TicketID => $TestTicketIDs{TicketIDWithDFValues},
+        GetParam => {
+            QueueID      => '1',
+            DynamicField => {},
+        },
+        CachedVisibility => {
+            "DynamicField_UnitTestDropDownField1" => 0,
+        },
+        Expected => {
+            Visibility => {
+                DynamicField_UnitTestCheckboxField   => 1,
+                DynamicField_UnitTestDropDownField   => 1,
+                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestDropDownField1  => 0,
+                DynamicField_UnitTestDropDownField2  => 1,
+            },
+            NewValues => { DynamicField_UnitTestDropDownField1 => "a" },
+        }
+    },
+    {
+        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster and Ticket does not have a dynamic field value. (ACL 004)',
+        Action   => 'AgentTicketFreeText',
+        TicketID => $TestTicketIDs{TicketIDWithoutDFValues},
+        GetParam => {
+            QueueID      => '1',
+            DynamicField => {},
+        },
+        CachedVisibility => {
+            "DynamicField_UnitTestDropDownField1" => 0,
         },
         Expected => {
             Visibility => {
