@@ -420,45 +420,6 @@ sub Run {
     # reverse dynamic field list
     my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
-    # set ticket free text
-    my %Values =
-        (
-            'X-OTOBO-FollowUp-TicketKey'   => 'TicketFreeKey',
-            'X-OTOBO-FollowUp-TicketValue' => 'TicketFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $Param{TicketID},
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value         =>
-                        "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
-        }
-    }
-
     # set ticket free time
     for my $Count ( 1 .. 6 ) {
 
