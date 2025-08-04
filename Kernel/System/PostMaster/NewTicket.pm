@@ -459,47 +459,8 @@ END_MESSAGE
         }
     }
 
-    # reverse dynamic field list
+    # reverse ticket dynamic field list
     my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set ticket free text
-    # for backward compatibility (should be removed in a future version)
-    my %Values =
-        (
-            'X-OTOBO-TicketKey'   => 'TicketFreeKey',
-            'X-OTOBO-TicketValue' => 'TicketFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $TicketID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::NewTicket',
-                    Value         => "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
-        }
-    }
 
     # set ticket free time
     # for backward compatibility (should be removed in a future version)
