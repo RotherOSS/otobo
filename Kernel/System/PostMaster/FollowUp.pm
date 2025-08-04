@@ -16,8 +16,15 @@
 
 package Kernel::System::PostMaster::FollowUp;
 
+use v5.24;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOB modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -57,6 +64,7 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::FollowUp',
                 Value         => "Need $_!",
             );
+
             return;
         }
     }
@@ -383,6 +391,7 @@ sub Run {
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+
         my $Key = 'X-OTOBO-FollowUp-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
@@ -542,6 +551,7 @@ sub Run {
         AutoResponseType     => $AutoResponseType,
         OrigHeader           => \%GetParam,
     );
+
     return if !$ArticleID;
 
     for my $Flag (qw/Crypted CryptedOK Signed SignedOK/) {
@@ -579,6 +589,7 @@ sub Run {
         next ATTRIBUTE if $CommunicationLogSkipAttributes{$Attribute};
 
         my $Value = $GetParam{$Attribute};
+
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
@@ -610,19 +621,19 @@ sub Run {
         );
     }
 
-    # dynamic fields
-    $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 1,
-            ResultType => 'HASH',
-            ObjectType => 'Article'
-        );
+    # dynamic fields for articles
+    $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Article'
+    );
 
     # set dynamic fields for Article object type
     DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+
         my $Key = 'X-OTOBO-FollowUp-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
