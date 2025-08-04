@@ -459,7 +459,7 @@ END_MESSAGE
         }
     }
 
-    # reverse ticket dynamic field list
+    # reverse list of ticket dynamic fields
     my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
     # set ticket free time
@@ -674,48 +674,6 @@ END_MESSAGE
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
-        }
-    }
-
-    # reverse dynamic field list
-    %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set free article text
-    # for backward compatibility (should be removed in a future version)
-    %Values =
-        (
-            'X-OTOBO-ArticleKey'   => 'ArticleFreeKey',
-            'X-OTOBO-ArticleValue' => 'ArticleFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $ArticleID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::NewTicket',
-                    Value         => "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
         }
     }
 

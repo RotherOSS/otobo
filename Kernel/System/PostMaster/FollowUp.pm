@@ -417,7 +417,7 @@ sub Run {
         }
     }
 
-    # reverse dynamic field list
+    # reverse list of ticket dynamic fields
     my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
 
     # set ticket free time
@@ -616,48 +616,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::FollowUp',
                 Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
-        }
-    }
-
-    # reverse dynamic field list
-    %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set free article text
-    %Values =
-        (
-            'X-OTOBO-FollowUp-ArticleKey'   => 'ArticleFreeKey',
-            'X-OTOBO-FollowUp-ArticleValue' => 'ArticleFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $ArticleID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value         =>
-                        "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
         }
     }
 
