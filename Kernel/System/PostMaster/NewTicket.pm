@@ -16,8 +16,15 @@
 
 package Kernel::System::PostMaster::NewTicket;
 
+use v5.24;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOB modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -64,6 +71,7 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -331,6 +339,7 @@ sub Run {
             Key           => 'Kernel::System::PostMaster::NewTicket',
             Value         => "Ticket could not be created!",
         );
+
         return;
     }
 
@@ -413,18 +422,18 @@ END_MESSAGE
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # dynamic fields
-    my $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 1,
-            ResultType => 'HASH',
-            ObjectType => 'Ticket',
-        );
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Ticket',
+    );
 
     # set dynamic fields for Ticket object type
     DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+
         my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
 
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
@@ -658,6 +667,7 @@ END_MESSAGE
         next ATTRIBUTE if $CommunicationLogSkipAttributes{$Attribute};
 
         my $Value = $GetParam{$Attribute};
+
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
@@ -681,6 +691,7 @@ END_MESSAGE
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+
         my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 

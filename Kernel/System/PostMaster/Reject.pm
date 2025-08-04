@@ -16,8 +16,15 @@
 
 package Kernel::System::PostMaster::Reject;
 
+use v5.24;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOB modules
 
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
@@ -54,6 +61,7 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Reject',
                 Value         => "Need $_!",
             );
+
             return;
         }
     }
@@ -124,6 +132,7 @@ sub Run {
             Key           => 'Kernel::System::PostMaster::Reject',
             Value         => "Article could not be created!",
         );
+
         return;
     }
 
@@ -162,6 +171,7 @@ sub Run {
         next ATTRIBUTE if $CommunicationLogSkipAttributes{$Attribute};
 
         my $Value = $GetParam{$Attribute};
+
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
@@ -198,18 +208,18 @@ sub Run {
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # dynamic fields
-    my $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 0,
-            ResultType => 'HASH',
-            ObjectType => 'Article',
-        );
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 0,
+        ResultType => 'HASH',
+        ObjectType => 'Article',
+    );
 
     # set dynamic fields for Article object type
     DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
         next DYNAMICFIELDID if !$DynamicFieldID;
         next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+
         my $Key = 'X-OTOBO-FollowUp-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
