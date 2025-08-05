@@ -44,39 +44,37 @@ my $Home = $ConfigObject->Get('Home');
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
-my %NeededDynamicfields = (
-    TicketFreeKey1  => 1,
-    TicketFreeText1 => 1,
-    TicketFreeKey2  => 1,
-    TicketFreeText2 => 1,
-    TicketFreeKey3  => 1,
-    TicketFreeText3 => 1,
-    TicketFreeKey4  => 1,
-    TicketFreeText4 => 1,
-    TicketFreeKey5  => 1,
-    TicketFreeText5 => 1,
-    TicketFreeKey5  => 1,
-    TicketFreeText5 => 1,
-    TicketFreeKey6  => 1,
-    TicketFreeText6 => 1,
-    TicketFreeTime1 => 1,
-    TicketFreeTime2 => 1,
-    TicketFreeTime3 => 1,
-    TicketFreeTime4 => 1,
-    TicketFreeTime5 => 1,
-    TicketFreeTime6 => 1,
+my @NeededDynamicfields = qw(
+    TicketFreeKey1
+    TicketFreeKey2
+    TicketFreeKey3
+    TicketFreeKey4
+    TicketFreeKey5
+    TicketFreeKey6
+    TicketFreeText1
+    TicketFreeText2
+    TicketFreeText3
+    TicketFreeText4
+    TicketFreeText5
+    TicketFreeText6
+    TicketFreeTime1
+    TicketFreeTime2
+    TicketFreeTime3
+    TicketFreeTime4
+    TicketFreeTime5
+    TicketFreeTime6
 );
 
 # list available dynamic fields
-my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+my $DynamicFieldID2Name = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
     Valid      => 0,
     ResultType => 'HASH',
 );
-$DynamicFields = ( ref $DynamicFields eq 'HASH' ? $DynamicFields : {} );
-$DynamicFields = { reverse %{$DynamicFields} };
+$DynamicFieldID2Name = ( ref $DynamicFieldID2Name eq 'HASH' ? $DynamicFieldID2Name : {} );
+my $DynamicFieldName2ID = { reverse $DynamicFieldID2Name->%* };
 
-for my $FieldName ( sort keys %NeededDynamicfields ) {
-    if ( !$DynamicFields->{$FieldName} ) {
+for my $FieldName ( sort @NeededDynamicfields ) {
+    if ( !$DynamicFieldName2ID->{$FieldName} ) {
 
         # create a dynamic field
         my $FieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldAdd(
@@ -93,15 +91,14 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         );
 
         # verify dynamic field creation
-        ok(
-            $FieldID,
-            "DynamicFieldAdd() successful for Field $FieldName",
-        );
+        ok( $FieldID, "DynamicFieldAdd() successful for Field $FieldName" );
 
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $DynamicFieldName2ID->{$FieldName}
+        );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
@@ -158,6 +155,7 @@ my @PostmasterXHeader = @{$XHeaders};
 HEADER:
 for my $Header ( sort keys %NeededXHeaders ) {
     next HEADER if ( grep { $_ eq $Header } @PostmasterXHeader );
+
     push @PostmasterXHeader, $Header;
 }
 $ConfigObject->Set(
@@ -285,7 +283,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     StopAfterMatch => 0,
                 },
                 {
-                    Name    => 'filter' . $Helper->GetRandomID(),
+                    Name    => 'filter' . $Helper->GetRandomID,
                     ValidID => 1,
                     Match   => [
                         {
@@ -353,7 +351,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             ];
             for my $Filter ( @{$FilterRandConfig} ) {
                 $PostMasterFilter->FilterAdd(
-                    %{$Filter},
+                    $Filter->%*,
                 );
                 my %FilterData = $PostMasterFilter->FilterGet(
                     Name => $Filter->{Name},
@@ -366,12 +364,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             }
 
             # get rand sender address
-            my $UserRand1 = 'example-user' . $Helper->GetRandomID() . '@example.com';
+            my $UserRand1 = 'example-user' . $Helper->GetRandomID . '@example.com';
 
             FILE:
             for my $File (qw(1 2 3 5 6 11 17 18 21 22 23)) {
 
-                my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
+                my $NamePrefix = "$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
                 # new ticket check
                 my $Location   = "$Home/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
@@ -393,8 +391,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 for my $Line (@Content) {
                     push @ContentNew, $Line;
                 }
-                my @Return;
 
+                my @Return;
                 $ConfigObject->Set(
                     Key   => 'PostmasterDefaultState',
                     Value => 'new'
