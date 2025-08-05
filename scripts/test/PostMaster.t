@@ -300,7 +300,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
-                            Value => 'Text3',
+                            Value => '³ - U+000B3 - SUPERSCRIPT THREE, ٣ - U+00663 - ARABIC-INDIC DIGIT THREE',
                         },
                     ],
                     StopAfterMatch => 0,
@@ -464,7 +464,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key    => 'DynamicField_TicketFreeText3',
-                            Result => 'Text3',
+                            Result => '³ - U+000B3 - SUPERSCRIPT THREE, ٣ - U+00663 - ARABIC-INDIC DIGIT THREE',
                         },
                     );
                     for my $Test (@Tests) {
