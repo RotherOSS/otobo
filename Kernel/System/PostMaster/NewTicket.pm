@@ -422,21 +422,27 @@ END_MESSAGE
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # dynamic fields
-    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    my $DynamicFieldID2Name = $DynamicFieldObject->DynamicFieldList(
         Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Ticket',
     );
 
     # set dynamic fields for Ticket object type
-    DYNAMICFIELDID:
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        next DYNAMICFIELDID if !$DynamicFieldID;
-        next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+    DYNAMIC_FIELD_ID:
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldID2Name} ) {
+        next DYNAMIC_FIELD_ID unless $DynamicFieldID;
 
-        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
+        my $DynamicFieldName = $DynamicFieldID2Name->{$DynamicFieldID};
 
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
+        next DYNAMIC_FIELD_ID unless $DynamicFieldName;
+
+        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldName;
+
+        next DYNAMIC_FIELD_ID unless defined $GetParam{$Key};
+        next DYNAMIC_FIELD_ID unless length $GetParam{$Key};
+
+        {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -640,21 +646,27 @@ END_MESSAGE
     }
 
     # dynamic fields
-    $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 1,
-            ResultType => 'HASH',
-            ObjectType => 'Article',
-        );
+    $DynamicFieldID2Name = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Article',
+    );
 
     # set dynamic fields for Article object type
-    DYNAMICFIELDID:
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        next DYNAMICFIELDID if !$DynamicFieldID;
-        next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
+    DYNAMIC_FIELD_ID:
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldID2Name} ) {
+        next DYNAMIC_FIELD_ID unless $DynamicFieldID;
 
-        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
+        my $DynamicFieldName = $DynamicFieldID2Name->{$DynamicFieldID};
+
+        next DYNAMIC_FIELD_ID unless $DynamicFieldName;
+
+        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldName;
+
+        next DYNAMIC_FIELD_ID unless defined $GetParam{$Key};
+        next DYNAMIC_FIELD_ID unless length $GetParam{$Key};
+
+        {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
