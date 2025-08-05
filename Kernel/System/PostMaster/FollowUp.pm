@@ -423,51 +423,6 @@ sub Run {
         }
     }
 
-    # reverse list of ticket dynamic fields
-    my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set ticket free time
-    for my $Count ( 1 .. 6 ) {
-
-        my $Key = 'X-OTOBO-FollowUp-TicketTime' . $Count;
-
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
-
-            # get datetime object
-            my $DateTimeObject = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    String => $GetParam{$Key}
-                }
-            );
-
-            if ( $DateTimeObject && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
-
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ 'TicketFreeTime' . $Count },
-                );
-
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $Param{TicketID},
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value         =>
-                        "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
-        }
-    }
-
     my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $ArticleBackendObject = $ArticleObject->BackendForChannel(
         ChannelName => 'Email',
