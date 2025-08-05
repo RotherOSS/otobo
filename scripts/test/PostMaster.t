@@ -132,18 +132,6 @@ my %NeededXHeaders = (
     'X-OTOBO-DynamicField-TicketFreeTime4' => 1,
     'X-OTOBO-DynamicField-TicketFreeTime5' => 1,
     'X-OTOBO-DynamicField-TicketFreeTime6' => 1,
-    'X-OTOBO-TicketKey1'                   => 1,
-    'X-OTOBO-TicketValue1'                 => 1,
-    'X-OTOBO-TicketKey2'                   => 1,
-    'X-OTOBO-TicketValue2'                 => 1,
-    'X-OTOBO-TicketKey3'                   => 1,
-    'X-OTOBO-TicketValue3'                 => 1,
-    'X-OTOBO-TicketTime1'                  => 1,
-    'X-OTOBO-TicketTime2'                  => 1,
-    'X-OTOBO-TicketTime3'                  => 1,
-    'X-OTOBO-TicketTime4'                  => 1,
-    'X-OTOBO-TicketTime5'                  => 1,
-    'X-OTOBO-TicketTime6'                  => 1,
     'X-OTOBO-Owner'                        => 1,
     'X-OTOBO-OwnerID'                      => 1,
     'X-OTOBO-Responsible'                  => 1,
@@ -233,16 +221,16 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-Queue',
-                            Value => 'Misc',
-                        },
-                        {
-                            Key   => 'X-OTOBO-TicketKey1',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                             Value => 'Key1',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue1',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                             Value => 'Text1',
+                        },
+                        {
+                            Key   => 'X-OTOBO-Queue',
+                            Value => 'Misc',
                         },
                     ],
                     StopAfterMatch => 0,
@@ -272,11 +260,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-TicketKey2',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey2',
                             Value => 'Key2',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue2',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText2',
                             Value => 'Text2',
                         },
                     ],
@@ -307,11 +295,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-TicketKey3',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                             Value => 'Key3',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue3',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                             Value => 'Text3',
                         },
                     ],
@@ -561,7 +549,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key    => 'DynamicField_TicketFreeTime6',
-                            Result => '2008-01-12 13:19:20',
+                            Result => '2025-08-05 13:01:20',
                         },
                     );
                     for my $Test (@Tests) {
@@ -903,19 +891,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3',
                 },
             ],
@@ -933,19 +921,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3',
                 },
             ],
@@ -972,19 +960,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => 'Key4#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText4',
                     Value => 'Text4#2',
                 },
             ],
@@ -1002,19 +990,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => 'Key4#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText4',
                     Value => 'Text4#2',
                 },
             ],
@@ -1036,19 +1024,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3#3',
                 },
             ],
@@ -1066,19 +1054,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3#3',
                 },
             ],
@@ -1099,7 +1087,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => '[***]',
                 },
             ],
@@ -1113,7 +1101,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => '[***]',
                 },
             ],
@@ -1134,7 +1122,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey5',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                     Value => '[***]',
                 },
             ],
@@ -1148,7 +1136,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey5',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                     Value => '[***]',
                 },
             ],
@@ -1276,11 +1264,11 @@ Some Content in Body
                 Value => 'Junk',
             },
             {
-                Key   => 'X-OTOBO-TicketKey5',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                 Value => 'Key5#1',
             },
             {
-                Key   => 'X-OTOBO-TicketValue5',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText5',
                 Value => 'Text5#1',
             },
         ],
@@ -1312,11 +1300,11 @@ Some Content in Body
                 Value => 'Misc',
             },
             {
-                Key   => 'X-OTOBO-TicketKey6',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeKey6',
                 Value => 'Key6#1',
             },
             {
-                Key   => 'X-OTOBO-TicketValue6',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText6',
                 Value => 'Text6#1',
             },
         ],
@@ -1340,9 +1328,9 @@ Some Content in Body
             'X-Envelope-To' => 'xenvelopeto@example.com'
         },
         Set => {
-            'X-OTOBO-Queue'        => 'Misc',
-            'X-OTOBO-TicketKey6'   => 'Key6#1',
-            'X-OTOBO-TicketValue6' => 'Text6#1',
+            'X-OTOBO-Queue'                        => 'Misc',
+            'X-OTOBO-DynamicField-TicketFreeKey6'  => 'Key6#1',
+            'X-OTOBO-DynamicField-TicketFreeText6' => 'Text6#1',
         },
         Check => {
             Queue                        => 'Misc',

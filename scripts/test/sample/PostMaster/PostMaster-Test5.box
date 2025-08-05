@@ -18,14 +18,14 @@ MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="J/dobhs11T7y2rNN"
 X-OTOBO-DynamicField-TicketFreeKey1: Test
 X-OTOBO-DynamicField-TicketFreeText1: ABC
-X-OTOBO-TicketKey2: Test2
-X-OTOBO-TicketValue2: ABC2
-X-OTOBO-TicketTime1: 2008-01-12 13:14:15
-X-OTOBO-TicketTime2: 2008-01-12 13:15:16
+X-OTOBO-DynamicField-TicketFreeKey2: Test2
+X-OTOBO-DynamicField-TicketFreeText2: ABC2
+X-OTOBO-DynamicField-TicketFreeTime1: 2008-01-12 13:14:15
+X-OTOBO-DynamicField-TicketFreeTime2: 2008-01-12 13:15:16
 X-OTOBO-DynamicField-TicketFreeTime3: 2008-01-12 13:16:17
 X-OTOBO-DynamicField-TicketFreeTime4: 2008-01-12 13:17:18
 X-OTOBO-DynamicField-TicketFreeTime5: 2008-01-12 13:18:19
-X-OTOBO-TicketTime6: 2008-01-12 13:19:20
+X-OTOBO-DynamicField-TicketFreeTime6: 2025-08-05 13:01:20
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 User-Agent: mutt-ng/devel-r804 (Debian)
