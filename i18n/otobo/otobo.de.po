@@ -56,8 +56,7 @@ msgstr ""
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
 "PO-Revision-Date: 2025-06-21 12:34+0000\n"
 "Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
-">\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25948,6 +25947,7 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27586,8 +27586,7 @@ msgstr "Berechtigung, Eigentümer von Tickets in dieser Gruppe/Queue zu werden. 
 
 #. Template: AdminRoleGroup
 msgid "Permissions to open the priority action in this group/queue."
-msgstr ""
-"Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queue."
+msgstr "Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queue."
 
 #. Template: AdminRoleGroup
 msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
@@ -27753,3 +27752,32 @@ msgstr "Als (un)gelesen markieren"
 #. SysConfig
 msgid "Mark as seen"
 msgstr "Als gelesen markieren"
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
+msgstr ""
+
+#. SysConfig
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
+msgstr ""
+

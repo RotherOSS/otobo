@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.845131421744325;
+    $Self->{Completeness}        = 0.844351589315028;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -676,6 +676,8 @@ sub Data {
             'هنا يمكنك تحديد ارتباط HTTP اختياري لقيمة الحقل في شاشات اللمحات العامة والتكبير/التصغير.',
         'Example' => 'مثال',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
             '',
         'Link for preview' => 'رابط للمعاينة',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -7097,8 +7099,8 @@ Thanks for your help!
         'Based on global RichText setting' => 'استنادا إلى إعداد النص المنسق العام',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'إعدادات فهرس النص الكامل الأساسية. نفذ "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" لإنشاء فهرس جديد.',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            'يحظر جميع رسائل البريد الإلكتروني الواردة التي لا تحتوي على رقم تذكرة صالح في الموضوع باستخدام عنوان من: @example.com.',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => 'تم الإرسال إلى "%s".',
         'Bulgarian' => 'بلغارية',
         'Bulk Action' => 'تنفيذ جماعي',
@@ -7223,6 +7225,10 @@ Thanks for your help!
         'Configure the privacy policy.' => 'تحرير سياسة الخصوصية.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'تكوين الواجهة التي سيتم عرضها بعد إنشاء تذكرة جديدة.',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => 'قم بتكوين نص السجل الخاص بك ل PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             'تكوين إعداد TicketDynamicField افتراضي. يعرف "الاسم" الحقل الديناميكي الذي يجب إستخدامه، و"القيمة" هي البيانات التي سيتم تعيينها، و"الحدث" يحدد حدث المشغل. يرجى التحقق من دليل المطور (/‎https://doc.otobo.org)، الفصل "Ticket Event Module".',
@@ -8514,6 +8520,7 @@ Thanks for your help!
         'High Contrast' => 'تباين عالي',
         'High contrast skin for visually impaired users.' => 'سطح (skin) عالي التباين للمستخدمين الذين يعانون من ضعف البصر.',
         'Hindi' => 'الهندية',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'الهنغارية (المجرية)',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'في حالة تحديد"DB" ك Customer::AuthModule، يمكن تعريف برنامج تشغيل قاعدة البيانات هنا. وإلا فسيتم تحديد برنامج التشغيل المطلوب تلقائيا.',
@@ -8798,6 +8805,8 @@ Thanks for your help!
             'الحد الأقصى للحجم (في صفوف) لمربع "الوكلاء المعنيون" في واجهة الوكيل.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'الحد الأقصى لطول الموضوع في الرد بالبريد الإلكتروني وفي بعض شاشات النظرة العامة.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد الإلكتروني الخاص بك في اليوم (الحماية من التكرار).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8904,6 +8913,8 @@ Thanks for your help!
             'عدد الصفوف (لكل تذكرة) التي يتم عرضها عبر أداة البحث في منطقة الوكيل.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'عدد الأجزاء (shards) (NS) والنسخ المتماثلة (NR) والحد الأقصى للحقل لفهرس "التذكرة".',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
+            '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم استخدام "Elasticsearch::ArticleIndexCreationSettings". بدلا من ذلك، استخدم "Elasticsearch::IndexSettings###Default" لضمان التوافق مع الإصدارات الأحدث.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>

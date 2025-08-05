@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.997759856630824;
+    $Self->{Completeness}        = 0.997463065214147;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -675,6 +675,8 @@ sub Data {
         'Example' => 'Beispiel',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
             'Sie können den Feldnamen verwenden, um auf ein Feld zu verweisen, oder auch auf andere Felder referenzieren – z. B. mit \'DynamicField_OtherFieldName\'.',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
+            '',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
@@ -2133,7 +2135,7 @@ sub Data {
             'Berechtigung, Eigentümer von Tickets in dieser Gruppe/Queue zu werden. Man kann als Besitzer ausgewählt werden, wenn man eine Ticket erstellt oder den Besitzer ändert. Als Besitzer hat man volle Schreibrechte für dieses Ticket.',
         'priority' => 'Priorität',
         'Permissions to open the priority action in this group/queue.' =>
-            'Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queu.',
+            'Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queue.',
         'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
             'Voller Lese- und Schreibzugriff auf die Tickets in dieser Gruppe/Queue. Bei Verwendung für einen Kalender können die Benutzer den Kalender selbst verwalten.',
 
@@ -4135,9 +4137,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => 'Gültiger Feld-Treiber benötigt.',
-        'Erroneous value in RequiredArgs.' => '',
-        'Erroneous value in PreviewTriggers.' => '',
-        'Erroneous value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => 'Fehlerhafter Wert in RequiredArgs.',
+        'Erroneous value in PreviewTriggers.' => 'Fehlerhafter Wert in PreviewTriggers.',
+        'Erroneous value in StorageTriggers.' => 'Fehlerhafter Wert in StorageTriggers.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => 'Fehlendes dynamisches Feld.',
@@ -7095,8 +7097,8 @@ Ihr Helpdesk-Team
         'Based on global RichText setting' => 'Basierend auf der globalen Richtext-Einstellung',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Basis-Einstellungen für den Volltext-Index. Führen Sie "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" aus, um den Index neu zu erstellen.',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            'Blockiert alle eingehenden E-Mails, die keine gültige Ticketnummer im Betreff mit Absenderadresse: @ example.com besitzen.',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => 'Bounced an "%s".',
         'Bulgarian' => 'Bulgarisch',
         'Bulk Action' => 'Sammel-Aktion',
@@ -7221,6 +7223,10 @@ Ihr Helpdesk-Team
         'Configure the privacy policy.' => 'Datenschutzhinweise bearbeiten.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             'Konfiguriert eine TicketDynamicField-Standardeinstellung. "Name" definiert, welches dynamische Feld genutzt werden soll, "Value" die zu setzenden Daten, und "Event" das auslösende Ereignis. Mehr dazu im Kapitel "Ticket Event Module" des Developer Manuals (https://doc.otobo.org/).',
@@ -8512,6 +8518,7 @@ Ihr Helpdesk-Team
         'High Contrast' => 'Hoher Kontrast',
         'High contrast skin for visually impaired users.' => 'Skin mit hohem Kontrast für Nutzer mit Sehschwäche.',
         'Hindi' => 'Hindi',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Ungarisch',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, kann hier ein Datenbanktreiber definiert werden. Ansonsten wird der benötigte Treiber automatisch ermittelt.',
@@ -8781,9 +8788,9 @@ Ihr Helpdesk-Team
         'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
         'Manage ticket state pre-selections for response templates.' => 'Ticketstatus-Vorauswahl für Antwortvorlagen verwalten.',
-        'Mark as (un)seen' => '',
+        'Mark as (un)seen' => 'Als (un)gelesen markieren',
         'Mark as Spam!' => 'Als Spam makieren!',
-        'Mark as seen' => '',
+        'Mark as seen' => 'Als gelesen markieren',
         'Mark this ticket as junk!' => 'Dieses Ticket als Junk markieren!',
         'Mark ticket as seen' => 'Ticket als gelesen markieren',
         'Mark ticket as unseen' => 'Ticket als ungelesen markieren',
@@ -8796,6 +8803,8 @@ Ihr Helpdesk-Team
             'Maximale Größe (in Reihen) des "Beteiligte Agenten" Kästchen im Agenten-Interface.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Maximale Länge des Betreffs in einer E-Mail-Antwort und in einigen Übersichts-Bildschirmen.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maximale Anzahl von automatischen E-Mailantworten zur eigenen E-Mail-Adresse pro Tag (Loop-Protection).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8902,6 +8911,8 @@ Ihr Helpdesk-Team
             'Anzahl von Zeilen (pro Ticket), die über das Such-Tool im Agentenbereich angezeigt werden.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index "Ticket".',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
+            '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index. Hinweis: \'Elasticsearch::ArticleIndexCreationSettings\' wird nicht mehr genutzt. Verwenden Sie stattdessen \'Elasticsearch::IndexSettings###Default\', um die Kompatibilität mit neueren Versionen sicherzustellen.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>

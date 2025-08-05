@@ -1,4 +1,104 @@
 
+# OTOBO 11.0.11 2025-07-31
+- 2025-07-31 13:06:27 +0200 Create new OTOBO language files.
+- 2025-07-30 14:41:34 +0200 [Bugfix]   ACL empties DF Default Value in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/4136)
+- 2025-07-30 13:17:43 +0200 [Changed]  Set ticket values for (re)appearing fields in AgentTicketActionCommon and related masks. (https://github.com/RotherOSS/otobo/issues/4360)
+- 2025-07-30 11:02:30 +0200 DF Set does not work with Mandatory and Multi Value combined (https://github.com/RotherOSS/otobo/issues/3820)
+- 2025-07-30 10:46:00 +0200 Start using Test::Warnings in test scripts (https://github.com/RotherOSS/otobo/issues/4537) - in progress
+- 2025-07-30 10:00:53 +0200 [Bugfix]   DynamicField Reference: External source transformation fails if Field is MultiValue and within a Set (https://github.com/RotherOSS/otobo/issues/4424)
+- 2025-07-29 17:29:45 +0200 [Tidied]   Check for warnings that are new in Perl 5.42 (https://github.com/RotherOSS/otobo/issues/4526)
+- 2025-07-29 16:47:17 +0200 Investigate why TicketAppointments.t flickers (https://github.com/RotherOSS/otobo/issues/4539) - in progress
+- 2025-07-28 17:31:45 +0200 [Bugfix]   Enable correct export and import of Lens DFs (https://github.com/RotherOSS/otobo/issues/3321)
+- 2025-07-29 14:34:58 +0200 Update the cpanfile snapshot after cpanfile.docker has changed
+- 2025-07-29 14:27:55 +0200 Add special handling for Upgrade to OTOBO 11 concerning ITSMIncidentProblemManagement. (https://github.com/RotherOSS/otobo/issues/4492)
+- 2025-07-29 11:21:58 +0200 [Bugfix]   Process activity ID is appended to dynamic field names in ticket history (https://github.com/RotherOSS/otobo/issues/4532)
+- 2025-07-28 14:08:06 +0200 Check in the test suite wheter strictures and warnings are enabled (https://github.com/RotherOSS/otobo/issues/4528)
+- 2025-07-28 10:22:58 +0100 [Bugfix]   TicketArticleStorageSwitch alters attachment names (https://github.com/RotherOSS/otobo/issues/1757)
+- 2025-07-28 10:43:23 +0200 [Bugfix]   New Owner filter now only filters valid values on ticket masks. (https://github.com/RotherOSS/otobo/issues/2650)
+- 2025-07-16 10:27:35 +0200 Richtext (CKEditor5) Buttons not translatable (https://github.com/RotherOSS/otobo/issues/4245)
+- 2025-07-15 15:00:45 +0200 Issue: #4245 ckeditor5 button translations
+- 2025-07-25 08:09:28 +0200 [Bugfix]   ExternalSource attribute data in Ticket reference dynamic field driver not correct (https://github.com/RotherOSS/otobo/issues/4522)
+- 2025-07-24 13:15:51 +0100 [Bugfix]   [BUG] DynamicField_Date in a multivalue DynamicField_Set does only work in first value. (https://github.com/RotherOSS/otobo/issues/3930)
+- 2025-07-24 07:46:16 +0200 Docker: Switch to Perl 5.42.0 for rel-11_1 (https://github.com/RotherOSS/otobo/issues/4448)
+- 2025-07-22 09:13:49 +0100 [Bugfix]   ValueValidate in webservice operation TicketCreate not working for Reference Fields with ImportSearchAttribute (https://github.com/RotherOSS/otobo/issues/4214) - in progress
+- 2025-07-22 16:27:46 +0200 Upgrade Perl base image to 5.38-bookworm (https://github.com/RotherOSS/otobo/issues/4512)
+- 2025-07-22 16:26:28 +0200 Accept suggestions from CodePolicy.
+- 2025-07-22 16:07:26 +0200 [Bugfix]   Use of uninitialized value at /opt/otobo/bin/psgi-bin/../../Kernel/Config/Defaults.pm line 2314. (https://github.com/RotherOSS/otobo/issues/4365)
+- 2025-07-22 16:04:45 +0200 Update the cpanfile snapshot.
+- 2025-07-22 15:31:34 +0200 Fiddle with code comments and POD
+- 2025-07-22 11:07:44 +0100 [Changed]  Font family in iframes (AGB text and RichText tile in dashboard) are now Quicksand (https://github.com/RotherOSS/otobo/issues/4067)
+- 2025-07-18 13:04:52 +0200 Remove unused param UserID from Kernel::System::CalendarTemplateGenerator::_Replace (https://github.com/RotherOSS/otobo/issues/4503)
+- 2025-07-17 09:09:13 +0200 [Enhanced] Rotate otobo.log (https://github.com/RotherOSS/otobo/issues/3909)
+- 2025-07-16 16:10:27 +0200 Building Docker Image for rel-10_0 (https://github.com/RotherOSS/otobo/issues/4487)
+- 2025-07-16 10:21:34 +0100 make emojis printable (https://github.com/RotherOSS/otobo/issues/4493)
+- 2025-07-15 19:36:50 +0200 Do not parse Emails twice in Kernel::System::EmailParser::new() (https://github.com/RotherOSS/otobo/issues/4469) - in progress
+- 2025-07-15 14:00:33 +0200 Update the cpanfile snapshot
+- 2025-07-15 13:36:26 +0200 Add git as a development tool into the Docker image (https://github.com/RotherOSS/otobo/issues/4486)
+- 2025-07-14 14:24:51 +0200 [Bugfix]   Tooltip-Icon is not hidden by TicketACL::Autoselect (https://github.com/RotherOSS/otobo/issues/4434)
+- 2025-07-15 12:10:41 +0200 Make the generated Autobuild issue more informative (https://github.com/RotherOSS/otobo/issues/4440)
+- 2025-07-14 16:06:18 +0200 [Tidied]   Fix POD typo in Kernel::System::Group (https://github.com/RotherOSS/otobo/issues/4478)
+- 2025-07-14 16:54:36 +0200 The Github action 'CodePolicy' is broken (https://github.com/RotherOSS/otobo/issues/4480)
+- 2025-07-14 15:35:13 +0200 Fix code comment: disable it => disabled it
+- 2025-07-14 14:57:15 +0200 [Tidied]   Fix spelling: appoitnment => appointment (https://github.com/RotherOSS/otobo/issues/4476)
+- 2025-07-11 13:39:47 +0200 Enhance POD and code comments of Kernel::System::PID
+- 2025-07-09 22:47:10 +0200 Add Devel::Confess to the devel:debugging feature (https://github.com/RotherOSS/otobo/issues/4466)
+- 2025-07-09 14:45:02 +0200 Issue #4459: Eliminate the 'Depends' attribute (https://github.com/RotherOSS/otobo/issues/4462)
+- 2025-07-09 14:24:45 +0200 [Bugfix]   OpenIDConnect wrong Login Form and misleading error msg on browser restart (https://github.com/RotherOSS/otobo/issues/4393)
+- 2025-07-09 13:50:30 +0200 also hide loginbox for Customers if only OIDC login enabled
+- 2025-07-07 18:45:17 +0200 Make it easy to switch to Antarctica/Rother time zone
+- 2025-07-03 19:15:44 +0200 [Bugfix]   Summary of Github workflow DockerImageUpdateAll is incomplete (https://github.com/RotherOSS/otobo/issues/4446)
+- 2025-07-03 15:54:05 +0100 [Bugfix]   Elasticsearch index `tmpattachments` is not managed by Otobo (https://github.com/RotherOSS/otobo/issues/4326)
+- 2025-07-02 12:16:04 +0100 [Bugfix]   Error when importing appointments (Internal Server Error). (https://github.com/RotherOSS/otobo/issues/4351)
+- 2025-06-12 09:24:07 +0200 [Bugfix]   Issue with Dynamic Fields in "AgentTicketPrint" Mask When Using "Title" Field (https://github.com/RotherOSS/otobo/issues/4300)
+- 2025-07-01 15:05:02 +0200 Try to explain about RuleID in TicketAppointments
+- 2025-07-01 12:48:58 +0200 Add POD for the TicketAppointments event
+- 2025-06-27 14:05:32 +0200 [Tidied]   Prevent usage of undefined values in join in dynamic field Set driver (https://github.com/RotherOSS/otobo/issues/4429)
+- 2025-06-26 14:36:03 +0200 autobuild for all five relevant Docker Hub Repositories (https://github.com/RotherOSS/otobo/issues/4363)
+- 2025-06-26 06:23:08 +0200 [Enhanced] Process-related improvements for customer- and agent ticket zoom views (https://github.com/RotherOSS/otobo/issues/2958)
+- 2025-06-20 11:52:48 +0000 Translated using Weblate (German)
+- 2025-06-19 14:18:33 +0200 Tidying the POD
+- 2025-06-19 14:09:06 +0200 Explain how the user preferences become part of the user session.
+- 2025-06-17 14:56:30 +0000 Translated using Weblate (French)
+- 2025-06-18 07:42:01 +0200 [Bugfix]   AdminProcessManagement: Wrong variable used in check (https://github.com/RotherOSS/otobo/issues/4413)
+- 2025-06-18 08:11:47 +0200 [Tidied]   Provide initial value for variable in AdminSystemConfiguration module to prevent warning (https://github.com/RotherOSS/otobo/issues/4416)
+- 2025-06-17 09:04:05 +0200 [Bugfix]   Fix missing comment sign in console command skeleton (https://github.com/RotherOSS/otobo/issues/4411)
+- 2025-06-13 14:10:11 +0200 [Enhanced] Shift OpenMainMenuOnHover to UserPreferences (https://github.com/RotherOSS/otobo/issues/2539)
+- 2024-11-28 10:05:43 +0100 Update Ticket.xml
+- 2025-06-16 13:07:46 +0200 Issue #2889: Avoided empty value problems by shifting index for checkbox values by one. (https://github.com/RotherOSS/otobo/issues/2947)
+- 2025-06-16 12:43:03 +0200 Added a couple of test cases for Decode
+- 2025-06-14 11:23:45 +0200 The docker_image_update_autobuild.yml should notify developers when there are new autobuilds (https://github.com/RotherOSS/otobo/issues/4278)
+- 2025-06-12 13:07:45 +0200 Avoid useless warning in AdminAppointmentCalendarManage frontend (https://github.com/RotherOSS/otobo/issues/4399)
+- 2025-06-10 14:56:09 +0200 Tidying: eliminate a not really useful variable
+- 2025-06-10 12:33:18 +0200 Tidying: the loop label should correspond to the loop variable
+- 2025-06-10 11:51:58 +0200 Enhance the POD and code comments of TicketSearch().
+- 2025-06-09 14:49:48 +0200 Tidying: minor cleanup
+- 2025-06-09 14:47:41 +0200 Tidying: empty lines arount 'return'
+- 2025-06-05 13:33:53 +0200 Tidying: eliminate the unused variable $ViewableTicketCount
+- 2025-06-05 13:43:19 +0200 Update Ticket.xml
+- 2025-06-04 15:19:23 +0100 [Bugfix]   Disabling the Elasticsearch::ConfigItemSearchFields sysconfig causes ES reindexing to fail (https://github.com/RotherOSS/otobo/issues/4386)
+- 2025-06-04 08:34:44 +0200 Add a short message to the SysConfig deployment when changing DFs via DFScreens. (https://github.com/RotherOSS/otobo/issues/4374)
+- 2025-06-03 07:36:05 +0200 Include hint about namespace usage into dynamic field link tooltips (https://github.com/RotherOSS/otobo/issues/4381)
+- 2025-06-02 10:45:19 +0200 [Bugfix]   Fix DynamicField Webservice. (https://github.com/RotherOSS/otobo/issues/3446)
+- 2025-05-27 17:42:03 +0200 Create new OTOBO language files.
+- 2025-05-27 17:37:33 +0200 [Bugfix]   Missing translation for a menu item "Mark as seen." (https://github.com/RotherOSS/otobo/issues/3649)
+- 2025-05-23 20:33:18 +0200 Tidying: add newline at end of CSS files
+- 2025-05-23 20:24:35 +0200 Tidying: accept some suggestion from CodePolicy
+- 2025-05-23 20:21:21 +0200 Tidying: remove some 'no critic' declarations
+- 2025-05-23 13:12:06 +0200 Tidying: use saner variable names and label name
+- 2025-05-23 13:08:52 +0200 Loop over branches in Docker Image Updater (https://github.com/RotherOSS/otobo/issues/4332)
+- 2025-05-22 11:20:33 +0200 Update Ticket.xml
+- 2025-05-22 13:24:42 +0200 [Bugfix]   Type update does not respect current params when saving in AgentTicketActionCommon. (https://github.com/RotherOSS/otobo/issues/4359)
+- 2025-05-21 16:17:00 +0200 [Bugfix]   Dynamic Fields using Namespaces are not dereferenced and shown like `ARRAY(0xXXXXXXXX)` (https://github.com/RotherOSS/otobo/issues/4353)
+- 2025-05-21 17:02:25 +0200 Make POD of ArticleDataTables() show the exact list of tables
+- 2025-05-21 11:33:33 +0200 Can _CreateCommunicationLogLookup() be removed (https://github.com/RotherOSS/otobo/issues/4352)
+- 2025-05-21 11:32:51 +0200 A bit of tidying.
+- 2025-05-20 16:12:16 +0200 Eliminate an unneeded variable.
+- 2025-05-20 16:11:26 +0200 Enhance POD of GetStaticFiles()
+- 2025-05-17 16:06:05 +0200 Use pinned versions of CPAN distributions for rebuilding Docker images (https://github.com/RotherOSS/otobo/issues/3617)
+- 2025-05-17 15:29:12 +0200  Issue #3617: messed up the name of the snapshot file
+- 2025-05-16 19:24:59 +0200 Automatically determine the latest tag in Docker Hub in the action DockerImageBuilderRel (https://github.com/RotherOSS/otobo/issues/4346) - in progress
+
+
 # OTOBO 11.0.10 2025-05-16
 - 2025-05-16 13:47:24 +0200 Revert "Update CHANGES."
 - 2025-05-16 13:37:13 +0200 The step get-dockerfile had been removed
@@ -41,7 +141,7 @@
 - 2025-05-06 16:57:27 +0200 Create new OTOBO language files.
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-05-05 07:50:09 +0200 [Bugfix]   Correct object type param in AdminDynamicField clone link (https://github.com/RotherOSS/otobo/issues/4321)
 - 2025-04-30 13:56:36 +0200 [Bugfix]   Assigned customer user cannot be removed (https://github.com/RotherOSS/otobo/issues/4319) - in progress
@@ -96,7 +196,7 @@
 - 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
 - 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
 - 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃÂ¥l)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
 - 2024-10-02 14:54:36 +0200 Update translation files
 
 
@@ -2571,3 +2671,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+

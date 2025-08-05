@@ -530,10 +530,6 @@ sub _RenderAjax {
     my @JSONCollector;
     my $Services;
 
-    # All submitted DynamicFields
-    # get dynamic field values form http request
-    my %DynamicFieldValues;
-
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -954,8 +950,6 @@ sub _RenderAjax {
 sub _GetParam {
     my ( $Self, %Param ) = @_;
 
-    #my $IsAJAXUpdate = $Param{AJAX} || '';
-
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -1239,7 +1233,7 @@ sub _GetParam {
             }
         }
 
-        # if no Submitted nore Ticket Param get ActivityDialog Config's Param
+        # if no Submitted nor Ticket Param get ActivityDialog Config's Param
         if ( $CurrentField ne 'CustomerID' ) {
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
         }
@@ -1249,6 +1243,7 @@ sub _GetParam {
             next DIALOGFIELD;
         }
     }
+
     REQUIREDFIELDLOOP:
     for my $CurrentField (qw(Queue State Lock Priority)) {
         $Value = undef;
@@ -1342,6 +1337,15 @@ sub _GetParam {
 
     DYNAMICFIELD:
     for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
+        # overwrite dynamic field config default value with activity dialog default value, if present
+        if (
+            $ActivityDialog->{Fields}{"DynamicField_$DynamicFieldName"}
+            && $ActivityDialog->{Fields}{"DynamicField_$DynamicFieldName"}{DefaultValue}
+            )
+        {
+            $Self->{DynamicField}{$DynamicFieldName}{Config}{DefaultValue} = $ActivityDialog->{Fields}{"DynamicField_$DynamicFieldName"}{DefaultValue};
+        }
 
         # Get the Config of the current DynamicField
         my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
@@ -1787,23 +1791,6 @@ sub _OutputActivityDialog {
 
         else {
             $NewTicket = 1;
-        }
-
-        # fill empty values with defaults if applicable and prepare ACLCompat
-        DYNAMICFIELD:
-        for my $Name ( keys $Self->{DynamicField}->%* ) {
-            if ( !defined $Param{GetParam}{ 'DynamicField_' . $Name } ) {
-                my $DialogDefaultValue = $ActivityDialog->{Fields}{ 'DynamicField_' . $Name }{DefaultValue};
-
-                if ($DialogDefaultValue) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $DialogDefaultValue;
-                }
-                elsif ($NewTicket) {
-                    $Param{GetParam}{ 'DynamicField_' . $Name } = $Self->{DynamicField}{$Name}{Config}{DefaultValue};
-                }
-            }
-
-            $Param{GetParam}{DynamicField}{ 'DynamicField_' . $Name } = $Param{GetParam}{ 'DynamicField_' . $Name };
         }
 
         # retrieve field restrictions for dynamic fields
@@ -4748,7 +4735,6 @@ sub _StoreActivityDialog {
 
         }
         elsif ( $CurrentField eq 'PendingTime' ) {
-            my $Prefix = 'PendingTime';
 
             # Make sure we have Values otherwise take an empty string
             if (
@@ -5211,9 +5197,6 @@ sub _StoreActivityDialog {
 
         # use ProcessEntityID from the web request
         $ProcessEntityID = $Param{ProcessEntityID};
-
-        # Check if we deal with a Ticket Update
-        my $UpdateTicketID = $TicketID;
     }
 
     # If we had a TicketID, get the Ticket

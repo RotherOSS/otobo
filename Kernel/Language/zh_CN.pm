@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.915621266427718;
+    $Self->{Completeness}        = 0.914788837486942;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -680,6 +680,8 @@ sub Data {
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'Example' => '样例',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
             '',
         'Link for preview' => '连接预览',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -7096,8 +7098,8 @@ Thanks for your help!
         'Based on global RichText setting' => '基于全局富文本设置',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '基本的全文索引设置。执行 "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" 以生成一个新索引。',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            '阻止所有来自@example.com地址、主题中无有效工单号的进入邮件。',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => '退回给“%s”。',
         'Bulgarian' => '保加利亚语',
         'Bulk Action' => '批量操作',
@@ -7222,6 +7224,10 @@ Thanks for your help!
         'Configure the privacy policy.' => '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             '配置创建新工单后显示的界面。',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => '配置您自己的PGP日志文本。',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
@@ -8513,6 +8519,7 @@ Thanks for your help!
         'High Contrast' => '高对比度',
         'High contrast skin for visually impaired users.' => '用于视力受损用户的高对比度皮肤。',
         'Hindi' => '印度语',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => '匈牙利语',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '如果Customer::AuthModule（客户认证模块）选择“数据库”，可以指定数据库驱动（一般使用自动检测）。',
@@ -8797,6 +8804,8 @@ Thanks for your help!
             '服务人员界面相关的服务人员屏幕的最大尺寸（单位：行）。',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             '在邮件回复和一些概览视图屏幕信件主题的最大尺寸。',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '一天中给自己的邮件地址发送自动邮件响应的最大数（邮件环路保护）。',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8902,6 +8911,8 @@ Thanks for your help!
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '服务人员界面搜索工具显示每个工单的行数。',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',

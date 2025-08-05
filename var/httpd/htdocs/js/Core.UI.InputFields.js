@@ -2864,7 +2864,7 @@ Core.UI.InputFields = (function (TargetNS) {
         // multivalue set
         else {
             // Set template uses the ValidationIgnore class to skip validation
-            $('[name^=DynamicField_]', $NewCell).each( function() {
+            $('.ValidationIgnore', $NewCell).each( function() {
                 if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
                     $(this).removeClass('ValidationIgnore');
                 }

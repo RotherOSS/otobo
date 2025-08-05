@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.942502986857826;
+    $Self->{Completeness}        = 0.941650499925384;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -683,6 +683,8 @@ sub Data {
         'Example' => 'Eksempel',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
             'Du kan referere til feltet med sitt eget feltnavn. Du kan også vise til andre felt, f.eks. med \'DynamicField_OtherFieldName\'.',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
+            '',
         'Link for preview' => 'Lenke for forhåndsvisning',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Hvis den er fylt ut, vil denne URL-en bli brukt for en forhåndsvisning som vises når denne lenken holdes i sak-zoom. Vær oppmerksom på at for at dette skal fungere, må det vanlige URL-feltet ovenfor også fylles ut.',
@@ -7103,8 +7105,8 @@ Ditt Helpdesk-team
         'Based on global RichText setting' => 'Basert på global RichText-innstilling',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Grunnleggende fulltekstindeksinnstillinger. Kjør "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" for å generere en ny indeks.',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            'Blokkerer all innkommende e-post som ikke har et gyldig saksnummer i emnefeltet som er sendt fra @example.com-adresser.',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => 'Avslått til «%s».',
         'Bulgarian' => 'Bulgarsk',
         'Bulk Action' => 'Masseredigering',
@@ -7229,6 +7231,10 @@ Ditt Helpdesk-team
         'Configure the privacy policy.' => 'Konfigurer personvernreglene.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurer hvilken skjerm som skal vises etter at en ny sak er opprettet.',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => 'Sett opp din egen loggtekst for PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             'Konfigurerer en standard TicketDynamicField-innstilling. "Navn" definerer det dynamiske feltet som skal brukes, "Verdi" er dataene som skal settes, og "Hendelse" definerer utløserhendelsen. Vennligst sjekk utviklerhåndboken (https://doc.otobo.org/), kapittel "Sakshendelsesmodul".',
@@ -8520,6 +8526,7 @@ Ditt Helpdesk-team
         'High Contrast' => 'Høy kontrast',
         'High contrast skin for visually impaired users.' => 'Høy kontrast-tema for synshemmede brukere.',
         'Hindi' => 'Hindi',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Ungarsk',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Hvis "DB" er valgt som Customer::AuthModule kan man velge databasedriver (normalt brukes et automatisk oppsett).',
@@ -8804,6 +8811,8 @@ Ditt Helpdesk-team
             'Maksimal størrelse (i rader) for den involverte agentboksen i agentgrensesnittet.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Maks størrelse på emnene i et e-postsvar og i noen oversiktsskjermer.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maksimum antall autosvar til egne e-postadresser per dag (beskyttelse mot e-post-looping).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8910,6 +8919,8 @@ Ditt Helpdesk-team
             'Antall linjer (per sak) som vises i søkeverktøyet.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'Antall skår (NS), replikaer (NR) og feltgrense for indeksen \'sak\'.',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
+            '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Antall skår (NS), replikaer (NR) og feltgrense for indeksen. Merk: \'Elasticsearch::ArticleIndexCreationSettings\' er utdatert. For kompatibilitet oppover, bruk \'Elasticsearch::IndexSettings###Default\' i stedet.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>

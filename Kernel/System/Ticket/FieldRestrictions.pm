@@ -265,7 +265,8 @@ sub GetFieldStates {
 
         # 1. handle hidden fields
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
-            next DYNAMICFIELD if $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0;
+
+            next DYNAMICFIELD if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
 
             # values of visible fields turning invisible are deleted or set to values of ticket data if present
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
@@ -289,7 +290,7 @@ sub GetFieldStates {
                         Value2             => $TicketData{"DynamicField_$DFName"},
                     );
 
-                    if ( $ValueIsDifferent ) {
+                    if ($ValueIsDifferent) {
                         $UpdateRequired = 1;
                     }
                     else {
@@ -299,7 +300,7 @@ sub GetFieldStates {
             }
 
             # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
-            if ( $UpdateRequired ) {
+            if ($UpdateRequired) {
 
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
@@ -402,9 +403,9 @@ sub GetFieldStates {
                             PossibleValues  => undef,
                             NotACLReducible => 1,
                         };
-                    }
 
-                    next DYNAMICFIELD;
+                        next DYNAMICFIELD;
+                    }
                 }
 
                 if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
