@@ -36,7 +36,10 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        $Selenium->set_window_size( 600, 400 );
+        # Setting the window size such that the button 'Priorität', German for 'Priority',
+        # is visible and clickable.  Note that with a width of 600 px,
+        # only a part of the buttin is visible, but that shouldn't matter.
+        $Selenium->set_window_size( 600, 600 );
 
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
