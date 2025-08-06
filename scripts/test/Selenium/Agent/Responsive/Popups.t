@@ -48,8 +48,8 @@ $Selenium->RunTest(
         ) || die "Did not get test user";
 
         # Create test ticket.
-        my $TitleRandom  = "Title" . $Helper->GetRandomID();
-        my $TicketNumber = $TicketObject->TicketCreateNumber();
+        my $TitleRandom  = 'Partly sunny ⛅ ' . $Helper->GetRandomID;
+        my $TicketNumber = $TicketObject->TicketCreateNumber;
         my $TicketID     = $TicketObject->TicketCreate(
             TN         => $TicketNumber,
             Title      => $TitleRandom,
