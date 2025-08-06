@@ -78,13 +78,13 @@ $Selenium->RunTest(
         # Verify its right screen.
         $Selenium->content_contains( $TitleRandom, "Ticket $TitleRandom found on page" );
 
-        my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]");
+        my $Element = $Selenium->find_element(q{//a[contains(@href, 'Action=AgentTicketPriority')]});
         ok(
-            $Element->is_enabled() && $Element->is_displayed(),
-            "Link for priority popup is displayed and enabled",
+            ( $Element->is_enabled && $Element->is_displayed ),
+            'Link for priority popup is displayed and enabled',
         );
 
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]")->click();
+        $Selenium->find_element(q{//a[contains(@href, 'Action=AgentTicketPriority')]})->click;
 
         $Selenium->SwitchToFrame(
             FrameSelector => '.PopupIframe',
