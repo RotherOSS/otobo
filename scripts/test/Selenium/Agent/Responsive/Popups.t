@@ -14,17 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -55,10 +58,7 @@ $Selenium->RunTest(
             OwnerID    => 1,
             UserID     => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Login as test user.
         $Selenium->Login(
@@ -73,13 +73,10 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Verify its right screen.
-        $Self->True(
-            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
-            "Ticket $TitleRandom found on page",
-        );
+        $Selenium->content_contains( $TitleRandom, "Ticket $TitleRandom found on page" );
 
         my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority')]");
-        $Self->True(
+        ok(
             $Element->is_enabled() && $Element->is_displayed(),
             "Link for priority popup is displayed and enabled",
         );
@@ -98,10 +95,7 @@ $Selenium->RunTest(
             sleep 2;
         };
 
-        $Self->False(
-            $Success,
-            "Mobile navigation button should not be clickable.",
-        );
+        ok( !$Success, "Mobile navigation button should not be clickable." );
 
         # Clean up test data from the DB.
         $Success = $TicketObject->TicketDelete(
@@ -117,14 +111,11 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - ID $TicketID"
-        );
+        ok( $Success, "Ticket is deleted - ID $TicketID" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
-$Self->DoneTesting();
+done_testing;
