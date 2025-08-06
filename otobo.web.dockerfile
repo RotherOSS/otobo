@@ -42,10 +42,11 @@ USER root
 #   --shell /bin/bash       set the login shell, not used here because otobo is system user
 #   --comment 'OTOBO user'  complete name of the user
 #
-# Also create /opt/otobo_install and /opt/otobo
+# Also create /opt/otobo_install, /opt/otobo, and /opt/otobo_update
 ENV OTOBO_USER=otobo
 ENV OTOBO_GROUP=otobo
 ENV OTOBO_HOME=/opt/otobo
+ENV DIR_OPT_OTOBO_UPDATE=/opt/otobo_update
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "build-essential"\
@@ -85,7 +86,8 @@ RUN apt-get update\
  "libreadline-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
- && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
+ && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME\
+ && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $DIR_OPT_OTOBO_UPDATE
 
 # We want an UTF-8 console
 ENV LC_ALL=C.UTF-8

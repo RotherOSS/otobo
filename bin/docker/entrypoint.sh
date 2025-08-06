@@ -135,12 +135,25 @@ function exec_web() {
     fi
 }
 
+# move the content of /opt/otobo to a backup dir
+#
+# The first argument is the backup dir, usually with a timestamp in the path
+function clean_slate() {
+    local dir_otobo_update="$1"
+
+    mkdir $dir_otobo_update
+
+    # the hidden files and dirs are also moved
+    mv $OTOBO_HOME/.* $OTOBO_HOME/* $dir_otobo_update
+}
+
 # Copy /opt/otobo_install/otobo_next without checking the flag file 'docker_firsttime'.
 # Files that had been added in the previous /opt/otobo are not discarded.
 function copy_otobo_next() {
 
     # Copy files recursively.
-    # Changed files are overwritten, new files are not deleted.
+    # Changed files are overwritten, new files are not deleted. But note that the target directory
+    # is usually empty.
     # File attributes are preserved.
     # Copying $g_dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
     cp --archive $g_dir_otobo_next/. $OTOBO_HOME
@@ -168,6 +181,37 @@ function copy_otobo_next() {
     # Indicate the time when copy_otobo_next() was last called. This is used primarily
     # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
     touch $OTOBO_HOME/.copy_otobo_next_finished
+}
+
+# rescue files from the prev installation to the new installation
+#
+# The first argument is the backup dir, usually with a timestamp in the path
+function copy_otobo_update {
+    local dir_otobo_update="$1"
+
+    # Kernel/Config.pm contains installation specific configuration
+    mkdir --parent $OTOBO_HOME/Kernel
+    cp --archive $dir_otobo_update/Kernel/Config.pm $OTOBO_HOME/Kernel
+
+    # Articles and attachments might be stored in var/article. This directory
+    # might be large. Therefore we don't copy it back, instead we move it back
+    # to its previous location.
+    if [ -e $OTOBO_HOME/var/article ]; then
+        TZ=UTC printf -v now "%(%F_%H%M%S)T" -1
+        mv  $OTOBO_HOME/var/article  $OTOBO_HOME/var/article_$now
+    fi
+    mv $dir_otobo_update/var/article $OTOBO_HOME/var/article
+
+    # locally installed Perl modules may be installed in local
+    mkdir --parent $OTOBO_HOME/Kernel/local
+    cp --archive $dir_otobo_update/local/* $OTOBO_HOME/Kernel/local
+
+    # copy dot files, like .bashrc and .bash_history
+    cp --archive $dir_otobo_update/.* $OTOBO_HOME
+
+    # copy installed stats
+    mkdir --parent $OTOBO_HOME/Kernel/var/stats
+    cp $dir_otobo_update/var/stats/*.installed $OTOBO_HOME/var/stats
 }
 
 function do_update_tasks() {
@@ -208,7 +252,7 @@ fi
 if [ "$1" = "" ]; then
     cat <<END_HELP
 This script is meant to be used as a Docker entrypoint script.
-Supported arguments are: 'daemon', 'web', 'copy_otobo_next', 'do_update_tasks'.
+Supported arguments are: 'daemon', 'web', 'clean_slate, 'copy_otobo_next', 'copy_otobo_update', and 'do_update_tasks'.
 When no argument is passed, then this message is printed.
 Any other argument list will be executed as a system command.
 END_HELP
@@ -250,7 +294,11 @@ fi
 
 # Handle the functions that constitute the external interface.
 if [[
+    $1 = "clean_slate"
+    ||
     $1 = "copy_otobo_next"
+    ||
+    $1 = "copy_otobo_update"
     ||
     $1 = "do_update_tasks"
 ]];
