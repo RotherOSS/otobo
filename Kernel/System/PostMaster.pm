@@ -135,19 +135,23 @@ sub new {
 
 to execute the run process
 
-    $PostMasterObject->Run(
+    my ($RetCode, $TicketID) = $PostMasterObject->Run(
         Queue   => 'Junk',  # optional, specify target queue for new tickets
         QueueID => 1,       # optional, specify target queue for new tickets
     );
 
-return params
+An empty list is returned in case of an error.
 
-    0 = error (also false)
+The first returned value indicates what has been done.
+
+    0 = error (also undefined)
     1 = new ticket created
     2 = follow up / open/reopen
     3 = follow up / close -> new ticket
     4 = follow up / close -> reject
     5 = ignored (because of X-OTOBO-Ignore header)
+
+When there is a new or followup ticket then this ticket id is returned as the second value.
 
 =cut
 
