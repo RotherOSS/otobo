@@ -182,7 +182,7 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -226,6 +226,7 @@ sub Run {
                 "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTOBO-Ignore is set (X-OTOBO-Ignore: $GetParam->{'X-OTOBO-Ignore'}).",
         );
+
         return (5);
     }
 
@@ -246,7 +247,7 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -362,9 +363,7 @@ sub Run {
                 LinkToTicketID   => $TicketID,
             );
 
-            if ( !$TicketID ) {
-                return;
-            }
+            return unless $TicketID;
 
             @Return = ( 3, $TicketID );
         }
@@ -390,9 +389,7 @@ sub Run {
                 AutoResponseType => 'auto reject',
             );
 
-            if ( !$Run ) {
-                return;
-            }
+            return unless $Run;
 
             @Return = ( 4, $TicketID );
         }
@@ -409,9 +406,7 @@ sub Run {
                 AutoResponseType => 'auto follow up',
             );
 
-            if ( !$Run ) {
-                return;
-            }
+            return unless $Run;
 
             @Return = ( 2, $TicketID );
         }
@@ -447,7 +442,7 @@ sub Run {
             AutoResponseType => 'auto reply',
         );
 
-        return if !$TicketID;
+        return unless $TicketID;
 
         @Return = ( 1, $TicketID );
     }
@@ -463,7 +458,7 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -476,6 +471,7 @@ sub Run {
                     Key           => 'Kernel::System::PostMaster',
                     Value         => "new() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
+
                 next JOB;
             }
 
