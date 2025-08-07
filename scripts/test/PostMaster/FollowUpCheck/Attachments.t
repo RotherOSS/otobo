@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -60,7 +61,7 @@ my $CustomerAddress = 'external@example.com';
 my $InternalAddress = 'internal@example.com';
 
 # create a new ticket
-my $TicketID = $TicketObject->TicketCreate(
+my $NewTicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent A',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -72,13 +73,10 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-ok(
-    $TicketID,
-    "TicketCreate()",
-);
+ok( $NewTicketID, 'TicketCreate()' );
 
 my %Ticket = $TicketObject->TicketGet(
-    TicketID => $TicketID,
+    TicketID => $NewTicketID,
     UserID   => 1,
 );
 
@@ -91,19 +89,20 @@ my $Subject = $TicketObject->TicketSubjectBuild(
 my @Tests = (
     {
         Name  => 'Ticket number in body, no attachments (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: Test
 
 Some Content in Body
 $Subject
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,
     },
+
     {
         Name  => 'Ticket number in body of HTML email, no attachments (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Content-Type: text/html; charset="iso-8859-1"; format=flowed
@@ -111,12 +110,13 @@ Subject: Test
 
 Some Content in Body<br/>
 $Subject
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,
     },
+
     {
         Name  => 'Plain email, ticket number in body, attachment without ticket number (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -141,12 +141,13 @@ Content-Disposition: attachment;
 
 Some text
 --------------060303050306010608070702
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,
     },
+
     {
         Name  => 'Plain email, attachment with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -171,12 +172,13 @@ Content-Disposition: attachment;
 
 $Subject
 --------------060303050306010608070702
-EOF
-        NewTicket => 2,
+END_EML
+        ExpectedRetCode => 2,
     },
+
     {
         Name  => 'HTML email, body with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -222,13 +224,13 @@ Content-Type: text/html;
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,
     },
 
     {
         Name  => 'HTML email, attachment with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -275,13 +277,13 @@ Content-Type: text/html;
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
 EOF
-        NewTicket => 2,
+        ExpectedRetCode => 2,
     },
 );
 
 # First run the tests for a ticket that has the customer as an "unknown" customer.
 for my $Test (@Tests) {
-    my @Return;
+    my ( $RetCode, $RetTicketID );
     {
         my $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
@@ -298,7 +300,7 @@ for my $Test (@Tests) {
             Debug                  => 2,
         );
 
-        @Return = $PostMasterObject->Run();
+        ( $RetCode, $RetTicketID ) = $PostMasterObject->Run();
 
         $CommunicationLogObject->ObjectLogStop(
             ObjectLogType => 'Message',
@@ -309,21 +311,22 @@ for my $Test (@Tests) {
         );
     }
     is(
-        $Return[0] || 0,
-        $Test->{NewTicket},
-        "$Test->{Name} - article created",
+        $RetCode || 0,
+        $Test->{ExpectedRetCode},
+        "$Test->{Name} - got expected return code",
     );
 
-    if ( $Test->{NewTicket} == 1 ) {
+    if ( $Test->{ExpectedRetCode} == 1 ) {
+
         isnt(
-            $Return[1] || 0,
+            $RetTicketID || 0,
             $Ticket{TicketID},
             "$Test->{Name} - new ticket created",
         );
     }
     else {
         is(
-            $Return[1] || 0,
+            $RetTicketID || 0,
             $Ticket{TicketID},
             "$Test->{Name} - follow-up created",
         );
