@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use MIME::Base64 qw(encode_base64);
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
@@ -84,6 +85,7 @@ my $Subject = $TicketObject->TicketSubjectBuild(
     TicketNumber => $Ticket{TicketNumber},
     Subject      => 'test',
 );
+ok( index( $Subject, $Ticket{TicketNumber} ) > -1, 'The subject contains the ticket number' );
 
 # filter test
 my @Tests = (
@@ -276,8 +278,93 @@ Content-Type: text/html;
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
-EOF
+END_EML
         ExpectedRetCode => 2,
+    },
+
+    {
+        Name  => 'first attachment with ticket number, then HTML',
+        Email => <<"END_EML",
+Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
+Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
+Date: Thu, 7 Aug 2025 15:15:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andy Admin <Andy.Admin\@gmx.de>
+From: Tina Tester <Tina.Tester\@gmx.de>
+Subject: Sample of first CSV attachment and then HTML
+
+This is a multi-part message in MIME format.
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
+Content-Disposition: attachment; filename="sample_csv.csv"
+Content-Transfer-Encoding: base64
+
+@{[ encode_base64("subject,$Subject\ntopic,test\n") ]}
+
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><b>bold</b></p>
+    <p><font color="#33d17a">green</font><br>
+    </p>
+  </body>
+</html>
+--------------H1Sv6GUVtxR7USkdsEdBLUc0--
+END_EML
+        ExpectedRetCode => 2,
+    },
+
+    {
+        Name  => 'first attachment, then HTML with ticket number',
+        Email => <<"END_EML",
+Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
+Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
+Date: Thu, 7 Aug 2025 15:15:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andy Admin <Andy.Admin\@gmx.de>
+From: Tina Tester <Tina.Tester\@gmx.de>
+Subject: Sample of first CSV attachment and then HTML
+
+This is a multi-part message in MIME format.
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
+Content-Disposition: attachment; filename="sample_csv.csv"
+Content-Transfer-Encoding: base64
+
+@{[ encode_base64("subject,not the ticket number\ntopic,test\n") ]}
+
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><b>bold</b></p>
+    <p><font color="#33d17a">green</font><br>
+    </p>
+    Subject: $Subject
+  </body>
+</html>
+--------------H1Sv6GUVtxR7USkdsEdBLUc0--
+END_EML
+        ExpectedRetCode => 1,
     },
 );
 
