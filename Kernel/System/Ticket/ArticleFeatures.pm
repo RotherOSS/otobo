@@ -629,7 +629,8 @@ Returns db success:
 
     $Success = 1; 1: If successful, 0: Error
 
-    or
+or
+
     $Success = 100; Flag ID: If for status Get
 
 =cut
