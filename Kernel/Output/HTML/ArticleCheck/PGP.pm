@@ -97,7 +97,7 @@ sub Check {
         Email => $Message,
     );
 
-    # Ensure we are using original body instead or article content.
+    # Ensure we are using the original body instead of the article content.
     # This is necessary for follow-up checks (otherwise the information about e.g. encryption is lost).
     $Param{Article}->{Body} = $ParserObject->GetMessageBody();
 
