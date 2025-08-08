@@ -279,12 +279,11 @@ sub ArticleEdit {
     elsif ( $Param{MimeType} =~ /text\/html/i ) {
 
         # add html article as attachment
-        my $Attach = {
+        push @AttachmentConvert, {
             Content     => $Param{Body},
             ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => 'file-2',
         };
-        push @AttachmentConvert, $Attach;
 
         # get ASCII body
         $Param{MimeType} = 'text/plain';
@@ -314,12 +313,11 @@ sub ArticleEdit {
         {
             $FileName = $1;
         }
-        my $Attach = {
+        push @{ $Param{Attachment} }, {
             Content     => $Param{Body},
             ContentType => $Param{ContentType},
             Filename    => $FileName,
         };
-        push @{ $Param{Attachment} }, $Attach;
 
         # set ASCII body
         $Param{MimeType}           = 'text/plain';
@@ -680,12 +678,11 @@ sub ArticleCreate {
     elsif ( $Param{MimeType} =~ /text\/html/i ) {
 
         # add html article as attachment
-        my $Attach = {
+        push @AttachmentConvert, {
             Content     => $Param{Body},
             ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => 'file-2',
         };
-        push @AttachmentConvert, $Attach;
 
         # get ASCII body
         $Param{MimeType} = 'text/plain';
@@ -715,12 +712,11 @@ sub ArticleCreate {
         {
             $FileName = $1;
         }
-        my $Attach = {
+        push @{ $Param{Attachment} }, {
             Content     => $Param{Body},
             ContentType => $Param{ContentType},
             Filename    => $FileName,
         };
-        push @{ $Param{Attachment} }, $Attach;
 
         # set ASCII body
         $Param{MimeType}           = 'text/plain';
@@ -861,7 +857,7 @@ sub ArticleCreate {
     }
 
     # Save correct Message-ID now.
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL  => 'UPDATE article_data_mime SET a_message_id = ? WHERE id = ?',
         Bind => [ \$Param{MessageID}, \$ArticleDataID, ],
     );
