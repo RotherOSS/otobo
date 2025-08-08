@@ -138,7 +138,7 @@ sub Run {
         Permission => '644',                                                      # unix file permissions
     );
     if ( !$File ) {
-        $Self->PrintError("File $File could not be written.\n");
+        $Self->PrintError("File $Filename could not be written.\n");
         return $Self->ExitCodeError();
     }
 
