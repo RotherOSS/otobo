@@ -62,7 +62,7 @@ sub Run {
         TicketID => $TicketID,
     );
 
-    my $ArticleShowStatus = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
+    my $ShowDeletedArticles = $Kernel::OM->Get('Kernel::System::Ticket::ArticleFeatures')->ShowDeletedArticles(
         TicketID  => $TicketID,
         UserID    => $Self->{UserID},
         GetStatus => 1
@@ -71,7 +71,7 @@ sub Run {
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
         TicketID            => $TicketID,
         ArticleID           => $ArticleID,
-        ShowDeletedArticles => $ArticleShowStatus ? 1 : 0,
+        ShowDeletedArticles => $ShowDeletedArticles ? 1 : 0,
         VersionView         => $VersionView
     );
 
@@ -94,7 +94,7 @@ sub Run {
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
-    $Param{DeletedVersionID} = $ArticleShowStatus ? $Article{DeletedVersionID} : 0;
+    $Param{DeletedVersionID} = $ShowDeletedArticles ? $Article{DeletedVersionID} : 0;
 
     my $ArticleStorage = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage');
 
@@ -102,7 +102,7 @@ sub Run {
     my $ArticleContent = $LayoutObject->ArticlePreview(
         TicketID            => $TicketID,
         ArticleID           => $ArticleID,
-        ShowDeletedArticles => $ArticleShowStatus ? 1 : 0,
+        ShowDeletedArticles => $ShowDeletedArticles ? 1 : 0,
         VersionView         => $VersionView,
         DeletedVersionID    => $Param{DeletedVersionID},
         ArticleStorage      => $ArticleStorage,

@@ -125,20 +125,21 @@ sub Run {
     }
 
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
+    my $Location = $Self->GetArgument('target-directory') . '/' . $Filename;
     my $Content  = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild(%Structure);
     if ( !$Content ) {
         $Self->PrintError("Package build failed.\n");
         return $Self->ExitCodeError();
     }
     my $File = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location   => $Self->GetArgument('target-directory') . '/' . $Filename,
+        Location   => $Location,
         Content    => \$Content,
         Mode       => 'utf8',                                                     # binmode|utf8
         Type       => 'Local',                                                    # optional - Local|Attachment|MD5
         Permission => '644',                                                      # unix file permissions
     );
     if ( !$File ) {
-        $Self->PrintError("File $File could not be written.\n");
+        $Self->PrintError("File $Location could not be written.\n");
         return $Self->ExitCodeError();
     }
 

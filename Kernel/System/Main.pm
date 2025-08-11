@@ -546,6 +546,11 @@ to write data to file system
 Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
 and DirectoryRead() will also report them as C<NFD>.
 
+When successful the parameter C<Filename> or C<Location> is returned,
+depending on which parameter has been passed.
+
+An empty list is returned in the case of failure.
+
 =cut
 
 sub FileWrite {
