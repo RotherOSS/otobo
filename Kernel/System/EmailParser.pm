@@ -633,7 +633,6 @@ sub PartsAttachments {
     my $SubPartCounter     = $Param{SubPartCounter}     || 0;
     my $ContentAlternative = $Param{ContentAlternative} || '';
     my $ContentMixed       = $Param{ContentMixed}       || '';
-    $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
 
         # check if it's an alternative part
