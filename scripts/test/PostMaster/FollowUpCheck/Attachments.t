@@ -311,7 +311,7 @@ Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
 Content-Disposition: attachment; filename="sample_csv.csv"
 Content-Transfer-Encoding: base64
 
-@{[ encode_base64("subject,$Subject\ntopic,test\n") ]}
+@{[ encode_base64( join "\n", 'key1,value1', "subject,$Subject", 'key3,value3', '') ]}
 
 --------------H1Sv6GUVtxR7USkdsEdBLUc0
 Content-Type: text/html; charset=UTF-8
@@ -353,7 +353,7 @@ Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
 Content-Disposition: attachment; filename="sample_csv.csv"
 Content-Transfer-Encoding: base64
 
-@{[ encode_base64("subject,not the ticket number\ntopic,test\n") ]}
+@{[ encode_base64( join "\n", 'key1,value1', 'subject,no_tn_in_subject', 'key2,value3', '') ]}
 
 --------------H1Sv6GUVtxR7USkdsEdBLUc0
 Content-Type: text/html; charset=UTF-8
