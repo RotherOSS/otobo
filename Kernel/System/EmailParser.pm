@@ -633,6 +633,8 @@ sub PartsAttachments {
     my $SubPartCounter     = $Param{SubPartCounter}     || 0;
     my $ContentAlternative = $Param{ContentAlternative} || '';
     my $ContentMixed       = $Param{ContentMixed}       || '';
+
+    # recursive descent when there are subparts
     if ( $Part->parts() > 0 ) {
 
         # check if it's an alternative part
@@ -658,8 +660,11 @@ sub PartsAttachments {
                 ContentMixed       => $ContentMixed,
             );
         }
+
         return 1;
     }
+
+    # look at the terminals, that is MIME parts that have no sub parts
 
     # get attachment meta stuff
     my %PartData;
@@ -709,6 +714,7 @@ sub PartsAttachments {
             Message  =>
                 "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
         );
+
         return;
     }
 

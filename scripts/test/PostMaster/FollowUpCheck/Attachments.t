@@ -88,6 +88,13 @@ my $Subject = $TicketObject->TicketSubjectBuild(
 ok( index( $Subject, $Ticket{TicketNumber} ) > -1, 'The subject contains the ticket number' );
 
 # filter test
+# As a reminder, here are the return codes from Kernel::System::PostMaster::Run():
+#     0 = error (also undefined)
+#     1 = new ticket created
+#     2 = follow up / open/reopen
+#     3 = follow up / close -> new ticket
+#     4 = follow up / close -> reject
+#     5 = ignored (because of X-OTOBO-Ignore header)
 my @Tests = (
     {
         Name  => 'Ticket number in body, no attachments (new ticket)',
@@ -99,7 +106,7 @@ Subject: Test
 Some Content in Body
 $Subject
 END_EML
-        ExpectedRetCode => 1,
+        ExpectedRetCode => 1,    # not a follow up
     },
 
     {
@@ -113,7 +120,7 @@ Subject: Test
 Some Content in Body<br/>
 $Subject
 END_EML
-        ExpectedRetCode => 1,
+        ExpectedRetCode => 1,    # not a follow up
     },
 
     {
@@ -144,7 +151,7 @@ Content-Disposition: attachment;
 Some text
 --------------060303050306010608070702
 END_EML
-        ExpectedRetCode => 1,
+        ExpectedRetCode => 1,    # not a follow up
     },
 
     {
@@ -175,7 +182,7 @@ Content-Disposition: attachment;
 $Subject
 --------------060303050306010608070702
 END_EML
-        ExpectedRetCode => 2,
+        ExpectedRetCode => 2,    # follow up
     },
 
     {
@@ -227,7 +234,7 @@ Content-Type: text/html;
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
 END_EML
-        ExpectedRetCode => 1,
+        ExpectedRetCode => 1,    # not a follow up
     },
 
     {
@@ -279,12 +286,15 @@ Content-Type: text/html;
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
 END_EML
-        ExpectedRetCode => 2,
+        ExpectedRetCode => 2,    # follow up
     },
 
+    # Tests where there is first a CSV attachment and then the HTML body
     {
-        Name  => 'first attachment with ticket number, then HTML',
-        Email => <<"END_EML",
+        # FollowUp is detected because the ticket number is in the part that is marked as attachment
+        Name            => 'first CSV attachment with ticket number, then HTML',
+        ExpectedRetCode => 2,                                                      # follow up
+        Email           => <<"END_EML",
 Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
 Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
 Date: Thu, 7 Aug 2025 15:15:46 +0200
@@ -321,12 +331,12 @@ Content-Transfer-Encoding: 7bit
 </html>
 --------------H1Sv6GUVtxR7USkdsEdBLUc0--
 END_EML
-        ExpectedRetCode => 2,
     },
-
     {
-        Name  => 'first attachment, then HTML with ticket number',
-        Email => <<"END_EML",
+        # FollowUp is not detected because the ticket number is not in the part that is marked as attachment
+        Name            => 'first CSV attachment, then HTML with ticket number',
+        ExpectedRetCode => 1,                                                      # not a follow up
+        Email           => <<"END_EML",
 Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
 Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
 Date: Thu, 7 Aug 2025 15:15:46 +0200
@@ -364,11 +374,10 @@ Content-Transfer-Encoding: 7bit
 </html>
 --------------H1Sv6GUVtxR7USkdsEdBLUc0--
 END_EML
-        ExpectedRetCode => 1,
     },
 );
 
-# First run the tests for a ticket that has the customer as an "unknown" customer.
+# Run the tests
 for my $Test (@Tests) {
     my ( $RetCode, $RetTicketID );
     {
