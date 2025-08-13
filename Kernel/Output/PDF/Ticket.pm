@@ -445,14 +445,16 @@ sub _PDFOutputTicketInfos {
         if ( $Param{Interface}{Agent} || $CustomerConfig->{AttributesView}->{Service} ) {
             my $RowService = {
                 Key   => $LayoutObject->{LanguageObject}->Translate('Service'),
-                Value => $Ticket{Service} || '-',
+                Value => $LayoutObject->{LanguageObject}->Translate( $Ticket{Service} )
+                    || $Ticket{Service} || '-',
             };
             push( @{$TableLeft}, $RowService );
         }
         if ( $Param{Interface}{Agent} || $CustomerConfig->{AttributesView}->{SLA} ) {
             my $RowSLA = {
                 Key   => $LayoutObject->{LanguageObject}->Translate('SLA'),
-                Value => $Ticket{SLA} || '-',
+                Value => $LayoutObject->{LanguageObject}->Translate( $Ticket{SLA} )
+                    || $Ticket{SLA} || '-',
             };
             push( @{$TableLeft}, $RowSLA );
         }
@@ -873,7 +875,7 @@ sub _PDFOutputTicketDynamicFields {
                     Text     => $Section->{Title}{Text},
                     Type     => 'Cut',
                     Font     => 'Proportional' . $Section->{Title}{Style},
-                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also mutliplied by 5/3
+                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also multiplied by 5/3
                     Color    => $Section->{Title}{Color},
                 );
 
