@@ -75,7 +75,7 @@ sub new {
         $Self->{StoredFilters} = $StoredFilters;
     }
 
-    # get the configured dyanmic fields from the Small Overview setting as a basis
+    # get the configured dynamic fields from the Small Overview setting as a basis
     my %DefaultDynamicFields = %{ $ConfigObject->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
 
     my %DefaultColumns = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
@@ -83,7 +83,7 @@ sub new {
     # take general settings (Frontend::Agent) if not defined for the screen
     $Self->{Config}->{DefaultColumns} //= $ConfigObject->Get('DefaultOverviewColumns');
 
-    # check for default settings specific for this screen, should overide the dynamic fields
+    # check for default settings specific for this screen, should override the dynamic fields
     %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} || {} } );
 
     # configure columns
@@ -1615,6 +1615,8 @@ sub Run {
                     $TicketColumn eq 'State'
                     || $TicketColumn eq 'Lock'
                     || $TicketColumn eq 'Priority'
+                    || $TicketColumn eq 'Service'
+                    || $TicketColumn eq 'SLA'
                     )
                 {
                     $BlockType = 'Translatable';
@@ -1901,6 +1903,7 @@ sub _InitialColumnFilter {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
         )
@@ -2056,6 +2059,7 @@ sub _ColumnFilterJSON {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
         )
