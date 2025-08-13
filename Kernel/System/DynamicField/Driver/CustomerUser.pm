@@ -375,7 +375,7 @@ Returns a HTTP link to the customer user edit mask, if permission is given.
 
     my $Link = $BackendObject->_GetHTTPLink(
         FrontendModule => $FrontendModule,
-        ObjectID       => $EncodedUserLogin
+        ObjectID       => $EncodedUserLogin,
         UserID         => $UserID,
     );
 
@@ -457,13 +457,15 @@ sub _GetHTTPLink {
                 $Param{AccessRo} = 1;
             }
         }
-        if ( $Param{AccessRo} || $Param{AccessRw} ) {
 
-            $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';Subaction=Change;';
-            $Link .= 'ID=' . $Param{ObjectID};
-            return $Link;
-        }
         return;
+    }
+
+    if ( $Param{AccessRo} || $Param{AccessRw} ) {
+
+        $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';';
+        $Link .= 'CustomerUserID=' . $Param{ObjectID};
+        return $Link;
     }
 
     # both GroupRo nor Group are empty arrayrefs

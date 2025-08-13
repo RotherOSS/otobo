@@ -520,13 +520,13 @@ sub _GetHTTPLink {
                 $Param{AccessRo} = 1;
             }
         }
-        if ( $Param{AccessRo} || $Param{AccessRw} ) {
+    }
 
-            $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';Subaction=Change;';
-            $Link .= 'CustomerID=' . $Param{ObjectID};
-            return $Link;
-        }
-        return;
+    if ( $Param{AccessRo} || $Param{AccessRw} ) {
+
+        $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';Subaction=Change;';
+        $Link .= 'CustomerID=' . $Param{ObjectID};
+        return $Link;
     }
 
     # both GroupRo nor Group are empty arrayrefs
