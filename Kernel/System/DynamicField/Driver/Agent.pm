@@ -429,6 +429,8 @@ sub _GetHTTPLink {
     my $Link;
 
     # module permission check for action
+    my $AccessRo;
+    my $AccessRw;
     if (
         ref $ModuleReg->{GroupRo} eq 'ARRAY'
         && !scalar @{ $ModuleReg->{GroupRo} }
@@ -436,8 +438,8 @@ sub _GetHTTPLink {
         && !scalar @{ $ModuleReg->{Group} }
         )
     {
-        $Param{AccessRo} = 1;
-        $Param{AccessRw} = 1;
+        $AccessRo = 1;
+        $AccessRw = 1;
     }
     else {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -473,16 +475,16 @@ sub _GetHTTPLink {
                 }
             }
             if ( $Permission eq 'Group' && $AccessOk ) {
-                $Param{AccessRo} = 1;
-                $Param{AccessRw} = 1;
+                $AccessRo = 1;
+                $AccessRw = 1;
             }
             elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
-                $Param{AccessRo} = 1;
+                $AccessRo = 1;
             }
         }
     }
 
-    if ( $Param{AccessRo} || $Param{AccessRw} ) {
+    if ( $AccessRo || $AccessRw ) {
 
         $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';Subaction=Change;';
         $Link .= 'ID=' . $Param{ObjectID};
