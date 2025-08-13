@@ -263,7 +263,7 @@ sub ObjectDescriptionGet {
 
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
-        my $FrontendModule = 'AdminCustomerUser';
+        my $FrontendModule = 'AgentCustomerUserInformationCenter';
         my $UserID         = $Param{LayoutObject}{UserID} || 1;
 
         $Link = $Self->_GetHTTPLink(
@@ -271,7 +271,6 @@ sub ObjectDescriptionGet {
             ObjectID       => $Param{LayoutObject}->LinkEncode( $CustomerUserData{UserLogin} ),
             UserID         => $UserID,
         );
-
     }
 
     # create description
