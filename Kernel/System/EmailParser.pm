@@ -36,31 +36,62 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::EmailParser - parse and encode an email
+Kernel::System::EmailParser - parse an email and provide methods implementing OTOBO specific logic
 
 =head1 DESCRIPTION
 
-A module to parse and encode an email.
+Parses an email using modules from CPAN. Provide methods that mangle the message and give the content that OTOBO needs.
+
+The module is also used without parsing mails. In this case the instance provides some helper methods.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create an object. Do not use it directly, instead use:
+can be used directly without using the object manager.
+
+When the parameter C<Email> is passed then the passed email is parsed. The parsed mail
+can then be accessed via the various accessor methods. The email is passed e.g. in C<Kernel::System::PostMaster::new()>
+as a reference of to an array of strings. In this case the lines must keep their trailing newlines.
 
     use Kernel::System::EmailParser;
 
-    # as string (takes more memory!)
     my $ParserObject = Kernel::System::EmailParser->new(
-        Email        => $EmailString,
-        Debug        => 0,
+        Email => \@ArrayOfEmailContent,
+        Debug => 0,
     );
 
-    # as stand alone mode, without parsing emails
+Alternatively a string or a reference to a string may be passed.
+
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => $EmailString,
+    );
+
+or
+
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => \$EmailString,
+    );
+
+Another option is to pass an instance of C<MIME::Entity> in the parameter C<Entity>. This is useful
+when an email has been already parsed or a C<MIME::Entity> object has been constructed by OTOBO.
+
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => $EmailString,
+    );
+
+Sometimes it is useful to have an empty instance on which helper methods can be called.
+In the case the parameter C<Mode> must be passed with the value "Standalone".
+
     my $ParserObject = Kernel::System::EmailParser->new(
         Mode         => 'Standalone',
         Debug        => 0,
     );
+
+The parameter C<Debug> can be used to activate debug output. The default is off.
+
+The parameter C<NoHTMLChecks> may be used to suppress the generation of the plain text message when there
+only is HTML content. The default is off. Note the double negation.
 
 =cut
 
@@ -73,19 +104,22 @@ sub new {
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # create empty object just for accessing the helper methods
     return $Self if ( $Param{Mode} && $Param{Mode} eq 'Standalone' );
 
-    # check needed objects
+    # Check the parameters when the method is not called for standalone mode. The email must be passed
+    # either as text in the parameter Email or as an instance of MIME::Entity in the parameter Entity.
     if ( !$Param{Email} && !$Param{Entity} ) {
-        die "Need Email or Entity!";
+        die 'Need Email or Entity!';
     }
 
-    # if email is given
+    # Email is either a string, a reference to a string, or a reference to an array of strings.
+    # Passing a file handle is not supported.
     if ( $Param{Email} ) {
 
         # check if Email is a reference to a string
         if ( ref $Param{Email} eq 'SCALAR' ) {
-            my @Content = split /\n/, ${ $Param{Email} };
+            my @Content = split /\n/, $Param{Email}->$*;
             for my $Line (@Content) {
                 $Line .= "\n";
             }
@@ -106,18 +140,25 @@ sub new {
         # create Mail::Internet object
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
-        # create a Mail::Header object with email
+        # create a Mail::Header object with the MIME headers
         $Self->{HeaderObject} = $Self->{Email}->head();
 
-        # create MIME::Parser object and get message body or body of first attachment
+        # create MIME::Parser object
         my $Parser = MIME::Parser->new();
+
+        # keep decoded parts in process memory
         $Parser->output_to_core('ALL');
 
-        # Keep nested messages as attachments (see bug#1970).
+        # do not try to decode message/rfc822, message/partial or message/external-body MIME parts,
+        # treat them just as if they were a test/plain part (see bug#1970).
         $Parser->extract_nested_messages(0);
+
+        # finally parse the email
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
     else {
+
+        # an instance of MIME::Entity was passed
         $Self->{ParserParts}  = $Param{Entity};
         $Self->{HeaderObject} = $Param{Entity}->head();
         $Self->{EntityMode}   = 1;
@@ -128,7 +169,7 @@ sub new {
         $Self->{NoHTMLChecks} = $Param{NoHTMLChecks};
     }
 
-    # parse email at first
+    # mangle the already parsed emails, specifically generate the array of attachments
     $Self->GetMessageBody();
 
     return $Self;
@@ -468,6 +509,9 @@ sub GetReturnCharset {
 
 =head2 GetMessageBody()
 
+This method is already called in the constructor. In the case of MIME miles this message
+calls C<GetAttachments()>.
+
 Returns the message body (or from the first attachment) from the email.
 
     my $Body = $ParserObject->GetMessageBody();
@@ -590,6 +634,9 @@ sub GetMessageBody {
 }
 
 =head2 GetAttachments()
+
+Note that in the case of MIME mails this message is already called when constructing the object instance.
+Successive calls of the method return the cached array.
 
 Returns an array of the email attachments.
 
