@@ -168,6 +168,7 @@ sub GetParam {
             Priority => 'error',
             Message  => 'HeaderObject is needed!',
         );
+
         return;
     }
 
@@ -252,6 +253,7 @@ sub GetRealname {
         # removes unnecessary blank spaces, if the string has quotes.
         # This is because of bug 6059
         $Realname =~ s/"\s+?(.+?)\s+?"/"$1"/g;
+
         return $Realname;
     }
 
@@ -300,7 +302,6 @@ sub GetContentType {
     my $Self = shift;
 
     return $Self->{ContentType} if $Self->{ContentType};
-
     return $Self->GetParam( WHAT => 'Content-Type' ) || 'text/plain';
 }
 
@@ -318,7 +319,6 @@ sub GetContentDisposition {
     my $Self = shift;
 
     return $Self->{ContentDisposition} if $Self->{ContentDisposition};
-
     return $Self->GetParam( WHAT => 'Content-Disposition' );
 }
 
@@ -345,6 +345,7 @@ sub GetCharset {
                 Message  => "Got charset from mime body: $Self->{Charset}",
             );
         }
+
         return $Self->{Charset};
     }
 
@@ -354,6 +355,7 @@ sub GetCharset {
             Priority => 'error',
             Message  => 'HeaderObject is needed!',
         );
+
         return;
     }
 
@@ -446,6 +448,7 @@ sub GetReturnContentType {
                 . "' to '$ContentType'.",
         );
     }
+
     return $ContentType;
 }
 
@@ -485,10 +488,10 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  => 'It\'s a plain (not mime) email!',
+                Message  => q{It's a plain (not MIME) email!},
             );
         }
-        my $BodyStrg = join( '', @{ $Self->{Email}->body() } );
+        my $BodyStrg = join '', @{ $Self->{Email}->body() };
 
         # quoted printable!
         if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
@@ -523,7 +526,7 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  => 'It\'s a mime email!',
+                Message  => q{It's a MIME email!},
             );
         }
 
@@ -578,6 +581,7 @@ sub GetMessageBody {
             # return empty attachment
             $Self->{Charset}     = 'iso-8859-1';
             $Self->{ContentType} = 'text/plain';
+
             return '-';
         }
     }
@@ -609,19 +613,19 @@ sub GetAttachments {
     my ( $Self, %Param ) = @_;
 
     # return if it's no mime email
-    return if !$Self->{MimeEmail};
+    return unless $Self->{MimeEmail};
 
     # return if it is already parsed
-    return @{ $Self->{Attachments} } if $Self->{Attachments};
+    return $Self->{Attachments}->@* if $Self->{Attachments};
 
     # parse email
     $Self->PartsAttachments( Part => $Self->{ParserParts} );
 
     # return if no attachments are found
-    return if !$Self->{Attachments};
+    return unless $Self->{Attachments};
 
     # return attachments
-    return @{ $Self->{Attachments} };
+    return $Self->{Attachments}->@*;
 }
 
 # just for internal
@@ -749,6 +753,7 @@ sub PartsAttachments {
         for my $Count ( 1 .. 2 ) {
             if ( $PartData{Filename} eq "file-$Count" ) {
                 $PartData{Filename} = "File-$Count";
+
                 last COUNT;
             }
         }
@@ -894,7 +899,8 @@ sub PartsAttachments {
         $Self->{$BodyAttachmentKey} = \%PartData;
     }
 
-    push @{ $Self->{Attachments} }, \%PartData;
+    push $Self->{Attachments}->@*, \%PartData;
+
     return 1;
 }
 
@@ -935,6 +941,7 @@ sub GetReferences {
         }
         $Checked{$Reference} = 1;
     }
+
     return @References;
 }
 
@@ -1028,8 +1035,7 @@ sub CheckMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  =>
-                    'It\'s an html only email, added ascii dump, attached html email as attachment.',
+                Message  => q{It's an HTML only email, added ascii dump, attached HTML email as attachment.},
             );
         }
     }
