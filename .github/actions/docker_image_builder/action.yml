@@ -9,12 +9,6 @@ name: 'DockerImageBuilder'
 description: 'Composite action for building Docker images and pushing them to Docker Hub'
 
 inputs:
-  fix_cldr:
-    description: |
-      Whether the CLDR workaround is needed
-    required: false
-    default: 0
-
   dockerfile:
     description: |
       Name of the Dockerfile for building the Docker image.
@@ -59,16 +53,6 @@ runs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      -
-        # a workaround for a build failure for the 11.0.7 release
-        # see https://github.com/RotherOSS/otobo/issues/4103
-        # can't use github.sha here as we need the commit of the checked out branch
-        name: 'use Locale::CLDR 0.46.1 for building OTOBO 11.0.7'
-        if: ${{ inputs.target == 'otobo-web' && inputs.fix_cldr }}
-        shell: bash
-        run: |
-          sed -i.bak -e 's/0.44.1/0.46.0/' cpanfile.docker
 
       -
         # Build the image but do not push it to Docker Hub yet.
