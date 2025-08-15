@@ -540,6 +540,9 @@ Returns the message body (or from the first attachment) from the email.
 
     my $Body = $ParserObject->GetMessageBody();
 
+In the case of a HTML-only mail extract the plain text and return it. Add the suffix '.html' to the
+file name of the first attachment.
+
 =cut
 
 sub GetMessageBody {
@@ -1081,7 +1084,7 @@ sub GetContentTypeParams {
     return %Param;
 }
 
-# just for internal
+# just for internal, details document in GetMessageBody()
 sub CheckMessageBody {
     my ( $Self, %Param ) = @_;
 
@@ -1106,12 +1109,12 @@ sub CheckMessageBody {
                     Charset     => $Self->GetCharset(),
                     ContentType => $Self->GetReturnContentType(),
                     Content     => $Self->{MessageBody},
-                    Filename    => 'file-1',
+                    Filename    => 'file-1',                        # not sure why this isn't file-1.html
                 }
             );
         }
 
-        # add .html suffix to filename if not aleady there
+        # add .html suffix to filename if not already there
         else {
             if ( $Self->{Attachments}->[0]->{Filename} ) {
                 if ( $Self->{Attachments}->[0]->{Filename} !~ /\.(htm|html)/i ) {
