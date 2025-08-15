@@ -50,7 +50,7 @@ my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldR
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 # Test plan
-plan 15;
+plan 18;
 
 # Test User
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
@@ -580,35 +580,94 @@ my @TestCases = (
 
     # Test Cases for Dynamic Field Value Handling in HideShow
     {
-        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
-        Action   => 'AgentTicketFreeText',
+        Name            => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
+        Action          => 'AgentTicketFreeText',
+        ACLPreselection => {
+            Fields => {
+                Dest                                     => 1,
+                DynamicField_ProcessManagementActivityID => 1,
+                DynamicField_ProcessManagementProcessID  => 1,
+                DynamicField_UnitTestCheckboxField       => 1,
+                DynamicField_UnitTestDropDownField       => 1,
+                DynamicField_UnitTestSimpleTextField     => 1,
+                DynamicField_UnitTestDropDownField1      => 1,
+                DynamicField_UnitTestDropDownField2      => 1,
+                NewResponsibleID                         => 1,
+                NewUserID                                => 1,
+                NextStateID                              => 1,
+                PriorityID                               => 1,
+                ServiceID                                => 1,
+                SLAID                                    => 1,
+                StandardTemplateID                       => 1,
+                TypeID                                   => 1,
+            },
+            Rules => {
+                Form => {
+                    Dest => 1,
+                },
+            },
+        },
+        ChangedElements => {
+            'Dest' => 1,
+        },
+        FormID   => '1',
         GetParam => {
-            QueueID      => '2',
+            Dest         => '4',
+            NewQueueID   => '4',
             DynamicField => {},
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
         }
     },
     {
-        Name     => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
-        Action   => 'AgentTicketFreeText',
+        Name            => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
+        Action          => 'AgentTicketFreeText',
+        ACLPreselection => {
+            Fields => {
+                Dest                                     => 1,
+                DynamicField_ProcessManagementActivityID => 1,
+                DynamicField_ProcessManagementProcessID  => 1,
+                DynamicField_UnitTestCheckboxField       => 1,
+                DynamicField_UnitTestDropDownField       => 1,
+                DynamicField_UnitTestSimpleTextField     => 1,
+                DynamicField_UnitTestDropDownField1      => 1,
+                DynamicField_UnitTestDropDownField2      => 1,
+                NewResponsibleID                         => 1,
+                NewUserID                                => 1,
+                NextStateID                              => 1,
+                PriorityID                               => 1,
+                ServiceID                                => 1,
+                SLAID                                    => 1,
+                StandardTemplateID                       => 1,
+                TypeID                                   => 1,
+            },
+            Rules => {
+                Form => {
+                    Dest => 1,
+                },
+            },
+        },
+        ChangedElements => {
+            'Dest' => 1,
+        },
+        FormID   => '2',
         TicketID => $TestTicketIDs{TicketIDWithDFValues},
         GetParam => {
-            QueueID      => '2',
+            QueueID      => '4',
             DynamicField => {},
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
@@ -616,18 +675,47 @@ my @TestCases = (
         }
     },
     {
-        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster and Ticket does not have a dynamic field value. (ACL 004)',
-        Action   => 'AgentTicketFreeText',
+        Name            => 'DropDown1 DF is removed and cleared when Queue is not Postmaster and Ticket does not have a dynamic field value. (ACL 004)',
+        Action          => 'AgentTicketFreeText',
+        ACLPreselection => {
+            Fields => {
+                Dest                                     => 1,
+                DynamicField_ProcessManagementActivityID => 1,
+                DynamicField_ProcessManagementProcessID  => 1,
+                DynamicField_UnitTestCheckboxField       => 1,
+                DynamicField_UnitTestDropDownField       => 1,
+                DynamicField_UnitTestSimpleTextField     => 1,
+                DynamicField_UnitTestDropDownField1      => 1,
+                DynamicField_UnitTestDropDownField2      => 1,
+                NewResponsibleID                         => 1,
+                NewUserID                                => 1,
+                NextStateID                              => 1,
+                PriorityID                               => 1,
+                ServiceID                                => 1,
+                SLAID                                    => 1,
+                StandardTemplateID                       => 1,
+                TypeID                                   => 1,
+            },
+            Rules => {
+                Form => {
+                    Dest => 1,
+                },
+            },
+        },
+        ChangedElements => {
+            'Dest' => 1,
+        },
+        FormID   => '3',
         TicketID => $TestTicketIDs{TicketIDWithoutDFValues},
         GetParam => {
-            QueueID      => '2',
+            QueueID      => '4',
             DynamicField => {},
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
@@ -635,41 +723,107 @@ my @TestCases = (
     },
 
     {
-        Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
-        Action   => 'AgentTicketFreeText',
+        Name            => 'DropDown1 DF is removed and cleared when Queue is not Postmaster. (ACL 004)',
+        Action          => 'AgentTicketFreeText',
+        ACLPreselection => {
+            Fields => {
+                Dest                                     => 1,
+                DynamicField_ProcessManagementActivityID => 1,
+                DynamicField_ProcessManagementProcessID  => 1,
+                DynamicField_UnitTestCheckboxField       => 1,
+                DynamicField_UnitTestDropDownField       => 1,
+                DynamicField_UnitTestSimpleTextField     => 1,
+                DynamicField_UnitTestDropDownField1      => 1,
+                DynamicField_UnitTestDropDownField2      => 1,
+                NewResponsibleID                         => 1,
+                NewUserID                                => 1,
+                NextStateID                              => 1,
+                PriorityID                               => 1,
+                ServiceID                                => 1,
+                SLAID                                    => 1,
+                StandardTemplateID                       => 1,
+                TypeID                                   => 1,
+            },
+            Rules => {
+                Form => {
+                    Dest => 1,
+                },
+            },
+        },
+        ChangedElements => {
+            'Dest' => 1,
+        },
+        FormID   => '4',
         GetParam => {
-            QueueID      => '1',
+            QueueID      => '4',
             DynamicField => {},
         },
         CachedVisibility => {
-            "DynamicField_UnitTestDropDownField1" => 0,
+            DynamicField_UnitTestCheckboxField   => 1,
+            DynamicField_UnitTestDropDownField   => 1,
+            DynamicField_UnitTestSimpleTextField => 1,
+            DynamicField_UnitTestDropDownField1  => 1,
+            DynamicField_UnitTestDropDownField2  => 1,
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
         }
     },
     {
-        Name     => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
-        Action   => 'AgentTicketFreeText',
+        Name            => 'DropDown1 DF is removed and filled with ticket value when Queue is not Postmaster and ticket has value for dynamic field. (ACL 004)',
+        Action          => 'AgentTicketFreeText',
+        ACLPreselection => {
+            Fields => {
+                Dest                                     => 1,
+                DynamicField_ProcessManagementActivityID => 1,
+                DynamicField_ProcessManagementProcessID  => 1,
+                DynamicField_UnitTestCheckboxField       => 1,
+                DynamicField_UnitTestDropDownField       => 1,
+                DynamicField_UnitTestSimpleTextField     => 1,
+                DynamicField_UnitTestDropDownField1      => 1,
+                DynamicField_UnitTestDropDownField2      => 1,
+                NewResponsibleID                         => 1,
+                NewUserID                                => 1,
+                NextStateID                              => 1,
+                PriorityID                               => 1,
+                ServiceID                                => 1,
+                SLAID                                    => 1,
+                StandardTemplateID                       => 1,
+                TypeID                                   => 1,
+            },
+            Rules => {
+                Form => {
+                    Dest => 1,
+                },
+            },
+        },
+        ChangedElements => {
+            'Dest' => 1,
+        },
+        FormID   => '5',
         TicketID => $TestTicketIDs{TicketIDWithDFValues},
         GetParam => {
-            QueueID      => '1',
+            QueueID      => '4',
             DynamicField => {},
         },
         CachedVisibility => {
-            "DynamicField_UnitTestDropDownField1" => 0,
+            DynamicField_UnitTestCheckboxField   => 1,
+            DynamicField_UnitTestDropDownField   => 1,
+            DynamicField_UnitTestSimpleTextField => 1,
+            DynamicField_UnitTestDropDownField1  => 1,
+            DynamicField_UnitTestDropDownField2  => 1,
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
@@ -680,18 +834,23 @@ my @TestCases = (
         Name     => 'DropDown1 DF is removed and cleared when Queue is not Postmaster and Ticket does not have a dynamic field value. (ACL 004)',
         Action   => 'AgentTicketFreeText',
         TicketID => $TestTicketIDs{TicketIDWithoutDFValues},
+        FormID   => '6',
         GetParam => {
-            QueueID      => '1',
+            QueueID      => '4',
             DynamicField => {},
         },
         CachedVisibility => {
-            "DynamicField_UnitTestDropDownField1" => 0,
+            DynamicField_UnitTestCheckboxField   => 1,
+            DynamicField_UnitTestDropDownField   => 1,
+            DynamicField_UnitTestSimpleTextField => 1,
+            DynamicField_UnitTestDropDownField1  => 0,
+            DynamicField_UnitTestDropDownField2  => 1,
         },
         Expected => {
             Visibility => {
                 DynamicField_UnitTestCheckboxField   => 1,
                 DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
+                DynamicField_UnitTestSimpleTextField => 1,
                 DynamicField_UnitTestDropDownField1  => 0,
                 DynamicField_UnitTestDropDownField2  => 1,
             },
