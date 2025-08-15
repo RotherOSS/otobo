@@ -678,6 +678,9 @@ Returns an array of the email attachments.
         print $Attachment->{ContentMixed};
     }
 
+Note that there is an OTOBO specific logic for the list of attachments.
+That logic is implemented in the method C<PartsAttachments()>.
+
 =cut
 
 sub GetAttachments {
@@ -689,7 +692,7 @@ sub GetAttachments {
     # return if it is already parsed
     return $Self->{Attachments}->@* if $Self->{Attachments};
 
-    # parse email
+    # mangle the nested MIME parts of the email
     $Self->PartsAttachments( Part => $Self->{ParserParts} );
 
     # return if no attachments are found
@@ -699,7 +702,30 @@ sub GetAttachments {
     return $Self->{Attachments}->@*;
 }
 
-# just for internal
+=head2 PartsAttachments()
+
+This method is intended only for internal use. It implements the OTOBO specific logic for the potentially nested
+parts of the MIME message.
+
+=over 4
+
+=item It is marked whether the attachment is within a multipart/alternative or a multipart/mixed
+
+=item The default content type is I<text/plain>
+
+=item Rename attachments with the file name I<file-1> to I<File-1>
+
+=item Rename attachments with the file name I<file-2> to I<File-2>
+
+=item The plain and HTML parts of multipart/mixed are merged
+
+=back
+
+The result is noted in C<$Self->{Attachments}> which is a array of hash references. The structure
+of the hash references is documented in the method C<GetAttachments()>.
+
+=cut
+
 sub PartsAttachments {
     my ( $Self, %Param ) = @_;
 
