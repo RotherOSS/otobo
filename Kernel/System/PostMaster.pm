@@ -184,6 +184,8 @@ sub Run {
 
             return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
+            # Note that passing ParserObject to the constructor of the filter object
+            # allows the filter to modify the message itself. This is used in SMIME decryption.
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
             );
