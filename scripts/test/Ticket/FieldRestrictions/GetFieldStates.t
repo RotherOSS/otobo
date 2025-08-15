@@ -422,6 +422,14 @@ sub TestFieldRestrictions {
         }
     }
 
+    # cleanup used cache
+    if ( IsHashRefWithData( $Param{CachedVisibility} ) ) {
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'HiddenFields',
+            Key  => $Param{FormID},
+        );
+    }
+
     return;
 }
 
