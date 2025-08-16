@@ -269,6 +269,8 @@ To get the senders email address back.
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
 
+This method can be used in standalone mode.
+
 =cut
 
 sub GetEmailAddress {
@@ -294,10 +296,13 @@ to get the sender's C<RealName>.
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
 
+This method can be used in standalone mode.
+
 =cut
 
 sub GetRealname {
     my ( $Self, %Param ) = @_;
+
     my $Realname = '';
 
     # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
@@ -328,6 +333,8 @@ To get an array of email addresses of an To, Cc or Bcc line back.
     );
 
 This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
+
+This method can be used in standalone mode.
 
 =cut
 
