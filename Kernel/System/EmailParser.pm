@@ -290,11 +290,15 @@ sub GetEmailAddress {
 
 =head2 GetRealname()
 
-to get the sender's C<RealName>.
+to get the sender's C<RealName> aka phrase.
 
     my $Realname = $ParserObject->GetRealname(
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
+
+Returns:
+
+    'Juergen Weber'
 
 This method can be used in standalone mode.
 
