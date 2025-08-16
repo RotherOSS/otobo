@@ -134,14 +134,19 @@ sub new {
             }
             $Param{Email} = \@Content;
         }
+        else {
+            # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
+        }
 
-        $Self->{OriginalEmail} = join '', @{ $Param{Email} };
+        # for GetPlainEmail()
+        $Self->{OriginalEmail} = join '', $Param{Email}->@*;
 
         # create Mail::Internet object
+        # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
-        # create a Mail::Header object with the MIME headers
-        $Self->{HeaderObject} = $Self->{Email}->head();
+        # get a Mail::Header object from the Mail::Internet object
+        $Self->{HeaderObject} = $Self->{Email}->head;
 
         # create MIME::Parser object
         my $Parser = MIME::Parser->new();
@@ -160,7 +165,7 @@ sub new {
 
         # an instance of MIME::Entity was passed
         $Self->{ParserParts}  = $Param{Entity};
-        $Self->{HeaderObject} = $Param{Entity}->head();
+        $Self->{HeaderObject} = $Param{Entity}->head;    # this time a MIME::Head object
         $Self->{EntityMode}   = 1;
     }
 
@@ -190,7 +195,7 @@ not to be confused with I<referring to text/plain>.
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{OriginalEmail} || $Self->{Email}->as_string();
+    return $Self->{OriginalEmail} || $Self->{Email}->as_string;
 }
 
 =head2 GetParam()
@@ -425,7 +430,7 @@ sub GetCharset {
     }
 
     # find charset
-    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->unfold;
     my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
     chomp $Line;
     my %Data = $Self->GetContentTypeParams( ContentType => $Line );
@@ -554,7 +559,7 @@ sub GetMessageBody {
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts() == 0 ) {
+    if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts == 0 ) {
         $Self->{MimeEmail} = 0;
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -562,7 +567,7 @@ sub GetMessageBody {
                 Message  => q{It's a plain (not MIME) email!},
             );
         }
-        my $BodyStrg = join '', @{ $Self->{Email}->body() };
+        my $BodyStrg = join '', @{ $Self->{Email}->body };
 
         # quoted printable!
         if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
