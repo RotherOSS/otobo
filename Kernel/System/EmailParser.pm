@@ -159,8 +159,8 @@ sub new {
     else {
 
         # an instance of MIME::Entity was passed
-        $Self->{ParserParts}  = $Param{Entity};
-        $Self->{EntityMode}   = 1;
+        $Self->{ParserParts} = $Param{Entity};
+        $Self->{EntityMode}  = 1;
     }
 
     # Get a MIME::Head object from the toplevel MIME::Entity object.
@@ -194,7 +194,8 @@ not to be confused with I<referring to text/plain>.
 sub GetPlainEmail {
     my $Self = shift;
 
-    return $Self->{OriginalStringRef} ? $Self->{OriginalStringRef}->$* : $Self->{ParserParts}->stringify;
+    return $Self->{OriginalStringRef}->$* if $Self->{OriginalStringRef};
+    return $Self->{ParserParts}->stringify;
 }
 
 =head2 GetParam()
