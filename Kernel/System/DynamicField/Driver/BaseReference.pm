@@ -1348,6 +1348,7 @@ sub _CreateAutoLinkObjectLink {
     }
 
     if ( IsStringWithData($TargetKey) ) {
+
         # do the actual linking
         my $Success = $LinkObject->LinkAdd(
             SourceObject => $SourceObject,    # eg 'Ticket',
@@ -1366,13 +1367,15 @@ sub _CreateAutoLinkObjectLink {
                 Message  => "Unable to create Link $SourceObject ($SourceKey) -- $LinkType -> $TargetObject $TargetKey\n",
             );
             return;
-        } else {
+        }
+        else {
             return 1;
         }
-    } elsif ( IsArrayRefWithData($TargetKey) ) {
+    }
+    elsif ( IsArrayRefWithData($TargetKey) ) {
 
         TARGET:
-        foreach my $Target ( @{$TargetKey} ) {
+        for my $Target ( @{$TargetKey} ) {
             next TARGET if !IsStringWithData($Target);
 
             # do the actual linking
