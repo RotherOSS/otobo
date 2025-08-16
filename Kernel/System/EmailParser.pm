@@ -177,9 +177,13 @@ sub new {
 
 =head2 GetPlainEmail()
 
-To get a email as a string back (plain email).
+To get back the email message as a string. The returned string includes both the headers
+an the body of the MIME message.
 
-    my $Email = $ParserObject->GetPlainEmail();
+    my $UnparsedEmailMessage = $ParserObject->GetPlainEmail();
+
+Usually the cached input is returned. The I<Plain> in the method name means I<not parsed>,
+not to be confused with I<referring to text/plain>.
 
 =cut
 
