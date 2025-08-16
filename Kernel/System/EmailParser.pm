@@ -142,7 +142,6 @@ sub new {
         $Self->{OriginalEmail} = join '', $Param{Email}->@*;
 
         # create Mail::Internet object
-        # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
         # get a Mail::Header object from the Mail::Internet object
