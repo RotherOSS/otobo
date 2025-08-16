@@ -140,7 +140,6 @@ sub new {
         $Self->{OriginalEmail} = join '', $Param{Email}->@*;
 
         # create Mail::Internet object
-        # This normalizes the Header, e.g. changes 'From ' to 'Mail-From: '
         $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
         # get a Mail::Header object from the Mail::Internet object
@@ -723,9 +722,32 @@ parts of the MIME message.
 
 =item Rename attachments with the file name I<file-2> to I<File-2>
 
-=item The plain and HTML parts of multipart/mixed are merged
+=item The text/plain and text/html parts of multipart/mixed parts are merged
 
 =back
+
+The rules for merging sub parts of multipart/mixed are like:
+
+=over 4
+
+=item For each text/plain or text/html part it is known whether the part is contained in a multipart/mixed or multipart/alternative part
+
+=item It is possible to be in both a mixed and a alternative part
+
+=item the exact hierarchy is not considered
+
+=item only parts in multipart/mixed are merged
+
+=item text/plain parts are appended to the first text/plain part when there already is a text/plain part and the part is in multipart/alternative
+
+=item text/html parts are appended to the first text/html part when there already is a text/html part and the part is in multipart/alternative
+
+=item when not in multipart/alternative all text/plain and text/html parts are coerced and merged together. The type of the merged part is the type of the first encountered part
+
+=back
+
+The merging kind of assumes that the structure is not complex and that in an alternative text/plain comes before text/html.
+Implicitly it is also assumed that there are no attachments before the text/plain or text/html part.
 
 The result is noted in C<$Self->{Attachments}> which is a array of hash references. The structure
 of the hash references is documented in the method C<GetAttachments()>.
