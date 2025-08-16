@@ -195,10 +195,18 @@ sub GetPlainEmail {
 
 =head2 GetParam()
 
-To get a header (e. g. Subject, To, ContentType, ...) of an email
-(mime is already done!).
+gets the value of a header field of the parsed MIME message.
+Examples are I<Subject>, I<To>, I<ContentType>, ... .
 
     my $To = $ParserObject->GetParam( WHAT => 'To' );
+
+RFC 2047, aka MIME words, encodings are decoded. The value is returned as a Perl string
+with the UTF-8 flag set to on.
+
+Email addresses are returned as a comma separated list of normalized addresses. The addresses
+contain each phrase, proper address, and comment.
+
+An empty string is return as a fallback.
 
 =cut
 
@@ -217,16 +225,17 @@ sub GetParam {
         return;
     }
 
-    $Self->{HeaderObject}->unfold();
-    $Self->{HeaderObject}->combine($What);
+    $Self->{HeaderObject}->unfold();          # handle the case when values extend of more than a single line
+    $Self->{HeaderObject}->combine($What);    # handle the case when a key is present more than once
     my $Line = $Self->{HeaderObject}->get($What) || '';
-    chomp($Line);
+    chomp $Line;
+
     my $ReturnLine;
 
     # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
     # in RFC 2047. Mail::Address routines will quote stuff if necessary (i.e. comma
     # or semicolon found in phrase).
-    if ( $What =~ /^(From|To|Cc)/ ) {
+    if ( $What =~ m/^(From|To|Cc)/ ) {
         for my $Address ( Mail::Address->parse($Line) ) {
             $Address->phrase( $Self->_DecodeString( String => $Address->phrase() ) );
             $Address->address( $Self->_DecodeString( String => $Address->address() ) );
