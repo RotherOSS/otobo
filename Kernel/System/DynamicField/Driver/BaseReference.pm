@@ -1347,22 +1347,61 @@ sub _CreateAutoLinkObjectLink {
         }
     }
 
-    # do the actual linking
-    my $Success = $LinkObject->LinkAdd(
-        SourceObject => $SourceObject,    # eg 'Ticket',
-        SourceKey    => $SourceKey,
-        TargetObject => $TargetObject,    # eg 'ITSMConfigItem',
-        TargetKey    => $TargetKey,
-        Type         => $LinkType,        # eg 'RelevantTo',
-        State        => 'Valid',
-        UserID       => $Param{UserID},
-    );
+    if ( IsStringWithData($TargetKey) ) {
 
-    return 1 if $Success;
+        # do the actual linking
+        my $Success = $LinkObject->LinkAdd(
+            SourceObject => $SourceObject,    # eg 'Ticket',
+            SourceKey    => $SourceKey,
+            TargetObject => $TargetObject,    # eg 'ITSMConfigItem',
+            TargetKey    => $TargetKey,
+            Type         => $LinkType,        # eg 'RelevantTo',
+            State        => 'Valid',
+            UserID       => $Param{UserID},
+        );
+
+        if ( !$Success ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Unable to create Link $SourceObject ($SourceKey) -- $LinkType -> $TargetObject $TargetKey\n",
+            );
+            return;
+        }
+        else {
+            return 1;
+        }
+    }
+    elsif ( IsArrayRefWithData($TargetKey) ) {
+
+        TARGET:
+        for my $Target ( @{$TargetKey} ) {
+            next TARGET if !IsStringWithData($Target);
+
+            # do the actual linking
+            my $Success = $LinkObject->LinkAdd(
+                SourceObject => $SourceObject,    # eg 'Ticket',
+                SourceKey    => $SourceKey,
+                TargetObject => $TargetObject,    # eg 'ITSMConfigItem',
+                TargetKey    => $Target,
+                Type         => $LinkType,        # eg 'RelevantTo',
+                State        => 'Valid',
+                UserID       => $Param{UserID},
+            );
+
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Unable to create Link $SourceObject ($SourceKey) -- $LinkType -> $TargetObject $TargetKey\n",
+                );
+            }
+        }
+        return 1;
+    }
 
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
-        Message  => "Unable to create Link $SourceObject ($SourceKey) -- $LinkType -> $TargetObject $TargetKey\n",
+        Message  => "Unable to create Link $SourceObject ($SourceKey) -- $LinkType -> $TargetObject \n",
     );
 
     return;

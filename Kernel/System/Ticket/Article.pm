@@ -97,11 +97,19 @@ sub new {
 
 =head2 BackendForArticle()
 
-Returns the correct back end for a given article, or the
-L<Invalid|Kernel::System::Ticket::Article::Backend::Invalid> back end, so that you can always expect
+Returns the correct instance of the back end for a given article, or an instance of the
+L<Invalid|Kernel::System::Ticket::Article::Backend::Invalid> back end. Thus you can always expect
 a back end object instance that can be used for chain-calling.
 
-    my $ArticleBackendObject = $ArticleObject->BackendForArticle( TicketID => 42, ArticleID => 123 );
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+        TicketID            => 42,
+        ArticleID           => 123,
+        ShowDeletedArticles => 1, # optional, used only when no CommunicationChannelID is given, default is false
+        VersionView         => 1, # optional, used only when no CommunicationChannelID is given, default is false
+    );
+
+The parameters C<ShowDeletedArticles> and C<VersionView> determine whether deleted or versioned articles are
+considered as valid articles when determining the backend.
 
 Alternatively, you can pass in a hash with base article data as returned by L</ArticleList()>, this will avoid the
 lookup for the C<CommunicationChannelID> of the article:
@@ -122,6 +130,7 @@ sub BackendForArticle {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Invalid');
         }
     }
@@ -142,6 +151,7 @@ sub BackendForArticle {
         my $ChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelObjectGet(
             ChannelID => $Param{CommunicationChannelID},
         );
+
         return $ChannelObject->ArticleBackend() if $ChannelObject && $ChannelObject->can('ArticleBackend');
     }
 
@@ -240,6 +250,7 @@ sub ArticleList {
             Priority => 'error',
             Message  => 'Need TicketID!',
         );
+
         return;
     }
 
@@ -248,11 +259,13 @@ sub ArticleList {
             Priority => 'error',
             Message  => 'OnlyFirst and OnlyLast cannot be used together!',
         );
+
         return;
     }
 
     my @MetaArticleList = $Self->_MetaArticleList(%Param);
-    return if !@MetaArticleList;
+
+    return unless @MetaArticleList;
 
     if ( $Param{ArticleID} ) {
         @MetaArticleList = grep { $_->{ArticleID} == $Param{ArticleID} } @MetaArticleList;

@@ -225,13 +225,13 @@ sub ObjectDescriptionGet {
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
         # TODO where to link to for agents?
-        my $FrontendModul = 'AdminUser';
-        my $UserID        = $Param{LayoutObject}{UserID} || 1;
+        my $FrontendModule = 'AdminUser';
+        my $UserID         = $Param{LayoutObject}{UserID} || 1;
 
         $Link = $Self->_GetHTTPLink(
-            FrontendModul => $FrontendModul,
-            ObjectID      => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
-            UserID        => $UserID,
+            FrontendModule => $FrontendModule,
+            ObjectID       => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
+            UserID         => $UserID,
         );
 
     }
@@ -394,12 +394,12 @@ sub SearchObjects {
 
 =head2 _GetHTTPLink()
 
-return a HTTP link to the agent edit mask, if permission is given.
+Returns a HTTP link to the agent edit mask, if permission is given.
 
     my $Link = $BackendObject->_GetHTTPLink(
-        FrontendModul      => $FrontendModul,
-        ObjectID   => $EncodedUserLogin
-        UserID             => $UserID,
+        FrontendModule => $FrontendModule,
+        ObjectID       => $EncodedUserLogin,
+        UserID         => $UserID,
     );
 
 Return
@@ -412,7 +412,7 @@ sub _GetHTTPLink {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(UserID FrontendModul ObjectID)) {
+    for my $Argument (qw(UserID FrontendModule ObjectID)) {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -425,10 +425,12 @@ sub _GetHTTPLink {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModul} };
+    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModule} };
     my $Link;
 
     # module permission check for action
+    my $AccessRo;
+    my $AccessRw;
     if (
         ref $ModuleReg->{GroupRo} eq 'ARRAY'
         && !scalar @{ $ModuleReg->{GroupRo} }
@@ -436,8 +438,8 @@ sub _GetHTTPLink {
         && !scalar @{ $ModuleReg->{Group} }
         )
     {
-        $Param{AccessRo} = 1;
-        $Param{AccessRw} = 1;
+        $AccessRo = 1;
+        $AccessRw = 1;
     }
     else {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -473,20 +475,20 @@ sub _GetHTTPLink {
                 }
             }
             if ( $Permission eq 'Group' && $AccessOk ) {
-                $Param{AccessRo} = 1;
-                $Param{AccessRw} = 1;
+                $AccessRo = 1;
+                $AccessRw = 1;
             }
             elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
-                $Param{AccessRo} = 1;
+                $AccessRo = 1;
             }
         }
-        if ( $Param{AccessRo} || $Param{AccessRw} ) {
+    }
 
-            $Link = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
-            $Link .= 'ID=' . $Param{ObjectID};
-            return $Link;
-        }
-        return;
+    if ( $AccessRo || $AccessRw ) {
+
+        $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';Subaction=Change;';
+        $Link .= 'ID=' . $Param{ObjectID};
+        return $Link;
     }
 
     # both GroupRo nor Group are empty arrayrefs

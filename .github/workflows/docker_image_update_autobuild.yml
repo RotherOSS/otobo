@@ -71,7 +71,7 @@ jobs:
             patch:      'rel-10_1_14'
           -
             docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_10'
+            patch:      'rel-11_0_11'
 
           # otobo-web uses different base images in the different release branches
           -

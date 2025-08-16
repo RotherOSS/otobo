@@ -546,6 +546,11 @@ to write data to file system
                                  #      does only take effect if Directory and Filename are provided
     );
 
+When successful the parameter C<Filename> or C<Location> is returned,
+depending on which parameter has been passed.
+
+An empty list is returned in the case of failure.
+
 =cut
 
 sub FileWrite {

@@ -174,11 +174,11 @@ jobs:
             base_image: 'perl:5.36-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_0_8'
+            docker_tag: 'rel-11_0_9'
             base_image: 'perl:5.38-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_0_9'
+            docker_tag: 'rel-11_0_10'
             base_image: 'perl:5.38-bookworm'
           -
             target:     'otobo-web'
@@ -245,9 +245,6 @@ jobs:
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
-          -
-            docker_tag: 'rel-11_0_8'
-            fix_cldr:   1
 
     steps:
 

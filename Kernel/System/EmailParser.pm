@@ -38,50 +38,62 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::EmailParser - parse and encode an email
+Kernel::System::EmailParser - parse an email and provide methods implementing OTOBO specific logic
 
 =head1 DESCRIPTION
 
-A module to parse and encode an email.
+Parses an email using modules from CPAN. Provide methods that mangle the message and give the content that OTOBO needs.
+
+The module is also used without parsing mails. In this case the instance provides some helper methods.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-creates an object. This module does not use the object manager. So the module must be explicitly loaded
-before it can be used.
+can be used directly without using the object manager.
+
+When the parameter C<Email> is passed then the passed email is parsed. The parsed mail
+can then be accessed via the various accessor methods. The email is passed e.g. in C<Kernel::System::PostMaster::new()>
+as a reference of to an array of strings. In this case the lines must keep their trailing newlines.
 
     use Kernel::System::EmailParser;
 
-    # pass in a references to an array of strings with trailing newlines
     my $ParserObject = Kernel::System::EmailParser->new(
-        Email        => \@EmailLines,
-        Debug        => 0,
+        Email => \@ArrayOfEmailContent,
+        Debug => 0,
     );
 
-    # as string (takes more memory!)
+Alternatively a string or a reference to a string may be passed.
+
     my $ParserObject = Kernel::System::EmailParser->new(
         Email        => $EmailString,
-        Debug        => 0,
     );
 
-    # or pass in a reference to a string
+or
+
     my $ParserObject = Kernel::System::EmailParser->new(
         Email        => \$EmailString,
-        Debug        => 0,
     );
 
-    # there are cases where we already have a mail parsed with MIME::Parser
+Another option is to pass an instance of C<MIME::Entity> in the parameter C<Entity>. This is useful
+when an email has been already parsed or a C<MIME::Entity> object has been constructed by OTOBO.
+
     my $ParserObject = Kernel::System::EmailParser->new(
-        Entity => $Entity,
+        Email        => $EmailString,
     );
 
-    # as stand alone mode, without parsing emails
-    # when only static subroutines like SplitAddressLine() are called
+Sometimes it is useful to have an empty instance on which helper methods can be called.
+In the case the parameter C<Mode> must be passed with the value "Standalone".
+
     my $ParserObject = Kernel::System::EmailParser->new(
         Mode         => 'Standalone',
         Debug        => 0,
     );
+
+The parameter C<Debug> can be used to activate debug output. The default is off.
+
+The parameter C<NoHTMLChecks> may be used to suppress the generation of the plain text message when there
+only is HTML content. The default is off. Note the double negation.
 
 =cut
 
@@ -94,14 +106,17 @@ sub new {
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # create empty object just for accessing the helper methods
     return $Self if ( $Param{Mode} && $Param{Mode} eq 'Standalone' );
 
-    # check needed objects
+    # Check the parameters when the method is not called for standalone mode. The email must be passed
+    # either as text in the parameter Email or as an instance of MIME::Entity in the parameter Entity.
     if ( !$Param{Email} && !$Param{Entity} ) {
-        die "Need Email or Entity!";
+        die 'Need Email or Entity!';
     }
 
-    # if email is given
+    # Email is either a string, a reference to a string, or a reference to an array of strings.
+    # Passing a file handle is not supported.
     if ( $Param{Email} ) {
 
         # check if Email is a reference to a string
@@ -131,14 +146,22 @@ sub new {
         # get a Mail::Header object from the Mail::Internet object
         $Self->{HeaderObject} = $Self->{Email}->head;
 
-        # create MIME::Parser object and get message body or body of first attachment
-        # Keep nested messages as attachments (see bug#1970).
+        # create MIME::Parser object
         my $Parser = MIME::Parser->new();
+
+        # keep decoded parts in process memory
         $Parser->output_to_core('ALL');
+
+        # do not try to decode message/rfc822, message/partial or message/external-body MIME parts,
+        # treat them just as if they were a test/plain part (see bug#1970).
         $Parser->extract_nested_messages(0);
-        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string );
+
+        # finally parse the email
+        $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
     else {
+
+        # an instance of MIME::Entity was passed
         $Self->{ParserParts}  = $Param{Entity};
         $Self->{HeaderObject} = $Param{Entity}->head;    # this time a MIME::Head object
         $Self->{EntityMode}   = 1;
@@ -149,7 +172,7 @@ sub new {
         $Self->{NoHTMLChecks} = $Param{NoHTMLChecks};
     }
 
-    # parse email at first
+    # mangle the already parsed emails, specifically generate the array of attachments
     $Self->GetMessageBody();
 
     return $Self;
@@ -157,9 +180,13 @@ sub new {
 
 =head2 GetPlainEmail()
 
-To get a email as a string back (plain email).
+To get back the email message as a string. The returned string includes both the headers
+an the body of the MIME message.
 
-    my $Email = $ParserObject->GetPlainEmail();
+    my $UnparsedEmailMessage = $ParserObject->GetPlainEmail();
+
+Usually the cached input is returned. The I<Plain> in the method name means I<not parsed>,
+not to be confused with I<referring to text/plain>.
 
 =cut
 
@@ -171,10 +198,18 @@ sub GetPlainEmail {
 
 =head2 GetParam()
 
-To get a header (e. g. Subject, To, ContentType, ...) of an email
-(mime is already done!).
+gets the value of a header field of the parsed MIME message.
+Examples are I<Subject>, I<To>, I<ContentType>, ... .
 
     my $To = $ParserObject->GetParam( WHAT => 'To' );
+
+RFC 2047, aka MIME words, encodings are decoded. The value is returned as a Perl string
+with the UTF-8 flag set to on.
+
+Email addresses are returned as a comma separated list of normalized addresses. The addresses
+contain each phrase, proper address, and comment.
+
+An empty string is return as a fallback.
 
 =cut
 
@@ -193,16 +228,17 @@ sub GetParam {
         return;
     }
 
-    $Self->{HeaderObject}->unfold;
-    $Self->{HeaderObject}->combine($What);
+    $Self->{HeaderObject}->unfold();          # handle the case when values extend of more than a single line
+    $Self->{HeaderObject}->combine($What);    # handle the case when a key is present more than once
     my $Line = $Self->{HeaderObject}->get($What) || '';
     chomp $Line;
+
     my $ReturnLine;
 
     # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
     # in RFC 2047. Mail::Address routines will quote stuff if necessary (i.e. comma
     # or semicolon found in phrase).
-    if ( $What =~ /^(From|To|Cc)/ ) {
+    if ( $What =~ m/^(From|To|Cc)/ ) {
         for my $Address ( Mail::Address->parse($Line) ) {
             $Address->phrase( $Self->_DecodeString( String => $Address->phrase() ) );
             $Address->address( $Self->_DecodeString( String => $Address->address() ) );
@@ -236,6 +272,8 @@ To get the senders email address back.
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
 
+This method can be used in standalone mode.
+
 =cut
 
 sub GetEmailAddress {
@@ -255,16 +293,23 @@ sub GetEmailAddress {
 
 =head2 GetRealname()
 
-to get the sender's C<RealName>.
+to get the sender's C<RealName> aka phrase.
 
     my $Realname = $ParserObject->GetRealname(
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
 
+Returns:
+
+    'Juergen Weber'
+
+This method can be used in standalone mode.
+
 =cut
 
 sub GetRealname {
     my ( $Self, %Param ) = @_;
+
     my $Realname = '';
 
     # find "NamePart, NamePart" <some@example.com> (get not recognized by Mail::Address)
@@ -296,6 +341,8 @@ To get an array of email addresses of an To, Cc or Bcc line back.
 
 This returns an array with ('Juergen Weber <juergen.qeber@air.com>', 'me@example.com', 'hans@example.com (Hans Huber)').
 
+This method can be used in standalone mode.
+
 =cut
 
 sub SplitAddressLine {
@@ -323,7 +370,6 @@ sub GetContentType {
     my $Self = shift;
 
     return $Self->{ContentType} if $Self->{ContentType};
-
     return $Self->GetParam( WHAT => 'Content-Type' ) || 'text/plain';
 }
 
@@ -341,7 +387,6 @@ sub GetContentDisposition {
     my $Self = shift;
 
     return $Self->{ContentDisposition} if $Self->{ContentDisposition};
-
     return $Self->GetParam( WHAT => 'Content-Disposition' );
 }
 
@@ -491,9 +536,15 @@ sub GetReturnCharset {
 
 =head2 GetMessageBody()
 
+This method is already called in the constructor. In the case of MIME miles this message
+calls C<GetAttachments()>.
+
 Returns the message body (or from the first attachment) from the email.
 
     my $Body = $ParserObject->GetMessageBody();
+
+In the case of a HTML-only mail extract the plain text and return it. Add the suffix '.html' to the
+file name of the first attachment.
 
 =cut
 
@@ -511,7 +562,7 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  => 'It\'s a plain (not mime) email!',
+                Message  => q{It's a plain (not MIME) email!},
             );
         }
         my $BodyStrg = join '', @{ $Self->{Email}->body };
@@ -549,7 +600,7 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  => 'It\'s a mime email!',
+                Message  => q{It's a MIME email!},
             );
         }
 
@@ -614,6 +665,9 @@ sub GetMessageBody {
 
 =head2 GetAttachments()
 
+Note that in the case of MIME mails this message is already called when constructing the object instance.
+Successive calls of the method return the cached array.
+
 Returns an array of the email attachments.
 
     my @Attachments = $ParserObject->GetAttachments();
@@ -630,28 +684,54 @@ Returns an array of the email attachments.
         print $Attachment->{ContentMixed};
     }
 
+Note that there is an OTOBO specific logic for the list of attachments.
+That logic is implemented in the method C<PartsAttachments()>.
+
 =cut
 
 sub GetAttachments {
     my ( $Self, %Param ) = @_;
 
     # return if it's no mime email
-    return if !$Self->{MimeEmail};
+    return unless $Self->{MimeEmail};
 
     # return if it is already parsed
-    return @{ $Self->{Attachments} } if $Self->{Attachments};
+    return $Self->{Attachments}->@* if $Self->{Attachments};
 
-    # parse email
+    # mangle the nested MIME parts of the email
     $Self->PartsAttachments( Part => $Self->{ParserParts} );
 
     # return if no attachments are found
-    return if !$Self->{Attachments};
+    return unless $Self->{Attachments};
 
     # return attachments
-    return @{ $Self->{Attachments} };
+    return $Self->{Attachments}->@*;
 }
 
-# just for internal
+=head2 PartsAttachments()
+
+This method is intended only for internal use. It implements the OTOBO specific logic for the potentially nested
+parts of the MIME message.
+
+=over 4
+
+=item It is marked whether the attachment is within a multipart/alternative or a multipart/mixed
+
+=item The default content type is I<text/plain>
+
+=item Rename attachments with the file name I<file-1> to I<File-1>
+
+=item Rename attachments with the file name I<file-2> to I<File-2>
+
+=item The plain and HTML parts of multipart/mixed are merged
+
+=back
+
+The result is noted in C<$Self->{Attachments}> which is a array of hash references. The structure
+of the hash references is documented in the method C<GetAttachments()>.
+
+=cut
+
 sub PartsAttachments {
     my ( $Self, %Param ) = @_;
 
@@ -660,7 +740,8 @@ sub PartsAttachments {
     my $SubPartCounter     = $Param{SubPartCounter}     || 0;
     my $ContentAlternative = $Param{ContentAlternative} || '';
     my $ContentMixed       = $Param{ContentMixed}       || '';
-    $Self->{PartCounter}++;
+
+    # recursive descent when there are subparts
     if ( $Part->parts() > 0 ) {
 
         # check if it's an alternative part
@@ -689,6 +770,8 @@ sub PartsAttachments {
 
         return 1;
     }
+
+    # look at the terminals, that is MIME parts that have no sub parts
 
     # get attachment meta stuff
     my %PartData;
@@ -773,6 +856,7 @@ sub PartsAttachments {
         for my $Count ( 1 .. 2 ) {
             if ( $PartData{Filename} eq "file-$Count" ) {
                 $PartData{Filename} = "File-$Count";
+
                 last COUNT;
             }
         }
@@ -918,7 +1002,7 @@ sub PartsAttachments {
         $Self->{$BodyAttachmentKey} = \%PartData;
     }
 
-    push @{ $Self->{Attachments} }, \%PartData;
+    push $Self->{Attachments}->@*, \%PartData;
 
     return 1;
 }
@@ -1003,7 +1087,7 @@ sub GetContentTypeParams {
     return %Param;
 }
 
-# just for internal
+# just for internal, details document in GetMessageBody()
 sub CheckMessageBody {
     my ( $Self, %Param ) = @_;
 
@@ -1028,12 +1112,12 @@ sub CheckMessageBody {
                     Charset     => $Self->GetCharset(),
                     ContentType => $Self->GetReturnContentType(),
                     Content     => $Self->{MessageBody},
-                    Filename    => 'file-1',
+                    Filename    => 'file-1',                        # not sure why this isn't file-1.html
                 }
             );
         }
 
-        # add .html suffix to filename if not aleady there
+        # add .html suffix to filename if not already there
         else {
             if ( $Self->{Attachments}->[0]->{Filename} ) {
                 if ( $Self->{Attachments}->[0]->{Filename} !~ /\.(htm|html)/i ) {
@@ -1054,8 +1138,7 @@ sub CheckMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message  =>
-                    'It\'s an html only email, added ascii dump, attached html email as attachment.',
+                Message  => q{It's an HTML only email, added ascii dump, attached HTML email as attachment.},
             );
         }
     }

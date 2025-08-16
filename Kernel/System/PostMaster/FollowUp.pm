@@ -434,8 +434,7 @@ sub Run {
     }
 
     # Check if X-OTOBO-FollowUp-SenderType exists, if not set default 'customer'.
-    if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{'X-OTOBO-FollowUp-SenderType'} ) )
-    {
+    if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{'X-OTOBO-FollowUp-SenderType'} ) ) {
         $Self->{CommunicationLogObject}->ObjectLog(
             ObjectLogType => 'Message',
             Priority      => 'Error',
