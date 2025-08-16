@@ -135,9 +135,6 @@ sub new {
         else {
             # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
         }
-        else {
-            # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
-        }
 
         # for GetPlainEmail()
         $Self->{OriginalEmail} = join '', $Param{Email}->@*;
