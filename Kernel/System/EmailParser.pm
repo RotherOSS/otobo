@@ -377,18 +377,17 @@ sub GetContentType {
 
 =head2 GetContentDisposition()
 
-Returns the message body (or from the first attachment) "ContentDisposition" header.
+returns the message header I<Content-Disposition>.
 
     my $ContentDisposition = $ParserObject->GetContentDisposition();
 
-    (e. g. 'Content-Disposition: attachment; filename="test-123"')
+For example: I<attachment; filename="otobo_user_guide.pdf">
 
 =cut
 
 sub GetContentDisposition {
     my $Self = shift;
 
-    return $Self->{ContentDisposition} if $Self->{ContentDisposition};
     return $Self->GetParam( WHAT => 'Content-Disposition' );
 }
 
