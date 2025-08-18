@@ -34,6 +34,8 @@ use Mail::Address  ();
 
 our $ObjectManagerDisabled = 1;
 
+=for stopwords iso multipart
+
 =head1 NAME
 
 Kernel::System::EmailParser - parse an email and provide methods implementing OTOBO specific logic
@@ -359,11 +361,12 @@ sub SplitAddressLine {
 
 =head2 GetContentType()
 
-Returns the message body (or from the first attachment) "ContentType" header.
+Returns the message body content type.
 
     my $ContentType = $ParserObject->GetContentType();
 
-    (e. g. 'text/plain; charset="iso-8859-1"')
+For example I<text/plain; charset="iso-8859-1">.
+The information is taken from the message header or from the
 
 =cut
 
@@ -393,11 +396,12 @@ sub GetContentDisposition {
 
 =head2 GetCharset()
 
-Returns the message body (or from the first attachment) "charset".
+Returns the message body charset.
 
     my $Charset = $ParserObject->GetCharset();
 
-    (e. g. iso-8859-1, utf-8, ...)
+For example I<iso-8859-1> or I<utf-8>.
+The information is taken from the message header or from the header of the first MIME part.
 
 =cut
 
@@ -537,15 +541,23 @@ sub GetReturnCharset {
 
 =head2 GetMessageBody()
 
-This method is already called in the constructor. In the case of MIME miles this message
+This method is already called in the constructor. In the case of MIME mails this message
 calls C<GetAttachments()>.
 
 Returns the message body (or from the first attachment) from the email.
 
     my $Body = $ParserObject->GetMessageBody();
 
-In the case of a HTML-only mail extract the plain text and return it. Add the suffix '.html' to the
+There are also several side effects.
+
+In the case of a not multipart HTML-only mail extract the plain text and return it.
+Add the HTML as the first attachment.
+
+In case the first attachment is a text/html part add the suffix '.html' to the
 file name of the first attachment.
+
+In the case multipart Emails get the properties Charset and ContentType from the first attachment
+and cache them. The cached values will be used in C<GetCharset()> and in C<GetContentType()>.
 
 =cut
 
