@@ -70,10 +70,15 @@ sub Run {
         Value         => 'Read email from STDIN.',
     );
 
-    # get email from SDTIN
-    my @Email = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
+    # slurp complete email from standard input,
+    # assuming that STDIN won't use up all of the RAM
+    my $EmailAsString;
+    {
+        local $/ = undef;
+        $EmailAsString = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
+    }
 
-    if ( !@Email ) {
+    if ( !$EmailAsString ) {
 
         $CommunicationLogObject->ObjectLog(
             ObjectLogType => 'Connection',
@@ -91,11 +96,12 @@ sub Run {
         return $Self->ExitCodeError(1);
     }
 
+    my $NumLines = $EmailAsString =~ tr/\n//;
     $CommunicationLogObject->ObjectLog(
         ObjectLogType => 'Connection',
         Priority      => 'Debug',
         Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-        Value         => 'Email with ' . ( scalar @Email ) . ' lines successfully read from STDIN.',
+        Value         => qq{Email with $NumLines lines successfully read from STDIN.},
     );
 
     # start object log for the email processing
@@ -121,7 +127,7 @@ sub Run {
             'Kernel::System::PostMaster',
             ObjectParams => {
                 CommunicationLogObject => $CommunicationLogObject,
-                Email                  => \@Email,
+                Email                  => \$EmailAsString,
                 Trusted                => $Self->GetOption('untrusted') ? 0 : 1,
             },
         );
