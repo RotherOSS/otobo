@@ -422,7 +422,7 @@ sub ArticleCreate {
     }
 
     # Get article data ID.
-    my $SelectSuccess = $DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT id FROM article_data_mime
             WHERE article_id = ?
@@ -433,17 +433,6 @@ sub ArticleCreate {
         Bind  => [ \$ArticleID, \$ArticleInsertFingerprint, \$IncomingTime, ],
         Limit => 1,
     );
-    if ( !$SelectSuccess ) {
-
-        # clean up meta article again
-        $Self->_MetaArticleDelete(
-            ArticleID => $ArticleID,
-            UserID    => $Param{UserID},
-            TicketID  => $Param{TicketID},
-        );
-
-        return;
-    }
 
     my $ArticleDataID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
