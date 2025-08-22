@@ -545,7 +545,7 @@ Create a MIME article.
         AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
 
         ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
-        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notfications,
+        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notifications,
                                                                     # will also be removed in To: line of article,
                                                                     # higher prio as ForceNotificationToUserID
         ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
@@ -809,7 +809,7 @@ sub ArticleCreate {
         $Param{To} .= $NewTo;
     }
 
-    return if !$DBObject->Do(
+    my $InsertSuccess = $DBObject->Do(
         SQL => '
             INSERT INTO article_data_mime (
                 article_id, a_from, a_reply_to, a_to, a_cc, a_bcc, a_subject, a_message_id,
@@ -827,9 +827,20 @@ sub ArticleCreate {
             \$Param{Body}, \$IncomingTime,     \$ArticleContentPath, \$Param{UserID}, \$Param{UserID},
         ],
     );
+    if ( !$InsertSuccess ) {
+
+        # clean up meta article again
+        $Self->_MetaArticleDelete(
+            ArticleID => $ArticleID,
+            UserID    => $Param{UserID},
+            TicketID  => $Param{TicketID},
+        );
+
+        return;
+    }
 
     # Get article data ID.
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT id FROM article_data_mime
             WHERE article_id = ?
