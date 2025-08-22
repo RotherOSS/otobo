@@ -7,9 +7,9 @@
 # See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 12 (bookworm).
-# The version of Perl is set to 5.38 as Perl 5.36 has reached EOL in Docker Official Images.
-# Perl 5.38.0 was released 2023-07-03.
-# This means that 10.0.x, 10.1.x, and 11.0.x make use of the same base image.
+# This avoids a surprising change of the version of Debian when the image
+# is rebuilt, especially when the image for a new release of OTOBO is built.
+# Note that the minor version of Debian may change between builds.
 #
 # Previously Debian 10 (Buster) was used for the OTOBO 10.0.x series. The upgrade
 # might cause problem in installation that rely on Debian 10 being used.
@@ -62,7 +62,8 @@ ENV LANG=C.UTF-8
 ENV PERL5LIB="/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
 ENV PATH="/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 
-# Install packages from CPAN into the local lib /opt/otobo_install/local.
+# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
+# The Perl module installer 'cpanm' is already available via the base image.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
@@ -129,8 +130,9 @@ ENV OTOBO_GROUP=otobo
 ENV OTOBO_HOME=/opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
-# copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
-# skip the files set up in .dockerignore
+# Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
+# The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
+# won't be copied. Instead Kernel/Config.pm.docker.dist will be copied to Kernel/Config.pm in entrypoint.sh.
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
 
@@ -171,7 +173,6 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Add a .vimrc.
 # make Docker image identifyable via the files git-(repo|branch|commit).txt
 # Create ARCHIVE with hashes of the files in the workdir
-# Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh when it does not already exist.
 ARG GIT_REPO=unspecified
 ARG GIT_BRANCH=unspecified
 ARG GIT_COMMIT=unspecified
