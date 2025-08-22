@@ -8,17 +8,16 @@
 # See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.38.x series as the base.
-#
-# The Debian version is explicitly set to bookworm, that is Debian 12.
+# As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 12 (bookworm).
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
-# This means that 10.0.x, 10.1.x, and 11.0.x make use of the same base image.
+# The version of Perl is set to 5.40. The idea is that all release branches,
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
 #
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.38-bookworm AS base
+FROM perl:5.40-bookworm AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
