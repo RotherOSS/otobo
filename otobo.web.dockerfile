@@ -7,18 +7,15 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Perl 5.42.0 was released on 2025-07-04. But note that OTOBO itself is kept
-# compatible with Perl 5.24.0.
-#
-# Use the latest maintainance release of the Perl 5.42.x series as the base.
-# This assures that bug and security fixes are applied when rebuilding the image.
-#
-# The Debian version is explicitly set to bookworm, that is Debian 12.
+# The Debian version is explicitly set to trixie, that is Debian 12.
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
 # The slim version is used for reducing the size of the image.
+#
+# The version of Perl is set to 5.40. The idea is that all release branches,
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
 #
 # The individual build targets may add additional Debian or CPAN packages.
 FROM perl:5.40-slim-trixie AS base
