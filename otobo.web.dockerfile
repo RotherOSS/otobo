@@ -6,16 +6,14 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# As of OTOBO 10.0.26 and OTOBO 10.1.15 the Debian version is explicitly set to Debian 12 (bookworm).
+# As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 12 (bookworm).
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
-# The version of Perl is set to 5.38 as Perl 5.36 has reached EOL in Docker Official Images.
-# Perl 5.38.0 was released 2023-07-03.
-#
-# This means that 10.0.x, 10.1.x, and 11.0.x make use of the same base image.
-FROM perl:5.38-bookworm AS otobo-web
+# The version of Perl is set to 5.40. The idea is that all release branches,
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
+FROM perl:5.40-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
