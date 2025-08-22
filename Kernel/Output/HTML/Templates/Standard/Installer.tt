@@ -83,13 +83,6 @@
                     <p>94339 Leiblfing</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+49 (0) 9427 68 39 000</a></p>
                 </div>
-                <div class="Size1of2">
-                    <h4>[% Translate("Germany") | html %]</h4>
-                    <p>Rother OSS GmbH</p>
-                    <p>Straubinger Straße 14</p>
-                    <p>94339 Leiblfing</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+41 (0) 9427 68 39 000</a></p>
-                </div>
             </div>
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
