@@ -175,13 +175,28 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 ARG GIT_REPO=unspecified
 ARG GIT_BRANCH=unspecified
 ARG GIT_COMMIT=unspecified
-RUN install -d var/stats var/packages var/article var/tmp \
-    && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc \
-    && (echo $GIT_REPO   > git-repo.txt) \
-    && (echo $GIT_BRANCH > git-branch.txt) \
-    && (echo $GIT_COMMIT > git-commit.txt) \
-    && bin/otobo.CheckSum.pl -a create
+RUN <<END_BASH bash
+    set -eux
+
+    install -d var/stats var/packages var/article var/tmp
+    (
+        echo "# File created by Dockerfile"
+        echo ""
+        echo "# set up bash completion"
+        echo ". ~/.bash_completion"
+        echo ""
+        echo "# use Page-Up and Page-Down for cycling thru autocomplet suggestions"
+        echo "bind '\"\\e[6~\": menu-complete'"
+        echo "bind '\"\\e[5~\": menu-complete-backward'"
+        echo ""
+        echo "# helpers"
+    ) >> .bash_aliases
+    install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
+    (echo $GIT_REPO   > git-repo.txt)
+    (echo $GIT_BRANCH > git-branch.txt)
+    (echo $GIT_COMMIT > git-commit.txt)
+    bin/otobo.CheckSum.pl -a create
+END_BASH
 
 # Up to now we have prepared /opt/otobo_install/otobo_next.
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
