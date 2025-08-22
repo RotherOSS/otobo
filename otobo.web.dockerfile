@@ -15,7 +15,10 @@
 # might cause problem in installation that rely on Debian 10 being used.
 # The reason for moving away from Debian 10 (Buster) is that this version
 # is no longer in long term support.
-FROM perl:5.38-bookworm AS otobo-web
+# The version of Perl is set to 5.40. The idea is that all release branches,
+#
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
+FROM perl:5.40-bookworm AS otobo-web
 
 # First there is some initial setup that needs to be done by root.
 USER root
