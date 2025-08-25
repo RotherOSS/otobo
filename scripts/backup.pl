@@ -21,18 +21,18 @@ use v5.24;
 use utf8;
 
 # use ../ and ../Kernel/cpan-lib as lib location
-use FindBin qw($RealBin);
+use FindBin qw($RealBin);    ## no perlimports, not sure why perlimports wants $Dir
 use lib "$RealBin/..";
 use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Cwd qw(getcwd abs_path);
+use Cwd          qw(abs_path getcwd);
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager ();
 
 # file scoped option variables
 my (
@@ -47,7 +47,7 @@ my (
     $ExtraDumpOptions,
 );
 my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
-my $BackupDir        = getcwd();
+my $BackupDir;
 my $BackupType       = 'fullbackup';
 
 sub Main {
@@ -64,12 +64,12 @@ sub Main {
         'remove-old-backups|r=i' => \$RemoveDays,
         'backup-type|t=s'        => \$BackupType,
         'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
-        'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
+        'extra-dump-options=s'   => \&HandleExtraDumpOptions,          # e.g. "--column-statistics=0"
         'dry-run'                => \$DryRun,                          # only print the database dump commands
-        'db-host=s'              => \$DatabaseHost,
-        'db-name=s'              => \$DatabaseName,
-        'db-user=s'              => \$DatabaseUser,
-        'db-password=s'          => \$DatabasePw,
+        'db-host=s'              => \&HandleDBHostOption,
+        'db-name=s'              => \&HandleDBNameOption,
+        'db-user=s'              => \&HandleDBUserOption,
+        'db-password=s'          => \&HandleDBPasswordOption,
         'db-type=s'              => \$DatabaseType,
     ) || PrintHelpAndExit();
 
@@ -207,7 +207,7 @@ else {
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
         open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-        while (<$In>) {
+        while ( my $s = <$In> ) {
             $IsInstalled = 1;
         }
         if ( !$IsInstalled ) {
@@ -219,14 +219,24 @@ else {
 }
 
 # create new backup directory
+
+$BackupDir = abs_path($BackupDir);
+
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+if( $BackupDir =~ /^$Home/ ) {
+
+    say STDERR ("Backup directory '$BackupDir' is under '$Home', please chose a different backup directory not below the otobo home directory with the -d option!");
+    exit 1;
+}
+
 
 # append trailing slash to home directory, if it's missing
 if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
-$BackupDir = abs_path($BackupDir);
+
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
@@ -301,8 +311,8 @@ my $ErrorIndicationFileName =
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DatabaseType eq 'mysql' ) {
     push @DBDumpOptions,
-        '-u' => $DatabaseUser,
-        '-h' => $DatabaseHost;
+        '-u' => "'$DatabaseUser'",
+        '-h' => "'$DatabaseHost'";
     if ($DatabasePw) {
         push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
@@ -363,11 +373,11 @@ elsif ( $DatabaseType eq 'postgresql' ) {
         }
 
         if ($DatabaseHost) {
-            $DatabaseHost = "-h $DatabaseHost";
+            $DatabaseHost = "-h '$DatabaseHost'";
         }
 
         my $Command
-            = qq{( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+            = qq{( $DBDumpCmd $DatabaseHost -U '$DatabaseUser' $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
 
         # only print out the dump commands in a dry run
         if ($DryRun) {
@@ -525,7 +535,7 @@ sub MySQLBackupForMigrateFromOTRS {
         return;
     }
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 Execute the following SQL scripts in the given order:
     - $PreprocessFile
     - $AdaptedSchemaDumpFile
@@ -537,7 +547,7 @@ END_MESSAGE
     my $Cnt = 0;
     for my $Command (@Commands) {
         $Cnt++;
-        if ( !system($Command ) ) {
+        if ( !system($Command) ) {
             say "done command $Cnt";
         }
         else {
@@ -577,6 +587,7 @@ END_MESSAGE
 
             # substitutions for changing the character set
             $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/CHARACTER SET .*?\s//;                            # for CREATE COLUMN
             $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
             $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
             $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
@@ -734,7 +745,7 @@ sub OracleBackupForMigrateFromOTRS {
     # output files
     my $PostprocessFile = qq{$Directory/${DatabaseName}_post.sql};
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 These instruction are preliminary.
 
 Clear the user 'otobo':
@@ -839,6 +850,75 @@ sub HandleMaxAllowedPacketOption {
 
     return;
 }
+
+sub HandleDBHostOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # restrict allowed hostnames to a reasonable default
+    if( $OptValue !~ /^[-0-9a-zA-Z._\-:]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid host name.";
+    }
+
+    $DatabaseHost = $OptValue;
+
+    return;
+}
+
+sub HandleDBNameOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # basically what mysql allows for db names
+    if( $OptValue !~ /^[^\\\/?%*:|"<>.;]{1,64}$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid Database name.";
+    }
+
+    $DatabaseName = $OptValue;
+
+    return;
+}
+
+sub HandleExtraDumpOptions {
+    my ( $OptName, $OptValue ) = @_;
+
+    # be a bit paranoid here
+    if( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
+    }
+
+    $ExtraDumpOptions = $OptValue;
+
+    return;
+}
+
+sub HandleDBUserOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # username will be put into single quotes in the generated command,
+    # so just make sure we do not have single quotes in the username
+    if( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabaseUser = $OptValue;
+
+    return;
+}
+
+sub HandleDBPasswordOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # password will be put into single quotes in the generated command,
+    # or passed as ENV var for postgres,
+    # so just make sure we do not have single quotes in the password
+    if( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabasePw = $OptValue;
+
+    return;
+}
+
 
 sub PrintHelpAndExit {
     print <<'END_HELP';
