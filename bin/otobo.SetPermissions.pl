@@ -44,7 +44,7 @@ my %DefaultGroupNames = (
 
 # Files/directories that should be ignored and not recursed into.
 my @IgnoreFiles = (
-    qr{^/\.git}smx,
+    qr{^/\.git$},    # ignore .git, but handle .github and .gitignore
     qr{^/\.tidyall}smx,
     qr{^/\.settings}smx,
     qr{^/\.ssh}smx,
