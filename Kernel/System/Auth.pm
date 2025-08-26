@@ -185,14 +185,7 @@ sub Auth {
         # Get the explicitly configured auth sync backend for the current auth backend,
         # which has just verified the authentication.
         # $AuthSyncBackend must be the key for one of the already loaded auth sync backends.
-        my $AuthSyncBackend =
-            $ConfigObject->Get("AuthModule::UseSyncBackend$Count")
-            //
-            $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
-
-        # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
-
-        # sync with configured auth backend
+        my $AuthSyncBackend = $ConfigObject->Get("AuthModule::UseSyncBackend$Count");
         if ( defined $AuthSyncBackend ) {
 
             # if $AuthSyncBackend is defined but empty, don't sync with any backend
