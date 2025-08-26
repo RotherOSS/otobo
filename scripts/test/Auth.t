@@ -24,9 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -151,24 +149,19 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
             );
 
             if ( $CryptType eq 'plain' && $Test->{PlainFail} ) {
-                $Self->False(
-                    $PasswordSet,
-                    "Password set"
-                );
+                ok( !$PasswordSet, "Password is not set for crype type 'plain'" );
+
                 next TEST;
             }
 
-            $Self->True(
-                $PasswordSet,
-                "Password set"
-            );
+            ok( $PasswordSet, "Password set" );
 
             my $AuthResult = $AuthObject->Auth(
                 User => $UserRand,
                 Pw   => $Test->{Password},
             );
 
-            $Self->Is(
+            is(
                 $AuthResult,
                 $Test->{AuthResult},
                 "Password '$Test->{Password}'",
@@ -189,7 +182,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                     Pw   => $Test->{Password},
                 );
 
-                $Self->Is(
+                is(
                     $AuthResult,
                     $Test->{AuthResult},
                     "old Password '$Test->{Password}' with changed default cost ($NewCost)",
@@ -200,17 +193,14 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                     PW        => $Test->{Password},
                 );
 
-                $Self->True(
-                    $PasswordSet,
-                    "Password set - with new cost $NewCost"
-                );
+                ok( $PasswordSet, "Password set - with new cost $NewCost" );
 
                 $AuthResult = $AuthObject->Auth(
                     User => $UserRand,
                     Pw   => $Test->{Password},
                 );
 
-                $Self->Is(
+                is(
                     $AuthResult,
                     $Test->{AuthResult},
                     "new Password '$Test->{Password}' with changed default cost ($NewCost)",
@@ -228,7 +218,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                 Pw   => $Test->{Password},
             );
 
-            $Self->Is(
+            is(
                 $AuthResult,
                 $Test->{AuthResult},
                 "Password '$Test->{Password}' (cached)",
@@ -239,20 +229,14 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
                 Pw   => 'wrong_pw',
             );
 
-            $Self->False(
-                $AuthResult,
-                "Password '$Test->{Password}' (wrong password)",
-            );
+            ok( !$AuthResult, "not authenticated as password '$Test->{Password}' is the wrong password" );
 
             $AuthResult = $AuthObject->Auth(
                 User => 'non_existing_user_id',
                 Pw   => $Test->{Password},
             );
 
-            $Self->False(
-                $AuthResult,
-                "Password '$Test->{Password}' (wrong user)",
-            );
+            ok( !$AuthResult, "not authenticated as the password '$Test->{Password}' is for the wrong user" );
         }
     };
 }
@@ -284,10 +268,7 @@ for my $Test (@Tests) {
         ChangeUserID  => 1,
     );
 
-    $Self->True(
-        $UserID,
-        "UserID $UserID is created",
-    );
+    ok( $UserID, "UserID $UserID is created" );
 
     $Kernel::OM->ObjectsDiscard(
         Objects => [
@@ -309,10 +290,7 @@ for my $Test (@Tests) {
         PW        => $Test->{Password},
     );
 
-    $Self->True(
-        $PasswordSet,
-        "Password '$Test->{Password}' is set"
-    );
+    ok( $PasswordSet, "Password '$Test->{Password}' is set" );
 }
 
 # System is set to sha1 crypt type at this moment and
