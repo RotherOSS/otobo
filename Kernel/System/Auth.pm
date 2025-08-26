@@ -59,56 +59,59 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # load auth modules
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    AUTH_COUNT:
+    for my $AuthCount ( '', 1 .. 10 ) {
 
-    # load auth modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+        my $AuthModule = $ConfigObject->Get("AuthModule$AuthCount");
 
-        my $GenericModule = $ConfigObject->Get("AuthModule$Count");
+        next AUTH_COUNT unless $AuthModule;
 
-        next COUNT if !$GenericModule;
-
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($AuthModule) ) {
+            $MainObject->Die("Can't load backend module $AuthModule! $@");
         }
 
-        $Self->{"AuthBackend$Count"} = $GenericModule->new( Count => $Count );
+        $Self->{"AuthBackend$AuthCount"} = $AuthModule->new(
+            Count => $AuthCount
+        );
     }
 
     # load 2factor auth modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+    TWO_FACTOR_COUNT:
+    for my $TwoFactorCount ( '', 1 .. 10 ) {
 
-        my $GenericModule = $ConfigObject->Get("AuthTwoFactorModule$Count");
+        my $TwoFactorModule = $ConfigObject->Get("AuthTwoFactorModule$TwoFactorCount");
 
-        next COUNT if !$GenericModule;
+        next TWO_FACTOR_COUNT unless $TwoFactorModule;
 
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($TwoFactorModule) ) {
+            $MainObject->Die("Can't load backend module $TwoFactorModule! $@");
         }
 
-        $Self->{"AuthTwoFactorBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+        $Self->{"AuthTwoFactorBackend$TwoFactorCount"} = $TwoFactorModule->new(
+            %{$Self},
+            Count => $TwoFactorCount
+        );
     }
 
     # load sync modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+    SYNC_COUNT:
+    for my $SyncCount ( '', 1 .. 10 ) {
 
-        my $GenericModule = $ConfigObject->Get("AuthSyncModule$Count");
+        my $SyncModule = $ConfigObject->Get("AuthSyncModule$SyncCount");
 
-        next COUNT if !$GenericModule;
-
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($SyncModule) ) {
+            $MainObject->Die("Can't load backend module $SyncModule! $@");
         }
 
-        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+        $Self->{"AuthSyncBackend$SyncCount"} = $SyncModule->new(
+            %{$Self},
+            Count => $SyncCount
+        );
     }
 
     # Initialize last error message
@@ -205,14 +208,17 @@ sub Auth {
         # This means that different backend can provide different pieces,
         # or that later backends may overwrite data from previous backends.
         else {
-            SOURCE:
-            for my $Count ( '', 1 .. 10 ) {
+            SYNC_COUNT:
+            for my $SyncCount ( '', 1 .. 10 ) {
 
                 # handle only the loaded backends
-                next SYNC_COUNT unless $Self->{"AuthSyncBackend$Count"};
+                next SYNC_COUNT unless $Self->{"AuthSyncBackend$SyncCount"};
 
                 # sync backend
-                $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+                $Self->{"AuthSyncBackend$SyncCount"}->Sync(
+                    %Param,
+                    User => $User
+                );
             }
         }
 
@@ -230,21 +236,21 @@ sub Auth {
 
         # check 2factor auth backends
         my $TwoFactorAuth;
-        TWOFACTORSOURCE:
-        for my $Count ( '', 1 .. 10 ) {
+        TWO_FACTOR_COUNT:
+        for my $TwoFactorCount ( '', 1 .. 10 ) {
 
             # return on no config setting
-            next TWOFACTORSOURCE if !$Self->{"AuthTwoFactorBackend$Count"};
+            next TWO_FACTOR_COUNT unless $Self->{"AuthTwoFactorBackend$TwoFactorCount"};
 
             # 2factor backend
-            my $AuthOk = $Self->{"AuthTwoFactorBackend$Count"}->Auth(
+            my $AuthOk = $Self->{"AuthTwoFactorBackend$TwoFactorCount"}->Auth(
                 TwoFactorToken => $Param{TwoFactorToken},
                 User           => $User,
                 UserID         => $UserID,
             );
             $TwoFactorAuth = $AuthOk ? 'passed' : 'failed';
 
-            last TWOFACTORSOURCE if $AuthOk;
+            last TWO_FACTOR_COUNT if $AuthOk;
         }
 
         # if at least one 2factor auth backend was checked but none was successful,
@@ -280,12 +286,12 @@ sub Auth {
             Valid  => 1,
         );
 
-        my $Count = $User{UserLoginFailed} || 0;
-        $Count++;
+        my $FailedCount = $User{UserLoginFailed} || 0;
+        $FailedCount++;
 
         $UserObject->SetPreferences(
             Key    => 'UserLoginFailed',
-            Value  => $Count,
+            Value  => $FailedCount,
             UserID => $UserID,
         );
 
@@ -299,7 +305,7 @@ sub Auth {
 
         return if !%User;
         return if !$PasswordMaxLoginFailed;
-        return if $Count < $PasswordMaxLoginFailed;
+        return if $FailedCount < $PasswordMaxLoginFailed;
 
         my $ValidID = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
             Valid => 'invalid-temporarily',
@@ -318,7 +324,7 @@ sub Auth {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Login failed $Count times. Set $User{UserLogin} to "
+            Message  => "Login failed $FailedCount times. Set $User{UserLogin} to "
                 . "'invalid-temporarily'.",
         );
 
