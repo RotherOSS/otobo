@@ -18,8 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -42,7 +47,6 @@ $ConfigObject->Set(
 
 # no additional auth backends
 for my $Count ( 1 .. 10 ) {
-
     $ConfigObject->Set(
         Key   => "AuthBackend$Count",
         Value => '',
@@ -55,21 +59,22 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $TestUserID;
-my $UserRand = 'example-user' . $Helper->GetRandomID();
-
-# get user object
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-# add test user
-$TestUserID = $UserObject->UserAdd(
-    UserFirstname => 'Firstname Test1',
-    UserLastname  => 'Lastname Test1',
-    UserLogin     => $UserRand,
-    UserEmail     => $UserRand . '@example.com',
-    ValidID       => 1,
-    ChangeUserID  => 1,
-) || die "Could not create test user";
+# add test user $UserRand
+my $UserRand = 'example-user' . $Helper->GetRandomID();
+{
+    my $TestUserID = $UserObject->UserAdd(
+        UserFirstname => 'Firstname Test1',
+        UserLastname  => 'Lastname Test1',
+        UserLogin     => $UserRand,
+        UserEmail     => $UserRand . '@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    ) || die "Could not create test user";
+
+    ok( $TestUserID, 'a test user could be created' );
+}
 
 my @Tests = (
     {
@@ -321,4 +326,4 @@ $Self->True(
 
 # cleanup is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing;
