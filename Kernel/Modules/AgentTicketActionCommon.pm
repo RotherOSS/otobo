@@ -1442,15 +1442,7 @@ sub Run {
         $GetParam{PriorityID}  = $GetParam{NewPriorityID} || '';
 
         # get list type
-        my $TreeView = $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0;
-
-        my $OldOwners = $Self->_GetOldOwners(
-            %GetParam,
-            QueueID  => $GetParam{QueueID},
-            StateID  => $GetParam{NextStateID},
-            AllUsers => $GetParam{OwnerAll},
-        );
-
+        my $TreeView   = $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ? 1 : 0;
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
         my $ACLPreselection;
         if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
@@ -3634,7 +3626,6 @@ sub _LoadArticleEdit {
 
     my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
     my %Ticket               = %{ $Param{Ticket} };
@@ -3778,7 +3769,6 @@ sub _CopyArticleAttachmentsToUploadCache {
     my $LayoutObject      = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-    my %GetParam;
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 

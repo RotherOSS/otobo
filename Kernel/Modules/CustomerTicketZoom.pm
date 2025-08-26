@@ -1211,10 +1211,7 @@ sub Run {
         # if user clicked submit on the main screen
         # store also chat protocol
         if ( !$GetParam{FromChat} && $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1625,7 +1622,6 @@ sub _Mask {
 
     # build article stuff
     my $SelectedArticleID = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
-    my $BaseLink          = $LayoutObject->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # prepare errors!
@@ -2184,9 +2180,6 @@ sub _Mask {
                         );
 
                         # Get all online users
-                        my @OnlineUsers = $Kernel::OM->Get('Kernel::System::Chat')->OnlineUserList(
-                            UserType => 'User',
-                        );
                         my $AvailabilityCheck = $Kernel::OM->Get('Kernel::Config')->Get("ChatEngine::CustomerFrontend::AvailabilityCheck")
                             || 0;
                         my %AvailableUsers;
@@ -2260,8 +2253,6 @@ sub _Mask {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
 
     my $ShownArticles;
     my $LastSenderType = '';
@@ -2356,7 +2347,6 @@ sub _Mask {
             }
         }
 
-        my $ArticleArray = 0;
         for my $ArticleTmp (@ArticleBox) {
             my %ArticleTmp1 = %$ArticleTmp;
             if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {

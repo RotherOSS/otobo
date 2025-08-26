@@ -1739,10 +1739,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );

@@ -984,10 +984,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1880,8 +1877,6 @@ sub _MaskNew {
             $Param{$_} = $Param{Errors}->{$_};
         }
     }
-
-    my $SeparateDynamicFields = $ConfigObject->Get('Ticket::CustomerFrontend::SeparateDynamicFields');
 
     # render dynamic fields
     $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
