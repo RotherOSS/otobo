@@ -123,85 +123,105 @@ my @Tests = (
 
 for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
 
-    # make sure that the customer user objects gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [
-            'Kernel::System::User',
-            'Kernel::System::Auth',
-        ],
-    );
+    subtest "CryptType $CryptType" => sub {
 
-    $ConfigObject->Set(
-        Key   => "AuthModule::DB::CryptType",
-        Value => $CryptType
-    );
-
-    # get needed objects
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
-
-    TEST:
-    for my $Test (@Tests) {
-
-        my $PasswordSet = $UserObject->SetPassword(
-            UserLogin => $UserRand,
-            PW        => $Test->{Password},
+        # make sure that the user objects gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::User',
+                'Kernel::System::Auth',
+            ],
         );
 
-        if ( $CryptType eq 'plain' && $Test->{PlainFail} ) {
-            $Self->False(
-                $PasswordSet,
-                "Password set"
-            );
-            next TEST;
-        }
-
-        $Self->True(
-            $PasswordSet,
-            "Password set"
+        $ConfigObject->Set(
+            Key   => "AuthModule::DB::CryptType",
+            Value => $CryptType
         );
 
-        my $AuthResult = $AuthObject->Auth(
-            User => $UserRand,
-            Pw   => $Test->{Password},
-        );
+        # get needed objects
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
-        $Self->Is(
-            $AuthResult,
-            $Test->{AuthResult},
-            "CryptType $CryptType Password '$Test->{Password}'",
-        );
+        TEST:
+        for my $Test (@Tests) {
 
-        if ( $CryptType eq 'bcrypt' ) {
-            my $OldCost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
-            my $NewCost = $OldCost + 2;
-
-            # Increase cost and check if old passwords can still be used.
-            $ConfigObject->Set(
-                Key   => 'AuthModule::DB::bcryptCost',
-                Value => $NewCost,
-            );
-
-            $AuthResult = $AuthObject->Auth(
-                User => $UserRand,
-                Pw   => $Test->{Password},
-            );
-
-            $Self->Is(
-                $AuthResult,
-                $Test->{AuthResult},
-                "CryptType $CryptType old Password '$Test->{Password}' with changed default cost ($NewCost)",
-            );
-
-            $PasswordSet = $UserObject->SetPassword(
+            my $PasswordSet = $UserObject->SetPassword(
                 UserLogin => $UserRand,
                 PW        => $Test->{Password},
             );
 
+            if ( $CryptType eq 'plain' && $Test->{PlainFail} ) {
+                $Self->False(
+                    $PasswordSet,
+                    "Password set"
+                );
+                next TEST;
+            }
+
             $Self->True(
                 $PasswordSet,
-                "Password set - with new cost $NewCost"
+                "Password set"
             );
+
+            my $AuthResult = $AuthObject->Auth(
+                User => $UserRand,
+                Pw   => $Test->{Password},
+            );
+
+            $Self->Is(
+                $AuthResult,
+                $Test->{AuthResult},
+                "Password '$Test->{Password}'",
+            );
+
+            if ( $CryptType eq 'bcrypt' ) {
+                my $OldCost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
+                my $NewCost = $OldCost + 2;
+
+                # Increase cost and check if old passwords can still be used.
+                $ConfigObject->Set(
+                    Key   => 'AuthModule::DB::bcryptCost',
+                    Value => $NewCost,
+                );
+
+                $AuthResult = $AuthObject->Auth(
+                    User => $UserRand,
+                    Pw   => $Test->{Password},
+                );
+
+                $Self->Is(
+                    $AuthResult,
+                    $Test->{AuthResult},
+                    "old Password '$Test->{Password}' with changed default cost ($NewCost)",
+                );
+
+                $PasswordSet = $UserObject->SetPassword(
+                    UserLogin => $UserRand,
+                    PW        => $Test->{Password},
+                );
+
+                $Self->True(
+                    $PasswordSet,
+                    "Password set - with new cost $NewCost"
+                );
+
+                $AuthResult = $AuthObject->Auth(
+                    User => $UserRand,
+                    Pw   => $Test->{Password},
+                );
+
+                $Self->Is(
+                    $AuthResult,
+                    $Test->{AuthResult},
+                    "new Password '$Test->{Password}' with changed default cost ($NewCost)",
+                );
+
+                # Restore old cost value
+                $ConfigObject->Set(
+                    Key   => 'AuthModule::DB::bcryptCost',
+                    Value => $OldCost,
+                );
+            }
 
             $AuthResult = $AuthObject->Auth(
                 User => $UserRand,
@@ -211,47 +231,30 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
             $Self->Is(
                 $AuthResult,
                 $Test->{AuthResult},
-                "CryptType $CryptType new Password '$Test->{Password}' with changed default cost ($NewCost)",
+                "Password '$Test->{Password}' (cached)",
             );
 
-            # Restore old cost value
-            $ConfigObject->Set(
-                Key   => 'AuthModule::DB::bcryptCost',
-                Value => $OldCost,
+            $AuthResult = $AuthObject->Auth(
+                User => $UserRand,
+                Pw   => 'wrong_pw',
+            );
+
+            $Self->False(
+                $AuthResult,
+                "Password '$Test->{Password}' (wrong password)",
+            );
+
+            $AuthResult = $AuthObject->Auth(
+                User => 'non_existing_user_id',
+                Pw   => $Test->{Password},
+            );
+
+            $Self->False(
+                $AuthResult,
+                "Password '$Test->{Password}' (wrong user)",
             );
         }
-
-        $AuthResult = $AuthObject->Auth(
-            User => $UserRand,
-            Pw   => $Test->{Password},
-        );
-
-        $Self->Is(
-            $AuthResult,
-            $Test->{AuthResult},
-            "CryptType $CryptType Password '$Test->{Password}' (cached)",
-        );
-
-        $AuthResult = $AuthObject->Auth(
-            User => $UserRand,
-            Pw   => 'wrong_pw',
-        );
-
-        $Self->False(
-            $AuthResult,
-            "CryptType $CryptType Password '$Test->{Password}' (wrong password)",
-        );
-
-        $AuthResult = $AuthObject->Auth(
-            User => 'non_existing_user_id',
-            Pw   => $Test->{Password},
-        );
-
-        $Self->False(
-            $AuthResult,
-            "CryptType $CryptType Password '$Test->{Password}' (wrong user)",
-        );
-    }
+    };
 }
 
 # Check auth for user which password is encrypted by crypt algorithm different than system one.
