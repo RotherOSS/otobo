@@ -128,7 +128,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
         ServiceID => {
             SLAID => 1,
@@ -303,7 +303,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest       => 'QueueID',
                     PriorityID => 'PriorityID',
@@ -1143,7 +1143,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest       => 'QueueID',
                     PriorityID => 'PriorityID',
