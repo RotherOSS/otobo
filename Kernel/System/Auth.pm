@@ -19,6 +19,11 @@ package Kernel::System::Auth;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -34,11 +39,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Auth - agent authentication module.
+Kernel::System::Auth - agent authentication and synchronization module.
 
 =head1 DESCRIPTION
 
-The authentication module for the agent interface.
+The authentication and synchronization module for the agent interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -57,7 +62,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
+    # load auth modules
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -144,7 +149,6 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
-    # get needed objects
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -153,13 +157,13 @@ sub Auth {
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next on no config setting
-        next COUNT if !$Self->{"AuthBackend$Count"};
+        # handle only the already loaded auth backends
+        next COUNT unless $Self->{"AuthBackend$Count"};
 
         # check auth backend
         $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
-        # next on no success
+        # try the next auth backend on no success
         if ( !$User ) {
 
             # get error message of auth backend if present
@@ -175,11 +179,13 @@ sub Auth {
         # A failed two factor auth after successful sync will result
         # in a new or updated user but no information or permission leak.
 
-        # configured auth sync backend
-        my $AuthSyncBackend = $ConfigObject->Get("AuthModule::UseSyncBackend$Count");
-        if ( !defined $AuthSyncBackend ) {
-            $AuthSyncBackend = $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
-        }
+        # Get the explicitly configured auth sync backend for the current auth backend,
+        # which has just verified the authentication.
+        # $AuthSyncBackend must be the key for one of the already loaded auth sync backends.
+        my $AuthSyncBackend =
+            $ConfigObject->Get("AuthModule::UseSyncBackend$Count")
+            //
+            $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
 
         # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
 
@@ -194,21 +200,24 @@ sub Auth {
             }
         }
 
-        # use all 11 sync backends
+        # Run all of the potentially 11 sync backends, creating the user
+        # in the database on the first match.
+        # This means that different backend can provide different pieces,
+        # or that later backends may overwrite data from previous backends.
         else {
             SOURCE:
             for my $Count ( '', 1 .. 10 ) {
 
-                # return on no config setting
-                next SOURCE if !$Self->{"AuthSyncBackend$Count"};
+                # handle only the loaded backends
+                next SYNC_COUNT unless $Self->{"AuthSyncBackend$Count"};
 
                 # sync backend
                 $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
             }
         }
 
-        # If we have no UserID at this point
-        # it means auth was ok but user didn't exist before
+        # Having no UserID at this point means
+        # that authentication was ok but user didn't exist before
         # and wasn't created in sync module.
         # We will skip two factor authentication even if configured
         # because we don't have user data to compare the otp anyway.
@@ -216,6 +225,7 @@ sub Auth {
         my $UserID = $UserObject->UserLookup(
             UserLogin => $User,
         );
+
         last COUNT if !$UserID;
 
         # check 2factor auth backends
@@ -241,6 +251,7 @@ sub Auth {
         # it counts as a failed login
         if ( $TwoFactorAuth && $TwoFactorAuth ne 'passed' ) {
             $User = undef;
+
             last COUNT;
         }
 
