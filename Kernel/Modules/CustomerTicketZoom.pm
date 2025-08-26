@@ -123,7 +123,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs - here for consistency
+    # dependencies of standard fields which are not defined via ACLs - here for consistency
     $Self->{InternalDependancy} = {};
 
     return $Self;
@@ -446,7 +446,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     NextStateID => 'NextStateID',
                     PriorityID  => 'PriorityID',
@@ -1364,7 +1364,7 @@ sub Run {
 
             my %NewChangedElements;
 
-            # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+            # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
             my %Check = (
                 NextStateID => 'NextStateID',
                 PriorityID  => 'PriorityID',

@@ -119,7 +119,7 @@ sub new {
         Mask => $Self->{Action},
     ) || {};
 
-    # definitions are splitted up because article is rendered separately
+    # definitions are split up because article is rendered separately
     $Self->{TicketMaskDefinition}  = $TicketDefinition->{Mask};
     $Self->{ArticleMaskDefinition} = [];
     $Self->{DynamicField}          = {};
@@ -220,7 +220,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
         Dest => {
             NewUserID          => 1,
@@ -1375,7 +1375,7 @@ sub Run {
             next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
             next DYNAMICFIELD if $DynamicFieldConfig->{Readonly};
 
-            # set the object ID (TicketID or ArticleID) depending on the field configration
+            # set the object ID (TicketID or ArticleID) depending on the field configuration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
                 ? $Self->{ArticleID} || $ArticleID
                 : $Self->{TicketID};
@@ -1489,7 +1489,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest             => 'QueueID',
                     NewUserID        => 'NewUserID',
@@ -1850,7 +1850,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ChangedStdFields{StandardTemplateID} ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -2148,7 +2148,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest             => 'QueueID',
                     NewUserID        => 'NewUserID',
@@ -2640,7 +2640,7 @@ sub _Mask {
             %OldOwnersShown = $TicketObject->TicketAclData();
         }
 
-        # show only users with owner or rw pemissions in the queue
+        # show only users with owner or rw permissions in the queue
         my %OldOwnersWithAccess;
         if ( $ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
             %OldOwnersWithAccess = %OldOwnersShown;
@@ -3099,7 +3099,7 @@ sub _Mask {
         }
 
         # show list of agents, that receive this note (ReplyToNote)
-        # at least sender of original note and all recepients of the original note
+        # at least sender of original note and all recipients of the original note
         # that couldn't be selected with involved/inform agents
         if ( $Self->{ReplyToArticle} ) {
 
@@ -3271,7 +3271,7 @@ sub _GetResponsible {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show only users with responsible or rw pemissions in the queue
+    # show only users with responsible or rw permissions in the queue
     elsif ( $Param{QueueID} && !$Param{OwnerAll} ) {
         my $GID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
@@ -3316,7 +3316,7 @@ sub _GetOwners {
         %ShownUsers = %AllGroupsMembers;
     }
 
-    # show only users with owner or rw pemissions in the queue
+    # show only users with owner or rw permissions in the queue
     elsif ( $Param{QueueID} && !$Param{OwnerAll} ) {
         my $GID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
