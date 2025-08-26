@@ -52,8 +52,8 @@ sub Run {
     {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => 'Need Field!',
+                Success => 0,
+                Message => 'Need Field!',
             }
         );
     }
@@ -73,13 +73,13 @@ sub Run {
     {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => 'Error reading dynamic field!',
+                Success => 0,
+                Message => 'Error reading dynamic field!',
             }
         );
     }
 
-    # search contacts, rthe results will be returned as JSON
+    # search contacts, the results will be returned as JSON
     my @Results;
     {
         my $Search               = $ParamObject->GetParam( Param => 'Term' ) || '';
