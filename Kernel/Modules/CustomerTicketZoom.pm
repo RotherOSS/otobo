@@ -514,7 +514,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -534,7 +534,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -1432,7 +1432,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                    if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                         $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{QueueID},
                         ) || '';
@@ -1452,7 +1452,7 @@ sub Run {
                 }
 
                 # autoselect
-                elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                     $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                         PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                     ) || '';
