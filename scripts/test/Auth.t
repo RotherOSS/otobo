@@ -317,16 +317,16 @@ for my $Test (@Tests) {
 
 # System is set to sha1 crypt type at this moment and
 # we try to authenticate first created user (password is encrypted by different crypt type).
-my $Result = $AuthObject->Auth(
-    User => $Tests[0]->{UserLogin},
-    Pw   => $Tests[0]->{Password},
-);
-
-$Self->True(
-    $Result,
-    "System crypt type - $Tests[1]->{CryptType}, crypt type for user password - $Tests[0]->{CryptType}, user password '$Tests[0]->{Password}'",
-);
-
-# cleanup is done by RestoreDatabase
+# This works because the crypt type can be deduced from the password stored in 'users.pw'
+{
+    my $Result = $AuthObject->Auth(
+        User => $Tests[0]->{UserLogin},
+        Pw   => $Tests[0]->{Password},
+    );
+    ok(
+        $Result,
+        "System crypt type - $Tests[1]->{CryptType}, crypt type for user password - $Tests[0]->{CryptType}, user password '$Tests[0]->{Password}'",
+    );
+}
 
 done_testing;
