@@ -46,8 +46,8 @@ sub Run {
     # only search is supported
     return $LayoutObject->JSONReply(
         Data => {
-            Success  => 0,
-            Messsage => qq{Subaction '$Self->{Subaction}' is not supported!},
+            Success => 0,
+            Message => qq{Subaction '$Self->{Subaction}' is not supported!},
         },
     ) if $Self->{Subaction};
 
@@ -100,8 +100,8 @@ sub Run {
     if ($Error) {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => 'Need Field!',
+                Success => 0,
+                Message => 'Need Field!',
             },
         );
     }
@@ -122,8 +122,8 @@ sub Run {
     {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => qq{Error reading the dynamic field '$FieldName'!},
+                Success => 0,
+                Message => qq{Error reading the dynamic field '$FieldName'!},
             }
         );
     }
