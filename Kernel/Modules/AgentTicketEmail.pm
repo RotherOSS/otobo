@@ -1310,7 +1310,7 @@ sub Run {
             }
         }
 
-        my ( $NewQueueID, $From ) = split( /\|\|/, $Dest );
+        my ($NewQueueID) = split( /\|\|/, $Dest );
         if ( !$NewQueueID ) {
             $GetParam{OwnerAll} = 1;
         }
