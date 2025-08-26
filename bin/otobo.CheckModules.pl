@@ -174,7 +174,6 @@ my %IsStandardFeature = (
     'div:bcrypt'      => 1,
     'div:hanextra'    => 1,
     'div:ldap'        => 1,
-    'div:xmlparser'   => 1,
     'div:xslt'        => 1,
     'mail'            => 1,
     'mail:ntlm'       => 1,
