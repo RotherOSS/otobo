@@ -601,8 +601,34 @@ sub DisplayValueRender {
 
             if ($HTMLOutput) {
                 if ( $Element->{Link} ) {
+
+                    # Link might contain Template Toolkit expressions,
+                    # so we have to interpolate
+                    my $Link = $Element->{Link};
+
+                    # if ticket info was passed as argument, add it to
+                    # interpolation dataset
+                    my $Ticket = $Param{Ticket} || {};
+
+                    my $Data = {
+                        $Ticket->%*,
+                        $Name => $Element->{Value},
+
+                        # alias for ticket title, Title will be overwritten
+                        TicketTitle          => $Ticket->{Title} // '',
+                        Value                => $Element->{Value},
+                        Title                => $Element->{Title},
+                        Link                 => $Element->{Link},
+                        "DynamicField_$Name" => $Element->{Value},
+                    };
+
+                    my $LinkInterpolated = $Param{LayoutObject}->Output(
+                        Template => $Link,
+                        Data     => $Data
+                    );
+
                     $SetValue{Value}[$SetIndex]
-                        .= "<label>$Label</label><p class=\"Value\"><a href=\"$Element->{Link}\" title=\"$Element->{Title}\">$Element->{Value}</a></p><div class=\"Clear\"></div>";
+                        .= "<label>$Label</label><p class=\"Value\"><a href=\"$LinkInterpolated\" title=\"$Element->{Title}\">$Element->{Value}</a></p><div class=\"Clear\"></div>";
                 }
                 else {
                     $SetValue{Value}[$SetIndex]
