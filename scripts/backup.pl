@@ -845,7 +845,7 @@ sub HandleDBHostOption {
     my ( $OptName, $OptValue ) = @_;
 
     # restrict allowed hostnames to a reasonable default
-    if( $OptValue !~ /^[-0-9a-zA-Z._\-:]+$/ ) {
+    if ( $OptValue !~ /^[-0-9a-zA-Z._\-:]+$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid host name.";
     }
 
@@ -858,7 +858,7 @@ sub HandleDBNameOption {
     my ( $OptName, $OptValue ) = @_;
 
     # basically what mysql allows for db names
-    if( $OptValue !~ /^[^\\\/?%*:|"<>.;]{1,64}$/ ) {
+    if ( $OptValue !~ /^[^\\\/?%*:|"<>.;]{1,64}$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid Database name.";
     }
 
@@ -871,7 +871,7 @@ sub HandleExtraDumpOptions {
     my ( $OptName, $OptValue ) = @_;
 
     # be a bit paranoid here
-    if( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+    if ( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
     }
 
@@ -885,7 +885,7 @@ sub HandleDBUserOption {
 
     # username will be put into single quotes in the generated command,
     # so just make sure we do not have single quotes in the username
-    if( $OptValue =~ /'/ ) {
+    if ( $OptValue =~ /'/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
@@ -900,7 +900,7 @@ sub HandleDBPasswordOption {
     # password will be put into single quotes in the generated command,
     # or passed as ENV var for postgres,
     # so just make sure we do not have single quotes in the password
-    if( $OptValue =~ /'/ ) {
+    if ( $OptValue =~ /'/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
@@ -908,7 +908,6 @@ sub HandleDBPasswordOption {
 
     return;
 }
-
 
 sub PrintHelpAndExit {
     print <<'END_HELP';
