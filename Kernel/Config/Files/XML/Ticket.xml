@@ -6002,7 +6002,7 @@
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
                 <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
-                <Item Key="ClusterPriority">100</Item>
+                <Item Key="ClusterPriority">101</Item>
             </Hash>
         </Value>
     </Setting>
@@ -6019,7 +6019,7 @@
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
                 <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
-                <Item Key="ClusterPriority">200</Item>
+                <Item Key="ClusterPriority">101</Item>
             </Hash>
         </Value>
     </Setting>
