@@ -104,6 +104,8 @@ sub new {
 
         my $SyncModule = $ConfigObject->Get("AuthSyncModule$SyncCount");
 
+        next SYNC_COUNT unless $SyncModule;
+
         if ( !$MainObject->Require($SyncModule) ) {
             $MainObject->Die("Can't load backend module $SyncModule! $@");
         }
@@ -308,7 +310,7 @@ sub Auth {
             Valid => 'invalid-temporarily',
         );
 
-        # Make sure not to accidentially overwrite the password.
+        # Make sure not to accidentally overwrite the password.
         delete $User{UserPw};
 
         my $Update = $UserObject->UserUpdate(

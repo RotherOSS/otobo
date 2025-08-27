@@ -64,12 +64,12 @@ sub Main {
         'remove-old-backups|r=i' => \$RemoveDays,
         'backup-type|t=s'        => \$BackupType,
         'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
-        'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
+        'extra-dump-options=s'   => \&HandleExtraDumpOptions,          # e.g. "--column-statistics=0"
         'dry-run'                => \$DryRun,                          # only print the database dump commands
-        'db-host=s'              => \$DatabaseHost,
-        'db-name=s'              => \$DatabaseName,
-        'db-user=s'              => \$DatabaseUser,
-        'db-password=s'          => \$DatabasePw,
+        'db-host=s'              => \&HandleDBHostOption,
+        'db-name=s'              => \&HandleDBNameOption,
+        'db-user=s'              => \&HandleDBUserOption,
+        'db-password=s'          => \&HandleDBPasswordOption,
         'db-type=s'              => \$DatabaseType,
     ) || PrintHelpAndExit();
 
@@ -306,8 +306,8 @@ my $ErrorIndicationFileName =
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DatabaseType eq 'mysql' ) {
     push @DBDumpOptions,
-        '-u' => $DatabaseUser,
-        '-h' => $DatabaseHost;
+        '-u' => "'$DatabaseUser'",
+        '-h' => "'$DatabaseHost'";
     if ($DatabasePw) {
         push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
@@ -368,11 +368,11 @@ elsif ( $DatabaseType eq 'postgresql' ) {
         }
 
         if ($DatabaseHost) {
-            $DatabaseHost = "-h $DatabaseHost";
+            $DatabaseHost = "-h '$DatabaseHost'";
         }
 
         my $Command
-            = qq{( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+            = qq{( $DBDumpCmd $DatabaseHost -U '$DatabaseUser' $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
 
         # only print out the dump commands in a dry run
         if ($DryRun) {
@@ -845,6 +845,75 @@ sub HandleMaxAllowedPacketOption {
 
     return;
 }
+
+sub HandleDBHostOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # restrict allowed hostnames to a reasonable default
+    if( $OptValue !~ /^[-0-9a-zA-Z._\-:]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid host name.";
+    }
+
+    $DatabaseHost = $OptValue;
+
+    return;
+}
+
+sub HandleDBNameOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # basically what mysql allows for db names
+    if( $OptValue !~ /^[^\\\/?%*:|"<>.;]{1,64}$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid Database name.";
+    }
+
+    $DatabaseName = $OptValue;
+
+    return;
+}
+
+sub HandleExtraDumpOptions {
+    my ( $OptName, $OptValue ) = @_;
+
+    # be a bit paranoid here
+    if( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
+    }
+
+    $ExtraDumpOptions = $OptValue;
+
+    return;
+}
+
+sub HandleDBUserOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # username will be put into single quotes in the generated command,
+    # so just make sure we do not have single quotes in the username
+    if( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabaseUser = $OptValue;
+
+    return;
+}
+
+sub HandleDBPasswordOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # password will be put into single quotes in the generated command,
+    # or passed as ENV var for postgres,
+    # so just make sure we do not have single quotes in the password
+    if( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabasePw = $OptValue;
+
+    return;
+}
+
 
 sub PrintHelpAndExit {
     print <<'END_HELP';
