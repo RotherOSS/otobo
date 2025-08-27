@@ -52,14 +52,10 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get user table
-    $Self->{UserTable} = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )
-        || 'users';
-    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} )
-        || 'id';
-    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
-        || 'pw';
-    $Self->{UserTableUser} = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )
-        || 'login';
+    $Self->{UserTable}       = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )       || 'users';
+    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} ) || 'id';
+    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} ) || 'pw';
+    $Self->{UserTableUser}   = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )   || 'login';
 
     return $Self;
 }
