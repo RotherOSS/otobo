@@ -680,6 +680,14 @@ sub GetFieldState {
         $AttributeFieldValue = '';
     }
 
+    # TODO unlikely that this is the correct or even a good solution,
+    #   but in whatever way the value is needed as array ref with
+    #   empty string if an autocomplete lens df is set from having
+    #   a value to empty
+    if ( $AttributeFieldValue eq '' ) {
+        $AttributeFieldValue = [''];
+    }
+
     # set the new value if it differs
     if (
         $Self->ValueIsDifferent(
