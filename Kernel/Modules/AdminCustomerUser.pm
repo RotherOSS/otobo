@@ -455,7 +455,10 @@ sub Run {
                         UserObject => $CustomerUserObject,
                         Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param( UserData => \%UserData );
+                    my @Params = $Object->Param(
+                        UserData => \%UserData,
+                        Customer => 1,
+                    );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
@@ -708,7 +711,11 @@ sub Run {
                         UserObject => $CustomerUserObject,
                         Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                    my @Params = $Object->Param(
+                        %{ $Preferences{$Group} },
+                        UserData => \%UserData,
+                        Customer => 1,
+                    );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
@@ -1251,7 +1258,7 @@ sub _Edit {
                 Language => $LayoutObject->{UserLanguage},
             );
 
-            # Make sure that the previous value exists in the selection list even if isn't a countr code.
+            # Make sure that the previous value exists in the selection list even if isn't a country code.
             my $PreviousCountry = $Param{ $Entry->[0] };
             if ($PreviousCountry) {
                 $CountryList->{$PreviousCountry} //= $PreviousCountry;
@@ -1463,7 +1470,10 @@ sub _Edit {
                     UserObject => $Kernel::OM->Get('Kernel::System::CustomerUser'),
                     Debug      => $Self->{Debug},
                 );
-                my @Params = $Object->Param( UserData => \%Param );
+                my @Params = $Object->Param(
+                    UserData => \%Param,
+                    Customer => 1,
+                );
                 if (@Params) {
                     for my $ParamItem (@Params) {
                         $LayoutObject->Block(
