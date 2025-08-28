@@ -409,27 +409,4 @@ sub _ConvertTo {
     );
 }
 
-# TODO: this method seems to be unused
-sub _ConvertFrom {
-    my ( $Self, $Text, $Charset ) = @_;
-
-    return if !defined $Text;
-
-    # get encode object
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    if ( !$Charset ) {
-        $EncodeObject->EncodeInput( \$Text );
-
-        return $Text;
-    }
-
-    # convert from directory charset (utf-8) to input charset ($Charset)
-    return $EncodeObject->Convert(
-        Text => $Text,
-        From => 'utf-8',
-        To   => $Charset,
-    );
-}
-
 1;
