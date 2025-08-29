@@ -59,6 +59,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::Host$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( defined( $ConfigObject->Get( 'AuthModule::LDAP::BaseDN' . $Param{Count} ) ) ) {
@@ -69,6 +70,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( $ConfigObject->Get( 'AuthModule::LDAP::UID' . $Param{Count} ) ) {
@@ -79,6 +81,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::UID$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     $Self->{SearchUserDN}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} )  || '';
@@ -142,9 +145,12 @@ sub Auth {
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
     $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   'utf-8' );
 
-    # get params
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    # get the remote address for log messages
+    my $RemoteAddr;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        $RemoteAddr = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    }
 
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;
@@ -232,7 +238,7 @@ sub Auth {
     # build filter
     my $Filter = "($Self->{UID}=" . escape_filter_value( $Param{User} ) . ')';
 
-    # prepare filter
+    # join an optional filter condition with '&', that is 'logical and'
     if ( $Self->{AlwaysFilter} ) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
@@ -277,7 +283,7 @@ sub Auth {
         return;
     }
 
-    # check if user need to be in a group!
+    # check if user needs to be in a group!
     if ( $Self->{AccessAttr} && $Self->{GroupDN} ) {
 
         # just in case for debug
@@ -376,6 +382,7 @@ sub Auth {
     # take down session
     $LDAP->unbind();
     $LDAP->disconnect();
+
     return $User;
 }
 
@@ -399,29 +406,6 @@ sub _ConvertTo {
         Text => $Text,
         From => $Charset,
         To   => 'utf-8',
-    );
-}
-
-# TODO: this method seems to be unused
-sub _ConvertFrom {
-    my ( $Self, $Text, $Charset ) = @_;
-
-    return if !defined $Text;
-
-    # get encode object
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    if ( !$Charset ) {
-        $EncodeObject->EncodeInput( \$Text );
-
-        return $Text;
-    }
-
-    # convert from directory charset (utf-8) to input charset ($Charset)
-    return $EncodeObject->Convert(
-        Text => $Text,
-        From => 'utf-8',
-        To   => $Charset,
     );
 }
 

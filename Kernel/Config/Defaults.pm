@@ -2325,7 +2325,7 @@ sub Set {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Param{Value} ? $Param{Value} : '<undef>';
+        my $Value = $Param{Value} // '<undef>';
         print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Value)\n";
     }
 

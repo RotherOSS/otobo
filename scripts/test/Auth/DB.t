@@ -38,17 +38,18 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# configure auth backend to db
+# configure the first auth backend to authenticate via the database
+# no further setting are required
 $ConfigObject->Set(
-    Key   => 'AuthBackend',
-    Value => 'DB',
+    Key   => 'AuthModule',
+    Value => 'Kernel::System::Auth::DB',
 );
 
 # no additional auth backends
 for my $Count ( 1 .. 10 ) {
     $ConfigObject->Set(
-        Key   => "AuthBackend$Count",
-        Value => '',
+        Key   => "AuthModule$Count",
+        Value => undef,
     );
 }
 
