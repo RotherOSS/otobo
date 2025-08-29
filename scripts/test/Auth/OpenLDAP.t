@@ -295,6 +295,30 @@ my $AdminPassword = 'openldap_admin';
             AuthResult   => 'karl',
         };
 
+    # Testing the setting UserSuffix
+    push @Tests,
+        {
+            Name         => 'not finding kar as the l is missing',
+            UserLogin    => 'kar',
+            UserPassword => 'karl',
+            AuthResult   => undef,
+        },
+        {
+            Name     => 'UseLowerCase has no effect, uid is case insensitive',
+            Settings => [
+                [ 'AuthModule::LDAP::UserSuffix7' => 'l' ],
+            ],
+            UserLogin    => 'kar',
+            UserPassword => 'karl',
+            AuthResult   => 'karl',
+        },
+        {
+            Name         => 'not finding kar as UserSuffix had been rolled back',
+            UserLogin    => 'kar',
+            UserPassword => 'karl',
+            AuthResult   => undef,
+        };
+
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
 
