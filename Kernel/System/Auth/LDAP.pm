@@ -97,19 +97,9 @@ sub new {
     $Self->{UserAttr}      = $ConfigObject->Get( 'AuthModule::LDAP::UserAttr' . $Param{Count} )      || 'DN';
     $Self->{UserSuffix}    = $ConfigObject->Get( 'AuthModule::LDAP::UserSuffix' . $Param{Count} )    || '';
     $Self->{UserLowerCase} = $ConfigObject->Get( 'AuthModule::LDAP::UserLowerCase' . $Param{Count} ) || 0;
-
-    # ldap filter always used
-    $Self->{AlwaysFilter} = $ConfigObject->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
-
-    # Net::LDAP new params
-    if ( $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params} = $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} );
-    }
-    else {
-        $Self->{Params} = {};
-    }
-
-    $Self->{StartTLS} = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+    $Self->{Params}        = $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} )        || {};
+    $Self->{AlwaysFilter}  = $ConfigObject->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} )  || '';
+    $Self->{StartTLS}      = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} )      || '';
 
     return $Self;
 }
