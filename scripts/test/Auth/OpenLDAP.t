@@ -277,6 +277,24 @@ my $AdminPassword = 'openldap_admin';
             AuthResult   => undef,
         };
 
+    # Testing the non-effect of UseLowerCase
+    push @Tests,
+        {
+            Name         => 'finding KarL as the attribute uid is case insensive per default',
+            UserLogin    => 'KarL',
+            UserPassword => 'karl',
+            AuthResult   => 'karl',
+        },
+        {
+            Name     => 'UseLowerCase has no effect, uid is case insensitive',
+            Settings => [
+                [ 'AuthModule::LDAP::UseLowerCase7' => 1 ],
+            ],
+            UserLogin    => 'KarL',
+            UserPassword => 'karl',
+            AuthResult   => 'karl',
+        };
+
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
 
