@@ -223,15 +223,24 @@ else {
     }
 }
 
+# make BackupDir absolute
+$BackupDir = abs_path($BackupDir);
+
 # create new backup directory
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+# make sure backup dir is not under OTOBO_HOME (usually /opt/otobo)
+if( $BackupDir =~ /^$Home/ ) {
+
+    say STDERR ("Backup directory '$BackupDir' is under '$Home', please chose a different backup directory not below the OTOBO home directory with the -d option!");
+    exit 1;
+}
 
 # append trailing slash to home directory, if it's missing
 if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
-$BackupDir = abs_path($BackupDir);
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
