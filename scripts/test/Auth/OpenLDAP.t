@@ -29,6 +29,22 @@ use Net::LDAP::LDIF ();
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Test2::Require::OTOBO::OpenLDAP;         # run OpenLDAP tests only when testing-openldap is reachable
 
+sub AlterConfig {
+    my ($Settings) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    for my $Setting ( $Settings->@* ) {
+        my ( $Key, $Value ) = $Setting->@*;
+
+        $ConfigObject->Set(
+            Key   => $Key,
+            Value => $Value,
+        );
+    }
+
+    return;
+}
+
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -42,6 +58,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $AdminDn       = 'cn=openldap_admin,dc=otobotesting';
 my $AdminPassword = 'openldap_admin';
+my $RandomID      = $Helper->GetRandomID;
 
 # Set up the initial configuration.
 {
@@ -57,14 +74,12 @@ my $AdminPassword = 'openldap_admin';
         [ 'AuthModule', 'Kernel::System::Auth::DB' ],
         ;
 
-    # Set up authentication backend and authentication sync backend 7.
+    # Set up authentication backend in the slot 7.
     # The settings must conform to the settings in docker-compose/testing/openldap.yml
     # in the docker-compose repository.
-
+    # See Kernel/Config/Defaults.pm for documentation.
     push @Settings,
-        [ 'AuthModule7' => 'Kernel::System::Auth::LDAP' ],
-
-        #[ 'AuthModule::UseSyncBackend7'     => 'AuthSyncBackend7' ],
+        [ 'AuthModule7'                     => 'Kernel::System::Auth::LDAP' ],
         [ 'AuthModule::UseSyncBackend7'     => 0 ],
         [ 'AuthModule::LDAP::Host7'         => 'testing-openldap' ],
         [ 'AuthModule::LDAP::BaseDN7'       => 'dc=otobotesting' ],
@@ -77,14 +92,7 @@ my $AdminPassword = 'openldap_admin';
     # no additional auth backends
     push @Settings, map { [ "AuthModule$_" => undef ] } ( 1 .. 6, 8 .. 10 );
 
-    for my $Setting (@Settings) {
-        my ( $Key, $Value ) = $Setting->@*;
-
-        $ConfigObject->Set(
-            Key   => $Key,
-            Value => $Value,
-        );
-    }
+    AlterConfig( \@Settings );
 }
 
 # Test authentication for the test users that had been created
@@ -138,7 +146,6 @@ my $AdminPassword = 'openldap_admin';
 # Inject a random ID into the distinct name, in order to allow successive runs.
 {
     # for the tests that follow we want to stay in a subtree of 'dc=otobotesting'
-    my $RandomID = $Helper->GetRandomID;
     $ConfigObject->Set(
         Key   => 'AuthModule::LDAP::BaseDN7',
         Value => "dc=wirtshaus_$RandomID,dc=otobotesting",
@@ -319,11 +326,72 @@ my $AdminPassword = 'openldap_admin';
             AuthResult   => undef,
         };
 
+    # Configure the auth sync backend and autenticate Robert Ober
+    push @Tests,
+        sub {
+            my @Settings = (
+                [ 'AuthModule::UseSyncBackend7'         => 'AuthSyncBackend7' ],
+                [ 'AuthSyncModule7'                     => 'Kernel::System::Auth::Sync::LDAP' ],
+                [ 'AuthSyncModule::LDAP::Host7'         => 'testing-openldap' ],
+                [ 'AuthSyncModule::LDAP::BaseDN7'       => "dc=wirtshaus_$RandomID,dc=otobotesting" ],
+                [ 'AuthSyncModule::LDAP::UID7'          => 'uid' ],
+                [ 'AuthSyncModule::LDAP::SearchUserDN7' => $AdminDn ],
+                [ 'AuthSyncModule::LDAP::SearchUserPw7' => $AdminPassword ],
+                [ 'AuthSyncModule::LDAP::Params7'       => { port => 1389 } ],
+
+                # [ 'AuthSyncModule::LDAP::GroupDN7'      => "ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" ],
+                [
+                    'AuthSyncModule::LDAP::UserSyncMap7' => {
+                        UserFirstname => 'givenName',
+                        UserLastname  => 'sn',
+                        UserEmail     => 'mail',
+                    }
+                ],
+            );
+
+            AlterConfig( \@Settings );
+
+            return;
+        },
+        {
+            Name         => 'Robert Ober should be synced to DB',
+            UserLogin    => 'robert',
+            UserPassword => 'robert',
+            AuthResult   => 'robert',
+        },
+        sub {
+            my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+            my %UserData   = $UserObject->GetUserData( User => 'robert' );
+            like(
+                \%UserData,
+                {
+                    UserLogin     => 'robert',
+                    UserFirstname => 'Robert',
+                    UserLastname  => 'Ober',
+                    UserFullname  => 'Robert Ober',
+                    UserEmail     => 'robert@dining_hall.wirtshaus.otobotesting.food',
+                    UserTitle     => 'Mr/Mrs',
+                    UserType      => 'User',
+                    ValidID       => 1,
+                },
+                'got synced user from database'
+            );
+        };
+
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
 
     # run the test cases
+    TEST:
     for my $Test (@Tests) {
+
+        # special case: injecting subroutines
+        if ( ref $Test eq 'CODE' ) {
+            $Test->();
+
+            next TEST;
+        }
+
         $Test->{Settings}           //= [];
         $Test->{DoRollBackSettings} //= 1;
 
