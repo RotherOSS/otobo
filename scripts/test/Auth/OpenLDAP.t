@@ -246,6 +246,37 @@ my $AdminPassword = 'openldap_admin';
             AuthResult   => 'karl',
         };
 
+    # test switching the UID setting, that is the attribute holding the OTOBO user name
+    push @Tests,
+        {
+            Name         => 'not finding waiter_karl as UID is still set to uid',
+            UserLogin    => 'waiter_karl',
+            UserPassword => 'karl',
+            AuthResult   => undef,
+        },
+        {
+            Name     => 'finding waiter_karl as UID is set to cn',
+            Settings => [
+                [ 'AuthModule::LDAP::UID7' => 'cn' ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'waiter_karl',
+            UserPassword       => 'karl',
+            AuthResult         => 'waiter_karl',
+        },
+        {
+            Name         => 'finding waiter_karl as UID is still set to cn',
+            UserLogin    => 'waiter_karl',
+            UserPassword => 'karl',
+            AuthResult   => 'waiter_karl',
+        },
+        {
+            Name         => 'not finding waiter_karl as UID is rolled back to uid',
+            UserLogin    => 'waiter_karl',
+            UserPassword => 'karl',
+            AuthResult   => undef,
+        };
+
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
 
