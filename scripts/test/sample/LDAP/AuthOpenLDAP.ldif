@@ -25,7 +25,7 @@ changetype: add
 objectClass: organizationalUnit
 ou: beergarden
 
-# a bavarian speaking waiter
+# a bavarian speaking waiter, per OTOBO default 'uid' designates the user ID
 dn: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: inetOrgPerson
@@ -34,5 +34,5 @@ cn: waiter_karl
 sn: Kellner
 uid: karl
 mail: karl@wirtshaus_[[RANDOM_ID]].otobotesting.food
-preferredLanguage: hindi
+preferredLanguage: bar
 userPassword: karl

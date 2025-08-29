@@ -79,6 +79,7 @@ my $AdminPassword = 'openldap_admin';
 
     for my $Setting (@Settings) {
         my ( $Key, $Value ) = $Setting->@*;
+
         $ConfigObject->Set(
             Key   => $Key,
             Value => $Value,
@@ -190,11 +191,13 @@ my $AdminPassword = 'openldap_admin';
     $Ldap->unbind;
 }
 
-# Tests using the imported fixtures
+# Tests using the imported fixtures and temporary config changes.
+# The altered config settings are rolled back per default,
 {
-    my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+    my @Tests;
 
-    my @Tests = (
+    # simple authentication tests
+    push @Tests,
         {
             Name         => 'imported person Karl Kellner',
             UserLogin    => 'karl',
@@ -206,12 +209,71 @@ my $AdminPassword = 'openldap_admin';
             UserLogin    => 'karl',
             UserPassword => 'karlXXX',
             AuthResult   => undef,
+        };
+
+    # testing AlwaysFilter
+    push @Tests,
+        {
+            Name     => 'Karl Kellner speaking Bavarian',
+            Settings => [
+                [ 'AuthModule::LDAP::AlwaysFilter7' => '( preferredLanguage = bar )' ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'karl',
+            UserPassword       => 'karl',
+            AuthResult         => 'karl',
         },
+        {
+            Name     => 'Karl Kellner not speaking Saterland Frisian',
+            Settings => [
+                [ 'AuthModule::LDAP::AlwaysFilter7' => '( preferredLanguage = stq )' ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'karl',
+            UserPassword       => 'karl',
+            AuthResult         => undef,
+        },
+        {
+            Name         => 'Karl Kellner still not speaking Saterland Frisian',
+            UserLogin    => 'karl',
+            UserPassword => 'karl',
+            AuthResult   => undef,
+        },
+        {
+            Name         => 'Karl Kellner with restored settings, speaking Bavarian',
+            UserLogin    => 'karl',
+            UserPassword => 'karl',
+            AuthResult   => 'karl',
+        };
 
-        # TODO: set up test for AlwaysFilter
-    );
+    # remember the original value of altered settings for the rollback
+    my @AlteredSettingsStack;
 
+    # run the test cases
     for my $Test (@Tests) {
+        $Test->{Settings}           //= [];
+        $Test->{DoRollBackSettings} //= 1;
+
+        # Kernel::System::Auth caches the backends during construction. Kernel::System::Auth::LDAP caches the config
+        # during construction. Force recreation of these objects, so that config changes are not in vain.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [ 'Kernel::System::Auth', 'Kernel::System::Auth::LDAP' ]
+        );
+
+        for my $Setting ( $Test->{Settings}->@* ) {
+            my ( $Key, $Value ) = $Setting->@*;
+
+            # remember previous setting for the rollback
+            my $PrevValue = $ConfigObject->Get($Key);
+            push @AlteredSettingsStack, [ $Key => $PrevValue ];
+
+            $ConfigObject->Set(
+                Key   => $Key,
+                Value => $Value,
+            );
+        }
+
+        my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
         my $AuthResult = $AuthObject->Auth(
             User => $Test->{UserLogin},
             Pw   => $Test->{UserPassword},
@@ -221,6 +283,18 @@ my $AdminPassword = 'openldap_admin';
             $Test->{AuthResult},
             $Test->{Name},
         );
+
+        # Altered settings are usually rolled back, except when not
+        if ( $Test->{DoRollBackSettings} ) {
+            while ( my $Setting = pop @AlteredSettingsStack ) {
+                my ( $Key, $Value ) = $Setting->@*;
+
+                $ConfigObject->Set(
+                    Key   => $Key,
+                    Value => $Value,
+                );
+            }
+        }
     }
 }
 
