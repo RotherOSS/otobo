@@ -62,6 +62,8 @@ sub new {
 
         return;
     }
+
+    # the BaseDN is required
     if ( defined( $ConfigObject->Get( 'AuthModule::LDAP::BaseDN' . $Param{Count} ) ) ) {
         $Self->{BaseDN} = $ConfigObject->Get( 'AuthModule::LDAP::BaseDN' . $Param{Count} );
     }
@@ -73,6 +75,8 @@ sub new {
 
         return;
     }
+
+    # the UID, indicating the attribute containing the OTOBO user id, is required
     if ( $ConfigObject->Get( 'AuthModule::LDAP::UID' . $Param{Count} ) ) {
         $Self->{UID} = $ConfigObject->Get( 'AuthModule::LDAP::UID' . $Param{Count} );
     }
@@ -84,6 +88,8 @@ sub new {
 
         return;
     }
+
+    # optional settings
     $Self->{SearchUserDN}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} )  || '';
     $Self->{SearchUserPw}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} )  || '';
     $Self->{GroupDN}       = $ConfigObject->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )       || '';
@@ -156,7 +162,8 @@ sub Auth {
     $Param{User} =~ s/^\s+//;
     $Param{User} =~ s/\s+$//;
 
-    # Convert username to lower case letters
+    # Convert username to lower case letters.
+    # This is often not necessary as the attribute uid is usually already case insensitive.
     if ( $Self->{UserLowerCase} ) {
         $Param{User} = lc $Param{User};
     }
@@ -197,6 +204,7 @@ sub Auth {
                 Priority => 'error',
                 Message  => "Can't connect to $Self->{Host}: $@",
             );
+
             return;
         }
     }
@@ -212,10 +220,12 @@ sub Auth {
                     Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
                 );
                 $LDAP->disconnect();
+
                 return;
             }
         }
     }
+
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
         $Result = $LDAP->bind(
@@ -256,10 +266,12 @@ sub Auth {
         );
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
-    # get whole user dn
+    # get whole user distinctive name,
+    # when more than one entry is found then the picked entry is random, as no sort order was specified
     my $UserDN = '';
     my $User   = '';
     for my $Entry ( $Result->all_entries() ) {
@@ -280,6 +292,7 @@ sub Auth {
         # take down session
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
@@ -317,6 +330,7 @@ sub Auth {
             # take down session
             $LDAP->unbind();
             $LDAP->disconnect();
+
             return;
         }
 
@@ -339,6 +353,7 @@ sub Auth {
             # take down session
             $LDAP->unbind();
             $LDAP->disconnect();
+
             return;
         }
     }
@@ -361,6 +376,7 @@ sub Auth {
         # take down session
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
