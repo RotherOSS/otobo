@@ -225,7 +225,7 @@ $BackupDir = abs_path($BackupDir);
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # make sure backup dir is not under OTOBO_HOME (usually /opt/otobo)
-if( $BackupDir =~ /^$Home/ ) {
+if ( $BackupDir =~ /^$Home/ ) {
 
     say STDERR ("Backup directory '$BackupDir' is under '$Home', please chose a different backup directory not below the OTOBO home directory with the -d option!");
     exit 1;
