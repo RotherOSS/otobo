@@ -177,11 +177,16 @@ my $RandomID      = $Helper->GetRandomID;
             my $Dn = $Entry->dn;
             $Dn =~ s/\Q[[RANDOM_ID]]\E/$RandomID/g;
             $Entry->dn($Dn);
-            my $Dc = $Entry->get_value('dc');
-            if ( defined $Dc ) {
-                $Dc =~ s/\Q[[RANDOM_ID]]\E/$RandomID/g;
-                $Entry->replace( dc => $Dc );
+
+            ATTR:
+            for my $Attr (qw(dc member)) {
+                my @Values = map {s/\Q[[RANDOM_ID]]\E/$RandomID/rg} $Entry->get_value($Attr);
+
+                next ATTR unless @Values;
+
+                $Entry->replace( $Attr => \@Values );
             }
+
             my $AddResult = $Ldap->add($Entry);
             if ( $AddResult->code ) {
                 fail("added entry $Dn");
@@ -326,6 +331,39 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => undef,
         };
 
+    # Testing AccessAttr and GroupDn
+    push @Tests,
+        {
+            Name         => 'authenticate boris without checking the group',
+            UserLogin    => 'boris',
+            UserPassword => 'boris',
+            AuthResult   => 'boris',
+        },
+        {
+            Name         => 'authenticate bogdan without checking the group',
+            UserLogin    => 'bogdan',
+            UserPassword => 'bogdan',
+            AuthResult   => 'bogdan',
+        },
+        {
+            Name     => 'boris is denied as he is not in otoboallow',
+            Settings => [
+                [ 'AuthModule::LDAP::AccessAttr7' => 'member' ],
+                [ 'AuthModule::LDAP::UserAttr7'   => 'DN' ],
+                [ 'AuthModule::LDAP::GroupDN7'    => qq{ cn=otoboallow , ou=café sans souci , dc=wirtshaus_$RandomID , dc=otobotesting } ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'boris',
+            UserPassword       => 'boris',
+            AuthResult         => undef,
+        },
+        {
+            Name         => 'bogdan is granted as he is in otoboallow',
+            UserLogin    => 'bogdan',
+            UserPassword => 'bogdan',
+            AuthResult   => 'bogdan',
+        };
+
     # Configure the auth sync backend and autenticate Robert Ober
     push @Tests,
         sub {
@@ -377,6 +415,7 @@ my $RandomID      = $Helper->GetRandomID;
                 'got synced user from database'
             );
         };
+
 
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
