@@ -8,22 +8,42 @@ objectclass: domain
 dc: wirtshaus_[[RANDOM_ID]]
 description: a restaurant is used as an example
 
-# Three organisational units: kitchen, dining hall, and beergarden
+# Three organisational units: kitchen, dining hall, and café sans souci
+# Each organizationalUnit has the group otoboallow
 
 dn: ou=kitchen,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: organizationalUnit
 ou: kitchen
 
+dn: cn=otoboallow,ou=kitchen,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfNames
+cn: otoboallow
+member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
 dn: ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: organizationalUnit
 ou: dining hall
 
-dn: ou=beergarden,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+dn: cn=otoboallow,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfNames
+cn: otoboallow
+member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: organizationalUnit
-ou: beergarden
+ou: café sans souci
+
+dn: cn=otoboallow,ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfNames
+cn: otoboallow
+member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+member: cn=barista_bogdan,ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 
 # a bavarian speaking waiter, per OTOBO default 'uid' designates the user ID
 dn: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
@@ -48,3 +68,27 @@ uid: robert
 mail: robert@dining_hall.wirtshaus.otobotesting.food
 preferredLanguage: stq
 userPassword: robert
+
+# Two baristas Boris and Bogdan Barista. Only Bogdan is in the otoboallow group of café sans souci.
+
+dn: cn=barista_boris,ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Boris
+cn: barista_boris
+sn: Barista
+uid: boris
+mail: boris@cafe_sans_souci.wirtshaus.otobotesting.food
+preferredLanguage: srb
+userPassword: boris
+
+dn: cn=barista_bogdan,ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Boris
+cn: barista_bogdan
+sn: Barista
+uid: bogdan
+mail: bogdan@cafe_sans_souci.wirtshaus.otobotesting.food
+preferredLanguage: srb
+userPassword: bogdan
