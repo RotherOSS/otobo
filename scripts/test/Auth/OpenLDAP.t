@@ -69,10 +69,8 @@ my $RandomID      = $Helper->GetRandomID;
         [ 'CheckEmailAddresses' => 0 ],
         ;
 
-    # configure the first auth backend to DB
-    push @Settings,
-        [ 'AuthModule', 'Kernel::System::Auth::DB' ],
-        ;
+    # first eradicate all auth backends
+    push @Settings, map { [ "AuthModule$_" => undef ] } ( '', 1 .. 10 );
 
     # Set up authentication backend in the slot 7.
     # The settings must conform to the settings in docker-compose/testing/openldap.yml
@@ -88,9 +86,6 @@ my $RandomID      = $Helper->GetRandomID;
         [ 'AuthModule::LDAP::SearchUserPw7' => $AdminPassword ],
         [ 'AuthModule::LDAP::Params7'       => { port => 1389 } ],
         ;
-
-    # no additional auth backends
-    push @Settings, map { [ "AuthModule$_" => undef ] } ( 1 .. 6, 8 .. 10 );
 
     AlterConfig( \@Settings );
 }
