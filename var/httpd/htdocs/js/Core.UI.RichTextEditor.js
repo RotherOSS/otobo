@@ -130,6 +130,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             removedPlugins = [ 'SimpleUploadAdapter' ];
         }
 
+        // if this is a RichText DF, disable Image Upload
+        if($EditorArea.hasClass('DynamicFieldRichText')) {
+            ToolbarConfig = Core.Config.Get('RichText.ToolbarWithoutImage');
+            Integrations = [ 'url' ];
+            removedPlugins = [ 'SimpleUploadAdapter' ];
+        }
+
         var ClassicEditor = CKEditor5Wrapper.ClassicEditor;
         let EnabledPlugins = [];
         for (let pluginName of PluginList) {
