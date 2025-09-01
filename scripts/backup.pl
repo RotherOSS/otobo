@@ -30,7 +30,7 @@ use Getopt::Long qw(GetOptions);
 use Cwd          qw(abs_path getcwd);
 
 # CPAN modules
-use Path::Class;
+use Path::Class qw(dir);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
