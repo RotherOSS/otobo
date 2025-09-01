@@ -53,8 +53,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 my $AdminDn       = 'cn=openldap_admin,dc=otobotesting';
 my $AdminPassword = 'openldap_admin';
@@ -88,6 +89,20 @@ my $RandomID      = $Helper->GetRandomID;
         ;
 
     AlterConfig( \@Settings );
+}
+
+# set up groups, needed for testing UserSyncInitialGroups UserSyncGroupsDefinition
+my %GroupName2ID;
+{
+    for my $Name (qw(test_sync_group_1 test_sync_group_2)) {
+        $GroupName2ID{$Name} = $GroupObject->GroupAdd(
+            Name    => $Name,
+            Comment => ( sprintf 'created by %s line %s', __FILE__, __LINE__ ),
+            ValidID => 1,
+            UserID  => 1,
+        );
+        ok( $GroupName2ID{$Name}, "created group $Name" );
+    }
 }
 
 # Test authentication for the test users that had been created
@@ -371,8 +386,6 @@ my $RandomID      = $Helper->GetRandomID;
                 [ 'AuthSyncModule::LDAP::SearchUserDN7' => $AdminDn ],
                 [ 'AuthSyncModule::LDAP::SearchUserPw7' => $AdminPassword ],
                 [ 'AuthSyncModule::LDAP::Params7'       => { port => 1389 } ],
-
-                # [ 'AuthSyncModule::LDAP::GroupDN7'      => "ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" ],
                 [
                     'AuthSyncModule::LDAP::UserSyncMap7' => {
                         UserFirstname => 'givenName',
@@ -411,6 +424,62 @@ my $RandomID      = $Helper->GetRandomID;
             );
         };
 
+    # Testing UserSyncInitialGroups.
+    # UserSyncInitialGroups has no effect for robert as he already logged on before.
+    # For samuel it is the initial login.
+    push @Tests,
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'robert' );
+            ok( $UserData{UserID}, 'got UserID for robert' );
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( !$HasPermission, 'no permission as UserSyncInitialGroups was not set up' );
+        },
+        {
+            Name     => 'robert synced to DB with UserSyncInitialGroups',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::UserSyncInitialGroups7' => ['test_sync_group_1'] ],
+            ],
+            UserLogin    => 'robert',
+            UserPassword => 'robert',
+            AuthResult   => 'robert',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'robert' );
+            ok( $UserData{UserID}, 'still got UserID for robert' );
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( !$HasPermission, 'no permission as UserSyncInitialGroups is only on initial login' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( !$UserData{UserID}, 'samuel has never logged in before' );
+        },
+        {
+            Name     => 'samuel synced to DB with UserSyncInitialGroups',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::UserSyncInitialGroups7' => ['test_sync_group_1'] ],
+            ],
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( $HasPermission, 'user samuel created with rw permission on test_sync_group_1' );
+        };
 
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
