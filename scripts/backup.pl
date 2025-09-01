@@ -27,7 +27,7 @@ use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Cwd          qw(abs_path getcwd);
+use Cwd qw(abs_path getcwd);
 
 # CPAN modules
 use Path::Class qw(dir);
@@ -231,7 +231,7 @@ $BackupDir = abs_path($BackupDir);
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # make sure backup dir is not under OTOBO_HOME (usually /opt/otobo)
-if( dir($Home)->contains($BackupDir) ) {
+if ( dir($Home)->contains($BackupDir) ) {
 
     say STDERR ("Backup directory '$BackupDir' is under '$Home', please chose a different backup directory not below the OTOBO home directory with the -d option!");
     exit 1;

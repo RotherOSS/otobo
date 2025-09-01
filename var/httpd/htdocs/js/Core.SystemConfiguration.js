@@ -1711,12 +1711,11 @@ var Core = Core || {};
                         Counter++;
                     },
                 });
+
+                Core.Agent.Admin.SystemConfiguration.InitFavourites();
+
             }, 'html'
         );
-
-        window.setTimeout(function() {
-            Core.Agent.Admin.SystemConfiguration.InitFavourites();
-        }, 1000);
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
