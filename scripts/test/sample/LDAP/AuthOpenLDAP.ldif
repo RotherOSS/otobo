@@ -9,7 +9,8 @@ dc: wirtshaus_[[RANDOM_ID]]
 description: a restaurant is used as an example
 
 # Three organisational units: kitchen, dining hall, and café sans souci
-# Each organizationalUnit has the group otoboallow
+# Each organizationalUnit has the group otoboallow.
+# The dining hall also has the group test_sync_group_2
 
 dn: ou=kitchen,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
@@ -32,6 +33,13 @@ changetype: add
 objectClass: groupOfNames
 cn: otoboallow
 member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: cn=test_sync_group_2,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfNames
+cn: test_sync_group_2
+member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+member: cn=waiter_serge,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 
 dn: ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
@@ -74,12 +82,24 @@ dn: cn=waiter_samuel,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
 objectClass: inetOrgPerson
 givenName: Samuel
-cn: waiter_sommelier
+cn: waiter_samuel
 sn: Sommelier
 uid: samuel
 mail: samuel@dining_hall.wirtshaus.otobotesting.food
 preferredLanguage: fr
 userPassword: samuel
+
+# for testing UserSyncGroupsDefinition
+dn: cn=waiter_serge,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Serge
+cn: waiter_serge
+sn: Servierer
+uid: serge
+mail: serge@dining_hall.wirtshaus.otobotesting.food
+preferredLanguage: fr
+userPassword: serge
 
 # Two baristas Boris and Bogdan Barista. Only Bogdan is in the otoboallow group of café sans souci.
 

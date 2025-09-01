@@ -431,6 +431,7 @@ my %GroupName2ID;
         sub {
             my %UserData = $UserObject->GetUserData( User => 'robert' );
             ok( $UserData{UserID}, 'got UserID for robert' );
+
             my $HasPermission = $GroupObject->PermissionCheck(
                 UserID    => $UserData{UserID},
                 GroupName => 'test_sync_group_1',
@@ -450,6 +451,7 @@ my %GroupName2ID;
         sub {
             my %UserData = $UserObject->GetUserData( User => 'robert' );
             ok( $UserData{UserID}, 'still got UserID for robert' );
+
             my $HasPermission = $GroupObject->PermissionCheck(
                 UserID    => $UserData{UserID},
                 GroupName => 'test_sync_group_1',
@@ -473,12 +475,104 @@ my %GroupName2ID;
         sub {
             my %UserData = $UserObject->GetUserData( User => 'samuel' );
             ok( $UserData{UserID}, 'got UserID for samuel' );
+
             my $HasPermission = $GroupObject->PermissionCheck(
                 UserID    => $UserData{UserID},
                 GroupName => 'test_sync_group_1',
                 Type      => 'rw',
             );
             ok( $HasPermission, 'user samuel created with rw permission on test_sync_group_1' );
+        };
+
+    # Testing UserSyncGroupsDefinition.
+    # For samuel UserSyncGroupsDefinition has no effect as he isnt in the test_sync_group_2 LDAP group.
+    # For serge the privilege 'move_into' should be added for the OTOBO group test_sync_group_2.
+    push @Tests,
+        {
+            Name         => 'checking the samuel is still there',
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        {
+            Name         => 'creating the user serge',
+            UserLogin    => 'serge',
+            UserPassword => 'serge',
+            AuthResult   => 'serge',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for samuel as UserSyncGroupsDefinition was not set up' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'serge' );
+            ok( $UserData{UserID}, 'got UserID for serge' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for serge as UserSyncGroupsDefinition was not set up' );
+        },
+        {
+            Name     => 'authenticate samuel with UserSyncGroupsDefinition',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::AccessAttr7' => 'member' ],
+                [ 'AuthSyncModule::LDAP::UserAttr7'   => 'DN' ],
+                [
+                    'AuthSyncModule::LDAP::UserSyncGroupsDefinition7' => {
+                        "cn=test_sync_group_2,ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" => {
+
+                            # otobo group
+                            'test_sync_group_2' => {
+
+                                # permission
+                                move_into => 1,
+                            },
+                        },
+                    },
+                ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'samuel',
+            UserPassword       => 'samuel',
+            AuthResult         => 'samuel',
+        },
+        {
+            Name         => 'authenticate serge with UserSyncGroupsDefinition',
+            UserLogin    => 'serge',
+            UserPassword => 'serge',
+            AuthResult   => 'serge',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for samuel as he is not in LDAP group test_sync_group_2' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'serge' );
+            ok( $UserData{UserID}, 'got UserID for serge' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( $HasPermission, 'move_into permission for serge as he is in LDAP groups test_sync_group_2' );
         };
 
     # remember the original value of altered settings for the rollback
