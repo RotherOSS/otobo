@@ -69,6 +69,18 @@ mail: robert@dining_hall.wirtshaus.otobotesting.food
 preferredLanguage: stq
 userPassword: robert
 
+# for testing UserSyncInitialGroups
+dn: cn=waiter_samuel,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Samuel
+cn: waiter_sommelier
+sn: Sommelier
+uid: samuel
+mail: samuel@dining_hall.wirtshaus.otobotesting.food
+preferredLanguage: fr
+userPassword: samuel
+
 # Two baristas Boris and Bogdan Barista. Only Bogdan is in the otoboallow group of café sans souci.
 
 dn: cn=barista_boris,ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
