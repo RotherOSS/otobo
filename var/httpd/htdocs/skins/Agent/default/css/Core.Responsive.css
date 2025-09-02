@@ -426,6 +426,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin: -10px 0px 10px 0px;
     }
 
+    fieldset.TableLike .AttachmentListContainer,
+    fieldset.TableLike .DnDUpload,
+    fieldset.TableLike > .RichTextField {
+        width: calc(90% + 6px);
+        max-width: unset;
+    }
+
     fieldset.TableLike.Hidden {
         display: none;
     }
