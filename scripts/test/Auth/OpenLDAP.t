@@ -53,8 +53,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 my $AdminDn       = 'cn=openldap_admin,dc=otobotesting';
 my $AdminPassword = 'openldap_admin';
@@ -69,10 +70,8 @@ my $RandomID      = $Helper->GetRandomID;
         [ 'CheckEmailAddresses' => 0 ],
         ;
 
-    # configure the first auth backend to DB
-    push @Settings,
-        [ 'AuthModule', 'Kernel::System::Auth::DB' ],
-        ;
+    # first eradicate all auth backends
+    push @Settings, map { [ "AuthModule$_" => undef ] } ( '', 1 .. 10 );
 
     # Set up authentication backend in the slot 7.
     # The settings must conform to the settings in docker-compose/testing/openldap.yml
@@ -89,10 +88,21 @@ my $RandomID      = $Helper->GetRandomID;
         [ 'AuthModule::LDAP::Params7'       => { port => 1389 } ],
         ;
 
-    # no additional auth backends
-    push @Settings, map { [ "AuthModule$_" => undef ] } ( 1 .. 6, 8 .. 10 );
-
     AlterConfig( \@Settings );
+}
+
+# set up groups, needed for testing UserSyncInitialGroups UserSyncGroupsDefinition
+my %GroupName2ID;
+{
+    for my $Name (qw(test_sync_group_1 test_sync_group_2 test_sync_group_3A)) {
+        $GroupName2ID{$Name} = $GroupObject->GroupAdd(
+            Name    => $Name,
+            Comment => ( sprintf 'created by %s line %s', __FILE__, __LINE__ ),
+            ValidID => 1,
+            UserID  => 1,
+        );
+        ok( $GroupName2ID{$Name}, "created group $Name" );
+    }
 }
 
 # Test authentication for the test users that had been created
@@ -177,11 +187,16 @@ my $RandomID      = $Helper->GetRandomID;
             my $Dn = $Entry->dn;
             $Dn =~ s/\Q[[RANDOM_ID]]\E/$RandomID/g;
             $Entry->dn($Dn);
-            my $Dc = $Entry->get_value('dc');
-            if ( defined $Dc ) {
-                $Dc =~ s/\Q[[RANDOM_ID]]\E/$RandomID/g;
-                $Entry->replace( dc => $Dc );
+
+            ATTR:
+            for my $Attr (qw(dc member uniquemember)) {
+                my @Values = map {s/\Q[[RANDOM_ID]]\E/$RandomID/rg} $Entry->get_value($Attr);
+
+                next ATTR unless @Values;
+
+                $Entry->replace( $Attr => \@Values );
             }
+
             my $AddResult = $Ldap->add($Entry);
             if ( $AddResult->code ) {
                 fail("added entry $Dn");
@@ -203,8 +218,10 @@ my $RandomID      = $Helper->GetRandomID;
 {
     my @Tests;
 
-    # simple authentication tests
     push @Tests,
+        sub {
+            note 'simple authentication tests';
+        },
         {
             Name         => 'imported person Karl Kellner',
             UserLogin    => 'karl',
@@ -218,8 +235,10 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => undef,
         };
 
-    # testing AlwaysFilter
     push @Tests,
+        sub {
+            note 'testing AlwaysFilter';
+        },
         {
             Name     => 'Karl Kellner speaking Bavarian',
             Settings => [
@@ -253,8 +272,10 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => 'karl',
         };
 
-    # test switching the UID setting, that is the attribute holding the OTOBO user name
     push @Tests,
+        sub {
+            note 'test switching the UID setting, that is the attribute holding the OTOBO user name';
+        },
         {
             Name         => 'not finding waiter_karl as UID is still set to uid',
             UserLogin    => 'waiter_karl',
@@ -284,8 +305,10 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => undef,
         };
 
-    # Testing the non-effect of UseLowerCase
     push @Tests,
+        sub {
+            note 'Testing the non-effect of UseLowerCase';
+        },
         {
             Name         => 'finding KarL as the attribute uid is case insensive per default',
             UserLogin    => 'KarL',
@@ -302,8 +325,10 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => 'karl',
         };
 
-    # Testing the setting UserSuffix
     push @Tests,
+        sub {
+            note 'Testing the setting UserSuffix';
+        },
         {
             Name         => 'not finding kar as the l is missing',
             UserLogin    => 'kar',
@@ -326,8 +351,45 @@ my $RandomID      = $Helper->GetRandomID;
             AuthResult   => undef,
         };
 
-    # Configure the auth sync backend and autenticate Robert Ober
     push @Tests,
+        sub {
+            note 'Testing AccessAttr and GroupDn';
+        },
+        {
+            Name         => 'authenticate boris without checking the group',
+            UserLogin    => 'boris',
+            UserPassword => 'boris',
+            AuthResult   => 'boris',
+        },
+        {
+            Name         => 'authenticate bogdan without checking the group',
+            UserLogin    => 'bogdan',
+            UserPassword => 'bogdan',
+            AuthResult   => 'bogdan',
+        },
+        {
+            Name     => 'boris is denied as he is not in otoboallow',
+            Settings => [
+                [ 'AuthModule::LDAP::AccessAttr7' => 'member' ],
+                [ 'AuthModule::LDAP::UserAttr7'   => 'DN' ],
+                [ 'AuthModule::LDAP::GroupDN7'    => qq{ cn=otoboallow , ou=café sans souci , dc=wirtshaus_$RandomID , dc=otobotesting } ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'boris',
+            UserPassword       => 'boris',
+            AuthResult         => undef,
+        },
+        {
+            Name         => 'bogdan is granted as he is in otoboallow',
+            UserLogin    => 'bogdan',
+            UserPassword => 'bogdan',
+            AuthResult   => 'bogdan',
+        };
+
+    push @Tests,
+        sub {
+            note 'Configure the auth sync backend and authenticate Robert Ober';
+        },
         sub {
             my @Settings = (
                 [ 'AuthModule::UseSyncBackend7'         => 'AuthSyncBackend7' ],
@@ -338,8 +400,6 @@ my $RandomID      = $Helper->GetRandomID;
                 [ 'AuthSyncModule::LDAP::SearchUserDN7' => $AdminDn ],
                 [ 'AuthSyncModule::LDAP::SearchUserPw7' => $AdminPassword ],
                 [ 'AuthSyncModule::LDAP::Params7'       => { port => 1389 } ],
-
-                # [ 'AuthSyncModule::LDAP::GroupDN7'      => "ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" ],
                 [
                     'AuthSyncModule::LDAP::UserSyncMap7' => {
                         UserFirstname => 'givenName',
@@ -376,6 +436,263 @@ my $RandomID      = $Helper->GetRandomID;
                 },
                 'got synced user from database'
             );
+        };
+
+    # UserSyncInitialGroups has no effect for robert as he already logged on before.
+    # For samuel it is the initial login.
+    push @Tests,
+        sub {
+            note 'Testing UserSyncInitialGroups';
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'robert' );
+            ok( $UserData{UserID}, 'got UserID for robert' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( !$HasPermission, 'no permission as UserSyncInitialGroups was not set up' );
+        },
+        {
+            Name     => 'robert synced to DB with UserSyncInitialGroups',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::UserSyncInitialGroups7' => ['test_sync_group_1'] ],
+            ],
+            UserLogin    => 'robert',
+            UserPassword => 'robert',
+            AuthResult   => 'robert',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'robert' );
+            ok( $UserData{UserID}, 'still got UserID for robert' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( !$HasPermission, 'no permission as UserSyncInitialGroups is only on initial login' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( !$UserData{UserID}, 'samuel has never logged in before' );
+        },
+        {
+            Name     => 'samuel synced to DB with UserSyncInitialGroups',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::UserSyncInitialGroups7' => ['test_sync_group_1'] ],
+            ],
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_1',
+                Type      => 'rw',
+            );
+            ok( $HasPermission, 'user samuel created with rw permission on test_sync_group_1' );
+        };
+
+    # For samuel UserSyncGroupsDefinition has no effect as he isnt in the test_sync_group_2 LDAP group.
+    # For serge the privilege 'move_into' should be added for the OTOBO group test_sync_group_2.
+    push @Tests,
+        sub {
+            note 'Testing UserSyncGroupsDefinition';
+        },
+        {
+            Name         => 'checking the samuel is still there',
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        {
+            Name         => 'creating the user serge',
+            UserLogin    => 'serge',
+            UserPassword => 'serge',
+            AuthResult   => 'serge',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for samuel as UserSyncGroupsDefinition is not set up' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'serge' );
+            ok( $UserData{UserID}, 'got UserID for serge' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for serge as UserSyncGroupsDefinition is not set up' );
+        },
+        {
+            Name     => 'authenticate samuel with UserSyncGroupsDefinition',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::AccessAttr7' => 'member' ],
+                [ 'AuthSyncModule::LDAP::UserAttr7'   => 'DN' ],
+                [
+                    'AuthSyncModule::LDAP::UserSyncGroupsDefinition7' => {
+                        "cn=test_sync_group_2,ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" => {
+
+                            # otobo group
+                            'test_sync_group_2' => {
+
+                                # permission
+                                move_into => 1,
+                            },
+                        },
+                    },
+                ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'samuel',
+            UserPassword       => 'samuel',
+            AuthResult         => 'samuel',
+        },
+        {
+            Name         => 'authenticate serge with UserSyncGroupsDefinition',
+            UserLogin    => 'serge',
+            UserPassword => 'serge',
+            AuthResult   => 'serge',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( !$HasPermission, 'no move_into permission for samuel as he is not in LDAP group test_sync_group_2' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'serge' );
+            ok( $UserData{UserID}, 'got UserID for serge' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_2',
+                Type      => 'move_into',
+            );
+            ok( $HasPermission, 'move_into permission for serge as he is in LDAP groups test_sync_group_2' );
+        };
+
+    # For samuel UserSyncGroupsDefinition has no effect as he is neither directly or indirectly in
+    # in the test_sync_group_3D LDAP group.
+    #
+    # franz is a direct member test_sync_group_3D. The group test_sync_group_3A is linked via
+    # the uniqueMember attribute to test_sync_group_3B.
+    # Thus franz is indirectly in test_sync_group_3A and the privilege 'priority' should be added
+    # for the OTOBO group test_sync_group_3A.
+    #
+    # TODO: a test case for dynamic groups using the object class groupOfUniqueURLs and the attributes memberURL.
+    # This is missing because OpenLDAP doesn't provide the dynlist overlay per default, making the setup non-trivial.
+    push @Tests,
+        sub {
+            note 'Testing UserSyncGroupsDefinition with nested group search';
+        },
+        {
+            Name         => 'checking the samuel is still there',
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        {
+            Name         => 'creating the user franz',
+            UserLogin    => 'franz',
+            UserPassword => 'franz',
+            AuthResult   => 'franz',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for samuel as UserSyncGroupsDefinition is not set up, nested' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'franz' );
+            ok( $UserData{UserID}, 'got UserID for franz' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for franz as UserSyncGroupsDefinition is not set uo, nested' );
+        },
+        {
+            Name     => 'authenticate samuel with UserSyncGroupsDefinition with nested search',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::NestedGroupSearch7' => 1 ],
+                [ 'AuthSyncModule::LDAP::AccessAttr7'        => 'member' ],
+                [ 'AuthSyncModule::LDAP::UserAttr7'          => 'DN' ],
+                [
+                    'AuthSyncModule::LDAP::UserSyncGroupsDefinition7' => {
+                        "cn=test_sync_group_3A,ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" => {
+
+                            # otobo group
+                            'test_sync_group_3A' => {
+
+                                # permission
+                                priority => 1,
+                            },
+                        },
+                    },
+                ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'samuel',
+            UserPassword       => 'samuel',
+            AuthResult         => 'samuel',
+        },
+        {
+            Name         => 'authenticate franz with UserSyncGroupsDefinition with nested group search',
+            UserLogin    => 'franz',
+            UserPassword => 'franz',
+            AuthResult   => 'franz',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for samuel as he is not in LDAP group test_sync_group_3A, nested' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'franz' );
+            ok( $UserData{UserID}, 'got UserID for franz' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( $HasPermission, 'priority permission for franz as he is indirectly in LDAP groups test_sync_group_3A, nested' );
         };
 
     # remember the original value of altered settings for the rollback
@@ -438,8 +755,5 @@ my $RandomID      = $Helper->GetRandomID;
         }
     }
 }
-
-# TODO: set up LDAP sync
-# TODO: test LDAP sync
 
 done_testing;
