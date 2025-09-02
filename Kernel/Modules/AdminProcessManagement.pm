@@ -226,6 +226,26 @@ sub Run {
                 }
             }
 
+            for my $ProcessEntityID ( $ProcessImport{ProcessEntityIDs}->@* ) {
+
+                # set entitty sync state
+                my $Success = $EntityObject->EntitySyncStateSet(
+                    EntityType => 'Process',
+                    EntityID   => $ProcessEntityID,
+                    SyncState  => 'not_sync',
+                    UserID     => $Self->{UserID},
+                );
+
+                # show error if can't set
+                if ( !$Success ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'There was an error setting the entity sync status for Process entity: %s', $EntityID
+                        ),
+                    );
+                }
+            }
+
             # show the overview with success informations
             $Param{NotifyData} = [
                 {
