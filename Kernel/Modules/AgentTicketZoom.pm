@@ -1311,7 +1311,33 @@ sub MaskAgentZoom {
                     },
                 );
 
+                # create a map of priorities versus subitems based on the ClusterPriority of each subitem
+                # the settings key order prevails between subitems with equal ClusterPriority
+                # priorities are always appended a sequential suffix of two digits (800-01, 800-02, 800-03, etc.)
+                # this enforces distinct map keys even among subitems with the same ClusterPriority
+                my %PrioritySuffixes;
+                my %MapPriorityToSubItem;
                 for my $SubItem ( sort keys %{ $ZoomMenuItems{$Item}->{Items} } ) {
+                    my $ItemPriority = $ZoomMenuItems{$Item}->{Items}->{$SubItem}->{ClusterPriority};
+                    if ( !$PrioritySuffixes{$ItemPriority} ) {
+                        $PrioritySuffixes{$ItemPriority} = 1;
+                    }
+                    else {
+                        $PrioritySuffixes{$ItemPriority}++;
+                    }
+
+                    # enforce the two digits suffix, since 10 or more subitems are possible
+                    if ( $PrioritySuffixes{$ItemPriority} =~ /^\d$/ ) {
+                        $PrioritySuffixes{$ItemPriority} = "0" . $PrioritySuffixes{$ItemPriority};
+                    }
+
+                    my $PriorityKey = $ItemPriority . "-" . $PrioritySuffixes{$ItemPriority};
+                    $MapPriorityToSubItem{$PriorityKey} = $SubItem;
+                }
+
+                # render subitems according to the priorities map
+                for my $PriorityKey ( sort keys %MapPriorityToSubItem ) {
+                    my $SubItem = $MapPriorityToSubItem{$PriorityKey};
                     $LayoutObject->Block(
                         Name => 'TicketMenuSubContainerItem',
                         Data => $ZoomMenuItems{$Item}->{Items}->{$SubItem},
