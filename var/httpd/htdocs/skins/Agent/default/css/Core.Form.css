@@ -645,7 +645,8 @@ fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     text-wrap: wrap;
 }
 
-fieldset.TableLike .Row.MultiColumn > .FieldCell label {
+fieldset.TableLike .Row.MultiColumn > .FieldCell label,
+fieldset.TableLike .DFSetOuterField .DynamicFieldSet .Row.MultiColumn > .FieldCell label {
     float: none;
     line-height: 1.9em;
     width: auto;
