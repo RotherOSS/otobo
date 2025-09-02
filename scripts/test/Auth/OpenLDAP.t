@@ -218,8 +218,10 @@ my %GroupName2ID;
 {
     my @Tests;
 
-    # simple authentication tests
     push @Tests,
+        sub {
+            note 'simple authentication tests';
+        },
         {
             Name         => 'imported person Karl Kellner',
             UserLogin    => 'karl',
@@ -233,8 +235,10 @@ my %GroupName2ID;
             AuthResult   => undef,
         };
 
-    # testing AlwaysFilter
     push @Tests,
+        sub {
+            note 'testing AlwaysFilter';
+        },
         {
             Name     => 'Karl Kellner speaking Bavarian',
             Settings => [
@@ -268,8 +272,10 @@ my %GroupName2ID;
             AuthResult   => 'karl',
         };
 
-    # test switching the UID setting, that is the attribute holding the OTOBO user name
     push @Tests,
+        sub {
+            note 'test switching the UID setting, that is the attribute holding the OTOBO user name';
+        },
         {
             Name         => 'not finding waiter_karl as UID is still set to uid',
             UserLogin    => 'waiter_karl',
@@ -299,8 +305,10 @@ my %GroupName2ID;
             AuthResult   => undef,
         };
 
-    # Testing the non-effect of UseLowerCase
     push @Tests,
+        sub {
+            note 'Testing the non-effect of UseLowerCase';
+        },
         {
             Name         => 'finding KarL as the attribute uid is case insensive per default',
             UserLogin    => 'KarL',
@@ -317,8 +325,10 @@ my %GroupName2ID;
             AuthResult   => 'karl',
         };
 
-    # Testing the setting UserSuffix
     push @Tests,
+        sub {
+            note 'Testing the setting UserSuffix';
+        },
         {
             Name         => 'not finding kar as the l is missing',
             UserLogin    => 'kar',
@@ -341,8 +351,10 @@ my %GroupName2ID;
             AuthResult   => undef,
         };
 
-    # Testing AccessAttr and GroupDn
     push @Tests,
+        sub {
+            note 'Testing AccessAttr and GroupDn';
+        },
         {
             Name         => 'authenticate boris without checking the group',
             UserLogin    => 'boris',
@@ -374,8 +386,10 @@ my %GroupName2ID;
             AuthResult   => 'bogdan',
         };
 
-    # Configure the auth sync backend and autenticate Robert Ober
     push @Tests,
+        sub {
+            note 'Configure the auth sync backend and authenticate Robert Ober';
+        },
         sub {
             my @Settings = (
                 [ 'AuthModule::UseSyncBackend7'         => 'AuthSyncBackend7' ],
@@ -424,10 +438,12 @@ my %GroupName2ID;
             );
         };
 
-    # Testing UserSyncInitialGroups.
     # UserSyncInitialGroups has no effect for robert as he already logged on before.
     # For samuel it is the initial login.
     push @Tests,
+        sub {
+            note 'Testing UserSyncInitialGroups';
+        },
         sub {
             my %UserData = $UserObject->GetUserData( User => 'robert' );
             ok( $UserData{UserID}, 'got UserID for robert' );
@@ -484,10 +500,12 @@ my %GroupName2ID;
             ok( $HasPermission, 'user samuel created with rw permission on test_sync_group_1' );
         };
 
-    # Testing UserSyncGroupsDefinition.
     # For samuel UserSyncGroupsDefinition has no effect as he isnt in the test_sync_group_2 LDAP group.
     # For serge the privilege 'move_into' should be added for the OTOBO group test_sync_group_2.
     push @Tests,
+        sub {
+            note 'Testing UserSyncGroupsDefinition';
+        },
         {
             Name         => 'checking the samuel is still there',
             UserLogin    => 'samuel',
@@ -509,7 +527,7 @@ my %GroupName2ID;
                 GroupName => 'test_sync_group_2',
                 Type      => 'move_into',
             );
-            ok( !$HasPermission, 'no move_into permission for samuel as UserSyncGroupsDefinition was not set up' );
+            ok( !$HasPermission, 'no move_into permission for samuel as UserSyncGroupsDefinition is not set up' );
         },
         sub {
             my %UserData = $UserObject->GetUserData( User => 'serge' );
@@ -520,7 +538,7 @@ my %GroupName2ID;
                 GroupName => 'test_sync_group_2',
                 Type      => 'move_into',
             );
-            ok( !$HasPermission, 'no move_into permission for serge as UserSyncGroupsDefinition was not set up' );
+            ok( !$HasPermission, 'no move_into permission for serge as UserSyncGroupsDefinition is not set up' );
         },
         {
             Name     => 'authenticate samuel with UserSyncGroupsDefinition',
