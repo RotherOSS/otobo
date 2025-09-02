@@ -1848,7 +1848,8 @@ sub ProcessImport {
             'The process "%s" and all of its data has been imported successfully.',
             $ProcessData->{Process}->{Name}
         ),
-        Success => 1,
+        Success          => 1,
+        ProcessEntityIDs => [ keys $EntityMapping{Process}->%* ],
     );
 }
 
