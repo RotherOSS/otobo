@@ -10,7 +10,11 @@ description: a restaurant is used as an example
 
 # Three organisational units: kitchen, dining hall, and café sans souci
 # Each organizationalUnit has the group otoboallow.
-# The dining hall also has the group test_sync_group_2
+#
+# The dining hall also has the group test_sync_group_2, test_sync_group_3A,
+# test_sync_group_3B, test_sync_group_3C, and test_sync_group_3D.
+# The test_sync_group_3[ABCD] are nested by the uniquemember being
+# the distinguished name of the subgroup.
 
 dn: ou=kitchen,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
@@ -40,6 +44,31 @@ objectClass: groupOfNames
 cn: test_sync_group_2
 member: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 member: cn=waiter_serge,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: cn=test_sync_group_3A,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfUniqueNames
+cn: test_sync_group_3A
+uniquemember: cn=test_sync_group_3B,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: cn=test_sync_group_3B,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfUniqueNames
+cn: test_sync_group_3B
+uniquemember: cn=test_sync_group_3C,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: cn=test_sync_group_3C,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfUniqueNames
+cn: test_sync_group_3C
+uniquemember: cn=test_sync_group_3D,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+
+dn: cn=test_sync_group_3D,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: groupOfUniqueNames
+cn: test_sync_group_3D
+uniqueMember: cn=waiter_karl,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+uniqueMember: cn=waiter_franz,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 
 dn: ou=café sans souci,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
 changetype: add
@@ -100,6 +129,19 @@ uid: serge
 mail: serge@dining_hall.wirtshaus.otobotesting.food
 preferredLanguage: fr
 userPassword: serge
+
+# for testing UserSyncGroupsDefinition with nested group search
+dn: cn=waiter_franz,ou=dining hall,dc=wirtshaus_[[RANDOM_ID]],dc=otobotesting
+changetype: add
+objectClass: inetOrgPerson
+givenName: Franz
+cn: waiter_franz
+sn: Foodrunner
+uid: franz
+mail: franz@dining_hall.wirtshaus.otobotesting.food
+preferredLanguage: fr
+userPassword: franz
+
 
 # Two baristas Boris and Bogdan Barista. Only Bogdan is in the otoboallow group of café sans souci.
 

@@ -94,7 +94,7 @@ my $RandomID      = $Helper->GetRandomID;
 # set up groups, needed for testing UserSyncInitialGroups UserSyncGroupsDefinition
 my %GroupName2ID;
 {
-    for my $Name (qw(test_sync_group_1 test_sync_group_2)) {
+    for my $Name (qw(test_sync_group_1 test_sync_group_2 test_sync_group_3A)) {
         $GroupName2ID{$Name} = $GroupObject->GroupAdd(
             Name    => $Name,
             Comment => ( sprintf 'created by %s line %s', __FILE__, __LINE__ ),
@@ -189,7 +189,7 @@ my %GroupName2ID;
             $Entry->dn($Dn);
 
             ATTR:
-            for my $Attr (qw(dc member)) {
+            for my $Attr (qw(dc member uniquemember)) {
                 my @Values = map {s/\Q[[RANDOM_ID]]\E/$RandomID/rg} $Entry->get_value($Attr);
 
                 next ATTR unless @Values;
@@ -593,6 +593,108 @@ my %GroupName2ID;
             ok( $HasPermission, 'move_into permission for serge as he is in LDAP groups test_sync_group_2' );
         };
 
+    # For samuel UserSyncGroupsDefinition has no effect as he is neither directly or indirectly in
+    # in the test_sync_group_3D LDAP group.
+    #
+    # franz is a direct member test_sync_group_3D. The group test_sync_group_3A is linked via
+    # the uniqueMember attribute to test_sync_group_3B.
+    # Thus franz is indirectly in test_sync_group_3A and the privilege 'priority' should be added
+    # for the OTOBO group test_sync_group_3A.
+    #
+    # TODO: a test case for dynamic groups using the object class groupOfUniqueURLs and the attributes memberURL.
+    # This is missing because OpenLDAP doesn't provide the dynlist overlay per default, making the setup non-trivial.
+    push @Tests,
+        sub {
+            note 'Testing UserSyncGroupsDefinition with nested group search';
+        },
+        {
+            Name         => 'checking the samuel is still there',
+            UserLogin    => 'samuel',
+            UserPassword => 'samuel',
+            AuthResult   => 'samuel',
+        },
+        {
+            Name         => 'creating the user franz',
+            UserLogin    => 'franz',
+            UserPassword => 'franz',
+            AuthResult   => 'franz',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for samuel as UserSyncGroupsDefinition is not set up, nested' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'franz' );
+            ok( $UserData{UserID}, 'got UserID for franz' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for franz as UserSyncGroupsDefinition is not set uo, nested' );
+        },
+        {
+            Name     => 'authenticate samuel with UserSyncGroupsDefinition with nested search',
+            Settings => [
+                [ 'AuthSyncModule::LDAP::NestedGroupSearch7' => 1 ],
+                [ 'AuthSyncModule::LDAP::AccessAttr7'        => 'member' ],
+                [ 'AuthSyncModule::LDAP::UserAttr7'          => 'DN' ],
+                [
+                    'AuthSyncModule::LDAP::UserSyncGroupsDefinition7' => {
+                        "cn=test_sync_group_3A,ou=dining hall,dc=wirtshaus_$RandomID,dc=otobotesting" => {
+
+                            # otobo group
+                            'test_sync_group_3A' => {
+
+                                # permission
+                                priority => 1,
+                            },
+                        },
+                    },
+                ],
+            ],
+            DoRollBackSettings => 0,
+            UserLogin          => 'samuel',
+            UserPassword       => 'samuel',
+            AuthResult         => 'samuel',
+        },
+        {
+            Name         => 'authenticate franz with UserSyncGroupsDefinition with nested group search',
+            UserLogin    => 'franz',
+            UserPassword => 'franz',
+            AuthResult   => 'franz',
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'samuel' );
+            ok( $UserData{UserID}, 'got UserID for samuel' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( !$HasPermission, 'no priority permission for samuel as he is not in LDAP group test_sync_group_3A, nested' );
+        },
+        sub {
+            my %UserData = $UserObject->GetUserData( User => 'franz' );
+            ok( $UserData{UserID}, 'got UserID for franz' );
+
+            my $HasPermission = $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'test_sync_group_3A',
+                Type      => 'priority',
+            );
+            ok( $HasPermission, 'priority permission for franz as he is indirectly in LDAP groups test_sync_group_3A, nested' );
+        };
+
     # remember the original value of altered settings for the rollback
     my @AlteredSettingsStack;
 
@@ -653,8 +755,5 @@ my %GroupName2ID;
         }
     }
 }
-
-# TODO: set up LDAP sync
-# TODO: test LDAP sync
 
 done_testing;
