@@ -524,6 +524,7 @@ sub Run {
                 # create form input
                 my $InputString = $LayoutObject->ImportExportFormInputCreate(
                     Item   => $Item,
+                    Class  => 'Modernize',
                     Prefix => 'Object::' . $AttributeRowCounter . '::',
                     Value  => $MappingObjectData->{ $Item->{Key} },
                     ID     => $Item->{Key} . $AttributeRowCounter,
