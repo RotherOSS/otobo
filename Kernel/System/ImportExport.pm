@@ -2306,7 +2306,7 @@ sub Export {
         $Result{Success}++;
     }
 
-    # writing the header line does not count a success
+    # writing the header line does not count as success
     if ( $FormatData->{IncludeColumnHeaders} ) {
         $Result{Success}--;
     }

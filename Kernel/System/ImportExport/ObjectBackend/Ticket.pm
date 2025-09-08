@@ -144,7 +144,7 @@ sub ObjectAttributesGet {
         push @Attributes,
             {
                 Key   => 'QueueID',
-                Name  => 'Default Queue',
+                Name  => Translatable('Default Queue'),
                 Input => {
                     Type        => 'Selection',
                     Data        => \%QueueList,
@@ -162,7 +162,7 @@ sub ObjectAttributesGet {
 
         push @Attributes, {
             Key   => 'TypeID',
-            Name  => 'Default Type',
+            Name  => Translatable('Default Type'),
             Input => {
                 Type        => 'Selection',
                 Data        => \%TypeList || {},
@@ -180,7 +180,7 @@ sub ObjectAttributesGet {
 
         push @Attributes, {
             Key   => 'ServiceID',
-            Name  => 'Default Service',
+            Name  => Translatable('Default Service'),
             Input => {
                 Type         => 'Selection',
                 Data         => \%ServiceList || {},
@@ -197,7 +197,7 @@ sub ObjectAttributesGet {
 
         push @Attributes, {
             Key   => 'SLAID',
-            Name  => 'Default SLA',
+            Name  => Translatable('Default SLA'),
             Input => {
                 Type         => 'Selection',
                 Data         => \%SLAList || {},
@@ -218,7 +218,7 @@ sub ObjectAttributesGet {
         push @Attributes,
             {
                 Key   => 'StateID',
-                Name  => 'Default state',
+                Name  => Translatable('Default state'),
                 Input => {
                     Type        => 'Selection',
                     Data        => \%StateList,
@@ -238,7 +238,7 @@ sub ObjectAttributesGet {
         push @Attributes,
             {
                 Key   => 'PriorityID',
-                Name  => 'Default priority',
+                Name  => Translatable('Default priority'),
                 Input => {
                     Type        => 'Selection',
                     Data        => \%PriorityList,
@@ -256,7 +256,7 @@ sub ObjectAttributesGet {
         push @Attributes,
             {
                 Key   => 'OwnerID',
-                Name  => 'Default owner',
+                Name  => Translatable('Default owner'),
                 Input => {
                     Type        => 'Selection',
                     Data        => \%UserList,
@@ -270,7 +270,7 @@ sub ObjectAttributesGet {
             push @Attributes,
                 {
                     Key   => 'ResponsibleID',
-                    Name  => 'Default responsible',
+                    Name  => Translatable('Default responsible'),
                     Input => {
                         Type         => 'Selection',
                         Data         => \%UserList,
@@ -291,7 +291,7 @@ sub ObjectAttributesGet {
         push @Attributes,
             {
                 Key   => 'LockID',
-                Name  => 'Default lock',
+                Name  => Translatable('Default lock'),
                 Input => {
                     Type        => 'Selection',
                     Data        => \%LockList,
@@ -305,7 +305,7 @@ sub ObjectAttributesGet {
     push @Attributes,
         {
             Key   => 'CustomerID',
-            Name  => 'Default CustomerID',
+            Name  => Translatable('Default CustomerID'),
             Input => {
                 Type      => 'Text',
                 Required  => 0,
@@ -315,7 +315,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'CustomerUserID',
-            Name  => 'Default CustomerUserID',
+            Name  => Translatable('Default CustomerUserID'),
             Input => {
                 Type      => 'Text',
                 Required  => 0,
@@ -325,7 +325,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'ArchiveFlag',
-            Name  => 'Default ArchiveFlag',
+            Name  => Translatable('Default ArchiveFlag'),
             Input => {
                 Type         => 'Selection',
                 Data         => { map { $_ => $_ } qw( y n ) },
@@ -337,7 +337,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'Subject',
-            Name  => 'Default subject',
+            Name  => Translatable('Default subject'),
             Input => {
                 Type         => 'Text',
                 Required     => 0,
@@ -348,7 +348,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'Body',
-            Name  => 'Default body',
+            Name  => Translatable('Default body'),
             Input => {
                 Type         => 'Text',
                 Required     => 0,
@@ -359,7 +359,7 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'SenderType',
-            Name  => 'Default sender type',
+            Name  => Translatable('Default sender type'),
             Input => {
                 Type => 'Selection',
                 Data => {
@@ -372,28 +372,28 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'IsVisibleToCustomer',
-            Name  => 'Default is visible to customer',
+            Name  => Translatable('Default is visible to customer'),
             Input => {
                 Type => 'Checkbox',
             },
         },
         {
             Key   => 'EmptyFieldsLeaveTheOldValues',
-            Name  => 'Empty fields indicate that the current values are kept',
+            Name  => Translatable('Empty fields indicate that the current values are kept'),
             Input => {
                 Type => 'Checkbox',
             },
         },
         {
             Key   => 'SkipExistingTickets',
-            Name  => 'Do not update existing tickets',
+            Name  => Translatable('Do not update existing tickets'),
             Input => {
                 Type => 'Checkbox',
             },
         },
         {
             Key   => 'AllowedOwnerInTarget',
-            Name  => 'Only update tickets of this user in the target system',
+            Name  => Translatable('Only update tickets of this user in the target system'),
             Input => {
                 Type      => 'Text',
                 Required  => 0,
@@ -406,14 +406,14 @@ sub ObjectAttributesGet {
     push @Attributes,
         {
             Key   => 'IncludeArticles',
-            Name  => 'Import/Export articles',
+            Name  => Translatable('Import/Export articles'),
             Input => {
                 Type => 'Checkbox',
             },
         },
         {
             Key   => 'ArticleBackend',
-            Name  => 'Default Backend',
+            Name  => Translatable('Default Backend'),
             Input => {
                 Type         => 'Selection',
                 Data         => { map { $_ => $_ } qw( Email Phone Internal ) },
@@ -425,14 +425,14 @@ sub ObjectAttributesGet {
         },
         {
             Key   => 'ArticleSeparateLines',
-            Name  => 'Store articles on separate lines indicated by a blank first entry',
+            Name  => Translatable('Store articles on separate lines indicated by a blank first entry'),
             Input => {
                 Type => 'Checkbox',
             },
         },
         {
             Key   => 'IncludeAttachments',
-            Name  => 'Import/Export attachments (as the last entries per line)',
+            Name  => Translatable('Import/Export attachments (as the last entries per line)'),
             Input => {
                 Type => 'Checkbox',
             },
