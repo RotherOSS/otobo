@@ -888,7 +888,7 @@ sub ExportDataGet {
             TemplateID => $Param{TemplateID},
             UserID     => $Param{UserID},
         );
-        if ( $Param{ChunkSize} >= 1 ) {
+        if ( ( $Param{ChunkSize} // 0 ) >= 1 ) {
 
             # search only on the first invocation
             $Self->{AllFoundTicketIDs} //= [ $Self->_TicketSearch(%TicketSearchParam) ];
