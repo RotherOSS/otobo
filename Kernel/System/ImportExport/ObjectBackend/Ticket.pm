@@ -503,7 +503,7 @@ sub MappingObjectAttributesGet {
             @TypeElements,
             qw( Queue QueueID ),
             @ServiceElements,
-            qw( StateID Priority PriorityID CustomerID CustomerUserID Owner OwnerID Lock LockID ),
+            qw( State StateID Priority PriorityID CustomerID CustomerUserID Owner OwnerID Lock LockID ),
             @ResponsibleElements,
             qw( ArchiveFlag Created )
         );
