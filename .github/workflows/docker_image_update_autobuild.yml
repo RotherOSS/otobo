@@ -265,19 +265,19 @@ jobs:
               repo: context.repo.repo,
               title: 'Issue created by the Github action DockerImageUpdateAutobuild',
               body: `
-                The Github workflow DockerImageUpdateAutobuild has found that
-                the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker image has changed.
+            The Github workflow DockerImageUpdateAutobuild has found that
+            the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker image has changed.
 
-                This means that there is work to do. Please test the newly created Docker images.
-                This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
+            This means that there is work to do. Please test the newly created Docker images.
+            This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
 
-                Note that the GitLab pipeline tests do not cover the service nginx. For sanity testing nginx
-                please pull the autobuild images, start an installation with the autobuild images and see whether
-                OTOBO can be accessed via HTTPS.
+            Note that the GitLab pipeline tests do not cover the service nginx. For sanity testing nginx
+            please pull the autobuild images, start an installation with the autobuild images and see whether
+            OTOBO can be accessed via HTTPS.
 
-                Rebuild the released Docker images when things look fine. The rebuild can be done
-                via the Github action DockerImageUpdateAll.
+            Rebuild the released Docker images when things look fine. The rebuild can be done
+            via the Github action DockerImageUpdateAll.
 
-                ${{ steps.sort_json.outputs.sorted_json }}`,
+            ${{ steps.sort_json.outputs.sorted_json }}`,
               labels: [ 'Action DockerImageUpdateAutobuild' ]
             })
