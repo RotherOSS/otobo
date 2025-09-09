@@ -271,6 +271,10 @@ jobs:
                 This means that there is work to do. Please test the newly created Docker images.
                 This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
 
+                Note that the GitLab pipeline tests do not cover the service nginx. For sanity testing nginx
+                please pull the autobuild images, start an installation with the autobuild images and see whether
+                OTOBO can be accessed via HTTPS.
+
                 Rebuild the released Docker images when things look fine. The rebuild can be done
                 via the Github action DockerImageUpdateAll.
 

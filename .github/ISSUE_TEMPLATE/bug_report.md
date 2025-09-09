@@ -15,7 +15,7 @@ assignees: ''
 ### Environment
 
 - Server OS Distribution: <!-- [e.g. Ubuntu 22.04 LTS, Debian 11] -->
-- OTOBO installation typ: <!-- [e.g. Docker, Podmann, Kubernetes, Nativ Apache, Nativ Nginx] -->
+- OTOBO installation typ: <!-- [e.g. Docker, Podman, Kubernetes, Nativ Apache, Nativ Nginx] -->
 - Browser: <!-- [e. g. Chrome, Firefox, Safari] -->
 - OTOBO version: <!-- [e. g. 11.0.1] -->
 

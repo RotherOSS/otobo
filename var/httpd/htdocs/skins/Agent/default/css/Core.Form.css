@@ -645,7 +645,8 @@ fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     text-wrap: wrap;
 }
 
-fieldset.TableLike .Row.MultiColumn > .FieldCell label {
+fieldset.TableLike .Row.MultiColumn > .FieldCell label,
+fieldset.TableLike .DFSetOuterField .DynamicFieldSet .Row.MultiColumn > .FieldCell label {
     float: none;
     line-height: 1.9em;
     width: auto;
@@ -787,6 +788,10 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     width: 100% !important;
     margin-left: 0px;
     padding-left: 0px;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField  input.DynamicFieldText {
+    padding-left: 3px;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
