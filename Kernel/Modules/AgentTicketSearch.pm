@@ -222,17 +222,14 @@ sub Run {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
 
-        my @CurrentInnerFields = @{ $DynamicFieldConfig->{Config}{Include} // [] };
-        for my $DF (@CurrentInnerFields) {
-            my $InnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
-                Name => $DF->{DF},
+        my @SetElements = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+        for my $SetElement (@SetElements) {
+
+            $Self->_ExtractInnerDynamicFields(
+                SetElement     => $SetElement,
+                Label          => $DynamicFieldConfig->{Label},
+                SetInnerFields => \@SetInnerFields,
             );
-
-            # necessary to not overwrite cached data of field config by altering the reference
-            my %InnerFieldConfig = $InnerFieldConfigRef->%*;
-
-            $InnerFieldConfig{Label} = $DynamicFieldConfig->{Label} . '::' . $InnerFieldConfig{Label};
-            push @SetInnerFields, \%InnerFieldConfig;
         }
     }
 
@@ -2720,6 +2717,66 @@ sub Run {
     );
     $Output .= $LayoutObject->Footer();
     return $Output;
+}
+
+sub _ExtractInnerDynamicFields {
+
+    my ( $Self, %Param ) = @_;
+
+    my $SetElement     = $Param{SetElement};
+    my $Label          = $Param{Label};
+    my $SetInnerFields = $Param{SetInnerFields};
+
+    # if this Set element is a DF, add it to @SetInnerFields
+    if ( exists $SetElement->{DF} ) {
+
+        my $DynamicFieldObject  = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $InnerFieldConfigRef = $DynamicFieldObject->DynamicFieldGet(
+            Name => $SetElement->{DF},
+        );
+
+        # necessary to not overwrite cached data of field config by altering the reference
+        my %InnerFieldConfig = $InnerFieldConfigRef->%*;
+
+        $InnerFieldConfig{Label} = $Label . '::' . $InnerFieldConfig{Label};
+        push @$SetInnerFields, \%InnerFieldConfig;
+    }
+
+    # otherwise if it is a Grid, walk the Grid and find it's contained DFs
+    elsif ( exists $SetElement->{Grid} ) {
+
+        if ( !exists $SetElement->{Grid}->{Rows} ) {
+            return;
+        }
+
+        if ( !IsArrayRefWithData( $SetElement->{Grid}->{Rows} ) ) {
+            return;
+        }
+
+        ROW:
+        for my $Row ( $SetElement->{Grid}->{Rows}->@* ) {
+
+            if ( !IsArrayRefWithData($Row) ) {
+                next ROW;
+            }
+
+            COLUMN:
+            for my $Column ( $Row->@* ) {
+
+                if ( !IsHashRefWithData($Column) ) {
+                    next COLUMN;
+                }
+
+                $Self->_ExtractInnerDynamicFields(
+                    SetElement     => $Column,
+                    Label          => $Label,
+                    SetInnerFields => $SetInnerFields,
+                );
+            }
+        }
+    }
+
+    return;
 }
 
 1;

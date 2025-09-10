@@ -128,7 +128,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
         ServiceID => {
             SLAID => 1,
@@ -303,7 +303,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest       => 'QueueID',
                     PriorityID => 'PriorityID',
@@ -374,7 +374,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -394,7 +394,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -984,10 +984,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1143,7 +1140,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest       => 'QueueID',
                     PriorityID => 'PriorityID',
@@ -1214,7 +1211,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -1234,7 +1231,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -1880,8 +1877,6 @@ sub _MaskNew {
             $Param{$_} = $Param{Errors}->{$_};
         }
     }
-
-    my $SeparateDynamicFields = $ConfigObject->Get('Ticket::CustomerFrontend::SeparateDynamicFields');
 
     # render dynamic fields
     $Param{DynamicFieldHTML} = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(

@@ -138,7 +138,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
         Dest => {
             NewUserID          => 1,
@@ -637,8 +637,8 @@ sub Run {
             );
 
             # set simple IDs to pass them to the mask
-            for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
-                $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+            for my $SplitParam (qw(TypeID ServiceID SLAID PriorityID)) {
+                $SplitTicketParam{$SplitParam} = $SplitTicketData{$SplitParam};
             }
 
             # set StateID as NextStateID
@@ -719,8 +719,8 @@ sub Run {
         if ( $SplitTicketParam{ResponsibleUserSelected} ) {
             $GetParam{NewResponsibleID} = $SplitTicketData{ResponsibleUserSelected};
         }
-        for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
-            $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+        for my $SplitParam (qw(TypeID ServiceID SLAID PriorityID)) {
+            $SplitTicketParam{$SplitParam} = $SplitTicketData{$SplitParam};
         }
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -824,7 +824,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest               => 'QueueID',
                     NewUserID          => 'NewUserID',
@@ -900,7 +900,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -920,7 +920,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -1739,10 +1739,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -2053,7 +2050,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest               => 'QueueID',
                     NewUserID          => 'NewUserID',
@@ -2129,7 +2126,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -2149,7 +2146,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -2422,7 +2419,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ChangedStdFields{StandardTemplateID} ) {
             my @TicketAttachments;
             my $TemplateText;
