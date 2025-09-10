@@ -39,15 +39,14 @@ function handle_docker_firsttime() {
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         copy_otobo_next
-
     fi
 
-    # When /opt/otobo already exists then do no automatic update.
-    # The updating has to be triggered with an explicit 'update' command.
+    # When /opt/otobo already exists then there is no automatic update.
+    # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
-    # Note that docker_firsttime_handled is only available in otobo_web_1
+    # Note that docker_firsttime_handled is only available in the service web.
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
@@ -108,9 +107,9 @@ function exec_web() {
     #   exec plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
 
     # For debugging reload the complete application for each request by passing -L Shotgun
-    #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+    #   exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
 
-    # For production use Gazelle, which is implemented in C
+    # For production use the web server Gazelle, which is implemented in C.
     exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
 }
 
@@ -141,8 +140,9 @@ function copy_otobo_next() {
 
 function do_update_tasks() {
 
-    # reinstall package, rebuild config, purge cache
-    # Not that this works only if OTOBO has been properly configured
+    # Reinstall packages, rebuild config, purge the cache and the cached loader files.
+    # Note that this works only if OTOBO has been properly configured,
+    # because some commands need access to the database.
     {
         echo "started do_update_tasks()"
         date
@@ -193,7 +193,8 @@ fi
 # Start the webserver
 if [ "$1" = "web" ]; then
 
-    # first check whether the container is started with a new image
+    # First check whether the container is started with a new image.
+    # There is no locking as we assume that there aren't multiple containers trying to the same.
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
