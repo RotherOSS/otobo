@@ -150,6 +150,7 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         date
         echo "finished do_update_tasks()"
         echo
