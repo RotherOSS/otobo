@@ -279,15 +279,14 @@ sub _SupportDataCollectorView {
         $Param{SenderAddress} = '';
     }
 
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminSupportDataCollector',
-        Data         => \%Param,
-    );
-    $Output .= $LayoutObject->Footer();
-
-    return $Output;
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => 'AdminSupportDataCollector',
+            Data         => \%Param,
+        ),
+        $LayoutObject->Footer;
 }
 
 sub _GenerateSupportBundle {
