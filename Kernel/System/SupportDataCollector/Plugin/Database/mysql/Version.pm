@@ -16,11 +16,19 @@
 
 package Kernel::System::SupportDataCollector::Plugin::Database::mysql::Version;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -37,9 +45,7 @@ sub Run {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
-        return $Self->GetResults();
-    }
+    return $Self->GetResults() unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
 
     # version check
     my $Version = $DBObject->Version();
