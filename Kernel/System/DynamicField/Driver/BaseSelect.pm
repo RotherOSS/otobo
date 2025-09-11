@@ -508,13 +508,13 @@ sub EditFieldValueValidate {
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
+    my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && !$ValueItem ) {
-            return {
-                ServerError => 1,
-            };
+        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+
+            $MandatoryValueItemsPresent++;
         }
         else {
             # validate if value is in possible values list (but let pass empty values)
@@ -523,6 +523,12 @@ sub EditFieldValueValidate {
                 $ErrorMessage = 'The field content is invalid';
             }
         }
+    }
+
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'At least 1 mandatory value must be given!';
     }
 
     # return resulting structure
