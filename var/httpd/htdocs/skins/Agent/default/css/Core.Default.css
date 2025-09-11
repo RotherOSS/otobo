@@ -443,7 +443,7 @@ div.DnDUpload i {
     position: absolute;
     top: 10px;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -10px;
     font-size: 20px;
     margin-bottom: 10px;
 }
@@ -1442,23 +1442,23 @@ iframe.TextOption.CustomerUserAddressBook {
 .RichTextField .ui-resizable-s {
     position: relative;
     bottom: 0px;
-    width: 30px;
     box-sizing: border-box;
     height: 4px;
-    margin: auto;
     margin-top: -2px;
-    border-radius: 5px;
-    background-color: var(--colBGDark);
-    cursor: s-resize;
     overflow: hidden;
 
     i {
+        width: 30px;
+        position: relative;
         display: block;
         margin: auto;
         margin-top: -2px;
+        border-radius: 5px;
+        background-color: var(--colBGDark);
         color: var(--colTextLight);
         text-align: center;
         font-size: 9px;
+        cursor: s-resize;
     }
 }
 

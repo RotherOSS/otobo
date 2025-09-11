@@ -418,10 +418,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 if (!CustomerInterface) {
                     // set initial Editor size as defined by System Configuration
                     // add 10 px of padding to the editor width
-                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) ) + 10;
+                    let EditorWidth = Number( Core.Config.Get("RichText.Width", 620) );
 
                     $domEditableElement.css("height", Core.Config.Get("RichText.Height", 320));
-                    $domEditableElement.css("width", EditorWidth);
+                    $domEditableElement.children().css("max-width", EditorWidth);
                 }
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
