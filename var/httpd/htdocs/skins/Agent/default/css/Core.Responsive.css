@@ -451,6 +451,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin: 0;
     }
 
+    fieldset.TableLike > .RichTextField {
+        width: unset;
+        max-width: unset;
+    }
+
+    fieldset.TableLike > .RichTextField > *,
+    fieldset.TableLike > .Field > .DnDUpload,
+    fieldset.TableLike > .Field > .AttachmentListContainer,
+    fieldset.TableLike > .Field > .AjaxDnDUpload {
+        width: calc( 90% + 10px );
+        max-width: unset !important;
+    }
+
     body.Popup fieldset.TableLike > .RichTextField,
     body.RealPopup.RTL fieldset.TableLike > .RichTextField {
         padding: 0px;
