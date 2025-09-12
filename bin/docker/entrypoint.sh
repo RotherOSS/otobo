@@ -122,6 +122,7 @@ function exec_web() {
     elif [ "$otobo_devel" = "development" ]; then
         exec plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
 
+    fi
 }
 
 # preserve added files in the previous
