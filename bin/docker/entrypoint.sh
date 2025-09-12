@@ -102,25 +102,26 @@ function stop_daemon() {
 # Start the webserver
 function exec_web() {
 
-    # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
-    # This enables additional middlewares that are useful during development.
-    # For development also enable the -R option. This watches for changes in the modules and the config files.
-    # otobo.psgi is watched implicitly.
-    #   exec plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
-
-    # For debugging reload the complete application for each request by passing -L Shotgun
-    #   exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+    otobo_devel="${1:-unknown}"
 
     # For production use the web server Gazelle, which is implemented in C.
-    #   exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
-
+    # In many cases 'deployment' is also the sensible option during development.
     # The special loader Plack::Loader::SyncWithS3 is activated only when S3 is active. That loader module
     # checks for updates in S3.
-    s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
-    if [[ "$s3_active" -eq "1" ]]; then
-        exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
-    else
-        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+    if [ "$otobo_devel" = "deployment" ]; then
+
+        s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
+        if [[ "$s3_active" -eq "1" ]]; then
+            exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+        else
+            exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+        fi
+
+    # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
+    # This enables additional middlewares that are useful during development.
+    elif [ "$otobo_devel" = "development" ]; then
+        exec plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
+
     fi
 }
 
@@ -249,8 +250,8 @@ if [ "$1" = "web" ]; then
         handle_docker_firsttime
     fi
 
-    # start webserver
-    exec_web
+    # start webserver, passing the optional second parameter
+    exec_web "${2:-deployment}"
 fi
 
 # copy /opt/otobo_install/otobo_next without checking docker_firsttime
