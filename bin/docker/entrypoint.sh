@@ -122,6 +122,14 @@ function exec_web() {
     elif [ "$otobo_devel" = "development" ]; then
         exec plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
 
+    # For being very sure that all modules are reloaded and the config being read again
+    elif [ "$otobo_devel" = "shotgun" ]; then
+        exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+
+    # lost
+    else
+        echo "flag $otobo_devel is not supported"
+
     fi
 }
 
