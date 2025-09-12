@@ -93,6 +93,7 @@ Returns:
             Filename    => 'SupportBundle.tar',      # The outer tar filename
             Filesize    =>  123                      # The size of the file in mega bytes
         },
+    };
 
 =cut
 

@@ -89,17 +89,18 @@ Core.UI.Table.Sort = (function (TargetNS) {
                 $Table.tablesorter({
                     headers: Headers,
                     sortList: InitialSort,
-                    textExtraction: CustomTextExtractor,
-                    language: {
-                      sortAsc      : Core.Language.Translate('Ascending sort applied, '),
-                      sortDesc     : Core.Language.Translate('Descending sort applied, '),
-                      sortNone     : Core.Language.Translate('No sort applied, '),
-                      sortDisabled : Core.Language.Translate('sorting is disabled'),
-                      nextAsc      : Core.Language.Translate('activate to apply an ascending sort'),
-                      nextDesc     : Core.Language.Translate('activate to apply a descending sort'),
-                      nextNone     : Core.Language.Translate('activate to remove the sort')
-                    }
+                    textExtraction: CustomTextExtractor
                 });
+
+                $Table.tablesorter.language = {
+                    sortAsc      : Core.Language.Translate('Ascending sort applied, '),
+                    sortDesc     : Core.Language.Translate('Descending sort applied, '),
+                    sortNone     : Core.Language.Translate('No sort applied, '),
+                    sortDisabled : Core.Language.Translate('sorting is disabled'),
+                    nextAsc      : Core.Language.Translate('activate to apply an ascending sort'),
+                    nextDesc     : Core.Language.Translate('activate to apply a descending sort'),
+                    nextNone     : Core.Language.Translate('activate to remove the sort')
+                };
 
                 if ($.isFunction(Finished)) {
                     $Table.on('sortEnd', Finished);
