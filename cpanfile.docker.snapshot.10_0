@@ -179,25 +179,25 @@ DISTRIBUTIONS
       IO::Seekable 0
       Time::Local 0
       perl 5.006
-  Authen-SASL-2.1800
-    pathname: E/EH/EHUELS/Authen-SASL-2.1800.tar.gz
+  Authen-SASL-2.1900
+    pathname: E/EH/EHUELS/Authen-SASL-2.1900.tar.gz
     provides:
-      Authen::SASL 2.1800
-      Authen::SASL::CRAM_MD5 2.1800
-      Authen::SASL::EXTERNAL 2.1800
-      Authen::SASL::Perl 2.1800
-      Authen::SASL::Perl::ANONYMOUS 2.1800
-      Authen::SASL::Perl::CRAM_MD5 2.1800
-      Authen::SASL::Perl::DIGEST_MD5 2.1800
-      Authen::SASL::Perl::EXTERNAL 2.1800
-      Authen::SASL::Perl::GSSAPI 2.1800
-      Authen::SASL::Perl::LOGIN 2.1800
-      Authen::SASL::Perl::OAUTHBEARER 2.1800
-      Authen::SASL::Perl::PLAIN 2.1800
-      Authen::SASL::Perl::XOAUTH2 2.1800
+      Authen::SASL 2.1900
+      Authen::SASL::CRAM_MD5 2.1900
+      Authen::SASL::EXTERNAL 2.1900
+      Authen::SASL::Perl 2.1900
+      Authen::SASL::Perl::ANONYMOUS 2.1900
+      Authen::SASL::Perl::CRAM_MD5 2.1900
+      Authen::SASL::Perl::DIGEST_MD5 2.1900
+      Authen::SASL::Perl::EXTERNAL 2.1900
+      Authen::SASL::Perl::GSSAPI 2.1900
+      Authen::SASL::Perl::LOGIN 2.1900
+      Authen::SASL::Perl::OAUTHBEARER 2.1900
+      Authen::SASL::Perl::PLAIN 2.1900
+      Authen::SASL::Perl::XOAUTH2 2.1900
     requirements:
+      Crypt::URandom 0
       Digest::HMAC_MD5 0
-      Digest::MD5 0
       ExtUtils::MakeMaker 0
       perl 5.014000
   B-Hooks-EndOfScope-0.28
@@ -218,19 +218,19 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
-  CGI-4.68
-    pathname: L/LE/LEEJO/CGI-4.68.tar.gz
+  CGI-4.70
+    pathname: L/LE/LEEJO/CGI-4.70.tar.gz
     provides:
-      CGI 4.68
-      CGI::Carp 4.68
+      CGI 4.70
+      CGI::Carp 4.70
       CGI::Cookie 4.59
-      CGI::File::Temp 4.68
+      CGI::File::Temp 4.70
       CGI::HTML::Functions undef
-      CGI::MultipartBuffer 4.68
-      CGI::Pretty 4.68
-      CGI::Push 4.68
-      CGI::Util 4.67
-      Fh 4.68
+      CGI::MultipartBuffer 4.70
+      CGI::Pretty 4.70
+      CGI::Push 4.70
+      CGI::Util 4.70
+      Fh 4.70
     requirements:
       Carp 0
       Config 0
@@ -354,6 +354,17 @@ DISTRIBUTIONS
       Clone 0.47
     requirements:
       ExtUtils::MakeMaker 0
+  Clone-PP-1.08
+    pathname: N/NE/NEILB/Clone-PP-1.08.tar.gz
+    provides:
+      Clone::PP 1.08
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      vars 0
+      warnings 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
@@ -406,10 +417,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.39
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.39.tar.gz
+  Cpanel-JSON-XS-4.40
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.40.tar.gz
     provides:
-      Cpanel::JSON::XS 4.39
+      Cpanel::JSON::XS 4.40
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -444,6 +455,18 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Crypt-URandom-0.54
+    pathname: D/DD/DDICK/Crypt-URandom-0.54.tar.gz
+    provides:
+      Crypt::URandom 0.54
+    requirements:
+      Carp 1.26
+      English 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      FileHandle 0
+      constant 0
+      perl 5.006
   DBD-ODBC-1.61
     pathname: M/MJ/MJEVANS/DBD-ODBC-1.61.tar.gz
     provides:
@@ -1477,18 +1500,18 @@ DISTRIBUTIONS
       IO::SessionSet undef
     requirements:
       ExtUtils::MakeMaker 0
-  IO-Socket-SSL-2.089
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.089.tar.gz
+  IO-Socket-SSL-2.095
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.095.tar.gz
     provides:
-      IO::Socket::SSL 2.089
+      IO::Socket::SSL 2.095
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.089
-      IO::Socket::SSL::OCSP_Resolver 2.089
+      IO::Socket::SSL::OCSP_Cache 2.095
+      IO::Socket::SSL::OCSP_Resolver 2.095
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.089
-      IO::Socket::SSL::SSL_HANDLE 2.089
-      IO::Socket::SSL::Session_Cache 2.089
-      IO::Socket::SSL::Trace 2.089
+      IO::Socket::SSL::SSL_Context 2.095
+      IO::Socket::SSL::SSL_HANDLE 2.095
+      IO::Socket::SSL::Session_Cache 2.095
+      IO::Socket::SSL::Trace 2.095
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1540,10 +1563,10 @@ DISTRIBUTIONS
       JSON::PP 2.27300
       Scalar::Util 0
       perl 5.006
-  JSON-XS-4.03
-    pathname: M/ML/MLEHMANN/JSON-XS-4.03.tar.gz
+  JSON-XS-4.04
+    pathname: M/ML/MLEHMANN/JSON-XS-4.04.tar.gz
     provides:
-      JSON::XS 4.03
+      JSON::XS 4.04
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
@@ -1791,10 +1814,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.50
-    pathname: N/NL/NLNETLABS/Net-DNS-1.50.tar.gz
+  Net-DNS-1.53
+    pathname: N/NL/NLNETLABS/Net-DNS-1.53.tar.gz
     provides:
-      Net::DNS 1.50
+      Net::DNS 1.53
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
@@ -1805,9 +1828,9 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2002
+      Net::DNS::Parameters 2021
       Net::DNS::Question 2002
-      Net::DNS::RR 2003
+      Net::DNS::RR 2037
       Net::DNS::RR::A 2003
       Net::DNS::RR::AAAA 2003
       Net::DNS::RR::AFSDB 2002
@@ -1820,7 +1843,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2002
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2003
+      Net::DNS::RR::DELEG 2039
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2003
@@ -1880,16 +1903,16 @@ DISTRIBUTIONS
       Net::DNS::RR::SPF 2003
       Net::DNS::RR::SRV 2003
       Net::DNS::RR::SSHFP 2003
-      Net::DNS::RR::SVCB 2003
-      Net::DNS::RR::TKEY 2003
+      Net::DNS::RR::SVCB 2037
+      Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
       Net::DNS::RR::TSIG 2003
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
-      Net::DNS::Resolver 2009
-      Net::DNS::Resolver::Base 2011
+      Net::DNS::Resolver 2017
+      Net::DNS::Resolver::Base 2031
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
       Net::DNS::Resolver::UNIX 2007
@@ -1898,7 +1921,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::os2 2007
       Net::DNS::Resolver::os390 2007
       Net::DNS::Text 2002
-      Net::DNS::Update 2003
+      Net::DNS::Update 2017
       Net::DNS::ZoneFile 2002
       Net::DNS::ZoneFile::Generator 2002
       Net::DNS::ZoneFile::Text 2002
@@ -1929,13 +1952,13 @@ DISTRIBUTIONS
       perl 5.008009
       strict 1.03
       warnings 1.0501
-  Net-HTTP-6.23
-    pathname: O/OA/OALDERS/Net-HTTP-6.23.tar.gz
+  Net-HTTP-6.24
+    pathname: O/OA/OALDERS/Net-HTTP-6.24.tar.gz
     provides:
-      Net::HTTP 6.23
-      Net::HTTP::Methods 6.23
-      Net::HTTP::NB 6.23
-      Net::HTTPS 6.23
+      Net::HTTP 6.24
+      Net::HTTP::Methods 6.24
+      Net::HTTP::NB 6.24
+      Net::HTTPS 6.24
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -2122,11 +2145,11 @@ DISTRIBUTIONS
       overload 0
       parent 0
       strict 0
-  Path-Tiny-0.148
-    pathname: D/DA/DAGOLDEN/Path-Tiny-0.148.tar.gz
+  Path-Tiny-0.150
+    pathname: D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz
     provides:
-      Path::Tiny 0.148
-      Path::Tiny::Error 0.148
+      Path::Tiny 0.150
+      Path::Tiny::Error 0.150
     requirements:
       Carp 0
       Cwd 0
@@ -2536,53 +2559,56 @@ DISTRIBUTIONS
       POSIX 0
       strict 0
       warnings 0
-  Specio-0.50
-    pathname: D/DR/DROLSKY/Specio-0.50.tar.gz
+  Specio-0.52
+    pathname: D/DR/DROLSKY/Specio-0.52.tar.gz
     provides:
-      Specio 0.50
-      Specio::Coercion 0.50
-      Specio::Constraint::AnyCan 0.50
-      Specio::Constraint::AnyDoes 0.50
-      Specio::Constraint::AnyIsa 0.50
-      Specio::Constraint::Enum 0.50
-      Specio::Constraint::Intersection 0.50
-      Specio::Constraint::ObjectCan 0.50
-      Specio::Constraint::ObjectDoes 0.50
-      Specio::Constraint::ObjectIsa 0.50
-      Specio::Constraint::Parameterizable 0.50
-      Specio::Constraint::Parameterized 0.50
-      Specio::Constraint::Role::CanType 0.50
-      Specio::Constraint::Role::DoesType 0.50
-      Specio::Constraint::Role::Interface 0.50
-      Specio::Constraint::Role::IsaType 0.50
-      Specio::Constraint::Simple 0.50
-      Specio::Constraint::Structurable 0.50
-      Specio::Constraint::Structured 0.50
-      Specio::Constraint::Union 0.50
-      Specio::Declare 0.50
-      Specio::DeclaredAt 0.50
-      Specio::Exception 0.50
-      Specio::Exporter 0.50
-      Specio::Helpers 0.50
-      Specio::Library::Builtins 0.50
-      Specio::Library::Numeric 0.50
-      Specio::Library::Perl 0.50
-      Specio::Library::String 0.50
-      Specio::Library::Structured 0.50
-      Specio::Library::Structured::Dict 0.50
-      Specio::Library::Structured::Map 0.50
-      Specio::Library::Structured::Tuple 0.50
-      Specio::OO 0.50
-      Specio::PartialDump 0.50
-      Specio::Registry 0.50
-      Specio::Role::Inlinable 0.50
-      Specio::Subs 0.50
-      Specio::TypeChecks 0.50
-      Test::Specio 0.50
+      Specio 0.52
+      Specio::Coercion 0.52
+      Specio::Constraint::AnyCan 0.52
+      Specio::Constraint::AnyDoes 0.52
+      Specio::Constraint::AnyIsa 0.52
+      Specio::Constraint::Enum 0.52
+      Specio::Constraint::Intersection 0.52
+      Specio::Constraint::ObjectCan 0.52
+      Specio::Constraint::ObjectDoes 0.52
+      Specio::Constraint::ObjectIsa 0.52
+      Specio::Constraint::Parameterizable 0.52
+      Specio::Constraint::Parameterized 0.52
+      Specio::Constraint::Role::CanType 0.52
+      Specio::Constraint::Role::DoesType 0.52
+      Specio::Constraint::Role::Interface 0.52
+      Specio::Constraint::Role::IsaType 0.52
+      Specio::Constraint::Simple 0.52
+      Specio::Constraint::Structurable 0.52
+      Specio::Constraint::Structured 0.52
+      Specio::Constraint::Union 0.52
+      Specio::Declare 0.52
+      Specio::DeclaredAt 0.52
+      Specio::Exception 0.52
+      Specio::Exporter 0.52
+      Specio::Helpers 0.52
+      Specio::Library::Builtins 0.52
+      Specio::Library::Numeric 0.52
+      Specio::Library::Perl 0.52
+      Specio::Library::String 0.52
+      Specio::Library::Structured 0.52
+      Specio::Library::Structured::Dict 0.52
+      Specio::Library::Structured::Map 0.52
+      Specio::Library::Structured::Tuple 0.52
+      Specio::OO 0.52
+      Specio::PP 0.52
+      Specio::PartialDump 0.52
+      Specio::Registry 0.52
+      Specio::Role::Inlinable 0.52
+      Specio::Subs 0.52
+      Specio::TypeChecks 0.52
+      Specio::XS 0.52
+      Test::Specio 0.52
     requirements:
       B 0
       Carp 0
       Clone 0
+      Clone::PP 0
       Devel::StackTrace 0
       Eval::Closure 0
       Exporter 0
@@ -2590,6 +2616,7 @@ DISTRIBUTIONS
       IO::File 0
       List::Util 1.33
       MRO::Compat 0
+      Module::Implementation 0
       Module::Runtime 0
       Role::Tiny 1.003003
       Role::Tiny::With 0
@@ -2659,11 +2686,11 @@ DISTRIBUTIONS
       perl 5.008000
       strict 0
       warnings 0
-  Sub-Quote-2.006008
-    pathname: H/HA/HAARG/Sub-Quote-2.006008.tar.gz
+  Sub-Quote-2.006009
+    pathname: H/HA/HAARG/Sub-Quote-2.006009.tar.gz
     provides:
-      Sub::Defer 2.006008
-      Sub::Quote 2.006008
+      Sub::Defer 2.006009
+      Sub::Quote 2.006009
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
@@ -2958,10 +2985,10 @@ DISTRIBUTIONS
       Test2::Require 0.000121
       URI 0
       perl 5.014
-  Text-CSV_XS-1.60
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.60.tgz
+  Text-CSV_XS-1.61
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.61.tgz
     provides:
-      Text::CSV_XS 1.60
+      Text::CSV_XS 1.61
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
@@ -3370,32 +3397,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.78
-    pathname: O/OA/OALDERS/libwww-perl-6.78.tar.gz
+  libwww-perl-6.80
+    pathname: O/OA/OALDERS/libwww-perl-6.80.tar.gz
     provides:
-      LWP 6.78
-      LWP::Authen::Basic 6.78
-      LWP::Authen::Digest 6.78
-      LWP::Authen::Ntlm 6.78
-      LWP::ConnCache 6.78
-      LWP::Debug 6.78
-      LWP::Debug::TraceHTTP 6.78
-      LWP::DebugFile 6.78
-      LWP::MemberMixin 6.78
-      LWP::Protocol 6.78
-      LWP::Protocol::cpan 6.78
-      LWP::Protocol::data 6.78
-      LWP::Protocol::file 6.78
-      LWP::Protocol::ftp 6.78
-      LWP::Protocol::gopher 6.78
-      LWP::Protocol::http 6.78
-      LWP::Protocol::loopback 6.78
-      LWP::Protocol::mailto 6.78
-      LWP::Protocol::nntp 6.78
-      LWP::Protocol::nogo 6.78
-      LWP::RobotUA 6.78
-      LWP::Simple 6.78
-      LWP::UserAgent 6.78
+      LWP 6.80
+      LWP::Authen::Basic 6.80
+      LWP::Authen::Digest 6.80
+      LWP::Authen::Ntlm 6.80
+      LWP::ConnCache 6.80
+      LWP::Debug 6.80
+      LWP::Debug::TraceHTTP 6.80
+      LWP::DebugFile 6.80
+      LWP::MemberMixin 6.80
+      LWP::Protocol 6.80
+      LWP::Protocol::cpan 6.80
+      LWP::Protocol::data 6.80
+      LWP::Protocol::file 6.80
+      LWP::Protocol::ftp 6.80
+      LWP::Protocol::gopher 6.80
+      LWP::Protocol::http 6.80
+      LWP::Protocol::loopback 6.80
+      LWP::Protocol::mailto 6.80
+      LWP::Protocol::nntp 6.80
+      LWP::Protocol::nogo 6.80
+      LWP::RobotUA 6.80
+      LWP::Simple 6.80
+      LWP::UserAgent 6.80
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -3521,23 +3548,17 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
-      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
-      LWP 0
       LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
