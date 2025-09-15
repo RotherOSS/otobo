@@ -179,32 +179,25 @@ DISTRIBUTIONS
       IO::Seekable 0
       Time::Local 0
       perl 5.006
-  Authen-Krb5-Simple-0.43
-    pathname: D/DS/DSTUART/Authen-Krb5-Simple-0.43.tar.gz
+  Authen-SASL-2.1900
+    pathname: E/EH/EHUELS/Authen-SASL-2.1900.tar.gz
     provides:
-      Authen::Krb5::Simple 0.43
+      Authen::SASL 2.1900
+      Authen::SASL::CRAM_MD5 2.1900
+      Authen::SASL::EXTERNAL 2.1900
+      Authen::SASL::Perl 2.1900
+      Authen::SASL::Perl::ANONYMOUS 2.1900
+      Authen::SASL::Perl::CRAM_MD5 2.1900
+      Authen::SASL::Perl::DIGEST_MD5 2.1900
+      Authen::SASL::Perl::EXTERNAL 2.1900
+      Authen::SASL::Perl::GSSAPI 2.1900
+      Authen::SASL::Perl::LOGIN 2.1900
+      Authen::SASL::Perl::OAUTHBEARER 2.1900
+      Authen::SASL::Perl::PLAIN 2.1900
+      Authen::SASL::Perl::XOAUTH2 2.1900
     requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  Authen-SASL-2.1800
-    pathname: E/EH/EHUELS/Authen-SASL-2.1800.tar.gz
-    provides:
-      Authen::SASL 2.1800
-      Authen::SASL::CRAM_MD5 2.1800
-      Authen::SASL::EXTERNAL 2.1800
-      Authen::SASL::Perl 2.1800
-      Authen::SASL::Perl::ANONYMOUS 2.1800
-      Authen::SASL::Perl::CRAM_MD5 2.1800
-      Authen::SASL::Perl::DIGEST_MD5 2.1800
-      Authen::SASL::Perl::EXTERNAL 2.1800
-      Authen::SASL::Perl::GSSAPI 2.1800
-      Authen::SASL::Perl::LOGIN 2.1800
-      Authen::SASL::Perl::OAUTHBEARER 2.1800
-      Authen::SASL::Perl::PLAIN 2.1800
-      Authen::SASL::Perl::XOAUTH2 2.1800
-    requirements:
+      Crypt::URandom 0
       Digest::HMAC_MD5 0
-      Digest::MD5 0
       ExtUtils::MakeMaker 0
       perl 5.014000
   B-Hooks-EndOfScope-0.28
@@ -264,56 +257,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.42
       Test::More 0.88
       perl 5.008001
-  CPAN-Common-Index-0.010
-    pathname: D/DA/DAGOLDEN/CPAN-Common-Index-0.010.tar.gz
-    provides:
-      CPAN::Common::Index 0.010
-      CPAN::Common::Index::LocalPackage 0.010
-      CPAN::Common::Index::MetaDB 0.010
-      CPAN::Common::Index::Mirror 0.010
-      CPAN::Common::Index::Mux::Ordered 0.010
-    requirements:
-      CPAN::DistnameInfo 0
-      CPAN::Meta::YAML 0
-      Carp 0
-      Class::Tiny 0
-      ExtUtils::MakeMaker 6.17
-      File::Basename 0
-      File::Copy 0
-      File::Fetch 0
-      File::Spec 0
-      File::Temp 0.19
-      File::stat 0
-      HTTP::Tiny 0
-      Module::Load 0
-      Search::Dict 1.07
-      Tie::Handle::SkipHeader 0
-      URI 0
-      parent 0
-      perl 5.008001
-      strict 0
-      warnings 0
-  CPAN-DistnameInfo-0.12
-    pathname: G/GB/GBARR/CPAN-DistnameInfo-0.12.tar.gz
-    provides:
-      CPAN::DistnameInfo 0.12
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  CPAN-Meta-Check-0.018
-    pathname: L/LE/LEONT/CPAN-Meta-Check-0.018.tar.gz
-    provides:
-      CPAN::Meta::Check 0.018
-    requirements:
-      CPAN::Meta::Prereqs 2.132830
-      CPAN::Meta::Requirements 2.121
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      Module::Metadata 1.000023
-      base 0
-      perl 5.006
-      strict 0
-      warnings 0
   Canary-Stability-2013
     pathname: M/ML/MLEHMANN/Canary-Stability-2013.tar.gz
     provides:
@@ -335,47 +278,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Carton-v1.0.35
-    pathname: M/MI/MIYAGAWA/Carton-v1.0.35.tar.gz
-    provides:
-      Carton 1.000035
-      Carton::Builder undef
-      Carton::CLI undef
-      Carton::CPANfile undef
-      Carton::Dependency undef
-      Carton::Dist undef
-      Carton::Dist::Core undef
-      Carton::Environment undef
-      Carton::Error undef
-      Carton::Error::CPANfileNotFound undef
-      Carton::Error::CommandExit undef
-      Carton::Error::CommandNotFound undef
-      Carton::Error::SnapshotNotFound undef
-      Carton::Error::SnapshotParseError undef
-      Carton::Index undef
-      Carton::Mirror undef
-      Carton::Package undef
-      Carton::Packer undef
-      Carton::Snapshot undef
-      Carton::Snapshot::Emitter undef
-      Carton::Snapshot::Parser undef
-      Carton::Tree undef
-      Carton::Util undef
-    requirements:
-      CPAN::Meta 2.120921
-      CPAN::Meta::Requirements 2.121
-      Class::Tiny 1.001
-      ExtUtils::MakeMaker 0
-      Getopt::Long 2.39
-      JSON::PP 2.27300
-      Menlo::CLI::Compat 1.9018
-      Module::CPANfile 0.9031
-      Module::CoreList 0
-      Path::Tiny 0.033
-      Try::Tiny 0.09
-      parent 0.223
-      perl 5.008005
-      version 0.77
   Class-Accessor-Lite-0.08
     pathname: K/KA/KAZUHO/Class-Accessor-Lite-0.08.tar.gz
     provides:
@@ -436,31 +338,12 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Class-Tiny-1.008
-    pathname: D/DA/DAGOLDEN/Class-Tiny-1.008.tar.gz
-    provides:
-      Class::Tiny 1.008
-      Class::Tiny::Object 1.008
-    requirements:
-      Carp 0
-      ExtUtils::MakeMaker 6.17
-      perl 5.006
-      strict 0
-      warnings 0
   Clone-0.47
     pathname: A/AT/ATOOMIC/Clone-0.47.tar.gz
     provides:
       Clone 0.47
     requirements:
       ExtUtils::MakeMaker 0
-  Clone-Choose-0.010
-    pathname: H/HE/HERMES/Clone-Choose-0.010.tar.gz
-    provides:
-      Clone::Choose 0.010
-    requirements:
-      ExtUtils::MakeMaker 0
-      Storable 0
-      perl 5.008001
   Clone-PP-1.08
     pathname: N/NE/NEILB/Clone-PP-1.08.tar.gz
     provides:
@@ -524,10 +407,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.39
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.39.tar.gz
+  Cpanel-JSON-XS-4.40
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.40.tar.gz
     provides:
-      Cpanel::JSON::XS 4.39
+      Cpanel::JSON::XS 4.40
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -575,6 +458,18 @@ DISTRIBUTIONS
       JSON 0
       Scalar::Util 0
       Test::More 0.88
+      perl 5.006
+  Crypt-URandom-0.54
+    pathname: D/DD/DDICK/Crypt-URandom-0.54.tar.gz
+    provides:
+      Crypt::URandom 0.54
+    requirements:
+      Carp 1.26
+      English 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      FileHandle 0
+      constant 0
       perl 5.006
   CryptX-0.087
     pathname: M/MI/MIK/CryptX-0.087.tar.gz
@@ -1459,18 +1354,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  ExtUtils-MakeMaker-CPANfile-0.09
-    pathname: I/IS/ISHIGAKI/ExtUtils-MakeMaker-CPANfile-0.09.tar.gz
-    provides:
-      ExtUtils::MakeMaker::CPANfile 0.09
-    requirements:
-      CPAN::Meta::Converter 2.141170
-      Cwd 0
-      ExtUtils::MakeMaker 6.17
-      File::Path 0
-      Module::CPANfile 0
-      Test::More 0.88
-      version 0.76
   FFI-CheckLib-0.31
     pathname: P/PL/PLICEASE/FFI-CheckLib-0.31.tar.gz
     provides:
@@ -1554,22 +1437,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       vars 0
-      warnings 0
-  File-pushd-1.016
-    pathname: D/DA/DAGOLDEN/File-pushd-1.016.tar.gz
-    provides:
-      File::pushd 1.016
-    requirements:
-      Carp 0
-      Cwd 0
-      Exporter 0
-      ExtUtils::MakeMaker 6.17
-      File::Path 0
-      File::Spec 0
-      File::Temp 0
-      overload 0
-      perl 5.006
-      strict 0
       warnings 0
   Filesys-Notify-Simple-0.14
     pathname: M/MI/MIYAGAWA/Filesys-Notify-Simple-0.14.tar.gz
@@ -1752,22 +1619,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       HTTP::Headers 6
       perl 5.008001
-  HTTP-Tinyish-0.19
-    pathname: M/MI/MIYAGAWA/HTTP-Tinyish-0.19.tar.gz
-    provides:
-      HTTP::Tinyish 0.19
-      HTTP::Tinyish::Base undef
-      HTTP::Tinyish::Curl undef
-      HTTP::Tinyish::HTTPTiny undef
-      HTTP::Tinyish::LWP undef
-      HTTP::Tinyish::Wget undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Which 0
-      HTTP::Tiny 0.055
-      IPC::Run3 0
-      parent 0
-      perl 5.008001
   Hash-MultiValue-0.16
     pathname: A/AR/ARISTOTLE/Hash-MultiValue-0.16.tar.gz
     provides:
@@ -1823,14 +1674,6 @@ DISTRIBUTIONS
       IO::String 1.08
     requirements:
       ExtUtils::MakeMaker 0
-  IPC-Run3-0.049
-    pathname: R/RJ/RJBS/IPC-Run3-0.049.tar.gz
-    provides:
-      IPC::Run3 0.049
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0.31
-      Time::HiRes 0
   IPC-Signal-1.00
     pathname: R/RO/ROSCH/IPC-Signal-1.00.tar.gz
     provides:
@@ -1856,10 +1699,10 @@ DISTRIBUTIONS
       JSON::PP 2.27300
       Scalar::Util 0
       perl 5.006
-  JSON-XS-4.03
-    pathname: M/ML/MLEHMANN/JSON-XS-4.03.tar.gz
+  JSON-XS-4.04
+    pathname: M/ML/MLEHMANN/JSON-XS-4.04.tar.gz
     provides:
-      JSON::XS 4.03
+      JSON::XS 4.04
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
@@ -1999,59 +1842,6 @@ DISTRIBUTIONS
       Parse::RecDescent 1.94
       Test::More 0
       perl 5.008
-  Menlo-1.9019
-    pathname: M/MI/MIYAGAWA/Menlo-1.9019.tar.gz
-    provides:
-      Menlo 1.9019
-      Menlo::Builder::Static undef
-      Menlo::Dependency undef
-      Menlo::Index::MetaCPAN undef
-      Menlo::Index::MetaDB 1.9019
-      Menlo::Index::Mirror undef
-      Menlo::Util undef
-    requirements:
-      CPAN::Common::Index 0.006
-      CPAN::DistnameInfo 0
-      CPAN::Meta 2.132830
-      CPAN::Meta::Check 0
-      CPAN::Meta::Requirements 0
-      CPAN::Meta::YAML 0
-      Capture::Tiny 0
-      Class::Tiny 1.001
-      Exporter 0
-      ExtUtils::Config 0.003
-      ExtUtils::Helpers 0.020
-      ExtUtils::InstallPaths 0.002
-      ExtUtils::MakeMaker 0
-      File::Temp 0
-      File::Which 0
-      File::pushd 0
-      Getopt::Long 2.36
-      HTTP::Tiny 0.054
-      HTTP::Tinyish 0.04
-      JSON::PP 2
-      Module::CPANfile 0
-      Module::CoreList 0
-      Module::Metadata 0
-      Parse::CPAN::Meta 0
-      Parse::PMFile 0.26
-      String::ShellQuote 0
-      URI 0
-      Win32::ShellQuote 0
-      local::lib 0
-      parent 0
-      perl 5.008001
-      version 0
-  Menlo-Legacy-1.9022
-    pathname: M/MI/MIYAGAWA/Menlo-Legacy-1.9022.tar.gz
-    provides:
-      Menlo::CLI::Compat 1.9022
-      Menlo::Legacy 1.9022
-    requirements:
-      ExtUtils::MakeMaker 0
-      Menlo 1.9018
-      perl 5.008001
-      version 0.9905
   Module-Build-0.4234
     pathname: L/LE/LEONT/Module-Build-0.4234.tar.gz
     provides:
@@ -2137,19 +1927,6 @@ DISTRIBUTIONS
       XSLoader 0
       parent 0
       perl 5.008001
-  Module-CPANfile-1.1004
-    pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
-    provides:
-      Module::CPANfile 1.1004
-      Module::CPANfile::Environment undef
-      Module::CPANfile::Prereq undef
-      Module::CPANfile::Prereqs undef
-      Module::CPANfile::Requirement undef
-    requirements:
-      CPAN::Meta 2.12091
-      CPAN::Meta::Prereqs 2.12091
-      ExtUtils::MakeMaker 0
-      parent 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -2336,10 +2113,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.51
-    pathname: N/NL/NLNETLABS/Net-DNS-1.51.tar.gz
+  Net-DNS-1.53
+    pathname: N/NL/NLNETLABS/Net-DNS-1.53.tar.gz
     provides:
-      Net::DNS 1.51
+      Net::DNS 1.53
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
@@ -2352,7 +2129,7 @@ DISTRIBUTIONS
       Net::DNS::Packet 2003
       Net::DNS::Parameters 2021
       Net::DNS::Question 2002
-      Net::DNS::RR 2018
+      Net::DNS::RR 2037
       Net::DNS::RR::A 2003
       Net::DNS::RR::AAAA 2003
       Net::DNS::RR::AFSDB 2002
@@ -2365,7 +2142,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2002
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2021
+      Net::DNS::RR::DELEG 2039
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2003
@@ -2425,8 +2202,8 @@ DISTRIBUTIONS
       Net::DNS::RR::SPF 2003
       Net::DNS::RR::SRV 2003
       Net::DNS::RR::SSHFP 2003
-      Net::DNS::RR::SVCB 2018
-      Net::DNS::RR::TKEY 2003
+      Net::DNS::RR::SVCB 2037
+      Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
       Net::DNS::RR::TSIG 2003
       Net::DNS::RR::TXT 2003
@@ -2434,7 +2211,7 @@ DISTRIBUTIONS
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
       Net::DNS::Resolver 2017
-      Net::DNS::Resolver::Base 2016
+      Net::DNS::Resolver::Base 2031
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
       Net::DNS::Resolver::UNIX 2007
@@ -2474,13 +2251,13 @@ DISTRIBUTIONS
       perl 5.008009
       strict 1.03
       warnings 1.0501
-  Net-HTTP-6.23
-    pathname: O/OA/OALDERS/Net-HTTP-6.23.tar.gz
+  Net-HTTP-6.24
+    pathname: O/OA/OALDERS/Net-HTTP-6.24.tar.gz
     provides:
-      Net::HTTP 6.23
-      Net::HTTP::Methods 6.23
-      Net::HTTP::NB 6.23
-      Net::HTTPS 6.23
+      Net::HTTP 6.24
+      Net::HTTP::Methods 6.24
+      Net::HTTP::NB 6.24
+      Net::HTTPS 6.24
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -2618,18 +2395,6 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Parse-PMFile-0.47
-    pathname: I/IS/ISHIGAKI/Parse-PMFile-0.47.tar.gz
-    provides:
-      Parse::PMFile 0.47
-    requirements:
-      Dumpvalue 0
-      ExtUtils::MakeMaker 0
-      ExtUtils::MakeMaker::CPANfile 0.09
-      File::Spec 0
-      JSON::PP 2.00
-      Safe 0
-      version 0.83
   Parse-RecDescent-1.967015
     pathname: J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz
     provides:
@@ -2987,56 +2752,55 @@ DISTRIBUTIONS
       POSIX 0
       strict 0
       warnings 0
-  Specio-0.51
-    pathname: D/DR/DROLSKY/Specio-0.51.tar.gz
+  Specio-0.52
+    pathname: D/DR/DROLSKY/Specio-0.52.tar.gz
     provides:
-      Specio 0.51
-      Specio::Coercion 0.51
-      Specio::Constraint::AnyCan 0.51
-      Specio::Constraint::AnyDoes 0.51
-      Specio::Constraint::AnyIsa 0.51
-      Specio::Constraint::Enum 0.51
-      Specio::Constraint::Intersection 0.51
-      Specio::Constraint::ObjectCan 0.51
-      Specio::Constraint::ObjectDoes 0.51
-      Specio::Constraint::ObjectIsa 0.51
-      Specio::Constraint::Parameterizable 0.51
-      Specio::Constraint::Parameterized 0.51
-      Specio::Constraint::Role::CanType 0.51
-      Specio::Constraint::Role::DoesType 0.51
-      Specio::Constraint::Role::Interface 0.51
-      Specio::Constraint::Role::IsaType 0.51
-      Specio::Constraint::Simple 0.51
-      Specio::Constraint::Structurable 0.51
-      Specio::Constraint::Structured 0.51
-      Specio::Constraint::Union 0.51
-      Specio::Declare 0.51
-      Specio::DeclaredAt 0.51
-      Specio::Exception 0.51
-      Specio::Exporter 0.51
-      Specio::Helpers 0.51
-      Specio::Library::Builtins 0.51
-      Specio::Library::Numeric 0.51
-      Specio::Library::Perl 0.51
-      Specio::Library::String 0.51
-      Specio::Library::Structured 0.51
-      Specio::Library::Structured::Dict 0.51
-      Specio::Library::Structured::Map 0.51
-      Specio::Library::Structured::Tuple 0.51
-      Specio::OO 0.51
-      Specio::PP 0.51
-      Specio::PartialDump 0.51
-      Specio::Registry 0.51
-      Specio::Role::Inlinable 0.51
-      Specio::Subs 0.51
-      Specio::TypeChecks 0.51
-      Specio::XS 0.51
-      Test::Specio 0.51
+      Specio 0.52
+      Specio::Coercion 0.52
+      Specio::Constraint::AnyCan 0.52
+      Specio::Constraint::AnyDoes 0.52
+      Specio::Constraint::AnyIsa 0.52
+      Specio::Constraint::Enum 0.52
+      Specio::Constraint::Intersection 0.52
+      Specio::Constraint::ObjectCan 0.52
+      Specio::Constraint::ObjectDoes 0.52
+      Specio::Constraint::ObjectIsa 0.52
+      Specio::Constraint::Parameterizable 0.52
+      Specio::Constraint::Parameterized 0.52
+      Specio::Constraint::Role::CanType 0.52
+      Specio::Constraint::Role::DoesType 0.52
+      Specio::Constraint::Role::Interface 0.52
+      Specio::Constraint::Role::IsaType 0.52
+      Specio::Constraint::Simple 0.52
+      Specio::Constraint::Structurable 0.52
+      Specio::Constraint::Structured 0.52
+      Specio::Constraint::Union 0.52
+      Specio::Declare 0.52
+      Specio::DeclaredAt 0.52
+      Specio::Exception 0.52
+      Specio::Exporter 0.52
+      Specio::Helpers 0.52
+      Specio::Library::Builtins 0.52
+      Specio::Library::Numeric 0.52
+      Specio::Library::Perl 0.52
+      Specio::Library::String 0.52
+      Specio::Library::Structured 0.52
+      Specio::Library::Structured::Dict 0.52
+      Specio::Library::Structured::Map 0.52
+      Specio::Library::Structured::Tuple 0.52
+      Specio::OO 0.52
+      Specio::PP 0.52
+      Specio::PartialDump 0.52
+      Specio::Registry 0.52
+      Specio::Role::Inlinable 0.52
+      Specio::Subs 0.52
+      Specio::TypeChecks 0.52
+      Specio::XS 0.52
+      Test::Specio 0.52
     requirements:
       B 0
       Carp 0
       Clone 0
-      Clone::Choose 0
       Clone::PP 0
       Devel::StackTrace 0
       Eval::Closure 0
@@ -3083,12 +2847,6 @@ DISTRIBUTIONS
       Test::Warn 0
       parent 0
       perl v5.6.0
-  String-ShellQuote-1.04
-    pathname: R/RO/ROSCH/String-ShellQuote-1.04.tar.gz
-    provides:
-      String::ShellQuote 1.04
-    requirements:
-      ExtUtils::MakeMaker 0
   Sub-Exporter-0.991
     pathname: R/RJ/RJBS/Sub-Exporter-0.991.tar.gz
     provides:
@@ -3121,11 +2879,11 @@ DISTRIBUTIONS
       perl 5.008000
       strict 0
       warnings 0
-  Sub-Quote-2.006008
-    pathname: H/HA/HAARG/Sub-Quote-2.006008.tar.gz
+  Sub-Quote-2.006009
+    pathname: H/HA/HAARG/Sub-Quote-2.006009.tar.gz
     provides:
-      Sub::Defer 2.006008
-      Sub::Quote 2.006008
+      Sub::Defer 2.006009
+      Sub::Quote 2.006009
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
@@ -3201,22 +2959,6 @@ DISTRIBUTIONS
       File::Spec 0.8
       File::Temp 0.12
       Scalar::Util 0
-  Term-Table-0.024
-    pathname: E/EX/EXODIST/Term-Table-0.024.tar.gz
-    provides:
-      Term::Table 0.024
-      Term::Table::Cell 0.024
-      Term::Table::CellStack 0.024
-      Term::Table::HashBase 0.024
-      Term::Table::LineBreak 0.024
-      Term::Table::Spacer 0.024
-      Term::Table::Util 0.024
-    requirements:
-      Carp 0
-      ExtUtils::MakeMaker 0
-      List::Util 0
-      Scalar::Util 0
-      perl 5.008001
   Test-Compile-v3.3.3
     pathname: E/EG/EGILES/Test-Compile-v3.3.3.tar.gz
     provides:
@@ -3288,18 +3030,6 @@ DISTRIBUTIONS
       Test::Builder 0
       Test::More 0.96
       perl 5.012
-  Test-FailWarnings-0.008
-    pathname: D/DA/DAGOLDEN/Test-FailWarnings-0.008.tar.gz
-    provides:
-      Test::FailWarnings 0.008
-    requirements:
-      Carp 0
-      Cwd 0
-      ExtUtils::MakeMaker 6.17
-      File::Spec 0
-      Test::More 0.86
-      strict 0
-      warnings 0
   Test-Fatal-0.017
     pathname: R/RJ/RJBS/Test-Fatal-0.017.tar.gz
     provides:
@@ -3320,13 +3050,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Builder 0.12
       Test::Builder::Tester 1.04
-  Test-Needs-0.002010
-    pathname: H/HA/HAARG/Test-Needs-0.002010.tar.gz
-    provides:
-      Test::Needs 0.002010
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5.006
   Test-Output-1.036
     pathname: B/BR/BRIANDFOY/Test-Output-1.036.tar.gz
     provides:
@@ -3360,220 +3083,6 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.88
       perl 5.008_001
-  Test-Simple-1.302214
-    pathname: E/EX/EXODIST/Test-Simple-1.302214.tar.gz
-    provides:
-      Test2 1.302214
-      Test2::API 1.302214
-      Test2::API::Breakage 1.302214
-      Test2::API::Context 1.302214
-      Test2::API::Instance 1.302214
-      Test2::API::InterceptResult 1.302214
-      Test2::API::InterceptResult::Event 1.302214
-      Test2::API::InterceptResult::Facet 1.302214
-      Test2::API::InterceptResult::Hub 1.302214
-      Test2::API::InterceptResult::Squasher 1.302214
-      Test2::API::Stack 1.302214
-      Test2::AsyncSubtest 1.302214
-      Test2::AsyncSubtest::Event::Attach 1.302214
-      Test2::AsyncSubtest::Event::Detach 1.302214
-      Test2::AsyncSubtest::Formatter 1.302214
-      Test2::AsyncSubtest::Hub 1.302214
-      Test2::Bundle 1.302214
-      Test2::Bundle::Extended 1.302214
-      Test2::Bundle::More 1.302214
-      Test2::Bundle::Simple 1.302214
-      Test2::Compare 1.302214
-      Test2::Compare::Array 1.302214
-      Test2::Compare::Bag 1.302214
-      Test2::Compare::Base 1.302214
-      Test2::Compare::Bool 1.302214
-      Test2::Compare::Custom 1.302214
-      Test2::Compare::DeepRef 1.302214
-      Test2::Compare::Delta 1.302214
-      Test2::Compare::Event 1.302214
-      Test2::Compare::EventMeta 1.302214
-      Test2::Compare::Float 1.302214
-      Test2::Compare::Hash 1.302214
-      Test2::Compare::Isa 1.302214
-      Test2::Compare::Meta 1.302214
-      Test2::Compare::Negatable 1.302214
-      Test2::Compare::Number 1.302214
-      Test2::Compare::Object 1.302214
-      Test2::Compare::OrderedSubset 1.302214
-      Test2::Compare::Pattern 1.302214
-      Test2::Compare::Ref 1.302214
-      Test2::Compare::Regex 1.302214
-      Test2::Compare::Scalar 1.302214
-      Test2::Compare::Set 1.302214
-      Test2::Compare::String 1.302214
-      Test2::Compare::Undef 1.302214
-      Test2::Compare::Wildcard 1.302214
-      Test2::Env 1.302214
-      Test2::Event 1.302214
-      Test2::Event::Bail 1.302214
-      Test2::Event::Diag 1.302214
-      Test2::Event::Encoding 1.302214
-      Test2::Event::Exception 1.302214
-      Test2::Event::Fail 1.302214
-      Test2::Event::Generic 1.302214
-      Test2::Event::Note 1.302214
-      Test2::Event::Ok 1.302214
-      Test2::Event::Pass 1.302214
-      Test2::Event::Plan 1.302214
-      Test2::Event::Skip 1.302214
-      Test2::Event::Subtest 1.302214
-      Test2::Event::TAP::Version 1.302214
-      Test2::Event::V2 1.302214
-      Test2::Event::Waiting 1.302214
-      Test2::EventFacet 1.302214
-      Test2::EventFacet::About 1.302214
-      Test2::EventFacet::Amnesty 1.302214
-      Test2::EventFacet::Assert 1.302214
-      Test2::EventFacet::Control 1.302214
-      Test2::EventFacet::Error 1.302214
-      Test2::EventFacet::Hub 1.302214
-      Test2::EventFacet::Info 1.302214
-      Test2::EventFacet::Info::Table 1.302214
-      Test2::EventFacet::Meta 1.302214
-      Test2::EventFacet::Parent 1.302214
-      Test2::EventFacet::Plan 1.302214
-      Test2::EventFacet::Render 1.302214
-      Test2::EventFacet::Trace 1.302214
-      Test2::Formatter 1.302214
-      Test2::Formatter::TAP 1.302214
-      Test2::Hub 1.302214
-      Test2::Hub::Interceptor 1.302214
-      Test2::Hub::Interceptor::Terminator 1.302214
-      Test2::Hub::Subtest 1.302214
-      Test2::IPC 1.302214
-      Test2::IPC::Driver 1.302214
-      Test2::IPC::Driver::Files 1.302214
-      Test2::Manual 1.302214
-      Test2::Manual::Anatomy 1.302214
-      Test2::Manual::Anatomy::API 1.302214
-      Test2::Manual::Anatomy::Context 1.302214
-      Test2::Manual::Anatomy::EndToEnd 1.302214
-      Test2::Manual::Anatomy::Event 1.302214
-      Test2::Manual::Anatomy::Hubs 1.302214
-      Test2::Manual::Anatomy::IPC 1.302214
-      Test2::Manual::Anatomy::Utilities 1.302214
-      Test2::Manual::Concurrency 1.302214
-      Test2::Manual::Contributing 1.302214
-      Test2::Manual::Testing 1.302214
-      Test2::Manual::Testing::Introduction 1.302214
-      Test2::Manual::Testing::Migrating 1.302214
-      Test2::Manual::Testing::Planning 1.302214
-      Test2::Manual::Testing::Todo 1.302214
-      Test2::Manual::Tooling 1.302214
-      Test2::Manual::Tooling::FirstTool 1.302214
-      Test2::Manual::Tooling::Formatter 1.302214
-      Test2::Manual::Tooling::Nesting 1.302214
-      Test2::Manual::Tooling::Plugin::TestExit 1.302214
-      Test2::Manual::Tooling::Plugin::TestingDone 1.302214
-      Test2::Manual::Tooling::Plugin::ToolCompletes 1.302214
-      Test2::Manual::Tooling::Plugin::ToolStarts 1.302214
-      Test2::Manual::Tooling::Subtest 1.302214
-      Test2::Manual::Tooling::TestBuilder 1.302214
-      Test2::Manual::Tooling::Testing 1.302214
-      Test2::Mock 1.302214
-      Test2::Plugin 1.302214
-      Test2::Plugin::BailOnFail 1.302214
-      Test2::Plugin::DieOnFail 1.302214
-      Test2::Plugin::ExitSummary 1.302214
-      Test2::Plugin::SRand 1.302214
-      Test2::Plugin::Times 1.302214
-      Test2::Plugin::UTF8 1.302214
-      Test2::Require 1.302214
-      Test2::Require::AuthorTesting 1.302214
-      Test2::Require::AutomatedTesting 1.302214
-      Test2::Require::EnvVar 1.302214
-      Test2::Require::ExtendedTesting 1.302214
-      Test2::Require::Fork 1.302214
-      Test2::Require::Module 1.302214
-      Test2::Require::NonInteractiveTesting 1.302214
-      Test2::Require::Perl 1.302214
-      Test2::Require::RealFork 1.302214
-      Test2::Require::ReleaseTesting 1.302214
-      Test2::Require::Threads 1.302214
-      Test2::Suite 1.302214
-      Test2::Todo 1.302214
-      Test2::Tools 1.302214
-      Test2::Tools::AsyncSubtest 1.302214
-      Test2::Tools::Basic 1.302214
-      Test2::Tools::Class 1.302214
-      Test2::Tools::ClassicCompare 1.302214
-      Test2::Tools::Compare 1.302214
-      Test2::Tools::Defer 1.302214
-      Test2::Tools::Encoding 1.302214
-      Test2::Tools::Event 1.302214
-      Test2::Tools::Exception 1.302214
-      Test2::Tools::Exports 1.302214
-      Test2::Tools::GenTemp 1.302214
-      Test2::Tools::Grab 1.302214
-      Test2::Tools::Mock 1.302214
-      Test2::Tools::Ref 1.302214
-      Test2::Tools::Refcount 1.302214
-      Test2::Tools::Spec 1.302214
-      Test2::Tools::Subtest 1.302214
-      Test2::Tools::Target 1.302214
-      Test2::Tools::Tester 1.302214
-      Test2::Tools::Tiny 1.302214
-      Test2::Tools::Warnings 1.302214
-      Test2::Util 1.302214
-      Test2::Util::ExternalMeta 1.302214
-      Test2::Util::Facets2Legacy 1.302214
-      Test2::Util::Grabber 1.302214
-      Test2::Util::Guard 1.302214
-      Test2::Util::HashBase 1.302214
-      Test2::Util::Importer 1.302214
-      Test2::Util::Ref 1.302214
-      Test2::Util::Sig 1.302214
-      Test2::Util::Stash 1.302214
-      Test2::Util::Sub 1.302214
-      Test2::Util::Table 1.302214
-      Test2::Util::Table::Cell 1.302214
-      Test2::Util::Table::LineBreak 1.302214
-      Test2::Util::Term 1.302214
-      Test2::Util::Times 1.302214
-      Test2::Util::Trace 1.302214
-      Test2::V0 1.302214
-      Test2::Workflow 1.302214
-      Test2::Workflow::BlockBase 1.302214
-      Test2::Workflow::Build 1.302214
-      Test2::Workflow::Runner 1.302214
-      Test2::Workflow::Task 1.302214
-      Test2::Workflow::Task::Action 1.302214
-      Test2::Workflow::Task::Group 1.302214
-      Test::Builder 1.302214
-      Test::Builder::Formatter 1.302214
-      Test::Builder::Module 1.302214
-      Test::Builder::Tester 1.302214
-      Test::Builder::Tester::Color 1.302214
-      Test::Builder::Tester::Tie 1.302214
-      Test::Builder::TodoDiag 1.302214
-      Test::More 1.302214
-      Test::Simple 1.302214
-      Test::Tester 1.302214
-      Test::Tester::Capture 1.302214
-      Test::Tester::CaptureRunner 1.302214
-      Test::Tester::Delegate 1.302214
-      Test::use::ok 1.302214
-      ok 1.302214
-    requirements:
-      B 0
-      Data::Dumper 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      File::Spec 0
-      File::Temp 0
-      Scalar::Util 1.13
-      Storable 0
-      Term::Table 0.013
-      Time::HiRes 0
-      overload 0
-      perl 5.006002
-      utf8 0
   Test-Strict-0.54
     pathname: M/MA/MANWAR/Test-Strict-0.54.tar.gz
     provides:
@@ -3694,16 +3203,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
-  Tie-Handle-Offset-0.004
-    pathname: D/DA/DAGOLDEN/Tie-Handle-Offset-0.004.tar.gz
-    provides:
-      Tie::Handle::Offset 0.004
-      Tie::Handle::SkipHeader 0.004
-    requirements:
-      ExtUtils::MakeMaker 6.17
-      Tie::Handle 0
-      perl 5.006
-      strict 0
   TimeDate-2.33
     pathname: A/AT/ATOOMIC/TimeDate-2.33.tar.gz
     provides:
@@ -3887,12 +3386,6 @@ DISTRIBUTIONS
       Fcntl 0
       URI 1.10
       perl 5.008001
-  Win32-ShellQuote-0.003001
-    pathname: H/HA/HAARG/Win32-ShellQuote-0.003001.tar.gz
-    provides:
-      Win32::ShellQuote 0.003001
-    requirements:
-      perl 5.006
   XML-LibXML-2.0210
     pathname: S/SH/SHLOMIF/XML-LibXML-2.0210.tar.gz
     provides:
@@ -4077,32 +3570,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.79
-    pathname: O/OA/OALDERS/libwww-perl-6.79.tar.gz
+  libwww-perl-6.80
+    pathname: O/OA/OALDERS/libwww-perl-6.80.tar.gz
     provides:
-      LWP 6.79
-      LWP::Authen::Basic 6.79
-      LWP::Authen::Digest 6.79
-      LWP::Authen::Ntlm 6.79
-      LWP::ConnCache 6.79
-      LWP::Debug 6.79
-      LWP::Debug::TraceHTTP 6.79
-      LWP::DebugFile 6.79
-      LWP::MemberMixin 6.79
-      LWP::Protocol 6.79
-      LWP::Protocol::cpan 6.79
-      LWP::Protocol::data 6.79
-      LWP::Protocol::file 6.79
-      LWP::Protocol::ftp 6.79
-      LWP::Protocol::gopher 6.79
-      LWP::Protocol::http 6.79
-      LWP::Protocol::loopback 6.79
-      LWP::Protocol::mailto 6.79
-      LWP::Protocol::nntp 6.79
-      LWP::Protocol::nogo 6.79
-      LWP::RobotUA 6.79
-      LWP::Simple 6.79
-      LWP::UserAgent 6.79
+      LWP 6.80
+      LWP::Authen::Basic 6.80
+      LWP::Authen::Digest 6.80
+      LWP::Authen::Ntlm 6.80
+      LWP::ConnCache 6.80
+      LWP::Debug 6.80
+      LWP::Debug::TraceHTTP 6.80
+      LWP::DebugFile 6.80
+      LWP::MemberMixin 6.80
+      LWP::Protocol 6.80
+      LWP::Protocol::cpan 6.80
+      LWP::Protocol::data 6.80
+      LWP::Protocol::file 6.80
+      LWP::Protocol::ftp 6.80
+      LWP::Protocol::gopher 6.80
+      LWP::Protocol::http 6.80
+      LWP::Protocol::loopback 6.80
+      LWP::Protocol::mailto 6.80
+      LWP::Protocol::nntp 6.80
+      LWP::Protocol::nogo 6.80
+      LWP::RobotUA 6.80
+      LWP::Simple 6.80
+      LWP::UserAgent 6.80
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -4228,20 +3721,27 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
