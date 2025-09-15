@@ -48,7 +48,7 @@ hooks/build || exit 1
 # Building the web container entails installing Perl distributions from CPAN.
 # The exact versions of these distributions are tracked in the file cpanfile.snapshot.
 # This file is part of the git repository and is kept up to date.
-docker run --rm --entrypoint cat $IMAGE_NAME /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot.11_0
+docker run --rm --entrypoint cat otobo:$DOCKER_TAG /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot.11_0
 
 # build otobo-nginx-webproxy
 export DOCKERFILE_PATH=../../otobo.nginx.dockerfile
