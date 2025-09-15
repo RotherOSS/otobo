@@ -27,7 +27,7 @@ use warnings;
 # CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
-use URI;
+use URI             ();
 
 # OTOBO modules
 
@@ -1025,15 +1025,19 @@ sub _FindMember {
         $GroupHasBeenSeen->{ $Entry->dn() } = 1;
 
         # search in Dynamic Groups...
-        my $UrlValues = $Entry->get_value( 'memberurl', asref => 1 );
-        for my $UrlValue ( $UrlValues->@* ) {
-            my $Uri    = URI->new($UrlValue);
-            my $Filter = $Uri->filter();
+        my $MemberURLs = $Entry->get_value( 'memberurl', asref => 1 );
+        for my $MemberURL ( $MemberURLs->@* ) {
+
+            # parse the URL and extract the relevant values
+            my $Uri    = URI->new($MemberURL);
+            my $Scope  = $Uri->scope  || 'base';     # falling back to 'base' per spec of dynamic groups
+            my $Base   = $Uri->base   || $UserDN;    # falling back to the user distinctive name is the convention used here
+            my $Filter = $Uri->filter || '';         # falling back to no filter
 
             # the members of the result set will contain the default attributes
             my $Result = $LDAP->search(
-                base   => $UserDN,
-                scope  => 'base',
+                base   => $Base,
+                scope  => $Scope,
                 filter => $Filter,
             );
 
