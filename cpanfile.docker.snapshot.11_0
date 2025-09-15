@@ -179,32 +179,25 @@ DISTRIBUTIONS
       IO::Seekable 0
       Time::Local 0
       perl 5.006
-  Authen-Krb5-Simple-0.43
-    pathname: D/DS/DSTUART/Authen-Krb5-Simple-0.43.tar.gz
+  Authen-SASL-2.1900
+    pathname: E/EH/EHUELS/Authen-SASL-2.1900.tar.gz
     provides:
-      Authen::Krb5::Simple 0.43
+      Authen::SASL 2.1900
+      Authen::SASL::CRAM_MD5 2.1900
+      Authen::SASL::EXTERNAL 2.1900
+      Authen::SASL::Perl 2.1900
+      Authen::SASL::Perl::ANONYMOUS 2.1900
+      Authen::SASL::Perl::CRAM_MD5 2.1900
+      Authen::SASL::Perl::DIGEST_MD5 2.1900
+      Authen::SASL::Perl::EXTERNAL 2.1900
+      Authen::SASL::Perl::GSSAPI 2.1900
+      Authen::SASL::Perl::LOGIN 2.1900
+      Authen::SASL::Perl::OAUTHBEARER 2.1900
+      Authen::SASL::Perl::PLAIN 2.1900
+      Authen::SASL::Perl::XOAUTH2 2.1900
     requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  Authen-SASL-2.1800
-    pathname: E/EH/EHUELS/Authen-SASL-2.1800.tar.gz
-    provides:
-      Authen::SASL 2.1800
-      Authen::SASL::CRAM_MD5 2.1800
-      Authen::SASL::EXTERNAL 2.1800
-      Authen::SASL::Perl 2.1800
-      Authen::SASL::Perl::ANONYMOUS 2.1800
-      Authen::SASL::Perl::CRAM_MD5 2.1800
-      Authen::SASL::Perl::DIGEST_MD5 2.1800
-      Authen::SASL::Perl::EXTERNAL 2.1800
-      Authen::SASL::Perl::GSSAPI 2.1800
-      Authen::SASL::Perl::LOGIN 2.1800
-      Authen::SASL::Perl::OAUTHBEARER 2.1800
-      Authen::SASL::Perl::PLAIN 2.1800
-      Authen::SASL::Perl::XOAUTH2 2.1800
-    requirements:
+      Crypt::URandom 0
       Digest::HMAC_MD5 0
-      Digest::MD5 0
       ExtUtils::MakeMaker 0
       perl 5.014000
   B-Hooks-EndOfScope-0.28
@@ -338,6 +331,17 @@ DISTRIBUTIONS
       Clone 0.47
     requirements:
       ExtUtils::MakeMaker 0
+  Clone-PP-1.08
+    pathname: N/NE/NEILB/Clone-PP-1.08.tar.gz
+    provides:
+      Clone::PP 1.08
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      vars 0
+      warnings 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
@@ -390,10 +394,10 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI::Escape 0
       perl 5.008001
-  Cpanel-JSON-XS-4.39
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.39.tar.gz
+  Cpanel-JSON-XS-4.40
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.40.tar.gz
     provides:
-      Cpanel::JSON::XS 4.39
+      Cpanel::JSON::XS 4.40
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -442,118 +446,130 @@ DISTRIBUTIONS
       Scalar::Util 0
       Test::More 0.88
       perl 5.006
-  CryptX-0.086
-    pathname: M/MI/MIK/CryptX-0.086.tar.gz
+  Crypt-URandom-0.54
+    pathname: D/DD/DDICK/Crypt-URandom-0.54.tar.gz
     provides:
-      Crypt::AuthEnc 0.086
-      Crypt::AuthEnc::CCM 0.086
-      Crypt::AuthEnc::ChaCha20Poly1305 0.086
-      Crypt::AuthEnc::EAX 0.086
-      Crypt::AuthEnc::GCM 0.086
-      Crypt::AuthEnc::OCB 0.086
-      Crypt::Checksum 0.086
-      Crypt::Checksum::Adler32 0.086
-      Crypt::Checksum::CRC32 0.086
-      Crypt::Cipher 0.086
-      Crypt::Cipher::AES 0.086
-      Crypt::Cipher::Anubis 0.086
-      Crypt::Cipher::Blowfish 0.086
-      Crypt::Cipher::CAST5 0.086
-      Crypt::Cipher::Camellia 0.086
-      Crypt::Cipher::DES 0.086
-      Crypt::Cipher::DES_EDE 0.086
-      Crypt::Cipher::IDEA 0.086
-      Crypt::Cipher::KASUMI 0.086
-      Crypt::Cipher::Khazad 0.086
-      Crypt::Cipher::MULTI2 0.086
-      Crypt::Cipher::Noekeon 0.086
-      Crypt::Cipher::RC2 0.086
-      Crypt::Cipher::RC5 0.086
-      Crypt::Cipher::RC6 0.086
-      Crypt::Cipher::SAFERP 0.086
-      Crypt::Cipher::SAFER_K128 0.086
-      Crypt::Cipher::SAFER_K64 0.086
-      Crypt::Cipher::SAFER_SK128 0.086
-      Crypt::Cipher::SAFER_SK64 0.086
-      Crypt::Cipher::SEED 0.086
-      Crypt::Cipher::Serpent 0.086
-      Crypt::Cipher::Skipjack 0.086
-      Crypt::Cipher::Twofish 0.086
-      Crypt::Cipher::XTEA 0.086
-      Crypt::Digest 0.086
-      Crypt::Digest::BLAKE2b_160 0.086
-      Crypt::Digest::BLAKE2b_256 0.086
-      Crypt::Digest::BLAKE2b_384 0.086
-      Crypt::Digest::BLAKE2b_512 0.086
-      Crypt::Digest::BLAKE2s_128 0.086
-      Crypt::Digest::BLAKE2s_160 0.086
-      Crypt::Digest::BLAKE2s_224 0.086
-      Crypt::Digest::BLAKE2s_256 0.086
-      Crypt::Digest::CHAES 0.086
-      Crypt::Digest::Keccak224 0.086
-      Crypt::Digest::Keccak256 0.086
-      Crypt::Digest::Keccak384 0.086
-      Crypt::Digest::Keccak512 0.086
-      Crypt::Digest::MD2 0.086
-      Crypt::Digest::MD4 0.086
-      Crypt::Digest::MD5 0.086
-      Crypt::Digest::RIPEMD128 0.086
-      Crypt::Digest::RIPEMD160 0.086
-      Crypt::Digest::RIPEMD256 0.086
-      Crypt::Digest::RIPEMD320 0.086
-      Crypt::Digest::SHA1 0.086
-      Crypt::Digest::SHA224 0.086
-      Crypt::Digest::SHA256 0.086
-      Crypt::Digest::SHA384 0.086
-      Crypt::Digest::SHA3_224 0.086
-      Crypt::Digest::SHA3_256 0.086
-      Crypt::Digest::SHA3_384 0.086
-      Crypt::Digest::SHA3_512 0.086
-      Crypt::Digest::SHA512 0.086
-      Crypt::Digest::SHA512_224 0.086
-      Crypt::Digest::SHA512_256 0.086
-      Crypt::Digest::SHAKE 0.086
-      Crypt::Digest::Tiger192 0.086
-      Crypt::Digest::Whirlpool 0.086
-      Crypt::KeyDerivation 0.086
-      Crypt::Mac 0.086
-      Crypt::Mac::BLAKE2b 0.086
-      Crypt::Mac::BLAKE2s 0.086
-      Crypt::Mac::F9 0.086
-      Crypt::Mac::HMAC 0.086
-      Crypt::Mac::OMAC 0.086
-      Crypt::Mac::PMAC 0.086
-      Crypt::Mac::Pelican 0.086
-      Crypt::Mac::Poly1305 0.086
-      Crypt::Mac::XCBC 0.086
-      Crypt::Misc 0.086
-      Crypt::Mode 0.086
-      Crypt::Mode::CBC 0.086
-      Crypt::Mode::CFB 0.086
-      Crypt::Mode::CTR 0.086
-      Crypt::Mode::ECB 0.086
-      Crypt::Mode::OFB 0.086
-      Crypt::PK 0.086
-      Crypt::PK::DH 0.086
-      Crypt::PK::DSA 0.086
-      Crypt::PK::ECC 0.086
-      Crypt::PK::Ed25519 0.086
-      Crypt::PK::RSA 0.086
-      Crypt::PK::X25519 0.086
-      Crypt::PRNG 0.086
-      Crypt::PRNG::ChaCha20 0.086
-      Crypt::PRNG::Fortuna 0.086
-      Crypt::PRNG::RC4 0.086
-      Crypt::PRNG::Sober128 0.086
-      Crypt::PRNG::Yarrow 0.086
-      Crypt::Stream::ChaCha 0.086
-      Crypt::Stream::RC4 0.086
-      Crypt::Stream::Rabbit 0.086
-      Crypt::Stream::Salsa20 0.086
-      Crypt::Stream::Sober128 0.086
-      Crypt::Stream::Sosemanuk 0.086
-      CryptX 0.086
-      Math::BigInt::LTM 0.086
+      Crypt::URandom 0.54
+    requirements:
+      Carp 1.26
+      English 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      FileHandle 0
+      constant 0
+      perl 5.006
+  CryptX-0.087
+    pathname: M/MI/MIK/CryptX-0.087.tar.gz
+    provides:
+      Crypt::AuthEnc 0.087
+      Crypt::AuthEnc::CCM 0.087
+      Crypt::AuthEnc::ChaCha20Poly1305 0.087
+      Crypt::AuthEnc::EAX 0.087
+      Crypt::AuthEnc::GCM 0.087
+      Crypt::AuthEnc::OCB 0.087
+      Crypt::Checksum 0.087
+      Crypt::Checksum::Adler32 0.087
+      Crypt::Checksum::CRC32 0.087
+      Crypt::Cipher 0.087
+      Crypt::Cipher::AES 0.087
+      Crypt::Cipher::Anubis 0.087
+      Crypt::Cipher::Blowfish 0.087
+      Crypt::Cipher::CAST5 0.087
+      Crypt::Cipher::Camellia 0.087
+      Crypt::Cipher::DES 0.087
+      Crypt::Cipher::DES_EDE 0.087
+      Crypt::Cipher::IDEA 0.087
+      Crypt::Cipher::KASUMI 0.087
+      Crypt::Cipher::Khazad 0.087
+      Crypt::Cipher::MULTI2 0.087
+      Crypt::Cipher::Noekeon 0.087
+      Crypt::Cipher::RC2 0.087
+      Crypt::Cipher::RC5 0.087
+      Crypt::Cipher::RC6 0.087
+      Crypt::Cipher::SAFERP 0.087
+      Crypt::Cipher::SAFER_K128 0.087
+      Crypt::Cipher::SAFER_K64 0.087
+      Crypt::Cipher::SAFER_SK128 0.087
+      Crypt::Cipher::SAFER_SK64 0.087
+      Crypt::Cipher::SEED 0.087
+      Crypt::Cipher::Serpent 0.087
+      Crypt::Cipher::Skipjack 0.087
+      Crypt::Cipher::Twofish 0.087
+      Crypt::Cipher::XTEA 0.087
+      Crypt::Digest 0.087
+      Crypt::Digest::BLAKE2b_160 0.087
+      Crypt::Digest::BLAKE2b_256 0.087
+      Crypt::Digest::BLAKE2b_384 0.087
+      Crypt::Digest::BLAKE2b_512 0.087
+      Crypt::Digest::BLAKE2s_128 0.087
+      Crypt::Digest::BLAKE2s_160 0.087
+      Crypt::Digest::BLAKE2s_224 0.087
+      Crypt::Digest::BLAKE2s_256 0.087
+      Crypt::Digest::CHAES 0.087
+      Crypt::Digest::Keccak224 0.087
+      Crypt::Digest::Keccak256 0.087
+      Crypt::Digest::Keccak384 0.087
+      Crypt::Digest::Keccak512 0.087
+      Crypt::Digest::MD2 0.087
+      Crypt::Digest::MD4 0.087
+      Crypt::Digest::MD5 0.087
+      Crypt::Digest::RIPEMD128 0.087
+      Crypt::Digest::RIPEMD160 0.087
+      Crypt::Digest::RIPEMD256 0.087
+      Crypt::Digest::RIPEMD320 0.087
+      Crypt::Digest::SHA1 0.087
+      Crypt::Digest::SHA224 0.087
+      Crypt::Digest::SHA256 0.087
+      Crypt::Digest::SHA384 0.087
+      Crypt::Digest::SHA3_224 0.087
+      Crypt::Digest::SHA3_256 0.087
+      Crypt::Digest::SHA3_384 0.087
+      Crypt::Digest::SHA3_512 0.087
+      Crypt::Digest::SHA512 0.087
+      Crypt::Digest::SHA512_224 0.087
+      Crypt::Digest::SHA512_256 0.087
+      Crypt::Digest::SHAKE 0.087
+      Crypt::Digest::Tiger192 0.087
+      Crypt::Digest::Whirlpool 0.087
+      Crypt::KeyDerivation 0.087
+      Crypt::Mac 0.087
+      Crypt::Mac::BLAKE2b 0.087
+      Crypt::Mac::BLAKE2s 0.087
+      Crypt::Mac::F9 0.087
+      Crypt::Mac::HMAC 0.087
+      Crypt::Mac::OMAC 0.087
+      Crypt::Mac::PMAC 0.087
+      Crypt::Mac::Pelican 0.087
+      Crypt::Mac::Poly1305 0.087
+      Crypt::Mac::XCBC 0.087
+      Crypt::Misc 0.087
+      Crypt::Mode 0.087
+      Crypt::Mode::CBC 0.087
+      Crypt::Mode::CFB 0.087
+      Crypt::Mode::CTR 0.087
+      Crypt::Mode::ECB 0.087
+      Crypt::Mode::OFB 0.087
+      Crypt::PK 0.087
+      Crypt::PK::DH 0.087
+      Crypt::PK::DSA 0.087
+      Crypt::PK::ECC 0.087
+      Crypt::PK::Ed25519 0.087
+      Crypt::PK::RSA 0.087
+      Crypt::PK::X25519 0.087
+      Crypt::PRNG 0.087
+      Crypt::PRNG::ChaCha20 0.087
+      Crypt::PRNG::Fortuna 0.087
+      Crypt::PRNG::RC4 0.087
+      Crypt::PRNG::Sober128 0.087
+      Crypt::PRNG::Yarrow 0.087
+      Crypt::Stream::ChaCha 0.087
+      Crypt::Stream::RC4 0.087
+      Crypt::Stream::Rabbit 0.087
+      Crypt::Stream::Salsa20 0.087
+      Crypt::Stream::Sober128 0.087
+      Crypt::Stream::Sosemanuk 0.087
+      CryptX 0.087
+      Math::BigInt::LTM 0.087
     requirements:
       ExtUtils::MakeMaker 0
       Math::BigInt 0
@@ -1477,16 +1493,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  GSSAPI-0.28
-    pathname: A/AG/AGROLMS/GSSAPI-0.28.tar.gz
-    provides:
-      GSSAPI 0.28
-      GSSAPI::OID undef
-      GSSAPI::OID::Set undef
-      GSSAPI::Status undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
   Gazelle-0.49
     pathname: K/KA/KAZEBURO/Gazelle-0.49.tar.gz
     provides:
@@ -1741,18 +1747,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.089
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.089.tar.gz
+  IO-Socket-SSL-2.095
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.095.tar.gz
     provides:
-      IO::Socket::SSL 2.089
+      IO::Socket::SSL 2.095
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.089
-      IO::Socket::SSL::OCSP_Resolver 2.089
+      IO::Socket::SSL::OCSP_Cache 2.095
+      IO::Socket::SSL::OCSP_Resolver 2.095
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.089
-      IO::Socket::SSL::SSL_HANDLE 2.089
-      IO::Socket::SSL::Session_Cache 2.089
-      IO::Socket::SSL::Trace 2.089
+      IO::Socket::SSL::SSL_Context 2.095
+      IO::Socket::SSL::SSL_HANDLE 2.095
+      IO::Socket::SSL::Session_Cache 2.095
+      IO::Socket::SSL::Trace 2.095
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1812,10 +1818,10 @@ DISTRIBUTIONS
       JSON::PP 2.27300
       Scalar::Util 0
       perl 5.006
-  JSON-XS-4.03
-    pathname: M/ML/MLEHMANN/JSON-XS-4.03.tar.gz
+  JSON-XS-4.04
+    pathname: M/ML/MLEHMANN/JSON-XS-4.04.tar.gz
     provides:
-      JSON::XS 4.03
+      JSON::XS 4.04
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
@@ -1853,15 +1859,6 @@ DISTRIBUTIONS
       perl 5.012000
       strict 0
       warnings 0
-  LWP-Authen-Negotiate-0.08
-    pathname: A/AG/AGROLMS/LWP-Authen-Negotiate-0.08.tar.gz
-    provides:
-      LWP::Authen::Negotiate 0.08
-    requirements:
-      ExtUtils::MakeMaker 0
-      GSSAPI 0.18
-      LWP::Debug 0
-      MIME::Base64 2.12
   LWP-MediaTypes-6.04
     pathname: O/OA/OALDERS/LWP-MediaTypes-6.04.tar.gz
     provides:
@@ -2515,8 +2512,8 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006000
-  Mojolicious-9.40
-    pathname: S/SR/SRI/Mojolicious-9.40.tar.gz
+  Mojolicious-9.41
+    pathname: S/SR/SRI/Mojolicious-9.41.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2563,6 +2560,7 @@ DISTRIBUTIONS
       Mojo::Reactor undef
       Mojo::Reactor::EV undef
       Mojo::Reactor::Poll undef
+      Mojo::SSE undef
       Mojo::Server undef
       Mojo::Server::CGI undef
       Mojo::Server::Daemon undef
@@ -2585,7 +2583,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.40
+      Mojolicious 9.41
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2699,10 +2697,10 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.50
-    pathname: N/NL/NLNETLABS/Net-DNS-1.50.tar.gz
+  Net-DNS-1.53
+    pathname: N/NL/NLNETLABS/Net-DNS-1.53.tar.gz
     provides:
-      Net::DNS 1.50
+      Net::DNS 1.53
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
@@ -2713,9 +2711,9 @@ DISTRIBUTIONS
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2002
+      Net::DNS::Parameters 2021
       Net::DNS::Question 2002
-      Net::DNS::RR 2003
+      Net::DNS::RR 2037
       Net::DNS::RR::A 2003
       Net::DNS::RR::AAAA 2003
       Net::DNS::RR::AFSDB 2002
@@ -2728,7 +2726,7 @@ DISTRIBUTIONS
       Net::DNS::RR::CERT 2002
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2003
+      Net::DNS::RR::DELEG 2039
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
       Net::DNS::RR::DNSKEY 2003
@@ -2788,16 +2786,16 @@ DISTRIBUTIONS
       Net::DNS::RR::SPF 2003
       Net::DNS::RR::SRV 2003
       Net::DNS::RR::SSHFP 2003
-      Net::DNS::RR::SVCB 2003
-      Net::DNS::RR::TKEY 2003
+      Net::DNS::RR::SVCB 2037
+      Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
       Net::DNS::RR::TSIG 2003
       Net::DNS::RR::TXT 2003
       Net::DNS::RR::URI 2003
       Net::DNS::RR::X25 2002
       Net::DNS::RR::ZONEMD 2003
-      Net::DNS::Resolver 2009
-      Net::DNS::Resolver::Base 2011
+      Net::DNS::Resolver 2017
+      Net::DNS::Resolver::Base 2031
       Net::DNS::Resolver::MSWin32 2002
       Net::DNS::Resolver::Recurse 2002
       Net::DNS::Resolver::UNIX 2007
@@ -2806,7 +2804,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::os2 2007
       Net::DNS::Resolver::os390 2007
       Net::DNS::Text 2002
-      Net::DNS::Update 2003
+      Net::DNS::Update 2017
       Net::DNS::ZoneFile 2002
       Net::DNS::ZoneFile::Generator 2002
       Net::DNS::ZoneFile::Text 2002
@@ -2837,13 +2835,13 @@ DISTRIBUTIONS
       perl 5.008009
       strict 1.03
       warnings 1.0501
-  Net-HTTP-6.23
-    pathname: O/OA/OALDERS/Net-HTTP-6.23.tar.gz
+  Net-HTTP-6.24
+    pathname: O/OA/OALDERS/Net-HTTP-6.24.tar.gz
     provides:
-      Net::HTTP 6.23
-      Net::HTTP::Methods 6.23
-      Net::HTTP::NB 6.23
-      Net::HTTPS 6.23
+      Net::HTTP 6.24
+      Net::HTTP::Methods 6.24
+      Net::HTTP::NB 6.24
+      Net::HTTPS 6.24
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -3041,11 +3039,11 @@ DISTRIBUTIONS
       overload 0
       parent 0
       strict 0
-  Path-Tiny-0.148
-    pathname: D/DA/DAGOLDEN/Path-Tiny-0.148.tar.gz
+  Path-Tiny-0.150
+    pathname: D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz
     provides:
-      Path::Tiny 0.148
-      Path::Tiny::Error 0.148
+      Path::Tiny 0.150
+      Path::Tiny::Error 0.150
     requirements:
       Carp 0
       Cwd 0
@@ -3337,12 +3335,12 @@ DISTRIBUTIONS
     requirements:
       Module::Build 0.4005
       perl 5.008
-  Set-Object-1.42
-    pathname: R/RU/RURBAN/Set-Object-1.42.tar.gz
+  Set-Object-1.43
+    pathname: R/RU/RURBAN/Set-Object-1.43.tar.gz
     provides:
-      Set::Object 1.42
-      Set::Object::TieArray 1.42
-      Set::Object::TieHash 1.42
+      Set::Object 1.43
+      Set::Object::TieArray 1.43
+      Set::Object::TieHash 1.43
       Set::Object::Weak undef
     requirements:
       ExtUtils::MakeMaker 0
@@ -3360,53 +3358,56 @@ DISTRIBUTIONS
       POSIX 0
       strict 0
       warnings 0
-  Specio-0.50
-    pathname: D/DR/DROLSKY/Specio-0.50.tar.gz
+  Specio-0.52
+    pathname: D/DR/DROLSKY/Specio-0.52.tar.gz
     provides:
-      Specio 0.50
-      Specio::Coercion 0.50
-      Specio::Constraint::AnyCan 0.50
-      Specio::Constraint::AnyDoes 0.50
-      Specio::Constraint::AnyIsa 0.50
-      Specio::Constraint::Enum 0.50
-      Specio::Constraint::Intersection 0.50
-      Specio::Constraint::ObjectCan 0.50
-      Specio::Constraint::ObjectDoes 0.50
-      Specio::Constraint::ObjectIsa 0.50
-      Specio::Constraint::Parameterizable 0.50
-      Specio::Constraint::Parameterized 0.50
-      Specio::Constraint::Role::CanType 0.50
-      Specio::Constraint::Role::DoesType 0.50
-      Specio::Constraint::Role::Interface 0.50
-      Specio::Constraint::Role::IsaType 0.50
-      Specio::Constraint::Simple 0.50
-      Specio::Constraint::Structurable 0.50
-      Specio::Constraint::Structured 0.50
-      Specio::Constraint::Union 0.50
-      Specio::Declare 0.50
-      Specio::DeclaredAt 0.50
-      Specio::Exception 0.50
-      Specio::Exporter 0.50
-      Specio::Helpers 0.50
-      Specio::Library::Builtins 0.50
-      Specio::Library::Numeric 0.50
-      Specio::Library::Perl 0.50
-      Specio::Library::String 0.50
-      Specio::Library::Structured 0.50
-      Specio::Library::Structured::Dict 0.50
-      Specio::Library::Structured::Map 0.50
-      Specio::Library::Structured::Tuple 0.50
-      Specio::OO 0.50
-      Specio::PartialDump 0.50
-      Specio::Registry 0.50
-      Specio::Role::Inlinable 0.50
-      Specio::Subs 0.50
-      Specio::TypeChecks 0.50
-      Test::Specio 0.50
+      Specio 0.52
+      Specio::Coercion 0.52
+      Specio::Constraint::AnyCan 0.52
+      Specio::Constraint::AnyDoes 0.52
+      Specio::Constraint::AnyIsa 0.52
+      Specio::Constraint::Enum 0.52
+      Specio::Constraint::Intersection 0.52
+      Specio::Constraint::ObjectCan 0.52
+      Specio::Constraint::ObjectDoes 0.52
+      Specio::Constraint::ObjectIsa 0.52
+      Specio::Constraint::Parameterizable 0.52
+      Specio::Constraint::Parameterized 0.52
+      Specio::Constraint::Role::CanType 0.52
+      Specio::Constraint::Role::DoesType 0.52
+      Specio::Constraint::Role::Interface 0.52
+      Specio::Constraint::Role::IsaType 0.52
+      Specio::Constraint::Simple 0.52
+      Specio::Constraint::Structurable 0.52
+      Specio::Constraint::Structured 0.52
+      Specio::Constraint::Union 0.52
+      Specio::Declare 0.52
+      Specio::DeclaredAt 0.52
+      Specio::Exception 0.52
+      Specio::Exporter 0.52
+      Specio::Helpers 0.52
+      Specio::Library::Builtins 0.52
+      Specio::Library::Numeric 0.52
+      Specio::Library::Perl 0.52
+      Specio::Library::String 0.52
+      Specio::Library::Structured 0.52
+      Specio::Library::Structured::Dict 0.52
+      Specio::Library::Structured::Map 0.52
+      Specio::Library::Structured::Tuple 0.52
+      Specio::OO 0.52
+      Specio::PP 0.52
+      Specio::PartialDump 0.52
+      Specio::Registry 0.52
+      Specio::Role::Inlinable 0.52
+      Specio::Subs 0.52
+      Specio::TypeChecks 0.52
+      Specio::XS 0.52
+      Test::Specio 0.52
     requirements:
       B 0
       Carp 0
       Clone 0
+      Clone::PP 0
       Devel::StackTrace 0
       Eval::Closure 0
       Exporter 0
@@ -3414,6 +3415,7 @@ DISTRIBUTIONS
       IO::File 0
       List::Util 1.33
       MRO::Compat 0
+      Module::Implementation 0
       Module::Runtime 0
       Role::Tiny 1.003003
       Role::Tiny::With 0
@@ -3483,11 +3485,11 @@ DISTRIBUTIONS
       perl 5.008000
       strict 0
       warnings 0
-  Sub-Quote-2.006008
-    pathname: H/HA/HAARG/Sub-Quote-2.006008.tar.gz
+  Sub-Quote-2.006009
+    pathname: H/HA/HAARG/Sub-Quote-2.006009.tar.gz
     provides:
-      Sub::Defer 2.006008
-      Sub::Quote 2.006008
+      Sub::Defer 2.006009
+      Sub::Quote 2.006009
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
@@ -3563,13 +3565,13 @@ DISTRIBUTIONS
       File::Spec 0.8
       File::Temp 0.12
       Scalar::Util 0
-  Term-ReadLine-Gnu-1.46
-    pathname: H/HA/HAYASHI/Term-ReadLine-Gnu-1.46.tar.gz
+  Term-ReadLine-Gnu-1.47
+    pathname: H/HA/HAYASHI/Term-ReadLine-Gnu-1.47.tar.gz
     provides:
-      Term::ReadLine::Gnu 1.46
-      Term::ReadLine::Gnu::AU 1.46
-      Term::ReadLine::Gnu::Var 1.46
-      Term::ReadLine::Gnu::XS 1.46
+      Term::ReadLine::Gnu 1.47
+      Term::ReadLine::Gnu::AU 1.47
+      Term::ReadLine::Gnu::Var 1.47
+      Term::ReadLine::Gnu::XS 1.47
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
@@ -3809,10 +3811,10 @@ DISTRIBUTIONS
       Test::Harness 0
       Test::More 0.92
       perl 5.006001
-  Text-CSV_XS-1.60
-    pathname: H/HM/HMBRAND/Text-CSV_XS-1.60.tgz
+  Text-CSV_XS-1.61
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.61.tgz
     provides:
-      Text::CSV_XS 1.60
+      Text::CSV_XS 1.61
     requirements:
       Config 0
       ExtUtils::MakeMaker 0
@@ -3896,60 +3898,60 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Type-Tiny-2.008002
-    pathname: T/TO/TOBYINK/Type-Tiny-2.008002.tar.gz
+  Type-Tiny-2.008003
+    pathname: T/TO/TOBYINK/Type-Tiny-2.008003.tar.gz
     provides:
-      Devel::TypeTiny::Perl58Compat 2.008002
-      Error::TypeTiny 2.008002
-      Error::TypeTiny::Assertion 2.008002
-      Error::TypeTiny::Compilation 2.008002
-      Error::TypeTiny::WrongNumberOfParameters 2.008002
-      Eval::TypeTiny 2.008002
-      Eval::TypeTiny::CodeAccumulator 2.008002
-      Reply::Plugin::TypeTiny 2.008002
-      Test::TypeTiny 2.008002
-      Type::Coercion 2.008002
-      Type::Coercion::FromMoose 2.008002
-      Type::Coercion::Union 2.008002
-      Type::Library 2.008002
-      Type::Params 2.008002
-      Type::Params::Alternatives 2.008002
-      Type::Params::Parameter 2.008002
-      Type::Params::Signature 2.008002
-      Type::Parser 2.008002
-      Type::Parser::AstBuilder 2.008002
-      Type::Parser::Token 2.008002
-      Type::Parser::TokenStream 2.008002
-      Type::Registry 2.008002
-      Type::Tie 2.008002
-      Type::Tie::ARRAY 2.008002
-      Type::Tie::BASE 2.008002
-      Type::Tie::HASH 2.008002
-      Type::Tie::SCALAR 2.008002
-      Type::Tiny 2.008002
-      Type::Tiny::Bitfield 2.008002
-      Type::Tiny::Class 2.008002
-      Type::Tiny::ConstrainedObject 2.008002
-      Type::Tiny::Duck 2.008002
-      Type::Tiny::Enum 2.008002
-      Type::Tiny::Intersection 2.008002
-      Type::Tiny::Role 2.008002
-      Type::Tiny::Union 2.008002
-      Type::Utils 2.008002
-      Types::Common 2.008002
-      Types::Common::Numeric 2.008002
-      Types::Common::String 2.008002
-      Types::Standard 2.008002
-      Types::Standard::ArrayRef 2.008002
-      Types::Standard::CycleTuple 2.008002
-      Types::Standard::Dict 2.008002
-      Types::Standard::HashRef 2.008002
-      Types::Standard::Map 2.008002
-      Types::Standard::ScalarRef 2.008002
-      Types::Standard::StrMatch 2.008002
-      Types::Standard::Tied 2.008002
-      Types::Standard::Tuple 2.008002
-      Types::TypeTiny 2.008002
+      Devel::TypeTiny::Perl58Compat 2.008003
+      Error::TypeTiny 2.008003
+      Error::TypeTiny::Assertion 2.008003
+      Error::TypeTiny::Compilation 2.008003
+      Error::TypeTiny::WrongNumberOfParameters 2.008003
+      Eval::TypeTiny 2.008003
+      Eval::TypeTiny::CodeAccumulator 2.008003
+      Reply::Plugin::TypeTiny 2.008003
+      Test::TypeTiny 2.008003
+      Type::Coercion 2.008003
+      Type::Coercion::FromMoose 2.008003
+      Type::Coercion::Union 2.008003
+      Type::Library 2.008003
+      Type::Params 2.008003
+      Type::Params::Alternatives 2.008003
+      Type::Params::Parameter 2.008003
+      Type::Params::Signature 2.008003
+      Type::Parser 2.008003
+      Type::Parser::AstBuilder 2.008003
+      Type::Parser::Token 2.008003
+      Type::Parser::TokenStream 2.008003
+      Type::Registry 2.008003
+      Type::Tie 2.008003
+      Type::Tie::ARRAY 2.008003
+      Type::Tie::BASE 2.008003
+      Type::Tie::HASH 2.008003
+      Type::Tie::SCALAR 2.008003
+      Type::Tiny 2.008003
+      Type::Tiny::Bitfield 2.008003
+      Type::Tiny::Class 2.008003
+      Type::Tiny::ConstrainedObject 2.008003
+      Type::Tiny::Duck 2.008003
+      Type::Tiny::Enum 2.008003
+      Type::Tiny::Intersection 2.008003
+      Type::Tiny::Role 2.008003
+      Type::Tiny::Union 2.008003
+      Type::Utils 2.008003
+      Types::Common 2.008003
+      Types::Common::Numeric 2.008003
+      Types::Common::String 2.008003
+      Types::Standard 2.008003
+      Types::Standard::ArrayRef 2.008003
+      Types::Standard::CycleTuple 2.008003
+      Types::Standard::Dict 2.008003
+      Types::Standard::HashRef 2.008003
+      Types::Standard::Map 2.008003
+      Types::Standard::ScalarRef 2.008003
+      Types::Standard::StrMatch 2.008003
+      Types::Standard::Tied 2.008003
+      Types::Standard::Tuple 2.008003
+      Types::TypeTiny 2.008003
     requirements:
       Exporter::Tiny 1.006000
       ExtUtils::MakeMaker 6.17
@@ -4287,32 +4289,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.78
-    pathname: O/OA/OALDERS/libwww-perl-6.78.tar.gz
+  libwww-perl-6.80
+    pathname: O/OA/OALDERS/libwww-perl-6.80.tar.gz
     provides:
-      LWP 6.78
-      LWP::Authen::Basic 6.78
-      LWP::Authen::Digest 6.78
-      LWP::Authen::Ntlm 6.78
-      LWP::ConnCache 6.78
-      LWP::Debug 6.78
-      LWP::Debug::TraceHTTP 6.78
-      LWP::DebugFile 6.78
-      LWP::MemberMixin 6.78
-      LWP::Protocol 6.78
-      LWP::Protocol::cpan 6.78
-      LWP::Protocol::data 6.78
-      LWP::Protocol::file 6.78
-      LWP::Protocol::ftp 6.78
-      LWP::Protocol::gopher 6.78
-      LWP::Protocol::http 6.78
-      LWP::Protocol::loopback 6.78
-      LWP::Protocol::mailto 6.78
-      LWP::Protocol::nntp 6.78
-      LWP::Protocol::nogo 6.78
-      LWP::RobotUA 6.78
-      LWP::Simple 6.78
-      LWP::UserAgent 6.78
+      LWP 6.80
+      LWP::Authen::Basic 6.80
+      LWP::Authen::Digest 6.80
+      LWP::Authen::Ntlm 6.80
+      LWP::ConnCache 6.80
+      LWP::Debug 6.80
+      LWP::Debug::TraceHTTP 6.80
+      LWP::DebugFile 6.80
+      LWP::MemberMixin 6.80
+      LWP::Protocol 6.80
+      LWP::Protocol::cpan 6.80
+      LWP::Protocol::data 6.80
+      LWP::Protocol::file 6.80
+      LWP::Protocol::ftp 6.80
+      LWP::Protocol::gopher 6.80
+      LWP::Protocol::http 6.80
+      LWP::Protocol::loopback 6.80
+      LWP::Protocol::mailto 6.80
+      LWP::Protocol::nntp 6.80
+      LWP::Protocol::nogo 6.80
+      LWP::RobotUA 6.80
+      LWP::Simple 6.80
+      LWP::UserAgent 6.80
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -4438,7 +4440,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -4451,6 +4452,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
