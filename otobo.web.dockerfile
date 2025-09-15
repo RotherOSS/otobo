@@ -58,7 +58,10 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
-# The Perl module installer 'cpanm' is already available via the base image.
+# Installation can be triggerd by making any modification of the file cpanfile.docker.
+#
+# Only local::lib is installed with ghe Perl module installer 'cpanm'. 'cpanm' is already available
+# via the Docker base image for perl.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
@@ -67,8 +70,10 @@ ENV LANG=C.UTF-8
 # version from a previous snapshot. The idea is that the snapshot is updated when
 # performing local builds. The automatic build on Github use the saved snapshot.
 #
-# 'carton install' will update cpanfile.snapshot.
+# 'carton install' installs the newest version of CPAN modules when the cpanfile.snapsho does not exist.
+# The file cpanfile.snapshot is created, documenting which versions were installed.
 # 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+# and it will complain if modules that are not in the snapshot should be installed.
 #
 # A fatpacked script `carton` is used for building the image. This has the advantage
 # that the requirements for `carton` are not included in the generated Docker image.
@@ -106,6 +111,7 @@ RUN <<END_BASH bash
 
     if [[ $DOCKER_TAG == local-* ]]
     then
+        rm cpanfile.snapshot
         /opt/otobo_install/carton install
     else
         /opt/otobo_install/carton install --deployment
@@ -186,6 +192,8 @@ RUN <<END_BASH bash
         echo "bind '\"\\e[5~\": menu-complete-backward'"
         echo ""
         echo "# helpers"
+        echo "alias ..='cd ..'"
+        echo "alias ...='cd ../..'"
     ) >> .bash_aliases
     install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
     (echo $GIT_REPO   > git-repo.txt)
