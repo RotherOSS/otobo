@@ -1008,7 +1008,7 @@ sub _FindMember {
             filter => '(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))',
         );
 
-        # pop_entry() returns either a search result or undef
+        # pop_entry() returns either a search result item or undef
         my $Entry = $Result->pop_entry;
 
         # nothing to do when no result was found
@@ -1038,13 +1038,14 @@ sub _FindMember {
             );
 
             # check if we found an entry
-            eval {
-                my $Entry = $Result->pop_entry();    # dies when no entry was found
-                $MemberConfirmedRef->$* = 1;         # entry found as there was no exception
-            };
+            # pop_entry() returns either a search result item or undef
+            my $Entry = $Result->pop_entry;
+            if ($Entry) {
+                $MemberConfirmedRef->$* = 1;
 
-            # return from the eval if we found a match
-            return if $MemberConfirmedRef->$*;
+                # return from the eval if we found a match
+                return;
+            }
         }
 
         # nothing found in dynamic groups
