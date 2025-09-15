@@ -897,6 +897,11 @@ sub HandleDBUserOption {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
+    # do not allow trailing backslash 
+    if( $OptValue =~ /\\$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
     $DatabaseUser = $OptValue;
 
     return;
@@ -909,6 +914,11 @@ sub HandleDBPasswordOption {
     # or passed as ENV var for postgres,
     # so just make sure we do not have single quotes in the password
     if( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    # do not allow trailing backslash 
+    if( $OptValue =~ /\\$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
