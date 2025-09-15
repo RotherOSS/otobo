@@ -119,6 +119,7 @@ RUN <<END_BASH bash
 
     if [[ $DOCKER_TAG == local-* ]]
     then
+        rm cpanfile.snapshot
         /opt/otobo_install/carton install
     else
         /opt/otobo_install/carton install --deployment
