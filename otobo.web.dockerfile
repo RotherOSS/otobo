@@ -194,6 +194,8 @@ RUN <<END_BASH bash
         echo "bind '\"\\e[5~\": menu-complete-backward'"
         echo ""
         echo "# helpers"
+        echo "alias ..='cd ..'"
+        echo "alias ...='cd ../..'"
     ) >> .bash_aliases
     install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
     (echo $GIT_REPO   > git-repo.txt)
