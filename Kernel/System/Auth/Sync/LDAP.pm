@@ -1008,12 +1008,17 @@ sub _FindMember {
             filter => '(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))',
         );
 
-        # pop_entry() dies when no entry was found. This is fine as further search
-        # depends on having an entry
-        my $Entry = $Result->pop_entry();
+        # pop_entry() returns either a search result or undef
+        my $Entry = $Result->pop_entry;
+
+        # nothing to do when no result was found
+        return unless defined $Entry;
+
+        # It is safe to call $Entry->dn as we already checked whether $Entry is defined.
+        # No exception is expected.
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => 'Nested group search in GroupDN: ' . $Entry->dn(),
+            Message  => 'Nested group search in GroupDN: ' . $Entry->dn,
         );
 
         # add group to list; if we see it again we will ignore it to avoid an infinite loop
