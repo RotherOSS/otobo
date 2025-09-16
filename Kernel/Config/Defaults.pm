@@ -163,6 +163,18 @@ sub LoadDefaults {
     # (To log every sql query which takes longer the 4 sec.)
     #    $Self->{'Database::SlowLog'} = 0;
 
+    # Specify Database::Attributes when you want to pass installation specific
+    # database connect attributes. One use case is activating an encrypted connection
+    # to a MySQL or MariaDB database server.
+    #
+    # The *.pem files may copied from a MySQL db container, from /var/lib/mysql,
+    # See https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-secure-connections.html#secure-deployment-distribute-client-cert-key-files
+    #$Self->{'Database::Attribute'} = {
+    #    mysql_ssl_ca_file     => '/opt/otobo/var/ca.pem',
+    #    mysql_ssl_client_key  => '/opt/otobo/var/client-key.pem',
+    #    mysql_ssl_client_cert => '/opt/otobo/var/client-cert.pem',
+    #};
+
     # --------------------------------------------------- #
     # otobo.psgi configuration                            #
     # --------------------------------------------------- #
