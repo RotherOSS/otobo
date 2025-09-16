@@ -77,8 +77,9 @@ sub Run {
     # on whether we have libmysqlclient of libmariadb.
     # For what it worth, libmariadb.so.3 was reported as 3.3.17 in 2025.
     $Self->AddResultOk(
-        Label => Translatable('Client Info'),
-        Value => ( $DBObject->{dbh}->{mysql_clientinfo} // 'no client info' ),
+        Identifier => 'ClientInfo',
+        Label      => Translatable('Client Info'),
+        Value      => ( $DBObject->{dbh}->{mysql_clientinfo} // 'no client info' ),
     );
 
     return $Self->GetResults();
