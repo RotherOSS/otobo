@@ -74,12 +74,9 @@ sub LoadPreferences {
     # this is primarily needed during migration
     $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
 
-    # DBI/DBD::mysql attributes
-    # disable automatic reconnects as they do not execute DB::Connect, which will
-    # cause charset problems
-    $Self->{'DB::Attribute'} = {
-        mysql_auto_reconnect => 0,
-    };
+    # DBI/DBD::mysql attributes. These will be passed when connecting to the database.
+    # Note that "mysql_auto_reconnect => 0" is set by DBIx::Connector::Driver::mysql.
+    $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
