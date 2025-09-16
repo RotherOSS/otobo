@@ -183,8 +183,8 @@ sub new {
     # set database functions
     $Self->{Backend}->LoadPreferences();
 
-    # check/get extra database configuration options
-    # (overwrite auto-detection with config options)
+    # Check or get extra database configuration options, that is overwrite auto-detection with config options.
+    # These presets are typically specified in the file Kernel/Config.pm.
     for my $Setting (
         qw(
             Type Limit DirectBlob Attribute QuoteSingle QuoteBack
