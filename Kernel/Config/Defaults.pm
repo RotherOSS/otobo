@@ -53,6 +53,8 @@ This class implements several internal functions that are used internally in
 L<Kernel::Config>. The two externally used functions are documented as part
 of L<Kernel::Config>, even though they are actually implemented here.
 
+This module also holds examples of settings that may be used in F<Kernel/Config.pm>.
+
 =head1 PUBLIC INTERFACE
 
 =head2 LoadDefaults()
