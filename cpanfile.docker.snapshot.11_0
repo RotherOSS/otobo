@@ -179,6 +179,13 @@ DISTRIBUTIONS
       IO::Seekable 0
       Time::Local 0
       perl 5.006
+  Authen-Krb5-Simple-0.43
+    pathname: D/DS/DSTUART/Authen-Krb5-Simple-0.43.tar.gz
+    provides:
+      Authen::Krb5::Simple 0.43
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Authen-SASL-2.1900
     pathname: E/EH/EHUELS/Authen-SASL-2.1900.tar.gz
     provides:
@@ -1493,6 +1500,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
+  GSSAPI-0.28
+    pathname: A/AG/AGROLMS/GSSAPI-0.28.tar.gz
+    provides:
+      GSSAPI 0.28
+      GSSAPI::OID undef
+      GSSAPI::OID::Set undef
+      GSSAPI::Status undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   Gazelle-0.49
     pathname: K/KA/KAZEBURO/Gazelle-0.49.tar.gz
     provides:
@@ -1859,6 +1876,15 @@ DISTRIBUTIONS
       perl 5.012000
       strict 0
       warnings 0
+  LWP-Authen-Negotiate-0.08
+    pathname: A/AG/AGROLMS/LWP-Authen-Negotiate-0.08.tar.gz
+    provides:
+      LWP::Authen::Negotiate 0.08
+    requirements:
+      ExtUtils::MakeMaker 0
+      GSSAPI 0.18
+      LWP::Debug 0
+      MIME::Base64 2.12
   LWP-MediaTypes-6.04
     pathname: O/OA/OALDERS/LWP-MediaTypes-6.04.tar.gz
     provides:
