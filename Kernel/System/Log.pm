@@ -212,11 +212,20 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
 
-        my $Error = sprintf 'ERROR: %s Perl: %vd OS: %s Time: %s',
-            $Self->{LogPrefix},    # from constructor argument
-            $^V,                   # $PERL_VERSION, the Perl version object
-            $^O,                   # $OSNAME, the operating system
-            $LogTime;              # a string with the current date and time
+        my $Error;
+        if ( ${^GLOBAL_PHASE} eq 'DESTRUCT' ) {
+            $Error = sprintf 'ERROR: %s OS: %s Time: %s (in global destruction)',
+                $Self->{LogPrefix},    # from constructor argument
+                $^O,                   # $OSNAME, the operating system
+                $LogTime;              # a string with the current date and time
+        }
+        else {
+            $Error = sprintf 'ERROR: %s Perl: %vd OS: %s Time: %s',
+                $Self->{LogPrefix},    # from constructor argument
+                $^V,                   # $PERL_VERSION, the Perl version object
+                $^O,                   # $OSNAME, the operating system
+                $LogTime;              # a string with the current date and time
+        }
         $Error .= "\n\n";
         $Error .= " Message: $Message\n\n";
 
