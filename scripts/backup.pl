@@ -899,8 +899,8 @@ sub HandleDBUserOption {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
-    # do not allow trailing backslash 
-    if( $OptValue =~ /\\$/ ) {
+    # do not allow trailing backslash
+    if ( $OptValue =~ /\\$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
@@ -919,8 +919,8 @@ sub HandleDBPasswordOption {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
-    # do not allow trailing backslash 
-    if( $OptValue =~ /\\$/ ) {
+    # do not allow trailing backslash
+    if ( $OptValue =~ /\\$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
     }
 
