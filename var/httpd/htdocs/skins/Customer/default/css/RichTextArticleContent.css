@@ -79,3 +79,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-left: 0;
     margin-right: auto
 }
+
+.ck-content code {
+    font-family: monospace;
+}
