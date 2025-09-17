@@ -108,7 +108,7 @@ ENV PATH="/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 WORKDIR /opt/otobo_install
 COPY bin/docker/carton carton
 COPY cpanfile.docker cpanfile
-COPY cpanfile.docker.snapshot.10_0 cpanfile.snapshot
+COPY cpanfile.docker.snapshot cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
 ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 ARG DOCKER_TAG=unspecified
