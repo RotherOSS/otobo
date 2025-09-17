@@ -60,8 +60,9 @@ build "otobo.web.dockerfile" "otobo-web-kerberos" $DOCKER_TAG $GIT_COMMIT $GIT_B
 
 # Building the web container entails installing Perl distributions from CPAN.
 # The exact versions of these distributions are tracked in the file cpanfile.snapshot.
-# This file is part of the git repository and is kept up to date.
-docker run --rm --entrypoint cat otobo-kerberos:$DOCKER_TAG /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot.11_1
+# This file is part of the git repository and is kept up to date for the specific
+# release series. It won't be merged into the higher release series.
+docker run --rm --entrypoint cat otobo-kerberos:$DOCKER_TAG /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot
 
 # build otobo-nginx-webproxy
 build "otobo.nginx.dockerfile" "otobo-nginx-webproxy" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-webproxy:$DOCKER_TAG"
