@@ -212,8 +212,12 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
 
-        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
-            . $LogTime . "\n\n", $^V;
+        my $Error = sprintf 'ERROR: %s Perl: %vd OS: %s Time: %s',
+            $Self->{LogPrefix},    # from constructor argument
+            $^V,                   # $PERL_VERSION, the Perl version object
+            $^O,                   # $OSNAME, the operating system
+            $LogTime;              # a string with the current date and time
+        $Error .= "\n\n";
         $Error .= " Message: $Message\n\n";
 
         if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {
