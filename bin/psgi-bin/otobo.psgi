@@ -134,8 +134,9 @@ if ($S3Active) {
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
 # This setting is used internally by Kernel::System::Log, and in the support data collector.
+#
 # In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
-# In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+# But this is countered by DBIx::Connector::Driver::mysql which explicitly turns off mysql_auto_reconnect.
 my $SetSystemEnvMiddleware = sub {
     my $App = shift;
 

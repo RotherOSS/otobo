@@ -184,8 +184,8 @@ sub new {
     # set database functions
     $Self->{Backend}->LoadPreferences();
 
-    # check/get extra database configuration options
-    # (overwrite auto-detection with config options)
+    # Check or get extra database configuration options, that is overwrite auto-detection with config options.
+    # These presets are typically specified in the file Kernel/Config.pm.
     for my $Setting (
         qw(
             Type Limit DirectBlob Attribute QuoteSingle QuoteBack
@@ -244,8 +244,8 @@ sub Connect {
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
         #
-        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
-        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+        # Note that mysql_auto_reconnect = 0 is set by DBIx::Connector::Driver::mysql,
+        # so that setting doesn't have to be passed here.
         my %ConnectAttributes = (
             RaiseError => 0,
             $Self->{Backend}->{'DB::Attribute'}->%*,
