@@ -366,7 +366,7 @@ dump a perl variable to log
 sub Dumper {
     my ( $Self, @Data ) = @_;
 
-    require Data::Dumper;
+    require Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
