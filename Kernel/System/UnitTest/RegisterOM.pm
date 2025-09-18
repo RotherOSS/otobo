@@ -70,4 +70,14 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     return;
 }
 
+END {
+
+    # Clean up the global objects before global destruction sets in.
+    # This makes the test scripts behave more like otobo.psgi
+    # or otobo.Console.pl .
+    if ($Kernel::OM) {
+        $Kernel::OM->ObjectsDiscard;
+    }
+}
+
 1;
