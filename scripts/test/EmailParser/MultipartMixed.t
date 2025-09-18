@@ -248,7 +248,7 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/.ck-content,.ck-content *{text-wrap:wrap;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;line-height:1.2}.ck-content figure.table{margin:0 0 0 0}.ck-content p{margin-top:0;margin-bottom:0}.ck-content h1{font-size:2em}.ck-content h2{font-size:1.5em}.ck-content h3{font-size:1.17em}.ck-content h5{font-size:.83em}.ck-content h6{font-size:.67em}.ck-content blockquote{font-style:normal!important;border-left:solid #000099 1.5pt!important;padding:0 0 0 4pt!important;margin:0}.ck-content ul,.ck-content ol{padding:0 50px}.ck-content figure.image:not(.image-style-align-center,.image-style-block-align-right,.image-style-align-left,.image-style-align-right){max-width:calc(100% - var(--ck-image-style-spacing));margin-left:0;margin-right:auto}
+*/.ck-content,.ck-content *{text-wrap:wrap;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;line-height:1.2}.ck-content figure.table{margin:0 0 0 0}.ck-content p{margin-top:0;margin-bottom:0}.ck-content h1{font-size:2em}.ck-content h2{font-size:1.5em}.ck-content h3{font-size:1.17em}.ck-content h5{font-size:.83em}.ck-content h6{font-size:.67em}.ck-content blockquote{font-style:normal!important;border-left:solid #000099 1.5pt!important;padding:0 0 0 4pt!important;margin:0}.ck-content ul,.ck-content ol{padding:0 50px}.ck-content figure.image:not(.image-style-align-center,.image-style-block-align-right,.image-style-align-left,.image-style-align-right){max-width:calc(100% - var(--ck-image-style-spacing));margin-left:0;margin-right:auto}.ck-content code{font-family:monospace}
 .ck-content {}</style></head><body class="ck-content">Hello,<br/>
 <br/>
 This is the forwarded message...<br/>
@@ -264,7 +264,7 @@ END_HTML
                 ContentType     => 'text/html; charset=utf-8',
                 Disposition     => 'inline',
                 Filename        => 'file-1.html',
-                Filesize        => 10944,
+                Filesize        => 10983,
                 MimeType        => 'text/html'
             },
         ],
