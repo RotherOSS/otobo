@@ -84,6 +84,28 @@ sub Run {
     my $ChannelName    = $ArticleBackendObject->ChannelNameGet();
     my $ArticleActions = $ConfigObject->Get("Ticket::Frontend::Article::Actions")->{$ChannelName};
 
+    # call permission check of corresponding article action
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+    );
+    my $ActionStrg = $Self->{Subaction} ? "AgentTicket$Self->{Subaction}" : $Self->{Action};
+    my $Access     = $Kernel::OM->Get( 'Kernel::Output::HTML::ArticleAction::' . $ActionStrg )->CheckAccess(
+        Ticket          => \%Ticket,
+        Article         => \%Article,
+        ChannelName     => $ChannelName,
+        UserID          => $Self->{UserID},
+        AclActionLookup => {
+            $ActionStrg => 1,
+        },
+    );
+    if ( !$Access ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate('This action is not permitted on the article!'),
+            WithHeader => 'yes',
+        );
+    }
+
     if ( $Self->{Subaction} eq 'ArticleDelete' ) {
         if ( !$ArticleActions->{'AgentTicketArticleDelete'} ) {
             return $LayoutObject->NoPermission(
