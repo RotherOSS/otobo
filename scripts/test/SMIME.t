@@ -150,6 +150,7 @@ my %Check = (
         Subject => [
             'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
+            'C= DE, ST= Bayern, L= Straubing, O= OTRS AG, CN= unittest, emailAddress= unittest@example.org',
         ],
         Hash        => $CheckHash1,
         Private     => 'No',
@@ -159,6 +160,7 @@ my %Check = (
         Issuer      => [
             '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
+            'C= DE, ST= Bayern, L= Straubing, O= OTRS AG, CN= unittest, emailAddress= unittest@example.org',
         ],
         Email          => 'unittest@example.org',
         ShortEndDate   => '2026-01-15',
@@ -172,6 +174,7 @@ my %Check = (
         Subject => [
             'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
+            'C= DE, ST= Bayern, L= Straubing, O= OTRS AG, CN= unittest2, emailAddress= unittest2@example.org',
         ],
         Hash        => $CheckHash2,
         Private     => 'No',
@@ -181,6 +184,7 @@ my %Check = (
         Issuer      => [
             '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
+            'C= DE, ST= Bayern, L= Straubing, O= OTRS AG, CN= unittest2, emailAddress= unittest2@example.org',
         ],
         Email          => 'unittest2@example.org',
         EndDate        => 'Jan 15 13:29:18 2026 GMT',
@@ -194,6 +198,7 @@ my %Check = (
         Subject => [
             'C= DE ST= Bayern L= Straubing OU= OTRS AG CN= unittest emailAddress= unittest3@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, OU =  OTRS AG, CN =  unittest, emailAddress =  unittest3@example.org',
+            'C= DE, ST= Bayern, L= Straubing, OU= OTRS AG, CN= unittest, emailAddress= unittest3@example.org',
         ],
         Hash        => $CheckHash3,
         Private     => 'No',
@@ -203,6 +208,7 @@ my %Check = (
         Issuer      => [
             '/C= DE/ST= Bayern/L= Straubing/OU= OTRS AG/CN= unittest/emailAddress= unittest3@example.org',
             'C =  DE, ST =  Bayern, L =  Straubing, OU =  OTRS AG, CN =  unittest, emailAddress =  unittest3@example.org',
+            'C= DE, ST= Bayern, L= Straubing, OU= OTRS AG, CN= unittest, emailAddress= unittest3@example.org',
         ],
 
         # this is the display for alternate names (SubjectAltName)
@@ -330,7 +336,6 @@ for my $Count ( 1 .. 3 ) {
         for my $ID ( sort keys %{ $Check{$Count} } ) {
 
             if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
-
                 my $Success = 0;
 
                 for my $String ( @{ $Check{$Count}->{$ID} } ) {
