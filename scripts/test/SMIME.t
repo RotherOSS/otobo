@@ -26,10 +26,8 @@ use Test2::V0;
 use File::Path qw(make_path rmtree);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
-
-our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -776,7 +774,7 @@ my %Certificates;
     );
 
     # it must works
-    $Self->True(
+    ok(
         $Data{Successful},
         'Sign(), successful certificate chain verification, signed using stored relations',
     );
@@ -785,7 +783,7 @@ my %Certificates;
     my @CertResults = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
-    $Self->Is(
+    is(
         scalar @CertResults,
         2,
         'SignerCertRelationGet(), get all certificate relations',
@@ -795,7 +793,7 @@ my %Certificates;
     $Success = $SMIMEObject->SignerCertRelationGet(
         ID => $CertResults[0]->{ID},
     );
-    $Self->True(
+    ok(
         $Success,
         'SignerCertRelationGet(), get one relation by id',
     );
@@ -805,7 +803,7 @@ my %Certificates;
         CertFingerprint => $CertResults[0]->{CertFingerprint},
         CAFingerprint   => $CertResults[0]->{CAFingerprint},
     );
-    $Self->True(
+    ok(
         $Success,
         'SignerCertRelationExists(), check relation by fingerprints',
     );
@@ -813,7 +811,7 @@ my %Certificates;
     $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[0]->{ID},
     );
-    $Self->True(
+    ok(
         $Success,
         'SignerCertRelationExists(), check relation by ID',
     );
@@ -825,8 +823,8 @@ my %Certificates;
     $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[0]->{ID},
     );
-    $Self->False(
-        $Success,
+    ok(
+        !$Success,
         'SignerCertRelationDelete(), by ID',
     );
 
@@ -837,8 +835,8 @@ my %Certificates;
     $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[1]->{ID},
     );
-    $Self->False(
-        $Success,
+    ok(
+        !$Success,
         'SignerCertRelationDelete(), delete all relations',
     );
 
@@ -1040,7 +1038,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             Certificate => $CertInfo{ 'SmimeTest_' . $Number }->{CertString}
         );
 
-        $Self->True(
+        ok(
             $Result{Successful},
             "# SmimeTest_$Number.crt - CertificateAdd(), certificates with duplicate hash - $Result{Message}",
         );
@@ -1053,7 +1051,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
 
         # Check if CertificateSearch() returns correct results. See bug#15075.
         if ( $Number == 4 ) {
-            $Self->Is(
+            is(
                 scalar @Result,
                 $Number,
                 "Searched parameter smime\@test.com returned correct number of keys",
@@ -1063,7 +1061,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
                 Search => 'otrs-smime@test.com',
             );
 
-            $Self->Is(
+            is(
                 scalar @Result1,
                 1,
                 "Searched parameter otrs-smime\@test.com returned correct number of keys",
@@ -1072,7 +1070,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             next TEST;
         }
 
-        $Self->Is(
+        is(
             ( scalar @Result ),
             ( $Number + 1 ),
             '# Testing the addition, no overwriting other certs with same hash',
@@ -1082,7 +1080,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             Filename => $Result{Filename},
         );
 
-        $Self->Is(
+        is(
             $CertificateString,
             $CertInfo{ 'SmimeTest_' . $Number }->{CertString},
             '# CertificateGet(), by filename',
@@ -1093,7 +1091,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
 
-        $Self->Is(
+        is(
             $CertificateString,
             $CertInfo{ 'SmimeTest_' . $Number }->{CertString},
             '# CertificateGet(), by hash/fingerprint',
@@ -1104,7 +1102,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             Search => 'SMIME@test.com',
         );
 
-        $Self->Is(
+        is(
             ( scalar @Result ),
             ( $Number + 1 ),
             '# CertificateSearch()  - uppercase left',
@@ -1114,7 +1112,7 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
             Search => 'smime@TEST.COM',
         );
 
-        $Self->Is(
+        is(
             ( scalar @Result ),
             ( $Number + 1 ),
             '# CertificateSearch()  - uppercase right',
@@ -1252,12 +1250,12 @@ HZ4=
         $Private{ 'SmimeTest_' . $Number }->{Filename} = $Result{Filename} || '';
 
         # added
-        $Self->True(
+        ok(
             $Result{Successful} || '',
             'PrivateAdd() - private certs with same hash'
         );
 
-        $Self->Is(
+        is(
             $Private{ 'SmimeTest_' . $Number }->{Filename},
             $CertInfo{ 'SmimeTest_' . $Number }->{Filename},
             "# Cert and private key has the same filename: $Private{'SmimeTest_'.$Number}->{Filename}",
@@ -1273,7 +1271,7 @@ HZ4=
         # Check if PrivateSearch() returns correct results. See bug#15075.
         if ( $Number == 4 ) {
             $ResultNumber = scalar @Result;
-            $Self->Is(
+            is(
                 $ResultNumber,
                 $Number,
                 "Searched parameter smime\@test.com returned correct number of keys",
@@ -1284,7 +1282,7 @@ HZ4=
             );
 
             my $ResultNumber1 = scalar @Result1;
-            $Self->Is(
+            is(
                 $ResultNumber1,
                 1,
                 "Searched parameter otrs-smime\@test.com returned correct number of keys",
@@ -1292,7 +1290,7 @@ HZ4=
 
             my @PrivateList = $SMIMEObject->PrivateList();
             $ResultNumber = scalar @PrivateList;
-            $Self->Is(
+            is(
                 $ResultNumber,
                 5,
                 "Private list must be return also $ResultNumber",
@@ -1303,7 +1301,7 @@ HZ4=
 
         my $Counter = $Number + 1;
         $ResultNumber = scalar @Result;
-        $Self->Is(
+        is(
             $ResultNumber,
             $Counter,
             '# Added private without overwriting others with same hash',
@@ -1313,7 +1311,7 @@ HZ4=
 
         @Result       = $SMIMEObject->PrivateList();
         $ResultNumber = scalar @Result;
-        $Self->Is(
+        is(
             $ResultNumber,
             $Counter + $OriginalPrivateListCount,
             "# private list must be return also $Counter",
@@ -1324,7 +1322,7 @@ HZ4=
             Search => 'SMIME@test.com',
         );
         $ResultNumber = scalar @Result;
-        $Self->Is(
+        is(
             $ResultNumber,
             $Counter,
             '# PrivateSearch() - uppercase left',
@@ -1334,7 +1332,7 @@ HZ4=
             Search => 'smime@TEST.COM',
         );
         $ResultNumber = scalar @Result;
-        $Self->Is(
+        is(
             $ResultNumber,
             $Counter,
             '# PrivateSearch() - uppercase right',
@@ -1350,7 +1348,7 @@ HZ4=
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
 
-        $Self->True(
+        ok(
             $Result{Successful},
             "# CertificateRemove() by Hash/Fingerprint, $Result{Message}",
         );
@@ -1358,8 +1356,9 @@ HZ4=
         my @Result = $SMIMEObject->CertificateSearch(
             Search => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint}
         );
-        $Self->False(
-            ( scalar @Result ),
+        is(
+            \@Result,
+            [],
             "# CertificateSearch(), certificate not found, successfully deleted",
         );
     }
@@ -1372,7 +1371,7 @@ HZ4=
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
 
-        $Self->True(
+        ok(
             $Result{Successful},
             "# CertificateRemove() by filename, $Result{Message}",
         );
@@ -1382,8 +1381,8 @@ HZ4=
             Filename => $Private{ 'SmimeTest_' . $Number }->{Filename},
         );
 
-        $Self->False(
-            $PrivateExists,
+        ok(
+            !$PrivateExists,
             '# Private was correctly removed on certificate remove',
         );
     }
@@ -1405,7 +1404,7 @@ HZ4=
             );
 
             # sanity checks
-            $Self->Is(
+            is(
                 $FileLocation,
                 $WrongPrivateSecretFileLocation,
                 "NormalizePrivateSecret: Created wrong private secret filename:"
@@ -1417,7 +1416,7 @@ HZ4=
                 $FileExists = 1;
             }
 
-            $Self->True(
+            ok(
                 $FileExists,
                 "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile"
                     . " exists with true (before normalize)",
@@ -1427,7 +1426,7 @@ HZ4=
                 Location => $WrongPrivateSecretFileLocation,
             );
 
-            $Self->Is(
+            is(
                 $$ContentSCALARRef,
                 $WrongPrivateSecretFileContent,
                 "NormalizePrivateSecret: Read wrong private secret filename:"
@@ -1450,13 +1449,13 @@ HZ4=
         );
 
         # sanity checks
-        $Self->Is(
+        is(
             $FileLocation,
             $PrivateKeyFileLocation,
             "NormalizePrivateSecret: Created private key filename: $PrivateKeyFile",
         );
 
-        $Self->True(
+        ok(
             1,
             "----Normalize Private Secrets wrong private secret filename----"
         );
@@ -1476,8 +1475,8 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->False(
-            $FileExists,
+        ok(
+            !$FileExists,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with false (before normalize)",
         );
@@ -1485,14 +1484,14 @@ HZ4=
 
         # normalize private secret
         my $Response = $SMIMEObject->CheckCertPath();
-        $Self->True(
+        ok(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
         # output details if process was not successful
         if ( !$Response->{Success} ) {
-            $Self->True(
+            ok(
                 0,
                 $Response->{Details},
             );
@@ -1503,8 +1502,8 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->False(
-            $FileExists,
+        ok(
+            !$FileExists,
             "NormalizePrivateSecret: Wrong private secret filename:"
                 . " $WrongPrivateSecretFile exists with false (after normalize)",
         );
@@ -1515,7 +1514,7 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->True(
+        ok(
             $FileExists,
             "NormalizePrivateSecret: Wrong private secret filename: $CorrectPrivateSecretFile exists"
                 . " with true (after normalize)",
@@ -1523,7 +1522,7 @@ HZ4=
         $FileExists = 0;
 
         # leave the correct private secret file for the next test
-        $Self->True(
+        ok(
             1,
             "----Normalize Private Secret duplicated files with same content----"
         );
@@ -1542,7 +1541,7 @@ HZ4=
             Location => $CorrectPrivateSecretFileLocation,
         );
 
-        $Self->Is(
+        is(
             $$WrongPrivateSecretContent,
             $$CorrectPrivateSecretContent,
             "NormalizePrivateSecret: $WrongPrivateSecretFile and $CorrectPrivateSecretFile has"
@@ -1551,14 +1550,14 @@ HZ4=
 
         # normalize private secrets
         $Response = $SMIMEObject->CheckCertPath();
-        $Self->True(
+        ok(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
         # output details if process was not successful
         if ( !$Response->{Success} ) {
-            $Self->True(
+            ok(
                 0,
                 $Response->{Details},
             );
@@ -1569,8 +1568,8 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->False(
-            $FileExists,
+        ok(
+            !$FileExists,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with false (after normalize duplicate file same content)",
         );
@@ -1581,7 +1580,7 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->True(
+        ok(
             $FileExists,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
@@ -1590,7 +1589,7 @@ HZ4=
 
         # leave the correct file again but modify its content this will cause that both file exists
         # at the end
-        $Self->True(
+        ok(
             1,
             "----Normalize Private Secret duplicated files with different content----"
         );
@@ -1615,7 +1614,7 @@ HZ4=
             Location => $CorrectPrivateSecretFileLocation,
         );
 
-        $Self->IsNot(
+        isnt(
             $$WrongPrivateSecretContent,
             $$CorrectPrivateSecretContent,
             "NormalizePrivateSecret: $WrongPrivateSecretFile and $CorrectPrivateSecretFile has"
@@ -1624,14 +1623,14 @@ HZ4=
 
         # normalize private secrets
         $Response = $SMIMEObject->CheckCertPath();
-        $Self->True(
+        ok(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
         );
 
         # output details if process was not successful
         if ( !$Response->{Success} ) {
-            $Self->True(
+            ok(
                 0,
                 $Response->{Details},
             );
@@ -1643,7 +1642,7 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->True(
+        ok(
             $FileExists,
             "NormalizePrivateSecret: Wrong private secret filename: $WrongPrivateSecretFile exists"
                 . " with true (after normalize duplicate file different content)",
@@ -1655,7 +1654,7 @@ HZ4=
             $FileExists = 1;
         }
 
-        $Self->True(
+        ok(
             $FileExists,
             "NormalizePrivateSecret: Correct private secret filename: $CorrectPrivateSecretFile"
                 . " exists with true (after normalize duplicate file same content)",
@@ -1666,7 +1665,7 @@ HZ4=
         my $FileDeleteSuccess = $MainObject->FileDelete(
             Location => $WrongPrivateSecretFileLocation,
         );
-        $Self->True(
+        ok(
             $FileDeleteSuccess,
             "NormalizePrivateSecret: Remove wrong private secret filename: $WrongPrivateSecretFile"
                 . " with true",
@@ -1674,7 +1673,7 @@ HZ4=
         $FileDeleteSuccess = $MainObject->FileDelete(
             Location => $CorrectPrivateSecretFileLocation,
         );
-        $Self->True(
+        ok(
             $FileDeleteSuccess,
             "NormalizePrivateSecret: Remove correct private secret filename:"
                 . " $WrongPrivateSecretFile with true",
@@ -1682,7 +1681,7 @@ HZ4=
         $FileDeleteSuccess = $MainObject->FileDelete(
             Location => $PrivateKeyFileLocation,
         );
-        $Self->True(
+        ok(
             $FileDeleteSuccess,
             "NormalizePrivateSecret: Remove private key filename: $PrivateKeyFile with true",
         );
@@ -1723,7 +1722,7 @@ HZ4=
                 $FileExists = 1;
             }
 
-            $Self->True(
+            ok(
                 $FileExists,
                 "Re-Hash $TestName: Wrong CA $CAName filename: $WrongCAFile exists with true"
                     . " (before re-hash)",
@@ -1734,7 +1733,7 @@ HZ4=
                 Location => $WrongCAFileLocation,
             );
 
-            $Self->Is(
+            is(
                 $$ContentSCALARRef,
                 $WrongCAFileContent,
                 "Re-Hash $TestName: Read wrong CA $CAName filename: $WrongCAFile content",
@@ -1753,7 +1752,7 @@ HZ4=
                     $FileExists = 1;
                 }
 
-                $Self->True(
+                ok(
                     $FileExists,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile exists with true (before re-hash)",
@@ -1764,7 +1763,7 @@ HZ4=
                     Location => $WrongCAPrivateKeyFileLocation,
                 );
 
-                $Self->Is(
+                is(
                     $$ContentSCALARRef,
                     $WrongCAPrivateKeyFileContent,
                     "Re-Hash $TestName: Read wrong CA $CAName private key filename:"
@@ -1784,7 +1783,7 @@ HZ4=
                     $FileExists = 1;
                 }
 
-                $Self->True(
+                ok(
                     $FileExists,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile exists with true (before re-hash)",
@@ -1795,7 +1794,7 @@ HZ4=
                     Location => $WrongCAPrivateSecretFileLocation,
                 );
 
-                $Self->Is(
+                is(
                     $$ContentSCALARRef,
                     $WrongCAPrivateSecretFileContent,
                     "Re-Hash $TestName: Read wrong CA $CAName private secret filename:"
@@ -1836,8 +1835,8 @@ HZ4=
                 if ( -e $WrongCAFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !$FileExists,
                     "Re-Hash $TestName: Wrong CA $CAName certificate filename: $WrongCAFile"
                         . " File exists with false (after re-hash)",
                 );
@@ -1847,8 +1846,8 @@ HZ4=
                 if ( -e $WrongCAPrivateKeyFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !$FileExists,
                     "Re-Hash $TestName: Wrong CA $CAName private key filename:"
                         . " $WrongCAPrivateKeyFile File exists with false (after re-hash)",
                 );
@@ -1858,7 +1857,7 @@ HZ4=
                 if ( -e $WrongCAPrivateSecretFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->True(
+                ok(
                     $FileExists,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
                         . " $WrongCAPrivateSecretFile File exists with true (after re-hash)"
@@ -1872,7 +1871,7 @@ HZ4=
                 if ( -e $CorrectCAFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->True(
+                ok(
                     $FileExists,
                     "Re-Hash $TestName: Correct CA $CAName certificate filename: $CorrectCAFile"
                         . " File exists with true (after re-hash)",
@@ -1883,7 +1882,7 @@ HZ4=
                 if ( -e $CorrectCAPrivateKeyFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->True(
+                ok(
                     $FileExists,
                     "Re-Hash $TestName: Correct CA $CAName private key filename:"
                         . " $CorrectCAPrivateKeyFile File exists with true (after re-hash)",
@@ -1894,8 +1893,8 @@ HZ4=
                 if ( -e $CorrectCAPrivateSecretFileLocation ) {
                     $FileExists = 1;
                 }
-                $Self->False(
-                    $FileExists,
+                ok(
+                    !$FileExists,
                     "Re-Hash $TestName: Correct CA $CAName private secret filename:"
                         . " $CorrectCAPrivateSecretFile File exists with false (after re-hash)"
                         . " there was not private key",
@@ -1907,7 +1906,7 @@ HZ4=
                 Filename => $CorrectCAFile,
             );
 
-            $Self->Is(
+            is(
                 $Certificate,
                 $CorrectCAFileContent,
                 "Re-Hash $TestName: Correct CA $CAName certificate filename: $CorrectCAFile"
@@ -1941,7 +1940,7 @@ HZ4=
             }
 
             if ($UsePrivateKeys) {
-                $Self->Is(
+                is(
                     $PrivateKeyString,
                     $CorrectCAPrivateKeyContent,
                     "Re-Hash $TestName: Correct CA $CAName private key filename:"
@@ -1950,7 +1949,7 @@ HZ4=
             }
 
             if ( $UsePrivateSecrets && !$UsePrivateKeys ) {
-                $Self->Is(
+                is(
                     $PrivateSecret,
                     $CorrectCAPrivateSecretFileContent,
                     "Re-Hash $TestName: Wrong CA $CAName private secret filename:"
@@ -1972,7 +1971,7 @@ HZ4=
                 ],
             );
 
-            $Self->True(
+            ok(
                 $Success,
                 "Re-Hash $TestName: Manual certificate relation added for"
                     . " Certificate $CertificateHash and CA $CAHash with true",
@@ -2253,7 +2252,7 @@ HZ4=
                         CertFingerprint => $CertificateFingerprint,
                     );
 
-                    $Self->Is(
+                    is(
                         scalar @RelationsData,
                         $ExpectedRelations,
                         "Re-Hash $Test->{Name}: Manual certificate relations for"
@@ -2270,7 +2269,7 @@ HZ4=
                     }
 
                     # deep compare wrong relations
-                    $Self->IsDeeply(
+                    is(
                         \@RelationsData,
                         $Test->{WrongCAs}->{$CertName}->{WrongRelations},
                         "Re-Hash $Test->{Name}: Manual certificate relations for"
@@ -2281,14 +2280,14 @@ HZ4=
 
             # refresh the hashes
             my $Response = $SMIMEObject->CheckCertPath();
-            $Self->True(
+            ok(
                 $Response->{Success},
                 "Re-Hash $Test->{Name}: CheckCertPath() executed successfully with true",
             );
 
             # output details if process was not successful
             if ( !$Response->{Success} ) {
-                $Self->True(
+                ok(
                     0,
                     $Response->{Details},
                 );
@@ -2326,7 +2325,7 @@ HZ4=
                         CertFingerprint => $CertificateFingerprint,
                     );
 
-                    $Self->Is(
+                    is(
                         scalar @RelationsData,
                         $ExpectedRelations,
                         "Re-Hash $Test->{Name}: Manual certificate relations for"
@@ -2343,7 +2342,7 @@ HZ4=
                     }
 
                     # deep compare wrong relations
-                    $Self->IsDeeply(
+                    is(
                         \@RelationsData,
                         $CorrectCAs{$CertName}->{CorrectRelations},
                         "Re-Hash $Test->{Name}: Manual certificate relations for"
@@ -2364,7 +2363,7 @@ HZ4=
                 my $RemoveSuccess = $SMIMEObject->CertificateRemove(
                     Filename => $CorrectCAs{$CAName}->{CorrectCAFile},
                 );
-                $Self->True(
+                ok(
                     $RemoveSuccess,
                     "Re-Hash $Test->{Name}: system cleanup, CertificateRemove()"
                         . " $CorrectCAs{$CAName}->{CorrectCAFile} with true",
@@ -2375,7 +2374,7 @@ HZ4=
                     $RemoveSuccess = $SMIMEObject->PrivateRemove(
                         Filename => $CorrectCAPrivateKeyFile,
                     );
-                    $Self->True(
+                    ok(
                         $RemoveSuccess,
                         "Re-Hash $Test->{Name}: system cleanup, PrivateRemove()"
                             . " $CorrectCAPrivateKeyFile and $CorrectCAPrivateSecretFile with true",
@@ -2387,7 +2386,7 @@ HZ4=
                     my $RemoveSuccess = $MainObject->FileDelete(
                         Location => "$PrivatePath/$CorrectCAPrivateKeyFile"
                     );
-                    $Self->True(
+                    ok(
                         $RemoveSuccess,
                         "Re-Hash $Test->{Name}: system cleanup, remove private key"
                             . " $CorrectCAPrivateKeyFile with true",
@@ -2398,7 +2397,7 @@ HZ4=
                         CertFingerprint => $Certificates{$CAName}->{Fingerprint},
                         UserID          => 1,
                     );
-                    $Self->True(
+                    ok(
                         $RemoveSuccess,
                         "Re-Hash $Test->{Name}: system cleanup, remove certificate relations"
                             . " for hash $Certificates{$CAName}->{Hash} with true",
@@ -2409,7 +2408,7 @@ HZ4=
                     my $RemoveSuccess = $MainObject->FileDelete(
                         Location => "$PrivatePath/$WrongCAPrivateSecretFile",
                     );
-                    $Self->True(
+                    ok(
                         $RemoveSuccess,
                         "Re-Hash $Test->{Name}: system cleanup, remove private secret"
                             . " $WrongCAPrivateSecretFile with true there was no private key",
@@ -2420,7 +2419,7 @@ HZ4=
                 my @RelationsData = $SMIMEObject->SignerCertRelationGet(
                     CertFingerprint => $Certificates{$CAName}->{Fingerprint},
                 );
-                $Self->Is(
+                is(
                     scalar @RelationsData,
                     0,
                     "Re-Hash $Test->{Name}: system cleanup, certificate relations for hash"
@@ -2441,7 +2440,7 @@ HZ4=
         );
 
         # sanity check
-        $Self->True(
+        ok(
             $Result{Successful},
             "CertificateAdd() $CA for CertificateRead() add success with true",
         );
@@ -2515,9 +2514,8 @@ HZ4=
         my $CertificateText = $SMIMEObject->CertificateRead( %{ $Test->{Params} } );
 
         if ( $Test->{Success} ) {
-            $Self->IsNot(
-                $CertificateText,
-                undef,
+            ok(
+                defined $CertificateText,
                 "CertificateRead() $Test->{Name}: should return the certificate",
             );
 
@@ -2533,14 +2531,14 @@ HZ4=
                     $Match = 1;
                 }
 
-                $Self->True(
+                ok(
                     $Match,
                     "CertificateRead $Test->{Name}: Certificate contains word '$String'",
                 );
             }
         }
         else {
-            $Self->Is(
+            is(
                 $CertificateText,
                 undef,
                 "CertificateRead() $Test->{Name}: should return undef",
@@ -2557,7 +2555,7 @@ HZ4=
         Fingerprint => $Certificates{JohanneumCA}->{Fingerprint},
     );
 
-    $Self->Is(
+    is(
         $CertificateText1,
         $CertificateText2,
         "CertificateRead() using Filename / Hash and Fingerprint certificates match",
@@ -2571,7 +2569,7 @@ HZ4=
         );
 
         # sanity check
-        $Self->True(
+        ok(
             $Result{Successful},
             "CertificateRemove() $CA for CertificateRead() remove success with true",
         );
@@ -2581,8 +2579,8 @@ HZ4=
 # attributes cache tests
 for my $Count ( 1 .. 3 ) {
     my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
-    $Self->False(
-        $Certs[0] || '',
+    ok(
+        !$Certs[0],
         "#$Count Search()",
     );
 
@@ -2598,7 +2596,7 @@ for my $Count ( 1 .. 3 ) {
     my $CertCacheKey    = 'CertAttributes::Filename::' . $Result{Filename};
     my $PrivateCacheKey = 'PrivateAttributes::Filename::' . $Result{Filename};
 
-    $Self->True(
+    ok(
         $Result{Successful} || '',
         "#$Count CertificateAdd() - $Result{Message}",
     );
@@ -2609,7 +2607,7 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    $Self->Is(
+    is(
         $Cache,
         undef,
         "#$Count Cache for Certificate Attributes is empty",
@@ -2619,7 +2617,7 @@ for my $Count ( 1 .. 3 ) {
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%CertificateAttributes,
         {},
         "#$Count Certificate Attributes OpenSSL are not empty",
@@ -2631,9 +2629,8 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    $Self->IsNot(
-        $Cache,
-        undef,
+    ok(
+        defined $Cache,
         "#$Count Cache for Certificate Attributes is not empty",
 
     );
@@ -2641,14 +2638,14 @@ for my $Count ( 1 .. 3 ) {
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%CertificateAttributesCached,
         {},
         "#$Count Certificate Attributes Cached are not empty",
     );
 
     # compare both results
-    $Self->IsDeeply(
+    is(
         \%CertificateAttributes,
         \%CertificateAttributesCached,
         "#$Count Certificated Attributes OpenSSL and Cached"
@@ -2658,7 +2655,7 @@ for my $Count ( 1 .. 3 ) {
         Search => $Search{$Count},
     );
 
-    $Self->True(
+    ok(
         $Certs[0] || '',
         "#$Count CertificateSearch()",
     );
@@ -2676,7 +2673,7 @@ for my $Count ( 1 .. 3 ) {
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
-    $Self->True(
+    ok(
         $Result{Successful} || '',
         "#$Count PrivateAdd()",
     );
@@ -2687,7 +2684,7 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Private',
         Key  => $PrivateCacheKey,
     );
-    $Self->Is(
+    is(
         $Cache,
         undef,
         "#$Count Cache for Private Attributes is empty",
@@ -2698,7 +2695,7 @@ for my $Count ( 1 .. 3 ) {
         Secret   => ${$Secret},
         Filename => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%PrivateAttributes,
         {},
         "#$Count Private Attributes OpenSSL are not empty",
@@ -2710,9 +2707,8 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Private',
         Key  => $PrivateCacheKey,
     );
-    $Self->IsNot(
-        $Cache,
-        undef,
+    ok(
+        defined $Cache,
         "#$Count Cache for Private Attributes is not empty",
 
     );
@@ -2721,14 +2717,14 @@ for my $Count ( 1 .. 3 ) {
         Secret   => ${$Secret},
         Filename => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%PrivateAttributesCached,
         {},
         "#$Count Private Attributes Cached are not empty",
     );
 
     # compare both
-    $Self->IsDeeply(
+    is(
         \%PrivateAttributes,
         \%PrivateAttributesCached,
         "#$Count Private Attributes OpenSSL and Cached",
@@ -2740,7 +2736,7 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    $Self->Is(
+    is(
         $Cache,
         undef,
         "#$Count Cache for Certificate Attributes after private is empty",
@@ -2750,7 +2746,7 @@ for my $Count ( 1 .. 3 ) {
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%CertificateAttributesAfterPrivate,
         {},
         "#$Count Certificate Attributes after private OpenSSL are not empty",
@@ -2762,9 +2758,8 @@ for my $Count ( 1 .. 3 ) {
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
-    $Self->IsNot(
-        $Cache,
-        undef,
+    ok(
+        defined $Cache,
         "#$Count Cache for Certificate Attributes after private is not empty",
 
     );
@@ -2772,21 +2767,21 @@ for my $Count ( 1 .. 3 ) {
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
-    $Self->IsNotDeeply(
+    isnt(
         \%CertificateAttributesCachedAfterPrivate,
         {},
         "#$Count Certificate Attributes Cached after private are not empty",
     );
 
     # compare both
-    $Self->IsDeeply(
+    is(
         \%CertificateAttributes,
         \%CertificateAttributesCached,
         "#$Count Certificated Attributes after private OpenSSL and Cached",
     );
 
     # compare before vs after
-    $Self->IsNotDeeply(
+    isnt(
         \%CertificateAttributesCached,
         \%CertificateAttributesCachedAfterPrivate,
         "#$Count Certificated Attributes Cached before and after private must be different",
@@ -2794,7 +2789,7 @@ for my $Count ( 1 .. 3 ) {
 
     my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
 
-    $Self->True(
+    ok(
         $Keys[0] || '',
         "#$Count PrivateSearch()",
     );
@@ -2828,6 +2823,4 @@ for my $Count ( 1 .. 3 ) {
 rmtree($CertPath);
 rmtree($PrivatePath);
 
-# cleanup is done by RestoreDatabase
-
-done_testing();
+done_testing;
