@@ -338,6 +338,8 @@ sub EditFieldRender {
         $FieldClass .= ' ' . $Param{Class};
     }
 
+    my $TemplateClass = $FieldClass;
+
     # set classes according to mandatory and acl hidden params
     if ( $Param{ACLHidden} && $Param{Mandatory} ) {
         $FieldClass .= ' Validate_Required_IfVisible';
@@ -420,10 +422,15 @@ sub EditFieldRender {
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
+        if ( $Param{Mandatory} ) {
+            $TemplateClass .= ' Validate_Required_IfVisible';
+        }
+
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                FieldClass => $TemplateClass,
             },
         );
     }
