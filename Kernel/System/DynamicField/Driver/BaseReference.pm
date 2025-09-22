@@ -512,7 +512,7 @@ sub EditFieldValueValidate {
         }
 
         # check if EditFieldValue is present in last search results
-        my $Allowed; 
+        my $Allowed;
         for my $ValueItem ( $Value->@* ) {
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
@@ -541,7 +541,7 @@ sub EditFieldValueValidate {
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
     }
-    
+
     # create resulting structure
     return {
         ServerError  => $ServerError,

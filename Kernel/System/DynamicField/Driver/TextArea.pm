@@ -303,7 +303,7 @@ sub EditFieldValueValidate {
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
     }
-    
+
     # return resulting structure
     return {
         ServerError  => $ServerError,
