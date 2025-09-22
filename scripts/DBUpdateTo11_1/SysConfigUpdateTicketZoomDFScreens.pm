@@ -32,6 +32,7 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::Package',
     'Kernel::System::SysConfig',
 );
 
@@ -47,6 +48,11 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+    # abort if the package for removing the process information is installed
+    return if $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled(
+        Name => 'CustomerTicketZoom-NoProcessInfo',
+    );
+
     # both settings are required, therefor not using empty string as default
     my $ProcessIDDF  = $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID');
     my $ActivityIDDF = $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID');
@@ -56,10 +62,6 @@ sub Run {
     );
 
     return if !%AgentTicketZoomDFScreensSetting;
-
-    # # return if the setting is unmodified or MainHover is already present
-    # return 1 if !$ColorSetting{IsModified};
-    # return 1 if $ColorSetting{EffectiveValue}{MainHover};
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
