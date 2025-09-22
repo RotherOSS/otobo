@@ -117,12 +117,6 @@ sub Run {
         return;
     }
 
-    # abort if the package for removing the process information is installed
-    #   only the agent-side adaption needs to be executed in this case
-    return if $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled(
-        Name => 'CustomerTicketZoom-NoProcessInfo',
-    );
-
     # tackle customer-side setting
     my %CustomerTicketZoomDFScreensSetting = $SysConfigObject->SettingGet(
         Name => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
