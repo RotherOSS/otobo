@@ -5196,6 +5196,13 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###EditCustomerArticles" Required="0" Valid="1">
+        <Description Translatable="1">Defines if articles written by the customer are editable.</Description>
+        <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###IsVisibleForCustomerDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines if the note in the ticket note screen of the agent interface is visible for the customer by default.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>

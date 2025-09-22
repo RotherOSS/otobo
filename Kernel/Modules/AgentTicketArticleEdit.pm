@@ -156,6 +156,18 @@ sub Run {
         );
     }
 
+    # check if calling this mask is allowed
+    if (
+        ( $Article{IsVisibleForCustomer} && !$Config->{ArticleCustomerVisible} )
+        || ( $Article{SenderType} eq 'customer' && !$Config->{EditCustomerArticles} )
+        )
+    {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate('This article is not editable!'),
+            WithHeader => 'yes',
+        );
+    }
+
     return $Self->SUPER::Run(%Param);
 }
 
