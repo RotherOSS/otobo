@@ -64,7 +64,8 @@ sub CheckAccess {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $Config       = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleEdit');
 
-    return if ( $Param{Article}{IsVisibleForCustomer} && !$Config->{ArticleCustomerVisible} );
+    return if ( $Param{Article}{IsVisibleForCustomer}     && !$Config->{ArticleCustomerVisible} );
+    return if ( $Param{Article}{SenderType} eq 'customer' && !$Config->{EditCustomerArticles} );
     return if $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
 
     # NOTE checking for AgentTicketArticleEdit because
