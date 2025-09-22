@@ -534,13 +534,13 @@ sub EditFieldValueValidate {
 
     # get possible values list
     my $PossibleValues = $Self->PossibleValuesGet(%Param);
+    my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && !$ValueItem ) {
-            return {
-                ServerError => 1,
-            };
+        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+
+            $MandatoryValueItemsPresent++;
         }
         else {
             # validate if value is in possible values list (but let pass empty values)
@@ -551,6 +551,12 @@ sub EditFieldValueValidate {
         }
     }
 
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
+    }
+    
     # return resulting structure
     return {
         ServerError  => $ServerError,
