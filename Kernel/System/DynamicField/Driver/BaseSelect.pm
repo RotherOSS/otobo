@@ -528,7 +528,7 @@ sub EditFieldValueValidate {
     if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
-        $ErrorMessage = 'At least 1 mandatory value must be given!';
+        $ErrorMessage = 'The field content is invalid';
     }
 
     # return resulting structure
