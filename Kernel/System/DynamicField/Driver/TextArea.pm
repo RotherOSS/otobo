@@ -264,11 +264,13 @@ sub EditFieldValueValidate {
         $Value = [$Value];
     }
 
+    my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem eq '' ) {
-            $ServerError = 1;
+        if ( $Param{Mandatory} && $ValueItem ne '' ) {
+
+            $MandatoryValueItemsPresent++;
         }
         elsif ( length $ValueItem > $Self->{MaxLength} ) {
             $ServerError  = 1;
@@ -296,6 +298,12 @@ sub EditFieldValueValidate {
         }
     }
 
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
+    }
+    
     # return resulting structure
     return {
         ServerError  => $ServerError,

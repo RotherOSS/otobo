@@ -465,6 +465,7 @@ sub EditFieldValueValidate {
 
     my $ServerError;
     my $ErrorMessage;
+    my $MandatoryValueItemsPresent = 0;
 
     if ( $Value->@* ) {
 
@@ -511,18 +512,16 @@ sub EditFieldValueValidate {
         }
 
         # check if EditFieldValue is present in last search results
-        my $Allowed;
+        my $Allowed;        
         for my $ValueItem ( $Value->@* ) {
-            if ( $Param{Mandatory} && !$ValueItem ) {
-                return {
-                    ServerError  => 1,
-                    ErrorMessage => 'This field is required.',
-                };
-            }
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
-            if ( !$Allowed ) {
+            if ( $Param{Mandatory} && $Allowed ) {
+
+                $MandatoryValueItemsPresent++;
+            }
+            elsif ( $ValueItem && !$Allowed ) {
                 return {
                     ServerError  => 1,
                     ErrorMessage => 'Value invalid!',
@@ -537,6 +536,12 @@ sub EditFieldValueValidate {
         };
     }
 
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
+    }
+    
     # create resulting structure
     return {
         ServerError  => $ServerError,
