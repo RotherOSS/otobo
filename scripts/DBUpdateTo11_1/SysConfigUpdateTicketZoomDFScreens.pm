@@ -48,15 +48,11 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # abort if the package for removing the process information is installed
-    return if $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled(
-        Name => 'CustomerTicketZoom-NoProcessInfo',
-    );
-
     # both settings are required, therefor not using empty string as default
     my $ProcessIDDF  = $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID');
     my $ActivityIDDF = $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID');
 
+    # tackle agent-side setting
     my %AgentTicketZoomDFScreensSetting = $SysConfigObject->SettingGet(
         Name => 'Ticket::Frontend::AgentTicketZoom###DynamicField',
     );
@@ -110,6 +106,77 @@ sub Run {
         UserID        => 1,
         Force         => 1,
         DirtySettings => ['Ticket::Frontend::AgentTicketZoom###DynamicField'],
+    );
+
+    if ( !$DeploymentResult{Success} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Deployment failed.",
+        );
+
+        return;
+    }
+
+    # abort if the package for removing the process information is installed
+    #   only the agent-side adaption needs to be executed in this case
+    return if $Kernel::OM->Get('Kernel::System::Package')->PackageIsInstalled(
+        Name => 'CustomerTicketZoom-NoProcessInfo',
+    );
+
+    # tackle customer-side setting
+    my %CustomerTicketZoomDFScreensSetting = $SysConfigObject->SettingGet(
+        Name => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
+    );
+
+    return if !%CustomerTicketZoomDFScreensSetting;
+
+    $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        UserID    => 1,
+        Force     => 1,
+        DefaultID => $CustomerTicketZoomDFScreensSetting{DefaultID},
+    );
+
+    # Update setting with modified data
+    %Result = $SysConfigObject->SettingUpdate(
+        Name           => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
+        IsValid        => 1,
+        EffectiveValue => {
+            $CustomerTicketZoomDFScreensSetting{EffectiveValue}->%*,
+            $ProcessIDDF  => 1,
+            $ActivityIDDF => 1,
+        },
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        UserID            => 1,
+    );
+
+    if ( !$Result{Success} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Could not update setting Ticket::Frontend::CustomerTicketZoom###DynamicField.',
+        );
+
+        return;
+    }
+
+    $Success = $SysConfigObject->SettingUnlock(
+        UserID    => 1,
+        DefaultID => $CustomerTicketZoomDFScreensSetting{DefaultID},
+    );
+
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Could not unlock setting Ticket::Frontend::CustomerTicketZoom###DynamicField.',
+        );
+
+        return;
+    }
+
+    %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+        Comments      => "UpgradeTo11.1 - Adapt CustomerTicketZoom dynamic field screen settings.",
+        UserID        => 1,
+        Force         => 1,
+        DirtySettings => ['Ticket::Frontend::CustomerTicketZoom###DynamicField'],
     );
 
     if ( !$DeploymentResult{Success} ) {
