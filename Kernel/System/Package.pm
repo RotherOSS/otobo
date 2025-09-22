@@ -3344,7 +3344,6 @@ sub _GetIntegratedPackages {
 
             # future releases
             1 => [
-                'CustomerTicketZoom-NoProcessInfo',
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
                 'RestorePendingInformation',
             ],
