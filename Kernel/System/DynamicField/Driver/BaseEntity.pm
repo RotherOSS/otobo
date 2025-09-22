@@ -533,7 +533,7 @@ sub EditFieldValueValidate {
     }
 
     # get possible values list
-    my $PossibleValues = $Self->PossibleValuesGet(%Param);
+    my $PossibleValues             = $Self->PossibleValuesGet(%Param);
     my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
@@ -556,7 +556,7 @@ sub EditFieldValueValidate {
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
     }
-    
+
     # return resulting structure
     return {
         ServerError  => $ServerError,

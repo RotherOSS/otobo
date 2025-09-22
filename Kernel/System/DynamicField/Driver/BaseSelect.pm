@@ -1015,10 +1015,10 @@ sub ValueLookup {
     if ($Value) {
 
         # check if there is a real value for this key (otherwise keep the key)
-        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+        if ( $PossibleValues->{$Value} ) {
 
             # get readable value
-            $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            $Value = $PossibleValues->{$Value};
 
             # check if translation is possible
             if (
