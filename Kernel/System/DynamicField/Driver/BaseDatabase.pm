@@ -423,7 +423,7 @@ sub EditFieldRender {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
         if ( $Param{Mandatory} ) {
-            $TemplateClass .= ' Validate_Required_IfVisible';
+            $TemplateClass .= ' ValidationIgnore';
         }
 
         $TemplateHTML = $Param{LayoutObject}->Output(
