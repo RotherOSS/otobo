@@ -2858,6 +2858,7 @@ Core.UI.InputFields = (function (TargetNS) {
             $('[name^=DynamicField_]', $NewCell).each( function() {
                 if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
                     $(this).addClass('Validate_Required');
+                    $(this).removeClass('ValidationIgnore');
                 }
             });
         }
