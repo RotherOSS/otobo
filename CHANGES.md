@@ -141,7 +141,7 @@
 - 2025-05-06 16:57:27 +0200 Create new OTOBO language files.
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Puettmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-05-05 07:50:09 +0200 [Bugfix]   Correct object type param in AdminDynamicField clone link (https://github.com/RotherOSS/otobo/issues/4321)
 - 2025-04-30 13:56:36 +0200 [Bugfix]   Assigned customer user cannot be removed (https://github.com/RotherOSS/otobo/issues/4319) - in progress
@@ -196,7 +196,7 @@
 - 2024-11-27 17:01:46 +0000 Translated using Weblate (Italian)
 - 2024-11-26 01:04:34 +0000 Translated using Weblate (Japanese)
 - 2024-10-24 07:24:45 +0000 Translated using Weblate (Arabic (Saudi Arabia))
-- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian BokmÃÂÃÂ¥l)
+- 2024-10-17 06:07:12 +0000 Translated using Weblate (Norwegian Bokmal)
 - 2024-10-02 14:54:36 +0200 Update translation files
 
 
