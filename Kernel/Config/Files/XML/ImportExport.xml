@@ -73,7 +73,7 @@
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Import/Export</Item>
                 <Item Key="Block">Administration</Item>
-                <Item Key="Description">Manage import and export of objects.</Item>
+                <Item Key="Description" Translatable="1">Manage import and export of objects.</Item>
                 <Item Key="IconBig">fa-arrows-h</Item>
                 <Item Key="IconSmall"></Item>
             </Hash>
