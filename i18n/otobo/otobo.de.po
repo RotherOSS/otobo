@@ -54,9 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-06-21 12:34+0000\n"
-"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2025-09-24 07:18+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25947,7 +25948,6 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
-#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27358,7 +27358,7 @@ msgstr "Lademodul für die Dashboard Infokachel im Kundenbereich."
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr "Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard"
+msgstr "Verwaltung der Info-Kachel-Einträge für das Kunden-Dashboard"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
@@ -27780,4 +27780,3 @@ msgstr ""
 #. SysConfig
 msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
 msgstr ""
-
