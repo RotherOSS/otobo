@@ -529,34 +529,42 @@ sub EditFieldValueValidate {
     }
 
     # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
+    my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         $ValueItem //= '';
 
         # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem eq '' ) {
-            $ServerError = 1;
-        }
-        elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
-            )
-        {
+        if ( IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} ) ) {
 
-            # check regular expressions
-            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+            if ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) ) {
 
-            REGEXENTRY:
-            for my $RegEx (@RegExList) {
+                # check regular expressions
+                my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
 
-                if ( $ValueItem !~ $RegEx->{Value} ) {
-                    $ServerError  = 1;
-                    $ErrorMessage = $RegEx->{ErrorMessage};
+                REGEXENTRY:
+                for my $RegEx (@RegExList) {
 
-                    last REGEXENTRY;
+                    if ( $ValueItem !~ $RegEx->{Value} ) {
+                        $ServerError  = 1;
+                        $ErrorMessage = $RegEx->{ErrorMessage};
+
+                        last REGEXENTRY;
+                    }
                 }
             }
         }
+        else {
+            if ( $Param{Mandatory} && $ValueItem ne '' ) {
+                $MandatoryValueItemsPresent++;
+            }
+        }
+    }
+
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
     }
 
     # return resulting structure

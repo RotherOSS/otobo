@@ -508,13 +508,13 @@ sub EditFieldValueValidate {
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
+    my $MandatoryValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && !$ValueItem ) {
-            return {
-                ServerError => 1,
-            };
+        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+
+            $MandatoryValueItemsPresent++;
         }
         else {
             # validate if value is in possible values list (but let pass empty values)
@@ -523,6 +523,12 @@ sub EditFieldValueValidate {
                 $ErrorMessage = 'The field content is invalid';
             }
         }
+    }
+
+    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
     }
 
     # return resulting structure
@@ -1009,10 +1015,10 @@ sub ValueLookup {
     if ($Value) {
 
         # check if there is a real value for this key (otherwise keep the key)
-        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+        if ( $PossibleValues->{$Value} ) {
 
             # get readable value
-            $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            $Value = $PossibleValues->{$Value};
 
             # check if translation is possible
             if (

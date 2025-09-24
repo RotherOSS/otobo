@@ -420,10 +420,15 @@ sub EditFieldRender {
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
+        if ( $Param{Mandatory} ) {
+            $FieldClass .= ' ValidationIgnore';
+        }
+
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                FieldClass => $FieldClass,
             },
         );
     }
