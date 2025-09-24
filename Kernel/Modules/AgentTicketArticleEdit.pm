@@ -89,8 +89,16 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-    my $ActionStrg = $Self->{Subaction} ? "AgentTicket$Self->{Subaction}" : $Self->{Action};
-    my $Access     = $Kernel::OM->Get( 'Kernel::Output::HTML::ArticleAction::' . $ActionStrg )->CheckAccess(
+    my $ActionStrg = 'AgentTicketArticleEdit';
+    if ( $Self->{Subaction} ) {
+        if ( $Self->{Subaction} eq 'Delete' ) {
+            $ActionStrg = 'AgentTicketArticleDelete';
+        }
+        elsif ( $Self->{Subaction} eq 'Restore' ) {
+            $ActionStrg = 'AgentTicketArticleRestore';
+        }
+    }
+    my $Access = $Kernel::OM->Get( 'Kernel::Output::HTML::ArticleAction::' . $ActionStrg )->CheckAccess(
         Ticket          => \%Ticket,
         Article         => \%Article,
         ChannelName     => $ChannelName,
