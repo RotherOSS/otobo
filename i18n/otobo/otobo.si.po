@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2025-05-06 14:35+0000\n"
+"POT-Creation-Date: 2025-09-25 08:04+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -18424,10 +18424,6 @@ msgid " 7 minutes"
 msgstr ""
 
 #. SysConfig
-msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
-
-#. SysConfig
 msgid "%s"
 msgstr ""
 
@@ -19266,14 +19262,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Avatar"
-msgstr ""
-
-#. SysConfig
-msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
-
-#. SysConfig
-msgid "Balanced white skin by Felix Niklas."
 msgstr ""
 
 #. SysConfig
@@ -20116,10 +20104,6 @@ msgid "Date / Time"
 msgstr ""
 
 #. SysConfig
-msgid "Default (Slim)"
-msgstr ""
-
-#. SysConfig
 msgid "Default ACL values for ticket actions."
 msgstr ""
 
@@ -20166,10 +20150,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Default skin for the agent interface (slim version)."
 msgstr ""
 
 #. SysConfig
@@ -23772,6 +23752,10 @@ msgid "Hindi"
 msgstr ""
 
 #. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
 msgid "Hungarian"
 msgstr ""
 
@@ -24288,14 +24272,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Ivory"
-msgstr ""
-
-#. SysConfig
-msgid "Ivory (Slim)"
-msgstr ""
-
-#. SysConfig
 msgid "Japanese"
 msgstr ""
 
@@ -24672,6 +24648,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB "
+"= 500 * 1024 * 1024)."
 msgstr ""
 
 #. SysConfig
