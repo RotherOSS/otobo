@@ -25350,3 +25350,11 @@ msgstr ""
 #~ msgid "The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
 #~ msgstr "Le logo affiché dans l'en-tête de l'interface client. L'adresse URL vers l'image peut être une adresse relative vers le répertoire d'habillages ou une adresse complète vers un serveur Web distant."
 
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+

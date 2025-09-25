@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.888026607538803;
+    $Self->{Completeness}        = 0.887937866539864;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6428,8 +6428,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 分',
         ' 5 minutes' => ' 5 分',
         ' 7 minutes' => ' 7 分',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Slim"スキンは画面を有効活用したいパワーユーザー向けです。',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓名',
         '(UserLogin) Lastname Firstname' => '(ログインID) 姓名',
@@ -6683,8 +6681,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '最初の所有者が設定されるときに、自動的にチケットの責任者を設定します（まだ設定されていなければ）。',
         'Avatar' => 'アバター',
-        'Balanced white skin by Felix Niklas (slim version).' => 'フェリックス・ニクラスによるバランスのとれた白い肌（スリムバージョン）。',
-        'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
         'Based on global RichText setting' => 'グローバルリッチテキスト設定に基づく',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '基本的なフルテキスト インデックス設定。新しいインデックスを生成するには、「bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild」を実行します。',
@@ -6915,7 +6911,6 @@ Thanks for your help!
         'Dashboard overview.' => 'ダッシュボード一覧',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
         'Date / Time' => '日時',
-        'Default (Slim)' => 'デフォルト (Slim)',
         'Default ACL values for ticket actions.' => 'チケット・アクションに関するデフォルトのACLの値です。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
@@ -6930,7 +6925,6 @@ Thanks for your help!
             'AgentTicketZoom および CustomerTicketZoom 上でデフォルト表示する送信者名(From)',
         'Default loop protection module.' => 'デフォルトのループ・プロテクション・モジュールです。',
         'Default queue ID used by the system in the agent interface.' => '担当者インタフェースにおいて、システムによって使用されるデフォルトのキューIDです。',
-        'Default skin for the agent interface (slim version).' => '担当者インターフェースのデフォルトスキン (スリムバージョン)',
         'Default skin for the agent interface.' => '担当者インターフェースのデフォルトスキン',
         'Default skin for the customer interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8042,6 +8036,7 @@ Thanks for your help!
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => 'ヒンディー語',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'ハンガリー語',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'もし、Customer::AuthModuleに関して“DB”が選択されていた場合、データベース・ドライバー（通常は自動ディテクションが使用される）を特定できます。',
@@ -8199,8 +8194,6 @@ Thanks for your help!
         'Italian' => 'イタリア語',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Ivory' => '',
-        'Ivory (Slim)' => '',
         'Japanese' => '日本語',
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
@@ -8306,6 +8299,8 @@ Thanks for your help!
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
             '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '1日においてEメール・アドレスを入手する自動メールによる返答の最大数です（ループ・プロテクション）。',

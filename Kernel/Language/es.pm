@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.616724738675958;
+    $Self->{Completeness}        = 0.616103978443493;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6428,8 +6428,6 @@ Tu Equipo de Soporte
         ' 2 minutes' => ' 2 minutos',
         ' 5 minutes' => ' 5 minutos',
         ' 7 minutes' => ' 7 minutos',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            'La apariencia "Slim" intenta ahorrar espacio en la pantalla para usuarios avanzados.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(LoginUsuario) Nombre Apellidos',
         '(UserLogin) Lastname Firstname' => '(LoginUsuario) Apellidos Nombre ',
@@ -6689,8 +6687,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automáticamente establece al responsable de un ticket (si no está establecido aún) después de la primera actualización de propietario.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Apariencia blanca equilibrada por Felix Niklas (versión slim).',
-        'Balanced white skin by Felix Niklas.' => 'Apariencia blanca equilibrada por Felix Niklas.',
         'Based on global RichText setting' => 'Basada en ajustes de RichText global',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -6921,7 +6917,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Dashboard overview.' => 'Visión general del panel principal.',
         'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la búsqueda en formato CSV. ',
         'Date / Time' => 'Fecha / Hora',
-        'Default (Slim)' => 'Predeterminado (Slim)',
         'Default ACL values for ticket actions.' => 'Valores ACL por defecto para las acciones de tickets.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefijos entidad GestiónProceso por defecto para las IDs entidades que son generadas automaticamnete.',
@@ -6936,7 +6931,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Tipo de pantalla por defecto para nombres del remitente (De) en AgenteTicketZoom y ClienteTicketZoom.',
         'Default loop protection module.' => 'Módulo protección bucle por defecto.',
         'Default queue ID used by the system in the agent interface.' => 'ID cola por defecto usada por el sistema en la interfaz de agente.',
-        'Default skin for the agent interface (slim version).' => 'Apariencia por defecto para la interfaz de agente (versión slim).',
         'Default skin for the agent interface.' => 'Apariencia por defecto para la interfaz de agente.',
         'Default skin for the customer interface.' => 'Apariencia por defecto para la interfaz de cliente.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8048,6 +8042,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => 'Hindi',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Húngaro',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '',
@@ -8205,8 +8200,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en italiano para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
-        'Ivory' => 'Marfil',
-        'Ivory (Slim)' => 'Marfil (Slim)',
         'Japanese' => 'Japonés',
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
@@ -8312,6 +8305,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'Tamaño máximo (en filas) del cuadro de agentes involucrados en la interfaz del agente.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
             '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '',

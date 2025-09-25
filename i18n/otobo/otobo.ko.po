@@ -25846,3 +25846,11 @@ msgstr "통계"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "sales@otrs.com으로 문의하십시오."
 
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+

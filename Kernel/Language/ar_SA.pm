@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.91510928096294;
+    $Self->{Completeness}        = 0.914724996037407;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -6427,8 +6427,6 @@ Thanks for your help!
         ' 2 minutes' => ' دقيقتان',
         ' 5 minutes' => ' 5 دقائق',
         ' 7 minutes' => ' 7 دقائق',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            'Slim"-Skin", مما يتطلب مساحة أقل على الشاشة لعرض المعلومات.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(تسجيل دخول المستخدم) الاسم الأول اسم العائلة',
         '(UserLogin) Lastname Firstname' => '(تسجيل دخول المستخدم) اسم العائلة الاسم الأول',
@@ -6682,8 +6680,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'تعيين مدير التذاكر تلقائيا (إذا لم يتم تعيينه بعد) بعد تحديث المالك الأول.',
         'Avatar' => 'الصورة الرمزية (Avatar)',
-        'Balanced white skin by Felix Niklas (slim version).' => 'متوازن White-Skin von Felix Niklas (slim version).',
-        'Balanced white skin by Felix Niklas.' => 'Balanced white skin by Felix Niklas.',
         'Based on global RichText setting' => 'استنادا إلى إعداد النص المنسق العام',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'إعدادات فهرس النص الكامل الأساسية. نفذ "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" لإنشاء فهرس جديد.',
@@ -6914,7 +6910,6 @@ Thanks for your help!
         'Dashboard overview.' => 'نظرة عامة على لوحة المعلومات.',
         'Data used to export the search result in CSV format.' => 'البيانات المستخدمة لتصدير نتيجة البحث بتنسيق CSV.',
         'Date / Time' => 'التاريخ / الوقت',
-        'Default (Slim)' => 'افتراضي (نحيف)',
         'Default ACL values for ticket actions.' => 'قيم ACL الافتراضية لإجراءات التذكرة.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'بادئات الكيان الافتراضية لإدارة العملية لمعرفات الكيانات التي يتم إنشاؤها تلقائيا.',
@@ -6929,7 +6924,6 @@ Thanks for your help!
             'نوع العرض الافتراضي لأسماء المرسل (من (From)) في AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'وحدة "Loop Protection" الافتراضية.',
         'Default queue ID used by the system in the agent interface.' => 'معرف قائمة الانتظار الافتراضي المستخدم من قبل OTOBO في واجهة الوكيل.',
-        'Default skin for the agent interface (slim version).' => 'واجهة الوكيل الافتراضية (الإصدار النحيف).',
         'Default skin for the agent interface.' => 'الجلد (skin) القياسي لواجهة الوكيل.',
         'Default skin for the customer interface.' => 'الجلد (skin) القياسي لواجهة العميل.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8041,6 +8035,7 @@ Thanks for your help!
         'High Contrast' => 'تباين عالي',
         'High contrast skin for visually impaired users.' => 'سطح (skin) عالي التباين للمستخدمين الذين يعانون من ضعف البصر.',
         'Hindi' => 'الهندية',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'الهنغارية (المجرية)',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'في حالة تحديد"DB" ك Customer::AuthModule، يمكن تعريف برنامج تشغيل قاعدة البيانات هنا. وإلا فسيتم تحديد برنامج التشغيل المطلوب تلقائيا.',
@@ -8198,8 +8193,6 @@ Thanks for your help!
         'Italian' => 'الإيطالية',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'كلمات الإيقاف الإيطالية لفهرس النص الكامل. يتم إزالة هذه الكلمات من فهرس البحث.',
-        'Ivory' => 'عَاج',
-        'Ivory (Slim)' => 'العاج (قليل السمك)',
         'Japanese' => 'اليابانية',
         'JavaScript function for the search frontend.' => 'وظيفة JavaScript لواجهة البحث.',
         'Jump to OTOBO!' => 'رابط إلى OTOBO!',
@@ -8306,6 +8299,8 @@ Thanks for your help!
             'الحد الأقصى للحجم (في صفوف) لمربع "الوكلاء المعنيون" في واجهة الوكيل.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'الحد الأقصى لطول الموضوع في الرد بالبريد الإلكتروني وفي بعض شاشات النظرة العامة.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'الحد الأقصى لعدد استجابات البريد الإلكتروني التلقائية لعنوان البريد الإلكتروني الخاص بك في اليوم (الحماية من التكرار).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>

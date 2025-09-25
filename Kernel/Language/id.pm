@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.612290148875515;
+    $Self->{Completeness}        = 0.611665874148043;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -6424,8 +6424,6 @@ Helpdesk Team Anda
         ' 2 minutes' => '2 menit',
         ' 5 minutes' => '5 menit',
         ' 7 minutes' => '7 menit',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Slim" kulit yang mencoba untuk menghemat ruang layar untuk tenaga pengguna',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Pengguna Masuk) Nama depan Nama akhir',
         '(UserLogin) Lastname Firstname' => '(Pengguna masuk) Nama akhir Nama depan',
@@ -6679,8 +6677,6 @@ Helpdesk Team Anda
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Secara otomatis set yang bertanggung jawab dari tiket (jika tidak diatur belum) setelah update pemilik pertama.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'kulit putih yang seimbang oleh Felix Niklas (versi slim).',
-        'Balanced white skin by Felix Niklas.' => 'kulit putih yang seimbang oleh Felix Niklas ',
         'Based on global RichText setting' => 'Berdasarkan pengaturan global Rich Text ',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -6911,7 +6907,6 @@ Helpdesk Team Anda
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'Data yang digunakan untuk mengekspor hasil pencarian dalam format CSV.',
         'Date / Time' => 'Tanggal / Waktu',
-        'Default (Slim)' => 'Default (Slim)',
         'Default ACL values for ticket actions.' => 'Nilai default ACL untuk tindakan tiket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Proses Manajemen awalan entitas default untuk ID entitas yang secara otomatis dihasilkan.',
@@ -6926,7 +6921,6 @@ Helpdesk Team Anda
             'display Jenis default untuk jenis kelamin (Dari) nama di Agen Tiket Zoom dan TicketZoom Pelanggan.',
         'Default loop protection module.' => 'Default lingkaran modul ',
         'Default queue ID used by the system in the agent interface.' => 'ID antrian default yang digunakan oleh sistem dalam antarmuka agen.',
-        'Default skin for the agent interface (slim version).' => 'kulit default untuk antarmuka agen (versi slim).',
         'Default skin for the agent interface.' => 'kulit default untuk antarmuka agen.',
         'Default skin for the customer interface.' => 'Default skin untuk antarmuka pelanggan',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8039,6 +8033,7 @@ Helpdesk Team Anda
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => 'Hindi',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Hongaria',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Jika "DB" dipilih untuk  Customer::AuthModule, sebuah driver database (biasanya autodetection digunakan) dapat ditentukan.',
@@ -8196,8 +8191,6 @@ Helpdesk Team Anda
         'Italian' => 'Italia',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'kata berhenti Italia untuk indeks fulltext. Kata-kata ini akan dihapus dari indeks pencarian.',
-        'Ivory' => 'Gading',
-        'Ivory (Slim)' => 'Ivory (slim)',
         'Japanese' => 'Jepang',
         'JavaScript function for the search frontend.' => 'Fungsi JavaScript untuk pencarian frontend ',
         'Jump to OTOBO!' => '',
@@ -8304,6 +8297,8 @@ Helpdesk Team Anda
             'Ukuran Max (dalam baris) yang terlibat dengan agen kotak di antarmuka agen.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Ukuran Max subjek dalam email balasan dan di beberapa layar gambar',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'email tanggapan auto maksimum untuk email-address sendiri hari (Loop-Protection).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>

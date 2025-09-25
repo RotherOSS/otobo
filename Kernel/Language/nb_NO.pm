@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998891352549889;
+    $Self->{Completeness}        = 0.998573466476462;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6432,8 +6432,6 @@ Ditt Helpdesk-team
         ' 2 minutes' => ' 2 minutter',
         ' 5 minutes' => ' 5 minutter',
         ' 7 minutes' => ' 7 minutter',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Slankt" tema som prøver å spare skjermplass for superbrukere.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Brukernavn) Fornavn Etternavn',
         '(UserLogin) Lastname Firstname' => '(Brukernavn) Etternavn Fornavn',
@@ -6687,8 +6685,6 @@ Ditt Helpdesk-team
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Sett automatisk ansvarlig for en sak (hvis ikke satt) etter første eieroppdatering.',
         'Avatar' => 'Avatar',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Balansert hvitt tema av Felix Niklas (slank versjon).',
-        'Balanced white skin by Felix Niklas.' => 'Balansert hvitt tema av Felix Niklas.',
         'Based on global RichText setting' => 'Basert på global RichText-innstilling',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Grunnleggende fulltekstindeksinnstillinger. Kjør "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" for å generere en ny indeks.',
@@ -6919,7 +6915,6 @@ Ditt Helpdesk-team
         'Dashboard overview.' => 'Oversikt over dashbord.',
         'Data used to export the search result in CSV format.' => 'Data brukt for å eksportere søkeresultatet i CSV-format.',
         'Date / Time' => 'Dato / Tid',
-        'Default (Slim)' => 'Standard (slank)',
         'Default ACL values for ticket actions.' => 'Standard ACL-verdier for sakshendelser.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Standard ProcessManagement-enhetsprefikser for enhets-ID-er som genereres automatisk.',
@@ -6934,7 +6929,6 @@ Ditt Helpdesk-team
             'Standard visningstype for avsendernavn (Fra) i AgentTicketZoom og CustomerTicketZoom.',
         'Default loop protection module.' => 'Standard loop-beskyttelsesmodul.',
         'Default queue ID used by the system in the agent interface.' => 'Standard køID brukt av systemet for saksbehandlere.',
-        'Default skin for the agent interface (slim version).' => 'Standard tema for agentgrensesnittet (slank versjon).',
         'Default skin for the agent interface.' => 'Standard tema for agentgrensesnittet.',
         'Default skin for the customer interface.' => 'Standard tema for kundegrensesnittet.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8046,6 +8040,7 @@ Ditt Helpdesk-team
         'High Contrast' => 'Høy kontrast',
         'High contrast skin for visually impaired users.' => 'Høy kontrast-tema for synshemmede brukere.',
         'Hindi' => 'Hindi',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Ungarsk',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Hvis "DB" er valgt som Customer::AuthModule kan man velge databasedriver (normalt brukes et automatisk oppsett).',
@@ -8203,8 +8198,6 @@ Ditt Helpdesk-team
         'Italian' => 'Italiensk',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Italienske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra søkeindeksen.',
-        'Ivory' => 'Elfenbein',
-        'Ivory (Slim)' => 'Elfenben (slank)',
         'Japanese' => 'Japansk',
         'JavaScript function for the search frontend.' => 'JavaScript-funksjon for søkegrensesnittet.',
         'Jump to OTOBO!' => 'Hopp til OTOBO!',
@@ -8311,6 +8304,8 @@ Ditt Helpdesk-team
             'Maksimal størrelse (i rader) for den involverte agentboksen i agentgrensesnittet.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Maks størrelse på emnene i et e-postsvar og i noen oversiktsskjermer.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maksimum antall autosvar til egne e-postadresser per dag (beskyttelse mot e-post-looping).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>

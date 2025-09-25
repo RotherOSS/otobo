@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.433797909407665;
+    $Self->{Completeness}        = 0.433983198605167;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3431,7 +3431,7 @@ sub Data {
             'Recevoir les messages d\'information \' %s\' par la méthode \' %s \'.',
 
         # Template: ActivityDialogHeader
-        'Process Information' => 'Traitement de l\'nformation',
+        'Process Information' => 'Traitement de l\'information',
         'Dialog' => 'Discussion',
 
         # Template: Article
@@ -6419,8 +6419,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 minutes',
         ' 5 minutes' => ' 5 minutes',
         ' 7 minutes' => ' 7 minutes',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname Firstname' => '',
@@ -6674,8 +6672,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => '',
-        'Balanced white skin by Felix Niklas.' => '',
         'Based on global RichText setting' => '',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -6906,7 +6902,6 @@ Thanks for your help!
         'Dashboard overview.' => 'Vue d\'ensemble du tableau de bord.',
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
         'Date / Time' => 'Date / Heure',
-        'Default (Slim)' => '',
         'Default ACL values for ticket actions.' => 'ACL par défaut pour les actions du ticket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
@@ -6921,7 +6916,6 @@ Thanks for your help!
             '',
         'Default loop protection module.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID de file par défaut utilisée par le système dans l\'interface opérateur.',
-        'Default skin for the agent interface (slim version).' => 'Thème par défaut pour l\'interface opérateur (version slim).',
         'Default skin for the agent interface.' => 'Thème par défaut pour l\'interface opérateur.',
         'Default skin for the customer interface.' => 'Thème par défaut pour l\'interface client.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8033,6 +8027,7 @@ Thanks for your help!
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => '',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => '',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '',
@@ -8190,8 +8185,6 @@ Thanks for your help!
         'Italian' => '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Ivory' => '',
-        'Ivory (Slim)' => '',
         'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
@@ -8297,6 +8290,8 @@ Thanks for your help!
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             '',
         'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
             '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '',
