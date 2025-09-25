@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.914788837486942;
+    $Self->{Completeness}        = 0.914017017465293;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4424,6 +4424,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '数据库中的流程管理信息与系统配置不一致，请同步所有流程。',
         'Need ExampleProcesses!' => '需要ExampleProcesses！',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            '为流程实体：%s设置实体同步状态时出现了一个错误',
         'Need ProcessID!' => '需要流程ID！',
         'Yes (mandatory)' => '是（强制）',
         'Unknown Process %s!' => '未知的流程 %s！',
@@ -4431,8 +4433,6 @@ sub Data {
             '为这个流程生成新的实体ID时出现了一个错误',
         'The StateEntityID for state Inactive does not exists' => '状态为‘非活动的’的StateEntityID不存在',
         'There was an error creating the Process' => '创建该流程时出现了一个错误',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            '为流程实体：%s设置实体同步状态时出现了一个错误',
         'Could not get data for ProcessID %s' => '不能获取ID为 %s的流程数据',
         'There was an error updating the Process' => '更新该流程时出现了一个错误',
         'Process: %s could not be deleted' => '不能删除流程：%s',
@@ -4791,6 +4791,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '没有指定信件ID！',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5849,6 +5850,11 @@ sub Data {
         'Internal Error: Could not read file.' => '内部错误：不能读取文件。',
         'Tables found which are not present in the database.' => '数据库中不存在的表。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => '数据库大小',
         'Could not determine database size.' => '不能确定数据库大小。',
@@ -5893,6 +5899,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '需要MySQL 5.X或更高版本。',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG设置',
@@ -6831,8 +6838,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 分钟',
         ' 5 minutes' => ' 5 分钟',
         ' 7 minutes' => ' 7 分钟',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '为高级用户节约屏幕空间的“修身版”皮肤。',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '（登录用户名）名 姓',
         '(UserLogin) Lastname Firstname' => '（登录用户名）姓 名',
@@ -7093,8 +7098,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '在第一次工单所有者更新后自动设置工单的负责人（如果还没有设置）。',
         'Avatar' => '头像',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Felix Niklas制作的平衡白皮肤（修身版）。',
-        'Balanced white skin by Felix Niklas.' => 'Felix Niklas制作的平衡白皮肤。',
         'Based on global RichText setting' => '基于全局富文本设置',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '基本的全文索引设置。执行 "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" 以生成一个新索引。',
@@ -7339,7 +7342,6 @@ Thanks for your help!
         'Dashboard overview.' => '仪表板概览。',
         'Data used to export the search result in CSV format.' => '用于将搜索结果输出为CSV格式的数据。',
         'Date / Time' => '日期 / 时间',
-        'Default (Slim)' => '默认（修身版）',
         'Default ACL values for ticket actions.' => '工单操作的默认ACL值。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '自动生成的流程实体ID的默认前缀。',
@@ -7354,7 +7356,6 @@ Thanks for your help!
             '在服务人员和客户工单详情中发件人（From）的默认显示类型。',
         'Default loop protection module.' => '默认的邮件环路保护模块。',
         'Default queue ID used by the system in the agent interface.' => '在服务人员界面中系统使用的默认队列ID。',
-        'Default skin for the agent interface (slim version).' => '服务人员界面的默认皮肤（修身版）。',
         'Default skin for the agent interface.' => '服务人员界面的默认皮肤。',
         'Default skin for the customer interface.' => '客户界面的默认皮肤。',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8683,8 +8684,6 @@ Thanks for your help!
         'Italian' => '意大利语',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引的意大利语停止词，这些词将从搜索索引中移除。',
-        'Ivory' => '象牙白',
-        'Ivory (Slim)' => '象牙白（修身版）',
         'Japanese' => '日语',
         'JavaScript function for the search frontend.' => '搜索界面的JavaScript函数。',
         'Jump to OTOBO!' => '跃入OTOBO的怀抱！',
@@ -8785,6 +8784,7 @@ Thanks for your help!
         'Manage different calendars.' => '管理不同的日历。',
         'Manage dynamic field in screens.' => '在界面管理动态字段。',
         'Manage existing sessions.' => '管理已登录会话。',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => '管理支持数据。',
         'Manage system registration.' => '管理系统注册。',
         'Manage tasks triggered by event or time based execution.' => '管理事件触发或基于时间执行的任务。',

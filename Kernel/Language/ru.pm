@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.822563796448291;
+    $Self->{Completeness}        = 0.821764442454098;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4429,6 +4429,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Управление Процесами. Информация из базы данных не синхронизирована с системой, выполните синхронизацию всех процессов.',
         'Need ExampleProcesses!' => 'Требуется ExampleProcesses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Произошла ошибка при установке статуса синхронизации для Process entity: %s',
         'Need ProcessID!' => 'Требуется ProcessID!',
         'Yes (mandatory)' => 'Да (обязательно)',
         'Unknown Process %s!' => 'Неизвестный Процесс %s!',
@@ -4436,8 +4438,6 @@ sub Data {
             'Произошла ошибка при создании нового EntityID для этого Процесса',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID для неактивного состояния не существует',
         'There was an error creating the Process' => 'Произошла ошибка при создании Процесса',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Произошла ошибка при установке статуса синхронизации для Process entity: %s',
         'Could not get data for ProcessID %s' => 'Невозможно получить данные для ProcessID %s',
         'There was an error updating the Process' => 'Произошла ошибка при обновлении Процесса',
         'Process: %s could not be deleted' => 'Процесс: %s не может быть удален',
@@ -4796,6 +4796,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Не задан ArticleID!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5854,6 +5855,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Внутренняя ошибка: невозможно прочитать файл.',
         'Tables found which are not present in the database.' => 'Найдены таблицы, которые не существуют в базе данных.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Размер базы данных',
         'Could not determine database size.' => 'Не удалось определить размер базы данных.',
@@ -5898,6 +5904,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Требуется MySQL 5.х или выше',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Параметр NLS_LANG',
@@ -6838,8 +6845,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 минуты',
         ' 5 minutes' => ' 5 минут',
         ' 7 minutes' => ' 7 минут',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Узкая" тема которая позволит сэкономить место для опытных пользователей.',
         '%s' => 'Прочее %s',
         '(UserLogin) Firstname Lastname' => '(UserLogin) Имя Фамилия',
         '(UserLogin) Lastname Firstname' => '(UserLogin) Фамилия Имя',
@@ -7100,8 +7105,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Автоматически назначает Ответственного (если это еще не произошло) после первой смены Владельца.',
         'Avatar' => 'Аватар',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Сбалансированный белый окрас интерфейса от Felix Niklas (уменьшенная версия).',
-        'Balanced white skin by Felix Niklas.' => 'Сбалансированный белый окрас интерфейса от Felix Niklas.',
         'Based on global RichText setting' => 'Основано на глобальной настройке RichText',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7346,7 +7349,6 @@ Thanks for your help!
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'Данные используемые для экспортирования результатов поиска в формат CSV.',
         'Date / Time' => 'Дата/Время',
-        'Default (Slim)' => 'По умолчанию (узкая)',
         'Default ACL values for ticket actions.' => 'Стандартные значения ACL для действий по заявке.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Стандартные префиксы идентификаторов элементов процессов в Управлении Процессами, генерируемые автоматически (напр. A, T, AD, TA).',
@@ -7361,7 +7363,6 @@ Thanks for your help!
             'Способ отображения по умолчанию имени отправителя  (From) в AgentTicketZoom и CustomerTicketZoom.',
         'Default loop protection module.' => 'Стандартный модуль защиты от зацикливания.',
         'Default queue ID used by the system in the agent interface.' => 'ID очереди по умолчанию используемый в системе в интерфейсе агента.',
-        'Default skin for the agent interface (slim version).' => 'Стандартная тема оформления для интерфейса агента (узкая версия).',
         'Default skin for the agent interface.' => 'Стандартная тема оформления для интерфейса агента.',
         'Default skin for the customer interface.' => 'Стандартная тема оформления для интерфейса клиента.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8690,8 +8691,6 @@ Thanks for your help!
         'Italian' => 'Итальянский',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Итальянские стоп-слова для полнотекстовой индексации. Эти слова будут удалены и поискового индекса.',
-        'Ivory' => 'Ivory ',
-        'Ivory (Slim)' => 'Ivory (узкая)',
         'Japanese' => 'Японский',
         'JavaScript function for the search frontend.' => 'Функция JavaScript для фронтэнд поиска.',
         'Jump to OTOBO!' => '',
@@ -8792,6 +8791,7 @@ Thanks for your help!
         'Manage different calendars.' => 'Управлять различными календарями.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Управление активными сеансами.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Управление данными для поддержки.',
         'Manage system registration.' => 'Регистрация системы на портале Rother OSS GmbH',
         'Manage tasks triggered by event or time based execution.' => 'Управление заданиями, основанными на событиях или времени выполнения',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.853305476794508;
+    $Self->{Completeness}        = 0.852515300791163;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4418,6 +4418,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Обрађене информације из базе података нису синхронизоване са системском конфигурацијом, молимо вас да синхронизујете све процесе.',
         'Need ExampleProcesses!' => 'Неопходан ExampleProcesses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Дошло је до грешке приликом подешавања статуса синхронизације за ентитет процеса: %s',
         'Need ProcessID!' => 'Неопходан ProcessID!',
         'Yes (mandatory)' => 'Да (обавезно)',
         'Unknown Process %s!' => 'Непознат процес %s!',
@@ -4425,8 +4427,6 @@ sub Data {
             'Дошло је до грешке приликом креирања новог ID ентитета за овај процес',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID за неактивно стање не постоји',
         'There was an error creating the Process' => 'Дошло је до грешке приликом креирања Процеса',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Дошло је до грешке приликом подешавања статуса синхронизације за ентитет процеса: %s',
         'Could not get data for ProcessID %s' => 'Не могу прибавити податке за ID процеса %s',
         'There was an error updating the Process' => 'Дошло је до грешке приликом ажурирања Процеса',
         'Process: %s could not be deleted' => 'Процес: %s се не може обрисати',
@@ -4785,6 +4785,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Није дат ArticleID!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5843,6 +5844,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Интерна грешка: Није могуће прочитати датотеку.',
         'Tables found which are not present in the database.' => 'Пронађене табеле које нису присутне у бази података.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Величина базе података',
         'Could not determine database size.' => 'Није могуће утврдити величину базе података.',
@@ -5887,6 +5893,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Неопходан је MySQL 5.x или више.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG подешавање',
@@ -6827,8 +6834,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 минута',
         ' 5 minutes' => ' 5 минута',
         ' 7 minutes' => ' 7 минута',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Упрошћени" изглед који покушава да уштеди место за напредне кориснике.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Корисничко име) Име Презиме',
         '(UserLogin) Lastname Firstname' => '(Корисничко име) Презиме Име',
@@ -7089,8 +7094,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Аутоматско подешавање одговорног за тикет (ако није до сада подешено) после првог ажурирања.',
         'Avatar' => 'Аватар сличица',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Избалансирани бели изглед, Феликс Никлас (танка верзија).',
-        'Balanced white skin by Felix Niklas.' => 'Избалансирани бели изглед, Феликс Никлас.',
         'Based on global RichText setting' => 'Базирано на глобалним RichText поставкама',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Основно подешавање индекса целог текста. Покрените "bin/otobo.Console.pl Maint::Ticket::FulltextIndexRebuild --rebuild" како би се генерисао нови индекс.',
@@ -7335,7 +7338,6 @@ Thanks for your help!
         'Dashboard overview.' => 'Преглед командне табле.',
         'Data used to export the search result in CSV format.' => 'Подаци употребљени за ивоз резултата претраживања у CSV формату.',
         'Date / Time' => 'Датум / Време',
-        'Default (Slim)' => 'Подразумевано (упрошћено)',
         'Default ACL values for ticket actions.' => 'Подразумеване ACL вредности за акције тикета.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Подразумевани префикси објекта за управљање процесом за ИЂеве објекта који су аутоматски генерисани.',
@@ -7350,7 +7352,6 @@ Thanks for your help!
             'Подразумевани тип приказа за имена (Од) пошиљаоца на детаљном приказу тикета у интерфејсу оператера и клијента.',
         'Default loop protection module.' => 'Подразумевани модул заштите од петље.',
         'Default queue ID used by the system in the agent interface.' => 'Подразумевани ID реда који користи систем у интерфејсу оператера.',
-        'Default skin for the agent interface (slim version).' => 'Подразумевани изглед окружења за интерфејс оператера (слаба верзија).',
         'Default skin for the agent interface.' => 'Подразумевани изглед окружења за интерфејс оператера.',
         'Default skin for the customer interface.' => 'Подразумевани изглед окружења за интерфејс клијента.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8679,8 +8680,6 @@ Thanks for your help!
         'Italian' => 'Италијански',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Италијанске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
-        'Ivory' => 'Слоновача',
-        'Ivory (Slim)' => 'Слоновача (упрошћено)',
         'Japanese' => 'Јапански',
         'JavaScript function for the search frontend.' => 'JavaScript функција за модул претраге.',
         'Jump to OTOBO!' => '',
@@ -8781,6 +8780,7 @@ Thanks for your help!
         'Manage different calendars.' => 'Управљање различитим календарима.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Управљање постојећим сесијама.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Управљање подацима подршке.',
         'Manage system registration.' => 'Управљање систем регистрацијом.',
         'Manage tasks triggered by event or time based execution.' => 'Управља задацима покренутим од догађаја или на основу временског извршавања.',

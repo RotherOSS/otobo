@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.822862259364274;
+    $Self->{Completeness}        = 0.822062994476788;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4418,6 +4418,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             '데이터베이스의 프로세스 관리 정보가 시스템 구성과 동기화되지 않았습니다. 모든 프로세스를 동기화 하십시오.',
         'Need ExampleProcesses!' => 'ExampleProcesses가 필요합니다!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            '프로세스 엔티티에 대한 엔티티 동기화 상태를 설정하는 중 오류가 발생했습니다 : %s',
         'Need ProcessID!' => 'ProcessID가 필요합니다!',
         'Yes (mandatory)' => '예 (필수)',
         'Unknown Process %s!' => '알 수없는 프로세스 %s!',
@@ -4425,8 +4427,6 @@ sub Data {
             '이 프로세스에 대한 새 EntityID를 생성하는 중 오류가 발생했습니다.',
         'The StateEntityID for state Inactive does not exists' => '상태 비활성에 대한 StateEntityID가 없습니다.',
         'There was an error creating the Process' => '프로세스를 만드는 중 오류가 발생했습니다.',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            '프로세스 엔티티에 대한 엔티티 동기화 상태를 설정하는 중 오류가 발생했습니다 : %s',
         'Could not get data for ProcessID %s' => 'ProcessID %s에 대한 데이터를 가져올 수 없습니다.',
         'There was an error updating the Process' => '프로세스를 업데이트 하는 중 오류가 발생했습니다.',
         'Process: %s could not be deleted' => 'Process : %s을 삭제할 수 없습니다.',
@@ -4785,6 +4785,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'ArticleID가 주어지지 않았습니다!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5843,6 +5844,11 @@ sub Data {
         'Internal Error: Could not read file.' => '내부 오류 : 파일을 읽을 수 없습니다.',
         'Tables found which are not present in the database.' => '발견된 테이블은 데이터베이스에 없습니다.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => '데이터베이스 크기',
         'Could not determine database size.' => '데이터베이스 크기를 결정할 수 없습니다.',
@@ -5887,6 +5893,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x 이상이 필요합니다.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG 설정',
@@ -6827,8 +6834,6 @@ Thanks for your help!
         ' 2 minutes' => '2분',
         ' 5 minutes' => '5분',
         ' 7 minutes' => '7분',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '고급 사용자를 위해 화면 공간을 절약하려고하는 "슬림"스킨.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(사용자 로그인) 이름 성',
         '(UserLogin) Lastname Firstname' => '(사용자 로그인) 성 이름',
@@ -7089,8 +7094,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '첫 번째 소유자가 업데이트된 후 티켓의 책임을 자동으로 설정합니다 (티켓이 아직 설정되지 않은 경우).',
         'Avatar' => '화신',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Felix Niklas (슬림 버전)의 균형 잡힌 하얀 피부.',
-        'Balanced white skin by Felix Niklas.' => 'Felix Niklas의 균형 잡힌 하얀 피부.',
         'Based on global RichText setting' => '전역 서식있는 텍스트 설정에 기반',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7335,7 +7338,6 @@ Thanks for your help!
         'Dashboard overview.' => '현황판 개요',
         'Data used to export the search result in CSV format.' => '검색 결과를 CSV 형식으로 내보내는데 사용되는 데이터입니다.',
         'Date / Time' => '날짜 / 시간',
-        'Default (Slim)' => '기본값 (슬림)',
         'Default ACL values for ticket actions.' => '티켓 조치에 대한 기본 ACL 값.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '자동으로 생성되는 엔티티 ID에 대한 기본 ProcessManagement 엔티티 접두사입니다.',
@@ -7350,7 +7352,6 @@ Thanks for your help!
             'AgentTicketZoom 및 CustomerTicketZoom의 보낸 사람 (보낸 사람) 이름의 기본 표시 유형입니다.',
         'Default loop protection module.' => '기본 루프 보호 모듈.',
         'Default queue ID used by the system in the agent interface.' => '에이전트 인터페이스에서 시스템이 사용하는 기본 대기열 ID입니다.',
-        'Default skin for the agent interface (slim version).' => '에이전트 인터페이스 (슬림버전)의 기본 스킨입니다.',
         'Default skin for the agent interface.' => '에이전트 인터페이스의 기본 스킨입니다.',
         'Default skin for the customer interface.' => '고객 인터페이스의 기본 스킨입니다.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8679,8 +8680,6 @@ Thanks for your help!
         'Italian' => '이탈리아 사람',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '전체 텍스트 색인에 대한 이탈리아어 중지 단어. 이 단어는 검색 색인에서 제거됩니다.',
-        'Ivory' => '아이보리',
-        'Ivory (Slim)' => '아이보리(슬림)',
         'Japanese' => '일본어',
         'JavaScript function for the search frontend.' => '검색 프론트 엔드 용 JavaScript 함수.',
         'Jump to OTOBO!' => '',
@@ -8781,6 +8780,7 @@ Thanks for your help!
         'Manage different calendars.' => '다른 캘린더를 관리하십시오.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => '기존 세션을 관리합니다.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => '지원 데이터를 관리합니다.',
         'Manage system registration.' => '시스템 등록을 관리합니다.',
         'Manage tasks triggered by event or time based execution.' => '이벤트 또는 시간 기반 실행에 의해 트리거된 작업을 관리합니다.',

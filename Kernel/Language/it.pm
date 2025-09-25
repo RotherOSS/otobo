@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.617370541710192;
+    $Self->{Completeness}        = 0.616808478877444;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4426,6 +4426,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Le informazioni di Process Management del database non sono sincronizzate con la configurazione di sistema, sincronizza tutti i processi.',
         'Need ExampleProcesses!' => '',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            '',
         'Need ProcessID!' => '',
         'Yes (mandatory)' => 'Sì (obbligatorio)',
         'Unknown Process %s!' => 'Processo %s sconosciuto!',
@@ -4433,8 +4435,6 @@ sub Data {
             '',
         'The StateEntityID for state Inactive does not exists' => '',
         'There was an error creating the Process' => '',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            '',
         'Could not get data for ProcessID %s' => '',
         'There was an error updating the Process' => '',
         'Process: %s could not be deleted' => '',
@@ -4793,6 +4793,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => 'Impossibile impostare questa opzione per il ticket, nessun TicketID fornito!',
@@ -5851,6 +5852,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Errore interno: Impossibile leggere il file.',
         'Tables found which are not present in the database.' => 'Trovate tabelle non presenti nel database.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Dimensione Database',
         'Could not determine database size.' => 'Impossibile determinare la dimensione del database.',
@@ -5895,6 +5901,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'È richiesto l\'uso di MySQL 5.x o versioni superiori.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Impostazione NLS_LANG',
@@ -6824,8 +6831,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 minuti',
         ' 5 minutes' => ' 5 minuti',
         ' 7 minutes' => ' 7 minuti',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Nome utente) Nome Cognome',
         '(UserLogin) Lastname Firstname' => '',
@@ -7086,8 +7091,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Imposta automaticamente la responsabilità del ticket (se non è già impostata) dopo il primo cambio di proprietà.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Tema Balanced White di Felix Niklas (versione sottile).',
-        'Balanced white skin by Felix Niklas.' => 'Tema Balanced White di Felix Niklas.',
         'Based on global RichText setting' => '',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7332,7 +7335,6 @@ Thanks for your help!
         'Dashboard overview.' => 'Panoramica cruscotto.',
         'Data used to export the search result in CSV format.' => 'Dati usati per esportare i risultati di ricerca in formato CSV',
         'Date / Time' => 'Data / Ora',
-        'Default (Slim)' => 'Predefinito (Sottile)',
         'Default ACL values for ticket actions.' => 'ACL di default per le azioni sui ticket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefisso standard per le entità di Process Management generate automaticamente.',
@@ -7347,7 +7349,6 @@ Thanks for your help!
             '',
         'Default loop protection module.' => 'Modulo di default per la protezione dei loop',
         'Default queue ID used by the system in the agent interface.' => 'ID predefinito della coda usato dal sistema nell\'interfaccia degli agenti.',
-        'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => 'Tema predefinito per l\'interfaccia agente.',
         'Default skin for the customer interface.' => 'Tema predefinito per l\'interfaccia del cliente.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8676,8 +8677,6 @@ Thanks for your help!
         'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Ivory' => 'Avorio',
-        'Ivory (Slim)' => 'Avorio (Sottile)',
         'Japanese' => 'Giapponese',
         'JavaScript function for the search frontend.' => 'Funzione JavaScript per l\'interfaccia di ricerca.',
         'Jump to OTOBO!' => '',
@@ -8778,6 +8777,7 @@ Thanks for your help!
         'Manage different calendars.' => '',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Gestisci le sessioni esistenti.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Gestisci i dati di supporto.',
         'Manage system registration.' => 'Gestisci la registrazione del sistema.',
         'Manage tasks triggered by event or time based execution.' => '',
