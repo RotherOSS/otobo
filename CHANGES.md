@@ -1,4 +1,206 @@
 
+# OTOBO 11.0.12 2025-09-25
+- 2025-09-25 10:12:13 +0200 Create new OTOBO language files.
+- 2025-09-24 11:09:43 +0200 Issue #4722: Ensured that ArticleAction variable contains valid action name.
+- 2025-09-23 08:56:57 +0000 Translated using Weblate (German)
+- 2025-09-23 15:21:15 +0200 Repair Changes.
+- 2025-09-18 10:17:27 +0200 Issue #4722: Implemented permission checks in article editing module.
+- 2025-09-15 15:57:45 +0200 Issue #4695: check result of pop_entry() for dynamic fields
+- 2025-09-15 15:45:44 +0200 Issue #4695: explicitly check the result from pop_entry()
+- 2025-09-23 11:14:27 +0200 Issue #4515: remove ValidationIgnore in AddCell for MV DFs if present
+- 2025-09-22 17:36:24 +0200 Issue #4515: Replace Validation_IfVisible with ValidationIgnore where approp
+- 2025-09-22 13:39:21 +0200 Issue #4515: Apply codepolicy suggestions
+- 2025-09-22 13:26:04 +0200 Issue #4515: Add changes from code review and basic MV support for DB Df \n but no backend validation align for DB yet
+- 2025-09-22 11:57:51 +0200 Issue #4515: Apply change requests from codereview
+- 2025-09-22 11:57:08 +0200 Issue #4515: Add more cases from codereview
+- 2025-09-11 11:04:58 +0200 Issue #4515: fix typo in error msg
+- 2025-09-11 10:27:43 +0200 Issue #4515: Align backend validation of mandatory multivalue dynamic fields with frontend validation
+- 2025-09-23 11:07:09 +0200 Issue #4720: Added Translatable flag to sysconfig description.
+- 2025-07-29 14:49:22 +0200 Issue #4536: Implemented logging field names if create or update fails.
+- 2025-07-29 14:11:27 +0200 Issue #4536: Used a more standardized error screen.
+- 2025-07-29 14:00:29 +0200 Issue #4536: Added error return on backend dynamic field import sub.
+- 2025-07-29 13:42:33 +0200 Issue #4536: Implemented error handling during dynamic field import.
+- 2025-09-18 13:50:37 +0100 Issue #4405: adapted EmailParser test to reflect changes in css
+- 2025-09-18 13:23:34 +0200 Issue #2297: discard objects in $Kernel::OM before global destruction
+- 2025-09-17 17:24:47 +0200 Issue #4707: we need cpanfile.docker.snapshot in the Docker image
+- 2025-09-17 16:28:28 +0200 Issue #4707: add a .gitattributes file
+- 2025-09-17 16:25:30 +0200 Issue #4707: renamed cpanfile.docker.snapshot.10_0 to cpanfile.docker.snapshot
+- 2025-09-17 15:31:17 +0200 Issue #2297: do not use the version object $^V during global destruction
+- 2025-09-17 15:24:51 +0200 Issue #2297: tell CodePolicy that using Data::Dumper is fine here
+- 2025-09-17 15:17:43 +0200 Issue #2297: avoid confusing mix of sprintf and concatenation
+- 2025-09-17 14:32:45 +0200 Tidying: satisfy the CodePolicy for OTOBO 10.0.x
+- 2025-09-17 14:16:26 +0200 Update CPAN snapshot file: URI 5.32 => 5.34
+- 2025-09-17 12:35:54 +0100 Issue #4405: monospace font added for codeblocks in richtext articles
+- 2025-09-15 17:52:25 +0200 Issue #4699: Improve backup.pl
+- 2025-09-16 15:43:02 +0200 Issue #4681: make sure that unique identifiers are used
+- 2025-09-16 15:38:52 +0200 Add dependency Authen::SASL for perl-ldap in snapshot file
+- 2025-09-16 14:31:39 +0200 Issue #4703: give an example where the connect attributes are specified
+- 2025-09-16 14:30:10 +0200 Issue #4703: enhance POD
+- 2025-09-16 14:28:24 +0200 Issue #4703: enhance a code comment
+- 2025-09-16 13:55:30 +0200 Issue #4701: update two code comments about mysql_auto_reconnect.
+- 2025-09-16 12:55:47 +0200 Regenerated the CPAN snapshot file.
+- 2025-09-16 12:34:54 +0200 Issue #4701: no longe pass 'mysql_auto_reconnect = 0'
+- 2025-09-15 13:32:35 +0200 Issue #4690: There is no otobo-kerberos in OTOBO 10.1.x
+- 2025-09-15 12:57:30 +0200 Issue #4690: update cpanfile.snapshot
+- 2025-09-15 12:44:12 +0200 Issue #4690: rebuild cpanfile.snapshot
+- 2025-09-15 12:42:13 +0200 Issue #4690: copy cpanfile.snapshot from the otobo image
+- 2025-09-15 11:48:54 +0200 Issue #4690: use the latest versions from CPAN
+- 2025-09-15 11:46:26 +0200 Issue #4690: remove cpanfile.snapshot for local builds
+- 2025-09-15 11:45:20 +0200 Issue #4690: enhance code comments
+- 2025-09-15 11:14:22 +0200 Issue #4691: add the aliases .. and ...
+- 2025-09-12 10:50:39 +0200 Issue #4554: add shotgun webserver in entrypoint.sh
+- 2025-09-12 10:34:40 +0200 Issue #4554: add missing 'fi' in entrypoint.sh
+- 2025-09-11 14:05:19 +0200 Issue #4554: first stab at flexible webserver
+- 2025-09-11 13:56:11 +0100 re-adding aria-label settings to tablesorter
+- 2025-09-01 09:19:30 +0100 Issue #4565: removed invalid table sorter configuration
+- 2025-09-11 17:59:13 +0200 Issue #4681: report the attribute mysql_clientinfo
+- 2025-09-11 17:58:53 +0200 Issue #4681: a bit of tidying
+- 2025-09-11 16:38:01 +0200 Issue #4681: explicitly report the type of the database
+- 2025-09-11 16:36:40 +0200 Issue #4681: add missing closing braces in sample code in POD
+- 2025-09-11 16:35:39 +0200 Issue #4681: simplify code in frontend module,
+- 2025-09-11 12:26:07 +0100 Issue #4607: adjusted comment to reflect code change
+- 2025-09-11 11:34:27 +0100 Issue #4607: adjusted width of upload container and richtext editor
+- 2025-09-02 09:27:00 +0100 adjusted attachment field width for mobile view in ticket masks
+- 2025-09-10 16:41:58 +0200 Issue #4677: call Maint::Loader::CacheCleanup during do_upgrade_tasks()
+- 2025-09-10 16:25:55 +0200 Issue #4677: enhance code comments
+- 2025-09-01 11:51:03 +0200 Issue #4572: handle Grid within Set for AgentTicketSearch
+- 2025-08-26 10:54:28 +0200 Issue #4076: Eliminated some unused variables.
+- 2025-08-26 10:53:33 +0200 Issue #4076: Fixed typos.
+- 2025-08-26 10:51:30 +0200 Issue #4076: Reduced number of loops for autoselection of standard fields.
+- 2025-09-09 14:38:42 +0200 Github workflow: Saner indention of multiline string
+- 2025-09-09 14:20:53 +0200 Bug report template: fix spelling
+- 2025-09-02 08:58:50 +0100 Issue #4597: fixed label widths in set dynamic fields
+- 2025-09-01 11:57:14 +0100 Issue #4599: added padding for text fields in grids in sets
+- 2025-09-09 13:59:03 +0200 Update bug_report.md, Fix spelling Podmann => Podman
+- 2025-09-09 13:45:17 +0200 Mention sanity testing the nginx autobuild image.
+- 2025-09-08 14:00:51 +0200 Issue #4668: fix multiselect webservice fields
+- 2025-09-02 17:39:07 +0100 Issue #4415: Call EntitySyncStateSet for every imported process id
+- 2025-09-09 08:19:38 +0200 Issue #4674: redirect feature requests to ideas.otobo.io
+- 2025-08-27 09:18:44 +0200 Issue #4637: Pass needed param Customer to Preferences Skin module.
+- 2025-08-27 14:21:00 +0200 Issue #4642: Removed obsolete sysconfigs of non-existing skins.
+- 2025-07-25 12:32:41 +0200 Issue #4388: Added Modernize to ImportExport dropdowns.
+- 2025-09-04 15:23:41 +0200 Issue #4539: try to stabilize test
+- 2025-09-01 16:59:49 +0200 Issue #4542: Add unit tests for Ticket::Mask
+- 2025-09-02 13:13:11 +0200 Accept suggestion from CodePolicy
+- 2025-09-02 11:56:18 +0200 Issue #1577: added test cases for nested group search
+- 2025-09-02 11:41:03 +0200 Issue #1577: add some notes to the test output
+- 2025-09-01 19:09:14 +0200 Issue #1577: add test cases for UserSyncGroupsDefinition
+- 2025-09-01 16:14:06 +0200 Issue #1577: add test case for UserSyncInitialGroups
+- 2025-09-01 14:53:23 +0200 Issue #1577: deactive the DB auth backend in the test script
+- 2025-09-01 12:11:26 +0200 Issue #1577: add test cases for AccessAttr, UserAttr and GroupDN
+- 2025-09-02 11:11:49 +0100 Issue #4444: Create a priority list for subitems
+- 2025-09-01 09:35:16 +0200 Issue #4130: avoid setTimeout when calling InitFavourites() afte AJAC call
+- 2025-09-01 11:10:02 +0200 Accept suggestions from CodePolicy
+- 2025-08-28 14:27:53 +0200 Issue #4502: disable img upload if richtext editor is a DF
+- 2025-09-01 10:12:16 +0200 Issue #4570: explicitly import 'dir' from Class::Path to make the code more readable
+- 2025-08-29 14:08:25 +0200 Issue #4570: use Path::Class to check if backupdir is below OTOBO_HOME
+- 2025-08-30 11:27:38 +0200 Accept suggestions from CodePolicy
+- 2025-08-29 16:20:42 +0200 Issue #1577: add test case for syncing to the database
+- 2025-08-29 13:54:34 +0200 Issue #1577: add test cases for AuthModule::LDAP::UserSuffix
+- 2025-08-29 13:49:37 +0200 Issue #1577: add test cases for case insensitivity
+- 2025-08-29 12:42:26 +0200 Issue #1577: add test cases for adapting AuthModule::LDAP::UID
+- 2025-08-29 12:03:57 +0200 Issue #1577: add test cases for the AlwaysFilter setting
+- 2025-08-29 13:57:53 +0200 Issue #1577: make the assignment of default values more obvious
+- 2025-08-29 12:32:56 +0200 Issue #1577: add some code comments
+- 2025-08-27 15:04:14 +0200 Issue #1577: first stab at the new test script OpenLDAP.t
+- 2025-08-29 13:51:45 +0200 Issue #4570: capitalize Otobo in error msg
+- 2025-08-28 11:03:16 +0200 Issue #4570: exit early when the backup dir is within /opt/otobo
+- 2025-08-29 11:09:56 +0100 Issue #4485: Search repeated DFs with postfix
+- 2025-08-28 14:42:39 +0200 Issue #4650: remove Kernel::System::Auth::LDAP::_ConvertFrom()
+- 2025-08-28 14:38:17 +0200 Issue #4650: tidying of LDAP authenication module
+- 2025-08-27 15:03:56 +0200 Corrected links pointing to GitHub issues in comments of Lens DF admin module.
+- 2025-08-27 15:52:05 +0200 accept the suggestions from CodePolicy
+- 2025-08-27 15:43:17 +0200 Issue #4645: change the config as it was originally intended
+- 2025-08-27 15:42:09 +0200 Issue #4645: tidying, avoid unnecessary line breaks
+- 2025-08-27 15:40:22 +0200 Issue #4645: use a simple defined or operator
+- 2025-08-27 14:56:45 +0200 update Copyright year 2024 => 2025
+- 2025-08-25 15:34:57 +0200 Issue #4619: sanitize user input to backup.pl, review discussion cleanup
+- 2025-08-25 13:52:57 +0200 Issue #4619: sanitize user input to backup.pl
+- 2025-08-27 08:01:27 +0200 Issue #4634: Added lost next statement again.
+- 2025-08-26 16:19:43 +0200 Issue #4634: use more meaningful loop labels and variable names
+- 2025-08-26 16:07:23 +0200 Issue #4634: enhance code comments and POD
+- 2025-08-26 16:00:19 +0200 Issue #4632: Fixed Messsage typo and one other.
+- 2025-08-26 13:01:31 +0200 Get rid of pesky backslashes in test script
+- 2025-08-26 12:51:33 +0200 Issue #4629: move sripts/test/Auth.t to scripts/test/Auth/DB.t
+- 2025-08-26 12:47:56 +0200 Issue #4629: migrate test script to Test2::V0
+- 2025-08-26 12:38:29 +0200 Issue #4629: explain why authentication succeeds
+- 2025-08-26 12:37:41 +0200 Issue #4629: use subtests for each of the crypt types
+- 2025-08-26 12:35:00 +0200 Issue #4629: add test whether the test user could be created
+- 2025-08-26 11:10:15 +0200 Issue #4627: remove the feature div:xmlparser
+- 2025-08-25 15:45:35 +0200 Issue #4357: ignore strictly only .git
+- 2025-08-25 15:44:20 +0200 Issue #4357: tidying the boilerplate
+- 2025-08-22 16:55:06 +0200 Issue #4614: update the snapshot file
+- 2025-08-22 15:12:56 +0200 Issue #4614: switch base Docker image
+- 2025-08-22 15:11:53 +0200 Issue #4614: sync code comments with rel-10_1
+- 2025-08-22 15:09:52 +0200 Issue #4614: update snapshot file
+- 2025-08-22 12:57:11 +0200 Issue #4610: provide easy way of cycling throuth autocomplete suggestions
+- 2025-08-22 11:34:00 +0200 Removed erroneous address data from installer.
+- 2025-08-22 11:10:47 +0200 Issue #4596: Removed select success check again.
+- 2025-08-22 08:58:25 +0200 Issue #4596: Delete meta article if inserting into article_data_mime table fails.
+- 2025-08-15 10:05:26 +0200 Issue #4547: Added cache cleanup.
+- 2025-08-15 10:01:47 +0200 Issue #4547: First working version of test.
+- 2025-08-04 07:39:56 +0200 Issue #4547: Added test cases for cached visibility. FormID handling still missing.
+- 2025-08-01 13:07:17 +0200 Issue #4547: Added test cases and small adaptions.
+- 2025-08-01 11:21:37 +0200 Issue #4547: Added test case. Committing work in progress.
+- 2025-08-01 08:29:16 +0200 Issue #4547: Added ACLs to test.
+- 2025-07-31 11:22:56 +0200 Issue #4547: Added dynamic field creation to test.
+- 2025-07-31 08:43:06 +0200 Issue #4547: Implemented creating test tickets. Some small tidyings.
+- 2025-07-30 15:10:31 +0200 Issue #4547: Moved previously existing test script to match Kernel/System/ location of module.
+- 2025-08-18 15:05:21 +0200 Issue #1825: add test script for RawEmail followup check
+- 2025-08-18 12:34:35 +0200 Issue #4588: mention the caching for GetCharset() and GetContentType()
+- 2025-08-16 15:52:20 +0200 Issue #4588: more details about the MIME part merging strategy
+- 2025-08-16 15:21:05 +0200 Issue #4588: remove misleading comment about Mail-From
+- 2025-08-16 13:59:22 +0200 Issue #4588: grab a couple of tidyings from the rel-11_1 branch
+- 2025-08-16 13:32:55 +0200 Issue #4590: accept suggestion from CodePolicy
+- 2025-08-15 18:58:16 +0200 Issue #4588: enhance documentation of GetMessageBody()
+- 2025-08-15 17:21:48 +0200 Issue #4588: enhance documentation of GetAttachments()
+- 2025-08-16 13:17:21 +0200 Issue #4588: enhance documentation of GetRealname()
+- 2025-08-16 13:08:17 +0200 Issue #4588: document which methods are intended for standalone mode
+- 2025-08-16 12:59:47 +0200 Issue #4588: enhance documentation of GetParam()
+- 2025-08-16 12:37:24 +0200 Issue #4588: enhance documentation of GetPlainEmail()
+- 2025-08-14 15:29:54 +0200 Issue #4588: enhance documentation of the constructor
+- 2025-08-15 17:09:29 +0200 Issue #4588: add code comment in Kernel::System::PostMaster
+- 2025-08-14 15:31:09 +0200 Issue #4588: tidying of Kernel::System::EmailParser
+- 2025-08-15 13:27:17 +0200 Issue #4590: We get ArrayRefs in reference fields.
+- 2025-08-14 13:49:25 +0200 Remove setup for rel-11_0_8 and add setup for rel-11_0_10
+- 2025-08-14 13:35:44 +0200 Package Documentation Generate: Sort sysconfig settings by name.
+- 2025-08-14 13:14:23 +0200 Use the latest rel-11_0 release for building the autocomplet images
+- 2025-08-13 14:59:41 +0200 Issue #4564: Used dedicated variables for AccessRo and AccessRw.
+- 2025-08-13 11:53:12 +0200 Issue #4564: Changed link target for customer company and customer user dynamic fields.
+- 2025-08-13 11:40:46 +0200 Issue #4564: Fixed bug in link creation sub for reference DFs Agent, CustomerCompany and CustomerUser.
+- 2025-08-13 11:33:20 +0200 Issue #4564: Fixed POD and typos.
+- 2025-08-13 10:51:09 +0200 Issue #4580: Added translations in a few places for services and SLAs. Fixed typos.
+- 2025-08-12 12:43:35 +0200 Issue #4573: add test for PostMaster::FollowUpCheck::Body
+- 2025-08-12 12:40:02 +0200 Issue #4573: fiddle with the CSV content of the test emails
+- 2025-08-12 12:38:41 +0200 Issue #4573: enhance code comments
+- 2025-08-12 12:35:13 +0200 Issue #4573: Tidying: opening brace on same line as the if
+- 2025-08-12 12:33:52 +0200 Issue #4573: remove unused attribute PartCounter
+- 2025-08-11 14:34:28 +0200 Issue #4577: Go to next replacement after replacing the current field data.
+- 2025-08-10 21:00:53 +0200 Use full location on error
+- 2025-08-09 00:31:42 +0200 Fix "Use of uninitialized value $File in concatenation (.) or string at /opt/otobo/Kernel/System/Console/Command/Dev/Package/Build.pm line 141."
+- 2025-08-09 19:39:43 +0200 Enhance the POD of FileWrite()
+- 2025-08-08 16:15:41 +0200 Tidying: use a saner variable name: $ArticleShowStatus => $ShowDeletedArticles
+- 2025-08-08 16:08:40 +0200 Issue #4573: eliminate the variable $Attach.
+- 2025-08-08 16:07:54 +0200 Issue #4573: fix POD: non-code should not be indented
+- 2025-08-08 16:06:19 +0200 Issue #4573: spelling: 'instead or' => 'instead of'
+- 2025-08-08 16:05:00 +0200 Issue #4573: enhance the POD for BackendForArticle()
+- 2025-08-07 16:45:07 +0200 Issue #4573: add test cases for when the HTML follows an attachment
+- 2025-08-07 16:19:49 +0200 Issue #4573: tidying: use more meaningful variable names
+- 2025-08-07 16:17:23 +0200 Issue #4573: tidying
+- 2025-08-07 16:15:54 +0200 Issue #4573: enhance the POD of the Run() method
+- 2025-08-06 12:41:40 +0200 Issue #4567: Tidying: avoid those ugly backslashes in strings
+- 2025-08-06 12:36:39 +0200 Issue #4567: add some unicode to the title
+- 2025-08-06 12:33:53 +0200 Issue #4567: fix the test failure
+- 2025-08-06 12:11:47 +0200 Issue #4567: convert test script to using Test2::V0
+- 2025-08-02 14:02:23 +0200 Undo the change 45ad6734c817d01 for docker_image_update_autobuild.yml
+- 2025-08-01 08:52:36 +0200 Update GitHub actions after release of OTOBO 11.0.11
+- 2025-07-31 20:05:19 +0200 Issue #4555: update the snapshot after cpanfile.docker.kerberos was updated
+- 2025-07-31 19:21:40 +0200 Sync cpanfile.docker.kerberos with cpanfile.docker
+- 2025-07-31 18:19:06 +0200 Convert the test script Archive.t to Test2::V0
+- 2025-07-31 11:29:27 +0200 Tidying: use a simple fail() instead of checking whether 0 is true
+- 2025-07-31 09:38:13 +0200 Issue #4552: avoid warnings in Archive.t
+
+
 # OTOBO 11.0.11 2025-07-31
 - 2025-07-31 13:06:27 +0200 Create new OTOBO language files.
 - 2025-07-30 14:41:34 +0200 [Bugfix]   ACL empties DF Default Value in AgentTicketProcess (https://github.com/RotherOSS/otobo/issues/4136)
@@ -2671,4 +2873,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
