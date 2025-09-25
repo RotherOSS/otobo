@@ -1,4 +1,61 @@
 
+# OTOBO 10.1.15 2025-09-25
+- 2025-09-25 10:04:52 +0200 Create new OTOBO language files.
+- 2025-06-17 14:56:30 +0000 Translated using Weblate (French)
+- 2025-09-15 15:57:45 +0200 [Security] LDAP-Sync with activated nested group search could assign to many groups. Thanks to FREICON. (https://github.com/RotherOSS/otobo/issues/4695)
+- 2025-09-18 13:23:34 +0200 Errors and warnings emitted by the test suite during global destruction (https://github.com/RotherOSS/otobo/issues/2297) - in progress
+- 2025-09-17 17:24:47 +0200 Set up merge strategy for cpanfile.snapshot (https://github.com/RotherOSS/otobo/issues/4707) - in progress
+- 2025-09-17 14:32:45 +0200 Tidying: satisfy the CodePolicy for OTOBO 10.0.x
+- 2025-09-17 14:16:26 +0200 Update CPAN snapshot file: URI 5.32 => 5.34
+- 2025-09-15 17:52:25 +0200 Further improve backup.pl (https://github.com/RotherOSS/otobo/issues/4699)
+- 2025-09-15 13:32:35 +0200 [Bugfix]   Docker: Really disregard cpanfile.snapshot when building local Docker images (https://github.com/RotherOSS/otobo/issues/4690)
+- 2025-09-15 11:14:22 +0200 Add that aliases .. and ... (https://github.com/RotherOSS/otobo/issues/4691)
+- 2025-09-12 10:50:39 +0200 Consider making exec_web() in entrypoint.sh ENV driven (https://github.com/RotherOSS/otobo/issues/4554)
+- 2025-09-10 16:41:58 +0200 Call Maint::Loader::CacheCleanup during do_upgrade_tasks(), that is when upgrading Docker based installations (https://github.com/RotherOSS/otobo/issues/4677)
+- 2025-08-27 14:21:00 +0200 [Tidied]   Clean up sysconfigs of non-existing skins (https://github.com/RotherOSS/otobo/issues/4642)
+- 2025-09-01 09:35:16 +0200 [Bugfix]   System Configuration: saving a setting as a favorite doesn't work (https://github.com/RotherOSS/otobo/issues/4130)
+- 2025-09-01 11:10:02 +0200 Accept suggestions from CodePolicy
+- 2025-09-01 10:12:16 +0200 [Enhanced] Early exit when the backup directory is within /opt/otobo (https://github.com/RotherOSS/otobo/issues/4570)
+- 2025-08-30 11:27:38 +0200 Accept suggestions from CodePolicy
+- 2025-08-25 15:34:57 +0200 [Security] Sanitize input for backup.pl. Thanks to Diego Berger Tellaroli (https://github.com/RotherOSS/otobo/issues/4619)
+- 2025-08-22 15:12:56 +0200 Upgrade Perl base image to 5.40-bookworm (https://github.com/RotherOSS/otobo/issues/4614)
+- 2025-08-22 12:57:11 +0200 Allow to cycle through the autocomplete suggestions of e.g. bin/otobo.Console.pl (https://github.com/RotherOSS/otobo/issues/4610)
+- 2025-08-22 11:34:00 +0200 Removed erroneous address data from installer.
+- 2025-08-22 11:10:47 +0200 [Bugfix]   Tidy article table if article creation fails mid way. (https://github.com/RotherOSS/otobo/issues/4596)
+- 2025-08-14 13:35:44 +0200 Package Documentation Generate: Sort sysconfig settings by name.
+- 2025-07-31 20:05:19 +0200 [Bugfix]   The GitHub action DockerImageUpdateDevel is broken (https://github.com/RotherOSS/otobo/issues/4555)
+- 2025-07-31 19:21:40 +0200 Sync cpanfile.docker.kerberos with cpanfile.docker
+- 2025-07-31 18:19:06 +0200 Convert the test script Archive.t to Test2::V0
+- 2025-07-31 11:29:27 +0200 Tidying: use a simple fail() instead of checking whether 0 is true
+- 2025-07-31 09:38:13 +0200 reanimate Archive.t for rel-10_1 (https://github.com/RotherOSS/otobo/issues/4552)
+- 2025-07-30 10:46:00 +0200 Start using Test::Warnings in test scripts (https://github.com/RotherOSS/otobo/issues/4537)
+- 2025-07-29 14:34:58 +0200 Update the cpanfile snapshot after cpanfile.docker has changed
+- 2025-07-28 14:59:26 +0200 [Tidied]   Check for warnings that are new in Perl 5.42 (https://github.com/RotherOSS/otobo/issues/4526)
+- 2025-07-28 14:08:06 +0200 Check in the test suite wheter strictures and warnings are enabled (https://github.com/RotherOSS/otobo/issues/4528)
+- 2025-07-22 16:27:46 +0200 Upgrade Perl base image to 5.38-bookworm (https://github.com/RotherOSS/otobo/issues/4512)
+- 2025-07-22 16:26:28 +0200 Accept suggestions from CodePolicy.
+- 2025-07-22 16:07:26 +0200 [Bugfix]   Use of uninitialized value at /opt/otobo/bin/psgi-bin/../../Kernel/Config/Defaults.pm line 2314. (https://github.com/RotherOSS/otobo/issues/4365)
+- 2025-07-22 16:04:45 +0200 Update the cpanfile snapshot.
+- 2025-07-17 09:09:13 +0200 [Enhanced] Rotate otobo.log (https://github.com/RotherOSS/otobo/issues/3909)
+- 2025-07-16 16:10:27 +0200 Building Docker Image for rel-10_0 (https://github.com/RotherOSS/otobo/issues/4487)
+- 2025-07-15 14:00:33 +0200 Update the cpanfile snapshot
+- 2025-07-15 13:36:26 +0200 Add git as a development tool into the Docker image (https://github.com/RotherOSS/otobo/issues/4486)
+- 2025-07-14 16:06:18 +0200 [Tidied]   Fix POD typo in Kernel::System::Group (https://github.com/RotherOSS/otobo/issues/4478)
+- 2025-07-14 16:54:36 +0200 The Github action 'CodePolicy' is broken (https://github.com/RotherOSS/otobo/issues/4480)
+- 2025-07-09 14:45:02 +0200 Issue #4459: Eliminate the 'Depends' attribute (https://github.com/RotherOSS/otobo/issues/4462)
+- 2025-07-09 14:24:45 +0200 [Bugfix]   OpenIDConnect wrong Login Form and misleading error msg on browser restart (https://github.com/RotherOSS/otobo/issues/4393)
+- 2025-07-09 13:50:30 +0200 also hide loginbox for Customers if only OIDC login enabled
+- 2025-07-07 18:45:17 +0200 Make it easy to switch to Antarctica/Rother time zone
+- 2025-06-12 09:24:07 +0200 [Bugfix]   Issue with Dynamic Fields in "AgentTicketPrint" Mask When Using "Title" Field (https://github.com/RotherOSS/otobo/issues/4300)
+- 2025-06-18 07:42:01 +0200 [Bugfix]   AdminProcessManagement: Wrong variable used in check (https://github.com/RotherOSS/otobo/issues/4413)
+- 2025-06-17 09:04:05 +0200 [Bugfix]   Fix missing comment sign in console command skeleton (https://github.com/RotherOSS/otobo/issues/4411)
+- 2025-06-16 13:07:46 +0200 Issue #2889: Avoided empty value problems by shifting index for checkbox values by one. (https://github.com/RotherOSS/otobo/issues/2947)
+- 2025-06-02 10:45:19 +0200 [Bugfix]   Fix DynamicField Webservice. (https://github.com/RotherOSS/otobo/issues/3446)
+- 2025-05-22 13:24:42 +0200 [Bugfix]   Type update does not respect current params when saving in AgentTicketActionCommon. (https://github.com/RotherOSS/otobo/issues/4359)
+- 2025-05-17 14:20:53 +0200 Use pinned versions of CPAN distributions for rebuilding Docker images (https://github.com/RotherOSS/otobo/issues/3617)
+- 2025-05-16 19:24:59 +0200 Issue #4346: extract major and minor version from the tag name
+
+
 # OTOBO 10.1.14 2025-05-16
 - 2025-05-16 13:09:28 +0200 Create new OTOBO language files.
 - 2025-05-16 12:56:40 +0200 Update the tags in Docker Hub
@@ -26,7 +83,7 @@
 - 2025-02-26 10:58:16 +0100 Update translation files
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-04-22 15:58:42 +0200 Update the list of the last three releases in rel-10_1
 - 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
@@ -1779,6 +1836,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
