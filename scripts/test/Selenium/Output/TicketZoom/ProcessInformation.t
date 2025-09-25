@@ -196,13 +196,13 @@ $Selenium->RunTest(
             'Process Information widget is enabled',
         );
 
-        # verify there are process informations in 'Process Information' widget
+        # verify there are process information in 'Process Information' widget
         $Selenium->find_element_by_xpath_ok(
-            q{//p[contains(@title, 'TestProcess')]},
+            q{//span[contains(@title, 'TestProcess')]},
             'Process name found in Process Information widget'
         );
         $Selenium->find_element_by_xpath_ok(
-            q{//p[contains(@title, 'Shipping')]},
+            q{//span[contains(@title, 'Shipping')]},
             'Process activity found in Ticket Information widget'
         );
 
@@ -236,7 +236,7 @@ $Selenium->RunTest(
 
         # verify there is new activity in 'Process Information' widget
         $Selenium->find_element_by_xpath_ok(
-            q{//p[contains(@title, 'Ordering complete')]},
+            q{//span[contains(@title, 'Ordering complete')]},
             "Process activity found in Process Information widget"
         );
 
