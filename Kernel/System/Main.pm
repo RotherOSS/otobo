@@ -484,6 +484,7 @@ sub FileRead {
                 );
             }
         }
+
         return;
     }
 
@@ -580,6 +581,7 @@ sub FileWrite {
                     Priority => 'error',
                     Message  => "Can't create directory '$Param{Directory}': $!",
                 );
+
                 return;
             }
         }
@@ -903,6 +905,7 @@ sub MD5sum {
             Priority => 'error',
             Message  => 'Need Filename or String!',
         );
+
         return;
     }
 
@@ -927,6 +930,7 @@ sub MD5sum {
                     Message  => "Can't read '$Param{Filename}': $Error",
                 );
             }
+
             return;
         }
 
@@ -943,12 +947,14 @@ sub MD5sum {
     # md5sum string
     if ( !ref $Param{String} ) {
         $EncodeObject->EncodeOutput( \$Param{String} );
+
         return md5_hex( $Param{String} );
     }
 
     # md5sum scalar reference
     if ( ref $Param{String} eq 'SCALAR' ) {
         $EncodeObject->EncodeOutput( $Param{String} );
+
         return md5_hex( ${ $Param{String} } );
     }
 
@@ -1009,6 +1015,7 @@ sub Dump {
             Priority => 'error',
             Message  => "Need \$String in Dump()!"
         );
+
         return;
     }
 
@@ -1019,6 +1026,7 @@ sub Dump {
             Priority => 'error',
             Message  => "Invalid Type '$Type'!"
         );
+
         return;
     }
 
@@ -1108,6 +1116,7 @@ sub DirectoryRead {
                 Message  => "Needed $Needed: $!",
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -1118,6 +1127,7 @@ sub DirectoryRead {
             Message  => "Directory doesn't exist: $Param{Directory}: $!",
             Priority => 'error',
         );
+
         return;
     }
 
@@ -1127,6 +1137,7 @@ sub DirectoryRead {
             Message  => 'Filter param need to be scalar or array ref!',
             Priority => 'error',
         );
+
         return;
     }
 
@@ -1145,8 +1156,8 @@ sub DirectoryRead {
         # look for repeated values
         NAME:
         for my $GlobName (@Glob) {
-
             next NAME if !-e $GlobName;
+
             if ( !$Seen{$GlobName} ) {
                 push @GlobResults, $GlobName;
                 $Seen{$GlobName} = 1;
