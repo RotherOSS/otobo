@@ -1093,7 +1093,8 @@ You can pass several additional filters at once:
         Filter    => \@MyFilters,
     );
 
-The result strings are absolute paths, and they are converted to utf8.
+The returned strings are either relative or absolute paths, depending on what kind
+of path was passed in as C<Directory>. The returned paths were converted to utf8.
 
 Use the 'Silent' parameter to suppress log messages when a directory
 does not have to exist:
