@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-07-31 11:05+0000\n"
+"POT-Creation-Date: 2025-09-25 08:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12747,6 +12747,10 @@ msgid "Need ExampleProcesses!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error setting the entity sync status for Process entity: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
 msgstr ""
 
@@ -12768,10 +12772,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "There was an error setting the entity sync status for Process entity: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -13760,6 +13760,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
 msgid "No ArticleID is given!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
@@ -16342,6 +16346,14 @@ msgstr ""
 msgid "Tables found which are not present in the database."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
 msgid "Database Size"
 msgstr ""
@@ -16428,6 +16440,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
@@ -18558,10 +18574,6 @@ msgid " 7 minutes"
 msgstr ""
 
 #. SysConfig
-msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
-
-#. SysConfig
 msgid "%s"
 msgstr ""
 
@@ -19283,14 +19295,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Avatar"
-msgstr ""
-
-#. SysConfig
-msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
-
-#. SysConfig
-msgid "Balanced white skin by Felix Niklas."
 msgstr ""
 
 #. SysConfig
@@ -20082,10 +20086,6 @@ msgid "Date / Time"
 msgstr ""
 
 #. SysConfig
-msgid "Default (Slim)"
-msgstr ""
-
-#. SysConfig
 msgid "Default ACL values for ticket actions."
 msgstr ""
 
@@ -20119,10 +20119,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Default skin for the agent interface (slim version)."
 msgstr ""
 
 #. SysConfig
@@ -23234,14 +23230,6 @@ msgid "Italian stop words for fulltext index. These words will be removed from t
 msgstr ""
 
 #. SysConfig
-msgid "Ivory"
-msgstr ""
-
-#. SysConfig
-msgid "Ivory (Slim)"
-msgstr ""
-
-#. SysConfig
 msgid "Japanese"
 msgstr ""
 
@@ -23587,6 +23575,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage existing sessions."
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
 msgstr ""
 
 #. SysConfig

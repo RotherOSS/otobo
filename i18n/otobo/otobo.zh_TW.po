@@ -27110,3 +27110,23 @@ msgstr ""
 msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
+msgstr ""
+

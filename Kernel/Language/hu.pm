@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.855991643038353;
+    $Self->{Completeness}        = 0.855202268995372;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4423,6 +4423,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Az adatbázis folyamatkezelő információi nincsenek szinkronizálva a rendszer beállításaival, szinkronizáljon minden folyamatot.',
         'Need ExampleProcesses!' => 'Példafolyamatok szükségesek!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Hiba történt az egyed szinkronizációs állapotának beállításakor ennél a folyamategyednél: %s',
         'Need ProcessID!' => 'Folyamatazonosító szükséges!',
         'Yes (mandatory)' => 'Igen (kötelező)',
         'Unknown Process %s!' => 'Ismeretlen folyamat: %s!',
@@ -4430,8 +4432,6 @@ sub Data {
             'Hiba történt egy új egyedazonosító előállításakor ennél a folyamatnál',
         'The StateEntityID for state Inactive does not exists' => 'Az állapotegyed-azonosító az Inaktív állapotnál nem létezik',
         'There was an error creating the Process' => 'Hiba történt a folyamat létrehozásakor',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Hiba történt az egyed szinkronizációs állapotának beállításakor ennél a folyamategyednél: %s',
         'Could not get data for ProcessID %s' => 'Nem sikerült lekérni az adatokat a folyamatazonosítóhoz: %s',
         'There was an error updating the Process' => 'Hiba történt a folyamat frissítésekor',
         'Process: %s could not be deleted' => 'Folyamat: %s törlése nem sikerült',
@@ -4790,6 +4790,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Nincs bejegyzés-azonosító megadva!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5848,6 +5849,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Belső hiba: Nem sikerült olvasni a fájlt.',
         'Tables found which are not present in the database.' => 'Olyan táblák találhatók, amelyek nincsenek az adatbázisban.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Adatbázisméret',
         'Could not determine database size.' => 'Nem sikerült meghatározni az adatbázis méretét.',
@@ -5892,6 +5898,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x vagy újabb szükséges.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG beállítás',
@@ -6832,8 +6839,6 @@ Az Ön segélyszolgálat csapata
         ' 2 minutes' => ' 2 perc',
         ' 5 minutes' => ' 5 perc',
         ' 7 minutes' => ' 7 perc',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '„Karcsú” felszín, amely képernyőhelyet próbál megspórolni a haladó felhasználóknak.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Felhasználónév) Keresztnév Vezetéknév',
         '(UserLogin) Lastname Firstname' => '(Felhasználónév) Vezetéknév Keresztnév',
@@ -7094,8 +7099,6 @@ Az Ön segélyszolgálat csapata
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automatikusan beállítja a jegy felelősét (ha még nincs beállítva) az első tulajdonos-frissítés után.',
         'Avatar' => 'Profilkép',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Kiegyenlített fehér felszín Felix Niklas-tól (karcsú változat).',
-        'Balanced white skin by Felix Niklas.' => 'Kiegyenlített fehér felszín Felix Niklas-tól.',
         'Based on global RichText setting' => 'Globális RichText beállítás alapján',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Alapvető szabad-szavas index beállítások. Futtassa a „bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild” parancsfájlt egy új index előállítása érdekében.',
@@ -7340,7 +7343,6 @@ Az Ön segélyszolgálat csapata
         'Dashboard overview.' => 'Vezérlőpult áttekintő.',
         'Data used to export the search result in CSV format.' => 'A keresési eredmény CSV formátumba való exportálásához használt adat.',
         'Date / Time' => 'Dátum / Idő',
-        'Default (Slim)' => 'Alapértelmezett (karcsú)',
         'Default ACL values for ticket actions.' => 'Alapértelmezett ACL értékek a jegyműveletekhez.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Alapértelmezett ProcessManagement entitás előtagok azon entitás azonosítókhoz, amelyek automatikusan lettek előállítva.',
@@ -7355,7 +7357,6 @@ Az Ön segélyszolgálat csapata
             'Alapértelmezett megjelenítési típus a küldő (feladó) neveihez az ügyintézői jegynagyítás és az ügyfél jegynagyítás képernyőkön.',
         'Default loop protection module.' => 'Alapértelmezett hurokvédelem modul.',
         'Default queue ID used by the system in the agent interface.' => 'A rendszer által alapértelmezetten használt várólista azonosító az ügyintézői felületen.',
-        'Default skin for the agent interface (slim version).' => 'Alapértelmezett felszín az ügyintézői felülethez (karcsú változat).',
         'Default skin for the agent interface.' => 'Alapértelmezett felszín az ügyintézői felülethez.',
         'Default skin for the customer interface.' => 'Alapértelmezett felszín az ügyfélfelülethez.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8684,8 +8685,6 @@ Az Ön segélyszolgálat csapata
         'Italian' => 'Olasz',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Olasz kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
-        'Ivory' => 'Elefántcsont',
-        'Ivory (Slim)' => 'Elefántcsont (karcsú)',
         'Japanese' => 'Japán',
         'JavaScript function for the search frontend.' => 'JavaScript függvény a keresési előtétprogramhoz.',
         'Jump to OTOBO!' => '',
@@ -8786,6 +8785,7 @@ Az Ön segélyszolgálat csapata
         'Manage different calendars.' => 'Különböző naptárak kezelése.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Meglévő munkamenetek kezelése.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Támogatási adatok kezelése.',
         'Manage system registration.' => 'Rendszer regisztráció kezelése.',
         'Manage tasks triggered by event or time based execution.' => 'Esemény vagy időalapú végrehajtás által aktivált feladatok kezelése.',

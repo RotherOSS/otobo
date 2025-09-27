@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.59050887927175;
+    $Self->{Completeness}        = 0.589640244812659;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4423,6 +4423,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'اطلاعات مدیریت فرآیند از پایگاه اطلاع داده هماهنگ با پیکربندی سیستم نیست، لطفا تمام فرآیندها را همگام سازی کنید.',
         'Need ExampleProcesses!' => 'نیاز ExampleProcesses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'خطا در تنظیم وضعیت همگام نهاد برای نهاد فرآیند وجود دارد: %s',
         'Need ProcessID!' => 'نیاز ProcessID!',
         'Yes (mandatory)' => 'بله (اجباری)',
         'Unknown Process %s!' => 'فرایند ناشناخته %s !',
@@ -4430,8 +4432,6 @@ sub Data {
             'یک خطای تولید یک EntityID جدید برای این فرایند وجود دارد',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID برای حالت غیر فعال وجود ندارد',
         'There was an error creating the Process' => 'خطایی در ایجاد این فرآیند وجود دارد',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'خطا در تنظیم وضعیت همگام نهاد برای نهاد فرآیند وجود دارد: %s',
         'Could not get data for ProcessID %s' => 'نمی تواند داده ها را برای ProcessID بگیرد %s',
         'There was an error updating the Process' => 'خطایی در به روزرسانی این فرآیند وجود دارد',
         'Process: %s could not be deleted' => 'فرآیند: %s نمی تواند حذف شود',
@@ -4790,6 +4790,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5848,6 +5849,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'خطای داخلی: فایل خوانده نشد.',
         'Tables found which are not present in the database.' => 'استفاده از جدول موجود که در حال حاضر در پایگاه داده است.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'اندازه پایگاه داده',
         'Could not determine database size.' => ' اندازه پایگاه داده مشخص نیست.',
@@ -5892,6 +5898,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '5.x خروجی زیر و یا بالاتر مورد نیاز است.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'تنظیم NLS_LANG',
@@ -6832,8 +6839,6 @@ Thanks for your help!
         ' 2 minutes' => '۲ دقیقه',
         ' 5 minutes' => '۵ دقیقه',
         ' 7 minutes' => '۷ دقیقه',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '\ "اسلیم " پوست که تلاش می کند برای صرفه جویی در فضای صفحه نمایش برای کاربران قدرت.',
         '%s' => '٪s',
         '(UserLogin) Firstname Lastname' => '(صفحهی) نام نام خانوادگی',
         '(UserLogin) Lastname Firstname' => '(صفحهی) نام خانوادگی FIRSTNAME',
@@ -7094,8 +7099,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'به طور خودکار مجموعه مسئول یک بلیط (در صورت تنظیم نشده است) پس از به روز رسانی صاحب اول.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس (نسخه باریک).',
-        'Balanced white skin by Felix Niklas.' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس.',
         'Based on global RichText setting' => 'بر اساس تنظیم RichText جهانی',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7340,7 +7343,6 @@ Thanks for your help!
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'داده استفاده شده برای ارسال نتایج جستجو به قالب CSV',
         'Date / Time' => 'زمان تاریخ',
-        'Default (Slim)' => 'به طور پیش فرض (لاغر)',
         'Default ACL values for ticket actions.' => 'مقادیر ACL پیش‌فرض برای عملیات‌های درخواست',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'به طور پیش فرض پیشوند نهاد مدیریت پردازش برای شناسه های نهاد است که به طور خودکار تولید می شود.',
@@ -7355,7 +7357,6 @@ Thanks for your help!
             'نوع صفحه نمایش به طور پیش فرض برای فرستنده (از) نام در AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'ماژول جلوگیری از تشکیل حلقه پیش‌فرض',
         'Default queue ID used by the system in the agent interface.' => 'شناسه پیش‌فرض صف استفاده شده برای سیستم در واسط کاربری کارشناس',
-        'Default skin for the agent interface (slim version).' => 'پوست به طور پیش فرض برای رابط عامل (نسخه باریک).',
         'Default skin for the agent interface.' => 'پوست به طور پیش فرض برای رابط عامل.',
         'Default skin for the customer interface.' => 'پوست به طور پیش فرض برای رابط مشتری.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8684,8 +8685,6 @@ Thanks for your help!
         'Italian' => 'ایتالیایی',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف ایتالیایی شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
-        'Ivory' => 'عاج',
-        'Ivory (Slim)' => 'عاج (لاغر)',
         'Japanese' => 'ژاپنی',
         'JavaScript function for the search frontend.' => 'جاوا اسکریپت تابع برای ظاهر جستجو.',
         'Jump to OTOBO!' => '',
@@ -8786,6 +8785,7 @@ Thanks for your help!
         'Manage different calendars.' => '',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'مدیریت session های موجود',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'مدیریت داده پشتیبانی می کند.',
         'Manage system registration.' => 'مدیریت ثبت نام سیستم.',
         'Manage tasks triggered by event or time based execution.' => 'مدیریت وظایف موجب شده توسط رویداد یا زمان اجرای .',

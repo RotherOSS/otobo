@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.941650499925384;
+    $Self->{Completeness}        = 0.940886699507389;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4426,6 +4426,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Prosessstyringsinformasjon fra databasen er ikke synkronisert med systemkonfigurasjon. Vennligst synkroniser alle prosesser.',
         'Need ExampleProcesses!' => 'Trenger eksempelprosesser!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for prosessenhet: %s',
         'Need ProcessID!' => 'Trenger prosessID!',
         'Yes (mandatory)' => 'Ja (obligatorisk)',
         'Unknown Process %s!' => 'Ukjent prosess %s!',
@@ -4433,8 +4435,6 @@ sub Data {
             'Det oppsto en feil under generering av en ny enhets-ID for denne prosessen',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID for state Inactive eksisterer ikke',
         'There was an error creating the Process' => 'Det oppsto en feil under opprettelsen av prosessen',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Det oppsto en feil ved innstilling av enhetssynkroniseringsstatus for prosessenhet: %s',
         'Could not get data for ProcessID %s' => 'Kunne ikke hente data for prosess-ID %s',
         'There was an error updating the Process' => 'Det oppsto en feil under oppdatering av prosessen',
         'Process: %s could not be deleted' => 'Prosess: %s kunne ikke slettes',
@@ -4793,6 +4793,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Ingen artikkel-ID er gitt!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5851,6 +5852,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Intern feil: Kan ikke lese filen.',
         'Tables found which are not present in the database.' => 'Tabeller funnet som ikke er tilgjengelig i databasen.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Databasestørrelse',
         'Could not determine database size.' => 'Kunne ikke bestemme størrelsen på databasen.',
@@ -5895,6 +5901,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x eller høyere er nødvendig.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG innstilling',
@@ -6838,8 +6845,6 @@ Ditt Helpdesk-team
         ' 2 minutes' => ' 2 minutter',
         ' 5 minutes' => ' 5 minutter',
         ' 7 minutes' => ' 7 minutter',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Slankt" tema som prøver å spare skjermplass for superbrukere.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Brukernavn) Fornavn Etternavn',
         '(UserLogin) Lastname Firstname' => '(Brukernavn) Etternavn Fornavn',
@@ -7100,8 +7105,6 @@ Ditt Helpdesk-team
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Sett automatisk ansvarlig for en sak (hvis ikke satt) etter første eieroppdatering.',
         'Avatar' => 'Avatar',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Balansert hvitt tema av Felix Niklas (slank versjon).',
-        'Balanced white skin by Felix Niklas.' => 'Balansert hvitt tema av Felix Niklas.',
         'Based on global RichText setting' => 'Basert på global RichText-innstilling',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Grunnleggende fulltekstindeksinnstillinger. Kjør "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" for å generere en ny indeks.',
@@ -7346,7 +7349,6 @@ Ditt Helpdesk-team
         'Dashboard overview.' => 'Oversikt over dashbord.',
         'Data used to export the search result in CSV format.' => 'Data brukt for å eksportere søkeresultatet i CSV-format.',
         'Date / Time' => 'Dato / Tid',
-        'Default (Slim)' => 'Standard (slank)',
         'Default ACL values for ticket actions.' => 'Standard ACL-verdier for sakshendelser.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Standard ProcessManagement-enhetsprefikser for enhets-ID-er som genereres automatisk.',
@@ -7361,7 +7363,6 @@ Ditt Helpdesk-team
             'Standard visningstype for avsendernavn (Fra) i AgentTicketZoom og CustomerTicketZoom.',
         'Default loop protection module.' => 'Standard loop-beskyttelsesmodul.',
         'Default queue ID used by the system in the agent interface.' => 'Standard køID brukt av systemet for saksbehandlere.',
-        'Default skin for the agent interface (slim version).' => 'Standard tema for agentgrensesnittet (slank versjon).',
         'Default skin for the agent interface.' => 'Standard tema for agentgrensesnittet.',
         'Default skin for the customer interface.' => 'Standard tema for kundegrensesnittet.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8690,8 +8691,6 @@ Ditt Helpdesk-team
         'Italian' => 'Italiensk',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Italienske stoppord for fulltekstindeks. Disse ordene vil bli fjernet fra søkeindeksen.',
-        'Ivory' => 'Elfenbein',
-        'Ivory (Slim)' => 'Elfenben (slank)',
         'Japanese' => 'Japansk',
         'JavaScript function for the search frontend.' => 'JavaScript-funksjon for søkegrensesnittet.',
         'Jump to OTOBO!' => 'Hopp til OTOBO!',
@@ -8792,6 +8791,7 @@ Ditt Helpdesk-team
         'Manage different calendars.' => 'Administrere ulike kalendere.',
         'Manage dynamic field in screens.' => 'Administrer dynamisk felt i skjermer.',
         'Manage existing sessions.' => 'Administrasjon av aktive sesjoner.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Administrer støttedata.',
         'Manage system registration.' => 'Administrer systemregistrering.',
         'Manage tasks triggered by event or time based execution.' => 'Administrer oppgaver utløst av hendelse eller tidsbasert utførelse.',

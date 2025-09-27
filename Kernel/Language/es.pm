@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.59603044321743;
+    $Self->{Completeness}        = 0.595163457232423;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4423,6 +4423,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'La información de la gestión de procesos de la base de datos no está sincronizada con la configuración del sistema. Por favor, sincronice todos los procesos.',
         'Need ExampleProcesses!' => 'Se requiere un Ejemplo de Procesos!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Se produjo un error al establecer el estatus de sincronización de entidad para la entidad del Processo: %s ',
         'Need ProcessID!' => '¡Se requiere el ID de Processo!',
         'Yes (mandatory)' => 'Si (Obligatorio)',
         'Unknown Process %s!' => '¡Proceso Desconocido %s!',
@@ -4430,8 +4432,6 @@ sub Data {
             'Se produjo un error al generar un nuevo ID de Entidad para este Processo.',
         'The StateEntityID for state Inactive does not exists' => 'El ID del Estado de Entidad para el estado Inactivo no existe.',
         'There was an error creating the Process' => 'Se produjo un error al crear el Processo.',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Se produjo un error al establecer el estatus de sincronización de entidad para la entidad del Processo: %s ',
         'Could not get data for ProcessID %s' => 'No se pudieron obtener los datos para el ID del Processo %s.',
         'There was an error updating the Process' => 'Se produjo un error al actualizar el Proceso.',
         'Process: %s could not be deleted' => 'El Proceso: %s no se pudo eliminar',
@@ -4790,6 +4790,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5849,6 +5850,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Error Interno: No se pudo leer el archivo',
         'Tables found which are not present in the database.' => 'Tablas encontradas que no se encuentran presentes en la base de datos',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Tamaño de la Base De Datos',
         'Could not determine database size.' => 'No se pudo determinar el tamaño de la base de datos',
@@ -5893,6 +5899,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x o mayor es requerida.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Ajuste NLS_LANG',
@@ -6833,8 +6840,6 @@ Tu Equipo de Soporte
         ' 2 minutes' => ' 2 minutos',
         ' 5 minutes' => ' 5 minutos',
         ' 7 minutes' => ' 7 minutos',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            'La apariencia "Slim" intenta ahorrar espacio en la pantalla para usuarios avanzados.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(LoginUsuario) Nombre Apellidos',
         '(UserLogin) Lastname Firstname' => '(LoginUsuario) Apellidos Nombre ',
@@ -7101,8 +7106,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automáticamente establece al responsable de un ticket (si no está establecido aún) después de la primera actualización de propietario.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Apariencia blanca equilibrada por Felix Niklas (versión slim).',
-        'Balanced white skin by Felix Niklas.' => 'Apariencia blanca equilibrada por Felix Niklas.',
         'Based on global RichText setting' => 'Basada en ajustes de RichText global',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7347,7 +7350,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Dashboard overview.' => 'Visión general del panel principal.',
         'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la búsqueda en formato CSV. ',
         'Date / Time' => 'Fecha / Hora',
-        'Default (Slim)' => 'Predeterminado (Slim)',
         'Default ACL values for ticket actions.' => 'Valores ACL por defecto para las acciones de tickets.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefijos entidad GestiónProceso por defecto para las IDs entidades que son generadas automaticamnete.',
@@ -7362,7 +7364,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Tipo de pantalla por defecto para nombres del remitente (De) en AgenteTicketZoom y ClienteTicketZoom.',
         'Default loop protection module.' => 'Módulo protección bucle por defecto.',
         'Default queue ID used by the system in the agent interface.' => 'ID cola por defecto usada por el sistema en la interfaz de agente.',
-        'Default skin for the agent interface (slim version).' => 'Apariencia por defecto para la interfaz de agente (versión slim).',
         'Default skin for the agent interface.' => 'Apariencia por defecto para la interfaz de agente.',
         'Default skin for the customer interface.' => 'Apariencia por defecto para la interfaz de cliente.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8691,8 +8692,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en italiano para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
-        'Ivory' => 'Marfil',
-        'Ivory (Slim)' => 'Marfil (Slim)',
         'Japanese' => 'Japonés',
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
@@ -8793,6 +8792,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Manage different calendars.' => 'Gestionar diferentes calendarios.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Gestionar sesiones existentes.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Gestionar datos de soporte.',
         'Manage system registration.' => 'Gestionar registro del sistema.',
         'Manage tasks triggered by event or time based execution.' => 'Gestionar tareas activadas por eventos o ejecuciones temporales.',

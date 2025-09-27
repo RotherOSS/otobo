@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.844351589315028;
+    $Self->{Completeness}        = 0.843558740110464;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4420,6 +4420,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'معلومات إدارة العملية من قاعدة البيانات غير متزامنة مع تكوين النظام، الرجاء مزامنة كافة العمليات.',
         'Need ExampleProcesses!' => 'الحاجة إلى عمليات نموذجية!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'حدث خطأ أثناء إعداد حالة المزامنة لإدخال العملية ٪s',
         'Need ProcessID!' => 'يلزم معرف العملية!',
         'Yes (mandatory)' => 'نعم (إلزامي)',
         'Unknown Process %s!' => 'عملية غير معروفة ٪s!',
@@ -4427,8 +4429,6 @@ sub Data {
             'حدث خطأ أثناء إنشاء EntityID جديد لهذه العملية',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID للحالة غير نشط غير موجود',
         'There was an error creating the Process' => 'حدث خطأ أثناء إنشاء العملية',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'حدث خطأ أثناء إعداد حالة المزامنة لإدخال العملية ٪s',
         'Could not get data for ProcessID %s' => 'تعذر تعريف البيانات لمعرف العملية ٪s',
         'There was an error updating the Process' => 'حدث خطأ أثناء تحديث العملية',
         'Process: %s could not be deleted' => 'تعذر حذف العملية: ٪s',
@@ -4787,6 +4787,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'لا يوجد ArticleID!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5845,6 +5846,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'خطأ داخلي: تعذر قراءة الملف.',
         'Tables found which are not present in the database.' => 'توجد جداول مفقودة من قاعدة البيانات.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'حجم قاعدة البيانات',
         'Could not determine database size.' => 'تعذر تحديد حجم قاعدة البيانات.',
@@ -5889,6 +5895,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'مطلوب MySQL 5.x أو أعلى.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'إعداد NLS_LANG',
@@ -6832,8 +6839,6 @@ Thanks for your help!
         ' 2 minutes' => ' دقيقتان',
         ' 5 minutes' => ' 5 دقائق',
         ' 7 minutes' => ' 7 دقائق',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            'Slim"-Skin", مما يتطلب مساحة أقل على الشاشة لعرض المعلومات.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(تسجيل دخول المستخدم) الاسم الأول اسم العائلة',
         '(UserLogin) Lastname Firstname' => '(تسجيل دخول المستخدم) اسم العائلة الاسم الأول',
@@ -7094,8 +7099,6 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'تعيين مدير التذاكر تلقائيا (إذا لم يتم تعيينه بعد) بعد تحديث المالك الأول.',
         'Avatar' => 'الصورة الرمزية (Avatar)',
-        'Balanced white skin by Felix Niklas (slim version).' => 'متوازن White-Skin von Felix Niklas (slim version).',
-        'Balanced white skin by Felix Niklas.' => 'Balanced white skin by Felix Niklas.',
         'Based on global RichText setting' => 'استنادا إلى إعداد النص المنسق العام',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'إعدادات فهرس النص الكامل الأساسية. نفذ "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" لإنشاء فهرس جديد.',
@@ -7340,7 +7343,6 @@ Thanks for your help!
         'Dashboard overview.' => 'نظرة عامة على لوحة المعلومات.',
         'Data used to export the search result in CSV format.' => 'البيانات المستخدمة لتصدير نتيجة البحث بتنسيق CSV.',
         'Date / Time' => 'التاريخ / الوقت',
-        'Default (Slim)' => 'افتراضي (نحيف)',
         'Default ACL values for ticket actions.' => 'قيم ACL الافتراضية لإجراءات التذكرة.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'بادئات الكيان الافتراضية لإدارة العملية لمعرفات الكيانات التي يتم إنشاؤها تلقائيا.',
@@ -7355,7 +7357,6 @@ Thanks for your help!
             'نوع العرض الافتراضي لأسماء المرسل (من (From)) في AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'وحدة "Loop Protection" الافتراضية.',
         'Default queue ID used by the system in the agent interface.' => 'معرف قائمة الانتظار الافتراضي المستخدم من قبل OTOBO في واجهة الوكيل.',
-        'Default skin for the agent interface (slim version).' => 'واجهة الوكيل الافتراضية (الإصدار النحيف).',
         'Default skin for the agent interface.' => 'الجلد (skin) القياسي لواجهة الوكيل.',
         'Default skin for the customer interface.' => 'الجلد (skin) القياسي لواجهة العميل.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8684,8 +8685,6 @@ Thanks for your help!
         'Italian' => 'الإيطالية',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'كلمات الإيقاف الإيطالية لفهرس النص الكامل. يتم إزالة هذه الكلمات من فهرس البحث.',
-        'Ivory' => 'عَاج',
-        'Ivory (Slim)' => 'العاج (قليل السمك)',
         'Japanese' => 'اليابانية',
         'JavaScript function for the search frontend.' => 'وظيفة JavaScript لواجهة البحث.',
         'Jump to OTOBO!' => 'رابط إلى OTOBO!',
@@ -8786,6 +8785,7 @@ Thanks for your help!
         'Manage different calendars.' => 'إدارة التقويمات المختلفة.',
         'Manage dynamic field in screens.' => 'إدارة الحقول الديناميكية في الواجهات.',
         'Manage existing sessions.' => 'إدارة الجلسات.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'إدارة بيانات الدعم.',
         'Manage system registration.' => 'إدارة سجل النظام.',
         'Manage tasks triggered by event or time based execution.' => 'إدارة المهام القائمة على الحدث أو الوقت.',

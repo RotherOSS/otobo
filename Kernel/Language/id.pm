@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.579018057006417;
+    $Self->{Completeness}        = 0.578145991939095;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4420,6 +4420,8 @@ bin/otobo.Daemon.pl status\').',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Informasi manajemen proses dari database tidak sinkron dengan konfigurasi sistem, Silahkan untuk mengsinkronisasikan semua proses.',
         'Need ExampleProcesses!' => 'Perlu contoh proses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Terjadi kesalahan pengaturan status badan sinkronisasi untuk Proses entitas: %s',
         'Need ProcessID!' => 'Perlu Proses ID!',
         'Yes (mandatory)' => 'Ya (wajib)',
         'Unknown Process %s!' => 'Proses tidak diketahui %s!',
@@ -4427,8 +4429,6 @@ bin/otobo.Daemon.pl status\').',
             'Terjadi kesalahan menghasilkan ID Entitas baru untuk Proses ini',
         'The StateEntityID for state Inactive does not exists' => 'State ID Entitas bagi negara aktif tidak ada',
         'There was an error creating the Process' => 'Ada kesalahan saat membuat Proses',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Terjadi kesalahan pengaturan status badan sinkronisasi untuk Proses entitas: %s',
         'Could not get data for ProcessID %s' => 'Tidak dapat data untuk proses ID: %s',
         'There was an error updating the Process' => 'Terjadi kesalahan memperbarui Proses',
         'Process: %s could not be deleted' => 'Proses: %s tidak bisa dihapus',
@@ -4787,6 +4787,7 @@ bin/otobo.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5845,6 +5846,11 @@ bin/otobo.Daemon.pl status\').',
         'Internal Error: Could not read file.' => 'Kesalahan Internal: Tidak dapat membaca file',
         'Tables found which are not present in the database.' => 'Terdapat beberapa didalam database',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Ukuran database',
         'Could not determine database size.' => 'Tidak dapat menentukan ukuran basis data.',
@@ -5889,6 +5895,7 @@ bin/otobo.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x atau yang lebih tinggi diperlukan.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG Pengaturan',
@@ -6829,8 +6836,6 @@ Helpdesk Team Anda
         ' 2 minutes' => '2 menit',
         ' 5 minutes' => '5 menit',
         ' 7 minutes' => '7 menit',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Slim" kulit yang mencoba untuk menghemat ruang layar untuk tenaga pengguna',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Pengguna Masuk) Nama depan Nama akhir',
         '(UserLogin) Lastname Firstname' => '(Pengguna masuk) Nama akhir Nama depan',
@@ -7091,8 +7096,6 @@ Helpdesk Team Anda
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Secara otomatis set yang bertanggung jawab dari tiket (jika tidak diatur belum) setelah update pemilik pertama.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'kulit putih yang seimbang oleh Felix Niklas (versi slim).',
-        'Balanced white skin by Felix Niklas.' => 'kulit putih yang seimbang oleh Felix Niklas ',
         'Based on global RichText setting' => 'Berdasarkan pengaturan global Rich Text ',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
@@ -7337,7 +7340,6 @@ Helpdesk Team Anda
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'Data yang digunakan untuk mengekspor hasil pencarian dalam format CSV.',
         'Date / Time' => 'Tanggal / Waktu',
-        'Default (Slim)' => 'Default (Slim)',
         'Default ACL values for ticket actions.' => 'Nilai default ACL untuk tindakan tiket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Proses Manajemen awalan entitas default untuk ID entitas yang secara otomatis dihasilkan.',
@@ -7352,7 +7354,6 @@ Helpdesk Team Anda
             'display Jenis default untuk jenis kelamin (Dari) nama di Agen Tiket Zoom dan TicketZoom Pelanggan.',
         'Default loop protection module.' => 'Default lingkaran modul ',
         'Default queue ID used by the system in the agent interface.' => 'ID antrian default yang digunakan oleh sistem dalam antarmuka agen.',
-        'Default skin for the agent interface (slim version).' => 'kulit default untuk antarmuka agen (versi slim).',
         'Default skin for the agent interface.' => 'kulit default untuk antarmuka agen.',
         'Default skin for the customer interface.' => 'Default skin untuk antarmuka pelanggan',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -8682,8 +8683,6 @@ Helpdesk Team Anda
         'Italian' => 'Italia',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'kata berhenti Italia untuk indeks fulltext. Kata-kata ini akan dihapus dari indeks pencarian.',
-        'Ivory' => 'Gading',
-        'Ivory (Slim)' => 'Ivory (slim)',
         'Japanese' => 'Jepang',
         'JavaScript function for the search frontend.' => 'Fungsi JavaScript untuk pencarian frontend ',
         'Jump to OTOBO!' => '',
@@ -8784,6 +8783,7 @@ Helpdesk Team Anda
         'Manage different calendars.' => '',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Mengelola sesi yang ada.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Mengelola data dukungan.',
         'Manage system registration.' => 'Mengelola sistem pendaftaran.',
         'Manage tasks triggered by event or time based execution.' => 'Mengelola tugas dipicu oleh peristiwa atau waktu eksekusi berdasarkan.',
