@@ -1342,10 +1342,10 @@ DISTRIBUTIONS
       Text::ParseWords 3.24
       strict 0
       warnings 0
-  ExtUtils-InstallPaths-0.014
-    pathname: L/LE/LEONT/ExtUtils-InstallPaths-0.014.tar.gz
+  ExtUtils-InstallPaths-0.015
+    pathname: L/LE/LEONT/ExtUtils-InstallPaths-0.015.tar.gz
     provides:
-      ExtUtils::InstallPaths 0.014
+      ExtUtils::InstallPaths 0.015
     requirements:
       Carp 0
       ExtUtils::Config 0.009
@@ -3724,6 +3724,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -3731,6 +3732,7 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
@@ -3738,6 +3740,7 @@ DISTRIBUTIONS
       JSON 0
       LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
