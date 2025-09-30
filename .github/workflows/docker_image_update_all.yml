@@ -137,7 +137,7 @@ jobs:
             base_image: 'perl:5.32-buster'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-10_0_24'
+            docker_tag: 'rel-10_0_26'
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
