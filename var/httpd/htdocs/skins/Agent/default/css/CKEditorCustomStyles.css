@@ -15,6 +15,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 :root {
     --ck-border-radius: 5px;
+    --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --ck-font-size-base: 11.5px;
     --ck-color-text: #00023c;
     --ck-color-text: var(--colTextDark);

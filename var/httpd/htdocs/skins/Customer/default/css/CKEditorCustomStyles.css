@@ -16,6 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 :root {
     --ck-border-radius: 10px;
     --ck-font-size-base: 14px;
+    --ck-content-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --ck-color-toolbar-background: #f7f7f9;
     --ck-color-toolbar-background: var(--colBGLight);
     --ck-color-text: #00023c;
