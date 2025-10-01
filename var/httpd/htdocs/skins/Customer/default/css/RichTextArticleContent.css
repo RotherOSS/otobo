@@ -13,8 +13,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-.ck-content,
-.ck-content * {
+.ck-content {
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -22,9 +21,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     color: #00023c;
 }
 
-.ck-content.CustomerUI,
-.ck-content.CustomerUI * {
+.ck-content * {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+.ck-content.CustomerUI {
     font-family: "Quicksand";
+}
+
+.ck-content.CustomerUI * {
+    font-family: inherit;
 }
 
 .ck-content figure.table {
