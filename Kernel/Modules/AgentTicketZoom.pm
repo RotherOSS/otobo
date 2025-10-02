@@ -948,7 +948,6 @@ sub MaskAgentZoom {
     # 1) if the $Page > 1, we need pagination
     # 2) if not, request $Limit + 1 articles. If $Limit + 1 are actually
     #    returned, pagination is necessary
-    my $Extra = $Page > 1 ? 0 : 1;
     my $NeedPagination;
 
     my @ArticleBox = $Self->_ArticleBoxGet(
@@ -2321,11 +2320,10 @@ sub MaskAgentZoom {
 sub _ArticleTree {
     my ( $Self, %Param ) = @_;
 
-    my %Ticket          = %{ $Param{Ticket} };
-    my %ArticleFlags    = %{ $Param{ArticleFlags} };
-    my @ArticleBox      = @{ $Param{ArticleBox} };
-    my $ArticleMaxLimit = $Param{ArticleMaxLimit};
-    my $ArticleID       = $Param{ArticleID};
+    my %Ticket       = %{ $Param{Ticket} };
+    my %ArticleFlags = %{ $Param{ArticleFlags} };
+    my @ArticleBox   = @{ $Param{ArticleBox} };
+    my $ArticleID    = $Param{ArticleID};
     my $TableClasses;
 
     # get layout object
@@ -2809,12 +2807,6 @@ sub _ArticleTree {
             ChatExternal
         );
 
-        my @TypesLeft = (
-            @TypesOutgoing,
-            @TypesInternal,
-            @TypesTicketAutoAction,
-        );
-
         my @TypesRight = (
             @TypesIncoming,
             @TypesTicketAction,
@@ -3243,13 +3235,10 @@ sub _ArticleItemSeen {
 sub _ArticleItem {
     my ( $Self, %Param ) = @_;
 
-    my %Ticket    = %{ $Param{Ticket} };
-    my %Article   = %{ $Param{Article} };
-    my %AclAction = %{ $Param{AclAction} };
+    my %Ticket  = %{ $Param{Ticket} };
+    my %Article = %{ $Param{Article} };
 
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # show article actions
     my @MenuItems = $LayoutObject->ArticleActions(
