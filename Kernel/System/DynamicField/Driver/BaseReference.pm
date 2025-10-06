@@ -1203,8 +1203,14 @@ sub GetFieldState {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    return () if !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} );
-    return () if none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@*;
+    # in general, there is nothing to do if the field does not have reference filters configured
+    #   an exception is if the field is target of a lens field; in this case we need the data from here
+    return () if ( !$Param{Lens} && !IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) );
+    return ()
+        if (
+            !$Param{Lens}
+            && ( none { $Param{ChangedElements}->{ $_->{EqualsObjectAttribute} // '' } } $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* )
+        );
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
