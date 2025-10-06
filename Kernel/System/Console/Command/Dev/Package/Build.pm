@@ -134,9 +134,9 @@ sub Run {
     my $File = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location   => $Location,
         Content    => \$Content,
-        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '644',                                                      # unix file permissions
+        Mode       => 'utf8',      # binmode|utf8
+        Type       => 'Local',     # optional - Local|Attachment|MD5
+        Permission => '644',       # unix file permissions
     );
     if ( !$File ) {
         $Self->PrintError("File $Location could not be written.\n");

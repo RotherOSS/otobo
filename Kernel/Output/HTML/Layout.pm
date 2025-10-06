@@ -3946,7 +3946,7 @@ sub BuildDateSelection {
     );
 
     # Add Datepicker JS to output if we are not rendering a multivalue template.
-    if ( $Prefix !~ /^DynamicField_/ || ($Suffix ne '_Template' && $Prefix !~ /_Template$/)) {
+    if ( $Prefix !~ /^DynamicField_/ || ( $Suffix ne '_Template' && $Prefix !~ /_Template$/ ) ) {
         my $DatepickerJS = '
         Core.UI.Datepicker.Init({
             Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .       ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
