@@ -150,7 +150,7 @@ sub ValueSet {
 
             $LensDFConfig->{SetIndex} = $SetIndex;
 
-            # with param SetIndex, a single obect id is returned
+            # with param SetIndex, a single object id is returned
             # as we are already saving we trust, that the reference edit field has been validated
             my $ReferencedObjectID = $Self->_GetReferencedObjectID(
                 ObjectID               => $Param{ObjectID},
@@ -678,6 +678,12 @@ sub GetFieldState {
     }
     else {
         $AttributeFieldValue = '';
+    }
+
+    # in autocomplete case, the value is needed as array ref with empty string
+    #   if an autocomplete lens df is changed from having a value to empty
+    if ( $AttributeFieldValue eq '' ) {
+        $AttributeFieldValue = [''];
     }
 
     # set the new value if it differs
