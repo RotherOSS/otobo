@@ -494,6 +494,11 @@ Core.AJAX = (function (TargetNS) {
 
                     QueryString += Core.AJAX.SerializeForm($Element.closest('form'), {'Action': 1, 'Subaction': 1, 'Term': 1, 'Field': 1, 'MaxResults': 1});
                     TargetNS.FunctionCall(URL, QueryString, function (Result) {
+                        let MatchingResult = Result.find( Res => Res.Key === DataValue[0][0] );
+                        if ( typeof MatchingResult === 'object' && MatchingResult.Key ) {
+                            $Element.val(MatchingResult.Key);
+                            $ReferenceElement.val(MatchingResult.Value);
+                        }
                     });
                 }
                 return;
