@@ -898,7 +898,7 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    # Selections may be set up in a declaritive way
+    # Selections may be set up in a declarative way
     my $FieldType = $Param{FieldType};
     if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
         for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
@@ -1000,7 +1000,7 @@ sub _ShowScreen {
     # get the field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
-    # only if the dymamic field exists and should be edited,
+    # only if the dynamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 
