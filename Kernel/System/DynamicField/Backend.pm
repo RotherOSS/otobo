@@ -2055,7 +2055,7 @@ sub RandomValueSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
+    for my $Needed (qw(DynamicFieldConfig UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2066,6 +2066,21 @@ sub RandomValueSet {
         }
     }
 
+    # Either ObjectID or ObjectName has to be given
+    if (
+        ( !$Param{ObjectID} && !$Param{ObjectName} )
+        ||
+        ( $Param{ObjectID} && $Param{ObjectName} )
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Either ObjectID or ObjectName hast to be given!"
+        );
+
+        return;
+    }
+
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2074,6 +2089,35 @@ sub RandomValueSet {
         );
 
         return;
+    }
+
+    # If ObjectName has been given, fetch/create an ID for it
+    if ( $Param{ObjectName} ) {
+        my $ObjectIDs = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingGet(
+            ObjectName => $Param{ObjectName},
+            ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+        );
+
+        if ( IsHashRefWithData($ObjectIDs) && $ObjectIDs->{ $Param{ObjectName} } ) {
+            $Param{ObjectID} = $ObjectIDs->{ $Param{ObjectName} };
+        }
+        else {
+            my $ObjectID = $Kernel::OM->Get('Kernel::System::DynamicField')->ObjectMappingCreate(
+                ObjectName => $Param{ObjectName},
+                ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+            );
+
+            if ( !$ObjectID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
+                );
+
+                return;
+            }
+
+            $Param{ObjectID} = $ObjectID;
+        }
     }
 
     # check DynamicFieldConfig (internally)
