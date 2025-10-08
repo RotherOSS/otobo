@@ -465,7 +465,7 @@ sub EditFieldValueValidate {
 
     my $ServerError;
     my $ErrorMessage;
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
 
     if ( $Value->@* ) {
 
@@ -517,11 +517,11 @@ sub EditFieldValueValidate {
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
-            if ( $Param{Mandatory} && $Allowed ) {
+            if ($Allowed) {
 
-                $MandatoryValueItemsPresent++;
+                $ValueItemsPresent++;
             }
-            elsif ( $ValueItem && !$Allowed ) {
+            elsif ($ValueItem) {
                 return {
                     ServerError  => 1,
                     ErrorMessage => 'Value invalid!',
@@ -536,7 +536,7 @@ sub EditFieldValueValidate {
         };
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';

@@ -264,41 +264,38 @@ sub EditFieldValueValidate {
         $Value = [$Value];
     }
 
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
+    VALUEITEM:
     for my $ValueItem ( @{$Value} ) {
 
         # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem ne '' ) {
+        if ( $ValueItem ne '' ) {
+            $ValueItemsPresent++;
 
-            $MandatoryValueItemsPresent++;
-        }
-        elsif ( length $ValueItem > $Self->{MaxLength} ) {
-            $ServerError  = 1;
-            $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
-        }
-        elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
-            )
-        {
+            if ( length $ValueItem > $Self->{MaxLength} ) {
+                $ServerError  = 1;
+                $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+                last VALUEITEM;
+            }
 
-            # check regular expressions
-            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+            if ( IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} ) ) {
 
-            REGEXENTRY:
-            for my $RegEx (@RegExList) {
+                # check regular expressions
+                my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
 
-                if ( $ValueItem !~ $RegEx->{Value} ) {
-                    $ServerError  = 1;
-                    $ErrorMessage = $RegEx->{ErrorMessage};
+                for my $RegEx (@RegExList) {
 
-                    last REGEXENTRY;
+                    if ( $ValueItem !~ $RegEx->{Value} ) {
+                        $ServerError  = 1;
+                        $ErrorMessage = $RegEx->{ErrorMessage};
+                        last VALUEITEM;
+                    }
                 }
             }
         }
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
