@@ -22,7 +22,7 @@ RUN apt-get update\
         gcc \
         libc-dev \
         make \
-        libpcre3-dev \
+        libpcre2-dev \
         zlib1g-dev \
         libkrb5-dev \
         wget

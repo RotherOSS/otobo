@@ -157,7 +157,7 @@ sub Auth {
     # check the state
     my $RandLength = $OpenIDConfig->{Misc}{RandLength} // $Self->{DefaultRandLength};
     my $StateCSRF  = substr $GetParam{State}, 0, $RandLength;
-    my $CookieCSRF = $ParamObject->GetCookie( Key => 'OIDCCSRF-'.$StateCSRF );
+    my $CookieCSRF = $ParamObject->GetCookie( Key => 'OIDCCSRF-' . $StateCSRF );
     my %StateCache = (
         Type => 'OpenIDConnect_State',
         Key  => $StateCSRF,
@@ -288,7 +288,7 @@ sub PreAuth {
 
     # store the RandomString as a CSRF cookie
     $LayoutObject->SetCookie(
-        Key     => 'OIDCCSRF-'.$RandomString,
+        Key     => 'OIDCCSRF-' . $RandomString,
         Value   => $RandomString,
         Expires => '+' . $TTL . 's',
     );

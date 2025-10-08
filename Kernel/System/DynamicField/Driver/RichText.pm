@@ -78,7 +78,7 @@ sub new {
 
     # set Text specific field behaviors unless an extension already set it
     $Self->{Behaviors}->{IsSortable}    //= 0;
-    $Self->{Behaviors}->{IsHTMLContent} //= 0;
+    $Self->{Behaviors}->{IsHTMLContent} //= 1;
 
     return $Self;
 }
