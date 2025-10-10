@@ -470,6 +470,14 @@ sub ArticleEdit {
         AllUsers  => 1
     );
 
+    # ticket flag
+    $TicketObject->TicketFlagDelete(
+        TicketID => $Param{TicketID},
+        Key      => 'Seen',
+        Value    => 1,
+        AllUsers => 1,
+    );
+
     $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
     );
