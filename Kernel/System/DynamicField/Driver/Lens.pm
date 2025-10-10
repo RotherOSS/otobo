@@ -137,7 +137,9 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig = $Param{DynamicFieldConfig};
+    # if not explicitly deactivated we assume being on an edit mask
+    my $EditFieldValue = $Param{EditFieldValue} // 1;
+    my $LensDFConfig   = $Param{DynamicFieldConfig};
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
@@ -155,7 +157,7 @@ sub ValueSet {
             my $ReferencedObjectID = $Self->_GetReferencedObjectID(
                 ObjectID               => $Param{ObjectID},
                 LensDynamicFieldConfig => $LensDFConfig,
-                EditFieldValue         => $Param{EditFieldValue} // 1,
+                EditFieldValue         => $EditFieldValue,
             );
 
             next INDEX unless $ReferencedObjectID;
@@ -177,7 +179,7 @@ sub ValueSet {
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
-        EditFieldValue         => $Param{EditFieldValue} // 1,
+        EditFieldValue         => $EditFieldValue,
     );
 
     return unless $ReferencedObjectID;
