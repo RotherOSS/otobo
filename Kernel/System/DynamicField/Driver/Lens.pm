@@ -111,6 +111,13 @@ sub ValueGet {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    # Get the dynamic field config for the referenced object
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $ObjectIDOrName = $ReferenceDFConfig->{FieldType} =~ /^Customer/ ? 'ObjectName' : 'ObjectID';
+
     # in set case, values need to be collected one by one
     if ( $Param{Set} ) {
         my @Values;
@@ -121,7 +128,7 @@ sub ValueGet {
             else {
                 push @Values, $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
                     DynamicFieldConfig => $AttributeDFConfig,
-                    ObjectID           => $RefID,
+                    $ObjectIDOrName    => $RefID,
                 );
             }
         }
@@ -130,7 +137,7 @@ sub ValueGet {
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        $ObjectIDOrName    => $ReferencedObjectID,
     );
 }
 
@@ -144,6 +151,13 @@ sub ValueSet {
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
+
+    # Get the dynamic field config for the referenced object
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $ObjectIDOrName = $ReferenceDFConfig->{FieldType} =~ /^Customer/ ? 'ObjectName' : 'ObjectID';
 
     # in set case, we iterate over the values and set them one by one
     if ( $Param{Set} ) {
@@ -160,6 +174,11 @@ sub ValueSet {
                 EditFieldValue         => $EditFieldValue,
             );
 
+            # clean up object id in case that ObjectName is passed to not collide
+            if ( $ObjectIDOrName eq 'ObjectName' ) {
+                delete $Param{ObjectID};
+            }
+
             next INDEX unless $ReferencedObjectID;
 
             $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
@@ -169,7 +188,7 @@ sub ValueSet {
                 EditFieldValue     => 0,
                 Set                => 0,
                 DynamicFieldConfig => $AttributeDFConfig,
-                ObjectID           => $ReferencedObjectID,
+                $ObjectIDOrName    => $ReferencedObjectID,
             );
         }
         return 1;
@@ -184,12 +203,17 @@ sub ValueSet {
 
     return unless $ReferencedObjectID;
 
+    # clean up object id in case that ObjectName is passed to not collide
+    if ( $ObjectIDOrName eq 'ObjectName' ) {
+        delete $Param{ObjectID};
+    }
+
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         ConfigItemHandled  => 0,
         EditFieldValue     => 0,
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        $ObjectIDOrName    => $ReferencedObjectID,
     );
 }
 
