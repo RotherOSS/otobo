@@ -72,14 +72,26 @@ sub ValueSet {
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
-        my $Value     = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->[0] : $Param{Value};
+        my @Values    = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->@*
+            : $Param{Value} ? ( $Param{Value} ) : ();
 
-        $Self->_CreateAutoLinkObjectLink(
-            UserID       => $Param{UserID},
-            ObjectID     => $Param{ObjectID},
-            DynamicField => $DynamicFieldConfig,
-            Value        => $Value,
-        );
+        if ( $Param{Set} ) {
+
+            # in sets we expect either array references or undef for the single set indices
+            # from [ [Val11, Val12], undef, [Val31] ]
+            # via  ( [Val11, Val12], undef, [Val31] )
+            # to   ( Val11, Val12, Val31 )
+            @Values = map { $_ ? $_->@* : () } @Values;
+        }
+
+        for my $Value ( @Values ) {
+            $Self->_CreateAutoLinkObjectLink(
+                UserID       => $Param{UserID},
+                ObjectID     => $Param{ObjectID},
+                DynamicField => $DynamicFieldConfig,
+                Value        => $Value,
+            );
+        }
     }
 
     return $Result;
