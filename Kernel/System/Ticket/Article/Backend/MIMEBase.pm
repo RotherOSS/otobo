@@ -460,25 +460,21 @@ sub ArticleEdit {
             Key       => 'Seen',
             AllUsers  => 1
         );
+
+        # just delete the ticket Seen flag
+        #   the event module TicketNewMessageUpdate sets it again if all articles are seen
+        $TicketObject->TicketFlagDelete(
+            TicketID => $Param{TicketID},
+            Key      => 'Seen',
+            AllUsers => 1,
+        );
+
         $ArticleObject->ArticleFlagSet(
             TicketID  => $Param{TicketID},
             ArticleID => $ArticleID,
             Key       => 'Seen',
             Value     => 1,
             UserID    => $Param{UserID},
-        );
-
-        # same for ticket Seen flag
-        $TicketObject->TicketFlagDelete(
-            TicketID => $Param{TicketID},
-            Key      => 'Seen',
-            AllUsers => 1,
-        );
-        $TicketObject->TicketFlagSet(
-            TicketID => $Param{TicketID},
-            Key      => 'Seen',
-            Value    => 1,
-            UserID   => $Param{UserID},
         );
     }
 
