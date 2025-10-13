@@ -214,6 +214,7 @@ sub Run {
             ObjectID           => $TicketID,
             Value              => $Param{Config}->{$CurrentDynamicField},
             UserID             => $Param{UserID},
+            EditFieldValue     => 0,
         );
 
         # check if everything went right

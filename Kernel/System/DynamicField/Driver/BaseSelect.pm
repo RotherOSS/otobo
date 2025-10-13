@@ -508,15 +508,15 @@ sub EditFieldValueValidate {
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
-        # perform necessary validations
-        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+        $ValueItem //= '';
 
-            $MandatoryValueItemsPresent++;
-        }
-        else {
+        # perform necessary validations
+        if ( $ValueItem ne '' ) {
+            $ValueItemsPresent++;
+
             # validate if value is in possible values list (but let pass empty values)
             if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
                 $ServerError  = 1;
@@ -525,7 +525,7 @@ sub EditFieldValueValidate {
         }
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
