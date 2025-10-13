@@ -463,20 +463,36 @@ sub ArticleEdit {
         }
     }
 
-    $ArticleObject->ArticleFlagDelete(
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleID,
-        Key       => 'Seen',
-        AllUsers  => 1
-    );
+    # handle seen flag for ticket and article
+    {
+        # remove Seen flag for all agents and set it again afterwards for editing agent
+        $ArticleObject->ArticleFlagDelete(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            AllUsers  => 1
+        );
+        $ArticleObject->ArticleFlagSet(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Param{UserID},
+        );
 
-    # ticket flag
-    $TicketObject->TicketFlagDelete(
-        TicketID => $Param{TicketID},
-        Key      => 'Seen',
-        Value    => 1,
-        AllUsers => 1,
-    );
+        # same for ticket Seen flag
+        $TicketObject->TicketFlagDelete(
+            TicketID => $Param{TicketID},
+            Key      => 'Seen',
+            AllUsers => 1,
+        );
+        $TicketObject->TicketFlagSet(
+            TicketID => $Param{TicketID},
+            Key      => 'Seen',
+            Value    => 1,
+            UserID   => $Param{UserID},
+        );
+    }
 
     $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
