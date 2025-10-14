@@ -17,9 +17,7 @@ ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
-        gcc \
-        libc-dev \
-        make \
+        build-essential \
         libpcre2-dev \
         zlib1g-dev \
         libkrb5-dev \
