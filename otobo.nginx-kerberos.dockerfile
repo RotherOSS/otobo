@@ -10,7 +10,7 @@
 # builder used to create a dynamic spnego auth module
 # https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
 
-FROM nginx:mainline AS builder
+FROM nginx:mainline-trixie AS builder
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
 ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
@@ -46,7 +46,7 @@ RUN cd /usr/src && \
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline AS otobo-nginx-kerberos-webproxy
+FROM nginx:mainline-trixie AS otobo-nginx-kerberos-webproxy
 
 # Copy the nginx module ngx_http_auth_spnego_module.so to the official nginx container
 COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
