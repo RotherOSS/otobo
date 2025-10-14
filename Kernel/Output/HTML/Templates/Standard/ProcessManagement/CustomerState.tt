@@ -15,28 +15,30 @@
 # --
 [% RenderBlockStart("rw:State") %]
 <div class="Row">
-    <div class="Field">
-        [% Data.Content %]
-    </div>
-[% RenderBlockStart("rw:State:DescriptionLong") %]
-    <div class="Tooltip oooTooltip">
-        <i class="ooofo ooofo-help"></i>
-        <div class="Content">
-            <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+    <div class="FieldCell">
+        <div class="Field">
+            [% Data.Content %]
         </div>
-    </div>
+[% RenderBlockStart("rw:State:DescriptionLong") %]
+        <div class="Tooltip oooTooltip">
+            <i class="ooofo ooofo-help"></i>
+            <div class="Content">
+                <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+            </div>
+        </div>
 [% RenderBlockEnd("rw:State:DescriptionLong") %]
-    <label for="[% Data.FieldID | html %][% Data.IDSuffix | html %]" class="[% Data.MandatoryClass | html %]">
+        <label for="[% Data.FieldID | html %][% Data.IDSuffix | html %]" class="[% Data.MandatoryClass | html %]">
 [% RenderBlockStart("LabelSpan") %]
-        <span class="Marker">*</span>
+            <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
         [% Data.Label | html %]
-    </label>
+        </label>
 [% RenderBlockStart("rw:State:DescriptionShort") %]
-    <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
+        <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
 [% RenderBlockEnd("rw:State:DescriptionShort") %]
-    <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div class="Clear"></div>
+        <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        <div class="Clear"></div>
+    </div>
 </div>
 [% RenderBlockEnd("rw:State") %]
