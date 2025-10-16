@@ -21,8 +21,6 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
 use MIME::Base64;
 
 use Test2::V0;
@@ -33,6 +31,8 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet;
 
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
