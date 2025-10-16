@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
+
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Kernel::OM and the test driver $Self
 
 our $Self;
 
@@ -605,6 +610,8 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         DeploymentID => $DeploymentID,
         Mode         => 'SmallerThanEquals',
     );
+    diag "Debug - ModuleName - ModifiedVersions = " . explain( \%ModifiedVersionList );
+
     @ModifiedVersions = sort keys %ModifiedVersionList;
 
     # Be sure we have an ordered list.

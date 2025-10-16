@@ -23,10 +23,10 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-
-use Kernel::System::UnitTest::MockTime qw(:all);
+use Test2::Tools::Explain;
 
 # OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
@@ -553,6 +553,7 @@ for my $Test (@Test) {
             Direction => $Test->{Create}->{Direction},
             Status    => $Test->{Stop}->{Status},
         );
+        diag explain( $Test, $CommunicationListAfterStop );
 
         $Existing = IsArrayRefWithData($CommunicationListAfterStop);
 
