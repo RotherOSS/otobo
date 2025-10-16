@@ -1224,6 +1224,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test2::Tools::Explain',
+        Features  => ['devel:test'],
+        Comment   => 'bring explain() back to test scripts',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Unicode::GCString',
         Features  => ['devel:test'],
         Comment   => 'support for formatting test results',

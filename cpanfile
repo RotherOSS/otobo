@@ -208,6 +208,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
+
     # support for formatting test results
     requires 'Unicode::GCString';
 
@@ -426,6 +429,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';
