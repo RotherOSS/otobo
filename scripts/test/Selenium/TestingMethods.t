@@ -19,7 +19,6 @@ use v5.24;
 use utf8;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use Test2::V0;
