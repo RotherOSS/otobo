@@ -125,6 +125,9 @@ requires 'Unicode::Collate';
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
+
 # };
 
 # feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
