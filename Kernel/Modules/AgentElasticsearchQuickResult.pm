@@ -69,7 +69,7 @@ sub Run {
         # check module permissions to determine whether results can be shown
         my %Permission;
         MODULE:
-        for my $Module (qw/AgentTicketZoom AdminCustomerCompany AdminCustomerUser AgentITSMConfigItemZoom/) {
+        for my $Module (qw/AgentTicketZoom AgentCustomerInformationCenter AgentCustomerUserInformationCenter AgentITSMConfigItemZoom/) {
             my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{$Module};
 
             # module is not configured
@@ -78,38 +78,64 @@ sub Run {
                 next MODULE;
             }
 
-            # no restrictions
-            if ( ref $ModuleReg->{GroupRo} eq 'ARRAY' && !scalar @{ $ModuleReg->{GroupRo} } ) {
+            # module permission check
+            if (
+                ref $ModuleReg->{GroupRo} eq 'ARRAY'
+                && !scalar @{ $ModuleReg->{GroupRo} }
+                && ref $ModuleReg->{Group} eq 'ARRAY'
+                && !scalar @{ $ModuleReg->{Group} }
+                )
+            {
                 $Permission{$Module} = 1;
-                next MODULE;
-            }
-
-            next MODULE if !$ModuleReg->{GroupRo};
-
-            if ( ref $ModuleReg->{GroupRo} eq 'ARRAY' ) {
-                INNER:
-                for my $GroupName ( @{ $ModuleReg->{GroupRo} } ) {
-                    next INNER if !$GroupName;
-                    next INNER if !$GroupObject->PermissionCheck(
-                        UserID    => $Self->{UserID},
-                        GroupName => $GroupName,
-                        Type      => 'ro',
-                    );
-
-                    $Permission{$Module} = 1;
-                    next MODULE;
-                }
             }
             else {
-                my $HasPermission = $GroupObject->PermissionCheck(
-                    UserID    => $Self->{UserID},
-                    GroupName => $ModuleReg->{GroupRo},
-                    Type      => 'ro',
+                my $AccessRo;
+                my $AccessRw;
+                my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
-                );
-                if ($HasPermission) {
-                    $Permission{$Module} = 1;
+                PERMISSION:
+                for my $Permission (qw(GroupRo Group)) {
+                    my $AccessOk = 0;
+                    my $Group    = $ModuleReg->{$Permission};
+                    next PERMISSION if !$Group;
+                    if ( ref $Group eq 'ARRAY' ) {
+                        INNER:
+                        for my $GroupName ( @{$Group} ) {
+                            next INNER if !$GroupName;
+                            next INNER if !$GroupObject->PermissionCheck(
+                                UserID    => $Self->{UserID},
+                                GroupName => $GroupName,
+                                Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                            );
+                            $AccessOk = 1;
+                            last INNER;
+                        }
+                    }
+                    else {
+                        my $HasPermission = $GroupObject->PermissionCheck(
+                            UserID    => $Self->{UserID},
+                            GroupName => $Group,
+                            Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                        );
+                        if ($HasPermission) {
+                            $AccessOk = 1;
+                        }
+                    }
+                    if ( $Permission eq 'Group' && $AccessOk ) {
+                        $AccessRo = 1;
+                        $AccessRw = 1;
+                    }
+                    elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
+                        $AccessRo = 1;
+                    }
                 }
+                if ( ( !$AccessRo && !$AccessRw ) || ( !$AccessRo && $AccessRw ) ) {
+                    next MODULE;
+                }
+
+                $Permission{$Module} = 1;
             }
         }
 
@@ -130,7 +156,7 @@ sub Run {
         if (
             $SearchObjects->{CustomerCompany}
             && $SearchObjects->{CustomerCompany}{Count}
-            && $Permission{AdminCustomerCompany}
+            && $Permission{AgentCustomerInformationCenter}
             )
         {
             # Search customer by ES.
@@ -141,7 +167,7 @@ sub Run {
             );
         }
 
-        if ( $SearchObjects->{CustomerUser} && $SearchObjects->{CustomerUser}{Count} && $Permission{AdminCustomerUser} )
+        if ( $SearchObjects->{CustomerUser} && $SearchObjects->{CustomerUser}{Count} && $Permission{AgentCustomerUserInformationCenter} )
         {
             # Search customer user by ES.
             @CustomerUserKeys = $ESObject->CustomerUserSearch(
