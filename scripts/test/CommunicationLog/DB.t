@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
 
 use Kernel::System::UnitTest::MockTime qw(:all);
 
@@ -554,8 +555,7 @@ for my $Test (@Test) {
             Direction => $Test->{Create}->{Direction},
             Status    => $Test->{Stop}->{Status},
         );
-        use Data::Dumper;
-        warn Dumper( $Test, $CommunicationListAfterStop );
+        diag explain( $Test, $CommunicationListAfterStop );
 
         $Existing = IsArrayRefWithData($CommunicationListAfterStop);
 

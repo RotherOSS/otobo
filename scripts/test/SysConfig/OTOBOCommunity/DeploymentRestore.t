@@ -20,6 +20,8 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Test2::Tools::Explain;
+
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -606,11 +608,7 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         Mode         => 'SmallerThanEquals',
     );
     @ModifiedVersions = sort keys %ModifiedVersionList;
-
-    use Data::Dumper;
-    print STDERR "Debug - ModuleName - ModifiedVersions = "
-        . Dumper( \%ModifiedVersionList )
-        . "\n";    # TODO: Delete developer comment
+    diag "Debug - ModuleName - ModifiedVersions = " . explain( \%ModifiedVersionList );
 
     # Be sure we have an ordered list.
     @DefaultIDs = sort @DefaultIDs;

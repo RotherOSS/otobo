@@ -25,6 +25,9 @@ use vars (qw($Self));
 
 use MIME::Base64;
 
+use Test2::V0;
+use Test2::Tools::Explain;
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet;
@@ -935,10 +938,7 @@ for my $Test (@Tests) {
             }
         }
 
-        use Data::Dumper;
-        print STDERR "Debug - ModuleName - RequesterResult = "
-            . Dumper($RequesterResult)
-            . "\n";    # TODO: Delete developer comment
+        diag "Debug - ModuleName - RequesterResult = " . explain($RequesterResult);
 
         if ( ref $RequesterResult->{Data}->{TicketHistory} eq 'HASH' ) {
             my $TicketHistory = $RequesterResult->{Data}->{TicketHistory};
