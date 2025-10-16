@@ -20,6 +20,7 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Test2::Tools::Explain;
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -1158,9 +1159,7 @@ for my $Test (@Tests) {
             $ModifiedSettingVersionToCompare{$Key} = 1;
         }
     }
-    use Data::Dumper;
-    print STDERR "Debug - ModuleName - ModifiedSettingVersionToCompare = "
-        . Dumper( \%ModifiedSettingVersionToCompare ) . "\n";
+    diag "Debug - ModuleName - ModifiedSettingVersionToCompare = " . explain( \%ModifiedSettingVersionToCompare );
     $Self->IsDeeply(
         \%ModifiedSettingVersionToCompare,
         $Test->{Config}->{ModifiedSettingVersionAdd}->{Data},
