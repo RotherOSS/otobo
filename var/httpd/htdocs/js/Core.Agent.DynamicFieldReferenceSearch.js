@@ -167,10 +167,12 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
 
             $Element.blur(function() {
                 var Visible = false;
-
+                let $ValueField = $(this).siblings('input[type=hidden]');
+                
+                // If the field is empty, remove the hidden field value and the contact info.
                 if (!$(this).val()) {
-                    $(this).siblings('input[type=hidden]').val('');
-                    $('.' + $(this).siblings('input[type=hidden]').attr('id')).fadeOut('fast', function() {
+                    $ValueField.val('');
+                    $('.' + $ValueField.attr('id')).fadeOut('fast', function() {
 
                         if (!$(this).find('.Reference').hasClass('Hidden')) {
                             Visible = true;
@@ -192,6 +194,8 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
                                 .removeClass('Hidden');
                         }
                     });
+                } else if (!$ValueField.val()) {
+                    $(this).val('');
                 }
             });
 
@@ -214,7 +218,7 @@ Core.Agent.DynamicFieldReferenceSearch = (function(TargetNS) {
 
     /**
      * @function
-     * @param {String} Field
+     * @param {String} Field The HTML id of the input field with autocomplete.
      * @param {String} ContactValue The readable customer identifier.
      * @param {String} ContactKey on system.
      * @description This function add a new ticket contact
