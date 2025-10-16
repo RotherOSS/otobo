@@ -22,6 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Explain;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds);
@@ -609,6 +610,8 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         DeploymentID => $DeploymentID,
         Mode         => 'SmallerThanEquals',
     );
+    diag "Debug - ModuleName - ModifiedVersions = " . explain( \%ModifiedVersionList );
+
     @ModifiedVersions = sort keys %ModifiedVersionList;
 
     # Be sure we have an ordered list.

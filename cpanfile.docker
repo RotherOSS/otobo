@@ -203,6 +203,9 @@ requires 'Plack::Middleware::ReverseProxy';
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
 
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
+
     # support for formatting test results
     requires 'Unicode::GCString';
 
