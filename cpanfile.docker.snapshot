@@ -2417,6 +2417,7 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
+      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -3134,6 +3135,15 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Test2-Tools-Explain-0.02
+    pathname: P/PE/PETDANCE/Test2-Tools-Explain-0.02.tar.gz
+    provides:
+      Test2::Tools::Explain 0.02
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test2::Suite 0
+      parent 0
+      perl 5.008001
   Test2-Tools-HTTP-0.12
     pathname: P/PL/PLICEASE/Test2-Tools-HTTP-0.12.tar.gz
     provides:
