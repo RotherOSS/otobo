@@ -302,14 +302,8 @@ sub CreateQueryString {
 my $Host = $Helper->GetTestHTTPHostname();
 
 # create URL
-my $ScriptAlias   = $ConfigObject->Get('ScriptAlias');
-my $ApacheBaseURL = "http://$Host/${ScriptAlias}nph-genericinterface.pl/";
-my $PlackBaseURL;
-if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
-    $PlackBaseURL = "http://localhost:"
-        . $ConfigObject->Get('UnitTestPlackServerPort')
-        . '/nph-genericinterface.pl/';
-}
+my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+my $BaseURL     = "http://$Host/${ScriptAlias}nph-genericinterface.pl/";
 
 # get objects
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -443,13 +437,8 @@ for my $Test (@Tests) {
         # Test real HTTP request
         for my $RequestMethod (qw(GET POST PATCH PUT)) {
 
-            my @BaseURLs = ($ApacheBaseURL);
-            if ($PlackBaseURL) {
-                push @BaseURLs, $PlackBaseURL;
-            }
-
-            for my $BaseURL (@BaseURLs) {
-                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+            for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                {
                     my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                     my $URL      = $BaseURL . $PathInfo;
                     my $Response;
@@ -533,7 +522,7 @@ for my $Test (@Tests) {
 # Test non existing web service
 for my $RequestMethod (qw(get post)) {
 
-    my $URL      = $ApacheBaseURL . 'undefined';
+    my $URL      = $BaseURL . 'undefined';
     my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
 
     is(
