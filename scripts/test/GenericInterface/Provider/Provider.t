@@ -26,6 +26,9 @@ use LWP::UserAgent ();
 use HTTP::Request  ();
 use URI::Escape    qw(uri_escape_utf8);
 use Test2::V0;
+use Plack::Util;
+use Plack::Test qw(test_psgi);
+use HTTP::Request::Common;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
@@ -505,6 +508,81 @@ for my $Test (@Tests) {
                             "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
                         );
                     }
+                }
+            }
+        }
+
+        # Test using Plack::Test
+        {
+            diag 'Testing with Plack::Test';
+
+            my $Home     = $ConfigObject->Get('Home');
+            my $PSGIFile = join '/', $Home, 'bin', 'psgi-bin', 'otobo.psgi';
+            ok( -f $PSGIFile, 'otobo.psgi found' );
+            my $App = Plack::Util::load_psgi($PSGIFile);
+            ref_ok( $App, 'CODE', 'got a Plack app' );
+            my $PlackTest = Plack::Test->create($App);
+            isa_ok( $PlackTest, ['Plack::Test::MockHTTP'], 'got an instance of Plack::Test::MockHTTP' );
+
+            # no host needed here
+            my $BaseURL = "${ScriptAlias}nph-genericinterface.pl/";
+
+            for my $RequestMethod (qw(GET)) {
+
+                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                    my $PathInfo    = $WebserviceAccess2PathInfo{$WebserviceAccess};
+                    my $URL         = $BaseURL . $PathInfo;
+                    my $QueryString = CreateQueryString(
+                        Data   => $Test->{RequestData},
+                        Encode => 1,
+                    );
+
+                    if ( $RequestMethod eq 'GET' ) {
+                        $URL .= "?$QueryString";
+                    }
+
+                    test_psgi(
+                        app    => $App,
+                        client => sub {
+                            my $Callback = shift;
+
+                            my $Request         = HTTP::Request->new( $RequestMethod => $URL );
+                            my $Response        = $Callback->($Request);
+                            my $ResponseContent = $Response->content;
+
+                            if ( $Test->{ResponseSuccess} ) {
+                                if ( ref $Test->{ResponseData} eq 'ARRAY' ) {
+                                    $Test->{ResponseData} = $Test->{ResponseData}->[0];
+                                }
+                                for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                                    my $QueryStringPart = uri_escape_utf8($Key);
+                                    if ( $Test->{ResponseData}->{$Key} ) {
+                                        $QueryStringPart
+                                            .= '='
+                                            . uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                                    }
+
+                                    ok(
+                                        index( $ResponseContent, $QueryStringPart ) > -1,
+                                        "$PathInfo mock HTTP $RequestMethod request $QueryStringPart ($URL)",
+                                    );
+                                }
+
+                                is(
+                                    $Response->code(),
+                                    200,
+                                    "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
+                                );
+                            }
+                            else {
+                                is(
+                                    $Response->code(),
+                                    500,
+                                    "$PathInfo mock HTTP $RequestMethod request result error status ($URL)",
+                                );
+                            }
+                        },
+                    );
                 }
             }
         }
