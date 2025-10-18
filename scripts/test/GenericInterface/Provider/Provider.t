@@ -40,8 +40,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
 my @Tests = (
@@ -316,20 +315,22 @@ my $InvalidID = $ValidObject->ValidLookup(
 
 for my $Test (@Tests) {
 
-    subtest "$Test->{Name} $RandomID" => sub {
+    my $WebServiceName = "$Test->{Name} $RandomID";
+
+    subtest $WebServiceName => sub {
 
         # add config
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config  => $Test->{WebserviceConfig},
-            Name    => "$Test->{Name} $RandomID",
+            Name    => $WebServiceName,
             ValidID => $Test->{InvalidWebservice} ? $InvalidID : 1,
             UserID  => 1,
         );
 
         ok( $WebserviceID, 'WebserviceAdd()' );
 
-        my $WebserviceNameEncoded = uri_escape_utf8("$Test->{Name} $RandomID");
-
+        # Test two different variants of the webservice URL
+        my $WebserviceNameEncoded     = uri_escape_utf8($WebServiceName);
         my %WebserviceAccess2PathInfo = (
             ID   => "WebserviceID/$WebserviceID",
             Name => "Webservice/$WebserviceNameEncoded"
@@ -338,8 +339,7 @@ for my $Test (@Tests) {
         # Test with calling _Content() within the testscript, there is no real HTTP request
         for my $RequestMethod (qw(get post)) {
             for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
-                my $PathInfo     = $WebserviceAccess2PathInfo{$WebserviceAccess};
-                my $ResponseData = '';
+                my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                 my $WebException;
                 {
                     my $HTTPRequest;
@@ -373,7 +373,6 @@ for my $Test (@Tests) {
                             ],
                             '',
                         );
-
                     }
 
                     # force the ParamObject to use the new request params
@@ -382,17 +381,20 @@ for my $Test (@Tests) {
                         'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
                     );
 
-                    eval {
-                        $ResponseData = $ProviderObject->_Content;
+                    my $Content = eval {
+                        $ProviderObject->_Content;
                     };
                     $WebException = $@;    # assign '' in case of success
+
+                    is( $Content, undef, 'content is in the exception' );
                 }
 
+                # An exception is always expected, ecause that is how the response is passed out.
                 ok( $WebException, 'always an exception' );
                 isa_ok( $WebException, 'Kernel::System::Web::Exception' );
-                if ( $Test->{ResponseSuccess} ) {
+                can_ok( $WebException, ['as_psgi'], 'sane exception' );
 
-                    can_ok( $WebException, ['as_psgi'], 'sane exception' );
+                if ( $Test->{ResponseSuccess} ) {
 
                     # status 200 is expected
                     my $PSGIResponse = $WebException->as_psgi();
@@ -421,9 +423,6 @@ for my $Test (@Tests) {
                     }
                 }
                 else {
-
-                    ok( defined $WebException, 'exception when failure is expected' );
-                    can_ok( $WebException, ['as_psgi'], 'sane exception when failure is expected' );
 
                     # status 500 is expected
                     my $PSGIResponse = $WebException->as_psgi();
