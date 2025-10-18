@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -28,12 +28,9 @@ use URI::Escape    qw(uri_escape_utf8);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager ();
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
-$Kernel::OM = Kernel::System::ObjectManager->new();
-
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get helper object
@@ -344,7 +341,7 @@ for my $Test (@Tests) {
             Name => "Webservice/$WebserviceNameEncoded"
         );
 
-        # Test with IO redirection, no real HTTP request
+        # Test with calling _Content() within the testscript, there is no real HTTP request
         for my $RequestMethod (qw(get post)) {
             for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
                 my $PathInfo     = $WebserviceAccess2PathInfo{$WebserviceAccess};
@@ -443,9 +440,7 @@ for my $Test (@Tests) {
             }
         }
 
-        #
         # Test real HTTP request
-        #
         for my $RequestMethod (qw(GET POST PATCH PUT)) {
 
             my @BaseURLs = ($ApacheBaseURL);
@@ -551,4 +546,4 @@ for my $RequestMethod (qw(get post)) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-done_testing();
+done_testing;
