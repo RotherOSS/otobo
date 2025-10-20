@@ -156,6 +156,17 @@ $DatabaseType //=
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
+# differentiation for mariadb
+if ( $DatabaseType eq 'mysql' ) {
+    if (qx/which mysqldump/) {
+
+        # Do nothing
+    }
+    else {
+        $DatabaseType = 'mariadb';
+    }
+}
+
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
@@ -170,6 +181,10 @@ if ($ExtraDumpOptions) {
 
 if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
+}
+elsif ( $DatabaseType eq 'mariadb' ) {
+    $DBDumpCmd = 'mariadb-dump';
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
@@ -308,7 +323,7 @@ my $ErrorIndicationFileName =
     $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
-if ( $DatabaseType eq 'mysql' ) {
+if ( $DatabaseType eq 'mysql' || $DatabaseType eq 'mariadb' ) {
     push @DBDumpOptions,
         '-u' => "'$DatabaseUser'",
         '-h' => "'$DatabaseHost'";
