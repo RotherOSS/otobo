@@ -158,11 +158,7 @@ $DatabaseType = lc $DatabaseType;
 
 # differentiation for mariadb
 if ( $DatabaseType eq 'mysql' ) {
-    if (qx/which mysqldump/) {
-
-        # Do nothing
-    }
-    else {
+    if (qx/which mariadb-dump/) {
         $DatabaseType = 'mariadb';
     }
 }
