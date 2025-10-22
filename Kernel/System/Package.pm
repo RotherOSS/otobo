@@ -2717,11 +2717,12 @@ sub PackageIsInstalled {
         Limit => 1,
     );
 
+    my $Flag = 0;
     while ( $DBObject->FetchrowArray() ) {
-        return 1;
+        $Flag = 1;
     }
 
-    return 0;
+    return $Flag;
 }
 
 =head2 PackageInstallDefaultFiles()
