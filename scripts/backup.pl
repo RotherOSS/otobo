@@ -890,7 +890,7 @@ sub HandleExtraDumpOptions {
     my ( $OptName, $OptValue ) = @_;
 
     # be a bit paranoid here
-    if ( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+    if ( $OptValue !~ /^[\-a-zA-Z0-9= ]+$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
     }
 
