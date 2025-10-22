@@ -157,6 +157,13 @@ $DatabaseType //=
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
+# differentiation for mariadb
+if ( $DatabaseType eq 'mysql' ) {
+    if (qx/which mariadb-dump/) {
+        $DatabaseType = 'mariadb';
+    }
+}
+
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
@@ -171,6 +178,10 @@ if ($ExtraDumpOptions) {
 
 if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
+}
+elsif ( $DatabaseType eq 'mariadb' ) {
+    $DBDumpCmd = 'mariadb-dump';
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
@@ -309,7 +320,7 @@ my $ErrorIndicationFileName =
     $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
-if ( $DatabaseType eq 'mysql' ) {
+if ( $DatabaseType eq 'mysql' || $DatabaseType eq 'mariadb' ) {
     push @DBDumpOptions,
         '-u' => "'$DatabaseUser'",
         '-h' => "'$DatabaseHost'";
@@ -881,7 +892,7 @@ sub HandleExtraDumpOptions {
     my ( $OptName, $OptValue ) = @_;
 
     # be a bit paranoid here
-    if ( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+    if ( $OptValue !~ /^[\-a-zA-Z0-9= ]+$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
     }
 
