@@ -3215,6 +3215,12 @@ sub _GenerateDynamicStats {
     if ( $ArraySelected[0] ) {
         KEY:
         for my $Key ( sort keys %{ $ArraySelected[0]{Values} } ) {
+
+            # delete key if value is undefined
+            if ( !defined( $ArraySelected[0]{Values}{$Key} ) ) {
+                delete $ArraySelected[0]{Values}{$Key};
+            }
+
             my $Value0;
             if ( $ArraySelected[0]{Block} eq 'SelectField' ) {
                 $Value0 = $Key;
