@@ -162,6 +162,13 @@ $DatabaseType //=
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
+# differentiation for mariadb
+if ( $DatabaseType eq 'mysql' ) {
+    if (qx/which mariadb-dump/) {
+        $DatabaseType = 'mariadb';
+    }
+}
+
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
@@ -176,6 +183,10 @@ if ($ExtraDumpOptions) {
 
 if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
+}
+elsif ( $DatabaseType eq 'mariadb' ) {
+    $DBDumpCmd = 'mariadb-dump';
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
@@ -314,7 +325,7 @@ my $ErrorIndicationFileName =
     $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
-if ( $DatabaseType eq 'mysql' ) {
+if ( $DatabaseType eq 'mysql' || $DatabaseType eq 'mariadb' ) {
     push @DBDumpOptions,
         '-u' => "'$DatabaseUser'",
         '-h' => "'$DatabaseHost'";
@@ -886,7 +897,7 @@ sub HandleExtraDumpOptions {
     my ( $OptName, $OptValue ) = @_;
 
     # be a bit paranoid here
-    if ( $OptValue !~ /^[\-a-zA-Z0-9=]+$/ ) {
+    if ( $OptValue !~ /^[\-a-zA-Z0-9= ]+$/ ) {
         die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
     }
 
@@ -953,8 +964,9 @@ Usage:
     otobo> cd /opt/otobo
     otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
-    # in some special case extra parameters can be passed, note the required quotes
-    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
+    # In special cases extra options can be passed to the dump command.
+    # Multiple options are separated by a space. Note the required quotes.
+    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "-P 3307 --column-statistics=0"
 
 Short options:
  [-h]                   - Display help for this command.
@@ -976,6 +988,7 @@ Long options:
  [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
  [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
  [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
+ [--extra-dump-options]       - extra options that are passed to the dump command
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
