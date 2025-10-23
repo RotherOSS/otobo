@@ -2,7 +2,6 @@
 # OTOBO 10.1.16 2025-10-23
 - 2025-10-23 14:55:19 +0200 Create new OTOBO language files.
 - 2025-09-25 10:05:44 +0200 Update translation files
-- 2025-10-22 16:41:34 +0200 [Security] Sanitize input for backup.pl. Thanks to Diego Berger Tellaroli (https://github.com/RotherOSS/otobo/issues/4619)
 - 2025-10-20 14:44:34 +0200 Make system aware of `mariadb-dump` (https://github.com/RotherOSS/otobo/issues/4780)
 - 2024-03-01 14:01:01 +0100 Eliminate warnings from MIME::Decode::QuotedPrint (https://github.com/RotherOSS/otobo/issues/3088)
 - 2025-10-17 10:03:52 +0200 Add Test2::Tools::Explain as a testing requirement (https://github.com/RotherOSS/otobo/issues/4771)
@@ -10,7 +9,6 @@
 - 2025-10-14 17:07:19 +0200 React to nginx:mainline Docker image being upgraded to Debian 13 Trixie (https://github.com/RotherOSS/otobo/issues/4752)
 - 2025-10-09 15:05:45 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Mojolicious 9.41 => 9.42 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
 - 2025-10-09 14:56:33 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
-- 2025-10-08 15:01:11 +0200 [Bugfix]   Set dynamic fields with Grids lead to Internal Server Error in AgentTicketSearch and Ticket Overviews (https://github.com/RotherOSS/otobo/issues/4572)
 - 2025-09-27 13:20:11 +0200 Errors and warnings emitted by the test suite during global destruction (https://github.com/RotherOSS/otobo/issues/2297) - in progress
 - 2025-09-25 09:55:34 +0200 Update CHANGES.
 
