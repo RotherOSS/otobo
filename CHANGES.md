@@ -1,4 +1,40 @@
 
+# OTOBO 11.0.13 2025-10-23
+- 2025-10-23 15:05:23 +0200 Create new OTOBO language files.
+- 2025-10-22 16:41:34 +0200 [Security] Sanitize input for backup.pl. Thanks to Diego Berger Tellaroli (https://github.com/RotherOSS/otobo/issues/4619)
+- 2025-10-16 13:31:22 +0100 [Enhanced] invalid input in Autocomplete reference fields should be removed (https://github.com/RotherOSS/otobo/issues/4774)
+- 2025-10-20 14:44:34 +0200 Make system aware of `mariadb-dump` (https://github.com/RotherOSS/otobo/issues/4780)
+- 2024-03-01 14:01:01 +0100 Eliminate warnings from MIME::Decode::QuotedPrint (https://github.com/RotherOSS/otobo/issues/3088)
+- 2025-10-17 10:13:17 +0200 Add Test2::Tools::Explain as a testing requirement (https://github.com/RotherOSS/otobo/issues/4771)
+- 2025-10-14 17:05:37 +0200 [Bugfix]   Fix module permission check in AgentElasticsearchQuickResult (https://github.com/RotherOSS/otobo/issues/4768)
+- 2025-10-16 10:16:23 +0200 Update CHANGES.
+- 2025-10-14 17:07:19 +0200 React to nginx:mainline Docker image being upgraded to Debian 13 Trixie (https://github.com/RotherOSS/otobo/issues/4752)
+- 2025-10-13 12:31:56 +0200 [Bugfix]   Editing an article does not cause an unread article icon in the toolbar (https://github.com/RotherOSS/otobo/issues/4688)
+- 2025-10-08 13:02:54 +0200 [Bugfix]   Validation logic error for Dynamic Fields that are Mandatory and validate via Regex (https://github.com/RotherOSS/otobo/issues/4751)
+- 2025-10-09 13:28:36 +0000 Translated using Weblate (German)
+- 2025-10-10 11:07:17 +0200 [Enhanced] Enable lenses on customer and customer-user references. (https://github.com/RotherOSS/otobo/issues/4705)
+- 2025-10-10 10:51:49 +0200 [Bugfix]   Reference DynamicField automatic linking does not work with Sets and only links the first item in MultiValue cases. (https://github.com/RotherOSS/otobo/issues/4759)
+- 2025-10-10 10:19:56 +0200 [Bugfix]   TransitionAction DynamicFieldSet does not work for Lenses. (https://github.com/RotherOSS/otobo/issues/4758)
+- 2025-10-09 15:17:29 +0200 Regenerate cpanfile.docker.snapshot
+- 2025-10-09 15:05:45 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Mojolicious 9.41 => 9.42 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
+- 2025-10-09 14:56:33 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
+- 2025-10-08 15:01:11 +0200 [Bugfix]   Set dynamic fields with Grids lead to Internal Server Error in AgentTicketSearch and Ticket Overviews (https://github.com/RotherOSS/otobo/issues/4572)
+- 2025-10-08 14:42:27 +0200 Tidied.
+- 2025-09-30 13:41:30 +0100 wp #1213: fix IsHTMLContent initial value for RichText
+- 2025-10-02 15:51:11 +0200 [Enhanced] DynamicFieldWidget is visible when DynamicFields are assigned (even when all are de-activated) (https://github.com/RotherOSS/otobo/issues/4684)
+- 2025-10-02 08:28:30 +0100 adapt test to css changes
+- 2025-10-01 13:46:51 +0100 [Bugfix]   Styled text is diplayed in default font in ckeditor (https://github.com/RotherOSS/otobo/issues/4618)
+- 2025-09-30 13:39:21 +0200 Really set settings for rel-10_0_26
+- 2025-09-27 13:55:40 +0200 Errors and warnings emitted by the test suite during global destruction (https://github.com/RotherOSS/otobo/issues/2297) - in progress
+- 2025-09-26 12:28:48 +0200 Update base image for the three release series
+- 2025-09-26 12:04:20 +0200 Adapt workflow to the new patch level releases
+- 2025-09-26 11:45:56 +0200 Update workflow to use the latest patch level releases
+- 2025-09-25 10:06:02 +0200 Update CHANGES.
+- 2025-09-25 10:04:52 +0200 Create new OTOBO language files.
+- 2025-09-25 09:55:34 +0200 Update CHANGES.
+- 2025-06-17 14:56:30 +0000 Translated using Weblate (French)
+
+
 # OTOBO 11.0.12 2025-09-25
 - 2025-09-25 10:12:13 +0200 Create new OTOBO language files.
 - 2025-09-24 11:09:43 +0200 [Bugfix]   AgentTicketArticleEdit does not enforce all article restrictions correctly. (https://github.com/RotherOSS/otobo/issues/4722)
@@ -2765,5 +2801,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
