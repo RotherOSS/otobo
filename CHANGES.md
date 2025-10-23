@@ -1,7 +1,6 @@
 
 # OTOBO 11.0.13 2025-10-23
 - 2025-10-23 15:05:23 +0200 Create new OTOBO language files.
-- 2025-10-22 16:41:34 +0200 [Security] Sanitize input for backup.pl. Thanks to Diego Berger Tellaroli (https://github.com/RotherOSS/otobo/issues/4619)
 - 2025-10-16 13:31:22 +0100 [Enhanced] invalid input in Autocomplete reference fields should be removed (https://github.com/RotherOSS/otobo/issues/4774)
 - 2025-10-20 14:44:34 +0200 Make system aware of `mariadb-dump` (https://github.com/RotherOSS/otobo/issues/4780)
 - 2024-03-01 14:01:01 +0100 Eliminate warnings from MIME::Decode::QuotedPrint (https://github.com/RotherOSS/otobo/issues/3088)
@@ -18,7 +17,6 @@
 - 2025-10-09 15:17:29 +0200 Regenerate cpanfile.docker.snapshot
 - 2025-10-09 15:05:45 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Mojolicious 9.41 => 9.42 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
 - 2025-10-09 14:56:33 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
-- 2025-10-08 15:01:11 +0200 [Bugfix]   Set dynamic fields with Grids lead to Internal Server Error in AgentTicketSearch and Ticket Overviews (https://github.com/RotherOSS/otobo/issues/4572)
 - 2025-10-08 14:42:27 +0200 Tidied.
 - 2025-09-30 13:41:30 +0100 wp #1213: fix IsHTMLContent initial value for RichText
 - 2025-10-02 15:51:11 +0200 [Enhanced] DynamicFieldWidget is visible when DynamicFields are assigned (even when all are de-activated) (https://github.com/RotherOSS/otobo/issues/4684)
