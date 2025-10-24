@@ -216,14 +216,14 @@ jobs:
             base_image: 'perl:5.40-bookworm'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_25'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_26'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_0_25'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_0_26'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_0_27'
@@ -232,14 +232,14 @@ jobs:
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'latest-10_0'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_1_14'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_1_15'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_1_14'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_1_15'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_16'
