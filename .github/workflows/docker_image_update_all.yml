@@ -228,13 +228,13 @@ jobs:
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-webproxy'
-            base_image: 'nginx:mainline'
+            base_image: 'nginx:mainline-trixie'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-            base_image: 'nginx:mainline'
+            base_image: 'nginx:mainline-trixie'
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
