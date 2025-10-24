@@ -130,10 +130,10 @@ jobs:
             docker_tag: 'rel-10_1_15'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-11_1_11'
+            docker_tag: 'rel-11_0_11'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-11_1_12'
+            docker_tag: 'rel-11_0_12'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_0_25'
