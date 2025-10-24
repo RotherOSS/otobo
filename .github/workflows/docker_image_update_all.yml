@@ -118,40 +118,40 @@ jobs:
         exclude:
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-10_0_25'
+            docker_tag: 'rel-10_0_25'
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-10_0_26'
+            docker_tag: 'rel-10_0_26'
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-10_1_14'
+            docker_tag: 'rel-10_1_14'
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-10_1_15'
+            docker_tag: 'rel-10_1_15'
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-11_1_11'
+            docker_tag: 'rel-11_1_11'
           -
             target:     'otobo-nginx-webproxy'
-            docker-tag: 'rel-11_1_12'
+            docker_tag: 'rel-11_1_12'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-10_0_25'
+            docker_tag: 'rel-10_0_25'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-10_0_26'
+            docker_tag: 'rel-10_0_26'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-10_1_14'
+            docker_tag: 'rel-10_1_14'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-10_1_15'
+            docker_tag: 'rel-10_1_15'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-11_1_11'
+            docker_tag: 'rel-11_1_11'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker-tag: 'rel-11_1_12'
+            docker_tag: 'rel-11_1_12'
 
         include:
           # the latest release for every release branch - has to be updated
