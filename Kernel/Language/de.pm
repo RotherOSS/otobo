@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996715927750411;
+    $Self->{Completeness}        = 0.996865203761755;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1352,7 +1352,7 @@ sub Data {
             'Abbrechen der Anfrage, wenn der Hostname nicht verifiziert werden kann. Achtung! Nicht unbedacht deaktivieren. Der Verzicht auf eine Überprüfung stellt ein Sicherheitsrisiko dar! Möglichkeit der Deaktivierung vorwiegend für Tests mit selbstsignierten Zertifikaten oder wenn Sie genau wissen, was Sie tun.',
         'SSL verify mode' => 'SSL Verifizierungsmodus',
         'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
-            '',
+            'Anfrage abbrechen, wenn die SSL-Verifizierung fehlschlägt. Das Deaktivieren überspringt die SSL-Verifizierung vollständig. Mit Vorsicht deaktivieren! Es ist ein Sicherheitsrisiko die Verifizierung zu überspringen! Hauptsächlich für Testzwecke im Falle von selbst-signierten SSL-Zertifikaten, oder sofern man weiß, was man tut.',
         'Controller mapping for Invoker' => 'Controller-Mapping für Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Der Controller, an den der Invoker Anfragen senden soll. Variablen, die mit einem \':\' markiert sind, werden durch den Datenwert ersetzt und mit der Anfrage übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',

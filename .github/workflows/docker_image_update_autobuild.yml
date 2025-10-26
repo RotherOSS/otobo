@@ -55,9 +55,7 @@ jobs:
       # this currently has to be updated every release
       matrix:
         #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
-        #target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
-        # Exclude the nginx Images because of the issue with libpcre3 in Trixie
-        target: [ 'otobo-web', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'latest-10_0-autobuild',
           'latest-10_1-autobuild',
@@ -76,15 +74,14 @@ jobs:
             patch:      'rel-11_0_12'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          # Exclude the nginx Images because of the issue with libpcre3 in Trixie
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'latest-10_0-autobuild'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'latest-10_1-autobuild'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_0-autobuild'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1-autobuild'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
           # common info for every target; for nginx this includes the base imagie
           -
@@ -99,19 +96,18 @@ jobs:
           #  context:    'scripts/elasticsearch'
           #  repository: 'rotheross/otobo-elasticsearch'
           #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
-          # Exclude the nginx Images because of the issue with libpcre3 in Trixie
-          #-
-          #  target:     'otobo-nginx-webproxy'
-          #  dockerfile: 'otobo.nginx.dockerfile'
-          #  context:    'scripts/nginx'
-          #  repository: 'rotheross/otobo-nginx-webproxy'
-          #  base_image: 'nginx:mainline'
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  dockerfile: 'otobo.nginx.dockerfile'
-          #  context:    'scripts/nginx'
-          #  repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-          #  base_image: 'nginx:mainline'
+          -
+            target:     'otobo-nginx-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-webproxy'
+            base_image: 'nginx:mainline'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            base_image: 'nginx:mainline'
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
