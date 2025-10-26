@@ -1562,19 +1562,19 @@ DISTRIBUTIONS
       HTTP::Date 0
       Module::Build::Tiny 0.035
       perl 5.008001
-  HTTP-Message-7.00
-    pathname: O/OA/OALDERS/HTTP-Message-7.00.tar.gz
+  HTTP-Message-7.01
+    pathname: O/OA/OALDERS/HTTP-Message-7.01.tar.gz
     provides:
-      HTTP::Config 7.00
-      HTTP::Headers 7.00
-      HTTP::Headers::Auth 7.00
-      HTTP::Headers::ETag 7.00
-      HTTP::Headers::Util 7.00
-      HTTP::Message 7.00
-      HTTP::Request 7.00
-      HTTP::Request::Common 7.00
-      HTTP::Response 7.00
-      HTTP::Status 7.00
+      HTTP::Config 7.01
+      HTTP::Headers 7.01
+      HTTP::Headers::Auth 7.01
+      HTTP::Headers::ETag 7.01
+      HTTP::Headers::Util 7.01
+      HTTP::Message 7.01
+      HTTP::Request 7.01
+      HTTP::Request::Common 7.01
+      HTTP::Response 7.01
+      HTTP::Status 7.01
     requirements:
       Carp 0
       Clone 0.46
@@ -2417,7 +2417,6 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
-      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -3583,32 +3582,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.80
-    pathname: O/OA/OALDERS/libwww-perl-6.80.tar.gz
+  libwww-perl-6.81
+    pathname: O/OA/OALDERS/libwww-perl-6.81.tar.gz
     provides:
-      LWP 6.80
-      LWP::Authen::Basic 6.80
-      LWP::Authen::Digest 6.80
-      LWP::Authen::Ntlm 6.80
-      LWP::ConnCache 6.80
-      LWP::Debug 6.80
-      LWP::Debug::TraceHTTP 6.80
-      LWP::DebugFile 6.80
-      LWP::MemberMixin 6.80
-      LWP::Protocol 6.80
-      LWP::Protocol::cpan 6.80
-      LWP::Protocol::data 6.80
-      LWP::Protocol::file 6.80
-      LWP::Protocol::ftp 6.80
-      LWP::Protocol::gopher 6.80
-      LWP::Protocol::http 6.80
-      LWP::Protocol::loopback 6.80
-      LWP::Protocol::mailto 6.80
-      LWP::Protocol::nntp 6.80
-      LWP::Protocol::nogo 6.80
-      LWP::RobotUA 6.80
-      LWP::Simple 6.80
-      LWP::UserAgent 6.80
+      LWP 6.81
+      LWP::Authen::Basic 6.81
+      LWP::Authen::Digest 6.81
+      LWP::Authen::Ntlm 6.81
+      LWP::ConnCache 6.81
+      LWP::Debug 6.81
+      LWP::Debug::TraceHTTP 6.81
+      LWP::DebugFile 6.81
+      LWP::MemberMixin 6.81
+      LWP::Protocol 6.81
+      LWP::Protocol::cpan 6.81
+      LWP::Protocol::data 6.81
+      LWP::Protocol::file 6.81
+      LWP::Protocol::ftp 6.81
+      LWP::Protocol::gopher 6.81
+      LWP::Protocol::http 6.81
+      LWP::Protocol::loopback 6.81
+      LWP::Protocol::mailto 6.81
+      LWP::Protocol::nntp 6.81
+      LWP::Protocol::nogo 6.81
+      LWP::RobotUA 6.81
+      LWP::Simple 6.81
+      LWP::UserAgent 6.81
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -3622,10 +3621,11 @@ DISTRIBUTIONS
       HTML::HeadParser 3.71
       HTTP::Cookies 6
       HTTP::Date 6
+      HTTP::Message 7.01
       HTTP::Negotiate 6
-      HTTP::Request 6.18
+      HTTP::Request 7.01
       HTTP::Request::Common 6.18
-      HTTP::Response 6.18
+      HTTP::Response 7.01
       HTTP::Status 6.18
       IO::Select 0
       IO::Socket 0
@@ -3734,7 +3734,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -3747,7 +3746,6 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
-      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
@@ -3756,5 +3754,4 @@ DISTRIBUTIONS
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
-      XML::SAX::Base 0
       perl 5.008001
