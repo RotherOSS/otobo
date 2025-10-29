@@ -761,7 +761,7 @@ sub Login {
     }
 
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => 'default' );
+    $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
     $Self->LoaderCreateJavaScriptTemplateData();
