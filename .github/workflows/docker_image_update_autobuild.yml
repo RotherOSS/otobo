@@ -62,16 +62,19 @@ jobs:
           'latest-11_0-autobuild'
         ]
         include:
-          # the latest release for every release branch - has to be updated
+
+          # The branch with the latest patch level release for every release series. This is
+          # irrespective of the target.
+          # Has to be updated for every new patch level release.
           -
-            docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_27'
+            docker_tag:   'latest-10_0-autobuild'
+            otobo_branch: 'rel-10_0_27'
           -
-            docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_16'
+            docker_tag:   'latest-10_1-autobuild'
+            otobo_branch: 'rel-10_1_16'
           -
-            docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_13'
+            docker_tag:   'latest-11_0-autobuild'
+            otobo_branch: 'rel-11_0_13'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
           -
@@ -121,11 +124,11 @@ jobs:
         # These variables can be accessed in the env context
         name: Setting up the environment file (autobuild)
         run: |
-          patch=${{ matrix.patch }}
+          otobo_branch=${{ matrix.otobo_branch }}
           docker_tag=${{ matrix.docker_tag }}
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=${patch}"
+            echo "otobo_branch=${otobo_branch}"
             echo "otobo_docker_tag=${docker_tag}"
             echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
             echo "otobo_base_image=${{ matrix.base_image }}"
