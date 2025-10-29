@@ -65,13 +65,13 @@ jobs:
           # the latest release for every release branch - has to be updated
           -
             docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_26'
+            patch:      'rel-10_0_27'
           -
             docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_15'
+            patch:      'rel-10_1_16'
           -
             docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_12'
+            patch:      'rel-11_0_13'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
           -
