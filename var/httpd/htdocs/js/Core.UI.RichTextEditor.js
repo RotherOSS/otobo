@@ -273,6 +273,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 tableProperties: {
                     defaultProperties: {
                         alignment: 'center',
+                        width: '100%'
                     }
                 },
                 contentToolbar: [
