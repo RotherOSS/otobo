@@ -439,8 +439,16 @@ sub Run {
         my $Salutation        = $TemplateGenerator->Salutation(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => {%Article},
-            UserID    => $Self->{UserID},
+            Data      => {
+                %Article,
+
+                # NOTE in case that we answer to a customer, the former sender (the customer)
+                #   now becomes the new recipient and the former recipient (the OTOBO system)
+                #   now becomes the new sender
+                From => $Article{SenderType} eq 'customer' ? $Article{To}   : $Article{From},
+                To   => $Article{SenderType} eq 'customer' ? $Article{From} : $Article{To},
+            },
+            UserID => $Self->{UserID},
         );
 
         # prepare signature
