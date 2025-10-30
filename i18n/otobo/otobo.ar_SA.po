@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-10-25 08:13+0000\n"
-"Last-Translator: Stefan Härter <sha@rother-oss.com>\n"
-"Language-Team: Arabic (Saudi Arabia) <http://weblate.otobo.org/projects/otobo/otobo-11/ar_SA/>\n"
+"PO-Revision-Date: 2025-10-31 09:55+0000\n"
+"Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
+"Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
+"otobo/otobo-11/ar_SA/>\n"
 "Language: ar_SA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.4.2\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -23091,15 +23093,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Required permissions to use the ticket note screen in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة ملاحظة التذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid "Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة مالك التذكرة للتذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid "Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "الأذونات المطلوبة لاستخدام شاشة \"الانتظار\" للتذكرة في واجهة الوكيل."
 
 #. SysConfig
 msgid "Required permissions to use the ticket phone inbound screen in the agent interface."
@@ -23128,10 +23130,11 @@ msgstr ""
 #. SysConfig
 msgid "Resets and unlocks the owner of a ticket if it was moved to another queue."
 msgstr ""
+"يعيد تعيين مالك التذكرة ويقوم بإلغاء قفله إذا تم نقلها إلى قائمة انتظار أخرى."
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "التذاكر المسؤول عنها"
 
 #. SysConfig
 msgid "Responsible Tickets."
@@ -23140,6 +23143,8 @@ msgstr ""
 #. SysConfig
 msgid "Restores a ticket from the archive (only if the event is a state change to any open available state)."
 msgstr ""
+"استعادة تذكرة من الأرشيف (فقط إذا تم تغيير الحالة إلى إحدى الحالات المفتوحة "
+"المتاحة)."
 
 #. SysConfig
 msgid "Retains all services in listings even if they are children of invalid elements."
@@ -23151,7 +23156,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Roles ↔ Groups"
-msgstr ""
+msgstr "الأدوار ↔ المجموعات"
 
 #. SysConfig
 msgid "Romanian"
@@ -27089,4 +27094,3 @@ msgstr ""
 #. SysConfig
 msgid "Manage import and export of objects."
 msgstr ""
-
