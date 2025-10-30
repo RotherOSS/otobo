@@ -439,8 +439,12 @@ sub Run {
         my $Salutation        = $TemplateGenerator->Salutation(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => {%Article},
-            UserID    => $Self->{UserID},
+            Data      => {
+                %Article,
+                From => $Article{To},
+                To   => $Article{From},
+            },
+            UserID => $Self->{UserID},
         );
 
         # prepare signature
