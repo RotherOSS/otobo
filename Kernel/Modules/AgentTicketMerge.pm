@@ -441,6 +441,10 @@ sub Run {
             ArticleID => $Article{ArticleID},
             Data      => {
                 %Article,
+
+                # NOTE To and From are inverted here because the template generator orients its
+                #   logic to AutoResponse functionality, which relies on the parameters being
+                #   inverted
                 From => $Article{To},
                 To   => $Article{From},
             },
