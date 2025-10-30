@@ -466,7 +466,10 @@ sub Run {
         );
 
         # prepare from ...
-        $Article{To} = $Article{From};
+        if ( $Article{SenderType} eq 'customer' ) {
+            $Article{To} = $Article{From};
+        }
+
         my %Address = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
         $Article{From} = "$Address{RealName} <$Address{Email}>";
 
