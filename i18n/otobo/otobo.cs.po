@@ -16,20 +16,23 @@
 # Pavel Mlčoch <pavkamlc@gmail.com>, 2019
 # David Krotil <david.krotil@hilo.cz>, 2021.
 # Kisuke <kisuke@kisuke.cz>, 2022.
+# Lukas Majer <lmajer@christ-ag.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2022-02-16 11:27+0000\n"
-"Last-Translator: Kisuke <kisuke@kisuke.cz>\n"
-"Language-Team: Czech <https://translate.otobo.org/projects/otobo10/otobo/cs/>\n"
+"PO-Revision-Date: 2025-11-01 11:57+0000\n"
+"Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
+"Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-10/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
-"X-Generator: Weblate 4.4.2\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -697,15 +700,15 @@ msgstr "Notifikace odeslány agentovi."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
-msgstr ""
+msgstr "Můžete použít následující značky"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr ""
+msgstr "Získání prvních 20 znaků názvu schůzky."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "Získání atributu schůzky"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -713,7 +716,7 @@ msgstr " např."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "Získání atributu kalendáře"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
@@ -721,7 +724,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
-msgstr ""
+msgstr "Možnosti konfigurace"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
@@ -729,7 +732,7 @@ msgstr "Ukázková notifikace"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Další e-mailové adresy příjemců"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
@@ -742,6 +745,8 @@ msgstr "Článek viditelný zákazníkem"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "An article will be created if the notification is sent to the customer or an additional email address."
 msgstr ""
+"Článek se vytvoří, pokud je oznámení zasláno zákazníkovi nebo na další e-"
+"mailovou adresu."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -749,7 +754,7 @@ msgstr "Šablona e-mailu"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Pomocí této šablony vygenerujete celý e-mail (pouze pro HTML e-maily)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -849,7 +854,7 @@ msgstr "Pro získáni prvních 5ti řádků z emailu."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Zjištění jména uživatele dle zákazníka tiketu (je-li zadáno)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -857,7 +862,7 @@ msgstr "Získat atributy článku"
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr ""
+msgstr "Možnosti aktuálních uživatelských údajů zákazníka"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -869,7 +874,7 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Options of the current user who requested this action"
-msgstr ""
+msgstr "Možnosti aktuálního uživatele, který si tuto akci vyžádal"
 
 #. Template: AdminAutoResponse
 msgid "Options of the ticket data"
@@ -889,7 +894,7 @@ msgstr "Vzorová odpověď"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Správa cloudových služeb"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
@@ -25386,4 +25391,3 @@ msgstr ""
 
 #~ msgid "Free Fields"
 #~ msgstr "Volná pole"
-
