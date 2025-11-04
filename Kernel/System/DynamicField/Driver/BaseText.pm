@@ -528,7 +528,6 @@ sub EditFieldValueValidate {
         $Value = [$Value];
     }
 
-    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
     my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
