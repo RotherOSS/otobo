@@ -144,6 +144,8 @@ sub Run {
         }
     }
 
+    $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
+
     return 1;
 }
 
