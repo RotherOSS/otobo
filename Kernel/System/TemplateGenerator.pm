@@ -1634,7 +1634,7 @@ sub _Replace {
             Value              => $DisplayValue,
         );
 
-        # fill the DynamicFielsDisplayValues
+        # fill the DynamicFieldDisplayValues
         if ($DisplayValueStrg) {
             $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' } = $DisplayValueStrg->{Value};
 
