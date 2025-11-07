@@ -141,10 +141,9 @@ sub Run {
                         "Can not set value $Element->{Value} for dynamic field $Element->{Name}!"
                 );
             }
+            $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
         }
     }
-
-    $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
 
     return 1;
 }
