@@ -2307,6 +2307,15 @@ checks if the dynamic field as an specified behavior
                                                          #     search in ValueSearch function
                                                          # 'IsHiddenInTicketInformation' to hide the field
                                                          #     within the ticket information widget
+                                                         # 'IsReferenceField' to indicate that the field
+                                                         #     is of type reference
+                                                         # 'IsScriptField' to indicate that the field
+                                                         #     is a script field with an evaluatable
+                                                         #     expression
+                                                         # 'IsSetCapable' to be used within Set fields
+                                                         # 'SetsDynamicContent' to define that the field
+                                                         #     has a GetFieldState method used for
+                                                         #     setting its content dynamically
     );
 
     Returns:
