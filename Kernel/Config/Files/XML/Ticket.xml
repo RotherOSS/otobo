@@ -5794,11 +5794,12 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
-                <Item Key="Description" Translatable="1">Elasticsearch</Item>
+                <Item Key="Description" Translatable="1">Elasticsearch (u)</Item>
                 <Item Key="Name" Translatable="1">FulltextES</Item>
                 <Item Key="Block">ToolBarSearchFulltextES</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="Priority">1990050</Item>
+                <Item Key="AccessKey">u</Item>
             </Hash>
         </Value>
     </Setting>

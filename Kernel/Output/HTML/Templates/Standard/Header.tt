@@ -72,7 +72,7 @@
                     [% IF Data.SearchInArchive %]
                         <input type="hidden" name="SearchInArchive" value="[% Data.SearchInArchive | html %]"/>
                     [% END %]
-                    <input type="text" size="[% Data.Size | html %]" name="FulltextES" id="FulltextES" value="[% Data.FulltextES | html %]" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
+                    <input type="text" accesskey="[% Data.AccessKey | uri %]" size="[% Data.Size | html %]" name="FulltextES" id="FulltextES" value="[% Data.FulltextES | html %]" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
                 </form>
             </li>
 [% RenderBlockEnd("ToolBarSearchFulltextES") %]

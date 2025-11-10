@@ -64,9 +64,7 @@ sub DatepickerGetVacationDays {
     if ( $Param{Calendar} ) {
         if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
             $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $ConfigObject->Get(
-                "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
-            );
+            $TimeVacationDaysOneTime = $ConfigObject->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
         }
     }
 

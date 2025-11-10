@@ -40,7 +40,7 @@ sub Run {
         Size        => $Param{Config}->{Size},
         Fulltext    => '',
         Image       => '',
-        AccessKey   => '',
+        AccessKey   => $Param{Config}->{AccessKey} || '',
         %Data,
     };
     return %Return;

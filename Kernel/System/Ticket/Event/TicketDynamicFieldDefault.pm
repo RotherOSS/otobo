@@ -67,7 +67,7 @@ sub Run {
 
     my $CacheKey = '_TicketDynamicFieldDefault::AlreadyProcessed';
 
-    # loop protection: only execute this handler once for each ticket
+    # loop protection: bail out if ticket was not found previously
     return if ( $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } );
 
     # get ticket data in silent mode, it could be that the ticket was deleted
@@ -80,7 +80,7 @@ sub Run {
 
     if ( !%Ticket ) {
 
-        # remember that the event was executed for this TicketID to avoid multiple executions
+        # remember that the ticket was not found to prevent multiple executions
         # store the information in the ticket object
         $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
 
@@ -143,8 +143,6 @@ sub Run {
             }
         }
     }
-
-    $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
 
     return 1;
 }

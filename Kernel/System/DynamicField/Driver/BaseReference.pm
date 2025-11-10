@@ -1129,8 +1129,6 @@ sub GetFieldTypeSettings {
             };
     }
 
-    # EO ITSMconfigurationmanagement
-
     return @GenericSettings;
 }
 
