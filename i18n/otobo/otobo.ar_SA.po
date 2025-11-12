@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-10-31 09:55+0000\n"
+"PO-Revision-Date: 2025-11-11 09:59+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
 "otobo/otobo-11/ar_SA/>\n"
@@ -23181,22 +23181,27 @@ msgstr "يُشغِّل بحثًا أوليًا باستخدام الرموز ا�
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module."
 msgstr ""
+"يقوم بإجراء بحث مبدئي باستخدام حرف البدل عن مستخدمي العملاء الحاليين عند "
+"الوصول إلى وحدة AdminCustomerUser."
 
 #. SysConfig
 msgid "Runs the system in \"Demo\" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords."
 msgstr ""
+"يشغّل النظام في وضع \"التجربة\". إذا تم تمكينه، يمكن للعملاء تعديل التفضيلات، "
+"مثل اختيار اللغة والسمة عبر واجهة الويب الخاصة بالعميل. تكون هذه التغييرات "
+"صالحة فقط للجلسة الحالية. لن يتمكن العملاء من تغيير كلمات مرورهم."
 
 #. SysConfig
 msgid "Russian"
-msgstr ""
+msgstr "الروسية"
 
 #. SysConfig
 msgid "S/MIME Certificates"
-msgstr ""
+msgstr "شهادات S/MIME"
 
 #. SysConfig
 msgid "Salutations"
-msgstr "تحايا"
+msgstr "تحيات"
 
 #. SysConfig
 msgid "Sample command output"
@@ -26989,11 +26994,11 @@ msgstr ""
 
 #. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_NONE - لا يتم التحقق من مضيف خادم البريد"
 
 #. SysConfig
 msgid "SSL_VERIFY_PEER - verify the mail server host"
-msgstr ""
+msgstr "SSL_VERIFY_PEER - التحقق من مضيف خادم البريد"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."

@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 // --
 
-/*eslint-disable no-window*/
+/*eslint-disable otobo/no-window*/
 
 "use strict";
 
@@ -1762,4 +1762,4 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
     return TargetNS;
 }(Core.Agent.Admin.ProcessManagement || {}));
 
-/*eslint-enable no-window*/
+/*eslint-enable otobo/no-window*/
