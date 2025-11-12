@@ -94,7 +94,6 @@ Returns possible values, selected values, and visibility of fields
         LoopProtection            => \$LoopProtection,              # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
         Autoselect                => {},                            # optional; default: undef; {Field => 0,1,2, ...}
         ACLPreselection           => 0|1,                           # optional
-        InitialRun                => 1,                             # optional; evaluate e.g. script fields without AJAX Trigger once
         PossibleValuesOnly        => 1,                             # optional; assume all fields are visible e.g. for sets
     );
 
