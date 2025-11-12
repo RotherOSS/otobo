@@ -451,7 +451,6 @@ sub Run {
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
                     LoopProtection  => \$LoopProtection,
-                    InitialRun      => $InitialRun,
                 );
 
                 # combine FieldStates

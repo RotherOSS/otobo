@@ -1827,7 +1827,6 @@ sub _OutputActivityDialog {
             Autoselect                => $Autoselect,
             ACLPreselection           => $ACLPreselection // '',
             LoopProtection            => \$LoopProtection,
-            InitialRun                => 1,
         );
 
         %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{$_}{PossibleValues} } keys $Self->{DynamicField}->%*;
