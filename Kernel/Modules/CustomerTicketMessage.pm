@@ -437,6 +437,7 @@ sub Run {
                 $Convergence{Fields} = 1;
             }
 
+            $InitialRun = 0;
         }
 
         # create html strings for all dynamic fields
