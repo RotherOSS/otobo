@@ -479,6 +479,7 @@ sub Run {
                 $Convergence{Fields} = 1;
             }
 
+            $InitialRun = 0;
         }
 
         my %DynamicFieldPossibleValues = map {
