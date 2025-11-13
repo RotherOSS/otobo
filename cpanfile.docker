@@ -291,9 +291,6 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'mail' is not needed for Docker
-
-
 # feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
