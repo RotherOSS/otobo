@@ -182,7 +182,6 @@ my %IsStandardFeature = (
     %IsCommonFeature,
     'apache:mod_perl' => 1,
     'div:hanextra'    => 1,
-    'mail'            => 1,
 );
 
 # defines a set of features considered standard for docker environments
@@ -870,24 +869,7 @@ my @NeededModules = (
         },
     },
 
-    # Feature mail
-    {
-        Module              => 'Net::SMTP',
-        Features            => ['mail'],
-        Comment             => 'Simple Mail Transfer Protocol Client.',
-        VersionsRecommended => [
-            {
-                Version => '3.11',
-                Comment => 'This version fixes email sending (bug#14357).',
-            },
-        ],
-        InstTypes => {
-            aptget => 'perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
+    # Feature mail:imap, mail:sasl, mail:ntlm
     {
         Module          => 'Mail::IMAPClient',
         VersionRequired => '>= 3.22',
