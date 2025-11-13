@@ -167,22 +167,26 @@ my %DistToInstType = (
     freebsd => 'ports',
 );
 
+# defines a set of features considered standard for non-docker and docker environments
+my %IsCommonFeature = (
+    'db:mysql'         => 1,
+    'div:bcrypt'       => 1,
+    'div:ldap'         => 1,
+    'div:xslt'         => 1,
+    'mail:ntlm'        => 1,
+    'mail:sasl'        => 1,
+);
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
+    %IsCommonFeature,
     'apache:mod_perl' => 1,
-    'db:mysql'        => 1,
-    'div:bcrypt'      => 1,
     'div:hanextra'    => 1,
-    'div:ldap'        => 1,
-    'div:xslt'        => 1,
     'mail'            => 1,
-    'mail:ntlm'       => 1,
-    'mail:sasl'       => 1,
 );
 
 # defines a set of features considered standard for docker environments
 my %IsDockerFeature = (
-    'db:mysql'           => 1,
+    %IsCommonFeature,
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
@@ -190,15 +194,10 @@ my %IsDockerFeature = (
     'devel:encoding'     => 1,
     'devel:test'         => 1,
     'devel:i18n'         => 1,
-    'div:bcrypt'         => 1,
     'div:cldr'           => 1,
     'div:qrcode'         => 1,
-    'div:ldap'           => 1,
-    'div:xslt'           => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
-    'mail:ntlm'          => 1,
-    'mail:sasl'          => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
     'auth:openidconnect' => 1,
