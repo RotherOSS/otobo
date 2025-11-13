@@ -216,13 +216,6 @@ feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => s
 
 };
 
-feature 'mail', 'Features enabling communication with a mail-server' => sub {
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
-
-};
-
 feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient', '>= 3.22';
@@ -272,10 +265,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
 
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient', '>= 3.22';

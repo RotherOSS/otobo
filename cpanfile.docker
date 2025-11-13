@@ -204,9 +204,6 @@ requires 'Const::Fast';
 
 # };
 
-# Feature 'mail' is not needed for Docker
-
-
 # feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient', '>= 3.22';
