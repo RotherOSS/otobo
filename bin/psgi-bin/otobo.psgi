@@ -100,8 +100,10 @@ eval {
     require Net::DNS;
 };
 
-# Activate profiling only when Plack::Middleware::Profiler::NYTProf is installed.
-my $ProfilingIsActive = 0;
+# Activate profiling when Plack::Middleware::Profiler::NYTProf is loaded.
+# Passing the option "-M Plack::Middleware::Profiler::NYTProf" to plackup does the trick.
+my $ProfilingIsActive = $INC{'Plack/Middleware/Profiler/NYTProf.pm'} ? 1: 0;
+#my $ProfilingIsActive = 1; # uncomment for activating profiling
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");

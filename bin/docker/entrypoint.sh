@@ -122,6 +122,10 @@ function exec_web() {
     elif [ "$otobo_devel" = "development" ]; then
         exec plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
 
+    # For activating profiling. Loading the middleware tells otobo.psgi that profiling is enabled.
+    elif [ "$otobo_devel" = "nytprof" ]; then
+        exec plackup -M Plack::Middleware::Profiler::NYTProf --port 5000 bin/psgi-bin/otobo.psgi
+
     # For being very sure that all modules are reloaded and the config being read again
     elif [ "$otobo_devel" = "shotgun" ]; then
         exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
