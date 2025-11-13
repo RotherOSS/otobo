@@ -1,1 +1,4 @@
 cpanfile.docker.snapshot merge=ours
+CHANGES.md merge=ours
+i18n/** merge=ours
+Kernel/Language/** merge=ours

@@ -451,7 +451,6 @@ sub Run {
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
                     LoopProtection  => \$LoopProtection,
-                    InitialRun      => $InitialRun,
                 );
 
                 # combine FieldStates
@@ -480,6 +479,7 @@ sub Run {
                 $Convergence{Fields} = 1;
             }
 
+            $InitialRun = 0;
         }
 
         my %DynamicFieldPossibleValues = map {
