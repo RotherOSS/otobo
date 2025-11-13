@@ -26,7 +26,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
-    # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    # Print the console commands to install all missing packages for the standard configuration via the system package manager.
     # No version check is done.
     bin/otobo.CheckModules.pl --inst
 
@@ -61,6 +61,8 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
 This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
+
+Modules that are in Perl core in Perl 5.24 or later are no included in the list of required modules.
 
 =cut
 
