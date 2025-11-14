@@ -301,14 +301,17 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             ElementExists => [ '.ReturnToPreviousPage', 'css' ]
         );
-        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
-
+        $Selenium->execute_script('$(".ReturnToPreviousPage").trigger("click");');
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Mark this ticket as junk!\"]').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('#nav-Spam a').length;"
         );
 
         # Click on 'Spam' and check for ACL error message.
-        $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
+        $Selenium->execute_script('document.querySelector("#nav-Spam a").click();');
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
 
         $Selenium->content_contains(
             $ErrorMessage,
