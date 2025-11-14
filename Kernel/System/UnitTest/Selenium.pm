@@ -1231,4 +1231,30 @@ sub find_no_element_by_css_ok {
     return 0;
 }
 
+=head2 get_selected_value
+
+Helper to get the value property of form elements, definded by using a Css Selector
+
+=cut
+
+sub get_selected_value {
+    my ( $Self, $CssSelector )  = @_;
+
+    return $Self->execute_script("return \$('$CssSelector')[0].value;");
+}
+
+=head2 get_value_by_id
+
+Helper to get the value property of form elements, similar to above helper,
+but using a DOM id and getElementById to allow for IDs that are not valid 
+CSS Selectors.
+
+=cut
+
+sub get_value_by_id {
+    my ( $Self, $ID )  = @_;
+
+    return $Self->execute_script("return document.getElementById('$ID').value;");
+}
+
 1;

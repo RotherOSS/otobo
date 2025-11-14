@@ -242,7 +242,7 @@ $Selenium->RunTest(
             "ConditionLinking stored value",
         );
         $Self->Is(
-            $Selenium->find_element(".//*[\@id='ConditionFieldName[1][$TransitionFieldName]']")->get_value(),
+            $Selenium->get_value_by_id("ConditionFieldName[1][$TransitionFieldName]"),
             $TransitionFieldName,
             "ConditionFieldName stored value",
         );
