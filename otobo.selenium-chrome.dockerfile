@@ -3,8 +3,7 @@
 # See bin/docker/build_docker_images.sh for how to build locally.
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# note that selenium/standalone-chrome-debug:3.141.59-20210607 has changed behavior
-FROM selenium/standalone-chrome-debug:3.141.59-20210422 AS otobo-selenium-chrome
+FROM selenium/standalone-chrome:141.0-chromedriver-141.0-20251101
 
 # For the VNC-viewer, e.g. Remmina
 EXPOSE 5900/tcp
