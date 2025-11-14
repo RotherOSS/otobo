@@ -135,27 +135,20 @@ $Selenium->RunTest(
             $Selenium->WaitFor(
                 JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
             );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Dest").length;' );
-
-            $Selenium->execute_script("\$('Dest').click()");
             $Selenium->InputFieldValueSet(
                 Element => '#Dest',
                 Value   => '2||Raw',
             );
 
-            $Selenium->WaitFor( JavaScript => 'return document.getElementById("Dest").value === "2||Raw";' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Dest").val() === "2||Raw";' );
 
-            $Selenium->find_element( "#Subject",  'css' )->click();
             $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
-            $Selenium->find_element( "#RichText",  'css' )->click();
             $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
 
             $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
-
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-            );
 
             my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
