@@ -102,7 +102,15 @@ sub Run {
         # Note that this does not consider whether the last options takes an argument.
         # Also note that this does not consider whether the command takes positional arguments.
         if ( !@Options && $CurrentWord && $CurrentWord !~ m/^-/ ) {
-            @Options = glob "$CurrentWord*";
+            my @GlobResult = glob "$CurrentWord*";
+            for my $ResultItem (@GlobResult) {
+                if ( -d $ResultItem ) {
+                    push @Options, "$ResultItem/";
+                }
+                else {
+                    push @Options, $ResultItem;
+                }
+            }
         }
 
         print join "\n", @Options;
