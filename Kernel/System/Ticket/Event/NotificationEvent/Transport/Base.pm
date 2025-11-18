@@ -181,7 +181,7 @@ sub _ReplaceTicketAttributes {
     REPLACEMENT:
     while (
         $Param{Field}
-        && $Param{Field} =~ m{<OTOBO_TICKET_([A-Za-z0-9_]+)>}msxi
+        && $Param{Field} =~ m{<OTOBO_TICKET_([A-Za-z0-9-_]+)>}msxi
         && $Count++ < 1000
         )
     {
