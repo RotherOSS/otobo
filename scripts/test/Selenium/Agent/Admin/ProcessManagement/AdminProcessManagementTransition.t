@@ -243,6 +243,9 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->get_value_by_id("ConditionFieldName[1][$TransitionFieldName]"),
+# this should work instead, but doesn't. looks like find_element_id is internally generating
+# a css selector. but using plain old document.getElementById still works ...            
+#            $Selenium->find_element( 'ConditionFieldName[1][$TransitionFieldName', 'id' ),
             $TransitionFieldName,
             "ConditionFieldName stored value",
         );
