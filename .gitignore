@@ -124,3 +124,6 @@ Test
 *.csr
 *.key
 *.pem
+
+# files created by PackagePrep script
+*.pp_backup
