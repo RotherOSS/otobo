@@ -778,7 +778,7 @@ sub GetStatElement {
 
     for my $ParameterName ( sort keys %Param ) {
         if (
-            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
+            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d-]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
             )
         {
             my $FieldName = $1;
