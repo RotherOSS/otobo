@@ -609,7 +609,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_Required_IfVisible");
 
                     // handling of database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_Required") ) {
                         FieldData.removeClass("Validate_Required");
                         FieldData.addClass("Validate_Required_IfVisible");
@@ -620,7 +620,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_DnDUpload_IfVisible");
 
                     // handling of database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload") ) {
                         FieldData.removeClass("Validate_DnDUpload");
                         FieldData.addClass("Validate_DnDUpload_IfVisible");
@@ -660,7 +660,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_Required");
 
                     // handling database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_Required_IfVisible") ) {
                         FieldData.removeClass("Validate_Required_IfVisible");
                         FieldData.addClass("Validate_Required");
@@ -671,7 +671,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_DnDUpload");
 
                     // handling database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload_IfVisible") ) {
                         FieldData.removeClass("Validate_DnDUpload_IfVisible");
                         FieldData.addClass("Validate_DnDUpload");
@@ -696,7 +696,7 @@ Core.AJAX = (function (TargetNS) {
 
                 if ( $FieldRow.hasClass('MultiValue') ) {
                     Core.UI.InputFields.InitSelect( $('select[name=' + FieldInfo[0] + ']') );
-                    MultiValueFields.forEach( function( $Cell ) {
+                    MultiValueFields.forEach( function() {
                         if ( Field.hasClass('Modernize')) {
                             $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
                         }
