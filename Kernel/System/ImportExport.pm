@@ -2282,7 +2282,7 @@ sub Export {
         Success            => 0,
         Failed             => 0,
         DestinationContent => [],
-        ChunkingFinished   => $ObjectBackend->{ChunkingFinished},    # TODO: this is not nice
+        ChunkingFinished   => $ObjectBackend->{ChunkingFinished},    # TODO: it is not nice to access object attributes directly
     );
 
     EXPORTDATAROW:

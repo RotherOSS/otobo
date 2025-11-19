@@ -74,7 +74,7 @@ sub new {
     return bless {
         AllRows          => undef,    # will be initialized in first call to ExportDataGet()
         LastHandledIndex => -1,       # used for chunking
-        ChunkingFinished =>  1,       # indicate that chunking is finished
+        ChunkingFinished =>  1,       # indicate that chunking is finished, which is kind of true when no chunking is requested
     }, $Type;
 }
 
