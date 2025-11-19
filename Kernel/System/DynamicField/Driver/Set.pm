@@ -357,6 +357,7 @@ sub EditFieldRender {
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 Name             => $Param{DynamicFieldConfig}->{Name},
+                Index            => 'Template',
                 DynamicFieldHTML => $DynamicFieldHTML,
             },
         );
