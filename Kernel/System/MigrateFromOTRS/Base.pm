@@ -1017,8 +1017,8 @@ sub ReplaceSubstringsOfColumnValues {
     }
 
     # the actual migration
-    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the the first parameter
-    # It exitst in MySQL, PostgreSQL, and Oracle
+    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the first parameter.
+    # It exitst in MySQL, PostgreSQL, and Oracle.
     my @SQLs     = map {"UPDATE $Param{Table} SET $_ = REPLACE( $_, ?, ? )"} $Param{Columns}->@*;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     SQL:
