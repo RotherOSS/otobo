@@ -300,6 +300,21 @@ sub ExportDataGet {
     );
 }
 
+=head2 IsExportComplete()
+
+Indicate whether the last C<ExportDataGet()> has returned the last chunk of data.
+A true value is also returned when chunking had not been activated.
+
+    my $ChunkingFinished = $ObjectBackend->IsExportComplete;
+
+=cut
+
+sub IsExportComplete {
+    my ($Self) = @_;
+
+    return $Self->{ChunkingFinished};
+}
+
 =head2 ImportDataSave()
 
 import one row of the import data
