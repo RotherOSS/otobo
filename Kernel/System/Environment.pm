@@ -27,7 +27,7 @@ use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimport
 use File::Spec ();
 
 # CPAN modules
-use Sys::Hostname::Long qw(hostname_long);
+use Sys::Hostname::Long qw(hostname_long);    # available from Kernel/cpan-lib
 
 # OTOBO modules
 
