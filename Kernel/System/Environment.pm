@@ -19,7 +19,6 @@ package Kernel::System::Environment;
 use v5.24;
 use strict;
 use warnings;
-use namespace::autoclean;
 use utf8;
 
 # core modules
