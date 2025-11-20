@@ -390,7 +390,7 @@ sub ArticleAttachmentIndexRaw {
             }
         }
 
-        # add the info the the hash
+        # add the info to the hash
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Row[0],

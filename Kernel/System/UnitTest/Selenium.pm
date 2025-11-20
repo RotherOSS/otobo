@@ -44,7 +44,7 @@ our $ObjectManagerDisabled = 1;
 
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
-# Extending with 'around' is only done when the the class is actually extended.
+# Extending with 'around' is only done when the class is actually extended.
 {
     # Check whether Selenium testing is activated.
     # Note that $Kernel::OM must exist before this module is loaded.
@@ -240,7 +240,7 @@ sub BUILD {
 =head2 button_up()
 
 In L<Selenium::Remote::Driver> 1.39 there seems to be a bug in the method C<button_up()>.
-In the original version the the type of the action is I<Pointer Down>.
+In the original version the type of the action is I<Pointer Down>.
 But the action I<Pointer Up> makes more sense and fixes DragAndDrop test failures.
 Therefore override that subroutine.
 

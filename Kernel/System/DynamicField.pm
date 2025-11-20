@@ -574,7 +574,7 @@ sub DynamicFieldDelete {
 
 =head2 DynamicFieldList()
 
-get DynamicField list ordered by the the "Field Order" field in the DB
+get the DynamicField list ordered by the "Field Order" field in the DB
 
     my $List = $DynamicFieldObject->DynamicFieldList();
 

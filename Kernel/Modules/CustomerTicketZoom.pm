@@ -1722,7 +1722,7 @@ sub _Mask {
             },
         );
 
-        # output the process widget the the main screen
+        # output the process widget on the main screen
         $LayoutObject->Block(
             Name => 'ProcessWidget',
             Data => {

@@ -367,7 +367,7 @@ sub DataTransfer {
 
     # Use a locking table for avoiding concurrent migrations.
     # Open for writing as the file usually does not exist yet.
-    # This approach assumes that the the webserver processes are running on a single machine.
+    # This approach assumes that the webserver processes are running on a single machine.
     my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
 
     ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)

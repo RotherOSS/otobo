@@ -90,7 +90,7 @@ sub Run {
             $UserData{$UserID} .= " ($Name)";
         }
 
-        # get members of the the role
+        # get members of the role
         my %Member = $GroupObject->PermissionRoleUserGet(
             RoleID => $ID,
         );

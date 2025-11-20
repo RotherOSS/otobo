@@ -585,7 +585,7 @@ sub DiscardObjects {
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     my $DOM = Mojo::DOM->new->xml(1);
     {
-        # start with the the toplevel Delete tag
+        # start with the toplevel Delete tag
         $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
 
         FILENAME:
