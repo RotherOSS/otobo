@@ -24,7 +24,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substution
+use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substitution
 
 # OTOBO modules
 use Kernel::Language              ();
