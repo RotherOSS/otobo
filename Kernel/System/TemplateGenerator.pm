@@ -1558,8 +1558,8 @@ sub _Replace {
         }
     }
 
-    # Dropdown, Checkbox and MultipleSelect DynamicFields, can store values (keys) that are
-    # different from the the values to display
+    # Dropdown, Checkbox and MultiSelect DynamicFields, can store values (keys) that are
+    # different from the values to display
     # <OTOBO_TICKET_DynamicField_NameX> returns the stored key
     # <OTOBO_TICKET_DynamicField_NameX_Value> returns the display value
 
