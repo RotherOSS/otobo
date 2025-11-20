@@ -1066,6 +1066,21 @@ sub ExportDataGet {
     return \@ExportData;
 }
 
+=head2 IsExportComplete()
+
+Indicate whether the last C<ExportDataGet()> has returned the last chunk of data.
+A true value is also returned when chunking had not been activated.
+
+    my $ChunkingFinished = $ObjectBackend->IsExportComplete;
+
+=cut
+
+sub IsExportComplete {
+    my ($Self) = @_;
+
+    return $Self->{ChunkingFinished};
+}
+
 =head2 ImportDataSave()
 
 imports a single entity of the import data. An entity is either a ticket or an article.
