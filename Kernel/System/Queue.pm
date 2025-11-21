@@ -1313,39 +1313,30 @@ sub QueueList {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return %{$Cache} if $Cache;
 
-    # get database object
+    return $Cache->%* if $Cache;
+
+    # SQL query
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $SQL      = $Valid
+        ?
+        "SELECT id, name FROM queue WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )"
+        :
+        'SELECT id, name FROM queue';
 
-    # sql query
-    if ($Valid) {
-        return if !$DBObject->Prepare(
-            SQL => "SELECT id, name FROM queue WHERE valid_id IN "
-                . "( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )",
-        );
-    }
-    else {
-        return if !$DBObject->Prepare(
-            SQL => 'SELECT id, name FROM queue',
-        );
-    }
-
-    # fetch the result
-    my %Queues;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Queues{ $Row[0] } = $Row[1];
-    }
+    my %QueueID2Name = $DBObject->SelectMapping(
+        SQL => $SQL
+    );
 
     # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
-        Value => \%Queues,
+        Value => \%QueueID2Name,
     );
 
-    return %Queues;
+    return %QueueID2Name;
 }
 
 =head2 QueuePreferencesSet()
