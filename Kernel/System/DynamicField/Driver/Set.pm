@@ -329,7 +329,6 @@ sub EditFieldRender {
     }
 
     # decide which structure to return
-    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         for my $Name ( sort keys $DynamicField->%* ) {
             $DynamicField->{$Name}{Name} = $Name . '_Template';
@@ -453,7 +452,7 @@ sub EditFieldValueGet {
     }
 
     # TODO check if below comment is true
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 
@@ -815,7 +814,7 @@ sub GetFieldState {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-    my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
+    my $Include      = $SetConfig->{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
         InputFieldDefinition => $Include,
         DynamicFieldObject   => $DynamicFieldObject,
