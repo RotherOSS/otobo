@@ -1289,6 +1289,8 @@ get all queues
 
     my %Queues = $QueueObject->QueueList();
 
+get only the valid queues
+
     my %Queues = $QueueObject->QueueList( Valid => 1 );
 
 =cut
