@@ -798,7 +798,7 @@ sub ArticleAttachmentIndexRaw {
         # strip filename
         $Filename =~ s!^.*/!!;
 
-        # add the info the the hash
+        # add the info to the hash
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,

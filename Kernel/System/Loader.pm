@@ -588,7 +588,7 @@ sub CacheDelete {
 deletes all the loader cache files. That is all files with the prefix I<var/httpd/htdocs>
 where the key contains neither I</js-cache/> nor I</css-cache>.
 
-Returns the success of the the discard operations.
+Returns the success of the discard operations.
 
     my $Success = $LoaderObject->_S3CacheDelete();
 

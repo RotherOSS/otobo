@@ -19,7 +19,6 @@ package Kernel::System::Environment;
 use v5.24;
 use strict;
 use warnings;
-use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -28,7 +27,7 @@ use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimport
 use File::Spec ();
 
 # CPAN modules
-use Sys::Hostname::Long qw(hostname_long);
+use Sys::Hostname::Long qw(hostname_long);    # available from Kernel/cpan-lib
 
 # OTOBO modules
 
