@@ -33,36 +33,66 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::EventHandler - event handler interface
+Kernel::System::EventHandler - event handling trait
 
 =head1 DESCRIPTION
 
-Inherit from this class if you want to use events there.
+This module is not instantiated on its own. It is only meant to provide enhanced functionality
+to other classes. As it adds new methods and attributes to a class it constitutes a trait.
+C<Kernel::System::Ticket> is an example for a class that employs this enhancement mechanism.
+An instance of such an enhanced class constitutes an event handler object.
+
+The trait C<Kernel::System::EventHandler> provides the possibility to use event handling modules like
+C<Kernel::System::Ticket::Event::ArchiveRestore>. These event handling modules must have been registered
+in the OTOBO SysConfig under a category like "Ticket::EventModulePost".
+The event handler object first expresses interest in a specific category.
+Then the business logic code of the event handler object may emit events which are then handled by the relevant modules.
+Only the modules matching both the category and the name of the event are executed.
+
+A special feature is that there are two types of event handling modules. The modules without the attribute I<Transaction>
+handle the event immediately when the event is emitted. The modules marked as I<Transaction> handle the events at a
+deferred time. The execution of the transaction event handling modules is primarily triggered by destruction of the object manager.
+But any other code may also trigger the execution by calling C<EventHandlerTransaction()> on the event handler object.
+
+=head2 Usage by an event handler object
+
+A class that wants to use event handling must inherit from this class.
 
     use parent qw(Kernel::System::EventHandler);
 
-In your class, have to call L</EventHandlerInit()> first.
+An event handler object needs to indicate in which category of event handling modules it is interested.
+It also needs to register itself with the object manager. Both goals are achieved by calling L</EventHandlerInit()>.
+This is usually already done in the constructor.
 
-Then, to register events as they occur, use the L</EventHandler()>
-method. It will call the event handler modules which are registered
-for the given event, or queue them for later execution (so-called
-'Transaction' events).
+The event handler object emits an event by calling the method L</EventHandler()>.
+This method will call the event handling modules to which the class is subscribed and
+and which are registered for the specific event.
+L</EventHandler()> will also queue the event so that the Transaction event handling modules can be triggered later.
 
-In the destructor, you should add a call to L</EventHandlerTransaction()>
+In the destructor of the enhanced class you should add a call to L</EventHandlerTransaction()>
 to make sure that also C<Transaction> events will be executed correctly.
-This is only necessary if you use C<Transaction> events in your class.
+This is only necessary if you use C<Transaction> event handling modules in your class.
+
+=head2 Special case in Kernel::System::MailQueue
+
+An instance of C<Kernel::System::MailQueue> emits the events 'ArticleEmailSending(Queued|Sent|Error)'. These events are handled
+by the transaction event handling module C<Kernel::System::Ticket::Event::NotificationEvent>. But in this
+context the notifications should be sent out immediately. This goal is achieved by passing a special combination
+of parameters and attributes. This is not the recommended practice.
 
 =head1 PUBLIC INTERFACE
 
 =head2 EventHandlerInit()
 
-Call this to initialize the event handling mechanisms to work
-correctly with your object.
+Call this method in order to initialize the event handling mechanism.
+
 
     $Self->EventHandlerInit(
-        # name of configured event modules
-        Config     => 'Example::EventModule',
+        Config     => 'Example::EventModule', # category of event handling modules
     );
+
+The event handler object expressed interest in the passed category.
+It also registers itself with the object manager.
 
 Example 1:
 
@@ -126,7 +156,12 @@ Example 2 XML config:
 sub EventHandlerInit {
     my ( $Self, %Param ) = @_;
 
+    # subscribe to a category of event handling modules
+    # %Param is something like: ( Config => 'ITSM::EventModule' )
     $Self->{EventHandlerInit} = \%Param;
+
+    # Register the event handler object with the object manager. Giving the object manager
+    # the chance to handle events with the transaction even handling modules
     $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
 
     return 1;
@@ -134,21 +169,17 @@ sub EventHandlerInit {
 
 =head2 EventHandler()
 
-call event handler, returns true if it was executed successfully.
+emits an event. It returns true if the immediate event handling modules were executed successfully.
 
 Example 1:
 
     my $Success = $EventHandler->EventHandler(
-        Event => 'TicketStateUpdate',   # event classification, passed to the configured event handlers
-        Data  => {                      # data payload for the event, passed to the configured event handlers
+        Event => 'TicketStateUpdate',   # event name, passed to the event handling modules
+        Data  => {                      # data payload for the event, passed to the event handling modules
             TicketID => 123,
         },
         UserID => 123,
-        Transaction => 1,               # optional, 0 or 1
     );
-
-In 'Transaction' mode, all events will be collected and executed together,
-usually in the destructor of your object.
 
 Example 2:
 
@@ -159,6 +190,9 @@ Example 2:
         },
         UserID => 123,
     );
+
+There is an additional parameter C<Transaction> which should be used only internally.
+This parameter indicates that the transaction event handling modules should be executed.
 
 =cut
 
@@ -182,7 +216,8 @@ sub EventHandler {
     # nothing to do when there are no event handling modules
     return 1 unless $Modules;
 
-    # remember events only on normal mode
+    # Store the events so that they can be handled later by the Transaction modules.
+    # Of course only when we are currently running the transaction modules.
     if ( !$Self->{EventHandlerTransaction} ) {
         $Self->{EventHandlerPipe} //= [];
         push $Self->{EventHandlerPipe}->@*, \%Param;
@@ -255,9 +290,12 @@ sub EventHandler {
 
 =head2 EventHandlerTransaction()
 
-handle all queued 'Transaction' events which were collected up to this point.
+handle the queued events with the transaction event handling modules
 
     $EventHandler->EventHandlerTransaction();
+
+This method is called during the destructor of the object manager.
+It can also be called by long running scripts.
 
 Call this method in the destructor of your object which inherits from
 Kernel::System::EventHandler, like this:
@@ -284,9 +322,15 @@ sub EventHandlerTransaction {
     my $OuterOM = $Kernel::OM;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-    # keep some objects for performance and compatibility reasons
-    # the aim of instantiating a new $Kernel::OM is to have new
-    # objects of all EventHandler-objects to set up fresh pipes
+    # The aim of instantiating a new $Kernel::OM is to have new
+    # objects of all EventHandler-objects to set up fresh pipes.
+    # But keep some objects for performance and compatibility reasons.
+    #
+    # The reason for keeping the Encode object is special. Keeping Kernel::System::Encode
+    # avoids that binmode is called in the constructor.
+    # This is important for batch processes as binmode increments the stack.
+    # The large stack size causes core dumps when the unlimit for the stack size, usually 8192 kB,
+    # is reached.
     my @KeepObjects = (
         'Kernel::System::Cache',
         'Kernel::System::DB',
@@ -334,8 +378,8 @@ sub EventHandlerTransaction {
 
 =head2 EventHandlerHasQueuedTransactions()
 
-Return a true value if there are queued transactions. The queued transactions
-are handled in C<EventHandlerTransaction()>.
+returns a true value if there are queued events. The queued events
+are handled in C<EventHandlerTransaction()> by the transaction event modules.
 
 =cut
 

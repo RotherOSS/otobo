@@ -73,8 +73,13 @@ sub new {
 
     $Self->{CheckEmailAddresses} = $Param{CheckEmailAddresses} // 1;
 
-    # init of event handler
+    # The events emitted in this class are primarily intended for Kernel::System::Ticket::Event::NotificationEvent.
+    # This callback module is declared to a transaction callback module.
+    # But in this case we want to send the notifications immediately. Therefore pretend to be in C<EventHandlerTransaction()>
+    # when calling C<EventHandler()>
     $Self->{EventHandlerTransaction} = 1;
+
+    # init of event handler
     $Self->EventHandlerInit(
         Config => 'Ticket::EventModulePost',
     );
