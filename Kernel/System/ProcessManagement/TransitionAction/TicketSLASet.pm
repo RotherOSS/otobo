@@ -328,7 +328,7 @@ sub _CheckSLA {
     # return failure if there are no assigned SLAs for this Service
     return if !IsHashRefWithData( \%SLAs );
 
-    # return failure if the the SLA is not assigned to the Service
+    # return failure if the SLA is not assigned to the Service
     return if !$SLAs{ $Param{SLAID} };
 
     # otherwise return success

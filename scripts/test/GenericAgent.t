@@ -122,7 +122,7 @@ my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 my %Jobs;
 
-# get the the existing JobList
+# get the existing JobList
 %Jobs = $GenericAgentObject->JobList();
 my $JobCounter1 = keys %Jobs;
 

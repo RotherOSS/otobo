@@ -2998,7 +2998,7 @@ sub TicketEscalationSuspendCalculate {
                     # if we got no working time we are come to an non-working our
                     # so we might want to move in bigger stepts of one hour (3600)
                     # if the steps a currently lower that that.
-                    # if so we need to store the the current time so we can substract
+                    # if so we need to store the current time so we can substract
                     # the difference between it and an full hour later so we come
                     # to the right number as if we would have moved with the smaller
                     # steps.
