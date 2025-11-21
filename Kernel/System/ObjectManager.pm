@@ -433,11 +433,13 @@ sub ObjectParamAdd {
 
 =head2 ObjectEventsHandle()
 
-Execute all queued (C<< Transaction => 1 >>) events for all singleton objects
-that the ObjectManager created before. This can be used to flush the event queue
+Execute the transaction event handling modules for all queued events. These events had been queued
+by the singleton objects that the ObjectManager created before. This can be used to flush the event queue
 before destruction, for example.
 
     $Kernel::OM->ObjectEventsHandle();
+
+This method is implicitly called in the F<DESTROY()> method.
 
 =cut
 

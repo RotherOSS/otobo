@@ -86,7 +86,6 @@ of parameters and attributes. This is not the recommended practice.
 
 Call this method in order to initialize the event handling mechanism.
 
-
     $Self->EventHandlerInit(
         Config     => 'Example::EventModule', # category of event handling modules
     );
@@ -216,8 +215,8 @@ sub EventHandler {
     # nothing to do when there are no event handling modules
     return 1 unless $Modules;
 
-    # Store the events so that they can be handled later by the Transaction modules.
-    # Of course only when we are currently running the transaction modules.
+    # Store the events so that they can be handled later by the transaction event handling modules.
+    # Only when we are nor currently running the transaction modules.
     if ( !$Self->{EventHandlerTransaction} ) {
         $Self->{EventHandlerPipe} //= [];
         push $Self->{EventHandlerPipe}->@*, \%Param;
@@ -355,7 +354,7 @@ sub EventHandlerTransaction {
         return;
     }
 
-    # execute events on end of transaction
+    # handle the queued events on end of transaction
     if ( $Self->{EventHandlerPipe} ) {
 
         for my $Params ( @{ $Self->{EventHandlerPipe} } ) {
