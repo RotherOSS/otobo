@@ -846,10 +846,12 @@ sub GetFieldState {
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
 
+            my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                     = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $Name . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Set}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
+            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
+            $Return{Set}{$Name}{Values}{ $SuffixedName . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
@@ -884,10 +886,12 @@ sub GetFieldState {
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
 
+            my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                 = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $Name . '_Template' } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Set}{$Name}{DynamicFieldConfig}                         = $DynamicField->{$Name};
+            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_Template' } = $SetFieldStates{Fields}{$Name};
+            $Return{Set}{$Name}{Values}{ $SuffixedName . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
