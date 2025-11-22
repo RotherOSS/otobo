@@ -313,11 +313,14 @@ Kernel::System::EventHandler, like this:
 sub EventHandlerTransaction {
     my ( $Self, %Param ) = @_;
 
-    # remember, we are in destroy mode, do not execute new events
+    # Remember that we in the mode that handles the queued events. That is, we are
+    # running the transaction modules for these events. In this mode, both
+    # the immediate and the transaction event handling modules are run immediately
+    # when an event is emitted. New events are not added to the queue.
     $Self->{EventHandlerTransaction} = 1;
 
     ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
-    # set up a clean object manager here to enable correct handling of nested transactions
+    # Set up a clean object manager here to enable correct handling of nested transactions.
     my $OuterOM = $Kernel::OM;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
@@ -371,6 +374,10 @@ sub EventHandlerTransaction {
 
     # reset transaction mode
     $Self->{EventHandlerTransaction} = 0;
+
+    # The localized object manager is destroyed here. This means that the method DESTROY is called.
+    # DESTROY runs the transaction event handling modules for the events that were generated
+    # while running the above loop.
 
     return 1;
 }
