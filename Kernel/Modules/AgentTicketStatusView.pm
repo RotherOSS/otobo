@@ -245,11 +245,7 @@ sub Run {
             Result => 'ARRAY',
         );
 
-        $ViewableTicketCount = $TicketObject->TicketSearch(
-            %{ $Filters{$Filter}->{Search} },
-            %ColumnFilter,
-            Result => 'COUNT',
-        ) || 0;
+        $ViewableTicketCount = scalar @ViewableTickets;
     }
 
     my $View = $ParamObject->GetParam( Param => 'View' ) || '';
