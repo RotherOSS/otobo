@@ -1267,6 +1267,15 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
+  Encode-HanExtra-0.23
+    pathname: A/AU/AUDREYT/Encode-HanExtra-0.23.tar.gz
+    provides:
+      Encode::HanExtra 0.23
+      Encode::TW::Unisys::SOSI1 1.01
+      Encode::TW::Unisys::SOSI2 1.01
+    requirements:
+      Encode 1.41
+      ExtUtils::MakeMaker 0
   Encode-Locale-1.05
     pathname: G/GA/GAAS/Encode-Locale-1.05.tar.gz
     provides:
@@ -3741,15 +3750,9 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
-      HTTP::Negotiate 0
-      HTTP::Response 0
-      HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
       JSON 0
-      LWP 0
-      LWP::MediaTypes 0
-      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
