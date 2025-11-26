@@ -177,8 +177,11 @@ requires 'Const::Fast';
 
 # };
 
-# Feature 'div:hanextra' is not needed for Docker
+# feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
+    # Required to handle mails with several Chinese character sets.
+    requires 'Encode::HanExtra', '>= 0.23';
 
+# };
 
 # feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
