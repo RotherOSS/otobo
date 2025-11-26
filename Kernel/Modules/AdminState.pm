@@ -371,6 +371,7 @@ sub _Edit {
     $LayoutObject->Block(
         Name => $Param{Errors}->{InSettingNameServerError} . 'NameServerError',
     );
+    $LayoutObject->Block( Name => 'NameServerError' );
 
     # Several error messages can be used for Valid option.
     $Param{Errors}->{ValidOptionServerError} //= 'Required';
