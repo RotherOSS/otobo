@@ -171,6 +171,7 @@ my %DistToInstType = (
 my %IsCommonFeature = (
     'db:mysql'         => 1,
     'div:bcrypt'       => 1,
+    'div:hanextra'     => 1,
     'div:ldap'         => 1,
     'div:xslt'         => 1,
     'mail:imap'        => 1,
@@ -181,7 +182,6 @@ my %IsCommonFeature = (
 my %IsStandardFeature = (
     %IsCommonFeature,
     'apache:mod_perl' => 1,
-    'div:hanextra'    => 1,
 );
 
 # defines a set of features considered standard for docker environments
