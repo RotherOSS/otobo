@@ -489,10 +489,19 @@ sub EditFieldValueGet {
             pop @DataAll;
 
             # delete empty values (can happen if the user has selected the "-" entry)
+            my $HasValue = 0;
             for my $Item (@DataAll) {
+                if ($Item) {
+                    $HasValue = 1;
+                }
                 push @Data, $Item // '';
             }
-            $Value = \@Data;
+            if ($HasValue) {
+                $Value = \@Data;
+            }
+            else {
+                $Value = [];
+            }
         }
         else {
             $Value = $Param{ParamObject}->GetParam( Param => $FieldName );

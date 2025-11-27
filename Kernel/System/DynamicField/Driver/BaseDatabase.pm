@@ -485,6 +485,15 @@ sub EditFieldValueGet {
             # delete the template value
             pop @Data;
 
+            # prevent things like [""] to pass through
+            if ( grep {$_} @Data ) {
+
+                # do nothing
+            }
+            else {
+                @Data = ();
+            }
+
             $Value = \@Data;
         }
         else {

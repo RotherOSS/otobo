@@ -464,10 +464,19 @@ sub EditFieldValueGet {
             # delete the template value
             pop @DataAll;
 
+            my $HasValue = 0;
             for my $Item (@DataAll) {
+                if ($Item) {
+                    $HasValue = 1;
+                }
                 push @Data, $Item // '';
             }
-            $Value = \@Data;
+            if ($HasValue) {
+                $Value = \@Data;
+            }
+            else {
+                $Value = [];
+            }
         }
         else {
             $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
@@ -1057,13 +1066,13 @@ sub BuildSelectionDataGet {
             my $Parents;
             my %DisabledElements;
             my %ProcessedElements;
-            my $PosibleNoneSet;
+            my $PossibleNoneSet;
 
             # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
-                if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
+                if ( !$Key && !$PossibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
                     # add possible none
                     push @Values, {
