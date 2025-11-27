@@ -486,7 +486,7 @@ sub EditFieldValueGet {
             pop @Data;
 
             # prevent things like [""] to pass through
-            if ( grep {$_} @Data ) {
+            if ( grep { defined $_ && $_ ne '' } @Data ) {
 
                 # do nothing
             }

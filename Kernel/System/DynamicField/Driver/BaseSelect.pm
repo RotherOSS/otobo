@@ -466,7 +466,7 @@ sub EditFieldValueGet {
 
             my $HasValue = 0;
             for my $Item (@DataAll) {
-                if ($Item) {
+                if ( defined $Item && $Item ne '' ) {
                     $HasValue = 1;
                 }
                 push @Data, $Item // '';
