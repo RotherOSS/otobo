@@ -491,7 +491,7 @@ sub EditFieldValueGet {
             # delete empty values (can happen if the user has selected the "-" entry)
             my $HasValue = 0;
             for my $Item (@DataAll) {
-                if ($Item) {
+                if ( defined $Item && $Item ne '' ) {
                     $HasValue = 1;
                 }
                 push @Data, $Item // '';

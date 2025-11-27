@@ -487,7 +487,7 @@ sub EditFieldValueGet {
             pop @Data;
 
             # prevent things like [""] to pass through
-            if ( grep {$_} @Data ) {
+            if ( grep { defined $_ && $_ ne '' } @Data ) {
 
                 # do nothing
             }
@@ -498,7 +498,7 @@ sub EditFieldValueGet {
         else {
 
             # delete empty values
-            @Data = grep {$_} @Data;
+            @Data = grep { defined $_ && $_ ne '' } @Data;
         }
 
         $Value = \@Data;
