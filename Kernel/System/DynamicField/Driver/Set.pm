@@ -331,7 +331,8 @@ sub EditFieldRender {
     # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         for my $Name ( sort keys $DynamicField->%* ) {
-            $DynamicField->{$Name}{Name} = $Name . '_Template';
+            $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_Template';
+            $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
         }
 
         # can be set by preceding GetFieldState()
