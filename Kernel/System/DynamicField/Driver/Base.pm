@@ -310,7 +310,7 @@ sub ValueStructureFromDB {
         if ( $Param{MultiValue} ) {
             my @ReturnValue;
             for my $Value ( $Param{ValueDB}->@* ) {
-                $ReturnValue[ $Value->{IndexSet} ][ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+                $ReturnValue[ $Value->{IndexSet} ][ $Value->{IndexValue} // 0 ] = $Value->{ $Param{ValueKey} };
             }
 
             return \@ReturnValue;
@@ -336,7 +336,7 @@ sub ValueStructureFromDB {
     if ( $Param{MultiValue} ) {
         my @ReturnValue;
         for my $Value ( $Param{ValueDB}->@* ) {
-            $ReturnValue[ $Value->{IndexValue} ] = $Value->{ $Param{ValueKey} };
+            $ReturnValue[ $Value->{IndexValue} // 0 ] = $Value->{ $Param{ValueKey} };
         }
 
         return \@ReturnValue;
