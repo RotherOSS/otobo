@@ -1304,6 +1304,15 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
+  Encode-HanExtra-0.23
+    pathname: A/AU/AUDREYT/Encode-HanExtra-0.23.tar.gz
+    provides:
+      Encode::HanExtra 0.23
+      Encode::TW::Unisys::SOSI1 1.01
+      Encode::TW::Unisys::SOSI2 1.01
+    requirements:
+      Encode 1.41
+      ExtUtils::MakeMaker 0
   Encode-Locale-1.05
     pathname: G/GA/GAAS/Encode-Locale-1.05.tar.gz
     provides:
@@ -2397,6 +2406,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -3933,60 +3943,60 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Type-Tiny-2.008004
-    pathname: T/TO/TOBYINK/Type-Tiny-2.008004.tar.gz
+  Type-Tiny-2.008006
+    pathname: T/TO/TOBYINK/Type-Tiny-2.008006.tar.gz
     provides:
-      Devel::TypeTiny::Perl58Compat 2.008004
-      Error::TypeTiny 2.008004
-      Error::TypeTiny::Assertion 2.008004
-      Error::TypeTiny::Compilation 2.008004
-      Error::TypeTiny::WrongNumberOfParameters 2.008004
-      Eval::TypeTiny 2.008004
-      Eval::TypeTiny::CodeAccumulator 2.008004
-      Reply::Plugin::TypeTiny 2.008004
-      Test::TypeTiny 2.008004
-      Type::Coercion 2.008004
-      Type::Coercion::FromMoose 2.008004
-      Type::Coercion::Union 2.008004
-      Type::Library 2.008004
-      Type::Params 2.008004
-      Type::Params::Alternatives 2.008004
-      Type::Params::Parameter 2.008004
-      Type::Params::Signature 2.008004
-      Type::Parser 2.008004
-      Type::Parser::AstBuilder 2.008004
-      Type::Parser::Token 2.008004
-      Type::Parser::TokenStream 2.008004
-      Type::Registry 2.008004
-      Type::Tie 2.008004
-      Type::Tie::ARRAY 2.008004
-      Type::Tie::BASE 2.008004
-      Type::Tie::HASH 2.008004
-      Type::Tie::SCALAR 2.008004
-      Type::Tiny 2.008004
-      Type::Tiny::Bitfield 2.008004
-      Type::Tiny::Class 2.008004
-      Type::Tiny::ConstrainedObject 2.008004
-      Type::Tiny::Duck 2.008004
-      Type::Tiny::Enum 2.008004
-      Type::Tiny::Intersection 2.008004
-      Type::Tiny::Role 2.008004
-      Type::Tiny::Union 2.008004
-      Type::Utils 2.008004
-      Types::Common 2.008004
-      Types::Common::Numeric 2.008004
-      Types::Common::String 2.008004
-      Types::Standard 2.008004
-      Types::Standard::ArrayRef 2.008004
-      Types::Standard::CycleTuple 2.008004
-      Types::Standard::Dict 2.008004
-      Types::Standard::HashRef 2.008004
-      Types::Standard::Map 2.008004
-      Types::Standard::ScalarRef 2.008004
-      Types::Standard::StrMatch 2.008004
-      Types::Standard::Tied 2.008004
-      Types::Standard::Tuple 2.008004
-      Types::TypeTiny 2.008004
+      Devel::TypeTiny::Perl58Compat 2.008006
+      Error::TypeTiny 2.008006
+      Error::TypeTiny::Assertion 2.008006
+      Error::TypeTiny::Compilation 2.008006
+      Error::TypeTiny::WrongNumberOfParameters 2.008006
+      Eval::TypeTiny 2.008006
+      Eval::TypeTiny::CodeAccumulator 2.008006
+      Reply::Plugin::TypeTiny 2.008006
+      Test::TypeTiny 2.008006
+      Type::Coercion 2.008006
+      Type::Coercion::FromMoose 2.008006
+      Type::Coercion::Union 2.008006
+      Type::Library 2.008006
+      Type::Params 2.008006
+      Type::Params::Alternatives 2.008006
+      Type::Params::Parameter 2.008006
+      Type::Params::Signature 2.008006
+      Type::Parser 2.008006
+      Type::Parser::AstBuilder 2.008006
+      Type::Parser::Token 2.008006
+      Type::Parser::TokenStream 2.008006
+      Type::Registry 2.008006
+      Type::Tie 2.008006
+      Type::Tie::ARRAY 2.008006
+      Type::Tie::BASE 2.008006
+      Type::Tie::HASH 2.008006
+      Type::Tie::SCALAR 2.008006
+      Type::Tiny 2.008006
+      Type::Tiny::Bitfield 2.008006
+      Type::Tiny::Class 2.008006
+      Type::Tiny::ConstrainedObject 2.008006
+      Type::Tiny::Duck 2.008006
+      Type::Tiny::Enum 2.008006
+      Type::Tiny::Intersection 2.008006
+      Type::Tiny::Role 2.008006
+      Type::Tiny::Union 2.008006
+      Type::Utils 2.008006
+      Types::Common 2.008006
+      Types::Common::Numeric 2.008006
+      Types::Common::String 2.008006
+      Types::Standard 2.008006
+      Types::Standard::ArrayRef 2.008006
+      Types::Standard::CycleTuple 2.008006
+      Types::Standard::Dict 2.008006
+      Types::Standard::HashRef 2.008006
+      Types::Standard::Map 2.008006
+      Types::Standard::ScalarRef 2.008006
+      Types::Standard::StrMatch 2.008006
+      Types::Standard::Tied 2.008006
+      Types::Standard::Tuple 2.008006
+      Types::TypeTiny 2.008006
     requirements:
       Exporter::Tiny 1.006000
       ExtUtils::MakeMaker 6.17
@@ -4479,6 +4489,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -4500,4 +4511,5 @@ DISTRIBUTIONS
       Text::Soundex 0
       Time::Local 0
       URI::ldap 1.1
+      XML::SAX::Base 0
       perl 5.008001
