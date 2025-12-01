@@ -579,4 +579,7 @@ $Selenium->RunTest(
     }
 );
 
+$Selenium->close;
+$Selenium->quit;
+
 done_testing();
