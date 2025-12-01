@@ -172,14 +172,15 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non-docker and docker environments
 my %IsCommonFeature = (
-    'db:mysql'         => 1,
-    'div:bcrypt'       => 1,
-    'div:hanextra'     => 1,
-    'div:ldap'         => 1,
-    'div:xslt'         => 1,
-    'mail:ntlm'        => 1,
-    'mail:sasl'        => 1,
+    'db:mysql'     => 1,
+    'div:bcrypt'   => 1,
+    'div:hanextra' => 1,
+    'div:ldap'     => 1,
+    'div:xslt'     => 1,
+    'mail:ntlm'    => 1,
+    'mail:sasl'    => 1,
 );
+
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
     %IsCommonFeature,
@@ -438,6 +439,7 @@ my @NeededModules = (
     {
         # In Perl core since Perl 5.9.3
         Module    => 'Digest::SHA',
+        Comment   => '(in perlcore)',
         Required  => 1,
         InstTypes => {
             aptget => 'perl',
@@ -699,7 +701,7 @@ my @NeededModules = (
         # In Perl core since Perl 5.7.3
         Module    => 'Time::HiRes',
         Required  => 1,
-        Comment   => 'Required for high resolution timestamps.',
+        Comment   => 'Required for high resolution timestamps (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => 'perl-core/Time-HiRes',
@@ -1235,7 +1237,7 @@ my @NeededModules = (
         # In Perl core since Perl 5.6.2
         Module    => 'Test::Simple',
         Features  => ['devel:test'],
-        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => undef,
