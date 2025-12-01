@@ -485,23 +485,21 @@ sub EditFieldValueGet {
 
             # delete the template value
             pop @Data;
-
-            # prevent things like [""] to pass through
-            if ( grep { defined $_ && $_ ne '' } @Data ) {
-
-                # do nothing
-            }
-            else {
-                @Data = ();
-            }
-        }
-        else {
-
-            # delete empty values
-            @Data = grep { defined $_ && $_ ne '' } @Data;
         }
 
-        $Value = \@Data;
+        my @ValueStorage;
+        my @Values;
+        VALUEITEM:
+        for my $ValueItem (@Data) {
+            push @ValueStorage, $ValueItem;
+
+            next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+            push @Values, @ValueStorage;
+            @ValueStorage = ();
+        }
+
+        $Value = \@Values;
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {

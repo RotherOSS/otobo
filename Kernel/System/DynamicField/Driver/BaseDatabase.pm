@@ -486,15 +486,19 @@ sub EditFieldValueGet {
             pop @Data;
 
             # prevent things like [""] to pass through
-            if ( grep { defined $_ && $_ ne '' } @Data ) {
+            my @ValueStorage;
+            my @Values;
+            VALUEITEM:
+            for my $ValueItem (@Data) {
+                push @ValueStorage, $ValueItem;
 
-                # do nothing
-            }
-            else {
-                @Data = ();
+                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+                push @Values, @ValueStorage;
+                @ValueStorage = ();
             }
 
-            $Value = \@Data;
+            $Value = \@Values;
         }
         else {
             $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
