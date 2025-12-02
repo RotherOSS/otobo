@@ -18,13 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -160,10 +162,7 @@ $Selenium->RunTest(
             OwnerID      => $UserID[2],
             UserID       => $UserID[2],
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Update the ticket owner to have an involved user.
         my $Success = $TicketObject->TicketOwnerSet(
@@ -175,10 +174,7 @@ $Selenium->RunTest(
         my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
         $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Cleanup Email backend',
-        );
+        ok( $Success, 'Cleanup Email backend' );
 
         # Login as the first created test user.
         $Selenium->Login(
@@ -228,7 +224,7 @@ $Selenium->RunTest(
         my $Emails = $TestEmailObject->EmailsGet();
 
         # There should be 3 emails, one for the inform user, one for the involved user and one for the owner.
-        $Self->Is(
+        is(
             scalar @{$Emails},
             3,
             'EmailsGet()',
@@ -237,11 +233,11 @@ $Selenium->RunTest(
         # Extract recipients from emails and compare to the expected results, the emails are sent in
         #   order with the UserID.
         my @Recipients;
-        for my $Email ( @{$Emails} ) {
+        for my $Email ( $Emails->@* ) {
             push @Recipients, $Email->{ToArray}->[0];
         }
         my @Ordered = sort @Recipients;
-        $Self->IsDeeply(
+        is(
             \@Ordered,
             [
                 $TestUser[0] . '@localunittest.com',
@@ -264,7 +260,7 @@ $Selenium->RunTest(
         my $ExpectedArticleTo
             = "\"$TestUser[1] $TestUser[1]\" <$TestUser[1]\@localunittest.com>, \"$TestUser[2] $TestUser[2]\" <$TestUser[2]\@localunittest.com>";
 
-        $Self->Is(
+        is(
             $Article{To},
             $ExpectedArticleTo,
             "InformAgent are in Article 'To' correctly "
@@ -313,7 +309,7 @@ $Selenium->RunTest(
         );
         $ExpectedArticleTo = "\"$TestUser[1] $TestUser[1]\" <$TestUser[1]\@localunittest.com>";
 
-        $Self->Is(
+        is(
             $Article{To},
             $ExpectedArticleTo,
             "InformAgent are in Article 'To' correctly "
@@ -328,19 +324,15 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => $UserID[0],
         );
-        $Self->True(
-            $Group0,
-            "Group Group0-$RandomID is created."
-        );
+        ok( $Group0, "Group Group0-$RandomID is created." );
+
         my $Group1 = $GroupObject->GroupAdd(
             Name    => 'Group1-' . $RandomID,
             ValidID => 1,
             UserID  => $UserID[1],
         );
-        $Self->True(
-            $Group1,
-            "Group Group1-$RandomID is created."
-        );
+        ok( $Group1, "Group Group1-$RandomID is created." );
+
         my $Queue0 = $QueueObject->QueueAdd(
             Name            => 'Queue0-' . $RandomID,
             ValidID         => 1,
@@ -351,10 +343,8 @@ $Selenium->RunTest(
             UserID          => $UserID[0],
             Comment         => 'Some Comment',
         );
-        $Self->True(
-            $Queue0,
-            "Queue Queue0-$RandomID is created.",
-        );
+        ok( $Queue0, "Queue Queue0-$RandomID is created.", );
+
         my $Queue1 = $QueueObject->QueueAdd(
             Name            => 'Queue1-' . $RandomID,
             ValidID         => 1,
@@ -365,10 +355,7 @@ $Selenium->RunTest(
             UserID          => $UserID[1],
             Comment         => 'Some Comment',
         );
-        $Self->True(
-            $Queue1,
-            "Queue Queue1-$RandomID is created.",
-        );
+        ok( $Queue1, "Queue Queue1-$RandomID is created.", );
 
         my @Permissions = (
             {
@@ -432,10 +419,7 @@ $Selenium->RunTest(
                 %{$Permission},
                 UserID => $UserID[2],
             );
-            $Self->True(
-                $Success,
-                "UserID $Permission->{UID} set permissions for group ID $Permission->{GID}."
-            );
+            ok( $Success, "UserID $Permission->{UID} set permissions for group ID $Permission->{GID}." );
         }
 
         # Create new test ticket in Queue0.
@@ -450,10 +434,7 @@ $Selenium->RunTest(
             OwnerID      => $UserID[0],
             UserID       => $UserID[0],
         );
-        $Self->True(
-            $NewTicketID,
-            "Ticket is created - ID $NewTicketID",
-        );
+        ok( $NewTicketID, "Ticket is created - ID $NewTicketID" );
 
         # Move the test ticket to Queue1.
         $Success = $TicketObject->TicketQueueSet(
@@ -480,10 +461,7 @@ $Selenium->RunTest(
         $MailQueueClean->();
 
         $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Cleanup Email backend.',
-        );
+        ok( $Success, 'Cleanup Email backend.' );
 
         # Login as the second created test user.
         $Selenium->Login(
@@ -517,7 +495,7 @@ $Selenium->RunTest(
         $Emails = $TestEmailObject->EmailsGet();
 
         # There should be 3 emails, one for the inform user, one for the involved user and one for the owner.
-        $Self->Is(
+        is(
             scalar @{$Emails},
             2,
             'EmailsGet()',
@@ -530,7 +508,7 @@ $Selenium->RunTest(
             push @NewRecipients, $Email->{ToArray}->[0];
         }
         @Ordered = sort @NewRecipients;
-        $Self->IsDeeply(
+        is(
             \@Ordered,
             [
                 $TestUser[0] . '@localunittest.com',
@@ -554,10 +532,7 @@ $Selenium->RunTest(
                     UserID   => $UserID[0],
                 );
             }
-            $Self->True(
-                $Success,
-                "TicketID $TicketDelete is deleted.",
-            );
+            ok( $Success, "TicketID $TicketDelete is deleted." );
         }
 
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -567,54 +542,39 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM group_user WHERE user_id = ?",
             Bind => [ \$UserID[0] ],
         );
-        $Self->True(
-            $Success,
-            "Relation for UserID $UserID[0] is deleted.",
-        );
+        ok( $Success, "Relation for UserID $UserID[0] is deleted." );
+
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM group_user WHERE user_id = ?",
             Bind => [ \$UserID[1] ],
         );
-        $Self->True(
-            $Success,
-            "Relation for UserID $UserID[1] is deleted.",
-        );
+        ok( $Success, "Relation for UserID $UserID[1] is deleted." );
 
         # Delete test queues.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM queue WHERE id = ?",
             Bind => [ \$Queue0 ],
         );
-        $Self->True(
-            $Success,
-            "Queue is deleted - ID $Queue0",
-        );
+        ok( $Success, "Queue is deleted - ID $Queue0" );
+
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM queue WHERE id = ?",
             Bind => [ \$Queue1 ],
         );
-        $Self->True(
-            $Success,
-            "Queue is deleted - ID $Queue1",
-        );
+        ok( $Success, "Queue is deleted - ID $Queue1" );
 
         # Delete test groups.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$Group0 ],
         );
-        $Self->True(
-            $Success,
-            "Group is deleted - ID $Group0",
-        );
+        ok( $Success, "Group is deleted - ID $Group0" );
+
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$Group1 ],
         );
-        $Self->True(
-            $Success,
-            "Group is deleted - ID $Group1",
-        );
+        ok( $Success, "Group is deleted - ID $Group1" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -622,11 +582,8 @@ $Selenium->RunTest(
         );
 
         $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Cleanup Email backend',
-        );
+        ok( $Success, 'Cleanup Email backend' );
     }
 );
 
-$Self->DoneTesting();
+done_testing;
