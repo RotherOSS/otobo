@@ -309,13 +309,13 @@ $Selenium->RunTest(
             JavaScript => "return \$('#QueueID_Search').length;"
         );
 
-        my $Element = $Selenium->find_element( "#QueueID_Search",   'css' );
+        my $Element = $Selenium->find_element( "#QueueID_Search", 'css' );
 
         COUNT:
-        for my $Counter ( 1..10 ) {
+        for my $Counter ( 1 .. 10 ) {
             sleep 1;
             my $IsDisplayed = $Element->is_displayed();
-            if($IsDisplayed) {
+            if ($IsDisplayed) {
                 last COUNT;
             }
         }
@@ -359,7 +359,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#DynamicField_TestDatabase", 'css' )->is_hidden();
 
             # ACL testing: setting queue to 2 should display the field
-            $Selenium->find_element( "#Dest_Search",         'css' )->send_keys('Raw');
+            $Selenium->find_element( "#Dest_Search", 'css' )->send_keys('Raw');
 
             $Selenium->WaitFor(
                 JavaScript => "return \$('li[data-id=\"2||Raw\"]').length",
@@ -400,7 +400,8 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-            );   
+            );
+
             # Open Detailed Search Dialog
             $Selenium->find_element(
                 "#DynamicFieldDBDetailedSearch_DynamicField_TestDatabase",
@@ -496,13 +497,13 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#ReplyButton", 'css' )->click();
         my $Element2 = $Selenium->find_element( "#DynamicField_TestDatabase", 'css' );
-        
+
         COUNT2:
-        for my $Count ( 1..10) {
+        for my $Count ( 1 .. 10 ) {
 
             sleep 1;
             my $IsDisplayed = $Element2->is_displayed();
-            if($IsDisplayed) {
+            if ($IsDisplayed) {
                 last COUNT2;
             }
         }
@@ -755,7 +756,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        );   
+        );
 
         # Synchronize Process after deleting test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
