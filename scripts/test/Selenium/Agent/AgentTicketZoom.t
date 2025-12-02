@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -311,29 +311,30 @@ $Selenium->RunTest(
             "Second 'system' sender type article is not selected"
         );
 
-        # click to sort by article number
-        $Selenium->find_element("//div[\@class='tablesorter-header-inner']/a")->click();
+        # click to sort by article number,
+        $Selenium->find_element(q{//div[@class='tablesorter-header-inner']/a})->click;
 
         # verify change in article order on column header click, test Core.UI.Table.Sort.js
-        $Self->Is(
+        # Note that at least once there was a test failure because seemingly the DOM was checked
+        # before the sorting had completed.
+        is(
             $Selenium->execute_script(
-                "return \$(\$('table tbody tr')[0]).attr('id')"
+                q{ return $($('table tbody tr')[0]).attr('id') }
             ),
             'Row1',
-            "First Article in table is first created article - JS success",
+            'first article in table is the first created article',
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script(
-                "return \$(\$('table tbody tr')[1]).attr('id')"
+                q{return $($('table tbody tr')[1]).attr('id')}
             ),
             'Row2',
-            "Second Article in table is second created article - JS success",
+            'second article in table is second created article',
         );
 
         # Try to click on the email (link) that should open a popup window.
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".SidebarColumn div:nth-of-type(2) a.AsPopup").length'
+            JavaScript => 'return typeof($) === "function" && $(".SidebarColumn div:nth-of-type(2) a.AsPopup").length'
         );
         $Selenium->find_element( ".SidebarColumn div:nth-of-type(2) a.AsPopup", "css" )->click();
 
@@ -390,7 +391,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        # Ticket deletion could fail if the webserver still writes to ticket history. Try again in this case.
         if ( !$Success ) {
             sleep 3;
             $Success = $TicketObject->TicketDelete(
@@ -405,7 +406,6 @@ $Selenium->RunTest(
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-
     }
 );
 
