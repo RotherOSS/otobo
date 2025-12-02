@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -37,40 +38,40 @@ my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
 
 my %MailQueueCurrentItems = map { $_->{ID} => $_ } @{ $MailQueueObject->List() || [] };
 
-my $MailQueueClean = sub {
-    my $Items = $MailQueueObject->List();
+sub MailQueueClean {
+    my $Items = $MailQueueObject->List;
     MAIL_QUEUE_ITEM:
-    for my $Item ( @{$Items} ) {
+    for my $Item ( $Items->@* ) {
         next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+
         $MailQueueObject->Delete(
             ID => $Item->{ID},
         );
     }
 
     return;
-};
+}
 
-my $MailQueueProcess = sub {
-    my %Param = @_;
-
+sub MailQueueProcess {
     my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
     # Process all items except the ones already present before the tests.
-    my $Items = $MailQueueObject->List();
+    my $Items = $MailQueueObject->List;
     MAIL_QUEUE_ITEM:
-    for my $Item ( @{$Items} ) {
+    for my $Item ( $Items->@* ) {
         next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+
         $MailQueueObject->Send( %{$Item} );
     }
 
     # Clean any garbage.
-    $MailQueueClean->();
+    MailQueueClean();
 
     return;
-};
+}
 
 # Make sure we start with a clean mail queue.
-$MailQueueClean->();
+MailQueueClean();
 
 # Enable involved agent feature in AgentTicketNote.
 $Helper->ConfigSettingChange(
@@ -216,7 +217,7 @@ $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
 $Selenium->find_element( "#submitRichText", 'css' )->click();
 
 # Process mail queue items.
-$MailQueueProcess->();
+MailQueueProcess();
 
 # Check that emailS was sent.
 my $Emails = $TestEmailObject->EmailsGet();
@@ -456,7 +457,7 @@ $TicketObject->TicketLockSet(
 );
 
 # Make sure we start with a clean mail queue.
-$MailQueueClean->();
+MailQueueClean();
 
 $Success = $TestEmailObject->CleanUp();
 ok( $Success, 'Cleanup Email backend.' );
@@ -487,7 +488,7 @@ $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
 $Selenium->find_element( "#submitRichText", 'css' )->click();
 
 # Process mail queue items.
-$MailQueueProcess->();
+MailQueueProcess();
 
 # Check that emailS was sent.
 $Emails = $TestEmailObject->EmailsGet();
