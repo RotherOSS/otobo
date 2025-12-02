@@ -514,7 +514,7 @@ simple scalars, these must be passed by reference.
     my $Var2 = 'Togo';  # also serum run to Nome in 1925
 
     my $InsertSuccess = $DBObject->Do(
-        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?)",
+        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?, ?, ?)",
         Bind => [
             \$Var1,
             \$Var2,
