@@ -113,7 +113,7 @@ Set the SysConfig setting 'FQDN'. The value is expected to be a string. The defa
 
 =item activate-elasticsearch
 
-Also set up the the Elasticsearch webservice.
+Also set up the Elasticsearch webservice.
 
 =item add-admin-user
 
@@ -144,12 +144,12 @@ use lib "$Bin/../../Custom";
 
 # core modules
 use Getopt::Long qw(GetOptions);
-use Pod::Usage   qw(pod2usage);
-use Sub::Util    qw(subname);
+use Pod::Usage qw(pod2usage);
+use Sub::Util qw(subname);
 
 # CPAN modules
 use Path::Class qw(dir);
-use DBI         ();
+use DBI ();
 use Const::Fast qw(const);
 
 # OTOBO modules

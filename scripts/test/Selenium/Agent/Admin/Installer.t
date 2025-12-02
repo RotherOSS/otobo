@@ -209,7 +209,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";'
                 );
 
-                # Verify we are on the the third screen.
+                # verify that we are on the third screen.
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                     'System Settings (3/4)',
@@ -232,7 +232,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "Mail Configuration (3/4)";'
                 );
 
-                # Verify we are on the the third screen.
+                # verify that we are on the third screen.
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                     'Mail Configuration (3/4)',

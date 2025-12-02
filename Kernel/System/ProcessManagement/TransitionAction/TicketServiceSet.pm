@@ -335,7 +335,7 @@ sub _CheckService {
     # return failure if there are no assigned services for this customer user
     return if !IsHashRefWithData( \%Services );
 
-    # return failure if the the service is not assigned to the customer
+    # return failure if the service is not assigned to the customer
     return if !$Services{ $Param{ServiceID} };
 
     # otherwise return success

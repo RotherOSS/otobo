@@ -295,14 +295,32 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             ElementExists => [ "#CustomerAutoComplete", 'css' ]
         );
+
         $Selenium->execute_script(
             "\$('#CustomerAutoComplete').autocomplete('search', '$TestCustomerUserLogin');"
         );
         $Selenium->WaitFor(
             JavaScript => "return \$.active == 0"
         );
+
         $Selenium->find_element( "#ui-id-1 > li > a", 'css' )->click();
-        $Selenium->find_element( "#QueueID_Search",   'css' )->send_keys('raw');
+
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#QueueID_Search').length;"
+        );
+
+        my $Element = $Selenium->find_element( "#QueueID_Search",   'css' );
+
+        COUNT:
+        for my $Counter ( 1..10 ) {
+            sleep 1;
+            my $IsDisplayed = $Element->is_displayed();
+            if($IsDisplayed) {
+                last COUNT;
+            }
+        }
+
+        $Element->send_keys('raw');
 
         # to prevent timing problem, we wait until raw is the only visible option in Autocomplete
         $Selenium->WaitFor(
@@ -321,6 +339,7 @@ $Selenium->RunTest(
 
         ( undef, my $ProcessTicketID ) = split /TicketID=/, $Selenium->get_current_url();
         push @DeleteTicketIDs, $ProcessTicketID;
+
         my $ProcessTicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $ProcessTicketID,
         );
@@ -341,6 +360,11 @@ $Selenium->RunTest(
 
             # ACL testing: setting queue to 2 should display the field
             $Selenium->find_element( "#Dest_Search",         'css' )->send_keys('Raw');
+
+            $Selenium->WaitFor(
+                JavaScript => "return \$('li[data-id=\"2||Raw\"]').length",
+            );
+
             $Selenium->find_element( "li[data-id='2||Raw']", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript => "return \$.active == 0",
@@ -372,8 +396,11 @@ $Selenium->RunTest(
             # Wait for AJAX Call
             $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-            $Selenium->find_element( ".ui-menu-item", 'css' )->click();
+            $Selenium->execute_script('$(".ui-menu-item").trigger("click");');
 
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            );   
             # Open Detailed Search Dialog
             $Selenium->find_element(
                 "#DynamicFieldDBDetailedSearch_DynamicField_TestDatabase",
@@ -468,9 +495,17 @@ $Selenium->RunTest(
             "${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber"
         );
         $Selenium->find_element( "#ReplyButton", 'css' )->click();
-        my $Element = $Selenium->find_element( "#DynamicField_TestDatabase", 'css' );
-        $Element->is_enabled();
-        $Element->is_displayed();
+        my $Element2 = $Selenium->find_element( "#DynamicField_TestDatabase", 'css' );
+        
+        COUNT2:
+        for my $Count ( 1..10) {
+
+            sleep 1;
+            my $IsDisplayed = $Element2->is_displayed();
+            if($IsDisplayed) {
+                last COUNT2;
+            }
+        }
 
         # Testing invalid search term first
         # Working with autocomplete here for triggering the AJAX request
@@ -590,6 +625,9 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "tr[class='MasterAction'] > td", 'css' )->click();
 
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ResultElementText_1').length;",
+        );
         $Selenium->find_element( "#ResultElementText_1", 'css' );
         wait_until {
             $Selenium->find_element( "#ResultElementText_2", 'css' );
@@ -714,6 +752,10 @@ $Selenium->RunTest(
 
         # Navigate to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );   
 
         # Synchronize Process after deleting test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();

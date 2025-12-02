@@ -138,8 +138,11 @@ $Selenium->RunTest(
                 JavaScript => q{return CKEditorInstances['RichText'].getData()},
             );
 
+            my $Data = $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData();});
+            # remove any CKEditor random ids injected
+            $Data =~ s/ data-list-item-id="[^"]*"//g;
             is(
-                $Selenium->execute_script(q{return CKEditorInstances['RichText'].getData();}),
+                $Data,
                 $TestCase->{Expected},
                 $TestCase->{Name}
             );

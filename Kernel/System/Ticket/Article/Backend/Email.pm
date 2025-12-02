@@ -660,7 +660,7 @@ sub SendAutoResponse {
         return;
     }
 
-    # Format sender realname and address conformant to RFC 5322. This is relevant when the real name contain commas
+    # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
     my $From = Mail::Address->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
 

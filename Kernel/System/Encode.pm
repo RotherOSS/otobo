@@ -307,7 +307,7 @@ sub EncodeInput {
     if ( ref $What eq 'SCALAR' ) {
         return $What unless defined $What->$*;
 
-        # assuming the the incoming string is already encoded in UTF-8
+        # assuming that the incoming string is already encoded in UTF-8
         Encode::_utf8_on( $What->$* );
 
         return $What;
@@ -319,14 +319,14 @@ sub EncodeInput {
         for my $String ( $What->@* ) {
             next STRING unless defined $String;
 
-            # assuming the the incoming string is already encoded in UTF-8
+            # assuming that the incoming string is already encoded in UTF-8
             Encode::_utf8_on($String);
         }
 
         return $What;
     }
 
-    # assuming the the incoming string is already encoded in UTF-8
+    # assuming that the incoming string is already encoded in UTF-8
     # TODO: It is not documented that strings can be passed in directly.
     Encode::_utf8_on($What);
 

@@ -386,4 +386,7 @@ if ($TestPackage) {
     );
 }
 
+$Selenium->close;
+$Selenium->quit;
+
 done_testing();
