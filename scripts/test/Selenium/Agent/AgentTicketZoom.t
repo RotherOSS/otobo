@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 sub Hex2RGB {
     my ( $Color, $Alpha ) = @_;
@@ -165,10 +163,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
             ChannelName => 'Phone',
@@ -218,10 +213,7 @@ $Selenium->RunTest(
                 ],
                 NoAgentNotify => 1,
             );
-            $Self->True(
-                $ArticleID,
-                "ArticleCreate - ID $ArticleID",
-            );
+            ok( $ArticleID, "ArticleCreate - ID $ArticleID" );
             push @ArticleIDs, $ArticleID;
         }
 
@@ -261,7 +253,7 @@ $Selenium->RunTest(
             is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}" );
         }
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('.Headline h1').text().trim();"),
             "TestTicket#::$TicketNumber — $TitleRandom",
             "Ticket::Hook and Ticket::HookDivider found, check ticket title headline",
@@ -281,14 +273,14 @@ $Selenium->RunTest(
         }
 
         # Verify article order in zoom screen.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[0]).attr('id')"
             ),
             'Row2',
             "First Article in table is second created article",
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[1]).attr('id')"
             ),
@@ -298,13 +290,13 @@ $Selenium->RunTest(
 
         # Verify selected article. Config 'NewArticleIgnoreSystemSender' is enable.
         #   Non system sender type article should be selected ( first created article ).
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[0]\"]').length"
             ),
             "First 'agent' sender type article is selected"
         );
-        $Self->False(
+        isnt(
             $Selenium->execute_script(
                 "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[1]\"]').length"
             ),
@@ -357,7 +349,7 @@ $Selenium->RunTest(
         my $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
         my $SessionName   = $Selenium->execute_script('return Core.Config.Get("SessionName");');
 
-        $Self->False(
+        isnt(
             ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
             'Session ID not present in the IFRAME source URL'
         );
@@ -380,7 +372,7 @@ $Selenium->RunTest(
 
         # Check if the IFRAME element now DOES contain the session ID parameter.
         $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
-        $Self->True(
+        ok(
             ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
             'Session ID present in the IFRAME source URL'
         );
@@ -399,10 +391,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - ID $TicketID"
-        );
+        ok( $Success, "Ticket is deleted - ID $TicketID" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
