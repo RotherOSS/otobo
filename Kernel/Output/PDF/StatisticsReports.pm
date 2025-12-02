@@ -436,7 +436,7 @@ sub GeneratePDF {
                 #   subsequent call to $PDFObject->Image() <PDF::API2::image_png() internally> will be extremely slow.
                 #   The real reason is still unknown, but consider using PhantomJS only in this case.
                 $CommandOutput
-                    = `cd $TempPNGDir; '$GoogleChromeBinary' --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
+                    = `cd $TempPNGDir; '$GoogleChromeBinary' --no-sandbox --headless --virtual-time-budget=2500 --window-size=1200,900 --screenshot $TempHTMLFilename 2>&1`;
             }
             else {
                 $CommandOutput
