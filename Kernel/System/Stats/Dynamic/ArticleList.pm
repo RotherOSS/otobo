@@ -956,7 +956,7 @@ sub GetStatTable {
     my %DynamicFieldRestrictions;
     for my $ParameterName ( sort keys %{ $Param{Restrictions} } ) {
         if (
-            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d-]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
+            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d\-]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
             )
         {
             my $FieldName = $1;
@@ -1542,7 +1542,7 @@ sub GetStatTable {
             $Ticket{NumberOfArticles}            ||= 0;
 
             for my $ParameterName ( sort keys %Ticket ) {
-                if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d-]+ ) \z}xms ) {
+                if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
 
                     # loop over the dynamic fields configured
                     DYNAMICFIELD:
