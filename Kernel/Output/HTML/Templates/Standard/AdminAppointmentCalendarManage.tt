@@ -292,6 +292,9 @@
                         </label>
                         <div class="Field">
                             [% Data.GroupID %]
+                            <div id="GroupIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("Insufficient group permissions.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

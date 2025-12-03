@@ -213,6 +213,20 @@ sub Run {
             }
         }
 
+        if (
+            $Self->{LightAdmin}
+            && !$Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
+                    GroupID => $GetParam{GroupID},
+                ),
+                Type => 'rw',
+            )
+            )
+        {
+            $Error{GroupIDInvalid} = "ServerError";
+        }
+
         $GetParam{TicketAppointments} = $Self->_GetTicketAppointmentParams(%GetParam);
 
         # Get queue create permissions for the user.
@@ -251,7 +265,7 @@ sub Run {
         if (%Error) {
 
             # get selections
-            my $GroupSelection     = $Self->_GroupSelectionGet(%GetParam);
+            my $GroupSelection     = $Self->_GroupSelectionGet( %GetParam, %Error );
             my $ColorPalette       = $Self->_ColorPaletteGet();
             my $ValidSelection     = $Self->_ValidSelectionGet(%GetParam);
             my %TicketAppointments = $Self->_TicketAppointments();
@@ -885,7 +899,7 @@ sub _GroupSelectionGet {
         Name        => 'GroupID',
         SelectedID  => $Param{GroupID} || '',
         Translation => 0,
-        Class       => 'Modernize Validate_Required',
+        Class       => 'Modernize Validate_Required ' . ( $Param{GroupIDInvalid} // '' ),
     );
 
     return $GroupSelection;
