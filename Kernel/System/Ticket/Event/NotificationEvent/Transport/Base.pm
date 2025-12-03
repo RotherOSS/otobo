@@ -69,7 +69,7 @@ usually an attribute of an Agent or Customer and it depends on each transport
 
 returns:
 
-    @TransportRecipents = (
+    @TransportRecipients = (
         {
             UserEmail     => 'some email',       # optional
             UserFirstname => 'some name',        # optional
@@ -102,7 +102,7 @@ gets specific parameters from the web request and put them back in the GetParam 
 saved in the notification as the standard parameters
 
     my $Success = $TransportObject->TransportParamSettingsGet(
-        GetParam => $ParmHashRef,
+        GetParam => $ParamHashRef,
     );
 
 returns
@@ -181,7 +181,7 @@ sub _ReplaceTicketAttributes {
     REPLACEMENT:
     while (
         $Param{Field}
-        && $Param{Field} =~ m{<OTOBO_TICKET_([A-Za-z0-9_]+)>}msxi
+        && $Param{Field} =~ m{<OTOBO_TICKET_([A-Za-z0-9\-_]+)>}msxi
         && $Count++ < 1000
         )
     {
