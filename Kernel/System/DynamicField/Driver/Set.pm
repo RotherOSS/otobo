@@ -814,21 +814,15 @@ sub ValueIsDifferent {
         DynamicFieldObject   => $Kernel::OM->Get('Kernel::System::DynamicField'),
     );
 
-    my $Count1 = ( ref $Param{Value1} eq 'ARRAY' ) ? $#{ $Param{Value1} } : ( $Param{Value1} ? 1 : 0 );
-    my $Count2 = ( ref $Param{Value2} eq 'ARRAY' ) ? $#{ $Param{Value2} } : ( $Param{Value2} ? 1 : 0 );
+    my @SetValue1 = @{ $Param{Value1} || [] };
+    my @SetValue2 = @{ $Param{Value2} || [] };
 
-    for my $Index ( 0 .. max( $Count1, $Count2 ) ) {
-
-        my $Value1 = {};
-        if ( IsArrayRefWithData( $Param{Value1} ) && $#{ $Param{Value1} } >= $Index ) {
-            $Value1 = $Param{Value1}[$Index];
-        }
-        my $Value2 = {};
-        if ( IsArrayRefWithData( $Param{Value2} ) && $#{ $Param{Value2} } >= $Index ) {
-            $Value2 = $Param{Value2}[$Index];
-        }
+    for my $Index ( 0 .. max( $#SetValue1, $#SetValue2 ) ) {
 
         for my $FieldName ( keys $IncludedFields->%* ) {
+
+            my $Value1 = $SetValue1[$Index] || {};
+            my $Value2 = $SetValue2[$Index] || {};
 
             my $InnerValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
                 %Param,
