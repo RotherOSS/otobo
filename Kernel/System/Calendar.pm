@@ -199,7 +199,6 @@ sub CalendarCreate {
 
     %Calendar = $Self->CalendarGet(
         CalendarName => $Param{CalendarName},
-        UserID       => $Param{UserID},
     );
     return if !%Calendar;
 
