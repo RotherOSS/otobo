@@ -54,14 +54,12 @@ sub Run {
 
     # Get user's permissions to associated modules which are displayed as links.
     for my $Module (qw(AdminAppointmentCalendarManage)) {
-        my $ModuleGroupsRw = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')
-            ->{$Module}->{Group} // [];
+        my $ModuleReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{$Module};
 
-        # Include GroupRo key for lightadmin access
-        my $ModuleGroupsRo = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')
-            ->{$Module}->{GroupRo} // [];
-
-        my $ModuleGroups = [ @$ModuleGroupsRw, @$ModuleGroupsRo ];
+        my $ModuleGroups = [
+            @{ $ModuleReg->{Group}   // [] },
+            @{ $ModuleReg->{GroupRo} // [] },
+        ];
 
         if ( IsArrayRefWithData($ModuleGroups) ) {
             MODULE_GROUP:
