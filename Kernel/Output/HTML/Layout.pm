@@ -990,6 +990,19 @@ sub ChallengeTokenCheck {
     return;
 }
 
+=head2 FatalError()
+
+Log the error message and present the error message in the browser.
+
+This method does not return as it throws an exception of the class
+C<Kernel::System::Web::Exception>.
+
+    $LayoutObject->FatalError(
+        Message => "Can't open $ConfigFile: $!",
+    );
+
+=cut
+
 sub FatalError {
     my ( $Self, %Param ) = @_;
 
@@ -1158,16 +1171,14 @@ sub Warning {
 
 =head2 Notify()
 
-create notify lines
-
-    infos, the text will be translated
+creates informational notify lines. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Warning',
-        Info => 'Some Info Message',
+        Info     => 'Some Info Message',
     );
 
-    data with link, the text will be translated
+The content of C<Data> will be presented as a link. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority  => 'Warning',
@@ -1176,14 +1187,14 @@ create notify lines
         LinkClass => 'some_CSS_class',              # optional
     );
 
-    errors, the text will be translated
+The content will be presented as an error. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
-        Info => 'Some Error Message',
+        Info     => 'Some Error Message',
     );
 
-    errors from log backend, if no error exists, a '' will be returned
+Present the errors from the log backend. If no error exists then an empty string will be returned
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
@@ -1255,6 +1266,7 @@ sub Notify {
             },
         );
     }
+
     return $Self->Output(
         TemplateFile => 'Notify',
         Data         => {
