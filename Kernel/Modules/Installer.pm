@@ -611,9 +611,9 @@ sub Run {
         }
 
         # ReConfigure Config.pm.
-        my $ReConfigure;
+        my $ReconfigureFailed;
         if ( $DB{DBType} eq 'oracle' ) {
-            $ReConfigure = $Self->ReConfigure(
+            $ReconfigureFailed = $Self->ReConfigure(
                 DatabaseDSN  => $DB{ConfigDSN},
                 DatabaseHost => $DB{DBHost},
                 Database     => $DB{DBSID},
@@ -622,7 +622,7 @@ sub Run {
             );
         }
         else {
-            $ReConfigure = $Self->ReConfigure(
+            $ReconfigureFailed = $Self->ReConfigure(
                 DatabaseDSN  => $DB{ConfigDSN},
                 DatabaseHost => $DB{DBHost},
                 Database     => $DB{DBName},
@@ -631,7 +631,10 @@ sub Run {
             );
         }
 
-        if ($ReConfigure) {
+        if ($ReconfigureFailed) {
+
+            # This is expected to never happen as ReConfigure() throws an exception
+            # when the config file can't be written.
             return join '',
                 $LayoutObject->Header(
                     Title => Translatable('Install OTOBO - Error')

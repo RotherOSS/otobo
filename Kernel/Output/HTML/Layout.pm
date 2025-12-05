@@ -1207,14 +1207,18 @@ sub Notify {
 
     # create & return output
     if ( !$Param{Info} && !$Param{Data} ) {
-        $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Notice',
-            What => 'Message',
+        $Param{BackendMessage} =
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                Type => 'Notice',
+                What => 'Message',
             )
-            || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+            ||
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                 Type => 'Error',
                 What => 'Message',
-            ) || '';
+            )
+            ||
+            '';
 
         $Param{Info} = $Param{BackendMessage};
 
