@@ -295,14 +295,14 @@ ok(
     ),
     "First 'agent' sender type article is selected"
 );
-isnt(
-    $Selenium->execute_script(
+ok(
+    !$Selenium->execute_script(
         "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[1]\"]').length"
     ),
     "Second 'system' sender type article is not selected"
 );
 
-# click to sort by article number,
+# click to sort by article number
 $Selenium->find_element(q{//div[@class='tablesorter-header-inner']/a})->click;
 
 # verify change in article order on column header click, test Core.UI.Table.Sort.js
@@ -348,12 +348,14 @@ $Selenium->switch_to_window( $Handles->[0] );
 my $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
 my $SessionName   = $Selenium->execute_script('return Core.Config.Get("SessionName");');
 
-isnt(
-    ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
+unlike(
+    $IframeElement->get_attribute('src'),
+    qr{$SessionName=},
     'Session ID not present in the IFRAME source URL'
 );
 
-# Switch off usage of session cookies.
+# Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
+# Do it anyways.
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'SessionUseCookie',
@@ -371,8 +373,9 @@ $Selenium->VerifiedGet(
 
 # Check if the IFRAME element now DOES contain the session ID parameter.
 $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
-ok(
-    ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
+like(
+    $IframeElement->get_attribute('src'),
+    m{$SessionName=},
     'Session ID present in the IFRAME source URL'
 );
 
