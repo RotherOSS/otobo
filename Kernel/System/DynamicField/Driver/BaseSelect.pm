@@ -459,14 +459,22 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+                push @TmpValues, $ValueItem;
+
+                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+                push @Data, @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {
@@ -1057,13 +1065,13 @@ sub BuildSelectionDataGet {
             my $Parents;
             my %DisabledElements;
             my %ProcessedElements;
-            my $PosibleNoneSet;
+            my $PossibleNoneSet;
 
             # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
-                if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
+                if ( !$Key && !$PossibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
                     # add possible none
                     push @Values, {

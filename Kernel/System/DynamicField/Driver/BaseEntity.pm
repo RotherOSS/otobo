@@ -479,17 +479,24 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+        my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
 
         if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
 
             # delete the template value
-            pop @Data;
+            pop @DataAll;
         }
-        else {
 
-            # delete empty values
-            @Data = grep {$_} @Data;
+        my @TmpValues;
+        my @Data;
+        VALUEITEM:
+        for my $ValueItem (@DataAll) {
+            push @TmpValues, $ValueItem;
+
+            next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+            push @Data, @TmpValues;
+            @TmpValues = ();
         }
 
         $Value = \@Data;

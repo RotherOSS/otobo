@@ -27,7 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::Util qw(pairs);
+use List::Util qw(max pairs);
 
 # CPAN modules
 
@@ -804,6 +804,38 @@ sub SearchFieldPreferences {
     # this field makes no use of SearchFieldPreferences
     # nevertheless, function needs to be overwritten to make sure that the call doesn't reach SearchFieldPreferences in BaseSelect
     return;
+}
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    my $IncludedFields = $Self->_GetIncludedDynamicFields(
+        InputFieldDefinition => $Param{DynamicFieldConfig}{Config}{Include},
+        DynamicFieldObject   => $Kernel::OM->Get('Kernel::System::DynamicField'),
+    );
+
+    my @SetValue1 = @{ $Param{Value1} || [] };
+    my @SetValue2 = @{ $Param{Value2} || [] };
+
+    for my $Index ( 0 .. max( $#SetValue1, $#SetValue2 ) ) {
+
+        for my $FieldName ( keys $IncludedFields->%* ) {
+
+            my $Value1 = $SetValue1[$Index] || {};
+            my $Value2 = $SetValue2[$Index] || {};
+
+            my $InnerValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+                %Param,
+                DynamicFieldConfig => $IncludedFields->{$FieldName},
+                Value1             => $Value1->{$FieldName},
+                Value2             => $Value2->{$FieldName},
+            );
+
+            return 1 if $InnerValueIsDifferent;
+        }
+    }
+
+    return 0;
 }
 
 sub GetFieldState {

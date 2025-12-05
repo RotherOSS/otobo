@@ -92,8 +92,12 @@ sub Run {
 
     # Get user's permissions to associated modules which are displayed as links.
     for my $Module (qw(AdminAppointmentCalendarManage)) {
-        my $ModuleGroups = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')
-            ->{$Module}->{Group} // [];
+        my $ModuleReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{$Module};
+
+        my $ModuleGroups = [
+            @{ $ModuleReg->{Group}   // [] },
+            @{ $ModuleReg->{GroupRo} // [] },
+        ];
 
         if ( IsArrayRefWithData($ModuleGroups) ) {
             MODULE_GROUP:

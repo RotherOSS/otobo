@@ -483,15 +483,22 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            # delete empty values (can happen if the user has selected the "-" entry)
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+                push @TmpValues, $ValueItem;
+
+                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+                push @Data, @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {

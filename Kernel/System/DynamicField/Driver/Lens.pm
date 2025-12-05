@@ -890,6 +890,7 @@ sub _GetReferencedObjectID {
             ForLens        => 1,
         );
 
+        return if !$ObjectID;
         return $ObjectID->[0];
     }
 
@@ -899,6 +900,8 @@ sub _GetReferencedObjectID {
         ForLens            => 1,
         Set                => $Param{Set},
     );
+
+    return if !$ObjectID;
 
     # in set case, we need to map the returned array of arrays into an array of first values as multivalue lenses are not supported at the moment
     if ( $Param{Set} ) {

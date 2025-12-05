@@ -836,7 +836,7 @@ sub GetStatElement {
 
     for my $ParameterName ( sort keys %TicketSearch ) {
 
-        if ( $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms ) {
+        if ( $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d\-]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms ) {
             my $FieldName = $1;
             my $Operator  = $2;
 
