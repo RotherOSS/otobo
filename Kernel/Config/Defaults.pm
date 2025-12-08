@@ -2187,7 +2187,8 @@ sub new {
     # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load specific settings from Kernel/Config.pm
+    # Load specific settings from Kernel/Config.pm.
+    # Overriding settings from Kernel/Config/Defaults.pm.
     $Self->Load();
 
     # when in cluster mode, we must consider that files in Kernel/Config/Files
