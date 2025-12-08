@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Dict';
 use strict;
 use warnings;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use Carp;
 use PDF::API2::Basic::PDF::Utils;
@@ -158,11 +158,13 @@ sub launch {
 
 =head3 pdf
 
-    $annotation = $annotation->pdf($file, $page_number, $location, @args);
+    $annotation = $annotation->pdf($file, $dest, $location, @args);
 
-Open the PDF file located at C<$file> to the specified page number.
+Open the PDF file located at C<$file> to the specified destination.
 C<$location> and C<@args> are optional and set which part of the page should be
 displayed, as defined in L<PDF::API2::NamedDestination/"destination">.
+
+C<$dest> can be a page number, or a named destination prefixed with C<#>.
 
 =cut
 
@@ -173,7 +175,7 @@ sub pdf_file { return pdf(@_) }
 sub pdf {
     my $self = shift();
     my $file = shift();
-    my $page_number = shift();
+    my $dest = shift();
     my $location;
     my @args;
 
@@ -193,12 +195,17 @@ sub pdf {
     $self->{'A'}->{'F'} = PDFStr($file);
 
     unless (%options) {
-        my $destination = PDFNum($page_number);
-        $self->{'A'}->{'D'} = _destination($destination, $location, @args);
+	if ( $dest =~ /^\/(.+)/ ) { # named dest
+	    $self->{'A'}->{'D'} = PDFName($1);
+	}
+	else {
+	    my $page_number = PDFNum($dest);
+	    $self->{'A'}->{'D'} = _destination($page_number, $location, @args);
+	}
     }
     else {
         # Deprecated
-        $self->dest(PDFNum($page_number), %options);
+        $self->dest(PDFNum($dest), %options);
         $self->rect(@{$options{'-rect'}})     if defined $options{'-rect'};
         $self->border(@{$options{'-border'}}) if defined $options{'-border'};
     }
