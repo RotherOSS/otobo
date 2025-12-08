@@ -57,6 +57,8 @@ my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
     Groups => ['users'],
 );
 
+my $RandomID = $Helper->GetRandomID();
+
 ############################################
 # Test globals
 ############################################
@@ -79,7 +81,7 @@ my $LoopProtection = 99;
 my $Autoselect = {
     'Dest'         => '0',
     'DynamicField' => {
-        'UnitTestDropDownField' => '1'
+        "UnitTestDropDownField$RandomID" => '1'
     },
     'NextStateID' => '0',
     'SLAID'       => '0',
@@ -107,7 +109,7 @@ subtest '[Prepare] Create Dynamic Fields for Test' => sub {
 
     # Create dynamic fields for testing HideShow dynamic field default value behavior
     my $DropDown1FieldID = _CreateDynamicField(
-        'UnitTestDropDownField1',
+        "UnitTestDropDownField1$RandomID",
         4,
         'Dropdown',
 
@@ -131,7 +133,7 @@ subtest '[Prepare] Create Dynamic Fields for Test' => sub {
     ok( $DropDown1FieldDFConfig, 'Got a DropDown DF Config for DropDown1.' );
 
     my $DropDown2FieldID = _CreateDynamicField(
-        'UnitTestDropDownField2',
+        "UnitTestDropDownField2$RandomID",
         5,
         'Dropdown',
 
@@ -166,7 +168,7 @@ subtest '[Prepare] Create Dynamic Fields for Test' => sub {
 subtest '[Prepare] Create and Deploy Test ACLs' => sub {
 
     _CreateACL(
-        Name        => '001-UnitTestACL_PreventDisplayOfSimpleTextFieldIfTicketInQueueRaw',
+        Name        => "001-UnitTestACL_PreventDisplayOfSimpleTextFieldIfTicketInQueueRaw$RandomID",
         ConfigMatch => {
             Properties => {
                 Ticket => {
@@ -176,13 +178,13 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
         },
         ConfigChange => {
             PossibleNot => {
-                Form => ['UnitTestSimpleTextField']
+                Form => ["UnitTestSimpleTextField$RandomID"]
             }
         }
     );
 
     _CreateACL(
-        Name        => '002-UnitTestACL_TestrictSimpleDropdownFieldToOneOption',
+        Name        => "002-UnitTestACL_TestrictSimpleDropdownFieldToOneOption$RandomID",
         ConfigMatch => {
             Properties => {
                 Ticket => {
@@ -193,26 +195,26 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
         ConfigChange => {
             PossibleNot => {
                 Ticket => {
-                    'DynamicField_UnitTestDropDownField' => [ 'a', 'b' ]
+                    "DynamicField_UnitTestDropDownField$RandomID" => [ 'a', 'b' ]
                 }
             }
         }
     );
 
     _CreateACL(
-        Name        => '003-UnitTestACL_HideTextFieldIfChechboxSelectedAndDropDownSetToOptionA',
+        Name        => "003-UnitTestACL_HideTextFieldIfChechboxSelectedAndDropDownSetToOptionA$RandomID",
         ConfigMatch => {
             Properties => {
                 Ticket => {
-                    DynamicField_UnitTestCheckboxField => [1],
-                    DynamicField_UnitTestDropDownField => ['a'],
+                    "DynamicField_UnitTestCheckboxField$RandomID" => [1],
+                    "DynamicField_UnitTestDropDownField$RandomID" => ['a'],
                 }
             }
         },
         ConfigChange => {
             PossibleNot => {
                 Form => [
-                    'UnitTestSimpleTextField'
+                    "UnitTestSimpleTextField$RandomID"
                 ]
             }
         }
@@ -220,19 +222,19 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
 
     # ACLs for testing HideShow dynamic field value handling
     _CreateACL(
-        Name => '004-UnitTestACL_HideDropdownField1',
+        Name => "004-UnitTestACL_HideDropdownField1$RandomID",
 
         # ConfigMatch => {},
         ConfigChange => {
             PossibleNot => {
                 Form => [
-                    'UnitTestDropDownField1'
+                    "UnitTestDropDownField1$RandomID"
                 ]
             }
         }
     );
     _CreateACL(
-        Name        => '005-UnitTestACL_ShowDropdownField1IfQueueIsPostmaster',
+        Name        => "005-UnitTestACL_ShowDropdownField1IfQueueIsPostmaster$RandomID",
         ConfigMatch => {
             Properties => {
                 Ticket => {
@@ -245,7 +247,7 @@ subtest '[Prepare] Create and Deploy Test ACLs' => sub {
         ConfigChange => {
             PossibleAdd => {
                 Form => [
-                    'UnitTestDropDownField1'
+                    "UnitTestDropDownField1$RandomID"
                 ]
             }
         }
@@ -278,7 +280,7 @@ subtest '[Prepare] Create Test Tickets' => sub {
 
     # add dynamic field values to ticket
     my $Success = $DynamicFieldBackendObject->ValueSet(
-        DynamicFieldConfig => $DynamicTestFields{UnitTestDropDownField1},
+        DynamicFieldConfig => $DynamicTestFields{"UnitTestDropDownField1$RandomID"},
         Value              => 'a',
         ObjectID           => $FirstTicketID,
         UserID             => 1,
@@ -404,7 +406,7 @@ sub TestFieldRestrictions {
 
         my $ExpectedNewValueCount = scalar keys $Expected->{NewValues}->%*;
         my $NewValueCount         = scalar keys $CurFieldStates{NewValues}->%*;
-        is( $NewValueCount, $ExpectedNewValueCount, 'Count of NewValues is ' . $ExpectedNewValueCount . '.' );
+        is( $NewValueCount, $ExpectedNewValueCount, 'Count of NewValues is ' . $ExpectedNewValueCount . ' (was ' . $NewValueCount . ').' );
 
         for my $DF ( keys $Expected->{NewValues}->%* ) {
 
@@ -445,11 +447,11 @@ my @TestCases = (
         GetParam => { QueueID => '1' },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestDropDownField1  => 1,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
         }
     },
@@ -461,19 +463,19 @@ my @TestCases = (
             DynamicField => {
 
                 # pass in old entered value to see it getting cleared
-                DynamicField_UnitTestSimpleTextField => 'ClearMe!',
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 'ClearMe!',
             }
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 0,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
             NewValues => {
-                DynamicField_UnitTestSimpleTextField => ''
+                "DynamicField_UnitTestSimpleTextField$RandomID" => ''
             },
         }
     },
@@ -483,7 +485,7 @@ my @TestCases = (
         GetParam => { QueueID => '1' },
         Expected => {
             PossibleValues => {
-                UnitTestDropDownField => {
+                "UnitTestDropDownField$RandomID" => {
                     PossibleValues => {
                         ''  => '-',
                         'a' => 'a',
@@ -502,19 +504,19 @@ my @TestCases = (
             DynamicField => {
 
                 # pass in selected old value to see it changed
-                DynamicField_UnitTestDropDownField => 'a',
+                "DynamicField_UnitTestDropDownField$RandomID" => 'a',
             },
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 0,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
             PossibleValues => {
-                UnitTestDropDownField => {
+                "UnitTestDropDownField$RandomID" => {
                     PossibleValues => {
                         ''  => '-',
                         'c' => 'c',
@@ -522,7 +524,7 @@ my @TestCases = (
                 }
             },
             NewValues => {
-                DynamicField_UnitTestDropDownField => ''
+                "DynamicField_UnitTestDropDownField$RandomID" => ''
             },
         }
     },
@@ -538,14 +540,14 @@ my @TestCases = (
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 0,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
             PossibleValues => {
-                UnitTestDropDownField => {
+                "UnitTestDropDownField$RandomID" => {
                     PossibleValues => {
                         ''  => '-',
                         'c' => 'c',
@@ -553,7 +555,7 @@ my @TestCases = (
                 }
             },
             NewValues => {
-                DynamicField_UnitTestDropDownField => 'c'
+                "DynamicField_UnitTestDropDownField$RandomID" => 'c'
             },
         }
     },
@@ -565,23 +567,23 @@ my @TestCases = (
             DynamicField => {
 
                 # pass in selected values to trigger ACL
-                DynamicField_UnitTestDropDownField => 'a',
-                DynamicField_UnitTestCheckboxField => 1,
+                "DynamicField_UnitTestDropDownField$RandomID" => 'a',
+                "DynamicField_UnitTestCheckboxField$RandomID" => 1,
 
                 # pass in old value for Text field to see it getting cleared
-                DynamicField_UnitTestSimpleTextField => "ClearMe!",
+                "DynamicField_UnitTestSimpleTextField$RandomID" => "ClearMe!",
             },
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 0,
-                DynamicField_UnitTestDropDownField1  => 1,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 0,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
             NewValues => {
-                DynamicField_UnitTestSimpleTextField => '',
+                "DynamicField_UnitTestSimpleTextField$RandomID" => '',
             },
         }
     },
@@ -592,22 +594,22 @@ my @TestCases = (
         Action          => 'AgentTicketFreeText',
         ACLPreselection => {
             Fields => {
-                Dest                                     => 1,
-                DynamicField_ProcessManagementActivityID => 1,
-                DynamicField_ProcessManagementProcessID  => 1,
-                DynamicField_UnitTestCheckboxField       => 1,
-                DynamicField_UnitTestDropDownField       => 1,
-                DynamicField_UnitTestSimpleTextField     => 1,
-                DynamicField_UnitTestDropDownField1      => 1,
-                DynamicField_UnitTestDropDownField2      => 1,
-                NewResponsibleID                         => 1,
-                NewUserID                                => 1,
-                NextStateID                              => 1,
-                PriorityID                               => 1,
-                ServiceID                                => 1,
-                SLAID                                    => 1,
-                StandardTemplateID                       => 1,
-                TypeID                                   => 1,
+                Dest                                            => 1,
+                "DynamicField_ProcessManagementActivityID"      => 1,
+                "DynamicField_ProcessManagementProcessID"       => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
+                NewResponsibleID                                => 1,
+                NewUserID                                       => 1,
+                NextStateID                                     => 1,
+                PriorityID                                      => 1,
+                ServiceID                                       => 1,
+                SLAID                                           => 1,
+                StandardTemplateID                              => 1,
+                TypeID                                          => 1,
             },
             Rules => {
                 Form => {
@@ -626,11 +628,11 @@ my @TestCases = (
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
         }
     },
@@ -639,22 +641,22 @@ my @TestCases = (
         Action          => 'AgentTicketFreeText',
         ACLPreselection => {
             Fields => {
-                Dest                                     => 1,
-                DynamicField_ProcessManagementActivityID => 1,
-                DynamicField_ProcessManagementProcessID  => 1,
-                DynamicField_UnitTestCheckboxField       => 1,
-                DynamicField_UnitTestDropDownField       => 1,
-                DynamicField_UnitTestSimpleTextField     => 1,
-                DynamicField_UnitTestDropDownField1      => 1,
-                DynamicField_UnitTestDropDownField2      => 1,
-                NewResponsibleID                         => 1,
-                NewUserID                                => 1,
-                NextStateID                              => 1,
-                PriorityID                               => 1,
-                ServiceID                                => 1,
-                SLAID                                    => 1,
-                StandardTemplateID                       => 1,
-                TypeID                                   => 1,
+                Dest                                            => 1,
+                "DynamicField_ProcessManagementActivityID"      => 1,
+                "DynamicField_ProcessManagementProcessID"       => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
+                NewResponsibleID                                => 1,
+                NewUserID                                       => 1,
+                NextStateID                                     => 1,
+                PriorityID                                      => 1,
+                ServiceID                                       => 1,
+                SLAID                                           => 1,
+                StandardTemplateID                              => 1,
+                TypeID                                          => 1,
             },
             Rules => {
                 Form => {
@@ -673,13 +675,13 @@ my @TestCases = (
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
-            NewValues => { DynamicField_UnitTestDropDownField1 => "a" },
+            NewValues => { "DynamicField_UnitTestDropDownField1$RandomID" => "a" },
         }
     },
     {
@@ -687,22 +689,22 @@ my @TestCases = (
         Action          => 'AgentTicketFreeText',
         ACLPreselection => {
             Fields => {
-                Dest                                     => 1,
-                DynamicField_ProcessManagementActivityID => 1,
-                DynamicField_ProcessManagementProcessID  => 1,
-                DynamicField_UnitTestCheckboxField       => 1,
-                DynamicField_UnitTestDropDownField       => 1,
-                DynamicField_UnitTestSimpleTextField     => 1,
-                DynamicField_UnitTestDropDownField1      => 1,
-                DynamicField_UnitTestDropDownField2      => 1,
-                NewResponsibleID                         => 1,
-                NewUserID                                => 1,
-                NextStateID                              => 1,
-                PriorityID                               => 1,
-                ServiceID                                => 1,
-                SLAID                                    => 1,
-                StandardTemplateID                       => 1,
-                TypeID                                   => 1,
+                Dest                                            => 1,
+                DynamicField_ProcessManagementActivityID        => 1,
+                DynamicField_ProcessManagementProcessID         => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
+                NewResponsibleID                                => 1,
+                NewUserID                                       => 1,
+                NextStateID                                     => 1,
+                PriorityID                                      => 1,
+                ServiceID                                       => 1,
+                SLAID                                           => 1,
+                StandardTemplateID                              => 1,
+                TypeID                                          => 1,
             },
             Rules => {
                 Form => {
@@ -721,11 +723,11 @@ my @TestCases = (
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
         }
     },
@@ -735,22 +737,22 @@ my @TestCases = (
         Action          => 'AgentTicketFreeText',
         ACLPreselection => {
             Fields => {
-                Dest                                     => 1,
-                DynamicField_ProcessManagementActivityID => 1,
-                DynamicField_ProcessManagementProcessID  => 1,
-                DynamicField_UnitTestCheckboxField       => 1,
-                DynamicField_UnitTestDropDownField       => 1,
-                DynamicField_UnitTestSimpleTextField     => 1,
-                DynamicField_UnitTestDropDownField1      => 1,
-                DynamicField_UnitTestDropDownField2      => 1,
-                NewResponsibleID                         => 1,
-                NewUserID                                => 1,
-                NextStateID                              => 1,
-                PriorityID                               => 1,
-                ServiceID                                => 1,
-                SLAID                                    => 1,
-                StandardTemplateID                       => 1,
-                TypeID                                   => 1,
+                Dest                                            => 1,
+                DynamicField_ProcessManagementActivityID        => 1,
+                DynamicField_ProcessManagementProcessID         => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
+                NewResponsibleID                                => 1,
+                NewUserID                                       => 1,
+                NextStateID                                     => 1,
+                PriorityID                                      => 1,
+                ServiceID                                       => 1,
+                SLAID                                           => 1,
+                StandardTemplateID                              => 1,
+                TypeID                                          => 1,
             },
             Rules => {
                 Form => {
@@ -767,19 +769,19 @@ my @TestCases = (
             DynamicField => {},
         },
         CachedVisibility => {
-            DynamicField_UnitTestCheckboxField   => 1,
-            DynamicField_UnitTestDropDownField   => 1,
-            DynamicField_UnitTestSimpleTextField => 1,
-            DynamicField_UnitTestDropDownField1  => 1,
-            DynamicField_UnitTestDropDownField2  => 1,
+            "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+            "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+            "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+            "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+            "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
         }
     },
@@ -788,22 +790,22 @@ my @TestCases = (
         Action          => 'AgentTicketFreeText',
         ACLPreselection => {
             Fields => {
-                Dest                                     => 1,
-                DynamicField_ProcessManagementActivityID => 1,
-                DynamicField_ProcessManagementProcessID  => 1,
-                DynamicField_UnitTestCheckboxField       => 1,
-                DynamicField_UnitTestDropDownField       => 1,
-                DynamicField_UnitTestSimpleTextField     => 1,
-                DynamicField_UnitTestDropDownField1      => 1,
-                DynamicField_UnitTestDropDownField2      => 1,
-                NewResponsibleID                         => 1,
-                NewUserID                                => 1,
-                NextStateID                              => 1,
-                PriorityID                               => 1,
-                ServiceID                                => 1,
-                SLAID                                    => 1,
-                StandardTemplateID                       => 1,
-                TypeID                                   => 1,
+                Dest                                            => 1,
+                DynamicField_ProcessManagementActivityID        => 1,
+                DynamicField_ProcessManagementProcessID         => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
+                NewResponsibleID                                => 1,
+                NewUserID                                       => 1,
+                NextStateID                                     => 1,
+                PriorityID                                      => 1,
+                ServiceID                                       => 1,
+                SLAID                                           => 1,
+                StandardTemplateID                              => 1,
+                TypeID                                          => 1,
             },
             Rules => {
                 Form => {
@@ -821,21 +823,21 @@ my @TestCases = (
             DynamicField => {},
         },
         CachedVisibility => {
-            DynamicField_UnitTestCheckboxField   => 1,
-            DynamicField_UnitTestDropDownField   => 1,
-            DynamicField_UnitTestSimpleTextField => 1,
-            DynamicField_UnitTestDropDownField1  => 1,
-            DynamicField_UnitTestDropDownField2  => 1,
+            "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+            "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+            "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+            "DynamicField_UnitTestDropDownField1$RandomID"  => 1,
+            "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
-            NewValues => { DynamicField_UnitTestDropDownField1 => "a" },
+            NewValues => { "DynamicField_UnitTestDropDownField1$RandomID" => "a" },
         }
     },
     {
@@ -848,19 +850,19 @@ my @TestCases = (
             DynamicField => {},
         },
         CachedVisibility => {
-            DynamicField_UnitTestCheckboxField   => 1,
-            DynamicField_UnitTestDropDownField   => 1,
-            DynamicField_UnitTestSimpleTextField => 1,
-            DynamicField_UnitTestDropDownField1  => 0,
-            DynamicField_UnitTestDropDownField2  => 1,
+            "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+            "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+            "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+            "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+            "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
         },
         Expected => {
             Visibility => {
-                DynamicField_UnitTestCheckboxField   => 1,
-                DynamicField_UnitTestDropDownField   => 1,
-                DynamicField_UnitTestSimpleTextField => 1,
-                DynamicField_UnitTestDropDownField1  => 0,
-                DynamicField_UnitTestDropDownField2  => 1,
+                "DynamicField_UnitTestCheckboxField$RandomID"   => 1,
+                "DynamicField_UnitTestDropDownField$RandomID"   => 1,
+                "DynamicField_UnitTestSimpleTextField$RandomID" => 1,
+                "DynamicField_UnitTestDropDownField1$RandomID"  => 0,
+                "DynamicField_UnitTestDropDownField2$RandomID"  => 1,
             },
         }
     },
@@ -957,7 +959,7 @@ sub _DeleteACLs {
 sub _CreateDynamicTextField {
 
     return _CreateDynamicField(
-        'UnitTestSimpleTextField',
+        "UnitTestSimpleTextField$RandomID",
         1,
         'Text',
 
@@ -975,7 +977,7 @@ sub _CreateDynamicTextField {
 sub _CreateDynamicDropDownField {
 
     return _CreateDynamicField(
-        'UnitTestDropDownField',
+        "UnitTestDropDownField$RandomID",
         2,
         'Dropdown',
 
@@ -1000,7 +1002,7 @@ sub _CreateDynamicDropDownField {
 sub _CreateDynamicCheckboxField {
 
     return _CreateDynamicField(
-        'UnitTestCheckboxField',
+        "UnitTestCheckboxField$RandomID",
         3,
         'Checkbox',
 

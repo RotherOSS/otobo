@@ -3,7 +3,7 @@ package PDF::API2::ViewerPreferences;
 use strict;
 use warnings;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use Carp;
 use PDF::API2::Basic::PDF::Utils;

@@ -103,7 +103,7 @@ requires 'Mozilla::CA', '== 20200520';
 requires 'Net::HTTP', '== 6.17';
 
 # needed by Kernel::System::PDF
-requires 'PDF::API2', '== 2.045';
+requires 'PDF::API2', '== 2.048';
 
 # needed by console command Dev::Tools::TranslationsUpdate
 requires 'Pod::Strip', '== 1.02';

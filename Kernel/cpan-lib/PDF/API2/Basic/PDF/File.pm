@@ -10,7 +10,7 @@ package PDF::API2::Basic::PDF::File;
 
 use strict;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 =head1 NAME
 
@@ -1150,7 +1150,9 @@ sub locate_obj {
     my ($self, $num, $gen) = @_;
 
     my $tdict = $self;
+    my $seen = {};
     while (defined $tdict) {
+        $seen->{$tdict->{' loc'}} = 1;
         if (ref $tdict->{' xref'}{$num}) {
             my $ref = $tdict->{' xref'}{$num};
             return $ref unless scalar(@$ref) == 3;
@@ -1161,6 +1163,9 @@ sub locate_obj {
             }
         }
         $tdict = $tdict->{' prev'};
+        if ($seen->{$tdict->{' loc'}}) {
+            die 'Malformed PDF: trailer contains a loop or repeated object ID';
+        }
     }
     return;
 }
