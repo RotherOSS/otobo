@@ -53,31 +53,63 @@ sub Run {
     }
 
     # Get attachments.
-    my @Attachments = $Self->{ParserObject}->GetAttachments();
-
+    my @Attachments     = $Self->{ParserObject}->GetAttachments();
     my $AttachmentCount = 0;
+
+    # Identify html body attachment:
+    #   - file-[12] is plain+html attachment
+    #   - file-1.html is html attachment only
+    my $AttachmentHTML = 0;
+
+    ATTACHMENT:
     for my $Attachment (@Attachments) {
 
-        # Do not flag inline images as attachments, see bug#14949 for more information.
-        my $AttachmentInline = 0;
         if (
-            defined $Attachment->{ContentID}
-            && length $Attachment->{ContentID}
+            ( $Attachment->{Filename} =~ /^file-[12]$/ || $Attachment->{Filename} eq 'file-1.html' )
+            && $Attachment->{ContentType} =~ /text\/html/i
             )
         {
-            my ($ImageID) = ( $Attachment->{ContentID} =~ m{^<(.*)>$}ixms );
-            if ( grep { $_->{Content} =~ m{<img.*src=.*['|"]cid:\Q$ImageID\E['|"].*>}ixms } @Attachments ) {
-                $AttachmentInline = 1;
+            $AttachmentHTML = $Attachment;
+            last ATTACHMENT;
+        }
+    }
+
+    # Do not flag inline images as attachments, see bug#14949 for more information.
+    if ( $AttachmentHTML && $AttachmentHTML->{Content} ) {
+
+        ATTACHMENT:
+        for my $Attachment (@Attachments) {
+
+            next ATTACHMENT unless defined $Attachment->{ContentDisposition};
+            next ATTACHMENT unless length $Attachment->{ContentDisposition};
+
+            if (
+                defined $Attachment->{ContentType}
+                && length $Attachment->{ContentType}
+                && $Attachment->{ContentType} =~ m{image}ixms
+                && defined $Attachment->{ContentID}
+                && length $Attachment->{ContentID}
+                )
+            {
+                my ($ImageID) = ( $Attachment->{ContentID} =~ m{^<(.*)>$}ixms );
+                if ( $AttachmentHTML->{Content} !~ m{<img[^>]*\bsrc\s*=\s*(['"])cid:\Q$ImageID\E\1}ixms ) {
+                    $AttachmentCount++;
+                }
+            }
+            else {
+                $AttachmentCount++;
             }
         }
-
-        if (
-            defined $Attachment->{ContentDisposition}
-            && length $Attachment->{ContentDisposition}
-            && !$AttachmentInline
-            )
-        {
-            $AttachmentCount++;
+    }
+    else {
+        for my $Attachment (@Attachments) {
+            if (
+                defined $Attachment->{ContentDisposition}
+                && length $Attachment->{ContentDisposition}
+                )
+            {
+                $AttachmentCount++;
+            }
         }
     }
 
