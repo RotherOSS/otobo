@@ -134,6 +134,9 @@ sub SettingEffectiveValueCheck {
         EntitySubType => $EntitySubType,
     );
 
+    # for entities, empty values are valid
+    push @ValidValues, '';
+
     if ( !grep { $_ eq $Param{EffectiveValue} } @ValidValues ) {
         $Result{Error} = "Entity value is invalid($Param{EffectiveValue})!";
         return %Result;
