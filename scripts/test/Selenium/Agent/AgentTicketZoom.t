@@ -373,9 +373,10 @@ $Selenium->VerifiedGet(
 
 # Check if the IFRAME element now DOES contain the session ID parameter.
 $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
+
 like(
     $IframeElement->get_attribute('src'),
-    m{$SessionName=},
+    qr{$SessionName=},
     'Session ID present in the IFRAME source URL'
 );
 
