@@ -33,26 +33,30 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::EventHandler - event handling trait
+Kernel::System::EventHandler - support for event handling
 
 =head1 DESCRIPTION
 
 This module is not instantiated on its own. It is only meant to provide enhanced functionality
-to other classes. As it adds new methods and attributes to a class it constitutes a trait.
-C<Kernel::System::Ticket> is an example for a class that employs this enhancement mechanism.
-An instance of such an enhanced class constitutes an event handler object.
+to other classes. It constitutes a trait as it adds new methods and attributes to a class.
+L<Kernel::System::Ticket> is an example for a class that employs this enhancement mechanism.
+An instance of such an enhanced class is called an event handler object.
 
-The trait C<Kernel::System::EventHandler> provides the possibility to use event handling modules like
-C<Kernel::System::Ticket::Event::ArchiveRestore>. These event handling modules must have been registered
-in the OTOBO SysConfig under a category like "Ticket::EventModulePost".
-The event handler object first expresses interest in a specific category.
-Then the business logic code of the event handler object may emit events which are then handled by the relevant modules.
-Only the modules matching both the category and the name of the event are executed.
+The actual handling of events is delegated to event handling modules. They can be thought of as
+modules which provide callback functions. An example for an event handling module is
+L<Kernel::System::Ticket::Event::ArchiveRestore>.
 
-A special feature is that there are two types of event handling modules. The modules without the attribute I<Transaction>
-handle the event immediately when the event is emitted. The modules marked as I<Transaction> handle the events at a
-deferred time. The execution of the transaction event handling modules is primarily triggered by destruction of the object manager.
-But any other code may also trigger the execution by calling C<EventHandlerTransaction()> on the event handler object.
+Event handling modules must be registered in the OTOBO SysConfig. They are assigned a category
+like e.g. "Ticket::EventModulePost". The event handler object expresses interest in a specific category.
+The business logic code of the event handler object then emits events.
+Only the event handling modules matching both the category and the event name are executed.
+
+A special feature is that there are two types of event handling modules. The modules
+without the attribute I<Transaction> handle the event immediately when it is emitted.
+The modules marked as I<Transaction> handle the event at a
+deferred time. The execution of the transaction event handling modules is usually triggered by the
+destruction of the object manager C<$Kernel::OM>. But any other code may also trigger the execution
+by calling C<EventHandlerTransaction()> on the event handler object.
 
 =head2 Usage by an event handler object
 
@@ -67,7 +71,8 @@ This is usually already done in the constructor.
 The event handler object emits an event by calling the method L</EventHandler()>.
 This method will call the event handling modules to which the class is subscribed and
 and which are registered for the specific event.
-L</EventHandler()> will also queue the event so that the Transaction event handling modules can be triggered later.
+L</EventHandler()> will also queue the event so that the transaction event handling modules can be triggered later.
+The events are handled in the order of insertion, that is in FIFO order.
 
 In the destructor of the enhanced class you should add a call to L</EventHandlerTransaction()>
 to make sure that also C<Transaction> events will be executed correctly.
@@ -116,6 +121,8 @@ Example 1 XML config:
     </ConfigItem>
 
 Example 2:
+
+The system is flexible enough to accommodate for extensions of OTOBO core.
 
     $Self->EventHandlerInit(
         Config     => 'ITSM::EventModule',
