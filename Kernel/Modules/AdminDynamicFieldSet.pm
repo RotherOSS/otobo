@@ -218,6 +218,27 @@ sub _CheckInclude {
             return;
         }
 
+        # check if field is a lens which points to a Set
+        #   to prevent use of nested Sets
+        if ( $DynamicField->{FieldType} eq 'Lens' ) {
+
+            # get attribute field config and check field type
+            my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DynamicField->{Config}{AttributeDF},
+            );
+
+            if ( $AttributeDFConfig->{FieldType} eq 'Set' ) {
+                $Errors{IncludeServerError} = 'ServerError';
+                $Errors{IncludeServerErrorMessage}
+                    = sprintf(
+                        Translatable('The dynamic field "%s" can not be used in sets as it is either a Set field or a Lens field pointing to a Set field.'),
+                        $DFElement
+                    );
+
+                return;
+            }
+        }
+
         # DF may already be in use in a ticket mask
         if ( $MaskDynamicFields{ $DynamicField->{Name} } ) {
             $Errors{IncludeServerError}        = 'ServerError';
@@ -966,7 +987,7 @@ sub _ShowScreen {
     # get the field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
-    # only if the dymamic field exists and should be edited,
+    # only if the dynamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 

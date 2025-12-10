@@ -87,6 +87,7 @@ sub new {
         'IsCustomerInterfaceCapable'   => 1,
         'IsSetCapable'                 => 0,
         'SetsDynamicContent'           => 1,
+        'IsSetField'                   => 1,
     };
 
     return $Self;

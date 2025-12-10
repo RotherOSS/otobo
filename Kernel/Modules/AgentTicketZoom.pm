@@ -1838,6 +1838,20 @@ sub MaskAgentZoom {
 
                         my $DFConfig = $DynamicFieldLookup{ $Field->{Name} };
 
+                        # if we are dealing with a lens field pointing to a Set, get the config of the Set
+                        if ( $DFConfig->{FieldType} eq 'Lens' ) {
+                            my $AttributeDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                                ID => $DFConfig->{Config}{AttributeDF},
+                            );
+                            if ( $AttributeDF->{FieldType} eq 'Set' ) {
+                                $DFConfig = {
+                                    $AttributeDF->%*,
+                                    Name  => $DFConfig->{Name},
+                                    Label => $DFConfig->{Label},
+                                };
+                            }
+                        }
+
                         # set field
                         if ( $DFConfig->{FieldType} eq 'Set' ) {
                             $LayoutObject->Block(
@@ -2026,6 +2040,20 @@ sub MaskAgentZoom {
             );
 
             my ($DFConfig) = grep { $_->{Name} eq $Field->{Name} } $DynamicField->@*;
+
+            # if we are dealing with a lens field pointing to a Set, get the config of the Set
+            if ( $DFConfig->{FieldType} eq 'Lens' ) {
+                my $AttributeDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                    ID => $DFConfig->{Config}{AttributeDF},
+                );
+                if ( $AttributeDF->{FieldType} eq 'Set' ) {
+                    $DFConfig = {
+                        $AttributeDF->%*,
+                        Name  => $DFConfig->{Name},
+                        Label => $DFConfig->{Label},
+                    };
+                }
+            }
 
             # set field
             if ( $DFConfig->{FieldType} eq 'Set' ) {

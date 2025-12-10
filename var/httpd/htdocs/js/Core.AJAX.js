@@ -349,6 +349,32 @@ Core.AJAX = (function (TargetNS) {
             return;
         }
 
+        // collect data into structure for setting multivalue values combined
+        let MultiValueKeys = [];
+        let SetValueCounts = {};
+
+        $.each(Data, function(DataKey, DataValue) {
+
+            if ( !DataKey.startsWith("DynamicField_") ) {
+                return;
+            }
+
+            let { FieldName } = /^DynamicField_(?<FieldName>[A-Za-z0-9-]+(_[a-f0-9]{32})?).*$/.exec(DataKey).groups;
+            if ( $('[name="SetIndex_' + FieldName + '"]').parent().hasClass('DFSetOuterField') ) {
+                SetValueCounts[DataKey] = DataValue;
+                return;
+            }
+
+            let RegExpCheck = /_\d+$/.exec(DataKey);
+            if ( RegExpCheck ) {
+                MultiValueKeys.push(DataKey);
+            }
+        });
+
+        if ( MultiValueKeys.length ) {
+            Core.UI.InputFields.AddEmptyMultiValueCells(MultiValueKeys, SetValueCounts);
+        }
+
         $.each(Data, function (DataKey, DataValue) {
 
             // hide and show fields

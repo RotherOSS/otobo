@@ -440,6 +440,15 @@ sub Run {
     FIELD:
     for my $Field (@FieldsSidebar) {
 
+        # check Set field behavior to include lenses on Sets
+        my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            Name => $Field->{Name},
+        );
+        my $IsSetField = $DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $FieldConfig,
+            Behavior           => 'IsSetField',
+        );
+
         # handle titles separately
         if ( $Field->{TitleFieldConfig} ) {
             my $Style = "padding-left:4px;font-size:$Field->{TitleFieldConfig}{FontSize}px;color:$Field->{TitleFieldConfig}{FontColor};";
@@ -465,7 +474,7 @@ sub Run {
 
             next FIELD;
         }
-        elsif ( $Field->{FieldType} eq 'Set' ) {
+        elsif ($IsSetField) {
 
             $LayoutObject->Block(
                 Name => 'TicketDynamicField',

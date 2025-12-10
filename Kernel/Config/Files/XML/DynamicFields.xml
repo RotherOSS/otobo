@@ -2145,4 +2145,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="DynamicField::EventModulePost###500-UpdateLensFieldMultiValue" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic field event module that updates the MultiValue attribute of the Lens field configuration to match the MultiValue attribute of the attribute field.</Description>
+        <Navigation>Core::Event::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::DynamicField::Event::UpdateLensFieldMultiValue</Item>
+                <Item Key="Event">DynamicFieldAdd|DynamicFieldDelete|DynamicFieldUpdate</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>
