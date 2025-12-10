@@ -215,7 +215,7 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer {
     width: 100% !important;
 }*/
 
-.FieldCell {
+.FieldCell :not('div.oooTitle') {
     white-space: nowrap;
 }
 
