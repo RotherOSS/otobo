@@ -14,16 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
-
-use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
@@ -55,7 +60,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
     TRY:
     for my $Try ( 1 .. 20 ) {
 
-        $UserRand = 'unittest-' . $Key . $Helper->GetRandomID();
+        $UserRand = 'unittest-' . $Key . $Helper->GetRandomID;
 
         my %UserData = $CustomerUserObject->CustomerUserDataGet(
             User => $UserRand,
@@ -329,7 +334,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '_', '&' ) {
     else {
         $Self->True(
             $List{$UserID},
-            "CustomerSearch() - CustomerID - $UserID (SearchCaseSensitive = 1)",
+            "CustomerSearch() - CustomerID - $UserID (SearchCaseSensitive = 0)",
         );
     }
 
@@ -912,6 +917,4 @@ $Self->Is(
     "Changed 'CustomerUserListFields' config is"
 );
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;
