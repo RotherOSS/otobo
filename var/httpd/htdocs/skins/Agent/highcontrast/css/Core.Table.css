@@ -57,6 +57,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .DataTable tr:nth-child(even):hover td.Highlight *, 
 .WidgetSimple.Setting.IsLockedByMe h2 label {
     color: var(--colTextLight) !important;
+    background-color: var(--colBGDark);
 }
 
 /**
