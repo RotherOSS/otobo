@@ -142,6 +142,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     color: var(--colTextLight);
 }
 
+.TableSmall thead span {
+    color: var(--colTextLight);
+}
+
 .DataTable thead th.DashboardHeader a,
 .TableSmall thead th.OverviewHeader a,
 .DataTable thead th.DashboardHeader span.Gray {
@@ -175,6 +179,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .DataTable thead th.DashboardHeader .ColumnSettingsBox,
 .TableSmall thead th.OverviewHeader .ColumnSettingsBox {
     background: var(--colBGDark);
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue {
+    border: 1px solid var(--colBGLight);
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue a:hover,
