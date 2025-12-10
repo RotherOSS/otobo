@@ -269,9 +269,11 @@ sub GetFieldStates {
 
             # values of visible fields turning invisible are deleted or set to values of ticket data if present
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} ) ?
-                    ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 ) :
-                    $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+                ref( $DFParam->{"DynamicField_$DFName"} )
+                ?
+                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
+                :
+                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
 
             my %TicketData;
             if ( $Param{TicketID} ) {
@@ -754,6 +756,8 @@ sub SetACLPreselectionCache {
         SLA              => 'SLAID',
         StandardTemplate => 'StandardTemplateID',
         CustomerUser     => 'ServiceID',            # for some unknown reason the changed element upon customer user change is always ServiceID
+        CustomerUserID   => 'CustomerUserID',
+        CustomerID       => 'CustomerID',
     );
 
     # dynamic fields
