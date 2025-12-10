@@ -2761,6 +2761,108 @@ Core.UI.InputFields = (function (TargetNS) {
     };
 
     /**
+     * @name AddEmptyMultiValueCells
+     * @memberof Core.UI.InputFields
+     * @function
+     * @returns {Boolean} Returns true if successfully, false otherwise
+     * @param {Array} keys of multivalue fields coming from backend
+     * @param {Object} value counts for Set fields
+     * @description
+     *      Adds empty multivalue fields to match count of values
+     */
+    TargetNS.AddEmptyMultiValueCells = function ( MultiValueKeys, SetValueCounts ) {
+
+        // check if given argument is array
+        if (!Array.isArray(MultiValueKeys)) {
+            return;
+        }
+
+        let DeletionDone = {};
+
+        // check if field exists in general
+        MultiValueKeys.forEach(function (MultiValueKey) {
+
+            let { PlainFieldName, Index } = /^(?<PlainFieldName>DynamicField_[A-Za-z0-9-]+(_[a-f0-9]{32})?)(?<Index>_\d+)?/.exec(MultiValueKey).groups;
+
+            if ( typeof Index != 'undefined' && DeletionDone[PlainFieldName] != 1 ) {
+
+                let CellsToRemove = {};
+
+                $('[name^=' + PlainFieldName +']').not('[id*="_Template"]').each(function(Index, Element) {
+
+                    if ( !$(Element).length ) {
+                        return;
+                    }
+
+                    let $CellToRemove = $(Element).closest('.FieldCell');
+                    if ( $CellToRemove.parents('.FieldCell').length ) {
+                        CellsToRemove[Index] = $CellToRemove.parents('.FieldCell');
+                    }
+                    else {
+                        CellsToRemove[Index] = $CellToRemove;
+                    }
+                    DeletionDone[PlainFieldName] = 1;
+                });
+                Object.keys(CellsToRemove).forEach(function(Index) {
+                    if ( CellsToRemove[Index].is(':visible') ) {
+                        RemoveCell(CellsToRemove[Index]);
+                    }
+                });
+            }
+        });
+
+        // create Set field cells if needed
+        if ( Object.keys(SetValueCounts).length ) {
+            $.each(SetValueCounts, function (SetName, SetCount) {
+
+                // starting at 1 as 0 should always exist
+                for ( let CurIndex = 1; CurIndex < SetCount; CurIndex++ ) {
+                    let HiddenInput = $('#' + SetName + '_' + CurIndex);
+
+                    // hidden input with this index already exists, skip
+                    if ( HiddenInput.length ) {
+                        return;
+                    }
+
+                    // create new Set cell based on previous index
+                    AddCell( $('#' + SetName + '_' + (CurIndex - 1)).closest('.FieldCell') );
+                }
+            });
+        }
+
+        MultiValueKeys.forEach(function (MultiValueKey) {
+
+            // check if element itself already exists
+            //  if so, nothing to do
+            let $MVElement = $('#' + MultiValueKey);
+            if ($MVElement.length || $MVElement.is('textarea')) {
+                return;
+            }
+
+            // check if field in general is present
+            let { FieldName } = /^(?<FieldName>DynamicField_.+(_[a-f0-9]{32})?)_\d+$/.exec(MultiValueKey).groups;
+            let $MVField = $('[name=' + FieldName + ']').not('[id*="_Template"]');
+            if ( !$MVField.length && !$MVField.is('textarea') ) {
+
+                // special case: for field with additional 0, do nothing
+                $MVField = $('[name="' + FieldName + '_0"]').not('[id*="_Template"]');
+                if ( $MVField.length || $MVField.is('textarea') ) {
+                    return;
+                }
+
+                $MVField = $('[name^="' + FieldName + '_"]').not('[id*="_Template"]');
+
+                if ( !$MVField.length && !$MVField.is('textarea') ) {
+                    return;
+                }
+            }
+
+            // field does exist and new multivalue element needs to be created
+            AddCell($MVField.last().closest('.FieldCell[class*="MultiValue_"]'));
+        });
+    }
+
+    /**
      * @name InitMultiValueDynamicFields
      * @memberof Core.UI.InputFields
      * @description

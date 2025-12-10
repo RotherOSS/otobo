@@ -81,11 +81,9 @@ sub new {
 
         # see https://github.com/RotherOSS/otobo/issues/3810
         ScriptTemplateToolkit => 0,
-
-        # works in general, see https://github.com/RotherOSS/otobo/issues/3811
-        Set      => 1,
-        Text     => 1,
-        TextArea => 1,
+        Set                   => 1,
+        Text                  => 1,
+        TextArea              => 1,
 
         # see https://github.com/RotherOSS/otobo/issues/3186
         Ticket => 0,
