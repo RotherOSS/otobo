@@ -925,7 +925,7 @@ a.DisabledLink {
 
 .MessageBox p,
 .MessageBox a {
-    color: rgba(0,2,60,0.8);
+    color: var(--colTextDark);
 }
 
 .MessageBox.Info a,
@@ -935,7 +935,7 @@ a.DisabledLink {
 
 .MessageBox a:hover,
 .MessageBox a:hover {
-    color: var(--colTextDark);
+    color: var(--colTextMedium);
 }
 
 .MessageBox a:hover {
