@@ -33,70 +33,77 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::EventHandler - support for event handling
+Kernel::System::EventHandler - support for event handling, dispatch emitted events to their subscribers
 
 =head1 DESCRIPTION
 
-This module is not instantiated on its own. It is only meant to provide enhanced functionality
-to other classes. It constitutes a trait as it adds new methods and attributes to a class.
-L<Kernel::System::Ticket> is an example for a class that employs this enhancement mechanism.
-An instance of such an enhanced class is called an event handler object.
+The module L<Kernel::System::EventHandler> is not instantiated on its own. It is only meant to enhance the functionality
+of other classes. It constitutes a trait as it adds new methods and attributes to a class.
 
-The actual handling of events is delegated to event handling modules. They can be thought of as
-modules which provide callback functions. An example for an event handling module is
+Despite its name, the module itself does not implement actions that handle events. Instead it acts as
+the dispatcher that connects event emitters and subscribers.
+Classes enhanced by L<Kernel::System::EventHandler> are called event emitters.
+L<Kernel::System::Ticket> is an example for an event emitter as it emits ticket related events.
+
+The actual handling of events is delegated to subscriber, aka event handling modules. They can be thought of as
+modules which provide callback functions. An example for a subscriber is
 L<Kernel::System::Ticket::Event::ArchiveRestore>.
 
-Event handling modules must be registered in the OTOBO SysConfig. They are assigned a category
-like e.g. "Ticket::EventModulePost". The event handler object expresses interest in a specific category.
-The business logic code of the event handler object then emits events.
-Only the event handling modules matching both the category and the event name are executed.
+Events are dispatched based on a category and the event name. For example L<Kernel::System::Ticket> declares
+that it emits events in the category C<Ticket::EventModulePost>. The emitted events have names
+like 'TicketCreate' and 'TicketDelete'.
 
-A special feature is that there are two types of event handling modules. The modules
+The connection between event emitters and event subscribers is done via the SysConfig. Subscribers
+must be declared in the SysConfig and the must specify which category of event they are handling.
+
+The business logic code of the emitter emits events by calling the method C<EventHandler()>
+Only the subscribers matching category are executed. Based on the event name, the subscriber
+decides which events are ignored and which are acted upon.
+
+A special feature is that there are two types of subscribers. The modules
 without the attribute I<Transaction> handle the event immediately when it is emitted.
 The modules marked as I<Transaction> handle the event at a
-deferred time. The execution of the transaction event handling modules is usually triggered by the
+deferred time. The execution of the transaction subscribers is usually triggered by the
 destruction of the object manager C<$Kernel::OM>. But any other code may also trigger the execution
-by calling C<EventHandlerTransaction()> on the event handler object.
+by calling C<EventHandlerTransaction()> on the emitter.
 
-=head2 Usage by an event handler object
+=head2 Usage by an emitter
 
-A class that wants to use event handling must inherit from this class.
+A class that wants to use event handling, aka emitter, must inherit from this class.
 
     use parent qw(Kernel::System::EventHandler);
 
-An event handler object needs to indicate in which category of event handling modules it is interested.
+An emitter needs to indicate which category of events it emits.
 It also needs to register itself with the object manager. Both goals are achieved by calling L</EventHandlerInit()>.
 This is usually already done in the constructor.
 
-The event handler object emits an event by calling the method L</EventHandler()>.
-This method will call the event handling modules to which the class is subscribed and
-and which are registered for the specific event.
-L</EventHandler()> will also queue the event so that the transaction event handling modules can be triggered later.
-The events are handled in the order of insertion, that is in FIFO order.
+The emitter emits an event by calling the method L</EventHandler()>.
+This method will call the subscribers which are subscribed to the category of the emitter.
+L<Kernel::System::EventHandler()> will also queue the event so that the transaction subscribers can be triggered later.
+The events are handled in the order of insertion, that is in FIFO order. Note that the queue are per emitter, not global.
 
-In the destructor of the enhanced class you should add a call to L</EventHandlerTransaction()>
+In the destructor of the emitter you should add a call to L</EventHandlerTransaction()>
 to make sure that also C<Transaction> events will be executed correctly.
-This is only necessary if you use C<Transaction> event handling modules in your class.
+This is only necessary if there are C<Transaction> subscribers of your category.
 
 =head2 Special case in Kernel::System::MailQueue
 
 An instance of C<Kernel::System::MailQueue> emits the events 'ArticleEmailSending(Queued|Sent|Error)'. These events are handled
-by the transaction event handling module C<Kernel::System::Ticket::Event::NotificationEvent>. But in this
+by the transaction subscriber C<Kernel::System::Ticket::Event::NotificationEvent>. But in this
 context the notifications should be sent out immediately. This goal is achieved by passing a special combination
-of parameters and attributes. This is not the recommended practice.
+of parameters and attributes. Please note that this is not the recommended practice.
 
 =head1 PUBLIC INTERFACE
 
 =head2 EventHandlerInit()
 
-Call this method in order to initialize the event handling mechanism.
+Call this method in order to initialize the event handling mechanism, to declare your category.
 
     $Self->EventHandlerInit(
         Config     => 'Example::EventModule', # category of event handling modules
     );
 
-The event handler object expressed interest in the passed category.
-It also registers itself with the object manager.
+The emitter also registers itself with the object manager.
 
 Example 1:
 
@@ -162,12 +169,12 @@ Example 2 XML config:
 sub EventHandlerInit {
     my ( $Self, %Param ) = @_;
 
-    # subscribe to a category of event handling modules
+    # declare the category of this emitter
     # %Param is something like: ( Config => 'ITSM::EventModule' )
     $Self->{EventHandlerInit} = \%Param;
 
-    # Register the event handler object with the object manager. Giving the object manager
-    # the chance to handle events with the transaction even handling modules
+    # Register the emitter with the object manager. Giving the object manager
+    # the chance to handle events with the transaction subscribers.
     $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
 
     return 1;
@@ -175,13 +182,13 @@ sub EventHandlerInit {
 
 =head2 EventHandler()
 
-emits an event. It returns true if the immediate event handling modules were executed successfully.
+emits an event. It returns true if the immediate subscribers had been executed successfully.
 
 Example 1:
 
     my $Success = $EventHandler->EventHandler(
-        Event => 'TicketStateUpdate',   # event name, passed to the event handling modules
-        Data  => {                      # data payload for the event, passed to the event handling modules
+        Event => 'TicketStateUpdate',   # event name, passed to the subscribers
+        Data  => {                      # data payload for the event, passed to the subscribers
             TicketID => 123,
         },
         UserID => 123,
@@ -198,7 +205,7 @@ Example 2:
     );
 
 There is an additional parameter C<Transaction> which should be used only internally.
-This parameter indicates that the transaction event handling modules should be executed.
+This parameter indicates that the transaction subscribers should do their work.
 
 =cut
 
@@ -216,13 +223,13 @@ sub EventHandler {
         }
     }
 
-    # get configured event handling modules from SysConfig
+    # get configured subscribers from SysConfig
     my $Modules = $Kernel::OM->Get('Kernel::Config')->Get( $Self->{EventHandlerInit}->{Config} );
 
-    # nothing to do when there are no event handling modules
+    # nothing to do when there are no subscribers
     return 1 unless $Modules;
 
-    # Store the events so that they can be handled later by the transaction event handling modules.
+    # Store the events so that they can be handled later by the transaction subscribers.
     # Only when we are nor currently running the transaction modules.
     if ( !$Self->{EventHandlerTransaction} ) {
         $Self->{EventHandlerPipe} //= [];
@@ -296,7 +303,7 @@ sub EventHandler {
 
 =head2 EventHandlerTransaction()
 
-handle the queued events with the transaction event handling modules
+handle the queued events with the transaction subscribers.
 
     $EventHandler->EventHandlerTransaction();
 
@@ -320,9 +327,9 @@ Kernel::System::EventHandler, like this:
 sub EventHandlerTransaction {
     my ( $Self, %Param ) = @_;
 
-    # Remember that we in the mode that handles the queued events. That is, we are
-    # running the transaction modules for these events. In this mode, both
-    # the immediate and the transaction event handling modules are run immediately
+    # Remember that we are in the mode that handles the queued events. That is, we are
+    # running the transaction subscribers for these events. In this mode, both
+    # the immediate and the transaction subscribers are running immediately
     # when an event is emitted. New events are not added to the queue.
     $Self->{EventHandlerTransaction} = 1;
 
@@ -383,7 +390,7 @@ sub EventHandlerTransaction {
     $Self->{EventHandlerTransaction} = 0;
 
     # The localized object manager is destroyed here. This means that the method DESTROY is called.
-    # DESTROY runs the transaction event handling modules for the events that were generated
+    # DESTROY runs the transaction subscribers for the events that were generated
     # while running the above loop.
 
     return 1;
