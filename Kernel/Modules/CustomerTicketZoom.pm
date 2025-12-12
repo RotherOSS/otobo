@@ -322,6 +322,9 @@ sub Run {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
+    $GetParam{CustomerID}     = $Self->{UserCustomerID};
+    $GetParam{CustomerUserID} = $Self->{UserID};
+
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
@@ -424,9 +427,6 @@ sub Run {
         if ( $ChangedElements{ServiceID} ) {
             $ChangedElements{CustomerUserID} = 1;
             $ChangedElements{CustomerID}     = 1;
-
-            $GetParam{CustomerUserID} = $Self->{UserID};
-            $GetParam{CustomerID}     = $Self->{UserCustomerID};
         }
         my %ChangedElementsDFStart = %ChangedElements;
         my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
