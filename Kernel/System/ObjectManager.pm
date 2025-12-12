@@ -433,7 +433,7 @@ sub ObjectParamAdd {
 
 =head2 ObjectEventsHandle()
 
-Execute the transaction event handling modules for all queued events. These events had been queued
+Execute the transaction subscribers for all queued events. These events had been queued
 by the singleton objects that the ObjectManager created before. This can be used to flush the event queue
 before destruction, for example.
 
