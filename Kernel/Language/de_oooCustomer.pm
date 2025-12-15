@@ -22,21 +22,12 @@ use utf8;
 sub Data {
     my $Self = shift;
 
-    # Login
-    $Self->{Translation}->{'Your Tickets. Your OTOBO.'}   = 'Deine Tickets. Dein OTOBO.';
-
-    # Dashboard
-    $Self->{Translation}->{'# FAQ Article № 1'} = '# FAQ Artikel № 1';
-    $Self->{Translation}->{'List of features coming with the OTOBO beta version.'} = 'Liste der Features, die in der OTOBO beta Version enthalten sein werden.';
-    $Self->{Translation}->{'Show >'} = 'Anzeigen >';
-    $Self->{Translation}->{'Message of the day'} = 'Aktuelle Informationen';
-    $Self->{Translation}->{'Welcome %s, to your OTOBO.'} = 'Willkommen %s, in Deinem OTOBO.';
-    $Self->{Translation}->{'Have fun exploring this preliminary version of the OTOBO customer interface!'} = 'Viel Spaß beim Ansehen dieser im Aufbau befindlichen Kundenansicht von OTOBO!';
-    $Self->{Translation}->{'Your last tickets'} = 'Deine letzten Tickets';
-    $Self->{Translation}->{'Your external tools'} = 'Externe Tools';
+    # This file does not contains any translations. The translations have been
+    # marked as translatable in the system configuration and merged into
+    # Kernel/Language/de.pm. This file only exists to avoid problems when an
+    # installation is upgraded from OTOBO 10.1.x.
 
     return;
-
 }
 
 1;
