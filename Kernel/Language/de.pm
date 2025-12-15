@@ -3272,6 +3272,10 @@ sub Data {
         # Template: CustomerDashboard
         'Ticket Search' => 'Ticketsuche',
         'New Ticket' => 'Neues Ticket',
+        'Message of the day' => 'Aktuelle Informationen',
+        'Welcome %s, to your OTOBO.' => 'Willkommen %s, in Deinem OTOBO.',
+        'Your last tickets' => 'Deine letzten Tickets',
+        'Your external tools' => 'Externe Tools',
 
         # Template: CustomerError
         'An Error Occurred' => 'Ein Fehler ist aufgetreten',
@@ -3300,6 +3304,7 @@ sub Data {
             'Der Internetexplorer wird von OTOBO nur in Hinblick auf grundlegende Funktionalität unterstützt. Bitte ziehen Sie in Betracht, zu einem modernen Web-Browser zu wechseln.',
         'One moment please, you are being redirected...' => 'Einen Moment bitte, Sie werden weitergeleitet...',
         'Login' => 'Anmeldung',
+        'Your Tickets. Your OTOBO.' => 'Deine Tickets. Dein OTOBO.',
         'Your user name' => 'Ihr Benutzername',
         'User name' => 'Benutzername',
         'Your password' => 'Ihr Passwort',
