@@ -16,11 +16,13 @@
 
 package Kernel::System::Environment;
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
 # core modules
-use POSIX;
+use POSIX qw(uname);
 use ExtUtils::MakeMaker;
 
 # CPAN modules
@@ -88,7 +90,7 @@ returns:
 sub OSInfoGet {
     my ( $Self, %Param ) = @_;
 
-    my @Data = POSIX::uname();
+    my @Data = uname();
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -99,10 +101,10 @@ sub OSInfoGet {
         openbsd => 'OpenBSD',
     );
 
-    # If used OS is a linux system
+    # If used OS is a unixoid system
     my $OSName;
     my $Distribution;
-    if ( $^O =~ /(linux|unix|netbsd)/i ) {
+    if ( $^O =~ /linux|unix|netbsd/i ) {
 
         if ( $^O eq 'linux' ) {
 
@@ -119,7 +121,7 @@ sub OSInfoGet {
                 $OSName = $DistributionName . ' ' . $DistributionVersion;
             }
         }
-        elsif ( -e "/etc/issue" ) {
+        elsif ( -e '/etc/issue' ) {
 
             my $Content = $MainObject->FileRead(
                 Location => '/etc/issue',
@@ -205,7 +207,7 @@ sub ModuleVersionGet {
 
 =head2 PerlInfoGet()
 
-collect perl information:
+collect Perl information:
 
     my %PerlInfo = $EnvironmentObject->PerlInfoGet();
 
@@ -235,8 +237,7 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf '%vd',
-        $^V,
+        PerlVersion => sprintf( '%vd', $^V ),
     );
 
     if ( $Param{BundledModules} ) {
