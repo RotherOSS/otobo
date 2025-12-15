@@ -20,15 +20,15 @@ Starting in the OTOBO root dir.
     gvim Kernel/System/Environment.pm                                       # update BundleModulesDeclarationGet() if there are changes
     bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile # in case BundleModulesDeclarationGet() list has changed
 
-### Shortcut when there are only version updates
+### Streamlined procedure when there are only version updates
 
 Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>.
 
     cd Kernel/cpan-lib
     rm -rf local
-    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
-    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
-    rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod
+    PERL5LIB=. cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local             # install into local/lib/perl5
+    PERL5LIB=. cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local             # again, to see that the install was complete
+    rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod, exact path depends on host
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
 Then examine the diffs and check in the verified changes.
@@ -45,8 +45,8 @@ Finally clean up the temporary dir again:
 ### A fresh install of the bundled modules
 
     cd Kernel/cpan-lib
-    cpanm --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
-    cpanm --notest --installdeps . --local-lib local                        # again, to see that the install was complete
+    cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local                        # install locally into local/lib/perl5
+    cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local                        # again, to see that the install was complete
 
 ### Remove files and directories that should not be bundled with OTOBO
 
@@ -84,13 +84,13 @@ them into local/lib/perl5. Which modules need to be reinstalled depends on the
 current situation on the development machine.
 
     diff -r . local/lib/perl5/ | grep -v cpanfile | grep -v README.md      # the goal is to see only 'local'
-    cpanm --notest --reinstall --local-lib local CPAN::DistnameInfo@0.12
-    cpanm --notest --reinstall --local-lib local Font::TTF@1.06
-    cpanm --notest --reinstall --local-lib local IO::String@1.08
-    cpanm --notest --reinstall --local-lib local Module::CPANfile@1.1004
-    cpanm --notest --reinstall --local-lib local Module::Extract::VERSION@1.116
-    cpanm --notest --reinstall --local-lib local XML::LibXML::Simple@1.01
-    cpanm --notest --reinstall --local-lib local JSON
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local CPAN::DistnameInfo@0.12
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local Font::TTF@1.06
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local IO::String@1.08
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local Module::CPANfile@1.1004
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local Module::Extract::VERSION@1.116
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local XML::LibXML::Simple@1.01
+    cpanm --from https://www.cpan.org --notest --reinstall --local-lib local JSON
 
 Clean up again when module were installed
 
