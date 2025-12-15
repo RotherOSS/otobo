@@ -16,6 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::Code::CPANAudit;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -26,7 +27,7 @@ use File::Basename qw(dirname);
 use FindBin        qw($Bin);
 
 # CPAN modules
-use CPAN::Audit 20230826.001 ();
+use CPAN::Audit 20250829.001 ();
 
 # OTOBO modules
 
@@ -64,6 +65,7 @@ sub Run {
         next PATH if $Path && $Path eq '.';                          # Current folder, relevant for old Perls
         next PATH if $Path && $Path eq dirname($Bin);                # OTOBO home folder
         next PATH if $Path && $Path eq dirname($Bin) . '/Custom';    # Custom folder
+
         push @PathsToScan, $Path;
     }
 

@@ -18,7 +18,7 @@ Starting in the OTOBO root dir.
     gvim Kernel/System/Environment.pm                                       # update BundleModulesDeclarationGet() if there are changes
     bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile # in case BundleModulesDeclarationGet() list has changed
 
-### Shortcut when there are only version updates
+### Streamlined procedure when there are only version updates
 
 Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>.
 
@@ -26,7 +26,7 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     rm -rf local
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
     PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
-    rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod
+    rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod, exact path depends on host
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
 Then examine the diffs and check in the verified changes.
