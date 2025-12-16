@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -37,8 +37,9 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Print form.
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
+    my $Output = join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar;
 
     # Get log data.
     my $Log = $Kernel::OM->Get('Kernel::System::Log')->GetLog() || '';
@@ -60,14 +61,14 @@ sub Run {
     ROW:
     for my $Row (@Messages) {
 
-        my @Parts = split /;;/, $Row;
+        my ( $LogTime, $Priority, $LogPrefix, $Message ) = split /;;/, $Row;
 
-        next ROW if !$Parts[3];
+        next ROW unless $Message;
 
-        my $ErrorClass = ( $Parts[1] =~ /error/ ) ? 'Error' : '';
+        my $ErrorClass = ( $Priority =~ m/error/ ) ? 'Error' : '';
 
         # Create date and time object from ctime log stamp.
-        my @Time = split ' ', $Parts[0];    # pattern ' ' is treated as /\s+/
+        my @Time = split ' ', $LogTime;    # pattern ' ' is treated as /\s+/
         my $DateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
@@ -81,16 +82,16 @@ sub Run {
         );
 
         # Output time back as ctime string with time zone.
-        $Parts[0] = $DateTimeObject->ToCTimeString() . " ($TimeZone)";
+        my $FormattedLogTime = $DateTimeObject->ToCTimeString() . " ($TimeZone)";
 
         $LayoutObject->Block(
             Name => 'Row',
             Data => {
                 ErrorClass => $ErrorClass,
-                Time       => $Parts[0],
-                Priority   => $Parts[1],
-                Facility   => $Parts[2],
-                Message    => $Parts[3],
+                Time       => $FormattedLogTime,
+                Priority   => $Priority,
+                Facility   => $LogPrefix,
+                Message    => $Message,
             },
         );
     }

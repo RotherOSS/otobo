@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -611,9 +611,9 @@ sub Run {
         }
 
         # ReConfigure Config.pm.
-        my $ReConfigure;
+        my $ReconfigureFailed;
         if ( $DB{DBType} eq 'oracle' ) {
-            $ReConfigure = $Self->ReConfigure(
+            $ReconfigureFailed = $Self->ReConfigure(
                 DatabaseDSN  => $DB{ConfigDSN},
                 DatabaseHost => $DB{DBHost},
                 Database     => $DB{DBSID},
@@ -622,7 +622,7 @@ sub Run {
             );
         }
         else {
-            $ReConfigure = $Self->ReConfigure(
+            $ReconfigureFailed = $Self->ReConfigure(
                 DatabaseDSN  => $DB{ConfigDSN},
                 DatabaseHost => $DB{DBHost},
                 Database     => $DB{DBName},
@@ -631,7 +631,10 @@ sub Run {
             );
         }
 
-        if ($ReConfigure) {
+        if ($ReconfigureFailed) {
+
+            # This is expected to never happen as ReConfigure() throws an exception
+            # when the config file can't be written.
             return join '',
                 $LayoutObject->Header(
                     Title => Translatable('Install OTOBO - Error')

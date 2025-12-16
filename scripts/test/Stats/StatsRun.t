@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,14 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+use Test2::Tools::Explain;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # get needed objects
 my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
@@ -38,62 +43,82 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Self->True(
-    scalar keys %{$Stats},
-    ( scalar keys %{$Stats} ) . " Stats found",
+ok(
+    scalar keys $Stats->%*,
+    ( scalar keys $Stats->%* ) . " Stats found",
 );
 
-STATID:
-for my $StatID ( sort { int $a <=> int $b } keys %{$Stats} ) {
-    my $Stat = $StatsObject->StatsGet( StatID => $StatID );
+# Testing all of the stats
+for my $StatID ( sort { int $a <=> int $b } keys $Stats->%* ) {
 
-    next STATID if ( $Stat->{StatType} eq 'static' );
+    subtest "testing stat with StatID = $StatID" => sub {
 
-    my $ResultLive = $StatsObject->StatsRun(
-        StatID   => $StatID,
-        GetParam => $Stat,
-        UserID   => 1,
-    );
+        my $Stat = $StatsObject->StatsGet( StatID => $StatID );
 
-    $Self->True(
-        ref $ResultLive eq 'ARRAY',
-        "StatsRun live mode (StatID $StatID)",
-    );
+        ref_ok(
+            $Stat,
+            'HASH',
+            "got info about a stat",
+        ) || return;
 
-    my $ResultPreview = $StatsObject->StatsRun(
-        StatID   => $StatID,
-        GetParam => $Stat,
-        Preview  => 1,
-        UserID   => 1,
-    );
+        note sprintf 'Title is %s',  ( $Stat->{Title}  || 'unknown' );
+        note sprintf 'Object is %s', ( $Stat->{Object} || 'unknown' );
 
-    $Self->True(
-        ref $ResultPreview eq 'ARRAY',
-        "StatsRun preview mode (StatID $StatID) $Stat->{Object}",
-    ) || next STATID;
+        return if $Stat->{StatType} eq 'static';
 
-    $Self->True(
-        ref $ResultPreview->[1] eq 'ARRAY',
-        "StatsRun preview mode headline (StatID $StatID) $Stat->{Object}",
-    ) || next STATID;
-
-    $Self->Is(
-        scalar @{ $ResultPreview->[1] },
-        scalar @{ $ResultLive->[1] },
-        "StatsRun preview result has same number of columns in Row 1 as live result (StatID $StatID) $Stat->{Object}",
-    );
-
-    # TicketList stats make a ticket search and that could return identical results in preview and live
-    #   if there are not enough tickets in the system (for example just one).
-    if ( $Stat->{Object} ne 'TicketList' ) {
-        $Self->IsNotDeeply(
-            $ResultLive,
-            $ResultPreview,
-            "StatsRun differs between live and preview (StatID $StatID)",
+        my $ResultLive = $StatsObject->StatsRun(
+            StatID   => $StatID,
+            GetParam => $Stat,
+            UserID   => 1,
         );
-    }
+
+        ref_ok(
+            $ResultLive,
+            'ARRAY',
+            "StatsRun live mode",
+        );
+
+        my $ResultPreview = $StatsObject->StatsRun(
+            StatID   => $StatID,
+            GetParam => $Stat,
+            Preview  => 1,
+            UserID   => 1,
+        );
+
+        ref_ok(
+            $ResultPreview,
+            'ARRAY',
+            "StatsRun preview mode",
+        ) || return;
+
+        ref_ok(
+            $ResultPreview->[1],
+            'ARRAY',
+            "StatsRun preview mode headline",
+        ) || return;
+
+        is(
+            scalar @{ $ResultPreview->[1] },
+            scalar @{ $ResultLive->[1] },
+            "StatsRun preview result has same number of columns in Row 1 as live result",
+        );
+
+        # TicketList stats make a ticket search and that could return identical results in preview and live
+        #   if there are not enough tickets in the system (for example just one).
+        if ( $Stat->{Object} ne 'TicketList' ) {
+            my $IsOK = isnt(
+                $ResultLive,
+                $ResultPreview,
+                "StatsRun differs between live and preview",
+            );
+
+            if ( !$IsOK ) {
+                note explain $Stat;
+                note explain $ResultLive;
+                note explain $ResultPreview;
+            }
+        }
+    };
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

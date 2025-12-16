@@ -24,44 +24,35 @@ jobs:
     strategy:
 
       # create different images
+      # note that there no Docker image is built for the otobo-web-kerberos target
       matrix:
-        target: [ 'otobo-web', 'otobo-web-kerberos', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        tag_prefix: [ 'devel-' ]
         include:
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
-            tag_prefix: 'devel'
-            repository: 'rotheross/otobo'
-          -
-            target:     'otobo-web-kerberos'
-            dockerfile: 'otobo.web.dockerfile'
-            context:    '.'
-            tag_prefix: 'devel-kerberos'
             repository: 'rotheross/otobo'
           -
             target:     'otobo-elasticsearch'
             dockerfile: 'otobo.elasticsearch.dockerfile'
             context:    'scripts/elasticsearch'
-            tag_prefix: 'devel'
             repository: 'rotheross/otobo-elasticsearch'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
-            tag_prefix: 'devel'
             repository: 'rotheross/otobo-nginx-webproxy'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
             context:    'scripts/nginx'
-            tag_prefix: 'devel'
             repository: 'rotheross/otobo-nginx-kerberos-webproxy'
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
-            tag_prefix: 'devel'
             repository: 'rotheross/otobo-selenium-chrome'
 
     steps:
@@ -72,7 +63,7 @@ jobs:
         name: Setup
         run: |
           branch="${{ github.ref_name }}"                     # e.g rel-10_0
-          docker_tag="${{ matrix.tag_prefix }}-$branch"
+          docker_tag="${{ matrix.tag_prefix }}$branch"
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
             echo "otobo_branch=$branch"
@@ -82,24 +73,33 @@ jobs:
             echo "otobo_commit=${{ github.sha }}"
           ) >> $GITHUB_ENV
 
+      -
+        # the name of the Dockerfile might depend on the branch
+        # there is a special case for rel-10_0 and rel-10_1
+        name: Get the name of the Dockerfile
+        id: get-dockerfile
+        run: |
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(github.ref_name, 'rel-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
+
       - name: 'check out the relevant OTOBO branch'
         uses: actions/checkout@v4
 
       -
         # check whether an devel image must be built
         uses: dorny/paths-filter@v3
-        id: changes
+        id: has-changes
         with:
           base: "${{ github.ref_name }}"                     # e.g rel-10_0
           filters: |
-            context:
+            context_and_dockerfile:
               - '${{ matrix.context }}/**'
+              - '${{ steps.get-dockerfile.outputs.dockerfile }}'
 
       -
         # login to Docker Hub before the composite action
         # this avoids that secrets have to be passed
         name: Login to Docker Hub
-        if:   steps.changes.outputs.context == 'true'
+        if:   steps.has-changes.outputs.context_and_dockerfile == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -109,5 +109,10 @@ jobs:
         # Uses a local composite action.
         # The repository must already be checked out.
         name: 'Run local composite action'
-        if:   steps.changes.outputs.context == 'true'
+        if:   steps.has-changes.outputs.context_and_dockerfile == 'true'
         uses: ./.github/actions/docker_image_builder
+        with:
+          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          context: ${{ matrix.context }}
+          target: ${{ matrix.target }}
+          dockerhub_tags: ${{ env.otobo_ref }}

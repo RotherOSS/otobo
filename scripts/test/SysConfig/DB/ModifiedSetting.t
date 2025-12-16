@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+use Test2::Tools::Explain;
+
+# CPAN modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Kernel::OM the test driver $Self
+use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
 our $Self;
-
-use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -1158,6 +1162,8 @@ for my $Test (@Tests) {
             $ModifiedSettingVersionToCompare{$Key} = 1;
         }
     }
+    diag "Debug - ModuleName - ModifiedSettingVersionToCompare = " . explain( \%ModifiedSettingVersionToCompare );
+
     $Self->IsDeeply(
         \%ModifiedSettingVersionToCompare,
         $Test->{Config}->{ModifiedSettingVersionAdd}->{Data},

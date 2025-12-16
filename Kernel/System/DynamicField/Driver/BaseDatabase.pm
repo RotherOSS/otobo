@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -110,7 +110,7 @@ sub ValueSet {
             $Value = \@Values;
         }
         else {
-            $Value = $Param{Value};
+            $Value = [ $Param{Value} ];
         }
     }
     else {
@@ -285,9 +285,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
     my $Value = '';
 
@@ -361,6 +364,7 @@ sub EditFieldRender {
 
     my %FieldTemplateData = (
         FieldName               => $FieldName,
+        FieldLabel              => $FieldLabelEscaped,
         DetailedSearchMsg       => $DetailedSearchMsg,
         FieldClass              => $FieldClass,
         DetailsMsg              => $DetailsMsg,
@@ -416,10 +420,15 @@ sub EditFieldRender {
     if ( $FieldConfig->{MultiValue} && !$Param{Readonly} ) {
         $FieldTemplateData{FieldID} = $FieldName . '_Template';
 
+        if ( $Param{Mandatory} ) {
+            $FieldClass .= ' ValidationIgnore';
+        }
+
         $TemplateHTML = $Param{LayoutObject}->Output(
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 %FieldTemplateData,
+                FieldClass => $FieldClass,
             },
         );
     }
@@ -471,10 +480,23 @@ sub EditFieldValueGet {
         )
     {
         if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
-            my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
 
             # delete the template value
-            pop @Data;
+            pop @DataAll;
+
+            # prevent things like [""] to pass through
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+                push @TmpValues, $ValueItem;
+
+                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+                push @Data, @TmpValues;
+                @TmpValues = ();
+            }
 
             $Value = \@Data;
         }
@@ -608,9 +630,11 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName         = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
+    );
 
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
@@ -632,7 +656,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDB';
 
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabel" value="$Value" />
+<input type="text" class="$FieldClass" id="${FieldName}" name="${FieldName}" title="$FieldLabelEscaped" value="$Value" />
 EOF
 
     my $AdditionalText;

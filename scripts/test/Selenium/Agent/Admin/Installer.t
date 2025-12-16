@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -209,7 +209,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";'
                 );
 
-                # Verify we are on the the third screen.
+                # verify that we are on the third screen.
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                     'System Settings (3/4)',
@@ -232,7 +232,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "Mail Configuration (3/4)";'
                 );
 
-                # Verify we are on the the third screen.
+                # verify that we are on the third screen.
                 $Self->Is(
                     $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                     'Mail Configuration (3/4)',

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -63,16 +63,60 @@ by using Kernel::System::DynamicField::Backend->new();
 sub new {
     my ($Type) = @_;
 
-    # Call constructor of the base class.
-    my $Self = $Type->SUPER::new(
-        ExtensionClass => 'Text',
-    );
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
 
-    # set ActivityID specific field behaviours unless an extension already set it
-    $Self->{Behaviours}->{IsFiltrable}           //= 1;
-    $Self->{Behaviours}->{IsSortable}            //= 1;
-    $Self->{Behaviours}->{IsLikeOperatorCapable} //= 0;
-    $Self->{Behaviours}->{IsSetCapable}          //= 0;
+    # ActivityID dynamic field values are stored in the database table attribute dynamic_field_value.value_text
+    $Self->{ValueKey}       = 'ValueText';
+    $Self->{TableAttribute} = 'value_text';
+
+    # Used for declaring CSS classes
+    $Self->{FieldCSSClass} = 'DynamicFieldText';
+
+    # set field behaviors
+    $Self->{Behaviors} = {
+        'IsACLReducible'               => 0,
+        'IsNotificationEventCondition' => 1,
+        'IsSortable'                   => 1,
+        'IsFiltrable'                  => 1,
+        'IsStatsCondition'             => 1,
+        'IsCustomerInterfaceCapable'   => 1,
+    };
+
+    # get the Dynamic Field Backend custom extensions
+    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Text');
+
+    EXTENSION:
+    for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
+
+        # skip invalid extensions
+        next EXTENSION if !IsHashRefWithData( $DynamicFieldDriverExtensions->{$ExtensionKey} );
+
+        # create a extension config shortcut
+        my $Extension = $DynamicFieldDriverExtensions->{$ExtensionKey};
+
+        # check if extension has a new module
+        if ( $Extension->{Module} ) {
+
+            # check if module can be loaded
+            if (
+                !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
+                )
+            {
+                die "Can't load dynamic fields backend module"
+                    . " $Extension->{Module}! $@";
+            }
+        }
+
+        # check if extension contains more behaviors
+        if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
+
+            %{ $Self->{Behaviors} } = (
+                %{ $Self->{Behaviors} },
+                %{ $Extension->{Behaviors} }
+            );
+        }
+    }
 
     return $Self;
 }
@@ -129,9 +173,6 @@ sub DisplayValueRender {
 
 sub ColumnFilterValuesGet {
     my ( $Self, %Param ) = @_;
-
-    # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
 
     # set PossibleValues
     my $SelectionData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityList();

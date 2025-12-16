@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -31,10 +31,18 @@ use lib dirname($RealBin) . '/Custom';
 # OTOBO modules
 use Kernel::System::ObjectManager ();
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.Console.pl',
-    },
-);
+my $RetCode;
+{
+    # $Kernel::OM is destroyed at the end of the scope. This triggers the handling
+    # of the events which were collected in the global objects. This means that
+    # the events are handled before global destruction, which is a good thing.
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::Log' => {
+            LogPrefix => 'OTOBO-otobo.Console.pl',
+        },
+    );
 
-exit $Kernel::OM->Get('Kernel::System::Console::InterfaceConsole')->Run(@ARGV);
+    $RetCode = $Kernel::OM->Get('Kernel::System::Console::InterfaceConsole')->Run(@ARGV);
+}
+
+exit $RetCode;

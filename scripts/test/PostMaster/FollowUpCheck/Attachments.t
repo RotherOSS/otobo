@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,13 +22,13 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
+use MIME::Base64 qw(encode_base64);
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -61,7 +62,7 @@ my $CustomerAddress = 'external@example.com';
 my $InternalAddress = 'internal@example.com';
 
 # create a new ticket
-my $TicketID = $TicketObject->TicketCreate(
+my $NewTicketID = $TicketObject->TicketCreate(
     Title        => 'My ticket created by Agent A',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -73,13 +74,10 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-$Self->True(
-    $TicketID,
-    "TicketCreate()",
-);
+ok( $NewTicketID, 'TicketCreate()' );
 
 my %Ticket = $TicketObject->TicketGet(
-    TicketID => $TicketID,
+    TicketID => $NewTicketID,
     UserID   => 1,
 );
 
@@ -87,24 +85,33 @@ my $Subject = $TicketObject->TicketSubjectBuild(
     TicketNumber => $Ticket{TicketNumber},
     Subject      => 'test',
 );
+ok( index( $Subject, $Ticket{TicketNumber} ) > -1, 'The subject contains the ticket number' );
 
 # filter test
+# As a reminder, here are the return codes from Kernel::System::PostMaster::Run():
+#     0 = error (also undefined)
+#     1 = new ticket created
+#     2 = follow up / open/reopen
+#     3 = follow up / close -> new ticket
+#     4 = follow up / close -> reject
+#     5 = ignored (because of X-OTOBO-Ignore header)
 my @Tests = (
     {
         Name  => 'Ticket number in body, no attachments (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: Test
 
 Some Content in Body
 $Subject
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,    # not a follow up
     },
+
     {
         Name  => 'Ticket number in body of HTML email, no attachments (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Content-Type: text/html; charset="iso-8859-1"; format=flowed
@@ -112,12 +119,13 @@ Subject: Test
 
 Some Content in Body<br/>
 $Subject
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,    # not a follow up
     },
+
     {
         Name  => 'Plain email, ticket number in body, attachment without ticket number (new ticket)',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -142,12 +150,13 @@ Content-Disposition: attachment;
 
 Some text
 --------------060303050306010608070702
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,    # not a follow up
     },
+
     {
         Name  => 'Plain email, attachment with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -172,12 +181,13 @@ Content-Disposition: attachment;
 
 $Subject
 --------------060303050306010608070702
-EOF
-        NewTicket => 2,
+END_EML
+        ExpectedRetCode => 2,    # follow up
     },
+
     {
         Name  => 'HTML email, body with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -223,13 +233,13 @@ Content-Type: text/html;
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
-EOF
-        NewTicket => 1,
+END_EML
+        ExpectedRetCode => 1,    # not a follow up
     },
 
     {
         Name  => 'HTML email, attachment with ticket number',
-        Email => <<"EOF",
+        Email => <<"END_EML",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -275,14 +285,101 @@ Content-Type: text/html;
 
 --Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10--
 
-EOF
-        NewTicket => 2,
+END_EML
+        ExpectedRetCode => 2,    # follow up
+    },
+
+    # Tests where there is first a CSV attachment and then the HTML body
+    {
+        # FollowUp is detected because the ticket number is in the part that is marked as attachment
+        Name            => 'first CSV attachment with ticket number, then HTML',
+        ExpectedRetCode => 2,                                                      # follow up
+        Email           => <<"END_EML",
+Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
+Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
+Date: Thu, 7 Aug 2025 15:15:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andy Admin <Andy.Admin\@gmx.de>
+From: Tina Tester <Tina.Tester\@gmx.de>
+Subject: Sample of first CSV attachment and then HTML
+
+This is a multi-part message in MIME format.
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
+Content-Disposition: attachment; filename="sample_csv.csv"
+Content-Transfer-Encoding: base64
+
+@{[ encode_base64( join "\n", 'key1,value1', "subject,$Subject", 'key3,value3', '') ]}
+
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><b>bold</b></p>
+    <p><font color="#33d17a">green</font><br>
+    </p>
+  </body>
+</html>
+--------------H1Sv6GUVtxR7USkdsEdBLUc0--
+END_EML
+    },
+    {
+        # FollowUp is not detected because the ticket number is not in the part that is marked as attachment
+        Name            => 'first CSV attachment, then HTML with ticket number',
+        ExpectedRetCode => 1,                                                      # not a follow up
+        Email           => <<"END_EML",
+Content-Type: multipart/mixed; boundary="------------H1Sv6GUVtxR7USkdsEdBLUc0"
+Message-ID: <40af3c51-db15-479d-99e9-69f848acacea\@gmx.de>
+Date: Thu, 7 Aug 2025 15:15:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andy Admin <Andy.Admin\@gmx.de>
+From: Tina Tester <Tina.Tester\@gmx.de>
+Subject: Sample of first CSV attachment and then HTML
+
+This is a multi-part message in MIME format.
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/csv; charset=UTF-8; name="sample_csv.csv"
+Content-Disposition: attachment; filename="sample_csv.csv"
+Content-Transfer-Encoding: base64
+
+@{[ encode_base64( join "\n", 'key1,value1', 'subject,no_tn_in_subject', 'key2,value3', '') ]}
+
+--------------H1Sv6GUVtxR7USkdsEdBLUc0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><b>bold</b></p>
+    <p><font color="#33d17a">green</font><br>
+    </p>
+    Subject: $Subject
+  </body>
+</html>
+--------------H1Sv6GUVtxR7USkdsEdBLUc0--
+END_EML
     },
 );
 
-# First run the tests for a ticket that has the customer as an "unknown" customer.
+# Run the tests
 for my $Test (@Tests) {
-    my @Return;
+    my ( $RetCode, $RetTicketID );
     {
         my $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
@@ -299,7 +396,7 @@ for my $Test (@Tests) {
             Debug                  => 2,
         );
 
-        @Return = $PostMasterObject->Run();
+        ( $RetCode, $RetTicketID ) = $PostMasterObject->Run();
 
         $CommunicationLogObject->ObjectLogStop(
             ObjectLogType => 'Message',
@@ -309,22 +406,23 @@ for my $Test (@Tests) {
             Status => 'Successful',
         );
     }
-    $Self->Is(
-        $Return[0] || 0,
-        $Test->{NewTicket},
-        "$Test->{Name} - article created",
+    is(
+        $RetCode || 0,
+        $Test->{ExpectedRetCode},
+        "$Test->{Name} - got expected return code",
     );
 
-    if ( $Test->{NewTicket} == 1 ) {
-        $Self->IsNot(
-            $Return[1] || 0,
+    if ( $Test->{ExpectedRetCode} == 1 ) {
+
+        isnt(
+            $RetTicketID || 0,
             $Ticket{TicketID},
             "$Test->{Name} - new ticket created",
         );
     }
     else {
-        $Self->Is(
-            $Return[1] || 0,
+        is(
+            $RetTicketID || 0,
             $Ticket{TicketID},
             "$Test->{Name} - follow-up created",
         );
@@ -332,6 +430,4 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

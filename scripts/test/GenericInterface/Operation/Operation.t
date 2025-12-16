@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -132,7 +132,7 @@ $Self->True(
     'OperationObject call empty data provided',
 );
 
-# run with invalid data
+# run with empty array data
 $ReturnData = $OperationObject->Run(
     Data => [],
 );
@@ -141,9 +141,9 @@ $Self->Is(
     'HASH',
     'OperationObject call response',
 );
-$Self->False(
+$Self->True(
     $ReturnData->{Success},
-    'OperationObject call invalid data provided',
+    'OperationObject call empty array data provided',
 );
 
 # run with some data
@@ -155,6 +155,17 @@ $ReturnData = $OperationObject->Run(
 $Self->True(
     $ReturnData->{Success},
     'OperationObject call data provided',
+);
+
+# run with some array data
+$ReturnData = $OperationObject->Run(
+    Data => {
+        [ 'one', 'two', 'three' ]
+    },
+);
+$Self->True(
+    $ReturnData->{Success},
+    'OperationObject call array data provided',
 );
 
 $Self->DoneTesting();

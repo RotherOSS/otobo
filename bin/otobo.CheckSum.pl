@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -121,6 +121,9 @@ sub ProcessDirectory {
 
         # ignore files used for docker version obgrades
         next FILE if $File =~ m{/docker_firsttime}smx;
+
+        # ignore obsolete files
+        next FILE if $File =~ m{Kernel/Config/Files/XML/OTOBODynamicFields.xml}smx;
 
         # recurse into subdirectories, without chdir
         if ( -d $File ) {

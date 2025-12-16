@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -227,7 +227,6 @@ sub EditFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
@@ -305,7 +304,7 @@ sub EditFieldRender {
 
     # TODO change ConfirmationNeeded parameter name to something more generic
 
-    # when ConfimationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
+    # when ConfirmationNeeded parameter is present (AdminGenericAgent) the filed should be displayed
     # as an open list, because you might not want to change the value, otherwise a value will be
     # selected
     if ( $Param{ConfirmationNeeded} ) {
@@ -407,7 +406,7 @@ sub EditFieldRender {
     if ( $Param{AJAXUpdate} ) {
 
         # add js to bind TreeSelection event
-        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
+        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF" );
 Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
     var FieldName = '$FieldName';
     if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
@@ -460,14 +459,22 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+                push @TmpValues, $ValueItem;
+
+                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+
+                push @Data, @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {
@@ -509,21 +516,27 @@ sub EditFieldValueValidate {
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
+    my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
+        $ValueItem //= '';
+
         # perform necessary validations
-        if ( $Param{Mandatory} && !$ValueItem ) {
-            return {
-                ServerError => 1,
-            };
-        }
-        else {
+        if ( $ValueItem ne '' ) {
+            $ValueItemsPresent++;
+
             # validate if value is in possible values list (but let pass empty values)
             if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
                 $ServerError  = 1;
                 $ErrorMessage = 'The field content is invalid';
             }
         }
+    }
+
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
     }
 
     # return resulting structure
@@ -622,7 +635,6 @@ sub SearchFieldRender {
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
 
     my $Value;
 
@@ -1011,10 +1023,10 @@ sub ValueLookup {
     if ($Value) {
 
         # check if there is a real value for this key (otherwise keep the key)
-        if ( $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value} ) {
+        if ( $PossibleValues->{$Value} ) {
 
             # get readable value
-            $Value = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
+            $Value = $PossibleValues->{$Value};
 
             # check if translation is possible
             if (
@@ -1053,13 +1065,13 @@ sub BuildSelectionDataGet {
             my $Parents;
             my %DisabledElements;
             my %ProcessedElements;
-            my $PosibleNoneSet;
+            my $PossibleNoneSet;
 
             # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
-                if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
+                if ( !$Key && !$PossibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
                     # add possible none
                     push @Values, {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -279,15 +279,14 @@ sub _SupportDataCollectorView {
         $Param{SenderAddress} = '';
     }
 
-    my $Output = $LayoutObject->Header();
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminSupportDataCollector',
-        Data         => \%Param,
-    );
-    $Output .= $LayoutObject->Footer();
-
-    return $Output;
+    return join '',
+        $LayoutObject->Header,
+        $LayoutObject->NavigationBar,
+        $LayoutObject->Output(
+            TemplateFile => 'AdminSupportDataCollector',
+            Data         => \%Param,
+        ),
+        $LayoutObject->Footer;
 }
 
 sub _GenerateSupportBundle {

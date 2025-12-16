@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,8 +16,15 @@
 
 package Kernel::System::MailAccount;
 
+use v5.24;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -50,8 +57,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'MailAccount';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;    # 20 days
@@ -63,7 +69,7 @@ sub new {
 
 adds a new mail account
 
-    $MailAccount->MailAccountAdd(
+    my $MailAccountID = $MailAccount->MailAccountAdd(
         Login         => 'mail',
         Password      => 'SomePassword',
         Host          => 'pop3.example.com',
@@ -88,6 +94,7 @@ sub MailAccountAdd {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
             return;
         }
     }
@@ -97,6 +104,7 @@ sub MailAccountAdd {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -110,6 +118,7 @@ sub MailAccountAdd {
             Priority => 'error',
             Message  => "Need QueueID for dispatching!"
         );
+
         return;
     }
 
@@ -128,7 +137,8 @@ sub MailAccountAdd {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
-    return if !$DBObject->Do(
+
+    return unless $DBObject->Do(
         SQL =>
             'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
             . ' imap_folder, trusted, create_time, create_by, change_time, change_by)'
@@ -145,7 +155,7 @@ sub MailAccountAdd {
         Type => $Self->{CacheType},
     );
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
         Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
     );
@@ -166,7 +176,6 @@ returns an array of all mail account data
 
 (returns list of the fields for each account: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 
-
 =cut
 
 sub MailAccountGetAll {
@@ -178,13 +187,14 @@ sub MailAccountGetAll {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return @{$Cache} if $Cache;
+
+    return $Cache->@* if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL =>
             'SELECT id, login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
             . ' create_time, change_time FROM mail_account',
@@ -260,6 +270,7 @@ sub MailAccountGet {
             Priority => 'error',
             Message  => "Need ID!"
         );
+
         return;
     }
 
@@ -269,13 +280,14 @@ sub MailAccountGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return %{$Cache} if $Cache;
+
+    return $Cache->%* if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # sql
-    return if !$DBObject->Prepare(
+    # SQL
+    return unless $DBObject->Prepare(
         SQL =>
             'SELECT login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
             . ' create_time, change_time FROM mail_account WHERE id = ?',
@@ -333,7 +345,7 @@ sub MailAccountGet {
 
 update a new mail account
 
-    $MailAccount->MailAccountUpdate(
+    my $UpdateSuccess = $MailAccount->MailAccountUpdate(
         ID            => 1,
         Login         => 'mail',
         Password      => 'SomePassword',
@@ -359,6 +371,7 @@ sub MailAccountUpdate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -372,6 +385,7 @@ sub MailAccountUpdate {
             Priority => 'error',
             Message  => "Need QueueID for dispatching!"
         );
+
         return;
     }
 
@@ -387,7 +401,7 @@ sub MailAccountUpdate {
     }
 
     # sql
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, '
             . ' comments = ?, imap_folder = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ?, queue_id = ? WHERE id = ?',
@@ -410,7 +424,7 @@ sub MailAccountUpdate {
 
 deletes a mail account
 
-    $MailAccount->MailAccountDelete(
+    my $DeleteSuccess = $MailAccount->MailAccountDelete(
         ID => 123,
     );
 
@@ -425,11 +439,12 @@ sub MailAccountDelete {
             Priority => 'error',
             Message  => "Need ID!"
         );
+
         return;
     }
 
     # sql
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -461,7 +476,8 @@ sub MailAccountList {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return %{$Cache} if $Cache;
+
+    return $Cache->%* if $Cache;
 
     # get valid object
     my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
@@ -473,7 +489,7 @@ sub MailAccountList {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => "SELECT id, host, login FROM mail_account $Where",
     );
 
@@ -556,6 +572,7 @@ sub MailAccountFetch {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -597,6 +614,7 @@ sub MailAccountCheck {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -605,23 +623,17 @@ sub MailAccountCheck {
     my $GenericModule = "Kernel::System::MailAccount::$Param{Type}";
 
     # try to load module $GenericModule
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
-        return;
-    }
+    return unless $Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule);
 
     # check if connect is successful
     my $Backend = $GenericModule->new();
     my %Check   = $Backend->Connect(%Param);
 
-    if ( $Check{Successful} ) {
-        return ( Successful => 1 );
-    }
-    else {
-        return (
-            Successful => 0,
-            Message    => $Check{Message}
-        );
-    }
+    return ( Successful => 1 ) if $Check{Successful};
+    return (
+        Successful => 0,
+        Message    => $Check{Message}
+    );
 }
 
 1;

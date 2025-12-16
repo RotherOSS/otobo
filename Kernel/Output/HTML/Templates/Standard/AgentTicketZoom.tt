@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -281,7 +281,7 @@
 [% RenderBlockStart("SetField") %]
                             <div class="SetDynamicField">
 [% RenderBlockStart("DynamicFieldSetSeparator") %]
-                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Label) | html %]</h2>
 [% RenderBlockEnd("DynamicFieldSetSeparator") %]
                                 <div>
 [% RenderBlockStart("SetDynamicField") %]
@@ -309,6 +309,9 @@
                                         </p>
                                         <div class="Clear"></div>
                                     </div>
+[% RenderBlockStart("DynamicFieldSetValueSeparator") %]
+                                <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
+[% RenderBlockEnd("DynamicFieldSetValueSeparator") %]
 [% RenderBlockEnd("SetDynamicField") %]
                                 </div>
                                 <div class="Clear"></div>
@@ -402,7 +405,7 @@
                     <table id="ArticleTable" class="DataTable [% Data.TableClasses | html %]">
                         <thead>
                             <tr>
-                                <th class="No Sortable InitialSorting Descending"><a href="#">[% Translate("No.") | html %]</a></th>
+                                <th class="No Sortable InitialSorting [% Data.ZoomExpandSortOrder %]"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="UnreadArticles">
                                     <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
                                         <span class="UnreadArticles">
@@ -426,6 +429,9 @@
                                         <i class="fa fa-paperclip"></i>
                                     </a>
                                 </th>
+[% RenderBlockStart("TimeUnitHeader") %]
+                                <th class="TimeUnit"><a href="#">[% Translate("Time Units") | html %]</a></th>
+[% RenderBlockEnd("TimeUnitHeader") %]
                             </tr>
                         </thead>
                         <tbody>
@@ -518,6 +524,11 @@
                                     <span class="NoContent"></span>
 [% RenderBlockEnd("TreeItemNoAttachment") %]
                                 </td>
+                                [% IF Data.ShowTimeUnits %]
+                                <td class="No">
+                                    [% Data.TimeUnit | html %]
+                                </td>
+                                [% END %]
                             </tr>
 [% RenderBlockEnd("TreeItem") %]
                         </tbody>

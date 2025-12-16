@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -296,7 +296,8 @@ sub _AddAction {
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
     {
-        $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
+        my @Params = $ParamObject->GetArray( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = [ grep {$_} @Params ];
     }
 
     $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
@@ -317,21 +318,21 @@ sub _AddAction {
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in RequiredArgs.'),
+                Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in PreviewTriggers.'),
+                Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in StorageTriggers.'),
+                Message => Translatable('Erroneous value in StorageTriggers.'),
             );
         }
     }
@@ -604,7 +605,8 @@ sub _ChangeAction {
         qw(RequiredArgs AJAXTriggers UpdateEvents)
         )
     {
-        $GetParam{$ConfigParam} = [ $ParamObject->GetArray( Param => $ConfigParam ) ];
+        my @Params = $ParamObject->GetArray( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = [ grep {$_} @Params ];
     }
 
     # uncorrectable errors
@@ -616,21 +618,21 @@ sub _ChangeAction {
     for my $Arg ( $GetParam{RequiredArgs}->@* ) {
         if ( !$Param{PossibleArgs}{$Arg} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in RequiredArgs.'),
+                Message => Translatable('Erroneous value in RequiredArgs.'),
             );
         }
     }
     for my $Trigger ( $GetParam{AJAXTriggers}->@* ) {
         if ( !$Param{PossibleAJAXTriggers}{$Trigger} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in PreviewTriggers.'),
+                Message => Translatable('Erroneous value in PreviewTriggers.'),
             );
         }
     }
     for my $Event ( $GetParam{UpdateEvents}->@* ) {
         if ( !$Param{PossibleUpdateEvents}{$Event} ) {
             return $LayoutObject->ErrorScreen(
-                Message => Translatable('Bad value in StorageTriggers.'),
+                Message => Translatable('Erroneous value in StorageTriggers.'),
             );
         }
     }
@@ -870,7 +872,7 @@ sub _ShowScreen {
         Class         => 'Modernize W75pc Validate_Number',
     );
 
-    # Selections may be set up in a declaritive way
+    # Selections may be set up in a declarative way
     my $FieldType = $Param{FieldType};
     if ( $Self->{FieldTypeSettings}->{$FieldType} ) {
         for my $Setting ( $Self->{FieldTypeSettings}->{$FieldType}->@* ) {
@@ -1045,7 +1047,7 @@ sub _ShowScreen {
     # get the field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
-    # only if the dymamic field exists and should be edited,
+    # only if the dynamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 
@@ -1222,7 +1224,7 @@ sub GetParamRegexList {
             my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
 
             # is the regex valid?
-            my $RegExCheck = eval {
+            eval {
                 qr{$RegEx}xms;
             };
 

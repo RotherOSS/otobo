@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -2278,11 +2278,19 @@ sub Export {
         unshift $ExportData->@*, \@ColumnNames;
     }
 
+    # Backends with support for chunking must provide the method IsExportComplete().
+    # Backends without support for chunking do not have to provide that method. An undefined
+    # value for ChunkingFinished indicates no support for chunking.
+    my $ChunkingFinished;
+    if ( $ObjectBackend->can('IsExportComplete') ) {
+        $ChunkingFinished = $ObjectBackend->IsExportComplete;
+    }
+
     my %Result = (
         Success            => 0,
         Failed             => 0,
         DestinationContent => [],
-        ChunkingFinished   => $ObjectBackend->{ChunkingFinished},    # TODO: this is not nice
+        ChunkingFinished   => $ChunkingFinished,
     );
 
     EXPORTDATAROW:
@@ -2306,7 +2314,7 @@ sub Export {
         $Result{Success}++;
     }
 
-    # writing the header line does not count a success
+    # writing the header line does not count as success
     if ( $FormatData->{IncludeColumnHeaders} ) {
         $Result{Success}--;
     }

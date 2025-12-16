@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -126,8 +126,11 @@ sub new {
 returns an array with the search results and additional meta information
 
     my @Result = $DynamicFieldDBObject->DatabaseSearchByConfig(
-        Config => $DynamicFieldConfig->{Config},
-        Search => 'My Search Term',
+        Config      => $DynamicFieldConfig->{Config},
+        Search      => 'My Search Term',              # optional when Identifier is passed
+        Identifier  => ???                            # optional when Search is passed
+        TicketID    => 123,                           # optional
+        ResultLimit => 1_000,
     );
 
 Returns:

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -89,13 +88,13 @@ for my $Backend (qw(DB FS)) {
         );
     }
 
-    $Self->True(
+    ok(
         $TicketID,
         "$Backend - Ticket created"
     );
 
     my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
-    $Self->True(
+    ok(
         $ArticleIDs[0],
         "$Backend - Article created"
     );
@@ -105,7 +104,7 @@ for my $Backend (qw(DB FS)) {
         TicketID  => $TicketID,
     );
 
-    $Self->Is(
+    is(
         $Article{Body} // '',    # Oracle stores '' as undef.
         '',
         'Empty article body found'
@@ -115,7 +114,7 @@ for my $Backend (qw(DB FS)) {
         ArticleID => $ArticleIDs[0],
     );
 
-    $Self->IsDeeply(
+    is(
         $Attachments{2},
         {
             'ContentAlternative' => '',
@@ -129,6 +128,4 @@ for my $Backend (qw(DB FS)) {
     );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

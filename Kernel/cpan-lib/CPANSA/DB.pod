@@ -1,0 +1,79 @@
+# created by util/generate at Fri Jan 10 04:25:46 2025
+# https://github.com/briandfoy/cpan-security-advisory.git 4f85ac0cbe514bae549d49f3e130c74535a6c71e
+
+=encoding utf8
+
+=head1 NAME
+
+CPANSA::DB - the CPAN Security Advisory data as a Perl data structure, mostly for CPAN::Audit
+
+=head1 SYNOPSIS
+
+This module is primarily used by L<CPAN::Audit>.
+
+	use CPANSA::DB;
+
+	my $db = CPANSA::DB->db;
+
+=head1 DESCRIPTION
+
+The C<db> subroutine returns the CPAN Security Advisory (CPANSA) reports
+as a Perl data structure. However, anything can use this.
+
+Each release also comes with a F<.gpg> file that has the signature
+for the file. If you cannot confirm that the module file has the
+right signature, it might have been corrupted or modified.
+
+This module is available outside of CPAN as a release on GitHub:
+L<https://github.com/briandfoy/cpan-security-advisory/releases>.
+Each release on GitHub includes an attestation.
+
+There is also a JSON file that provides the same datastructure.
+
+=head2 Subroutines
+
+There is exactly one subroutine:
+
+=over 4
+
+=item * db
+
+Returns the hashref of all the CPANSA reports.
+
+=back
+
+=head1 VERIFYING
+
+This distribution now uses
+L<GitHub Attestations|https://github.blog/2024-05-02-introducing-artifact-attestations-now-in-public-beta/>,
+which allow you to verify that the archive file you have was made from
+the official repo.
+
+You need a GitHub account and the L<gh tool|https://github.com/larsks/ghcli>.
+
+	# download the distro file from GitHub, MetaCPAN, or a CPAN mirror
+	$ gh auth login
+	...follow instructions...
+	$ gh attestation verify CPANSA-DB-20241111.tar.gz --owner briandfoy
+
+Additionally, each release codes with GPG signature that allows you to
+verify that this. The key is the same one used when the database was
+distributed with L<CPAN::Audit>:
+
+	$ gpg --verify lib/CPANSA/DB.pm.gpg lib/CPANSA/DB.pm
+	gpg: Signature made Mon Nov 18 11:00:10 2024 EST
+	gpg:                using RSA key 75AAB42CBA0D7F37F0D6886DF83F8D5E878B6041
+	gpg: Good signature from "CPAN::Audit (brian d foy) (https://github.com/briandfoy/cpan-audit) <bdfoy@cpan.org>" [ultimate]
+
+=head1 SEE ALSO
+
+Everything is managed in GitHub:
+
+=over 4
+
+=item * L<https://github.com/briandfoy/cpan-security-advisory/releases>
+
+=back
+
+=cut
+

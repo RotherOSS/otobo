@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -577,7 +577,7 @@
                                         <div class="ValueRows">
 [% RenderBlockStart("OutboundHeadersOperationSpecificEntryValueRow") %]
                                             <div>
-                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %] placeholder="[% Translate("Header Name") | html %]""/>
+                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %]" placeholder="[% Translate("Header Name") | html %]"/>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                                 <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.item(  'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerErrorMessage' ) | Translate | html %]</p></div>
 

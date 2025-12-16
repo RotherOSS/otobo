@@ -5,19 +5,20 @@
 # There is also an extra build target otobo-web-kerberos that adds support for Kerberos.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.40.x series as the base.
-# This assures that bug and security fixes are applied when rebuilding the image.
-#
-# The Debian version is explicitly set to bookworm, that is Debian 12.
+# The Debian version is explicitly set to trixie, that is Debian 12.
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
 #
+# The slim version is used for reducing the size of the image.
+#
+# The version of Perl is set to 5.40. The idea is that all release branches,
+# rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
+#
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.40-slim-bookworm AS base
+FROM perl:5.40-slim-trixie AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -60,10 +61,11 @@ RUN apt-get update\
  "cron"\
  "default-mysql-client"\
  "graphviz"\
+ "git"\
  "ldap-utils"\
  "less"\
  "nano"\
- "odbcinst1debian2" "libodbc1" "odbcinst" "unixodbc-dev" "unixodbc"\
+ "unixodbc-common" "libodbcinst2" "libodbccr2" "libodbc2" "odbcinst" "unixodbc-dev" "unixodbc"\
  "freetds-bin" "freetds-common" "tdsodbc"\
  "postgresql-client"\
  "redis-tools"\
@@ -75,7 +77,12 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ "fonts-indic"\
+ "fonts-noto"\
+ "fonts-noto-cjk"\
+ "fonts-noto-color-emoji"\
  "libqrencode-dev"\
+ "libreadline-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
  && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
@@ -85,19 +92,47 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
-# The Perl module installer 'cpanm' is already available via the base image.
+# Installation can be triggerd by making any modification of the file cpanfile.docker.
+#
+# Only local::lib is installed with the Perl module installer 'cpanm'. 'cpanm' is already available
+# via the Docker base image for perl.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
-# 'carton install' will update cpanfile.snapshot.
+# The modules are installed with the command `carton` as it allows to install fixed
+# version from a previous snapshot. The idea is that the snapshot is updated when
+# performing local builds. The automatic build on Github use the saved snapshot.
+#
+# 'carton install' installs the newest version of CPAN modules when the cpanfile.snapsho does not exist.
+# The file cpanfile.snapshot is created, documenting which versions were installed.
 # 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
+# and it will complain if modules that are not in the snapshot should be installed.
+#
+# A fatpacked script `carton` is used for building the image. This has the advantage
+# that the requirements for `carton` are not included in the generated Docker image.
+#
+# Creating the fatpacked carton script is a bit tedious. See
+# https://github.com/perl-carton/carton/issues/237 and https://github.com/miyagawa/cpanminus/pull/577.
+# The recommendation is to create the fatpack in an running container:
+#   cd /opt/otobo
+#   cpanm --local-lib local Carton
+#   cpanm --local-lib local App::FatPacker
+#   sed -e '/version::vpp/s/^/# version:vpp is not in core Perl 5.40:/' -i.bak local/lib/perl5/Menlo/CLI/Compat.pm
+#   touch cpanfile
+#   carton fatpack
+#   rm cpanfile
+# On the Docker host the fatpacked /opt/otobo_install/vendor/bin/carton can be copied to bin/docker/carton
+# in the Git sandbox.
+#   docker cp otoelfeins-web-1:/opt/otobo/vendor/bin/carton bin/docker/carton
+#   git add bin/docker/carton
 #
 # Note that the variable $DOCKER_TAG is already substituted by Docker.
 #
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
+COPY bin/docker/carton carton
 COPY cpanfile.docker cpanfile
 COPY cpanfile.docker.snapshot cpanfile.snapshot
 ENV PERL5LIB="/opt/otobo_install/local/lib/perl5"
@@ -106,21 +141,22 @@ ARG DOCKER_TAG=unspecified
 RUN <<END_BASH bash
     set -eux
 
-    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
-    cpanm --local-lib local Carton
+    cpanm --local-lib local local::lib
+
     if [[ $DOCKER_TAG == local-* ]]
     then
-        carton install
+        rm cpanfile.snapshot
+        /opt/otobo_install/carton install
     else
-        carton install --deployment
+        /opt/otobo_install/carton install --deployment
     fi
+
     rm -rf "/root/.cpanm"
 END_BASH
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
 # The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
-# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
 # Titel is specific for the individual targets.
 LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
@@ -205,6 +241,10 @@ RUN <<END_BASH bash
         echo "# set up bash completion"
         echo ". ~/.bash_completion"
         echo ""
+        echo "# use Page-Up and Page-Down for cycling thru autocomplet suggestions"
+        echo "bind '\"\\e[6~\": menu-complete'"
+        echo "bind '\"\\e[5~\": menu-complete-backward'"
+        echo ""
         echo "# helpers"
         echo "alias ..='cd ..'"
         echo "alias ...='cd ../..'"
@@ -262,7 +302,7 @@ RUN <<END_BASH bash
     ) >> cpanfile
 
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
-    carton install
+    /opt/otobo_install/carton install
 
     rm -rf "/root/.cpanm"
 END_BASH

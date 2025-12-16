@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otobo_config version="2.0" init="Application">
+
+<!--
+    This file does not contains any settings. The Dynamic field related settings are now
+    kept in the file DynamicFields.xml. This file only exists to avoid problems
+    when an installation is upgraded from OTOBO 10.1.x. Obsolete settings from OTOBO 10.1.x
+    should be carried over to OTOBO 11.0.x or later.
+-->
+
+</otobo_config>

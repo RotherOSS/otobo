@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -192,10 +192,10 @@ Core.App.Responsive = (function (TargetNS) {
         var TimeoutID = 0;
 
         // Check DesktopMode
-        /*eslint-disable no-window*/
+        /*eslint-disable otobo/no-window*/
         try {
             if ((top.location.href !== location.href && window.name.search(/^OTOBOPopup_/) === -1) || parseInt(localStorage.getItem("DesktopMode"), 10) > 0) {
-                /*eslint-enable no-window*/
+                /*eslint-enable otobo/no-window*/
 
                 // if the DesktopMode has been triggered manually, we add a switch to the footer
                 // for switching back to mobile mode

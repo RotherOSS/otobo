@@ -1840,6 +1840,7 @@
 <!-- postmaster_filter -->
 <Table Name="postmaster_filter">
     <Column Name="f_name" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="f_stop" Required="false" Type="SMALLINT"/>
     <Column Name="f_type" Required="true" Size="20" Type="VARCHAR"/>
     <Column Name="f_key" Required="true" Size="200" Type="VARCHAR"/>
@@ -1848,6 +1849,9 @@
     <Index Name="postmaster_filter_f_name">
         <IndexColumn Name="f_name"/>
     </Index>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
 </Table>
 
 <!-- generic_agent_jobs -->

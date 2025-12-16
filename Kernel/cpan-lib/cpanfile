@@ -19,7 +19,10 @@ requires 'Class::Inspector', '== 1.31';
 # needed by Data::ICal
 requires 'Class::ReturnValue', '== 0.55';
 
-requires 'CPAN::Audit', '== 20240718.001';
+requires 'CPAN::Audit', '== 20250829.001';
+
+# database of adbisories used by CPAN::Audit
+requires 'CPANSA::DB', '== 20251214.001';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
@@ -39,9 +42,6 @@ requires 'Email::Valid', '== 1.202';
 # needed by Kernel::System::CSV
 requires 'Excel::Writer::XLSX', '== 0.95';
 
-# needed by Type::Tiny
-requires 'Exporter::Tiny', '== 1.002001';
-
 # needed by PDF::API2
 requires 'Font::TTF', '== 1.06';
 
@@ -54,11 +54,8 @@ requires 'IO::Interactive', '== 1.022';
 # needed by Font::TTF
 requires 'IO::String', '== 1.08';
 
-# needed by Sisimai
-requires 'JSON', '== 2.94';
-
-# needed by JSON, but there also in backportPP included in JSON
-requires 'JSON::PP', '== 2.27203';
+# needed by Sisimai and other CPAN distributions
+requires 'JSON', '== 4.10';
 
 # needed by the console command Dev::Tools::TranslationsUpdate
 requires 'Lingua::Translit', '== 0.27';
@@ -91,7 +88,7 @@ requires 'MIME::Tools', '== 5.514';
 requires 'Module::CPANfile', '== 1.1004';
 
 # needed by CPAN::Audit, could be useful in OTOBO as well
-requires 'Module::Extract::VERSION', '== 1.117';
+requires 'Module::Extract::VERSION', '== 1.119';
 
 # needed by Crypt::Random::Source
 requires 'Module::Find', '== 0.15';
@@ -105,14 +102,8 @@ requires 'Mozilla::CA', '== 20200520';
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.17';
 
-# needed by Kernel::System::MailAccount::IMAP
-requires 'Net::IMAP::Simple', '== 1.2209';
-
-# needed by OTOBO email modules
-requires 'Net::SSLGlue', '== 1.058';
-
 # needed by Kernel::System::PDF
-requires 'PDF::API2', '== 2.045';
+requires 'PDF::API2', '== 2.048';
 
 # needed by console command Dev::Tools::TranslationsUpdate
 requires 'Pod::Strip', '== 1.02';
@@ -133,9 +124,6 @@ requires 'Sys::Hostname::Long', '== 1.5';
 
 # needed by Kernel::System::Diff
 requires 'Text::Diff', '== 1.44';
-
-# needed by Crypt::Random::Source
-requires 'Type::Tiny', '== 1.010000';
 
 # needed by Kernel::Output::HTML::Dashboard::RSS
 requires 'XML::FeedPP', '== 0.43';

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,7 +19,6 @@ package Kernel::System::Environment;
 use v5.24;
 use strict;
 use warnings;
-use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -28,7 +27,7 @@ use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimport
 use File::Spec ();
 
 # CPAN modules
-use Sys::Hostname::Long qw(hostname_long);
+use Sys::Hostname::Long qw(hostname_long);    # available from Kernel/cpan-lib
 
 # OTOBO modules
 
@@ -246,8 +245,7 @@ sub PerlInfoGet {
 
         # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
-        # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
+        # Some modules, like Devel::REPL::Plugin::OTOBO, are supplied by OTOBO
         my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
         my %ModuleToVersion =
             map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
@@ -311,7 +309,13 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20240718.001',
+            'VersionRequired' => '== 20250829.001',
+        },
+        {
+            'Comment'         => 'database of adbisories used by CPAN::Audit',
+            'Module'          => 'CPANSA::DB',
+            'Required'        => 1,
+            'VersionRequired' => '== 20251214.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -353,12 +357,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.95',
         },
         {
-            'Comment'         => 'needed by Type::Tiny',
-            'Module'          => 'Exporter::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.002001',
-        },
-        {
             'Comment'         => 'needed by PDF::API2',
             'Module'          => 'Font::TTF',
             'Required'        => 1,
@@ -383,16 +381,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.08',
         },
         {
-            'Comment'         => 'needed by Sisimai',
             'Module'          => 'JSON',
+            'Comment'         => 'needed by Sisimai and other CPAN distributions',
             'Required'        => 1,
-            'VersionRequired' => '== 2.94',
-        },
-        {
-            'Comment'         => 'needed by JSON, but there also in backportPP included in JSON',
-            'Module'          => 'JSON::PP',
-            'Required'        => 1,
-            'VersionRequired' => '== 2.27203',
+            'VersionRequired' => '== 4.10',                                          # current version as of 2024-11-17
         },
         {
             'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
@@ -458,7 +450,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
             'Module'          => 'Module::Extract::VERSION',
             'Required'        => 1,
-            'VersionRequired' => '== 1.117',
+            'VersionRequired' => '== 1.119',
         },
         {
             'Comment'         => 'needed by Crypt::Random::Source',
@@ -485,22 +477,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.17',
         },
         {
-            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
-            'Module'          => 'Net::IMAP::Simple',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.2209',
-        },
-        {
-            'Comment'         => 'needed by OTOBO email modules',
-            'Module'          => 'Net::SSLGlue',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.058',
-        },
-        {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
-            'VersionRequired' => '== 2.045',
+            'VersionRequired' => '== 2.048',
         },
         {
             'Comment'         => 'needed by console command Dev::Tools::TranslationsUpdate',
@@ -543,12 +523,6 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Text::Diff',
             'Required'        => 1,
             'VersionRequired' => '== 1.44',
-        },
-        {
-            'Comment'         => 'needed by Crypt::Random::Source',
-            'Module'          => 'Type::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.010000',
         },
         {
             'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',

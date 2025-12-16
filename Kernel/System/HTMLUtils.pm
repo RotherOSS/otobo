@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -35,6 +35,8 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Cache',
+    'Kernel::System::Loader'
 );
 
 =head1 NAME
@@ -96,6 +98,10 @@ sub ToAscii {
 
     # get length of line for forcing line breakes
     my $LineLength = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote') || 78;
+
+    # remove style tags
+    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
+    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # find <a href=....> and replace it with [x]
     my @Links;
@@ -193,10 +199,6 @@ sub ToAscii {
     # replace new lines with one space
     $Param{String} =~ s/\n/ /gs;
     $Param{String} =~ s/\r/ /gs;
-
-    # remove style tags
-    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
-    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
@@ -655,6 +657,7 @@ check and e. g. add <html> and <body> tags to given HTML string
     my $HTMLDocument = $HTMLUtilsObject->DocumentComplete(
         String            => $String,
         CustomerInterface => 0, # optional 0|1, default is 0
+        CustomerUIStyles  => 0, # optional 0|1, default is 0
     );
 
 The input is return unchanged if it already looks like a complete HTML document.
@@ -680,7 +683,7 @@ sub DocumentComplete {
     return $Param{String} if $Param{String} =~ m/<html>/i;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Css          = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $Css          = '';
 
     if ( $Param{CustomerInterface} ) {
         $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
@@ -702,23 +705,92 @@ sub DocumentComplete {
         # include quicksand and default css
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
+
     }
 
-    my $CKEditorStyles
+    my $CKEditorContentStylesPath
         = $Param{CustomerInterface} ? $ConfigObject->Get('CustomerFrontend::RichTextArticleStyles') : $ConfigObject->Get('Frontend::RichTextArticleStyles');
 
-    # TODO: avoid reading the file every time this method is called
-    my $CKEditorCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location        => $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorStyles",
-        Type            => 'Local',
-        DisableWarnings => 1,
+    my $ArticleContentStylesPath
+        = $Param{CustomerInterface} ? 'skins/Customer/default/css/RichTextArticleContent.css' : 'skins/Agent/default/css/RichTextArticleContent.css';
+
+    my $TargetDirectory
+        = $Param{CustomerInterface}
+        ? $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Customer/default/css-cache/'
+        : $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins/Agent/default/css-cache/';
+
+    my $FilePrefix = $Param{CustomerInterface} ? 'CustomerRichTextCSS' : 'AgentRichTextCSS';
+
+    # minify files uses caching internally, so files are really only minified again if needed
+    my $TargetFilename = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List => [
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$CKEditorContentStylesPath",
+            $ConfigObject->Get('Home') . "/var/httpd/htdocs/$ArticleContentStylesPath",
+        ],
+        Type                 => 'CSS',
+        TargetDirectory      => $TargetDirectory,
+        TargetFilenamePrefix => $FilePrefix,
     );
 
-    if ($CKEditorCSS) {
-        ${$CKEditorCSS} = $Self->ToHTML( String => ${$CKEditorCSS} );
-        $Body .= "<style>" . ${$CKEditorCSS} . "</style>";
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CachedFilename = $CacheObject->Get(
+        Type => 'HTMLUtils',
+        Key  => $FilePrefix . 'Filename',
+    );
+    my $ArticleStyles = "";
+
+    if ( !$TargetFilename ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'error minifying content css files',
+        );
     }
-    $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+    else {
+        # file not cached, old or changed
+        if ( !$CachedFilename || $TargetFilename ne $CachedFilename ) {
+            $CacheObject->Set(
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix . 'Filename',
+                Value => $TargetFilename
+            );
+            $ArticleStyles = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location        => "$TargetDirectory/$TargetFilename",
+                Type            => 'Local',
+                DisableWarnings => 1,
+            );
+            $CacheObject->Set(
+                Type  => 'HTMLUtils',
+                Key   => $FilePrefix,
+                Value => $ArticleStyles
+            );
+            if ($CachedFilename) {
+                $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+                    Location        => "$TargetDirectory/$CachedFilename",
+                    Type            => 'Local',
+                    DisableWarnings => 1,
+                );
+            }
+
+            # file in cache
+        }
+        else {
+            $ArticleStyles = $CacheObject->Get(
+                Type => 'HTMLUtils',
+                Key  => $FilePrefix
+            );
+        }
+
+        if ( $ArticleStyles ne "" ) {
+            $Body .= "<style>" . ${$ArticleStyles} . ".ck-content {" . $Css . "}</style>";
+        }
+    }
+
+    my $CSSClasses = 'ck-content';
+    if ( $Param{CustomerUIStyles} ) {
+        $CSSClasses .= ' CustomerUI ';
+    }
+
+    $Body .= '</head><body class="' . $CSSClasses . '">' . $Param{String} . '</body></html>';
 
     return $Body;
 }
@@ -762,11 +834,6 @@ perform some sanity checks on HTML content.
 
 =over 4
 
-=item Replace MS Word 12 <p|div> with class "MsoNormal"
-
-By using <br/> because
-it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;).
-
 =item  If there is no HTML document type present, inject the HTML5 document type
 
 Because it is compatible with HTML4
@@ -800,22 +867,6 @@ sub DocumentCleanup {
 
     # remove <base> tags - see bug#8880
     $Param{String} =~ s{<base .*?>}{}xmsi;
-
-    # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
-    # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
-    $Param{String} =~ s{
-        <p\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</p>
-    }
-    {
-        $4 . '<br/>';
-    }segxmi;
-
-    $Param{String} =~ s{
-        <div\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</div>
-    }
-    {
-        $4 . '<br/>';
-    }segxmi;
 
     return $Param{String};
 }
@@ -1233,7 +1284,7 @@ sub Safety {
         ],
     );
 
-    # for some reason stype and script are not handled by new()
+    # for some reason the tags 'style' and 'script' are not handled by new()
     $Scrubber->style(1);                                  # style tags should not be filtered by HTML::Parser
     $Scrubber->script( $Param{NoJavaScript} ? 0 : 1 );    # let HTML::Parser filter script tags
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +19,11 @@ package Kernel::System::Auth;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -34,11 +39,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Auth - agent authentication module.
+Kernel::System::Auth - agent authentication and synchronization module.
 
 =head1 DESCRIPTION
 
-The authentication module for the agent interface.
+The authentication and synchronization module for the agent interface.
 
 =head1 PUBLIC INTERFACE
 
@@ -54,56 +59,61 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get needed objects
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Self = bless {}, $Type;
 
     # load auth modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    AUTH_COUNT:
+    for my $AuthCount ( '', 1 .. 10 ) {
 
-        my $GenericModule = $ConfigObject->Get("AuthModule$Count");
+        my $AuthModule = $ConfigObject->Get("AuthModule$AuthCount");
 
-        next COUNT if !$GenericModule;
+        next AUTH_COUNT unless $AuthModule;
 
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($AuthModule) ) {
+            $MainObject->Die("Can't load backend module $AuthModule! $@");
         }
 
-        $Self->{"AuthBackend$Count"} = $GenericModule->new( Count => $Count );
+        $Self->{"AuthBackend$AuthCount"} = $AuthModule->new(
+            Count => $AuthCount
+        );
     }
 
     # load 2factor auth modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+    TWO_FACTOR_COUNT:
+    for my $TwoFactorCount ( '', 1 .. 10 ) {
 
-        my $GenericModule = $ConfigObject->Get("AuthTwoFactorModule$Count");
+        my $TwoFactorModule = $ConfigObject->Get("AuthTwoFactorModule$TwoFactorCount");
 
-        next COUNT if !$GenericModule;
+        next TWO_FACTOR_COUNT unless $TwoFactorModule;
 
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($TwoFactorModule) ) {
+            $MainObject->Die("Can't load backend module $TwoFactorModule! $@");
         }
 
-        $Self->{"AuthTwoFactorBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+        $Self->{"AuthTwoFactorBackend$TwoFactorCount"} = $TwoFactorModule->new(
+            %{$Self},
+            Count => $TwoFactorCount
+        );
     }
 
     # load sync modules
-    COUNT:
-    for my $Count ( '', 1 .. 10 ) {
+    SYNC_COUNT:
+    for my $SyncCount ( '', 1 .. 10 ) {
 
-        my $GenericModule = $ConfigObject->Get("AuthSyncModule$Count");
+        my $SyncModule = $ConfigObject->Get("AuthSyncModule$SyncCount");
 
-        next COUNT if !$GenericModule;
+        next SYNC_COUNT unless $SyncModule;
 
-        if ( !$MainObject->Require($GenericModule) ) {
-            $MainObject->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($SyncModule) ) {
+            $MainObject->Die("Can't load backend module $SyncModule! $@");
         }
 
-        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+        $Self->{"AuthSyncBackend$SyncCount"} = $SyncModule->new(
+            %{$Self},
+            Count => $SyncCount
+        );
     }
 
     # Initialize last error message
@@ -144,7 +154,6 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
-    # get needed objects
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -153,13 +162,13 @@ sub Auth {
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next on no config setting
-        next COUNT if !$Self->{"AuthBackend$Count"};
+        # handle only the already loaded auth backends
+        next COUNT unless $Self->{"AuthBackend$Count"};
 
         # check auth backend
         $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
-        # next on no success
+        # try the next auth backend on no success
         if ( !$User ) {
 
             # get error message of auth backend if present
@@ -175,40 +184,45 @@ sub Auth {
         # A failed two factor auth after successful sync will result
         # in a new or updated user but no information or permission leak.
 
-        # configured auth sync backend
+        # Sync via the explicitly configured auth sync backend for the current auth backend.
+        # This is the backend which has just verified the authentication.
+        # $AuthSyncBackend must be the key for one of the already loaded auth sync backends.
+        # Only a single backend is supported in this case.
         my $AuthSyncBackend = $ConfigObject->Get("AuthModule::UseSyncBackend$Count");
-        if ( !defined $AuthSyncBackend ) {
-            $AuthSyncBackend = $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
-        }
-
-        # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
-
-        # sync with configured auth backend
         if ( defined $AuthSyncBackend ) {
 
-            # if $AuthSyncBackend is defined but empty, don't sync with any backend
             if ($AuthSyncBackend) {
 
-                # sync configured backend
+                # sync via the configured backend
                 $Self->{$AuthSyncBackend}->Sync( %Param, User => $User );
             }
-        }
-
-        # use all 11 sync backends
-        else {
-            SOURCE:
-            for my $Count ( '', 1 .. 10 ) {
-
-                # return on no config setting
-                next SOURCE if !$Self->{"AuthSyncBackend$Count"};
-
-                # sync backend
-                $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+            else {
+                # do nothing
+                # if $AuthSyncBackend is defined but empty, don't sync with any backend
             }
         }
 
-        # If we have no UserID at this point
-        # it means auth was ok but user didn't exist before
+        # When there sync backend is not declared then run all of the potentially 11 sync backends.
+        # The user is created in the database on the first match.
+        # This means that different backend can provide different pieces,
+        # or that later backends may overwrite data from previous backends.
+        else {
+            SYNC_COUNT:
+            for my $SyncCount ( '', 1 .. 10 ) {
+
+                # handle only the loaded backends
+                next SYNC_COUNT unless $Self->{"AuthSyncBackend$SyncCount"};
+
+                # sync backend
+                $Self->{"AuthSyncBackend$SyncCount"}->Sync(
+                    %Param,
+                    User => $User
+                );
+            }
+        }
+
+        # Having no UserID at this point means
+        # that authentication was ok but user didn't exist before
         # and wasn't created in sync module.
         # We will skip two factor authentication even if configured
         # because we don't have user data to compare the otp anyway.
@@ -216,31 +230,33 @@ sub Auth {
         my $UserID = $UserObject->UserLookup(
             UserLogin => $User,
         );
+
         last COUNT if !$UserID;
 
         # check 2factor auth backends
         my $TwoFactorAuth;
-        TWOFACTORSOURCE:
-        for my $Count ( '', 1 .. 10 ) {
+        TWO_FACTOR_COUNT:
+        for my $TwoFactorCount ( '', 1 .. 10 ) {
 
             # return on no config setting
-            next TWOFACTORSOURCE if !$Self->{"AuthTwoFactorBackend$Count"};
+            next TWO_FACTOR_COUNT unless $Self->{"AuthTwoFactorBackend$TwoFactorCount"};
 
             # 2factor backend
-            my $AuthOk = $Self->{"AuthTwoFactorBackend$Count"}->Auth(
+            my $AuthOk = $Self->{"AuthTwoFactorBackend$TwoFactorCount"}->Auth(
                 TwoFactorToken => $Param{TwoFactorToken},
                 User           => $User,
                 UserID         => $UserID,
             );
             $TwoFactorAuth = $AuthOk ? 'passed' : 'failed';
 
-            last TWOFACTORSOURCE if $AuthOk;
+            last TWO_FACTOR_COUNT if $AuthOk;
         }
 
         # if at least one 2factor auth backend was checked but none was successful,
         # it counts as a failed login
         if ( $TwoFactorAuth && $TwoFactorAuth ne 'passed' ) {
             $User = undef;
+
             last COUNT;
         }
 
@@ -269,12 +285,12 @@ sub Auth {
             Valid  => 1,
         );
 
-        my $Count = $User{UserLoginFailed} || 0;
-        $Count++;
+        my $FailedCount = $User{UserLoginFailed} || 0;
+        $FailedCount++;
 
         $UserObject->SetPreferences(
             Key    => 'UserLoginFailed',
-            Value  => $Count,
+            Value  => $FailedCount,
             UserID => $UserID,
         );
 
@@ -288,13 +304,13 @@ sub Auth {
 
         return if !%User;
         return if !$PasswordMaxLoginFailed;
-        return if $Count < $PasswordMaxLoginFailed;
+        return if $FailedCount < $PasswordMaxLoginFailed;
 
         my $ValidID = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
             Valid => 'invalid-temporarily',
         );
 
-        # Make sure not to accidentially overwrite the password.
+        # Make sure not to accidentally overwrite the password.
         delete $User{UserPw};
 
         my $Update = $UserObject->UserUpdate(
@@ -307,7 +323,7 @@ sub Auth {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Login failed $Count times. Set $User{UserLogin} to "
+            Message  => "Login failed $FailedCount times. Set $User{UserLogin} to "
                 . "'invalid-temporarily'.",
         );
 

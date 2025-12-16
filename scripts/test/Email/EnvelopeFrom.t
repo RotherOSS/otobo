@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -69,12 +73,12 @@ my $SendEmail = sub {
 my $TestBackendObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 my $Success = $TestBackendObject->CleanUp();
-$Self->True(
+ok(
     $Success,
     'Initial cleanup',
 );
 
-$Self->IsDeeply(
+is(
     $TestBackendObject->EmailsGet(),
     [],
     'Test backend empty after initial cleanup',
@@ -202,24 +206,24 @@ for my $Test (@Tests) {
     }
 
     my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Params} } );
-    $Self->True(
+    ok(
         $Body,
         "Email delivered to backend",
     );
 
     my $Emails = $TestBackendObject->EmailsGet();
 
-    $Self->Is(
+    is(
         $Emails->[0]->{From},
         $Test->{Result},
         "$Test->{Name} From"
     );
 
     my $Success = $TestBackendObject->CleanUp();
-    $Self->True(
+    ok(
         $Success,
         "$Test->{Name} cleanup",
     );
 }
 
-$Self->DoneTesting();
+done_testing;

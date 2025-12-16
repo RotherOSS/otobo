@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -301,14 +301,17 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             ElementExists => [ '.ReturnToPreviousPage', 'css' ]
         );
-        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
-
+        $Selenium->execute_script('$(".ReturnToPreviousPage").trigger("click");');
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Mark this ticket as junk!\"]').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('#nav-Spam a').length;"
         );
 
         # Click on 'Spam' and check for ACL error message.
-        $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
+        $Selenium->execute_script('document.querySelector("#nav-Spam a").click();');
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
 
         $Selenium->content_contains(
             $ErrorMessage,

@@ -5,7 +5,7 @@
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 # Support for readonly Perl variables
@@ -18,6 +18,9 @@ requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
 
+# Olson time zone database, required for correct time calculations.
+requires 'DateTime::TimeZone', '>= 2.20';
+
 # A CSS minifier written in XS
 requires 'CSS::Minifier::XS', '>= 0.09';
 
@@ -28,6 +31,7 @@ requires 'DBI';
 # Sane persistent database connection
 requires 'DBIx::Connector';
 
+# (in perlcore)
 requires 'Digest::SHA';
 
 requires 'File::chmod';
@@ -35,17 +39,24 @@ requires 'File::chmod';
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
-# JSON parsing and generation
-requires 'JSON::XS';
+# correct and fast JSON support
+requires 'Cpanel::JSON::XS', '>= 4.0';
 
 requires 'List::Util', '>= 1.45';
 
 requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
+
+# Required for IMAP TLS connections.
+requires 'Mail::IMAPClient', '>= 3.40';
 
 # Required for random number generator.
 requires 'Moo';
@@ -80,10 +91,12 @@ requires 'Text::CSV_XS', '>= 1.34';
 
 requires 'Text::Trim';
 
-# Required for high resolution timestamps.
+# Required for high resolution timestamps (in perlcore)
 requires 'Time::HiRes';
 
 requires 'Try::Tiny';
+
+requires 'Type::Tiny', '>= 1.008';
 
 requires 'Types::Serialiser';
 
@@ -153,6 +166,12 @@ requires 'Plack::Middleware::ReverseProxy';
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
+
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
+
 # };
 
 # feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
@@ -180,14 +199,23 @@ requires 'Plack::Middleware::ReverseProxy';
     # a quick compile check
     requires 'Test::Compile';
 
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
+
     # basic test functions
     requires 'Test2::Suite';
 
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';
@@ -202,45 +230,48 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', '== 0.44.1';
+    requires 'Locale::CLDR', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Ar', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::De', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::De', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Es', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Fr', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Fr', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Hu', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Ko', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Nb', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Pt', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Ru', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Sr', '== 0.46.0';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', '== 0.44.1';
+    requires 'Locale::CLDR::Locales::Zh', '== 0.46.0';
 
 # };
 
-# Feature 'div:hanextra' is not needed for Docker
+# feature 'div:hanextra', 'Support for feature div:hanextra' => sub {
+    # Required to handle mails with several Chinese character sets.
+    requires 'Encode::HanExtra', '>= 0.23';
 
+# };
 
 # feature 'div:ldap', 'Support for feature div:ldap' => sub {
     # Required for directory authentication.
@@ -253,9 +284,6 @@ requires 'Plack::Middleware::ReverseProxy';
     requires 'Text::QRCode';
 
 # };
-
-# Feature 'div:ssl' is not needed for Docker
-
 
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
@@ -278,15 +306,6 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'mail' is not needed for Docker
-
-
-# feature 'mail:imap', 'Support for feature mail:imap' => sub {
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
-
-# };
-
 # feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
@@ -299,13 +318,10 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'mail:ssl' is not needed for Docker
-
-
 # Feature 'optional' is not needed for Docker
 
 
-# feature 'performance:redis', 'Support for feature performance:redis' => sub {
+# feature 'performance:redis', 'Modules for running with Redis Cache Server' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 
@@ -317,9 +333,6 @@ requires 'Plack::Middleware::ReverseProxy';
 # feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';

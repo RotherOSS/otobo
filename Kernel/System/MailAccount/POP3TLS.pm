@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,76 +16,45 @@
 
 package Kernel::System::MailAccount::POP3TLS;
 
+use v5.24;
 use strict;
 use warnings;
-
-use Net::POP3;
+use utf8;
 
 use parent qw(Kernel::System::MailAccount::POP3);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
+# same dependencies as in IMAP.pm
 our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CommunicationLog',
     'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
-# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3TLS.
-BEGIN {
-    if ( !defined &Net::POP3::starttls ) {
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-        require Net::SSLGlue::POP3;
-    }
+# these private subs override the subs in the parant class
+
+sub _Type {
+    return 'POP3TLS';
 }
 
-sub Connect {
-    my ( $Self, %Param ) = @_;
+sub _StartTLS {
+    my ( undef, $PopObject ) = @_;
 
-    # check needed stuff
-    for (qw(Login Password Host Timeout Debug)) {
-        if ( !defined $Param{$_} ) {
-            return (
-                Successful => 0,
-                Message    => "Need $_!",
-            );
-        }
-    }
-
-    my $Type = 'POP3TLS';
-
-    # connect to host
-    my $PopObject = Net::POP3->new(
-        $Param{Host},
-        Timeout => $Param{Timeout},
-        Debug   => $Param{Debug},
-    );
-
-    if ( !$PopObject ) {
-        return (
-            Successful => 0,
-            Message    => "$Type: Can't connect to $Param{Host}"
-        );
-    }
-
+    # upgrade to SSL
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
     $PopObject->starttls(
         SSL             => 1,
-        SSL_verify_mode => 0,
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
-    # authentication
-    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $NOM ) {
-        $PopObject->quit();
-        return (
-            Successful => 0,
-            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
-        );
-    }
-
-    return (
-        Successful => 1,
-        PopObject  => $PopObject,
-        NOM        => $NOM,
-        Type       => $Type,
-    );
+    return;
 }
 
 1;

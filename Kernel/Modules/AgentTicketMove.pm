@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -485,7 +485,7 @@ sub Run {
             QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
 
-        # update Dynamc Fields Possible Values via AJAX
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -1069,6 +1069,7 @@ sub Run {
         TicketID           => $Self->{TicketID},
         SendNoNotification => $GetParam{NewUserID},
         Comment            => $BodyAsText,
+        Action             => $Self->{Action},
     );
     if ( !$Move ) {
         return $LayoutObject->ErrorScreen();
@@ -1251,7 +1252,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # set the object ID (TicketID or ArticleID) depending on the field configration
+            # set the object ID (TicketID or ArticleID) depending on the field configuration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set dynamic field; when ObjectType=Article and no article will be created ignore
@@ -1507,7 +1508,7 @@ sub AgentMove {
             },
         );
 
-        if ( $Self->{DynamicField} ) {
+        if ( IsArrayRefWithData( $Self->{DynamicField} ) ) {
             $LayoutObject->Block(
                 Name => 'WidgetDynamicFields',
                 Data => {
@@ -1719,6 +1720,13 @@ sub AgentMove {
 
         $LoadedFormDraft->{ChangeByName} = $Kernel::OM->Get('Kernel::System::User')->UserName(
             UserID => $LoadedFormDraft->{ChangeBy},
+        );
+    }
+
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
         );
     }
 

@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -338,42 +338,52 @@ Core.Form = (function (TargetNS) {
     function HideAutoselected (FieldIDs) {
 
         $.each(FieldIDs, function(Index, FieldID) {
-            var Values = [];
-            var RawValues = [];
-            var Field = $('#'+ FieldID);
 
-            // get possible values
-            $('#' + FieldID + ' option').each(function() {
-                RawValues.push($.trim($(this).val()));
+            // The field may be numerically postfixed if repeated inside sets or other container type dynamic fields
+            // Thus search not only for FieldID, but also for every FieldID_\d+
+            var CommonPrefixFieldIDs = $("[id^='" + FieldID + "'], #" + FieldID).filter(function() {
+                return this.id === FieldID || new RegExp("^" + FieldID + "_\\d+$").test(this.id);
             });
 
-            // remove possible empty value
-            $.each(RawValues, function(Index, Value) {
-                if (Value == '-')   return true;
-                if (Value == '')    return true;
-                if (Value == ' ')   return true;
-                // special treatment for Dest...
-                if (Value == '||-') return true;
+            $.each(CommonPrefixFieldIDs, function(Index, Elem) {
 
-                // get all options
-                Values.push(Value);
+                var Values = [];
+                var RawValues = [];
+                var Field = $('#'+ Elem.id);
+
+                // get possible values
+                $('#' + Elem.id + ' option').each(function() {
+                    RawValues.push($.trim($(this).val()));
+                });
+
+                // remove possible empty value
+                $.each(RawValues, function(Index, Value) {
+                    if (Value == '-')   return true;
+                    if (Value == '')    return true;
+                    if (Value == ' ')   return true;
+                    // special treatment for Dest...
+                    if (Value == '||-') return true;
+
+                    // get all options
+                    Values.push(Value);
+                });
+
+                if (Values.length == 1) {
+                    // hide field
+                    Field.closest('div.Row').hide();
+                    Field.parent().hide();
+                    $("label[for='" + Elem.id + "']").hide();
+                }
+                else if ($('#'+ Elem.id).parent().parent('div.Row').hasClass('oooACLHidden') == false) {
+                    // show field
+                    Field.closest('div.Row').show();
+                    Field.parent().show();
+                    $("label[for='" + Elem.id + "']").show();
+
+                    // init modernization on select fields hidden initially
+                    Core.UI.InputFields.InitSelect($('select#'+ Elem.id));
+                }
             });
-
-            if (Values.length == 1) {
-                // hide field
-                Field.parent().parent('div.Row').hide();
-                Field.parent().hide();
-                $("label[for='" + FieldID + "']").hide();
-            }
-            else if ($('#'+ FieldID).parent().parent('div.Row').hasClass('oooACLHidden') == false) {
-                // show field
-                Field.parent().parent('div.Row').show();
-                Field.parent().show();
-                $("label[for='" + FieldID + "']").show();
-
-                // init modernization on select fields hidden initially
-                Core.UI.InputFields.InitSelect($('select#'+ FieldID));
-            }
         });
     }
 

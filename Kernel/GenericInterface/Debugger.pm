@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,7 +24,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
+use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -201,7 +201,7 @@ sub DebugLog {
 
     # create log message
     my $DataString = '';
-    if ( IsHashRefWithData( $Param{Data} ) ) {
+    if ( IsHashRefWithData( $Param{Data} ) || IsArrayRefWithData( $Param{Data} ) ) {
         $DataString = $Kernel::OM->Get('Kernel::System::Main')->Dump( $Param{Data} );
     }
     elsif ( IsStringWithData( $Param{Data} ) ) {

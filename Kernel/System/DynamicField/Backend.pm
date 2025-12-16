@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -234,7 +234,7 @@ creates the field and label HTML to be used in edit masks.
             'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
         },
         Template             => {                         # Optional data structure of GenericAgent etc.
-            Owner => 2,                                   # Value is accessable via field name (DynamicField_ + field name)
+            Owner => 2,                                   # Value is accessible via field name (DynamicField_ + field name)
             Title => 'Generic Agent Job was here'         # and could be a scalar, Hash- or ArrayRef
             ...
             DynamicField_ExampleField1 => 'Value 1'
@@ -435,6 +435,8 @@ sets a dynamic field value. The values are usually not validated.
         Value              => $Value,                   # Value to store, depends on backend type
         UserID             => 123,
         Set                => (1|0),                    # (optional) whether the value is included in a DynamicField Set
+        ExternalSource     => (1|0),                    # (optional) only for specific backends
+                                                        # attempt to map value from external sources to OTOBO IDs
     );
 
 =cut
@@ -544,13 +546,15 @@ sub ValueSet {
 
     # do not proceed if there is nothing to update, each dynamic field requires special handling to
     #    determine if two values are different or not, this to prevent false update events,
-    #    see bug #9828. Note: (do not send %Param, as $NewValue is a reference and then Value2 could
+    #    see bug #9828. Note: (do not send %Param, as $NewValue is a reference and then Value1 could
     #    have strange values).
     if (
         !$Self->ValueIsDifferent(
             DynamicFieldConfig => $Param{DynamicFieldConfig},
-            Value1             => $OldValue,
-            Value2             => $NewValue,
+            Value1             => $NewValue,
+            Value2             => $OldValue,
+            ExternalSource     => $Param{ExternalSource},
+            Set                => $Param{Set},
         )
         )
     {
@@ -602,8 +606,11 @@ depending on each field.
     my $Success = $BackendObject->ValueIsDifferent(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
                                                         # must be linked to, e. g. TicketID
-        Value1             => $Value1,                  # Dynamic Field Value
+        Value1             => $Value1,                  # Dynamic Field Value (New/External Source value if ExternalSource is set)
         Value2             => $Value2,                  # Dynamic Field Value
+        ExternalSource     => (1|0),                    # (optional) only for specific backends
+                                                        # attempt to map Value1 from external sources to OTOBO IDs
+        Set                => (1|0),                    # (optional) specify if the values stem from a Set dynamic field
     );
 
 =cut
@@ -750,7 +757,7 @@ sub ValueDelete {
         return;
     }
 
-    # set the dyanamic field object handler
+    # set the dynamic field object handler
     my $DynamicFieldObjectHandler =
         'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
@@ -1091,7 +1098,7 @@ dynamic field. The table must already be joined.
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         TableAlias         => $TableAlias,              # the alias of the already joined dynamic_field_value table to use
         SearchTerm         => $SearchTerm,              # What to look for. Placeholders in LIKE searches must be passed as %.
-        Operator           => $Operator,                # One of [Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan, SmallerThanEquals]
+        Operator           => $Operator,                # One of [Empty, Equals, Like, GreaterThan, GreaterThanEquals, SmallerThan, SmallerThanEquals]
                                                         #   The supported operators differ for the different backends.
     );
 
@@ -1364,7 +1371,7 @@ validate the current value for the dynamic field
         Mandatory            => 1,                        # 0 or 1,
     );
 
-    Returns
+Returns:
 
     $Result = {
         ServerError        => 1,                          # 0 or 1,
@@ -1468,13 +1475,15 @@ creates the field HTML to be used in search masks.
                                                           #       . 'DynamicField_' . $DynamicFieldConfig->{Name} . 'StopSecond=59;';
                                                           #
                                                           #   $Value =  1;
-        ConfirmationCheckboxes => 0,                      # or 1, to dislay confirmation checkboxes
-        UseLabelHints          => 1,                      # or 0, default 1. To display seach hints in labels
+        ConfirmationCheckboxes => 0,                      # or 1, to display confirmation checkboxes
+        UseLabelHints          => 1,                      # or 0, default 1. To display search hints in labels
         Type                   => 'some type',            # search preference type
 
     );
 
-    Returns {
+Returns:
+
+    {
         Field => $HTMLString,
         Label => $LabelString,
     };
@@ -1577,7 +1586,7 @@ extracts the value of a dynamic field from the param object or search profile.
     my $Value = $BackendObject->SearchFieldValueGet(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,             # the current request data
-        Profile              => $ProfileData,             # the serach profile
+        Profile              => $ProfileData,             # the search profile
         ReturnProfileStructure => 1,                      # 0 || 1, default 0
                                                           #   Returns the structured values as got from the http request
     );
@@ -1697,7 +1706,7 @@ Returns the search field preferences of the backend.
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
     );
 
-    Returns (example for Date and DateTime):
+Returns (example for Date and DateTime):
 
     $SearchFieldPreferences = [
         {
@@ -1782,11 +1791,11 @@ build the search parameters to be passed to the search engine.
         Type                 => 'some type',            # search preference type
     );
 
-    Returns
+Returns:
 
     $DynamicFieldSearchParameter = {
         Parameter {
-            Equals => $Value,                           # Available operatiors:
+            Equals => $Value,                           # Available operators:
 
                                                         #   Equals            => 123,
                                                         #   Like              => 'value*',
@@ -1865,7 +1874,7 @@ Produces text output and does not transform time zones of dates.
         TitleMaxChars      => 20,                       # Optional
     );
 
-    Returns
+Returns:
 
     $ValueStrg = {
         Title => $Title,
@@ -1935,7 +1944,7 @@ Generic Agent job
         FieldType => 'Edit',                             # or 'Search' or 'All'
     );
 
-    returns
+Returns:
 
     $ValueType = {
         'DynamicField_ . '$DynamicFieldConfig->{Name} => 'SCALAR',
@@ -1946,7 +1955,7 @@ Generic Agent job
         FieldType => 'Search',
     );
 
-    returns
+Returns:
 
     $ValueType = {
         'Search_DynamicField_' . $DynamicFieldConfig->{Name} => 'ARRAY',
@@ -1957,7 +1966,7 @@ Generic Agent job
         FieldType => 'All',
     );
 
-    returns
+Returns:
 
     $ValueType = {
         'DynamicField_ . '$DynamicFieldConfig->{Name} => 'SCALAR',
@@ -2035,7 +2044,7 @@ sets a dynamic field random value.
         UserID             => 123,
     );
 
-    returns:
+Returns:
 
     $Result {
         Success => 1                # or undef
@@ -2106,13 +2115,13 @@ sub RandomValueSet {
         return;
     }
 
-    # set the dyanamic field object handler
+    # set the dynamic field object handler
     my $DynamicFieldObjectHandler =
         'DynamicField' . $Param{DynamicFieldConfig}->{ObjectType} . 'HandlerObject';
 
     # If an ObjectType handler is registered, use it.
     if ( ref $Self->{$DynamicFieldObjectHandler} ) {
-        my $PostSuccess = $Self->{$DynamicFieldObjectHandler}->PostValueSet(
+        $Self->{$DynamicFieldObjectHandler}->PostValueSet(
             %Param,
             Value => $Result->{Value},
         );
@@ -2126,11 +2135,11 @@ sub RandomValueSet {
 returns the list of database values for a defined dynamic field. This function is used to calculate
 ACLs in Search Dialog
 
-    my $HistorialValues = $BackendObject->HistoricalValuesGet(
+    my $HistoricalValues = $BackendObject->HistoricalValuesGet(
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
     );
 
-    Returns:
+Returns:
 
     $HistoricalValues = {
         '1'     => '1',
@@ -2189,7 +2198,7 @@ sub HistoricalValuesGet {
         return;
     }
 
-    # call HistorialValuesGet on the specific backend
+    # call HistoricalValuesGet on the specific backend
     return $Self->{$DynamicFieldBackend}->HistoricalValuesGet(%Param);
 }
 
@@ -2295,14 +2304,23 @@ checks if the dynamic field as an specified behavior
                                                          #     the field usable in the customer
                                                          #     interface
                                                          # 'IsHTMLContent' to indicate that there is
-                                                         #     HTML content (avoid duble cnversion to HTML)
+                                                         #     HTML content (avoid double cnversion to HTML)
                                                          # 'IsLikeOperatorCapable' to perform likewise
                                                          #     search in ValueSearch function
                                                          # 'IsHiddenInTicketInformation' to hide the field
                                                          #     within the ticket information widget
+                                                         # 'IsReferenceField' to indicate that the field
+                                                         #     is of type reference
+                                                         # 'IsScriptField' to indicate that the field
+                                                         #     is a script field with an evaluatable
+                                                         #     expression
+                                                         # 'IsSetCapable' to be used within Set fields
+                                                         # 'SetsDynamicContent' to define that the field
+                                                         #     has a GetFieldState method used for
+                                                         #     setting its content dynamically
     );
 
-    Returns:
+Returns:
 
     $HasBehavior = 1;                # if the dynamic field has that behavior
     $HasBehavior = undef;            # if the dynamic field does not have that behavior
@@ -2380,7 +2398,7 @@ returns the list of possible values for a dynamic field
         DynamicFieldConfig => $DynamicFieldConfig,       # complete config of the DynamicField
     );
 
-    Returns:
+Returns:
 
     $PossibleValues = {
         ''  => '-',             # 'none' value if defined in the dynamic field configuration
@@ -2460,7 +2478,7 @@ an ArrayHashRef, otherwise the result will be a HashRef.
                                                          #    depending on dynamic field the
     );
 
-    Returns:
+Returns:
 
     $DataValues = {
         ''  => '-',
@@ -2468,7 +2486,7 @@ an ArrayHashRef, otherwise the result will be a HashRef.
         '2' => 'Item2',
     }
 
-    or
+or
 
     $DataValues = [
         {
@@ -2550,7 +2568,7 @@ sub BuildSelectionDataGet {
     # verify if function is available
     return if !$Self->{$DynamicFieldBackend}->can('BuildSelectionDataGet');
 
-    # call PossibleValuesGet on the specific backend
+    # call BuildSelectionDataGet on the specific backend
     return $Self->{$DynamicFieldBackend}->BuildSelectionDataGet(%Param);
 }
 
@@ -2568,7 +2586,7 @@ The following functions should be only used if the dynamic field has IsStatsCond
                                                           #     where the possible values can be limited with and ACL.
     );
 
-    returns
+Returns:
 
     $DynamicFieldStatsParameter = {
         Values => {
@@ -2644,13 +2662,13 @@ build the search parameters to be passed to the search engine within the stats m
 
     my $DynamicFieldStatsSearchParameter = $BackendObject->StatsSearchFieldParameterBuild(
         DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        Value                => $Value,                 # the serach profile
+        Value                => $Value,                 # the search profile
     );
 
-    Returns
+Returns:
 
     $DynamicFieldStatsSearchParameter = {
-            Equals => $Value,                           # Available operatiors:
+            Equals => $Value,                           # Available operators:
 
                                                         #   Equals            => 123,
                                                         #   Like              => 'value*',
@@ -2734,7 +2752,7 @@ like the result of a TicketGet() )
                                                          #      ( i.e. the result of a TicketGet() )
     );
 
-    Returns:
+Returns:
 
     $Match                                 # 1 or 0
 
@@ -2820,7 +2838,7 @@ get the list of distinct values for a dynamic field from a list of tickets
         TicketIDs          => [23, 1, 56, 74],          # array ref list of ticket IDs
     );
 
-    Returns:
+Returns:
 
     $HistoricalValues{
         ValueA => 'ValueA',
@@ -2909,7 +2927,9 @@ Searches/fetches dynamic field value.
         Search             => 'search term',
     );
 
-    Returns [
+Returns:
+
+    [
         {
             ID            => 437,
             FieldID       => 23,
@@ -3070,7 +3090,7 @@ return a hash of object descriptions.
         UserID             => 1,
     );
 
-Return
+Returns:
 
     %Description = (
         Normal => "Ticket# 1234455",
@@ -3115,7 +3135,7 @@ Get the new value and possible values for use in FieldRestrictions()
         DynamicFieldConfig => $DynamicFieldConfig,
     );
 
-Return
+Returns:
 
     %Return = (
         NewValue        => $Value,

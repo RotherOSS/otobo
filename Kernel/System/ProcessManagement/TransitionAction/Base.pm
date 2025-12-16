@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -139,6 +139,8 @@ sub _ReplaceTicketAttributes {
                 my $DynamicFieldName = $1;
 
                 $Param{Config}->{$Attribute} = $Param{Ticket}->{"DynamicField_$DynamicFieldName"};
+
+                next REPLACEMENT;
             }
             elsif ( $TicketAttribute =~ m{DynamicField_(\S+)} ) {
                 my $DynamicFieldName = $1;

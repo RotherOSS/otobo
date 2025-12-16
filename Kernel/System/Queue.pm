@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,10 +16,17 @@
 
 package Kernel::System::Queue;
 
+use v5.24;
 use strict;
 use warnings;
 
-use parent                        qw(Kernel::System::EventHandler);
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
@@ -58,8 +65,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{QueueID} = $Param{QueueID} || '';
 
@@ -1283,6 +1289,8 @@ get all queues
 
     my %Queues = $QueueObject->QueueList();
 
+get only the valid queues
+
     my %Queues = $QueueObject->QueueList( Valid => 1 );
 
 =cut
@@ -1305,39 +1313,30 @@ sub QueueList {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return %{$Cache} if $Cache;
 
-    # get database object
+    return $Cache->%* if $Cache;
+
+    # SQL query
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $SQL      = $Valid
+        ?
+        "SELECT id, name FROM queue WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )"
+        :
+        'SELECT id, name FROM queue';
 
-    # sql query
-    if ($Valid) {
-        return if !$DBObject->Prepare(
-            SQL => "SELECT id, name FROM queue WHERE valid_id IN "
-                . "( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )",
-        );
-    }
-    else {
-        return if !$DBObject->Prepare(
-            SQL => 'SELECT id, name FROM queue',
-        );
-    }
-
-    # fetch the result
-    my %Queues;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Queues{ $Row[0] } = $Row[1];
-    }
+    my %QueueID2Name = $DBObject->SelectMapping(
+        SQL => $SQL
+    );
 
     # set cache
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
-        Value => \%Queues,
+        Value => \%QueueID2Name,
     );
 
-    return %Queues;
+    return %QueueID2Name;
 }
 
 =head2 QueuePreferencesSet()
@@ -1434,7 +1433,7 @@ sub NameExistsCheck {
     return 0;
 }
 
-=for stopwords ro rw !qux
+=for stopwords ro rw
 
 =head2 QueueListPermission()
 

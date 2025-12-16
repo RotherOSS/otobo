@@ -3,7 +3,7 @@ package PDF::API2::Resource::Glyphs;
 use strict;
 use warnings;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 # The data in this file is generated from uniglyph.txt.  In earlier
 # versions of PDF::API2, this file was parsed and sorted every time

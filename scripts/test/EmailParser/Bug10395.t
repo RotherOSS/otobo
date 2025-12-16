@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # This test should verify that an email with an unknown encoding not cause a "die".
 
@@ -42,16 +42,16 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
 );
 
-$Self->Is(
+is(
     $EmailParserObject->GetParam( WHAT => 'From' ),
     '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
     'Check complicated to header',
 );
 
-$Self->Is(
+is(
     $EmailParserObject->GetParam( WHAT => 'Cc' ),
     '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
     'Check complicated to header',
 );
 
-$Self->DoneTesting();
+done_testing;

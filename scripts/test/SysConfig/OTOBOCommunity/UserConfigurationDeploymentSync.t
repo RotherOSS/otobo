@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -102,7 +102,7 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 # create a new deployment for the user
 my $UserDeploymentID;
 {
-    my $EffectiveValueStrg = << "END_PM";
+    my $EffectiveValueStrg = <<"END_PM";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::$UserID;

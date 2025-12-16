@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -41,16 +41,16 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 );
 
 my @Attachments = $EmailParserObject->GetAttachments();
-$Self->Is(
+is(
     scalar @Attachments,
     3,
     "Found 3 files (plain, html and attachment for nested message)",
 );
 
-$Self->Is(
+is(
     $Attachments[2]->{Filename} || '',
     '_Presse-Greenpeace__Morgen_wird_Greenpeace-Einspruch_gegenEmbryonen-Patent_verhandelt_-_NeueDokumentation_ueber_Patente_auf_Leben.eml',
     "Nested message filename",
 );
 
-$Self->DoneTesting();
+done_testing;

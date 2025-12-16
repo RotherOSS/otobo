@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,6 +28,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set pref for columns key
+    $Self->{PrefKeyIncludeInvalid} = 'IncludeInvalid' . '-' . $Self->{Action};
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    $Self->{IncludeInvalid} = $Preferences{ $Self->{PrefKeyIncludeInvalid} };
+
     return $Self;
 }
 
@@ -38,8 +47,21 @@ sub Run {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $Name           = $ParamObject->GetParam( Param => 'Name' );
     my $OldName        = $ParamObject->GetParam( Param => 'OldName' );
+    my $ValidID        = $ParamObject->GetParam( Param => 'ValidID' );
     my $StopAfterMatch = $ParamObject->GetParam( Param => 'StopAfterMatch' ) || 0;
     my %GetParam       = ();
+
+    $Param{IncludeInvalid} = $ParamObject->GetParam( Param => 'IncludeInvalid' );
+
+    if ( defined $Param{IncludeInvalid} ) {
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $Self->{PrefKeyIncludeInvalid},
+            Value  => $Param{IncludeInvalid},
+        );
+
+        $Self->{IncludeInvalid} = $Param{IncludeInvalid};
+    }
 
     # fetch and pass on filters
     my %SearchItems;
@@ -175,6 +197,11 @@ sub Run {
             $Errors{"NameInvalid"} = 'ServerError';
         }
 
+        # ValidID validation
+        if ( !( $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $ValidID ) ) ) {
+            $Errors{"ValidOptionInvalid"} = 'ServerError';
+        }
+
         # If it's not edit action, verify there is no filters with same name.
         if ( $Name ne $OldName ) {
             my %Data = $PostMasterFilter->FilterGet( Name => $Name );
@@ -200,6 +227,7 @@ sub Run {
         $PostMasterFilter->FilterDelete( Name => $OldName );
         $PostMasterFilter->FilterAdd(
             Name           => $Name,
+            ValidID        => $ValidID,
             Match          => \@Match,
             Set            => \@Set,
             StopAfterMatch => $StopAfterMatch,
@@ -227,7 +255,18 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my %List = $PostMasterFilter->FilterList(%SearchItems);
+
+        my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+        my %ValidLookup = reverse %ValidList;
+        my @ValidIDs    = ( $ValidLookup{'valid'}, $ValidLookup{'invalid-temporarily'} );
+        if ( $Self->{IncludeInvalid} ) {
+            push @ValidIDs, $ValidLookup{'invalid'};
+        }
+
+        my %List = $PostMasterFilter->FilterList(
+            %SearchItems,
+            ValidIDs => \@ValidIDs,
+        );
 
         $LayoutObject->Block(
             Name => 'Overview',
@@ -235,6 +274,13 @@ sub Run {
         );
         $LayoutObject->Block( Name => 'ActionList' );
         $LayoutObject->Block( Name => 'ActionAdd' );
+        $LayoutObject->Block(
+            Name => 'IncludeInvalid',
+            Data => {
+                IncludeInvalid        => $Self->{IncludeInvalid},
+                IncludeInvalidChecked => $Self->{IncludeInvalid} ? 'checked' : '',
+            },
+        );
         $LayoutObject->Block( Name => 'Filter' );
 
         # all headers
@@ -303,11 +349,14 @@ sub Run {
         );
 
         if (%List) {
+            my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
             for my $Key ( sort keys %List ) {
+                my %Data = $PostMasterFilter->FilterGet( Name => $Key );
                 $LayoutObject->Block(
                     Name => 'OverviewResultRow',
                     Data => {
-                        Name => $Key,
+                        Name  => $Key,
+                        Valid => $ValidList{ $Data{ValidID} },
                     },
                 );
             }
@@ -435,6 +484,17 @@ sub _MaskUpdate {
     if ( $Param{Data}->{NameInvalid} ) {
         $OldName = $Data{OldName};
     }
+
+    # get valid list
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+    my %ValidListReverse = reverse %ValidList;
+
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
+        Data       => \%ValidList,
+        Name       => 'ValidID',
+        SelectedID => $Param{Data}{ValidID} || $ValidListReverse{valid},
+        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+    );
 
     $LayoutObject->Block(
         Name => 'OverviewUpdate',

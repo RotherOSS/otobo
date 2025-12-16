@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,7 +66,7 @@ my @Tests = (
         },
         Result => {
             ContentType => 'text/html; charset="utf-8"',
-            Content     => '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
+            Content     => '<img src="index.pl?Action=SomeAction;FileID=0">',
         },
     },
     {
@@ -83,7 +83,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content     => '<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
+            Content     => '<img border="0" src="index.pl?Action=SomeAction;FileID=0">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -101,7 +101,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content     => q{<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">},
+            Content     => q{<img border="0" src="index.pl?Action=SomeAction;FileID=0">},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -120,7 +120,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
+                '<img src="index.pl?Action=SomeAction;FileID=0">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -138,7 +138,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content     => '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
+            Content     => '<img src="index.pl?Action=SomeAction;FileID=0" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -156,7 +156,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />},
+            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0" />},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -174,7 +174,7 @@ my @Tests = (
             },
         },
         Result => {
-            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />},
+            Content     => q{<img src="index.pl?Action=SomeAction;FileID=0" />},
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -234,7 +234,7 @@ my @Tests = (
 <div style="margin: 5px 0; padding: 0px; border: 1px solid #bfc0ce; border-radius: 2px;">
     <div style="padding: 5px; background-color: #e5e5eb; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center; border-radius: 2px;">
         Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
-        <a href="index.pl?;LoadExternalImages=1;SessionID=123">Blockierte Inhalte laden.</a>
+        <a href="index.pl?;LoadExternalImages=1">Blockierte Inhalte laden.</a>
     </div>
 </div>
 1',

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::Code::CPANAudit;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -26,7 +27,7 @@ use File::Basename qw(dirname);
 use FindBin        qw($Bin);
 
 # CPAN modules
-use CPAN::Audit 20230826.001 ();
+use CPAN::Audit 20250829.001 ();
 
 # OTOBO modules
 
@@ -64,6 +65,7 @@ sub Run {
         next PATH if $Path && $Path eq '.';                          # Current folder, relevant for old Perls
         next PATH if $Path && $Path eq dirname($Bin);                # OTOBO home folder
         next PATH if $Path && $Path eq dirname($Bin) . '/Custom';    # Custom folder
+
         push @PathsToScan, $Path;
     }
 

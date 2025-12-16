@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -33,7 +33,9 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
     'Kernel::System::User',
 );
 
@@ -92,7 +94,6 @@ Returns possible values, selected values, and visibility of fields
         LoopProtection            => \$LoopProtection,              # restricts number of recursive calls; passing a reference to 'undef' will lead to a warning
         Autoselect                => {},                            # optional; default: undef; {Field => 0,1,2, ...}
         ACLPreselection           => 0|1,                           # optional
-        InitialRun                => 1,                             # optional; evaluate e.g. script fields without AJAX Trigger once
         PossibleValuesOnly        => 1,                             # optional; assume all fields are visible e.g. for sets
     );
 
@@ -261,21 +262,52 @@ sub GetFieldStates {
             Behavior           => 'IsACLReducible',
         );
 
-        # 1. handle hidden fields - values of invisible fields are deleted
+        # 1. handle hidden fields
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
 
-            my $NotEmpty = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} )
-                ?
-                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
-                :
-                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+            next DYNAMICFIELD if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
+
+            # values of visible fields turning invisible are deleted or set to values of ticket data if present
+            my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
+                ref( $DFParam->{"DynamicField_$DFName"} ) ?
+                    ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 ) :
+                    $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+
+            my %TicketData;
+            if ( $Param{TicketID} ) {
+                %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                    TicketID      => $Param{TicketID},
+                    UserID        => $Param{UserID},
+                    DynamicFields => 1,
+                );
+
+                if ( defined $TicketData{"DynamicField_$DFName"} ) {
+
+                    my $ValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value1             => $DFParam->{"DynamicField_$DFName"},
+                        Value2             => $TicketData{"DynamicField_$DFName"},
+                    );
+
+                    if ($ValueIsDifferent) {
+                        $UpdateRequired = 1;
+                    }
+                    else {
+                        $UpdateRequired = 0;
+                    }
+                }
+            }
 
             # if values are present, Fieldrestrictions have to be checked again for the newly changed elements
-            if ($NotEmpty) {
+            if ($UpdateRequired) {
 
                 # delete entry and remember change
                 $NewValues{"DynamicField_$DFName"} = ref( $DFParam->{"DynamicField_$DFName"} ) ? [] : '';
+
+                # check if we have a ticket data value and use them, if so
+                if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                    $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                }
 
                 # fields have to be added to correctly remove all content
                 if ( !$IsACLReducible ) {
@@ -356,8 +388,25 @@ sub GetFieldStates {
         # 3. skip non ACL reducible fields...
         if ( !$IsACLReducible ) {
 
-            # ...but set default values of reappearing fields first
+            # ...but set actual or default values of reappearing fields first
             if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 ) {
+                if ( $Param{TicketID} ) {
+                    my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                        TicketID      => $Param{TicketID},
+                        UserID        => $Param{UserID},
+                        DynamicFields => 1,
+                    );
+                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                        $Fields{$DFName} = {
+                            PossibleValues  => undef,
+                            NotACLReducible => 1,
+                        };
+
+                        next DYNAMICFIELD;
+                    }
+                }
+
                 if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                     $NewValues{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                     $Fields{$DFName} = {
@@ -398,8 +447,22 @@ sub GetFieldStates {
                 if ( $CachedVisibility->{"DynamicField_$DFName"} == 0 ) {
                     $CheckACLs = 1;
 
-                    # take the default value and put it also into NewValues; in the unlikely case that they will be deleted again, this will just cause a redundant second run
-                    if ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
+                    my %TicketData;
+                    if ( $Param{TicketID} ) {
+                        %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                            TicketID      => $Param{TicketID},
+                            UserID        => $Param{UserID},
+                            DynamicFields => 1,
+                        );
+                    }
+
+                    # take the ticket or default value and put it also into NewValues
+                    # in the unlikely case that they will be deleted again, this will just cause a redundant second run
+                    if ( defined $TicketData{"DynamicField_$DFName"} ) {
+                        $DFParam->{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                        $NewValues{"DynamicField_$DFName"} = $TicketData{"DynamicField_$DFName"};
+                    }
+                    elsif ( defined $UserPreferences{"UserDynamicField_$DFName"} ) {
                         $DFParam->{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                         $NewValues{"DynamicField_$DFName"} = $UserPreferences{"UserDynamicField_$DFName"};
                     }

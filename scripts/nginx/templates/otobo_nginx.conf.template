@@ -11,7 +11,7 @@ proxy_read_timeout 99999;
 proxy_buffering    off;
 tcp_nodelay        on;
 
-# Do not serve HTTP, redirect to HTTPS instead.
+# Do not serve HTTP, but redirect to HTTPS instead.
 # See https://linuxize.com/post/redirect-http-to-https-in-nginx/.
 server {
     listen 8080;

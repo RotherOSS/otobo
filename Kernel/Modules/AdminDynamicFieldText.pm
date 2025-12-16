@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -954,7 +954,7 @@ sub _ShowScreen {
     # get the field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
-    # only if the dymamic field exists and should be edited,
+    # only if the dynamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 
@@ -1063,6 +1063,57 @@ sub _ShowScreen {
         }
 
     }
+    elsif ( $Param{CloneFieldID} && IsArrayRefWithData( $Param{RegExList} ) ) {
+
+        my $RegExCounter = 0;
+        for my $RegEx ( @{ $Param{RegExList} } ) {
+
+            $RegExCounter++;
+            $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+            $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+        }
+
+        $Param{RegExCounter} = $RegExCounter;
+
+        if ( $Param{RegExCounter} ) {
+
+            REGEXENTRY:
+            for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
+
+                # check existing regex
+                next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
+
+                $LayoutObject->Block(
+                    Name => 'RegExRow',
+                    Data => {
+                        EntryCounter     => $CurrentRegExEntryID,
+                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                        RegExServerError =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                            || '',
+                        RegExServerErrorMessage =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
+                        CustomerRegExErrorMessage =>
+                            $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
+                        CustomerRegExErrorMessageServerError =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerError'
+                            }
+                            || '',
+                        CustomerRegExErrorMessageServerErrorMessage =>
+                            $Param{
+                                'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerErrorMessage'
+                            }
+                            || '',
+                    }
+                );
+            }
+        }
+    }
 
     my $FilterStrg = '';
     if ( IsStringWithData( $Param{ObjectTypeFilter} ) ) {
@@ -1145,7 +1196,7 @@ sub GetParamRegexList {
             my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
 
             # is the regex valid?
-            my $RegExCheck = eval {
+            eval {
                 qr{$RegEx}xms;
             };
 

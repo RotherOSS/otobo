@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::Util qw(pairs);
+use List::Util qw(max pairs);
 
 # CPAN modules
 
@@ -283,6 +283,14 @@ sub EditFieldRender {
     # TODO: Improve
     my $StoreBlockData = delete $Param{LayoutObject}{BlockData};
 
+    # pass visibility state of set to inner fields
+    my %Visibility = map { ( "DynamicField_$_" => 1 ) } keys $DynamicField->%*;
+    if ( $Param{ACLHidden} ) {
+        for my $Key ( keys %Visibility ) {
+            $Visibility{$Key} = 0;
+        }
+    }
+
     for my $SetIndex ( 0 .. $#SetValue ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
@@ -302,10 +310,10 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[$SetIndex] // {},
+            Visibility           => \%Visibility,
 
             # TODO:
             #            Errors               => $Param{DFErrors},
-            #            Visibility           => $Param{Visibility},
             Object => $Param{Object},
         );
 
@@ -322,10 +330,10 @@ sub EditFieldRender {
     }
 
     # decide which structure to return
-    # decide which structure to return
     if ( $FieldConfig->{MultiValue} ) {
         for my $Name ( sort keys $DynamicField->%* ) {
-            $DynamicField->{$Name}{Name} = $Name . '_Template';
+            $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_Template';
+            $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
         }
 
         # can be set by preceding GetFieldState()
@@ -350,6 +358,7 @@ sub EditFieldRender {
             TemplateFile => $FieldTemplateFile,
             Data         => {
                 Name             => $Param{DynamicFieldConfig}->{Name},
+                Index            => 'Template',
                 DynamicFieldHTML => $DynamicFieldHTML,
             },
         );
@@ -445,7 +454,7 @@ sub EditFieldValueGet {
     }
 
     # TODO check if below comment is true
-    # for this field the normal return an the ReturnValueStructure are the same
+    # for this field the normal return and the ReturnValueStructure are the same
     return $Value;
 }
 
@@ -617,6 +626,7 @@ sub DisplayValueRender {
     }
 
     @{ $SetValue{Value} } = map { $_ // '' } $SetValue{Value}->@*;
+    @{ $SetValue{Title} } = map { $_ // '' } $SetValue{Title}->@*;
 
     my %Value;
     if ($HTMLOutput) {
@@ -780,7 +790,7 @@ sub ValueLookup {
             $Param{Key}[$SetIndex]{$Name} = $BackendObject->ValueLookup(
                 %Param,
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Param{Key}[$SetIndex]{$Name},
+                Key                => $Param{Key}[$SetIndex]{$Name},
             );
         }
     }
@@ -796,6 +806,38 @@ sub SearchFieldPreferences {
     return;
 }
 
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    my $IncludedFields = $Self->_GetIncludedDynamicFields(
+        InputFieldDefinition => $Param{DynamicFieldConfig}{Config}{Include},
+        DynamicFieldObject   => $Kernel::OM->Get('Kernel::System::DynamicField'),
+    );
+
+    my @SetValue1 = @{ $Param{Value1} || [] };
+    my @SetValue2 = @{ $Param{Value2} || [] };
+
+    for my $Index ( 0 .. max( $#SetValue1, $#SetValue2 ) ) {
+
+        for my $FieldName ( keys $IncludedFields->%* ) {
+
+            my $Value1 = $SetValue1[$Index] || {};
+            my $Value2 = $SetValue2[$Index] || {};
+
+            my $InnerValueIsDifferent = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueIsDifferent(
+                %Param,
+                DynamicFieldConfig => $IncludedFields->{$FieldName},
+                Value1             => $Value1->{$FieldName},
+                Value2             => $Value2->{$FieldName},
+            );
+
+            return 1 if $InnerValueIsDifferent;
+        }
+    }
+
+    return 0;
+}
+
 sub GetFieldState {
     my ( $Self, %Param ) = @_;
 
@@ -806,7 +848,7 @@ sub GetFieldState {
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-    my $Include      = $Param{DynamicFieldConfig}{Config}{Include};
+    my $Include      = $SetConfig->{Config}{Include};
     my $DynamicField = $Self->_GetIncludedDynamicFields(
         InputFieldDefinition => $Include,
         DynamicFieldObject   => $DynamicFieldObject,
@@ -837,10 +879,12 @@ sub GetFieldState {
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
 
+            my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                     = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $Name . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Set}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
+            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
+            $Return{Set}{$Name}{Values}{ $SuffixedName . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
@@ -875,10 +919,12 @@ sub GetFieldState {
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
 
+            my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                 = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $Name . '_Template' } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $Name . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Set}{$Name}{DynamicFieldConfig}                         = $DynamicField->{$Name};
+            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_Template' } = $SetFieldStates{Fields}{$Name};
+            $Return{Set}{$Name}{Values}{ $SuffixedName . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
@@ -941,6 +987,9 @@ sub _GetIncludedDynamicFields {
 
                     my $DynamicField = $GetDynamicField->($DFEntry);
                     if ( IsHashRefWithData($DynamicField) ) {
+                        if ( $DFEntry->{Label} ) {
+                            $DynamicField->{Label} = $DFEntry->{Label};
+                        }
                         $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
                         $DynamicField->{Readonly}       = $DFEntry->{Readonly};
                         $DynamicField{ $DFEntry->{DF} } = $DynamicField;
@@ -960,6 +1009,9 @@ sub _GetIncludedDynamicFields {
 
             my $DynamicField = $GetDynamicField->($IncludeItem);
             if ($DynamicField) {
+                if ( $IncludeItem->{Label} ) {
+                    $DynamicField->{Label} = $IncludeItem->{Label};
+                }
                 $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
                 $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
                 $DynamicField{ $IncludeItem->{DF} } = $DynamicField;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,6 +23,9 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Plack::Runner;
+use Plack::Middleware::Auth::Basic;
+use Try::Tiny qw(try catch);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -36,6 +39,45 @@ my $TestNumber     = 1;
 my $TimeOut        = $ConfigObject->Get('Package::Timeout');
 my $Proxy          = $ConfigObject->Get('Package::Proxy');
 my $RepositoryRoot = $ConfigObject->Get('Package::RepositoryRoot') || [];
+
+# start test server
+
+my $ChildPID = fork();
+
+if ( !$ChildPID ) {
+
+    # i am the forked child
+    # run the test server
+
+    try {
+
+        sub BasicAuthCB {
+
+            my ( $Username, $Password, $Env ) = @_;
+            return $Username eq 'guest' && $Password eq 'guest';
+        }
+
+        my $App = sub {
+            return [ 200, [], ["Hello"] ];
+        };
+
+        my $Wrapped = Plack::Middleware::Auth::Basic->wrap(
+            $App,
+            authenticator => \&BasicAuthCB,
+            realm         => 'OTRS UnitTest'
+        );
+
+        my $Runner = Plack::Runner->new;
+        $Runner->parse_options(qw'--no-default-middleware --host 127.0.0.1 --port 8785 -L Shotgun');
+        $Runner->run($Wrapped);
+    }
+    catch {
+        exit 1;
+    };
+    exit 0;
+}
+
+sleep 1;
 
 my @Tests = (
     {
@@ -98,9 +140,8 @@ my @Tests = (
         Matches => qr!Content-Type:\s+text/json!,
     },
     {
-        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - Credentials ' . $TestNumber++,
-        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 1,
@@ -108,22 +149,20 @@ my @Tests = (
             User     => 'guest',
             Password => 'guest',
             Realm    => 'OTRS UnitTest',
-            Location => 'makalu.otobo.org:443',
+            Location => 'localhost:8785',
         },
     },
     {
-        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
-        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 0,
         ErrorNumber => 401,
     },
     {
-        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
-        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
+        URL         => "http://localhost:8785/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Credentials => {
@@ -135,123 +174,134 @@ my @Tests = (
     },
 );
 
-# get repository list
-for my $URL ( @{$RepositoryRoot} ) {
+try {
 
-    my %NewEntry = (
-        Name    => 'Test ' . $TestNumber++,
-        URL     => $URL,
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-    );
+    # get repository list
+    for my $URL ( @{$RepositoryRoot} ) {
 
-    push @Tests, \%NewEntry;
-}
+        my %NewEntry = (
+            Name    => 'Test ' . $TestNumber++,
+            URL     => $URL,
+            Timeout => $TimeOut,
+            Proxy   => $Proxy,
+            Success => '1',
+        );
 
-my %Interval = (
-    1 => 3,
-    2 => 15,
-    3 => 60,
-    4 => 60 * 3,
-    5 => 60 * 6,
-);
-
-TEST:
-for my $Test (@Tests) {
-
-    if ( $Test->{Skip} ) {
-        diag "Skipping $Test->{Name} : $Test->{Skip}";
-
-        next TEST;
+        push @Tests, \%NewEntry;
     }
 
-    subtest $Test->{Name} => sub {
-        TRY:
-        for my $Try ( 1 .. 5 ) {
+    my %Interval = (
+        1 => 3,
+        2 => 15,
+        3 => 60,
+        4 => 60 * 3,
+        5 => 60 * 6,
+    );
 
-            my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-                Timeout => $Test->{Timeout},
-                Proxy   => $Test->{Proxy},
-            );
+    TEST:
+    for my $Test (@Tests) {
 
-            isa_ok(
-                $WebUserAgentObject,
-                ['Kernel::System::WebUserAgent'],
-                "WebUserAgent object creation",
-            );
+        if ( $Test->{Skip} ) {
+            diag "Skipping $Test->{Name} : $Test->{Skip}";
 
-            my %Response = $WebUserAgentObject->Request(
-                %{$Test},
-            );
+            next TEST;
+        }
 
-            ok(
-                IsHashRefWithData( \%Response ),
-                "WebUserAgent check structure from request",
-            );
+        subtest $Test->{Name} => sub {
+            TRY:
+            for my $Try ( 1 .. 5 ) {
 
-            my $Status = substr $Response{Status}, 0, 3;
+                my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+                    Timeout => $Test->{Timeout},
+                    Proxy   => $Test->{Proxy},
+                );
 
-            if ( !$Test->{Success} ) {
+                isa_ok(
+                    $WebUserAgentObject,
+                    ['Kernel::System::WebUserAgent'],
+                    "WebUserAgent object creation",
+                );
 
-                if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
-
-                    sleep $Interval{$Try};
-
-                    next TRY;
-                }
+                my %Response = $WebUserAgentObject->Request(
+                    %{$Test},
+                );
 
                 ok(
-                    !$Response{Content},
-                    "WebUserAgent fail test for URL: $Test->{URL}",
+                    IsHashRefWithData( \%Response ),
+                    "WebUserAgent check structure from request",
                 );
 
-                is(
-                    $Status,
-                    $Test->{ErrorNumber},
-                    "WebUserAgent - Check error number",
-                );
+                my $Status = substr $Response{Status}, 0, 3;
 
-                return;
-            }
-            else {
+                if ( !$Test->{Success} ) {
 
-                if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
+                    if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
 
-                    sleep $Interval{$Try};
+                        sleep $Interval{$Try};
 
-                    next TRY;
-                }
+                        next TRY;
+                    }
 
-                ok(
-                    $Response{Content},
-                    "WebUserAgent - Success test for URL: $Test->{URL}",
-                );
-
-                is(
-                    $Status,
-                    200,
-                    "WebUserAgent - Check request status",
-                );
-
-                if ( $Test->{Matches} ) {
                     ok(
-                        ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
-                        "Matches",
+                        !$Response{Content},
+                        "WebUserAgent fail test for URL: $Test->{URL}",
+                    );
+
+                    is(
+                        $Status,
+                        $Test->{ErrorNumber},
+                        "WebUserAgent - Check error number",
+                    );
+
+                    return;
+                }
+                else {
+
+                    if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
+
+                        sleep $Interval{$Try};
+
+                        next TRY;
+                    }
+
+                    ok(
+                        $Response{Content},
+                        "WebUserAgent - Success test for URL: $Test->{URL}",
+                    );
+
+                    is(
+                        $Status,
+                        200,
+                        "WebUserAgent - Check request status",
+                    );
+
+                    if ( $Test->{Matches} ) {
+                        ok(
+                            ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
+                            "Matches",
+                        );
+                    }
+                }
+
+                if ( $Test->{Content} ) {
+
+                    is(
+                        $Response{Content}->$*,
+                        $Test->{Content},
+                        "WebUserAgent - Check request content",
                     );
                 }
             }
+        };
+    }
 
-            if ( $Test->{Content} ) {
-
-                is(
-                    $Response{Content}->$*,
-                    $Test->{Content},
-                    "WebUserAgent - Check request content",
-                );
-            }
-        }
-    };
 }
+catch {
+    is_ok( 0, "Unit Test Expected not to throw." );
+};
 
 done_testing();
+
+# stop the child running the test server and collect the child process
+kill( 'TERM', $ChildPID );
+waitpid( $ChildPID, 0 );

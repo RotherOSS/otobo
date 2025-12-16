@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,7 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use JSON::XS          ();
+use Cpanel::JSON::XS 4.0 ();
 use Types::Serialiser ();
 use Try::Tiny;
 
@@ -37,7 +37,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::JSON - JSON lib that wraps JSON::XS
+Kernel::System::JSON - JSON lib that wraps Cpanel::JSON::XS
 
 =head1 DESCRIPTION
 
@@ -59,7 +59,7 @@ create a JSON object. Do not use it directly, instead use:
 sub new {
     my ($Type) = @_;
 
-    # allocate new hash for object
+    # allocate a new hash for object, even though that hash is never used
     return bless {}, $Type;
 }
 
@@ -71,9 +71,9 @@ An undefined value is fine too.
 The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
-        Data          => $Data,
-        SortKeys      => 1, # (optional) (0|1) default 0, to sort the keys of the JSON data
-        Pretty        => 1, # (optional) (0|1) default 0, to pretty print
+        Data     => $Data,
+        SortKeys => 1, # (optional) (0|1) default 0, to sort the keys of the JSON data
+        Pretty   => 1, # (optional) (0|1) default 0, to pretty print
     );
 
 =cut
@@ -92,9 +92,10 @@ sub Encode {
     }
 
     # create a JSON::XS compatible object
-    my $JSONObject = JSON::XS->new;
+    my $JSONObject = Cpanel::JSON::XS->new;
 
-    # grudgingly accept data that is neither a hash- nor an array reference
+    # Accept non-reference data, data that is neither a hash- nor an array reference.
+    # This is actually the default since JSON::XS 4.0 which was released in 2018.
     $JSONObject->allow_nonref(1);
 
     # sort the keys of the JSON data
@@ -107,13 +108,10 @@ sub Encode {
         $JSONObject->pretty(1);
     }
 
-    # Briefly the option TypeAllString was supported. The aim was
-    # to put numbers into double quotes so that the JS side can be sure about what it will receive.
-    # However the type_all_string attribute is only available in Cpanel::JSON::XS >= 4.18. So this
-    # feature can't be used in OTOBO and the option has been removed.
-    #if ( $Param{TypeAllString} ) {
-    #    $JSONObject->type_all_string(1);
-    #}
+    # JSON::XS emitted numbers as strings. Let's do the same if requested.
+    if ( $Param{StringifyScalars} ) {
+        $Param{Data} = $Self->_StringifyScalarsProcess( Data => $Param{Data} );
+    }
 
     # Serialise the Perl data structure into the format JSON.
     #
@@ -180,10 +178,23 @@ sub Decode {
     return unless defined $Param{Data};
 
     # create a JSON::XS compatible object that does the actual parsing
-    my $JSONObject = JSON::XS->new;
+    my $JSONObject = Cpanel::JSON::XS->new;
 
-    # grudgingly accept data that is neither a hash- nor an array reference
+    # Accept non-reference data, data that is neither a hash- nor an array reference.
+    # This is actually the default since JSON::XS 4.0 which was released in 2018.
     $JSONObject->allow_nonref(1);
+
+    # In OTOBO 10.0.x and OTOBO 10.1.x there is a tree walker that
+    # replaces the boolean values, that is instances of JSON::PP::Boolean,
+    # with the plain integer values 0 and 1.
+    #
+    # OTOBO 11.0.x uses the method JSON::XS::boolean_values(0, 1) for that purpose.
+    #
+    # For OTOBO 11.1.x, the desired behavior can't easily be achieved
+    # with the method Cpanel::JSON::XS::unblessed_bool(1). This is because
+    # unblessed_bool(1) turn the booleans into dualvar variables. The value for false
+    # would be stringified as the empty string.
+    # Therefore the tree walker for handling booleans is resurrected.
 
     # Deserialize JSON and get a Perl data structure.
     # Use Try::Tiny as JSON::XS->decode() dies when providing a malformed JSON string.
@@ -202,6 +213,11 @@ sub Decode {
 
         undef;    # keep $Scalar undefined
     };
+
+    # sanitize leftover boolean objects
+    $Scalar = $Self->_BooleansProcess(
+        JSON => $Scalar,
+    );
 
     return unless $Success;    # decode threw an exception
     return $Scalar;            # return the data structure, which might also be 0, '', or undef.
@@ -263,5 +279,120 @@ sub ToBoolean {
 
     return $Scalar ? $Self->True : $Self->False;
 }
+
+=head2 IsBool()
+
+Indicates whether the passed in variable is a boolean value. Specifically whether it is an
+instance of C<Types::Serialiser::Boolean>. Note that C<Types::Serialiser::Boolean> is an alias for C<JSON::PP::Boolean>.
+
+    my $IsBool1 = $JSONObject->IsBool(1);                   # assigns undef
+    my $IsBool2 = $JSONObject->IsBool( $JSONObject->False); # assigns 1
+
+In this case the returned JSON will be C<q{false}>. For true expressions we get C<q{true}>.
+
+=cut
+
+sub IsBool {
+    my ( $Self, $Scalar ) = @_;
+
+    return Types::Serialiser::is_bool($Scalar);
+}
+
+=begin Internal:
+
+=cut
+
+=head2 _BooleansProcess()
+
+decode boolean values leftover from JSON decoder to simple scalar values
+
+    my $ProcessedJSON = $JSONObject->_BooleansProcess(
+        JSON => $JSONData,
+    );
+
+=cut
+
+sub _BooleansProcess {
+    my ( $Self, %Param ) = @_;
+
+    # convert scalars if needed
+    if ( Cpanel::JSON::XS::is_bool( $Param{JSON} ) ) {
+        $Param{JSON} = ( $Param{JSON} ? 1 : 0 );
+    }
+
+    # recurse into arrays, modify in place
+    elsif ( ref $Param{JSON} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    # recurse into hashes, modify in place
+    elsif ( ref $Param{JSON} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{JSON} } ) {
+            $Value = $Self->_BooleansProcess(
+                JSON => $Value,
+            );
+        }
+    }
+
+    return $Param{JSON};
+}
+
+=head2 _StringifyScalarsProcess()
+
+pass numbers as strings
+
+    my $ProcessedJSON = $JSONObject->_StringifyScalarsProcess(
+        Data => $Data,
+    );
+
+=cut
+
+sub _StringifyScalarsProcess {
+    my ( $Self, %Param ) = @_;
+
+    # dont fiddle with booleans
+    return $Param{Data} if Cpanel::JSON::XS::is_bool( $Param{Data} );
+
+    # dont fiddle with undefined values
+    return $Param{Data} unless defined $Param{Data};
+
+    # recurse into arrays, modify in place
+    if ( ref $Param{Data} eq 'ARRAY' ) {
+
+        for my $Value ( @{ $Param{Data} } ) {
+            $Value = $Self->_StringifyScalarsProcess(
+                Data => $Value,
+            );
+        }
+
+        return $Param{Data};
+    }
+
+    # recurse into hashes, modify in place
+    if ( ref $Param{Data} eq 'HASH' ) {
+
+        for my $Value ( values %{ $Param{Data} } ) {
+            $Value = $Self->_StringifyScalarsProcess(
+                Data => $Value,
+            );
+        }
+
+        return $Param{Data};
+    }
+
+    # Force stringification of numbers.
+    # See https://metacpan.org/pod/Cpanel::JSON::XS#simple-scalars
+    return $Param{Data} . '';
+}
+
+=end Internal:
+
+=cut
 
 1;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -241,7 +241,7 @@ for my $IncludeDFConfig (@IncludeDFConfigs) {
     ok( $Success, 'Creation of set-included dynamic field ' . $IncludeDFConfig->{Name} );
 }
 
-# theres is not really needed to add the dynamic fields for this test, we can define a static
+# there is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
 my %DynamicFieldConfigs = (
     Text => {
@@ -1057,7 +1057,7 @@ my @Tests = (
     },
 
     # Dynamic Field Checkbox
-    # In the case of success, he retured value is 0|1. This depends on whether the input is true or false.
+    # In the case of success, the returned value is 0|1. This depends on whether the input is true or false.
     {
         Name   => 'Checkbox: Empty template and no ParamObject (Normal)',
         Config => {
@@ -1116,7 +1116,7 @@ my @Tests = (
         ExpectedResults => 1,
     },
     {
-        # The retured value is 0|1, depending on whether the input is true or false.
+        # The returned value is 0|1, depending on whether the input is true or false.
         Name   => 'Checkbox: wrong template and UTF8 ParamObject (Normal)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Checkbox},
@@ -3305,7 +3305,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMV => [''],
+            DynamicField_AgentMV => [],
         },
         Success => 1,
     },
@@ -3323,7 +3323,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMV => [''],
+            DynamicField_AgentMV => [],
         },
         Success => 1,
     },
@@ -3533,7 +3533,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUserMV => [''],
+            DynamicField_CustomerUserMV => [],
         },
         Success => 1,
     },
@@ -3551,7 +3551,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUserMV => [''],
+            DynamicField_CustomerUserMV => [],
         },
         Success => 1,
     },
@@ -3792,7 +3792,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMV => [''],
+            DynamicField_TicketRefMV => [],
         },
         Success => 1,
     },
@@ -3810,7 +3810,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMV => [''],
+            DynamicField_TicketRefMV => [],
         },
         Success => 1,
     },
@@ -3936,7 +3936,7 @@ for my $Test (@Tests) {
 
     # When CGI parameters are given,
     # then create a new CGI object to simulate a web request.
-    # CGI parametes overrides ParamObject.
+    # CGI parameter overrides ParamObject.
     if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
         $Config{ParamObject} = Kernel::System::Web::Request->new(
             HTTPRequest => POST( '/', [ $Test->{Config}->{CGIParam}->%* ] ),

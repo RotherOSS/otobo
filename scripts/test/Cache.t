@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,6 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(
@@ -29,9 +30,7 @@ use Kernel::System::UnitTest::MockTime qw(
     FixedTimeSet
     FixedTimeUnset
 );
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -63,7 +62,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     next MODULEFILE unless $Module;
 
-    $Self->Note( Note => "Testing $Module" );
+    note "Testing $Module";
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',
@@ -89,12 +88,12 @@ for my $ModuleFile (@BackendModuleFiles) {
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
         # construction of the cache object should work in all cases
-        $Self->Is(
+        is(
             ref $CacheObject,
             'Kernel::System::Cache',
             'construction of cache object'
         );
-        $Self->Is(
+        is(
             ref $CacheObject->{CacheObject},
             "Kernel::System::Cache::$Module",
             'construction of cache backend object'
@@ -128,7 +127,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Value => '1234',
             TTL   => 60 * 24 * 60 * 60,
         );
-        $Self->True(
+        ok(
             $CacheSet,
             "#1 - $Module - $SubdirLevels - CacheSet(), TTL 60*24*60*60",
         );
@@ -137,7 +136,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->Is(
+        is(
             $CacheGet || '',
             '1234',
             "#1 - $Module - $SubdirLevels - CacheGet()",
@@ -147,7 +146,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->True(
+        ok(
             $CacheDelete,
             "#1 - $Module - $SubdirLevels - CacheDelete()",
         );
@@ -156,8 +155,8 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->False(
-            $CacheGet || '',
+        ok(
+            !$CacheGet,
             "#1 - $Module - $SubdirLevels - CacheGet()",
         );
 
@@ -168,8 +167,8 @@ for my $ModuleFile (@BackendModuleFiles) {
             Value => '1234',
             TTL   => 60 * 24 * 60 * 60,
         );
-        $Self->False(
-            scalar $CacheSet,
+        ok(
+            !$CacheSet,
             "#1 - $Module - $SubdirLevels - CacheSet() for invalid type",
         );
 
@@ -177,8 +176,8 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2::invalid::type',
             Key  => 'Test',
         );
-        $Self->False(
-            scalar $CacheGet,
+        ok(
+            !$CacheGet,
             "#1 - $Module - $SubdirLevels - CacheGet() for invalid type",
         );
 
@@ -205,7 +204,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             TTL => 60 * 24 * 60 * 60,
         );
 
-        $Self->True(
+        ok(
             $CacheSet,
             "#2 - $Module - $SubdirLevels - CacheSet()",
         );
@@ -215,35 +214,35 @@ for my $ModuleFile (@BackendModuleFiles) {
             Key  => 'Test',
         );
 
-        $Self->Is(
+        is(
             $CacheGet->{Key2} || '',
             'Value2äöüß',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key2}",
         );
-        $Self->True(
+        ok(
             Encode::is_utf8( $CacheGet->{Key2} ) || '',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key2} Encode::is_utf8",
         );
-        $Self->Is(
+        is(
             $CacheGet->{Key4}->[0] || '',
             'äöüß',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key4}->[0]",
         );
-        $Self->True(
+        ok(
             Encode::is_utf8( $CacheGet->{Key4}->[0] ) || '',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key4}->[0] Encode::is_utf8",
         );
-        $Self->Is(
+        is(
             $CacheGet->{Key4}->[3]->{KeyA} || '',
             'ValueA',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key4}->[3]->{KeyA}",
         );
-        $Self->Is(
+        is(
             $CacheGet->{Key4}->[3]->{KeyB} || '',
             'ValueBäöüßタ',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key4}->[3]->{KeyB}",
         );
-        $Self->True(
+        ok(
             Encode::is_utf8( $CacheGet->{Key4}->[3]->{KeyB} ) || '',
             "#2 - $Module - $SubdirLevels - CacheGet() - {Key4}->[3]->{KeyB} Encode::is_utf8",
         );
@@ -255,7 +254,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             TTL   => 8,
         );
 
-        $Self->True(
+        ok(
             $CacheSet,
             "#3 - $Module - $SubdirLevels - CacheSet(), TTL 8",
         );
@@ -273,13 +272,13 @@ for my $ModuleFile (@BackendModuleFiles) {
             Key  => 'Test',
         );
 
-        $Self->Is(
+        is(
             $CacheGet || '',
             'ü',
             "#3 - $Module - $SubdirLevels - CacheGet()",
         );
 
-        $Self->True(
+        ok(
             Encode::is_utf8($CacheGet) || '',
             "#3 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
@@ -291,7 +290,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             TTL   => 4,
         );
 
-        $Self->True(
+        ok(
             $CacheSet,
             "#4 - $Module - $SubdirLevels - CacheSet(), TTL 4",
         );
@@ -309,12 +308,12 @@ for my $ModuleFile (@BackendModuleFiles) {
             Key  => 'Test',
         );
 
-        $Self->Is(
+        is(
             $CacheGet || '',
             '9ßüß-カスタ1234',
             "#4 - $Module - $SubdirLevels - CacheGet()",
         );
-        $Self->True(
+        ok(
             Encode::is_utf8($CacheGet) || '',
             "#4 - $Module - $SubdirLevels - CacheGet() - Encode::is_utf8",
         );
@@ -332,7 +331,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Key  => 'Test',
         );
 
-        $Self->True(
+        ok(
             !$CacheGet || '',
             "#4 - $Module - $SubdirLevels - CacheGet() - wait 6 seconds - TTL expires after 4 seconds",
         );
@@ -344,7 +343,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             TTL   => 60 * 60,
         );
 
-        $Self->True(
+        ok(
             $CacheSet,
             "#5 - $Module - $SubdirLevels - CacheSet()",
         );
@@ -354,7 +353,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Key  => 'Test',
         );
 
-        $Self->Is(
+        is(
             $CacheGet || '',
             '123456',
             "#5 - $Module - $SubdirLevels - CacheGet()",
@@ -363,7 +362,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->True(
+        ok(
             $CacheDelete,
             "#5 - $Module - $SubdirLevels - CacheDelete()",
         );
@@ -375,7 +374,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Value => '1',
             TTL   => 60,
         );
-        $Self->True(
+        ok(
             !$CacheSet || '',
             "#6 - $Module - $SubdirLevels - Set() - A-z type check",
         );
@@ -384,7 +383,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'Value2äöüß',
             Key  => 'Test',
         );
-        $Self->True(
+        ok(
             !$CacheDelete || 0,
             "#6 - $Module - $SubdirLevels - CacheDelete() - A-z type check",
         );
@@ -396,7 +395,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Value => '1234',
             TTL   => 24 * 60 * 60,
         );
-        $Self->True(
+        ok(
             $CacheSet,
             "#7 - $Module - $SubdirLevels - CacheSet(), TTL 24*60*60",
         );
@@ -406,7 +405,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->Is(
+        is(
             $CacheGet || '',
             '1234',
             "#7 - $Module - $SubdirLevels - CacheGet()",
@@ -414,7 +413,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # cleanup (expired)
         my $CacheCleanUp = $CacheObject->CleanUp( Expired => 1 );
-        $Self->True(
+        ok(
             $CacheCleanUp,
             "#7 - $Module - $SubdirLevels - CleanUp( Expired => 1 )",
         );
@@ -424,14 +423,14 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->True(
+        ok(
             $CacheGet,
             "#7 - $Module - $SubdirLevels - CacheGet() - Expired",
         );
 
         # cleanup
         $CacheCleanUp = $CacheObject->CleanUp();
-        $Self->True(
+        ok(
             $CacheCleanUp,
             "#7 - $Module - $SubdirLevels - CleanUp()",
         );
@@ -441,8 +440,8 @@ for my $ModuleFile (@BackendModuleFiles) {
             Type => 'CacheTest2',
             Key  => 'Test',
         );
-        $Self->False(
-            $CacheGet,
+        ok(
+            !$CacheGet,
             "#7 - $Module - $SubdirLevels - CacheGet()",
         );
 
@@ -538,7 +537,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     TTL   => 24 * 60 * 60,
                 );
 
-                $Self->True(
+                ok(
                     $CacheSet,
                     "#8 - $Module - $SubdirLevels - CacheSet1() Size $Size",
                 );
@@ -559,7 +558,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     TTL   => 24 * 60 * 60,
                 );
 
-                $Self->True(
+                ok(
                     $CacheSet,
                     "#8 - $Module - $SubdirLevels - CacheSet2() Size $Size",
                 );
@@ -602,7 +601,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                 String => $FileContent,
             );
 
-            $Self->Is(
+            is(
                 $FileContentFileMD5   || '',
                 $FileContentStringMD5 || '',
                 "#9 - $Module - $SubdirLevels - Files - $FileName - MD5 check",
@@ -616,7 +615,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                 TTL   => 24 * 60 * 60,
             );
 
-            $Self->True(
+            ok(
                 $CacheSet,
                 "#9 - $Module - $SubdirLevels - Files - $FileName - CacheSet()",
             );
@@ -632,7 +631,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                 String => $CacheContent,
             );
 
-            $Self->Is(
+            is(
                 $FileContentStringMD5,
                 $CacheContentStringMD5,
                 "#9 - $Module - $SubdirLevels - Files - $FileName - Content check",
@@ -670,7 +669,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     TTL   => 24 * 60 * 60,
                 );
 
-                $Self->True(
+                ok(
                     $CacheSet,
                     "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - CacheSet() - Size $MultipleSize",
                 );
@@ -686,7 +685,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     String => $MultipleCacheContent,
                 );
 
-                $Self->Is(
+                is(
                     $MultipleFileContentMD5,
                     $MultipleCacheContentStringMD5,
                     "#9 - $Module - $SubdirLevels - MultipleFiles - $FileName - Content check - Size $MultipleSize",
@@ -703,7 +702,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     Type => 'CacheTestLong1',
                 );
 
-                $Self->True(
+                ok(
                     $CleanUp1,
                     "#8 - $Module - $SubdirLevels - CleanUp() - invalidate all values of CacheTestLong1",
                 );
@@ -720,7 +719,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     Type => 'CacheTestLong2',
                 );
 
-                $Self->True(
+                ok(
                     $CleanUp2,
                     "#8 - $Module - $SubdirLevels - CleanUp() - invalidate all values of CacheTestLong2",
                 );
@@ -752,7 +751,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     {
 
                         # check attributes
-                        $Self->IsDeeply(
+                        is(
                             $CacheGet,
                             $CacheItem,
                             "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test IsDeeply $Key",
@@ -760,8 +759,8 @@ for my $ModuleFile (@BackendModuleFiles) {
                     }
                     else {
 
-                        # Don't use Is(), produces too much output.
-                        $Self->True(
+                        # Don't use is(), produces too much output.
+                        ok(
                             $CacheGet eq $CacheItem,
                             "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test True $Key",
                         );
@@ -775,6 +774,6 @@ for my $ModuleFile (@BackendModuleFiles) {
     }
 }
 
-$Self->Note( Note => 'finished loop over cache module' );
+note 'finished loop over cache module';
 
-$Self->DoneTesting();
+done_testing;

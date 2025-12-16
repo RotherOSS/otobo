@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,13 +25,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ProcessManagement::DB::Entity           ();
-use Kernel::System::ProcessManagement::DB::Activity         ();
-use Kernel::System::ProcessManagement::DB::ActivityDialog   ();
-use Kernel::System::ProcessManagement::DB::Process::State   ();
-use Kernel::System::ProcessManagement::DB::Transition       ();
-use Kernel::System::ProcessManagement::DB::TransitionAction ();
-use Kernel::System::VariableCheck                           qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -44,6 +38,12 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Storage::S3',
     'Kernel::System::YAML',
+    'Kernel::System::ProcessManagement::DB::Entity',
+    'Kernel::System::ProcessManagement::DB::Activity',
+    'Kernel::System::ProcessManagement::DB::ActivityDialog',
+    'Kernel::System::ProcessManagement::DB::Process::State',
+    'Kernel::System::ProcessManagement::DB::Transition',
+    'Kernel::System::ProcessManagement::DB::TransitionAction',
 );
 
 =head1 NAME
@@ -71,12 +71,12 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new();
-    $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
-    $Self->{ActivityObject}         = Kernel::System::ProcessManagement::DB::Activity->new();
-    $Self->{StateObject}            = Kernel::System::ProcessManagement::DB::Process::State->new();
-    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::DB::Transition->new();
-    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new();
+    $Self->{EntityObject}           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+    $Self->{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+    $Self->{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+    $Self->{StateObject}            = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
+    $Self->{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+    $Self->{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('Process::CacheTTL') || 3600 );
@@ -1848,7 +1848,8 @@ sub ProcessImport {
             'The process "%s" and all of its data has been imported successfully.',
             $ProcessData->{Process}->{Name}
         ),
-        Success => 1,
+        Success          => 1,
+        ProcessEntityIDs => [ keys $EntityMapping{Process}->%* ],
     );
 }
 

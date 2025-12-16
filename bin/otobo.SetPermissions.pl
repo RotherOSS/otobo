@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,10 +15,12 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
+use experimental 'bitwise';    # can be removed when "use v5.28" is active
+use feature 'bitwise';         # can be removed when "use v5.28" is active
 
 # use lib not needed, as only core modules are used
 
@@ -44,7 +46,7 @@ my %DefaultGroupNames = (
 
 # Files/directories that should be ignored and not recursed into.
 my @IgnoreFiles = (
-    qr{^/\.git}smx,
+    qr{^/\.git$},    # ignore .git, but handle .github and .gitignore
     qr{^/\.tidyall}smx,
     qr{^/\.settings}smx,
     qr{^/\.ssh}smx,

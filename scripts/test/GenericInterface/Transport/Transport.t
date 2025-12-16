@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -101,6 +101,22 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
+            Name      => "TransportObject RequesterPerformRequest() array data",
+            Operation => 'test_operation',
+            Data      => [
+                {
+                    A => 'C',
+                    b => 'd',
+                },
+                {
+                    A => 'A',
+                    b => 'b',
+                },
+            ],
+            ResultData    => 'A=C&b=d',
+            ResultSuccess => 1,
+        },
+        {
             Name      => "TransportObject RequesterPerformRequest() UTF-8 data",
             Operation => 'test_operation',
             Data      => {
@@ -132,10 +148,10 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 0,
         },
         {
-            Name          => "TransportObject RequesterPerformRequest() wrong data listref",
+            Name          => "TransportObject RequesterPerformRequest() array data listref",
             Operation     => 'test_operation',
             Data          => ['testdata'],
-            ResultSuccess => 0,
+            ResultSuccess => 1,
         },
     );
 
@@ -291,9 +307,9 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 0,
         },
         {
-            Name          => "TransportObject ProviderGenerateResponse() wrong data listref",
+            Name          => "TransportObject ProviderGenerateResponse() array data listref",
             Data          => ['testdata'],
-            ResultSuccess => 0,
+            ResultSuccess => 1,
         },
     );
 

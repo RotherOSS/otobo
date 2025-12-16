@@ -3,7 +3,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -102,22 +102,34 @@ function stop_daemon() {
 # Start the webserver
 function exec_web() {
 
-    # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
-    # This enables additional middlewares that are useful during development.
-    # For development also enable the -R option. This watches for changes in the modules and the config files.
-    # otobo.psgi is watched implicitly.
-    #   exec plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
-
-    # For debugging reload the complete application for each request by passing -L Shotgun
-    #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+    otobo_devel="${1:-unknown}"
 
     # For production use the web server Gazelle, which is implemented in C.
-    # The special loader Plack::Loader::SyncWithS3 is activated only when S3 is active. That loader module checks for updates in S3.
-    s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
-    if [[ "$s3_active" -eq "1" ]]; then
-        exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+    # In many cases 'deployment' is also the sensible option during development.
+    # The special loader Plack::Loader::SyncWithS3 is activated only when S3 is active. That loader module
+    # checks for updates in S3.
+    if [ "$otobo_devel" = "deployment" ]; then
+
+        s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
+        if [[ "$s3_active" -eq "1" ]]; then
+            exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+        else
+            exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+        fi
+
+    # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
+    # This enables additional middlewares that are useful during development.
+    elif [ "$otobo_devel" = "development" ]; then
+        exec plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
+
+    # For being very sure that all modules are reloaded and the config being read again
+    elif [ "$otobo_devel" = "shotgun" ]; then
+        exec plackup --loader Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+
+    # lost
     else
-        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+        echo "flag $otobo_devel is not supported"
+
     fi
 }
 
@@ -162,6 +174,11 @@ function copy_otobo_next() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 
+    # Clean up files that might be lingering from previous versions of OTOBO.
+    # Currently there is only a single file. OTOBODynamicFields.xml has been
+    # replaced by DynamicFields.xml.
+    rm -f "$OTOBO_HOME/Kernel/Config/Files/XML/OTOBODynamicFields.xml"
+
     # Indicate the time when copy_otobo_next() was last called. This is used primarily
     # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
     touch $OTOBO_HOME/.copy_otobo_next_finished
@@ -169,7 +186,7 @@ function copy_otobo_next() {
 
 function do_update_tasks() {
 
-    # Reinstall package, rebuild config, purge cache and loader files.
+    # Reinstall packages, rebuild config, purge the cache and the cached loader files.
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {
@@ -241,8 +258,8 @@ if [ "$1" = "web" ]; then
         handle_docker_firsttime
     fi
 
-    # start webserver
-    exec_web
+    # start webserver, passing the optional second parameter
+    exec_web "${2:-deployment}"
 fi
 
 # copy /opt/otobo_install/otobo_next without checking docker_firsttime

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -138,7 +138,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs
+    # dependencies of standard fields which are not defined via ACLs
     $Self->{InternalDependancy} = {
         Dest => {
             NewUserID          => 1,
@@ -192,65 +192,68 @@ sub Run {
 
     # MultipleCustomer From-field
     my @MultipleCustomer;
-    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
-    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
+    my $CustomersNumberFrom = $ParamObject->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
+    my $Selected            = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-    if ($CustomersNumber) {
+    if ($CustomersNumberFrom) {
         my $CustomerCounter = 1;
-        for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+
+        COUNT:
+        for my $Count ( 1 .. $CustomersNumberFrom ) {
+            last COUNT if $Count > 1_000;    # bail out when the number of customers is abnormally high
+
+            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+
+            next COUNT unless $CustomerElement;
+
             my $CustomerSelected = ( $Selected eq $Count ? 'checked ' : '' );
-            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
-                || '';
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count ) || '';
 
-            if ($CustomerElement) {
+            my $CountAux         = $CustomerCounter++;
+            my $CustomerError    = '';
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerDisabled = '';
 
-                my $CountAux         = $CustomerCounter++;
-                my $CustomerError    = '';
-                my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
-                my $CustomerDisabled = '';
-
-                if ( $GetParam{From} ) {
-                    $GetParam{From} .= ', ' . $CustomerElement;
-                }
-                else {
-                    $GetParam{From} = $CustomerElement;
-                }
-
-                # check email address
-                for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                        $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
-                            . 'ServerErrorMsg';
-                        $CustomerError = 'ServerError';
-                    }
-                }
-
-                # check for duplicated entries
-                if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
-                    $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
-                    $CustomerError    = 'ServerError';
-                }
-
-                if ( $CustomerError ne '' ) {
-                    $CustomerDisabled = 'disabled';
-                    $CountAux         = $Count . 'Error';
-                }
-
-                push @MultipleCustomer, {
-                    Count            => $CountAux,
-                    CustomerElement  => $CustomerElement,
-                    CustomerSelected => $CustomerSelected,
-                    CustomerKey      => $CustomerKey,
-                    CustomerError    => $CustomerError,
-                    CustomerErrorMsg => $CustomerErrorMsg,
-                    CustomerDisabled => $CustomerDisabled,
-                };
-                $AddressesList{$CustomerElement} = 1;
+            if ( $GetParam{From} ) {
+                $GetParam{From} .= ', ' . $CustomerElement;
             }
+            else {
+                $GetParam{From} = $CustomerElement;
+            }
+
+            # check email address
+            for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
+                    $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                        . 'ServerErrorMsg';
+                    $CustomerError = 'ServerError';
+                }
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled';
+                $CountAux         = $Count . 'Error';
+            }
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $CustomerElement,
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+            };
+            $AddressesList{$CustomerElement} = 1;
         }
     }
 
@@ -634,8 +637,8 @@ sub Run {
             );
 
             # set simple IDs to pass them to the mask
-            for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
-                $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+            for my $SplitParam (qw(TypeID ServiceID SLAID PriorityID)) {
+                $SplitTicketParam{$SplitParam} = $SplitTicketData{$SplitParam};
             }
 
             # set StateID as NextStateID
@@ -716,8 +719,8 @@ sub Run {
         if ( $SplitTicketParam{ResponsibleUserSelected} ) {
             $GetParam{NewResponsibleID} = $SplitTicketData{ResponsibleUserSelected};
         }
-        for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
-            $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+        for my $SplitParam (qw(TypeID ServiceID SLAID PriorityID)) {
+            $SplitTicketParam{$SplitParam} = $SplitTicketData{$SplitParam};
         }
 
         # cycle trough the activated Dynamic Fields for this screen
@@ -821,7 +824,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest               => 'QueueID',
                     NewUserID          => 'NewUserID',
@@ -897,7 +900,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -917,7 +920,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -974,7 +977,6 @@ sub Run {
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
                     LoopProtection  => \$LoopProtection,
-                    InitialRun      => $InitialRun,
                 );
 
                 # combine FieldStates
@@ -1736,10 +1738,7 @@ sub Run {
 
         # Permissions check were done earlier
         if ( $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1977,7 +1976,7 @@ sub Run {
         }
 
         # get redirect screen
-        my $NextScreen = $Self->{UserCreateNextMask} || 'AgentTicketPhone';
+        my $NextScreen = $Self->{Session}{UserCreateNextMask} || 'AgentTicketPhone';
 
         # redirect
         return $LayoutObject->Redirect(
@@ -2050,7 +2049,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     Dest               => 'QueueID',
                     NewUserID          => 'NewUserID',
@@ -2126,7 +2125,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -2146,7 +2145,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -2419,7 +2418,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $ChangedStdFields{StandardTemplateID} ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -3320,6 +3319,13 @@ sub _MaskPhoneNew {
             Data => {
                 ChatMessages => \@ChatMessages,
             },
+        );
+    }
+
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
         );
     }
 

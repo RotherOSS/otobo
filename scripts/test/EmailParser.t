@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -22,899 +23,907 @@ use utf8;
 
 # CPAN modules
 use MIME::Parser ();
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # get main object
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-# test #1
-open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-my @Array = <$IN>;
-close $IN;
+subtest 'test PostMaster-Test1.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test1.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-# create local object
-my $EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+    # create local object
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'darthvader@otobo.org',
-    "#1 GetParam(WHAT => 'To')",
-);
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'darthvader@otobo.org',
+        "GetParam(WHAT => 'To')",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'From' ),
-    'Skywalker Attachment <skywalker@otobo.org>',
-    "#1 GetParam(WHAT => 'From')",
-);
+    is(
+        $EmailParserObject->GetParam( WHAT => 'From' ),
+        'Skywalker Attachment <skywalker@otobo.org>',
+        "GetParam(WHAT => 'From')",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'us-ascii',
-    "#1 GetCharset()",
-);
+    is(
+        $EmailParserObject->GetCharset(),
+        'us-ascii',
+        "GetCharset()",
+    );
 
-my @Attachments = $EmailParserObject->GetAttachments();
-$Self->False(
-    $Attachments[1]->{Filename} || '',
-    "#1 GetAttachments() - no attachments",
-);
+    my @Attachments = $EmailParserObject->GetAttachments();
+    ok(
+        !$Attachments[1]->{Filename},
+        "GetAttachments() - no attachments",
+    );
+};
 
-# test #2
-my @Addresses = $EmailParserObject->SplitAddressLine(
-    Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
+subtest 'static methods' => sub {
+
+    # as stand alone mode, without parsing emails
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Mode  => 'Standalone',
+        Debug => 0,
+    );
+
+    my @Addresses = $EmailParserObject->SplitAddressLine(
+        Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber),
         Juergen "quoted name" Weber <juergen.qeber@air.com>',
-);
+    );
 
-$Self->Is(
-    $Addresses[2],
-    'hans@example.com (Hans Huber)',
-    "#2 SplitAddressLine()",
-);
+    is(
+        $Addresses[2],
+        'hans@example.com (Hans Huber)',
+        "SplitAddressLine()",
+    );
 
-$Self->Is(
-    $Addresses[3],
-    'Juergen "quoted name" Weber <juergen.qeber@air.com>',
-    "#2 SplitAddressLine() with quoted name",
-);
+    is(
+        $Addresses[3],
+        'Juergen "quoted name" Weber <juergen.qeber@air.com>',
+        "SplitAddressLine() with quoted name",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
-    'juergen.qeber@air.com',
-    "#1 GetEmailAddress()",
-);
+    is(
+        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
+        'juergen.qeber@air.com',
+        "GetEmailAddress()",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
-    'juergen+qeber@air.com',
-    "#1 GetEmailAddress()",
-);
+    is(
+        $EmailParserObject->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
+        'juergen+qeber@air.com',
+        "GetEmailAddress() again",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetEmailAddress(
-        Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
-    ),
-    'juergen+qeber@air.com',
-    "#1 GetEmailAddress()",
-);
+    is(
+        $EmailParserObject->GetEmailAddress(
+            Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
+        ),
+        'juergen+qeber@air.com',
+        "GetEmailAddress() with comment",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
-    'juergen+qeber@air.com',
-    "#1 GetEmailAddress()",
-);
+    is(
+        $EmailParserObject->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
+        'juergen+qeber@air.com',
+        "GetEmailAddress() with comment again",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
-    'Juergen "quoted name" Weber',
-    "#1 GetRealname() with quoted name",
-);
+    is(
+        $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
+        'Juergen "quoted name" Weber',
+        "GetRealname() with quoted name",
+    );
 
-$Self->Is(
-    $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
-    'Juergen "quoted name" Weber',
-    "#1 GetRealname() with quoted name",
-);
+    is(
+        $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
+        'Juergen "quoted name" Weber',
+        "GetRealname() with quoted name",
+    );
+};
 
-# test #3
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+subtest 'PostMaster-Test3.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test3.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'utf-8',    # automatically converted
-    "#3 GetCharset()",
-);
-@Attachments = $EmailParserObject->GetAttachments();
-my $MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '4e78ae6bffb120669f50bca56965f552',
-    "#3 md5 check",
-);
-$Self->Is(
-    $Attachments[1]->{Filename},
-    'utf-8-file-äöüß-カスタマ.txt',
-    "#3 GetAttachments()",
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'utf-8',    # automatically converted
+        "GetCharset()",
+    );
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        '4e78ae6bffb120669f50bca56965f552',
+        "md5 check",
+    );
+    is(
+        $Attachments[1]->{Filename},
+        'utf-8-file-äöüß-カスタマ.txt',
+        "GetAttachments()",
+    );
+};
 
-# test #4
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close($IN);
+subtest 'PostMaster-Test4.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test4.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close($IN);
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'iso-8859-15',
-    "#4 GetCharset()",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'From' ),
-    'Hans BÄKOSchönland <me@bogen.net>',
-    "#4 From()",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'Namedyński (hans@example.com)',
-    "#4 To()",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Subject' ),
-    'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
-    "#4 Subject()",
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'iso-8859-15',
+        "GetCharset()",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'From' ),
+        'Hans BÄKOSchönland <me@bogen.net>',
+        "From()",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'Namedyński (hans@example.com)',
+        "To()",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Subject' ),
+        'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
+        "Subject()",
+    );
 
-# match values
-my %Match = (
-    "Test1:" . chr(8211)              => 0,
-    "Test2:&"                         => 0,
-    "Test3:" . chr(8715)              => 0,
-    "Test4:&"                         => 0,
-    "Test5:" . chr( hex("3d") )       => 0,
-    "Compare Cable, DSL or Satellite" => 0,
-);
-for my $Key ( sort keys %Match ) {
-    if ( $EmailParserObject->GetMessageBody() =~ /$Key/ ) {
-        $Match{$Key} = 1;
+    # match values
+    my %Match = (
+        "Test1:" . chr(8211)              => 0,
+        "Test2:&"                         => 0,
+        "Test3:" . chr(8715)              => 0,
+        "Test4:&"                         => 0,
+        "Test5:" . chr( hex("3d") )       => 0,
+        "Compare Cable, DSL or Satellite" => 0,
+    );
+    for my $Key ( sort keys %Match ) {
+        if ( $EmailParserObject->GetMessageBody() =~ /$Key/ ) {
+            $Match{$Key} = 1;
+        }
+        ok(
+            $Match{$Key},
+            "html2ascii - Body match - $Key",
+        );
     }
-    $Self->True(
-        $Match{$Key},
-        "#4 html2ascii - Body match - $Key",
-    );
-}
 
-# match values not
-my %MatchNot = (
-    "style"      => 0,
-    "background" => 0,
-    "br"         => 0,
-    "div"        => 0,
-    "html"       => 0,
-);
-for my $Key ( sort keys %MatchNot ) {
-    if ( $EmailParserObject->GetMessageBody() !~ /$Key/ ) {
-        $MatchNot{$Key} = 1;
+    # match values not
+    my %MatchNot = (
+        "style"      => 0,
+        "background" => 0,
+        "br"         => 0,
+        "div"        => 0,
+        "html"       => 0,
+    );
+    for my $Key ( sort keys %MatchNot ) {
+        if ( $EmailParserObject->GetMessageBody() !~ /$Key/ ) {
+            $MatchNot{$Key} = 1;
+        }
+        ok(
+            $MatchNot{$Key},
+            "html2ascii - Body match not - $Key",
+        );
     }
-    $Self->True(
-        $MatchNot{$Key},
-        "#4 html2ascii - Body match not - $Key",
+};
+
+subtest 'PostMaster-Test5.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
     );
-}
-
-# test #5
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test5.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'utf-8',    # automatically converted
-    "#5 GetCharset()",
-);
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'd2288c4aa6a50bc41a0e9b8820495922',
-    "#5 md5 check",
-);
-$Self->Is(
-    $Attachments[1]->{Filename},
-    'test-attachment-äöüß-iso-8859-1.txt',
-    "#5 GetAttachments()",
-);
-$Self->Is(
-    $Attachments[1]->{ContentAlternative} || '',
-    '',
-    "#5 ContentAlternative check",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'bb29962e132ba159539f1e88b41663b1',
-    "#5 md5 check",
-);
-$Self->Is(
-    $Attachments[2]->{Filename},
-    'test-attachment-äöüß-utf-8.txt',
-    "#5 GetAttachments()",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '5ee767f3b68f24a9213e0bef82dc53e5',
-    "#5 md5 check",
-);
-$Self->Is(
-    $Attachments[3]->{Filename},
-    'test-attachment-äöüß.pdf',
-    "#5 GetAttachments()",
-);
-
-# test #6
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'utf-8',
-    "#6 GetCharset()",
-);
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '5ee767f3b68f24a9213e0bef82dc53e5',
-    "#6 md5 check",
-);
-$Self->Is(
-    $Attachments[1]->{Filename},
-    'test-attachment-äöüß.pdf',
-    "#6 GetAttachments()",
-);
-
-$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'bb29962e132ba159539f1e88b41663b1',
-    "#6 md5 check",
-);
-$Self->Is(
-    $Attachments[2]->{Filename},
-    'test-attachment-äöüß-utf-8.txt',
-    "#6 GetAttachments()",
-);
-
-$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '0596f2939525c6bd50fc2b649e40fbb6',
-    "#6 md5 check",
-);
-$Self->Is(
-    $Attachments[3]->{Filename},
-    'test-attachment-äöüß-iso-8859-1.txt',
-    "#6 GetAttachments()",
-);
-
-# test #7
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'utf-8',    # automatically converted
-    "#7 GetCharset()",
-);
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '5ee767f3b68f24a9213e0bef82dc53e5',
-    "#7 md5 check",
-);
-$Self->Is(
-    $Attachments[1]->{Filename},
-    'test-attachment-äöüß.pdf',
-    "#7 GetAttachments()",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'bb29962e132ba159539f1e88b41663b1',
-    "#7 md5 check",
-);
-$Self->Is(
-    $Attachments[2]->{Filename},
-    'test-attachment-äöüß-utf-8.txt',
-    "#7 GetAttachments()",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '0596f2939525c6bd50fc2b649e40fbb6',
-    "#7 md5 check",
-);
-$Self->Is(
-    $Attachments[3]->{Filename},
-    'test-attachment-äöüß-iso-8859-1.txt',
-    "#7 GetAttachments()",
-);
-
-# test #8
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    '',
-    "#8 GetCharset() - no charset should be found (non text body)",
-);
-
-my $Body = $EmailParserObject->GetMessageBody();
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Body ) || '';
-
-$Self->Is(
-    $MD5,
-    '5ee767f3b68f24a9213e0bef82dc53e5',
-    "#8 md5 check",
-);
-
-$Self->True(
-    !$Attachments[0] || 0,
-    "#8 no attachment check",
-);
-
-# test #9
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'us-ascii',
-    "#9 GetCharset() - us-ascii charset should be found",
-);
-
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
-
-$Self->Is(
-    $MD5,
-    '5ee767f3b68f24a9213e0bef82dc53e5',
-    "#9 md5 check",
-);
-
-$Self->True(
-    $Attachments[0] || 0,
-    "#9 attachment check #1",
-);
-
-$Self->True(
-    !$Attachments[1] || 0,
-    "#9 attachment check #2",
-);
-
-# test #10
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'iso-8859-1',
-    "#10 GetCharset() - iso-8859-1 charset should be found",
-);
-
-$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
-$Self->Is(
-    $MD5,
-    '4e269fc57c9aa7861ad432607e660ae9',
-    "#10 md5 body check",
-);
-
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '4e269fc57c9aa7861ad432607e660ae9',
-    "#10 md5 check",
-);
-
-$Self->True(
-    $Attachments[0] || 0,
-    "#10 attachment check #1",
-);
-
-$Self->True(
-    $Attachments[1] || 0,
-    "#10 attachment check #2",
-);
-
-$Self->True(
-    $Attachments[2] || 0,
-    "#10 attachment check #3",
-);
-
-$Self->True(
-    !$Attachments[3] || 0,
-    "#10 attachment check #4",
-);
-
-# test #11
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'ISO-8859-1',
-    "#11 GetCharset() - iso-8859-1 charset should be found",
-);
-
-$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
-$Self->Is(
-    $MD5,
-    '52f20c90a1f0d8cf3bd415e278992001',
-    "#11 md5 body check",
-);
-
-@Attachments = $EmailParserObject->GetAttachments();
-$Self->True(
-    !$Attachments[0] || 0,
-    "#11 attachment check #0",
-);
-
-# test #12
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'utf-8',    # automatically converted
-    "#12 GetCharset() - iso-8859-1 charset should be found",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    '金田　美羽 <support@example.com>',
-    "#12 GetParam(WHAT => 'To')",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Cc' ),
-    '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
-    "#12 GetParam(WHAT => 'Cc')",
-);
-
-$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
-$Self->Is(
-    $MD5,
-    '603c11a38065909cc13bf53c650506c1',
-    "#12 md5 body check",
-);
-
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'ecfbec2030e6bf91cc97ed22f7c6551a',
-    "#12 md5 check",
-);
-$Self->Is(
-    $Attachments[1]->{Filename} || '',
-    'attachment-äöüß-utf8.txt',
-    "#12 Filename check",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'b25beeea18c52cdc791864b52862743e',
-    "#12 md5 check",
-);
-$Self->Is(
-    $Attachments[2]->{Filename} || '',
-    'attachment-äöüß-iso.txt',
-    "#12 Filename check",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'f287d0dd6d0f90da4ac69348b09ec281',
-    "#12 md5 check",
-);
-$Self->Is(
-    $Attachments[3]->{Filename} || '',
-    'Обяснительная.jpg',
-    "#12 Filename check",
-);
-$MD5 = $MainObject->MD5sum( String => $Attachments[4]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    'f287d0dd6d0f90da4ac69348b09ec281',
-    "#12 md5 check",
-);
-$Self->Is(
-    $Attachments[4]->{Filename} || '',
-    'Сообщение.jpg',
-    "#12 Filename check",
-);
-$Self->Is(
-    $Attachments[5]->{Filename} || '',
-    '報告書_..txt',
-    "#12 Filename check",
-);
-$Self->Is(
-    $Attachments[6]->{Filename} || '',
-    '金田_美羽',
-    "#12 Filename check",
-);
-$Self->Is(
-    $Attachments[7]->{Filename} || '',
-    '國科會50科學之旅活動計畫徵求書_r_final_.doc',
-    "#12 Filename check",
-);
-$Self->Is(
-    $Attachments[8]->{Filename} || '',
-    '2차_보도자료.hwp',
-    "#12 Filename check",
-);
-$Self->True(
-    !$Attachments[9] || 0,
-    "#12 attachment check #0",
-);
-
-# test #13
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    '',
-    "#13 GetCharset() - no charset should be found",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'support@example.com',
-    "#13 GetParam(WHAT => 'To')",
-);
-$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
-$Self->Is(
-    $MD5,
-    '474f97c23688e88edfb70139d5658e01',
-    "#13 md5 body check",
-);
-
-# test #14
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'UTF-8',
-    "#14 GetCharset() - no charset should be found",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'security@example.org',
-    "#14 GetParam(WHAT => 'To')",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'From' ),
-    '"VIAGRA � Official Site" <security@example.org>',
-    "#14 GetParam(WHAT => 'From')",
-);
-$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
-$Self->Is(
-    $MD5,
-    'b8b01a1acd8fe7efeff8351bf48d8f63',
-    "#14 md5 body check",
-);
-
-# test #15
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'ISO-8859-1',
-    "#15 GetCharset() - iso-8859-1 charset should be found",
-);
-
-@Attachments = $EmailParserObject->GetAttachments();
-$MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
-$Self->Is(
-    $MD5,
-    '9a7c5ce111d1ec69e1625d51abba0442',
-    "#15 md5 check",
-);
-$Self->Is(
-    $Attachments[0]->{ContentAlternative} || '',
-    1,
-    "#15 ContentAlternative check",
-);
-$Self->Is(
-    $Attachments[1]->{ContentAlternative} || '',
-    1,
-    "#15 ContentAlternative check",
-);
-
-# content type tests
-my @Tests = (
-    {
-        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; charset="iso-8859-1"',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/xls-2; charset="iso-8859-1";',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/xls-2',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; format=flowed',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset="utf8"; format=flowed',
-        Charset     => 'utf8',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset=iso-8859-1',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset=\'iso-8859-1\'',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type:text/plain; charset=\'iso-8859-1\'',
-        Charset     => 'iso-8859-1',
-        MimeType    => 'text/plain',
-    },
-    {
-        ContentType => 'Content-Type: text/plain; charset = "utf8"; format=flowed',
-        Charset     => 'utf8',
-        MimeType    => 'text/plain',
-    },
-);
-
-for my $Test (@Tests) {
-    my %Data = $EmailParserObject->GetContentTypeParams(
-        ContentType => $Test->{ContentType},
+    is(
+        $EmailParserObject->GetCharset(),
+        'utf-8',    # automatically converted
+        "GetCharset()",
     );
-    $Self->Is(
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        'd2288c4aa6a50bc41a0e9b8820495922',
+        "md5 check",
+    );
+    is(
+        $Attachments[1]->{Filename},
+        'test-attachment-äöüß-iso-8859-1.txt',
+        "GetAttachments()",
+    );
+    is(
+        $Attachments[1]->{ContentAlternative} || '',
+        '',
+        "ContentAlternative check",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
+    is(
+        $MD5,
+        'bb29962e132ba159539f1e88b41663b1',
+        "md5 check",
+    );
+    is(
+        $Attachments[2]->{Filename},
+        'test-attachment-äöüß-utf-8.txt',
+        "GetAttachments()",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
+    is(
+        $MD5,
+        '5ee767f3b68f24a9213e0bef82dc53e5',
+        "md5 check",
+    );
+    is(
+        $Attachments[3]->{Filename},
+        'test-attachment-äöüß.pdf',
+        "GetAttachments()",
+    );
+};
+
+subtest 'PostMaster-Test6.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test6.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'utf-8',
+        "GetCharset()",
+    );
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        '5ee767f3b68f24a9213e0bef82dc53e5',
+        "md5 check",
+    );
+    is(
+        $Attachments[1]->{Filename},
+        'test-attachment-äöüß.pdf',
+        "GetAttachments()",
+    );
+
+    $MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
+    is(
+        $MD5,
+        'bb29962e132ba159539f1e88b41663b1',
+        "md5 check",
+    );
+    is(
+        $Attachments[2]->{Filename},
+        'test-attachment-äöüß-utf-8.txt',
+        "GetAttachments()",
+    );
+
+    $MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
+    is(
+        $MD5,
+        '0596f2939525c6bd50fc2b649e40fbb6',
+        "md5 check",
+    );
+    is(
+        $Attachments[3]->{Filename},
+        'test-attachment-äöüß-iso-8859-1.txt',
+        "GetAttachments()",
+    );
+};
+
+subtest 'PostMaster-Test7.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'utf-8',    # automatically converted
+        "GetCharset()",
+    );
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        '5ee767f3b68f24a9213e0bef82dc53e5',
+        "md5 check",
+    );
+    is(
+        $Attachments[1]->{Filename},
+        'test-attachment-äöüß.pdf',
+        "GetAttachments()",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
+    is(
+        $MD5,
+        'bb29962e132ba159539f1e88b41663b1',
+        "md5 check",
+    );
+    is(
+        $Attachments[2]->{Filename},
+        'test-attachment-äöüß-utf-8.txt',
+        "GetAttachments()",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
+    is(
+        $MD5,
+        '0596f2939525c6bd50fc2b649e40fbb6',
+        "md5 check",
+    );
+    is(
+        $Attachments[3]->{Filename},
+        'test-attachment-äöüß-iso-8859-1.txt',
+        "GetAttachments()",
+    );
+};
+
+subtest 'PostMaster-Test8.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test8.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        '',
+        "GetCharset() - no charset should be found (non text body)",
+    );
+
+    my $Body        = $EmailParserObject->GetMessageBody();
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Body ) || '';
+
+    is(
+        $MD5,
+        '5ee767f3b68f24a9213e0bef82dc53e5',
+        "md5 check",
+    );
+
+    ok(
+        !$Attachments[0] || 0,
+        "no attachment check",
+    );
+};
+
+subtest 'PostMaster-Test9.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test9.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'us-ascii',
+        "GetCharset() - us-ascii charset should be found",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
+
+    is(
+        $MD5,
+        '5ee767f3b68f24a9213e0bef82dc53e5',
+        "md5 check",
+    );
+
+    ok(
+        $Attachments[0] || 0,
+        "attachment check #1",
+    );
+
+    ok(
+        !$Attachments[1] || 0,
+        "attachment check #2",
+    );
+};
+
+subtest 'PostMaster-Test10.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test10.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'iso-8859-1',
+        "GetCharset() - iso-8859-1 charset should be found",
+    );
+
+    my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+    is(
+        $MD5,
+        '4e269fc57c9aa7861ad432607e660ae9',
+        "md5 body check",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    $MD5 = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
+    is(
+        $MD5,
+        '4e269fc57c9aa7861ad432607e660ae9',
+        "md5 check",
+    );
+
+    ok(
+        $Attachments[0] || 0,
+        "attachment check #1",
+    );
+
+    ok(
+        $Attachments[1] || 0,
+        "attachment check #2",
+    );
+
+    ok(
+        $Attachments[2] || 0,
+        "attachment check #3",
+    );
+
+    ok(
+        !$Attachments[3] || 0,
+        "attachment check #4",
+    );
+};
+
+subtest 'PostMaster-Test11.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test11.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'ISO-8859-1',
+        "GetCharset() - iso-8859-1 charset should be found",
+    );
+
+    my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+    is(
+        $MD5,
+        '52f20c90a1f0d8cf3bd415e278992001',
+        "md5 body check",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    ok(
+        !$Attachments[0] || 0,
+        "attachment check #0",
+    );
+};
+
+subtest 'PostMaster-Test12.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test12.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'utf-8',    # automatically converted
+        "GetCharset() - iso-8859-1 charset should be found",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        '金田　美羽 <support@example.com>',
+        "GetParam(WHAT => 'To')",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Cc' ),
+        '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
+        "GetParam(WHAT => 'Cc')",
+    );
+
+    my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+    is(
+        $MD5,
+        '603c11a38065909cc13bf53c650506c1',
+        "md5 body check",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    $MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        'ecfbec2030e6bf91cc97ed22f7c6551a',
+        "md5 check",
+    );
+    is(
+        $Attachments[1]->{Filename} || '',
+        'attachment-äöüß-utf8.txt',
+        "Filename check",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
+    is(
+        $MD5,
+        'b25beeea18c52cdc791864b52862743e',
+        "md5 check",
+    );
+    is(
+        $Attachments[2]->{Filename} || '',
+        'attachment-äöüß-iso.txt',
+        "Filename check",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
+    is(
+        $MD5,
+        'f287d0dd6d0f90da4ac69348b09ec281',
+        "md5 check",
+    );
+    is(
+        $Attachments[3]->{Filename} || '',
+        'Обяснительная.jpg',
+        "Filename check",
+    );
+    $MD5 = $MainObject->MD5sum( String => $Attachments[4]->{Content} ) || '';
+    is(
+        $MD5,
+        'f287d0dd6d0f90da4ac69348b09ec281',
+        "md5 check",
+    );
+    is(
+        $Attachments[4]->{Filename} || '',
+        'Сообщение.jpg',
+        "Filename check",
+    );
+    is(
+        $Attachments[5]->{Filename} || '',
+        '報告書_..txt',
+        "Filename check",
+    );
+    is(
+        $Attachments[6]->{Filename} || '',
+        '金田_美羽',
+        "Filename check",
+    );
+    is(
+        $Attachments[7]->{Filename} || '',
+        '國科會50科學之旅活動計畫徵求書_r_final_.doc',
+        "Filename check",
+    );
+    is(
+        $Attachments[8]->{Filename} || '',
+        '2차_보도자료.hwp',
+        "Filename check",
+    );
+    ok(
+        !$Attachments[9] || 0,
+        "attachment check #0",
+    );
+};
+
+subtest 'PostMaster-Test13.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test13.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        '',
+        "GetCharset() - no charset should be found",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'support@example.com',
+        "GetParam(WHAT => 'To')",
+    );
+    my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+    is(
+        $MD5,
+        '474f97c23688e88edfb70139d5658e01',
+        "md5 body check",
+    );
+};
+
+subtest 'PostMaster-Test14.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test14.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'UTF-8',
+        "GetCharset() - no charset should be found",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'security@example.org',
+        "GetParam(WHAT => 'To')",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'From' ),
+        '"VIAGRA � Official Site" <security@example.org>',
+        "GetParam(WHAT => 'From')",
+    );
+    my $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+    is(
+        $MD5,
+        'b8b01a1acd8fe7efeff8351bf48d8f63',
+        "md5 body check",
+    );
+};
+
+subtest 'PostMaster-Test16.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test16.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'ISO-8859-1',
+        "GetCharset() - iso-8859-1 charset should be found",
+    );
+
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
+    is(
+        $MD5,
+        '9a7c5ce111d1ec69e1625d51abba0442',
+        "md5 check",
+    );
+    is(
+        $Attachments[0]->{ContentAlternative} || '',
+        1,
+        "ContentAlternative check",
+    );
+    is(
+        $Attachments[1]->{ContentAlternative} || '',
+        1,
+        "ContentAlternative check",
+    );
+
+    # content type tests
+    my @Tests = (
+        {
+            ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; charset="iso-8859-1"',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset="iso-8859-1"',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/xls-2; charset="iso-8859-1";',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/xls-2',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset="iso-8859-1"; format=flowed',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset="utf8"; format=flowed',
+            Charset     => 'utf8',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset=iso-8859-1',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset=\'iso-8859-1\'',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type:text/plain; charset=\'iso-8859-1\'',
+            Charset     => 'iso-8859-1',
+            MimeType    => 'text/plain',
+        },
+        {
+            ContentType => 'Content-Type: text/plain; charset = "utf8"; format=flowed',
+            Charset     => 'utf8',
+            MimeType    => 'text/plain',
+        },
+    );
+
+    for my $Test (@Tests) {
+        my %Data = $EmailParserObject->GetContentTypeParams(
+            ContentType => $Test->{ContentType},
+        );
+        is(
+            $Data{Charset},
+            $Test->{Charset},
+            "ContentType - Charset check",
+        );
+        is(
+            $Data{MimeType},
+            $Test->{MimeType},
+            "MimeType - Charset check",
+        );
+    }
+};
+
+subtest 'PostMaster-Test19.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
+    is(
+        $EmailParserObject->GetCharset(),
+        'iso-8859-1',
+        "GetCharset() - iso-8859-1 charset should be found",
+    );
+
+    #test #18
+    my $ContentType = qq(Content-Type: text/html; charset="iso-8859-1"; charset="iso-8859-1");
+    my %Data        = $EmailParserObject->GetContentTypeParams(
+        ContentType => $ContentType,
+    );
+    is(
         $Data{Charset},
-        $Test->{Charset},
-        "#16 ContentType - Charset check",
+        'iso-8859-1',
+        "ContentType - iso-8859-1 charset should be found",
     );
-    $Self->Is(
-        $Data{MimeType},
-        $Test->{MimeType},
-        "#16 MimeType - Charset check",
+};
+
+subtest 'PostMaster-Test20.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
+
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
     );
-}
 
-# test #17
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test19.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+    my @Attachments = $EmailParserObject->GetAttachments();
+    my $ContentLocation;
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
-$Self->Is(
-    $EmailParserObject->GetCharset(),
-    'iso-8859-1',
-    "#17 GetCharset() - iso-8859-1 charset should be found",
-);
+    ATTACHMENT:
+    for my $Attachment (@Attachments) {
+        next ATTACHMENT if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
+        $ContentLocation = $Attachment->{ContentID};
+    }
 
-#test #18
-my $ContentType = qq(Content-Type: text/html; charset="iso-8859-1"; charset="iso-8859-1");
-my %Data        = $EmailParserObject->GetContentTypeParams(
-    ContentType => $ContentType,
-);
-$Self->Is(
-    $Data{Charset},
-    'iso-8859-1',
-    "#18 ContentType - iso-8859-1 charset should be found",
-);
+    is(
+        $ContentLocation,
+        'Untitled%20Attachment',
+        "Get Content-Location",
+    );
+};
 
-# test #20
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test20.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+subtest 'PostMaster-Test21.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
 
-@Attachments = $EmailParserObject->GetAttachments();
-my $ContentLocation;
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+        "GetParam(WHAT => 'To' Multiline encode quote printable)",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Subject' ),
+        'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+        "GetParam(WHAT => 'Subject' Multiline encode quote printable)",
+    );
+};
 
-ATTACHMENT:
-for my $Attachment (@Attachments) {
-    next ATTACHMENT if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
-    $ContentLocation = $Attachment->{ContentID};
-}
+subtest 'PostMaster-Test22.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$Self->Is(
-    $ContentLocation,
-    'Untitled%20Attachment',
-    "#20 Get Content-Location",
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
 
-# test #21
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test21.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+        "GetParam(WHAT => 'To' Multiline encode)",
+    );
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Subject' ),
+        'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+        "GetParam(WHAT => 'Subject' Multiline encode)",
+    );
+};
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+subtest 'UTF-7.box' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'To' Multiline encode quote printable)",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Subject' ),
-    'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#21 GetParam(WHAT => 'Subject' Multiline encode quote printable)",
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
 
-# test #22
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+    is(
+        $EmailParserObject->GetParam( WHAT => 'To' ),
+        'wop+autoreply=no@ticket.noris.net',
+        "GetParam(WHAT => 'To') UTF-7 not decoded",
+    );
+};
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+subtest 'UTF-7.box again' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#22 GetParam(WHAT => 'To' Multiline encode)",
-);
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Subject' ),
-    'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
-    "#22 GetParam(WHAT => 'Subject' Multiline encode)",
-);
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Email => \@Array,
+    );
 
-# test #23
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
+        'wop+autoreply=no@ticket.noris.net',
+        "GetParam(WHAT => 'Envelope-To') UTF-7 not decoded",
+    );
+};
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+subtest 'UTF-7.box MIME::Parser' => sub {
+    open( my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
+    my @Array = <$IN>;
+    close $IN;
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'To' ),
-    'wop+autoreply=no@ticket.noris.net',
-    "#23 GetParam(WHAT => 'To') UTF-7 not decoded",
-);
+    my $Parser = MIME::Parser->new();
 
-# test #24
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
+    # prevents writing to filesystem
+    $Parser->output_to_core(1);
+    my $Entity            = $Parser->parse_data( \@Array );
+    my $EmailParserObject = Kernel::System::EmailParser->new(
+        Entity => $Entity,
+    );
 
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
-);
+    is(
+        $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
+        'wop+autoreply=no@ticket.noris.net',
+        "GetParam(WHAT => 'Envelope-To') usage of EmailParser in Entity mode",
+    );
+};
 
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
-    'wop+autoreply=no@ticket.noris.net',
-    "#24 GetParam(WHAT => 'Envelope-To') UTF-7 not decoded",
-);
-
-# test #25 (bug #12108)
-@Array = ();
-open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic qw(OTOBO::ProhibitOpen)
-@Array = <$IN>;
-close $IN;
-
-my $Parser = MIME::Parser->new();
-
-# prevents writing to filesystem
-$Parser->output_to_core(1);
-my $Entity = $Parser->parse_data( \@Array );
-$EmailParserObject = Kernel::System::EmailParser->new(
-    Entity => $Entity,
-);
-
-$Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Envelope-To' ),
-    'wop+autoreply=no@ticket.noris.net',
-    "#25 GetParam(WHAT => 'Envelope-To') usage of EmailParser in Entity mode",
-);
-
-$Self->DoneTesting();
+done_testing;

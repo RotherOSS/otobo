@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -108,12 +108,6 @@ sub GetFieldTypeSettings {
         %Param,
     );
 
-    # Support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-        };
-
     # Support configurable search key
     push @FieldTypeSettings,
         {
@@ -208,13 +202,13 @@ sub ObjectDescriptionGet {
 
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
-        my $FrontendModul = 'AdminCustomerCompany';
-        my $UserID        = $Param{LayoutObject}{UserID} || 1;
+        my $FrontendModule = 'AgentCustomerInformationCenter';
+        my $UserID         = $Param{LayoutObject}{UserID} || 1;
 
         $Link = $Self->_GetHTTPLink(
-            FrontendModul => $FrontendModul,
-            ObjectID      => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
-            UserID        => $UserID,
+            FrontendModule => $FrontendModule,
+            ObjectID       => $Param{LayoutObject}->LinkEncode( $Param{ObjectID} ),
+            UserID         => $UserID,
         );
 
     }
@@ -303,7 +297,7 @@ sub SearchObjects {
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
-            # map ID to IDs if neccessary
+            # map ID to IDs if necessary
             my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
             if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
                 $AttributeName .= 's';
@@ -440,11 +434,11 @@ sub SearchObjects {
 
 =head2 _GetHTTPLink()
 
-return a HTTP link to the customer company edit mask, if permission is given.
+Returns a HTTP link to the customer company edit mask, if permission is given.
 
     my $Link = $BackendObject->_GetHTTPLink(
-        FrontendModul      => $FrontendModul,
-        ObjectID           => $EncodedCustomerID
+        FrontendModule      => $FrontendModule,
+        ObjectID           => $EncodedCustomerID,
         UserID             => $UserID,
     );
 
@@ -458,7 +452,7 @@ sub _GetHTTPLink {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(UserID FrontendModul ObjectID)) {
+    for my $Argument (qw(UserID FrontendModule ObjectID)) {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -471,10 +465,12 @@ sub _GetHTTPLink {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModul} };
+    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModule} };
     my $Link;
 
     # module permission check for action
+    my $AccessRo;
+    my $AccessRw;
     if (
         ref $ModuleReg->{GroupRo} eq 'ARRAY'
         && !scalar @{ $ModuleReg->{GroupRo} }
@@ -482,8 +478,8 @@ sub _GetHTTPLink {
         && !scalar @{ $ModuleReg->{Group} }
         )
     {
-        $Param{AccessRo} = 1;
-        $Param{AccessRw} = 1;
+        $AccessRo = 1;
+        $AccessRw = 1;
     }
     else {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -519,20 +515,20 @@ sub _GetHTTPLink {
                 }
             }
             if ( $Permission eq 'Group' && $AccessOk ) {
-                $Param{AccessRo} = 1;
-                $Param{AccessRw} = 1;
+                $AccessRo = 1;
+                $AccessRw = 1;
             }
             elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
-                $Param{AccessRo} = 1;
+                $AccessRo = 1;
             }
         }
-        if ( $Param{AccessRo} || $Param{AccessRw} ) {
+    }
 
-            $Link = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
-            $Link .= 'CustomerID=' . $Param{ObjectID};
-            return $Link;
-        }
-        return;
+    if ( $AccessRo || $AccessRw ) {
+
+        $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';';
+        $Link .= 'CustomerID=' . $Param{ObjectID};
+        return $Link;
     }
 
     # both GroupRo nor Group are empty arrayrefs

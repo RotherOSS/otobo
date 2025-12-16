@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,10 +32,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-my $CacheType = 'UnitTestRebuildConfig';
-
-my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
-
+my $CacheType  = 'UnitTestRebuildConfig';
+my $ChildCount = 5;
 for my $ChildIndex ( 1 .. $ChildCount ) {
 
     # Disconnect database before fork.

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -92,8 +92,12 @@ sub Run {
 
     # Get user's permissions to associated modules which are displayed as links.
     for my $Module (qw(AdminAppointmentCalendarManage)) {
-        my $ModuleGroups = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')
-            ->{$Module}->{Group} // [];
+        my $ModuleReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{$Module};
+
+        my $ModuleGroups = [
+            @{ $ModuleReg->{Group}   // [] },
+            @{ $ModuleReg->{GroupRo} // [] },
+        ];
 
         if ( IsArrayRefWithData($ModuleGroups) ) {
             MODULE_GROUP:

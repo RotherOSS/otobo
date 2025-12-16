@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -374,10 +374,11 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{StateTypeOption} = $LayoutObject->BuildSelection(
-        Data       => { $StateObject->StateTypeList( UserID => 1 ), },
-        Name       => 'TypeID',
-        SelectedID => $Param{TypeID},
-        Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        Data         => { $StateObject->StateTypeList( UserID => 1 ), },
+        Name         => 'TypeID',
+        SelectedID   => $Param{TypeID},
+        Class        => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        PossibleNone => 1,
     );
     $LayoutObject->Block(
         Name => 'OverviewUpdate',

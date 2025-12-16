@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -192,10 +192,6 @@ Core.AJAX = (function (TargetNS) {
      */
     function GetSessionInformation() {
         var Data = {};
-        if (!Core.Config.Get('SessionIDCookie')) {
-            Data[Core.Config.Get('SessionName')] = Core.Config.Get('SessionID');
-            Data[Core.Config.Get('CustomerPanelSessionName')] = Core.Config.Get('SessionID');
-        }
         Data.ChallengeToken = Core.Config.Get('ChallengeToken');
         return Data;
     }
@@ -287,8 +283,8 @@ Core.AJAX = (function (TargetNS) {
             }
 
             // add the text to the RichText editor
-            if (CKEditorInstances && CKEditorInstances['RichText']) {
-                CKEditorObj = CKEditorInstances['RichText'];
+            if (CKEditorInstances && CKEditorInstances[$Element.attr('id')]) {
+                CKEditorObj = CKEditorInstances[$Element.attr('id')];
 
                 // TODO: probably reintroduce 75c5b5bfe3673279c03dba2f57350e6c79e7ae84
                 CKEditorObj.editing.view.focus();
@@ -434,7 +430,8 @@ Core.AJAX = (function (TargetNS) {
             if ( $Element.hasClass('DynamicFieldDate') ) {
 
                 // empty value, set current date and used unchecked
-                if ( !DataValue ) {
+                //  '==' instead of '===' to cover possibility of DataValue being an integer
+                if ( !DataValue || DataValue == "0" ) {
                     Core.UI.InputFields.SetDate($Element);
                 }
 
@@ -482,6 +479,13 @@ Core.AJAX = (function (TargetNS) {
             if ($Element.hasClass('Modernize')) {
                 $Element.trigger('redraw.InputField');
             }
+
+            // relevant for customer.pl - trigger a blur after
+            // update to prevent label being displayed in front
+            // of value - see issue #3944
+            if ( $Element.is('input[type=text]')  ) {
+                $Element.trigger('blur');
+            }
         });
     }
 
@@ -520,6 +524,44 @@ Core.AJAX = (function (TargetNS) {
                 MultiValueFields = [],
                 MultiColumnIndex;
 
+            // if field is set, gather names of inner fields to deal with them recursively
+            let InnerFields = [],
+                $SetDiv = $FieldCell.find('div.DFSetOuterField');
+            if ( $SetDiv ) {
+                $SetDiv.find('div.FieldCell div.Field').each(function() {
+                    let $InnerField;
+
+                    // date, date time and checkbox
+                    $InnerField = $(this).find('input[id$=Used]');
+
+                    // select
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('select');
+                    }
+
+                    // autocomplete, text and script
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('input[type=text]');
+                    }
+
+                    // textarea and richtext
+                    if (!$InnerField.length) {
+                        $InnerField = $(this).find('textarea');
+                    }
+
+                    if ($InnerField) {
+                        if ( $(this).closest('div.Row').hasClass('MultiValue') ) {
+                            if ( $(this).closest('div.FieldCell').hasClass('MultiValue_0') ) {
+                                InnerFields.push($InnerField.attr('id'));
+                            }
+                        }
+                        else {
+                            InnerFields.push($InnerField.attr('id'));
+                        }
+                    }
+                });
+            }
+
             if ( $FieldRow.hasClass('MultiValue') ) {
                 if ( $FieldRow.hasClass('MultiColumn') ) {
                     $('.MultiValue_0', $FieldRow).each( function ( Index ) {
@@ -538,7 +580,7 @@ Core.AJAX = (function (TargetNS) {
                     }
                 }
                 else {
-                    MultiValueFields = $( '.FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
+                    MultiValueFields = $( '> .FieldCell:not(.MultiValue_0)', $FieldRow ).toArray();
                 }
             }
 
@@ -567,7 +609,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_Required_IfVisible");
 
                     // handling of database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_Required") ) {
                         FieldData.removeClass("Validate_Required");
                         FieldData.addClass("Validate_Required_IfVisible");
@@ -578,7 +620,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_DnDUpload_IfVisible");
 
                     // handling of database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload") ) {
                         FieldData.removeClass("Validate_DnDUpload");
                         FieldData.addClass("Validate_DnDUpload_IfVisible");
@@ -591,6 +633,15 @@ Core.AJAX = (function (TargetNS) {
                 else if ( Field.hasClass("Validate_DependingRequiredOR") ) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
+                }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '0']);
+                    });
+                    HideShowFields(VisibilityStructure);
                 }
             }
             // field has to be shown again
@@ -609,7 +660,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_Required");
 
                     // handling database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_Required_IfVisible") ) {
                         FieldData.removeClass("Validate_Required_IfVisible");
                         FieldData.addClass("Validate_Required");
@@ -620,7 +671,7 @@ Core.AJAX = (function (TargetNS) {
                     Field.addClass("Validate_DnDUpload");
 
                     // handling database dynamic fields
-                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    let FieldData = $( '#' + FieldInfo[0] + 'Data' );
                     if( FieldData.length > 0 && FieldData.hasClass("Validate_DnDUpload_IfVisible") ) {
                         FieldData.removeClass("Validate_DnDUpload_IfVisible");
                         FieldData.addClass("Validate_DnDUpload");
@@ -645,11 +696,20 @@ Core.AJAX = (function (TargetNS) {
 
                 if ( $FieldRow.hasClass('MultiValue') ) {
                     Core.UI.InputFields.InitSelect( $('select[name=' + FieldInfo[0] + ']') );
-                    MultiValueFields.forEach( function( $Cell ) {
+                    MultiValueFields.forEach( function() {
                         if ( Field.hasClass('Modernize')) {
                             $('[name=' + FieldInfo[0] + ']').trigger('redraw.InputField');
                         }
                     });
+                }
+
+                // handle set-inner fields
+                if (InnerFields.length) {
+                    let VisibilityStructure = [];
+                    InnerFields.forEach(function(FieldName) {
+                        VisibilityStructure.push([FieldName, '1']);
+                    });
+                    HideShowFields(VisibilityStructure);
                 }
             }
         }

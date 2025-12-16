@@ -24,15 +24,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2022-03-09 06:52+0000\n"
-"Last-Translator: Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>\n"
-"Language-Team: Portuguese <https://translate.otobo.org/projects/otobo10/otobo/pt/>\n"
+"PO-Revision-Date: 2025-02-01 20:53+0000\n"
+"Last-Translator: Renato Sequeira <rds.516@gmail.com>\n"
+"Language-Team: Portuguese <http://translate.otobo.org/projects/otobo/otobo-11/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -228,11 +228,11 @@ msgstr "Sobre"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
-msgstr "Ativar esta widget"
+msgstr "Ativar este widget"
 
 #. Template: AdminAbout
 msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
-msgstr "Este idioma não está presente ou habilitado no sistema. Este texto pode ser deletado se isto não for mais necessário."
+msgstr "Este idioma não está presente ou habilitado no sistema. Este texto pode ser apagado se já não for necessário."
 
 #. Template: AdminAbout
 msgid "Remove Language"
@@ -248,7 +248,7 @@ msgstr "Corpo da mensagem"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr "Este campo é requerido e deve ter menos do que 4000 caracteres."
+msgstr "Este campo é de preenchimento obrigatório e deve ter menos do que 4000 caracteres."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
@@ -260,15 +260,15 @@ msgstr "Adicionar novo idioma"
 
 #. Template: AdminAbout
 msgid "Save Changes"
-msgstr "Guardar alterações "
+msgstr "Guardar alterações"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr "Gestão Calendário"
+msgstr "Gestão de calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr "Adicionar Calendário"
+msgstr "Adicionar calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
@@ -16010,7 +16010,7 @@ msgstr "Login falhou! Utilizador ou password errada(s)."
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25542,6 +25542,7 @@ msgstr "Importar/Exportar"
 #~ msgid "Go to OTOBO Package Manager"
 #~ msgstr "Voltar à página de gestão de pacotes do OTOBO"
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Os campos marcados com * são obrigatórios"
 
@@ -25625,10 +25626,6 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
 msgstr ""
 
 #. Template: AdminAttachment
@@ -26961,5 +26958,197 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL hostname verification"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in RequiredArgs."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in PreviewTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in StorageTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
+msgstr ""
+
+#. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
+msgstr ""
+
+#. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
+msgstr ""
+
+#. SysConfig
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
 msgstr ""
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -58,7 +58,7 @@ $Selenium->RunTest(
             # Looks like execute_script() can't return data structure, so join the links for now.
             # NOTE: The map would be nicer with JS arrow functions.
             # Use 🎋 - U+1F38B - TANABATA TREE as seperator just because why not.
-            my $LinksStr = $Selenium->execute_script( <<'END_JS' );
+            my $LinksStr = $Selenium->execute_script(<<'END_JS');
     return $('#oooFooter a').map(
         function() {
             return $(this).attr('href');

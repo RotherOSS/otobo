@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -95,10 +95,7 @@ my $Result = `$ArchiveGeneratorTool -a create`;
 if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
 
     # if ARCHIVE file is not present we can't continue
-    $Self->True(
-        0,
-        "ARCHIVE file is not generated, we can't continue",
-    );
+    fail("ARCHIVE file is not generated, we can't continue");
 
     done_testing();
 
@@ -540,25 +537,25 @@ $Self->IsDeeply(
 # Generate ZZZZUnitTestMaskPasswords.pm to check later for mask passwords.
 my $MaskPasswordIdentifier = $Helper->GetRandomNumber() . 'MaskPasswords';
 my $MaskPasswordFile       = 'ZZZZUnitTest' . $MaskPasswordIdentifier . '.pm';
-my $MaskPasswordContent    = <<"END_CUSTOM_CODE";
+my $MaskPasswordContent    = sprintf <<'END_CUSTOM_CODE', $MaskPasswordIdentifier;
 # OTOBO config file (automatically generated)
 # VERSION:1.1
-package Kernel::Config::Files::ZZZZUnitTest$MaskPasswordIdentifier;
+package Kernel::Config::Files::ZZZZUnitTest%s;
 use strict;
 use warnings;
-no warnings \'redefine\';
+no warnings 'redefine';
 use utf8;
 sub Load {
-    my (\$File, \$Self) = \@_;
+    my ($File, $Self) = @_;
 
     # Simple tests.
-    \$Self->{DatabasePw} = 'some-pass';
-    \$Self->{'DatabasePw'} = 'some-pass2';
-    \$Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'password123';
-    \$Self->{'Customer::AuthModule::DB::Password'} = 'password456';
+    $Self->{DatabasePw} = 'some-pass';
+    $Self->{'DatabasePw'} = 'some-pass2';
+    $Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'password123';
+    $Self->{'Customer::AuthModule::DB::Password'} = 'password456';
 
     # Complex tests.
-    \$Self->{CustomerUser} = {
+    $Self->{CustomerUser} = {
         Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
@@ -568,7 +565,7 @@ sub Load {
         },
     };
 
-    \$Self->{CustomerUser} = {
+    $Self->{CustomerUser} = {
         Name => 'LDAP Backend',
         Module => 'Kernel::System::CustomerUser::LDAP',
         Params => {
@@ -589,32 +586,33 @@ sub Load {
     };
 
     # HTTP credentials test.
-    \$Self->{'DocumentSearch::Nodes'} = [
+    $Self->{'DocumentSearch::Nodes'} = [
         {
-            DNS  => 'https://elastic:search\@localhost:9200',
+            DNS  => 'https://elastic:search@localhost:9200',
             Name => 'test',
         },
     ];
 }
+
 1;
 END_CUSTOM_CODE
 
 my @ExpectedResults = (
     {
         Name   => 'DatabasePw (normal)',
-        Result => "\$Self->{DatabasePw} = 'xxx';",
+        Result => q{$Self->{DatabasePw} = 'xxx';},
     },
     {
         Name   => 'DatabasePw (with single quotes)',
-        Result => "\$Self->{'DatabasePw'} = 'xxx';",
+        Result => q{$Self->{'DatabasePw'} = 'xxx';},
     },
     {
         Name   => 'CustomerPassword (Customer::AuthModule::DB::CustomerPassword)',
-        Result => "\$Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'xxx';",
+        Result => q{$Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'xxx';},
     },
     {
         Name   => 'Password (Customer::AuthModule::DB::Password)',
-        Result => "\$Self->{'Customer::AuthModule::DB::Password'} = 'xxx';",
+        Result => q{$Self->{'Customer::AuthModule::DB::Password'} = 'xxx';},
     },
     {
         Name   => 'Password (CustomerUser DB backend)',
@@ -626,7 +624,7 @@ my @ExpectedResults = (
     },
     {
         Name   => 'DNS (Document search nodes)',
-        Result => "DNS  => 'https://[user]:[password]\@localhost:9200'"
+        Result => q{DNS  => 'https://[user]:[password]@localhost:9200'},
     }
 );
 

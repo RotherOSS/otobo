@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -36,6 +36,7 @@
 # Content-Transfer-Encoding: base64
 # ----------------------------------------------------------------------------------------
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -43,12 +44,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -64,12 +64,6 @@ $Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-# Constants for test(s): 1 - enabled, 0 - disabled.
-# SEND - check sending body. PARSE - check parsed body.
-
-my $SEND  = 1;
-my $PARSE = 1;
 
 my $AttachmentReference = [
     {
@@ -219,7 +213,6 @@ my @Tests = (
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
         },
-        CheckAttachmentsSize => '1',
     },
     {
         Name => 'HTML email - Attachments grow up two.',
@@ -240,7 +233,6 @@ my @Tests = (
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
         },
-        CheckAttachmentsSize => '1',
     },
 
 );
@@ -269,96 +261,82 @@ my $SendEmail = sub {
 };
 
 # testing loop
-my $Count = 0;
-TEST:
 for my $Test (@Tests) {
 
-    $Count++;
+    diag "testing '$Test->{Name}'";
 
-    my $Name = "#$Count $Test->{Name}";
-
-    # Send mail and get results.
+    # Send mail and get results as two string refs
     my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} } );
 
-    # check reference attachment size
-    if ( $Test->{CheckAttachmentsSize} ) {
-
-        my $CurrentAttachmentNumber = scalar @{$AttachmentReference};
-        $Self->Is(
-            $AttachmentNumber,
-            $CurrentAttachmentNumber,
-            "AttachmentsSize: $Test->{Name} ",
-        );
-    }
-
+    # standardize in case of strange output
     if ( !$Header || ref $Header ne 'SCALAR' ) {
-
         my $String = '';
         $Header = \$String;
     }
-
     if ( !$Body || ref $Body ne 'SCALAR' ) {
-
         my $String = '';
         $Body = \$String;
     }
 
-    # some MIME::Tools workaround
-    my $Email = ${$Header} . "\n" . ${$Body};
-    my @Array = split /\n/, $Email;
+    # Test whether the constructed email conserves
+    # the content type associated with the file name.
+    # For that extract the Content-Type of the attachments.
+    # The attachments are contained in the body of the email.
+    {
+        my %Filename2ContentType;
+        for my $Header ( split /\n/, $Body->$* ) {
 
-    # Processing with Send headersif constant SEND set to 1
-    if ($SEND) {
-        my %Result;
-        for my $Header ( split /\n/, ${$Body} ) {
-            if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$2} = ( split /: /, $Header )[1];
+            # Look at lines like:
+            #   Content-Type: text/csv; name="csvfile.csv"
+            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
+                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
             }
         }
 
-        # Final check Content-Type from Email Send
-        for my $Name (@Tests) {
-            for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
-                $Self->Is(
-                    $Result{ $Attach->{Filename} },
-                    $Name->{ExpectedResults}->{ $Attach->{Filename} }
-                        . '; name="' . $Attach->{Filename} . '"',
-                    "EmailSend: $Name->{Name} ",
+        subtest "content types of attachments $Test->{Name}" => sub {
+            for my $Attach ( @{ $Test->{Data}->{Attachment} } ) {
+                is(
+                    $Filename2ContentType{ $Attach->{Filename} },
+                    $Test->{ExpectedResults}->{ $Attach->{Filename} }
+                        . qq{; name="$Attach->{Filename}"},
+                    "Content type of $Attach->{Filename}",
                 );
             }
-        }
+        };
     }
 
-    # No need test below is constant PARSE set to 0
-    next TEST if ( !$PARSE );
+    # Repeat the check of whether the email conserves the content type of the attachments.
+    # This time look at the mail as parsed with Kernel::System::EmailParser.
+    {
+        my $Email        = join "\n", $Header->$*, $Body->$*;
+        my @Array        = map { $_ . "\n" } split /\n/, $Email;    # newlines are first removed, then added again
+        my $ParserObject = Kernel::System::EmailParser->new(
+            Email => \@Array,
+        );
 
-    # parse email
-    my $ParserObject = Kernel::System::EmailParser->new(
-        Email => \@Array,
-    );
-
-    my %Result;
-
-    my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
-
-    for my $Header ( @{$Headers} ) {
-        if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-            $Result{$2} = ( split /: /, $Header )[1];
+        # The body of the mail contains the MIME headers of the attachments.
+        # $ParserObject->{Email} is a Mail::Internet,
+        # The body still has the lines without trailing newlines.
+        my %Filename2ContentType;
+        my $Headers = $ParserObject->{Email}->{'mail_inet_body'};
+        for my $Header ( @{$Headers} ) {
+            if ( $Header =~ /^Content\-Type\:\ .*?\;.*?\"(.*?)\"/x ) {
+                ( undef, $Filename2ContentType{$1} ) = split /: /, $Header;
+            }
         }
-    }
 
-    # Final check Content-Type from EmailParser
-    for my $Name (@Tests) {
-        for my $Attach ( @{ $Name->{Data}->{Attachment} } ) {
-            $Self->Is(
-                $Result{ $Attach->{Filename} },
-                $Name->{ExpectedResults}->{ $Attach->{Filename} }
-                    . '; name="' . $Attach->{Filename} . '"',
-                "EmailParser: $Name->{Name} ",
-            );
-        }
+        subtest "content types of attachments from parsed Email $Test->{Name}" => sub {
+            for my $Attach ( @{ $Test->{Data}->{Attachment} } ) {
+                is(
+                    $Filename2ContentType{ $Attach->{Filename} },
+                    $Test->{ExpectedResults}->{ $Attach->{Filename} }
+                        . qq{; name="$Attach->{Filename}"\n},
+                    "Content type of $Attach->{Filename}",
+                );
+            }
+        };
     }
 
 }
 
-$Self->DoneTesting();
+done_testing;

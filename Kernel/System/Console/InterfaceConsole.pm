@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,29 +62,30 @@ execute a command. Returns the shell status code to be used by exit().
 sub Run {
     my ( $Self, @CommandlineArguments ) = @_;
 
-    my $CommandName;
-
     # Catch bash completion calls
     if ( $ENV{COMP_LINE} ) {
-        $CommandName = 'Kernel::System::Console::Command::Internal::BashCompletion';
+        my $CommandName = 'Kernel::System::Console::Command::Internal::BashCompletion';
+
         return $Kernel::OM->Get($CommandName)->Execute(@CommandlineArguments);
     }
 
     # If we don't have any arguments OR the first argument is an option and not a command name,
     #   show the overview screen instead.
     if ( !@CommandlineArguments || substr( $CommandlineArguments[0], 0, 2 ) eq '--' ) {
-        $CommandName = 'Kernel::System::Console::Command::List';
+        my $CommandName = 'Kernel::System::Console::Command::List';
+
         return $Kernel::OM->Get($CommandName)->Execute(@CommandlineArguments);
     }
 
     # Ok, let's try to find the command.
-    $CommandName = 'Kernel::System::Console::Command::' . $CommandlineArguments[0];
+    my $CommandName = 'Kernel::System::Console::Command::' . $CommandlineArguments[0];
 
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require( $CommandName, Silent => 1 ) ) {
 
         # Regular case: everything was ok, execute command.
         # Remove first parameter (command itself) to not confuse further parsing
         shift @CommandlineArguments;
+
         return $Kernel::OM->Get($CommandName)->Execute(@CommandlineArguments);
     }
 
@@ -92,6 +93,7 @@ sub Run {
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::List');
     $CommandObject->PrintError("Could not find $CommandName.\n\n");
     $CommandObject->Execute();
+
     return 127;    # EXIT_CODE_COMMAND_NOT_FOUND, see http://www.tldp.org/LDP/abs/html/exitcodes.html
 }
 

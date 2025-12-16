@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -118,8 +118,8 @@ sub new {
     # Determine the language to use based on the browser setting, if there isn't one yet.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
-        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->Header('Accept-Language') || '';
-        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my @BrowserLanguages = split /\s*,\s*/, ( $Self->{Lang} || $ParamObject->Header('Accept-Language') || '' );
+        my %Data             = $ConfigObject->Get('DefaultUsedLanguages')->%*;
 
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -130,6 +130,7 @@ sub new {
                 $LanguageOtherType =~ s/_/-/;
                 if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
                     $Self->{UserLanguage} = $Language;
+
                     last LANGUAGE;
                 }
             }
@@ -221,17 +222,19 @@ EOF
     # check Frontend::Output::FilterText
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
-    # check browser
-    $Self->{Browser}         = 'Unknown';
-    $Self->{BrowserVersion}  = 0;
-    $Self->{Platform}        = '';
-    $Self->{IsMobile}        = 0;
+    # check browser features relying on the user agent as transmitted by the client
+    # The finally relevant settings are:
+    #   - 'Frontend::RichText' in the SysConfig
+    #   - the attribute BrowserRichText in this object.
     $Self->{BrowserRichText} = 1;
 
-    my $HttpUserAgent = lc( $ParamObject->Header('User-Agent') // '' );
+    my $Platform      = '';
+    my $IsMobile      = 0;
+    my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
-        $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
+
+        # give up when we have no user agent, assume that we have the standard features
     }
     else {
 
@@ -239,47 +242,45 @@ EOF
         # tablets are handled like desktops
         # only phones are "mobile"
         if ( $HttpUserAgent =~ /mobile/ ) {
-            $Self->{IsMobile} = 1;
+            $IsMobile = 1;
         }
 
         # android
         if ( $HttpUserAgent =~ /android/ ) {
-            $Self->{Platform} = 'Android';
+            $Platform = 'Android';
         }
 
         # edge / spartan
         if ( $HttpUserAgent =~ /edge/ ) {
-            $Self->{Browser} = 'Edge';
+
+            # standard features are supported
         }
 
         # msie
         elsif (
             $HttpUserAgent =~ /msie\s([0-9.]+)/
-            || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
+            ||
+            $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
-            $Self->{Browser} = 'MSIE';
-
             if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
             }
 
             # older windows mobile phones (until IE9), that still have 'MSIE' in the user agent string
-            if ( $Self->{IsMobile} ) {
-                $Self->{Platform} = 'Windows Phone';
+            if ($IsMobile) {
+                $Platform = 'Windows Phone';
             }
         }
 
         # mobile ie
         elsif ( $HttpUserAgent =~ /iemobile/ ) {
-            $Self->{Browser}  = 'MSIE';
-            $Self->{Platform} = 'Windows Phone';
+            $Platform = 'Windows Phone';
         }
 
         # mobile ie (second try)
         elsif ( $HttpUserAgent =~ /trident/ ) {
-            $Self->{Browser} = 'MSIE';
 
             if ( $HttpUserAgent =~ /rv:([0-9])+\.([0-9])+/ ) {
                 $Self->{BrowserMajorVersion} = $2;
@@ -289,41 +290,30 @@ EOF
 
         # iOS
         elsif ( $HttpUserAgent =~ /(ipad|iphone|ipod)/ ) {
-            $Self->{Platform} = 'iOS';
-            $Self->{Browser}  = 'Safari';
+            $Platform = 'iOS';
 
+            my $BrowserVersion = 0;
             if ( $HttpUserAgent =~ /(ipad|iphone|ipod);.*cpu.*os ([0-9]+)_/ ) {
-                $Self->{BrowserVersion} = $2;
+                $BrowserVersion = $2;
             }
 
             if ( $HttpUserAgent =~ /crios/ ) {
-                $Self->{Browser} = 'Chrome';
+
+                # standard features are supported
             }
 
             # RichText is supported in iOS6+.
-            if ( $Self->{BrowserVersion} >= 6 ) {
-                $Self->{BrowserRichText} = 1;
-            }
-            else {
-                $Self->{BrowserRichText} = 0;
-            }
+            $Self->{BrowserRichText} = $BrowserVersion >= 6 ? 1 : 0;
         }
 
         # safari
         elsif ( $HttpUserAgent =~ /safari/ ) {
 
-            # chrome
-            if ( $HttpUserAgent =~ /chrome/ ) {
-                $Self->{Browser} = 'Chrome';
-            }
-            else {
-                $Self->{Browser} = 'Safari';
-            }
+            # standard features are supported
         }
 
         # konqueror
         elsif ( $HttpUserAgent =~ /konqueror/ ) {
-            $Self->{Browser} = 'Konqueror';
 
             # on konquerer disable rich text editor
             $Self->{BrowserRichText} = 0;
@@ -331,52 +321,54 @@ EOF
 
         # firefox
         elsif ( $HttpUserAgent =~ /firefox/ ) {
-            $Self->{Browser} = 'Firefox';
+
+            # standard features are supported
         }
 
         # opera
         elsif ( $HttpUserAgent =~ /^opera.*/ ) {
-            $Self->{Browser} = 'Opera';
+
+            # standard features are supported
         }
 
         # netscape
         elsif ( $HttpUserAgent =~ /netscape/ ) {
-            $Self->{Browser} = 'Netscape';
+
+            # standard features are supported
         }
 
         # w3m
         elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
-            $Self->{Browser}         = 'w3m';
-            $Self->{BrowserRichText} = 0;       # as text browsers do not support JavaScript base rich text editors
+            $Self->{BrowserRichText} = 0;    # as text browsers do not support JavaScript base rich text editors
         }
 
         # lynx
         elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
-            $Self->{Browser}         = 'Lynx';
-            $Self->{BrowserRichText} = 0;        # as text browsers do not support JavaScript base rich text editors
+            $Self->{BrowserRichText} = 0;    # as text browsers do not support JavaScript base rich text editors
         }
 
         # links
         elsif ( $HttpUserAgent =~ /^links.*/ ) {
-            $Self->{Browser} = 'Links';
+
+            # standard features are supported
         }
         else {
-            $Self->{Browser} = 'Unknown - ' . $HttpUserAgent;
+            # let's be optimistic and assume that the standard features are supported
         }
     }
 
     # check mobile devices to disable richtext support
     if (
-        $Self->{IsMobile}
-        && $Self->{Platform} ne 'iOS'
-        && $Self->{Platform} ne 'Android'
-        && $Self->{Platform} ne 'Windows Phone'
+        $IsMobile
+        && $Platform ne 'iOS'
+        && $Platform ne 'Android'
+        && $Platform ne 'Windows Phone'
         )
     {
         $Self->{BrowserRichText} = 0;
     }
 
-    # check if rich text can be active
+    # check if rich text can be active, if not adapt the config just for this requests
     if ( !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
             Key   => 'Frontend::RichText',
@@ -384,7 +376,7 @@ EOF
         );
     }
 
-    # check if rich text is active
+    # check if rich text is has been deactivated in the SysConfig
     if ( !$ConfigObject->Get('Frontend::RichText') ) {
         $Self->{BrowserRichText} = 0;
     }
@@ -655,42 +647,6 @@ sub Redirect {
         # trimming, just to be on the safe side
         $RedirectURL =~ s/^\s+//;
         $RedirectURL =~ s/\s+$//;
-
-        # add session id to the redirect URL when appropriate
-        if (
-            !$Self->{SessionIDCookie}                             # there in no session cookie yet
-            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exist because we in Login
-            && $RedirectURL !~ m/http/i                           # ???
-            && $Self->{SessionID}                                 # when we actually have a session
-            )
-        {
-            # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
-            my ( $Target, $Fragment );
-            if ( $RedirectURL =~ m/^(.+?)#(|.+?)$/ ) {
-                $Target   = $1;
-                $Fragment = "#$2";
-            }
-            else {
-                $Target   = $RedirectURL;
-                $Fragment = '';
-            }
-
-            # find out how to correct inject the session id parameter, depending on the given target
-            my $Joiner = eval {
-
-                # either an empty query part or an empty final query param
-                return '' if $Target =~ m/(\?|&)$/;
-
-                # there is no query part yet
-                return '?' if $Target !~ m/\?/;
-
-                # add query param to existing query part
-                return '&';
-            };
-
-            # add the fragment part of the URL again
-            $RedirectURL = $Target . $Joiner . "$Self->{SessionName}=$Self->{SessionID}" . $Fragment;
-        }
     }
 
     # create an response object we can work with
@@ -701,12 +657,7 @@ sub Redirect {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -734,18 +685,16 @@ sub Login {
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         # set a cookie tentatively for checking cookie support
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $Self->SetCookie(
             Key     => 'OTOBOBrowserHasCookie',
             Name    => 'OTOBOBrowserHasCookie',
@@ -763,12 +712,12 @@ sub Login {
     }
 
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => 'default' );
+    $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
     $Self->LoaderCreateJavaScriptTemplateData();
 
-    # we need the baselink for VerfifiedGet() of selenium tests
+    # we need the baselink for VerifiedGet() of selenium tests
     $Self->AddJSData(
         Key   => 'Baselink',
         Value => $Self->{Baselink},
@@ -941,6 +890,8 @@ sub Login {
         XLoginHeader => 1,
     );
 
+    $Param{DisableStandardLogin} = $Self->_HasOnlyOIDCAuthModules();
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'Login',
@@ -967,6 +918,7 @@ sub ChallengeTokenCheck {
     SESSION:
     for my $SessionID (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+
         next SESSION if !$Data{UserID};
         next SESSION if $Data{UserID} ne $Self->{UserID};
         next SESSION if !$Data{UserChallengeToken};
@@ -989,6 +941,19 @@ sub ChallengeTokenCheck {
 
     return;
 }
+
+=head2 FatalError()
+
+Log the error message and present the error message in the browser.
+
+This method does not return as it throws an exception of the class
+C<Kernel::System::Web::Exception>.
+
+    $LayoutObject->FatalError(
+        Message => "Can't open $ConfigFile: $!",
+    );
+
+=cut
 
 sub FatalError {
     my ( $Self, %Param ) = @_;
@@ -1158,16 +1123,14 @@ sub Warning {
 
 =head2 Notify()
 
-create notify lines
-
-    infos, the text will be translated
+creates informational notify lines. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Warning',
-        Info => 'Some Info Message',
+        Info     => 'Some Info Message',
     );
 
-    data with link, the text will be translated
+The content of C<Data> will be presented as a link. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority  => 'Warning',
@@ -1176,14 +1139,14 @@ create notify lines
         LinkClass => 'some_CSS_class',              # optional
     );
 
-    errors, the text will be translated
+The content will be presented as an error. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
-        Info => 'Some Error Message',
+        Info     => 'Some Error Message',
     );
 
-    errors from log backend, if no error exists, a '' will be returned
+Present the errors from the log backend. If no error exists then an empty string will be returned
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
@@ -1196,14 +1159,18 @@ sub Notify {
 
     # create & return output
     if ( !$Param{Info} && !$Param{Data} ) {
-        $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Notice',
-            What => 'Message',
+        $Param{BackendMessage} =
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                Type => 'Notice',
+                What => 'Message',
             )
-            || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+            ||
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                 Type => 'Error',
                 What => 'Message',
-            ) || '';
+            )
+            ||
+            '';
 
         $Param{Info} = $Param{BackendMessage};
 
@@ -1255,6 +1222,7 @@ sub Notify {
             },
         );
     }
+
     return $Self->Output(
         TemplateFile => 'Notify',
         Data         => {
@@ -1417,11 +1385,14 @@ sub Header {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -1447,9 +1418,11 @@ sub Header {
 
                 # load and run module
                 next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},    # UserID etc.
                 );
+
                 next MODULE if !$Object;
 
                 my $ToolBarAccessOk;
@@ -1489,6 +1462,7 @@ sub Header {
 
                         # check user belongs to the correct group
                         my %GroupsReverse = reverse %Groups;
+
                         next ITEM if !$GroupsReverse{$GroupName};
 
                         $ToolBarAccessOk = 1;
@@ -1510,21 +1484,24 @@ sub Header {
             my $ToolBarItemSeparatorMyTickets = 0;
             my $ToolBarItemSeparatorSearch    = 0;
 
-            # Check which seperator is needed
+            # Check which separator is needed
             SHORTCUTAVAILIBLE:
             for my $Key ( sort keys %Modules ) {
                 next SHORTCUTAVAILIBLE if !%{ $Modules{$Key} };
 
                 if ( $Modules{$Key}{Block} eq 'ToolBarItem' ) {
                     $ToolBarItemSeparatorMyTickets = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} eq 'ToolBarItemShortcut' ) {
                     $ToolBarItemSeparatorShortcut = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} =~ m/ToolBarSearch.*/ ) {
                     $ToolBarItemSeparatorSearch = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
             }
@@ -1733,8 +1710,7 @@ sub _AddHeadersToResponseObject {
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
+    )
     {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
@@ -1815,6 +1791,7 @@ sub Footer {
             for my $RegExp ( sort keys %{ $SearchFrontendConfig->{$Group} } ) {
                 if ( $Self->{Action} =~ /$RegExp/ ) {
                     $JSCall = $SearchFrontendConfig->{$Group}->{$RegExp};
+
                     last REGEXP;
                 }
             }
@@ -1840,41 +1817,17 @@ sub Footer {
     # Load rich text libraries only when a RTE has been set up
     if ( $Self->{HasRichTextEditor} ) {
 
-        # ckeditor.js is always loaded when rich text is enabled
+        my $JSDirectoryPath = $WebPath . 'js/';
+
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => '',
-                Filename    => 'ckeditor.js',
+                JSDirectory         => $JSDirectoryPath,
+                Filename            => 'ckeditor5.js',
+                WrapperFileName     => 'Core.UI.CKEditor5Wrapper.js',
+                TranslationFilename => $Self->_GetRichTextTranslationPath(),
             },
         );
-
-        # assemble the path to the translation file based on the relevant URLs
-        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
-        if ( $RichTextPath && $WebPath ) {
-            my $Home = $ConfigObject->Get('Home');
-            $RichTextPath =~ s/$WebPath//s;
-            my $TranslationFile = lc "$Self->{UserLanguage}.js";
-            $TranslationFile =~ s/_/-/g;
-            my $TranslationFullPath = File::Spec->catfile(
-                $Home,
-                'var/httpd/htdocs',
-                $RichTextPath,
-                'translations',
-                $TranslationFile
-            );
-
-            # load the translation file only if it exists
-            if ( -f $TranslationFullPath ) {
-                $Self->Block(
-                    Name => 'RichTextTranslationJS',
-                    Data => {
-                        JSDirectory => 'translations/',
-                        Filename    => $TranslationFile,
-                    },
-                );
-            }
-        }
     }
 
     # add JS data
@@ -1884,10 +1837,8 @@ sub Footer {
         WebPath                        => $WebPath,
         Action                         => $Self->{Action},
         Subaction                      => $Self->{Subaction},
-        SessionIDCookie                => $Self->{SessionIDCookie},
         SessionName                    => $Self->{SessionName},
         SessionID                      => $Self->{SessionID},
-        SessionUseCookie               => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
@@ -2205,114 +2156,6 @@ sub Ascii2Html {
     # The input parameter Text determines the type of the returned value
     return $Text if ref $Param{Text};
     return ${$Text};
-}
-
-=head2 LinkQuote()
-
-detect links in text
-
-    my $HTMLWithLinks = $LayoutObject->LinkQuote(
-        Text => $HTMLWithOutLinks,
-    );
-
-also string ref is possible
-
-    my $HTMLWithLinksRef = $LayoutObject->LinkQuote(
-        Text => \$HTMLWithOutLinksRef,
-    );
-
-=cut
-
-sub LinkQuote {
-    my ( $Self, %Param ) = @_;
-
-    my $Text = $Param{Text} || '';    # either a string or a reference to a string
-
-    # check ref
-    my $TextScalar;
-    if ( !ref $Text ) {
-        $TextScalar = $Text;
-        $Text       = \$TextScalar;
-    }
-
-    # run output filter text
-    my @Filters;
-    if ( $Self->{FilterText} && ref $Self->{FilterText} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterText} };
-
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            $Self->FatalDie() if !$MainObject->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            push @Filters, {
-                Object => $Object,
-                Filter => $FilterConfig,
-            };
-        }
-    }
-
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Pre(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Post(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-
-    # do mail to quote
-    ${$Text} =~ s/(mailto:.+?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
-
-    # check ref && return result like called
-    if ($TextScalar) {
-        return ${$Text};
-    }
-    else {
-        return $Text;
-    }
 }
 
 =head2 HTMLLinkQuote()
@@ -3322,6 +3165,7 @@ sub NavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -3330,6 +3174,7 @@ sub NavigationBar {
                     GROUP:
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         next GROUP if !$Group;
+
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
                             GroupName => $Group,
@@ -3338,6 +3183,7 @@ sub NavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -3362,6 +3208,7 @@ sub NavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -3374,6 +3221,7 @@ sub NavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendRegistration->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -3382,6 +3230,7 @@ sub NavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -3394,13 +3243,14 @@ sub NavigationBar {
                 }
             }
 
-            next ITEM if !$Shown;
+            next ITEM unless $Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBar{$Key};
+
+                last COUNT unless $NavBar{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -3430,10 +3280,12 @@ sub NavigationBar {
 
             # load module
             next MENUMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MENUMODULE if !$Object;
 
             # run module
@@ -3453,6 +3305,7 @@ sub NavigationBar {
     for my $Key ( sort keys %NavBar ) {
         next ITEM if $Key eq 'Sub';
         next ITEM if !%{ $NavBar{$Key} };
+
         my $Item = $NavBar{$Key};
         $Item->{NameForID} = $Item->{Name};
         $Item->{NameForID} =~ s/[ &;]//ig;
@@ -3537,6 +3390,7 @@ sub NavigationBar {
                     );
 
                     $SearchAdded = 1;
+
                     last KEY;
                 }
             }
@@ -4044,10 +3898,10 @@ sub BuildDateSelection {
     );
 
     # Add Datepicker JS to output if we are not rendering a multivalue template.
-    if ( $Prefix !~ /^DynamicField_/ || $Suffix ne '_Template' ) {
+    if ( $Prefix !~ /^DynamicField_/ || ( $Suffix ne '_Template' && $Prefix !~ /_Template$/ ) ) {
         my $DatepickerJS = '
         Core.UI.Datepicker.Init({
-        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .           ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
+            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' .       ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' .   ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
             Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' .     ( $Suffix ? ' + Core.App.EscapeSelector("' . $Suffix . '")' : '' ) . '),
@@ -4056,6 +3910,8 @@ sub BuildDateSelection {
             DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',
             DateNotInFuture: ' . ( $ValidateDateNotInFuture ? 'true' : 'false' ) . ',
             WeekDayStart: ' . $WeekDayStart . '
+        }, {
+            Disabled: ' . ( $Param{Disabled} ? 'true' : 'false' ) . '
         });';
 
         $Self->AddJSOnDocumentComplete( Code => $DatepickerJS );
@@ -4079,7 +3935,7 @@ sub BuildDateSelection {
                 $Val =~ s/^\s*-// ? 'SubtractDays' : 'SetDate';
 
             $Output .= $Self->Output(
-                Template => "<a class='CallForAction oooQuickDate $Method' data-days='[% Data.Val | html %]'><span>[% Data.Name | html %]</span></a>\n",
+                Template => "<a class='CallForAction oooQuickDate $Method' data-days='[% Data.Val | html %]'><span>[% Translate(Data.Name) | html %]</span></a>\n",
                 Data     => {
                     Val  => $Val,
                     Name => $Name,
@@ -4191,12 +4047,10 @@ sub CustomerLogin {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -4215,12 +4069,7 @@ sub CustomerLogin {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -4337,6 +4186,7 @@ sub CustomerLogin {
                 Name => 'AuthTwoFactor',
                 Data => \%Param,
             );
+
             last COUNT;
         }
 
@@ -4396,6 +4246,8 @@ sub CustomerLogin {
     $Self->_AddHeadersToResponseObject(
         XLoginHeader => 1,
     );
+
+    $Param{DisableStandardLogin} = $Self->_HasOnlyOIDCAuthModules( LoginType => 'Customer' );
 
     # create & return output
     return $Self->Output(
@@ -4475,8 +4327,11 @@ sub CustomerHeader {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -4600,6 +4455,7 @@ sub CustomerFooter {
                     GroupName => $GroupName,
                     Type      => 'ro',
                 );
+
                 last GROUP if $CustomerChatPermission;
             }
         }
@@ -4621,41 +4477,18 @@ sub CustomerFooter {
     # Load rich text libraries only when a RTE has been set up
     if ( $Self->{HasRichTextEditor} ) {
 
+        my $JSDirectoryPath = $WebPath . 'js/';
+
         # ckeditor.js is always loaded when rich text is enabled
         $Self->Block(
             Name => 'RichTextJS',
             Data => {
-                JSDirectory => '',
-                Filename    => 'ckeditor.js',
+                JSDirectory         => $JSDirectoryPath,
+                Filename            => 'ckeditor5.js',
+                WrapperFileName     => 'Core.UI.CKEditor5Wrapper.js',
+                TranslationFilename => $Self->_GetRichTextTranslationPath(),
             },
         );
-
-        # assemble the path to the translation file based on the relevant URLs
-        my $RichTextPath = $ConfigObject->Get('Frontend::RichTextPath');
-        if ( $RichTextPath && $WebPath ) {
-            my $Home = $ConfigObject->Get('Home');
-            $RichTextPath =~ s/$WebPath//s;
-            my $TranslationFile = lc "$Self->{UserLanguage}.js";
-            $TranslationFile =~ s/_/-/g;
-            my $TranslationFullPath = File::Spec->catfile(
-                $Home,
-                'var/httpd/htdocs',
-                $RichTextPath,
-                'translations',
-                $TranslationFile
-            );
-
-            # load the translation file only if it exists
-            if ( -f $TranslationFullPath ) {
-                $Self->Block(
-                    Name => 'RichTextTranslationJS',
-                    Data => {
-                        JSDirectory => 'translations/',
-                        Filename    => $TranslationFile,
-                    },
-                );
-            }
-        }
     }
 
     # add JS data
@@ -4665,10 +4498,8 @@ sub CustomerFooter {
         WebPath                  => $WebPath,
         Action                   => $Self->{Action},
         Subaction                => $Self->{Subaction},
-        SessionIDCookie          => $Self->{SessionIDCookie},
         SessionName              => $Self->{SessionName},
         SessionID                => $Self->{SessionID},
-        SessionUseCookie         => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken           => $Self->{UserChallengeToken},
         CustomerPanelSessionName => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage             => $Self->{UserLanguage},
@@ -4699,14 +4530,14 @@ sub CustomerFooter {
         );
 
         for my $Link ( sort keys %{$FooterLinks} ) {
-            my $SubstitudedLink = $Link;
+            my $SubstitutedLink = $Link;
             for my $Option (qw/HttpType FQDN ScriptAlias/) {
-                $SubstitudedLink =~ s/<OTOBO_CONFIG_$Option>/$URLConfig{ $Option }/g;
+                $SubstitutedLink =~ s/<OTOBO_CONFIG_$Option>/$URLConfig{ $Option }/g;
             }
 
             push @FooterLinks, {
                 Description => $FooterLinks->{$Link},
-                Target      => $SubstitudedLink,
+                Target      => $SubstitutedLink,
             };
         }
 
@@ -4839,6 +4670,7 @@ sub CustomerNavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -4852,6 +4684,7 @@ sub CustomerNavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -4876,6 +4709,7 @@ sub CustomerNavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -4888,6 +4722,7 @@ sub CustomerNavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendModule->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -4896,6 +4731,7 @@ sub CustomerNavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -4914,7 +4750,7 @@ sub CustomerNavigationBar {
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBarModule{$Key};
+                last COUNT unless $NavBarModule{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -5032,11 +4868,13 @@ sub CustomerNavigationBar {
 
             # load module
             next JOB if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next JOB if !$Object;
+
+            next JOB unless $Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -5090,6 +4928,7 @@ sub CustomerNavigationBar {
             )
         {
             $Param{ShowPreferences} = 1;
+
             last PERMISSION;
         }
 
@@ -5102,6 +4941,7 @@ sub CustomerNavigationBar {
             GROUP:
             for my $Group ( @{ $FrontendModule->{CustomerPreferences}->{$Permission} } ) {
                 next GROUP if !$Group;
+
                 my $HasPermission = $GroupObject->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $Group,
@@ -5110,6 +4950,7 @@ sub CustomerNavigationBar {
                 );
                 if ($HasPermission) {
                     $Param{ShowPreferences} = 1;
+
                     last PERMISSION;
                 }
             }
@@ -5373,8 +5214,10 @@ sub RichTextDocumentComplete {
     );
 
     # verify HTML document
-    my $HTMLString = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
-        String => $StringRef->$*,
+    my $CustomerInterface = ( $Self->{SessionSource} && ( $Self->{SessionSource} eq 'CustomerInterface' ) ) ? 1 : 0;
+    my $HTMLString        = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentComplete(
+        String            => $StringRef->$*,
+        CustomerInterface => $CustomerInterface
     );
 
     # do correct direction
@@ -5564,12 +5407,6 @@ sub RichTextDocumentServe {
         }
     }
 
-    # build base url for inline images
-    my $SessionID = '';
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
-
     # replace inline images in content with runtime url to images
     my $AttachmentLink = $Self->{Baselink} . $Param{URL};
     $Param{Data}->{Content} =~ s{
@@ -5594,12 +5431,13 @@ sub RichTextDocumentServe {
             next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
 
             if ( !$Param{ContentIDs} ){
-                $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+                $ContentID = $AttachmentLink . $AttachmentID;
             }
             #ArticleEdit inline attachments rendering
             else {
-                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
+                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}};
             }
+
             last ATTACHMENT_ID;
         }
 
@@ -5639,7 +5477,7 @@ sub RichTextDocumentServe {
         }
 
         # return new runtime url
-        $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+        $ContentID = $AttachmentLink . $AttachmentID;
         $Start . $ContentID . $End;
     }egxi;
     }
@@ -5783,11 +5621,8 @@ sub _BuildSelectionOptionRefCreate {
     # set Max option
     $OptionRef->{Max} = $Param{Max} || 100;
 
-    # set HTMLQuote option
-    $OptionRef->{HTMLQuote} = 1;
-    if ( defined $Param{HTMLQuote} ) {
-        $OptionRef->{HTMLQuote} = $Param{HTMLQuote};
-    }
+    # set HTMLQuote option, default is 1
+    $OptionRef->{HTMLQuote} = $Param{HTMLQuote} // 1;
 
     return $OptionRef;
 }
@@ -5978,6 +5813,7 @@ sub _BuildSelectionDataRefCreate {
             KEY:
             for my $Key ( sort keys %{$DataLocal} ) {
                 next KEY if !defined $DataLocal->{$Key};
+
                 $SortHash{$Key} = $DataLocal->{$Key} . '::';
             }
             @SortKeys = sort { lc $SortHash{$a} cmp lc $SortHash{$b} } ( keys %SortHash );
@@ -5997,10 +5833,21 @@ sub _BuildSelectionDataRefCreate {
             # already done before the translation
         }
         else {
+
+            # if empty value has been added, remove before sort
+            my $EmptyValue = delete $DataLocal->{''};
+
             @SortKeys = sort {
                 lc( $DataLocal->{$a} // '' )
                     cmp lc( $DataLocal->{$b} // '' )
             } ( keys %{$DataLocal} );
+
+            # if we had an empty value, put it back and add it's
+            # sort-key at the very beginning
+            if ( defined $EmptyValue ) {
+                $DataLocal->{''} = $EmptyValue;
+                unshift @SortKeys, '';
+            }
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
@@ -6210,25 +6057,25 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # SelectedID and SelectedValue option
-    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+    if ( defined $OptionRef->{SelectedID} ) {
         for my $Row ( @{$DataRef} ) {
             if (
-                (
-                    (
-                        defined $Row->{Key}
-                        && $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    )
-                    ||
-                    (
-                        defined $Row->{Value}
-                        && $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                    )
+                defined $Row->{Key}
+                && defined $Row->{Value}
+                && $OptionRef->{SelectedID}->{ $Row->{Key} }
+                && !$DisabledElements{ $Row->{Value} }
                 )
-                &&
-                (
-                    defined $Row->{Value}
-                    && !$DisabledElements{ $Row->{Value} }
-                )
+            {
+                $Row->{Selected} = 1;
+            }
+        }
+    }
+    elsif ( $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (
+                defined $Row->{Value}
+                && $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                && !$DisabledElements{ $Row->{Value} }
                 )
             {
                 $Row->{Selected} = 1;
@@ -6574,28 +6421,29 @@ sub SetRichTextParameters {
     my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}               || $ConfigObject->Get("Frontend::RichTextWidth");
     my $RichTextType         = $Param{Data}->{RichTextType}                || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
-    my $TextDir              = $Self->{TextDirection}                      || '';
 
     # Declare different toolbars. These declarations will be used in JavaScript.
     my ( @Toolbar, @ToolbarWithoutImage );
 
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode') == 1 ) {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
+            'heading',       'bold',              'italic', 'underline', 'strikethrough', '|',
+            'bulletedList',  'numberedList',      '|',
+            'insertTable',   '|',                 'indent',     'outdent', 'alignment', '|',
             'link',          'undo',              'redo',       '|',
             'insertImage',   'horizontalLine',    'blockQuote', '|', 'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '|',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',    'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'bold',           'italic',            'underline', 'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',    '|',                 'indent',    'outdent',       'alignment', '|',
-            'link',           'undo',              'redo',      '|',
-            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',        'bold',              'italic', 'underline', 'strikethrough', '|',
+            'bulletedList',   'numberedList',      '|',
+            'insertTable',    '|',                 'indent', 'outdent', 'alignment', '|',
+            'link',           'undo',              'redo',   '|',
+            'horizontalLine', 'blockQuote',        '|',      'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '|',
-            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',     'fontSize',          '|', 'codeBlock'
         );
     }
     else {
@@ -6670,10 +6518,9 @@ sub SetRichTextParameters {
     $Self->AddJSData(
         Key   => 'RichText',
         Value => {
-            Height  => $ScreenRichTextHeight,
-            Width   => $ScreenRichTextWidth,
-            TextDir => $TextDir,
-            Lang    => {
+            Height => $ScreenRichTextHeight,
+            Width  => $ScreenRichTextWidth,
+            Lang   => {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
                 RemoveQuote => $LanguageObject->Translate('Remove Quote'),
             },
@@ -6682,6 +6529,9 @@ sub SetRichTextParameters {
             ToolbarWithoutImage => \@ToolbarWithoutImage,
             PictureUploadAction => $PictureUploadAction,
             Type                => $RichTextType,
+            EditorStylesPath    => $ConfigObject->Get("Frontend::RichTextEditorStyles"),
+            ContentStylesPath   => $ConfigObject->Get("Frontend::RichTextArticleStyles"),
+            CustomCSS           => $ConfigObject->Get("Frontend::RichText::DefaultCSS"),
         },
     );
 
@@ -6725,28 +6575,27 @@ sub CustomerSetRichTextParameters {
 
     my $ScreenRichTextHeight = $ConfigObject->Get("Frontend::RichTextHeight");
     my $ScreenRichTextWidth  = $ConfigObject->Get("Frontend::RichTextWidth");
-    my $TextDir              = $Self->{TextDirection}                      || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
 
     # Declare different toolbars. These declarations will be used in JavaScript.
     my ( @Toolbar, @ToolbarWithoutImage, @ToolbarMidi, @ToolbarMini );
     if ( $ConfigObject->Get('Frontend::RichText::EnhancedMode::Customer') == 1 ) {
         @Toolbar = (
-            'bold',          'italic',            'underline',  'strikethrough', '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',   '|',                 'indent',     'outdent',       'alignment', '|',
-            'link',          'undo',              'redo',       'selectAll',     '-',
-            'insertImage',   'horizontalLine',    'blockQuote', '|',             'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',       'bold',              'italic',     'underline', 'strikethrough', '|', 'bulletedList', 'numberedList', '|',
+            'insertTable',   '|',                 'indent',     'outdent',   'alignment',     '|',
+            'link',          'undo',              'redo',       'selectAll', '-',
+            'insertImage',   'horizontalLine',    'blockQuote', '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing', 'specialCharacters', '-',
-            'heading',       'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',    'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarWithoutImage = (
-            'bold',           'italic',            'underline', 'strikethrough',  '|',         'bulletedList', 'numberedList', '|',
-            'insertTable',    '|',                 'indent',    'outdent',        'alignment', '|',
-            'link',           'undo',              'redo',      'selectAll',      '-',
-            'horizontalLine', 'blockQuote',        '|',         'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
+            'heading',        'bold',              'italic', 'underline',      'strikethrough', '|', 'bulletedList', 'numberedList', '|',
+            'insertTable',    '|',                 'indent', 'outdent',        'alignment',     '|',
+            'link',           'undo',              'redo',   'selectAll',      '-',
+            'horizontalLine', 'blockQuote',        '|',      'findAndReplace', 'fontColor', 'fontBackgroundColor', 'removeFormat', '|',
             'sourceEditing',  'specialCharacters', '-',
-            'heading',        'fontFamily',        'fontSize', '|', 'codeBlock'
+            'fontFamily',     'fontSize',          '|', 'codeBlock'
         );
 
         @ToolbarMidi = (
@@ -6843,10 +6692,9 @@ sub CustomerSetRichTextParameters {
     $Self->AddJSData(
         Key   => 'RichText',
         Value => {
-            Height  => $ScreenRichTextHeight,
-            Width   => $ScreenRichTextWidth,
-            TextDir => $TextDir,
-            Lang    => {
+            Height => $ScreenRichTextHeight,
+            Width  => $ScreenRichTextWidth,
+            Lang   => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),
             },
             Plugins             => \@Plugins,
@@ -6855,6 +6703,9 @@ sub CustomerSetRichTextParameters {
             ToolbarMidi         => \@ToolbarMidi,
             ToolbarMini         => \@ToolbarMini,
             PictureUploadAction => $PictureUploadAction,
+            EditorStylesPath    => $ConfigObject->Get("CustomerFrontend::RichTextEditorStyles"),
+            ContentStylesPath   => $ConfigObject->Get("CustomerFrontend::RichTextArticleStyles"),
+            CustomCSS           => $ConfigObject->Get("CustomerFrontend::RichText::DefaultCSS"),
         },
     );
 
@@ -6946,7 +6797,7 @@ This method may be called via the package name when C<RegisterInOM> is active.
 
    Kernel::Output::HTML::Layout->SetCookie(
        RegisterInOM => 1,
-       Key          => 'SessionIDCookie',
+       Key          => 'CookieForOTOBOSessionID',
        Name         => $Param{SessionName},
        Value        => $NewSessionID,
        Expires      => $Expires,
@@ -6981,7 +6832,7 @@ sub SetCookie {
         # the configured value is the regular case
         $SameSite //= $ConfigObject->Get('SessionSameSite');
 
-        # fallback when neiter configured or passed from command line
+        # fallback when neither configured or passed from command line
         $SameSite //= 'lax';
 
         # lower case
@@ -7007,7 +6858,7 @@ sub SetCookie {
         # the configured value is the regular case
         $Path //= $ConfigObject->Get('ScriptAlias');
 
-        # fallback when neiter configured or passed from command line
+        # fallback when neither configured or passed from command line
         $Path //= '';
 
         # leading slash unless there already is a leading slash
@@ -7040,6 +6891,60 @@ sub SetCookie {
     }
 
     return 1;
+}
+
+sub _HasOnlyOIDCAuthModules {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $LoginType = $Param{LoginType} || 'Agent';
+
+    my $LoginModule = $LoginType eq 'Customer'
+        ? 'Customer::AuthModule'
+        : 'AuthModule';
+
+    my $OIDCAuthModule = $LoginType eq 'Customer'
+        ? 'Kernel::System::CustomerAuth::OpenIDConnect'
+        : 'Kernel::System::Auth::OpenIDConnect';
+
+    COUNT:
+    for my $Count ( '', 1 .. 10 ) {
+
+        my $Module = $ConfigObject->Get("$LoginModule$Count");
+
+        if ( $Module && $Module ne $OIDCAuthModule ) {
+
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+sub _GetRichTextTranslationPath {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Home         = $ConfigObject->Get('Home');
+    my $WebPath      = $ConfigObject->Get('Frontend::WebPath');
+    my $RichTextPath = $ConfigObject->Get("Frontend::RichTextPath");
+
+    my $ShortLanguage = lc $Self->{UserLanguage};
+    $ShortLanguage =~ s/_.*$//;
+
+    my $RichTextFilePath = $RichTextPath;
+    $RichTextFilePath =~ s~$WebPath~$Home/var/httpd/htdocs/~;
+
+    my $TranslationPath = $RichTextFilePath . 'translations/' . $ShortLanguage . '.js';
+
+    # check whether there is a translation avail for CKEditor5
+    if ( -e $TranslationPath ) {
+        return 'translations/' . $ShortLanguage . '.js';
+    }
+
+    return 'translations/en.js';
 }
 
 1;

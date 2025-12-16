@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.857592564832859;
+    $Self->{Completeness}        = 0.852515300791163;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -193,7 +193,6 @@ sub Data {
         'Add Notification' => 'Додај Обавештење',
         'Edit Notification' => 'Уреди обавештење',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'Обавештења о извозу',
         'Filter for Notifications' => 'Филтер за обавештења',
         'Filter for notifications' => 'Филтер за обавештења',
@@ -675,6 +674,8 @@ sub Data {
             'Овде можете да унесете опциону HTTP везу за вредност поља у екранима прегледа.',
         'Example' => 'Пример',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
             '',
         'Link for preview' => 'Веза за преглед',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -1346,8 +1347,11 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Цела путања директоријума сертификационог тела где се складиште CA сертификати у систему датотека.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'нпр. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => 'Мапирање контролера за позиваоца',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
@@ -2970,6 +2974,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'Тикет је закључан.',
         'Undo & close' => 'Одустани & затвори',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Сва поља означена звездицом (*) су обавезна.',
         'Ticket Settings' => 'Подешавање тикета',
         'Queue invalid.' => 'Неважећи ред.',
         'Service invalid.' => 'Неважећа услуга.',
@@ -3046,7 +3051,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Отвори нови имејл тикет',
-        'Example Template' => 'Пример шаблона',
         'To customer user' => 'За клијента корисника',
         'Please include at least one customer user for the ticket.' => 'Молимо вас укључите барем једног клијента корисника за тикет.',
         'Select this customer as the main customer.' => 'Означи овог клијента као главног клијента.',
@@ -4119,6 +4123,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -4130,9 +4137,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4290,6 +4297,8 @@ sub Data {
         'Need valid Subaction!' => 'Неопходан важећи Subaction!',
         'This field should be an integer.' => 'Ово поље мора бити цео број.',
         'File or Directory not found.' => 'Датотека или директоријум нису пронађени.',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'Постоји други веб сервис са истим именом.',
@@ -4409,6 +4418,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Обрађене информације из базе података нису синхронизоване са системском конфигурацијом, молимо вас да синхронизујете све процесе.',
         'Need ExampleProcesses!' => 'Неопходан ExampleProcesses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'Дошло је до грешке приликом подешавања статуса синхронизације за ентитет процеса: %s',
         'Need ProcessID!' => 'Неопходан ProcessID!',
         'Yes (mandatory)' => 'Да (обавезно)',
         'Unknown Process %s!' => 'Непознат процес %s!',
@@ -4416,8 +4427,6 @@ sub Data {
             'Дошло је до грешке приликом креирања новог ID ентитета за овај процес',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID за неактивно стање не постоји',
         'There was an error creating the Process' => 'Дошло је до грешке приликом креирања Процеса',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'Дошло је до грешке приликом подешавања статуса синхронизације за ентитет процеса: %s',
         'Could not get data for ProcessID %s' => 'Не могу прибавити податке за ID процеса %s',
         'There was an error updating the Process' => 'Дошло је до грешке приликом ажурирања Процеса',
         'Process: %s could not be deleted' => 'Процес: %s се не може обрисати',
@@ -4776,6 +4785,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Није дат ArticleID!',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5027,6 +5037,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Грешка: датотека није могла бити обрисана. Молимо контактирајте вашег администратора (недостаје FileID).',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'SessionID се не може уклонити.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5038,6 +5051,9 @@ sub Data {
         'Invalid Key!' => '',
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
+
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Неопходан ArticleID!',
@@ -5535,6 +5551,13 @@ sub Data {
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
         'e.g. Text or Te*t' => 'нпр. Text или Te*t',
@@ -5546,9 +5569,6 @@ sub Data {
         'Attribute which will be searched on autocomplete' => '',
         'Select the attribute which customer companies will be searched by' =>
             '',
-
-        # Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
-        'Notice: search in lens fields is currently disabled' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
         'This field is required or' => 'Ово поље је обавезно или',
@@ -5578,6 +5598,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5821,6 +5844,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'Интерна грешка: Није могуће прочитати датотеку.',
         'Tables found which are not present in the database.' => 'Пронађене табеле које нису присутне у бази података.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Величина базе података',
         'Could not determine database size.' => 'Није могуће утврдити величину базе података.',
@@ -5865,6 +5893,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Неопходан је MySQL 5.x или више.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG подешавање',
@@ -6187,7 +6216,6 @@ sub Data {
             'Неуспешна пријава! Нетачно је унето ваше корисничко име или лозинка.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Аутентификација је успела, али подаци о клијенту нису пронађени у бази. Молимо контактирајте администратора.',
-        'Can`t remove SessionID.' => 'SessionID се не може уклонити.',
         'Logout successful.' => 'Успешна одјава.',
         'Feature not active!' => 'Функција није активна!',
         'Sent password reset instructions. Please check your email.' => 'Упутство за ресет лозинке је послато. Молимо проверите ваше имејлове.',
@@ -6806,8 +6834,6 @@ Thanks for your help!
         ' 2 minutes' => ' 2 минута',
         ' 5 minutes' => ' 5 минута',
         ' 7 minutes' => ' 7 минута',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '"Упрошћени" изглед који покушава да уштеди место за напредне кориснике.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Корисничко име) Име Презиме',
         '(UserLogin) Lastname Firstname' => '(Корисничко име) Презиме Име',
@@ -6831,6 +6857,8 @@ Thanks for your help!
         'A Website' => 'Вебсајт',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Листа динамичких поља која су споајена у главни тикет током операције спајања. Биће подешена само динамичка поља која су празна у главном тикету.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'Слика',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL модул који дозвољава да надређени тикети буду затворени само ако су већ затворени сви подређени тикети ("State" показује која стања нису доступна за надређени тикет док се не затворе сви подређени тикети).',
@@ -7066,13 +7094,11 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Аутоматско подешавање одговорног за тикет (ако није до сада подешено) после првог ажурирања.',
         'Avatar' => 'Аватар сличица',
-        'Balanced white skin by Felix Niklas (slim version).' => 'Избалансирани бели изглед, Феликс Никлас (танка верзија).',
-        'Balanced white skin by Felix Niklas.' => 'Избалансирани бели изглед, Феликс Никлас.',
         'Based on global RichText setting' => 'Базирано на глобалним RichText поставкама',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Основно подешавање индекса целог текста. Покрените "bin/otobo.Console.pl Maint::Ticket::FulltextIndexRebuild --rebuild" како би се генерисао нови индекс.',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            'Блокира све долазне емаил-ове који немају исправан број тикета у предмету са Од: @example.com адресе.',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => 'Одбијено на "%s".',
         'Bulgarian' => 'Бугарски',
         'Bulk Action' => 'Масовна акција',
@@ -7197,6 +7223,10 @@ Thanks for your help!
         'Configure the privacy policy.' => '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Конфигурише који екран би требало приказати након креирања новог тикета.',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => 'Конфигуриши сопствени лог текст за PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
@@ -7257,6 +7287,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Креиран тикет [%s] у "%s" са приоритетом "%s" и стањем "%s".',
         'Croatian' => 'Хрватски',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'Прилагођени RSS извор',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Прилагођен текст за страницу која се приказује клијентима који још увек немају тикете (ако вам је тај текст потребан на другом језику, додајте га у прилагођен модул за преводе).',
@@ -7307,7 +7338,6 @@ Thanks for your help!
         'Dashboard overview.' => 'Преглед командне табле.',
         'Data used to export the search result in CSV format.' => 'Подаци употребљени за ивоз резултата претраживања у CSV формату.',
         'Date / Time' => 'Датум / Време',
-        'Default (Slim)' => 'Подразумевано (упрошћено)',
         'Default ACL values for ticket actions.' => 'Подразумеване ACL вредности за акције тикета.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Подразумевани префикси објекта за управљање процесом за ИЂеве објекта који су аутоматски генерисани.',
@@ -7322,7 +7352,6 @@ Thanks for your help!
             'Подразумевани тип приказа за имена (Од) пошиљаоца на детаљном приказу тикета у интерфејсу оператера и клијента.',
         'Default loop protection module.' => 'Подразумевани модул заштите од петље.',
         'Default queue ID used by the system in the agent interface.' => 'Подразумевани ID реда који користи систем у интерфејсу оператера.',
-        'Default skin for the agent interface (slim version).' => 'Подразумевани изглед окружења за интерфејс оператера (слаба верзија).',
         'Default skin for the agent interface.' => 'Подразумевани изглед окружења за интерфејс оператера.',
         'Default skin for the customer interface.' => 'Подразумевани изглед окружења за интерфејс клијента.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -7417,9 +7446,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Дефинише модул прегледа за приказ адресара клијент корисника.',
         'Defines available article actions for Chat articles.' => 'Дефинише омогућене акције за чланке ћаскања.',
-        'Defines available article actions for Email articles.' => 'Дефинише омогућене акције за чланке имејлова.',
         'Defines available article actions for Internal articles.' => 'Дефинише омогућене акције за интерне чланке.',
         'Defines available article actions for Phone articles.' => 'Дефинише омогућене акције за чланке позива.',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => 'Дефинише омогућене акције за неважеће чланке.',
         'Defines available groups for the admin overview screen.' => 'Дефинише доступне категорије за екран администраторског прегледа.',
         'Defines chat communication channel.' => 'Дефинише комуникациони канал ћаскања.',
@@ -7579,8 +7608,6 @@ Thanks for your help!
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Дефинише форноса датума у формуларе (опционо или поља за унос).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             'Одређује подразумевано име оператера у детаљном приказу тикета у интерфејсу клијента.',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7764,6 +7791,8 @@ Thanks for your help!
             'Дефинише подразумеване групе за клијенте (уколико је CustomerGroupSupport укључен и не желите да управљате групама појединачних клијената).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            'Одређује висину за компоненту Rich Text Editor. Унеси број (пиксели) или процентуалну вредност (релативну).',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Дефинише коментар историје за приказ екрана активности затвореног тикета, који се користи за историју тикета у интерфејсу оператера.',
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7819,8 +7848,6 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
         'Defines the hours and week days to count the working time.' => 'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
-        'Defines the initial height for the rich text editor component in pixels.' =>
-            '',
         'Defines the initial height in pixels for the rich text editor component for this screen.' =>
             '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
@@ -8065,6 +8092,8 @@ Thanks for your help!
             'Дефинише корисникову аватар сличицу. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             'Дефинише исправне типове стања тикета. Ако је тикет у стању који садржи било који тип стања из овог подешавања, овај тикет ће се сматрати отвореним, у супротном као затворен.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8154,6 +8183,8 @@ Thanks for your help!
             'Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити укључено).',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             'Онемогућује преусмеравање на последњи екран прегледа / контролну таблу пошто је тикет затворен.',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Прикажи упозорење и онемогући претрагу ако су употребљене зауставне речи у претрази комплетног текста.',
         'Display communication log entries.' => 'Приказује ставке комуникационих логова.',
@@ -8485,6 +8516,7 @@ Thanks for your help!
         'High Contrast' => 'Високи контраст',
         'High contrast skin for visually impaired users.' => 'Високо контрастни изглед за особе слабијег вида.',
         'Hindi' => 'Хинди',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'Мађарски',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Уколико је изабрано „DB” за „Customer::AuthModule”, могуће је подесити драјвер базе података (обично се користи аутоматско препознавање).',
@@ -8566,6 +8598,8 @@ Thanks for your help!
             'Ако је као модул за слање имејла изабран било који од "SMTP" механизама, уређај који  шаље имејлове мора да буде наведен.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Ако је као модул за слање имејла изабран било који од "SMTP" механизама, порт на ком ваш имеј сервер слуша мора да буде наведен.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'Ако је активирано, исправљање грешака за ACL се бележи.',
         'If enabled debugging information for transitions is logged.' => 'Ако је активирано, исправљање грешака за транзиције се бележи.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8617,6 +8651,8 @@ Thanks for your help!
         'Import and export object information.' => 'Информације о увозу и извозу објеката',
         'Import appointments screen.' => 'Екран за увоз термина.',
         'Import/Export' => 'Увоз/Извоз',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Код избора реда, подразумевано укључи и тикете подредова.',
         'Include unknown customers in ticket filter.' => 'Укључите непознате клијенте у филтер тикета.',
@@ -8644,8 +8680,6 @@ Thanks for your help!
         'Italian' => 'Италијански',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Италијанске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
-        'Ivory' => 'Слоновача',
-        'Ivory (Slim)' => 'Слоновача (упрошћено)',
         'Japanese' => 'Јапански',
         'JavaScript function for the search frontend.' => 'JavaScript функција за модул претраге.',
         'Jump to OTOBO!' => '',
@@ -8746,14 +8780,18 @@ Thanks for your help!
         'Manage different calendars.' => 'Управљање различитим календарима.',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'Управљање постојећим сесијама.',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'Управљање подацима подршке.',
         'Manage system registration.' => 'Управљање систем регистрацијом.',
         'Manage tasks triggered by event or time based execution.' => 'Управља задацима покренутим од догађаја или на основу временског извршавања.',
         'Manage ticket state pre-selections for response templates.' => '',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => 'Означи као Спам!',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => 'Означи овај тикет као бесмислен junk!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Максимална дужина (у знацима) клијентске инфо табеле (телефон и имејл) на екрану писања имејла.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8762,6 +8800,8 @@ Thanks for your help!
             'Максимална величина (у редовима) оквира укључених оператера у оператерском интерфејсу.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Максимална величина предмета у имејл одговору и неким екранима прегледа.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Максимум аутоматских имејл одговора дневно на сопствену адресу (Заштита од петље)',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8867,6 +8907,8 @@ Thanks for your help!
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Број линија (по тикету) приказаних према услужној претрази у интерфејсу оператера.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
@@ -8997,6 +9039,10 @@ Thanks for your help!
         'ParentChild' => 'ParentChild',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'Путања до лог датотеке (важи једино ако је за LoopProtectionModule изабрано "FS" и постављено као обавезно).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => 'Време чекања',
         'People' => 'Особе',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
@@ -9147,6 +9193,8 @@ Thanks for your help!
         'Russian' => 'Руски',
         'S/MIME Certificates' => 'S/MIME сертификати',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'Поздрави',
         'Sample command output' => 'Пример командног излаза',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9787,6 +9835,8 @@ Thanks for your help!
             '',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             '',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9811,8 +9861,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => 'Ова опција одређује подразумевани статус тикета у обради.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'Ова опција ће одбити приступ тикетима клијентове фирме, ако их  није  креирао клијент корисник .',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ова опција вам дозвољава да уграђену листу држава замените својом. Ово је посбно корисно ако у селекцији желите да користите само мали број држава.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Ово подешавање је застарело. Подесите OTOBOTimeZone уместо њега.',
@@ -9870,8 +9920,8 @@ Thanks for your help!
             '',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'Време у секундама које се додаје на тренутно време ако се поставља статус на чекању (подразумевано: 86400 = 1 дан).',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'Прихватање информација приликом пријављивања, нпр. EULA изјава или лиценца.',
         'To download attachments.' => 'За преузимање прилога.',
         'To view HTML attachments.' => 'За преглед HTML прилога.',
@@ -9926,6 +9976,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => 'Користи richtext формат за преглед и уређивање обавештења о тикетима.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Користи richtekt формат за преглед и уређивање: чланака, поздрава, потписа, стандардних шаблона, аутоматских одговора и обавештења.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'Вијетнамски',
         'View performance benchmark results.' => 'Преглед резултата провере перформанси.',
         'View stored article version.' => '',
@@ -9952,8 +10004,6 @@ Thanks for your help!
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Када су тикети спојени, клијент може бити информисан имејлом постављањем поља за потврду "Обавести пошиљаоца". У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
-            '',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Дефинише да ли ће бити прикупљане информације из чланака коришћењем филтера дефинисаним у Ticket::Frontend::ZoomCollectMetaFilters.',

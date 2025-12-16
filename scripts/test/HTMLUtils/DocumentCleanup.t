@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,67 +32,6 @@ my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
 # DocumentCleanup tests
 my @Tests = (
-    {
-        Input  => '<p class="MsoNormal">Sehr geehrte Damen und Herren,<o:p></o:p></p>',
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input  => "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>",
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass=\"MsoNormal\"><o:p>&nbsp;</o:p></p>",
-        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input  => "<p class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input  => "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
-        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<p class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>Some Other Text... ",
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>Some Other Text... ',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input  => "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
-        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
-        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<div\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div\nclass='MsoNormal'><o:div>&nbsp;</o:div></div>",
-        Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
-        Name   => 'DocumentCleanup - MSHTML'
-    },
-    {
-        Input =>
-            "<div\r class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div class='MsoNormal' type=\"cite\"><o:div>&nbsp;</o:div></div>",
-        Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
-        Name   => 'DocumentCleanup - MSHTML'
-    },
     {
         Input  => 'Some Tex<b>t</b>',
         Result => 'Some Tex<b>t</b>',

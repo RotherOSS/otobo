@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -45,10 +45,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    $Self->{SessionTable} = $Kernel::OM->Get('Kernel::Config')->Get('SessionTable') || 'sessions';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get more config settings
+    $Self->{SessionTable} = $ConfigObject->Get('SessionTable') || 'sessions';
 
     # get database type
     $Self->{DBType} = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} || '';
@@ -75,7 +77,7 @@ sub CheckSessionID {
     # set default message
     $Self->{SessionIDErrorMessage} = Translatable('Session invalid. Please log in again.');
 
-    # get session data
+    # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
@@ -244,6 +246,7 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
+    # get system time
     my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # get remote address and the http user agent
@@ -255,6 +258,8 @@ sub CreateSessionID {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # create session id
+    #
+    # There is no need to include the SystemID in the session ID.
     my $SessionID = $MainObject->GenerateRandomString(
         Length => 32,
     );

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -117,9 +117,13 @@ $Selenium->RunTest(
             "return \$(window).height();"
         );
 
+print STDERR "$PopupWindowHeight\n";
         # two sizes are acceptable, as under Chrome that is a message about remote control
+        # plus another one since switch to chrom 141. Note the checked value can
+        # change if you watch the test via VNC because the actual size depends on the
+        # screen being used, different sized screens actually can return different values!
         ok(
-            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 ),
+            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 || $PopupWindowHeight == 647),
             "Default popup window height, considering the remote control warning"
         );
 

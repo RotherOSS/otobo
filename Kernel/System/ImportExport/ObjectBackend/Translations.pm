@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,6 +28,7 @@ use utf8;
 
 # OTOBO modules
 
+use Kernel::Language              qw(Translatable);
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -73,7 +74,7 @@ sub new {
     return bless {
         AllRows          => undef,    # will be initialized in first call to ExportDataGet()
         LastHandledIndex => -1,       # used for chunking
-        ChunkingFinished =>  1,       # indicate that chunking is finished
+        ChunkingFinished =>  1,       # indicate that chunking is finished, which is kind of true when no chunking is requested
     }, $Type;
 }
 
@@ -105,7 +106,7 @@ sub ObjectAttributesGet {
     return [
         {
             Key   => 'EmptyFieldsLeaveTheOldValues',
-            Name  => 'Empty fields indicate that the current values are kept',
+            Name  => Translatable('Empty fields indicate that the current values are kept'),
             Input => {
                 Type => 'Checkbox',
             },
@@ -270,7 +271,6 @@ sub ExportDataGet {
         $Self->{ChunkingFinished} = 0;
 
         # get the complete data only on the first invocation
-        $DB::single = 1;
         $Self->{AllRows} //= $Self->_GetTranslations(
             TemplateID => $Param{TemplateID},
             UserID     => $Param{UserID},
@@ -298,6 +298,21 @@ sub ExportDataGet {
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
+}
+
+=head2 IsExportComplete()
+
+Indicate whether the last C<ExportDataGet()> has returned the last chunk of data.
+A true value is also returned when chunking had not been activated.
+
+    my $ChunkingFinished = $ObjectBackend->IsExportComplete;
+
+=cut
+
+sub IsExportComplete {
+    my ($Self) = @_;
+
+    return $Self->{ChunkingFinished};
 }
 
 =head2 ImportDataSave()

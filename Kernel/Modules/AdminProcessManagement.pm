@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -223,6 +223,26 @@ sub Run {
                             Message => $Status{Error},
                         );
                     }
+                }
+            }
+
+            for my $ProcessEntityID ( $ProcessImport{ProcessEntityIDs}->@* ) {
+
+                # set entitty sync state
+                my $Success = $EntityObject->EntitySyncStateSet(
+                    EntityType => 'Process',
+                    EntityID   => $ProcessEntityID,
+                    SyncState  => 'not_sync',
+                    UserID     => $Self->{UserID},
+                );
+
+                # show error if can't set
+                if ( !$Success ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'There was an error setting the entity sync status for Process entity: %s', $EntityID
+                        ),
+                    );
                 }
             }
 
@@ -622,7 +642,7 @@ sub Run {
             }
         }
 
-        my $SkinSelected = $Self->{'UserSkin'};
+        my $SkinSelected = $Self->{Session}{UserSkin};
 
         # check if the skin is valid
         my $SkinValid = 0;
@@ -784,7 +804,7 @@ sub Run {
         my $StateEntityID = $StateLookup{'Inactive'};
 
         # show error if  StateEntityID for Inactive does not exist
-        if ( !$EntityID ) {
+        if ( !$StateEntityID ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('The StateEntityID for state Inactive does not exists'),
             );

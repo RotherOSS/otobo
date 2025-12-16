@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -132,7 +132,8 @@ sub PrepareRequest {
     my $API;
 
     # set CustomerKey
-    my $BackendConfig = $ConfigObject->Get( $Param{Data}{NewData}{Source} );
+    my $Source        = $Param{Data}{NewData}{Source} || $Param{Data}{OldData}{Source};
+    my $BackendConfig = $ConfigObject->Get($Source);
     my $CustomerKeyES = "UserLogin";
     if ( $BackendConfig->{CustomerKey} ) {
         $CustomerKeyES = "";
@@ -298,7 +299,7 @@ sub HandleResponse {
 
         # fix ExecutrionTime param
         if ( $QueryParams{ExecutionTime} ) {
-            $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
+            $QueryParams{ExecutionTime} =~ s{([0-9]+)\+([0-9]+)}{$1 $2};
         }
 
         return {

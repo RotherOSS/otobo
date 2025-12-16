@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -103,7 +103,7 @@ sub new {
         $Self->{Params} = {};
     }
 
-    $Self->{StartTLS} = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+    $Self->{StartTLS} = $ConfigObject->Get( 'AuthSyncModule::LDAP::StartTLS' . $Param{Count} ) || '';
 
     return $Self;
 }
@@ -1009,12 +1009,17 @@ sub _FindMember {
             filter => '(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))',
         );
 
-        # pop_entry() dies when no entry was found. This is fine as further search
-        # depends on having an entry
-        my $Entry = $Result->pop_entry();
+        # pop_entry() returns either a search result item or undef
+        my $Entry = $Result->pop_entry;
+
+        # nothing to do when no result was found
+        return unless defined $Entry;
+
+        # It is safe to call $Entry->dn as we already checked whether $Entry is defined.
+        # No exception is expected.
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => 'Nested group search in GroupDN: ' . $Entry->dn(),
+            Message  => 'Nested group search in GroupDN: ' . $Entry->dn,
         );
 
         # add group to list; if we see it again we will ignore it to avoid an infinite loop
@@ -1034,13 +1039,14 @@ sub _FindMember {
             );
 
             # check if we found an entry
-            eval {
-                my $Entry = $Result->pop_entry();    # dies when no entry was found
-                $MemberConfirmedRef->$* = 1;         # entry found as there was no exception
-            };
+            # pop_entry() returns either a search result item or undef
+            my $Entry = $Result->pop_entry;
+            if ($Entry) {
+                $MemberConfirmedRef->$* = 1;
 
-            # return from the eval if we found a match
-            return if $MemberConfirmedRef->$*;
+                # return from the eval if we found a match
+                return;
+            }
         }
 
         # nothing found in dynamic groups

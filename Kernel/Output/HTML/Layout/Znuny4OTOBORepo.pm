@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -265,14 +265,19 @@ Example html for a hook:
 
 =cut
 
-    return if !$Self->_OutputFilterHookExists(%Param);
+    return unless $Self->_OutputFilterHookExists(%Param);
 
-    my $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    if ($All) {
-        $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    }
+    # greedy matching when 'All' is passed,
+    # the content will be added only after the last HookEnd
+    my $HookRegex = $All
+        ?
+        qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi
+        :
+        qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }xmsig;
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }g;
 
     return 1;
 }
@@ -320,67 +325,19 @@ Example html for a hook:
 
 =cut
 
-    return if !$Self->_OutputFilterHookExists(%Param);
+    return unless $Self->_OutputFilterHookExists(%Param);
 
-    my $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    if ($All) {
-        $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    }
+    # greedy matching when 'All' is passed,
+    # the content will only be added only before the first HookEnd
+    my $HookRegex = $All
+        ?
+        qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi
+        :
+        qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }xmsig;
-
-    return 1;
-}
-
-=head2 AddJSOnDocumentCompleteIfNotExists()
-
-this functions adds JavaScript by the function AddJSOnDocumentComplete only if it not exists.
-
-    my $Success = $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
-        Key  => 'identifier_key_of_your_js',
-        Code => $JSBlock,
-    );
-
-Returns:
-
-    my $Success = 1;
-
-=cut
-
-sub AddJSOnDocumentCompleteIfNotExists {
-    my ( $Self, %Param ) = @_;
-
-    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
-
-    # check needed stuff
-    NEEDED:
-    for my $Needed (qw(Key Code)) {
-
-        next NEEDED if defined $Param{$Needed};
-
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "Parameter '$Needed' is needed!",
-        );
-        return;
-    }
-
-    my $Exists = 0;
-    CODEJS:
-    for my $CodeJS ( @{ $Self->{_JSOnDocumentComplete} || [] } ) {
-
-        next CODEJS if $CodeJS !~ m{ Key: \s $Param{Key}}xms;
-        $Exists = 1;
-        last CODEJS;
-    }
-
-    return 1 if $Exists;
-
-    my $AddCode = "// Key: $Param{Key}\n" . $Param{Code};
-
-    $Self->AddJSOnDocumentComplete(
-        Code => $AddCode,
-    );
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }g;
 
     return 1;
 }

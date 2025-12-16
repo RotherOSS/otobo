@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -779,7 +779,7 @@ sub ValidatePendingTime {
     # if only the Diff attribute is present, check if it's a valid number and return.
     # Nothing else needs to be checked in that case.
     if ( keys %{ $Param{PendingTime} } == 1 && defined $Param{PendingTime}->{Diff} ) {
-        return if $Param{PendingTime}->{Diff} !~ m{\A \d+ \z}msx;
+        return if $Param{PendingTime}->{Diff} !~ m{\A [0-9]+ \z}msx;
         return 1;
     }
     elsif ( defined $Param{PendingTime}->{Diff} ) {
@@ -1146,7 +1146,7 @@ sub ValidateTimeUnit {
     return if !$Param{TimeUnit};
 
     # TimeUnit must be positive
-    return if $Param{TimeUnit} !~ m{\A \d+([.,]\d+)? \z}xms;
+    return if $Param{TimeUnit} !~ m{\A [0-9]+([.,][0-9]+)? \z}xms;
 
     return 1;
 }
@@ -1257,6 +1257,7 @@ sub ValidateDynamicFieldValue {
     my $ValidateValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->FieldValueValidate(
         DynamicFieldConfig => $DynamicFieldConfig,
         Value              => $Param{Value},
+        ExternalSource     => $Param{ExternalSource},
         UserID             => 1,
     );
 

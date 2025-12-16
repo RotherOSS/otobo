@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -288,6 +288,12 @@
                             <p class="FieldExplanation">
                                 [% Translate("Will be the sender address of this queue for email answers.") | html %]
                             </p>
+                            <p class="FieldExplanation">
+                                [% Translate("Is defined in Admin > System addresses.") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("Only relevant if Postmaster Mail Account set to Dispatching by To: field.") | html %]
+                            </p>
                             <div id="SystemAddressIDError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
@@ -343,6 +349,12 @@
                         <label for="Calendar">[% Translate("Calendar") | html %]:</label>
                         <div class="Field">
                             [% Data.CalendarOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.") | html %]
+                            </p>
                         </div>
                         <div class="Clear"></div>
 

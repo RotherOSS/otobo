@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,6 +46,8 @@ sub Run {
 
     # Ignore all inline parts as these are actually part of the email body.
     my @Attachments = $Self->{ParserObject}->GetAttachments();
+
+    # ignore the parts that are not marked as attachments
     @Attachments = grep { defined $_->{ContentDisposition} && $_->{ContentDisposition} ne 'inline' } @Attachments;
 
     $Self->{CommunicationLogObject}->ObjectLog(
@@ -59,7 +61,8 @@ sub Run {
     for my $Attachment (@Attachments) {
 
         my $Tn = $TicketObject->GetTNByString( $Attachment->{Content} );
-        next ATTACHMENT if !$Tn;
+
+        next ATTACHMENT unless $Tn;
 
         my $TicketID = $TicketObject->TicketCheckNumber( Tn => $Tn );
 
@@ -69,8 +72,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::PostMaster::FollowUpCheck::Attachments',
-                Value         =>
-                    "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in email attachment '$Attachment->{Filename}'.",
+                Value         => "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in email attachment '$Attachment->{Filename}'.",
             );
 
             return $TicketID;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -148,8 +148,6 @@ sub StatsParamsWidget {
 
     my $Stat   = $Param{Stat};
     my $StatID = $Stat->{StatID};
-
-    my $Output;
 
     # get the object name
     if ( $Stat->{StatType} eq 'static' ) {
@@ -618,7 +616,7 @@ sub StatsParamsWidget {
         );
     }
 
-    $Output .= $LayoutObject->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'Statistics/StatsParamsWidget',
         Data         => {
             %{$Stat},
@@ -626,7 +624,6 @@ sub StatsParamsWidget {
         },
         AJAX => $Param{AJAX},
     );
-    return $Output;
 }
 
 sub GeneralSpecificationsWidget {

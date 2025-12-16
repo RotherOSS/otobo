@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
@@ -50,14 +53,14 @@ for my $Module (qw(DB FS)) {
 
     my $Check = $LoopProtectionObject->Check( To => $UserRand1 );
 
-    $Self->True(
+    ok(
         $Check || 0,
         "#$Module - Check() - $UserRand1",
     );
 
     for ( 1 .. 42 ) {
         my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand1 );
-        $Self->True(
+        ok(
             $SendEmail || 0,
             "#$Module - SendEmail() - #$_ ",
         );
@@ -65,8 +68,8 @@ for my $Module (qw(DB FS)) {
 
     $Check = $LoopProtectionObject->Check( To => $UserRand1 );
 
-    $Self->False(
-        $Check || 0,
+    ok(
+        !$Check,
         "#$Module - Check() - $UserRand1",
     );
 
@@ -74,18 +77,18 @@ for my $Module (qw(DB FS)) {
     my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand2 );
     for ( 1 .. 6 ) {
         my $SendEmail = $LoopProtectionObject->SendEmail( To => $UserRand2 );
-        $Self->True(
-            $SendEmail || 0,
+        ok(
+            $SendEmail,
             "#$Module - SendEmail() - $UserRand2 #$_ (with custom limit)",
         );
         $Check = $LoopProtectionObject->Check( To => $UserRand2 );
     }
 
     $Check = $LoopProtectionObject->Check( To => $UserRand2 );
-    $Self->False(
-        $Check || 0,
+    ok(
+        !$Check,
         "#$Module - Check() - $UserRand2 (with custom limit)",
     );
 }
 
-$Self->DoneTesting();
+done_testing;

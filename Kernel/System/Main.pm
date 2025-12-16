@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -484,6 +484,7 @@ sub FileRead {
                 );
             }
         }
+
         return;
     }
 
@@ -546,8 +547,10 @@ to write data to file system
                                  #      does only take effect if Directory and Filename are provided
     );
 
-Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
-and DirectoryRead() will also report them as C<NFD>.
+When successful the parameter C<Filename> or C<Location> is returned,
+depending on which parameter has been passed.
+
+An empty list is returned in the case of failure.
 
 =cut
 
@@ -578,6 +581,7 @@ sub FileWrite {
                     Priority => 'error',
                     Message  => "Can't create directory '$Param{Directory}': $!",
                 );
+
                 return;
             }
         }
@@ -901,6 +905,7 @@ sub MD5sum {
             Priority => 'error',
             Message  => 'Need Filename or String!',
         );
+
         return;
     }
 
@@ -925,6 +930,7 @@ sub MD5sum {
                     Message  => "Can't read '$Param{Filename}': $Error",
                 );
             }
+
             return;
         }
 
@@ -941,12 +947,14 @@ sub MD5sum {
     # md5sum string
     if ( !ref $Param{String} ) {
         $EncodeObject->EncodeOutput( \$Param{String} );
+
         return md5_hex( $Param{String} );
     }
 
     # md5sum scalar reference
     if ( ref $Param{String} eq 'SCALAR' ) {
         $EncodeObject->EncodeOutput( $Param{String} );
+
         return md5_hex( ${ $Param{String} } );
     }
 
@@ -1007,6 +1015,7 @@ sub Dump {
             Priority => 'error',
             Message  => "Need \$String in Dump()!"
         );
+
         return;
     }
 
@@ -1017,6 +1026,7 @@ sub Dump {
             Priority => 'error',
             Message  => "Invalid Type '$Type'!"
         );
+
         return;
     }
 
@@ -1083,7 +1093,8 @@ You can pass several additional filters at once:
         Filter    => \@MyFilters,
     );
 
-The result strings are absolute paths, and they are converted to utf8.
+The returned strings are either relative or absolute paths, depending on what kind
+of path was passed in as C<Directory>. The returned paths were converted to utf8.
 
 Use the 'Silent' parameter to suppress log messages when a directory
 does not have to exist:
@@ -1093,9 +1104,6 @@ does not have to exist:
         Filter    => '*',
         Silent    => 1,     # will not log errors if the directory does not exist
     );
-
-Platform note: MacOS (HFS+) stores filenames as Unicode C<NFD> internally,
-and DirectoryRead() will also report them as C<NFD>.
 
 =cut
 
@@ -1109,6 +1117,7 @@ sub DirectoryRead {
                 Message  => "Needed $Needed: $!",
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -1119,6 +1128,7 @@ sub DirectoryRead {
             Message  => "Directory doesn't exist: $Param{Directory}: $!",
             Priority => 'error',
         );
+
         return;
     }
 
@@ -1128,6 +1138,7 @@ sub DirectoryRead {
             Message  => 'Filter param need to be scalar or array ref!',
             Priority => 'error',
         );
+
         return;
     }
 
@@ -1146,8 +1157,8 @@ sub DirectoryRead {
         # look for repeated values
         NAME:
         for my $GlobName (@Glob) {
-
             next NAME if !-e $GlobName;
+
             if ( !$Seen{$GlobName} ) {
                 push @GlobResults, $GlobName;
                 $Seen{$GlobName} = 1;

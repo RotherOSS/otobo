@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -185,7 +185,7 @@ sub Run {
         if ( $GetParam->{UseSSL} && $GetParam->{UseSSL} eq 'Yes' ) {
 
             # Get SSL authentication settings.
-            for my $ParamName (qw( UseSSL SSLPassword SSLVerifyHostname )) {
+            for my $ParamName (qw( UseSSL SSLPassword SSLVerifyHostname SSLVerifyMode )) {
                 $TransportConfig->{SSL}->{$ParamName} = $GetParam->{$ParamName};
             }
             PARAMNAME:
@@ -288,8 +288,120 @@ sub Run {
         $TransportConfig->{AdditionalHeaders} = $Self->_GetAdditionalHeaders();
     }
 
+    my $OperationType = $CommunicationType eq 'Requester' ? 'Invoker' : 'Operation';
+
+    # Get operations with (potential) specific headers.
+    my @OperationOutboundHeaders = $ParamObject->GetArray( Param => 'OperationOutboundHeadersActive' );
+
+    # Create lookup for MD5 operation names.
+    my %OperationMD5Lookup;
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    for my $Operation ( sort keys %{ $WebserviceData->{Config}{$CommunicationType}{$OperationType} // {} } ) {
+        my $OperationMD5 = $MainObject->MD5sum(
+            String => \$Operation,
+        );
+        $OperationMD5Lookup{$OperationMD5} = $Operation;
+    }
+
+    # Get common and operation specific headers.
+    my @HeaderBlacklist = @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $OperationType . '::OutboundHeaderBlacklist' ) // [] };
+
+    my %ErrorHeaders;
+    my %Headers;
+    OPERATION:
+    for my $Operation ( '', @OperationOutboundHeaders ) {
+
+        my $ValueCounter = $ParamObject->GetParam(
+            Param => 'OutboundHeaders' . $Operation . 'ValueCounter'
+        );
+
+        next OPERATION if !$ValueCounter;
+
+        my %UsedKeys;
+        my $ErrorValueCounter = 0;
+        INDEX:
+        for my $Index ( 1 .. $ValueCounter ) {
+
+            my $KeyParam   = 'OutboundHeaders' . $Operation . 'Key_' . $Index;
+            my $ValueParam = 'OutboundHeaders' . $Operation . 'Value_' . $Index;
+
+            # Skip deleted entries.
+            if (
+                !defined $ParamObject->GetParam( Param => $KeyParam )
+                && !defined $ParamObject->GetParam( Param => $ValueParam )
+                )
+            {
+                next INDEX;
+            }
+            else {
+                ++$ErrorValueCounter;
+            }
+
+            my $KeyErrorParam   = 'OutboundHeaders' . $Operation . 'Key_' . $ErrorValueCounter;
+            my $ValueErrorParam = 'OutboundHeaders' . $Operation . 'Value_' . $ErrorValueCounter;
+            my $Key             = $ParamObject->GetParam( Param => $KeyParam )   // '';
+            my $Value           = $ParamObject->GetParam( Param => $ValueParam ) // '';
+
+            # Remember values for edit screen (in case of errors).
+            if ($Operation) {
+                push @{ $ErrorHeaders{Specific}{$Operation} },
+                    {
+                        Key   => $Key,
+                        Value => $Value,
+                    };
+            }
+            else {
+                push @{ $ErrorHeaders{Common} },
+                    {
+                        Key   => $Key,
+                        Value => $Value,
+                    };
+            }
+
+            # Duplicate key detection.
+            if ($Key) {
+                if ( $UsedKeys{$Key} ) {
+                    $Error{ $KeyErrorParam . 'ServerError' }        = 'ServerError';
+                    $Error{ $KeyErrorParam . 'ServerErrorMessage' } = Translatable('This key is already used');
+                }
+                elsif ( grep { $_ eq $Key } @HeaderBlacklist ) {
+                    $Error{ $KeyErrorParam . 'ServerError' }        = 'ServerError';
+                    $Error{ $KeyErrorParam . 'ServerErrorMessage' } = Translatable('This key is not allowed');
+                }
+                else {
+                    $UsedKeys{$Key} = 1;
+                }
+            }
+
+            # Empty key.
+            else {
+                $Error{ $KeyErrorParam . 'ServerError' }        = 'ServerError';
+                $Error{ $KeyErrorParam . 'ServerErrorMessage' } = Translatable('This field is required');
+            }
+
+            if ( !IsStringWithData($Value) ) {
+                $Error{ $ValueErrorParam . 'ServerError' }        = 'ServerError';
+                $Error{ $ValueErrorParam . 'ServerErrorMessage' } = Translatable('This field is required');
+            }
+
+            next INDEX
+                if $Error{ $KeyErrorParam . 'ServerError' }
+                || $Error{ $ValueErrorParam . 'ServerError' };
+
+            # Operation specific header
+            if ($Operation) {
+                $Headers{Specific}{ $OperationMD5Lookup{$Operation} }->{$Key} = $Value;
+                next INDEX;
+            }
+
+            # Common headers
+            $Headers{Common}{$Key} = $Value;
+        }
+    }
+    $TransportConfig->{OutboundHeaders} = \%Headers;
+
     # Set new configuration.
-    $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
+    $WebserviceData->{Config}{$CommunicationType}{Transport}{Config} = $TransportConfig;
 
     # If there is an error return to edit screen.
     if ( IsHashRefWithData( \%Error ) ) {
@@ -357,7 +469,7 @@ sub _ShowEdit {
     for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab )) {
         $Param{$ParamName} = $TransportConfig->{Authentication}->{$ParamName};
     }
-    for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname )) {
+    for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname SSLVerifyMode )) {
         $Param{$ParamName} = $TransportConfig->{SSL}->{$ParamName};
     }
     for my $ParamName (qw( UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude )) {
@@ -470,6 +582,19 @@ sub _ShowEdit {
             Class         => 'Modernize',
         );
 
+        # Create noverify_mode selection.
+        $Param{SSLVerifyModeStrg} = $LayoutObject->BuildSelection(
+            Data => {
+                'Yes' => Translatable('Yes'),
+                'No'  => Translatable('No'),
+            },
+            Name          => 'SSLVerifyMode',
+            SelectedValue => $Param{SSLVerifyMode} || Translatable('Yes'),
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
+        );
+
         # Hide and disable SSL options if they are not selected.
         $Param{SSLHidden} = 'Hidden';
         if ( $Param{UseSSL} && $Param{UseSSL} eq 'Yes' )
@@ -559,39 +684,183 @@ sub _ShowEdit {
             Translation  => 1,
             Class        => 'Modernize',
         );
+    }
+
+    # Common params first.
+    my @CommonHeaders;
+    if ( IsArrayRefWithData( $Param{ErrorHeaders}{Common} ) ) {
+        @CommonHeaders = @{ $Param{ErrorHeaders}{Common} };
+    }
+
+    # Fallback for previously used 'additional response headers'.
+    elsif ( IsHashRefWithData( $TransportConfig->{AdditionalHeaders} ) ) {
+        @CommonHeaders = map {
+            {
+                Key   => $_,
+                Value => $TransportConfig->{AdditionalHeaders}{$_}
+            }
+            }
+            sort keys %{ $TransportConfig->{AdditionalHeaders} };
+    }
+    elsif (
+        IsHashRefWithData( $TransportConfig->{OutboundHeaders}{Common} )
+        )
+    {
+        @CommonHeaders = map {
+            {
+                Key   => $_,
+                Value => $TransportConfig->{OutboundHeaders}{Common}{$_}
+            }
+            }
+            sort keys %{ $TransportConfig->{OutboundHeaders}{Common} };
+    }
+
+    $Param{OutboundHeadersValueCounter} =
+        @CommonHeaders ? scalar @CommonHeaders : 0;
+
+    # Generate params for outbound headers.
+    $LayoutObject->Block(
+        Name => 'OutboundHeaders',
+        Data => { %Param, },
+    );
+
+    if (@CommonHeaders) {
+        my $ValueCounter = 0;
+
+        for my $Row (@CommonHeaders) {
+            $LayoutObject->Block(
+                Name => 'OutboundHeadersValueRow',
+                Data => {
+                    %Param,
+                    Key          => $Row->{Key},
+                    ValueCounter => ++$ValueCounter,
+                    Value        => $Row->{Value},
+                },
+            );
+        }
+
+    }
+
+    # Now operation specific headers.
+    my $OperationsForOutboundHeaders;
+    if ( $Param{CommunicationType} eq 'Requester' ) {
+        $OperationsForOutboundHeaders =
+            $Param{WebserviceData}{Config}{Requester}{Invoker};
+    }
+    else {
+        $OperationsForOutboundHeaders =
+            $Param{WebserviceData}{Config}{Provider}{Operation};
+    }
+
+    my %SpecificHeaders;
+    if ( IsHashRefWithData( $Param{ErrorHeaders}{Specific} ) ) {
+        %SpecificHeaders = %{ $Param{ErrorHeaders}{Specific} };
+    }
+    elsif (
+        IsHashRefWithData( $TransportConfig->{OutboundHeaders}{Specific} )
+        )
+    {
+        for my $Operation (
+            sort keys %{ $TransportConfig->{OutboundHeaders}{Specific} }
+            )
+        {
+            $SpecificHeaders{$Operation} = [
+                map {
+                    {
+                        Key   => $_,
+                        Value => $TransportConfig->{OutboundHeaders}{Specific}
+                            {$Operation}{$_}
+                    }
+                }
+                    sort keys %{
+                        $TransportConfig->{OutboundHeaders}{Specific}
+                        {$Operation}
+                    }
+            ];
+        }
+    }
+
+    if ( IsHashRefWithData($OperationsForOutboundHeaders) ) {
 
         $LayoutObject->Block(
-            Name => 'AdditionalHeaders',
-            Data => {
-                %Param,
-            },
+            Name => 'OutboundHeadersOperationSpecific',
+            Data => { %Param, },
         );
 
-        # Output the possible values and errors within (if any).
-        my $ValueCounter = 1;
-        for my $Key ( sort keys %{ $Param{AdditionalHeaders} || {} } ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+        my @SelectionData;
+        OPERATION:
+        for my $Operation ( sort keys %{$OperationsForOutboundHeaders} ) {
+            my $OperationMD5 = $MainObject->MD5sum(
+                String => \$Operation,
+            );
+
+            my $HaveOperationConfig =
+                IsArrayRefWithData( $SpecificHeaders{$Operation} ) ? 1 : 0;
+
             $LayoutObject->Block(
-                Name => 'ValueRow',
+                Name => 'OutboundHeadersOperationSpecificEntry',
                 Data => {
-                    Key          => $Key,
-                    ValueCounter => $ValueCounter,
-                    Value        => $Param{AdditionalHeaders}->{$Key},
+                    Operation => $OperationMD5,
+                    Active    => $HaveOperationConfig
+                    ? 'HeaderContainerActive'
+                    : '',
                 },
             );
 
-            $ValueCounter++;
+            if ( !$HaveOperationConfig ) {
+                push @SelectionData,
+                    {
+                        Key   => $OperationMD5,
+                        Value => $Operation,
+                    };
+                next OPERATION;
+            }
+
+            push @SelectionData,
+                {
+                    Key      => $OperationMD5,
+                    Value    => $Operation,
+                    Disabled => 1,
+                };
+
+            my $ValuesUsedCount = @{ $SpecificHeaders{$Operation} };
+            $LayoutObject->Block(
+                Name => 'OutboundHeadersOperationSpecificEntryValue',
+                Data => {
+                    Operation     => $OperationMD5,
+                    OperationName => $Operation,
+                    ValueCounter  => $ValuesUsedCount,
+                },
+            );
+
+            my $ValueCounter = 0;
+            for my $Row ( @{ $SpecificHeaders{$Operation} } ) {
+                $LayoutObject->Block(
+                    Name => 'OutboundHeadersOperationSpecificEntryValueRow',
+                    Data => {
+                        %Param,
+                        Operation    => $OperationMD5,
+                        Key          => $Row->{Key},
+                        ValueCounter => ++$ValueCounter,
+                        Value        => $Row->{Value},
+                    },
+                );
+            }
         }
 
-        # Create the possible values template.
+        # Generate list of available (unused) operations for outbound header selection.
+        $Param{OutboundHeadersOperationSelectionStrg} =
+            $LayoutObject->BuildSelection(
+                Data         => \@SelectionData,
+                Name         => 'OutboundHeadersOperationSelection',
+                PossibleNone => 1,
+                Class        => 'Modernize',
+            );
         $LayoutObject->Block(
-            Name => 'ValueTemplate',
-            Data => {
-                %Param,
-            },
+            Name => 'OutboundHeadersOperationSelection',
+            Data => { %Param, },
         );
-
-        # Set value counter.
-        $Param{ValueCounter} = $ValueCounter;
     }
 
     $Output .= $LayoutObject->Output(
@@ -614,9 +883,11 @@ sub _GetParams {
     for my $ParamName (
         qw(
             Host DefaultCommand MaxLength KeepAlive Timeout
-            AuthType BasicAuthUser BasicAuthPassword KerberosUser KerberosKeytab
-            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
-            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname
+            AuthType CredentialID BasicAuthUser BasicAuthPassword
+            KerberosUser KerberosKeytab BearerAuthToken UseProxy
+            ProxyHost ProxyUser ProxyPassword ProxyExclude UseSSL
+            SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+            SSLVerifyHostname SSLVerifyMode
         )
         )
     {

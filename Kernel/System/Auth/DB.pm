@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,9 +26,9 @@ use warnings;
 use Digest::SHA ();
 
 # CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
-use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,18 +48,14 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get config object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get user table
-    $Self->{UserTable} = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )
-        || 'users';
-    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} )
-        || 'id';
-    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
-        || 'pw';
-    $Self->{UserTableUser} = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )
-        || 'login';
+    $Self->{UserTable}       = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )       || 'users';
+    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} ) || 'id';
+    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} ) || 'pw';
+    $Self->{UserTableUser}   = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )   || 'login';
 
     return $Self;
 }
@@ -94,6 +90,7 @@ sub Auth {
             Priority => 'error',
             Message  => "Need User!"
         );
+
         return;
     }
 
@@ -103,7 +100,7 @@ sub Auth {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
     my $UserID      = '';
-    my $GetPw       = '';
+    my $GetPw       = '';                                                        # the hashed password, may include salt and other settings
     my $Method      = '';
 
     # get database object
@@ -164,7 +161,6 @@ sub Auth {
                 $CryptedPw = unix_md5_crypt( $Pw, $Salt );
                 $Method    = 'unix_md5_crypt';
             }
-
         }
 
         # sha256 pw
@@ -190,13 +186,13 @@ sub Auth {
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
 
             # require module, log errors if module was not found
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') )
-            {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
                         "User: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
+
                 return;
             }
 
@@ -248,7 +244,7 @@ sub Auth {
     # crypt pw
     else {
 
-        # strip Salt only for (Extended) DES, not for any of Modular crypt's
+        # strip salt only for (Extended) DES, not for any of modular crypts
         if ( $Salt !~ /^\$\d\$/ ) {
             $Salt =~ s/^(..).*/$1/;
         }
@@ -291,8 +287,7 @@ sub Auth {
     }
 
     # login note
-    elsif ( ( ($GetPw) && ($User) && ($UserID) ) && $CryptedPw eq $GetPw ) {
-
+    elsif ( $GetPw && $User && $UserID && $CryptedPw eq $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
@@ -302,7 +297,7 @@ sub Auth {
     }
 
     # just a note
-    elsif ( ($UserID) && ($GetPw) ) {
+    elsif ( $UserID && $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  =>

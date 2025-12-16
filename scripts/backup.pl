@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # use ../ and ../Kernel/cpan-lib as lib location
@@ -30,6 +30,7 @@ use Getopt::Long qw(GetOptions);
 use Cwd          qw(abs_path getcwd);
 
 # CPAN modules
+use Path::Class qw(dir);
 
 # OTOBO modules
 use Kernel::System::ObjectManager ();
@@ -64,12 +65,12 @@ sub Main {
         'remove-old-backups|r=i' => \$RemoveDays,
         'backup-type|t=s'        => \$BackupType,
         'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
-        'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
+        'extra-dump-options=s'   => \&HandleExtraDumpOptions,          # e.g. "--column-statistics=0"
         'dry-run'                => \$DryRun,                          # only print the database dump commands
-        'db-host=s'              => \$DatabaseHost,
-        'db-name=s'              => \$DatabaseName,
-        'db-user=s'              => \$DatabaseUser,
-        'db-password=s'          => \$DatabasePw,
+        'db-host=s'              => \&HandleDBHostOption,
+        'db-name=s'              => \&HandleDBNameOption,
+        'db-user=s'              => \&HandleDBUserOption,
+        'db-password=s'          => \&HandleDBPasswordOption,
         'db-type=s'              => \$DatabaseType,
     ) || PrintHelpAndExit();
 
@@ -102,6 +103,11 @@ if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
     $CompressEXT = 'bz2';
+}
+elsif ( $CompressOption && $CompressOption =~ m/zstd/i ) {
+    $Compress    = '-zstd';
+    $CompressCMD = 'zstd';
+    $CompressEXT = 'zst';
 }
 
 # check backup type
@@ -156,6 +162,13 @@ $DatabaseType //=
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
+# differentiation for mariadb
+if ( $DatabaseType eq 'mysql' ) {
+    if (qx/which mariadb-dump/) {
+        $DatabaseType = 'mariadb';
+    }
+}
+
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
@@ -170,6 +183,10 @@ if ($ExtraDumpOptions) {
 
 if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
+}
+elsif ( $DatabaseType eq 'mariadb' ) {
+    $DBDumpCmd = 'mariadb-dump';
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
@@ -218,15 +235,24 @@ else {
     }
 }
 
+# make BackupDir absolute
+$BackupDir = abs_path($BackupDir);
+
 # create new backup directory
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+# make sure backup dir is not under OTOBO_HOME (usually /opt/otobo)
+if ( dir($Home)->contains($BackupDir) ) {
+
+    say STDERR ("Backup directory '$BackupDir' is under '$Home', please chose a different backup directory not below the OTOBO home directory with the -d option!");
+    exit 1;
+}
 
 # append trailing slash to home directory, if it's missing
 if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
-$BackupDir = abs_path($BackupDir);
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
@@ -299,10 +325,10 @@ my $ErrorIndicationFileName =
     $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
-if ( $DatabaseType eq 'mysql' ) {
+if ( $DatabaseType eq 'mysql' || $DatabaseType eq 'mariadb' ) {
     push @DBDumpOptions,
-        '-u' => $DatabaseUser,
-        '-h' => $DatabaseHost;
+        '-u' => "'$DatabaseUser'",
+        '-h' => "'$DatabaseHost'";
     if ($DatabasePw) {
         push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
@@ -363,11 +389,11 @@ elsif ( $DatabaseType eq 'postgresql' ) {
         }
 
         if ($DatabaseHost) {
-            $DatabaseHost = "-h $DatabaseHost";
+            $DatabaseHost = "-h '$DatabaseHost'";
         }
 
         my $Command
-            = qq{( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+            = qq{( $DBDumpCmd $DatabaseHost -U '$DatabaseUser' $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
 
         # only print out the dump commands in a dry run
         if ($DryRun) {
@@ -525,7 +551,7 @@ sub MySQLBackupForMigrateFromOTRS {
         return;
     }
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 Execute the following SQL scripts in the given order:
     - $PreprocessFile
     - $AdaptedSchemaDumpFile
@@ -735,7 +761,7 @@ sub OracleBackupForMigrateFromOTRS {
     # output files
     my $PostprocessFile = qq{$Directory/${DatabaseName}_post.sql};
 
-    say << "END_MESSAGE";
+    say <<"END_MESSAGE";
 These instruction are preliminary.
 
 Clear the user 'otobo':
@@ -841,6 +867,84 @@ sub HandleMaxAllowedPacketOption {
     return;
 }
 
+sub HandleDBHostOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # restrict allowed hostnames to a reasonable default
+    if ( $OptValue !~ /^[-0-9a-zA-Z._\-:]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid host name.";
+    }
+
+    $DatabaseHost = $OptValue;
+
+    return;
+}
+
+sub HandleDBNameOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # basically what mysql allows for db names
+    if ( $OptValue !~ /^[^\\\/?%*:|"<>.;]{1,64}$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid Database name.";
+    }
+
+    $DatabaseName = $OptValue;
+
+    return;
+}
+
+sub HandleExtraDumpOptions {
+    my ( $OptName, $OptValue ) = @_;
+
+    # be a bit paranoid here
+    if ( $OptValue !~ /^[\-a-zA-Z0-9= ]+$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass valid Extra Dump Options.";
+    }
+
+    $ExtraDumpOptions = $OptValue;
+
+    return;
+}
+
+sub HandleDBUserOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # username will be put into single quotes in the generated command,
+    # so just make sure we do not have single quotes in the username
+    if ( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    # do not allow trailing backslash
+    if ( $OptValue =~ /\\$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabaseUser = $OptValue;
+
+    return;
+}
+
+sub HandleDBPasswordOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # password will be put into single quotes in the generated command,
+    # or passed as ENV var for postgres,
+    # so just make sure we do not have single quotes in the password
+    if ( $OptValue =~ /'/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    # do not allow trailing backslash
+    if ( $OptValue =~ /\\$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass a valid db user name.";
+    }
+
+    $DatabasePw = $OptValue;
+
+    return;
+}
+
 sub PrintHelpAndExit {
     print <<'END_HELP';
 Back up an OTOBO system.
@@ -853,20 +957,21 @@ Usage:
 
     # for regular backups, can also be used in a cron job
     otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
-    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2|zstd] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2|zstd] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
 
     # backups for creating a dump for migrating an OTRS database OTOBO
     otobo> cd /opt/otobo
     otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
-    # in some special case extra parameters can be passed, note the required quotes
-    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
+    # In special cases extra options can be passed to the dump command.
+    # Multiple options are separated by a space. Note the required quotes.
+    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "-P 3307 --column-statistics=0"
 
 Short options:
  [-h]                   - Display help for this command.
  [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
- [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
+ [-c]                   - Select the compression method (gzip|bzip2|zstd). Defaults to gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
  [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
 
@@ -883,6 +988,7 @@ Long options:
  [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
  [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
  [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
+ [--extra-dump-options]       - extra options that are passed to the dump command
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).

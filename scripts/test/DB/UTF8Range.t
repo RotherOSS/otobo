@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # create database table for tests
-my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML');
+my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML' );
 <Table Name="test_utf8_range">
     <Column Name="test_message_varchar"  Required="true" Size="255" Type="VARCHAR"/>
     <Column Name="test_message_longblob" Required="true" Type="LONGBLOB"/>

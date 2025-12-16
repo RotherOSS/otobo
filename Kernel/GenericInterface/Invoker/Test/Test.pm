@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -153,32 +153,38 @@ sub HandleResponse {
         };
     }
 
-    # we need a TicketNumber
-    if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+    my $ReturnData;
+    if ( ref $Param{Data} eq 'HASH' ) {
 
-        return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
-    }
+        # we need a TicketNumber
+        if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
 
-    # prepare TicketNumber
-    my %ReturnData = (
-        TicketNumber => $Param{Data}->{TicketNumber},
-    );
-
-    # check Action
-    if ( IsStringWithData( $Param{Data}->{Action} ) ) {
-        if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
-            $ReturnData{Action} = $1;
+            return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
         }
-        else {
-            return $Self->{DebuggerObject}->Error(
-                Summary => 'Got Action but it is not in required format!',
-            );
+
+        # prepare TicketNumber
+        $ReturnData = {
+            TicketNumber => $Param{Data}->{TicketNumber},
+        };
+
+        # check Action
+        if ( IsStringWithData( $Param{Data}->{Action} ) ) {
+            if ( $Param{Data}->{Action} =~ m{ \A ( .*? ) Test \z }xms ) {
+                $ReturnData->{Action} = $1;
+            }
+            else {
+                return $Self->{DebuggerObject}->Error(
+                    Summary => 'Got Action but it is not in required format!',
+                );
+            }
         }
     }
-
+    else {
+        $ReturnData = $Param{Data};
+    }
     return {
         Success => 1,
-        Data    => \%ReturnData,
+        Data    => $ReturnData,
     };
 }
 

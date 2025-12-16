@@ -12,17 +12,15 @@
 #
 # builder-for-kerberos used to create a dynamic spnego auth module
 # https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
-FROM nginx:mainline AS builder-for-kerberos
+FROM nginx:mainline-trixie AS builder-for-kerberos
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
 ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
-        gcc \
-        libc-dev \
-        make \
-        libpcre3-dev \
+        build-essential \
+        libpcre2-dev \
         zlib1g-dev \
         libkrb5-dev \
         wget
@@ -45,7 +43,7 @@ RUN NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline AS base
+FROM nginx:mainline-trixie AS base
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
@@ -78,11 +76,6 @@ ENV OTOBO_NGINX_WEB_HOST=172.17.0.1
 ENV OTOBO_NGINX_WEB_PORT=5000
 ENV OTOBO_WEB_HTTPS_PORT=443
 
-# Not that these file need to be copied into a container.
-# Alternatively /etc/ssl can be exported as a volume to the host.
-ENV OTOBO_NGINX_SSL_CERTIFICATE=/etc/nginx/ssl/otobo_nginx-selfsigned.crt
-ENV OTOBO_NGINX_SSL_CERTIFICATE_KEY=/etc/nginx/ssl/otobo_nginx-selfsigned.key
-
 WORKDIR /etc/nginx
 
 # move the old config out of the way
@@ -90,6 +83,13 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # The new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh.
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
+#
+# The templates make use of environment variable like
+# OTOBO_NGINX_SSL_CERTIFICATE and OTOBO_NGINX_SSL_CERTIFICATE_KEY. Values for these variable must
+# be passed to the container when it is starting up.
+#
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
 COPY templates/ templates
 COPY snippets/  snippets
 
@@ -98,7 +98,6 @@ COPY snippets/  snippets
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
 # The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
-# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
 LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'

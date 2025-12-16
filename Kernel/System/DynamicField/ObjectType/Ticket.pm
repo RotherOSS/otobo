@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -120,6 +120,7 @@ sub PostValueSet {
     my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryValue,
+        ExternalSource     => $Param{ExternalSource},
     );
     $HistoryValue = $ValueStrg->{Value};
 
@@ -146,8 +147,8 @@ sub PostValueSet {
     # \%\%Value\%\% is 9 chars
     # \%\%OldValue\%\%$HistoryOldValue is 12
     # we have for info part of ticket history data ($FieldName+$HistoryValue+$OldValue) up to 166 chars
-    # in this code is made substring. The same number of characters is provided for both of part in Name ($FieldName and $HistoryValue and $OldVAlue) up to 55 chars
-    # if $FieldName and $HistoryValue and $OldVAlue is cut then info is up to 50 chars plus [...] (5 chars)
+    # in this code is made substring. The same number of characters is provided for both of part in Name ($FieldName and $HistoryValue and $OldValue) up to 55 chars
+    # if $FieldName and $HistoryValue and $OldValue is cut then info is up to 50 chars plus [...] (5 chars)
     # First it is made $HistoryOldValue, then it is made $FieldName, and then  $HistoryValue
     # Length $HistoryValue can be longer then 55 chars, also is for $OldValue.
 

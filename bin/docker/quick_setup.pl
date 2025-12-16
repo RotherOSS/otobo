@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -17,7 +17,7 @@
 
 =head1 NAME
 
-quick_setup.pl - a quick OTOBO setup script for development
+quick_setup.pl - a quick OTOBO setup script that is meant for development
 
 =head1 SYNOPSIS
 
@@ -37,11 +37,20 @@ quick_setup.pl - a quick OTOBO setup script for development
     # set FQDN, the default is yourhost.example.com
     bin/docker/quick_setup.pl --db-password 'some-pass' --fqdn 'localhost'
 
+    # set the SystemID, the default is 10
+    bin/docker/quick_setup.pl --db-password 'some-pass' --system-id 11
+
     # also activate Elasticsearch
     bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
 
+    # create an initial regular agent
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add--user
+
     # create an initial admin agent in addition to root@localhost
     bin/docker/quick_setup.pl --db-password 'some-pass' --add-admin-user
+
+    # Use the timezone of the Antarctic Peninsula for the agents
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add-admin-user --add--user --agent-timezone-rothera
 
     # create an initial customer user
     bin/docker/quick_setup.pl --db-password 'some-pass' --add-customer-user
@@ -53,13 +62,23 @@ It might be convenient the call this script via an alias.
 
     alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar --http-type http" --fqdn localhost'
 
+Sometimes it is convenient to specify unique SystemIDs so that different installation can be
+used in the same browser. The convention is to set the SystemID to the same value as the HTTP port.
+This can be achieved with the bash function:
+
+    otobo_docker_quick_setup() {
+        http_port=`perl -ne 'print $1 if m/^OTOBO_WEB_HTTP_PORT=(\d+)/' .env`
+        system_id=${1:-$http_port}
+        docker compose exec web bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --system-id $system_id --http-type http --http-port $http_port --activate-elasticsearch --add-user --add-admin-user --add-customer-user --add-calendar"
+    }
+
 =head1 DESCRIPTION
 
 Quickly create a running system that is useful for development and for continous integration.
 But please note that this script is not meant as an replacement for the OTOBO installer.
 
-Allow to automatically create a sample customer user, admin user, and calendar.
-Allow to set HttpType to http, which is the proven setting for the test suite.
+The script allows to automatically create a sample customer user, admin user, and calendar.
+It allows to set HttpType to http, which is the proven setting for the test suite.
 
 =head1 OPTIONS
 
@@ -80,7 +99,13 @@ Set the SysConfig setting 'HttpType'. The value is either 'http' or 'https'. The
 =item http-port
 
 Only used for the message where the newly configured system is available.
-The default value is 80
+The default value is 80.
+
+=item system-id
+
+Allows to set the system id. This is useful for distinguishing between different installation
+running on the same Docker host.
+The default value is 10.
 
 =item fqdn
 
@@ -88,7 +113,7 @@ Set the SysConfig setting 'FQDN'. The value is expected to be a string. The defa
 
 =item activate-elasticsearch
 
-Also set up the the Elasticsearch webservice.
+Also set up the Elasticsearch webservice.
 
 =item add-admin-user
 
@@ -131,27 +156,31 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                                          # print help
-    my $DBPassword;                                        # required
-    my $HTTPPort              = 80;                        # only used for success message
-    my $ActivateElasticsearch = 0;                         # must be explicitly enabled
-    my $AddUser               = 0;                         # must be explicitly enabled
-    my $AddAdminUser          = 0;                         # must be explicitly enabled
-    my $AddCustomerUser       = 0;                         # must be explicitly enabled
-    my $AddCalendar           = 0;                         # must be explicitly enabled
-    my $HttpType              = 'https';                   # the SysConfig setting HttpType
-    my $FQDN                  = 'yourhost.example.com';    # the SysConfig setting FQDN
-    my $ActivateSyncWithS3    = 0;                         # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                                           # print help
+    my $DBPassword;                                         # required
+    my $HTTPPort               = 80;                        # only used for success message
+    my $SystemID               = 10;                        # distinguish between different installations
+    my $ActivateElasticsearch  = 0;                         # must be explicitly enabled
+    my $AddUser                = 0;                         # must be explicitly enabled
+    my $AddAdminUser           = 0;                         # must be explicitly enabled
+    my $AgentsAreOnRotheraTime = 0;                         # must be explicitly enabled
+    my $AddCustomerUser        = 0;                         # must be explicitly enabled
+    my $AddCalendar            = 0;                         # must be explicitly enabled
+    my $HttpType               = 'https';                   # the SysConfig setting HttpType
+    my $FQDN                   = 'yourhost.example.com';    # the SysConfig setting FQDN
+    my $ActivateSyncWithS3     = 0;                         # activate S3 in the SysConfig, still experimental
 
     GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'http-type=s'            => \$HttpType,
+        'system-id=i'            => \$SystemID,
         'fqdn=s'                 => \$FQDN,
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-user'               => \$AddUser,
         'add-admin-user'         => \$AddAdminUser,
+        'agent-timezone-rothera' => \$AgentsAreOnRotheraTime,
         'add-customer-user'      => \$AddCustomerUser,
         'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
@@ -262,8 +291,15 @@ sub Main {
             [ DefaultLanguage        => 'en' ],
             [ HttpType               => $HttpType ],
             [ FQDN                   => $FQDN ],
+            [ SystemID               => $SystemID ],
             [ SecureMode             => 1 ],
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
+        );
+
+        # Unique names for session cookies. This allows to run distint instances on the same host.
+        push @Settings, (
+            [ SessionName              => join( '_', 'OTOBOAgentInterface',    $SystemID ) ],
+            [ CustomerPanelSessionName => join( '_', 'OTOBOCustomerInterface', $SystemID ) ],
         );
 
         # These settings are useful for testing and development
@@ -318,6 +354,10 @@ sub Main {
         say $Message if defined $Message;
 
         return 0 unless $Success;
+    }
+
+    if ($AgentsAreOnRotheraTime) {
+        AgentTimeZone('Antarctica/Rothera');
     }
 
     if ($AddUser) {
@@ -762,8 +802,21 @@ sub ActivateElasticsearch {
     my ( $SetupSuccess, $FatalError ) = $ESObject->InitialSetup();
 
     return 0, 'Initial setup of Elasticsearch was not successful' unless $SetupSuccess;
-
     return $SetupSuccess;
+}
+
+# allow to set the time zone,
+# otherwise return the last set time zone or fall back to 'Europe/Berlin'
+sub AgentTimeZone {
+    my ($NewTimeZone) = @_;
+
+    state $TimeZone = 'Europe/Berlin';
+
+    if ($NewTimeZone) {
+        $TimeZone = $NewTimeZone;
+    }
+
+    return $TimeZone;
 }
 
 sub AddUser {
@@ -791,7 +844,7 @@ sub AddUser {
         UserEmail     => 'Toni.Tester@example.com',
         UserComment   => 'sample user created by quick_setup.pl',
         UserLanguage  => 'en',
-        UserTimeZone  => 'Europe/Berlin',
+        UserTimeZone  => AgentTimeZone(),
         UserMobile    => '1①๑໑༡༪၁',
         ValidID       => 1,
         ChangeUserID  => 1,
@@ -855,7 +908,7 @@ sub AddAdminUser {
         UserEmail     => 'Andy.Admin@example.com',
         UserComment   => 'admin user created by quick_setup.pl',
         UserLanguage  => 'en',
-        UserTimeZone  => 'Europe/Berlin',
+        UserTimeZone  => AgentTimeZone(),
         UserMobile    => '2②२২৵੨૨',
         ValidID       => 1,
         ChangeUserID  => 1,

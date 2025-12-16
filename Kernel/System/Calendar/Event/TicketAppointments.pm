@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,14 +26,25 @@ our @ObjectDependencies = (
     'Kernel::System::Calendar',
 );
 
+=head1 NAME
+
+Kernel::System::Calendar::Event::TicketAppointments - update the associated ticket when an appointment is updated
+
+=head1 DESCRIPTION
+
+When an appointment is updated then check whether the appointment is associated with a ticket.
+If so then update the ticket if the configured rules apply.
+
+What actually happens to the ticket is controlled by the SysConfig setting I<AppointmentCalendar::TicketAppointmentType>.
+The standard use case is for appointments that have been created because the pending time is being approached.
+Changing the time of such an automatically created appointment changes the pending time of the ticket.
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -72,7 +83,8 @@ sub Run {
     my $TicketID = $Kernel::OM->Get('Kernel::System::Calendar')->TicketAppointmentTicketID(
         AppointmentID => $Param{Data}->{AppointmentID},
     );
-    return if !$TicketID;
+
+    return unless $TicketID;
 
     # update ticket in an asynchronous call
     return $Self->AsyncCall(

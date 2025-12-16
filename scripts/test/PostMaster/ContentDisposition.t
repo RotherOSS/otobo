@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -201,7 +200,7 @@ for my $Test (@Tests) {
             );
         }
 
-        $Self->True(
+        ok(
             $TicketID,
             "$Test->{Name} | $Backend - Ticket created $TicketID",
         );
@@ -210,7 +209,7 @@ for my $Test (@Tests) {
         push @AddedTicketIDs, $TicketID;
 
         my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
-        $Self->True(
+        ok(
             $ArticleIDs[0],
             "$Test->{Name} | $Backend - Article created",
         );
@@ -229,7 +228,7 @@ for my $Test (@Tests) {
             delete $AttachmentIndex{$AttachmentID}->{Filesize};
             delete $AttachmentIndex{$AttachmentID}->{FilesizeRaw};
 
-            $Self->IsDeeply(
+            is(
                 $AttachmentIndex{$AttachmentID},
                 $Test->{ExpectedResults}->{$AttachmentFilename},
                 "$Test->{Name} | $Backend - Attachment",
@@ -238,6 +237,4 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

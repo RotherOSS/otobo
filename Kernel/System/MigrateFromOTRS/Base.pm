@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1016,8 +1016,8 @@ sub ReplaceSubstringsOfColumnValues {
     }
 
     # the actual migration
-    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the the first parameter
-    # It exitst in MySQL, PostgreSQL, and Oracle
+    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the first parameter.
+    # It exitst in MySQL, PostgreSQL, and Oracle.
     my @SQLs     = map {"UPDATE $Param{Table} SET $_ = REPLACE( $_, ?, ? )"} $Param{Columns}->@*;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     SQL:
@@ -1864,7 +1864,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+                "# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1899,7 +1899,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+                "# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1934,7 +1934,7 @@ sub _ChangeLicenseHeaderRules {
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 ",
-                "// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+                "// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -1967,7 +1967,7 @@ sub _ChangeLicenseHeaderRules {
                 "/* OTOBO is a web-based ticketing system for service organisations.
 
 ",
-                "Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+                "Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

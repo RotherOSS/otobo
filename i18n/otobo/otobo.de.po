@@ -54,16 +54,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2024-07-01 14:05+0000\n"
+"PO-Revision-Date: 2025-10-10 14:05+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
-"Language-Team: German <http://weblate.otobo.org/projects/otobo/otobo-10/de/>"
-"\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -9763,9 +9762,7 @@ msgstr "Bereinigen und Abschließen"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
-msgstr ""
-"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir "
-"hoffen, Sie mögen es."
+msgstr "Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden - wir hoffen, Sie mögen es."
 
 #. Template: Finish
 msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
@@ -16043,7 +16040,7 @@ msgstr "Anmeldung fehlgeschlagen! Benutzername oder Passwort wurden falsch einge
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr "Authentifizierung erfolgreich, aber in der Datenbank wurde kein Eintrag für den Benutzer gefunden. Bitte kontaktieren Sie Ihren Administrator."
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "Kann SessionID nicht entfernen."
 
@@ -19519,18 +19516,11 @@ msgstr "Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suc
 
 #. SysConfig
 msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-"Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie "
-"können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin "
-"Handbuch unter https://doc.otobo.org/."
+msgstr "Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin Handbuch unter https://doc.otobo.org/."
 
 #. SysConfig
 msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr ""
-"Legt die Standardsprache für das Frontend fest. Welche Sprachen zur "
-"Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. "
-"Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' "
-"angezeigt."
+msgstr "Legt die Standardsprache für das Frontend fest. Welche Sprachen zur Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' angezeigt."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
@@ -24686,12 +24676,7 @@ msgstr "Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#."
 
 #. SysConfig
 msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
-msgstr ""
-"Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL "
-"zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine "
-"vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet "
-"wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der mobilen "
-"Version werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)"
+msgstr "Das Logo und Signet, das in der Kopfzeile des Kundenbereichs angezeigt wird. Die URL zum Bild kann eine relative URL zum Skin-Bildverzeichnis oder eine vollständige URL zu einem entfernten Webserver sein. Das Signet wird auf 32px*32px skaliert, das Logo auf 196px*32px. (Im mobilen Setup haben beide eine Höhe von 24px mit variabler Länge.)"
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
@@ -25187,13 +25172,7 @@ msgstr "Wir führen eine geplante Wartung durch. Wir werden bald wieder online s
 
 #. SysConfig
 msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10.."
-msgstr ""
-"In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht "
-"nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So "
-"entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der "
-"Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt "
-"bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-"
-"Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
+msgstr "In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen."
 
 #. SysConfig
 msgid "Web Service"
@@ -25968,6 +25947,7 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -26304,10 +26284,6 @@ msgstr "Ungültige Kalender anzeigen"
 msgid "Include invalid appointment notifications"
 msgstr "Ungültige Terminbenachrichtigungen anzeigen"
 
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr "Ungültige Terminbenachrichtigungen anzeigen"
-
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
 msgstr "Ungültige Anhänge anzeigen"
@@ -26438,7 +26414,7 @@ msgstr "Geben Sie einen String ein, mit dem das gewählte Attribut des referenzi
 
 #. Template: AdminDynamicFieldReference
 msgid "Add ReferenceFilter"
-msgstr "ReferenceFilter hinzufügen"
+msgstr "Referenzfilter hinzufügen"
 
 #. Template: AdminDynamicFieldScript
 msgid "Expression"
@@ -27094,7 +27070,7 @@ msgstr "Erstellzeit Artikel"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Base structure is not valid. Please provide an array with data in YAML format."
-msgstr "Grundstruktur ungültig. Bitte verwenden Sie ein Arry im YAML-Format."
+msgstr "Grundstruktur ungültig. Bitte verwenden Sie ein Array im YAML-Format."
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Error parsing dynamic fields."
@@ -27257,14 +27233,6 @@ msgid "Defines the default CSS used for displaying articles."
 msgstr "Definiert das Standard-CSS zur Anzeige von Artikeln."
 
 #. SysConfig
-msgid "Defines the default frontend (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr "Definiert das Standard (HTML) Frontend Theme für Agenten und Kunden. Sie können ein eigenes Theme hinzufügen. Weitere Informationen dazu im Admin Handbuch unter https://doc.otobo.org/."
-
-#. SysConfig
-msgid "Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting 'DefaultUsedLanguages'."
-msgstr "Legt die Standardsprache für das Frontend fest. Welche Sprachen zur Verfügung stehen, ergibt sich durch die im System verfügbaren Sprachdateien. Diese Werte werden als Schlüssel in der Einstellung 'DefaultUsedLanguages' angezeigt."
-
-#. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
 msgstr "Definiert das Infomodul für den Kundenbereich. Optionen für den Newsticker UseMarquee: 1/0. Optionen für NotifyPriority: Hinweis/Fehler/Erfolg/Info."
 
@@ -27390,7 +27358,7 @@ msgstr "Lademodul für die Dashboard Infokachel im Kundenbereich."
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr "Verwaltung der Info-Kachel-Eintraege fuer das Kunden-Dashboard"
+msgstr "Verwaltung der Info-Kachel-Einträge für das Kunden-Dashboard"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
@@ -27466,7 +27434,7 @@ msgstr "Zeigt im Menü einen Link zum Anzeigen/Verbergen gelöschter Artikel in 
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr "Vorlagen <-> Status"
+msgstr "Vorlagen ↔ Status"
 
 #. SysConfig
 msgid "Strict"
@@ -27554,7 +27522,7 @@ msgstr "Das Dynamische Feld \"%s\" wird bereits in einer Ticketmaske verwendet."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "External-source key"
-msgstr ""
+msgstr "Schlüssel der externen Quelle"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute."
@@ -27562,7 +27530,7 @@ msgstr "Sofern durch eine externe Quelle (z.B. Webservice oder Import / Export) 
 
 #. Perl Module: Kernel/System/DynamicField/Driver/CustomerCompany.pm
 msgid "Select the attribute which customer companies will be searched by"
-msgstr ""
+msgstr "Wählen Sie das Attribut aus, nach dem Kundenunternehmen gesucht werden sollen"
 
 #. Perl Module: Kernel/System/Ticket/Mask.pm
 msgid "Dynamic field \"%s\" already in use in a Set."
@@ -27570,19 +27538,19 @@ msgstr "Dynamisches Feld \"%s\" bereits in einem Set verwendet."
 
 #. SysConfig
 msgid "Color definitions for Agent interface highcontrast skin."
-msgstr ""
+msgstr "Farbdefinitionen für den Skin highcontrast im Agentenbereich."
 
 #. SysConfig
 msgid "Color definitions for Customer Interface highcontrast skin."
-msgstr ""
+msgstr "Farbdefinitionen für den Skin highcontrast im Kundenbereich."
 
 #. SysConfig
 msgid "Color definitions for the agent interface (default skin). MainDark, -Light and Hover are the navigation background, buttons and some other main elements. Highlight are e.g. icons and selected elements in the navbar. BG- and Text colors are various background, and text colors. Hover colors are used in selections and tables. Notify colors are the background of notifications."
-msgstr ""
+msgstr "Farbdefinitionen für die Agentenoberfläche (Standard-Skin). MainDark, -Light und Hover sind der Navigationshintergrund, Schaltflächen und einige andere Hauptelemente. Highlight sind z.B. Icons und ausgewählte Elemente in der Navbar. BG- und Textfarben sind verschiedene Hintergrund- und Textfarben. Hover-Farben werden in Auswahlen und Tabellen verwendet. Notify-Farben sind der Hintergrund von Benachrichtigungen."
 
 #. Template: AdminACL
 msgid "To delete an existing ACL you have to set the validity to invalid and save it. Afterwards a new button to delete the ACL will appear."
-msgstr "Um eine bestehende ACL zu löschen müssen Sie die Gültigkeit auf ungültig setzen und sie speichern. Danach taucht ein neuer Knopf auf, mit dem man die ACL löschen kann."
+msgstr "Um eine bestehende ACL zu löschen, müssen Sie die Gültigkeit auf ungültig setzen und sie speichern. Danach wird eine neue Schaltfläche zum Löschen der ACL angezeigt."
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters."
@@ -27594,49 +27562,241 @@ msgstr "Schreiben Sie uns an hello@otobo.io"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
-msgstr ""
+msgstr "Definieren Sie mögliche Namensräume für dynamische Felder. Darf nur alphanumerische Zeichen enthalten. Ein Namensraum darf nicht länger als 64 Zeichen sein. Namensraum plus Name des dynamischen Feldes dürfen nicht länger als 190 Zeichen sein."
 
 #. Template: AdminRoleGroup
 msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
-msgstr ""
+msgstr "Nur Lesezugriff auf das Ticket in dieser Gruppe/Queue. Die Anfrage kann über eine Suche gefunden werden und es kann auf den TicketZoom zugegriffen werden. Wird es für einen Kalender verwendet, können Benutzer alle Termine im Kalender sehen und exportieren."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
-msgstr ""
+msgstr "Berechtigung zum Verschieben von Tickets in diese Gruppe/Queue. Wenn sie für einen Kalender verwendet werden, können Benutzer Termine im Kalender ändern, ohne jedoch die Kalenderauswahl zu ändern."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "Berechtigung zum Erstellen von Anfragen in dieser Gruppe/Queue. Falls für einen Kalender verwendet, können Benutzer Termine im Kalender erstellen und löschen."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
-msgstr ""
+msgstr "Berechtigung zum Hinzufügen von Notizen zu Tickets in dieser Gruppe/Queue. Außerdem können Agenten über den Abschnitt \"Agenten informieren\" in den Notizen informiert werden."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
-msgstr ""
+msgstr "Berechtigung, Eigentümer von Tickets in dieser Gruppe/Queue zu werden. Man kann als Besitzer ausgewählt werden, wenn man eine Ticket erstellt oder den Besitzer ändert. Als Besitzer hat man volle Schreibrechte für dieses Ticket."
 
 #. Template: AdminRoleGroup
 msgid "Permissions to open the priority action in this group/queue."
-msgstr ""
+msgstr "Berechtigung zum Öffnen der Priorisierungs-Aktion in dieser Gruppe/Queue."
 
 #. Template: AdminRoleGroup
 msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
-msgstr ""
+msgstr "Voller Lese- und Schreibzugriff auf die Tickets in dieser Gruppe/Queue. Bei Verwendung für einen Kalender können die Benutzer den Kalender selbst verwalten."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
 msgid "Notice: search in lens fields is currently disabled"
-msgstr ""
+msgstr "Hinweis: Die Suche in Linsenfeldern ist derzeit deaktiviert"
 
 #. SysConfig
 msgid "Defines if parent-child translations for queues and services should be generated automatically."
-msgstr ""
+msgstr "Legt fest, ob Eltern-Kind-Übersetzungen für Queues und Services automatisch erstellt werden sollen."
 
 #. SysConfig
 msgid "Defines the initial height for the rich text editor component in pixels."
-msgstr ""
+msgstr "Legt die Anfangshöhe für die Rich-Text-Editor-Komponente in Pixel fest."
 
 #. SysConfig
 msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr "Legt die Anfangshöhe in Pixeln für die Rich-Text-Editor-Komponente für diesen Bildschirm fest."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr "Ein Feld vom Typ %s ist derzeit nicht als Linsenattribut verwendbar."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr "Das Feld %s ist kein Referenzfeld."
+
+#. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr "Benutzerdefinierte CSS-Stile für RichText-Artikel."
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr "Pfad zur CKEditor-CSS-Datei. Änderungen an dieser Einstellung werden erst nach dem Löschen des OTOBO-Cache über den Befehl Maint::Cache::Delete konsistent übernommen!"
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr "Pfad zur CSS-Datei des CKEditor-Editors. Änderungen an dieser Einstellung werden erst nach dem Löschen des OTOBO-Cache über den Befehl Maint::Cache::Delete konsistent übernommen!"
+
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
+msgstr "Mit dieser Option wird der Zugriff auf Kunden-Firmentickets verweigert, die nicht vom Kundenbenutzer erstellt wurden. Bitte deaktivieren Sie auch \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\", damit die Schaltfläche nicht mehr sichtbar ist."
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL hostname verification"
+msgstr "Verifiziert den SSL-Hostnamen"
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr "SSL Verifizierungsmodus"
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr "Anfrage abbrechen, wenn die SSL-Verifizierung fehlschlägt. Das Deaktivieren überspringt die SSL-Verifizierung vollständig. Mit Vorsicht deaktivieren! Es ist ein Sicherheitsrisiko die Verifizierung zu überspringen! Hauptsächlich für Testzwecke im Falle von selbst-signierten SSL-Zertifikaten, oder sofern man weiß, was man tut."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in RequiredArgs."
+msgstr "Fehlerhafter Wert in RequiredArgs."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in PreviewTriggers."
+msgstr "Fehlerhafter Wert in PreviewTriggers."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in StorageTriggers."
+msgstr "Fehlerhafter Wert in StorageTriggers."
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr "Dieser Schlüssel wird bereits verwendet"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
+msgstr "Dieser Schlüssel ist nicht erlaubt"
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr "Verknüpfungsart"
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr "Verknüpfungsart auswählen."
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr "Vorwärts: Referenzierend (Quelle) -> Referenziert (Ziel)"
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr "Rückwärts: Referenziert (Quelle) -> Referenzierend (Ziel)"
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr "Link-Richtung"
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr "Das referenzierende Objekt ist das, welches dieses Dynamische Feld beinhaltet. Das referenzierte Objekt ist das, welches als Wert des Dynamischen ausgewählt wird."
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
+msgstr "Leere Felder zeigen an, dass aktuelle Werte beibehalten werden"
+
+#. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr "SSL_VERIFY_NONE - keine Verifikation des Mail-Server Hosts"
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
+msgstr "SSL_VERIFY_PEER - den Mail-Server Host verifizieren"
+
+#. SysConfig
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
+msgstr "Zeit in Sekunden die zur aktuellen Zeit hinzugefügt wird wenn eine Wartezeit ausgewählt wird. Beispiele: 86400 = 1 Tag oder 604800 = 1 Woche."
+
+#. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr "Den Mail-Server verifizieren wenn Mails sicher von POP3S-/POP3TLS-/IMAPS-/IMAPTLS-E-Mail-Konten abgeholt werden."
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
+msgid "Mark as (un)seen"
+msgstr "Als (un)gelesen markieren"
+
+#. SysConfig
+msgid "Mark as seen"
+msgstr "Als gelesen markieren"
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
+msgstr ""
+
+#. SysConfig
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
 msgstr ""
 

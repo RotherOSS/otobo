@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -88,7 +88,7 @@ $Self->IsDeeply(
             'IsInvisible'       => '0',
             'Name'              => 'SystemID',
             'XMLContentRaw'     => '<Setting Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).</Description>
+        <Description Translatable="1">Defines the system identifier. Every ticket number contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO). The SystemID may also be used in HTTP session backends.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\\d+$">10</Item>

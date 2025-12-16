@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -100,8 +100,8 @@ sub PossibleValuesGet {
     # this field makes no use of PossibleValuesGet for performance purpose - instead, values are checked via CustomerUserDataGet
     # nevertheless, function needs to be overwritten to make sure that the call doesn't reach PossibleValuesGet in BaseSelect
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Prioritiy => 'error',
-        Message   => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
+        Priority => 'error',
+        Message  => 'Method PossibleValuesGet is per design not implemented for CustomerUser dynamic fields and should never be called.',
     );
 
     return;
@@ -184,12 +184,6 @@ sub GetFieldTypeSettings {
             };
     }
 
-    # Support reference filters
-    push @FieldTypeSettings,
-        {
-            ConfigParamName => 'ReferenceFilterList',
-        };
-
     return @FieldTypeSettings;
 }
 
@@ -269,15 +263,14 @@ sub ObjectDescriptionGet {
 
         # TODO: Why is the UserID not transferred here? I think UserID should be mandatory.
         # TODO: Does it make sense to get the UserID from the LayoutObject if it is not passed in $Param?
-        my $FrontendModul = 'AdminCustomerUser';
-        my $UserID        = $Param{LayoutObject}{UserID} || 1;
+        my $FrontendModule = 'AgentCustomerUserInformationCenter';
+        my $UserID         = $Param{LayoutObject}{UserID} || 1;
 
         $Link = $Self->_GetHTTPLink(
-            FrontendModul => $FrontendModul,
-            ObjectID      => $Param{LayoutObject}->LinkEncode( $CustomerUserData{UserLogin} ),
-            UserID        => $UserID,
+            FrontendModule => $FrontendModule,
+            ObjectID       => $Param{LayoutObject}->LinkEncode( $CustomerUserData{UserLogin} ),
+            UserID         => $UserID,
         );
-
     }
 
     # create description
@@ -314,160 +307,6 @@ sub SearchObjects {
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
     my %SearchParams;
-
-    # prepare mapping of edit mask attribute names
-    my %AttributeNameMapping = (
-        CustomerUser => [
-
-            # AgentTicketEmail
-            'From',
-
-            # AgentTicketPhone
-            'To',
-        ],
-        ResponsibleID => [
-            'NewResponsibleID',
-        ],
-        OwnerID => [
-            'NewOwnerID',
-            'NewUserID',
-        ],
-        QueueID => [
-            'Dest',
-            'NewQueueID',
-        ],
-        StateID => [
-            'NewStateID',
-            'NextStateID',
-        ],
-        PriorityID => [
-            'NewPriorityID',
-        ],
-    );
-
-    # incorporate referencefilterlist into search params
-    if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
-        FILTERITEM:
-        for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
-
-            # map ID to IDs if neccessary
-            my $AttributeName = $FilterItem->{ReferenceObjectAttribute};
-            if ( any { $_ eq $AttributeName } qw(QueueID TypeID StateID PriorityID ServiceID SLAID OwnerID ResponsibleID ) ) {
-                $AttributeName .= 's';
-            }
-
-            # check filter config
-            next FILTERITEM unless $FilterItem->{ReferenceObjectAttribute};
-            next FILTERITEM unless ( $FilterItem->{EqualsObjectAttribute} || $FilterItem->{EqualsString} );
-
-            if ( $FilterItem->{EqualsObjectAttribute} ) {
-
-                # don't perform search if object attribute to search for is empty
-                my $EqualsObjectAttribute;
-                if ( IsHashRefWithData( $Param{Object} ) ) {
-                    $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
-                }
-                elsif ( defined $Param{ParamObject} ) {
-                    if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
-                        my $FilterItemDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                            Name => $+{DFName},
-                        );
-                        next FILTERITEM unless IsHashRefWithData($FilterItemDFConfig);
-                        $EqualsObjectAttribute = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
-                            ParamObject        => $Param{ParamObject},
-                            DynamicFieldConfig => $FilterItemDFConfig,
-                            TransformDates     => 0,
-                        );
-                    }
-                    else {
-
-                        # match standard ticket attribute names with edit mask attribute names
-                        my @ParamNames = $Param{ParamObject}->GetParamNames();
-
-                        # check if attribute name itself is in params
-                        # NOTE trying attribute itself is crucially important in case of QueueID
-                        #   because AgentTicketPhone does not provide QueueID, but puts the id in
-                        #   Dest, and AgentTicketEmail leaves Dest as a string but puts the id in QueueID
-                        my ($ParamName) = grep { $_ eq $FilterItem->{EqualsObjectAttribute} } @ParamNames;
-
-                        # if not, try to find a mapped attribute name
-                        if ( !$ParamName ) {
-
-                            # check if mapped attribute names exist at all
-                            my $MappedAttributes = $AttributeNameMapping{ $FilterItem->{EqualsObjectAttribute} };
-                            if ( ref $MappedAttributes eq 'ARRAY' ) {
-
-                                MAPPEDATTRIBUTE:
-                                for my $MappedAttribute ( $MappedAttributes->@* ) {
-                                    ($ParamName) = grep { $_ eq $MappedAttribute } @ParamNames;
-
-                                    last MAPPEDATTRIBUTE if $ParamName;
-                                }
-                            }
-                        }
-
-                        return unless $ParamName;
-
-                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
-
-                        # when called by AgentReferenceSearch, Dest is a string and we need to extract the QueueID
-                        if ( $ParamName eq 'Dest' ) {
-                            my $QueueID = '';
-                            if ( $EqualsObjectAttribute =~ /^(\d{1,100})\|\|.+?$/ ) {
-                                $QueueID = $1;
-                            }
-                            $EqualsObjectAttribute = $QueueID;
-                        }
-                    }
-                }
-
-                # ensure that for EqualsObjectAttribute UserID always $Self->{UserID} is used in the end
-                if ( $FilterItem->{EqualsObjectAttribute} eq 'UserID' ) {
-                    $EqualsObjectAttribute = $Param{UserID};
-                }
-
-                return unless $EqualsObjectAttribute;
-                return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
-
-                # config item attribute
-                if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{$AttributeName} = $EqualsObjectAttribute;
-                }
-
-                # dynamic field attribute
-                elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{$AttributeName} = {
-                        Equals => $EqualsObjectAttribute,
-                    };
-                }
-
-                # array attribute
-                else {
-                    $SearchParams{$AttributeName} = [$EqualsObjectAttribute];
-                }
-            }
-            elsif ( $FilterItem->{EqualsString} ) {
-
-                # config item attribute
-                # TODO check if this has to be adapted for ticket search
-                if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
-                    $SearchParams{$AttributeName} = $FilterItem->{EqualsString};
-                }
-
-                # dynamic field attribute
-                elsif ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Dyn}i ) {
-                    $SearchParams{$AttributeName} = {
-                        Equals => $FilterItem->{EqualsString},
-                    };
-                }
-
-                # array attribute
-                else {
-                    $SearchParams{$AttributeName} = [ $FilterItem->{EqualsString} ];
-                }
-            }
-        }
-    }
 
     if ( $Param{ObjectID} ) {
 
@@ -512,10 +351,10 @@ sub SearchObjects {
     elsif ( $Param{ExternalSource} ) {
         my $SearchAttribute = $DynamicFieldConfig->{Config}{ImportSearchAttribute} || 'UserLogin';
 
-        $SearchParams{$SearchAttribute} = "$Param{Term}";
+        $SearchParams{$SearchAttribute} = $Param{Term};
     }
     else {
-        $SearchParams{Search} = "*$Param{Term}*";
+        $SearchParams{Search} = $Param{Term};
     }
 
     # return a list of customeruser IDs
@@ -531,12 +370,12 @@ sub SearchObjects {
 
 =head2 _GetHTTPLink()
 
-return a HTTP link to the customer user edit mask, if permission is given.
+Returns a HTTP link to the customer user edit mask, if permission is given.
 
     my $Link = $BackendObject->_GetHTTPLink(
-        FrontendModul      => $FrontendModul,
-        ObjectID   => $EncodedUserLogin
-        UserID             => $UserID,
+        FrontendModule => $FrontendModule,
+        ObjectID       => $EncodedUserLogin,
+        UserID         => $UserID,
     );
 
 Return
@@ -549,7 +388,7 @@ sub _GetHTTPLink {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(UserID FrontendModul ObjectID)) {
+    for my $Argument (qw(UserID FrontendModule ObjectID)) {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -562,10 +401,12 @@ sub _GetHTTPLink {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModul} };
+    my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{FrontendModule} };
     my $Link;
 
     # module permission check for action
+    my $AccessRo;
+    my $AccessRw;
     if (
         ref $ModuleReg->{GroupRo} eq 'ARRAY'
         && !scalar @{ $ModuleReg->{GroupRo} }
@@ -573,8 +414,8 @@ sub _GetHTTPLink {
         && !scalar @{ $ModuleReg->{Group} }
         )
     {
-        $Param{AccessRo} = 1;
-        $Param{AccessRw} = 1;
+        $AccessRo = 1;
+        $AccessRw = 1;
     }
     else {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -610,20 +451,22 @@ sub _GetHTTPLink {
                 }
             }
             if ( $Permission eq 'Group' && $AccessOk ) {
-                $Param{AccessRo} = 1;
-                $Param{AccessRw} = 1;
+                $AccessRo = 1;
+                $AccessRw = 1;
             }
             elsif ( $Permission eq 'GroupRo' && $AccessOk ) {
-                $Param{AccessRo} = 1;
+                $AccessRo = 1;
             }
         }
-        if ( $Param{AccessRo} || $Param{AccessRw} ) {
 
-            $Link = 'index.pl?Action=' . $Param{FrontendModul} . ';Subaction=Change;';
-            $Link .= 'ID=' . $Param{ObjectID};
-            return $Link;
-        }
         return;
+    }
+
+    if ( $AccessRo || $AccessRw ) {
+
+        $Link = 'index.pl?Action=' . $Param{FrontendModule} . ';';
+        $Link .= 'CustomerUserID=' . $Param{ObjectID};
+        return $Link;
     }
 
     # both GroupRo nor Group are empty arrayrefs

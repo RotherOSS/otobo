@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,20 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
+use Test::Warnings;    # must be loaded after Test2::V0
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -47,19 +46,19 @@ if ( -e $ChecksumFile ) {
     );
 }
 
-# This should be a SKIP-block
-
 if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
-    $Self->True(
-        0,
-        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
+    note(
+        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. '
+            .
+            'Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
     );
+    fail('got checksums from ARCHIVE');
 }
 else {
 
     my $ChecksumFileSize = -s $ChecksumFile;
-    $Self->True(
-        $ChecksumFileSize && $ChecksumFileSize > 2**10 && $ChecksumFileSize < 2**20,
+    ok(
+        ( $ChecksumFileSize && $ChecksumFileSize > 2**10 && $ChecksumFileSize < 2**20 ),
         'Checksum file size in expected range (> 1KB && < 1MB)'
     );
 
@@ -72,13 +71,13 @@ else {
 
         my ( $MD5Sum, $Filename ) = split /::/, $Line, 2;
 
-        next LINE if !$MD5Sum;
-        next LINE if !$Filename;
+        next LINE unless $MD5Sum;
+        next LINE unless $Filename;
 
         $Filename = "$Home/$Filename";
 
         if ( !-f $Filename ) {
-            $Self->False( 1, "$Filename found" );
+            fail("$Filename found");
 
             next LINE;
         }
@@ -103,15 +102,14 @@ else {
 
         # To save data, we only record errors of files, no positive results.
         if ( $ComputedMD5Sum ne $MD5Sum ) {
-            $Self->Is( $ComputedMD5Sum, $MD5Sum, "$Filename digest" );
+            is( $ComputedMD5Sum, $MD5Sum, "$Filename digest" );
             $ErrorsFound++;
         }
     }
 
-    $Self->False(
-        $ErrorsFound,
-        "$ErrorsFound mismatches in file list",
-    );
+    if ($ErrorsFound) {
+        diag "encountered $ErrorsFound mismatches in file list",;
+    }
 }
 
-done_testing();
+done_testing;

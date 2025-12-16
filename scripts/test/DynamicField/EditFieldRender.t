@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,10 +25,11 @@ use HTTP::Request::Common qw(POST);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::Output::HTML::Layout  ();
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);    # must be loaded before RegisterOM
+use Kernel::System::UnitTest::RegisterOM;                   # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
+use Kernel::Output::HTML::Layout   ();
+use Kernel::System::VariableCheck  qw(:all);
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -135,10 +136,10 @@ $UserSelectionString               =~ s/^\n//;
 $UserSelectionSelectedAgent1String =~ s/^\n//;
 $UserSelectionSelectedAgent2String =~ s/^\n//;
 
-# add empty value to the end
-$UserSelectionString               .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent1String .= "\n  <option value=\"\">-</option>";
-$UserSelectionSelectedAgent2String .= "\n  <option value=\"\">-</option>";
+# add empty value to the top
+$UserSelectionString               = "  <option value=\"\">-</option>\n" . $UserSelectionString;
+$UserSelectionSelectedAgent1String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent1String;
+$UserSelectionSelectedAgent2String = "  <option value=\"\">-</option>\n" . $UserSelectionSelectedAgent2String;
 
 # use a fixed year to compare the time selection results
 FixedTimeSet(
@@ -3793,14 +3794,19 @@ for my $Test (@Tests) {
                 },
                 "EditFieldRender() gave the expected structure",
             );
-            is(
-                $FieldHTML,
-                $Test->{ExpectedResults},
-                "EditFieldRender() gave the expected content",
-            );
+
+            for my $Key (qw(Field Label)) {
+
+                # compare long strings and get an unified diff in case of mismatch
+                TextEqOrDiff(
+                    $FieldHTML->{$Key},
+                    $Test->{ExpectedResults}->{$Key},
+                    "EditFieldRender() gave the expected content for $Key",
+                );
+            }
         }
         else {
-            is( $FieldHTML, undef, 'EditFieldRender failed, as expected' );
+            ok( !defined $FieldHTML, 'EditFieldRender failed, as expected' );
         }
     };
 }

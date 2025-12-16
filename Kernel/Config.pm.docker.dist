@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,9 +62,11 @@ Syslog is not easily available in a Docker container.
 Log to the file F</opt/otobo/var/log/otobo.log>.
 As this specific location as it is located on the volume that is visible from the host.
 
-=item CacheModule
+=item Cache::Module and Cache::Redis
 
-Use Redis for caching.
+Use Redis as the caching backend. In out of the box Docker based installation the
+Redis server is running in the same local network as the web server. The host name is
+simply I<redis> (with "Holding back the years" quietly playing in the background).
 
 =item TestHTTPHostname
 
@@ -134,12 +136,11 @@ sub Load {
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
-    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
-    # ---------------------------------------------------- #
-    # activate Selenium tests if the the host is available #
-    # ---------------------------------------------------- #
+    # -------------------------------------------------#
+    # activate Selenium tests if the host is available #
+    # -------------------------------------------------#
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'selenium-chrome',
         check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
@@ -153,8 +154,8 @@ sub Load {
     # config settings taken from Kernel/Config/Defaults.pm #
     # ---------------------------------------------------- #
 
-    # $Self->{SessionUseCookie} = 0;
-    # $Self->{CheckMXRecord} = 0;
+    # for example:
+    #$Self->{CheckMXRecord} = 0;
 
     # ---------------------------------------------------- #
     # end of your own config options!!!                    #

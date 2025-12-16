@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -200,6 +200,12 @@ Fifth Line',
             '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => 'Important Text! Some more text.',
         Name   => 'ToAscii - Test for bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.'
+    },
+    {
+        Input =>
+            '<html><head><style type="text/css">/**<a href="https://otobo.io">otobo</a>**/ #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
+        Result => 'Important Text! Some more text.',
+        Name   => 'ToAscii - Test for issue #3880 - ignoring links in style tags.'
     },
     {
         Input  => '<td>Test table cell</td><td>Second cell</td>',

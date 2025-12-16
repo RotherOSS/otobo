@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,66 +14,64 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $TestPackage = 'scripts::test::Main::Test';
 my $TestPM      = 'scripts/test/Main/Test.pm';
 
-$Self->False(
-    scalar $INC{$TestPM},
-    "$TestPackage not in %INC yet",
-);
+ok( !exists $INC{$TestPM}, "$TestPackage not in %INC yet" );
 
-$Self->Is(
+is(
     $MainObject->Require($TestPackage),
     1,
     "$TestPackage loaded via Require()",
 );
 
-$Self->True(
-    scalar $INC{$TestPM},
-    "$TestPackage in %INC",
-);
+ok( $INC{$TestPM}, "$TestPackage is in %INC after Require()" );
 
-$Self->Is(
+is(
     scalar scripts::test::Main::Test::Test(),
     1,
-    "Function can be called in loaded package",
+    'Function Test() can be called in loaded package',
 );
 
 my %OldINC = %INC;
 
-$Self->Is(
+is(
     $MainObject->Require($TestPackage),
     1,
     "$TestPackage loaded via Require()",
 );
 
-$Self->IsDeeply(
+is(
     \%INC,
     \%OldINC,
     '%INC hash unchanged by second load',
 );
 
-$Self->Is(
+is(
     scalar $MainObject->Require( "${TestPackage}::Invalid", Silent => 1 ),
-    scalar undef,
+    undef,
     "${TestPackage}::Invalid cannot be loaded",
 );
 
-$Self->IsDeeply(
+is(
     \%INC,
     \%OldINC,
     '%INC hash unchanged by invalid load',
 );
 
-$Self->DoneTesting();
+done_testing;

@@ -1,0 +1,274 @@
+%YAML 1.1
+---
+name: 'DockerImageUpdateAutobuild'
+
+# This workflow has been adapted from the workflow
+# https://github.com/marketplace/actions/docker-image-update-checker#minimal
+
+# This workflow checks whether there are updated base images and
+# creates autobuild images on Docker Hub.
+# The autobuild images can be tested and then released to the public.
+# A Github issue is created automatically for each autobuild image.
+
+on:
+
+  # The trigger on 'workflow_dispatch' allows to start the workflow manually
+  # via https://github.com/RotherOSS/otobo/actions/workflows/docker_image_update_autobuild.yml
+  workflow_dispatch:
+
+  # The trigger on 'schedule' declares that the workflow should run daily. The time is in UTC declared in cron syntax.
+  # So '37 2 * * *' is daily at 2:37 UTC.
+  # The scheduled jobs run only on the default branch.
+  schedule:
+    - cron: '37 2 * * *'
+
+jobs:
+  CheckDockerImageUpdate:
+    runs-on: 'ubuntu-latest'
+
+    # This long list is a workaround so that
+    # the outputs from all matrix iterations can be collected.
+    outputs:
+      otobo_web_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0_autobuild }}
+      otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
+      otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
+
+      #otobo_elasticsearch_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0_autobuild }}
+      #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
+      #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
+
+      otobo_nginx_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0_autobuild }}
+      otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
+      otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
+
+      otobo_nginx_kerberos_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_0_autobuild }}
+      otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
+      otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
+
+      otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
+      otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
+      otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
+
+    strategy:
+      # create different images
+      # note that there is no release build for the otobo-web-kerberos target
+      # this currently has to be updated every release
+      matrix:
+        #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        docker_tag: [
+          'latest-10_0-autobuild',
+          'latest-10_1-autobuild',
+          'latest-11_0-autobuild'
+        ]
+        include:
+
+          # The branch with the latest patch level release for every release series. This is
+          # irrespective of the target.
+          # Has to be updated for every new patch level release.
+          -
+            docker_tag:   'latest-10_0-autobuild'
+            otobo_branch: 'rel-10_0_27'
+          -
+            docker_tag:   'latest-10_1-autobuild'
+            otobo_branch: 'rel-10_1_16'
+          -
+            docker_tag:   'latest-11_0-autobuild'
+            otobo_branch: 'rel-11_0_13'
+
+          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_0-autobuild'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1-autobuild'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+
+          # common info for every target; for nginx this includes the base imagie
+          -
+            target:     'otobo-web'
+            dockerfile: 'otobo.web.dockerfile'
+            context:    '.'
+            repository: 'rotheross/otobo'
+            base_image: 'perl:5.40-bookworm'
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  dockerfile: 'otobo.elasticsearch.dockerfile'
+          #  context:    'scripts/elasticsearch'
+          #  repository: 'rotheross/otobo-elasticsearch'
+          #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
+          -
+            target:     'otobo-nginx-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-webproxy'
+            base_image: 'nginx:mainline'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            base_image: 'nginx:mainline'
+          -
+            target:     'otobo-selenium-chrome'
+            dockerfile: 'otobo.selenium-chrome.dockerfile'
+            context:    'scripts/test/sample'
+            repository: 'rotheross/otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+
+    steps:
+
+      -
+        # These variables can be accessed in the env context
+        name: Setting up the environment file (autobuild)
+        run: |
+          otobo_branch=${{ matrix.otobo_branch }}
+          docker_tag=${{ matrix.docker_tag }}
+          build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          (
+            echo "otobo_branch=${otobo_branch}"
+            echo "otobo_docker_tag=${docker_tag}"
+            echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
+            echo "otobo_base_image=${{ matrix.base_image }}"
+            echo "otobo_build_date=${build_date}"
+          ) >> $GITHUB_ENV
+
+      #-
+      #  name: Login to docker.elastic.co
+      #  if: matrix.target == 'otobo-elasticsearch'
+      #  uses: docker/login-action@v3
+      #  with:
+      #    registry: docker.elastic.co
+      #    username: ${{ github.actor }}
+      #    password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        # this step sets ${{ steps.check.outputs.needs-updating }}
+        name: Check whether the base image was updated
+        id: check
+        uses: lucacome/docker-image-update-checker@v2
+        with:
+          base-image: ${{ env.otobo_base_image }}
+          image:      ${{ env.otobo_ref }}
+
+      -
+        # print the result in any case
+        name: Report the check result
+        id: collect_summary
+        run: |
+          output_key=${{ matrix.target }}_${{ matrix.docker_tag }}
+          cleaned_output_key=$(echo $output_key | tr - _)
+          echo "$cleaned_output_key=${{ steps.check.outputs.needs-updating }}" >> $GITHUB_OUTPUT
+
+      -
+        # login to Docker Hub before the composite action
+        # this avoids that secrets have to be passed
+        name: Login to Docker Hub
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
+
+      -
+        # the name of the Dockerfile might depend on the branch
+        # there is a special case for rel-10_0 and rel-10_1
+        name: Get the name of the Dockerfile
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        id: get-dockerfile
+        run: |
+          echo "dockerfile=${{ (matrix.target == 'otobo-nginx-kerberos-webproxy' && startsWith(matrix.docker_tag, 'latest-10')) && 'otobo.nginx-kerberos.dockerfile' || matrix.dockerfile  }}" >> $GITHUB_OUTPUT
+
+      -
+        # Use a local composite action.
+        # The action uses the inputs and the env context.
+        name: 'Run local composite action'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: ./.github/actions/docker_image_update
+        with:
+          dockerfile: ${{ steps.get-dockerfile.outputs.dockerfile }}
+          context: ${{ matrix.context }}
+          target: ${{ matrix.target }}
+          dockerhub_tags: "${{ matrix.repository }}:${{ matrix.docker_tag }}"
+
+      - name: 'check out so that the composite action becomes available'
+        if: ${{ steps.check.outputs.needs-updating == 'true' }}
+        uses: actions/checkout@v4
+
+  # Write Summary
+  WriteSummary:
+    needs: CheckDockerImageUpdate
+    runs-on: 'ubuntu-latest'
+    steps:
+      -
+        name: Write a summary
+        id: write_summary
+        run: |
+          jq --sort-keys <<END_JSON >> $GITHUB_STEP_SUMMARY
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON
+
+  # create an issue that reminds people that manual action must be performed
+  CreateIssue:
+    needs: CheckDockerImageUpdate
+    runs-on: 'ubuntu-latest'
+    steps:
+      -
+        name: Count number of builds
+        id: count_builds
+        run: |
+          num_builds=$(jq '[.[] | select(contains("true"))] | length' <<END_JSON
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON
+          )
+          echo "number of builds is $num_builds" >> $GITHUB_STEP_SUMMARY
+          echo "num_builds=$num_builds" >> $GITHUB_OUTPUT
+
+      -
+        name: Sort JSON summary by keys
+        id: sort_json
+        if: steps.count_builds.outputs.num_builds >= 1
+        run: |
+          sorted_json=$(jq --sort-keys '.' <<END_JSON
+          ${{ toJSON(needs.CheckDockerImageUpdate.outputs) }}
+          END_JSON
+          )
+          echo 'sorted_json<<END_SORTED_JSON' >> $GITHUB_OUTPUT
+          echo "$sorted_json"                 >> $GITHUB_OUTPUT
+          echo 'END_SORTED_JSON'              >> $GITHUB_OUTPUT
+
+      -
+        name: Create an issue
+        id: create_issue
+        if: steps.count_builds.outputs.num_builds >= 1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Issue created by the Github action DockerImageUpdateAutobuild',
+              body: `
+            The Github workflow DockerImageUpdateAutobuild has found that
+            the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker images has changed.
+
+            This means that there is work to do. Please test the newly created Docker images.
+            This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
+            Choose 'autobuild' for the variable OTOBO_DOCKER_DEVEL.
+
+            Note that the GitLab pipeline tests do not cover the service nginx. Please do manual sanity testing.
+            First pull current images with 'docker compose pull'. Then start an installation with the autobuild images
+            and see whether OTOBO can be accessed via HTTPS.
+
+            Rebuild the released Docker images when things look fine. The rebuild can be done
+            via the Github action DockerImageUpdateAll.
+
+            ${{ steps.sort_json.outputs.sorted_json }}`,
+              labels: [ 'Action DockerImageUpdateAutobuild' ]
+            })
