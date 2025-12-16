@@ -1710,7 +1710,7 @@ sub _AddHeadersToResponseObject {
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
-    )
+        )
     {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
@@ -2248,7 +2248,7 @@ sub CustomerAge {
 
     # expected to be an integer number
     my $TimeShowCreatedAt = $ConfigObject->Get('TimeShowCreatedAt');
-    if ( IsPositiveInteger($TimeShowCreatedAt) ) {
+    if ( IsInteger($TimeShowCreatedAt) ) {
 
         # check if age transformation should be applied
         if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
