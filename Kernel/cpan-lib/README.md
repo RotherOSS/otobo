@@ -92,7 +92,8 @@ current situation on the development machine.
 Clean up again when module were installed
 
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi              # or a similar dir, depending on the devel machine
-    find . \( -name "*.pl" \) -delete                # just because this is the tradition
+    find . \( -name "*.pl" \) -delete                                 # just because this is the tradition
+    find . \( -name "*.pod" \) -delete                                # just because this is the tradition
     find . -type d -empty -delete                                     # empty dirs are not needed, usually dirs with documentation only
 
 ### Finalize

@@ -16,6 +16,12 @@ requires 'CGI', '== 4.36';
 # needed by e.g. Data::ICal, but not used by OTOBO itself
 requires 'Class::Accessor', '== 0.34';
 
+# needed by Text::vFile::asData
+requires 'Class::Accessor::Chained', '== 0.01';
+
+# needed by Sisimai
+requires 'Class::Accessor::Lite', '== 0.08';
+
 # needed by SOAP::Lite
 requires 'Class::Inspector', '== 1.31';
 
@@ -65,6 +71,8 @@ requires 'Font::TTF', '== 1.06';
 
 # needed by HTMLUtils, contains adaption by OTOBO
 requires 'HTML::Scrubber', '== 0.20';
+
+requires 'HTTP::Date', '== 6.02';
 
 # removed in OTOBO 11.0.x
 requires 'HTTP::Message', '== 6.13';
@@ -136,7 +144,7 @@ requires 'Net::IMAP::Simple', '== 1.2209';
 requires 'Net::SSLGlue', '== 1.058';
 
 # needed by Kernel::System::PDF
-requires 'PDF::API2', '== 2.048';
+requires 'PDF::API2', '== 2.033';
 
 # needed by console command Dev::Tools::TranslationsUpdate
 requires 'Pod::Strip', '== 1.02';
@@ -152,6 +160,9 @@ requires 'Sisimai', '== v4.24.1';
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';
 
+# needed by OTOBO generic interface
+requires 'String::Diff', '== 0.07';
+
 # needed by Kernel::System::Environment
 requires 'Sys::Hostname::Long', '== 1.5';
 
@@ -164,6 +175,11 @@ requires 'Text::Diff', '== 1.44';
 # needed by Kernel::System::Diff
 requires 'Text::Diff::FormattedHTML', '== 0.08';
 
+requires 'Text::Diff::HTML', '== 0.07';
+
+# needed by Data::ICal
+requires 'Text::vFile::asData', '== 0.08';
+
 # needed by Crypt::Random::Source
 requires 'Type::Tiny', '== 1.010000';
 
@@ -172,6 +188,8 @@ requires 'XML::FeedPP', '== 0.43';
 
 # needed by Kernel::System::XML::Simple
 requires 'XML::LibXML::Simple', '== 0.97';
+
+requires 'XML::Parser::Lite', '== 0.721';
 
 # needed by Kernel::GenericInterface::Mapping::XSLT
 requires 'XML::Simple', '== 2.24';
