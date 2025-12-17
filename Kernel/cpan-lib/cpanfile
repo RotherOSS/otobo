@@ -160,7 +160,6 @@ requires 'Sisimai', '== v4.24.1';
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';
 
-# needed by OTOBO generic interface
 requires 'String::Diff', '== 0.07';
 
 # needed by Kernel::System::Environment
