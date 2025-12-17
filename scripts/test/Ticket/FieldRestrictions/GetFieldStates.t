@@ -93,6 +93,25 @@ my $Autoselect = {
 # Prepare test environment
 ############################################
 
+subtest '[Prepare] Set all previous ACLs to invalid' => sub {
+
+    my $ACLList = $ACLObject->ACLList(
+        ValidIDs => ['1'],
+        UserID   => 1,
+    );
+
+    for my $Item ( sort keys %{$ACLList} ) {
+
+        $ACLObject->ACLUpdate(
+            ID   => $Item,
+            Name => $ACLList->{$Item},
+
+            ValidID => 2,
+            UserID  => 1,
+        );
+    }    
+}
+
 subtest '[Prepare] Create Dynamic Fields for Test' => sub {
 
     my $TextFieldID       = _CreateDynamicTextField();
