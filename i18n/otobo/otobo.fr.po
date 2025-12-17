@@ -40,8 +40,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2025-11-25 14:41+0000\n"
 "Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
-"Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-11/fr/"
-">\n"
+"Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-11/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25654,6 +25653,7 @@ msgstr "Importer/Exporter"
 #~ msgid "Sending support data to Rother OSS GmbH is not possible!"
 #~ msgstr "Il n'est pas possible d'envoyer des données support au groupe OTOBO"
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Les champs marqués d'un astérisque (*) sont obligatoires."
 
@@ -27334,3 +27334,56 @@ msgstr ""
 #. SysConfig
 msgid "Manage import and export of objects."
 msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Elasticsearch (u)"
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
+msgstr ""
+
+#. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
+msgstr ""
+
