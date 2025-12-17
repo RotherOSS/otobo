@@ -302,6 +302,18 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.34',
         },
         {
+            'Comment'         => 'needed by Text::vFile::asData',
+            'Module'          => 'Class::Accessor::Chained',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.01',
+        },
+        {
+            'Comment'         => 'needed by Sisimai',
+            'Module'          => 'Class::Accessor::Lite',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
+        },
+        {
             'Comment'         => 'needed by SOAP::Lite',
             'Module'          => 'Class::Inspector',
             'Required'        => 1,
@@ -412,6 +424,11 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'HTML::Scrubber',
             'Required'        => 1,
             'VersionRequired' => '== 0.20',
+        },
+        {
+            'Module'          => 'HTTP::Date',
+            'Required'        => 1,
+            'VersionRequired' => '== 6.02',
         },
         {
             'Comment'         => 'removed in OTOBO 11.0.x',
@@ -563,7 +580,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
-            'VersionRequired' => '== 2.048',
+            'VersionRequired' => '== 2.033',
         },
         {
             'Comment'         => 'needed by console command Dev::Tools::TranslationsUpdate',
@@ -596,6 +613,11 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.20',
         },
         {
+            'Module'          => 'String::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.07',
+        },
+        {
             'Comment'         => 'needed by Kernel::System::Environment',
             'Module'          => 'Sys::Hostname::Long',
             'Required'        => 1,
@@ -620,6 +642,17 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.08',
         },
         {
+            'Module'          => 'Text::Diff::HTML',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.07',
+        },
+        {
+            'Comment'         => 'needed by Data::ICal',
+            'Module'          => 'Text::vFile::asData',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
+        },
+        {
             'Comment'         => 'needed by Crypt::Random::Source',
             'Module'          => 'Type::Tiny',
             'Required'        => 1,
@@ -636,6 +669,11 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'XML::LibXML::Simple',
             'Required'        => 1,
             'VersionRequired' => '== 0.97',
+        },
+        {
+            'Module'          => 'XML::Parser::Lite',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.721',
         },
         {
             'Comment'         => 'needed by Kernel::GenericInterface::Mapping::XSLT',
