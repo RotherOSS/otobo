@@ -1,0 +1,187 @@
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+
+# Needed by Text::Diff
+requires 'Algorithm::Diff';
+
+# removed in OTOBO 11.0.x
+requires 'CGI';
+
+# needed by e.g. Data::ICal, but not used by OTOBO itself
+requires 'Class::Accessor';
+
+# needed by SOAP::Lite
+requires 'Class::Inspector';
+
+# needed by Data::ICal
+requires 'Class::ReturnValue';
+
+requires 'CPAN::Audit';
+
+# needed by CPAN::Audit
+requires 'CPAN::DistnameInfo';
+
+requires 'Crypt::PasswdMD5';
+
+# needed by Math::Random::Secure, needed in Kernel::System::Main
+requires 'Crypt::Random::Source';
+
+# removed in OTOBO 11.0.x
+requires 'CSS::Minifier';
+
+requires 'Data::ICal';
+
+requires 'Date::ICal';
+
+# removed in OTOBO 11.0.x
+requires 'Devel::StackTrace';
+
+# needed by Kernel::System::CheckItem
+requires 'Email::Valid';
+
+# removed in OTOBO 11.0.x
+requires 'Encode::Locale';
+
+# needed by Kernel::System::CSV
+requires 'Excel::Writer::XLSX';
+
+# needed by Type::Tiny
+requires 'Exporter::Tiny';
+
+# needed by Text::Diff::FormattedHTML 
+requires 'File::Slurp';
+
+# removed in OTOBO 11.0.x
+requires 'File::Slurp::Tiny';
+
+# needed by PDF::API2
+requires 'Font::TTF';
+
+# needed by HTMLUtils, contains adaption by OTOBO
+requires 'HTML::Scrubber';
+
+# removed in OTOBO 11.0.x
+requires 'HTTP::Message';
+
+# needed by console commands
+requires 'IO::Interactive';
+
+# needed by Font::TTF
+requires 'IO::String';
+
+# removed in OTOBO 11.0.x
+requires 'JavaScript::Minifier';
+
+# needed by Sisimai
+requires 'JSON';
+
+# needed by JSON, but there also in backportPP included in JSON
+requires 'JSON::PP';
+
+# needed by the console command Dev::Tools::TranslationsUpdate
+requires 'Lingua::Translit';
+
+# needed by otobo.CheckModules.pl
+requires 'Linux::Distribution';
+
+# needed by Kernel::System::ReferenceData, Locale::Country
+requires 'Locale::Codes';
+
+# needed by webservices
+requires 'LWP::Protocol::https';
+
+# removed in OTOBO 11.0.x
+requires 'LWP';
+
+# needed in frontend and system OTOBO modules
+requires 'Mail::Address';
+
+# needed by Kernel::System::Mail
+requires 'Mail::Internet';
+
+# needed by Math::Random::Secure, needed in Kernel::System::Main
+requires 'Math::Random::ISAAC';
+
+# needed by Kernel::System::Main for GenerateRandomString()
+requires 'Math::Random::Secure';
+
+# needed by Kernel::System::Mail
+requires 'MIME::Tools';
+
+# needed by CPAN::Audit
+requires 'Module::CPANfile';
+
+# needed by Crypt::Random::Source
+requires 'Module::Find';
+
+# needed by otobo.psgi
+requires 'Module::Refresh';
+
+# needed by LWP::Protocol::https
+requires 'Mozilla::CA';
+
+# needed by LWP::Protocol::https
+requires 'Net::HTTP';
+
+# needed by Kernel::System::MailAccount::IMAP
+requires 'Net::IMAP::Simple';
+
+# needed by OTOBO email modules
+requires 'Net::SSLGlue';
+
+# needed by Kernel::System::PDF
+requires 'PDF::API2';
+
+# needed by console command Dev::Tools::TranslationsUpdate
+requires 'Pod::Strip';
+
+# needed by OTOBO generic interface
+requires 'REST::Client';
+
+# needed by Kernel::System::CronEvent
+requires 'Schedule::Cron::Events';
+
+requires 'Sisimai';
+
+# needed by OTOBO generic interface
+requires 'SOAP::Lite';
+
+# needed by Kernel::System::Environment
+requires 'Sys::Hostname::Long';
+
+# removed in OTOBO 11.0.x
+requires 'Text::CSV';
+
+# needed by Kernel::System::Diff
+requires 'Text::Diff';
+
+# needed by Kernel::System::Diff
+requires 'Text::Diff::FormattedHTML';
+
+# needed by Crypt::Random::Source
+requires 'Type::Tiny';
+
+# needed by Kernel::Output::HTML::Dashboard::RSS
+requires 'XML::FeedPP';
+
+# needed by Kernel::System::XML::Simple
+requires 'XML::LibXML::Simple';
+
+# needed by Kernel::GenericInterface::Mapping::XSLT
+requires 'XML::Simple';
+
+# needed by XML::FeedPP
+requires 'XML::TreePP', '== 0.43';
+
+# removed in OTOBO 11.0.x
+requires 'URI';
+
+# needed by Sisimai, OTOBO itself uses YAML::XS
+requires 'YAML';
+
