@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.243170622480967;
+    $Self->{Completeness}        = 0.244523915958873;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -164,6 +164,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Kalendář se stejným jménem již existuje.',
         'Color' => 'Barva',
         'Permission group' => 'Skupina oprávnění',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Události tiketu',
         'Rule' => 'Pravidlo',
         'Remove this entry' => 'Odstranit tuto položku',
@@ -257,24 +258,24 @@ sub Data {
         'Add new notification language' => 'Přidat nový notifikační jazyk',
         'Tag Reference' => '',
         'Notifications are sent to an agent.' => 'Notifikace odeslány agentovi.',
-        'You can use the following tags' => '',
-        'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
+        'You can use the following tags' => 'Můžete použít následující značky',
+        'To get the first 20 character of the appointment title.' => 'Získání prvních 20 znaků názvu schůzky.',
+        'To get the appointment attribute' => 'Získání atributu schůzky',
         ' e. g.' => ' např.',
-        'To get the calendar attribute' => '',
+        'To get the calendar attribute' => 'Získání atributu kalendáře',
         'Attributes of the recipient user for the notification' => '',
-        'Config options' => '',
+        'Config options' => 'Možnosti konfigurace',
         'Example notification' => 'Ukázková notifikace',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Další e-mailové adresy příjemců',
         'This field must have less then 200 characters.' => 'Toto pole musí být kratší než 200 znaků.',
         'Article visible for customer' => 'Článek viditelný zákazníkem',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Článek se vytvoří, pokud je oznámení zasláno zákazníkovi nebo na další e-mailovou adresu.',
         'Email template' => 'Šablona e-mailu',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Pomocí této šablony vygenerujete celý e-mail (pouze pro HTML e-maily).',
         'Enable email security' => 'Povolit zabezpečení e-mailu',
         'Email security level' => 'Úroveň zabezpečení e-mailu',
         'If signing key/certificate is missing' => 'Pokud klíč/certifikát k podpisu chybí',
@@ -305,12 +306,12 @@ sub Data {
         'Reference' => 'Reference',
         'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu.',
         'To get the first 5 lines of the email.' => 'Pro získáni prvních 5ti řádků z emailu.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Zjištění jména uživatele dle zákazníka tiketu (je-li zadáno).',
         'To get the article attribute' => 'Získat atributy článku',
-        'Options of the current customer user data' => '',
+        'Options of the current customer user data' => 'Možnosti aktuálních uživatelských údajů zákazníka',
         'Ticket owner options' => 'Nastavení vlastníka tiketu',
         'Ticket responsible options' => '',
-        'Options of the current user who requested this action' => '',
+        'Options of the current user who requested this action' => 'Možnosti aktuálního uživatele, který si tuto akci vyžádal',
         'Options of the ticket data' => '',
         'Options of ticket dynamic fields internal key values' => '',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
@@ -318,7 +319,7 @@ sub Data {
         'Example response' => 'Vzorová odpověď',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => 'Správa cloudových služeb',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => 'Nápověda',
@@ -1992,6 +1993,9 @@ sub Data {
             '',
         'System address' => '',
         'Will be the sender address of this queue for email answers.' => 'Bude adresou odesílatele z této fronty pro emailové odpovědi.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => '',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1999,6 +2003,10 @@ sub Data {
         'The salutation for email answers.' => 'Oslovení pro emailové odpovědi.',
         'Signature' => 'Podpis',
         'The signature for email answers.' => 'Podpis pro emailové odpovědi.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4154,6 +4162,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7503,9 +7513,9 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8296,6 +8306,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => '',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Emailové Adresy',
         'Email Outbound' => 'Odchozí email',
@@ -8825,6 +8836,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => '',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Různé',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9989,6 +10001,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => 'Webové služby',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10008,10 +10021,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Ano, ale skrýt archivované tikety',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Váš email s číslem tiketu "<OTOBO_TICKET>" je svázán s "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

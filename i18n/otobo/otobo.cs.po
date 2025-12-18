@@ -23,14 +23,12 @@ msgstr ""
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
 "PO-Revision-Date: 2025-11-01 12:59+0000\n"
 "Last-Translator: Lukas Majer <lmajer@christ-ag.com>\n"
-"Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/>"
-"\n"
+"Language-Team: Czech <http://translate.otobo.org/projects/otobo/otobo-11/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
-"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 "X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
@@ -739,9 +737,7 @@ msgstr "Článek viditelný zákazníkem"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "An article will be created if the notification is sent to the customer or an additional email address."
-msgstr ""
-"Článek se vytvoří, pokud je oznámení zasláno zákazníkovi nebo na další e-"
-"mailovou adresu."
+msgstr "Článek se vytvoří, pokud je oznámení zasláno zákazníkovi nebo na další e-mailovou adresu."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -25541,6 +25537,7 @@ msgstr "Import/Export"
 #~ msgid "%s will be available soon."
 #~ msgstr "%s bude brzy k dispozici."
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Všechna pole označena hvězdičkou (*) jsou povinná."
 
@@ -27146,3 +27143,56 @@ msgstr ""
 #. SysConfig
 msgid "Manage import and export of objects."
 msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Elasticsearch (u)"
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
+msgstr ""
+
+#. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
+msgstr ""
+

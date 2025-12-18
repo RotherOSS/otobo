@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.851022540677713;
+    $Self->{Completeness}        = 0.849500819549993;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -160,6 +160,7 @@ sub Data {
         'Calendar with same name already exists.' => '同じ名前のカレンダーは既に存在します。',
         'Color' => '色',
         'Permission group' => '権限グループ',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'チケットの予約',
         'Rule' => 'ルール',
         'Remove this entry' => '登録を削除',
@@ -1988,6 +1989,9 @@ sub Data {
             'チケットがクローズした後に顧客がチケットにフォローアップする場合、旧所有者にロックされます。',
         'System address' => 'システムアドレス',
         'Will be the sender address of this queue for email answers.' => 'このキューでのメール回答はこの送信者アドレスになります。',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => '既定のサインキー',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '鍵署名を利用するにはシステムアドレスに体操したPGPもしくはS/MIMEの証明書の追加が必要です。',
@@ -1995,6 +1999,10 @@ sub Data {
         'The salutation for email answers.' => 'メール回答の挨拶文',
         'Signature' => '署名',
         'The signature for email answers.' => 'メール回答の署名',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'このキューは、次の設定で使用されます。',
 
         # Template: AdminQueueAutoResponse
@@ -4150,6 +4158,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'ダイナミックフィールド「%s」はチケットマスクで既に使用されています。',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7513,10 +7523,10 @@ Thanks for your help!
             'キューとサービスの親子変換を自動的に生成するかどうかを定義します。',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '顧客インタフェースで拡張モードを使用すべきかどうかを定義します(これにより、表・置換機能・各種スクリプト・Wordからの貼り付けなどが利用可能になります)。',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8306,6 +8316,7 @@ Thanks for your help!
         'Edit contacts with data' => '追加連絡先を編集',
         'Edit contacts with data.' => '追加連絡先を編集。',
         'Edit customer company' => '顧客企業を編集',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'メールアドレス',
         'Email Outbound' => '電子メール発信',
@@ -8835,6 +8846,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '別のチケットの全ての記事とこのチケットを結合',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'チケットを（%s/%s）から（%s/%s）にマージしました。',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'チケット番号 <OTOBO_TICKET> は、チケット番号 <OTOBO_MERGE_TO_TICKET> にマージされました。',
+        'Message of the day' => '',
         'Minute' => '分',
         'Miscellaneous' => 'その他',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9999,6 +10011,7 @@ Thanks for your help!
             '',
         'Web Service' => 'Webサービス',
         'Web Services' => 'Webサービス',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10018,10 +10031,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'はい、アーカイブされたチケットを非表示にします。',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'チケット番号"<OTOBO_TICKET>" のメールは、"<OTOBO_BOUNCE_TO>"宛にバウンスされました。詳細は、このアドレスまでお問合せください。',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'メールのチケット番号 "<OTOBO_TICKET>" を "<OTOBO_MERGE_TO_TICKET>" と結合しました。',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '優先キューの選択。有効になっている場合は、電子メールでこれらのキューについての通知を受け取ります。',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

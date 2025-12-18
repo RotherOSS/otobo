@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996865203761755;
+    $Self->{Completeness}        = 0.995678736402921;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -157,6 +157,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Ein Kalender mit gleichem Namen existiert bereits.',
         'Color' => 'Farbe',
         'Permission group' => 'Berechtigungsgruppe',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Ticket-Termine',
         'Rule' => 'Regel',
         'Remove this entry' => 'Diesen Eintrag entfernen',
@@ -1985,6 +1986,9 @@ sub Data {
             'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird das Ticket für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Standard-Signierschlüssel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
@@ -1992,6 +1996,10 @@ sub Data {
         'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Diese Queue wird in folgenden Konfigurationseinstellungen verwendet:',
 
         # Template: AdminQueueAutoResponse
@@ -3272,10 +3280,6 @@ sub Data {
         # Template: CustomerDashboard
         'Ticket Search' => 'Ticketsuche',
         'New Ticket' => 'Neues Ticket',
-        'Message of the day' => 'Aktuelle Informationen',
-        'Welcome %s, to your OTOBO.' => 'Willkommen %s, in Deinem OTOBO.',
-        'Your last tickets' => 'Deine letzten Tickets',
-        'Your external tools' => 'Externe Tools',
 
         # Template: CustomerError
         'An Error Occurred' => 'Ein Fehler ist aufgetreten',
@@ -3304,7 +3308,6 @@ sub Data {
             'Der Internetexplorer wird von OTOBO nur in Hinblick auf grundlegende Funktionalität unterstützt. Bitte ziehen Sie in Betracht, zu einem modernen Web-Browser zu wechseln.',
         'One moment please, you are being redirected...' => 'Einen Moment bitte, Sie werden weitergeleitet...',
         'Login' => 'Anmeldung',
-        'Your Tickets. Your OTOBO.' => 'Deine Tickets. Dein OTOBO.',
         'Your user name' => 'Ihr Benutzername',
         'User name' => 'Benutzername',
         'Your password' => 'Ihr Passwort',
@@ -4152,6 +4155,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             'Der Dynamische Feld-Typ "%s" des Dynamischen Felds "%s" kann in Sets nicht verwendet werden.',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'Das Dynamische Feld "%s" wird bereits in einer Ticketmaske verwendet.',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => 'Fehlkonfiguriertes Grid - Zeilen als Array angeben!',
         'Misconfigured Grid - need Columns as integer > 0!' => 'Fehlkonfiguriertes Grid – Spalten als ganze Zahl >0 angeben!',
         'Misconfigured Grid - Rows can\'t be empty!' => 'Fehlkonfiguriertes Grid – Zeilen können nicht leer sein!',
@@ -7515,10 +7520,10 @@ Ihr Helpdesk-Team
             'Legt fest, ob Eltern-Kind-Übersetzungen für Queues und Services automatisch erstellt werden sollen.',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier die Cloud Services, geht ein Teil der Funktionalität wie der Versand von Supportdaten, Package Verify™ und das "Produkt-Neuigkeiten"-Dashboard-Widget verloren.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Legt fest, ob im Kundenbereich der erweiterte Modus genutzt werden soll (erlaubt die Nutzung von Tabellen, Ersetzen, Hochstellen, Tiefstellen, Einfügen aus Word, usw.).',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Bestimmt, ob der erweiterte Modus genutzt werden soll (schaltet die Benutzung von Tabellen, Suchen & Ersetzen, Tiefstellen, Hochstellen, aus Word einfügen, etc. frei).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Gibt an, ob der erste für den Kunden sichtbare Artikel beim Öffnen der Übersichtsansicht aufgeklappt dargestellt werden soll. Wenn nichts angegeben ist, wird der neueste Artikel aufgeklappt dargestellt.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8308,6 +8313,7 @@ Ihr Helpdesk-Team
         'Edit contacts with data' => 'Kontaktdaten bearbeiten',
         'Edit contacts with data.' => 'Kontaktdaten bearbeiten.',
         'Edit customer company' => 'Kundenunternehmen bearbeiten',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => 'Dynamische Voranzeige der Elasticsearch-Suchergebnisse.',
         'Email Addresses' => 'E-Mail-Adressen',
         'Email Outbound' => 'Ausgehende E-Mail',
@@ -8837,6 +8843,7 @@ Ihr Helpdesk-Team
         'Merge this ticket and all articles into another ticket' => 'Dieses Ticket und alle Artikel in ein anderes Ticket zusammenfassen',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Ticket (%s/%s) zusammengeführt mit (%s/%s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Ticket <OTOBO_TICKET> wurde mit <OTOBO_MERGE_TO_TICKET> zusammengefasst.',
+        'Message of the day' => 'Aktuelle Informationen',
         'Minute' => 'Minute',
         'Miscellaneous' => 'Verschiedenes',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -10001,6 +10008,7 @@ Ihr Helpdesk-Team
             'In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzer-Information nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Option, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10.0 wiederherzustellen.',
         'Web Service' => 'Webservice',
         'Web Services' => 'Webservices',
+        'Welcome %s, to your OTOBO.' => 'Willkommen %s, in Deinem OTOBO.',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             'Willkommenstext für den Dashboard-Header. Die in "Name" definierten Variablen werden anstelle von %s in den als Willkommenstext definierten Text eingefügt. Mögliche Variablen: "UserTitle", "UserFirstname", "UserLastname", "UserEmail" und "UserLogin".',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10020,10 +10028,13 @@ Ihr Helpdesk-Team
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Legt fest, ob eine Weiterleitung aller Anfragen von http zu https erzwungen werden soll. Bitte stellen Sie sicher, dass Ihr Webserver korrekt für die Verwendung von https konfiguriert wurde, bevor Sie diese Einstellung aktivieren.',
         'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',
+        'Your Tickets. Your OTOBO.' => 'Deine Tickets. Dein OTOBO.',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Ihre E-Mail mit Ticket-Nummer "<OTOBO_TICKET>" wurde an "<OTOBO_BOUNCE_TO>" umgeleitet. Kontaktieren Sie diese Adresse für weitere Informationen.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Ihre E-Mail mit Ticket-Nummer "<OTOBO_TICKET>" wurde zu Ticket-Nummer "<OTOBO_MERGE_TO_TICKET>" zusammengefasst.',
+        'Your external tools' => 'Externe Tools',
+        'Your last tickets' => 'Deine letzten Tickets',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

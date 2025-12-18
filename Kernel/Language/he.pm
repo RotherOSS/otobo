@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.209583519928348;
+    $Self->{Completeness}        = 0.209208761734466;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -163,6 +163,7 @@ sub Data {
         'Calendar with same name already exists.' => '',
         'Color' => '',
         'Permission group' => '',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => '',
         'Rule' => '',
         'Remove this entry' => 'הסר רשומה זו',
@@ -1991,6 +1992,9 @@ sub Data {
             '',
         'System address' => 'כתובת מערכת',
         'Will be the sender address of this queue for email answers.' => '',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => '',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1998,6 +2002,10 @@ sub Data {
         'The salutation for email answers.' => '',
         'Signature' => 'חתימה',
         'The signature for email answers.' => 'חתימה עבור מענים בדוא"ל',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4153,6 +4161,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7502,9 +7512,9 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8295,6 +8305,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'ערוך חברת הלקוח',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'כתובת דוא"ל',
         'Email Outbound' => '',
@@ -8824,6 +8835,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => '',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9988,6 +10000,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => '',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10007,10 +10020,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => '',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'הדוא"ל שלכם עם פניה מספר "<OTOBO_TICKET>" מוזגה עם פניה "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

@@ -49,9 +49,6 @@ my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::
 my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
-# Test plan
-plan 18;
-
 # Test User
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
     Groups => ['users'],
@@ -92,6 +89,28 @@ my $Autoselect = {
 ############################################
 # Prepare test environment
 ############################################
+
+subtest '[Prepare] Set all previous ACLs to invalid' => sub {
+
+    my $ACLList = $ACLObject->ACLList(
+        ValidIDs => ['1'],
+        UserID   => 1,
+    );
+
+    ok(defined $ACLList, 'Got list of existing valid ACLs');
+
+    for my $Item ( sort keys %{$ACLList} ) {
+
+        my $Result = $ACLObject->ACLUpdate(
+            ID   => $Item,
+            Name => $ACLList->{$Item},
+
+            ValidID => 2,
+            UserID  => 1,
+        );
+        ok($Result, 'Set ACL to tmp. invalid OK');
+    }    
+};
 
 subtest '[Prepare] Create Dynamic Fields for Test' => sub {
 

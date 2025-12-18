@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843558740110464;
+    $Self->{Completeness}        = 0.843838474146923;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -159,6 +159,7 @@ sub Data {
         'Calendar with same name already exists.' => 'تقويم بنفس الإسم موجود فعلياً.',
         'Color' => 'لون',
         'Permission group' => 'مجموعة الإذن',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'مواعيد التذكرة',
         'Rule' => 'قاعدة',
         'Remove this entry' => 'قم بإزالة هذا الإدخال',
@@ -1987,6 +1988,9 @@ sub Data {
             'إذا تم إغلاق تذكرة وأرسل العميل ردا، فسيتم قفل التذكرة للمالك القديم.',
         'System address' => 'عنوان النظام',
         'Will be the sender address of this queue for email answers.' => 'عنوان المرسل لرسائل البريد الإلكتروني من قائمة الانتظار هذه.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'مفتاح التوقيع الافتراضي',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'لاستخدام مفتاح توقيع، يجب إضافة مفاتيح PGP أو شهادات S / MIME مع معرفات لعنوان النظام المحدد إلى قائمة الانتظار.',
@@ -1994,6 +1998,10 @@ sub Data {
         'The salutation for email answers.' => 'التحية لردود البريد الإلكتروني.',
         'Signature' => 'التوقيع',
         'The signature for email answers.' => 'التوقيع لردود البريد الإلكتروني.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'يتم استخدام قائمة الانتظار هذه في إعدادات التكوين التالية:',
 
         # Template: AdminQueueAutoResponse
@@ -4149,6 +4157,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7512,10 +7522,10 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'يحدد ما إذا كان هذا النظام يمكنه الاتصال بالخوادم التي تقدم خدمات سحابية. إذا قمت بإلغاء تنشيط الخدمات السحابية هنا، فستفقد بعض الوظائف مثل إرسال بيانات الدعم والتحقق™ من الحزمة وأداة لوحة معلومات "أخبار المنتج".',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'يحدد ما إذا كان يجب إستخدام الوضع المتقدم (تمكين إستخدام الجدول، الاستبدال، الكتابة السفلية، الإعداد، العمق، إدخال الكلمات، إلخ) في واجهة العميل.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'تحديد ما إذا كان يجب إستخدام الوضع المتقدم (تمكين إستخدام الجدول، البحث والاستبدال، الحفر، الإعداد، الإدراج من Word، إلخ.).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'تحديد ما إذا كان يجب عرض أول عنصر مرئي للعميل عند فتح عرض النظرة العامة. إذا لم يتم تحديد أي شيء، سيتم عرض أحدث مقال.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8305,6 +8315,7 @@ Thanks for your help!
         'Edit contacts with data' => 'تحرير جهة الاتصال',
         'Edit contacts with data.' => 'تحرير بيانات جهة الاتصال.',
         'Edit customer company' => 'تحرير شركة العميل',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => 'المعاينة الديناميكية لنتائج البحث Elasticesearch.',
         'Email Addresses' => 'عناوين البريد الإلكتروني',
         'Email Outbound' => 'البريد الإلكتروني الصادر',
@@ -8834,6 +8845,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => 'ادمج هذه التذكرة وجميع المقالات في تذكرة أخرى',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'تم دمج التذكرة (‎%s/%s) مع (‎%s/%s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'تم دمج التذكرة <OTOBO_TICKET> في <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => 'دقيقة',
         'Miscellaneous' => 'مُتَنَوِّع',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9157,11 +9169,11 @@ Thanks for your help!
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
             '',
         'Required permissions to use the ticket note screen in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة ملاحظة التذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة مالك التذكرة للتذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'الأذونات المطلوبة لاستخدام شاشة "الانتظار" للتذكرة في واجهة الوكيل.',
         'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
@@ -9173,16 +9185,16 @@ Thanks for your help!
         'Resend Ticket Email.' => '',
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
-            '',
-        'Responsible Tickets' => '',
+            'يعيد تعيين مالك التذكرة ويقوم بإلغاء قفله إذا تم نقلها إلى قائمة انتظار أخرى.',
+        'Responsible Tickets' => 'التذاكر المسؤول عنها',
         'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            'استعادة تذكرة من الأرشيف (فقط إذا تم تغيير الحالة إلى إحدى الحالات المفتوحة المتاحة).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
         'Richtext' => '',
         'Right' => '',
-        'Roles ↔ Groups' => '',
+        'Roles ↔ Groups' => 'الأدوار ↔ المجموعات',
         'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
@@ -9192,15 +9204,15 @@ Thanks for your help!
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول إلى وحدة AdminCustomerCompany.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
-            '',
+            'يقوم بإجراء بحث مبدئي باستخدام حرف البدل عن مستخدمي العملاء الحاليين عند الوصول إلى وحدة AdminCustomerUser.',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            '',
-        'Russian' => '',
-        'S/MIME Certificates' => '',
+            'يشغّل النظام في وضع "التجربة". إذا تم تمكينه، يمكن للعملاء تعديل التفضيلات، مثل اختيار اللغة والسمة عبر واجهة الويب الخاصة بالعميل. تكون هذه التغييرات صالحة فقط للجلسة الحالية. لن يتمكن العملاء من تغيير كلمات مرورهم.',
+        'Russian' => 'الروسية',
+        'S/MIME Certificates' => 'شهادات S/MIME',
         'SLAs' => '',
-        'SSL_VERIFY_NONE - no verification of mail server host' => '',
-        'SSL_VERIFY_PEER - verify the mail server host' => '',
-        'Salutations' => 'تحايا',
+        'SSL_VERIFY_NONE - no verification of mail server host' => 'SSL_VERIFY_NONE - لا يتم التحقق من مضيف خادم البريد',
+        'SSL_VERIFY_PEER - verify the mail server host' => 'SSL_VERIFY_PEER - التحقق من مضيف خادم البريد',
+        'Salutations' => 'تحيات',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
             '',
@@ -9998,6 +10010,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => '',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10017,10 +10030,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => '',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'بريدك مع رقم البطاقة  "<OTOBO_TICKET>" دمجت مع "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

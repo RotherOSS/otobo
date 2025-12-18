@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.855202268995372;
+    $Self->{Completeness}        = 0.853524064967963;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -162,6 +162,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Már létezik egy ilyen nevű naptár.',
         'Color' => 'Szín',
         'Permission group' => 'Jogosultsági csoport',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Jegyidőpontok',
         'Rule' => 'Szabály',
         'Remove this entry' => 'Bejegyzés eltávolítása',
@@ -1990,6 +1991,9 @@ sub Data {
             'Ha egy jegy le van zárva, és az ügyfél egy követést küld, a jegy zárolva lesz a régi tulajdonosnak.',
         'System address' => 'Rendszercím',
         'Will be the sender address of this queue for email answers.' => 'Lesz-e a várólista feladójának címe a válasz e-mailekhez.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Alapértelmezett aláíró kulcs',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Egy aláíró kulcs használatához azonosítókkal rendelkező PGP kulcsokat vagy S/MIME tanúsítványokat kell hozzáadni a kiválasztott várólista rendszercíméhez.',
@@ -1997,6 +2001,10 @@ sub Data {
         'The salutation for email answers.' => 'A megszólítás a válasz e-mailekhez.',
         'Signature' => 'Aláírás',
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Ez a várólista a következő konfigurációs beállításokban van használva:',
 
         # Template: AdminQueueAutoResponse
@@ -4152,6 +4160,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7512,10 +7522,10 @@ Az Ön segélyszolgálat csapata
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi) az ügyfélfelületen.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó index, felső index, beillesztés Wordből, stb. használatát engedélyezi).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Meghatározza, hogy az első bejegyzést kinyitva kell megjeleníteni, amely látható a kapcsolódó ügyfélnél. Ha semmi sincs meghatározva, akkor a legutolsó bejegyzés lesz kinyitva.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8305,6 +8315,7 @@ Az Ön segélyszolgálat csapata
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Ügyfél-vállalat szerkesztése',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'E-mail címek',
         'Email Outbound' => 'Kimenő e-mail',
@@ -8834,6 +8845,7 @@ Az Ön segélyszolgálat csapata
         'Merge this ticket and all articles into another ticket' => 'A jegy és minden bejegyzés egyesítése egy másik jegybe',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Jegy (%s/%s) egyesítve ezzel: (%s/%s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'A(z) <OTOBO_TICKET> jegy egyesítve a következővel: <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => 'Perc',
         'Miscellaneous' => 'Egyebek',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9998,6 +10010,7 @@ Az Ön segélyszolgálat csapata
             '',
         'Web Service' => '',
         'Web Services' => 'Webszolgáltatások',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10017,10 +10030,13 @@ Az Ön segélyszolgálat csapata
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Kényszerítse-e az összes kérés átirányítását HTTP-ről HTTPS protokollra. Ellenőrizze, hogy a webkiszolgálója helyesen van-e beállítva a HTTPS protokollhoz, mielőtt ezt a lehetőséget engedélyezné.',
         'Yes, but hide archived tickets' => 'Igen, de az archivált jegyek elrejtése',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Az Ön „<OTOBO_TICKET>” számú jegyhez rendelt e-mailje átirányításra került a következő címre: „<OTOBO_BOUNCE_TO>”. További információkért vegye fel ezzel a címmel a kapcsolatot.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Az Ön „<OTOBO_TICKET>” jegyszámú levele egyesítve lett a következővel: „<OTOBO_MERGE_TO_TICKET>”.',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Az előnyben részesített várólistáknak a várólista kiválasztása. Értesítést is kaphat azokról a várólistákról e-mailben, ha engedélyezve van.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
