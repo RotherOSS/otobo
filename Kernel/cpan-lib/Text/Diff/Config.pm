@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION   = '1.43';
+our $VERSION   = '1.44';
 our $Output_Unicode;
 
 BEGIN
