@@ -320,6 +320,7 @@ $Selenium->RunTest(
             }
         }
 
+        $Element->click();
         $Element->send_keys('raw');
 
         # to prevent timing problem, we wait until raw is the only visible option in Autocomplete
