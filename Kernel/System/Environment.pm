@@ -253,16 +253,18 @@ sub PerlInfoGet {
             qw(
             Algorithm::Diff
             CGI
-            Class::Accessor
-            Class::Inspector
-            Class::ReturnValue
             CPAN::Audit
             CPAN::DistnameInfo
-            Data::ICal
-            Date::ICal
+            CSS::Minifier
+            Class::Accessor
+            Class::Accessor::Chained
+            Class::Accessor::Lite
+            Class::Inspector
+            Class::ReturnValue
             Crypt::PasswdMD5
             Crypt::Random::Source
-            CSS::Minifier
+            Data::ICal
+            Date::ICal
             Devel::StackTrace
             Email::Valid
             Encode::Locale
@@ -272,39 +274,51 @@ sub PerlInfoGet {
             File::Slurp::Tiny
             Font::TTF
             HTML::Scrubber
+            HTTP::Date
             HTTP::Message
             IO::Interactive
             IO::String
-            JavaScript::Minifier
             JSON
             JSON::PP
+            JavaScript::Minifier
+            LWP
+            LWP::Protocol::https
             Lingua::Translit
             Linux::Distribution
             Locale::Codes
-            LWP
+            MIME::Tools
             Mail::Address
             Mail::Internet
             Math::Random::ISAAC
             Math::Random::Secure
-            MIME::Tools
             Module::CPANfile
             Module::Find
             Module::Refresh
             Mozilla::CA
-            Net::IMAP::Simple
             Net::HTTP
+            Net::IMAP::Simple
             Net::SSLGlue
             PDF::API2
             Pod::Strip
             REST::Client
-            Schedule::Cron::Events
             SOAP::Lite
+            Schedule::Cron::Events
+            Sisimai
+            String::Diff
             Sys::Hostname::Long
             Text::CSV
             Text::Diff
+            Text::Diff::FormattedHTML
+            Text::Diff::HTML
+            Text::vFile::asData
             Type::Tiny
-            YAML
             URI
+            XML::FeedPP
+            XML::LibXML::Simple
+            XML::Parser::Lite
+            XML::Simple
+            XML::TreePP
+            YAML
             );
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
