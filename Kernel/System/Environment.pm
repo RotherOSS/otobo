@@ -328,16 +328,14 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 0.15',
+            'VersionRequired' => '== 20250829.001',
         },
-
-        # new in OTOBO 11.0.x
-        #{
-        #    'Comment'         => 'database of adbisories used by CPAN::Audit',
-        #    'Module'          => 'CPANSA::DB',
-        #    'Required'        => 1,
-        #    'VersionRequired' => '== 20251214.001',
-        #},
+        {
+            'Comment'         => 'database of adbisories used by CPAN::Audit',
+            'Module'          => 'CPANSA::DB',
+            'Required'        => 1,
+            'VersionRequired' => '== 20251214.001',
+        },
         {
             'Comment'         => 'needed by CPAN::Audit',
             'Module'          => 'CPAN::DistnameInfo',
@@ -356,7 +354,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.14',
         },
         {
-            'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'CSS::Minifier',
             'Required'        => 1,
             'VersionRequired' => '== 0.01',
@@ -532,14 +529,12 @@ sub BundleModulesDeclarationGet {
             'Required'        => 1,
             'VersionRequired' => '== 1.1004',
         },
-
-        # new in OTOBO 11.0.x
-        #{
-        #    'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
-        #    'Module'          => 'Module::Extract::VERSION',
-        #    'Required'        => 1,
-        #    'VersionRequired' => '== 1.119',
-        #},
+        {
+            'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
+            'Module'          => 'Module::Extract::VERSION',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.119',
+        },
         {
             'Comment'         => 'needed by Crypt::Random::Source',
             'Module'          => 'Module::Find',
@@ -642,6 +637,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.08',
         },
         {
+            'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'Text::Diff::HTML',
             'Required'        => 1,
             'VersionRequired' => '== 0.07',
@@ -671,6 +667,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.97',
         },
         {
+            'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'XML::Parser::Lite',
             'Required'        => 1,
             'VersionRequired' => '== 0.721',

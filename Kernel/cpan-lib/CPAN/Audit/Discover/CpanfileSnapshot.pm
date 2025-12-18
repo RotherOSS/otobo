@@ -3,39 +3,41 @@ use strict;
 use warnings;
 use CPAN::DistnameInfo;
 
+our $VERSION = "1.001";
+
 sub new {
-    my $class = shift;
+	my $class = shift;
 
-    my $self = {};
-    bless $self, $class;
+	my $self = {};
+	bless $self, $class;
 
-    return $self;
+	return $self;
 }
 
 sub discover {
-    my $self = shift;
-    my ($cpanfile_snapshot_path) = @_;
+	my $self = shift;
+	my ($cpanfile_snapshot_path) = @_;
 
-    open my $fh, '<', $cpanfile_snapshot_path or die $!;
+	open my $fh, '<', $cpanfile_snapshot_path or die $!;
 
-    my @deps;
-    while ( defined( my $line = <$fh> ) ) {
-        if ( $line =~ m/pathname: ([^\s]+)/ ) {
-            next unless my $d = CPAN::DistnameInfo->new($1);
+	my @deps;
+	while ( defined( my $line = <$fh> ) ) {
+		if ( $line =~ m/pathname: ([^\s]+)/ ) {
+			next unless my $d = CPAN::DistnameInfo->new($1);
 
-            next unless $d->dist && $d->version;
+			next unless $d->dist && $d->version;
 
-            push @deps,
-              {
-                dist    => $d->dist,
-                version => $d->version,
-              };
-        }
-    }
+			push @deps,
+				{
+				dist    => $d->dist,
+				version => $d->version,
+				};
+		}
+	}
 
-    close $fh;
+	close $fh;
 
-    return @deps;
+	return @deps;
 }
 
 1;
