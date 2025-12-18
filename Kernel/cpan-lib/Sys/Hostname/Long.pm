@@ -15,196 +15,196 @@ $VERSION = '1.5';
 
 %dispatch = (
 
-    'gethostbyname' => {
-        'title' => 'Get Host by Name',
-        'description' => '',
-        'exec' => sub {
-            return gethostbyname('localhost');
-        },
-    },
+	'gethostbyname' => {
+		'title' => 'Get Host by Name',
+		'description' => '',
+		'exec' => sub {
+			return gethostbyname('localhost');
+		},
+	},
 
-    'exec_hostname' => {
-        'title' => 'Execute "hostname"',
-        'description' => '',
-        'exec' => sub {
-            my $tmp = `hostname`;
-            $tmp =~ tr/\0\r\n//d;
-            return $tmp;
-        },
-    },
+	'exec_hostname' => {
+		'title' => 'Execute "hostname"',
+		'description' => '',
+		'exec' => sub {
+			my $tmp = `hostname`;
+			$tmp =~ tr/\0\r\n//d;
+			return $tmp;
+		},
+	},
 
-    'win32_registry1' => {
-        'title' => 'WIN32 Registry',
-        'description' => 'LMachine/System/CurrentControlSet/Service/VxD/MSTCP/Domain',
-        'exec' => sub {
-            return eval q{
-                use Win32::TieRegistry ( TiedHash => '%RegistryHash' );
-                $RegistryHash{'LMachine'}{'System'}{'CurrentControlSet'}{'Services'}{'VxD'}{'MSTCP'}{'Domain'};
-            };
-        },
-    },
+	'win32_registry1' => {
+		'title' => 'WIN32 Registry',
+		'description' => 'LMachine/System/CurrentControlSet/Service/VxD/MSTCP/Domain',
+		'exec' => sub {
+			return eval q{
+				use Win32::TieRegistry ( TiedHash => '%RegistryHash' );
+				$RegistryHash{'LMachine'}{'System'}{'CurrentControlSet'}{'Services'}{'VxD'}{'MSTCP'}{'Domain'};
+			};
+		},
+	},
 
-    'uname' => {
-        'title' => 'POSIX::uname',
-        'description' => '',
-        'exec' => sub {
-            return eval {
-                local $SIG{__DIE__};
-                require POSIX;
-                (POSIX::uname())[1];
-            };
-        },
-    },
+	'uname' => {
+		'title' => 'POSIX::uname',
+		'description' => '',
+		'exec' => sub {
+			return eval {
+				local $SIG{__DIE__};
+				require POSIX;
+				(POSIX::uname())[1];
+			};
+		},
+	},
 
-    # XXX This is the same as above - what happened to the other one !!!
-    'win32_registry2' => {
-        'title' => 'WIN32 Registry',
-        'description' => 'LMachine/System/CurrentControlSet/Services/VxD/MSTCP/Domain',
-        'exec' => sub {
-            return eval q{
-                use Win32::TieRegistry ( TiedHash => '%RegistryHash' );
-                $RegistryHash{'LMachine'}{'System'}{'CurrentControlSet'}{'Services'}{'VxD'}{'MSTCP'}{'Domain'};
-            };
-        },
-    },
+	# XXX This is the same as above - what happened to the other one !!!
+	'win32_registry2' => {
+		'title' => 'WIN32 Registry',
+		'description' => 'LMachine/System/CurrentControlSet/Services/VxD/MSTCP/Domain',
+		'exec' => sub {
+			return eval q{
+				use Win32::TieRegistry ( TiedHash => '%RegistryHash' );
+				$RegistryHash{'LMachine'}{'System'}{'CurrentControlSet'}{'Services'}{'VxD'}{'MSTCP'}{'Domain'};
+			};
+		},
+	},
 
-    'exec_hostname_fqdn' => {
-        'title' => 'Execute "hostname --fqdn"',
-        'description' => '',
-        'exec' => sub {
-            # Skip for Solaris, and only run as non-root
-            # Skip for darwin (Mac OS X), RT#28894
-            my $tmp;
-            if ( $^O ne 'darwin' ) {
-                if ($< == 0) {
-                    $tmp = `su nobody -c "hostname --fqdn"`;
-                } else {
-                    $tmp = `hostname --fqdn`;
-                }
-                $tmp =~ tr/\0\r\n//d;
-            }
-            return $tmp;
-        },
-    },
+	'exec_hostname_fqdn' => {
+		'title' => 'Execute "hostname --fqdn"',
+		'description' => '',
+		'exec' => sub {
+			# Skip for Solaris, and only run as non-root
+			# Skip for darwin (Mac OS X), RT#28894
+			my $tmp;
+			if ( $^O ne 'darwin' ) {
+				if ($< == 0) {
+					$tmp = `su nobody -c "hostname --fqdn"`;
+				} else {
+					$tmp = `hostname --fqdn`;
+				}
+				$tmp =~ tr/\0\r\n//d;
+			}
+			return $tmp;
+		},
+	},
 
-    'exec_hostname_domainname' => {
-        'title' => 'Execute "hostname" and "domainname"',
-        'description' => '',
-        'exec' => sub {
-            my $tmp = `hostname` . '.' . `domainname`;
-            $tmp =~ tr/\0\r\n//d;
-            return $tmp;
-        },
-    },
+	'exec_hostname_domainname' => {
+		'title' => 'Execute "hostname" and "domainname"',
+		'description' => '',
+		'exec' => sub {
+			my $tmp = `hostname` . '.' . `domainname`;
+			$tmp =~ tr/\0\r\n//d;
+			return $tmp;
+		},
+	},
 
 
-    'network' => {
-        'title' => 'Network Socket hostname (not DNS)',
-        'description' => '',
-        'exec' => sub {
-            return eval q{
-                use IO::Socket;
-                my $s = IO::Socket::INET->new(
-                    # m.root-servers.net (a remote IP number)
-                    PeerAddr => '202.12.27.33',
-                    # random safe port
-                    PeerPort => 2000,
-                    # We don't actually want to connect
-                    Proto => 'udp',
-                ) or die "Faile socket - $!";
-                gethostbyaddr($s->sockaddr(), AF_INET);
-            };
-        },
-    },
+	'network' => {
+		'title' => 'Network Socket hostname (not DNS)',
+		'description' => '',
+		'exec' => sub {
+			return eval q{
+				use IO::Socket;
+				my $s = IO::Socket::INET->new(
+					# m.root-servers.net (a remote IP number)
+					PeerAddr => '202.12.27.33',
+					# random safe port
+					PeerPort => 2000,
+					# We don't actually want to connect
+					Proto => 'udp',
+				) or die "Faile socket - $!";
+				gethostbyaddr($s->sockaddr(), AF_INET);
+			};
+		},
+	},
 
-    'ip' => {
-        'title' => 'Network Socket IP then Hostname via DNS',
-        'description' => '',
-        'exec' => sub {
-            return eval q{
-                use IO::Socket;
-                my $s = IO::Socket::INET->new(
-                    # m.root-servers.net (a remote IP number)
-                    PeerAddr => '202.12.27.33',
-                    # random safe port
-                    PeerPort => 2000,
-                    # We don't actually want to connect
-                    Proto => 'udp',
-                ) or die "Faile socket - $!";
-                $s->sockhost;
-            };
-        },
-    },
+	'ip' => {
+		'title' => 'Network Socket IP then Hostname via DNS',
+		'description' => '',
+		'exec' => sub {
+			return eval q{
+				use IO::Socket;
+				my $s = IO::Socket::INET->new(
+					# m.root-servers.net (a remote IP number)
+					PeerAddr => '202.12.27.33',
+					# random safe port
+					PeerPort => 2000,
+					# We don't actually want to connect
+					Proto => 'udp',
+				) or die "Faile socket - $!";
+				$s->sockhost;
+			};
+		},
+	},
 
 );
 
 # Dispatch from table
 sub dispatcher {
-    my ($method, @rest) = @_;
-    $lastdispatch = $method;
-    return $dispatch{$method}{exec}(@rest);
+	my ($method, @rest) = @_;
+	$lastdispatch = $method;
+	return $dispatch{$method}{exec}(@rest);
 }
 
 sub dispatch_keys {
-    return sort keys %dispatch;
+	return sort keys %dispatch;
 }
 
 sub dispatch_title {
-    return $dispatch{$_[0]}{title};
+	return $dispatch{$_[0]}{title};
 }
 
 sub dispatch_description {
-    return $dispatch{$_[0]}{description};
+	return $dispatch{$_[0]}{description};
 }
 
 sub hostname_long {
-    return $hostlong if defined $hostlong;  # Cached copy (takes a while to lookup sometimes)
-    my ($ip, $debug) = @_;
+	return $hostlong if defined $hostlong; 	# Cached copy (takes a while to lookup sometimes)
+	my ($ip, $debug) = @_;
 
-    $hostlong = dispatcher('uname');
+	$hostlong = dispatcher('uname');
 
-    unless ($hostlong =~ m|.*\..*|) {
-        if ($^O eq 'MacOS') {
-            # http://bumppo.net/lists/macperl/1999/03/msg00282.html
-            #   suggests that it will work (checking localhost) on both
-            #   Mac and Windows.
-            #   Personally this makes no sense what so ever as
-            $hostlong = dispatcher('gethostbyname');
+	unless ($hostlong =~ m|.*\..*|) {
+		if ($^O eq 'MacOS') {
+			# http://bumppo.net/lists/macperl/1999/03/msg00282.html
+			#	suggests that it will work (checking localhost) on both
+			#	Mac and Windows.
+			#	Personally this makes no sense what so ever as
+			$hostlong = dispatcher('gethostbyname');
 
-        } elsif ($^O eq 'IRIX') {   # XXX Patter match string !
-            $hostlong = dispatcher('exec_hostname');
+		} elsif ($^O eq 'IRIX') {	# XXX Patter match string !
+			$hostlong = dispatcher('exec_hostname');
 
-        } elsif ($^O eq 'cygwin') {
-            $hostlong = dispatcher('win32_registry1');
+		} elsif ($^O eq 'cygwin') {
+			$hostlong = dispatcher('win32_registry1');
 
-        } elsif ($^O eq 'MSWin32') {
-            $hostlong = dispatcher('win32_registry2');
+		} elsif ($^O eq 'MSWin32') {
+			$hostlong = dispatcher('win32_registry2');
 
-        } elsif ($^O =~ m/(bsd|nto)/i) {
-            $hostlong = dispatcher('exec_hostname');
+		} elsif ($^O =~ m/(bsd|nto)/i) {
+			$hostlong = dispatcher('exec_hostname');
 
-        # (covered above) } elsif ($^O eq "darwin") {
-        #   $hostlong = dispatcher('uname');
+		# (covered above) } elsif ($^O eq "darwin") {
+		#	$hostlong = dispatcher('uname');
 
-        } elsif ($^O eq 'solaris') {
-            $hostlong = dispatcher('exec_hostname_domainname');
+		} elsif ($^O eq 'solaris') {
+			$hostlong = dispatcher('exec_hostname_domainname');
 
-        } else {
-            $hostlong = dispatcher('exec_hostname_fqdn');
-        }
+		} else {
+			$hostlong = dispatcher('exec_hostname_fqdn');
+		}
 
-        if (!defined($hostlong) || $hostlong eq "") {
-            # FALL BACK - Requires working internet and DNS and reverse
-            # lookups of your IP number.
-            $hostlong = dispatcher('network');
-        }
+		if (!defined($hostlong) || $hostlong eq "") {
+			# FALL BACK - Requires working internet and DNS and reverse
+			# lookups of your IP number.
+			$hostlong = dispatcher('network');
+		}
 
-        if ($ip && !defined($hostlong) || $hostlong eq "") {
-            $hostlong = dispatcher('ip');
-        }
-    }
-    warn "Sys::Hostname::Long - Last Dispatch method = $lastdispatch" if ($debug);
-    return $hostlong;
+		if ($ip && !defined($hostlong) || $hostlong eq "") {
+			$hostlong = dispatcher('ip');
+		}
+	}
+	warn "Sys::Hostname::Long - Last Dispatch method = $lastdispatch" if ($debug);
+	return $hostlong;
 }
 
 1;
@@ -248,17 +248,17 @@ L<Sys::Hostname>
 
 This is the original list of platforms tested.
 
-    MacOS       Macintosh Classic       OK
-    Win32       MS Windows (95,98,nt,2000...)
-            98              OK
-    MacOS X     Macintosh 10            OK
-            (other darwin)          Probably OK (not tested)
-    Linux       Linux UNIX OS           OK
-            Sparc               OK
-    HPUX        H.P. Unix 10?           Not Tested
-    Solaris     SUN Solaris 7?          OK (now)
-    Irix        SGI Irix 5?         Not Tested
-    FreeBSD     FreeBSD             OK
+	MacOS		Macintosh Classic		OK
+	Win32		MS Windows (95,98,nt,2000...)
+			98				OK
+	MacOS X		Macintosh 10			OK
+			(other darwin)			Probably OK (not tested)
+	Linux 		Linux UNIX OS			OK
+			Sparc				OK
+	HPUX		H.P. Unix 10?			Not Tested
+	Solaris		SUN Solaris 7?			OK (now)
+	Irix		SGI Irix 5?			Not Tested
+	FreeBSD		FreeBSD				OK
 
 A new list has now been compiled of all the operating systems so that I can
 individually keep information on their success.
@@ -484,7 +484,7 @@ it to be configured somewhere in the system correctly. For example in most
 linux systems (debian, ?) the fully qualified name should be the first entry
 next to the ip number in /etc/hosts
 
-    192.168.0.1 fred.somwhere.special   fred
+	192.168.0.1	fred.somwhere.special	fred
 
 If it is the other way around, it will fail.
 
@@ -494,21 +494,21 @@ If it is the other way around, it will fail.
 
 Contributions
 
-    David Dick
-    Graeme Hart
-    Piotr Klaban
+	David Dick
+	Graeme Hart
+	Piotr Klaban
 
-    * Extra code from G
-    * Dispatch table
-    * List of all operating systems.
+	* Extra code from G
+	* Dispatch table
+	* List of all operating systems.
 
 Solaris
-    * Fall back 2 - TCP with DNS works ok
-    * Also can read /etc/defaultdomain file
+	* Fall back 2 - TCP with DNS works ok
+	* Also can read /etc/defaultdomain file
 
 =head1 SEE ALSO
 
-    L<Sys::Hostname>
+	L<Sys::Hostname>
 
 =head1 AUTHOR
 
