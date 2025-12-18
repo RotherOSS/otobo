@@ -112,6 +112,14 @@ sub SettingEffectiveValueCheck {
         return %Result;
     }
 
+    # Allow empty values for entities in general.
+    if ( $Param{EffectiveValue} eq '' ) {
+        return (
+            Success        => 1,
+            EffectiveValue => $Param{EffectiveValue},
+        );
+    }
+
     my $Value = $Param{XMLContentParsed}->{Value};
 
     for my $Parameter ( sort keys %{ $Param{Parameters} } ) {
