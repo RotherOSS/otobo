@@ -476,15 +476,8 @@ sub Template {
         UserID     => $Param{UserID},
         Language   => $Language,
         Template   => $TemplateType,
+        HTMLBody   => $Param{HTMLBody},
     );
-
-    if ( $Self->{RichText} ) {
-        $TemplateText =~ s/&lt;/</g;
-        $TemplateText =~ s/&gt;/>/g;
-        $TemplateText =~ s/&quot;/"/g;
-        $TemplateText =~ s/&apos;/'/g;
-        $TemplateText =~ s/&nbsp;/ /g;
-    }
 
     return $TemplateText;
 }
@@ -1765,6 +1758,7 @@ sub _Replace {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Data ) {
                 next ATTRIBUTE if !$Data{$Attribute};
+                next ATTRIBUTE if ( $Attribute eq 'Body' && $Param{HTMLBody} );
 
                 $Data{$Attribute} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                     String => $Data{$Attribute},
