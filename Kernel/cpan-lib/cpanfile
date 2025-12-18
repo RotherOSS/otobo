@@ -13,6 +13,12 @@ requires 'Algorithm::Diff', '== 1.1903';
 # needed by e.g. Data::ICal, but not used by OTOBO itself
 requires 'Class::Accessor', '== 0.34';
 
+# needed by Text::vFile::asData
+requires 'Class::Accessor::Chained', '== 0.01';
+
+# needed by Sisimai
+requires 'Class::Accessor::Lite', '== 0.08';
+
 # needed by SOAP::Lite
 requires 'Class::Inspector', '== 1.31';
 
@@ -31,6 +37,8 @@ requires 'Crypt::PasswdMD5', '== 1.40';
 
 # needed by Math::Random::Secure, needed in Kernel::System::Main
 requires 'Crypt::Random::Source', '== 0.14';
+
+requires 'CSS::Minifier', '== 0.01';
 
 requires 'Data::ICal', '== 0.22';
 
@@ -134,6 +142,8 @@ requires 'Sisimai', '== v4.24.1';
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';
 
+requires 'String::Diff', '== 0.07';
+
 # needed by Kernel::System::Environment
 requires 'Sys::Hostname::Long', '== 1.5';
 
@@ -142,6 +152,9 @@ requires 'Text::Diff', '== 1.44';
 
 # needed by Kernel::System::Diff
 requires 'Text::Diff::FormattedHTML', '== 0.08';
+
+# needed by Data::ICal
+requires 'Text::vFile::asData', '== 0.08';
 
 # needed by Crypt::Random::Source
 requires 'Type::Tiny', '== 1.010000';
