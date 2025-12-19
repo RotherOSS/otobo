@@ -174,7 +174,7 @@ requires 'Text::CSV', '== 1.95';
 # needed by Kernel::System::Diff
 requires 'Text::Diff', '== 1.44';
 
-# needed by Kernel::System::Diff
+# needed by Kernel::System::Diff, removed in OTOBO 11.1.x
 requires 'Text::Diff::FormattedHTML', '== 0.08';
 
 # removed in OTOBO 11.0.x
