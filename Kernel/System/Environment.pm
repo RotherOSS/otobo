@@ -665,7 +665,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::XML::Simple',
             'Module'          => 'XML::LibXML::Simple',
             'Required'        => 1,
-            'VersionRequired' => '== 0.97',
+            'VersionRequired' => '== 1.01',
         },
         {
             'Comment'         => 'removed in OTOBO 11.0.x',
@@ -677,7 +677,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::GenericInterface::Mapping::XSLT',
             'Module'          => 'XML::Simple',
             'Required'        => 1,
-            'VersionRequired' => '== 2.24',
+            'VersionRequired' => '== 2.25',
         },
         {
             'Comment'         => 'needed by XML::FeedPP',

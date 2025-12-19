@@ -1,10 +1,14 @@
-# Copyrights 2008-2016 by [Mark Overmeer].
+# Copyrights 2008-2020 by [Mark Overmeer <markov@cpan.org>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
 # Pod stripped from pm file by OODoc 2.02.
+# This code is part of distribution XML-LibXML-Simple.  Meta-POD processed
+# with OODoc into POD and HTML manual-pages.  See README.md
+# Copyright Mark Overmeer.  Licensed under the same terms as Perl itself.
+
 package XML::LibXML::Simple;
 use vars '$VERSION';
-$VERSION = '0.97';
+$VERSION = '1.01';
 
 use base 'Exporter';
 
@@ -15,7 +19,6 @@ our @EXPORT    = qw(XMLin);
 our @EXPORT_OK = qw(xml_in);
 
 use XML::LibXML       ();
-use File::Slurp::Tiny qw/read_file/;
 use File::Basename    qw/fileparse/;
 use File::Spec        ();
 use Carp;
@@ -27,7 +30,7 @@ use Data::Dumper;  #to be removed
 my %known_opts = map +($_ => 1),
   qw(keyattr keeproot forcecontent contentkey noattr searchpath
      forcearray grouptags nsexpand normalisespace normalizespace
-     valueattr nsstrip parser parseropts hooknodes);
+     valueattr nsstrip parser parseropts hooknodes suppressempty);
 
 my @default_attributes  = qw(name key id);
 my $default_content_key = 'content';
@@ -315,7 +318,9 @@ sub collapse($$)
         if($hooks && (my $hook = $hooks->{$child->unique_key}))
              { $v = $hook->($child) }
         else { $v = $self->collapse($child, $opts) }
-        defined $v or next CHILD;
+
+		next CHILD
+        	if ! defined $v && $opts->{suppressempty};
 
         my $name
           = $opts->{nsexpand} ? _expand_name($child)
@@ -376,6 +381,12 @@ sub collapse($$)
         if keys %data == 1
         && exists $data{anon}
         && ref $data{anon} eq 'ARRAY';
+
+    # Suppress empty elements?
+    if(! keys %data && exists $opts->{suppressempty}) {
+		my $sup = $opts->{suppressempty};
+        return +(defined $sup && $sup eq '') ? '' : undef;
+    }
 
     # Roll up named elements with named nested 'value' attributes
     if(my $va = $opts->{valueattrlist})
