@@ -393,13 +393,13 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.95',
         },
         {
-            'Comment'         => 'needed by Type::Tiny',
+            'Comment'         => 'needed by Type::Tiny, removed in OTOBO 11.0.x',
             'Module'          => 'Exporter::Tiny',
             'Required'        => 1,
             'VersionRequired' => '== 1.002001',
         },
         {
-            'Comment'         => 'needed by Text::Diff::FormattedHTML ',
+            'Comment'         => 'needed by Text::Diff::FormattedHTML, removed in OTOBO 11.0.x',
             'Module'          => 'File::Slurp',
             'Required'        => 1,
             'VersionRequired' => '== 9999.19',
@@ -423,6 +423,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.20',
         },
         {
+            'Comment'         => 'removed in OTOBO 11.0.x',
             'Module'          => 'HTTP::Date',
             'Required'        => 1,
             'VersionRequired' => '== 6.02',
@@ -560,13 +561,13 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.17',
         },
         {
-            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
+            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.0.x',
             'Module'          => 'Net::IMAP::Simple',
             'Required'        => 1,
             'VersionRequired' => '== 1.2209',
         },
         {
-            'Comment'         => 'needed by OTOBO email modules',
+            'Comment'         => 'needed by OTOBO email modules, removed in OTOBO 11.0.x',
             'Module'          => 'Net::SSLGlue',
             'Required'        => 1,
             'VersionRequired' => '== 1.058',
@@ -649,7 +650,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.08',
         },
         {
-            'Comment'         => 'needed by Crypt::Random::Source',
+            'Comment'         => 'needed by Crypt::Random::Source, removed in OTOBO 11.0.x',
             'Module'          => 'Type::Tiny',
             'Required'        => 1,
             'VersionRequired' => '== 1.010000',
@@ -695,7 +696,7 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'YAML',
             'Required'        => 1,
             'VersionRequired' => '== 1.23',
-        }
+        },
     );
 }
 
