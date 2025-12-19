@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.940886699507389;
+    $Self->{Completeness}        = 0.939055282372225;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -165,6 +165,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Kalender med samme navn eksisterer allerede.',
         'Color' => 'Farge',
         'Permission group' => 'Rettighetersgruppe',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Avtaler tilknyttet saker',
         'Rule' => 'Regel',
         'Remove this entry' => 'Slett denne posten',
@@ -1993,6 +1994,9 @@ sub Data {
             'Hvis en sak blir stengt og kunden sender en oppfølging vil saken bli låst til den forrige eieren.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne køen.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Standard signeringsnøkkel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'For å bruke en signeringsnøkkel, må PGP-nøkler eller S/MIME-sertifikater legges til med identifikatorer for valgt køsystemadresse.',
@@ -2000,6 +2004,10 @@ sub Data {
         'The salutation for email answers.' => 'Hilsning for e-postsvar.',
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Signatur for e-postsvar.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Denne køen brukes i følgende konfigurasjonsinnstillinger:',
 
         # Template: AdminQueueAutoResponse
@@ -4155,6 +4163,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7518,10 +7528,10 @@ Ditt Helpdesk-team
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'Definerer om kommunikasjonen mellom dette systemet og serverne som leverer skytjenester er mulig. Hvis satt til \'Deaktiver skytjenester\', vil noe funksjonalitet gå tapt, for eksempel støttedatasending, Package Verify™ og produktnyheter-dashboard-widgeter, blant annet.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Definerer om den forbedrede modusen skal brukes (muliggjør bruk av tabell, erstat, subscript, hevet skrift, lim inn fra word, etc.) i kundegrensesnittet.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Definerer om den forbedrede modusen skal brukes (muliggjør bruk av tabell, erstatt, senket, hevet skrift, lim inn fra word, etc.).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Definerer om den første artikkelen skal vises som utvidet, som er synlig for den relaterte kunden. Hvis ingenting er definert, vil siste artikkel bli utvidet.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8311,6 +8321,7 @@ Ditt Helpdesk-team
         'Edit contacts with data' => 'Rediger kontakter med data',
         'Edit contacts with data.' => 'Rediger kontakter med data.',
         'Edit customer company' => 'Endre kundebedrift',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => 'Elasticsearch rask resultatmodul.',
         'Email Addresses' => 'e-postadresser',
         'Email Outbound' => 'E-post utgående',
@@ -8840,6 +8851,7 @@ Ditt Helpdesk-team
         'Merge this ticket and all articles into another ticket' => 'Slå sammen denne saken og alle artiklene til en annen sak',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Sammenslått sak (%s/%s) til (%s/%s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Sammenslått sak <OTOBO_TICKET> til <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => 'Minutt',
         'Miscellaneous' => 'Diverse',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -10004,6 +10016,7 @@ Ditt Helpdesk-team
             '',
         'Web Service' => 'Nettjeneste',
         'Web Services' => 'Webtjenester',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             'Velkomsttekst for dashbordoverskriften. Navn vil bli satt inn i %s av velkomstteksten. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" og "UserLogin" vil bli erstattet.',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10023,10 +10036,13 @@ Ditt Helpdesk-team
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Om du skal tvinge omdirigering av alle forespørsler fra http til https-protokollen. Kontroller at webserveren din er riktig konfigurert for https-protokollen før du aktiverer dette alternativet.',
         'Yes, but hide archived tickets' => 'Ja, men skjul de arkiverte sakene',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Din e-post med saksnummeret «<OTOBO_TICKET>» blir returnert til «<OTOBO_BOUNCE_TO>». Kontakt denne adressen for mer informasjon.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Din e-postsak med nummer "<OTOBO_TICKET>" er flettet med "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Ditt køvalg av dine foretrukne køer. Du blir også varslet om disse køene via e-post hvis aktivert.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
