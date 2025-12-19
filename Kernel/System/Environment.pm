@@ -486,7 +486,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by webservices',
             'Module'          => 'LWP::Protocol::https',
             'Required'        => 1,
-            'VersionRequired' => '== 6.06',
+            'VersionRequired' => '== 6.11',
         },
         {
             'Comment'         => 'removed in OTOBO 11.0.x',
