@@ -63,7 +63,7 @@ requires 'Excel::Writer::XLSX', '== 0.95';
 requires 'Exporter::Tiny', '== 1.002001';
 
 # needed by Text::Diff::FormattedHTML, removed in OTOBO 11.0.x
-requires 'File::Slurp', '== 9999.19';
+requires 'File::Slurp', '== 9999.32';
 
 # removed in OTOBO 11.0.x
 requires 'File::Slurp::Tiny', '== 0.004';
