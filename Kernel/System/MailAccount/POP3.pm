@@ -16,13 +16,16 @@
 
 package Kernel::System::MailAccount::POP3;
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
 # core modules
+use Net::POP3 3.08 ();
 
 # CPAN modules
-use Net::POP3;
+use IO::Socket::SSL ();
 
 # OTOBO modules
 
@@ -34,12 +37,29 @@ our @ObjectDependencies = (
     'Kernel::System::PostMaster',
 );
 
+# these private subs will be overriden in child classes
+
+sub _Type {
+    return 'POP3';
+}
+
+sub _ExtraNetPOP3Args {
+
+    # no extra args
+    return;
+}
+
+sub _StartTLS {
+
+    # nothing to do
+    return;
+}
+
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Class;
 
     # reset limit
     $Self->{Limit} = 0;
@@ -60,13 +80,14 @@ sub Connect {
         }
     }
 
-    my $Type = 'POP3';
+    my $Type = $Self->_Type;
 
     # connect to host
     my $PopObject = Net::POP3->new(
         $Param{Host},
         Timeout => $Param{Timeout},
         Debug   => $Param{Debug},
+        $Self->_ExtraNetPOP3Args(),
     );
 
     if ( !$PopObject ) {
@@ -76,10 +97,13 @@ sub Connect {
         );
     }
 
+    $Self->_StartTLS($PopObject);    # only important in IMAPTLS.pm
+
     # authentication
     my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
     if ( !defined $NOM ) {
         $PopObject->quit();
+
         return (
             Successful => 0,
             Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
@@ -92,18 +116,6 @@ sub Connect {
         NOM        => $NOM,
         Type       => $Type,
     );
-}
-
-sub _Fetch {
-    my ( $Self, %Param ) = @_;
-
-    # fetch again if still messages on the account
-    MESSAGE:
-    while (1) {
-        return       if !$Self->_Fetch(%Param);
-        last MESSAGE if $Self->{Reconnect};
-    }
-    return 1;
 }
 
 sub Fetch {
@@ -198,6 +210,7 @@ sub Fetch {
             Timeout  => 15,
             Debug    => $Debug
         );
+
         return 1;
     } || do {
         my $Error = $@;

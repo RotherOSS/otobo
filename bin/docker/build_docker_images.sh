@@ -15,62 +15,63 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# NOTE: Do not set DOCKER_REPO in this script.
-#       Because DOCKER_REPO is misused in hook scripts as an indication
-#       that the script is called by an automated Docker Hub build.
-#       Setting IMAGE_NAME is OK.
-
 # Just a small helper for building the OTOBO Docker images locally.
-# For productive use please use the images from Docker Hub.
+# For productive use please use the images that are available from Docker Hub.
 
-# The variables that are defined here follow the same convention as in
-# https://docs.docker.com/docker-hub/builds/advanced/.
-# This means that local builds can use the same build hook as builds on GitHub.
+# Formerly the building was compatible with automated builds on Docker Hub.
+# See https://docs.docker.com/docker-hub/builds/advanced/.
+# This is no longer the case as automated building is now done with GitHub Actions.
+
+# this function calls "docker build"
+build () {
+    local DOCKER_FILE=$1;
+    local DOCKER_TARGET=$2;
+    local DOCKER_TAG=$3;
+    local GIT_COMMIT=$4;
+    local GIT_BRANCH=$5;
+    local BUILD_PATH=$6;
+    local IMAGE_NAME=$7;
+
+    # build the Docker image with Buildkit
+    # add the option '--progress plain' for seeing the printed output
+    docker buildx build\
+    --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
+    --build-arg "DOCKER_TAG=$DOCKER_TAG"\
+    --build-arg "GIT_COMMIT=$GIT_COMMIT"\
+    --build-arg "GIT_BRANCH=$GIT_BRANCH"\
+    --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
+    -f "$DOCKER_FILE"\
+    -t "$IMAGE_NAME"\
+    --target="$DOCKER_TARGET"\
+    $BUILD_PATH
+}
 
 # environment vars for all Docker images built by this script
-export SOURCE_BRANCH=$(git branch --show-current)   # will be empty in detached HEAD
-export SOURCE_COMMIT=$(git rev-parse HEAD)          # also works in detached HEAD
+GIT_BRANCH=$(git branch --show-current)   # will be empty in detached HEAD
+GIT_COMMIT=$(git rev-parse HEAD)          # also works in detached HEAD
 otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
-export DOCKER_TAG="local-${otobo_version}"
+DOCKER_TAG="local-${otobo_version}"
 
-# build otobo
-export DOCKERFILE_PATH=otobo.web.dockerfile
-export IMAGE_NAME=otobo:$DOCKER_TAG
-export BUILD_PATH=.
-hooks/build || exit 1
+# build otobo for the services web and daemon
+build "otobo.web.dockerfile" "otobo-web" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo:$DOCKER_TAG"
 
-# build otobo
-export DOCKERFILE_PATH=otobo.kerberos.web.dockerfile
-export IMAGE_NAME=otobo-kerberos:$DOCKER_TAG
-export BUILD_PATH=.
-hooks/build || exit 1
+# build otobo with Kerberos support
+build "otobo.web.dockerfile" "otobo-web-kerberos" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "." "otobo-kerberos:$DOCKER_TAG"
 
 # Building the web container entails installing Perl distributions from CPAN.
 # The exact versions of these distributions are tracked in the file cpanfile.snapshot.
 # This file is part of the git repository and is kept up to date for the specific
 # release series. It won't be merged into the higher release series.
-docker run --rm --entrypoint cat $IMAGE_NAME /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot
+docker run --rm --entrypoint cat otobo-kerberos:$DOCKER_TAG /opt/otobo_install/cpanfile.snapshot > cpanfile.docker.snapshot
 
 # build otobo-nginx-webproxy
-export DOCKERFILE_PATH=../../otobo.nginx.dockerfile
-export IMAGE_NAME=otobo-nginx-webproxy:$DOCKER_TAG
-export BUILD_PATH=scripts/nginx
-hooks/build || exit 1
+build "otobo.nginx.dockerfile" "otobo-nginx-webproxy" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-webproxy:$DOCKER_TAG"
 
 # build otobo-nginx-kerberos-webproxy
-export DOCKERFILE_PATH=../../otobo.nginx-kerberos.dockerfile
-export IMAGE_NAME=otobo-nginx-kerberos-webproxy:$DOCKER_TAG
-export BUILD_PATH=scripts/nginx
-hooks/build || exit 1
+build "otobo.nginx.dockerfile" "otobo-nginx-kerberos-webproxy" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/nginx" "otobo-nginx-kerberos-webproxy:$DOCKER_TAG"
 
 # build otobo-elasticsearch
-export DOCKERFILE_PATH=../../otobo.elasticsearch.dockerfile
-export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
-export BUILD_PATH=scripts/elasticsearch
-hooks/build || exit 1
+build "otobo.elasticsearch.dockerfile" "otobo-elasticsearch" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/elasticsearch" "otobo-elasticsearch:$DOCKER_TAG"
 
 # build otobo-selenium-chrome
-export DOCKERFILE_PATH=../../../otobo.selenium-chrome.dockerfile
-export IMAGE_NAME=otobo-selenium-chrome:$DOCKER_TAG
-export BUILD_PATH=scripts/test/sample
-hooks/build || exit 1
+build "otobo.selenium-chrome.dockerfile" "otobo-selenium-chrome" $DOCKER_TAG $GIT_COMMIT $GIT_BRANCH "scripts/test/sample" "otobo-selenium-chrome:$DOCKER_TAG"

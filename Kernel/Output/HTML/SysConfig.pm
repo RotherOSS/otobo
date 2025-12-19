@@ -753,7 +753,7 @@ sub _SettingRender {
                 # Output key element.
                 $HashItem .= "<input class=\"Key\" type=\"text\" name=\"$Param{Name}Key\" value=\"$Item->{Key}\" ";
                 if ( !$Param{RW} ) {
-                    $HashItem .= "disabled=\"disabled\" ";
+                    $HashItem .= 'disabled ';
                 }
 
                 $HashItem .= 'readonly ';

@@ -240,7 +240,7 @@ sub Run {
             }
 
             if ( $CustomerError ne '' ) {
-                $CustomerDisabled = 'disabled="disabled"';
+                $CustomerDisabled = 'disabled';
                 $CountAux         = $Count . 'Error';
             }
 
@@ -556,7 +556,7 @@ sub Run {
             }
 
             if ( $CustomerError ne '' ) {
-                $CustomerDisabled = 'disabled="disabled"';
+                $CustomerDisabled = 'disabled';
                 $CountAux         = $CountFrom . 'Error';
             }
 

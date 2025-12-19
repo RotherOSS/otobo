@@ -53,8 +53,8 @@ ok( $PerlInfo{PerlVersion} =~ m/^\d.\d\d.\d/, "PerlInfoGet w/ BundledModules - r
 
 # check version of an abritrary module
 ok(
-    $PerlInfo{Modules}->{'JSON::PP'} =~ m/^\d.\d\d/,
-    "PerlInfoGet w/ BundledModules - found version for JSON::PP $PerlInfo{Modules}->{'JSON::PP'}",
+    $PerlInfo{Modules}->{YAML} =~ m/^\d.\d\d/,
+    "PerlInfoGet w/ BundledModules - found version for YAML $PerlInfo{Modules}->{YAML}",
 );
 
 my $Version = $EnvironmentObject->ModuleVersionGet(
@@ -75,13 +75,14 @@ ok(
     "ModuleVersionGet - Version for SCMIME::Parser does not exist.",
 );
 
+# DBInfo
 my %DBInfo = $EnvironmentObject->DBInfoGet();
-
 for my $Key (qw(Database Host Type User Version)) {
     diag "DBInfo: got '$DBInfo{$Key}' for $Key";
     ok( $DBInfo{$Key} =~ m/\w\w/, "DBInfoGet - returned value for $Key" );
 }
 
+# OTOBOInfo
 my %OTOBOInfo = $EnvironmentObject->OTOBOInfoGet();
 for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
     diag "OTOBOInfo: got '$OTOBOInfo{$Key}' for $Key";

@@ -29,7 +29,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 our $Self;
 
 # plan the tests
-my $ChildCount   = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
+my $ChildCount   = 5;
 my $NumTestUsers = 3;
 plan(
     $NumTestUsers                            # creation of a test user

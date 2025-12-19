@@ -16,8 +16,15 @@
 
 package Kernel::System::PostMaster::NewTicket;
 
+use v5.24;
 use strict;
 use warnings;
+
+# core modules
+
+# CPAN modules
+
+# OTOB modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -64,6 +71,7 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -331,6 +339,7 @@ sub Run {
             Key           => 'Kernel::System::PostMaster::NewTicket',
             Value         => "Ticket could not be created!",
         );
+
         return;
     }
 
@@ -413,21 +422,27 @@ END_MESSAGE
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # dynamic fields
-    my $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 1,
-            ResultType => 'HASH',
-            ObjectType => 'Ticket',
-        );
+    my $DynamicFieldID2Name = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Ticket',
+    );
 
     # set dynamic fields for Ticket object type
-    DYNAMICFIELDID:
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        next DYNAMICFIELDID if !$DynamicFieldID;
-        next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
-        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
+    DYNAMIC_FIELD_ID:
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldID2Name} ) {
+        next DYNAMIC_FIELD_ID unless $DynamicFieldID;
 
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
+        my $DynamicFieldName = $DynamicFieldID2Name->{$DynamicFieldID};
+
+        next DYNAMIC_FIELD_ID unless $DynamicFieldName;
+
+        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldName;
+
+        next DYNAMIC_FIELD_ID unless defined $GetParam{$Key};
+        next DYNAMIC_FIELD_ID unless length $GetParam{$Key};
+
+        {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -447,90 +462,6 @@ END_MESSAGE
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
-        }
-    }
-
-    # reverse dynamic field list
-    my %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set ticket free text
-    # for backward compatibility (should be removed in a future version)
-    my %Values =
-        (
-            'X-OTOBO-TicketKey'   => 'TicketFreeKey',
-            'X-OTOBO-TicketValue' => 'TicketFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $TicketID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::NewTicket',
-                    Value         => "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
-        }
-    }
-
-    # set ticket free time
-    # for backward compatibility (should be removed in a future version)
-    for my $Count ( 1 .. 6 ) {
-
-        my $Key = 'X-OTOBO-TicketTime' . $Count;
-
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
-
-            # get datetime object
-            my $DateTimeObject = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    String => $GetParam{$Key}
-                }
-            );
-
-            if ( $DateTimeObject && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
-
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ 'TicketFreeTime' . $Count },
-                );
-
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $TicketID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::NewTicket',
-                    Value         => "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
         }
     }
 
@@ -658,6 +589,7 @@ END_MESSAGE
         next ATTRIBUTE if $CommunicationLogSkipAttributes{$Attribute};
 
         my $Value = $GetParam{$Attribute};
+
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
@@ -669,20 +601,27 @@ END_MESSAGE
     }
 
     # dynamic fields
-    $DynamicFieldList =
-        $DynamicFieldObject->DynamicFieldList(
-            Valid      => 1,
-            ResultType => 'HASH',
-            ObjectType => 'Article',
-        );
+    $DynamicFieldID2Name = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Article',
+    );
 
     # set dynamic fields for Article object type
-    DYNAMICFIELDID:
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        next DYNAMICFIELDID if !$DynamicFieldID;
-        next DYNAMICFIELDID if !$DynamicFieldList->{$DynamicFieldID};
-        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldList->{$DynamicFieldID};
-        if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
+    DYNAMIC_FIELD_ID:
+    for my $DynamicFieldID ( sort keys %{$DynamicFieldID2Name} ) {
+        next DYNAMIC_FIELD_ID unless $DynamicFieldID;
+
+        my $DynamicFieldName = $DynamicFieldID2Name->{$DynamicFieldID};
+
+        next DYNAMIC_FIELD_ID unless $DynamicFieldName;
+
+        my $Key = 'X-OTOBO-DynamicField-' . $DynamicFieldName;
+
+        next DYNAMIC_FIELD_ID unless defined $GetParam{$Key};
+        next DYNAMIC_FIELD_ID unless length $GetParam{$Key};
+
+        {
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -702,48 +641,6 @@ END_MESSAGE
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
-        }
-    }
-
-    # reverse dynamic field list
-    %DynamicFieldListReversed = reverse %{$DynamicFieldList};
-
-    # set free article text
-    # for backward compatibility (should be removed in a future version)
-    %Values =
-        (
-            'X-OTOBO-ArticleKey'   => 'ArticleFreeKey',
-            'X-OTOBO-ArticleValue' => 'ArticleFreeText',
-        );
-    for my $Item ( sort keys %Values ) {
-        for my $Count ( 1 .. 16 ) {
-            my $Key = $Item . $Count;
-            if (
-                defined $GetParam{$Key}
-                && length $GetParam{$Key}
-                && $DynamicFieldListReversed{ $Values{$Item} . $Count }
-                )
-            {
-                # get dynamic field config
-                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
-                    ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
-                );
-                if ($DynamicFieldGet) {
-                    my $Success = $DynamicFieldBackendObject->ValueSet(
-                        DynamicFieldConfig => $DynamicFieldGet,
-                        ObjectID           => $ArticleID,
-                        Value              => $GetParam{$Key},
-                        UserID             => $Param{InmailUserID},
-                    );
-                }
-
-                $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectLogType => 'Message',
-                    Priority      => 'Debug',
-                    Key           => 'Kernel::System::PostMaster::NewTicket',
-                    Value         => "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
-                );
-            }
         }
     }
 

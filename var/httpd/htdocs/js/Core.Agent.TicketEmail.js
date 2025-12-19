@@ -135,9 +135,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
                 FieldValue = $(this).val() || '';
                 CustomerUser = $('#SelectedCustomerUser').val() || '';
                 SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + FieldValue + ';SelectedCustomerUser=' + CustomerUser;
-                if (!Core.Config.Get('SessionIDCookie')) {
-                    SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
-                }
                 $('#Signature').attr('src', SignatureURL);
             }
         });

@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::MigrateFromOTRS;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;

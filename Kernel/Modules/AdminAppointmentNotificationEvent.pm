@@ -898,9 +898,6 @@ sub _Edit {
         @LanguageIDs = ('en');
     }
 
-    # get names of languages in English
-    my %DefaultUsedLanguages = %{ $ConfigObject->Get('DefaultUsedLanguages') || {} };
-
     # for the selection list
     my %Languages = $LayoutObject->{LanguageObject}->LanguageList;
 

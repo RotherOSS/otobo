@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # use ../ and ../Kernel/cpan-lib as lib location
@@ -103,6 +103,11 @@ if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
     $CompressEXT = 'bz2';
+}
+elsif ( $CompressOption && $CompressOption =~ m/zstd/i ) {
+    $Compress    = '-zstd';
+    $CompressCMD = 'zstd';
+    $CompressEXT = 'zst';
 }
 
 # check backup type
@@ -952,8 +957,8 @@ Usage:
 
     # for regular backups, can also be used in a cron job
     otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
-    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2|zstd] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2|zstd] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
 
     # backups for creating a dump for migrating an OTRS database OTOBO
     otobo> cd /opt/otobo
@@ -966,7 +971,7 @@ Usage:
 Short options:
  [-h]                   - Display help for this command.
  [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
- [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
+ [-c]                   - Select the compression method (gzip|bzip2|zstd). Defaults to gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
  [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
 

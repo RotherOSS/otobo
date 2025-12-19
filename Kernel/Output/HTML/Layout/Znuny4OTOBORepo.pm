@@ -265,14 +265,19 @@ Example html for a hook:
 
 =cut
 
-    return if !$Self->_OutputFilterHookExists(%Param);
+    return unless $Self->_OutputFilterHookExists(%Param);
 
-    my $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    if ($All) {
-        $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    }
+    # greedy matching when 'All' is passed,
+    # the content will be added only after the last HookEnd
+    my $HookRegex = $All
+        ?
+        qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi
+        :
+        qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }xmsig;
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $& $Content }g;
 
     return 1;
 }
@@ -320,14 +325,19 @@ Example html for a hook:
 
 =cut
 
-    return if !$Self->_OutputFilterHookExists(%Param);
+    return unless $Self->_OutputFilterHookExists(%Param);
 
-    my $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    if ($All) {
-        $HookRegex = qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi;
-    }
+    # greedy matching when 'All' is passed,
+    # the content will only be added only before the first HookEnd
+    my $HookRegex = $All
+        ?
+        qr{ <\!-- \s* HookStart$Name \s* --> .+ <\!-- \s* HookEnd$Name \s* --> }xmsi
+        :
+        qr{ <\!-- \s* HookStart$Name \s* --> .+? <\!-- \s* HookEnd$Name \s* --> }xmsi;
 
-    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }xmsig;
+    # The modifier g indicates that the action takes place for each of the matches,
+    # There is usually only a single match when 'All' was passed.
+    ${ $Param{Data} } =~ s{$HookRegex}{ $Content $& }g;
 
     return 1;
 }

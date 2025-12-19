@@ -153,17 +153,19 @@ sub Run {
         # get customer interface session name
         my $SessionName = $ConfigObject->Get('CustomerPanelSessionName') || 'CSID';
 
-        # create a new LayoutObject with SessionIDCookie
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
+        # create a new LayoutObject
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SessionID   => $NewSessionID,
             SessionName => $ConfigObject->Get('SessionName'),
         );
+
+        # set the session cookie
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $LayoutObject->SetCookie(
             Key     => 'SessionIDCookie',
             Name    => $SessionName,
@@ -178,21 +180,16 @@ sub Run {
                 "Switched from Agent to Customer ($Self->{UserLogin} -=> $UserData{UserLogin})",
         );
 
-        # build URL to customer interface
-        my $URL = $ConfigObject->Get('HttpType')
-            . '://'
-            . $ConfigObject->Get('FQDN')
-            . '/'
-            . $ConfigObject->Get('ScriptAlias')
-            . 'customer.pl';
+        # redirect to customer interface
+        my $ExtURL = join '',
+            $ConfigObject->Get('HttpType'),
+            '://',
+            $ConfigObject->Get('FQDN'),
+            '/',
+            $ConfigObject->Get('ScriptAlias'),
+            'customer.pl';
 
-        # if no sessions are used we attach the session as URL parameter
-        if ( !$ConfigObject->Get('SessionUseCookie') ) {
-            $URL .= "?$SessionName=$NewSessionID";
-        }
-
-        # redirect to customer interface with new session id
-        return $LayoutObject->Redirect( ExtURL => $URL );
+        return $LayoutObject->Redirect( ExtURL => $ExtURL );
     }
 
     # search user list

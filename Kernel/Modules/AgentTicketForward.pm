@@ -2071,7 +2071,7 @@ sub _GetExtendedParams {
             my $CustomerDisabled = '';
             my $CountAux         = $CustomerCounter++;
             if ( $CustomerError ne '' ) {
-                $CustomerDisabled = 'disabled="disabled"';
+                $CustomerDisabled = 'disabled';
                 $CountAux         = $Count . 'Error';
             }
 
@@ -2137,7 +2137,7 @@ sub _GetExtendedParams {
             my $CustomerDisabledCc = '';
             my $CountAuxCc         = $CustomerCounterCc++;
             if ( $CustomerErrorCc ne '' ) {
-                $CustomerDisabledCc = 'disabled="disabled"';
+                $CustomerDisabledCc = 'disabled';
                 $CountAuxCc         = $Count . 'Error';
             }
 
@@ -2202,7 +2202,7 @@ sub _GetExtendedParams {
             my $CustomerDisabledBcc = '';
             my $CountAuxBcc         = $CustomerCounterBcc++;
             if ( $CustomerErrorBcc ne '' ) {
-                $CustomerDisabledBcc = 'disabled="disabled"';
+                $CustomerDisabledBcc = 'disabled';
                 $CountAuxBcc         = $Count . 'Error';
             }
 

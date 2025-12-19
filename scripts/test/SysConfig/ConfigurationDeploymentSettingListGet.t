@@ -26,6 +26,8 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds FixedTimeSet);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
+
 our $Self;
 
 # Get needed objects

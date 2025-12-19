@@ -102,7 +102,7 @@
         </Value>
     </Setting>
 
-    <!-- specific settings for backend translations -->
+    <!-- specific settings for the object backend Translations -->
     <Setting Name="ImportExport::ObjectBackendRegistration###Translations" Required="1" Valid="1">
         <Description Translatable="1">Object backend module registration for the import/export module.</Description>
         <Navigation>Core::ImportExport::ObjectBackend::ModuleRegistration</Navigation>
@@ -118,6 +118,357 @@
         <Navigation>Core::ImportExport::TranslationsImportExport</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+
+    <!-- specific settings for the object backend Ticket -->
+    <Setting Name="ImportExport::ObjectBackendRegistration###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Object backend module registration for the import/export module.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::ObjectBackend::Ticket</Item>
+                <Item Key="Name">Ticket</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::SynchronizeWithForeignDB" Required="0" Valid="0">
+        <Description Translatable="1">If activated additional data such as the history and links will be read from a foreign DB containing the exported tickets and added to the imported tickets on this system. This is only available for created, not for updated tickets.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DatabaseDSN"></Item>
+                <Item Key="DatabaseUser"></Item>
+                <Item Key="DatabasePw"></Item>
+                <Item Key="Type"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###001-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key">Queue</Item>
+                <Item Key="Map">
+                    <Hash>
+                        <Item Key="OtherSystemMisc">Misc</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###002-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key">Article_DynamicField_NoMulti</Item>
+                <Item Key="Map">
+                    <Hash>
+                        <Item Key="OtherSystem5">7</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###003-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###004-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###005-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###006-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###007-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###008-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###009-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###010-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###011-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###012-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###013-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###014-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###015-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###016-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###017-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###018-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###019-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###020-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###021-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###022-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###023-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###024-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ImportExport::Ticket::ImportValueMap###025-Custom" Required="0" Valid="0">
+        <Description Translatable="1">Value map. Define a key and a value map from import file to OTOBO.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::Ticket::ImportValueMaps</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Key"></Item>
+                <Item Key="Map">
+                    <Hash>
+                    </Hash>
+                </Item>
+            </Hash>
         </Value>
     </Setting>
 

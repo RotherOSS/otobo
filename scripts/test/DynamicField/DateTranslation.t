@@ -538,14 +538,14 @@ for my $Test (@Tests) {
 
             # extract the date from rendered HTML
             my %HTMLResult;
-            ( $HTMLResult{Day} )   = $FieldHTML->{Field} =~ m{title="Day"   [^s]+ selected="selected">([^<]+)</option>}msx;
-            ( $HTMLResult{Month} ) = $FieldHTML->{Field} =~ m{title="Month" [^s]+ selected="selected">([^<]+)</option>}msx;
-            ( $HTMLResult{Year} )  = $FieldHTML->{Field} =~ m{title="Year"  [^s]+ selected="selected">([^<]+)</option>}msx;
+            ( $HTMLResult{Day} )   = $FieldHTML->{Field} =~ m{title="Day"   [^s]+ selected>([^<]+)</option>}msx;
+            ( $HTMLResult{Month} ) = $FieldHTML->{Field} =~ m{title="Month" [^s]+ selected>([^<]+)</option>}msx;
+            ( $HTMLResult{Year} )  = $FieldHTML->{Field} =~ m{title="Year"  [^s]+ selected>([^<]+)</option>}msx;
 
             # also get Hour and Minute for DateTime fields
             if ( $Test->{Config}->{Type} eq 'DateTime' ) {
-                ( $HTMLResult{Hour} )   = $FieldHTML->{Field} =~ m{title="Hours" [^s]+ selected="selected">([^<]+)</option>}msx;
-                ( $HTMLResult{Minute} ) = $FieldHTML->{Field} =~ m{title="Minutes" [^s]+ selected="selected">([^<]+)</option>}msx;
+                ( $HTMLResult{Hour} )   = $FieldHTML->{Field} =~ m{title="Hours" [^s]+ selected>([^<]+)</option>}msx;
+                ( $HTMLResult{Minute} ) = $FieldHTML->{Field} =~ m{title="Minutes" [^s]+ selected>([^<]+)</option>}msx;
             }
 
             is(

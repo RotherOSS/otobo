@@ -27,10 +27,10 @@ use File::stat qw(stat);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use Kernel::System::MailAccount::POP3 ();        ## no perlimports, module is mocked
-use Kernel::System::MailAccount::IMAP ();        ## no perlimports, module is mocked
-use Kernel::System::PostMaster        ();        ## no perlimports, as Kernel::System::PostMaster::Run will be overridden
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::MailAccount::POP3 ();    ## no perlimports, module is mocked
+use Kernel::System::MailAccount::IMAP ();    ## no perlimports, module is mocked
+use Kernel::System::PostMaster        ();    ## no perlimports, as Kernel::System::PostMaster::Run will be overridden
 
 ## no critic qw(OTOBO::RequireCamelCase Subroutines::ProhibitBuiltinHomonyms)
 
@@ -45,9 +45,9 @@ use Kernel::System::PostMaster        ();        ## no perlimports, as Kernel::S
 # This hash represents the fake environment for the IMAP/POP3, think about %ENV,
 #   it'll work more or less the same way.
 my %FakeClientEnv = (
-    'connect'         => 1,
+    'connect'         => 1,     # try to connect with the FakeClient
     'emails'          => {},
-    'fail_fetch'      => {},
+    'fail_fetch'      => {},    # no fetch error are forced
     'fail_postmaster' => 0,
 );
 
@@ -68,7 +68,7 @@ package FakeClient {
     sub AUTOLOAD {
         my $Self = shift;
 
-        our $AUTOLOAD;
+        our $AUTOLOAD;    # something like 'FakeIMAPClient::messages'
         my ($Method) = ( $AUTOLOAD =~ m/::([^:]+)$/i );
 
         return unless $Method;
@@ -77,21 +77,43 @@ package FakeClient {
         return $FakeClientEnv{$Method};
     }
 
+    # called in Kernel::System::MailAccount::POP3, see also 'message_string' below
     sub get {
         my ( $Self, $Idx ) = @_;
 
-        if ( $FakeClientEnv{'fail_fetch'}->{Messages}->{$Idx} ) {
-            my $FailType = $FakeClientEnv{'fail_fetch'}->{Type} || '';
+        if ( $FakeClientEnv{fail_fetch}->{Messages}->{$Idx} ) {
+            my $FailType = $FakeClientEnv{fail_fetch}->{Type} || '';
+
             die 'dummy exception' if $FailType eq 'exception';
             return;
         }
 
-        my $Filename = $FakeClientEnv{'emails'}->{$Idx};
+        my $Filename = $FakeClientEnv{emails}->{$Idx};
 
         my $FH    = IO::File->new( $Filename, 'r', );
         my @Lines = <$FH>;
 
         return wantarray ? @Lines : \@Lines;
+    }
+
+    # called in Kernel::System::MailAccount::IMAP, see also 'get' above
+    sub message_string {
+        my ( $Self, $Idx ) = @_;
+
+        if ( $FakeClientEnv{fail_fetch}->{Messages}->{$Idx} ) {
+            my $FailType = $FakeClientEnv{fail_fetch}->{Type} || '';
+
+            die 'dummy exception' if $FailType eq 'exception';
+            return;
+        }
+
+        my $Filename = $FakeClientEnv{emails}->{$Idx};
+
+        my $FH            = IO::File->new( $Filename, 'r', );
+        my @Lines         = <$FH>;
+        my $MessageString = join "\n", @Lines;
+
+        return wantarray ? @Lines : $MessageString;
     }
 
     sub delete {
@@ -115,6 +137,13 @@ package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
 
         return scalar keys $FakeClientEnv{'emails'}->%*;
     }
+
+    # The AUTOLOAD would provide the value '1', but Kernel::System::MailAccount::IMAP needs an arrayref
+    sub messages {
+        return [
+            sort keys $FakeClientEnv{'emails'}->%*
+        ];
+    }
 }
 
 # Overwrite the OTOBO MailAccount::IMAP connect method to use our fake imap client,
@@ -124,17 +153,17 @@ my $MockIMAP = mock 'Kernel::System::MailAccount::IMAP' => (
     set => [
         'Connect' => sub {
 
-            if ( !$FakeClientEnv{'connect'} ) {
-                return (
-                    Successful => 0,
-                    Message    => "can't connect",
-                );
-            }
-
+            # faking the IMAP connect
             return (
                 Successful => 1,
                 IMAPObject => FakeIMAPClient->new(),
                 Type       => 'IMAP',
+            ) if $FakeClientEnv{'connect'};
+
+            # forcing a connection failure
+            return (
+                Successful => 0,
+                Message    => "can't connect",
             );
         },
     ],
@@ -215,7 +244,6 @@ sub GetMailAcountLastCommunicationLog {
             )
             || []
     };
-
     @MailAccountCommunicationLog = sort { $b->{CommunicationID} <=> $a->{CommunicationID} } @MailAccountCommunicationLog;
 
     # Get all communication related objects.
@@ -223,10 +251,10 @@ sub GetMailAcountLastCommunicationLog {
         CommunicationID => $MailAccountCommunicationLog[0]->{CommunicationID},
     );
 
-    my $Connection = undef;
-    my @Messages   = ();
+    my $Connection;
+    my @Messages;
     OBJECT:
-    for my $Object ( @{$Objects} ) {
+    for my $Object ( $Objects->@* ) {
 
         if ( $Object->{ObjectLogType} eq 'Connection' ) {
             $Connection = $Object;
@@ -294,7 +322,7 @@ my @Tests = (
     {
         Name          => "Couldn't connect to server",
         FakeClientEnv => {
-            'connect' => 0,
+            'connect' => 0,    # force a connection failure
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
@@ -444,7 +472,9 @@ for my $MailAccount (@MailAccounts) {
             use strict 'refs';
 
             # Run mail-account-fetch.
-            my $Result = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountFetch( %{$MailAccount} );
+            my $Result = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountFetch(
+                $MailAccount->%*
+            );
 
             # Get last communication log for the mail-account.
             my $CommunicationLogData = GetMailAcountLastCommunicationLog(

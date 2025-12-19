@@ -245,8 +245,7 @@ sub PerlInfoGet {
 
         # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
-        # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
+        # Some modules, like Devel::REPL::Plugin::OTOBO, are supplied by OTOBO
         my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
         my %ModuleToVersion =
             map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
@@ -375,18 +374,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.95',
         },
         {
-            'Comment'         => 'needed by Type::Tiny',
-            'Module'          => 'Exporter::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.002001',
-        },
-        {
-            'Comment'         => 'needed by Text::Diff::FormattedHTML ',
-            'Module'          => 'File::Slurp',
-            'Required'        => 1,
-            'VersionRequired' => '== 9999.32',
-        },
-        {
             'Comment'         => 'needed by PDF::API2',
             'Module'          => 'Font::TTF',
             'Required'        => 1,
@@ -411,16 +398,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.08',
         },
         {
-            'Comment'         => 'needed by Sisimai',
             'Module'          => 'JSON',
+            'Comment'         => 'needed by Sisimai and other CPAN distributions',
             'Required'        => 1,
-            'VersionRequired' => '== 2.94',
-        },
-        {
-            'Comment'         => 'needed by JSON, but there also in backportPP included in JSON',
-            'Module'          => 'JSON::PP',
-            'Required'        => 1,
-            'VersionRequired' => '== 2.27203',
+            'VersionRequired' => '== 4.10',                                          # current version as of 2024-11-17
         },
         {
             'Comment'         => 'needed by the console command Dev::Tools::TranslationsUpdate',
@@ -513,18 +494,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 6.17',
         },
         {
-            'Comment'         => 'needed by Kernel::System::MailAccount::IMAP',
-            'Module'          => 'Net::IMAP::Simple',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.2209',
-        },
-        {
-            'Comment'         => 'needed by OTOBO email modules',
-            'Module'          => 'Net::SSLGlue',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.058',
-        },
-        {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
@@ -578,22 +547,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.44',
         },
         {
-            'Comment'         => 'needed by Kernel::System::Diff',
-            'Module'          => 'Text::Diff::FormattedHTML',
-            'Required'        => 1,
-            'VersionRequired' => '== 0.08',
-        },
-        {
             'Comment'         => 'needed by Data::ICal',
             'Module'          => 'Text::vFile::asData',
             'Required'        => 1,
             'VersionRequired' => '== 0.08',
-        },
-        {
-            'Comment'         => 'needed by Crypt::Random::Source',
-            'Module'          => 'Type::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.010000',
         },
         {
             'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',

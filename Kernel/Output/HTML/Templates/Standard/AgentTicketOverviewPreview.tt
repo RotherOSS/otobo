@@ -156,6 +156,11 @@
                                 <label>[% Translate("Type") | html %]</label><div title="[% Data.Type | html %]">[% Data.Type | html %]</div>
 [% RenderBlockEnd("Type") %]
                             </td>
+                        <td>
+[% RenderBlockStart("AccountedTime") %]
+                            <label>[% Translate("Accounted Time") | html %]</label><div title="[% Translate("Accounted Time") | html %]: [% Data.AccountedTime | html %]">[% Data.AccountedTime | html %]</div>
+[% RenderBlockEnd("AccountedTime") %]
+                        </td>
                             <td>
 [% RenderBlockStart("UpdateTime") %]
                                 <label>[% Translate("Update Time") | html %]</label>

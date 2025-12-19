@@ -52,7 +52,7 @@ my @Tests = (
         ],
         EffectiveValue => 1,
         ExpectedResult => '<div class="Setting" data-change-time=""><div class=\'SettingContent\'>
-<input class="" type="checkbox" id="Checkbox_TestCheckbox1" value="1" checked disabled=\'disabled\' ><input type=\'hidden\' name=\'TestCheckbox1\' id="TestCheckbox1" value=\'1\' />
+<input class="" type="checkbox" id="Checkbox_TestCheckbox1" value="1" checked disabled ><input type=\'hidden\' name=\'TestCheckbox1\' id="TestCheckbox1" value=\'1\' />
 <label for=\'Checkbox_TestCheckbox1\' class=\'CheckboxLabel\'>Enabled</label>
 </div><div class="WidgetMessage Bottom">Default: Disabled</div></div>
 ',

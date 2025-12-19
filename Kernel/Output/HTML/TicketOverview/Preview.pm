@@ -153,14 +153,6 @@ sub ActionRow {
 
             if ( $Item->{Block} eq 'DocumentActionRowItem' ) {
 
-                # add session id if needed
-                if ( !$LayoutObject->{SessionIDCookie} && $Item->{Link} ) {
-                    $Item->{Link}
-                        .= ';'
-                        . $LayoutObject->{SessionName} . '='
-                        . $LayoutObject->{SessionID};
-                }
-
                 # create id
                 $Item->{ID} = $Item->{Name};
                 $Item->{ID} =~ s/(\s|&|;)//ig;
@@ -538,14 +530,6 @@ sub _Show {
 
             next MENU if !$Item;
             next MENU if ref $Item ne 'HASH';
-
-            # add session id if needed
-            if ( !$LayoutObject->{SessionIDCookie} && $Item->{Link} ) {
-                $Item->{Link}
-                    .= ';'
-                    . $LayoutObject->{SessionName} . '='
-                    . $LayoutObject->{SessionID};
-            }
 
             # create id
             $Item->{ID} = $Item->{Name};
@@ -958,6 +942,19 @@ sub _Show {
             Data => {
                 %Param,
                 %Article,
+            },
+        );
+    }
+
+    # show accounted time if needed
+    # get ticket object
+    my $DataValue = $TicketObject->TicketAccountedTimeGet( TicketID => $Param{TicketID} );
+
+    if ( defined $DataValue ) {
+        $LayoutObject->Block(
+            Name => 'AccountedTime',
+            Data => {
+                AccountedTime => $DataValue,
             },
         );
     }

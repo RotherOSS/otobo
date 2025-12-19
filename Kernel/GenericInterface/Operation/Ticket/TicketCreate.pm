@@ -142,9 +142,9 @@ perform TicketCreate Operation. This will return the created ticket number.
                 HistoryComment                  => 'Some  history comment',    # optional
                 TimeUnit                        => 123,                        # optional
                 NoAgentNotify                   => 1,                          # optional
-                ForceNotificationToUserID       => [1, 2, 3]                   # optional
-                ExcludeNotificationToUserID     => [1, 2, 3]                   # optional
-                ExcludeMuteNotificationToUserID => [1, 2, 3]                   # optional
+                ForceNotificationToUserID       => [1, 2, 3],                  # optional
+                ExcludeNotificationToUserID     => [1, 2, 3],                  # optional
+                ExcludeMuteNotificationToUserID => [1, 2, 3],                  # optional
             },
 
             DynamicField => [                                                  # optional
@@ -162,9 +162,9 @@ perform TicketCreate Operation. This will return the created ticket number.
 
             Attachment => [
                 {
-                    Content     => 'content'                                 # base64 encoded
-                    ContentType => 'some content type'
-                    Filename    => 'some fine name'
+                    Content     => 'content',                                # base64 encoded
+                    ContentType => 'some content type',
+                    Filename    => 'some fine name',
                 },
                 # ...
             ],

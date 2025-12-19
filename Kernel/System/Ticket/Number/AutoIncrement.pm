@@ -59,7 +59,7 @@ sub TicketNumberBuild {
         || 5;
 
     # Pad ticket number with leading '0' to length $MinSize (config option).
-    $Counter = sprintf "%.*u", $MinSize, $Counter;
+    $Counter = sprintf '%.*u', $MinSize, $Counter;
 
     my $TicketNumber = $SystemID . $Counter;
 

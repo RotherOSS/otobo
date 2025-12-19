@@ -192,10 +192,6 @@ Core.AJAX = (function (TargetNS) {
      */
     function GetSessionInformation() {
         var Data = {};
-        if (!Core.Config.Get('SessionIDCookie')) {
-            Data[Core.Config.Get('SessionName')] = Core.Config.Get('SessionID');
-            Data[Core.Config.Get('CustomerPanelSessionName')] = Core.Config.Get('SessionID');
-        }
         Data.ChallengeToken = Core.Config.Get('ChallengeToken');
         return Data;
     }
@@ -806,7 +802,7 @@ Core.AJAX = (function (TargetNS) {
             Ignore = {};
         }
         if (isJQueryObject($Element) && $Element.length) {
-            $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled=disabled])').each(function () {
+            $Element.closest('form').find('input:not(:file), textarea, select').filter(':not([disabled])').each(function () {
                 var Name = $(this).attr('name') || '';
 
                 // only look at fields with name
@@ -830,7 +826,7 @@ Core.AJAX = (function (TargetNS) {
                     QueryString += encodeURIComponent(Name) + '=' + encodeURIComponent($(this).val() || '') + ";";
                 }
             });
-            $Element.closest('form').find('.DynamicFieldText').filter('[disabled=disabled]').each(function () {
+            $Element.closest('form').find('.DynamicFieldText').filter('[disabled]').each(function () {
                 var Name = $(this).attr('name') || '';
 
                 // only look at fields with name

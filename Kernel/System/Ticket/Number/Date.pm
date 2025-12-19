@@ -53,7 +53,7 @@ sub TicketNumberBuild {
             || 5;
 
         # Pad ticket number with leading '0' to length $MinSize (config option).
-        $Counter = sprintf "%.*u", $MinSize, $Counter;
+        $Counter = sprintf '%.*u', $MinSize, $Counter;
     }
 
     my $DateTimeObject = $Kernel::OM->Create(
@@ -63,8 +63,8 @@ sub TicketNumberBuild {
 
     # Create new ticket number.
     my $TicketNumber = $DateTimeSettings->{Year}
-        . sprintf( "%.2u", $DateTimeSettings->{Month} )
-        . sprintf( "%.2u", $DateTimeSettings->{Day} )
+        . sprintf( '%.2u', $DateTimeSettings->{Month} )
+        . sprintf( '%.2u', $DateTimeSettings->{Day} )
         . $SystemID . $Counter;
 
     return $TicketNumber;

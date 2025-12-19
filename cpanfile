@@ -14,12 +14,12 @@ requires 'Const::Fast';
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
-# JSON parsing and generation
-requires 'JSON::XS';
-
 requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
+
+# Olson time zone database, required for correct time calculations.
+requires 'DateTime::TimeZone', '>= 2.20';
 
 # A CSS minifier written in XS
 requires 'CSS::Minifier::XS', '>= 0.09';
@@ -46,11 +46,17 @@ requires 'IO::Socket::SSL';
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
+# correct and fast JSON support
+requires 'Cpanel::JSON::XS', '>= 4.0';
+
 requires 'List::Util', '>= 1.45';
 
 requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
+
+# Required for IMAP TLS connections.
+requires 'Mail::IMAPClient', '>= 3.40';
 
 # Required for random number generator.
 requires 'Moo';
@@ -89,6 +95,10 @@ requires 'Text::Trim';
 requires 'Time::HiRes';
 
 requires 'Try::Tiny';
+
+requires 'Type::Tiny', '>= 1.008';
+
+requires 'Types::Serialiser';
 
 # for generating properly escaped URLs
 requires 'URI';
@@ -302,12 +312,6 @@ feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
 
 };
 
-feature 'mail:imap', 'Support for feature mail:imap' => sub {
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
-
-};
-
 feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
@@ -323,9 +327,6 @@ feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
@@ -351,9 +352,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
@@ -492,9 +490,6 @@ feature 'performance:redis', 'Modules for running with Redis Cache Server' => su
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';

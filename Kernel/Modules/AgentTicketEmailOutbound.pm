@@ -196,12 +196,6 @@ sub Run {
         # get config for frontend module
         my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
-        # get list type
-        my $TreeView = 0;
-        if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
-
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
@@ -999,7 +993,6 @@ sub SendEmail {
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
-    my $QueueID = $Self->{QueueID};
     my %StateData;
 
     if ( $GetParam{ComposeStateID} ) {
@@ -1523,7 +1516,6 @@ sub SendEmail {
 sub AjaxUpdate {
     my ( $Self, %Param ) = @_;
 
-    my %Error;
     my %ACLCompatGetParam;
 
     # get param object
@@ -1533,11 +1525,7 @@ sub AjaxUpdate {
     $ACLCompatGetParam{NextStateID} = $ParamObject->GetParam( Param => 'NextStateID' );
 
     my %GetParamExtended = $Self->_GetExtendedParams();
-
-    my %GetParam            = %{ $GetParamExtended{GetParam} };
-    my @MultipleCustomer    = @{ $GetParamExtended{MultipleCustomer} };
-    my @MultipleCustomerCc  = @{ $GetParamExtended{MultipleCustomerCc} };
-    my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
+    my %GetParam         = %{ $GetParamExtended{GetParam} };
 
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $Self->{TicketID} );
 
@@ -1614,9 +1602,6 @@ sub AjaxUpdate {
     }
 
     my %DynamicFieldValues;
-
-    # get config for frontend module
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # get needed objects
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -2196,7 +2181,7 @@ sub _GetExtendedParams {
             my $CustomerDisabled = '';
             my $CountAux         = $CustomerCounter++;
             if ( $CustomerError ne '' ) {
-                $CustomerDisabled = 'disabled="disabled"';
+                $CustomerDisabled = 'disabled';
                 $CountAux         = $Count . 'Error';
             }
 
@@ -2262,7 +2247,7 @@ sub _GetExtendedParams {
             my $CustomerDisabledCc = '';
             my $CountAuxCc         = $CustomerCounterCc++;
             if ( $CustomerErrorCc ne '' ) {
-                $CustomerDisabledCc = 'disabled="disabled"';
+                $CustomerDisabledCc = 'disabled';
                 $CountAuxCc         = $Count . 'Error';
             }
 
@@ -2327,7 +2312,7 @@ sub _GetExtendedParams {
             my $CustomerDisabledBcc = '';
             my $CountAuxBcc         = $CustomerCounterBcc++;
             if ( $CustomerErrorBcc ne '' ) {
-                $CustomerDisabledBcc = 'disabled="disabled"';
+                $CustomerDisabledBcc = 'disabled';
                 $CountAuxBcc         = $Count . 'Error';
             }
 

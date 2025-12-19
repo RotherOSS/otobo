@@ -73,7 +73,7 @@
 </div>
 <input
     class="AjaxDnDUpload [% IF ACLHidden && Mandatory %]Validate_DnDUpload_IfVisible[% ELSIF Mandatory %]Validate_DnDUpload[% END %]"
-    [% IF !Single %] multiple="multiple"[% END %]
+    [% IF !Single %] multiple[% END %]
     id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %]"
     name="[% IF FieldName %][% FieldName | html %][% ELSE %]FileUpload[% END %]"
     data-max-files="[% MaxFiles | html %]"

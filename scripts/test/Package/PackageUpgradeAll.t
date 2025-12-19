@@ -27,12 +27,13 @@ use Test2::Tools::Compare qw(array D);
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
+# restore database when $Helper is destroyed
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Cleanup = $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => 'DELETE from package_repository',

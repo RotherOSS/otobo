@@ -54,7 +54,7 @@
         </Value>
     </Setting>
     <Setting Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).</Description>
+        <Description Translatable="1">Defines the system identifier. Every ticket number contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO). The SystemID may also be used in HTTP session backends.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">10</Item>
@@ -640,6 +640,13 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="TimeShowLocalization" Required="1" Valid="1">
+        <Description Translatable="1">Shows time with localization indicator (01.01.1970 00:01 (Europe/Berlin)), if enabled; or without (01.01.1970 00:01), if not enabled.</Description>
+        <Navigation>Core::Time</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="AttachmentDownloadType" Required="1" Valid="1">
         <Description Translatable="1">Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -1153,13 +1160,6 @@
     </Setting>
     <Setting Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
         <Description Translatable="1">Deletes requested sessions if they have timed out.</Description>
-        <Navigation>Core::Session</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SessionUseCookie" Required="1" Valid="1">
-        <Description Translatable="1">Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -7471,10 +7471,10 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText">OTOBO 11.0 | Service Management</Item>
-                        <Item Key="MainText">OTOBO 11.0 takes your service management to the next level with enhanced flexibility. And, with the simultaneous release of CMDB 11.0, you'll get seamless integration between your asset management and service management workflows.</Item>
-                        <Item Key="FooterText">Learn more &gt;</Item>
-                        <Item Key="Link">https://otobo.io/en/otobo-11-0-2-major-release/</Item>
+                        <Item Key="HeaderText">OTOBO 11.1 | Evolution</Item>
+                        <Item Key="MainText">to be determined</Item>
+                        <Item Key="FooterText">Explore &gt;</Item>
+                        <Item Key="Link">https://otobo.io/en/service-management-plattform/helpdesk/</Item>
                         <Item Key="NewTab">0</Item>
                     </Hash>
                 </Item>
@@ -9570,7 +9570,8 @@ via the Preferences button after logging in.
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
-                <Item>Junk</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Junk</Item>
             </Array>
         </Value>
     </Setting>
@@ -10286,15 +10287,8 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="PhantomJS::Bin" Required="0" Valid="0">
-        <Description Translatable="1">Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.</Description>
-        <Navigation>Core::PhantomJS</Navigation>
-        <Value>
-            <Item ValueRegex="" ValueType="File">/usr/bin/phantomjs</Item>
-        </Value>
-    </Setting>
     <Setting Name="GoogleChrome::Bin" Required="0" Valid="0">
-        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.</Description>
+        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary.</Description>
         <Navigation>Core::GoogleChrome</Navigation>
         <Value>
             <Item ValueRegex="" ValueType="File">/usr/bin/chromium</Item>

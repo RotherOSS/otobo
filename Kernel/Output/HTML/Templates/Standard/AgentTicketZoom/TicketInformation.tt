@@ -193,19 +193,6 @@
 [% RenderBlockEnd("Responsible") %]
                     </fieldset>
 
-[% RenderBlockStart("ProcessData") %]
-                    <fieldset class="TableLike FixedLabelSmall Narrow">
-
-                        <label>[% Translate("Process") | html %]:</label>
-                        <p class="Value" title="[% Data.Process | html %]">[% Data.Process | html %]</p>
-                        <div class="Clear"></div>
-
-                        <label>[% Translate("Activity") | html %]:</label>
-                        <p class="Value" title="[% Translate(Data.Activity) | html %]">[% Translate(Data.Activity) | html %]</p>
-                        <div class="Clear"></div>
-                    </fieldset>
-[% RenderBlockEnd("ProcessData") %]
-
 # show ticket dynamic fields
                     <fieldset class="TableLike FixedLabelSmall Narrow">
 [% RenderBlockStart("TicketDynamicField") %]

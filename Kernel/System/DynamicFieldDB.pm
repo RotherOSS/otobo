@@ -126,8 +126,11 @@ sub new {
 returns an array with the search results and additional meta information
 
     my @Result = $DynamicFieldDBObject->DatabaseSearchByConfig(
-        Config => $DynamicFieldConfig->{Config},
-        Search => 'My Search Term',
+        Config      => $DynamicFieldConfig->{Config},
+        Search      => 'My Search Term',              # optional when Identifier is passed
+        Identifier  => ???                            # optional when Search is passed
+        TicketID    => 123,                           # optional
+        ResultLimit => 1_000,
     );
 
 Returns:

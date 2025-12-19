@@ -716,7 +716,7 @@ sub RequesterPerformRequest {
                     ErrorMessage => "'$Config->{Authentication}->{KerberosKeytab}' does not exist.",
                 };
             }
-            if ( $Config->{Authentication}->{KerberosUser} =~ /[^\w\d\-\._@]/ ) {
+            if ( $Config->{Authentication}->{KerberosUser} =~ /[^\w0-9\-\._@]/ ) {
                 $Self->{DebuggerObject}->Error(
                     Summary => "Invalid user format '$Config->{Authentication}->{KerberosUser}'.",
                 );
@@ -1106,7 +1106,7 @@ sub _AssessResponse {
         $ResponseError = $ErrorMessage;
     }
 
-    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+    if ( $ResponseCode !~ m{ \A 20 [0-9] \z }xms ) {
         $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
     }
 

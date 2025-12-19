@@ -27,6 +27,7 @@ use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 use Mail::Address ();
 
 # OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -326,7 +327,7 @@ sub ArticleSend {
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message  => sprintf(
-            "Queued email to '%s' from '%s'. HistoryType => %s, Subject => %s;",
+            q{Queued email to '%s' from '%s'. HistoryType => %s, Subject => %s;},
             $Param{To},
             $Param{From},
             $HistoryType,

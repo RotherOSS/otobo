@@ -869,7 +869,9 @@ sub SaveFormDraft {
     }
     return unless $MetaParams{Action};
 
-    # determine session name param (SessionUseCookie = 0) for exclusion
+    # Determine session name param for exclusion.
+    # In previous version of OTOBO this was relevant
+    # when passing the session ID in the URL, SessionUseCookie = 0, was still supported.
     my $SessionName = $Kernel::OM->Get('Kernel::Config')->Get('SessionName') || 'SessionID';
 
     # compile override list

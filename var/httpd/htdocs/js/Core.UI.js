@@ -571,18 +571,6 @@ Core.UI = (function (TargetNS) {
                 return false;
             }
 
-            // If SessionUseCookie is disabled use Session cookie in AjaxAttachment. See bug#14432.
-            // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
-            if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
-                if (CGIHandle.indexOf('index') > -1) {
-                    SessionName =  Core.Config.Get('SessionName');
-                }
-                else if (CGIHandle.indexOf('customer') > -1) {
-                    SessionName =  Core.Config.Get('CustomerPanelSessionName');
-                }
-                SessionToken = ';' + SessionName + '=' + $DropObj.closest('form').find('input[name=' + SessionName + ']').val();
-            }
-
             // if the original upload field doesn't have the multiple attribute,
             // prevent uploading of more than one file
             if (!IsMultiple && SelectedFiles.length > 1) {
@@ -799,9 +787,30 @@ Core.UI = (function (TargetNS) {
                         $DropObj.prev('input[type=file]').val('');
                         $DropObj.removeClass('Uploading');
                     },
-                    error: function() {
-                        // TODO: show an error tooltip?
+                    error: function(Response) {
+
+                        // we need to empty the relevant file upload field because it would otherwise
+                        // transfer the selected files again (only on click select, not on drag & drop)
+                        $DropObj.prev('input[type=file]').val('');
                         $DropObj.removeClass('Uploading');
+
+                        // find table row of file with failed upload
+                        var $ExistingItemObj = $ContainerObj.find('.AttachmentList tbody tr td.Filename').filter(function() {
+                                if ($(this).text() === File.name) {
+                                    return $(this);
+                                }
+                            });
+
+                        // properly remove it from the table
+                        $ExistingItemObj.parent().remove();
+
+                        // hide file table if neccessary
+                        if ( $ContainerObj.find('.AttachmentList tbody tr').length == 0 ) {
+                            $ContainerObj.find('.AttachmentList').addClass('Hidden').hide();
+                        }
+
+                        // show dialog with error message
+                        Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), Core.Language.Translate(Response.responseText));
                     }
                 });
             });
@@ -901,7 +910,7 @@ Core.UI = (function (TargetNS) {
                             $AttachmentListContainerObj.find('.Busy').fadeOut();
                         }
                         else {
-                            $AttachmentListContainerObj.find('.AttachmentList').hide();
+                            $AttachmentListContainerObj.find('.AttachmentList').addClass('Hidden').hide();
                             $AttachmentListContainerObj.find('.Busy').hide();
 
                             // Remove input field because validation is not needed when there is no attachments (see bug#13081).

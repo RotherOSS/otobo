@@ -19,8 +19,13 @@ package Kernel::Output::HTML::TicketZoom::Agent::Base;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Digest::MD5 qw(md5_hex);
 
+# OTOBO modules
+use Kernel::System::EmailParser   ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
@@ -238,7 +243,7 @@ sub _ArticleSenderImage {
             if ( $Param{UserID} ) {
                 my %CurrentUserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Param{UserID} );
                 if ( $Email eq $CurrentUserData{UserEmail} ) {
-                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') | 'mp';
+                    $DefaultIcon = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Gravatar::DefaultImage') || 'mp';
                 }
             }
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Email );

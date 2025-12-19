@@ -28,8 +28,9 @@ use utf8;
 use List::Util qw(shuffle);
 
 # CPAN modules
-use DBI             ();
-use DBIx::Connector ();
+use DBI               ();
+use DBIx::Connector   ();
+use Types::Serialiser ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -235,44 +236,6 @@ sub Connect {
 
     # db connect
     {
-
-        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
-        my %Callbacks;
-        {
-            if ( $Self->{Backend}->{'DB::Connect'} ) {
-
-                # run a command for initializing a session
-                my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
-
-                # maybe deactivate foreign key checks
-                my $DeactivateSQL;
-                if ( $Self->{DeactivateForeignKeyChecks} ) {
-                    $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
-                }
-
-                $Callbacks{connected} = sub {
-                    my $DatabaseHandle = shift;
-
-                    if ($DBConnectSQL) {
-                        $DatabaseHandle->do($DBConnectSQL);
-                    }
-
-                    if ($DeactivateSQL) {
-                        $DatabaseHandle->do($DeactivateSQL);
-                    }
-
-                    return;
-                };
-            }
-
-            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
-            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
-            # this is no longer necessary.
-            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-            #    $ConnectAttributes{pg_enable_utf8} = 1;
-            #}
-        }
-
         # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
         # between DBI and DBIx::Connector.
         # For DBI they are off per default, but for DBIx::Connector they are on per default.
@@ -314,15 +277,55 @@ sub Connect {
 
         # Use the cached connector when available. Otherwise create a new connector.
         state %Cache;
-        $Cache{$CacheKey} //= DBIx::Connector->new(
-            $Self->{DSN},
-            $Self->{USER},
-            $Self->{PW},
+        if ( !defined $Cache{$CacheKey} ) {
+
+            # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+            my %Callbacks;
             {
-                Callbacks => \%Callbacks,
-                %ConnectAttributes,
+                if ( $Self->{Backend}->{'DB::Connect'} ) {
+
+                    # run a command for initializing a session
+                    my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
+
+                    # maybe deactivate foreign key checks
+                    my $DeactivateSQL;
+                    if ( $Self->{DeactivateForeignKeyChecks} ) {
+                        $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
+                    }
+
+                    $Callbacks{connected} = sub {
+                        my $DatabaseHandle = shift;
+
+                        if ($DBConnectSQL) {
+                            $DatabaseHandle->do($DBConnectSQL);
+                        }
+
+                        if ($DeactivateSQL) {
+                            $DatabaseHandle->do($DeactivateSQL);
+                        }
+
+                        return;
+                    };
+                }
+
+                # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
+                # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
+                # this is no longer necessary.
+                #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+                #    $ConnectAttributes{pg_enable_utf8} = 1;
+                #}
             }
-        );
+
+            $Cache{$CacheKey} = DBIx::Connector->new(
+                $Self->{DSN},
+                $Self->{USER},
+                $Self->{PW},
+                {
+                    Callbacks => \%Callbacks,
+                    %ConnectAttributes,
+                }
+            );
+        }
 
         # this method reuses an existing connection when it is still pinging
         $Self->{dbh} = $Cache{$CacheKey}->dbh;
@@ -497,18 +500,27 @@ sub Error {
 
 to insert, update or delete values
 
-    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO table (name) VALUES ('dog')" );
+    my $InsertSuccess = $DBObject->Do( SQL => "INSERT INTO list_of_mammals (name) VALUES ('dog')" );
 
-    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM table" );
+    my $DeleteSuccess = $DBObject->Do( SQL => "DELETE FROM list_of_mammals" );
 
-you also can use DBI bind values (used for large strings):
+you also can use DBI bind values. The usage of bind values is recommended for avoiding SQL injections
+and for passing long strings. Bind variables are passed as reference to plain scalars.
 
-    my $Var1 = 'dog1';
-    my $Var2 = 'dog2';
+Boolean values that are supported by C<Types::Serialiser> can be passed as well. Just like
+simple scalars, these must be passed by reference.
+
+    my $Var1 = 'Balto'; # serum run to Nome in 1925
+    my $Var2 = 'Togo';  # also serum run to Nome in 1925
 
     my $InsertSuccess = $DBObject->Do(
-        SQL  => "INSERT INTO table (name1, name2) VALUES (?, ?)",
-        Bind => [ \$Var1, \$Var2 ],
+        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?, ?, ?)",
+        Bind => [
+            \$Var1,
+            \$Var2,
+            \$Types::Serialiser::true,
+            \Types::Serialiser::as_bool('')
+        ],
     );
 
 The special value B<current_timestamp> is replaced by the current date and time.
@@ -535,13 +547,16 @@ sub Do {
     if ( $Param{Bind} ) {
         for my $Data ( $Param{Bind}->@* ) {
             if ( ref $Data eq 'SCALAR' ) {
-                push @Array, $$Data;
+                push @Array, $Data->$*;
+            }
+            elsif ( ref $Data eq 'REF' && Types::Serialiser::is_bool( $Data->$* ) ) {
+                push @Array, $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => 'No SCALAR param in Bind!',
+                    Message  => qq{Invalid reference type in Bind!},
                 );
 
                 return;
@@ -875,6 +890,9 @@ sub Prepare {
             my $RefType = ref $Data;
             if ( $RefIsValid{$RefType} ) {
                 push @BindVariables, $DoArray ? $Data : $Data->$*;
+            }
+            elsif ( !$DoArray && $RefType eq 'REF' && Types::Serialiser::is_bool( $Data->$* ) ) {
+                push @BindVariables, $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2248,16 +2266,14 @@ sub _Encrypt {
 sub _TypeCheck {
     my ( $Self, $Tag ) = @_;
 
-    if (
-        $Tag->{Type}
-        && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i
-        )
-    {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'Error',
-            Message  => "Unknown data type '$Tag->{Type}'!",
-        );
-    }
+    return 1 unless $Tag->{Type};
+    return 1 if $Tag->{Type} =~ m/^(?:DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i;
+
+    # warn about unknown data type but still report success
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'Error',
+        Message  => "Unknown data type '$Tag->{Type}'!",
+    );
 
     return 1;
 }
@@ -2265,12 +2281,14 @@ sub _TypeCheck {
 sub _NameCheck {
     my ( $Self, $Tag ) = @_;
 
-    if ( $Tag->{Name} && length $Tag->{Name} > 30 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'Error',
-            Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
-        );
-    }
+    return 1 unless $Tag->{Name};
+    return 1 if length $Tag->{Name} <= 30;
+
+    # warn about long names but still report success
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'Error',
+        Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
+    );
 
     return 1;
 }
@@ -2278,14 +2296,14 @@ sub _NameCheck {
 sub _SpecialCharactersGet {
     my ( $Self, %Param ) = @_;
 
-    my %SpecialCharacter = (
+    my %CharacterIsSpecial = (
         '(' => 1,
         ')' => 1,
         '&' => 1,
         '|' => 1,
     );
 
-    return \%SpecialCharacter;
+    return \%CharacterIsSpecial;
 }
 
 sub _EncodeInputList {

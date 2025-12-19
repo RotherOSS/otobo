@@ -16,83 +16,43 @@
 
 package Kernel::System::MailAccount::POP3S;
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
+
+use parent qw(Kernel::System::MailAccount::POP3);
 
 # core modules
 
 # CPAN modules
-use Net::POP3;
-use IO::Socket::SSL ();
 
 # OTOBO modules
 
-use parent qw(Kernel::System::MailAccount::POP3);
-
+# same dependencies as in IMAP.pm
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationLog',
     'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
-# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle SSL.
-BEGIN {
-    if ( !defined &Net::POP3::starttls ) {
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-        require Net::SSLGlue::POP3;
-    }
+# these private subs override the subs in the parant class
+
+sub _Type {
+    return 'POP3S';
 }
 
-sub Connect {
-    my ( $Self, %Param ) = @_;
+sub _ExtraNetPOP3Args {
 
-    # check needed stuff
-    for (qw(Login Password Host Timeout Debug)) {
-        if ( !defined $Param{$_} ) {
-            return (
-                Successful => 0,
-                Message    => "Need $_!",
-            );
-        }
-    }
-
-    my $Type          = 'POP3S';
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
-    # connect to host
-    # A IO::Socket::INET socket is created and before any communication is done, the socket is
+    # An IO::Socket::INET socket is created and before any communication is done, the socket is
     # upgraded to IO::Socket::SSL.
-    my $PopObject = Net::POP3->new(
-        $Param{Host},
-        Timeout => $Param{Timeout},
-        Debug   => $Param{Debug},
-
-        # SSL parameters
+    return
         SSL             => 1,
-        SSL_verify_mode => $SSLVerifyMode,
-    );
-
-    return (
-        Successful => 0,
-        Message    => "$Type: Can't connect to $Param{Host}"
-    ) unless $PopObject;
-
-    # authentication
-    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $NOM ) {
-        $PopObject->quit();
-        return (
-            Successful => 0,
-            Message    => "$Type: Auth for user $Param{Login}/$Param{Host} failed!"
-        );
-    }
-
-    return (
-        Successful => 1,
-        PopObject  => $PopObject,
-        NOM        => $NOM,
-        Type       => $Type,
-    );
+        SSL_verify_mode => $SSLVerifyMode;
 }
 
 1;

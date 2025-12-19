@@ -302,6 +302,8 @@ b1
 b1
 ',
     },
+
+    # testing AddJSOnDocumentComplete()
     {
         Name     => 'JSOnDocumentComplete 1',
         Template => '
@@ -351,6 +353,71 @@ console.log(22);
 ',
     },
 
+    # testing AddJSOnDocumentCompleteIfNotExists()
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 1',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey1',
+                Code => "console.log(31);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 2',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey2',
+                Code => "console.log(32);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 3',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => 'IfNotExistsKey1',      # key already exists
+                Code => "console.log(33);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name                               => 'AddJSOnDocumentCompleteIfNotExists 4',
+        Template                           => 'kèk-zafèr',
+        AddJSOnDocumentCompleteIfNotExists =>
+            {
+                Key  => "IfNotExistsKey4\nalert('Bonjou');",    # a line break sneaked in
+                Code => "console.log(34);\n",
+            },
+        Result => 'kèk-zafèr',
+    },
+    {
+        Name     => 'AddJSOnDocumentCompleteIfNotExists, view dump',
+        Template => '
+[% PROCESS "JSOnDocumentCompleteInsert" -%]',
+        Result => '
+// Key: IfNotExistsKey1
+console.log(31);
+
+// Key: IfNotExistsKey2
+console.log(32);
+
+// Key: IfNotExistsKey4
+alert(\'Bonjou\');
+console.log(34);
+',
+    },
+    {
+        Name     => 'AddJSOnDocumentCompleteIfNotExists, no data',
+        Template => '
+[% PROCESS "JSOnDocumentCompleteInsert" -%]',
+        Result => qq{\n},
+    },
+
+    # testing JSDataInsert
     {
         # the accumulated config will be dumped in the test case 'JSDataInsert'
         Name     => 'JSData 1',
@@ -361,7 +428,7 @@ console.log(22);
 %]
 [% PROCESS JSData
     Key   = "Config.Test2"
-    Value = [1, 2, { test => "test"}]
+    Value = [1, 2, -1.234567, { test => "test"}]
 %]',
         Result => '
 
@@ -501,7 +568,7 @@ END_TEMPLATE
 [% PROCESS "JSDataInsert" -%]',
 
         Result => '
-Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
+Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":"123","Config.Test2":["1","2","-1.234567",{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
 ',
     },
     {
@@ -529,11 +596,11 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
         },
     },
     {
-        Name     => 'Form with SessionID (no cookie) and ChallengeToken',
+        Name     => 'Form with SessionID (no cookie) and ChallengeToken, SessionID is no longer a form parameter',
         Template => '
 <form action="#"></form>',
         Result => '
-<form action="#"><input type="hidden" name="ChallengeToken" value="TestToken"/><input type="hidden" name="SID" value="123"/></form>',
+<form action="#"><input type="hidden" name="ChallengeToken" value="TestToken"/></form>',
         Env => {
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
@@ -555,11 +622,11 @@ Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bo
         },
     },
     {
-        Name     => 'Link with SessionID (no cookie)',
+        Name     => 'Link with SessionID (no cookie), SessionID is no longer a form parameter',
         Template => '
 <a href="index.pl?Action=Test">link</a>',
         Result => '
-<a href="index.pl?Action=Test;SID=123">link</a>',
+<a href="index.pl?Action=Test">link</a>',
         Env => {
             UserChallengeToken => 'TestToken',
             SessionID          => '123',
@@ -649,6 +716,12 @@ for my $Test (@Tests) {
     if ( $Test->{AddJSOnDocumentComplete} ) {
         $LayoutObject->AddJSOnDocumentComplete(
             Code => $Test->{AddJSOnDocumentComplete},
+        );
+    }
+
+    if ( $Test->{AddJSOnDocumentCompleteIfNotExists} ) {
+        $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
+            $Test->{AddJSOnDocumentCompleteIfNotExists}->%*,
         );
     }
 

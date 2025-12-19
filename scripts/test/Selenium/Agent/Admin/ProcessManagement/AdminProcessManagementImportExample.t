@@ -210,6 +210,7 @@ $Selenium->RunTest(
                 Force     => 1,
             );
 
+            ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
             $Success = $SysConfigObject->SettingReset(
                 Name              => "Ticket::Frontend::AgentTicketZoom###$Key",
                 ExclusiveLockGUID => $Guid,

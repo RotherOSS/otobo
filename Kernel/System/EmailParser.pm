@@ -19,6 +19,8 @@ package Kernel::System::EmailParser;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use MIME::Base64      qw(decode_base64);
@@ -121,20 +123,16 @@ sub new {
 
         # check if Email is a reference to a string
         if ( ref $Param{Email} eq 'SCALAR' ) {
-            my @Content = split /\n/, $Param{Email}->$*;
-            for my $Line (@Content) {
-                $Line .= "\n";
-            }
-            $Param{Email} = \@Content;
+            $Param{Email} = [
+                map { $_ . "\n" } split /\n/, $Param{Email}->$*
+            ];
         }
 
         # check if Email is a plain string
-        if ( ref $Param{Email} eq '' ) {
-            my @Content = split /\n/, $Param{Email};
-            for my $Line (@Content) {
-                $Line .= "\n";
-            }
-            $Param{Email} = \@Content;
+        elsif ( ref $Param{Email} eq '' ) {
+            $Param{Email} = [
+                map { $_ . "\n" } split /\n/, $Param{Email}
+            ];
         }
         else {
             # nothing to to as $Param{Email} is expected to already be an array of newline terminated strings
@@ -379,18 +377,17 @@ sub GetContentType {
 
 =head2 GetContentDisposition()
 
-Returns the message body (or from the first attachment) "ContentDisposition" header.
+returns the message header I<Content-Disposition>.
 
     my $ContentDisposition = $ParserObject->GetContentDisposition();
 
-    (e. g. 'Content-Disposition: attachment; filename="test-123"')
+For example: I<attachment; filename="otobo_user_guide.pdf">
 
 =cut
 
 sub GetContentDisposition {
     my $Self = shift;
 
-    return $Self->{ContentDisposition} if $Self->{ContentDisposition};
     return $Self->GetParam( WHAT => 'Content-Disposition' );
 }
 

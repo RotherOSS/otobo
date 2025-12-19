@@ -177,7 +177,6 @@ my %IsCommonFeature = (
     'div:hanextra' => 1,
     'div:ldap'     => 1,
     'div:xslt'     => 1,
-    'mail:imap'    => 1,
     'mail:ntlm'    => 1,
     'mail:sasl'    => 1,
 );
@@ -301,8 +300,6 @@ my $ExitCode = 0;    # success
 # either required or optional in OTOBO.
 # Modules that are required are marked by setting 'Required' to 1.
 #
-# Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
-#
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
@@ -364,18 +361,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'JSON::XS',
-        Required  => 1,
-        Comment   => 'JSON parsing and generation',
-        InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            yum    => 'perl-JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
-        },
-    },
-    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
@@ -395,29 +380,23 @@ my @NeededModules = (
             zypper => 'perl-DateTime',
             ports  => 'devel/p5-TimeDate',
         },
-        Depends => [
-            {
-                Module              => 'DateTime::TimeZone',
-                Comment             => 'Olson time zone database, required for correct time calculations.',
-                VersionsRecommended => [
-                    {
-                        Version => '2.20',
-                        Comment => 'This version includes recent time zone changes for Chile.',
-                    },
-                ],
-                InstTypes => {
-                    aptget => 'libdatetime-timezone-perl',
-                    emerge => undef,
-                    zypper => 'perl-DateTime-TimeZone',
-                    ports  => undef,
-                },
-            },
-        ],
+    },
+    {
+        Module          => 'DateTime::TimeZone',
+        Comment         => 'Olson time zone database, required for correct time calculations.',
+        Required        => 1,
+        VersionRequired => '>= 2.20',                                                             # from 2018
+        InstTypes       => {
+            aptget => 'libdatetime-timezone-perl',
+            emerge => 'dev-perl/DateTime-TimeZone',
+            zypper => 'perl-DateTime-TimeZone',
+            ports  => 'devel/p5-DateTime-TimeZone',
+        },
     },
     {
         Module          => 'CSS::Minifier::XS',
         Required        => 1,
-        VersionRequired => '>= 0.09',                        # released in 2013
+        VersionRequired => '>= 0.09',                                                             # released in 2013
         Comment         => 'A CSS minifier written in XS',
         InstTypes       => {
             aptget => 'libcss-minifier-xs-perl',
@@ -521,6 +500,19 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Cpanel::JSON::XS',
+        Required        => 1,
+        VersionRequired => '>= 4.0',
+        Comment         => 'correct and fast JSON support',
+        InstTypes       => {
+            aptget => 'libcpanel-jsperl',
+            emerge => 'dev-perl/Cpanel-JSON-XS',
+            yum    => 'perl-Cpanel-JSON-XS',
+            zypper => 'perl-Cpanel-JSON-XS',
+            ports  => 'converters/p5-Cpanel-JSON-XS',
+        },
+    },
+    {
 
         # List::Util is a core module and has a double life
         # in the Scalar::List::Utils distribution.
@@ -553,6 +545,21 @@ my @NeededModules = (
             emerge => 'dev-perl/libwww-perl',
             zypper => 'perl-libwww-perl',
             ports  => 'www/p5-libwww',
+        },
+    },
+    {
+        # fetch mails via IMAP, handle both secure and unsecure connections
+        # Version 3.40 is from Dec  6th 2018, there is no particular reason for requiring at least this version.
+        # IO::Socket::SSL is loaded only when needed. This is fine, as IO::Socket::SSL is a required module anyways.
+        Module          => 'Mail::IMAPClient',
+        Required        => 1,
+        VersionRequired => '>= 3.40',
+        Comment         => 'Required for IMAP TLS connections.',
+        InstTypes       => {
+            aptget => 'libmail-imapclient-perl',
+            emerge => 'dev-perl/Mail-IMAPClient',
+            zypper => 'perl-Mail-IMAPClient',
+            ports  => 'mail/p5-Mail-IMAPClient',
         },
     },
     {
@@ -713,6 +720,30 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Type::Tiny',
+        VersionRequired => '>= 1.008',     # version provided by Debian 20.04 LTS Focal Fossa
+        Required        => 1,
+        InstTypes       => {
+            aptget => 'libtype-tiny-perl',
+            emerge => 'dev-perl/Type-Tiny',
+            zypper => 'perl-Type-Tiny',
+            ports  => 'devel/p5-Type-Tiny',
+        },
+    },
+    {
+        # This module is a requirement for JSON::XS. It is listed
+        # here explicitly because it is also used independently
+        # from JSON::XS
+        Module    => 'Types::Serialiser',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtypes-serialiser-perl',
+            emerge => 'dev-perl/Types-Serialiser',
+            zypper => 'perl-Types-Serialiser',
+            ports  => 'devel/p5-Types-Serialiser',
+        },
+    },
+    {
         Module    => 'URI',
         Required  => 1,
         Comment   => 'for generating properly escaped URLs',
@@ -765,18 +796,6 @@ my @NeededModules = (
         Features        => ['storage:s3'],
         Comment         => 'support for the REST requests to the S3 storage',
         InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            yum    => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Cpanel::JSON::XS',
-        Features  => ['storage:s3'],
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
-        InstTypes => {
             aptget => undef,
             emerge => undef,
             yum    => undef,
@@ -878,18 +897,6 @@ my @NeededModules = (
     },
 
     # Feature mail:imap, mail:sasl, mail:ntlm
-    {
-        Module          => 'Mail::IMAPClient',
-        VersionRequired => '>= 3.22',
-        Features        => ['mail:imap'],
-        Comment         => 'Required for IMAP TLS connections.',
-        InstTypes       => {
-            aptget => 'libmail-imapclient-perl',
-            emerge => 'dev-perl/Mail-IMAPClient',
-            zypper => 'perl-Mail-IMAPClient',
-            ports  => 'mail/p5-Mail-IMAPClient',
-        },
-    },
     {
         Module    => 'Authen::SASL',
         Features  => ['mail:sasl'],
@@ -1485,12 +1492,11 @@ else {
     }
 
     # try to determine module version number
-    my $Depends = 0;
 
     for my $Category ( sort keys %PrintFeatures ) {
         print $FeatureDescription{$Category} ? "\n$FeatureDescription{$Category}:\n" : "\nPackages needed for the feature '$Category':\n";
         for my $Module ( @{ $PrintFeatures{$Category} } ) {
-            Check( $Module, $Depends, $NoColors );
+            Check( $Module, $NoColors );
         }
     }
 
@@ -1507,7 +1513,6 @@ else {
                     Module   => $Module,
                     Required => 1,
                 },
-                $Depends,
                 $NoColors
             );
         }
@@ -1516,11 +1521,10 @@ else {
 }
 
 sub Check {
-    my ( $Module, $Depends, $NoColors ) = @_;
+    my ( $Module, $NoColors ) = @_;
 
-    print '  ' x ( $Depends + 1 );
-    print "o $Module->{Module}";
-    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
+    print "  o $Module->{Module}";
+    my $Length = 33 - length( $Module->{Module} );
     print '.' x $Length;
 
     # $Metadata is undefined when the module is not found in @INC
@@ -1645,12 +1649,6 @@ sub Check {
                 . 'Not installed!'
                 . color('reset')
                 . "$InstallText ($Required$Comment)\n";
-        }
-    }
-
-    if ( $Module->{Depends} ) {
-        for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 

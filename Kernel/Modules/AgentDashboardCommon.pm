@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AgentDashboardCommon;
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use v5.24;
@@ -952,7 +951,7 @@ sub _Element {
         # Mandatory widgets are displayed as read-only.
         my $Readonly = '';
         if ( $Configs->{$Name}->{Mandatory} ) {
-            $Readonly = 'disabled="disabled"';
+            $Readonly = 'disabled';
         }
 
         $LayoutObject->Block(

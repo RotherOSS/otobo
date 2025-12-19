@@ -200,6 +200,7 @@ my $FilterRand1      = 'filter' . $Helper->GetRandomID();
 
 $PostMasterFilter->FilterAdd(
     Name           => $FilterRand1,
+    ValidID        => 1,
     StopAfterMatch => 0,
     Match          => [
         {

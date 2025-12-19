@@ -25,6 +25,8 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
+use experimental 'bitwise'; # can be removed when "use v5.28" is active
+use feature 'bitwise';      # can be removed when "use v5.28" is active
 
 # core modules
 use Digest::MD5    qw(md5_hex);
@@ -923,14 +925,6 @@ sub LoadDefaults {
     # (Delete session's witch are requested and to old?) [0|1]
     $Self->{SessionDeleteIfTimeToOld} = 1;
 
-    # SessionUseCookie
-    # (Should the session management use html cookies?
-    # It's more comfortable to send links -==> if you have a valid
-    # session, you don't have to login again.) [0|1]
-    # Note: If the client browser disabled html cookies, the system
-    # will work as usual, append SessionID to links!
-    $Self->{SessionUseCookie} = 1;
-
     # SessionUseCookieAfterBrowserClose
     # (store cookies in browser after closing a browser) [0|1]
     $Self->{SessionUseCookieAfterBrowserClose} = 0;
@@ -1052,7 +1046,10 @@ sub LoadDefaults {
     # article dir
     $Self->{'Ticket::Article::Backend::MIMEBase::ArticleDataDir'} = '<OTOBO_CONFIG_Home>/var/article';
 
-    # html template dirs
+    # HTML template dirs
+    #
+    # TemplateDir is also used for assembling the path Kernel/Output/HMTL/Layout/,
+    # which holds the base classes of the Kernel::Output::HTML::Layout module
     $Self->{TemplateDir}       = '<OTOBO_CONFIG_Home>/Kernel/Output';
     $Self->{CustomTemplateDir} = '<OTOBO_CONFIG_Home>/Custom/Kernel/Output';
 

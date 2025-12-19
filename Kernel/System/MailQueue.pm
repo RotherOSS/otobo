@@ -16,6 +16,7 @@
 
 package Kernel::System::MailQueue;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -263,7 +264,6 @@ sub Create {
         ArticleID => $Param{ArticleID},
         Status    => 'Queued',
         Message   => $LogMessage,
-        UserID    => $Param{UserID},
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
@@ -380,16 +380,16 @@ sub List {
 
 =head2 Get()
 
-Get a queue element.
+Get a queued mail. At least one of C<ID> or C<ArticleID> is required.
 
-    my $Item = $MailQueue->Get(
-        ID              => '...' # optional
-        ArticleID       => '...' # optional
+    my $QueuedMail = $MailQueue->Get(
+        ID              => '...' # optional when ArticleID is given
+        ArticleID       => '...' # optional when ID is given
     );
 
 This returns something like:
 
-    $Item = {
+    $QueuedMail = {
         ID                        => '...',
         ArticleID                 => '...',
         Attempts                  => '...',
@@ -401,7 +401,7 @@ This returns something like:
         LastSMTPMessage           => '...',
     };
 
-or and empty hashref if element not found.
+or an empty hashref if no element was found.
 
 =cut
 
@@ -475,11 +475,11 @@ sub Update {
         );
     }
 
-    my @SQL   = ( 'UPDATE mail_queue', );
-    my @Binds = ();
+    my @SQL = ( 'UPDATE mail_queue', );
+    my @Binds;
 
     # Build set clause.
-    my @SQLSet = ();
+    my @SQLSet;
     for my $Col ( sort keys %Data ) {
         my $Value = $Data{$Col};
 
@@ -825,7 +825,6 @@ sub _SendSuccess {
             ArticleID => $Item->{ArticleID},
             Status    => 'Sent',
             Message   => 'Mail successfully sent.',
-            UserID    => $Item->{UserID},
         );
     }
 
@@ -1063,7 +1062,6 @@ sub _SetArticleTransmissionError {
                 ArticleID => $ArticleID,
                 Status    => 'Error',
                 Message   => $ErrorMessage,
-                UserID    => $Param{UserID},
             );
 
             return;
@@ -1074,7 +1072,6 @@ sub _SetArticleTransmissionError {
             ArticleID => $ArticleID,
             Status    => 'Error',
             Message   => $Param{Message},
-            UserID    => $Param{UserID},
         );
 
         return 1;
@@ -1110,7 +1107,6 @@ sub _SetArticleTransmissionError {
             ArticleID => $ArticleID,
             Status    => 'Error',
             Message   => $ErrorMessage,
-            UserID    => $Param{UserID},
         );
 
         return;
@@ -1122,14 +1118,20 @@ sub _SetArticleTransmissionError {
         ArticleID => $ArticleID,
         Status    => 'Error',
         Message   => $Param{Message},
-        UserID    => $Param{UserID},
     );
     return 1;
 }
 
 =head2 _SendEventNotification()
 
-Formats a Notification and asks Event Handler to send it.
+This method is misnamed as no notification is sent directly.
+Instead it emits events named like I<ArticleEmailSendingQueued>.
+The last part of the event name is the passed C<Status>.
+
+Currently these events are not used in OTOBO core. But they
+may be used by OTOBO packages.
+
+The passed user ID is taken from the SysConfig setting I<PostMasterUserID>.
 
     my $Result = $Object->_SendEventNotification(
         ArticleID => ...,
@@ -1190,7 +1192,7 @@ sub _SendEventNotification {
 
 =head2 _FiltersSQLAndBinds()
 
-Build the filter sql and associated binds.
+Build the filter SQL and the associated bind variables.
 
     my ( $FilterSQL, $Binds ) = $MailQueue->_FiltersSQLAndBinds(
         ID              => '...' # optional
@@ -1230,9 +1232,8 @@ sub _FiltersSQLAndBinds {
         },
     );
 
-    my @FilterFields = ();
-    my @Bind         = ();
-
+    my @FilterFields;
+    my @Bind;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     POSSIBLE_FILTER:
@@ -1374,7 +1375,7 @@ sub _CheckValidMessageData {
 
 =head2 _SerializeMessage()
 
-Serialize a simple perl structure to be save in the database.
+Serialize a simple Perl date structure so that it can be stored in the database.
 
 Returns an encoded or a storable string.
 
@@ -1397,7 +1398,7 @@ sub _SerializeMessage {
 
 =head2 _DeserializeMessage()
 
-Deserialize a simple perl structure to the original format.
+Deserialize a simple serialized Perl data structure and get an actual Perl data structure.
 
 =cut
 
@@ -1522,13 +1523,10 @@ sub _DBInsert {
     my $Error   = sub { return { @_, Success => 0 }; };
     my $Success = sub { return { @_, Success => 1 } };
 
-    my $InsertFingerprint = sprintf(
+    my $InsertFingerprint = sprintf
         '%s-%s',
         $$,
-        $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
-            Length => 32,
-        ),
-    );
+        $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 32 );
     my @Cols  = qw(article_id attempts sender recipient raw_message insert_fingerprint);
     my @Binds = (
         \$Param{ArticleID},
@@ -1558,7 +1556,6 @@ sub _DBInsert {
     );
 
     if ( !$Result ) {
-
         $Param{CommunicationLogObject}->ObjectLog(
             ObjectLogType => 'Message',
             Priority      => 'Error',

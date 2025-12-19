@@ -190,7 +190,7 @@
         [% IF HighlightError.XAxis %]HighlightError[% END %]
         [% IF HighlightHint.XAxis %]HighlightHint[% END %]
     "
-    [% IF DisableButton.XAxis %]disabled="disabled"[% END %]
+    [% IF DisableButton.XAxis %]disabled[% END %]
     data-configuration-type="XAxis"
     data-configuration-limit="1"
     data-dialog-title="[% Translate('Configure X-Axis') | html %]">
@@ -206,7 +206,7 @@
         [% IF HighlightError.YAxis %]HighlightError[% END %]
         [% IF HighlightHint.YAxis %]HighlightHint[% END %]
     "
-    [% IF DisableButton.YAxis %]disabled="disabled"[% END %]
+    [% IF DisableButton.YAxis %]disabled[% END %]
     data-configuration-type="YAxis"
     data-configuration-limit="2"
     data-dialog-title="[% Translate('Configure Y-Axis') | html %]">
@@ -222,7 +222,7 @@
         [% IF HighlightError.Restrictions %]HighlightError[% END %]
         [% IF HighlightHint.Restrictions %]HighlightHint[% END %]
     "
-    [% IF DisableButton.Restrictions %]disabled="disabled"[% END %]
+    [% IF DisableButton.Restrictions %]disabled[% END %]
     data-configuration-type="Restrictions"
     data-configuration-limit=""
     data-dialog-title="[% Translate('Configure Filter') | html %]">

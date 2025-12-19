@@ -340,15 +340,10 @@ sub ArticleQuote {
             );
 
             # display inline images if exists
-            my $SessionID = '';
-            if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-            }
             my $AttachmentLink = $Self->{Baselink}
                 . 'Action=PictureUpload'
                 . ';FormID='
                 . $Param{FormID}
-                . $SessionID
                 . ';ContentID=';
 
             # search inline documents in body and add it to upload cache

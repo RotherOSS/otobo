@@ -553,12 +553,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             SelectedAttr = '';
             if (Selected) {
-                SelectedAttr = ' selected="selected"';
+                SelectedAttr = ' selected';
             }
 
             DisabledAttr = '';
             if (Disabled) {
-                DisabledAttr = ' disabled="disabled"';
+                DisabledAttr = ' disabled';
             }
 
             SelectData.push({

@@ -16,8 +16,10 @@
 
 package Kernel::System::AsynchronousExecutor;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
@@ -78,6 +80,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "Function needs to be a non empty string!",
         );
+
         return;
     }
 
@@ -105,6 +108,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "$ObjectName object is not valid!",
         );
+
         return;
     }
 
@@ -114,6 +118,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "$ObjectName can not execute $FunctionName()!",
         );
+
         return;
     }
 
@@ -122,6 +127,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "FunctionParams needs to be a hash or list reference.",
         );
+
         return;
     }
 

@@ -76,7 +76,7 @@
                 <fieldset class="TableLike Hidden" id="InfoSMTPAuth">
                     <label for="SMTPAuthUser">[% Translate("SMTP auth user") | html %]:</label>
                     <div class="Field">
-                        <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="[% Data.SMTPAuthUser | html %]" disabled="disabled" class="W33pc" autocomplete="off">
+                        <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="[% Data.SMTPAuthUser | html %]" disabled class="W33pc" autocomplete="off">
                         <p class="FieldExplanation">
                             [% Translate("Username for SMTP auth.") | html %]
                         </p>
@@ -85,7 +85,7 @@
 
                     <label for="SMTPAuthPassword">[% Translate("SMTP auth password") | html %]:</label>
                     <div class="Field">
-                        <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="[% Data.SMTPAuthPassword | html %]" disabled="disabled" class="W33pc" autocomplete="off">
+                        <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="[% Data.SMTPAuthPassword | html %]" disabled class="W33pc" autocomplete="off">
                         <p class="FieldExplanation">
                             [% Translate("Password for SMTP auth.") | html %]
                         </p>

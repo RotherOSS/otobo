@@ -603,7 +603,7 @@ sub AgentQueueListOption {
                             $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
                         }
                         $Param{MoveQueuesStrg}
-                            .= '<option value="-" disabled="disabled"'
+                            .= '<option value="-" disabled'
                             . $OptionTitleHTMLValue
                             . '>'
                             . $DSpace
@@ -635,7 +635,7 @@ sub AgentQueueListOption {
                 )
             {
                 $Param{MoveQueuesStrg}
-                    .= '<option selected="selected" value="'
+                    .= '<option selected value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
                     . $String
@@ -644,7 +644,7 @@ sub AgentQueueListOption {
             elsif ( $CurrentQueueID eq $_ )
             {
                 $Param{MoveQueuesStrg}
-                    .= '<option value="-" disabled="disabled"'
+                    .= '<option value="-" disabled'
                     . $OptionTitleHTMLValue . '>'
                     . $String
                     . "</option>\n";

@@ -214,7 +214,7 @@ sub SettingRender {
         " id=\"$Param{Name}$Param{IDSuffix}\"";
 
     if ( !$Param{RW} ) {
-        $HTML .= "disabled='disabled' ";
+        $HTML .= "disabled ";
     }
 
     my $HTMLValue = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Ascii2Html(

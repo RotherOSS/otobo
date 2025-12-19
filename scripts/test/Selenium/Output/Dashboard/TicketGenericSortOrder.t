@@ -14,18 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::Selenium;
 
 # Get selenium object.
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -34,12 +37,7 @@ $Selenium->RunTest(
         # Get helper object.
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # Reset 'DashboardBackend###0120-TicketNew' SysConfig.
-        $Kernel::OM->Get('Kernel::System::SysConfig')->SettingReset(
-            Name => 'DashboardBackend###0120-TicketNew',
-        );
-
-        # Set 'DashboardBackend###0120-TicketNew' SysConfig.
+        # temporarily set 'DashboardBackend###0120-TicketNew' SysConfig.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => "DashboardBackend###0120-TicketNew",
@@ -101,10 +99,7 @@ $Selenium->RunTest(
             Comment         => 'Selenium Queue',
             UserID          => $TestUserID,
         );
-        $Self->True(
-            $QueueID,
-            "Queue ID $QueueID is created",
-        );
+        ok( $QueueID, "Queue ID $QueueID is created" );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -125,10 +120,7 @@ $Selenium->RunTest(
                 OwnerID      => $TestUserID,
                 UserID       => $TestUserID,
             );
-            $Self->True(
-                $TicketID,
-                "Ticket is created - ID $TicketID",
-            );
+            ok( $TicketID, "Ticket is created - ID $TicketID" );
             push @TicketNumbers, $TicketNumber;
             push @TicketIDs,     $TicketID;
         }
@@ -139,10 +131,7 @@ $Selenium->RunTest(
             Priority => '1 very low',
             UserID   => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "Ticket ID $TicketIDs[10] updated priority to '1 very low'"
-        );
+        ok( $Success, "Ticket ID $TicketIDs[10] updated priority to '1 very low'" );
 
         # Login.
         $Selenium->Login(
@@ -197,17 +186,17 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Loading").length' );
 
         # Check 'Sorting by' as initial sort on loading page.
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Priority, sorted ascending' )]"),
             "Sorting by priority on loading page",
         );
 
         # Check if ticket with different priority is found without filter.
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active' )]"),
             "Filter for queue column is not active",
         );
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#Dashboard0120-TicketNew tbody td a[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[10]\"]').length;"
             ),
@@ -226,11 +215,11 @@ $Selenium->RunTest(
 
         # Verify ticket with different priority is present on screen with filter, it's still on the first page.
         # See bug#11422 ( http://bugs.otrs.org/show_bug.cgi?id=11422 ), there is no change in order when activating filter.
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Queue, filter active' )]"),
             "Filter for queue column is active",
         );
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#Dashboard0120-TicketNew tbody td a[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[10]\"]').length;"
             ),
@@ -238,7 +227,7 @@ $Selenium->RunTest(
         );
 
         # Check priority 'Order by' is not changed after filtering.
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Priority, sorted ascending' )]"),
             "Priority column 'Order by' is not changed",
         );
@@ -246,14 +235,14 @@ $Selenium->RunTest(
         # Check if priority 'Order by' changed to 'Down' after click (with filtering).
         $Selenium->find_element( "#PriorityOverviewControl0120-TicketNew", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Loading").length' );
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Priority, sorted descending' )]"),
             "Priority column order by is changed",
         );
 
         # Check if ticket with priority '1 very low' not on screen.
-        $Self->False(
-            $Selenium->execute_script(
+        ok(
+            !$Selenium->execute_script(
                 "return \$('#Dashboard0120-TicketNew tbody td a[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[10]\"]').length;"
             ),
             "Ticket with priority '1 very low' not found on screen without filter",
@@ -267,19 +256,19 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && !$("#Dashboard0120-TicketNew thead .FilterActive.Queue").length;'
         );
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active' )]"),
             'Filter removed',
         );
 
         # Check if 'Sort by' and 'Order by' are set to default values after removing filter (Priority, ascending).
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Priority, sorted ascending' )]"),
             "'Order by' is default after removing filter",
         );
 
         # Check if ticket with priority '1 very low' is on screen.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('#Dashboard0120-TicketNew tbody td a[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[10]\"]').length;"
             ),
@@ -289,7 +278,7 @@ $Selenium->RunTest(
         # Check if priority 'Order by' changed to 'Down' after click (without filtering).
         $Selenium->find_element( "#PriorityOverviewControl0120-TicketNew", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Loading").length' );
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@title, \'Priority, sorted descending' )]"),
             "Priority column 'Order by' changed",
         );
@@ -309,7 +298,7 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
             }
-            $Self->True(
+            ok(
                 $Success,
                 "Ticket ID $Ticket is deleted"
             );
@@ -321,7 +310,7 @@ $Selenium->RunTest(
         $Success = $DBObject->Do(
             SQL => "DELETE FROM personal_queues WHERE queue_id = $QueueID",
         );
-        $Self->True(
+        ok(
             $Success,
             "Personal queue is deleted",
         );
@@ -330,7 +319,7 @@ $Selenium->RunTest(
         $Success = $DBObject->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
-        $Self->True(
+        ok(
             $Success,
             "Queue ID $QueueID is deleted",
         );
@@ -343,4 +332,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;

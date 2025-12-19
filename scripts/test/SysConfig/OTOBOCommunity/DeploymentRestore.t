@@ -28,6 +28,8 @@ use Test2::Tools::Explain;
 use Kernel::System::UnitTest::MockTime qw(FixedTimeAddSeconds);
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
+
 our $Self;
 
 $Kernel::OM->ObjectParamAdd(
@@ -61,7 +63,7 @@ my %DefaultSettingAddTemplate = (
     XMLFilename    => 'UnitTest.xml',
 );
 
-my $SetingsXML = << 'EOF',
+my $SetingsXML = <<'EOF',
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">

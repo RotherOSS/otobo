@@ -32,12 +32,9 @@ Core.App = (function (Namespace) {
             Core.Config.Set('ChallengeToken', 'C123');
 
             Assert.deepEqual(Core.App.GetSessionInformation(), {
-                CSID: '1234',
-                CPanelSID: '1234',
                 ChallengeToken: 'C123'
             });
 
-            Core.Config.Set('SessionIDCookie', true);
             Assert.deepEqual(Core.App.GetSessionInformation(), {
                 ChallengeToken: 'C123'
             });

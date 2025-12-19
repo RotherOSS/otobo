@@ -5,19 +5,20 @@
 # There is also an extra build target otobo-web-kerberos that adds support for Kerberos.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# As of OTOBO 10.0.26 the Debian version is explicitly set to Debian 12 (bookworm).
+# The Debian version is explicitly set to trixie, that is Debian 12.
 # This avoids a surprising change of the version of Debian when the image
 # is rebuilt, especially when the image for a new release of OTOBO is built.
 # Note that the minor version of Debian may change between builds.
+#
+# The slim version is used for reducing the size of the image.
 #
 # The version of Perl is set to 5.40. The idea is that all release branches,
 # rel-10_0, rel-10_1, rel-11.0, and rel-11_1, use the same version of Perl 5.
 #
 # The individual build targets may add additional Debian or CPAN packages.
-FROM perl:5.40-bookworm AS base
+FROM perl:5.40-slim-trixie AS base
 
 # First there is some initial setup that needs to be done by root.
 USER root
@@ -47,6 +48,15 @@ ENV OTOBO_GROUP=otobo
 ENV OTOBO_HOME=/opt/otobo
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
+ "build-essential"\
+ "pkg-config"\
+ "libpq-dev"\
+ "libxml2-dev"\
+ "libxslt-dev"\
+ "libexpat-dev"\
+ "default-libmysqlclient-dev"\
+ "gpg"\
+ "gpg-agent"\
  "ack"\
  "cron"\
  "default-mysql-client"\
@@ -55,7 +65,7 @@ RUN apt-get update\
  "ldap-utils"\
  "less"\
  "nano"\
- "odbcinst1debian2" "libodbc1" "odbcinst" "unixodbc-dev" "unixodbc"\
+ "unixodbc-common" "libodbcinst2" "libodbccr2" "libodbc2" "odbcinst" "unixodbc-dev" "unixodbc"\
  "freetds-bin" "freetds-common" "tdsodbc"\
  "postgresql-client"\
  "redis-tools"\
@@ -72,6 +82,7 @@ RUN apt-get update\
  "fonts-noto-cjk"\
  "fonts-noto-color-emoji"\
  "libqrencode-dev"\
+ "libreadline-dev"\
  && useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER\
  && install -d /opt/otobo_install\
  && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME
@@ -83,7 +94,7 @@ ENV LANG=C.UTF-8
 # Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
 # Installation can be triggerd by making any modification of the file cpanfile.docker.
 #
-# Only local::lib is installed with ghe Perl module installer 'cpanm'. 'cpanm' is already available
+# Only local::lib is installed with the Perl module installer 'cpanm'. 'cpanm' is already available
 # via the Docker base image for perl.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
@@ -147,7 +158,6 @@ END_BASH
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
 # The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
-# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
 # Titel is specific for the individual targets.
 LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
@@ -261,7 +271,6 @@ ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
-ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
 
 # This Dockerfile also provides for building images with additional support for Kerberos.

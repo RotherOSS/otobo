@@ -29,7 +29,7 @@ input[type=text],
 input[type=password],
 input[type=email],
 textarea,
-select[multiple=multiple] {
+select[multiple] {
     border: 1px solid var(--colBGDark);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
@@ -38,21 +38,21 @@ select[multiple=multiple] {
     box-shadow: inset 1px 1px 3px var(--colBGLight), inset -1px -1px 3px var(--colBGLight);
 }
 
-select[multiple=multiple] {
+select[multiple] {
     min-width: 300px;
     padding: 3px;
     box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
 }
 
-.DataTable select[multiple=multiple] {
+.DataTable select[multiple] {
     min-width: 0px;
 }
 
-select[multiple=multiple] option {
+select[multiple] option {
     padding: 2px;
 }
 
-select[multiple=multiple] option:nth-child(odd) {
+select[multiple] option:nth-child(odd) {
     background-color: var(--colBGLight);
 }
 

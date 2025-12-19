@@ -51,6 +51,7 @@
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Array>
+                <DefaultItem ValueType="Entity" ValueEntityType="DynamicField" ValueEntitySubType="Ticket" ValueRegex=""></DefaultItem>
             </Array>
         </Value>
     </Setting>
@@ -1876,22 +1877,8 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketOverview###Owner" Required="1" Valid="1">
-        <Description Translatable="1">Show the current owner in the customer interface.</Description>
-        <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketOverview###Queue" Required="1" Valid="1">
-        <Description Translatable="1">Show the current queue in the customer interface.</Description>
-        <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketOverview###DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic fields shown in the ticket overview screen of the customer interface.</Description>
+        <Description Translatable="1">Dynamic fields available as attributes for the settings 'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown in the ticket overview screen of the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
             <Hash>
@@ -2026,6 +2013,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2043,6 +2031,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2060,6 +2049,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2077,6 +2067,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2094,6 +2085,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2111,6 +2103,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2128,6 +2121,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2145,6 +2139,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2162,6 +2157,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2179,6 +2175,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2196,6 +2193,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2213,6 +2211,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2230,6 +2229,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2247,6 +2247,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2435,6 +2436,13 @@
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="AccountedTime::UsedUnits" Required="1" Valid="1">
+        <Description Translatable="1">Which units are used and shown in the overview for timeunits?</Description>
+        <Navigation>Frontend::Agent::Ticket::AccountedTime</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Minutes</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###SortBy::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
@@ -4287,6 +4295,15 @@
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::RestorePendingInformation###Actions" Required="0" Valid="1">
+        <Description Translatable="1">Interfaces for which the restoring of pending information is activated.</Description>
+        <Navigation>Frontend::Agent::View::TicketPending</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="AgentTicketPending">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
@@ -7013,7 +7030,8 @@
         <Navigation>Frontend::Agent::View::Dashboard::EventsTicketCalendar</Navigation>
         <Value>
             <Array>
-                <Item>Raw</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="Queue" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
             </Array>
         </Value>
     </Setting>
@@ -9147,27 +9165,6 @@
                     </Hash>
                 </Item>
             </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="Group">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Compat module for AgentZoom to AgentTicketZoom.</Item>
-                    <Item Key="NavBarName">Ticket</Item>
-                    <Item Key="Title"></Item>
-                </Hash>
-            </Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
@@ -11487,7 +11484,7 @@
                 <Item>NotificationEscalation</Item>
                 <Item>NotificationEscalationNotifyBefore</Item>
                 <Item>NotificationServiceUpdate</Item>
-                <Item>ArticleEdit</Item>
+
             </Array>
         </Value>
     </Setting>
@@ -11498,6 +11495,8 @@
             <Array>
                 <Item>ArticleCreate</Item>
                 <Item>ArticleUpdate</Item>
+                <Item>ArticleEdit</Item>
+                <Item>ArticleDynamicFieldUpdate</Item>
                 <Item>ArticleSend</Item>
                 <Item>ArticleBounce</Item>
                 <Item>ArticleAgentNotification</Item>
@@ -13162,7 +13161,16 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ArticleListShowTimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
@@ -13204,6 +13212,8 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
         </Value>
     </Setting>
@@ -13864,6 +13874,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13902,6 +13913,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13940,6 +13952,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13978,6 +13991,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14016,6 +14030,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14054,6 +14069,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14092,6 +14108,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14130,6 +14147,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14453,7 +14471,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14476,13 +14494,6 @@ Thanks for your help!
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
                         <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketArticleEdit">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
-                        <Item Key="Prio">1100</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14538,7 +14549,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14637,56 +14648,6 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Chat" Required="1" Valid="1">
-        <Description Translatable="1">Defines available article actions for Chat articles.</Description>
-        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
-        <Value>
-            <Hash>
-                <DefaultItem>
-                    <Hash>
-                        <Item Key="Module"></Item>
-                        <Item Key="Prio"></Item>
-                        <Item Key="Valid"></Item>
-                    </Hash>
-                </DefaultItem>
-                <Item Key="AgentTicketPrint">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
-                        <Item Key="Prio">500</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkAsImportant">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
-                        <Item Key="Prio">700</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketForward">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
-                        <Item Key="Prio">200</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketCompose">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
-                        <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkArticleSeenUnseen">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">300</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::Article::Actions###Invalid" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for invalid articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
@@ -14709,13 +14670,6 @@ Thanks for your help!
                 <Item Key="GetHelpLink">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::GetHelpLink</Item>
-                        <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkArticleSeenUnseen">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
                         <Item Key="Prio">100</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
@@ -14892,9 +14846,10 @@ Thanks for your help!
         <Navigation>Core</Navigation>
         <Value>
             <Array>
-                <Item>pending auto close+</Item>
-                <Item>pending auto close-</Item>
-                <Item>pending reminder</Item>
+                <DefaultItem ValueType="Entity" ValueEntityType="State" ValueRegex=""></DefaultItem>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending auto close+</Item>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending auto close-</Item>
+                <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">pending reminder</Item>
             </Array>
         </Value>
     </Setting>

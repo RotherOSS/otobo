@@ -1620,7 +1620,14 @@ sub MaskAgentZoom {
 
             # get next activity dialogs
             if ( $Ticket{$ActivityEntityIDField} ) {
-                $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
+
+                # protection against autovification
+                if ( IsHashRefWithData($ActivityData) && IsHashRefWithData( $ActivityData->{ActivityDialog} ) ) {
+                    $NextActivityDialogs = ${ActivityData}->{ActivityDialog};
+                }
+                else {
+                    $NextActivityDialogs = {};
+                }
             }
             $ActivityName = $ActivityData->{Name};
         }
@@ -2443,6 +2450,25 @@ sub _ArticleTree {
             },
         );
 
+        # fetching accounted times of all articles to check if we display the column
+        my %ArticleAccountedTimes;
+        my $ShowTimeUnits = 0;
+        if ( $Self->{Config}{ArticleListShowTimeUnits} ) {
+            for my $ArticleTmp (@ArticleBox) {
+
+                # Get accounted time for article using ArticleAccountedTimeGet
+                $ArticleAccountedTimes{ $ArticleTmp->{ArticleID} } = $ArticleObject->ArticleAccountedTimeGet(
+                    ArticleID => $ArticleTmp->{ArticleID},
+                );
+            }
+            $ShowTimeUnits = ( any { $_ != 0 } values %ArticleAccountedTimes ) ? 1 : 0;
+            if ($ShowTimeUnits) {
+                $LayoutObject->Block(
+                    Name => 'TimeUnitHeader',
+                );
+            }
+        }
+
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
             my %Article = %$ArticleTmp;
@@ -2527,6 +2553,17 @@ sub _ArticleTree {
                 ShowDeletedArticles => $Self->{ShowDeletedArticles}
             );
 
+            if ($ShowTimeUnits) {
+
+                my %TimeUnitField = (
+                    Value => $ArticleAccountedTimes{ $ArticleTmp->{ArticleID} },
+                    Label => 'Time Unit'
+                );
+                $Article{TimeUnit} = $ArticleAccountedTimes{ $ArticleTmp->{ArticleID} };
+
+                $ArticleFields{TimeUnit} = \%TimeUnitField;
+            }
+
             # Get transmission status information for email articles.
             my $TransmissionStatus;
             if ( $Article{ChannelName} && $Article{ChannelName} eq 'Email' ) {
@@ -2548,6 +2585,7 @@ sub _ArticleTree {
                     TransmissionStatus => $TransmissionStatus,
                     ZoomExpand         => $Self->{ZoomExpand},
                     ZoomExpandSort     => $Self->{ZoomExpandSort},
+                    ShowTimeUnits      => $ShowTimeUnits,
                 },
             );
 

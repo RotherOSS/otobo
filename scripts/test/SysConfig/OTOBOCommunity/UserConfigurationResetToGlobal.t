@@ -102,6 +102,7 @@ for my $Test (@Tests) {
 ## --
 
 # Update user setting.
+## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
 my %Result = $SysConfigObject->SettingUpdate(
     Name           => 'Ticket::Frontend::AgentTicketEscalationView###SortBy::Default',
     IsValid        => 1,

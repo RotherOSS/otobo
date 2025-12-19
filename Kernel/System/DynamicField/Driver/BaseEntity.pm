@@ -527,7 +527,7 @@ sub EditFieldValueValidate {
     my $ServerError;
     my $ErrorMessage;
 
-    # ref comparison because EditFieldValuetet returns an arrayref except when using template value
+    # ref comparison because EditFieldValueGet() returns an arrayref except when using template value
     if ( ref $Value ne 'ARRAY' ) {
         $Value = [$Value];
     }

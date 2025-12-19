@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -26,14 +26,14 @@ use LWP::UserAgent ();
 use HTTP::Request  ();
 use URI::Escape    qw(uri_escape_utf8);
 use Test2::V0;
+use Plack::Util;
+use Plack::Test qw(test_psgi);
+use HTTP::Request::Common;
 
 # OTOBO modules
-use Kernel::System::ObjectManager ();
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
-$Kernel::OM = Kernel::System::ObjectManager->new();
-
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get helper object
@@ -43,8 +43,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
 my @Tests = (
@@ -305,14 +304,8 @@ sub CreateQueryString {
 my $Host = $Helper->GetTestHTTPHostname();
 
 # create URL
-my $ScriptAlias   = $ConfigObject->Get('ScriptAlias');
-my $ApacheBaseURL = "http://$Host/${ScriptAlias}nph-genericinterface.pl/";
-my $PlackBaseURL;
-if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
-    $PlackBaseURL = "http://localhost:"
-        . $ConfigObject->Get('UnitTestPlackServerPort')
-        . '/nph-genericinterface.pl/';
-}
+my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+my $BaseURL     = "http://$Host/${ScriptAlias}nph-genericinterface.pl/";
 
 # get objects
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -325,30 +318,31 @@ my $InvalidID = $ValidObject->ValidLookup(
 
 for my $Test (@Tests) {
 
-    subtest "$Test->{Name} $RandomID" => sub {
+    my $WebServiceName = "$Test->{Name} $RandomID";
+
+    subtest $WebServiceName => sub {
 
         # add config
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config  => $Test->{WebserviceConfig},
-            Name    => "$Test->{Name} $RandomID",
+            Name    => $WebServiceName,
             ValidID => $Test->{InvalidWebservice} ? $InvalidID : 1,
             UserID  => 1,
         );
 
         ok( $WebserviceID, 'WebserviceAdd()' );
 
-        my $WebserviceNameEncoded = uri_escape_utf8("$Test->{Name} $RandomID");
-
+        # Test two different variants of the webservice URL
+        my $WebserviceNameEncoded     = uri_escape_utf8($WebServiceName);
         my %WebserviceAccess2PathInfo = (
             ID   => "WebserviceID/$WebserviceID",
             Name => "Webservice/$WebserviceNameEncoded"
         );
 
-        # Test with IO redirection, no real HTTP request
+        # Test with calling _Content() within the testscript, there is no real HTTP request
         for my $RequestMethod (qw(get post)) {
             for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
-                my $PathInfo     = $WebserviceAccess2PathInfo{$WebserviceAccess};
-                my $ResponseData = '';
+                my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                 my $WebException;
                 {
                     my $HTTPRequest;
@@ -382,7 +376,6 @@ for my $Test (@Tests) {
                             ],
                             '',
                         );
-
                     }
 
                     # force the ParamObject to use the new request params
@@ -391,17 +384,20 @@ for my $Test (@Tests) {
                         'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
                     );
 
-                    eval {
-                        $ResponseData = $ProviderObject->Content();
+                    my $Content = eval {
+                        $ProviderObject->_Content;
                     };
                     $WebException = $@;    # assign '' in case of success
+
+                    is( $Content, undef, 'content is in the exception' );
                 }
 
+                # An exception is always expected, ecause that is how the response is passed out.
                 ok( $WebException, 'always an exception' );
                 isa_ok( $WebException, 'Kernel::System::Web::Exception' );
-                if ( $Test->{ResponseSuccess} ) {
+                can_ok( $WebException, ['as_psgi'], 'sane exception' );
 
-                    can_ok( $WebException, ['as_psgi'], 'sane exception' );
+                if ( $Test->{ResponseSuccess} ) {
 
                     # status 200 is expected
                     my $PSGIResponse = $WebException->as_psgi();
@@ -431,9 +427,6 @@ for my $Test (@Tests) {
                 }
                 else {
 
-                    ok( defined $WebException, 'exception when failure is expected' );
-                    can_ok( $WebException, ['as_psgi'], 'sane exception when failure is expected' );
-
                     # status 500 is expected
                     my $PSGIResponse = $WebException->as_psgi();
                     ok( $PSGIResponse, 'got a PSGI response' );
@@ -443,18 +436,11 @@ for my $Test (@Tests) {
             }
         }
 
-        #
         # Test real HTTP request
-        #
         for my $RequestMethod (qw(GET POST PATCH PUT)) {
 
-            my @BaseURLs = ($ApacheBaseURL);
-            if ($PlackBaseURL) {
-                push @BaseURLs, $PlackBaseURL;
-            }
-
-            for my $BaseURL (@BaseURLs) {
-                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+            for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                {
                     my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                     my $URL      = $BaseURL . $PathInfo;
                     my $Response;
@@ -526,6 +512,81 @@ for my $Test (@Tests) {
             }
         }
 
+        # Test using Plack::Test
+        {
+            diag 'Testing with Plack::Test';
+
+            my $Home     = $ConfigObject->Get('Home');
+            my $PSGIFile = join '/', $Home, 'bin', 'psgi-bin', 'otobo.psgi';
+            ok( -f $PSGIFile, 'otobo.psgi found' );
+            my $App = Plack::Util::load_psgi($PSGIFile);
+            ref_ok( $App, 'CODE', 'got a Plack app' );
+            my $PlackTest = Plack::Test->create($App);
+            isa_ok( $PlackTest, ['Plack::Test::MockHTTP'], 'got an instance of Plack::Test::MockHTTP' );
+
+            # no host needed here
+            my $BaseURL = "${ScriptAlias}nph-genericinterface.pl/";
+
+            for my $RequestMethod (qw(GET)) {
+
+                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                    my $PathInfo    = $WebserviceAccess2PathInfo{$WebserviceAccess};
+                    my $URL         = $BaseURL . $PathInfo;
+                    my $QueryString = CreateQueryString(
+                        Data   => $Test->{RequestData},
+                        Encode => 1,
+                    );
+
+                    if ( $RequestMethod eq 'GET' ) {
+                        $URL .= "?$QueryString";
+                    }
+
+                    test_psgi(
+                        app    => $App,
+                        client => sub {
+                            my $Callback = shift;
+
+                            my $Request         = HTTP::Request->new( $RequestMethod => $URL );
+                            my $Response        = $Callback->($Request);
+                            my $ResponseContent = $Response->content;
+
+                            if ( $Test->{ResponseSuccess} ) {
+                                if ( ref $Test->{ResponseData} eq 'ARRAY' ) {
+                                    $Test->{ResponseData} = $Test->{ResponseData}->[0];
+                                }
+                                for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                                    my $QueryStringPart = uri_escape_utf8($Key);
+                                    if ( $Test->{ResponseData}->{$Key} ) {
+                                        $QueryStringPart
+                                            .= '='
+                                            . uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                                    }
+
+                                    ok(
+                                        index( $ResponseContent, $QueryStringPart ) > -1,
+                                        "$PathInfo mock HTTP $RequestMethod request $QueryStringPart ($URL)",
+                                    );
+                                }
+
+                                is(
+                                    $Response->code(),
+                                    200,
+                                    "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
+                                );
+                            }
+                            else {
+                                is(
+                                    $Response->code(),
+                                    500,
+                                    "$PathInfo mock HTTP $RequestMethod request result error status ($URL)",
+                                );
+                            }
+                        },
+                    );
+                }
+            }
+        }
+
         # delete webservice
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
@@ -538,7 +599,7 @@ for my $Test (@Tests) {
 # Test non existing web service
 for my $RequestMethod (qw(get post)) {
 
-    my $URL      = $ApacheBaseURL . 'undefined';
+    my $URL      = $BaseURL . 'undefined';
     my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
 
     is(
@@ -551,4 +612,4 @@ for my $RequestMethod (qw(get post)) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-done_testing();
+done_testing;

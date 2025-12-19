@@ -26,6 +26,7 @@ use parent qw(Kernel::System::AsynchronousExecutor);
 # core modules
 
 # CPAN modules
+use Text::Diff qw(diff);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -123,10 +124,9 @@ sub Run {
                 Mode     => 'binmode',
             );
             if ($Content) {
-                $MainObject->Require('Text::Diff');
-                my $Diff = Text::Diff::diff( \$File, $Content, { STYLE => 'OldStyle' } );
+                my $Diff = diff( \$File, $Content, { STYLE => 'OldStyle' } );
                 $LayoutObject->Block(
-                    Name => "FileDiff",
+                    Name => 'FileDiff',
                     Data => {
                         Location => $Location,
                         Name     => $Name,

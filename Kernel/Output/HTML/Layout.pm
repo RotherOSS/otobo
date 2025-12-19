@@ -28,9 +28,11 @@ use Scalar::Util   qw(blessed);
 use File::Basename qw(fileparse);
 
 # CPAN modules
-use URI::Escape     qw(uri_escape_utf8);
-use Plack::Response ();
-use Plack::Util     ();
+use URI::Escape       qw(uri_escape_utf8);
+use Plack::Response   ();
+use Plack::Util       ();
+use Types::Serialiser ();
+use HTTP::Status      qw(is_client_error is_server_error);
 
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
@@ -116,8 +118,8 @@ sub new {
     # Determine the language to use based on the browser setting, if there isn't one yet.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
-        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->Header('Accept-Language') || '';
-        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my @BrowserLanguages = split /\s*,\s*/, ( $Self->{Lang} || $ParamObject->Header('Accept-Language') || '' );
+        my %Data             = $ConfigObject->Get('DefaultUsedLanguages')->%*;
 
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -128,6 +130,7 @@ sub new {
                 $LanguageOtherType =~ s/_/-/;
                 if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
                     $Self->{UserLanguage} = $Language;
+
                     last LANGUAGE;
                 }
             }
@@ -219,17 +222,19 @@ EOF
     # check Frontend::Output::FilterText
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
-    # check browser
-    $Self->{Browser}         = 'Unknown';
-    $Self->{BrowserVersion}  = 0;
-    $Self->{Platform}        = '';
-    $Self->{IsMobile}        = 0;
+    # check browser features relying on the user agent as transmitted by the client
+    # The finally relevant settings are:
+    #   - 'Frontend::RichText' in the SysConfig
+    #   - the attribute BrowserRichText in this object.
     $Self->{BrowserRichText} = 1;
 
-    my $HttpUserAgent = lc( $ParamObject->Header('User-Agent') // '' );
+    my $Platform      = '';
+    my $IsMobile      = 0;
+    my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
-        $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
+
+        # give up when we have no user agent, assume that we have the standard features
     }
     else {
 
@@ -237,47 +242,45 @@ EOF
         # tablets are handled like desktops
         # only phones are "mobile"
         if ( $HttpUserAgent =~ /mobile/ ) {
-            $Self->{IsMobile} = 1;
+            $IsMobile = 1;
         }
 
         # android
         if ( $HttpUserAgent =~ /android/ ) {
-            $Self->{Platform} = 'Android';
+            $Platform = 'Android';
         }
 
         # edge / spartan
         if ( $HttpUserAgent =~ /edge/ ) {
-            $Self->{Browser} = 'Edge';
+
+            # standard features are supported
         }
 
         # msie
         elsif (
             $HttpUserAgent =~ /msie\s([0-9.]+)/
-            || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
+            ||
+            $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
-            $Self->{Browser} = 'MSIE';
-
             if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
             }
 
             # older windows mobile phones (until IE9), that still have 'MSIE' in the user agent string
-            if ( $Self->{IsMobile} ) {
-                $Self->{Platform} = 'Windows Phone';
+            if ($IsMobile) {
+                $Platform = 'Windows Phone';
             }
         }
 
         # mobile ie
         elsif ( $HttpUserAgent =~ /iemobile/ ) {
-            $Self->{Browser}  = 'MSIE';
-            $Self->{Platform} = 'Windows Phone';
+            $Platform = 'Windows Phone';
         }
 
         # mobile ie (second try)
         elsif ( $HttpUserAgent =~ /trident/ ) {
-            $Self->{Browser} = 'MSIE';
 
             if ( $HttpUserAgent =~ /rv:([0-9])+\.([0-9])+/ ) {
                 $Self->{BrowserMajorVersion} = $2;
@@ -287,41 +290,30 @@ EOF
 
         # iOS
         elsif ( $HttpUserAgent =~ /(ipad|iphone|ipod)/ ) {
-            $Self->{Platform} = 'iOS';
-            $Self->{Browser}  = 'Safari';
+            $Platform = 'iOS';
 
+            my $BrowserVersion = 0;
             if ( $HttpUserAgent =~ /(ipad|iphone|ipod);.*cpu.*os ([0-9]+)_/ ) {
-                $Self->{BrowserVersion} = $2;
+                $BrowserVersion = $2;
             }
 
             if ( $HttpUserAgent =~ /crios/ ) {
-                $Self->{Browser} = 'Chrome';
+
+                # standard features are supported
             }
 
             # RichText is supported in iOS6+.
-            if ( $Self->{BrowserVersion} >= 6 ) {
-                $Self->{BrowserRichText} = 1;
-            }
-            else {
-                $Self->{BrowserRichText} = 0;
-            }
+            $Self->{BrowserRichText} = $BrowserVersion >= 6 ? 1 : 0;
         }
 
         # safari
         elsif ( $HttpUserAgent =~ /safari/ ) {
 
-            # chrome
-            if ( $HttpUserAgent =~ /chrome/ ) {
-                $Self->{Browser} = 'Chrome';
-            }
-            else {
-                $Self->{Browser} = 'Safari';
-            }
+            # standard features are supported
         }
 
         # konqueror
         elsif ( $HttpUserAgent =~ /konqueror/ ) {
-            $Self->{Browser} = 'Konqueror';
 
             # on konquerer disable rich text editor
             $Self->{BrowserRichText} = 0;
@@ -329,52 +321,54 @@ EOF
 
         # firefox
         elsif ( $HttpUserAgent =~ /firefox/ ) {
-            $Self->{Browser} = 'Firefox';
+
+            # standard features are supported
         }
 
         # opera
         elsif ( $HttpUserAgent =~ /^opera.*/ ) {
-            $Self->{Browser} = 'Opera';
+
+            # standard features are supported
         }
 
         # netscape
         elsif ( $HttpUserAgent =~ /netscape/ ) {
-            $Self->{Browser} = 'Netscape';
+
+            # standard features are supported
         }
 
         # w3m
         elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
-            $Self->{Browser}         = 'w3m';
-            $Self->{BrowserRichText} = 0;       # as text browsers do not support JavaScript base rich text editors
+            $Self->{BrowserRichText} = 0;    # as text browsers do not support JavaScript base rich text editors
         }
 
         # lynx
         elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
-            $Self->{Browser}         = 'Lynx';
-            $Self->{BrowserRichText} = 0;        # as text browsers do not support JavaScript base rich text editors
+            $Self->{BrowserRichText} = 0;    # as text browsers do not support JavaScript base rich text editors
         }
 
         # links
         elsif ( $HttpUserAgent =~ /^links.*/ ) {
-            $Self->{Browser} = 'Links';
+
+            # standard features are supported
         }
         else {
-            $Self->{Browser} = 'Unknown - ' . $HttpUserAgent;
+            # let's be optimistic and assume that the standard features are supported
         }
     }
 
     # check mobile devices to disable richtext support
     if (
-        $Self->{IsMobile}
-        && $Self->{Platform} ne 'iOS'
-        && $Self->{Platform} ne 'Android'
-        && $Self->{Platform} ne 'Windows Phone'
+        $IsMobile
+        && $Platform ne 'iOS'
+        && $Platform ne 'Android'
+        && $Platform ne 'Windows Phone'
         )
     {
         $Self->{BrowserRichText} = 0;
     }
 
-    # check if rich text can be active
+    # check if rich text can be active, if not adapt the config just for this requests
     if ( !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
             Key   => 'Frontend::RichText',
@@ -382,7 +376,7 @@ EOF
         );
     }
 
-    # check if rich text is active
+    # check if rich text is has been deactivated in the SysConfig
     if ( !$ConfigObject->Get('Frontend::RichText') ) {
         $Self->{BrowserRichText} = 0;
     }
@@ -541,7 +535,7 @@ sub Block {
 
 =head2 JSONEncode()
 
-Serialize a Perl data structure as JSON.
+Serialise a Perl data structure as JSON.
 The parameters C<SortKeys> and C<Pretty> are passed on to the method C<Kernel::System::JSON::Encode()>.
 
     my %Hash = (
@@ -653,42 +647,6 @@ sub Redirect {
         # trimming, just to be on the safe side
         $RedirectURL =~ s/^\s+//;
         $RedirectURL =~ s/\s+$//;
-
-        # add session id to the redirect URL when appropriate
-        if (
-            !$Self->{SessionIDCookie}                             # there in no session cookie yet
-            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exist because we in Login
-            && $RedirectURL !~ m/http/i                           # ???
-            && $Self->{SessionID}                                 # when we actually have a session
-            )
-        {
-            # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
-            my ( $Target, $Fragment );
-            if ( $RedirectURL =~ m/^(.+?)#(|.+?)$/ ) {
-                $Target   = $1;
-                $Fragment = "#$2";
-            }
-            else {
-                $Target   = $RedirectURL;
-                $Fragment = '';
-            }
-
-            # find out how to correct inject the session id parameter, depending on the given target
-            my $Joiner = eval {
-
-                # either an empty query part or an empty final query param
-                return '' if $Target =~ m/(\?|&)$/;
-
-                # there is no query part yet
-                return '?' if $Target !~ m/\?/;
-
-                # add query param to existing query part
-                return '&';
-            };
-
-            # add the fragment part of the URL again
-            $RedirectURL = $Target . $Joiner . "$Self->{SessionName}=$Self->{SessionID}" . $Fragment;
-        }
     }
 
     # create an response object we can work with
@@ -699,12 +657,7 @@ sub Redirect {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -732,18 +685,16 @@ sub Login {
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         # set a cookie tentatively for checking cookie support
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $Self->SetCookie(
             Key     => 'OTOBOBrowserHasCookie',
             Name    => 'OTOBOBrowserHasCookie',
@@ -967,6 +918,7 @@ sub ChallengeTokenCheck {
     SESSION:
     for my $SessionID (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+
         next SESSION if !$Data{UserID};
         next SESSION if $Data{UserID} ne $Self->{UserID};
         next SESSION if !$Data{UserChallengeToken};
@@ -1433,11 +1385,14 @@ sub Header {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -1463,9 +1418,11 @@ sub Header {
 
                 # load and run module
                 next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},    # UserID etc.
                 );
+
                 next MODULE if !$Object;
 
                 my $ToolBarAccessOk;
@@ -1505,6 +1462,7 @@ sub Header {
 
                         # check user belongs to the correct group
                         my %GroupsReverse = reverse %Groups;
+
                         next ITEM if !$GroupsReverse{$GroupName};
 
                         $ToolBarAccessOk = 1;
@@ -1533,14 +1491,17 @@ sub Header {
 
                 if ( $Modules{$Key}{Block} eq 'ToolBarItem' ) {
                     $ToolBarItemSeparatorMyTickets = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} eq 'ToolBarItemShortcut' ) {
                     $ToolBarItemSeparatorShortcut = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
                 elsif ( $Modules{$Key}{Block} =~ m/ToolBarSearch.*/ ) {
                     $ToolBarItemSeparatorSearch = 1;
+
                     next SHORTCUTAVAILIBLE;
                 }
             }
@@ -1749,8 +1710,7 @@ sub _AddHeadersToResponseObject {
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
+    )
     {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
@@ -1831,6 +1791,7 @@ sub Footer {
             for my $RegExp ( sort keys %{ $SearchFrontendConfig->{$Group} } ) {
                 if ( $Self->{Action} =~ /$RegExp/ ) {
                     $JSCall = $SearchFrontendConfig->{$Group}->{$RegExp};
+
                     last REGEXP;
                 }
             }
@@ -1876,10 +1837,8 @@ sub Footer {
         WebPath                        => $WebPath,
         Action                         => $Self->{Action},
         Subaction                      => $Self->{Subaction},
-        SessionIDCookie                => $Self->{SessionIDCookie},
         SessionName                    => $Self->{SessionName},
         SessionID                      => $Self->{SessionID},
-        SessionUseCookie               => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
@@ -2199,114 +2158,6 @@ sub Ascii2Html {
     return ${$Text};
 }
 
-=head2 LinkQuote()
-
-detect links in text
-
-    my $HTMLWithLinks = $LayoutObject->LinkQuote(
-        Text => $HTMLWithOutLinks,
-    );
-
-also string ref is possible
-
-    my $HTMLWithLinksRef = $LayoutObject->LinkQuote(
-        Text => \$HTMLWithOutLinksRef,
-    );
-
-=cut
-
-sub LinkQuote {
-    my ( $Self, %Param ) = @_;
-
-    my $Text = $Param{Text} || '';    # either a string or a reference to a string
-
-    # check ref
-    my $TextScalar;
-    if ( !ref $Text ) {
-        $TextScalar = $Text;
-        $Text       = \$TextScalar;
-    }
-
-    # run output filter text
-    my @Filters;
-    if ( $Self->{FilterText} && ref $Self->{FilterText} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterText} };
-
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            $Self->FatalDie() if !$MainObject->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            push @Filters, {
-                Object => $Object,
-                Filter => $FilterConfig,
-            };
-        }
-    }
-
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Pre(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-    for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Post(
-            Filter => $Filter->{Filter},
-            Data   => $Text
-        );
-    }
-
-    # do mail to quote
-    ${$Text} =~ s/(mailto:.+?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
-
-    # check ref && return result like called
-    if ($TextScalar) {
-        return ${$Text};
-    }
-    else {
-        return $Text;
-    }
-}
-
 =head2 HTMLLinkQuote()
 
 detect links in HTML code
@@ -2568,10 +2419,14 @@ sub BuildSelection {
     }
 
     # create OptionRef
-    my $OptionRef = $Self->_BuildSelectionOptionRefCreate(%Param);
+    my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
+        %Param
+    );
 
     # create AttributeRef
-    my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+    my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(
+        %Param
+    );
 
     # create DataRef
     my $DataRef = $Self->_BuildSelectionDataRefCreate(
@@ -2908,6 +2763,45 @@ sub JSONReply {
     );
 }
 
+=head2 AJAXException()
+
+=for stopwords customizable
+
+Throws an exception with customizable status code and body. Status can either be a client error (400-499) or a server error (500-599), see L<HTTP::Status> for details.
+
+    $LayoutObject->AJAXException(
+        StatusCode => 500,           # optional, default: 500
+        Body       => 'Some text',   # optional, data to pass as response body
+    );
+
+=cut
+
+sub AJAXException {
+    my ( $Self, %Param ) = @_;
+
+    # check validity of status code
+    # allowed are client errors (400-499) and server errors (500-599)
+    my $StatusCode = $Param{StatusCode} || 500;
+    if ( !is_client_error($StatusCode) && !is_server_error($StatusCode) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Status code $StatusCode is not a valid HTTP error status!",
+        );
+
+        return;
+    }
+
+    # create Plack response
+    my $ServerErrorResponse = Plack::Response->new($StatusCode);
+    $ServerErrorResponse->content_type('text/html');
+    $ServerErrorResponse->body( $Param{Body} // '' );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $ServerErrorResponse
+    );
+}
+
 =head2 PageNavBar()
 
 generates a page navigation bar
@@ -3240,6 +3134,7 @@ sub NavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -3248,6 +3143,7 @@ sub NavigationBar {
                     GROUP:
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         next GROUP if !$Group;
+
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
                             GroupName => $Group,
@@ -3256,6 +3152,7 @@ sub NavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -3280,6 +3177,7 @@ sub NavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -3292,6 +3190,7 @@ sub NavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendRegistration->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -3300,6 +3199,7 @@ sub NavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -3312,13 +3212,14 @@ sub NavigationBar {
                 }
             }
 
-            next ITEM if !$Shown;
+            next ITEM unless $Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBar{$Key};
+
+                last COUNT unless $NavBar{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -3348,10 +3249,12 @@ sub NavigationBar {
 
             # load module
             next MENUMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
+
             next MENUMODULE if !$Object;
 
             # run module
@@ -3371,6 +3274,7 @@ sub NavigationBar {
     for my $Key ( sort keys %NavBar ) {
         next ITEM if $Key eq 'Sub';
         next ITEM if !%{ $NavBar{$Key} };
+
         my $Item = $NavBar{$Key};
         $Item->{NameForID} = $Item->{Name};
         $Item->{NameForID} =~ s/[ &;]//ig;
@@ -3455,6 +3359,7 @@ sub NavigationBar {
                     );
 
                     $SearchAdded = 1;
+
                     last KEY;
                 }
             }
@@ -3935,7 +3840,7 @@ sub BuildDateSelection {
             . $Checked
             . qq{ class="$Class"}
             . sprintf( ' title="%s" ', $Self->{LanguageObject}->Translate('Check to activate this date') )
-            . ( $Param{Disabled} ? 'disabled="disabled"' : '' )
+            . ( $Param{Disabled} ? 'disabled' : '' )
             . ">&nbsp;";
     }
 
@@ -4111,12 +4016,10 @@ sub CustomerLogin {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( $ConfigObject->Get('SessionUseCookie') ) {
-
-        # always set a cookie, so that at the time the user submits
-        # the password, we know already if the browser supports cookies.
-        # ( the session cookie isn't available at that time ).
-
+    # always set a cookie, so that at the time the user submits
+    # the password, we know already if the browser supports cookies.
+    # ( the session cookie isn't available at that time ).
+    {
         my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
         if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
@@ -4135,12 +4038,7 @@ sub CustomerLogin {
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-    if (
-        $Self->{SetCookies}
-        && ref $Self->{SetCookies} eq 'HASH'
-        && $ConfigObject->Get('SessionUseCookie')
-        )
-    {
+    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -4257,6 +4155,7 @@ sub CustomerLogin {
                 Name => 'AuthTwoFactor',
                 Data => \%Param,
             );
+
             last COUNT;
         }
 
@@ -4397,8 +4296,11 @@ sub CustomerHeader {
 
             # load and run module
             next MODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+
             next MODULE if !$Object;
+
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -4522,6 +4424,7 @@ sub CustomerFooter {
                     GroupName => $GroupName,
                     Type      => 'ro',
                 );
+
                 last GROUP if $CustomerChatPermission;
             }
         }
@@ -4564,10 +4467,8 @@ sub CustomerFooter {
         WebPath                  => $WebPath,
         Action                   => $Self->{Action},
         Subaction                => $Self->{Subaction},
-        SessionIDCookie          => $Self->{SessionIDCookie},
         SessionName              => $Self->{SessionName},
         SessionID                => $Self->{SessionID},
-        SessionUseCookie         => $ConfigObject->Get('SessionUseCookie'),
         ChallengeToken           => $Self->{UserChallengeToken},
         CustomerPanelSessionName => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage             => $Self->{UserLanguage},
@@ -4738,6 +4639,7 @@ sub CustomerNavigationBar {
                     )
                 {
                     $Shown = 1;
+
                     last PERMISSION;
                 }
 
@@ -4751,6 +4653,7 @@ sub CustomerNavigationBar {
                         );
                         if ($HasPermission) {
                             $Shown = 1;
+
                             last PERMISSION;
                         }
                     }
@@ -4775,6 +4678,7 @@ sub CustomerNavigationBar {
                     {
 
                         $ModulePermission = 1;
+
                         last PERMISSION;
                     }
 
@@ -4787,6 +4691,7 @@ sub CustomerNavigationBar {
                         GROUP:
                         for my $Group ( @{ $FrontendModule->{$Module}->{$Permission} } ) {
                             next GROUP if !$Group;
+
                             my $HasPermission = $GroupObject->PermissionCheck(
                                 UserID    => $Self->{UserID},
                                 GroupName => $Group,
@@ -4795,6 +4700,7 @@ sub CustomerNavigationBar {
                             );
                             if ($HasPermission) {
                                 $ModulePermission = 1;
+
                                 last PERMISSION;
                             }
                         }
@@ -4813,7 +4719,7 @@ sub CustomerNavigationBar {
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
-                last COUNT if !$NavBarModule{$Key};
+                last COUNT unless $NavBarModule{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -4931,11 +4837,13 @@ sub CustomerNavigationBar {
 
             # load module
             next JOB if !$MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next JOB if !$Object;
+
+            next JOB unless $Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -4989,6 +4897,7 @@ sub CustomerNavigationBar {
             )
         {
             $Param{ShowPreferences} = 1;
+
             last PERMISSION;
         }
 
@@ -5001,6 +4910,7 @@ sub CustomerNavigationBar {
             GROUP:
             for my $Group ( @{ $FrontendModule->{CustomerPreferences}->{$Permission} } ) {
                 next GROUP if !$Group;
+
                 my $HasPermission = $GroupObject->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $Group,
@@ -5009,6 +4919,7 @@ sub CustomerNavigationBar {
                 );
                 if ($HasPermission) {
                     $Param{ShowPreferences} = 1;
+
                     last PERMISSION;
                 }
             }
@@ -5465,12 +5376,6 @@ sub RichTextDocumentServe {
         }
     }
 
-    # build base url for inline images
-    my $SessionID = '';
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $SessionID = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
-
     # replace inline images in content with runtime url to images
     my $AttachmentLink = $Self->{Baselink} . $Param{URL};
     $Param{Data}->{Content} =~ s{
@@ -5495,12 +5400,13 @@ sub RichTextDocumentServe {
             next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
 
             if ( !$Param{ContentIDs} ){
-                $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+                $ContentID = $AttachmentLink . $AttachmentID;
             }
             #ArticleEdit inline attachments rendering
             else {
-                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}} . $SessionID;
+                $ContentID = $AttachmentLink . $Param{ContentIDs}->{$Param{Attachments}->{$AttachmentID}->{Filename}};
             }
+
             last ATTACHMENT_ID;
         }
 
@@ -5540,7 +5446,7 @@ sub RichTextDocumentServe {
         }
 
         # return new runtime url
-        $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
+        $ContentID = $AttachmentLink . $AttachmentID;
         $Start . $ContentID . $End;
     }egxi;
     }
@@ -5692,8 +5598,18 @@ sub _BuildSelectionOptionRefCreate {
 
 =head2 _BuildSelectionAttributeRefCreate()
 
-create the attribute hash
+create the attribute hashref. Only specific attributes are added.
+Boolean attributes receive the boolean values from L<Types::Serialiser> as
+values.
 
+    my %Param = (
+        ID       => 0,           # will be ignored as the value is false
+        Name     => 'TheName',   # will also set the attribute id
+        Multiple => 1,
+        Disabled => 0,
+        Size     => 5,
+        Width    => 100_000_000, # will be ignored
+    );
     my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
         %Param,
     );
@@ -5702,7 +5618,8 @@ The result looks like:
 
     my $AttributeRef = {
         name     => 'TheName',
-        multiple => undef,
+        id       => 'TheName',
+        multiple => $Types::Serialiser::true,
         size     => 5,
     }
 
@@ -5713,7 +5630,7 @@ sub _BuildSelectionAttributeRefCreate {
 
     my %Attributes;
 
-    # check params with key and value
+    # check non-boolean HTML attributes, that is attributes with values
     for (qw(Name ID Size Class OnChange OnClick AutoComplete)) {
         if ( $Param{$_} ) {
             $Attributes{ lc $_ } = $Param{$_};
@@ -5730,10 +5647,10 @@ sub _BuildSelectionAttributeRefCreate {
         }
     }
 
-    # check HTML params, TODO: the values are not really needed
+    # check boolean HTML attributes
     for (qw(Multiple Disabled)) {
         if ( $Param{$_} ) {
-            $Attributes{ lc $_ } = lc $_;
+            $Attributes{ lc $_ } = $Types::Serialiser::true;
         }
     }
 
@@ -5865,6 +5782,7 @@ sub _BuildSelectionDataRefCreate {
             KEY:
             for my $Key ( sort keys %{$DataLocal} ) {
                 next KEY if !defined $DataLocal->{$Key};
+
                 $SortHash{$Key} = $DataLocal->{$Key} . '::';
             }
             @SortKeys = sort { lc $SortHash{$a} cmp lc $SortHash{$b} } ( keys %SortHash );
@@ -6108,25 +6026,25 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # SelectedID and SelectedValue option
-    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
+    if ( defined $OptionRef->{SelectedID} ) {
         for my $Row ( @{$DataRef} ) {
             if (
-                (
-                    (
-                        defined $Row->{Key}
-                        && $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    )
-                    ||
-                    (
-                        defined $Row->{Value}
-                        && $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                    )
+                defined $Row->{Key}
+                && defined $Row->{Value}
+                && $OptionRef->{SelectedID}->{ $Row->{Key} }
+                && !$DisabledElements{ $Row->{Value} }
                 )
-                &&
-                (
-                    defined $Row->{Value}
-                    && !$DisabledElements{ $Row->{Value} }
-                )
+            {
+                $Row->{Selected} = 1;
+            }
+        }
+    }
+    elsif ( $OptionRef->{SelectedValue} ) {
+        for my $Row ( @{$DataRef} ) {
+            if (
+                defined $Row->{Value}
+                && $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                && !$DisabledElements{ $Row->{Value} }
                 )
             {
                 $Row->{Selected} = 1;
@@ -6227,11 +6145,17 @@ sub _BuildSelectionDataRefCreate {
 
 =head2 _BuildSelectionOutput()
 
-create the HTML string for a selection:
+create the HTML string for a selection.
+
+For boolean attributes please use the boolean values provided by L<Types::Serialiser>.
+Passing C<undef> as the value for a true boolean attribute is still supported.
+
+    use Types::Serialiser;
 
     my %Attributes = {
         name     => 'TheName',
-        multiple => undef,
+        multiple => $Types::Serialiser::true,
+        # multiple => undef,    # passing undef is still allowed
         size     => 5,
     }
     my @Data = (
@@ -6273,11 +6197,25 @@ sub _BuildSelectionOutput {
     my @Attributes;
     {
         for my $Key ( sort grep {$_} keys $Param{AttributeRef}->%* ) {
-            if ( defined $Param{AttributeRef}->{$Key} ) {
-                push @Attributes, qq{$Key="$Param{AttributeRef}->{$Key}"};    # TODO: what if the value contains double quotes ?
+            my $Value = $Param{AttributeRef}->{$Key};
+            if ( !defined $Value ) {
+
+                # Legacy way of indicating a boolean true attribute
+                push @Attributes, $Key;
+            }
+            elsif ( Types::Serialiser::is_bool($Value) ) {
+
+                # Boolean HTML attributes are specified with Types::Serialiser.
+                # Boolean true adds the attribute without a value.
+                # Boolean false adds nothing.
+                if ( Types::Serialiser::is_true($Value) ) {
+                    push @Attributes, $Key;
+                }
             }
             else {
-                push @Attributes, $Key;
+
+                # TODO: what if the value contains double quotes ?
+                push @Attributes, qq{$Key="$Value"};
             }
         }
 
@@ -6326,10 +6264,10 @@ sub _BuildSelectionOutput {
         my $Value            = $Row->{Value} // '';
         my $SelectedDisabled = '';
         if ( $Row->{Selected} ) {
-            $SelectedDisabled = ' selected="selected"';
+            $SelectedDisabled = ' selected';
         }
         elsif ( $Row->{Disabled} ) {
-            $SelectedDisabled = ' disabled="disabled"';
+            $SelectedDisabled = ' disabled';
         }
         my $OptionTitle = $Param{OptionTitle} ? qq{ title="$Value"} : '';
 
@@ -6828,7 +6766,7 @@ This method may be called via the package name when C<RegisterInOM> is active.
 
    Kernel::Output::HTML::Layout->SetCookie(
        RegisterInOM => 1,
-       Key          => 'SessionIDCookie',
+       Key          => 'CookieForOTOBOSessionID',
        Name         => $Param{SessionName},
        Value        => $NewSessionID,
        Expires      => $Expires,

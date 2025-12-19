@@ -119,8 +119,6 @@ sub Run {
         },
     );
 
-    my $UserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
     my @CustomerIDs;
 
     # Add filter for customer company if the company tickets are not disabled.
@@ -408,31 +406,6 @@ sub Run {
             $OwnerSort = $Sort;
         }
 
-        my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
-        my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
-
-        if ($Owner) {
-            $LayoutObject->Block(
-                Name => 'OverviewNavBarPageOwner',
-                Data => {
-                    OrderBy   => $OrderBy,
-                    OwnerSort => $OwnerSort,
-                    Filter    => $FilterCurrent,
-                },
-            );
-        }
-
-        if ($Queue) {
-            $LayoutObject->Block(
-                Name => 'OverviewNavBarPageQueue',
-                Data => {
-                    OrderBy   => $OrderBy,
-                    QueueSort => $QueueSort,
-                    Filter    => $FilterCurrent,
-                },
-            );
-        }
-
         # show header filter
         for my $Key ( sort keys %NavBarFilter ) {
             $LayoutObject->Block(
@@ -445,161 +418,11 @@ sub Run {
             );
         }
 
-        # get the dynamic fields for this screen
-        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-        my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-        # get dynamic field config for frontend module
-        my $DynamicFieldFilter = $ConfigObject->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
-        my $DynamicField       = $DynamicFieldObject->DynamicFieldListGet(
-            Valid       => 1,
-            ObjectType  => ['Ticket'],
-            FieldFilter => $DynamicFieldFilter || {},
-        );
-
-        # reduce the dynamic fields to only the ones that are desinged for customer interface
-        my @CustomerDynamicFields;
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Behavior           => 'IsCustomerInterfaceCapable',
-            );
-            next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
-
-            push @CustomerDynamicFields, $DynamicFieldConfig;
-        }
-        $DynamicField = \@CustomerDynamicFields;
-
-        # Dynamic fields
-        # cycle trough the activated Dynamic Fields for this screen
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            my $Label = $DynamicFieldConfig->{Label};
-
-            # get field sortable condition
-            my $IsSortable = $BackendObject->HasBehavior(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Behavior           => 'IsSortable',
-            );
-
-            if ($IsSortable) {
-                my $CSS = '';
-                if (
-                    $SortBy
-                    && ( $SortBy eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
-                    )
-                {
-                    if ( $OrderByCurrent && ( $OrderByCurrent eq 'Up' ) ) {
-                        $OrderBy = 'Down';
-                        $CSS .= ' SortDescending';
-                    }
-                    else {
-                        $OrderBy = 'Up';
-                        $CSS .= ' SortAscending';
-                    }
-                }
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField',
-                    Data => {
-                        %Param,
-                        CSS => $CSS,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicFieldSortable',
-                    Data => {
-                        %Param,
-                        OrderBy          => $OrderBy,
-                        Label            => $Label,
-                        DynamicFieldName => $DynamicFieldConfig->{Name},
-                        Filter           => $FilterCurrent,
-                    },
-                );
-
-                # example of dynamic fields order customization
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField_' . $DynamicFieldConfig->{Name},
-                    Data => {
-                        %Param,
-                        CSS => $CSS,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField_'
-                        . $DynamicFieldConfig->{Name}
-                        . '_Sortable',
-                    Data => {
-                        %Param,
-                        OrderBy          => $OrderBy,
-                        Label            => $Label,
-                        DynamicFieldName => $DynamicFieldConfig->{Name},
-                        Filter           => $FilterCurrent,
-                    },
-                );
-            }
-            else {
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField',
-                    Data => {
-                        %Param,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicFieldNotSortable',
-                    Data => {
-                        %Param,
-                        Label => $Label,
-                    },
-                );
-
-                # example of dynamic fields order customization
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField_' . $DynamicFieldConfig->{Name},
-                    Data => {
-                        %Param,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'OverviewNavBarPageDynamicField_'
-                        . $DynamicFieldConfig->{Name}
-                        . '_NotSortable',
-                    Data => {
-                        %Param,
-                        Label => $Label,
-                    },
-                );
-            }
-        }
-
         my @ViewableTickets = $TicketObject->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{$FilterCurrent}->{Search} },
             %SearchInArchive,
             Result => 'ARRAY',
         );
-
-        # show tickets
-        #       $Counter = 0;
-        #       for my $TicketID (@ViewableTickets) {
-        #           $Counter++;
-        #           if (
-        #               $Counter >= $StartHit
-        #               && $Counter < ( $PageShown + $StartHit )
-        #               )
-        #           {
-        #               $Self->ShowTicketStatus( TicketID => $TicketID );
-        #           }
-        #       }
 
         my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
         $TicketListHTML = $TicketListObject->Run(
@@ -658,15 +481,20 @@ sub Run {
     return $Output;
 }
 
+# NOTE Deprecated, will be removed in a future release
 # ShowTicket
 sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
-    my $TicketID                   = $Param{TicketID} || return;
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'info',
+        Message  => 'The sub ShowTicketStatus is deprecated and will be removed in a future release.',
+    );
+
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketID      = $Param{TicketID} || return;
 
     # Get last customer article.
     my @ArticleList = $ArticleObject->ArticleList(
@@ -740,27 +568,6 @@ sub ShowTicketStatus {
         },
     );
 
-    my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
-    my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
-
-    if ($Owner) {
-        my $OwnerName = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Ticket{OwnerID} );
-        $LayoutObject->Block(
-            Name => 'RecordOwner',
-            Data => {
-                OwnerName => $OwnerName,
-            },
-        );
-    }
-    if ($Queue) {
-        $LayoutObject->Block(
-            Name => 'RecordQueue',
-            Data => {
-                %Ticket,
-            },
-        );
-    }
-
     # get the dynamic fields for this screen
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -773,7 +580,7 @@ sub ShowTicketStatus {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    # reduce the dynamic fields to only the ones that are designed for customer interface
     my @CustomerDynamicFields;
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {

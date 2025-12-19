@@ -49,7 +49,7 @@ my $DeploymentOnly = sub {
     );
 };
 
-my $SetingsXML = << 'EOF',
+my $SetingsXML = <<'EOF',
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">
@@ -203,6 +203,7 @@ for my $Test (@Tests) {
         $DefaultSetting{EffectiveValue} = $Test->{EffectiveValue};
 
         # Update item
+        ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
         my %SettingUpdateResult = $SysConfigObject->SettingUpdate(
             %DefaultSetting,
             ExclusiveLockGUID => $GuID,

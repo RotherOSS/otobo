@@ -38,7 +38,7 @@ Core.Form = (function (Namespace) {
             $TestForm.append('<select id="ObjectEight" name="ObjectEight"><option value="1">EightOne</option><option value="2">EightTwo</option></select>');
             $TestForm.append('<button value="ObjectNine" type="submit" id="ObjectNine">ObjectNine</button>');
             $TestForm.append('<button value="ObjectTen" type="button" id="ObjectTen">ObjectTen</button>');
-            $TestForm.append('<button value="ObjectTen" type="button" disabled="disabled" data-initially-disabled="disabled" id="ObjectTen">ObjectTen</button>');
+            $TestForm.append('<button value="ObjectTen" type="button" disabled data-initially-disabled="disabled" id="ObjectTen">ObjectTen</button>');
             $TestForm.append('<input type="checkbox" name="ItemsSelected" id="SelectAllItemsSelected"  value="" />');
             $TestForm.append('<input type="checkbox" name="ItemsSelected" id="CheckboxOne" value="CheckboxOne" />');
             $TestForm.append('<input type="checkbox" name="ItemsSelected" id="CheckboxTwo" value="CheckboxTwo" />');

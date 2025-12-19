@@ -191,6 +191,7 @@ $Self->True(
     "DefaultSettingLock",
 );
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
 my %Result = $SysConfigObject->SettingUpdate(
     DefaultID         => $DefaultID1,
     Name              => $SettingName . '1',

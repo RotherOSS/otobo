@@ -27,7 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::Util qw(max);
+use List::Util qw(max pairs);
 
 # CPAN modules
 
@@ -429,8 +429,8 @@ sub EditFieldValueGet {
             $DynamicField->{$Name} = { $DynamicField->{$Name}->%* };
         }
 
-        for my $Name ( sort keys $DynamicField->%* ) {
-            my $DynamicFieldConfig = $DynamicField->{$Name};
+        for my $Pair ( pairs $DynamicField->%* ) {
+            my ( $Name, $DynamicFieldConfig ) = $Pair->@*;
 
             for my $SetIndex ( 0 .. $IndexMax ) {
                 $DynamicFieldConfig->{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
@@ -518,8 +518,8 @@ sub EditFieldValueValidate {
             )
         } keys $Param{GetParam}{DynamicField}{"DynamicField_$SetDFConfig->{Name}"}[$SetIndex]->%*;
 
-        for my $Name ( sort keys $DynamicField->%* ) {
-            my $DynamicFieldConfig = $DynamicField->{$Name};
+        for my $Pair ( pairs $DynamicField->%* ) {
+            my ( $Name, $DynamicFieldConfig ) = $Pair->@*;
             $DynamicFieldConfig->{Name}          = $Name . ( $SetDFConfig->{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicFieldConfig->{ProcessSuffix} = $SetDFConfig->{ProcessSuffix};
 
@@ -737,8 +737,8 @@ sub RandomValueSet {
 
     return { Success => 0 } if !$DynamicField;
 
-    for my $Name ( sort keys $DynamicField->%* ) {
-        my $DynamicFieldConfig = $DynamicField->{$Name};
+    for my $Pair ( pairs $DynamicField->%* ) {
+        my ( $Name, $DynamicFieldConfig ) = $Pair->@*;
 
         my $Return = $BackendObject->RandomValueSet(
             %Param,

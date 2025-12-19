@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AgentElasticsearchQuickResult;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;

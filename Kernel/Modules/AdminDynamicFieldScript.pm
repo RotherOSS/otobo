@@ -1224,7 +1224,7 @@ sub GetParamRegexList {
             my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
 
             # is the regex valid?
-            my $RegExCheck = eval {
+            eval {
                 qr{$RegEx}xms;
             };
 

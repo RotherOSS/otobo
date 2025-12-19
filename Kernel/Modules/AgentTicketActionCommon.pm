@@ -514,7 +514,7 @@ sub Run {
         qw(
             NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
             Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
-            ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
+            ReplyToArticle StandardTemplateID CreateArticle FormDraftID
         )
         )
     {
@@ -2777,18 +2777,48 @@ sub _Mask {
 
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
+                # fetch actions to perform prefilling for
+                my $RestorePendingConfig = $ConfigObject->Get("Ticket::Frontend::RestorePendingInformation");
+
+                # only prefill pending information for actions defined in the corresponding system configuration setting
+                my %PendingTimeSettings = ();
+                if ( $RestorePendingConfig->{Actions}->{ $Self->{Action} } ) {
+
+                    # try restoring pending time only if pending time exists and responsible config option is set
+                    if ( $Ticket{StateType} =~ /pending/ && $Ticket{RealTillTimeNotUsed} ) {
+
+                        my $PendingTimeObj = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                Epoch => $Ticket{RealTillTimeNotUsed},
+                            },
+                        );
+
+                        my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
+                        # set pending time only if it is later than now
+                        if ( $CurrentTimeObj->Compare( DateTimeObject => $PendingTimeObj ) < 0 ) {
+                            %PendingTimeSettings = %{ $PendingTimeObj->Get() };
+                        }
+
+                    }
+
+                }
+
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
                     Format           => 'DateInputFormatLong',
                     YearPeriodPast   => 0,
                     YearPeriodFuture => 5,
-                    DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
-                        || 0,
-                    Class                => $Param{DateInvalid} || ' ',
+
+                    # NOTE DiffTime only takes effect if no PendingTime is passed
+                    DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
+                    Class                => $Param{DateInvalid}                                     || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
                     QuickDateButtons     => $QuickDateButtons,
+                    %PendingTimeSettings,
                 );
 
                 $LayoutObject->Block(

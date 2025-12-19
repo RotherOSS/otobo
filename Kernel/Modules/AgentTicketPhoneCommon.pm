@@ -493,21 +493,6 @@ sub Run {
             $IsUpload = 1;
         }
 
-        # attachment upload
-        if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload                = 1;
-            %Error                   = ();
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $ParamObject->GetUploadAll(
-                Param => 'FileUpload',
-            );
-            $UploadCacheObject->FormIDAddFile(
-                FormID      => $Self->{FormID},
-                Disposition => 'attachment',
-                %UploadStuff,
-            );
-        }
-
         # Get and validate draft action.
         my $FormDraftAction = $ParamObject->GetParam( Param => 'FormDraftAction' );
         if ( $FormDraftAction && !$Config->{FormDraft} ) {
