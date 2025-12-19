@@ -680,12 +680,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.43',
         },
         {
-            'Comment'         => 'removed in OTOBO 11.0.x',
-            'Module'          => 'URI',
-            'Required'        => 1,
-            'VersionRequired' => '== 1.71',
-        },
-        {
             'Comment'         => 'needed by Sisimai, OTOBO itself uses YAML::XS',
             'Module'          => 'YAML',
             'Required'        => 1,
