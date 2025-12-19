@@ -405,12 +405,6 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 9999.32',
         },
         {
-            'Comment'         => 'removed in OTOBO 11.0.x',
-            'Module'          => 'File::Slurp::Tiny',
-            'Required'        => 1,
-            'VersionRequired' => '== 0.004',
-        },
-        {
             'Comment'         => 'needed by PDF::API2',
             'Module'          => 'Font::TTF',
             'Required'        => 1,
