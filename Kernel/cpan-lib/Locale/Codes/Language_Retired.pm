@@ -3,7 +3,7 @@ Locale::Codes::Language_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Tue Aug 29 11:10:03 EDT 2023
+#    Generated on: Tue Dec  2 16:06:17 EST 2025
 
 use strict;
 require 5.006;
@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.76';
+$VERSION='3.86';
 
 $Locale::Codes::Retired{'language'}{'alpha-2'}{'code'} = {
    q(in) => q(Indonesian),
@@ -57,6 +57,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(cum) => q(Cumeral),
    q(daf) => q(Dan),
    q(dap) => q(Nisi (India)),
+   q(dek) => q(Dek),
    q(dgu) => q(Degaru),
    q(dha) => q(Dhanwar (India)),
    q(dit) => q(Dirari),
@@ -145,6 +146,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(nnx) => q(Ngong),
    q(nom) => q(Nocaman),
    q(noo) => q(Nootka),
+   q(nte) => q(Nathembo),
    q(nts) => q(Natagaimas),
    q(nxu) => q(Narau),
    q(ome) => q(Omejes),
@@ -341,7 +343,9 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(bhatola) => [ q(btl), q(Bhatola) ],
    q(bidyara) => [ q(bym), q(Bidyara) ],
    q(bikaru) => [ q(bic), q(Bikaru) ],
+   q(bilakura) => [ q(bql), q(Bilakura) ],
    q(blin) => [ q(byn), q(Blin) ],
+   q(bokmal, norwegian) => [ q(nob), q(Bokmal, Norwegian) ],
    q(bolo) => [ q(blv), q(Bolo) ],
    q(bom) => [ q(bmf), q(Bom) ],
    q(borna (democratic republic of congo)) => [ q(bxx), q(Borna (Democratic Republic of Congo)) ],
@@ -359,6 +363,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(chilean quechua) => [ q(cqu), q(Chilean Quechua) ],
    q(chipiajes) => [ q(cbe), q(Chipiajes) ],
    q(chungmboko) => [ q(cug), q(Chungmboko) ],
+   q(clallam) => [ q(clm), q(Clallam) ],
    q(coastal kadazan) => [ q(kzj), q(Coastal Kadazan) ],
    q(coxima) => [ q(kox), q(Coxima) ],
    q(coyaima) => [ q(coy), q(Coyaima) ],
@@ -369,9 +374,11 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(cumeral) => [ q(cum), q(Cumeral) ],
    q(cung) => [ q(cug), q(Cung) ],
    q(dakaka) => [ q(bpa), q(Dakaka) ],
+   q(dao) => [ q(daz), q(Dao) ],
    q(darling) => [ q(drl), q(Darling) ],
    q(daza) => [ q(dzd), q(Daza) ],
    q(degaru) => [ q(dgu), q(Degaru) ],
+   q(dek) => [ q(dek), q(Dek) ],
    q(dhangu) => [ q(dhg), q(Dhangu) ],
    q(dhanwar (india)) => [ q(dha), q(Dhanwar (India)) ],
    q(dimir) => [ q(dmc), q(Dimir) ],
@@ -380,6 +387,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(djauan) => [ q(djn), q(Djauan) ],
    q(djingili) => [ q(jig), q(Djingili) ],
    q(dogri) => [ q(doi), q(Dogri) ],
+   q(dogrib) => [ q(dgr), q(Dogrib) ],
    q(dororo) => [ q(drr), q(Dororo) ],
    q(duduela) => [ q(duk), q(Duduela) ],
    q(duli) => [ q(duz), q(Duli) ],
@@ -408,6 +416,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(german, old high (ca.750-1050)) => [ q(goh), q(German, Old High (ca.750-1050)) ],
    q(gey) => [ q(guv), q(Gey) ],
    q(greek, ancient (to 1453)) => [ q(grc), q(Greek, Ancient (to 1453)) ],
+   q(greek, modern (1453-)) => [ q(gre), q(Greek, Modern (1453-)) ],
    q(guguyimidjir) => [ q(kky), q(Guguyimidjir) ],
    q(guliguli) => [ q(gli), q(Guliguli) ],
    q(guragone) => [ q(gge), q(Guragone) ],
@@ -449,6 +458,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(kakauhua) => [ q(kbf), q(Kakauhua) ],
    q(kakihum) => [ q(kxe), q(Kakihum) ],
    q(kalami) => [ q(gwc), q(Kalami) ],
+   q(kamantan) => [ q(kci), q(Kamantan) ],
    q(kamba) => [ q(kam), q(Kamba) ],
    q(kamba (brazil)) => [ q(xba), q(Kamba (Brazil)) ],
    q(karadjeri) => [ q(gbd), q(Karadjeri) ],
@@ -477,6 +487,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(kunggara) => [ q(kvs), q(Kunggara) ],
    q(kutang ghale) => [ q(ght), q(Kutang Ghale) ],
    q(kwak) => [ q(kwq), q(Kwak) ],
+   q(kwakiutl) => [ q(kwk), q(Kwakiutl) ],
    q(kwato) => [ q(kop), q(Kwato) ],
    q(kyenga) => [ q(tye), q(Kyenga) ],
    q(laka (nigeria)) => [ q(lak), q(Laka (Nigeria)) ],
@@ -533,10 +544,12 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(montagnais) => [ q(moe), q(Montagnais) ],
    q(mosiro) => [ q(mwy), q(Mosiro) ],
    q(mpongmpong) => [ q(mgg), q(Mpongmpong) ],
+   q(mpuono) => [ q(zmp), q(Mpuono) ],
    q(mro chin) => [ q(cmr), q(Mro Chin) ],
    q(mudbura) => [ q(mwd), q(Mudbura) ],
    q(muduapa) => [ q(wiv), q(Muduapa) ],
    q(mullukmulluk) => [ q(mpb), q(Mullukmulluk) ],
+   q(musar) => [ q(mmi), q(Musar) ],
    q(muya) => [ q(mvm), q(Muya) ],
    q(n/u) => [ q(ngh), q(N/u) ],
    q(nakama) => [ q(nib), q(Nakama) ],
@@ -549,10 +562,14 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(narrinyeri) => [ q(nay), q(Narrinyeri) ],
    q(natagaimas) => [ q(nts), q(Natagaimas) ],
    q(nataoran amis) => [ q(ais), q(Nataoran Amis) ],
+   q(nathembo) => [ q(nte), q(Nathembo) ],
    q(ndaktup) => [ q(ncp), q(Ndaktup) ],
+   q(ndebele, north) => [ q(nde), q(Ndebele, North) ],
+   q(ndebele, south) => [ q(nbl), q(Ndebele, South) ],
    q(ndrag'ngith) => [ q(dgt), q(Ndrag'ngith) ],
    q(nepal bhasa) => [ q(new), q(Nepal Bhasa) ],
    q(nepali kurux) => [ q(kxl), q(Nepali Kurux) ],
+   q(newari) => [ q(new), q(Newari) ],
    q(nga la) => [ q(hlt), q(Nga La) ],
    q(ngalakan) => [ q(nig), q(Ngalakan) ],
    q(ngalkbun) => [ q(ngk), q(Ngalkbun) ],
@@ -725,9 +742,14 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
 
 $Locale::Codes::Retired{'language'}{'term'}{'name'} = {
    q(bantu (other)) => [ q(bnt), q(Bantu (Other)) ],
+   q(bokmal, norwegian) => [ q(nob), q(Bokmal, Norwegian) ],
    q(creoles and pidgins ) => [ q(crp), q(Creoles and pidgins ) ],
    q(creoles and pidgins, french-based ) => [ q(cpf), q(Creoles and pidgins, French-based ) ],
    q(creoles and pidgins, portuguese-based ) => [ q(cpp), q(Creoles and pidgins, Portuguese-based ) ],
+   q(dogrib) => [ q(dgr), q(Dogrib) ],
+   q(greek, modern (1453-)) => [ q(ell), q(Greek, Modern (1453-)) ],
+   q(ndebele, north) => [ q(nde), q(Ndebele, North) ],
+   q(ndebele, south) => [ q(nbl), q(Ndebele, South) ],
    q(south american indian (other)) => [ q(sai), q(South American Indian (Other)) ],
    q(walamo) => [ q(wal), q(Walamo) ],
 };

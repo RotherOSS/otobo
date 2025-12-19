@@ -3,7 +3,7 @@ Locale::Codes::LangExt_Codes;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'harvest_data' is run.
-#    Generated on: Tue Aug 29 10:59:41 EDT 2023
+#    Generated on: Tue Dec  2 16:02:37 EST 2025
 
 use strict;
 require 5.006;
@@ -11,9 +11,9 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.76';
+$VERSION='3.86';
 
-$Locale::Codes::Data{'langext'}{'id'} = '0249';
+$Locale::Codes::Data{'langext'}{'id'} = '0252';
 
 $Locale::Codes::Data{'langext'}{'id2names'} = {
    q(0001) => [
@@ -310,479 +310,488 @@ $Locale::Codes::Data{'langext'}{'id2names'} = {
       q(Heung Kong Sau Yue),
       ],
    q(0096) => [
-      q(Ho Chi Minh City Sign Language),
+      q(Hainanese),
       ],
    q(0097) => [
+      q(Ho Chi Minh City Sign Language),
+      ],
+   q(0098) => [
       q(Hawai'i Sign Language (HSL)),
       q(Hawai'i Pidgin Sign Language),
       ],
-   q(0098) => [
+   q(0099) => [
       q(Hungarian Sign Language),
       ],
-   q(0099) => [
+   q(0100) => [
       q(Hausa Sign Language),
       ],
-   q(0100) => [
+   q(0101) => [
       q(Xiang Chinese),
       ],
-   q(0101) => [
+   q(0102) => [
       q(Icelandic Sign Language),
       ],
-   q(0102) => [
+   q(0103) => [
       q(Inuit Sign Language),
       ],
-   q(0103) => [
+   q(0104) => [
       q(International Sign),
       ],
-   q(0104) => [
+   q(0105) => [
       q(Indonesian Sign Language),
       ],
-   q(0105) => [
+   q(0106) => [
       q(Indian Sign Language),
       ],
-   q(0106) => [
+   q(0107) => [
       q(Italian Sign Language),
       ],
-   q(0107) => [
+   q(0108) => [
       q(Irish Sign Language),
       ],
-   q(0108) => [
+   q(0109) => [
       q(Israeli Sign Language),
       ],
-   q(0109) => [
+   q(0110) => [
       q(Jakun),
       ],
-   q(0110) => [
+   q(0111) => [
       q(Jambi Malay),
       ],
-   q(0111) => [
+   q(0112) => [
       q(Jamaican Country Sign Language),
       ],
-   q(0112) => [
+   q(0113) => [
       q(Jhankot Sign Language),
       ],
-   q(0113) => [
+   q(0114) => [
       q(Amami Koniya Sign Language),
       ],
-   q(0114) => [
+   q(0115) => [
       q(Jamaican Sign Language),
       ],
-   q(0115) => [
+   q(0116) => [
       q(Jordanian Sign Language),
       ],
-   q(0116) => [
+   q(0117) => [
       q(Japanese Sign Language),
       ],
-   q(0117) => [
+   q(0118) => [
       q(Jumla Sign Language),
       ],
-   q(0118) => [
+   q(0119) => [
       q(Selangor Sign Language),
       ],
-   q(0119) => [
+   q(0120) => [
       q(Konkani (individual language)),
       ],
-   q(0120) => [
+   q(0121) => [
       q(Kubu),
       ],
-   q(0121) => [
+   q(0122) => [
       q(Korean Sign Language),
       ],
-   q(0122) => [
+   q(0123) => [
       q(Kerinci),
       ],
-   q(0123) => [
+   q(0124) => [
       q(Brunei),
       ],
-   q(0124) => [
+   q(0125) => [
       q(Libyan Sign Language),
       ],
-   q(0125) => [
+   q(0126) => [
       q(Loncong),
       q(Sekak),
       ],
-   q(0126) => [
+   q(0127) => [
       q(Lubu),
       ],
-   q(0127) => [
+   q(0128) => [
       q(Guinea-Bissau Sign Language),
       q(Lingua Gestual Guineense),
       ],
-   q(0128) => [
+   q(0129) => [
       q(Col),
       ],
-   q(0129) => [
+   q(0130) => [
       q(Lithuanian Sign Language),
       ],
-   q(0130) => [
+   q(0131) => [
       q(Burundian Sign Language),
       q(Langue des Signes Burundaise),
       ],
-   q(0131) => [
+   q(0132) => [
       q(Albarradas Sign Language),
       q(Lengua de senas Albarradas),
       ],
-   q(0132) => [
+   q(0133) => [
       q(Latvian Sign Language),
       ],
-   q(0133) => [
+   q(0134) => [
       q(Tibetan Sign Language),
       ],
-   q(0134) => [
+   q(0135) => [
       q(Laos Sign Language),
       ],
-   q(0135) => [
+   q(0136) => [
       q(Panamanian Sign Language),
       q(Lengua de Senas Panamenas),
       ],
-   q(0136) => [
+   q(0137) => [
       q(Trinidad and Tobago Sign Language),
       ],
-   q(0137) => [
+   q(0138) => [
       q(Sivia Sign Language),
       ],
-   q(0138) => [
+   q(0139) => [
       q(Seychelles Sign Language),
       q(Lalang Siny Seselwa),
       q(Langue des Signes Seychelloise),
       ],
-   q(0139) => [
+   q(0140) => [
       q(Mauritian Sign Language),
       ],
-   q(0140) => [
+   q(0141) => [
       q(Latgalian),
       ],
-   q(0141) => [
-      q(Standard Latvian),
-      ],
    q(0142) => [
-      q(Malawian Sign Language),
+      q(Leizhou Chinese),
       ],
    q(0143) => [
-      q(Literary Chinese),
+      q(Standard Latvian),
       ],
    q(0144) => [
-      q(North Moluccan Malay),
+      q(Malawian Sign Language),
       ],
    q(0145) => [
-      q(Maltese Sign Language),
+      q(Literary Chinese),
       ],
    q(0146) => [
-      q(Kedah Malay),
+      q(North Moluccan Malay),
       ],
    q(0147) => [
-      q(Pattani Malay),
+      q(Maltese Sign Language),
       ],
    q(0148) => [
-      q(Bangka),
+      q(Kedah Malay),
       ],
    q(0149) => [
-      q(Mexican Sign Language),
+      q(Pattani Malay),
       ],
    q(0150) => [
-      q(Minangkabau),
+      q(Bangka),
       ],
    q(0151) => [
-      q(Min Bei Chinese),
+      q(Mexican Sign Language),
       ],
    q(0152) => [
-      q(Kota Bangun Kutai Malay),
+      q(Minangkabau),
       ],
    q(0153) => [
-      q(Martha's Vineyard Sign Language),
+      q(Min Bei Chinese),
       ],
    q(0154) => [
-      q(Yucatec Maya Sign Language),
+      q(Kota Bangun Kutai Malay),
       ],
    q(0155) => [
-      q(Sabah Malay),
+      q(Martha's Vineyard Sign Language),
       ],
    q(0156) => [
-      q(Mongolian Sign Language),
+      q(Yucatec Maya Sign Language),
       ],
    q(0157) => [
-      q(Musi),
+      q(Sabah Malay),
       ],
    q(0158) => [
-      q(Madagascar Sign Language),
+      q(Mongolian Sign Language),
       ],
    q(0159) => [
-      q(Monastic Sign Language),
+      q(Musi),
       ],
    q(0160) => [
-      q(Mozambican Sign Language),
+      q(Madagascar Sign Language),
       ],
    q(0161) => [
-      q(Min Nan Chinese),
+      q(Monastic Sign Language),
       ],
    q(0162) => [
-      q(Namibian Sign Language),
+      q(Mozambican Sign Language),
       ],
    q(0163) => [
-      q(Nicaraguan Sign Language),
+      q(Min Nan Chinese),
       ],
    q(0164) => [
-      q(Nigerian Sign Language),
+      q(Namibian Sign Language),
       ],
    q(0165) => [
-      q(Norwegian Sign Language),
+      q(Nicaraguan Sign Language),
       ],
    q(0166) => [
-      q(Nepalese Sign Language),
+      q(Nigerian Sign Language),
       ],
    q(0167) => [
-      q(Maritime Sign Language),
+      q(Norwegian Sign Language),
       ],
    q(0168) => [
-      q(New Zealand Sign Language),
+      q(Nepalese Sign Language),
       ],
    q(0169) => [
-      q(Old Kentish Sign Language),
+      q(Maritime Sign Language),
       ],
    q(0170) => [
-      q(Orang Kanaq),
+      q(New Zealand Sign Language),
       ],
    q(0171) => [
-      q(Orang Seletar),
+      q(Old Kentish Sign Language),
       ],
    q(0172) => [
-      q(Pekal),
+      q(Orang Kanaq),
       ],
    q(0173) => [
-      q(Sudanese Creole Arabic),
+      q(Orang Seletar),
       ],
    q(0174) => [
-      q(Papua New Guinean Sign Language),
+      q(Pekal),
       ],
    q(0175) => [
-      q(Pakistan Sign Language),
+      q(Sudanese Creole Arabic),
       ],
    q(0176) => [
-      q(Peruvian Sign Language),
+      q(Papua New Guinean Sign Language),
       ],
    q(0177) => [
-      q(Providencia Sign Language),
+      q(Pakistan Sign Language),
       ],
    q(0178) => [
+      q(Peruvian Sign Language),
+      ],
+   q(0179) => [
+      q(Providencia Sign Language),
+      ],
+   q(0180) => [
       q(Iranian Sign Language),
       q(Persian Sign Language),
       ],
-   q(0179) => [
+   q(0181) => [
       q(Plains Indian Sign Language),
       ],
-   q(0180) => [
+   q(0182) => [
       q(Central Malay),
       ],
-   q(0181) => [
+   q(0183) => [
       q(Penang Sign Language),
       ],
-   q(0182) => [
+   q(0184) => [
       q(Puerto Rican Sign Language),
       ],
-   q(0183) => [
+   q(0185) => [
       q(Polish Sign Language),
       ],
-   q(0184) => [
+   q(0186) => [
       q(Philippine Sign Language),
       ],
-   q(0185) => [
+   q(0187) => [
       q(Portuguese Sign Language),
       ],
-   q(0186) => [
+   q(0188) => [
       q(Paraguayan Sign Language),
       q(Lengua de Senas del Paraguay),
       ],
-   q(0187) => [
+   q(0189) => [
       q(Bribri Sign Language),
       ],
-   q(0188) => [
+   q(0190) => [
       q(Romanian Sign Language),
       ],
-   q(0189) => [
+   q(0191) => [
       q(Brunca Sign Language),
       ],
-   q(0190) => [
+   q(0192) => [
       q(Russian Sign Language),
       ],
-   q(0191) => [
+   q(0193) => [
       q(Miriwoong Sign Language),
       ],
-   q(0192) => [
+   q(0194) => [
       q(Rwandan Sign Language),
       ],
-   q(0193) => [
+   q(0195) => [
       q(Saudi Arabian Sign Language),
       ],
-   q(0194) => [
+   q(0196) => [
       q(Langue des signes de Belgique Francophone),
       q(French Belgian Sign Language),
       ],
-   q(0195) => [
+   q(0197) => [
       q(South African Sign Language),
       ],
-   q(0196) => [
+   q(0198) => [
       q(Swiss-German Sign Language),
       ],
-   q(0197) => [
+   q(0199) => [
       q(Sierra Leone Sign Language),
       ],
-   q(0198) => [
+   q(0200) => [
       q(Chadian Arabic),
       ],
-   q(0199) => [
-      q(Swiss-Italian Sign Language),
-      ],
-   q(0200) => [
-      q(Singapore Sign Language),
-      ],
    q(0201) => [
-      q(Albanian Sign Language),
+      q(Shaojiang Chinese),
       ],
    q(0202) => [
-      q(Sri Lankan Sign Language),
+      q(Swiss-Italian Sign Language),
       ],
    q(0203) => [
-      q(Kufr Qassem Sign Language (KQSL)),
+      q(Singapore Sign Language),
       ],
    q(0204) => [
-      q(Shihhi Arabic),
+      q(Albanian Sign Language),
       ],
    q(0205) => [
-      q(Spanish Sign Language),
+      q(Sri Lankan Sign Language),
       ],
    q(0206) => [
-      q(Swiss-French Sign Language),
+      q(Kufr Qassem Sign Language (KQSL)),
       ],
    q(0207) => [
-      q(Slovakian Sign Language),
+      q(Shihhi Arabic),
       ],
    q(0208) => [
-      q(Congo Swahili),
+      q(Spanish Sign Language),
       ],
    q(0209) => [
+      q(Swiss-French Sign Language),
+      ],
+   q(0210) => [
+      q(Slovakian Sign Language),
+      ],
+   q(0211) => [
+      q(Congo Swahili),
+      ],
+   q(0212) => [
       q(Swahili (individual language)),
       q(Kiswahili),
       ],
-   q(0210) => [
+   q(0213) => [
       q(Swedish Sign Language),
       ],
-   q(0211) => [
+   q(0214) => [
       q(Al-Sayyid Bedouin Sign Language),
       ],
-   q(0212) => [
+   q(0215) => [
       q(Solomon Islands Sign Language),
       ],
-   q(0213) => [
+   q(0216) => [
       q(Temuan),
       ],
-   q(0214) => [
+   q(0217) => [
       q(Tunisian Sign Language),
       ],
-   q(0215) => [
+   q(0218) => [
       q(Turkish Sign Language),
       q(Turk Isaret Dili),
       ],
-   q(0216) => [
+   q(0219) => [
       q(Thai Sign Language),
       ],
-   q(0217) => [
+   q(0220) => [
       q(Taiwan Sign Language),
       ],
-   q(0218) => [
+   q(0221) => [
       q(Tebul Sign Language),
       ],
-   q(0219) => [
+   q(0222) => [
       q(Tanzanian Sign Language),
       ],
-   q(0220) => [
+   q(0223) => [
       q(Ugandan Sign Language),
       ],
-   q(0221) => [
+   q(0224) => [
       q(Uruguayan Sign Language),
       ],
-   q(0222) => [
+   q(0225) => [
       q(Ukrainian Sign Language),
       ],
-   q(0223) => [
+   q(0226) => [
       q(Urubu-Kaapor Sign Language),
       q(Kaapor Sign Language),
       ],
-   q(0224) => [
+   q(0227) => [
       q(Urak Lawoi'),
       ],
-   q(0225) => [
+   q(0228) => [
       q(Northern Uzbek),
       ],
-   q(0226) => [
+   q(0229) => [
       q(Southern Uzbek),
       ],
-   q(0227) => [
+   q(0230) => [
       q(Vlaamse Gebarentaal),
       q(Flemish Sign Language),
       ],
-   q(0228) => [
+   q(0231) => [
       q(Kaur),
       ],
-   q(0229) => [
+   q(0232) => [
       q(Tenggarong Kutai Malay),
       ],
-   q(0230) => [
+   q(0233) => [
       q(Moldova Sign Language),
       ],
-   q(0231) => [
+   q(0234) => [
       q(Venezuelan Sign Language),
       ],
-   q(0232) => [
+   q(0235) => [
       q(Valencian Sign Language),
       q(Llengua de signes valenciana),
       ],
-   q(0233) => [
+   q(0236) => [
       q(West Bengal Sign Language),
       ],
-   q(0234) => [
+   q(0237) => [
       q(Wu Chinese),
       ],
-   q(0235) => [
+   q(0238) => [
       q(Kenyan Sign Language),
       ],
-   q(0236) => [
+   q(0239) => [
       q(Malaysian Sign Language),
       ],
-   q(0237) => [
+   q(0240) => [
       q(Manado Malay),
       ],
-   q(0238) => [
+   q(0241) => [
       q(Moroccan Sign Language),
       ],
-   q(0239) => [
+   q(0242) => [
       q(Yolnu Sign Language),
       ],
-   q(0240) => [
+   q(0243) => [
       q(Yan-nhanu Sign Language),
       ],
-   q(0241) => [
+   q(0244) => [
       q(Yugoslavian Sign Language),
       ],
-   q(0242) => [
+   q(0245) => [
       q(Myanmar Sign Language),
       ],
-   q(0243) => [
+   q(0246) => [
       q(Yue Chinese),
       q(Cantonese),
       ],
-   q(0244) => [
+   q(0247) => [
       q(Zimbabwe Sign Language),
       ],
-   q(0245) => [
+   q(0248) => [
       q(Malay (individual language)),
       ],
-   q(0246) => [
+   q(0249) => [
       q(Negeri Sembilan Malay),
       ],
-   q(0247) => [
+   q(0250) => [
       q(Zambian Sign Language),
       ],
-   q(0248) => [
+   q(0251) => [
       q(Standard Malay),
       ],
 };
@@ -797,15 +806,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(al-sayyid bedouin sign language) => [
-      q(0211),
+      q(0214),
       q(0),
       ],
    q(albanian sign language) => [
-      q(0201),
+      q(0204),
       q(0),
       ],
    q(albarradas sign language) => [
-      q(0131),
+      q(0132),
       q(0),
       ],
    q(algerian arabic) => [
@@ -825,7 +834,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(amami koniya sign language) => [
-      q(0113),
+      q(0114),
       q(0),
       ],
    q(american sign language) => [
@@ -873,7 +882,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(bangka) => [
-      q(0148),
+      q(0150),
       q(0),
       ],
    q(banjar) => [
@@ -897,7 +906,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(bribri sign language) => [
-      q(0187),
+      q(0189),
       q(0),
       ],
    q(british sign language) => [
@@ -905,11 +914,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(brunca sign language) => [
-      q(0189),
+      q(0191),
       q(0),
       ],
    q(brunei) => [
-      q(0123),
+      q(0124),
       q(0),
       ],
    q(bukit malay) => [
@@ -921,7 +930,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(burundian sign language) => [
-      q(0130),
+      q(0131),
       q(0),
       ],
    q(cambodian sign language) => [
@@ -929,7 +938,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(cantonese) => [
-      q(0243),
+      q(0246),
       q(1),
       ],
    q(catalan sign language) => [
@@ -937,11 +946,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(central malay) => [
-      q(0180),
+      q(0182),
       q(0),
       ],
    q(chadian arabic) => [
-      q(0198),
+      q(0200),
       q(0),
       ],
    q(chadian sign language) => [
@@ -965,7 +974,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(col) => [
-      q(0128),
+      q(0129),
       q(0),
       ],
    q(colombian sign language) => [
@@ -973,7 +982,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(congo swahili) => [
-      q(0208),
+      q(0211),
       q(0),
       ],
    q(costa rican sign language) => [
@@ -1053,11 +1062,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(flemish sign language) => [
-      q(0227),
+      q(0230),
       q(1),
       ],
    q(french belgian sign language) => [
-      q(0194),
+      q(0196),
       q(1),
       ],
    q(french sign language) => [
@@ -1093,7 +1102,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(guinea-bissau sign language) => [
-      q(0127),
+      q(0128),
       q(0),
       ],
    q(guinean sign language) => [
@@ -1106,6 +1115,10 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       ],
    q(hadrami arabic) => [
       q(0032),
+      q(0),
+      ],
+   q(hainanese) => [
+      q(0096),
       q(0),
       ],
    q(haiphong sign language) => [
@@ -1125,15 +1138,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(hausa sign language) => [
-      q(0099),
+      q(0100),
       q(0),
       ],
    q(hawai'i pidgin sign language) => [
-      q(0097),
+      q(0098),
       q(1),
       ],
    q(hawai'i sign language (hsl)) => [
-      q(0097),
+      q(0098),
       q(0),
       ],
    q(heung kong sau yue) => [
@@ -1145,7 +1158,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(ho chi minh city sign language) => [
-      q(0096),
+      q(0097),
       q(0),
       ],
    q(honduras sign language) => [
@@ -1161,67 +1174,67 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(hungarian sign language) => [
-      q(0098),
+      q(0099),
       q(0),
       ],
    q(icelandic sign language) => [
-      q(0101),
-      q(0),
-      ],
-   q(indian sign language) => [
-      q(0105),
-      q(0),
-      ],
-   q(indonesian sign language) => [
-      q(0104),
-      q(0),
-      ],
-   q(international sign) => [
-      q(0103),
-      q(0),
-      ],
-   q(inuit sign language) => [
       q(0102),
       q(0),
       ],
-   q(iranian sign language) => [
-      q(0178),
-      q(0),
-      ],
-   q(irish sign language) => [
-      q(0107),
-      q(0),
-      ],
-   q(israeli sign language) => [
-      q(0108),
-      q(0),
-      ],
-   q(italian sign language) => [
+   q(indian sign language) => [
       q(0106),
       q(0),
       ],
-   q(jakun) => [
+   q(indonesian sign language) => [
+      q(0105),
+      q(0),
+      ],
+   q(international sign) => [
+      q(0104),
+      q(0),
+      ],
+   q(inuit sign language) => [
+      q(0103),
+      q(0),
+      ],
+   q(iranian sign language) => [
+      q(0180),
+      q(0),
+      ],
+   q(irish sign language) => [
+      q(0108),
+      q(0),
+      ],
+   q(israeli sign language) => [
       q(0109),
       q(0),
       ],
-   q(jamaican country sign language) => [
-      q(0111),
+   q(italian sign language) => [
+      q(0107),
       q(0),
       ],
-   q(jamaican sign language) => [
-      q(0114),
-      q(0),
-      ],
-   q(jambi malay) => [
+   q(jakun) => [
       q(0110),
       q(0),
       ],
+   q(jamaican country sign language) => [
+      q(0112),
+      q(0),
+      ],
+   q(jamaican sign language) => [
+      q(0115),
+      q(0),
+      ],
+   q(jambi malay) => [
+      q(0111),
+      q(0),
+      ],
    q(japanese sign language) => [
-      q(0116),
+      q(0117),
       q(0),
       ],
    q(jhankot sign language) => [
-      q(0112),
+      q(0113),
       q(0),
       ],
    q(jinyu chinese) => [
@@ -1229,87 +1242,91 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(jordanian sign language) => [
-      q(0115),
+      q(0116),
       q(0),
       ],
    q(jumla sign language) => [
-      q(0117),
+      q(0118),
       q(0),
       ],
    q(kaapor sign language) => [
-      q(0223),
+      q(0226),
       q(1),
       ],
    q(kaur) => [
-      q(0228),
+      q(0231),
       q(0),
       ],
    q(kedah malay) => [
-      q(0146),
+      q(0148),
       q(0),
       ],
    q(kenyan sign language) => [
-      q(0235),
+      q(0238),
       q(0),
       ],
    q(kerinci) => [
-      q(0122),
+      q(0123),
       q(0),
       ],
    q(kiswahili) => [
-      q(0209),
+      q(0212),
       q(1),
       ],
    q(konkani (individual language)) => [
-      q(0119),
-      q(0),
-      ],
-   q(korean sign language) => [
-      q(0121),
-      q(0),
-      ],
-   q(kota bangun kutai malay) => [
-      q(0152),
-      q(0),
-      ],
-   q(kubu) => [
       q(0120),
       q(0),
       ],
+   q(korean sign language) => [
+      q(0122),
+      q(0),
+      ],
+   q(kota bangun kutai malay) => [
+      q(0154),
+      q(0),
+      ],
+   q(kubu) => [
+      q(0121),
+      q(0),
+      ],
    q(kufr qassem sign language (kqsl)) => [
-      q(0203),
+      q(0206),
       q(0),
       ],
    q(lalang siny seselwa) => [
-      q(0138),
+      q(0139),
       q(1),
       ],
    q(langue des signes burundaise) => [
-      q(0130),
+      q(0131),
       q(1),
       ],
    q(langue des signes de belgique francophone) => [
-      q(0194),
+      q(0196),
       q(0),
       ],
    q(langue des signes seychelloise) => [
-      q(0138),
+      q(0139),
       q(2),
       ],
    q(laos sign language) => [
-      q(0134),
+      q(0135),
       q(0),
       ],
    q(latgalian) => [
-      q(0140),
+      q(0141),
       q(0),
       ],
    q(latvian sign language) => [
-      q(0132),
+      q(0133),
+      q(0),
+      ],
+   q(leizhou chinese) => [
+      q(0142),
       q(0),
       ],
    q(lengua de senas albarradas) => [
-      q(0131),
+      q(0132),
       q(1),
       ],
    q(lengua de senas catalana) => [
@@ -1317,11 +1334,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(1),
       ],
    q(lengua de senas del paraguay) => [
-      q(0186),
+      q(0188),
       q(1),
       ],
    q(lengua de senas panamenas) => [
-      q(0135),
+      q(0136),
       q(1),
       ],
    q(levantine arabic) => [
@@ -1333,19 +1350,19 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(libyan sign language) => [
-      q(0124),
+      q(0125),
       q(0),
       ],
    q(lingua gestual guineense) => [
-      q(0127),
+      q(0128),
       q(1),
       ],
    q(literary chinese) => [
-      q(0143),
+      q(0145),
       q(0),
       ],
    q(lithuanian sign language) => [
-      q(0129),
+      q(0130),
       q(0),
       ],
    q(llengua de signes catalana) => [
@@ -1353,39 +1370,39 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(2),
       ],
    q(llengua de signes valenciana) => [
-      q(0232),
+      q(0235),
       q(1),
       ],
    q(loncong) => [
-      q(0125),
-      q(0),
-      ],
-   q(lubu) => [
       q(0126),
       q(0),
       ],
+   q(lubu) => [
+      q(0127),
+      q(0),
+      ],
    q(madagascar sign language) => [
-      q(0158),
+      q(0160),
       q(0),
       ],
    q(malawian sign language) => [
-      q(0142),
+      q(0144),
       q(0),
       ],
    q(malay (individual language)) => [
-      q(0245),
+      q(0248),
       q(0),
       ],
    q(malaysian sign language) => [
-      q(0236),
+      q(0239),
       q(0),
       ],
    q(maltese sign language) => [
-      q(0145),
+      q(0147),
       q(0),
       ],
    q(manado malay) => [
-      q(0237),
+      q(0240),
       q(0),
       ],
    q(mandarin chinese) => [
@@ -1397,15 +1414,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(maritime sign language) => [
-      q(0167),
+      q(0169),
       q(0),
       ],
    q(martha's vineyard sign language) => [
-      q(0153),
+      q(0155),
       q(0),
       ],
    q(mauritian sign language) => [
-      q(0139),
+      q(0140),
       q(0),
       ],
    q(mesopotamian arabic) => [
@@ -1413,11 +1430,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(mexican sign language) => [
-      q(0149),
+      q(0151),
       q(0),
       ],
    q(min bei chinese) => [
-      q(0151),
+      q(0153),
       q(0),
       ],
    q(min dong chinese) => [
@@ -1425,7 +1442,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(min nan chinese) => [
-      q(0161),
+      q(0163),
       q(0),
       ],
    q(min zhong chinese) => [
@@ -1433,11 +1450,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(minangkabau) => [
-      q(0150),
+      q(0152),
       q(0),
       ],
    q(miriwoong sign language) => [
-      q(0191),
+      q(0193),
       q(0),
       ],
    q(miyakubo sign language) => [
@@ -1445,15 +1462,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(moldova sign language) => [
-      q(0230),
+      q(0233),
       q(0),
       ],
    q(monastic sign language) => [
-      q(0159),
+      q(0161),
       q(0),
       ],
    q(mongolian sign language) => [
-      q(0156),
+      q(0158),
       q(0),
       ],
    q(moroccan arabic) => [
@@ -1461,19 +1478,19 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(moroccan sign language) => [
-      q(0238),
+      q(0241),
       q(0),
       ],
    q(mozambican sign language) => [
-      q(0160),
+      q(0162),
       q(0),
       ],
    q(musi) => [
-      q(0157),
+      q(0159),
       q(0),
       ],
    q(myanmar sign language) => [
-      q(0242),
+      q(0245),
       q(0),
       ],
    q(najdi arabic) => [
@@ -1481,27 +1498,27 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(namibian sign language) => [
-      q(0162),
+      q(0164),
       q(0),
       ],
    q(negeri sembilan malay) => [
-      q(0246),
+      q(0249),
       q(0),
       ],
    q(nepalese sign language) => [
-      q(0166),
-      q(0),
-      ],
-   q(new zealand sign language) => [
       q(0168),
       q(0),
       ],
+   q(new zealand sign language) => [
+      q(0170),
+      q(0),
+      ],
    q(nicaraguan sign language) => [
-      q(0163),
+      q(0165),
       q(0),
       ],
    q(nigerian sign language) => [
-      q(0164),
+      q(0166),
       q(0),
       ],
    q(north mesopotamian arabic) => [
@@ -1509,7 +1526,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(north moluccan malay) => [
-      q(0144),
+      q(0146),
       q(0),
       ],
    q(northern ping chinese) => [
@@ -1521,15 +1538,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(1),
       ],
    q(northern uzbek) => [
-      q(0225),
+      q(0228),
       q(0),
       ],
    q(norwegian sign language) => [
-      q(0165),
+      q(0167),
       q(0),
       ],
    q(old kentish sign language) => [
-      q(0169),
+      q(0171),
       q(0),
       ],
    q(omani arabic) => [
@@ -1537,67 +1554,67 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(orang kanaq) => [
-      q(0170),
-      q(0),
-      ],
-   q(orang seletar) => [
-      q(0171),
-      q(0),
-      ],
-   q(pakistan sign language) => [
-      q(0175),
-      q(0),
-      ],
-   q(panamanian sign language) => [
-      q(0135),
-      q(0),
-      ],
-   q(papua new guinean sign language) => [
-      q(0174),
-      q(0),
-      ],
-   q(paraguayan sign language) => [
-      q(0186),
-      q(0),
-      ],
-   q(pattani malay) => [
-      q(0147),
-      q(0),
-      ],
-   q(pekal) => [
       q(0172),
       q(0),
       ],
-   q(penang sign language) => [
-      q(0181),
+   q(orang seletar) => [
+      q(0173),
       q(0),
       ],
-   q(persian sign language) => [
-      q(0178),
-      q(1),
+   q(pakistan sign language) => [
+      q(0177),
+      q(0),
       ],
-   q(peruvian sign language) => [
+   q(panamanian sign language) => [
+      q(0136),
+      q(0),
+      ],
+   q(papua new guinean sign language) => [
       q(0176),
       q(0),
       ],
-   q(philippine sign language) => [
-      q(0184),
+   q(paraguayan sign language) => [
+      q(0188),
       q(0),
       ],
-   q(plains indian sign language) => [
-      q(0179),
+   q(pattani malay) => [
+      q(0149),
       q(0),
       ],
-   q(polish sign language) => [
+   q(pekal) => [
+      q(0174),
+      q(0),
+      ],
+   q(penang sign language) => [
       q(0183),
       q(0),
       ],
-   q(portuguese sign language) => [
+   q(persian sign language) => [
+      q(0180),
+      q(1),
+      ],
+   q(peruvian sign language) => [
+      q(0178),
+      q(0),
+      ],
+   q(philippine sign language) => [
+      q(0186),
+      q(0),
+      ],
+   q(plains indian sign language) => [
+      q(0181),
+      q(0),
+      ],
+   q(polish sign language) => [
       q(0185),
       q(0),
       ],
+   q(portuguese sign language) => [
+      q(0187),
+      q(0),
+      ],
    q(providencia sign language) => [
-      q(0177),
+      q(0179),
       q(0),
       ],
    q(pu-xian chinese) => [
@@ -1605,7 +1622,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(puerto rican sign language) => [
-      q(0182),
+      q(0184),
       q(0),
       ],
    q(quebec sign language) => [
@@ -1613,19 +1630,19 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(romanian sign language) => [
-      q(0188),
-      q(0),
-      ],
-   q(russian sign language) => [
       q(0190),
       q(0),
       ],
-   q(rwandan sign language) => [
+   q(russian sign language) => [
       q(0192),
       q(0),
       ],
+   q(rwandan sign language) => [
+      q(0194),
+      q(0),
+      ],
    q(sabah malay) => [
-      q(0155),
+      q(0157),
       q(0),
       ],
    q(saidi arabic) => [
@@ -1641,47 +1658,51 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(saudi arabian sign language) => [
-      q(0193),
+      q(0195),
       q(0),
       ],
    q(sekak) => [
-      q(0125),
+      q(0126),
       q(1),
       ],
    q(selangor sign language) => [
-      q(0118),
+      q(0119),
       q(0),
       ],
    q(seychelles sign language) => [
-      q(0138),
+      q(0139),
+      q(0),
+      ],
+   q(shaojiang chinese) => [
+      q(0201),
       q(0),
       ],
    q(shihhi arabic) => [
-      q(0204),
-      q(0),
-      ],
-   q(sierra leone sign language) => [
-      q(0197),
-      q(0),
-      ],
-   q(singapore sign language) => [
-      q(0200),
-      q(0),
-      ],
-   q(sivia sign language) => [
-      q(0137),
-      q(0),
-      ],
-   q(slovakian sign language) => [
       q(0207),
       q(0),
       ],
+   q(sierra leone sign language) => [
+      q(0199),
+      q(0),
+      ],
+   q(singapore sign language) => [
+      q(0203),
+      q(0),
+      ],
+   q(sivia sign language) => [
+      q(0138),
+      q(0),
+      ],
+   q(slovakian sign language) => [
+      q(0210),
+      q(0),
+      ],
    q(solomon islands sign language) => [
-      q(0212),
+      q(0215),
       q(0),
       ],
    q(south african sign language) => [
-      q(0195),
+      q(0197),
       q(0),
       ],
    q(southern ping chinese) => [
@@ -1693,15 +1714,15 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(1),
       ],
    q(southern uzbek) => [
-      q(0226),
+      q(0229),
       q(0),
       ],
    q(spanish sign language) => [
-      q(0205),
+      q(0208),
       q(0),
       ],
    q(sri lankan sign language) => [
-      q(0202),
+      q(0205),
       q(0),
       ],
    q(standard arabic) => [
@@ -1709,11 +1730,11 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(standard latvian) => [
-      q(0141),
+      q(0143),
       q(0),
       ],
    q(standard malay) => [
-      q(0248),
+      q(0251),
       q(0),
       ],
    q(sudanese arabic) => [
@@ -1721,7 +1742,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(sudanese creole arabic) => [
-      q(0173),
+      q(0175),
       q(0),
       ],
    q(suomenruotsalainen viittomakieli) => [
@@ -1729,23 +1750,23 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(2),
       ],
    q(swahili (individual language)) => [
-      q(0209),
+      q(0212),
       q(0),
       ],
    q(swedish sign language) => [
-      q(0210),
+      q(0213),
       q(0),
       ],
    q(swiss-french sign language) => [
-      q(0206),
+      q(0209),
       q(0),
       ],
    q(swiss-german sign language) => [
-      q(0196),
+      q(0198),
       q(0),
       ],
    q(swiss-italian sign language) => [
-      q(0199),
+      q(0202),
       q(0),
       ],
    q(ta'izzi-adeni arabic) => [
@@ -1753,7 +1774,7 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(taiwan sign language) => [
-      q(0217),
+      q(0220),
       q(0),
       ],
    q(tajiki arabic) => [
@@ -1761,31 +1782,31 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(tanzanian sign language) => [
-      q(0219),
+      q(0222),
       q(0),
       ],
    q(tebul sign language) => [
-      q(0218),
+      q(0221),
       q(0),
       ],
    q(temuan) => [
-      q(0213),
-      q(0),
-      ],
-   q(tenggarong kutai malay) => [
-      q(0229),
-      q(0),
-      ],
-   q(thai sign language) => [
       q(0216),
       q(0),
       ],
+   q(tenggarong kutai malay) => [
+      q(0232),
+      q(0),
+      ],
+   q(thai sign language) => [
+      q(0219),
+      q(0),
+      ],
    q(tibetan sign language) => [
-      q(0133),
+      q(0134),
       q(0),
       ],
    q(trinidad and tobago sign language) => [
-      q(0136),
+      q(0137),
       q(0),
       ],
    q(tunisian arabic) => [
@@ -1793,35 +1814,35 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(tunisian sign language) => [
-      q(0214),
+      q(0217),
       q(0),
       ],
    q(turk isaret dili) => [
-      q(0215),
+      q(0218),
       q(1),
       ],
    q(turkish sign language) => [
-      q(0215),
+      q(0218),
       q(0),
       ],
    q(ugandan sign language) => [
-      q(0220),
-      q(0),
-      ],
-   q(ukrainian sign language) => [
-      q(0222),
-      q(0),
-      ],
-   q(urak lawoi') => [
-      q(0224),
-      q(0),
-      ],
-   q(urubu-kaapor sign language) => [
       q(0223),
       q(0),
       ],
+   q(ukrainian sign language) => [
+      q(0225),
+      q(0),
+      ],
+   q(urak lawoi') => [
+      q(0227),
+      q(0),
+      ],
+   q(urubu-kaapor sign language) => [
+      q(0226),
+      q(0),
+      ],
    q(uruguayan sign language) => [
-      q(0221),
+      q(0224),
       q(0),
       ],
    q(uzbeki arabic) => [
@@ -1829,55 +1850,55 @@ $Locale::Codes::Data{'langext'}{'alias2id'} = {
       q(0),
       ],
    q(valencian sign language) => [
-      q(0232),
+      q(0235),
       q(0),
       ],
    q(venezuelan sign language) => [
-      q(0231),
-      q(0),
-      ],
-   q(vlaamse gebarentaal) => [
-      q(0227),
-      q(0),
-      ],
-   q(west bengal sign language) => [
-      q(0233),
-      q(0),
-      ],
-   q(wu chinese) => [
       q(0234),
       q(0),
       ],
+   q(vlaamse gebarentaal) => [
+      q(0230),
+      q(0),
+      ],
+   q(west bengal sign language) => [
+      q(0236),
+      q(0),
+      ],
+   q(wu chinese) => [
+      q(0237),
+      q(0),
+      ],
    q(xiang chinese) => [
-      q(0100),
+      q(0101),
       q(0),
       ],
    q(yan-nhanu sign language) => [
-      q(0240),
-      q(0),
-      ],
-   q(yolnu sign language) => [
-      q(0239),
-      q(0),
-      ],
-   q(yucatec maya sign language) => [
-      q(0154),
-      q(0),
-      ],
-   q(yue chinese) => [
       q(0243),
       q(0),
       ],
+   q(yolnu sign language) => [
+      q(0242),
+      q(0),
+      ],
+   q(yucatec maya sign language) => [
+      q(0156),
+      q(0),
+      ],
+   q(yue chinese) => [
+      q(0246),
+      q(0),
+      ],
    q(yugoslavian sign language) => [
-      q(0241),
+      q(0244),
       q(0),
       ],
    q(zambian sign language) => [
-      q(0247),
+      q(0250),
       q(0),
       ],
    q(zimbabwe sign language) => [
-      q(0244),
+      q(0247),
       q(0),
       ],
 };
@@ -2264,616 +2285,628 @@ $Locale::Codes::Data{'langext'}{'code2id'} = {
          q(0095),
          q(0),
          ],
-      q(hos) => [
+      q(hnm) => [
          q(0096),
          q(0),
          ],
-      q(hps) => [
+      q(hos) => [
          q(0097),
          q(0),
          ],
-      q(hsh) => [
+      q(hps) => [
          q(0098),
          q(0),
          ],
-      q(hsl) => [
+      q(hsh) => [
          q(0099),
          q(0),
          ],
-      q(hsn) => [
+      q(hsl) => [
          q(0100),
          q(0),
          ],
-      q(icl) => [
+      q(hsn) => [
          q(0101),
          q(0),
          ],
-      q(iks) => [
+      q(icl) => [
          q(0102),
          q(0),
          ],
-      q(ils) => [
+      q(iks) => [
          q(0103),
          q(0),
          ],
-      q(inl) => [
+      q(ils) => [
          q(0104),
          q(0),
          ],
-      q(ins) => [
+      q(inl) => [
          q(0105),
          q(0),
          ],
-      q(ise) => [
+      q(ins) => [
          q(0106),
          q(0),
          ],
-      q(isg) => [
+      q(ise) => [
          q(0107),
          q(0),
          ],
-      q(isr) => [
+      q(isg) => [
          q(0108),
          q(0),
          ],
-      q(jak) => [
+      q(isr) => [
          q(0109),
          q(0),
          ],
-      q(jax) => [
+      q(jak) => [
          q(0110),
          q(0),
          ],
-      q(jcs) => [
+      q(jax) => [
          q(0111),
          q(0),
          ],
-      q(jhs) => [
+      q(jcs) => [
          q(0112),
          q(0),
          ],
-      q(jks) => [
+      q(jhs) => [
          q(0113),
          q(0),
          ],
-      q(jls) => [
+      q(jks) => [
          q(0114),
          q(0),
          ],
-      q(jos) => [
+      q(jls) => [
          q(0115),
          q(0),
          ],
-      q(jsl) => [
+      q(jos) => [
          q(0116),
          q(0),
          ],
-      q(jus) => [
+      q(jsl) => [
          q(0117),
          q(0),
          ],
-      q(kgi) => [
+      q(jus) => [
          q(0118),
          q(0),
          ],
-      q(knn) => [
+      q(kgi) => [
          q(0119),
          q(0),
          ],
-      q(kvb) => [
+      q(knn) => [
          q(0120),
          q(0),
          ],
-      q(kvk) => [
+      q(kvb) => [
          q(0121),
          q(0),
          ],
-      q(kvr) => [
+      q(kvk) => [
          q(0122),
          q(0),
          ],
-      q(kxd) => [
+      q(kvr) => [
          q(0123),
          q(0),
          ],
-      q(lbs) => [
+      q(kxd) => [
          q(0124),
          q(0),
          ],
-      q(lce) => [
+      q(lbs) => [
          q(0125),
          q(0),
          ],
-      q(lcf) => [
+      q(lce) => [
          q(0126),
          q(0),
          ],
-      q(lgs) => [
+      q(lcf) => [
          q(0127),
          q(0),
          ],
-      q(liw) => [
+      q(lgs) => [
          q(0128),
          q(0),
          ],
-      q(lls) => [
+      q(liw) => [
          q(0129),
          q(0),
          ],
-      q(lsb) => [
+      q(lls) => [
          q(0130),
          q(0),
          ],
-      q(lsc) => [
+      q(lsb) => [
          q(0131),
          q(0),
          ],
-      q(lsl) => [
+      q(lsc) => [
          q(0132),
          q(0),
          ],
-      q(lsn) => [
+      q(lsl) => [
          q(0133),
          q(0),
          ],
-      q(lso) => [
+      q(lsn) => [
          q(0134),
          q(0),
          ],
-      q(lsp) => [
+      q(lso) => [
          q(0135),
          q(0),
          ],
-      q(lst) => [
+      q(lsp) => [
          q(0136),
          q(0),
          ],
-      q(lsv) => [
+      q(lst) => [
          q(0137),
          q(0),
          ],
-      q(lsw) => [
+      q(lsv) => [
          q(0138),
          q(0),
          ],
-      q(lsy) => [
+      q(lsw) => [
          q(0139),
          q(0),
          ],
-      q(ltg) => [
+      q(lsy) => [
          q(0140),
          q(0),
          ],
-      q(lvs) => [
+      q(ltg) => [
          q(0141),
          q(0),
          ],
-      q(lws) => [
+      q(luh) => [
          q(0142),
          q(0),
          ],
-      q(lzh) => [
+      q(lvs) => [
          q(0143),
          q(0),
          ],
-      q(max) => [
+      q(lws) => [
          q(0144),
          q(0),
          ],
-      q(mdl) => [
+      q(lzh) => [
          q(0145),
          q(0),
          ],
-      q(meo) => [
+      q(max) => [
          q(0146),
          q(0),
          ],
-      q(mfa) => [
+      q(mdl) => [
          q(0147),
          q(0),
          ],
-      q(mfb) => [
+      q(meo) => [
          q(0148),
          q(0),
          ],
-      q(mfs) => [
+      q(mfa) => [
          q(0149),
          q(0),
          ],
-      q(min) => [
+      q(mfb) => [
          q(0150),
          q(0),
          ],
-      q(mnp) => [
+      q(mfs) => [
          q(0151),
          q(0),
          ],
-      q(mqg) => [
+      q(min) => [
          q(0152),
          q(0),
          ],
-      q(mre) => [
+      q(mnp) => [
          q(0153),
          q(0),
          ],
-      q(msd) => [
+      q(mqg) => [
          q(0154),
          q(0),
          ],
-      q(msi) => [
+      q(mre) => [
          q(0155),
          q(0),
          ],
-      q(msr) => [
+      q(msd) => [
          q(0156),
          q(0),
          ],
-      q(mui) => [
+      q(msi) => [
          q(0157),
          q(0),
          ],
-      q(mzc) => [
+      q(msr) => [
          q(0158),
          q(0),
          ],
-      q(mzg) => [
+      q(mui) => [
          q(0159),
          q(0),
          ],
-      q(mzy) => [
+      q(mzc) => [
          q(0160),
          q(0),
          ],
-      q(nan) => [
+      q(mzg) => [
          q(0161),
          q(0),
          ],
-      q(nbs) => [
+      q(mzy) => [
          q(0162),
          q(0),
          ],
-      q(ncs) => [
+      q(nan) => [
          q(0163),
          q(0),
          ],
-      q(nsi) => [
+      q(nbs) => [
          q(0164),
          q(0),
          ],
-      q(nsl) => [
+      q(ncs) => [
          q(0165),
          q(0),
          ],
-      q(nsp) => [
+      q(nsi) => [
          q(0166),
          q(0),
          ],
-      q(nsr) => [
+      q(nsl) => [
          q(0167),
          q(0),
          ],
-      q(nzs) => [
+      q(nsp) => [
          q(0168),
          q(0),
          ],
-      q(okl) => [
+      q(nsr) => [
          q(0169),
          q(0),
          ],
-      q(orn) => [
+      q(nzs) => [
          q(0170),
          q(0),
          ],
-      q(ors) => [
+      q(okl) => [
          q(0171),
          q(0),
          ],
-      q(pel) => [
+      q(orn) => [
          q(0172),
          q(0),
          ],
-      q(pga) => [
+      q(ors) => [
          q(0173),
          q(0),
          ],
-      q(pgz) => [
+      q(pel) => [
          q(0174),
          q(0),
          ],
-      q(pks) => [
+      q(pga) => [
          q(0175),
          q(0),
          ],
-      q(prl) => [
+      q(pgz) => [
          q(0176),
          q(0),
          ],
-      q(prz) => [
+      q(pks) => [
          q(0177),
          q(0),
          ],
-      q(psc) => [
+      q(prl) => [
          q(0178),
          q(0),
          ],
-      q(psd) => [
+      q(prz) => [
          q(0179),
          q(0),
          ],
-      q(pse) => [
+      q(psc) => [
          q(0180),
          q(0),
          ],
-      q(psg) => [
+      q(psd) => [
          q(0181),
          q(0),
          ],
-      q(psl) => [
+      q(pse) => [
          q(0182),
          q(0),
          ],
-      q(pso) => [
+      q(psg) => [
          q(0183),
          q(0),
          ],
-      q(psp) => [
+      q(psl) => [
          q(0184),
          q(0),
          ],
-      q(psr) => [
+      q(pso) => [
          q(0185),
          q(0),
          ],
-      q(pys) => [
+      q(psp) => [
          q(0186),
          q(0),
          ],
-      q(rib) => [
+      q(psr) => [
          q(0187),
          q(0),
          ],
-      q(rms) => [
+      q(pys) => [
          q(0188),
          q(0),
          ],
-      q(rnb) => [
+      q(rib) => [
          q(0189),
          q(0),
          ],
-      q(rsl) => [
+      q(rms) => [
          q(0190),
          q(0),
          ],
-      q(rsm) => [
+      q(rnb) => [
          q(0191),
          q(0),
          ],
-      q(rsn) => [
+      q(rsl) => [
          q(0192),
          q(0),
          ],
-      q(sdl) => [
+      q(rsm) => [
          q(0193),
          q(0),
          ],
-      q(sfb) => [
+      q(rsn) => [
          q(0194),
          q(0),
          ],
-      q(sfs) => [
+      q(sdl) => [
          q(0195),
          q(0),
          ],
-      q(sgg) => [
+      q(sfb) => [
          q(0196),
          q(0),
          ],
-      q(sgx) => [
+      q(sfs) => [
          q(0197),
          q(0),
          ],
-      q(shu) => [
+      q(sgg) => [
          q(0198),
          q(0),
          ],
-      q(slf) => [
+      q(sgx) => [
          q(0199),
          q(0),
          ],
-      q(sls) => [
+      q(shu) => [
          q(0200),
          q(0),
          ],
-      q(sqk) => [
+      q(sjc) => [
          q(0201),
          q(0),
          ],
-      q(sqs) => [
+      q(slf) => [
          q(0202),
          q(0),
          ],
-      q(sqx) => [
+      q(sls) => [
          q(0203),
          q(0),
          ],
-      q(ssh) => [
+      q(sqk) => [
          q(0204),
          q(0),
          ],
-      q(ssp) => [
+      q(sqs) => [
          q(0205),
          q(0),
          ],
-      q(ssr) => [
+      q(sqx) => [
          q(0206),
          q(0),
          ],
-      q(svk) => [
+      q(ssh) => [
          q(0207),
          q(0),
          ],
-      q(swc) => [
+      q(ssp) => [
          q(0208),
          q(0),
          ],
-      q(swh) => [
+      q(ssr) => [
          q(0209),
          q(0),
          ],
-      q(swl) => [
+      q(svk) => [
          q(0210),
          q(0),
          ],
-      q(syy) => [
+      q(swc) => [
          q(0211),
          q(0),
          ],
-      q(szs) => [
+      q(swh) => [
          q(0212),
          q(0),
          ],
-      q(tmw) => [
+      q(swl) => [
          q(0213),
          q(0),
          ],
-      q(tse) => [
+      q(syy) => [
          q(0214),
          q(0),
          ],
-      q(tsm) => [
+      q(szs) => [
          q(0215),
          q(0),
          ],
-      q(tsq) => [
+      q(tmw) => [
          q(0216),
          q(0),
          ],
-      q(tss) => [
+      q(tse) => [
          q(0217),
          q(0),
          ],
-      q(tsy) => [
+      q(tsm) => [
          q(0218),
          q(0),
          ],
-      q(tza) => [
+      q(tsq) => [
          q(0219),
          q(0),
          ],
-      q(ugn) => [
+      q(tss) => [
          q(0220),
          q(0),
          ],
-      q(ugy) => [
+      q(tsy) => [
          q(0221),
          q(0),
          ],
-      q(ukl) => [
+      q(tza) => [
          q(0222),
          q(0),
          ],
-      q(uks) => [
+      q(ugn) => [
          q(0223),
          q(0),
          ],
-      q(urk) => [
+      q(ugy) => [
          q(0224),
          q(0),
          ],
-      q(uzn) => [
+      q(ukl) => [
          q(0225),
          q(0),
          ],
-      q(uzs) => [
+      q(uks) => [
          q(0226),
          q(0),
          ],
-      q(vgt) => [
+      q(urk) => [
          q(0227),
          q(0),
          ],
-      q(vkk) => [
+      q(uzn) => [
          q(0228),
          q(0),
          ],
-      q(vkt) => [
+      q(uzs) => [
          q(0229),
          q(0),
          ],
-      q(vsi) => [
+      q(vgt) => [
          q(0230),
          q(0),
          ],
-      q(vsl) => [
+      q(vkk) => [
          q(0231),
          q(0),
          ],
-      q(vsv) => [
+      q(vkt) => [
          q(0232),
          q(0),
          ],
-      q(wbs) => [
+      q(vsi) => [
          q(0233),
          q(0),
          ],
-      q(wuu) => [
+      q(vsl) => [
          q(0234),
          q(0),
          ],
-      q(xki) => [
+      q(vsv) => [
          q(0235),
          q(0),
          ],
-      q(xml) => [
+      q(wbs) => [
          q(0236),
          q(0),
          ],
-      q(xmm) => [
+      q(wuu) => [
          q(0237),
          q(0),
          ],
-      q(xms) => [
+      q(xki) => [
          q(0238),
          q(0),
          ],
-      q(ygs) => [
+      q(xml) => [
          q(0239),
          q(0),
          ],
-      q(yhs) => [
+      q(xmm) => [
          q(0240),
          q(0),
          ],
-      q(ysl) => [
+      q(xms) => [
          q(0241),
          q(0),
          ],
-      q(ysm) => [
+      q(ygs) => [
          q(0242),
          q(0),
          ],
-      q(yue) => [
+      q(yhs) => [
          q(0243),
          q(0),
          ],
-      q(zib) => [
+      q(ysl) => [
          q(0244),
          q(0),
          ],
-      q(zlm) => [
+      q(ysm) => [
          q(0245),
          q(0),
          ],
-      q(zmi) => [
+      q(yue) => [
          q(0246),
          q(0),
          ],
-      q(zsl) => [
+      q(zib) => [
          q(0247),
          q(0),
          ],
-      q(zsm) => [
+      q(zlm) => [
          q(0248),
+         q(0),
+         ],
+      q(zmi) => [
+         q(0249),
+         q(0),
+         ],
+      q(zsl) => [
+         q(0250),
+         q(0),
+         ],
+      q(zsm) => [
+         q(0251),
          q(0),
          ],
       },
@@ -2976,159 +3009,162 @@ $Locale::Codes::Data{'langext'}{'id2code'} = {
       q(0093) => q(hds),
       q(0094) => q(hji),
       q(0095) => q(hks),
-      q(0096) => q(hos),
-      q(0097) => q(hps),
-      q(0098) => q(hsh),
-      q(0099) => q(hsl),
-      q(0100) => q(hsn),
-      q(0101) => q(icl),
-      q(0102) => q(iks),
-      q(0103) => q(ils),
-      q(0104) => q(inl),
-      q(0105) => q(ins),
-      q(0106) => q(ise),
-      q(0107) => q(isg),
-      q(0108) => q(isr),
-      q(0109) => q(jak),
-      q(0110) => q(jax),
-      q(0111) => q(jcs),
-      q(0112) => q(jhs),
-      q(0113) => q(jks),
-      q(0114) => q(jls),
-      q(0115) => q(jos),
-      q(0116) => q(jsl),
-      q(0117) => q(jus),
-      q(0118) => q(kgi),
-      q(0119) => q(knn),
-      q(0120) => q(kvb),
-      q(0121) => q(kvk),
-      q(0122) => q(kvr),
-      q(0123) => q(kxd),
-      q(0124) => q(lbs),
-      q(0125) => q(lce),
-      q(0126) => q(lcf),
-      q(0127) => q(lgs),
-      q(0128) => q(liw),
-      q(0129) => q(lls),
-      q(0130) => q(lsb),
-      q(0131) => q(lsc),
-      q(0132) => q(lsl),
-      q(0133) => q(lsn),
-      q(0134) => q(lso),
-      q(0135) => q(lsp),
-      q(0136) => q(lst),
-      q(0137) => q(lsv),
-      q(0138) => q(lsw),
-      q(0139) => q(lsy),
-      q(0140) => q(ltg),
-      q(0141) => q(lvs),
-      q(0142) => q(lws),
-      q(0143) => q(lzh),
-      q(0144) => q(max),
-      q(0145) => q(mdl),
-      q(0146) => q(meo),
-      q(0147) => q(mfa),
-      q(0148) => q(mfb),
-      q(0149) => q(mfs),
-      q(0150) => q(min),
-      q(0151) => q(mnp),
-      q(0152) => q(mqg),
-      q(0153) => q(mre),
-      q(0154) => q(msd),
-      q(0155) => q(msi),
-      q(0156) => q(msr),
-      q(0157) => q(mui),
-      q(0158) => q(mzc),
-      q(0159) => q(mzg),
-      q(0160) => q(mzy),
-      q(0161) => q(nan),
-      q(0162) => q(nbs),
-      q(0163) => q(ncs),
-      q(0164) => q(nsi),
-      q(0165) => q(nsl),
-      q(0166) => q(nsp),
-      q(0167) => q(nsr),
-      q(0168) => q(nzs),
-      q(0169) => q(okl),
-      q(0170) => q(orn),
-      q(0171) => q(ors),
-      q(0172) => q(pel),
-      q(0173) => q(pga),
-      q(0174) => q(pgz),
-      q(0175) => q(pks),
-      q(0176) => q(prl),
-      q(0177) => q(prz),
-      q(0178) => q(psc),
-      q(0179) => q(psd),
-      q(0180) => q(pse),
-      q(0181) => q(psg),
-      q(0182) => q(psl),
-      q(0183) => q(pso),
-      q(0184) => q(psp),
-      q(0185) => q(psr),
-      q(0186) => q(pys),
-      q(0187) => q(rib),
-      q(0188) => q(rms),
-      q(0189) => q(rnb),
-      q(0190) => q(rsl),
-      q(0191) => q(rsm),
-      q(0192) => q(rsn),
-      q(0193) => q(sdl),
-      q(0194) => q(sfb),
-      q(0195) => q(sfs),
-      q(0196) => q(sgg),
-      q(0197) => q(sgx),
-      q(0198) => q(shu),
-      q(0199) => q(slf),
-      q(0200) => q(sls),
-      q(0201) => q(sqk),
-      q(0202) => q(sqs),
-      q(0203) => q(sqx),
-      q(0204) => q(ssh),
-      q(0205) => q(ssp),
-      q(0206) => q(ssr),
-      q(0207) => q(svk),
-      q(0208) => q(swc),
-      q(0209) => q(swh),
-      q(0210) => q(swl),
-      q(0211) => q(syy),
-      q(0212) => q(szs),
-      q(0213) => q(tmw),
-      q(0214) => q(tse),
-      q(0215) => q(tsm),
-      q(0216) => q(tsq),
-      q(0217) => q(tss),
-      q(0218) => q(tsy),
-      q(0219) => q(tza),
-      q(0220) => q(ugn),
-      q(0221) => q(ugy),
-      q(0222) => q(ukl),
-      q(0223) => q(uks),
-      q(0224) => q(urk),
-      q(0225) => q(uzn),
-      q(0226) => q(uzs),
-      q(0227) => q(vgt),
-      q(0228) => q(vkk),
-      q(0229) => q(vkt),
-      q(0230) => q(vsi),
-      q(0231) => q(vsl),
-      q(0232) => q(vsv),
-      q(0233) => q(wbs),
-      q(0234) => q(wuu),
-      q(0235) => q(xki),
-      q(0236) => q(xml),
-      q(0237) => q(xmm),
-      q(0238) => q(xms),
-      q(0239) => q(ygs),
-      q(0240) => q(yhs),
-      q(0241) => q(ysl),
-      q(0242) => q(ysm),
-      q(0243) => q(yue),
-      q(0244) => q(zib),
-      q(0245) => q(zlm),
-      q(0246) => q(zmi),
-      q(0247) => q(zsl),
-      q(0248) => q(zsm),
+      q(0096) => q(hnm),
+      q(0097) => q(hos),
+      q(0098) => q(hps),
+      q(0099) => q(hsh),
+      q(0100) => q(hsl),
+      q(0101) => q(hsn),
+      q(0102) => q(icl),
+      q(0103) => q(iks),
+      q(0104) => q(ils),
+      q(0105) => q(inl),
+      q(0106) => q(ins),
+      q(0107) => q(ise),
+      q(0108) => q(isg),
+      q(0109) => q(isr),
+      q(0110) => q(jak),
+      q(0111) => q(jax),
+      q(0112) => q(jcs),
+      q(0113) => q(jhs),
+      q(0114) => q(jks),
+      q(0115) => q(jls),
+      q(0116) => q(jos),
+      q(0117) => q(jsl),
+      q(0118) => q(jus),
+      q(0119) => q(kgi),
+      q(0120) => q(knn),
+      q(0121) => q(kvb),
+      q(0122) => q(kvk),
+      q(0123) => q(kvr),
+      q(0124) => q(kxd),
+      q(0125) => q(lbs),
+      q(0126) => q(lce),
+      q(0127) => q(lcf),
+      q(0128) => q(lgs),
+      q(0129) => q(liw),
+      q(0130) => q(lls),
+      q(0131) => q(lsb),
+      q(0132) => q(lsc),
+      q(0133) => q(lsl),
+      q(0134) => q(lsn),
+      q(0135) => q(lso),
+      q(0136) => q(lsp),
+      q(0137) => q(lst),
+      q(0138) => q(lsv),
+      q(0139) => q(lsw),
+      q(0140) => q(lsy),
+      q(0141) => q(ltg),
+      q(0142) => q(luh),
+      q(0143) => q(lvs),
+      q(0144) => q(lws),
+      q(0145) => q(lzh),
+      q(0146) => q(max),
+      q(0147) => q(mdl),
+      q(0148) => q(meo),
+      q(0149) => q(mfa),
+      q(0150) => q(mfb),
+      q(0151) => q(mfs),
+      q(0152) => q(min),
+      q(0153) => q(mnp),
+      q(0154) => q(mqg),
+      q(0155) => q(mre),
+      q(0156) => q(msd),
+      q(0157) => q(msi),
+      q(0158) => q(msr),
+      q(0159) => q(mui),
+      q(0160) => q(mzc),
+      q(0161) => q(mzg),
+      q(0162) => q(mzy),
+      q(0163) => q(nan),
+      q(0164) => q(nbs),
+      q(0165) => q(ncs),
+      q(0166) => q(nsi),
+      q(0167) => q(nsl),
+      q(0168) => q(nsp),
+      q(0169) => q(nsr),
+      q(0170) => q(nzs),
+      q(0171) => q(okl),
+      q(0172) => q(orn),
+      q(0173) => q(ors),
+      q(0174) => q(pel),
+      q(0175) => q(pga),
+      q(0176) => q(pgz),
+      q(0177) => q(pks),
+      q(0178) => q(prl),
+      q(0179) => q(prz),
+      q(0180) => q(psc),
+      q(0181) => q(psd),
+      q(0182) => q(pse),
+      q(0183) => q(psg),
+      q(0184) => q(psl),
+      q(0185) => q(pso),
+      q(0186) => q(psp),
+      q(0187) => q(psr),
+      q(0188) => q(pys),
+      q(0189) => q(rib),
+      q(0190) => q(rms),
+      q(0191) => q(rnb),
+      q(0192) => q(rsl),
+      q(0193) => q(rsm),
+      q(0194) => q(rsn),
+      q(0195) => q(sdl),
+      q(0196) => q(sfb),
+      q(0197) => q(sfs),
+      q(0198) => q(sgg),
+      q(0199) => q(sgx),
+      q(0200) => q(shu),
+      q(0201) => q(sjc),
+      q(0202) => q(slf),
+      q(0203) => q(sls),
+      q(0204) => q(sqk),
+      q(0205) => q(sqs),
+      q(0206) => q(sqx),
+      q(0207) => q(ssh),
+      q(0208) => q(ssp),
+      q(0209) => q(ssr),
+      q(0210) => q(svk),
+      q(0211) => q(swc),
+      q(0212) => q(swh),
+      q(0213) => q(swl),
+      q(0214) => q(syy),
+      q(0215) => q(szs),
+      q(0216) => q(tmw),
+      q(0217) => q(tse),
+      q(0218) => q(tsm),
+      q(0219) => q(tsq),
+      q(0220) => q(tss),
+      q(0221) => q(tsy),
+      q(0222) => q(tza),
+      q(0223) => q(ugn),
+      q(0224) => q(ugy),
+      q(0225) => q(ukl),
+      q(0226) => q(uks),
+      q(0227) => q(urk),
+      q(0228) => q(uzn),
+      q(0229) => q(uzs),
+      q(0230) => q(vgt),
+      q(0231) => q(vkk),
+      q(0232) => q(vkt),
+      q(0233) => q(vsi),
+      q(0234) => q(vsl),
+      q(0235) => q(vsv),
+      q(0236) => q(wbs),
+      q(0237) => q(wuu),
+      q(0238) => q(xki),
+      q(0239) => q(xml),
+      q(0240) => q(xmm),
+      q(0241) => q(xms),
+      q(0242) => q(ygs),
+      q(0243) => q(yhs),
+      q(0244) => q(ysl),
+      q(0245) => q(ysm),
+      q(0246) => q(yue),
+      q(0247) => q(zib),
+      q(0248) => q(zlm),
+      q(0249) => q(zmi),
+      q(0250) => q(zsl),
+      q(0251) => q(zsm),
       },
 };
 

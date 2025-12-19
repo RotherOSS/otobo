@@ -438,7 +438,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
             'Module'          => 'Locale::Codes',
             'Required'        => 1,
-            'VersionRequired' => '== 3.76',
+            'VersionRequired' => '== 3.86',
         },
         {
             'Comment'         => 'needed by webservices',
