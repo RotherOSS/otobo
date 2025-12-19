@@ -193,13 +193,13 @@ requires 'Type::Tiny', '== 1.010000';
 requires 'XML::FeedPP', '== 0.43';
 
 # needed by Kernel::System::XML::Simple
-requires 'XML::LibXML::Simple', '== 0.97';
+requires 'XML::LibXML::Simple', '== 1.01';
 
 # removed in OTOBO 11.0.x
 requires 'XML::Parser::Lite', '== 0.721';
 
 # needed by Kernel::GenericInterface::Mapping::XSLT
-requires 'XML::Simple', '== 2.24';
+requires 'XML::Simple', '== 2.25';
 
 # needed by XML::FeedPP
 requires 'XML::TreePP', '== 0.43';
