@@ -50,10 +50,10 @@ requires 'Email::Valid', '== 1.202';
 # needed by Kernel::System::CSV
 requires 'Excel::Writer::XLSX', '== 0.95';
 
-# needed by Type::Tiny
+# needed by Type::Tiny, removed in OTOBO 11.1.x
 requires 'Exporter::Tiny', '== 1.002001';
 
-# needed by Text::Diff::FormattedHTML
+# needed by Text::Diff::FormattedHTML, removed in OTOBO 11.1.x
 requires 'File::Slurp', '== 9999.32';
 
 # needed by PDF::API2
@@ -119,10 +119,10 @@ requires 'Mozilla::CA', '== 20200520';
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.17';
 
-# needed by Kernel::System::MailAccount::IMAP
+# needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x
 requires 'Net::IMAP::Simple', '== 1.2209';
 
-# needed by OTOBO email modules
+# needed by OTOBO email modules, removed in OTOBO 11.1.x
 requires 'Net::SSLGlue', '== 1.058';
 
 # needed by Kernel::System::PDF
@@ -156,7 +156,7 @@ requires 'Text::Diff::FormattedHTML', '== 0.08';
 # needed by Data::ICal
 requires 'Text::vFile::asData', '== 0.08';
 
-# needed by Crypt::Random::Source
+# needed by Crypt::Random::Source, removed in OTOBO 11.1.x
 requires 'Type::Tiny', '== 1.010000';
 
 # needed by Kernel::Output::HTML::Dashboard::RSS
