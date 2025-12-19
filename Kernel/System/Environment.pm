@@ -402,7 +402,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Text::Diff::FormattedHTML, removed in OTOBO 11.0.x',
             'Module'          => 'File::Slurp',
             'Required'        => 1,
-            'VersionRequired' => '== 9999.19',
+            'VersionRequired' => '== 9999.32',
         },
         {
             'Comment'         => 'removed in OTOBO 11.0.x',
