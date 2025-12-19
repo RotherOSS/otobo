@@ -88,6 +88,14 @@ my @Excemptions = (
         }
     },
     {
+        'libwww-perl' => {
+            advisories => bag {
+                item { cves => array { end(); } };
+                end();
+            },
+        }
+    },
+    {
         'Mojolicious' => {
             advisories => bag {
                 item { cves => array { item 'CVE-2024-58135'; end(); } };
