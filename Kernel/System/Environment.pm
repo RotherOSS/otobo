@@ -435,7 +435,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.23',
         },
         {
-            'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
+            'Comment'         => 'needed by Kernel::System::ReferenceData, which uses Locale::Country',
             'Module'          => 'Locale::Codes',
             'Required'        => 1,
             'VersionRequired' => '== 3.86',
