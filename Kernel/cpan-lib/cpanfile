@@ -205,5 +205,5 @@ requires 'XML::TreePP', '== 0.43';
 requires 'URI', '== 1.71';
 
 # needed by Sisimai, OTOBO itself uses YAML::XS
-requires 'YAML', '== 1.23';
+requires 'YAML', '== 1.30';
 

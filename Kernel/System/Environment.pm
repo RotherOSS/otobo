@@ -689,7 +689,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Sisimai, OTOBO itself uses YAML::XS',
             'Module'          => 'YAML',
             'Required'        => 1,
-            'VersionRequired' => '== 1.23',
+            'VersionRequired' => '== 1.30',
         },
     );
 }
