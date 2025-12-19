@@ -647,9 +647,9 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="TimeShowCreatedAt" Required="0" Valid="0">
-        <Description Translatable="1">Shows creation date instead of age if ticket is older than configured value (days).</Description>
-        <Navigation>Core::Time</Navigation>
+    <Setting Name="CustomerFrontend::TimeShowCreatedAt" Required="0" Valid="0">
+        <Description Translatable="1">Shows creation date instead of age in the customer interface if ticket is older than configured value (days).</Description>
+        <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="1">
                 <Item ValueType="Option" Value="0" Translatable="1">always</Item>

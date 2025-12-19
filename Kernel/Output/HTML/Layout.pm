@@ -2247,7 +2247,7 @@ sub CustomerAge {
     }
 
     # expected to be an integer number
-    my $TimeShowCreatedAt = $ConfigObject->Get('TimeShowCreatedAt');
+    my $TimeShowCreatedAt = $ConfigObject->Get('CustomerFrontend::TimeShowCreatedAt');
     if ( IsInteger($TimeShowCreatedAt) ) {
 
         # check if age transformation should be applied
