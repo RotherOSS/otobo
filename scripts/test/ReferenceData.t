@@ -45,7 +45,7 @@ my $CountryListLength = scalar keys $CountryExists->%*;
 ok( $CountryListLength > 100, "There are $CountryListLength countries registered" );
 
 my @CountryList = (
-    'Netherlands',
+    'Netherlands (Kingdom of the)',
     'Germany',
     'Switzerland',
     'United States of America',
