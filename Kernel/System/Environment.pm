@@ -570,7 +570,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
-            'VersionRequired' => '== 2.033',
+            'VersionRequired' => '== 2.048',
         },
         {
             'Comment'         => 'needed by console command Dev::Tools::TranslationsUpdate',

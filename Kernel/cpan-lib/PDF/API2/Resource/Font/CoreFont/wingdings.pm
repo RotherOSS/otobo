@@ -3,7 +3,7 @@ package PDF::API2::Resource::Font::CoreFont::wingdings;
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 sub data { return {
     'fontname' => 'Wingdings',
