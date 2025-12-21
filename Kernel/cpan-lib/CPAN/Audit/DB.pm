@@ -1,5 +1,5 @@
-# created by util/generate at Sun Dec 14 03:58:49 2025
-# https://github.com/briandfoy/cpan-security-advisory 76ec3e4a932959827f181411f906f8863bc544fe
+# created by util/generate at Sun Dec 21 03:58:58 2025
+# https://github.com/briandfoy/cpan-security-advisory 9a496cbd5787a2720729659e05d02bd236bdd710
 
 =encoding utf8
 
@@ -82,7 +82,7 @@ package CPAN::Audit::DB;
 use strict;
 use warnings;
 
-our $VERSION = '20251214.001';
+our $VERSION = '20251221.001';
 
 sub db {
 	{
@@ -5089,6 +5089,10 @@ sub db {
                                                            {
                                                              'date' => '2025-12-13T16:24:36',
                                                              'version' => '2.096001'
+                                                           },
+                                                           {
+                                                             'date' => '2025-12-16T12:26:36',
+                                                             'version' => '2.097000'
                                                            }
                                                          ]
                                          },
@@ -12534,7 +12538,7 @@ sub db {
                                                    {
                                                      'date' => '2017-02-20T00:00:00',
                                                      'dual_lived' => 1,
-                                                     'perl_release' => '5.025010',
+                                                     'perl_release' => '5.02501',
                                                      'version' => '2.17'
                                                    },
                                                    {
@@ -32956,7 +32960,7 @@ sub db {
                                                           {
                                                             'date' => '2015-03-20T00:00:00',
                                                             'dual_lived' => 1,
-                                                            'perl_release' => '5.021010',
+                                                            'perl_release' => '5.02101',
                                                             'version' => '2.158'
                                                           },
                                                           {
@@ -36406,6 +36410,14 @@ sub db {
                                                    {
                                                      'date' => '2025-07-02T00:09:01',
                                                      'version' => 'v1.22.21'
+                                                   },
+                                                   {
+                                                     'date' => '2025-12-16T22:55:42',
+                                                     'version' => 'v1.23.0'
+                                                   },
+                                                   {
+                                                     'date' => '2025-12-17T12:41:12',
+                                                     'version' => 'v1.23.1'
                                                    }
                                                  ]
                                  },
@@ -40564,7 +40576,7 @@ sub db {
                                                                  {
                                                                    'date' => '2000-03-22T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.006',
+                                                                   'perl_release' => '5.006000',
                                                                    'version' => '5.45'
                                                                  },
                                                                  {
@@ -40576,13 +40588,13 @@ sub db {
                                                                  {
                                                                    'date' => '2010-04-20T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.013000',
+                                                                   'perl_release' => '5.013',
                                                                    'version' => '6.5601'
                                                                  },
                                                                  {
                                                                    'date' => '2015-06-01T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.022000',
+                                                                   'perl_release' => '5.022',
                                                                    'version' => '7.04_01'
                                                                  },
                                                                  {
@@ -41067,7 +41079,7 @@ sub db {
                                                                {
                                                                  'date' => '2011-05-14T00:00:00',
                                                                  'dual_lived' => 1,
-                                                                 'perl_release' => '5.014000',
+                                                                 'perl_release' => '5.014',
                                                                  'version' => '2.2210'
                                                                },
                                                                {
@@ -41205,7 +41217,7 @@ sub db {
                                                                {
                                                                  'date' => '2022-03-20T00:00:00',
                                                                  'dual_lived' => 1,
-                                                                 'perl_release' => '5.035010',
+                                                                 'perl_release' => '5.03501',
                                                                  'version' => '3.45'
                                                                },
                                                                {
@@ -42830,7 +42842,7 @@ sub db {
                                                         {
                                                           'date' => '2000-03-22T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.006',
+                                                          'perl_release' => '5.006000',
                                                           'version' => '1.0403'
                                                         },
                                                         {
@@ -42878,7 +42890,7 @@ sub db {
                                                         {
                                                           'date' => '2016-05-09T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.024',
+                                                          'perl_release' => '5.024000',
                                                           'version' => '2.12_01'
                                                         }
                                                       ]
@@ -50792,6 +50804,10 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                              {
                                                                'date' => '2025-09-09T18:09:15',
                                                                'version' => '13.36'
+                                                             },
+                                                             {
+                                                               'date' => '2025-12-15T20:40:08',
+                                                               'version' => '13.44'
                                                              }
                                                            ]
                                            },
@@ -82480,7 +82496,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2000-03-22T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.006',
+                                                          'perl_release' => '5.006000',
                                                           'version' => '2.02'
                                                         },
                                                         {
@@ -82522,7 +82538,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2009-10-02T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.011000',
+                                                          'perl_release' => '5.011',
                                                           'version' => '3.3002'
                                                         },
                                                         {
@@ -82624,7 +82640,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2015-03-20T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.021010',
+                                                          'perl_release' => '5.02101',
                                                           'version' => '3.55'
                                                         },
                                                         {
@@ -82756,7 +82772,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2022-03-20T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.035010',
+                                                          'perl_release' => '5.03501',
                                                           'version' => '3.84'
                                                         },
                                                         {
@@ -91940,6 +91956,10 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                     {
                                                       'date' => '2024-11-28T19:18:13',
                                                       'version' => '24.11'
+                                                    },
+                                                    {
+                                                      'date' => '2025-12-21T00:33:44',
+                                                      'version' => '25.12'
                                                     }
                                                   ]
                                   },
@@ -92755,7 +92775,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '2000-03-22T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.006',
+                                                       'perl_release' => '5.006000',
                                                        'version' => '1.72'
                                                      },
                                                      {
@@ -92809,7 +92829,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '2009-10-02T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.011000',
+                                                       'perl_release' => '5.011',
                                                        'version' => '1.84'
                                                      },
                                                      {
@@ -92827,7 +92847,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '2010-04-12T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.012',
+                                                       'perl_release' => '5.012000',
                                                        'version' => '1.87'
                                                      },
                                                      {
@@ -95060,7 +95080,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                        {
                                                          'date' => '2013-05-20T00:00:00',
                                                          'dual_lived' => 1,
-                                                         'perl_release' => '5.019000',
+                                                         'perl_release' => '5.019',
                                                          'version' => '2.42'
                                                        },
                                                        {
@@ -95174,7 +95194,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                        {
                                                          'date' => '2017-02-20T00:00:00',
                                                          'dual_lived' => 1,
-                                                         'perl_release' => '5.025010',
+                                                         'perl_release' => '5.02501',
                                                          'version' => '2.62'
                                                        },
                                                        {
@@ -95804,7 +95824,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                          {
                                                            'date' => '2000-03-22T00:00:00',
                                                            'dual_lived' => 1,
-                                                           'perl_release' => '5.006',
+                                                           'perl_release' => '5.006000',
                                                            'version' => '0.01'
                                                          },
                                                          {
@@ -101894,6 +101914,221 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                          }
                                                        ]
                                        },
+                       'XML-Sig' => {
+                                      'advisories' => [
+                                                        {
+                                                          'affected_versions' => [
+                                                                                   '>=0.27,<=0.67'
+                                                                                 ],
+                                                          'cves' => [
+                                                                      'CVE-2025-40934'
+                                                                    ],
+                                                          'description' => "XML-Sig versions 0.27 through 0.67 for Perl incorrectly validates XML files if signatures are omitted.  An attacker can remove the signature from the XML document to make it pass the verification check.  XML-Sig is a Perl module to validate signatures on XML files.\x{a0} An unsigned XML file should return an error message.\x{a0} The affected versions return true when attempting to validate an XML file that contains no signatures.",
+                                                          'distribution' => 'XML-Sig',
+                                                          'fixed_versions' => [
+                                                                                '>=0.68'
+                                                                              ],
+                                                          'id' => 'CPANSA-XML-Sig-2025-40934',
+                                                          'references' => [
+                                                                            'https://github.com/perl-net-saml2/perl-XML-Sig/issues/63',
+                                                                            'https://github.com/perl-net-saml2/perl-XML-Sig/pull/64'
+                                                                          ],
+                                                          'reported' => '2025-11-26',
+                                                          'severity' => undef
+                                                        }
+                                                      ],
+                                      'main_module' => 'XML::Sig',
+                                      'versions' => [
+                                                      {
+                                                        'date' => '2009-10-28T23:54:04',
+                                                        'version' => '0.1'
+                                                      },
+                                                      {
+                                                        'date' => '2009-10-29T05:20:59',
+                                                        'version' => '0.2'
+                                                      },
+                                                      {
+                                                        'date' => '2009-11-20T04:35:13',
+                                                        'version' => '0.2.1'
+                                                      },
+                                                      {
+                                                        'date' => '2009-11-20T05:09:41',
+                                                        'version' => '0.21'
+                                                      },
+                                                      {
+                                                        'date' => '2009-12-08T18:00:44',
+                                                        'version' => '0.22'
+                                                      },
+                                                      {
+                                                        'date' => '2020-06-27T03:58:29',
+                                                        'version' => '0.27'
+                                                      },
+                                                      {
+                                                        'date' => '2020-06-27T14:35:14',
+                                                        'version' => '0.28'
+                                                      },
+                                                      {
+                                                        'date' => '2020-11-29T23:46:03',
+                                                        'version' => '0.29'
+                                                      },
+                                                      {
+                                                        'date' => '2020-11-30T03:29:19',
+                                                        'version' => '0.30'
+                                                      },
+                                                      {
+                                                        'date' => '2020-12-02T22:36:05',
+                                                        'version' => '0.31'
+                                                      },
+                                                      {
+                                                        'date' => '2020-12-03T01:18:15',
+                                                        'version' => '0.32'
+                                                      },
+                                                      {
+                                                        'date' => '2020-12-07T00:59:38',
+                                                        'version' => '0.33'
+                                                      },
+                                                      {
+                                                        'date' => '2020-12-07T02:29:37',
+                                                        'version' => '0.34'
+                                                      },
+                                                      {
+                                                        'date' => '2021-01-08T01:28:22',
+                                                        'version' => '0.35'
+                                                      },
+                                                      {
+                                                        'date' => '2021-01-08T11:50:22',
+                                                        'version' => '0.36'
+                                                      },
+                                                      {
+                                                        'date' => '2021-01-10T02:50:59',
+                                                        'version' => '0.37'
+                                                      },
+                                                      {
+                                                        'date' => '2021-01-10T15:27:25',
+                                                        'version' => '0.38'
+                                                      },
+                                                      {
+                                                        'date' => '2021-01-13T00:29:13',
+                                                        'version' => '0.39'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-13T02:24:22',
+                                                        'version' => '0.40'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-13T13:33:53',
+                                                        'version' => '0.41'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-15T00:03:02',
+                                                        'version' => '0.42'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-15T01:18:04',
+                                                        'version' => '0.43'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-20T14:15:36',
+                                                        'version' => '0.44'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-20T21:28:09',
+                                                        'version' => '0.45'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-27T16:02:51',
+                                                        'version' => '0.46'
+                                                      },
+                                                      {
+                                                        'date' => '2021-03-28T14:31:07',
+                                                        'version' => '0.47'
+                                                      },
+                                                      {
+                                                        'date' => '2021-04-10T00:47:31',
+                                                        'version' => '0.48'
+                                                      },
+                                                      {
+                                                        'date' => '2021-04-10T13:01:06',
+                                                        'version' => '0.49'
+                                                      },
+                                                      {
+                                                        'date' => '2021-04-18T22:43:29',
+                                                        'version' => '0.50'
+                                                      },
+                                                      {
+                                                        'date' => '2021-07-03T22:46:09',
+                                                        'version' => '0.51'
+                                                      },
+                                                      {
+                                                        'date' => '2021-11-27T19:48:18',
+                                                        'version' => '0.52'
+                                                      },
+                                                      {
+                                                        'date' => '2021-11-28T15:08:21',
+                                                        'version' => '0.53'
+                                                      },
+                                                      {
+                                                        'date' => '2021-12-05T17:16:00',
+                                                        'version' => '0.54'
+                                                      },
+                                                      {
+                                                        'date' => '2021-12-07T22:14:01',
+                                                        'version' => '0.55'
+                                                      },
+                                                      {
+                                                        'date' => '2022-03-16T00:06:40',
+                                                        'version' => '0.56'
+                                                      },
+                                                      {
+                                                        'date' => '2022-04-15T22:57:47',
+                                                        'version' => '0.57'
+                                                      },
+                                                      {
+                                                        'date' => '2022-07-19T00:46:35',
+                                                        'version' => '0.58'
+                                                      },
+                                                      {
+                                                        'date' => '2022-11-25T02:26:53',
+                                                        'version' => '0.59'
+                                                      },
+                                                      {
+                                                        'date' => '2023-03-13T00:29:05',
+                                                        'version' => '0.60'
+                                                      },
+                                                      {
+                                                        'date' => '2023-03-13T00:44:20',
+                                                        'version' => '0.61'
+                                                      },
+                                                      {
+                                                        'date' => '2023-03-18T23:22:43',
+                                                        'version' => '0.62'
+                                                      },
+                                                      {
+                                                        'date' => '2023-03-19T12:59:49',
+                                                        'version' => '0.63'
+                                                      },
+                                                      {
+                                                        'date' => '2023-06-26T22:04:31',
+                                                        'version' => '0.64'
+                                                      },
+                                                      {
+                                                        'date' => '2023-11-21T22:39:12',
+                                                        'version' => '0.65'
+                                                      },
+                                                      {
+                                                        'date' => '2025-05-09T00:13:19',
+                                                        'version' => '0.66'
+                                                      },
+                                                      {
+                                                        'date' => '2025-11-07T22:27:16',
+                                                        'version' => '0.67'
+                                                      },
+                                                      {
+                                                        'date' => '2025-11-26T22:29:54',
+                                                        'version' => '0.68'
+                                                      }
+                                                    ]
+                                    },
                        'XML-Simple' => {
                                          'advisories' => [
                                                            {
@@ -109731,6 +109966,10 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                                  {
                                                                    'date' => '2025-06-26T17:21:54',
                                                                    'version' => '11.5.0'
+                                                                 },
+                                                                 {
+                                                                   'date' => '2025-12-19T11:15:27',
+                                                                   'version' => '12.0.0'
                                                                  }
                                                                ]
                                                },
@@ -115840,6 +116079,10 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                                                    {
                                                      'date' => '2025-11-20T05:48:21',
                                                      'version' => '5.043005'
+                                                   },
+                                                   {
+                                                     'date' => '2025-12-20T17:47:41',
+                                                     'version' => '5.043006'
                                                    }
                                                  ]
                                  },
@@ -116176,9 +116419,9 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                                         }
                      },
           'meta' => {
-                      'commit' => '76ec3e4a932959827f181411f906f8863bc544fe',
-                      'date' => 'Sun Dec 14 03:58:09 2025',
-                      'epoch' => 1765684689,
+                      'commit' => '9a496cbd5787a2720729659e05d02bd236bdd710',
+                      'date' => 'Sun Dec 21 03:58:14 2025',
+                      'epoch' => 1766289494,
                       'generator' => 'util/generate',
                       'repo' => 'https://github.com/briandfoy/cpan-security-advisory'
                     },
@@ -116656,6 +116899,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'App::Netdisco::SSHCollector::Platform::FreeBSD' => 'App-Netdisco',
                              'App::Netdisco::SSHCollector::Platform::GAIAEmbedded' => 'App-Netdisco',
                              'App::Netdisco::SSHCollector::Platform::IOS' => 'App-Netdisco',
+                             'App::Netdisco::SSHCollector::Platform::IOSXE' => 'App-Netdisco',
                              'App::Netdisco::SSHCollector::Platform::IOSXEMac' => 'App-Netdisco',
                              'App::Netdisco::SSHCollector::Platform::IOSXR' => 'App-Netdisco',
                              'App::Netdisco::SSHCollector::Platform::Linux' => 'App-Netdisco',
@@ -118038,6 +118282,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'Dpkg::Source::Patch' => 'Dpkg',
                              'Dpkg::Source::Quilt' => 'Dpkg',
                              'Dpkg::Substvars' => 'Dpkg',
+                             'Dpkg::SysInfo' => 'Dpkg',
                              'Dpkg::Vars' => 'Dpkg',
                              'Dpkg::Vendor' => 'Dpkg',
                              'Dpkg::Vendor::Debian' => 'Dpkg',
@@ -118513,6 +118758,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'Image::ExifTool::DJI' => 'Image-ExifTool',
                              'Image::ExifTool::DNG' => 'Image-ExifTool',
                              'Image::ExifTool::DPX' => 'Image-ExifTool',
+                             'Image::ExifTool::DSF' => 'Image-ExifTool',
                              'Image::ExifTool::DV' => 'Image-ExifTool',
                              'Image::ExifTool::DarwinCore' => 'Image-ExifTool',
                              'Image::ExifTool::DjVu' => 'Image-ExifTool',
@@ -118537,6 +118783,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'Image::ExifTool::Geolocation' => 'Image-ExifTool',
                              'Image::ExifTool::Geotag' => 'Image-ExifTool',
                              'Image::ExifTool::GoPro' => 'Image-ExifTool',
+                             'Image::ExifTool::Google' => 'Image-ExifTool',
                              'Image::ExifTool::H264' => 'Image-ExifTool',
                              'Image::ExifTool::HP' => 'Image-ExifTool',
                              'Image::ExifTool::HTML' => 'Image-ExifTool',
@@ -118555,6 +118802,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'Image::ExifTool::JSON' => 'Image-ExifTool',
                              'Image::ExifTool::JVC' => 'Image-ExifTool',
                              'Image::ExifTool::Jpeg2000' => 'Image-ExifTool',
+                             'Image::ExifTool::Kandao' => 'Image-ExifTool',
                              'Image::ExifTool::Kodak' => 'Image-ExifTool',
                              'Image::ExifTool::KyoceraRaw' => 'Image-ExifTool',
                              'Image::ExifTool::LIF' => 'Image-ExifTool',
@@ -118666,6 +118914,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'Image::ExifTool::Vorbis' => 'Image-ExifTool',
                              'Image::ExifTool::WPG' => 'Image-ExifTool',
                              'Image::ExifTool::WTV' => 'Image-ExifTool',
+                             'Image::ExifTool::WavPack' => 'Image-ExifTool',
                              'Image::ExifTool::XISF' => 'Image-ExifTool',
                              'Image::ExifTool::XMP' => 'Image-ExifTool',
                              'Image::ExifTool::ZIP' => 'Image-ExifTool',
@@ -121935,6 +122184,7 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                              'XML::LibXML::XPathContext' => 'XML-LibXML',
                              'XML::LibXML::XPathExpression' => 'XML-LibXML',
                              'XML::LibXML::_SAXParser' => 'XML-LibXML',
+                             'XML::Sig' => 'XML-Sig',
                              'XML::Simple' => 'XML-Simple',
                              'XML::Twig' => 'XML-Twig',
                              'XML::Twig::Elt' => 'XML-Twig',
