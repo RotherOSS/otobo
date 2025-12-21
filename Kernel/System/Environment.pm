@@ -381,7 +381,7 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.002001',
         },
         {
-            'Comment'         => 'needed by Text::Diff::FormattedHTML',
+            'Comment'         => 'needed by Text::Diff::FormattedHTML, removed in OTOBO 11.1.x',
             'Module'          => 'File::Slurp',
             'Required'        => 1,
             'VersionRequired' => '== 9999.32',
