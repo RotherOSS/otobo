@@ -1802,7 +1802,12 @@ sub _Replace {
 
                         # add quote char if needed
                         else {
-                            $NewOldBody .= $Quote . " $Body[$Counter]";
+                            if ( $Quote ) {
+                                $NewOldBody .= $Quote . " $Body[$Counter]";
+                            }
+                            else {
+                                $NewOldBody .= $Body[$Counter];
+                            }
                         }
 
                         # add new line
