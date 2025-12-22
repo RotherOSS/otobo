@@ -16,9 +16,9 @@
 
 package Kernel::System::MailAccount::IMAP;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
