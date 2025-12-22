@@ -45,7 +45,6 @@ sub _Type {
 }
 
 sub _ExtraNetPOP3Args {
-
     my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('PostMasterSSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
 
     # An IO::Socket::INET socket is created and before any communication is done, the socket is
