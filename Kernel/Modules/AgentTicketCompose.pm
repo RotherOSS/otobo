@@ -1687,7 +1687,7 @@ sub Run {
             TemplateID => $GetParam{ResponseID},
             Data       => \%Data,
             UserID     => $Self->{UserID},
-            HTMLBody   => 1,
+            QuoteBody  => 1,
         );
 
         # get salutation

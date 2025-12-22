@@ -341,6 +341,18 @@ sub Form {
 
     if ( $GetParam{ForwardTemplateID} ) {
 
+        # upload cache object
+        my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+        # tmp get ArticleQuote body 
+        $Data{Body} = $LayoutObject->ArticleQuote(
+            TicketID           => $Data{TicketID},
+            ArticleID          => $Data{ArticleID},
+            FormID             => $Self->{GetParam}->{FormID},
+            UploadCacheObject  => $UploadCacheObject,
+            AttachmentsInclude => 1,
+        );
+
         # get template
         $Data{StdTemplate} = $TemplateGenerator->Template(
             TicketID   => $Self->{TicketID},
@@ -348,6 +360,7 @@ sub Form {
             TemplateID => $GetParam{ForwardTemplateID},
             Data       => \%Data,
             UserID     => $Self->{UserID},
+            QuoteBody  => 1,
         );
 
         # get signature

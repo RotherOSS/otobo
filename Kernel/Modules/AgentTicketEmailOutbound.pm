@@ -535,6 +535,7 @@ sub Form {
             TemplateID => $GetParam{EmailTemplateID},
             Data       => \%Data,
             UserID     => $Self->{UserID},
+            QuoteBody  => 1,
         );
 
         # get signature

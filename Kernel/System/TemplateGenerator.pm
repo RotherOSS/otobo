@@ -476,7 +476,7 @@ sub Template {
         UserID     => $Param{UserID},
         Language   => $Language,
         Template   => $TemplateType,
-        HTMLBody   => $Param{HTMLBody},
+        QuoteBody  => $Param{QuoteBody},
     );
 
     return $TemplateText;
@@ -1748,6 +1748,8 @@ sub _Replace {
         'OTOBO_AGENT_'    => $Param{DataAgent} || {},
     );
 
+    my $Quote = $ConfigObject->Get('Ticket::Frontend::Quote');
+
     # use a list to get customer first
     for my $DataType (qw(OTOBO_CUSTOMER_ OTOBO_AGENT_)) {
         my %Data = %{ $ArticleData{$DataType} };
@@ -1758,7 +1760,7 @@ sub _Replace {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Data ) {
                 next ATTRIBUTE if !$Data{$Attribute};
-                next ATTRIBUTE if ( $Attribute eq 'Body' && $Param{HTMLBody} );
+                next ATTRIBUTE if $Attribute eq 'Body' && $Param{QuoteBody};
 
                 $Data{$Attribute} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                     String => $Data{$Attribute},
@@ -1768,21 +1770,21 @@ sub _Replace {
 
         if (%Data) {
 
-            # replace <OTOBO_CUSTOMER_*> and <OTOBO_AGENT_*> tags
-            $Tag = $Start . $DataType;
-            $HashGlobalReplace->( $Tag, %Data );
-
             # prepare body (insert old email) <OTOBO_CUSTOMER_EMAIL[n]>, <OTOBO_CUSTOMER_NOTE[n]>
             #   <OTOBO_CUSTOMER_BODY[n]>, <OTOBO_AGENT_EMAIL[n]>..., <OTOBO_COMMENT>
 
             # Changed this to a 'while' to allow the same key/tag multiple times and different number of lines.
+
+            # Note the capture groups, as 2nd regex doesn't make the whole bracket group non-capturing.
+            # Where 1st regex holds EMAIL|NOTE|BODY in $1, 2nd regex pads with whole bracket capture group.
             while (
-                $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])$End/
+                $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)(?:\[(.+?)\])?)$End/
                 ||
                 $Param{Text} =~ /$Start(?:OTOBO_COMMENT(\[(.+?)\])?)$End/
                 )
             {
 
+                # This 2500 limit now applies to previously unlimited bodies, since 1st regex now captures them.
                 my $Line       = $2 || 2500;
                 my $NewOldBody = '';
                 my @Body       = split( /\n/, $Data{Body} );
@@ -1798,9 +1800,9 @@ sub _Replace {
                             $NewOldBody .= $Body[$Counter];
                         }
 
-                        # add "> " as quote char
+                        # add quote char if needed
                         else {
-                            $NewOldBody .= "> $Body[$Counter]";
+                            $NewOldBody .= $Quote . " $Body[$Counter]";
                         }
 
                         # add new line
@@ -1821,17 +1823,23 @@ sub _Replace {
                         $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
                     }
 
-                    # add quote
-                    $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
-                    $NewOldBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentCleanup(
-                        String => $NewOldBody,
-                    );
+                    # other modules would first convert $Quote to RichText or HTML here
+                    if ( $Quote ) {
+                        $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
+                        $NewOldBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentCleanup(
+                            String => $NewOldBody,
+                        );
+                    }
                 }
 
                 # replace tag
                 $Param{Text}
-                    =~ s/$Start(?:(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\]|(?:OTOBO_COMMENT(\[(.+?)\])?)))$End/$NewOldBody/;
+                    =~ s/$Start(?:(?:$DataType(EMAIL|NOTE|BODY)(?:\[(.+?)\])?|(?:OTOBO_COMMENT(\[(.+?)\])?)))$End/$NewOldBody/;
             }
+
+            # replace remaining <OTOBO_CUSTOMER_*> and <OTOBO_AGENT_*> tags
+            $Tag = $Start . $DataType;
+            $HashGlobalReplace->( $Tag, %Data );
 
             # replace <OTOBO_CUSTOMER_SUBJECT[]>  and  <OTOBO_AGENT_SUBJECT[]> tags
             $Tag = "$Start$DataType" . 'SUBJECT';
