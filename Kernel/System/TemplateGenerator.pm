@@ -1776,7 +1776,7 @@ sub _Replace {
             # Changed this to a 'while' to allow the same key/tag multiple times and different number of lines.
 
             # Note the capture groups, as 2nd regex doesn't make the whole bracket group non-capturing.
-            # Where 1st regex holds EMAIL|NOTE|BODY in $1, 2nd regex pads with whole bracket capture group.
+            # Where 1st regex holds EMAIL|NOTE|BODY in $1, 2nd regex pads with said bracket capture group.
             while (
                 $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)(?:\[(.+?)\])?)$End/
                 ||

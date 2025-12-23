@@ -526,6 +526,43 @@ sub Form {
         UserID    => $Self->{UserID},
     );
 
+    # upload cache object
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+    # body preparation for plain text processing
+    $Data{Body} = $LayoutObject->ArticleQuote(
+        TicketID           => $Data{TicketID},
+        ArticleID          => $Data{ArticleID},
+        FormID             => $Self->{GetParam}->{FormID},
+        UploadCacheObject  => $UploadCacheObject,
+        AttachmentsInclude => 1,
+    );
+
+    my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+        String => $Data{Body},
+
+        # Strip out external content if BlockLoadingRemoteContent is enabled.
+        NoExtSrcLoad => $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent'),
+
+        # Disallow potentially unsafe content.
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoSVG        => 1,
+        NoJavaScript => 1,
+    );
+    $Data{Body} = $SafetyCheckResult{String};
+
+    # If article is not a MIMEBase article, include sender name for correct quoting.
+    # Should this be included?
+    if ( !$Data{From} ) {
+        my %ArticleFields = $LayoutObject->ArticleFields(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Data{ArticleID},
+        );
+        $Data{Sender} = $ArticleFields{Sender}->{Value} // '';
+    }
+
     if ( $GetParam{EmailTemplateID} ) {
 
         # get template
