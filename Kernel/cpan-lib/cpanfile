@@ -13,16 +13,22 @@ requires 'Algorithm::Diff', '== 1.1903';
 # needed by e.g. Data::ICal, but not used by OTOBO itself
 requires 'Class::Accessor', '== 0.34';
 
+# needed by Text::vFile::asData
+requires 'Class::Accessor::Chained', '== 0.01';
+
+# needed by Sisimai
+requires 'Class::Accessor::Lite', '== 0.08';
+
 # needed by SOAP::Lite
 requires 'Class::Inspector', '== 1.31';
 
 # needed by Data::ICal
 requires 'Class::ReturnValue', '== 0.55';
 
-requires 'CPAN::Audit', '== 20250115.001';
+requires 'CPAN::Audit', '== 20250829.001';
 
 # database of adbisories used by CPAN::Audit
-requires 'CPANSA::DB', '== 20250109.001';
+requires 'CPANSA::DB', '== 20251221.001';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
@@ -31,6 +37,8 @@ requires 'Crypt::PasswdMD5', '== 1.40';
 
 # needed by Math::Random::Secure, needed in Kernel::System::Main
 requires 'Crypt::Random::Source', '== 0.14';
+
+requires 'CSS::Minifier', '== 0.01';
 
 requires 'Data::ICal', '== 0.22';
 
@@ -63,8 +71,8 @@ requires 'Lingua::Translit', '== 0.27';
 # needed by otobo.CheckModules.pl
 requires 'Linux::Distribution', '== 0.23';
 
-# needed by Kernel::System::ReferenceData, Locale::Country
-requires 'Locale::Codes', '== 3.76';
+# needed by Kernel::System::ReferenceData, which uses Locale::Country
+requires 'Locale::Codes', '== 3.86';
 
 # needed by webservices
 requires 'LWP::Protocol::https', '== 6.11';
@@ -88,7 +96,7 @@ requires 'MIME::Tools', '== 5.514';
 requires 'Module::CPANfile', '== 1.1004';
 
 # needed by CPAN::Audit, could be useful in OTOBO as well
-requires 'Module::Extract::VERSION', '== 1.117';
+requires 'Module::Extract::VERSION', '== 1.119';
 
 # needed by Crypt::Random::Source
 requires 'Module::Find', '== 0.15';
@@ -119,11 +127,16 @@ requires 'Sisimai', '== v4.24.1';
 # needed by OTOBO generic interface
 requires 'SOAP::Lite', '== 1.20';
 
+requires 'String::Diff', '== 0.07';
+
 # needed by Kernel::System::Environment
 requires 'Sys::Hostname::Long', '== 1.5';
 
 # needed by Kernel::System::Diff
 requires 'Text::Diff', '== 1.44';
+
+# needed by Data::ICal
+requires 'Text::vFile::asData', '== 0.08';
 
 # needed by Kernel::Output::HTML::Dashboard::RSS
 requires 'XML::FeedPP', '== 0.43';

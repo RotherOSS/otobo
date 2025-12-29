@@ -18,14 +18,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.3;
+    font-weight: normal;
     color: #00023c;
+    margin-bottom: 0px;
 }
 
 .ck-content * {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    font-weight: inherit;
     color: inherit;
+    margin-bottom: inherit;
 }
 
 .ck-content.CustomerUI {
@@ -38,6 +42,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content figure.table {
     margin: 0 0 0 0;
+    width: 100%;
 }
 
 .ck-content p {
@@ -47,23 +52,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .ck-content h1 {
     font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
 } 
 
 .ck-content h2 {
     font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .ck-content h3 {
     font-size: 1.17em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.ck-content h4 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .ck-content h5 {
     font-size: 0.83em;
+    font-weight: bold;
+    margin-bottom: 5px;
 } 
 
 .ck-content h6 {
     font-size: 0.67em;
-}  
+    font-weight: bold;
+} 
 
 .ck-content blockquote {
     font-style: normal !important;
@@ -75,7 +95,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .ck-content ul,
 .ck-content ol  
 {
-     padding: 0 50px;
+    padding: 0 50px;
 }
 
 /* default image style */

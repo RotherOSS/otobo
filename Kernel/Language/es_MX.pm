@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.921331542021197;
+    $Self->{Completeness}        = 0.91953509164059;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -157,6 +157,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Ya existe un calendario con el mismo nombre.',
         'Color' => 'Color',
         'Permission group' => 'Grupo de permisos',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Citas de Ticket',
         'Rule' => 'Regla',
         'Remove this entry' => 'Eliminar esta entrada',
@@ -1985,6 +1986,9 @@ sub Data {
             'Si un ticket está cerrado y el cliente le da seguimiento, el ticket se bloqueará para el antigüo propietario.',
         'System address' => 'Dirección del Sistema',
         'Will be the sender address of this queue for email answers.' => 'Será la dirección del emisor en esta fila para respuestas por correo.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Llave de firma por defecto',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Para utilizar una clave de firma, es necesario añadir claves PGP o certificados S/MIME con identificadores para la dirección del sistema de colas seleccionado.',
@@ -1992,6 +1996,10 @@ sub Data {
         'The salutation for email answers.' => 'Saludo para respuestas por correo.',
         'Signature' => 'Firma',
         'The signature for email answers.' => 'Firma para respuestas por correo.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Esta cola se utiliza en los siguientes ajustes de configuración:',
 
         # Template: AdminQueueAutoResponse
@@ -4147,6 +4155,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7507,10 +7517,10 @@ Su equipo de asistencia técnica
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'Define si es posible la comunicación entre este sistema y los servidores que proporcionan servicios en la nube. Si se establece en "Desactivar los servicios en la nube", se perderán algunas funcionalidades como el envío de datos de soporte, los widgets de Package Verify™ y el panel de noticias del producto, entre otros.',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Define si se debe utilizar el modo mejorado (permite el uso de tabla, reemplazo, subíndice, superíndice, pegar desde word, etc.) en la interfaz del cliente.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Define si se debe utilizar el modo mejorado (permite el uso de tabla, reemplazo, subíndice, superíndice, pegar desde word, etc.).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Define si el primer artículo debe mostrarse como expandido, es decir, visible para el cliente relacionado. Si no se define nada, el último artículo será expandido.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8300,6 +8310,7 @@ Su equipo de asistencia técnica
         'Edit contacts with data' => 'Editar contactos con datos',
         'Edit contacts with data.' => 'Editar contactos con datos.',
         'Edit customer company' => 'Editar empresa del cliente',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => 'Módulo de resultados rápidos de Elasticsearch.',
         'Email Addresses' => 'Direcciones de Correo',
         'Email Outbound' => 'Correo electrónico de salida',
@@ -8829,6 +8840,7 @@ Su equipo de asistencia técnica
         'Merge this ticket and all articles into another ticket' => 'Fusionar este ticket y todos los artículos en otro ticket',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Fusionar Ticket (%s/%s) a (%s/%s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Fusionar Ticket <OTOBO_TICKET> a <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => 'Minuto',
         'Miscellaneous' => 'Varios',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9993,6 +10005,7 @@ Su equipo de asistencia técnica
             '',
         'Web Service' => 'Servicio web',
         'Web Services' => 'Servicios web',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             'Texto de bienvenida para la cabecera del tablero. El nombre se insertará en %s del texto de bienvenida. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" y "UserLogin" serán sustituidos.',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10012,10 +10025,13 @@ Su equipo de asistencia técnica
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Para forzar la redirección de todas las peticiones del protocolo http al https. Por favor, compruebe que su servidor web está configurado correctamente para el protocolo https antes de activar esta opción.',
         'Yes, but hide archived tickets' => 'Sí, pero oculta los tickets archivados',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Su correo electrónico con el número de ticket "<OTOBO_TICKET>" ha sido devuelto a "<OTOBO_BOUNCE_TO>". Ponte en contacto con esta dirección para obtener más información.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Su correo con número de ticket "<OTOBO_TICKET>" se unió a "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Su selección de colas de espera preferidas. También se le notifica acerca de esas colas por correo electrónico si está activado.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

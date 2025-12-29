@@ -251,6 +251,10 @@ span.ImportantArticles i {
         color: #000;
     }
 
+    .fa {
+        color: var(--colTextLight);
+    }
+
 }
 
 }

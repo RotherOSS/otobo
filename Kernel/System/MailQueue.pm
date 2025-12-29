@@ -74,8 +74,13 @@ sub new {
 
     $Self->{CheckEmailAddresses} = $Param{CheckEmailAddresses} // 1;
 
-    # init of event handler
+    # The events emitted in this class are primarily intended for Kernel::System::Ticket::Event::NotificationEvent.
+    # This subscriber is declared to a transaction subscriber.
+    # But in this case we want to send the notifications immediately. Therefore pretend to be in C<EventHandlerTransaction()>
+    # mode when calling C<EventHandler()>
     $Self->{EventHandlerTransaction} = 1;
+
+    # init of emitter
     $Self->EventHandlerInit(
         Config => 'Ticket::EventModulePost',
     );

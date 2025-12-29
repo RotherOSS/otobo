@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.515450067174205;
+    $Self->{Completeness}        = 0.514379377142006;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -156,6 +156,7 @@ sub Data {
         'Calendar with same name already exists.' => '',
         'Color' => '',
         'Permission group' => '',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => '',
         'Rule' => 'Peraturan',
         'Remove this entry' => 'Buang lema ini',
@@ -1984,6 +1985,9 @@ sub Data {
             'Jika tiket ditutup dan pelanggan menghantar susulan tiket akan dikunci kepada pemilik lama.',
         'System address' => 'Alamat Sistem',
         'Will be the sender address of this queue for email answers.' => 'Akan menjadi alamat pengirim barisan ini untuk mendapatkan jawapan e-mel.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Tanda kunci lalai',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1991,6 +1995,10 @@ sub Data {
         'The salutation for email answers.' => 'Kata aluan untuk mendapatkan jawapan e-mel.',
         'Signature' => 'Tanda Tangan',
         'The signature for email answers.' => 'Tandatangan untuk mendapatkan jawapan e-mel.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4146,6 +4154,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7508,10 +7518,10 @@ dalaman.',
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Mentakrifkan jika mod dipertingkatkan harus digunakan (membolehkan penggunaan jadual, penggantian, subskrip, superskrip, tampal dari perkataan, dll).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8302,6 +8312,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Edit syarikat pelanggan',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Alamat emel',
         'Email Outbound' => '',
@@ -8831,6 +8842,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Gabung Tiket <OTOBO_TICKET> ke <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Pelbagai',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9995,6 +10007,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Web Service' => '',
         'Web Services' => 'Perkhidmatan Web',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10014,10 +10027,13 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Ya, tetapi sembunyi tiket disimpan.',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Emel anda dengan nombor tiket "<OTOBO_TICKET>" dilantunkan ke "<OTOBO_BOUNCE_TO>".  Hubungi alamat ini untuk maklumat lanjut. ',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Emel anda dengan nombor tiket "<OTOBO_TICKET>" adalah digabungkan kepada "<OTOBO_MERGE_TO_TICKET>"!',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

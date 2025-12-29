@@ -125,6 +125,7 @@ ENV LANG=C.UTF-8
 # On the Docker host the fatpacked /opt/otobo_install/vendor/bin/carton can be copied to bin/docker/carton
 # in the Git sandbox.
 #   docker cp otoelfeins-web-1:/opt/otobo/vendor/bin/carton bin/docker/carton
+# Look for 'Hotpatch by the OTOBO Team' in the git diff and apply the hot patches to the new version.
 #   git add bin/docker/carton
 #
 # Note that the variable $DOCKER_TAG is already substituted by Docker.

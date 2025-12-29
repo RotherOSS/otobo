@@ -219,6 +219,10 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer {
     white-space: nowrap;
 }
 
+.FieldCell div.oooTitle {
+    white-space: normal;
+}
+
 /*div.Row.Row_DynamicField div.SingleColumn > label,
 div.Row.Row_DynamicField div.SingleColumn > div.MultiValueItem > label,
 div.Row.Row_DynamicField div.MultiColumn > label,

@@ -86,7 +86,7 @@ sub advisories_for {
 				} @{ $dist->{advisories} };
 		}
 		grep { CPAN::Audit::Version->in_range( $_, $dist_version_range ) }
-		map	 { $_->{version}}
+		map	 { $_->{version} }
 		@{ $dist->{versions} };
 
 	values %advisories;

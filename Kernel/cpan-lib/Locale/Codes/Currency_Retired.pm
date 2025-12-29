@@ -3,7 +3,7 @@ Locale::Codes::Currency_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Tue Aug 29 11:10:03 EDT 2023
+#    Generated on: Tue Dec  2 16:06:17 EST 2025
 
 use strict;
 require 5.006;
@@ -11,11 +11,12 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.76';
+$VERSION='3.86';
 
 $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(ADP) => q(Andorran Peseta),
    q(AFA) => q(Afghani),
+   q(ANG) => q(Netherlands Antillean Guilder),
    q(AON) => q(New Kwanza),
    q(AOR) => q(Kwanza Reajustado),
    q(ATS) => q(Schilling),
@@ -23,6 +24,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(BEF) => q(Belgian Franc),
    q(BGL) => q(Lev),
    q(BYB) => q(Belarussian Ruble),
+   q(CUC) => q(Peso Convertible),
    q(CYP) => q(Cyprus Pound),
    q(DEM) => q(German Mark),
    q(ECS) => q(Sucre),
@@ -70,6 +72,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(ZAL) => q(Financial Rand),
    q(ZRN) => q(New Zaire),
    q(ZWD) => q(Zimbabwe Dollar),
+   q(ZWL) => q(Zimbabwe Dollar),
 };
 
 $Locale::Codes::Retired{'currency'}{'num'}{'code'} = {
@@ -79,6 +82,8 @@ $Locale::Codes::Retired{'currency'}{'num'}{'code'} = {
    q(478) => q(Ouguiya),
    q(654) => q(Saint Helena Pound),
    q(678) => q(Dobra),
+   q(931) => q(Peso Convertible),
+   q(932) => q(Zimbabwe Dollar),
    q(937) => q(Bolivar),
    q(998) => q(US Dollar (Same day)),
 };
@@ -136,6 +141,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
    q(markka) => [ q(FIM), q(Markka) ],
    q(metical) => [ q(MZN), q(Metical) ],
    q(mexican nuevo peso) => [ q(MXN), q(Mexican Nuevo Peso) ],
+   q(netherlands antillean guilder) => [ q(ANG), q(Netherlands Antillean Guilder) ],
    q(netherlands antillian guilder) => [ q(ANG), q(Netherlands Antillian Guilder) ],
    q(netherlands guilder) => [ q(NLG), q(Netherlands Guilder) ],
    q(new dinar) => [ q(YUM), q(New Dinar) ],
@@ -145,6 +151,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
    q(new romanian leu) => [ q(RON), q(New Romanian Leu) ],
    q(new zaire) => [ q(ZRN), q(New Zaire) ],
    q(nuevo sol) => [ q(PEN), q(Nuevo Sol) ],
+   q(peso convertible) => [ q(CUC), q(Peso Convertible) ],
    q(philippine peso) => [ q(PHP), q(Philippine Peso) ],
    q(philippine piso) => [ q(PHP), q(Philippine Piso) ],
    q(portuguese escudo) => [ q(PTE), q(Portuguese Escudo) ],
@@ -168,6 +175,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
    q(uruguay peso en unidades indexadas) => [ q(UYI), q(Uruguay Peso en Unidades Indexadas) ],
    q(uruguay peso en unidades indexadas (uruiurui)) => [ q(UYI), q(Uruguay Peso en Unidades Indexadas (URUIURUI)) ],
    q(us dollar (same day)) => [ q(USS), q(US Dollar (Same day)) ],
+   q(zimbabwe dollar) => [ q(ZWL), q(Zimbabwe Dollar) ],
 };
 
 $Locale::Codes::Retired{'currency'}{'num'}{'name'} = {
@@ -187,15 +195,18 @@ $Locale::Codes::Retired{'currency'}{'num'}{'name'} = {
    q(leu) => [ q(946), q(Leu) ],
    q(lithuanian litas) => [ q(440), q(Lithuanian Litas) ],
    q(metical) => [ q(943), q(Metical) ],
+   q(netherlands antillean guilder) => [ q(532), q(Netherlands Antillean Guilder) ],
    q(new manat) => [ q(934), q(New Manat) ],
    q(new romanian leu) => [ q(946), q(New Romanian Leu) ],
    q(nuevo sol) => [ q(604), q(Nuevo Sol) ],
+   q(peso convertible) => [ q(931), q(Peso Convertible) ],
    q(philippine peso) => [ q(608), q(Philippine Peso) ],
    q(philippine piso) => [ q(608), q(Philippine Piso) ],
    q(saint helena pound) => [ q(654), q(Saint Helena Pound) ],
    q(unidades de fomento) => [ q(990), q(Unidades de fomento) ],
    q(uruguay peso en unidades indexadas (uruiurui)) => [ q(940), q(Uruguay Peso en Unidades Indexadas (URUIURUI)) ],
    q(us dollar (same day)) => [ q(998), q(US Dollar (Same day)) ],
+   q(zimbabwe dollar) => [ q(932), q(Zimbabwe Dollar) ],
 };
 
 

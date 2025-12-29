@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.852515300791163;
+    $Self->{Completeness}        = 0.850841901355983;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -157,6 +157,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Календар са истим називом већ постоји.',
         'Color' => 'Боја',
         'Permission group' => 'Група приступа',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Термини тикета',
         'Rule' => 'Правило',
         'Remove this entry' => 'Уклони овај унос',
@@ -1985,6 +1986,9 @@ sub Data {
             'Ако је тикет затворен, а клијент пошаље наставак, тикет ће бити закључан на старог власника.',
         'System address' => 'Системска адреса',
         'Will be the sender address of this queue for email answers.' => 'Биће адреса пошиљаоца за имејл одговоре из овог реда.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Подразумевани кључ потписа',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'За коришћење својства потписивања, PGP кључеви или S/MIME сертификати идентитета морају бити додати за системску адресу одабраног реда.',
@@ -1992,6 +1996,10 @@ sub Data {
         'The salutation for email answers.' => 'Поздрав за имејл одговоре.',
         'Signature' => 'Потпис',
         'The signature for email answers.' => 'Потпис за имејл одговоре.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Овај ред се користи у следећим системским подешавањима:',
 
         # Template: AdminQueueAutoResponse
@@ -4147,6 +4155,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7507,10 +7517,10 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Дефинише да ли ће се користити побољшани режим (омогућава коришћење табела, замене, индексирања, експонирања, уметања из Word-a, итд) у интерфејсу клијента.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'Određuje da li treba da se koristi poboljšani režim (omogućava korišćenje tabele, zamene, indeksiranja, eksponiranja, umetanja iz Word-a, itd.).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             'Дефинише да ли ће први чланак видљив за клијента бити приказан као проширен. Ако ништа није дефинисано, последњи чланак ће бити проширен.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8300,6 +8310,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Измени фирму клијента',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Имејл адресе',
         'Email Outbound' => 'Одлазни имејл',
@@ -8829,6 +8840,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => 'Споји овај тикет и све чланке у други тикет',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Спојен тикет (%s/%s) у (%s/%s)',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Тикет <OTOBO_TICKET> спојен у <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => 'Минут',
         'Miscellaneous' => 'Разно',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9993,6 +10005,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => 'Веб сервиси',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10012,10 +10025,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Одређује да ли ће сви захтеви са http бити преусмерени на https протокол. Молимо проверите да ли је ваш веб сервер правилно подешен за https протокол пре укључивања ове опције.',
         'Yes, but hide archived tickets' => 'Да, али склони архивиране тикете',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Ваш имејл са бројем тикета "<OTOBO_TICKET>" је преусмерен на тикет "<OTOBO_BOUNCE_TO>"!',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Ваш имејл са бројем тикета "<OTOBO_TICKET>" је припојен тикету "<OTOBO_MERGE_TO_TICKET>"!',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Избор редова по вашој жељи. Уколико је укључено, добијаћете и обавештења о овим редовима путем имејла.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

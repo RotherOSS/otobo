@@ -295,6 +295,18 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.34',
         },
         {
+            'Comment'         => 'needed by Text::vFile::asData',
+            'Module'          => 'Class::Accessor::Chained',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.01',
+        },
+        {
+            'Comment'         => 'needed by Sisimai',
+            'Module'          => 'Class::Accessor::Lite',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
+        },
+        {
             'Comment'         => 'needed by SOAP::Lite',
             'Module'          => 'Class::Inspector',
             'Required'        => 1,
@@ -309,13 +321,13 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20250115.001',
+            'VersionRequired' => '== 20250829.001',
         },
         {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20250109.001',
+            'VersionRequired' => '== 20251221.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -333,6 +345,11 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Crypt::Random::Source',
             'Required'        => 1,
             'VersionRequired' => '== 0.14',
+        },
+        {
+            'Module'          => 'CSS::Minifier',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.01',
         },
         {
             'Module'          => 'Data::ICal',
@@ -399,10 +416,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.23',
         },
         {
-            'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
+            'Comment'         => 'needed by Kernel::System::ReferenceData, which uses Locale::Country',
             'Module'          => 'Locale::Codes',
             'Required'        => 1,
-            'VersionRequired' => '== 3.76',
+            'VersionRequired' => '== 3.86',
         },
         {
             'Comment'         => 'needed by webservices',
@@ -450,7 +467,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
             'Module'          => 'Module::Extract::VERSION',
             'Required'        => 1,
-            'VersionRequired' => '== 1.117',
+            'VersionRequired' => '== 1.119',
         },
         {
             'Comment'         => 'needed by Crypt::Random::Source',
@@ -513,6 +530,11 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.20',
         },
         {
+            'Module'          => 'String::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.07',
+        },
+        {
             'Comment'         => 'needed by Kernel::System::Environment',
             'Module'          => 'Sys::Hostname::Long',
             'Required'        => 1,
@@ -523,6 +545,12 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Text::Diff',
             'Required'        => 1,
             'VersionRequired' => '== 1.44',
+        },
+        {
+            'Comment'         => 'needed by Data::ICal',
+            'Module'          => 'Text::vFile::asData',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
         },
         {
             'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',
@@ -553,7 +581,7 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'YAML',
             'Required'        => 1,
             'VersionRequired' => '== 1.30',
-        }
+        },
     );
 }
 

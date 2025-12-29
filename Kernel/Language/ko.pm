@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.822062994476788;
+    $Self->{Completeness}        = 0.820444047086872;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -157,6 +157,7 @@ sub Data {
         'Calendar with same name already exists.' => '같은 이름의 캘린더가 존재합니다.',
         'Color' => '색깔',
         'Permission group' => '권한 그룹',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => '티켓 예약',
         'Rule' => '규칙',
         'Remove this entry' => '이것을 삭제',
@@ -1985,6 +1986,9 @@ sub Data {
             '티켓이 닫히고 고객이 후속 조치를 보내면 티켓이 이전 소유자에게 고정됩니다.',
         'System address' => '시스템 주소',
         'Will be the sender address of this queue for email answers.' => '전자 메일 응답을 위한 이 큐의 보낸사람 주소가 됩니다.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => '기본 기호 키',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1992,6 +1996,10 @@ sub Data {
         'The salutation for email answers.' => '이메일 답변에 대한 인사말.',
         'Signature' => '서명',
         'The signature for email answers.' => '이메일 답변을 위한 서명.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '이 대기열은 다음 구성 설정에서 사용됩니다.',
 
         # Template: AdminQueueAutoResponse
@@ -4147,6 +4155,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7507,10 +7517,10 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '고객 인터페이스에서 확장 모드를 사용해야하는지 (테이블, 바꾸기, 아래첨자, 위 첨자, 단어에서 붙여넣기 등 사용가능) 정의합니다.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            '확장 모드를 사용해야하는지 정의합니다 (테이블, 바꾸기, 아래 첨자, 위 첨자, 단어 붙여 넣기 등 사용 가능).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '첫 번째 기사를 확장된 것으로 표시할지, 관련 고객에게 표시할지 여부를 정의합니다. 아무것도 정의하지 않으면 최신 기사가 확장됩니다.',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -8300,6 +8310,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => '고객 회사 편집',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => '이메일 주소',
         'Email Outbound' => '이메일 발신',
@@ -8829,6 +8840,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '이 티켓과 모든 기사를 다른 티켓으로 병합하십시오.',
         'Merged Ticket (%s/%s) to (%s/%s).' => '합쳐진 티켓 (%s/ %s) ~ (%s/ 1 % s).',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Merged Ticket 1 to 2.',
+        'Message of the day' => '',
         'Minute' => '분',
         'Miscellaneous' => '기타',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9993,6 +10005,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => '웹서비스',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10012,10 +10025,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'http에서 https 프로토콜로 모든 요청을 강제로 리디렉션할지 여부입니다. 이 옵션을 활성화하기 전에 웹 서버가 https 프로토콜에 맞게 올바르게 구성되어 있는지 확인하십시오.',
         'Yes, but hide archived tickets' => '예, 보관된 티켓은 숨깁니다.',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '티켓 번호가 "1"인 이메일은 "2"로 반송됩니다. 자세한 내용은이 주소로 문의하십시오.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             '티켓 번호가 "1"인 이메일은 "2"로 병합됩니다.',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '선호하는 대기열에 대한 대기열 선택. 또한 활성화된 경우 이메일을 통해 대기열에 대한 알림을 받습니다.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

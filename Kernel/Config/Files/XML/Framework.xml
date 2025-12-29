@@ -494,7 +494,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-47.2.0/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-47.3.0/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -522,14 +522,14 @@
         <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.2.0-content.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.2.0-editor.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
@@ -543,14 +543,14 @@
         <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.2.0-content.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-content.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.2.0-editor.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
@@ -7326,7 +7326,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Customer::View::Login</Navigation>
         <Value>
             <Hash>
-                <Item Key="LoginText">Your Tickets. Your OTOBO.</Item>
+                <Item Key="LoginText" Translatable="1">Your Tickets. Your OTOBO.</Item>
                 <Item Key="Background">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/LoginBG.jpg</Item>
             </Hash>
         </Value>
@@ -7437,7 +7437,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Customer::View::Dashboard::Configuration</Navigation>
         <Value>
             <Hash>
-                <Item Key="WelcomeText">Welcome %s, to your OTOBO.</Item>
+                <Item Key="WelcomeText" Translatable="1">Welcome %s, to your OTOBO.</Item>
                 <Item Key="Name">UserFirstname</Item>
                 <Item Key="SubText">This service portal is available to you all day every day.</Item>
             </Hash>
@@ -7490,7 +7490,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileTicketList</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="Text">Your last tickets</Item>
+                        <Item Key="Text" Translatable="1">Your last tickets</Item>
                         <Item Key="SortBy">Age</Item>
                         <Item Key="OrderBy">Down</Item>
                         <Item Key="StateType"></Item>
@@ -7510,7 +7510,7 @@ via the Preferences button after logging in.
                 <Item Key="Template">Dashboard/TilePlainText</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="HeaderText">Message of the day</Item>
+                        <Item Key="HeaderText" Translatable="1">Message of the day</Item>
                         <Item Key="MainText" ValueType="Textarea">Hello World! :)</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="BackgroundColor">#fff</Item>
@@ -7528,7 +7528,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileToolBox</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="Text">Your external tools</Item>
+                        <Item Key="Text" Translatable="1">Your external tools</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="Links">
                             <Hash>
@@ -8673,10 +8673,10 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
-                <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.21.0/jquery.validate.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
+                <Item>thirdparty/nunjucks-3.2.4/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
@@ -8758,11 +8758,11 @@ via the Preferences button after logging in.
             <Array>
                 <Item>thirdparty/jquery-3.7.1/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.21.0/jquery.validate.min.js</Item>
                 <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
+                <Item>thirdparty/nunjucks-3.2.4/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Exception.js</Item>

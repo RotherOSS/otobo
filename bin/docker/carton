@@ -2690,7 +2690,9 @@ $fatpacked{"Carton/Builder.pm"} = '#line '.(1+__LINE__).' "'.__FILE__."\"\n".<<'
   
       my @mirrors = ($self->mirror);
       push @mirrors, Carton::Mirror->default if $self->custom_mirror;
-      push @mirrors, Carton::Mirror->new('http://backpan.perl.org/');
+      # Hotpatch by the OTOBO Team 2025-12-15.
+      # Do not fall back to installing from the BackPan.
+      #push @mirrors, Carton::Mirror->new('http://backpan.perl.org/');
   
       @mirrors;
   }
@@ -3567,7 +3569,10 @@ $fatpacked{"Carton/Mirror.pm"} = '#line '.(1+__LINE__).' "'.__FILE__."\"\n".<<'C
   use strict;
   use Class::Tiny qw( url );
   
-  our $DefaultMirror = 'http://cpan.metacpan.org/';
+  # Hotpatch by the OTOBO Team 2025-12-15.
+  # Fetch the distributions via HTTPS
+  #our $DefaultMirror = 'http://cpan.metacpan.org/';
+  our $DefaultMirror = 'https://cpan.metacpan.org/';
   
   sub BUILDARGS {
       my($class, $url) = @_;

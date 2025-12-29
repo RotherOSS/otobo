@@ -8,7 +8,7 @@ no warnings;
 
 use Carp qw(carp);
 
-our $VERSION = '1.117';
+our $VERSION = '1.119';
 
 =encoding utf8
 
@@ -160,7 +160,7 @@ C<package> syntax.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2008-2024, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
+Copyright © 2008-2025, brian d foy C<< <briandfoy@pobox.com> >>. All rights reserved.
 
 You may redistribute this under the Artistic License 2.0.
 
