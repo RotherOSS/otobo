@@ -26,9 +26,11 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 
     cd Kernel/cpan-lib
     rm -rf local
-    PERL5LIB=. cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local             # install into local/lib/perl5
-    PERL5LIB=. cpanm --from https://www.cpan.org --notest --installdeps . --local-lib local             # again, to see that the install was complete
+    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # install into local/lib/perl5
+    PERL5LIB=. cpanm --notest --installdeps . --local-lib local             # again, to see that the install was complete
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod, exact path depends on host
+    find local/lib/perl5 \( -name "*.pl" \) -delete
+    find local/lib/perl5 \( -name "*.pod" \) -delete
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
 Then examine the diffs and check in the verified changes.
@@ -64,7 +66,6 @@ The reason why specific files are not included in the bundle is not always evide
     rm Class/Accessor/Faster.pm Net/IMAP/SimpleX.pm SOAP/Test.pm
     rm Test/LongString.pm
     (cd IO; rm SessionData.pm SessionSet.pm)  # requested by SOAP::Lite, but not actually used
-    (cd Net/SSLGlue; rm FTP.pm LDAP.pm LWP.pm Socket.pm)
     (cd SOAP/Transport; rm IO.pm LOCAL.pm LOOPBACK.pm MAILTO.pm POP3.pm TCP.pm)
     find . \( -name "*.pl" \) -delete         # just because this is the tradition
     find . \( -name "*.pod" \) -delete        # just because this is the tradition

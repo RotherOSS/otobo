@@ -28,7 +28,7 @@ requires 'Class::ReturnValue', '== 0.55';
 requires 'CPAN::Audit', '== 20250829.001';
 
 # database of adbisories used by CPAN::Audit
-requires 'CPANSA::DB', '== 20251214.001';
+requires 'CPANSA::DB', '== 20251221.001';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';
@@ -71,8 +71,8 @@ requires 'Lingua::Translit', '== 0.27';
 # needed by otobo.CheckModules.pl
 requires 'Linux::Distribution', '== 0.23';
 
-# needed by Kernel::System::ReferenceData, Locale::Country
-requires 'Locale::Codes', '== 3.76';
+# needed by Kernel::System::ReferenceData, which uses Locale::Country
+requires 'Locale::Codes', '== 3.86';
 
 # needed by webservices
 requires 'LWP::Protocol::https', '== 6.11';

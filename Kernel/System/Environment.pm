@@ -327,7 +327,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20251214.001',
+            'VersionRequired' => '== 20251221.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -416,10 +416,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.23',
         },
         {
-            'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
+            'Comment'         => 'needed by Kernel::System::ReferenceData, which uses Locale::Country',
             'Module'          => 'Locale::Codes',
             'Required'        => 1,
-            'VersionRequired' => '== 3.76',
+            'VersionRequired' => '== 3.86',
         },
         {
             'Comment'         => 'needed by webservices',
