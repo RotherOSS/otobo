@@ -1032,7 +1032,7 @@ Core.UI = (function (TargetNS) {
         }
 
         RepositionElement($Element, Width);
-        $(window).off('scroll.StickyElement').on('scroll.StickyElement', function() {
+        $(document).off('scroll.StickyElement').on('scroll.StickyElement', function() {
             RepositionElement($Element, Width);
         });
     };
