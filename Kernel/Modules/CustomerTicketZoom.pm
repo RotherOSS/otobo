@@ -322,9 +322,6 @@ sub Run {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
-    $GetParam{CustomerID}     = $Self->{UserCustomerID};
-    $GetParam{CustomerUserID} = $Self->{UserID};
-
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
@@ -585,10 +582,14 @@ sub Run {
                     TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $Self->{UserID},
-                    GetParam                  => {%GetParam},
-                    Autoselect                => $Autoselect,
-                    ACLPreselection           => $ACLPreselection,
-                    LoopProtection            => \$LoopProtection,
+                    GetParam                  => {
+                        %GetParam,
+                        CustomerID     => $Self->{UserCustomerID},
+                        CustomerUserID => $Self->{UserID},
+                    },
+                    Autoselect      => $Autoselect,
+                    ACLPreselection => $ACLPreselection,
+                    LoopProtection  => \$LoopProtection,
                 );
 
                 # combine FieldStates
@@ -1500,10 +1501,14 @@ sub Run {
                 TicketID                  => $Self->{TicketID},
                 FormID                    => $Self->{FormID},
                 CustomerUser              => $Self->{UserID},
-                GetParam                  => \%GetParam,
-                Autoselect                => $Autoselect,
-                ACLPreselection           => $ACLPreselection,
-                LoopProtection            => \$LoopProtection,
+                GetParam                  => {
+                    %GetParam,
+                    CustomerID     => $Self->{UserCustomerID},
+                    CustomerUserID => $Self->{UserID},
+                },
+                Autoselect      => $Autoselect,
+                ACLPreselection => $ACLPreselection,
+                LoopProtection  => \$LoopProtection,
             );
 
             # combine FieldStates
