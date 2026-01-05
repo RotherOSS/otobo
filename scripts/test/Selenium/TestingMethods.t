@@ -62,7 +62,7 @@ $Selenium->RunTest(
         #        <div class="OverviewControl" id="OverviewControl">
 
         # LogExecuteCommandActive is on. This means that extra test events
-        # will be emitted by the the test library.
+        # will be emitted by the test library.
         note('a couple of test cases that are succeeding, logging activated');
         {
             $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
@@ -91,7 +91,7 @@ $Selenium->RunTest(
         #
         # The expected failures are marked as TODO as they do not indicate an error.
         # LogExecuteCommandActive is on. This means that extra test events
-        # will be emitted by the the test library. These extra events,
+        # will be emitted by the test library. These extra events,
         # like the event for getPageSource(), are usually successful. The consequence
         # is that these extra events are reported as 'TODO passed'. This is fine.
         note('LogExecuteCommandActive activated, four failing TODO tests expected');

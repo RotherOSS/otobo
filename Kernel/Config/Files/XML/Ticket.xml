@@ -1834,7 +1834,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::SeparateDynamicFields" Required="1" Valid="1">
-        <Description Translatable="1">Activates Rendering of DynamicFields outside of the DynamicField block.</Description>
+        <Description Translatable="1">Activates rendering of dynamic fields outside of the dynamic field block.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
@@ -1845,7 +1845,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::CustomerFrontend::SeparateDynamicFields" Required="1" Valid="1">
-        <Description Translatable="1">Activates Rendering of DynamicFields outside of the DynamicField block.</Description>
+        <Description Translatable="1">Activates rendering of dynamic fields outside of the dynamic field block.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Hash>
@@ -5778,7 +5778,7 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">Elasticsearch (u)</Item>
-                <Item Key="Name" Translatable="1">FulltextES</Item>
+                <Item Key="Name" Translatable="1">Fulltext Elasticsearch</Item>
                 <Item Key="Block">ToolBarSearchFulltextES</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="Priority">1990050</Item>
@@ -6382,7 +6382,7 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::ShowHideDeletedArticles</Item>
-                <Item Key="Name" Translatable="1">ShowHideDeletedArticles</Item>
+                <Item Key="Name" Translatable="1">Show or Hide Deleted Articles</Item>
                 <Item Key="Description" Translatable="1">Show or Hide deleted articles.</Item>
                 <Item Key="Action">AgentTicketArticleStatus</Item>
                 <Item Key="Target"></Item>
@@ -14980,7 +14980,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketQuickClose###CommunicationChannel" Required="0" Valid="1">
-        <Description Translatable="1">Defines the communication chanel for the quick close article action.</Description>
+        <Description Translatable="1">Defines the communication channel for the quick close article action.</Description>
         <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Internal</Item>
@@ -15074,7 +15074,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::OwnerResetOnUnlock" Required="1" Valid="1">
-        <Description Translatable="1">We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS versions 2 to 6 and OTOBO version 10.0.</Description>
+        <Description Translatable="1">We have changed the default ticket unlock behavior in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behavior is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behavior of OTRS versions 2 to 6 and OTOBO version 10.0.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>

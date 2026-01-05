@@ -201,7 +201,7 @@ sub _CheckInclude {
         );
         if ( !IsHashRefWithData($DynamicField) ) {
             $Errors{IncludeServerError}        = 'ServerError';
-            $Errors{IncludeServerErrorMessage} = sprintf( Translatable('No valid dynamic field "%s."'), $DFElement );
+            $Errors{IncludeServerErrorMessage} = sprintf( Translatable('No valid dynamic field "%s".'), $DFElement );
 
             return;
         }

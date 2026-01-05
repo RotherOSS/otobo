@@ -59,7 +59,7 @@ sub Run {
         }
     }
 
-    # The dynamic fields of a CustomerCompany are linked via the the field CustomerID.
+    # The dynamic fields of a CustomerCompany are linked via the field CustomerID.
     # Only update if CustomerID has really changed.
     return 1 if lc $Param{Data}->{CustomerID} eq lc $Param{Data}->{OldCustomerID};
 

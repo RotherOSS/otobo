@@ -346,7 +346,7 @@
         </Value>
     </Setting>
    <Setting Name="SkinColorDefinition::highcontrast" Required="1" Valid="1">
-        <Description Translatable="1">Color definitions for Agent interface highcontrast skin.</Description>
+        <Description Translatable="1">Color definitions for agent interface high contrast skin.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
@@ -387,7 +387,7 @@
         </Value>
     </Setting>
    <Setting Name="CustomerSkinColorDefinition::highcontrast" Required="1" Valid="1">
-        <Description Translatable="1">Color definitions for Customer Interface highcontrast skin.</Description>
+        <Description Translatable="1">Color definitions for customer interface high contrast skin.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Hash>
@@ -473,7 +473,7 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::DefaultInterface" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.</Description>
+        <Description Translatable="1">Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="index.pl">
@@ -7446,7 +7446,7 @@ via the Preferences button after logging in.
 
     <!-- setup of the tiles, <OTOBO_CONFIG_SettingName> is replaced in the Config entry -->
     <Setting Name="CustomerDashboard::Tiles###NewTicket" Required="0" Valid="1">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7461,7 +7461,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###FeaturedLink-01" Required="0" Valid="1">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7482,7 +7482,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###TicketList-01" Required="0" Valid="1">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7502,7 +7502,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###PlainText-01" Required="0" Valid="0">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7520,7 +7520,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###ToolBox-01" Required="0" Valid="1">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7550,7 +7550,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###PlainPicture-01" Required="0" Valid="0">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7567,7 +7567,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerDashboard::Tiles###InfoTile-01" Required="0" Valid="1">
-        <Description Translatable="1">Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.</Description>
+        <Description Translatable="1">Tile registration for the customer dashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.</Description>
         <Navigation>Frontend::Customer::View::Dashboard::Tiles</Navigation>
         <Value>
             <Hash>
@@ -7659,7 +7659,7 @@ via the Preferences button after logging in.
                         </Array>
                     </Item>
                     <Item Key="Description">Admin</Item>
-                    <Item Key="Title" Translatable="1">CustomerDashboard Info Tile</Item>
+                    <Item Key="Title" Translatable="1">Customer Dashboard Info Tile</Item>
                     <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
@@ -9617,7 +9617,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::TicketStoreFields" Required="0" Valid="1" ConfigLevel="100">
-        <Description Translatable="1">Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!</Description>
+        <Description Translatable="1">Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -9646,7 +9646,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::TicketSearchFields" Required="0" Valid="1">
-        <Description Translatable="1">Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!</Description>
+        <Description Translatable="1">Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially dynamic fields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch web service!</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -9736,7 +9736,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IndexSettings###Default" Required="0" Valid="0">
-        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'.</Description>
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -9803,7 +9803,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::QuickSearchShow###Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.</Description>
+        <Description Translatable="1">Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -9828,7 +9828,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::QuickSearchShow###CustomerCompany" Required="0" Valid="1">
-        <Description Translatable="1">Objects to search for, how many entries and which attributs to show.</Description>
+        <Description Translatable="1">Objects to search for, how many entries and which attributes to show.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -9851,7 +9851,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::QuickSearchShow###CustomerUser" Required="0" Valid="1">
-        <Description Translatable="1">Objects to search for, how many entries and which attributs to show.</Description>
+        <Description Translatable="1">Objects to search for, how many entries and which attributes to show.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
@@ -10389,7 +10389,7 @@ via the Preferences button after logging in.
     </Setting>
 
     <Setting Name="Translations::ObjectList" Required="1" Valid="1">
-        <Description Translatable="1">Defines the data objects avaliable to be translated.</Description>
+        <Description Translatable="1">Defines the data objects available to be translated.</Description>
         <Navigation>Core::Translations</Navigation>
         <Value>
             <Hash>

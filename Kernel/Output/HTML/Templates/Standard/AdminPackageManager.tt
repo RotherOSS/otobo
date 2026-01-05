@@ -482,7 +482,7 @@
                             <tr>
                                 <td>
 [% RenderBlockStart("ShowLocalPackageVerifyLogo") %]
-                                    <img src="[% Config("Frontend::ImagePath") %]/otobo-verified-small.svg" class="OTOBOVerifyLogo" alt="[% Translate("This package is verified by OTOBOverify (tm)") | html %]" />
+                                    <img src="[% Config("Frontend::ImagePath") %]/otobo-verified-small.svg" class="OTOBOVerifyLogo" alt="[% Translate("This package is verified by OTOBO Verify") | html %]" />
 [% RenderBlockEnd("ShowLocalPackageVerifyLogo") %]
                                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]">[% Data.Name | html %]</a>
                                 </td>

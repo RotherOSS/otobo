@@ -678,10 +678,7 @@
         </Value>
     </Setting>
    <Setting Name="TransitionActionParams::SetOptionalParameters" Required="0" Valid="1">
-        <Description Translatable="1">
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        </Description>
+        <Description Translatable="1">Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.</Description>
         <Navigation>Frontend::Admin::View::AdminProcessManagement</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>

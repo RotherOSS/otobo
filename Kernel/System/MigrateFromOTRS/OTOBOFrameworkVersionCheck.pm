@@ -140,12 +140,12 @@ sub Run {
     if ( !$ReleasePath || !-e $ReleasePath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
+            Message  => "Can't open RELEASE file from OTRS home directory: $Param{OTRSData}->{OTRSHome}!",
         );
 
         return {
             Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible."),
-            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} ),
+            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRS home directory: %s!', $Param{OTRSData}->{OTRSHome} ),
             Successful => 0,
         };
     }
@@ -266,7 +266,7 @@ sub _CheckOTRSRelease {
             Message => $Message,
             Comment => $Self->{LanguageObject}->Translate("No OTRS system found!"),
             Comment => $Self->{LanguageObject}->Translate(
-                "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.",
+                "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.",
                 $Location,
                 $ExpectedNames
             ),

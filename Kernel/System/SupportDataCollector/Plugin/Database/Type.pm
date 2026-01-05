@@ -58,7 +58,7 @@ sub Run {
             Identifier => 'DatabaseType',
             Label      => Translatable('Database Type'),
             Value      => $Type,
-            Message    => Translatable('The type auf the database looks strange as it contain no latin letters.')
+            Message    => Translatable('The type of the database looks strange as it contain no Latin letters.')
         );
     }
 

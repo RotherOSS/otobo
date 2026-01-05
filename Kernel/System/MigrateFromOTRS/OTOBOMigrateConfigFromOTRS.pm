@@ -105,7 +105,7 @@ sub Run {
     if ( !$Export ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration or no configuration exists.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occurred during system configuration data migration or no configuration exists.");
         $Result{Successful} = 1;
 
         return \%Result;
@@ -181,7 +181,7 @@ sub Run {
 
         return {
             Message    => $Self->{LanguageObject}->Translate("Migrate configuration settings."),
-            Comment    => $Self->{LanguageObject}->Translate("An error occured during SysConfig migration when writing XML to DB."),
+            Comment    => $Self->{LanguageObject}->Translate("An error occurred during system configuration migration when writing XML to DB."),
             Successful => 0,
         };
     }

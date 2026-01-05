@@ -401,7 +401,7 @@ sub ArticleRestore {
     my $ArticleID;
     my $ArticleVersionID;
 
-    #Check if article was successfuly inserted
+    #Check if article was successfully inserted
     $DBObject->Prepare(
         SQL   => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1',
         Bind  => [ \$Param{ArticleID} ],
@@ -422,7 +422,7 @@ sub ArticleRestore {
         Bind => [ \$Param{ArticleID} ]
     );
 
-    #Check if article was successfuly inserted
+    #Check if article was successfully inserted
     $DBObject->Prepare(
         SQL   => 'SELECT * FROM article WHERE id = ?',
         Bind  => [ \$Param{ArticleID} ],

@@ -105,7 +105,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( $Prefix . ' button.Update', 'css' )->click();
 
-        # verify the the deploy notification is faded in
+        # Verify the deploy notification is faded in.
         $Selenium->WaitFor(
             ElementExists => '//a[contains(@href,"Subaction=Deployment")]',
         );

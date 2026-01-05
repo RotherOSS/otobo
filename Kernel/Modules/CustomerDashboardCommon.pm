@@ -60,7 +60,7 @@ sub Run {
         if ( !$UsedTiles->{$Tile}{Module} ) {
             if ( !$UsedTiles->{$Tile}{Template} ) {
                 my $Message = $LayoutObject->{LanguageObject}->Translate(
-                    'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.',
+                    'Registration for tile %s of customer dashboard is invalid! Either Module or Template needed.',
                     $Tile,
                 );
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -98,7 +98,7 @@ sub Run {
         my $TileID = sprintf '%02d', $UsedTiles->{$Tile}{Order};    # assuming Order being less than 100
         if ( $TileID !~ m/^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
             my $Message = $LayoutObject->{LanguageObject}->Translate(
-                'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.',
+                'Registration for tile %s of customer dashboard is invalid! Order needs to be a unique number.',
                 $Tile,
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(

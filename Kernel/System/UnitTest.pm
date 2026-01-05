@@ -92,7 +92,7 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
             'JSON',
             'User'
         ],
-        TestScriptPathes => [                   # optional, execute specific test scripts or scripts in dir
+        TestScriptPaths => [                    # optional, execute specific test scripts or scripts in dir
             'scripts/test/DB',
             'scripts/test/NutsAndBolts.t'
         ],
@@ -138,13 +138,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # handle parameters
-    my $Verbosity        = $Param{Verbose} // 0;    # print test results when set to 1
-    my $Merge            = $Param{Merge}   // 0;
-    my $DoShuffle        = $Param{Shuffle} // 0;
-    my $DirectoryParam   = $Param{Directory};       # either a scalar or an array ref
-    my @SOPMFiles        = ( $Param{SOPMFiles}        // [] )->@*;
-    my @Packages         = ( $Param{Packages}         // [] )->@*;
-    my @TestScriptPathes = ( $Param{TestScriptPathes} // [] )->@*;
+    my $Verbosity       = $Param{Verbose} // 0;    # print test results when set to 1
+    my $Merge           = $Param{Merge}   // 0;
+    my $DoShuffle       = $Param{Shuffle} // 0;
+    my $DirectoryParam  = $Param{Directory};       # either a scalar or an array ref
+    my @SOPMFiles       = ( $Param{SOPMFiles}        // [] )->@*;
+    my @Packages        = ( $Param{Packages}         // [] )->@*;
+    my @TestScriptPaths = ( $Param{TestScriptPaths}  // [] )->@*;
 
     # The tests specified with the option --test indicate the file name
     # or optionally one or more parent directories.
@@ -161,10 +161,10 @@ sub Run {
     my $Host         = hostname();
 
     my @ActualTestScripts;
-    if (@TestScriptPathes) {
+    if (@TestScriptPaths) {
 
         # only the explicit list counts, all other options are ignored
-        for my $TestScriptPath (@TestScriptPathes) {
+        for my $TestScriptPath (@TestScriptPaths) {
             if ( -f $TestScriptPath ) {
                 push @ActualTestScripts, $TestScriptPath;
             }

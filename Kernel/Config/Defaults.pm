@@ -2478,7 +2478,7 @@ sub SyncWithS3 {
     while (1) {
 
         # run a blocking GET request to S3, getting all keys below the prefix
-        # The keys are the pathes of files relative to Kernel/Config/Files
+        # The keys are the paths of files relative to Kernel/Config/Files
         my %SubPath2Properties = $StorageS3Object->ListObjects(
             Prefix    => "$FilesPrefix/",
             Delimiter => '',

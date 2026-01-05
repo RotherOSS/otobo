@@ -568,7 +568,7 @@ sub Run {
         ) || 0;
 
         if ( $Success == 1 ) {
-            $Message = $LayoutObject->{LanguageObject}->Translate('Translations deployed successfuly!');
+            $Message = $LayoutObject->{LanguageObject}->Translate('Translations deployed successfully!');
         }
         elsif ( $Success == 2 ) {
             $Message = $LayoutObject->{LanguageObject}->Translate('Nothing to do!');

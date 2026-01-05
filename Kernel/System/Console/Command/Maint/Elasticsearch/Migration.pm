@@ -364,7 +364,7 @@ sub MigrateCompanies {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occurred!</yellow>\n");
     }
     else {
         $Self->Print("<green>CustomerCompany transfer complete. Transferred $Count companies.</green>\n");
@@ -483,7 +483,7 @@ sub MigrateCustomerUsers {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>CustomerUser transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>CustomerUser transfer complete. $Errors error(s) occurred!</yellow>\n");
     }
     else {
         $Self->Print("<green>CustomerUser transfer complete. Transferred $Count customer users.</green>\n");
@@ -614,7 +614,7 @@ sub MigrateTickets {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>Ticket transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>Ticket transfer complete. $Errors error(s) occurred!</yellow>\n");
     }
     else {
         $Self->Print("<green>Ticket transfer complete. Transferred $Count tickets.</green>\n");
@@ -744,7 +744,7 @@ sub MigrateConfigItems {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>ConfigItem transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>ConfigItem transfer complete. $Errors error(s) occurred!</yellow>\n");
     }
     else {
         $Self->Print("<green>ConfigItem transfer complete. Transferred $Count config items.</green>\n");
