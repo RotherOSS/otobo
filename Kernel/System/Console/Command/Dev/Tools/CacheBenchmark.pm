@@ -43,7 +43,7 @@ sub Run {
     # get home directory
     my $HomeDir = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    # get all avaliable backend modules
+    # get all available backend modules
     my @BackendModuleFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $HomeDir . '/Kernel/System/Cache/',
         Filter    => '*.pm',

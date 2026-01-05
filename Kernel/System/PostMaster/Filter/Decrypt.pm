@@ -453,7 +453,7 @@ sub _DecryptSMIME {
             }
         }
 
-        # some errors occured
+        # some errors occurred
         else {
             $Param{GetParam}{Signed} = 'Signed message, but unable to verify!';
             return;

@@ -592,7 +592,7 @@ sub Check {
             );
         }
 
-        # some errors occured
+        # some errors occurred
         else {
 
             $ArticleObject->ArticleFlagSet(
