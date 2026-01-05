@@ -562,7 +562,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             }
         }
 
-        # get all avaliable test files
+        # get all available test files
         my @TestFiles = $MainObject->DirectoryRead(
             Directory => $HomeDir . '/scripts/test/sample/Cache/',
             Filter    => '*',

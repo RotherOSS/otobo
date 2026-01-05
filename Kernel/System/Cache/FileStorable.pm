@@ -196,7 +196,7 @@ sub CleanUp {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # Returns absolute pathes without trailing '/' for directories
+    # Returns absolute paths without trailing '/' for directories
     my @ToBeDeletedTypes = $MainObject->DirectoryRead(
         Directory => $Self->{CacheDirectory},
         Filter    => $Param{Type} || '*',
@@ -207,7 +207,7 @@ sub CleanUp {
     if ( $Param{KeepTypes} && ref $Param{KeepTypes} eq 'ARRAY' && $Param{KeepTypes}->@* ) {
         my $KeepTypesRegex = join( '|', map {"\Q$_\E"} @{ $Param{KeepTypes} } );
 
-        # first '/' needed because the members of @ToBeDeletedTypes contains absolute pathes.
+        # first '/' needed because the members of @ToBeDeletedTypes contains absolute paths.
         # second optional '/' is to be on the safe side
         @ToBeDeletedTypes = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @ToBeDeletedTypes;
     }
