@@ -39,8 +39,8 @@ $Selenium->RunTest(
                 Active          => "1",
                 PreferenceGroup => "Miscellaneous",
                 DataSelected    => "25",
-                Key             => "Ticket limit per page for Ticket Overview \"$View\"",
-                Label           => "Ticket Overview \"$View\" Limit",
+                Key             => "Ticket limit per page for ticket overview “$View”.",
+                Label           => "Ticket overview “$View” limit",
                 Module          => "Kernel::Output::HTML::Preferences::Generic",
                 PrefKey         => "UserTicketOverview" . $View . "PageShown",
                 Prio            => "8000",
@@ -85,22 +85,22 @@ $Selenium->RunTest(
         # Create test params.
         my @Tests = (
             {
-                Name  => 'Overview Refresh Time',
+                Name  => 'Overview refresh time',
                 ID    => 'UserRefreshTime',
                 Value => '5',
             },
             {
-                Name  => 'Ticket Overview "Small" Limit',
+                Name  => 'Ticket overview “Small” limit',
                 ID    => 'UserTicketOverviewSmallPageShown',
                 Value => '10',
             },
             {
-                Name  => 'Ticket Overview "Medium" Limit',
+                Name  => 'Ticket overview “Medium” limit',
                 ID    => 'UserTicketOverviewMediumPageShown',
                 Value => '10',
             },
             {
-                Name  => 'Ticket Overview "Preview" Limit',
+                Name  => 'Ticket overview “Preview” limit',
                 ID    => 'UserTicketOverviewPreviewPageShown',
                 Value => '10',
             },

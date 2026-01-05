@@ -3411,9 +3411,9 @@ You can log in via the following URL:
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">UserProfile</Item>
-                <Item Key="Label" Translatable="1">Google Authenticator</Item>
-                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.</Item>
-                <Item Key="Key" Translatable="1">Shared Secret</Item>
+                <Item Key="Label" Translatable="1">Two-factor authentication shared secret</Item>
+                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two-factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two-factor token.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
                 <Item Key="ValidateRegex">^([A-Z2-7]{16}|)$</Item>
@@ -3431,8 +3431,8 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Comment</Item>
-                <Item Key="Desc" Translatable="1">This is a Description for Comment on Framework.</Item>
-                <Item Key="Key" Translatable="1">Comment</Item>
+                <Item Key="Desc" Translatable="1">This is a description for comment on framework.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">[% Env("UserComment") %]</Item>
                 <Item Key="PrefKey">UserComment</Item>
@@ -3448,9 +3448,9 @@ You can log in via the following URL:
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
-                <Item Key="Label" Translatable="1">NameX</Item>
-                <Item Key="Desc" Translatable="1">This is a Description for DynamicField on Framework.</Item>
-                <Item Key="Key" Translatable="1">Default value for NameX</Item>
+                <Item Key="Label" Translatable="1">Default value for NameX</Item>
+                <Item Key="Desc" Translatable="1">This is a description for dynamic field on framework.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">[% Env("UserDynamicField_NameX") %]</Item>
                 <Item Key="PrefKey">UserDynamicField_NameX</Item>
@@ -3550,9 +3550,9 @@ You can log in via the following URL:
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
-                <Item Key="Label" Translatable="1">CSV Separator</Item>
+                <Item Key="Label" Translatable="1">CSV separator</Item>
                 <Item Key="Desc" Translatable="1">Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.</Item>
-                <Item Key="Key" Translatable="1">CSV Separator</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key=""></Item>
@@ -4264,8 +4264,8 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
-                <Item Key="Label" Translatable="1">CommunicationLog Overview Limit</Item>
-                <Item Key="Desc" Translatable="1">Communication log limit per page for Communication Log Overview.</Item>
+                <Item Key="Label" Translatable="1">Communication log overview limit</Item>
+                <Item Key="Desc" Translatable="1">Communication log limit per page for communication log overview.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>

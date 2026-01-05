@@ -1350,8 +1350,8 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
-                <Item Key="Label" Translatable="1">Dynamic Fields Overview Limit</Item>
-                <Item Key="Desc" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview.</Item>
+                <Item Key="Label" Translatable="1">Dynamic field overview limit</Item>
+                <Item Key="Desc" Translatable="1">Dynamic field limit per page for dynamic field overviews.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
