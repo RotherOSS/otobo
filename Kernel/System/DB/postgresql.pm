@@ -84,7 +84,7 @@ EOF
     # this is primarily needed during migration
     $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
 
-    # dbi attributes
+    # DBI/DBD::Postgresql attributes. These will be passed when connecting to the database.
     $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
