@@ -643,7 +643,7 @@ sub _RecipientsGet {
 
             if (
                 $Recipient
-                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices|CreateBy)$/
+                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices|CreateBy|FirstArticleAuthor)$/
                 )
             {
                 if ( $Recipient eq 'AgentOwner' ) {
@@ -747,7 +747,7 @@ sub _RecipientsGet {
 
                     push @{ $Notification{Data}->{RecipientAgents} }, @UserIDs;
                 }
-                elsif ( $Recipient eq 'FirstAgentArticleAuthor' ) {
+                elsif ( $Recipient eq 'AgentFirstArticleAuthor' ) {
 
                     # Check if the first article was created by an agent.
                     my @Articles = $ArticleObject->ArticleList(
@@ -762,11 +762,7 @@ sub _RecipientsGet {
                 }
                 elsif ( $Recipient eq 'AgentCreateBy' ) {
 
-                    # no notifications should be sent to the admin user
-                    #   this also includes customer-created tickets, which use the admin user as create agent
-                    if ( $Ticket{CreateBy} != 1 ) {
-                        push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
-                    }
+                    push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
                 }
             }
 
