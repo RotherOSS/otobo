@@ -29,11 +29,16 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod, exact path depends on host
     find local/lib/perl5 \( -name "*.pl" \) -delete
     find local/lib/perl5 \( -name "*.pod" \) -delete
+    tree local/lib/perl5                                                    # check sanity
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
-Then examine the diffs and check in the verified changes.
+Then examine the differences and check in the verified changes.
 
-Finally clean up the temporary installation dir again:
+    git diff
+    git add --patch local
+    git commit
+
+Finally clean up the temporary installation directory again:
 
     rm -rf local
 
