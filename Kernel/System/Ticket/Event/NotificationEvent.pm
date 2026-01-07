@@ -747,6 +747,19 @@ sub _RecipientsGet {
 
                     push @{ $Notification{Data}->{RecipientAgents} }, @UserIDs;
                 }
+                elsif ( $Recipient eq 'FirstAgentArticleAuthor' ) {
+
+                    # Check if the first article was created by an agent.
+                    my @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $Param{Data}->{TicketID},
+                        SenderType => 'agent',
+                        OnlyFirst  => 1,
+                    );
+
+                    if ( $Articles[0] && $Articles[0]->{ArticleNumber} == 1 ) {
+                        push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
+                    }
+                }
                 elsif ( $Recipient eq 'AgentCreateBy' ) {
 
                     # no notifications should be sent to the admin user
