@@ -113,13 +113,6 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="ImportExport::TranslationsImportExport::ForceCSVMappingRecreation" Required="1" Valid="1">
-        <Description Translatable="1">Defines if CSV-mappings are re-created on next package reinstallation or upgrade if already existent.</Description>
-        <Navigation>Core::ImportExport::TranslationsImportExport</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
 
     <!-- specific settings for the object backend Ticket -->
     <Setting Name="ImportExport::ObjectBackendRegistration###Ticket" Required="0" Valid="1">
@@ -468,6 +461,18 @@
                     <Hash>
                     </Hash>
                 </Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <!-- specific settings for the object backend CustomerCompany -->
+    <Setting Name="ImportExport::ObjectBackendRegistration###CustomerCompany" Required="0" Valid="1">
+        <Description Translatable="1">Object backend module registration for the import/export module.</Description>
+        <Navigation>Core::ImportExport::ObjectBackend::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::ImportExport::ObjectBackend::CustomerCompany</Item>
+                <Item Key="Name">CustomerCompany</Item>
             </Hash>
         </Value>
     </Setting>
