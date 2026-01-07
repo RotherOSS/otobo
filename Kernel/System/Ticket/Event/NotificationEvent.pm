@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -749,17 +749,11 @@ sub _RecipientsGet {
                 }
                 elsif ( $Recipient eq 'AgentCreateBy' ) {
 
-                    # Check if the first article was created by an agent.
-                    my @Articles = $ArticleObject->ArticleList(
-                        TicketID   => $Param{Data}->{TicketID},
-                        SenderType => 'agent',
-                        OnlyFirst  => 1,
-                    );
-
-                    if ( $Articles[0] && $Articles[0]->{ArticleNumber} == 1 ) {
+                    # no notifications should be sent to the admin user
+                    #   this also includes customer-created tickets, which use the admin user as create agent
+                    if ( $Ticket{CreateBy} != 1 ) {
                         push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
                     }
-
                 }
             }
 
