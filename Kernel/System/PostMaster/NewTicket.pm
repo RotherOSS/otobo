@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -148,9 +148,12 @@ sub Run {
         }
     }
 
+    # check X-OTOBO-From header
+    my $From = $GetParam{'X-OTOBO-From'} ? $GetParam{'X-OTOBO-From'} : $GetParam{From};
+
     # get sender email
     my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
-        Line => $GetParam{From},
+        Line => $From,
     );
     for my $Address (@EmailAddresses) {
         $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
@@ -180,10 +183,10 @@ sub Run {
     if ( !$GetParam{'X-OTOBO-CustomerUser'} ) {
 
         my %CustomerData;
-        if ( $GetParam{From} ) {
+        if ($From) {
 
             my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
-                Line => $GetParam{From},
+                Line => $From,
             );
 
             for my $Address (@EmailAddresses) {
@@ -499,7 +502,7 @@ END_MESSAGE
         TicketID             => $TicketID,
         SenderType           => $GetParam{'X-OTOBO-SenderType'},
         IsVisibleForCustomer => $IsVisibleForCustomer,
-        From                 => $GetParam{From},
+        From                 => $From,
         ReplyTo              => $GetParam{ReplyTo},
         To                   => $GetParam{To},
         Cc                   => $GetParam{Cc},
