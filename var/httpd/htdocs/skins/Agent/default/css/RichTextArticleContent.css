@@ -27,9 +27,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-    font-weight: inherit;
     color: inherit;
     margin-bottom: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: #001bff;
+    color: var(--colTextLink);
+}
+
+*:visited {
+    color: #001bff;
+    color: var(--colTextLink);
 }
 
 .ck-content figure.table {
