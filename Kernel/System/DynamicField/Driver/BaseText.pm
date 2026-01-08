@@ -491,11 +491,15 @@ sub EditFieldValueGet {
             my @Data;
             VALUEITEM:
             for my $ValueItem (@DataAll) {
-                push @TmpValues, ( $ValueItem || undef );
 
-                next VALUEITEM if ( !defined $ValueItem || $ValueItem eq '' );
+                if ( !defined $ValueItem || $ValueItem eq '' ) {
+                    push @TmpValues, undef;
 
-                push @Data, @TmpValues;
+                    next VALUEITEM;
+                }
+
+                push @TmpValues, $ValueItem;
+                push @Data,      @TmpValues;
                 @TmpValues = ();
             }
 
