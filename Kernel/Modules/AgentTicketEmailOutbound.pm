@@ -529,7 +529,7 @@ sub Form {
     # upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    # body preparation for plain text processing
+    # get article to quote
     $Data{Body} = $LayoutObject->ArticleQuote(
         TicketID           => $Data{TicketID},
         ArticleID          => $Data{ArticleID},
@@ -552,16 +552,6 @@ sub Form {
         NoJavaScript => 1,
     );
     $Data{Body} = $SafetyCheckResult{String};
-
-    # If article is not a MIMEBase article, include sender name for correct quoting.
-    # Should this be included?
-    if ( !$Data{From} ) {
-        my %ArticleFields = $LayoutObject->ArticleFields(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Data{ArticleID},
-        );
-        $Data{Sender} = $ArticleFields{Sender}->{Value} // '';
-    }
 
     if ( $GetParam{EmailTemplateID} ) {
 

@@ -342,7 +342,7 @@ sub Form {
     # upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    # body preparation for plain text processing
+    # get article to quote
     $Data{Body} = $LayoutObject->ArticleQuote(
         TicketID           => $Data{TicketID},
         ArticleID          => $Data{ArticleID},

@@ -1460,23 +1460,6 @@ sub Run {
         );
         $Data{Body} = $SafetyCheckResult{String};
 
-        # get template
-        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
-
-        # use key StdResponse to pass the data to the template for legacy reasons,
-        #   because existing systems may have it in their configuration as that was
-        #   the key used before the internal switch to StandardResponse And StandardTemplate
-
-        # Call Template early to be consistent with AgentTicket-Forward/EmailOutbound
-        $Data{StdResponse} = $TemplateGenerator->Template(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $GetParam{ArticleID},
-            TemplateID => $GetParam{ResponseID},
-            Data       => \%Data,
-            UserID     => $Self->{UserID},
-            QuoteBody  => 1,
-        );
-
         # restrict number of body lines if configured
         if (
             $Data{Body}
@@ -1496,6 +1479,22 @@ sub Run {
                 $Data{Body} = join "\n", @Body;
             }
         }
+
+        # get template
+        my $TemplateGenerator = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+
+        # use key StdResponse to pass the data to the template for legacy reasons,
+        #   because existing systems may have it in their configuration as that was
+        #   the key used before the internal switch to StandardResponse And StandardTemplate
+
+        $Data{StdResponse} = $TemplateGenerator->Template(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $GetParam{ArticleID},
+            TemplateID => $GetParam{ResponseID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+            QuoteBody  => 1,
+        );
 
         if ( $LayoutObject->{BrowserRichText} ) {
 
