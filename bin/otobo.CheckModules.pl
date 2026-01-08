@@ -57,12 +57,19 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
+    # Print a cpanfile with the required modules for Kernel/cpan-lib
+    # This file is only used for sporadic updates
+    bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile
+
 =head1 DESCRIPTION
 
 This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
 
-Modules that are in Perl core in Perl 5.24 or later are no included in the list of required modules.
+Some modules that are checked here are actually in Perl core. These checks
+are kept in place as it can not be guaranteed that no Perl modules
+are removed from Perl core. Also, Linux distributes have occasionally removed
+core modules from their default installation.
 
 =cut
 
@@ -72,22 +79,22 @@ use warnings;
 use utf8;
 
 use File::Basename qw(dirname);
-use FindBin        qw($RealBin);
+use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 # core modules
-use Getopt::Long                   qw(GetOptions);
-use Term::ANSIColor                qw(color);
-use Pod::Usage                     qw(pod2usage);
+use Getopt::Long qw(GetOptions);
+use Term::ANSIColor qw(color);
+use Pod::Usage qw(pod2usage);
 use Module::Metadata 1.000031      ();
 use CPAN::Meta::Requirements 2.140 ();
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Environment   ();
+use Kernel::System::Environment ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 my %InstTypeToCMD = (
@@ -176,7 +183,7 @@ my %IsCommonFeature = (
     'performance:json' => 1,
 );
 
-# defines a set of features considered standard for non-docker environments
+# defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
     %IsCommonFeature,
     'apache:mod_perl' => 1,
@@ -235,19 +242,21 @@ my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
+my $DoPrintBundledCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'          => \$DoPrintHelp,
-    'inst'            => \$DoPrintInstCommand,
-    'list'            => \$DoPrintPackageList,
-    'all'             => \$DoPrintAllModules,
-    'features'        => \$DoPrintFeatures,
-    'finst=s{1,}'     => \@FeatureInstList,
-    'flist=s{1,}'     => \@FeatureList,
-    'cpanfile'        => \$DoPrintCpanfile,
-    'docker-cpanfile' => \$DoPrintDockerCpanfile,
+    'help|h'           => \$DoPrintHelp,
+    'inst'             => \$DoPrintInstCommand,
+    'list'             => \$DoPrintPackageList,
+    'all'              => \$DoPrintAllModules,
+    'features'         => \$DoPrintFeatures,
+    'finst=s{1,}'      => \@FeatureInstList,
+    'flist=s{1,}'      => \@FeatureList,
+    'cpanfile'         => \$DoPrintCpanfile,
+    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
+    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -263,6 +272,7 @@ elsif (
     && !$DoPrintFeatures
     && !$DoPrintCpanfile
     && !$DoPrintDockerCpanfile
+    && !$DoPrintBundledCpanfile
     )
 {
     $DoPrintHelp = 1;
@@ -278,7 +288,7 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -306,6 +316,7 @@ my @NeededModules = (
 
     # Core
     {
+        # In Perl core since Perl 5.9.3
         Module    => 'Archive::Tar',
         Required  => 1,
         Comment   => 'Required for compressed file generation (in perlcore).',
@@ -409,6 +420,7 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.9.3
         Module    => 'Digest::SHA',
         Required  => 1,
         InstTypes => {
@@ -579,9 +591,10 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.7.3
         Module    => 'Time::HiRes',
         Required  => 1,
-        Comment   => 'Required for high resolution timestamps.',
+        Comment   => 'Required for high resolution timestamps (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => 'perl-core/Time-HiRes',
@@ -874,8 +887,9 @@ my @NeededModules = (
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
             aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
+            emerge => 'dev-perl/Plack',
+            zypper => 'perl-Plack',
+            yum    => 'perl-Plack',
             ports  => undef,
         },
     },
@@ -1070,6 +1084,7 @@ my @NeededModules = (
         },
     },
     {
+        # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
@@ -1081,9 +1096,10 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.6.2
         Module    => 'Test::Simple',
         Features  => ['devel:test'],
-        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => undef,
@@ -1160,6 +1176,21 @@ elsif ($DoPrintDockerCpanfile) {
 END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 1 );
+}
+elsif ($DoPrintBundledCpanfile) {
+    say <<'END_HEADER';
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+END_HEADER
+
+    my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+    PrintCpanfile( \@BundledModules, 1, 0, 0 );
 }
 elsif ($DoPrintInstCommand) {
 
@@ -1312,7 +1343,7 @@ else {
 sub Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
-    print "  " x ( $Depends + 1 );
+    print '  ' x ( $Depends + 1 );
     print "o $Module->{Module}";
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
     print '.' x $Length;

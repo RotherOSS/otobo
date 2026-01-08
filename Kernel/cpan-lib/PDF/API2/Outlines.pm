@@ -5,7 +5,7 @@ use base 'PDF::API2::Outline';
 use strict;
 use warnings;
 
-our $VERSION = '2.033'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 
@@ -15,6 +15,11 @@ sub new {
     $self->{'Type'} = PDFName('Outlines');
 
     return $self;
+}
+
+sub count {
+    my $self = shift();
+    return abs($self->SUPER::count());
 }
 
 1;

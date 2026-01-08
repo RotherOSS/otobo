@@ -31,7 +31,6 @@ use Net::IMAP::Simple;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
 );
 
 sub Connect {
