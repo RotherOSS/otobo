@@ -795,7 +795,7 @@ sub _RenderAjax {
         if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
             for my $i ( 0 .. $#{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                 my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-                    ? ( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] || '' )
+                    ? ( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] // '' )
                     :
                     (
                         $DynamicFieldBackendObject->BuildSelectionDataGet(
@@ -851,7 +851,7 @@ sub _RenderAjax {
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $SetField->{Values}{$FrontendName} eq 'ARRAY' ) {
                 for my $i ( 0 .. $#{ $SetField->{Values}{$FrontendName} } ) {
                     my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
-                        ? $SetField->{Values}{$FrontendName}[$i]
+                        ? ( $SetField->{Values}{$FrontendName}[$i] // '' )
                         :
                         (
                             $DynamicFieldBackendObject->BuildSelectionDataGet(
