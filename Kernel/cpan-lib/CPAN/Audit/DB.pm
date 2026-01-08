@@ -1,5 +1,5 @@
-# created by util/generate at Sun Dec 21 03:58:58 2025
-# https://github.com/briandfoy/cpan-security-advisory 9a496cbd5787a2720729659e05d02bd236bdd710
+# created by util/generate at Sun Dec 28 04:04:03 2025
+# https://github.com/briandfoy/cpan-security-advisory 45ac48fbc5ca67dabdf1216f1b2e0f86003a891c
 
 =encoding utf8
 
@@ -82,7 +82,7 @@ package CPAN::Audit::DB;
 use strict;
 use warnings;
 
-our $VERSION = '20251221.001';
+our $VERSION = '20251228.001';
 
 sub db {
 	{
@@ -12514,7 +12514,7 @@ sub db {
                                                    {
                                                      'date' => '2014-03-20T00:00:00',
                                                      'dual_lived' => 1,
-                                                     'perl_release' => '5.01901',
+                                                     'perl_release' => '5.019010',
                                                      'version' => '2.04'
                                                    },
                                                    {
@@ -28420,6 +28420,10 @@ sub db {
                                                          {
                                                            'date' => '2025-11-24T08:08:46',
                                                            'version' => '1.77_02'
+                                                         },
+                                                         {
+                                                           'date' => '2025-12-27T02:02:17',
+                                                           'version' => '1.77_03'
                                                          }
                                                        ]
                                        },
@@ -33014,7 +33018,7 @@ sub db {
                                                           {
                                                             'date' => '2019-04-20T00:00:00',
                                                             'dual_lived' => 1,
-                                                            'perl_release' => '5.029010',
+                                                            'perl_release' => '5.02901',
                                                             'version' => '2.174'
                                                           },
                                                           {
@@ -33050,7 +33054,7 @@ sub db {
                                                           {
                                                             'date' => '2021-05-20T00:00:00',
                                                             'dual_lived' => 1,
-                                                            'perl_release' => '5.034',
+                                                            'perl_release' => '5.034000',
                                                             'version' => '2.179'
                                                           },
                                                           {
@@ -40534,7 +40538,7 @@ sub db {
                                                                  {
                                                                    'date' => '1994-10-17T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.000',
+                                                                   'perl_release' => 5,
                                                                    'version' => undef
                                                                  },
                                                                  {
@@ -40576,7 +40580,7 @@ sub db {
                                                                  {
                                                                    'date' => '2000-03-22T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.006000',
+                                                                   'perl_release' => '5.006',
                                                                    'version' => '5.45'
                                                                  },
                                                                  {
@@ -40588,13 +40592,13 @@ sub db {
                                                                  {
                                                                    'date' => '2010-04-20T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.013',
+                                                                   'perl_release' => '5.013000',
                                                                    'version' => '6.5601'
                                                                  },
                                                                  {
                                                                    'date' => '2015-06-01T00:00:00',
                                                                    'dual_lived' => 1,
-                                                                   'perl_release' => '5.022',
+                                                                   'perl_release' => '5.022000',
                                                                    'version' => '7.04_01'
                                                                  },
                                                                  {
@@ -41103,7 +41107,7 @@ sub db {
                                                                {
                                                                  'date' => '2012-05-26T00:00:00',
                                                                  'dual_lived' => 1,
-                                                                 'perl_release' => '5.017',
+                                                                 'perl_release' => '5.017000',
                                                                  'version' => '3.17'
                                                                },
                                                                {
@@ -42842,7 +42846,7 @@ sub db {
                                                         {
                                                           'date' => '2000-03-22T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.006000',
+                                                          'perl_release' => '5.006',
                                                           'version' => '1.0403'
                                                         },
                                                         {
@@ -42890,7 +42894,7 @@ sub db {
                                                         {
                                                           'date' => '2016-05-09T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.024000',
+                                                          'perl_release' => '5.024',
                                                           'version' => '2.12_01'
                                                         }
                                                       ]
@@ -47740,6 +47744,10 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2025-12-13T05:27:26',
                                                           'version' => '0.091'
+                                                        },
+                                                        {
+                                                          'date' => '2025-12-27T19:51:28',
+                                                          'version' => '0.092'
                                                         },
                                                         {
                                                           'date' => '2017-01-14T00:00:00',
@@ -82478,7 +82486,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '1994-10-17T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.000',
+                                                          'perl_release' => 5,
                                                           'version' => undef
                                                         },
                                                         {
@@ -82496,7 +82504,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2000-03-22T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.006000',
+                                                          'perl_release' => '5.006',
                                                           'version' => '2.02'
                                                         },
                                                         {
@@ -82562,7 +82570,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2011-02-20T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.01301',
+                                                          'perl_release' => '5.013010',
                                                           'version' => '3.37'
                                                         },
                                                         {
@@ -82736,7 +82744,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                         {
                                                           'date' => '2019-04-20T00:00:00',
                                                           'dual_lived' => 1,
-                                                          'perl_release' => '5.029010',
+                                                          'perl_release' => '5.02901',
                                                           'version' => '3.78'
                                                         },
                                                         {
@@ -86534,7 +86542,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                           {
                                                             'date' => '2011-06-20T00:00:00',
                                                             'dual_lived' => 1,
-                                                            'perl_release' => '5.015000',
+                                                            'perl_release' => '5.015',
                                                             'version' => '3.15_05'
                                                           },
                                                           {
@@ -89741,7 +89749,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                    {
                                                      'date' => '2012-05-20T00:00:00',
                                                      'dual_lived' => 1,
-                                                     'perl_release' => '5.016000',
+                                                     'perl_release' => '5.016',
                                                      'version' => '2.31_01'
                                                    },
                                                    {
@@ -92757,7 +92765,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '1994-10-17T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.000',
+                                                       'perl_release' => 5,
                                                        'version' => undef
                                                      },
                                                      {
@@ -92775,7 +92783,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '2000-03-22T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.006000',
+                                                       'perl_release' => '5.006',
                                                        'version' => '1.72'
                                                      },
                                                      {
@@ -92895,7 +92903,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                      {
                                                        'date' => '2011-02-20T00:00:00',
                                                        'dual_lived' => 1,
-                                                       'perl_release' => '5.01301',
+                                                       'perl_release' => '5.013010',
                                                        'version' => '1.94'
                                                      },
                                                      {
@@ -95026,7 +95034,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                        {
                                                          'date' => '2011-06-20T00:00:00',
                                                          'dual_lived' => 1,
-                                                         'perl_release' => '5.015000',
+                                                         'perl_release' => '5.015',
                                                          'version' => '2.28'
                                                        },
                                                        {
@@ -95272,7 +95280,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                        {
                                                          'date' => '2020-06-20T00:00:00',
                                                          'dual_lived' => 1,
-                                                         'perl_release' => '5.032000',
+                                                         'perl_release' => '5.032',
                                                          'version' => '3.21'
                                                        },
                                                        {
@@ -95350,7 +95358,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                        {
                                                          'date' => '2025-03-21T00:00:00',
                                                          'dual_lived' => 1,
-                                                         'perl_release' => '5.04101',
+                                                         'perl_release' => '5.041010',
                                                          'version' => '3.36'
                                                        },
                                                        {
@@ -95818,13 +95826,13 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                          {
                                                            'date' => '1994-10-17T00:00:00',
                                                            'dual_lived' => 1,
-                                                           'perl_release' => '5.000',
+                                                           'perl_release' => 5,
                                                            'version' => undef
                                                          },
                                                          {
                                                            'date' => '2000-03-22T00:00:00',
                                                            'dual_lived' => 1,
-                                                           'perl_release' => '5.006000',
+                                                           'perl_release' => '5.006',
                                                            'version' => '0.01'
                                                          },
                                                          {
@@ -95836,7 +95844,7 @@ Resulting in a CWE-1188: Insecure Default Initialization of Resource weakness.
                                                          {
                                                            'date' => '2002-07-19T00:00:00',
                                                            'dual_lived' => 1,
-                                                           'perl_release' => '5.008000',
+                                                           'perl_release' => '5.008',
                                                            'version' => '0.03'
                                                          },
                                                          {
@@ -116419,9 +116427,9 @@ An attacker with limited privileges can exploit this behavior by placing cmd.exe
                                         }
                      },
           'meta' => {
-                      'commit' => '9a496cbd5787a2720729659e05d02bd236bdd710',
-                      'date' => 'Sun Dec 21 03:58:14 2025',
-                      'epoch' => 1766289494,
+                      'commit' => '45ac48fbc5ca67dabdf1216f1b2e0f86003a891c',
+                      'date' => 'Sun Dec 28 04:03:10 2025',
+                      'epoch' => 1766894590,
                       'generator' => 'util/generate',
                       'repo' => 'https://github.com/briandfoy/cpan-security-advisory'
                     },
