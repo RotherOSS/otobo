@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1802,7 +1802,7 @@ sub _Replace {
 
                         # add quote char if needed
                         else {
-                            if ( $Quote ) {
+                            if ($Quote) {
                                 $NewOldBody .= $Quote . " $Body[$Counter]";
                             }
                             else {
@@ -1829,7 +1829,7 @@ sub _Replace {
                     }
 
                     # other modules would first convert $Quote to RichText or HTML here
-                    if ( $Quote ) {
+                    if ($Quote) {
                         $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
                         $NewOldBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->DocumentCleanup(
                             String => $NewOldBody,
