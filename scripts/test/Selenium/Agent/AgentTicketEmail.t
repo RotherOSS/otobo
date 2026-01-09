@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,14 +62,6 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 0,
-        );
-
-        # Enable session management use html cookies.
-        # This is only supported behavior.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 1,
         );
 
         # Define random test variable.
@@ -319,16 +311,7 @@ $Selenium->RunTest(
             "Signature found on page"
         ) || die "$SignatureText not found on page";
 
-        # Disable session management use html cookies to check signature update (see bug#12890).
-        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
-        # Do it anyways.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 0,
-        );
-
-        # There is no redirekt to the login page as support for SessionUseCookie = 1
+        # There is no redirect to the login page as support for SessionUseCookie = 1
         # had been removed for OTOBO 11.1.x
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
         $Selenium->find_no_element_ok( "#User",        'css' );

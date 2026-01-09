@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -41,14 +41,6 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'WebMaxFileUpload',
             Value => '50000'
-        );
-
-        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
-        # Do it anyways.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 0,
         );
 
         # Get all sessions before login.
