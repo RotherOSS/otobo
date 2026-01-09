@@ -300,7 +300,7 @@ Core.Agent.Admin.Translations = (function (TargetNS) {
                     CloseOnClickOutside: false,
                     Buttons: [
                         {
-                            Label: Core.Language.Translate('Close'),
+                            Label: Core.Language.Translate('Close this dialog'),
                             Function: function () {
                                 Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                                 window.location = Core.Config.Get('CGIHandle') + "?Action=AdminTranslations;UserLanguage="+encodeURIComponent($("input[name=UserLanguage]").val())+";OTOBOAgentInterface="+encodeURIComponent($("input[name=OTOBOAgentInterface]").val());
