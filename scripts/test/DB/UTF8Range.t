@@ -90,7 +90,7 @@ for my $Test (@Tests) {
 
         $Counter++;
 
-        # Fetch without WHERE
+        # Fetch without WHERE, get the latest inserted row
         $DBObject->Prepare(
             SQL => <<'END_SQL',
 SELECT test_message_varchar, test_message_longblob
@@ -120,9 +120,8 @@ END_SQL
 
         # Fetch 1 with WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range WHERE test_message_varchar = ?',
-            Bind  => [ \$TestData, ],
-            Limit => 1,
+            SQL  => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range WHERE test_message_varchar = ?',
+            Bind => [ \$TestData, ],
         );
 
         $RowCount = 0;
