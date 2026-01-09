@@ -31,6 +31,9 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+# Start on a clean slate when the test table already exists
+$DBObject->Do( SQL => 'DROP TABLE test_utf8_range' );
+
 # create database table for tests
 my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML' );
 <Table Name="test_utf8_range">
@@ -143,10 +146,10 @@ END_SQL
     };
 }
 
-# cleanup
+# cleanup, comment out the block for inspection after the script has run
 ok(
     $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
-    'DROP TABLE',
+    'DROP TABLE test_utf8_range',
 );
 
 done_testing;
