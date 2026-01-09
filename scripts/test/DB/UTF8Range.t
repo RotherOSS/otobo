@@ -49,20 +49,24 @@ for my $SQL (@SQL) {
 
 my @Tests = (
     {
-        Name => "Ascii / UTF8 1 byte",
-        Data => 'aouI',                  # added 'I' making sure that SELECT with WHERE does not find the row with 'äöü'
+        Name => 'UTF8 1 byte, single byte in ASCII and latin1',
+        Data => 'a',                                              # a - U+00061 - 61 - LATIN SMALL LETTER A
     },
     {
-        Name => "UTF8 2 byte",
-        Data => 'äöü',
+        Name => 'UTF8 2 byte, single byte in latin1',
+        Data => 'ö',                                             # ö - U+000F6 - C3 B6 - LATIN SMALL LETTER O WITH DIAERESIS
     },
     {
-        Name => "UTF8 3 byte",
-        Data => 'ऄ',                   # DEVANAGARI LETTER SHORT A (e0 a4 84)
+        Name => 'UTF8 3 byte',
+        Data => 'ऄ',                                            # ऄ - U+00904 - E0 A4 84 - DEVANAGARI LETTER SHORT A
     },
     {
-        Name => "UTF8 4 byte",
-        Data => '💩',                  # PILE OF POO (f0 9f 92 a9)
+        Name => 'UTF8 4 byte',
+        Data => '𐡀',                                           # 𐡀 - U+10840 - F0 90 A1 80 - IMPERIAL ARAMAIC LETTER ALEPH
+    },
+    {
+        Name => 'all of the above concatenated',
+        Data => 'aöऄ𐡀',
     },
 );
 
@@ -71,15 +75,15 @@ for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
 
-        # Because of 'use utf8;' the test data is initially considered as being UTF-8 encoded,
-        # which does not imply that the UTF-8 flag is on.
-        my $TestData = $Test->{Data};
-        diag "Testing: $TestData";
-        diag 'test data: ', scalar DDump $TestData;
-
+        # Because of 'use utf8;' the test data is initially considered as being UTF-8 encoded.
+        # This happens to result in 'a' not having the UTF-8 Flag and 'ö' having the UTF-8 flag.
+        # It is not obvious whether this is guaranteed behavior.
+        my $TestData        = $Test->{Data};
         my $EncodedTestData = $TestData;
         utf8::encode($EncodedTestData);
-        diag 'UTF8 encoded test data: ', scalar DDump $EncodedTestData;
+        diag "Testing: $TestData";
+        diag 'test data:',              "\n", scalar DDump $TestData;
+        diag 'UTF8 encoded test data:', "\n", scalar DDump $EncodedTestData;
 
         my $InsertSuccess = $DBObject->Do(
             SQL  => 'INSERT INTO test_utf8_range ( counter, test_message_varchar, test_message_longblob ) VALUES ( ?, ?, ? )',
