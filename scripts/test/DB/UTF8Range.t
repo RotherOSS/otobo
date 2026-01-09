@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -34,20 +34,20 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 # create database table for tests
 my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => <<'END_XML' );
 <Table Name="test_utf8_range">
+    <Column Name="counter"               Required="true" Type="INTEGER"/>
     <Column Name="test_message_varchar"  Required="true" Size="255" Type="VARCHAR"/>
     <Column Name="test_message_longblob" Required="true" Type="LONGBLOB"/>
 </Table>
 END_XML
 my @SQL = $DBObject->SQLProcessor( Database => \@XMLArray );
 for my $SQL (@SQL) {
-    diag "SQL: $SQL";
     ok( $DBObject->Do( SQL => $SQL ) || 0, 'executed SQL' );
 }
 
 my @Tests = (
     {
         Name => "Ascii / UTF8 1 byte",
-        Data => 'aou',
+        Data => 'aouI',                  # added 'I' making sure that SELECT with WHERE does not find the row with 'äöü'
     },
     {
         Name => "UTF8 2 byte",
@@ -55,14 +55,15 @@ my @Tests = (
     },
     {
         Name => "UTF8 3 byte",
-        Data => 'ऄ',           # DEVANAGARI LETTER SHORT A (e0 a4 84)
+        Data => 'ऄ',                   # DEVANAGARI LETTER SHORT A (e0 a4 84)
     },
     {
         Name => "UTF8 4 byte",
-        Data => '💩',          # PILE OF POO (f0 9f 92 a9)
+        Data => '💩',                  # PILE OF POO (f0 9f 92 a9)
     },
 );
 
+my $Counter = 0;
 for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
@@ -75,20 +76,27 @@ for my $Test (@Tests) {
 
         my $EncodedTestData = $TestData;
         utf8::encode($EncodedTestData);
-        diag 'encoded test data: ', scalar DDump $EncodedTestData;
+        diag 'UTF8 encoded test data: ', scalar DDump $EncodedTestData;
 
         my $InsertSuccess = $DBObject->Do(
-            SQL  => 'INSERT INTO test_utf8_range ( test_message_varchar, test_message_longblob ) VALUES ( ?, ? )',
+            SQL  => 'INSERT INTO test_utf8_range ( counter, test_message_varchar, test_message_longblob ) VALUES ( ?, ?, ? )',
             Bind => [
+                \$Counter,
                 \$TestData,
                 \$EncodedTestData,
             ],
         );
         ok( $InsertSuccess, 'INSERT' );
 
+        $Counter++;
+
         # Fetch without WHERE
         $DBObject->Prepare(
-            SQL   => 'SELECT test_message_varchar, test_message_longblob FROM test_utf8_range',
+            SQL => <<'END_SQL',
+SELECT test_message_varchar, test_message_longblob
+  FROM test_utf8_range
+  ORDER BY counter DESC
+END_SQL
             Limit => 1,
         );
 
@@ -133,12 +141,6 @@ for my $Test (@Tests) {
             $RowCount++;
         }
         is( $RowCount, 1, 'only one row found with WHERE' );
-
-        my $DeleteSuccess = $DBObject->Do(
-            SQL => 'DELETE FROM test_utf8_range',
-        );
-
-        ok( $DeleteSuccess, "test_utf8_range cleared" );
     };
 }
 
