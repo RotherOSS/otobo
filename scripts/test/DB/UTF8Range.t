@@ -78,9 +78,13 @@ for my $Test (@Tests) {
         # Because of 'use utf8;' the test data is initially considered as being UTF-8 encoded.
         # This happens to result in 'a' not having the UTF-8 Flag and 'ö' having the UTF-8 flag.
         # It is not obvious whether this is guaranteed behavior.
+        #
+        # This test script does not consider the DirectBlob attribute. This means that the
+        # binary transfer to the database is verified even for the database backends
+        # which Base64 encode the LONGBLOB columns.
         my $TestData        = $Test->{Data};
         my $EncodedTestData = $TestData;
-        utf8::encode($EncodedTestData);
+        utf8::encode($EncodedTestData);    # this effectively removes the UTF-8 flag
         diag "Testing: $TestData";
         diag 'test data:',              "\n", scalar DDump $TestData;
         diag 'UTF8 encoded test data:', "\n", scalar DDump $EncodedTestData;
@@ -91,6 +95,11 @@ for my $Test (@Tests) {
                 \$Counter,
                 \$TestData,
                 \$EncodedTestData,
+            ],
+            BindAsBinary => [
+                0,
+                0,
+                1,
             ],
         );
         ok( $InsertSuccess, 'INSERT' );
