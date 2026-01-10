@@ -531,6 +531,25 @@ simple scalars, these must be passed by reference.
 
 The special value B<current_timestamp> is replaced by the current date and time.
 
+Text fields usually are based on Unicode. This is the default that is also assumed by DBI database drivers.
+They take care of proper UTF-8 encoding when sending Perl strings to the database. However there is
+the special case of BLOB, binary large objects, fields. In that case the exact byte array must be sent to the database.
+Database drivers have no good way of recognizing these cases. They must be explicitly told that a bind variable
+must be transferred as binary. This can be achieved by passing an array reference C<BindAsBinary>. This array
+declares whether a bind variable must be declared as binary.
+
+    my $InsertSuccess = $DBObject->Do(
+        SQL  => "INSERT INTO pack_of_hounds (name1, picture ) VALUES (?, ?)",
+        Bind => [
+            \$DogName,
+            \$DogPicture,
+        ],
+        BindAsBinary => [
+            0,
+            1,
+        ]
+    );
+
 Returns 1 in the case of success, an empty list in the case of failure.
 
 =cut
@@ -603,8 +622,29 @@ sub Do {
 
     return unless $Self->Connect;
 
-    # send sql to database
-    if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
+    # send sql to database, taken from the implemetation of DBI::do
+    my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
+
+    return unless $StatementHandle;
+
+    if ( ref $Param{BindAsBinary} eq 'ARRAY' ) {
+        my $Index = 1;
+        FLAG:
+        for my $Flag ( $Param{BindAsBinary}->@* ) {
+            next FLAG unless $Flag;
+
+            $StatementHandle->bind_param( $Index, '', DBI::SQL_BINARY );
+        }
+        continue {
+            $Index++;    # bind index are based on 1
+        }
+    }
+    my $ExecuteSuccess = $StatementHandle->execute(@Array);
+
+    return unless $ExecuteSuccess;
+
+    my $Rows = $StatementHandle->rows;
+    if ( $Rows != 0 && !$Rows ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'error',
