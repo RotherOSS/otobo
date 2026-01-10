@@ -35,7 +35,7 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 Then examine the differences and check in the verified changes.
 
     git diff
-    git add --patch local
+    git add --patch
     git commit
 
 Finally clean up the temporary installation directory again:
