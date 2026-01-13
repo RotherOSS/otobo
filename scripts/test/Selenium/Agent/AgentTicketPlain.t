@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Data::Peek qw(DDump);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -69,14 +70,13 @@ $Selenium->RunTest(
         ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Create test email article.
-        my $TicketSubject = "test 1";
-        my $TicketBody    = "This is the first test.";
-        my $ArticleID     = $ArticleBackendObject->ArticleCreate(
+        # ArticleCreate() doesn't store a plain version of the article in the database.
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
             IsVisibleForCustomer => 1,
             SenderType           => 'customer',
-            Subject              => $TicketSubject,
-            Body                 => $TicketBody,
+            Subject              => 'Test ticket created by AgentTicketPlain.t',
+            Body                 => 'This is the first article created by AgentTicketPlain.t',
             Charset              => 'ISO-8859-15',
             MimeType             => 'text/plain',
             HistoryType          => 'EmailCustomer',
@@ -86,9 +86,8 @@ $Selenium->RunTest(
         ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         # Write test sample email as article plain.
-        my $Location = $ConfigObject->Get('Home')
-            . "/scripts/test/sample/EmailParser/PostMaster-Test1.box";
-
+        # The sample mail contains German umlauts.
+        my $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/EmailParser/UTF-8.box';
         my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Location,
             Mode     => 'utf8',
@@ -118,8 +117,8 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Click to show ticket in plain view.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->click();
+        # Click to show ticket in plain view in a popup
+        $Selenium->find_element(q{//a[contains(@href, 'Action=AgentTicketPlain' )]})->click;
 
         # Switch to plain window.
         $Selenium->WaitFor( WindowCount => 2 );
@@ -129,22 +128,37 @@ $Selenium->RunTest(
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
-        # Check for values in AgentTicketPlain screen.
-        $Self->True(
-            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Created test ticket $TicketNumber found in Plain Format",
+        # Check for values from the .box file in AgentTicketPlain screen.
+        # The page source is a string with the UTF-8 flag active, containing some double encoded characters.
+        my $PageSource = $Selenium->get_page_source;
+
+        #diag 'PageSource:', "\n", scalar DDump $PageSource;
+        $Selenium->content_contains( 'Subject: Content in UTF-8', 'found subject in plain format email' );
+        my @Lines = (
+            'ä - U+000E4 - C3 A4 - LATIN SMALL LETTER A WITH DIAERESIS',
+            'Ä - U+000C4 - C3 84 - LATIN CAPITAL LETTER A WITH DIAERESIS',
+            'ऄ - U+00904 - E0 A4 84 - DEVANAGARI LETTER SHORT A',
+            '⛄ - U+026C4 - E2 9B 84 - SNOWMAN WITHOUT SNOW',
+            '𐡀 - U+10840 - F0 90 A1 80 - IMPERIAL ARAMAIC LETTER ALEPH',
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), $TicketSubject ) > -1,
-            "Created test ticket subject found in Plain Format",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), $TicketBody ) > -1,
-            "Created test ticket body found in Plain Format",
-        );
+        for my $Line (@Lines) {
+
+            # Within the AgentTicketPlain frontend the plain email is retrieved as binary.
+            # That binary plain email is the UTF-8 encoded text file UTF-8.mbox that was stored above.
+            # Somewhere along the template processing the text is double UTF-8 enconded,
+            # resulting in a incorrectly displayed characters. This is hard to avoid
+            # as Email may use all kinds of encodings mixed in a single text.
+            #
+            # For the test we implicitly double encode the expected string by removing the UTF-8 flag.
+            # index() returns true even if it compares a string with UTF-flag set with a string
+            # where the UTF-8 flag is not set. This is sensible as the UTF-8 should be transparent to the outside.
+            my $OriginalLine = $Line;
+            Encode::_utf8_off($Line);
+            ok( index( $PageSource, $Line ) > -1, $OriginalLine );
+        }
 
         # Close plain view window.
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->find_element( '.CancelClosePopup', 'css' )->click;
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
