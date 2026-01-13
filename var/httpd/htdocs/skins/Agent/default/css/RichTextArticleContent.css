@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -13,23 +13,73 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+/* Added from var/httpd/htdocs/skins/Agent/default/css/Core.Reset.css to ensure consistent styling */
+
+.ck-content html, .ck-content body, .ck-content div,
+.ck-content span, .ck-content applet, .ck-content object,
+.ck-content iframe, .ck-content h1, .ck-content h2,
+.ck-content h3, .ck-content h4, .ck-content h5,
+.ck-content h6, .ck-content p, .ck-content blockquote,
+.ck-content pre, .ck-content a, .ck-content abbr,
+.ck-content acronym, .ck-content address, .ck-content big,
+.ck-content cite, .ck-content code, .ck-content del,
+.ck-content dfn, .ck-content em, .ck-content font,
+.ck-content img, .ck-content ins, .ck-content kbd,
+.ck-content q, .ck-content s, .ck-content samp,
+.ck-content small, .ck-content strike, .ck-content strong,
+.ck-content sub, .ck-content sup, .ck-content tt,
+.ck-content var, .ck-content dl, .ck-content dt,
+.ck-content dd, .ck-content ol, .ck-content ul,
+.ck-content li, .ck-content fieldset, .ck-content form,
+.ck-content label, .ck-content legend, .ck-content table,
+.ck-content caption, .ck-content tbody, .ck-content tfoot,
+.ck-content thead, .ck-content tr, .ck-content th,
+.ck-content td, .ck-content hr {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 12px;
+    font-family: inherit;
+    vertical-align: baseline;
+    background-image: none;
+    direction: inherit;
+}
+
+/* End of additions from Core.Reset.css */
+
 .ck-content {
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
-    line-height: 1.2;
+    line-height: 1.3em;
     font-weight: normal;
     color: #000000;
     margin-bottom: 0px;
 }
 
-.ck-content * {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    font-weight: inherit;
-    color: inherit;
-    margin-bottom: inherit;
+.ck-content a {
+    text-decoration: none;
+    color: #001bff;
+}
+
+.ck-content a:hover,
+.ck-content a:focus {
+    color: #00023c;
+}
+
+.ck-content *:visited {
+    color: #001bff;
+}
+
+.ck-content strong {
+    font-weight: bold;
+}
+
+.ck-content em {
+    font-style: italic;
 }
 
 .ck-content figure.table {
