@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -72,7 +72,8 @@ sub ValueSet {
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
-        my @Values    = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->@*
+        my @Values    = $ValueType && $ValueType eq 'ARRAY'
+            ? $Param{Value}->@*
             : $Param{Value} ? ( $Param{Value} ) : ();
 
         if ( $Param{Set} ) {
@@ -84,7 +85,7 @@ sub ValueSet {
             @Values = map { $_ ? $_->@* : () } @Values;
         }
 
-        for my $Value ( @Values ) {
+        for my $Value (@Values) {
             $Self->_CreateAutoLinkObjectLink(
                 UserID       => $Param{UserID},
                 ObjectID     => $Param{ObjectID},
