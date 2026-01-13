@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,17 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -63,10 +66,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Create test email article.
         my $TicketSubject = "test 1";
@@ -83,10 +83,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "Article is created - ID $ArticleID",
-        );
+        ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         # Write test sample email as article plain.
         my $Location = $ConfigObject->Get('Home')
@@ -98,16 +95,12 @@ $Selenium->RunTest(
             Result   => 'SCALAR',
         );
 
-        my $Success = $ArticleBackendObject->ArticleWritePlain(
-            TicketID  => $TicketID,
+        my $WriteSuccess = $ArticleBackendObject->ArticleWritePlain(
             ArticleID => $ArticleID,
-            Email     => ${$ContentRef},
+            Email     => $ContentRef->$*,
             UserID    => 1,
         );
-        $Self->True(
-            $Success,
-            "ArticleWritePlain for article ID $ArticleID - success",
-        );
+        ok( $WriteSuccess, "ArticleWritePlain for article ID $ArticleID - success" );
 
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -156,27 +149,24 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Delete created test ticket.
-        $Success = $TicketObject->TicketDelete(
+        my $DeleteSuccess = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
+        if ( !$DeleteSuccess ) {
             sleep 3;
-            $Success = $TicketObject->TicketDelete(
+            $DeleteSuccess = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $DeleteSuccess, "Ticket with ticket ID $TicketID is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
-$Self->DoneTesting();
+done_testing;
