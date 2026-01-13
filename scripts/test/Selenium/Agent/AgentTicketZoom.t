@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -352,32 +352,6 @@ unlike(
     $IframeElement->get_attribute('src'),
     qr{$SessionName=},
     'Session ID not present in the IFRAME source URL'
-);
-
-# Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
-# Do it anyways.
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'SessionUseCookie',
-    Value => 0,
-);
-
-# Get current session ID.
-my $SessionID = $Selenium->execute_script('return Core.Config.Get("SessionID");');
-
-# Reload the ticket zoom screen, but make sure to append the session ID parameter, as now the cookies will not
-#   be used.
-$Selenium->VerifiedGet(
-    "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[0];$SessionName=$SessionID"
-);
-
-# Check if the IFRAME element now DOES contain the session ID parameter.
-$IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
-
-like(
-    $IframeElement->get_attribute('src'),
-    qr{$SessionName=},
-    'Session ID present in the IFRAME source URL'
 );
 
 # Clean up test data from the DB.

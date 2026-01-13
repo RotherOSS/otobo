@@ -542,7 +542,7 @@ sub _ChangeAction {
         }
     }
 
-    # return to change screen if errors occured
+    # return to change screen if errors occurred
     if (%Errors) {
         return $Self->_ShowScreen(
             %Param,

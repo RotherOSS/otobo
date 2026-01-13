@@ -31,16 +31,21 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     rm -rf local/lib/perl5/x86_64-linux-gnu-thread-multi                    # contains only perllocal.pod, exact path depends on host
     find local/lib/perl5 \( -name "*.pl" \) -delete
     find local/lib/perl5 \( -name "*.pod" \) -delete
+    tree local/lib/perl5                                                    # check sanity
     cp -r local/lib/perl5/* .                                               # copy to actual destination
 
-Then examine the diffs and check in the verified changes.
+Then examine the differences and check in the verified changes.
+
+    git diff
+    git add --patch
+    git commit
 
 Sometimes a module is not installed because it is already installed in a system location. A workaround
 for that case is to call something like:
 
    cpanm --local-lib local --reinstall JSON
 
-Finally clean up the temporary dir again:
+Finally clean up the temporary installation directory again:
 
     rm -rf local
 

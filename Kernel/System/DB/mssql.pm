@@ -63,7 +63,7 @@ sub LoadPreferences {
     # we only take what is left of the minus; our version string: "Microsoft SQL Server 2012"
     $Self->{'DB::Version'} = 'SELECT LEFT( @@VERSION, (CHARINDEX ( \'-\' ,@@VERSION) -2) )';
 
-    # dbi attributes
+    # DBI/DBD::Sybase or such attributes. These will be passed when connecting to the database.
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 70 * 1024 * 1024,

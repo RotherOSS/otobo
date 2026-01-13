@@ -241,7 +241,7 @@ Core.UI = (function (TargetNS) {
      * @returns {String} ID of the element
      * @param {jQueryObject} $Element - The HTML element
      * @description
-     *      Returns the ID of the Element and creates one for it if nessessary.
+     *      Returns the ID of the Element and creates one for it if necessary.
      */
     TargetNS.GetID = function ($Element) {
         var ID;
@@ -613,7 +613,7 @@ Core.UI = (function (TargetNS) {
             var UploadTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemUploadingCustomer' : 'AjaxDnDUpload/AttachmentItemUploading' ),
                 AttachTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemCustomer'          : 'AjaxDnDUpload/AttachmentItem' );
 
-            $.each(SelectedFiles, function(index, File) {
+            $.each(SelectedFiles, function(_index, File) {
 
                 var FileIcon = UploadIcons[ 'text' ];
                 for ( var Key in UploadIcons ) {
@@ -728,7 +728,7 @@ Core.UI = (function (TargetNS) {
                     processData: false,
                     success: function(Response) {
 
-                        $.each(Response, function(index, Attachment) {
+                        $.each(Response, function(_index, Attachment) {
 
                             // walk through the list to see if we can update an entry
                             var AttachmentItem,
@@ -904,7 +904,7 @@ Core.UI = (function (TargetNS) {
                         if (Response.Data && Response.Data.length) {
 
                             // go through all attachments and update the FileIDs
-                            $.each(Response.Data, function(index, Attachment) {
+                            $.each(Response.Data, function(_index, Attachment) {
                                 $AttachmentListContainerObj.find('.AttachmentList td:contains(' + Attachment.Filename + ')').closest('tr').find('a').data('file-id', Attachment.FileID);
                             });
                             $AttachmentListContainerObj.find('.Busy').fadeOut();
@@ -1041,7 +1041,7 @@ Core.UI = (function (TargetNS) {
         }
 
         RepositionElement($Element, Width);
-        $(window).off('scroll.StickyElement').on('scroll.StickyElement', function() {
+        $(document).off('scroll.StickyElement').on('scroll.StickyElement', function() {
             RepositionElement($Element, Width);
         });
     };
