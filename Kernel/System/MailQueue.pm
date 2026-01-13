@@ -1377,18 +1377,19 @@ sub _CheckValidMessageData {
 
 Serialize a simple Perl date structure so that it can be stored in the database.
 
-Returns an encoded or a storable string.
+Returns an Base64 encoded or a storable string. The UTF-8 flag is off in both cases.
 
 =cut
 
 sub _SerializeMessage {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
     my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
     my $Message        = $StorableObject->Serialize(
         Data => $Param{Message},
     );
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
         $Message = encode_base64( $Message, );
     }
@@ -1523,6 +1524,8 @@ sub _DBInsert {
     my $Error   = sub { return { @_, Success => 0 }; };
     my $Success = sub { return { @_, Success => 1 } };
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my $InsertFingerprint = sprintf
         '%s-%s',
         $$,
@@ -1537,22 +1540,31 @@ sub _DBInsert {
         \$InsertFingerprint,
     );
 
+    # When necessary declare the 'raw_message' bind as binary.
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
+        $ExtraDoParams{BindAsBinary} = [ 0, 0, 0, 0, 1 ];
+    }
+
     if ( $Param{ID} ) {
         unshift @Cols,  'id';
         unshift @Binds, \$Param{ID};
+        if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
+            unshift $ExtraDoParams{BindAsBinary}->@*, 0;
+        }
     }
 
     my @Placeholders = map {'?'} @Cols;
 
     push @Cols, 'create_time';
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my $Result   = $DBObject->Do(
+    my $Result = $DBObject->Do(
         SQL => sprintf( '
             INSERT INTO mail_queue(%s)
             VALUES(%s, current_timestamp )
         ', join( ',', @Cols ), join( ',', @Placeholders ) ),
         Bind => \@Binds,
+        %ExtraDoParams,
     );
 
     if ( !$Result ) {

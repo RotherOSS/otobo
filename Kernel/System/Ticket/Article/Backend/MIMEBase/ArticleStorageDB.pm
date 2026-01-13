@@ -214,11 +214,17 @@ sub ArticleWritePlain {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # encode attachment if it's a postgresql backend!!!
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    # pass plain email as binary for MySQL and MariaDB
+    # encode plain email as Base65 if it's a postgresql backend!!!
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
 
+        # Make sure that the content is passed as a byte array and is bound as binary
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
-
+        $ExtraDoParams{BindAsBinary} = [ 0, 1, 0, 0 ];
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
         $Param{Email} = encode_base64( $Param{Email} );
     }
 
@@ -229,6 +235,7 @@ sub ArticleWritePlain {
                 . ' (article_id, body, create_time, create_by, change_time, change_by) '
                 . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
+            %ExtraDoParams,
         );
     }
     else {
@@ -299,10 +306,15 @@ sub ArticleWriteAttachment {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # encode attachment if it's a postgresql backend!!!
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
 
+        # Make sure that the content is passed as a byte array and is bound as binary
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
-
+        $ExtraDoParams{BindAsBinary} = [ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, ];
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
@@ -331,6 +343,7 @@ sub ArticleWriteAttachment {
                 \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
                 \$Disposition,      \$Param{UserID},    \$Param{UserID},
             ],
+            %ExtraDoParams,
         );
     }
     else {
