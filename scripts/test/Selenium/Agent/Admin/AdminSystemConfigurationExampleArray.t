@@ -680,7 +680,7 @@ my @Tests = (
                 JqueryClick => '.Cancel',
             },
         ],
-        ExpectedResult => [    # Error occured, nothing was changed
+        ExpectedResult => [    # Error occurred, nothing was changed
             '/etc/hosts',
             '/etc/localtime',
         ],
