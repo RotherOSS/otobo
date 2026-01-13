@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -957,7 +957,7 @@ sub TicketSubjectBuild {
     my $Subject = $Param{Subject} || '';
     my $Action  = $Param{Action}  || 'Reply';
 
-    # cleanup of subject, remove existing ticket numbers and reply indentifier
+    # cleanup of subject, remove existing ticket numbers and reply identifier
     if ( !$Param{NoCleanup} ) {
         $Subject = $Self->TicketSubjectClean(%Param);
     }
@@ -2998,11 +2998,11 @@ sub TicketEscalationSuspendCalculate {
                     # if we got no working time we are come to an non-working our
                     # so we might want to move in bigger stepts of one hour (3600)
                     # if the steps a currently lower that that.
-                    # if so we need to store the the current time so we can substract
+                    # if so we need to store the current time so we can substract
                     # the difference between it and an full hour later so we come
                     # to the right number as if we would have moved with the smaller
                     # steps.
-                    # otherwise it might happen/has happend that we move in steps of
+                    # otherwise it might happen/has happened that we move in steps of
                     # 1 second over a weekend (and vacation days) which causes nearly
                     # endless loops... oops :)
                     if ( !$WorkingTime && $UpdateDiffTime < 3600 ) {
@@ -3380,7 +3380,7 @@ sub TicketSLAList {
         return;
     }
 
-    # return emty hash, if no service id is given
+    # return empty hash, if no service id is given
     if ( !$Param{ServiceID} ) {
         return ();
     }
@@ -6362,6 +6362,7 @@ sub TicketAccountTime {
         Data  => {
             TicketID  => $Param{TicketID},
             ArticleID => $Param{ArticleID},
+            TimeUnits => $Param{TimeUnit}
         },
         UserID => $Param{UserID},
     );
@@ -6832,6 +6833,11 @@ sub TicketMergeLinkedObjects {
             \$TicketObjectID,
             \$TicketObjectID,
         ],
+    );
+
+    # cleanup cache of link object
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'LinkObject',
     );
 
     return 1;

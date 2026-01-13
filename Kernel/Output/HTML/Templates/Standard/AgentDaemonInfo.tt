@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,14 @@
             <li>[% Translate("Make sure that the file '%s' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.", Data.DaemonCron) | html %]</li>
             <li>[% Translate("Execute '%s start' to make sure the cron jobs of the 'otobo' user are active.", Data.CronExecutable) | html %]</li>
             <li>[% Translate("After 5 minutes, check that the OTOBO Daemon is running in the system ('bin/otobo.Daemon.pl status').") | html %]</li>
+        </ul>
+    </div>
+    <div class="Clear Spacing"></div>
+    <legend class="SpacingTop">[% Translate("Running the OTOBO Daemon in a Docker based installation") | html %]</legend>
+    <div class="InfoParagraph">
+        <ul>
+            <li>[% Translate("Check with 'docker compose ps' whether a service with the name daemon is running.") | html %]</li>
+            <li>[% Translate("When the service daemon is not running then try starting it with 'docker compose start daemon'") | html %]</li>
         </ul>
     </div>
     <div class="Clear Spacing"></div>

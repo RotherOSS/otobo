@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -75,7 +75,7 @@ sub new {
         $Self->{StoredFilters} = $StoredFilters;
     }
 
-    # get the configured dyanmic fields from the Small Overview setting as a basis
+    # get the configured dynamic fields from the Small Overview setting as a basis
     my %DefaultDynamicFields = %{ $ConfigObject->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
 
     my %DefaultColumns = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
@@ -83,7 +83,7 @@ sub new {
     # take general settings (Frontend::Agent) if not defined for the screen
     $Self->{Config}->{DefaultColumns} //= $ConfigObject->Get('DefaultOverviewColumns');
 
-    # check for default settings specific for this screen, should overide the dynamic fields
+    # check for default settings specific for this screen, should override the dynamic fields
     %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} || {} } );
 
     # configure columns
@@ -168,6 +168,7 @@ sub new {
         'EscalationUpdateTime'   => 1,
         'EscalationResponseTime' => 1,
         'EscalationSolutionTime' => 1,
+        'AccountedTime'          => 1,
     };
 
     $Self->{AvailableFilterableColumns} = {
@@ -585,14 +586,6 @@ sub Run {
                     );
                     next MENU if !$Item;
                     next MENU if ref $Item ne 'HASH';
-
-                    # add session id if needed
-                    if ( !$LayoutObject->{SessionIDCookie} && $Item->{Link} ) {
-                        $Item->{Link}
-                            .= ';'
-                            . $LayoutObject->{SessionName} . '='
-                            . $LayoutObject->{SessionID};
-                    }
 
                     # create id
                     $Item->{ID} = $Item->{Name};
@@ -1615,6 +1608,8 @@ sub Run {
                     $TicketColumn eq 'State'
                     || $TicketColumn eq 'Lock'
                     || $TicketColumn eq 'Priority'
+                    || $TicketColumn eq 'Service'
+                    || $TicketColumn eq 'SLA'
                     )
                 {
                     $BlockType = 'Translatable';
@@ -1631,6 +1626,13 @@ sub Run {
                     );
 
                     $DataValue = $ResponsibleInfo{'UserFullname'};
+                }
+                elsif ( $TicketColumn eq 'AccountedTime' ) {
+
+                    # get ticket object
+                    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+                    my $TimeUnits    = $ConfigObject->Get("AccountedTime::UsedUnits");
+                    $DataValue = $TicketObject->TicketAccountedTimeGet( TicketID => $Article{TicketID} ) . ' ' . $TimeUnits;
                 }
                 else {
                     $DataValue = $Article{$TicketColumn}
@@ -1901,6 +1903,7 @@ sub _InitialColumnFilter {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
         )
@@ -2056,6 +2059,7 @@ sub _ColumnFilterJSON {
         $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
+        || $Param{ColumnName} eq 'Service'
         || $Param{ColumnName} eq 'SLA'
         || $Param{ColumnName} eq 'Type'
         )
@@ -2108,6 +2112,7 @@ sub _DefaultColumnSort {
         Service                => 191,
         SLA                    => 192,
         Priority               => 193,
+        AccountedTime          => 194,
     );
 
     # dynamic fields can not be on the DefaultColumns sorting hash

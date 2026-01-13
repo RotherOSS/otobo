@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -988,8 +988,7 @@ EOF
     else {
 
         open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        ## no critic qw(Community::WhileDiamondDefaultAssignment)
-        # TODO: it is not obvious why both $Line and $_ are used in this block
+                                                                                                  # TODO: it is not obvious why both $Line and $_ are used in this block
         while (<$In>) {
             my $Line = $_;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );

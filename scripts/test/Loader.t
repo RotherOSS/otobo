@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Diff qw(TextEqOrDiff);
 use Kernel::Config;
 
 # the question whether there is a S3 backend must the resolved early
@@ -64,7 +65,7 @@ my $Home = $ConfigObject->Get('Home');
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
-    is( $MinifiedCSS, $ExpectedCSS, 'MinifyCSS()' );
+    TextEqOrDiff( $MinifiedCSS, $ExpectedCSS, 'MinifyCSS()' );
 
     # empty cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -81,8 +82,8 @@ my $Home = $ConfigObject->Get('Home');
         Type     => 'CSS',
     );
 
-    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
-    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
+    TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
+    TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
 }
 
 {
@@ -103,7 +104,7 @@ my $Home = $ConfigObject->Get('Home');
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
     chomp $ExpectedJS;    # newline after the last line
 
-    is( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
+    TextEqOrDiff( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
 }
 
 {
@@ -151,7 +152,7 @@ my $Home = $ConfigObject->Get('Home');
     $Expected =~ s{\r\n}{\n}xmsg;
     $Expected =~ s{\n$}{};          # newline after the last line
 
-    is( $MinifiedJS, $Expected, 'MinifyFiles() result content' );
+    TextEqOrDiff( $MinifiedJS, $Expected, 'MinifyFiles() result content' );
 
     $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
@@ -173,7 +174,7 @@ for my $Test (@JSTests) {
     my $Result = $LoaderObject->MinifyJavaScript(
         Code => $Test->{Source},
     );
-    is( $Result, $Test->{Result}, $Test->{Name} );
+    TextEqOrDiff( $Result, $Test->{Result}, $Test->{Name} );
 }
 
 done_testing;

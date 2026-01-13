@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -160,10 +160,10 @@ sub LoaderCreateAgentCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(
@@ -653,10 +653,10 @@ sub LoaderCreateCustomerCSSCalls {
         my @FileList;
 
         MODULE:
-        for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+        for my $Module ( sort keys $Setting->%* ) {
+            next MODULE unless ref $Setting->{$Module}->{CSS} eq 'ARRAY';
 
-            @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
+            push @FileList, $Setting->{$Module}->{CSS}->@*;
         }
 
         $Self->_HandleCSSList(

@@ -1502,7 +1502,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::PendingDiffTime" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
-        <Description Translatable="1">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
+        <Description Translatable="1">Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">86400</Item>
@@ -1775,6 +1775,13 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AsteriskExplanation" Required="0" Valid="0">
+        <Description Translatable="1">Display a message explaining that the asterisk indicates mandatory fields.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
         <Description Translatable="1">Shows the customer user information (phone and email) in the compose screen.</Description>
         <Navigation>Frontend::Agent</Navigation>
@@ -1821,7 +1828,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerDisableCompanyTicketAccess" Required="1" Valid="1">
-        <Description Translatable="1">This option will deny the access to customer company tickets, which are not created by the customer user.</Description>
+        <Description Translatable="1">This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -1870,22 +1877,8 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketOverview###Owner" Required="1" Valid="1">
-        <Description Translatable="1">Show the current owner in the customer interface.</Description>
-        <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketOverview###Queue" Required="1" Valid="1">
-        <Description Translatable="1">Show the current queue in the customer interface.</Description>
-        <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketOverview###DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic fields shown in the ticket overview screen of the customer interface.</Description>
+        <Description Translatable="1">Dynamic fields available as attributes for the settings 'Ticket::Frontend::CustomerTicketCategories###DynamicField', which are shown in the ticket overview screen of the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
             <Hash>
@@ -1894,6 +1887,28 @@
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled and required</Item>
                 </DefaultItem>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketCategories###Priority" Required="0" Valid="0">
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
+        <Navigation>Frontend::Customer::TicketCategories</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Order">8</Item>
+                <Item Key="Prefix"></Item>
+                <Item Key="ColorDefault">#cdcdcd</Item>
+                <Item Key="ColorSelection">
+                    <Hash>
+                        <Item Key="1 very low">#03c4f0</Item>
+                        <Item Key="2 low">#83bfc8</Item>
+                        <Item Key="3 normal">#cdcdcd</Item>
+                        <Item Key="4 high">#ffaaaa</Item>
+                        <Item Key="5 very high">#ea2400</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Translate">1</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
@@ -1910,7 +1925,7 @@
                         <Item Key="Incident">#bb2222</Item>
                     </Hash>
                 </Item>
-                <Item Key="Translate">0</Item>
+                <Item Key="Translate">1</Item>
                 <Item Key="Link"></Item>
             </Hash>
         </Value>
@@ -1942,7 +1957,7 @@
             <Hash>
                 <Item Key="Order">2</Item>
                 <Item Key="Prefix"></Item>
-                <Item Key="ColorDefault"></Item>
+                <Item Key="ColorDefault">#949494</Item>
                 <Item Key="ColorSelection">
                     <Hash>
                     </Hash>
@@ -1967,9 +1982,9 @@
                         <Item Key="closed successful">#0044dd</Item>
                     </Hash>
                 </Item>
-                <Item Key="Translate">0</Item>
+                <Item Key="Translate">1</Item>
                 <Item Key="Link"></Item>
-                <Item Key="Text"></Item>
+                <Item Key="Text">[% Data.Value %]</Item>
             </Hash>
         </Value>
     </Setting>
@@ -1998,6 +2013,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2015,6 +2031,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2032,6 +2049,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2049,6 +2067,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2066,6 +2085,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2083,6 +2103,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2100,6 +2121,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2117,6 +2139,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2134,6 +2157,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2151,6 +2175,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2168,6 +2193,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2185,6 +2211,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2202,6 +2229,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2219,6 +2247,7 @@
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
+                <Item Key="Order">1</Item>
                 <Item Key="DynamicField"></Item>
                 <Item Key="Prefix"></Item>
                 <Item Key="ColorDefault"></Item>
@@ -2407,6 +2436,13 @@
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="AccountedTime::UsedUnits" Required="1" Valid="1">
+        <Description Translatable="1">Which units are used and shown in the overview for timeunits?</Description>
+        <Navigation>Frontend::Agent::Ticket::AccountedTime</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Minutes</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###SortBy::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
@@ -4261,6 +4297,15 @@
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::RestorePendingInformation###Actions" Required="0" Valid="1">
+        <Description Translatable="1">Interfaces for which the restoring of pending information is activated.</Description>
+        <Navigation>Frontend::Agent::View::TicketPending</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="AgentTicketPending">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
@@ -4919,10 +4964,10 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketCompose###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketCompose</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
@@ -5213,11 +5258,17 @@
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>QuickDateButtons.css</Item>
+                    </Array>
+                </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketActionCommon.js</Item>
                         <Item>Core.Agent.TicketFormDraft.js</Item>
+                        <Item>QuickDateButtons.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -5414,7 +5465,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::ViewableStateType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.</Description>
+        <Description Translatable="1">Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Array>
@@ -5743,11 +5794,12 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
-                <Item Key="Description" Translatable="1">Elasticsearch</Item>
+                <Item Key="Description" Translatable="1">Elasticsearch (u)</Item>
                 <Item Key="Name" Translatable="1">FulltextES</Item>
                 <Item Key="Block">ToolBarSearchFulltextES</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="Priority">1990050</Item>
+                <Item Key="AccessKey">u</Item>
             </Hash>
         </Value>
     </Setting>
@@ -5960,13 +6012,13 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Mark as unseen</Item>
+                <Item Key="Name" Translatable="1">Mark as unseen</Item>
                 <Item Key="Description" Translatable="1">Mark ticket as unseen</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">Action=AgentTicketMarkSeenUnseen;Subaction=Unseen;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
-                <Item Key="ClusterName">Mark as (un)seen</Item>
+                <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
                 <Item Key="ClusterPriority">100</Item>
             </Hash>
         </Value>
@@ -5977,13 +6029,13 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
-                <Item Key="Name">Mark as seen</Item>
+                <Item Key="Name" Translatable="1">Mark as seen</Item>
                 <Item Key="Description" Translatable="1">Mark ticket as seen</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">Action=AgentTicketMarkSeenUnseen;Subaction=Seen;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
-                <Item Key="ClusterName">Mark as (un)seen</Item>
+                <Item Key="ClusterName" Translatable="1">Mark as (un)seen</Item>
                 <Item Key="ClusterPriority">200</Item>
             </Hash>
         </Value>
@@ -9503,10 +9555,10 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketMove###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
@@ -10558,36 +10610,36 @@
                     <Array>
                         <Item>Core.Agent.Admin.TicketMask.css</Item>
                         <Item>Core.CodeMirrorEditor.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/lib/codemirror.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/hint/show-hint.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldgutter.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/dialog/dialog.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/display/fullscreen.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/mode/yaml/yaml.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchtags.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchbrackets.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closetag.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closebrackets.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/searchcursor.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/search.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldcode.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/trailingspace.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/selection/selection-pointer.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/brace-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/indent-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/comment-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/comment/comment.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/comment/continuecomment.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/jump-to-line.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/lib/codemirror.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/mode/yaml/yaml.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/hint/show-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/matchtags.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/matchbrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/closetag.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/closebrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/searchcursor.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/search.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldcode.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/trailingspace.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/selection/selection-pointer.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldgutter.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/brace-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/indent-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/comment-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/comment/comment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/comment/continuecomment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/dialog/dialog.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/jump-to-line.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/display/fullscreen.js</Item>
                         <Item>Core.UI.CodeMirrorEditor.js</Item>
                     </Array>
                 </Item>
@@ -11432,7 +11484,7 @@
                 <Item>NotificationEscalation</Item>
                 <Item>NotificationEscalationNotifyBefore</Item>
                 <Item>NotificationServiceUpdate</Item>
-                <Item>ArticleEdit</Item>
+
             </Array>
         </Value>
     </Setting>
@@ -11443,6 +11495,8 @@
             <Array>
                 <Item>ArticleCreate</Item>
                 <Item>ArticleUpdate</Item>
+                <Item>ArticleEdit</Item>
+                <Item>ArticleDynamicFieldUpdate</Item>
                 <Item>ArticleSend</Item>
                 <Item>ArticleBounce</Item>
                 <Item>ArticleAgentNotification</Item>
@@ -11496,10 +11550,10 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::Admin::AdminNotificationEvent###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Event::NotificationEvent::IgnoredAttributes###001-Framework" Required="0" Valid="1">
@@ -11948,7 +12002,7 @@
         </Value>
     </Setting>
     <Setting Name="TicketACL::Autoselect" Required="0" Valid="0">
-        <Description Translatable="1">Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).</Description>
+        <Description Translatable="1">In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.</Description>
         <Navigation>Core::Ticket::ACL</Navigation>
         <Value>
             <Hash>
@@ -12091,6 +12145,10 @@
         <Value>
             <Array>
                 <Item>AgentAppointmentCalendarOverview</Item>
+                <Item>AgentTicketArticleDelete</Item>
+                <Item>AgentTicketArticleEdit</Item>
+                <Item>AgentTicketArticleRestore</Item>
+                <Item>AgentTicketArticleVersion</Item>
                 <Item>AgentTicketBounce</Item>
                 <Item>AgentTicketBulk</Item>
                 <Item>AgentTicketClose</Item>
@@ -12367,6 +12425,16 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="PostMasterSSLVerifyMode" Required="1" Valid="1">
+        <Description Translatable="1">Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="0">
+                <Item ValueType="Option" Value="0" Translatable="1">SSL_VERIFY_NONE - no verification of mail server host</Item>
+                <Item ValueType="Option" Value="1" Translatable="1">SSL_VERIFY_PEER - verify the mail server host</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
         <Description Translatable="1">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
@@ -12407,7 +12475,7 @@
         </Value>
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
-        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.</Description>
+        <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
@@ -13093,7 +13161,16 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ArticleListShowTimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
@@ -13135,6 +13212,8 @@ Thanks for your help!
                     <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
                 </DefaultItem>
+                <Item Key="ProcessManagementProcessID" SelectedID="1"></Item>
+                <Item Key="ProcessManagementActivityID" SelectedID="1"></Item>
             </Hash>
         </Value>
     </Setting>
@@ -13438,10 +13517,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketNote###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextWidth" Required="0" Valid="1">
@@ -13452,10 +13531,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketOwner###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextWidth" Required="0" Valid="1">
@@ -13466,10 +13545,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPending###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13480,10 +13559,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmail###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextWidth" Required="0" Valid="1">
@@ -13494,10 +13573,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhone###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextWidth" Required="0" Valid="1">
@@ -13508,10 +13587,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhoneInbound###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneInbound</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">200</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextWidth" Required="0" Valid="1">
@@ -13522,10 +13601,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhoneOutbound###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneOutbound</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">200</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13536,10 +13615,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketClose###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13550,10 +13629,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketFreeText###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13564,10 +13643,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketArticleEdit###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketArticleEdit</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextWidth" Required="0" Valid="1">
@@ -13578,10 +13657,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextWidth" Required="0" Valid="1">
@@ -13592,10 +13671,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13606,10 +13685,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketForward###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketForward</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13620,10 +13699,10 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">300</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextWidth" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
@@ -13641,17 +13720,17 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextHeight" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">300</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Description Translatable="1">Defines the initial height in pixels for the rich text editor component for this screen.</Description>
         <Navigation>Frontend::Agent::View::TicketMerge</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^\d+%?$">100</Item>
+            <Item ValueType="String" ValueRegex="^\d+(\.\d+)?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="StandardTemplate::Types" Required="0" Valid="1">
@@ -13795,6 +13874,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13833,6 +13913,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13871,6 +13952,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13909,6 +13991,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13947,6 +14030,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13985,6 +14069,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14023,6 +14108,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14061,6 +14147,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14384,7 +14471,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14407,13 +14494,6 @@ Thanks for your help!
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
                         <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketArticleEdit">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit</Item>
-                        <Item Key="Prio">1100</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14469,7 +14549,7 @@ Thanks for your help!
                 <Item Key="MarkArticleSeenUnseen">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">900</Item>
+                        <Item Key="Prio">1000</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
@@ -14477,7 +14557,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::Article::Actions###Email" Required="1" Valid="1">
-        <Description Translatable="1">Defines available article actions for Email articles.</Description>
+        <Description Translatable="1">Defines available article actions for e-mail articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
             <Hash>
@@ -14568,56 +14648,6 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Chat" Required="1" Valid="1">
-        <Description Translatable="1">Defines available article actions for Chat articles.</Description>
-        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
-        <Value>
-            <Hash>
-                <DefaultItem>
-                    <Hash>
-                        <Item Key="Module"></Item>
-                        <Item Key="Prio"></Item>
-                        <Item Key="Valid"></Item>
-                    </Hash>
-                </DefaultItem>
-                <Item Key="AgentTicketPrint">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
-                        <Item Key="Prio">500</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkAsImportant">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
-                        <Item Key="Prio">700</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketForward">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
-                        <Item Key="Prio">200</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="AgentTicketCompose">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
-                        <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkArticleSeenUnseen">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
-                        <Item Key="Prio">300</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::Article::Actions###Invalid" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for invalid articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
@@ -14640,13 +14670,6 @@ Thanks for your help!
                 <Item Key="GetHelpLink">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::GetHelpLink</Item>
-                        <Item Key="Prio">100</Item>
-                        <Item Key="Valid">1</Item>
-                    </Hash>
-                </Item>
-                <Item Key="MarkArticleSeenUnseen">
-                    <Hash>
-                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen</Item>
                         <Item Key="Prio">100</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
@@ -14683,6 +14706,7 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dialog to show after marking a ticket as unseen</Item>
+                <Item Key="Desc" Translatable="1">Configure which screen should be shown after a ticket has been marked as unseen.</Item>
                 <Item Key="Key" Translatable="1">Dialog to show after marking a ticket as unseen</Item>
                 <Item Key="Data">
                     <Hash>
@@ -14726,6 +14750,7 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dialog to show after marking a ticket as seen</Item>
+                <Item Key="Desc" Translatable="1">Configure which screen should be shown after a ticket has been marked as seen.</Item>
                 <Item Key="Key" Translatable="1">Dialog to show after marking a ticket as seen</Item>
                 <Item Key="Data">
                     <Hash>
@@ -14788,6 +14813,17 @@ Thanks for your help!
                 <Item Key="Link">Action=AgentTicketMarkSeenUnseen;Subaction=Seen;TicketID=[% Data.TicketID | html %];RedirectToSearch=1;</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::BulkModule###001-MarkTicketSeenUnseen" Required="0" Valid="1">
+        <Description Translatable="1">This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.</Description>
+        <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketBulk::MarkTicketSeenUnseen</Item>
+                <Item Key="Name">MarkTicketSeenUnseen</Item>
+                <Item Key="Description" Translatable="1">Mark tickets as seen or unseen via bulk action</Item>
             </Hash>
         </Value>
     </Setting>
@@ -14999,7 +15035,7 @@ Thanks for your help!
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###DynamicFieldWidgetDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Display settings to override defaults for dynamic field widget for Tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>

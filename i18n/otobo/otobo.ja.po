@@ -17,15 +17,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-08-25 11:42+0000\n"
+"PO-Revision-Date: 2024-11-27 01:34+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
-"Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/ja/>\n"
+"Language-Team: Japanese <http://weblate.otobo.org/projects/otobo/otobo-11/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -217,7 +217,7 @@ msgstr "フォームを送信することにより、新規にACLを作成する
 
 #. Template: AdminAbout
 msgid "About"
-msgstr "約"
+msgstr "アバウト"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -1153,7 +1153,7 @@ msgstr "ログ・エントリは見つかりませんでした。"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr "詳細ビューは%sから%sのコミュニケーションが開始されました。"
+msgstr "詳細ビューは%sから%sのコミュニケーションが開始されました"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
@@ -1309,11 +1309,11 @@ msgstr "グループでフィルタ"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr "顧客：グループ権限を選択"
+msgstr "顧客：グループ権限を選択。"
 
 #. Template: AdminCustomerGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer)."
-msgstr "何も選択しない場合、このグループは権限がありません。 (チケットは顧客が使用できません。)"
+msgstr "何も選択しない場合、このグループは権限がありません (チケットは顧客が使用できません)。"
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1473,7 +1473,7 @@ msgstr "顧客ユーザー - 顧客の関係を管理"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr "顧客ユーザー - 顧客の関係を選択"
+msgstr "顧客ユーザー - 顧客の関係を選択。"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1525,11 +1525,11 @@ msgstr "グループでフィルタ"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr "顧客ユーザーを選択 - グループ・パーミッション"
+msgstr "顧客ユーザーを選択 - グループ・パーミッション。"
 
 #. Template: AdminCustomerUserGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user)."
-msgstr "何も選択しない場合、このグループは権限がありません。 (チケットは 顧客ユーザー が使用できません。)"
+msgstr "何も選択しない場合、このグループは権限がありません (チケットは 顧客ユーザー が使用できません。)。"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
@@ -1857,7 +1857,7 @@ msgstr "例"
 
 #. Template: AdminDynamicFieldDB
 msgid "You can reference the field with its own field name. You can also refer to other fields, e.g. with 'DynamicField_OtherFieldName'."
-msgstr "独自のフィールド名を使用してフィールドを参照できます。 他のフィールドを参照することもできます。 例）DynamicField_OtherFieldName"
+msgstr "独自のフィールド名を使用してフィールドを参照できます。 他のフィールドを参照することもできます。 例）DynamicField_OtherFieldName。"
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
@@ -2353,7 +2353,7 @@ msgstr "現在この一般担当者のジョブは自動実行されません。
 
 #. Template: AdminGenericAgent
 msgid "To enable automatic execution select at least one value from minutes, hours and days!"
-msgstr "自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい。"
+msgstr "自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい！"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2717,7 +2717,7 @@ msgstr "チケット削除"
 
 #. Template: AdminGenericAgent
 msgid "Warning: All affected tickets will be removed from the database and cannot be restored!"
-msgstr "警告: 影響を受ける全てのチケットがデータベースから削除されます。復元することはできません。"
+msgstr "警告: 影響を受けるすべてのチケットはデータベースから削除され、復元することはできません！"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2741,7 +2741,7 @@ msgstr "%s チケットは影響を受けます。どうしますか？"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "警告: 削除オプションを使用します。削除された全てのチケットは消失します。"
+msgstr "警告: 削除オプションを使用しました。削除されたチケットはすべて失われます！"
 
 #. Template: AdminGenericAgent
 msgid "Warning: There are %s tickets affected but only %s may be modified during one job execution!"
@@ -3001,7 +3001,7 @@ msgstr "さらなる再試行の要因"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals."
-msgstr ""
+msgstr "最初の再試行後もリクエストがエラーを返す場合、後続の再試行を同じ間隔でトリガーするか、間隔を増やしてトリガーするかを定義します。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Example: If a request is initially triggered at 10:00 with initial interval at '1 minute' and retry factor at '2', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ..."
@@ -3037,11 +3037,11 @@ msgstr "例: トリガーを 10:00 、インターバルを1分間隔にあら�
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier."
-msgstr ""
+msgstr "注意: 最大再試行期間も設定されていて、早く到達した場合、最大再試行回数に達しない可能性があります。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "このフィールドは空であるか、正の数値を入力する必要があります。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -3049,19 +3049,19 @@ msgstr "再試行の最大期間"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request)."
-msgstr ""
+msgstr "失敗したリクエストが破棄されるまでの再試行の最大期間 (最初のリクエストのエラー処理モジュールの実行時間に基づきます)。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly."
-msgstr ""
+msgstr "通常は最大期間が経過した後にトリガーされる再試行 (再試行間隔の計算による) は、最大期間が経過すると自動的にトリガーされます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum retry period at '30 minutes', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30."
-msgstr ""
+msgstr "例: リクエストが最初に 10:00 にトリガーされ、初期間隔が「1 分」、再試行係数が「2」、最大再試行期間が「30 分」の場合、再試行は 10:01、10:03、10:07、10:15、最後に 10:31=>10:30 にトリガーされます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier."
-msgstr ""
+msgstr "注意: 最大再試行回数も設定されていて、早く最大再試行期間に達した場合は、最大再試行期間に達しない可能性があります。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
@@ -3145,7 +3145,7 @@ msgstr "同期型イベントトリガーは直接Web画面上のリクエスト
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr ""
+msgstr "Web サービス %s の GenericInterface 呼び出しイベント設定"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
@@ -3205,7 +3205,7 @@ msgstr "新しい条件を追加"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "一般的な呼び出し元データ"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
@@ -3217,47 +3217,47 @@ msgstr "チケット・フィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket fields will be considered for the request data."
-msgstr ""
+msgstr "リクエスト データには、選択されたチケット フィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "記事フィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected article fields will be considered for the request data."
-msgstr ""
+msgstr "リクエストデータには、選択された記事フィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "チケットのダイナミックフィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket dynamic fields will be considered for the request data."
-msgstr ""
+msgstr "リクエスト データには、選択されたチケットダイナミックフィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "記事のダイナミックフィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected article dynamic fields will be considered for the request data."
-msgstr ""
+msgstr "リクエスト データには、選択された記事のダイナミックフィールドのみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "記事数"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent."
-msgstr ""
+msgstr "送信リクエスト データには、設定された数の記事のみが含まれます。空のままにすると、1 つの記事のみが送信されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "コミュニケーションチャネル"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used."
-msgstr ""
+msgstr "送信リクエストデータは、選択された通信チャネルの記事のみを考慮します。空のままにすると、すべての通信チャネルによって作成された記事が使用されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
@@ -3265,47 +3265,47 @@ msgstr "顧客の参照"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only consider articles created with the selected customer visibility."
-msgstr ""
+msgstr "送信リクエスト データでは、選択した顧客の可視性で作成された記事のみが考慮されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "送信者タイプ"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used."
-msgstr ""
+msgstr "送信リクエスト データでは、選択した送信者タイプによって作成された記事のみが考慮されます。空のままにすると、すべての送信者タイプによって作成された記事が使用されます。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "マッピング"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "受信応答データの設定"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "リモート TicketID ダイナミックフィールド"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The selected ticket dynamic field is being used to store the remote TicketID."
-msgstr ""
+msgstr "選択されたチケットのダイナミックフィールドは、リモート TicketID を保存するために使用されています。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service."
-msgstr ""
+msgstr "空のままにすると、この Web サービスのシステム構成値を定義しない限り、リモート TicketID は保存されません。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "The selected field is already in use by the Ticket dynamic fields option."
-msgstr ""
+msgstr "選択したフィールドは、チケットダイナミックフィールド オプションによってすでに使用されています。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed."
-msgstr ""
+msgstr "受信した応答データの処理には、選択されたチケットのダイナミックフィールドのみが考慮されます。空のままにすると、ダイナミックフィールドは処理されません。"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "イベントデータ"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -3449,27 +3449,27 @@ msgstr "XSLTマッピングを追加・変更できます。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion."
-msgstr ""
+msgstr "編集フィールドでは、自動フォーマット、ウィンドウのサイズ変更、タグや括弧の補完などのさまざまな機能を使用できます。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "含まれているデータ"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Select one or more sets of data that were created at earlier request/response stages to be included in mappable data."
-msgstr ""
+msgstr "マップ可能なデータに含める、以前の要求/応答段階で作成された 1 つ以上のデータ セットを選択します。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These sets will appear in the data structure at '/DataInclude/<DataSetName>' (see debugger output of actual requests for details)."
-msgstr ""
+msgstr "これらのセットは、'/DataInclude/<DataSetName>' のデータ構造に表示されます (詳細については、実際のリクエストのデバッガー出力を参照してください)。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
-msgstr ""
+msgstr "データキー正規表現フィルター（マッピング前）"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (after mapping)"
-msgstr ""
+msgstr "データキー正規表現フィルター（マッピング後）"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
@@ -3493,11 +3493,11 @@ msgstr "これらのフィルタは、正規表現を使用してキーを変換
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The data structure will be traversed recursively and all configured regexes will be applied to all keys."
-msgstr ""
+msgstr "データ構造は再帰的に走査され、構成されたすべての正規表現がすべてのキーに適用されます。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Use cases are e.g. removing key prefixes that are undesired or correcting keys that are invalid as XML element names."
-msgstr ""
+msgstr "使用例としては、不要なキープレフィックスを削除したり、XML 要素名として無効なキーを修正したりすることが挙げられます。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 1: Search = '^jira:' / Replace = '' turns 'jira:element' into 'element'."
@@ -3521,15 +3521,15 @@ msgstr "Perl正規表現のチュートリアル"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "If modifiers are desired they have to be specified within the regexes themselves."
-msgstr ""
+msgstr "修飾子が必要な場合は、正規表現自体の中で指定する必要があります。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions defined here will be applied before the XSLT mapping."
-msgstr ""
+msgstr "ここで定義された正規表現は、XSLT マッピングの前に適用されます。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions defined here will be applied after the XSLT mapping."
-msgstr ""
+msgstr "ここで定義された正規表現は、XSLT マッピングの後に適用されます。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
@@ -3557,7 +3557,7 @@ msgstr "オペレーション・バックエンド"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "This OTOBO operation backend module will be called internally to process the request, generating data for the response."
-msgstr ""
+msgstr "この OTOBO 操作バックエンド モジュールは、リクエストを処理するために内部的に呼び出され、応答のデータを生成します。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -3565,7 +3565,7 @@ msgstr "受信したデータのマッピング"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The request data will be processed by this mapping, to transform it to the kind of data OTOBO expects."
-msgstr ""
+msgstr "リクエストデータはこのマッピングによって処理され、OTOBO が期待する種類のデータに変換されます。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3573,7 +3573,7 @@ msgstr "送信データのマッピング"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."
-msgstr ""
+msgstr "リクエストデータはこのマッピングによって処理され、OTOBO が期待する種類のデータに変換されます。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
@@ -3593,11 +3593,11 @@ msgstr "項目"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "オペレーションのルートマッピング"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Define the route that should get mapped to this operation. Variables marked by a ':' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr ""
+msgstr "この操作にマッピングするルートを定義し ':' でマークされた変数は入力された名前にマッピングされ、他の変数とともにマッピングに渡されます。(例: /Ticket/:TicketID)。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -3605,7 +3605,7 @@ msgstr "有効なリクエストメソッド"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Limit this Operation to specific request methods. If no method is selected all requests will be accepted."
-msgstr ""
+msgstr "この操作を特定のリクエスト メソッドに制限します。メソッドが選択されていない場合は、すべてのリクエストが受け入れられます。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
@@ -3617,7 +3617,7 @@ msgstr "この領域は整数値である必要があります。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Here you can specify the maximum size (in bytes) of REST messages that OTOBO will process."
-msgstr ""
+msgstr "ここでは、OTOBO が処理する REST メッセージの最大サイズ (バイト単位) を指定できます。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -3625,7 +3625,7 @@ msgstr "Keep-Aliveを送信"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This configuration defines if incoming connections should get closed or kept alive."
-msgstr ""
+msgstr "この構成は、着信接続を閉じるか、そのまま維持するかを定義します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
@@ -3641,11 +3641,11 @@ msgstr "エンドポイント"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI to indicate specific location for accessing a web service."
-msgstr ""
+msgstr "Web サービスにアクセスするための特定の場所を示す URI。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "例: https://www.otobo.de:10745/api/v1.0 (末尾のバックスラッシュなし)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -3661,7 +3661,7 @@ msgstr "認証"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
-msgstr ""
+msgstr "リモート システムにアクセスするためのオプションの認証メカニズム。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
@@ -3685,7 +3685,7 @@ msgstr "プロキシオプションを使用する"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
-msgstr ""
+msgstr "リモート システムに接続するためのプロキシ オプションを表示または非表示にします。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Server"
@@ -3721,7 +3721,7 @@ msgstr "プロキシーをスキップ"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
-msgstr ""
+msgstr "グローバルに構成されている可能性のあるプロキシ サーバーをスキップしますか?"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
@@ -3761,7 +3761,7 @@ msgstr "クライアント認証キーのパスワード"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
-msgstr ""
+msgstr "キーが暗号化されている場合に SSL 証明書を開くためのパスワード。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
@@ -3777,11 +3777,11 @@ msgstr "例… /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "認証局 (CA) ディレクトリ"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path of the certification authority directory where the CA certificates are stored in the file system."
-msgstr ""
+msgstr "CA 証明書がファイル システムに保存されている証明機関ディレクトリの完全パス。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
@@ -3789,11 +3789,11 @@ msgstr "例… /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "SSL ホスト名検証。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
-msgstr ""
+msgstr "ホスト名を検証できない場合は、要求を中止します。注意して無効にしてください。検証をスキップすると、セキュリティ上のリスクが発生します。主に、自己署名 SSL 証明書の場合、または何をしているのかわかっている場合にテスト目的で使用します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3801,7 +3801,7 @@ msgstr "API実行元に対するコントローラ・マッピング"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The controller that the invoker should send requests to. Variables marked by a ':' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr ""
+msgstr "呼び出し側がリクエストを送信するコントローラー。 ':' でマークされた変数はデータ値に置き換えられ、リクエストとともに渡されます。(例: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
@@ -3821,51 +3821,51 @@ msgstr "要求に使用される標準のHTTPコマンド"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "追加のリクエスト ヘッダー (すべての呼び出し元)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "追加のリクエスト ヘッダー (呼び出し元固有)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "この呼び出し元のすべてのヘッダーを削除します"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "呼び出し側のヘッダー"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
-msgstr ""
+msgstr "追加のレスポンス ヘッダー (すべての操作)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (operation specific)"
-msgstr ""
+msgstr "追加のレスポンス ヘッダー (操作固有)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this operation"
-msgstr ""
+msgstr "この操作のすべてのヘッダーを削除します"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for operation"
-msgstr ""
+msgstr "操作用ヘッダー"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Common headers"
-msgstr ""
+msgstr "共通ヘッダー"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Header Name"
-msgstr ""
+msgstr "ヘッダー名"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove header"
-msgstr ""
+msgstr "ヘッダーを削除"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add header"
-msgstr ""
+msgstr "ヘッダーを追加"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
@@ -3877,7 +3877,7 @@ msgstr "SOAPアクションを設定"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
-msgstr ""
+msgstr "入力された SOAPAction ヘッダーを送信するには、「はい」に設定します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to send an empty SOAPAction header."
@@ -3913,7 +3913,7 @@ msgstr "SOAPアクション・セパレータ"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
-msgstr ""
+msgstr "名前空間と SOAP 操作間の区切りとして使用する文字。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services use \"/\" as separator."
@@ -3925,7 +3925,7 @@ msgstr "SOAPアクション・フリーテキスト"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
-msgstr ""
+msgstr "SOAPAction として使用されるテキスト。"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Namespace"
@@ -3933,19 +3933,19 @@ msgstr "名前空間"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
-msgstr ""
+msgstr "SOAP メソッドにコンテキストを与え、曖昧さを減らす URI。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions"
-msgstr ""
+msgstr "例: urn:otobo-com:soap:functions または http://www.otobo.de/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr ""
+msgstr "リクエスト名スキーム"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
-msgstr ""
+msgstr "SOAP 要求関数ラッパーの構築方法を選択します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
@@ -3953,35 +3953,35 @@ msgstr "実際の呼び出し元/操作名の例として 'FunctionName'が使�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr ""
+msgstr "実際に設定された値の例として「FreeText」が使用されます。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "リクエスト名 フリーテキスト"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr ""
+msgstr "関数ラッパー名のサフィックスまたは置換として使用されるテキスト。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Please consider XML element naming restrictions (e.g. don't use '<' and '&')."
-msgstr ""
+msgstr "XML 要素の命名制限を考慮してください (例: '<' および '&' を使用しないでください)。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "レスポンス名スキーム"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
-msgstr ""
+msgstr "SOAP 応答関数ラッパーの構築方法を選択します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr ""
+msgstr "回答名フリーテキスト"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO will process."
-msgstr ""
+msgstr "ここでは、OTOBO が処理する SOAP メッセージの最大サイズ (バイト単位) を指定できます。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -3993,7 +3993,7 @@ msgstr "SOAPメッセージコンテントの文字エンコード"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "例: utf-8、latin1、iso-8859-1、cp1250 など。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
@@ -4001,7 +4001,7 @@ msgstr "並べ替えオプション"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "新しい第1レベル要素を追加する"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
@@ -4009,7 +4009,7 @@ msgstr "要素"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport."
-msgstr ""
+msgstr "XML フィールドの送信ソート順序 (関数名ラッパーの下から始まる構造) - SOAP トランスポートのドキュメントを参照してください。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
@@ -4073,7 +4073,7 @@ msgstr "Ready2Adopt Webサービス"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Here you can activate Ready2Adopt web services showcasing our best practices."
-msgstr ""
+msgstr "ここでは、当社のベスト プラクティスを紹介する Ready2Adopt Web サービスを有効にすることができます。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
@@ -4081,11 +4081,11 @@ msgstr "Webサービス(Ready2Adopt)をインポート"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "After you save the configuration you will be redirected again to the edit screen."
-msgstr ""
+msgstr "設定を保存すると、編集画面に再度リダイレクトされます。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "If you want to return to overview please click the \"Go to overview\" button."
-msgstr ""
+msgstr "概要に戻る場合は、「概要へ移動」ボタンをクリックしてください。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -4157,7 +4157,7 @@ msgstr "このアクションを削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s"
-msgstr ""
+msgstr "少なくとも 1 つの %s にアクティブでない、または存在しないコントローラがあります。コントローラの登録を確認するか、%s を削除してください"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
@@ -4169,7 +4169,7 @@ msgstr "Webサービスに戻る"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Here you can view older versions of the current web service's configuration, export or even restore them."
-msgstr ""
+msgstr "ここでは、現在の Web サービスの構成の古いバージョンを表示したり、エクスポートしたり、復元したりすることができます。"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -4353,7 +4353,7 @@ msgstr "リンク"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual"
-msgstr ""
+msgstr "管理者マニュアルを見る"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
@@ -4501,7 +4501,7 @@ msgstr "PGPサポートの有効化"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "PGP 設定の誤り"
 
 #. Template: AdminPGP
 msgid "PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below."
@@ -4569,7 +4569,7 @@ msgstr "このパッケージを本当に再インストールしますか？ �
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "更新手順に進む"
 
 #. Template: AdminPackageManager
 msgid "Go to the OTOBO customer portal"
@@ -4609,7 +4609,7 @@ msgstr "OTOBOのバージョンを何故最新に保つのですか？"
 
 #. Template: AdminPackageManager
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "関連するセキュリティ問題に関する最新情報を受け取ります。"
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTOBO issues."
@@ -4617,19 +4617,19 @@ msgstr "他全て関連するOTOBOの問題の更新を受け取ります。"
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "契約がない場合、パッチ レベルの更新を行うにはどうすればよいですか?"
 
 #. Template: AdminPackageManager
 msgid "Please find all relevant information within the updating instructions at %s."
-msgstr ""
+msgstr "関連するすべての情報は、%s の更新手順に記載されています。"
 
 #. Template: AdminPackageManager
 msgid "In case you would have further questions we would be glad to answer them."
-msgstr ""
+msgstr "さらにご質問がございましたら、喜んでお答えいたします。"
 
 #. Template: AdminPackageManager
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "弊社のカスタマーポータルにアクセスしてリクエストを提出してください。"
 
 #. Template: AdminPackageManager
 msgid "Install Package"
@@ -4645,7 +4645,7 @@ msgstr "続ける"
 
 #. Template: AdminPackageManager
 msgid "Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "データベースが %s MB を超えるサイズのパッケージを受け入れることを確認してください (現在は %s MB までのパッケージのみを受け入れます)。エラーを回避するには、データベースの max_allowed_packet 設定を調整してください。"
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -4713,7 +4713,7 @@ msgstr "%s のお客様のみが利用可能な機能です"
 
 #. Template: AdminPackageManager
 msgid "With %s, you can benefit from the following optional features. Please make contact with %s if you need more information."
-msgstr ""
+msgstr "%s を使用すると、次のオプション機能を利用できます。詳細については、%s にお問い合わせください。"
 
 #. Template: AdminPackageManager
 msgid "Package Information"
@@ -4749,7 +4749,7 @@ msgstr "権限"
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
-msgstr "パッケージからファイルをダウンロードしてください。"
+msgstr "パッケージからファイルをダウンロードしてください！"
 
 #. Template: AdminPackageManager
 msgid "Required"
@@ -5005,7 +5005,7 @@ msgstr "プロセスの設定をインポート"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "Ready2Adoptプロセス"
 
 #. Template: AdminProcessManagement
 msgid "Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required."
@@ -5729,7 +5729,7 @@ msgstr "OTOBOは、登録することなくダウンロード・利用するこ�
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
-msgstr ""
+msgstr "登録解除は可能ですか？"
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
@@ -5737,7 +5737,7 @@ msgstr "いつでも登録を解除することができます。"
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
-msgstr ""
+msgstr "登録時にどのデータが転送されますか?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
@@ -5749,15 +5749,15 @@ msgstr "FQDN、OTOBOバージョン、データベース、OSとPerlのバージ
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
-msgstr ""
+msgstr "システムの説明を入力する必要があるのはなぜですか?"
 
 #. Template: AdminRegistration
 msgid "The description of the system is optional."
-msgstr ""
+msgstr "システムの説明はオプションです。"
 
 #. Template: AdminRegistration
 msgid "The description and system type you specify help you to identify and manage the details of your registered systems."
-msgstr ""
+msgstr "指定した説明とシステム タイプは、登録したシステムの詳細を識別および管理するのに役立ちます。"
 
 #. Template: AdminRegistration
 msgid "How often does my OTOBO system send updates?"
@@ -5765,19 +5765,19 @@ msgstr "OTOBOシステムはどのくらいの頻度でアップデートを送�
 
 #. Template: AdminRegistration
 msgid "Your system will send updates to the registration server at regular intervals."
-msgstr ""
+msgstr "システムは定期的に登録サーバーに更新を送信します。"
 
 #. Template: AdminRegistration
 msgid "Typically this would be around once every three days."
-msgstr ""
+msgstr "通常、これは 3 日に 1 回程度になります。"
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "システムを登録解除すると、次の利点が失われます。"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTOBO-ID to deregister your system."
-msgstr ""
+msgstr "システムを登録解除するには、OTOBO-ID でログインする必要があります。"
 
 #. Template: AdminRegistration
 msgid "OTOBO-ID"
@@ -5797,7 +5797,7 @@ msgstr "パスワードを忘れましたか？"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
-msgstr ""
+msgstr "新しいものを取得する"
 
 #. Template: AdminImportExport
 msgid "Next"
@@ -5829,7 +5829,7 @@ msgstr "Perl バージョン"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
-msgstr ""
+msgstr "このシステムのオプションの説明。"
 
 #. Template: AdminRegistration
 msgid "This will allow the system to send additional support data information to OTOBO Team."
@@ -5849,7 +5849,7 @@ msgstr "登録解除"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
-msgstr ""
+msgstr "ここで登録設定を変更できます。"
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
@@ -5857,15 +5857,15 @@ msgstr "送信されたデータの 概要"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
-msgstr ""
+msgstr "システムから %s に定期的に送信されるデータはありません。"
 
 #. Template: AdminRegistration
 msgid "The following data is sent at minimum every 3 days from your system to %s."
-msgstr ""
+msgstr "次のデータは、少なくとも 3 日ごとにシステムから %s に送信されます。"
 
 #. Template: AdminRegistration
 msgid "The data will be transferred in JSON format via a secure https connection."
-msgstr ""
+msgstr "データは安全な https 接続を介して JSON 形式で転送されます。"
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
@@ -5927,7 +5927,7 @@ msgstr "全ての %s の権限を切り替え"
 msgid "move_into"
 msgstr "移転"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to move tickets into this group/queue."
 msgstr "このグループ／キューにチケットの移転権限を付与"
 
@@ -5935,7 +5935,7 @@ msgstr "このグループ／キューにチケットの移転権限を付与"
 msgid "create"
 msgstr "作成"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to create tickets in this group/queue."
 msgstr "このグループ／キューにチケットの作成権限を付与"
 
@@ -5943,7 +5943,7 @@ msgstr "このグループ／キューにチケットの作成権限を付与"
 msgid "note"
 msgstr "メモ"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to add notes to tickets in this group/queue."
 msgstr "このグループ／キューにチケットへメモ追加権限を付与"
 
@@ -5951,7 +5951,7 @@ msgstr "このグループ／キューにチケットへメモ追加権限を付
 msgid "owner"
 msgstr "所有者"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr "このグループ／キューにチケットへ所有者変更権限を付与"
 
@@ -5959,7 +5959,7 @@ msgstr "このグループ／キューにチケットへ所有者変更権限を
 msgid "priority"
 msgstr "優先度（priority）"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the ticket priority in this group/queue."
 msgstr "このグループ／キューにチケットの優先度変更権限を付与"
 
@@ -6025,7 +6025,7 @@ msgstr "SMIMEのサポートが無効になっています"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTOBO, you have to enable it first."
-msgstr ""
+msgstr "OTOBO で SMIME を使用するには、まず SMIME を有効にする必要があります。"
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
@@ -6053,15 +6053,15 @@ msgstr "証明書でフィルタ"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr ""
+msgstr "証明書の詳細を表示するには、証明書アイコンをクリックします。"
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
-msgstr ""
+msgstr "秘密証明書の関係を管理するには、秘密キーアイコンをクリックします。"
 
 #. Template: AdminSMIME
 msgid "Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email."
-msgstr ""
+msgstr "ここで、プライベート証明書に関係を追加できます。これらの関係は、この証明書を使用して電子メールに署名するたびに S/MIME 署名に埋め込まれます。"
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -6729,15 +6729,15 @@ msgstr "ユーザーの値"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "のために"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "すべてのユーザー値を削除します。"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "この設定にはユーザー値はありません。"
 
 #. Template: AdminSystemConfigurationView
 msgid "View a custom List of Settings"
@@ -7361,7 +7361,7 @@ msgstr "全選択"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "The customer user is already selected in the ticket mask."
-msgstr ""
+msgstr "顧客ユーザーはチケットマスクですでに選択されています。"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
@@ -7525,7 +7525,7 @@ msgstr "%s宛の新規メールチケット"
 
 #. Template: AgentDashboardMyLastChangedTickets
 msgid "No tickets found."
-msgstr ""
+msgstr "チケットが見つかりません。"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -7549,7 +7549,7 @@ msgstr "%s の前の投稿"
 
 #. Template: AgentDashboardStats
 msgid "The configuration for this statistic widget contains errors, please review your settings."
-msgstr "このレポート・ウィジェットの設定にエラーがあります。設定を確認して下さい。"
+msgstr "この統計・ウィジェットの設定にエラーがあります。設定を確認して下さい。"
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
@@ -7577,11 +7577,11 @@ msgstr "このウィジェットの設定で有効なグラフ出力形式を選
 
 #. Template: AgentDashboardStats
 msgid "The content of this statistic is being prepared for you, please be patient."
-msgstr "このレポートの内容はあなたのために用意されています。"
+msgstr "この統計の内容はあなたのために用意されています。"
 
 #. Template: AgentDashboardStats
 msgid "This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator."
-msgstr "このレポートは、レポート管理者が設定を修正する必要があるため、現在は使用できません。"
+msgstr "この統計は、統計管理者が設定を修正する必要があるため、現在は使用できません。"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
@@ -7841,15 +7841,15 @@ msgstr "分割"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr "レポート管理"
+msgstr "統計管理"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
-msgstr "レポートを追加"
+msgstr "統計を追加"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTOBO"
-msgstr "OTOBOのレポートについて詳細を読む"
+msgstr "OTOBOの統計について詳細を読む"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -7873,7 +7873,7 @@ msgstr "静的"
 
 #. Template: AgentStatisticsAdd
 msgid "Non-configurable complex statistics."
-msgstr "構成できない複雑なレポート"
+msgstr "構成できない複雑な統計"
 
 #. Template: AgentStatisticsAdd
 msgid "General Specification"
@@ -7881,11 +7881,11 @@ msgstr "一般仕様"
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr "レポートを作成"
+msgstr "統計を作成"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr "レポートを編集"
+msgstr "統計を編集"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -7893,23 +7893,23 @@ msgstr "今すぐ実行"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr "レポートのプレビュー"
+msgstr "統計のプレビュー"
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
-msgstr "レポートを保存"
+msgstr "統計を保存"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr "レポートをインポート"
+msgstr "統計をインポート"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
-msgstr "レポート設定をインポート"
+msgstr "統計設定をインポート"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
-msgstr "レポート"
+msgstr "統計"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
@@ -7917,23 +7917,23 @@ msgstr "実行"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
-msgstr "レポート\"%s\"を修正"
+msgstr "統計\"%s\"を修正"
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic \"%s\""
-msgstr "レポート\"%s\"をエクスポート"
+msgstr "統計\"%s\"をエクスポート"
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic %s"
-msgstr "レポート\"%s\"をエクスポート"
+msgstr "統計\"%s\"をエクスポート"
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic \"%s\""
-msgstr "レポート\"%s\"を削除"
+msgstr "統計\"%s\"を削除"
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
-msgstr "レポート\"%s\"を削除"
+msgstr "統計\"%s\"を削除"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
@@ -7941,135 +7941,135 @@ msgstr "レポート管理"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "レポートを追加"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "レポートを編集"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times."
-msgstr ""
+msgstr "ここでは、複数の統計をレポートに組み合わせて、手動で、または設定された時間に自動的に PDF として生成できます。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system."
-msgstr ""
+msgstr "システム上でレンダラー バイナリの 1 つを構成した場合にのみ、統計出力形式としてチャートを選択できることに注意してください。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
-msgstr ""
+msgstr "PhantomJS を構成する"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
-msgstr ""
+msgstr "Google Chromeを設定する"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "General settings"
-msgstr ""
+msgstr "一般設定"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
-msgstr ""
+msgstr "自動生成設定"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation times (cron)"
-msgstr ""
+msgstr "自動生成時間 (cron)"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify when the report should be automatically generated in cron format, e. g. \"10 1 * * *\" for every day at 1:10 am."
-msgstr ""
+msgstr "レポートを cron 形式で自動的に生成するタイミングを指定します。たとえば、毎日午前 1 時 10 分の場合は「10 1 * * *」です。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Times are in the system timezone."
-msgstr ""
+msgstr "時間はシステムのタイムゾーンです。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Last automatic generation time"
-msgstr ""
+msgstr "最後の自動生成時間"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Next planned automatic generation time"
-msgstr ""
+msgstr "次回の自動生成予定時刻"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation language"
-msgstr ""
+msgstr "自動生成言語"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "The language to be used when the report is automatically generated."
-msgstr ""
+msgstr "レポートが自動的に生成されるときに使用する言語。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
-msgstr ""
+msgstr "メールの件名"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the subject for the automatically generated email."
-msgstr ""
+msgstr "自動的に生成される電子メールの件名を指定します。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email body"
-msgstr ""
+msgstr "メール本文"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the text for the automatically generated email."
-msgstr ""
+msgstr "自動生成される電子メールのテキストを指定します。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email recipients"
-msgstr ""
+msgstr "メール受信者"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify recipient email addresses (comma separated)."
-msgstr ""
+msgstr "受信者の電子メール アドレスを指定します (カンマ区切り)。"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Output settings"
-msgstr ""
+msgstr "出力設定"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Headline"
-msgstr ""
+msgstr "見出し"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for preamble"
-msgstr ""
+msgstr "前文のキャプション"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Preamble"
-msgstr ""
+msgstr "前文"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for epilogue"
-msgstr ""
+msgstr "エピローグのキャプション"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Epilogue"
-msgstr ""
+msgstr "エピローグ"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Add statistic to report"
-msgstr ""
+msgstr "レポートに統計情報を追加する"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
-msgstr ""
+msgstr "統計レポート"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Edit statistics report \"%s\"."
-msgstr ""
+msgstr "統計レポート「%s」を編集します。"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Delete statistics report \"%s\""
-msgstr ""
+msgstr "統計レポート「%s」を削除します"
 
 #. Template: AgentStatisticsReportsView
 msgid "View Report"
-msgstr ""
+msgstr "レポート表示"
 
 #. Template: AgentStatisticsReportsView
 msgid "This statistics report contains configuration errors and can currently not be used."
-msgstr ""
+msgstr "この統計レポートには構成エラーが含まれているため、現在使用できません。"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
@@ -8081,7 +8081,7 @@ msgstr "統計を閲覧"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
-msgstr "レポート情報"
+msgstr "統計情報"
 
 #. Template: AgentStatisticsView
 msgid "Created by"
@@ -8109,7 +8109,7 @@ msgstr "キャッシュ"
 
 #. Template: AgentStatisticsView
 msgid "This statistic contains configuration errors and can currently not be used."
-msgstr "このレポートには構成エラーがあり、現在は使用できません。"
+msgstr "この統計には構成エラーがあり、現在は使用できません。"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
@@ -8313,7 +8313,7 @@ msgstr "このアドレスはシステムアドレスのため使用できませ
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
-msgstr "受信者を少なくとも1人は含めるようにして下さい。"
+msgstr "受信者を少なくとも1人は含めるようにして下さい"
 
 #. Template: AgentTicketCompose
 msgid "Select one or more recipients from the customer user address book."
@@ -8329,11 +8329,11 @@ msgstr "チケットの顧客を削除"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
-msgstr ""
+msgstr "CCに移動"
 
 #. Template: AgentTicketCompose
 msgid "Move to Bcc"
-msgstr ""
+msgstr "BCCに移動"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
@@ -8349,11 +8349,11 @@ msgstr "Ccを削除"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
-msgstr ""
+msgstr "TOに移動"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
-msgstr "Bcc"
+msgstr "bcc"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
@@ -8961,7 +8961,7 @@ msgstr "直前のページに戻る"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "クリックして同意"
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -9105,7 +9105,7 @@ msgstr "下記のフォームにログイン時に必要となる事項を入力
 
 #. Template: CustomerLogin
 msgid "How we should address you"
-msgstr ""
+msgstr "どのようにお呼びしたらよいですか"
 
 #. Template: CustomerLogin
 msgid "Your First Name"
@@ -9273,7 +9273,7 @@ msgstr "カテゴリー"
 
 #. Template: TicketInfo
 msgid "Further actions"
-msgstr ""
+msgstr "さらなる行動"
 
 #. Template: Chat
 msgid "Expand article"
@@ -9289,7 +9289,7 @@ msgstr "警告"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "%のチケットの作成"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -9585,7 +9585,7 @@ msgstr "HTTP Type"
 
 #. Template: InstallerSystem
 msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
-msgstr ""
+msgstr "クッキーやさまざまなリンクに使用されるリクエスト スキームを設定します。本番環境では常に https を使用します。"
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9657,7 +9657,7 @@ msgstr "Elasticsearchサーバを検知しました。OTOBOで自動的に利用
 
 #. Template: InstallerSystem
 msgid "Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate 'Elasticsearch::Active' and 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in the SysConfig and run the otobo.Console command 'Maint::Elasticsearch::Migration'."
-msgstr ""
+msgstr "クリーンな Elasticsearch サーバーが実行されていないか、標準構成を使用していないようです。Elasticsearch を手動でアクティブ化するには、必要に応じて管理インターフェイスで Web サービスを編集し、SysConfig で「Elasticsearch::Active」と「Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext」をアクティブ化して、otobo.Console コマンド「Maint::Elasticsearch::Migration」を実行してください。"
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9689,11 +9689,11 @@ msgstr "ログイン画面に戻る"
 
 #. Template: MetaFloater
 msgid "Scale preview content"
-msgstr ""
+msgstr "プレビューコンテンツのスケール"
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "URLを新しいタブで開く"
 
 #. Template: MetaFloater
 msgid "Close preview"
@@ -9701,27 +9701,27 @@ msgstr "プレビューを閉じる"
 
 #. Template: MetaFloater
 msgid "A preview of this website can't be provided because it didn't allow to be embedded."
-msgstr ""
+msgstr "この Web サイトは埋め込みが許可されていないため、プレビューを提供できません。"
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "移行を開始する"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "データ移行の結果"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "最後に成功したタスク:"
 
 #. Template: Copy
 msgid "Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime."
-msgstr ""
+msgstr "移行は、最後に正常に完了したタスクから再開されます。その間にシステムを変更した場合は、完全に再実行してください。"
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "片付けと仕上げ"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
@@ -9745,19 +9745,19 @@ msgstr "この移行スクリプトは、チケットシステムをOTRSまた�
 
 #. Template: Intro
 msgid "There is no danger whatsoever for your original system: nothing is changed there."
-msgstr ""
+msgstr "元のシステムに対して何ら危険はありません。何も変更されていません。"
 
 #. Template: Intro
 msgid "Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration."
-msgstr ""
+msgstr "移行の前提条件に関する手順と詳細は、移行マニュアルに記載されています。移行を開始する前に、このマニュアルを読むことを強くお勧めします。"
 
 #. Template: Intro
 msgid "In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted."
-msgstr ""
+msgstr "移行を一時停止する必要がある場合、キャッシュが削除されていない限り、いつでも同じ時点から再開できます。"
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
-msgstr ""
+msgstr "入力されたパスワードはすべて、移行が完了するまでキャッシュされます。"
 
 #. Template: Intro
 msgid " Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again."
@@ -9765,7 +9765,7 @@ msgstr " このページへのアクセス権、またはOTOBOホームディレ
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
-msgstr ""
+msgstr "サポートが必要な場合は、当社の専門家にお問い合わせください"
 
 #. Template: Intro
 msgid "OTOBO forum"
@@ -9773,27 +9773,27 @@ msgstr "OTOBOフォーラム"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "または直接メールで"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "キャッシュされたデータが見つかりました"
 
 #. Template: Intro
 msgid "You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress."
-msgstr ""
+msgstr "前回移行を中止したところから続行します。これを望まない場合は、以前の進行状況を破棄してください。"
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "エラーが発生しました。"
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "以前の進行状況を破棄"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "安全でない HTTP 接続"
 
 #. Template: Intro
 msgid "You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead."
@@ -9801,59 +9801,59 @@ msgstr "http経由で移行スクリプトを使用しています。プロセ�
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "とにかく続けましょう:("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " とにかく続けましょう:("
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
-msgstr ""
+msgstr "DB移行をスキップ"
 
 #. Template: OTRSDBSettings
 msgid "Expert option! Only works if the migration has already been done by hand."
-msgstr ""
+msgstr "エキスパート オプション! 移行がすでに手動で行われている場合にのみ機能します。"
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
-msgstr ""
+msgstr "スキップしました。"
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "OTRS サーバ"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "SSHユーザー"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "OTRSホームディレクトリ"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "設定を確認する"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "設定チェックの結果"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "設定チェックが成功しました。"
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "移行の事前チェックを実行する"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "機能は利用できません"
 
 #. Template: MobileNotAvailableWidget
 msgid "Sorry, but this feature of OTOBO is currently not available for mobile devices. If you'd like to use it, you can either switch to desktop mode or use your regular desktop device."
@@ -9865,7 +9865,7 @@ msgstr "今日のメッセージ"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "これは今日のメッセージです。%s で編集できます。"
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -9913,11 +9913,11 @@ msgstr "ファイルがありません！"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr ""
+msgstr "ファイルはインラインで表示できる画像ではありません！"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "ユーザーが設定可能な通知が見つかりません。"
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
@@ -9945,7 +9945,7 @@ msgstr "これはOTOBOのデフォルトのパブリックインターフェイ�
 
 #. Template: PublicDefault
 msgid "You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface."
-msgstr ""
+msgstr "一般インターフェイスを持つ FAQ モジュールなど、カスタム一般 モジュールを (パッケージ マネージャー経由で) インストールできます。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -9965,7 +9965,7 @@ msgstr "タイムゾーン（時間帯）"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr "レポートの中で選択された期間は、時間帯にナチュラルです。"
+msgstr "統計の中で選択された期間は、時間帯にナチュラルです。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
@@ -9989,7 +9989,7 @@ msgstr "キャッシュ結果"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field)."
-msgstr "レポート結果データをキャッシュに保存して、同じ設定で後続のビューで使用するようにしました（少なくとも1つの選択された時間フィールドが必要です）。"
+msgstr "統計結果データをキャッシュに保存して、同じ設定で後続のビューで使用するようにしました（少なくとも1つの選択された時間フィールドが必要です）。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Provide the statistic as a widget that agents can activate in their dashboard."
@@ -10005,15 +10005,15 @@ msgstr "無効なエンドユーザーに設定されている場合、統計を
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr "このレポート情報の設定には問題があります。"
+msgstr "この統計情報の設定には問題があります。"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr "レポートのX軸を設定できます。"
+msgstr "統計のX軸を設定できます。"
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr "このレポートはプレビューデータを提供しません。"
+msgstr "この統計はプレビューデータを提供しません。"
 
 #. Template: PreviewWidget
 msgid "Preview format"
@@ -10065,7 +10065,7 @@ msgstr "過去の ％s　と現在以降の ％s ％s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr "レポートが生成されたときにこの要素に変更を許可しないで下さい。"
+msgstr "統計が生成されたときにこの要素に変更を許可しないで下さい。"
 
 #. Template: AdminImportExport
 msgid "Format"
@@ -10077,7 +10077,7 @@ msgstr "縦横軸の交換"
 
 #. Template: StatsParamsWidget
 msgid "Configurable Params of Static Stat"
-msgstr ""
+msgstr "静的統計の設定可能なパラメータ"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
@@ -10105,7 +10105,7 @@ msgstr "PNG画像のダウンロード"
 
 #. Template: XAxisWidget
 msgid "The selected time period defines the default time frame for this statistic to collect data from."
-msgstr "選択した期間は、このレポートがデータを収集するためのデフォルトの時間枠を定義します。"
+msgstr "選択した期間は、この統計がデータを収集するためのデフォルトの時間枠を定義します。"
 
 #. Template: XAxisWidget
 msgid "Defines the time unit that will be used to split the selected time period into reporting data points."
@@ -10117,27 +10117,27 @@ msgstr "Y軸の目盛はX軸の目盛より大きくする必要があります 
 
 #. Template: StatsWidget
 msgid "Remove statistic"
-msgstr ""
+msgstr "統計情報を削除"
 
 #. Template: StatsWidget
 msgid "If you don't specify a title here, the title of the statistic will be used."
-msgstr ""
+msgstr "ここでタイトルを指定しない場合は、統計のタイトルが使用されます。"
 
 #. Template: StatsWidget
 msgid "Preface"
-msgstr ""
+msgstr "序文"
 
 #. Template: StatsWidget
 msgid "Postface"
-msgstr ""
+msgstr "後書き"
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "オン "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "この値にリセット"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
@@ -10149,15 +10149,15 @@ msgstr "この設定は確定しましたが、まだデプロイされていま
 
 #. Template: SettingsList
 msgid "This setting is currently being overridden in %s and can't thus be changed here!"
-msgstr ""
+msgstr "この設定は現在 %s で上書きされているため、ここで変更することはできません！"
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
-msgstr ""
+msgstr "この設定の変更は、より高い構成レベルでのみ可能です！"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
-msgstr ""
+msgstr "%s (%s) が現在この設定に取り組んでいます。"
 
 #. Template: SettingsList
 msgid "Toggle advanced options for this setting"
@@ -10345,7 +10345,7 @@ msgstr "ナビゲーション"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "ユーザーの値を削除します。"
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -10493,11 +10493,11 @@ msgstr "リセットオプション"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "グローバルレベルで設定をリセットします。"
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "グローバルにリセット"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
@@ -10505,19 +10505,19 @@ msgstr "変更をすべて解除。"
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "ローカルにリセット"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "ユーザーがこの設定を変更しました。"
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "この設定を本当にデフォルト値にリセットしますか?"
 
 #. JS Template: HelpDialog
 msgid "You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built."
-msgstr ""
+msgstr "カテゴリ選択を使用すると、下のナビゲーション ツリーを選択したカテゴリのエントリに制限できます。カテゴリを選択するとすぐに、ツリーが再構築されます。"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -10609,7 +10609,7 @@ msgstr "ACLの更新時にエラーが発生しました。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr ""
+msgstr "エンティティの同期ステータスの設定中にエラーが発生しました。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
@@ -10621,11 +10621,11 @@ msgstr "ACL %s は削除できません"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr ""
+msgstr "ID %s の ACL のデータを取得中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "%s (コピー) %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Please note that ACL restrictions will be ignored for the Superuser account (UserID 1)."
@@ -10657,11 +10657,11 @@ msgstr "否定された正規表現（大文字と小文字を区別しない）
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "Could not update About message!"
-msgstr ""
+msgstr "情報メッセージを更新できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "About message updated!"
-msgstr ""
+msgstr "メッセージについて更新しました！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
@@ -10733,15 +10733,15 @@ msgstr "権限がありません"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "System was unable to import file!"
-msgstr ""
+msgstr "システムはファイルをインポートできませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "Please check the log for more information."
-msgstr ""
+msgstr "詳細についてはログを確認してください。"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification name already exists!"
-msgstr ""
+msgstr "通知名はすでに存在します！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification added!"
@@ -10749,11 +10749,11 @@ msgstr "通知が追加されました！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error getting data for Notification with ID:%s!"
-msgstr ""
+msgstr "ID:%s の通知のデータを取得中にエラーが発生しました！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
-msgstr ""
+msgstr "不明な通知 %s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
@@ -10793,7 +10793,7 @@ msgstr "すべての担当者はカレンダーの読み取り許可が必要で
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "All agents with write permission for the appointment (calendar)"
-msgstr ""
+msgstr "予定（カレンダー）への書き込み権限を持つすべて担当者"
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "Attachment added!"
@@ -10913,43 +10913,43 @@ msgstr "秒"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "連絡はありません！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "指定されたソース内の指定された連絡先のデータが見つかりません！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "連絡先が更新されました!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "フィールドデータが見つかりません！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "連絡先が作成されました!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "連絡先の作成中にエラーが発生しました！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No sources found, at least one \"Contact with data\" dynamic field must be added to the system!"
-msgstr ""
+msgstr "ソースが見つかりません。少なくとも 1 つの「データのある連絡先」ダイナミックフィールドをシステムに追加する必要があります！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "指定されたソースのデータが見つかりません！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr ""
+msgstr "プライバシー ポリシーを更新できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr ""
+msgstr "プライバシーポリシーが更新されました!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -10957,7 +10957,7 @@ msgstr "顧客企業を更新しました。"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
-msgstr ""
+msgstr "ダイナミックフィールド %s が見つかりません！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
@@ -11117,11 +11117,11 @@ msgstr "値が重複しています。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "将来の日付の入力を禁止する"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "過去の日付の入力を禁止する"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
@@ -11129,7 +11129,7 @@ msgstr "設定を保存しました。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "システムは設定を保存できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
@@ -11141,11 +11141,11 @@ msgstr "システムが設定をリセットできませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "定がリセットされました。"
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
-msgstr ""
+msgstr "少なくとも 1 人の受信者を選択してください。"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "minute(s)"
@@ -11189,11 +11189,11 @@ msgstr "プロファイルの入力が必要です！"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
-msgstr ""
+msgstr "チェックする値がありません。"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Please remove the following words because they cannot be used for the ticket selection:"
-msgstr ""
+msgstr "以下の単語はチケット選択に使用できないため削除してください。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
@@ -11217,27 +11217,27 @@ msgstr "コミュニケーション・タイプが必要です！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Communication type needs to be 'Requester' or 'Provider'!"
-msgstr ""
+msgstr "通信タイプは「リクエスター」または「プロバイダー」である必要があります！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invalid Subaction!"
-msgstr ""
+msgstr "無効なサブアクションです！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandlingType!"
-msgstr ""
+msgstr "ErrorHandlingType が必要です!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "ErrorHandlingType %s is not registered"
-msgstr ""
+msgstr "ErrorHandlingType %s は登録されていません"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not update web service"
-msgstr ""
+msgstr "Web サービスを更新できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandling"
-msgstr ""
+msgstr "エラー処理が必要"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
@@ -11245,55 +11245,55 @@ msgstr "エラーハンドラ %s の設定がどれか決定できませんで�
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing outgoing request data"
-msgstr ""
+msgstr "発信リクエストデータを処理する呼び出し側"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing request data"
-msgstr ""
+msgstr "送信リクエストデータのマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport processing request into response"
-msgstr ""
+msgstr "処理要求を応答に転送する"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming response data"
-msgstr ""
+msgstr "受信応答データのマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing incoming response data"
-msgstr ""
+msgstr "着信応答データを処理する呼び出し側"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport receiving incoming request data"
-msgstr ""
+msgstr "着信要求データを受信するトランスポート"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming request data"
-msgstr ""
+msgstr "受信リクエストデータのマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation processing incoming request data"
-msgstr ""
+msgstr "受信リクエストデータを処理する操作"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing response data"
-msgstr ""
+msgstr "送信応答データのマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport sending outgoing response data"
-msgstr ""
+msgstr "送信応答データを送信するトランスポート"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip same backend modules only"
-msgstr ""
+msgstr "同じバックエンドモジュールのみをスキップ"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip all modules"
-msgstr ""
+msgstr "すべてのモジュールをスキップ"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "操作が削除されました"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
@@ -11413,7 +11413,7 @@ msgstr "API実行元%sは登録されていません。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "マッピングタイプ %s は登録されていません"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
@@ -11425,27 +11425,27 @@ msgstr "イベントが必要！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get registered modules for Invoker"
-msgstr ""
+msgstr "Invoker に登録されたモジュールを取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get backend for Invoker %s"
-msgstr ""
+msgstr "Invoker %s のバックエンドを取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
-msgstr ""
+msgstr "イベント %s は無効です。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr ""
+msgstr "WebserviceID %s の構成データを更新できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "This sub-action is not valid"
-msgstr ""
+msgstr "このサブアクションは無効です"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr "xor"
+msgstr "Xor"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
@@ -11473,19 +11473,19 @@ msgstr "表示/非表示"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
-msgstr ""
+msgstr "送信データのシンプルなマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Incoming Data"
-msgstr ""
+msgstr "受信データのシンプルなマッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
-msgstr ""
+msgstr "アクション タイプ %s の登録済み構成を取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
-msgstr ""
+msgstr "%s %s のバックエンドを取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11497,23 +11497,23 @@ msgstr "無視 (キー/値のペアを破棄する)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "マップ先（指定された値をデフォルトとして使用）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "正確な値"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "無視（値/値のペアを削除）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Outgoing Data"
-msgstr ""
+msgstr "送信データの XSLT マッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Incoming Data"
-msgstr ""
+msgstr "受信データの XSLT マッピング"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
@@ -11521,47 +11521,47 @@ msgstr "必要なライブラリ%sを見つけることができませんでし�
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before processing (RequesterRequestInput)"
-msgstr ""
+msgstr "処理前の送信リクエストデータ (RequesterRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
-msgstr ""
+msgstr "マッピング前の送信リクエストデータ (RequesterRequestPrepareOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
-msgstr ""
+msgstr "マッピング後の送信リクエストデータ (RequesterRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping (RequesterResponseInput)"
-msgstr ""
+msgstr "マッピング前の受信応答データ (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing error handler data after error handling (RequesterErrorHandlingOutput)"
-msgstr ""
+msgstr "エラー処理後の送信エラー ハンドラー データ (RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping (ProviderRequestInput)"
-msgstr ""
+msgstr "マッピング前の受信リクエストデータ (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
-msgstr ""
+msgstr "マッピング後の受信リクエストデータ (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping (ProviderResponseInput)"
-msgstr ""
+msgstr "マッピング前の送信応答データ (ProviderResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing error handler data after error handling (ProviderErrorHandlingOutput)"
-msgstr ""
+msgstr "エラー処理後の送信エラー ハンドラー データ (ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
-msgstr ""
+msgstr "操作 %s の設定を判別できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "OperationType %s is not registered"
-msgstr ""
+msgstr "操作タイプ %s は登録されていません"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
@@ -11601,7 +11601,7 @@ msgstr "ExampleWebServiceが必要です！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
-msgstr ""
+msgstr "%s を読み込めませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -11885,7 +11885,7 @@ msgstr "プロセス生成時にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for Process entity: %s"
-msgstr ""
+msgstr "プロセス エンティティのエンティティ同期ステータスの設定中にエラーが発生しました: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
@@ -11917,7 +11917,7 @@ msgstr "%s:%sは削除できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
-msgstr ""
+msgstr "%s エンティティのエンティティ同期ステータスの設定中にエラーが発生しました: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
@@ -12201,7 +12201,7 @@ msgstr "認証局のフィンガープリントとCA局のフィンガープリ�
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
-msgstr ""
+msgstr "CAFingerprint は CertFingerprint と異なる必要があります"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
@@ -12237,7 +12237,7 @@ msgstr "フィンガープリントが必要です"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Handle Private Certificate Relations"
-msgstr ""
+msgstr "プライベート証明書関係の処理"
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
@@ -12269,15 +12269,15 @@ msgstr "無効な設定"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "There are no invalid settings active at this time."
-msgstr ""
+msgstr "現時点では無効な設定はアクティブではありません。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "You currently don't have any favourite settings."
-msgstr ""
+msgstr "現在、お気に入りの設定はありません。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
-msgstr ""
+msgstr "次の設定が見つかりませんでした: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Import not allowed!"
@@ -12297,11 +12297,11 @@ msgstr "一部のインポートされた設定は、現在の状態に存在し
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "このデプロイメントには設定値の変更は含まれていません！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "DeploymentID を受信しませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was unable to update setting!"
@@ -12309,11 +12309,11 @@ msgstr "システムが設定を更新できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
-msgstr ""
+msgstr "ロックする前に設定を有効にする必要があります！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You can't work on this setting because %s (%s) is currently working on it."
-msgstr ""
+msgstr "%s (%s) が現在この設定に取り組んでいるため、この設定に取り組めません。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name!"
@@ -12341,7 +12341,7 @@ msgstr "設定がありません！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "設定名が受信されませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
@@ -12361,15 +12361,15 @@ msgstr "設定名か修正バージョンIDが指定されていません!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "履歴値を元に戻すことができませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "設定名または変更された ID がありません！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "システムはユーザー設定値を削除できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -12585,7 +12585,7 @@ msgstr "権限がない!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
-msgstr ""
+msgstr "+%s 件以上"
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
 msgid "Customer History"
@@ -12601,7 +12601,7 @@ msgstr "設定項目 %s は存在しません"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr "レポート"
+msgstr "統計"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No preferences for %s!"
@@ -12613,7 +12613,7 @@ msgstr "%sのデータが取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get filter content data of %s!"
-msgstr ""
+msgstr "%s のフィルター コンテンツ データを取得できません！"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer Name"
@@ -12693,11 +12693,11 @@ msgstr "不正なサブアクションです。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
-msgstr "レポートをインポートできませんでした。"
+msgstr "統計をインポートできませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
-msgstr "有効なレポート・ファイルをアップロードして下さい。"
+msgstr "有効な統計・ファイルをアップロードして下さい。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
@@ -12717,11 +12717,11 @@ msgstr "統計を読み込めませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Add New Statistic"
-msgstr "新しいレポートを追加"
+msgstr "新しい統計を追加"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
-msgstr "レポートを作成できませんでした。"
+msgstr "統計を作成できませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Run: Get no %s!"
@@ -12729,47 +12729,47 @@ msgstr "実行: %sが存在しません！"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Got no %s!"
-msgstr ""
+msgstr "%s がありません!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Add New Statistics Report"
-msgstr ""
+msgstr "新しい統計レポートを追加する"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "This name is already in use, please choose a different one."
-msgstr ""
+msgstr "この名前はすでに使用されています。別の名前を選択してください。"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not create report."
-msgstr ""
+msgstr "レポートを作成できませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Need StatsReportID!"
-msgstr ""
+msgstr "StatsReportIDが必要です!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Edit Statistics Report"
-msgstr ""
+msgstr "統計レポートを編集"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
-msgstr ""
+msgstr "レポートが見つかりませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Please provide a valid cron entry."
-msgstr ""
+msgstr "有効な cron エントリを入力してください。"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not update report."
-msgstr ""
+msgstr "レポートを更新できませんでした。"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
-msgstr ""
+msgstr "統計レポートを表示"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Delete: Got no StatsReportID!"
-msgstr ""
+msgstr "削除: StatsReportID がありません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
@@ -13001,7 +13001,7 @@ msgstr "チャットはアクティブではありません。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
-msgstr "権限がありません！"
+msgstr "権限がありません"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
@@ -13057,7 +13057,7 @@ msgstr "パラメータ %s が設定 %sに存在しません。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
-msgstr ""
+msgstr "_RenderAjax の %s に ActivityDialog が構成されていません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!"
@@ -13105,7 +13105,7 @@ msgstr "フィールド\"%s\"のデータが取得できませんでした(ア�
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!"
-msgstr ""
+msgstr "PendingTime は、State または StateID が同じ ActivityDialog に設定されている場合にのみ使用できます。ActivityDialog: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
@@ -13457,7 +13457,7 @@ msgstr "キューが変更されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
-msgstr ""
+msgstr "通知が送信されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "This ticket does not exist, or you don't have permissions to access it in its current state."
@@ -13497,7 +13497,7 @@ msgstr "転送"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
-msgstr ""
+msgstr "グループのないフィールド"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -13525,27 +13525,27 @@ msgstr "エラー: このファイルは削除できません。管理者に連�
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
-msgstr ""
+msgstr "CustomerDashboard のタイル %s の登録が無効です。モジュールまたはテンプレートが必要です。"
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
-msgstr ""
+msgstr "CustomerDashboard のタイル %s の登録が無効です。注文は一意の番号である必要があります。"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
-msgstr ""
+msgstr "キーが必要です!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Invalid Key!"
-msgstr ""
+msgstr "無効なキーです!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Failed to load Content!"
-msgstr ""
+msgstr "コンテンツの読み込みに失敗しました！"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Destination unknown."
-msgstr ""
+msgstr "目的地は不明です。"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
@@ -13613,7 +13613,7 @@ msgstr "検索で使用できない次の語を削除してください:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Could not load process module."
-msgstr ""
+msgstr "プロセス モジュールを読み込めませんでした。"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
@@ -13725,7 +13725,7 @@ msgstr "管理者に連絡してください！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Execution of SQL statement failed: "
-msgstr ""
+msgstr "SQL ステートメントの実行に失敗しました: "
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
@@ -13893,7 +13893,7 @@ msgstr "暗号化済"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message encrypted to recipient!"
-msgstr ""
+msgstr "メッセージを暗号化して受信者に送信しました！"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Signed"
@@ -13905,11 +13905,11 @@ msgstr "不正な'PGP SIGNED MESSAGE'ヘッダが見つかりました！"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Internal error during verification!"
-msgstr ""
+msgstr "検証中に内部エラーが発生しました!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
-msgstr ""
+msgstr "復号化できません: 秘密鍵が見つかりません!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
@@ -13921,71 +13921,71 @@ msgstr "復号に成功しました"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no encryption keys available for the addresses: '%s'. "
-msgstr ""
+msgstr "アドレス '%s' に使用できる暗号化キーがありません。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no selected encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "アドレス '%s' に選択された暗号化キーがありません。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "アドレス '%s' には期限切れの暗号化キーを使用できません。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "アドレス '%s' には失効した暗号化キーを使用できません。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
-msgstr ""
+msgstr "暗号化"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one."
-msgstr ""
+msgstr "キー/証明書は、複数のキー/証明書を持つ受信者にのみ表示されます。最初に見つかったキー/証明書が事前に選択されます。必ず正しいものを選択してください。"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
-msgstr ""
+msgstr "メールセキュリティ"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign"
-msgstr ""
+msgstr "PGP サイン"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign and encrypt"
-msgstr ""
+msgstr "PGP署名と暗号化"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP encrypt"
-msgstr ""
+msgstr "PGP暗号化"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign"
-msgstr ""
+msgstr "SMIMEサイン"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign and encrypt"
-msgstr ""
+msgstr "SMIME署名と暗号化"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
-msgstr ""
+msgstr "SMIME暗号化"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "期限切れの署名キーは使用できません: '%s'。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "取り消された署名キー '%s' は使用できません。 "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
-msgstr ""
+msgstr "アドレス '%s' に使用できる署名キーがありません。"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no selected signing keys for the addresses '%s'."
-msgstr ""
+msgstr "アドレス '%s' に選択された署名キーがありません。"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Sign"
@@ -13993,7 +13993,7 @@ msgstr "署名"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Keys/certificates will only be shown for a sender with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one."
-msgstr ""
+msgstr "キー/証明書は、複数のキー/証明書を持つ送信者に対してのみ表示されます。最初に見つかったキー/証明書が事前に選択されます。正しいキー/証明書を選択してください。"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Shown"
@@ -14009,7 +14009,7 @@ msgstr "オフ"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
 msgid "Shown customer ids"
-msgstr ""
+msgstr "表示された顧客ID"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Shown customer users"
@@ -14037,7 +14037,7 @@ msgstr "ユーザーはしばらくインアクティブです"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "チケットの開始時間が終了時間より後に設定されています！"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
 msgid "Shown Tickets"
@@ -14085,7 +14085,7 @@ msgstr "週間統計"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "User set their status to unavailable."
-msgstr ""
+msgstr "ユーザーがステータスを利用不可に設定しました。"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
@@ -14097,7 +14097,7 @@ msgstr "スタンダード"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "次のチケットは更新されていません: %s。"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -14113,7 +14113,7 @@ msgstr "日"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This ticket does not exist, or you don't have permissions to access it in its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "このチケットは存在しないか、現在の状態ではアクセスする権限がありません。次のいずれかのアクションを実行できます。"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -14237,11 +14237,11 @@ msgstr "オンラインの顧客: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "システムメンテナンス中です！"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "システムメンテナンス期間は %s に開始され、 %s に終了する予定です"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
@@ -14253,7 +14253,7 @@ msgstr "外出中が有効になっています。無効にしますか？"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
 msgid "You have %s invalid setting(s) deployed. Click here to show invalid settings."
-msgstr ""
+msgstr "%s 個の無効な設定が展開されています。無効な設定を表示するには、ここをクリックしてください。"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
@@ -14273,7 +14273,7 @@ msgstr "%sの利用は、スーパーユーザー・アカウント（UserID 1�
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Please make sure you've chosen at least one transport method for mandatory notifications."
-msgstr ""
+msgstr "必須通知に対して少なくとも 1 つの転送方法を選択していることを確認してください。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
@@ -14285,7 +14285,7 @@ msgstr "(処理中)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
-msgstr ""
+msgstr "開始日より後の終了日を指定してください。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Verify password"
@@ -14301,11 +14301,11 @@ msgstr "新しいパスワードを入力して下さい！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, the new password and the repeated password do not match."
-msgstr ""
+msgstr "パスワードを更新できません。新しいパスワードと繰り返し入力したパスワードが一致しません。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions."
-msgstr ""
+msgstr "このパスワードは現在のシステム構成では禁止されています。追加の質問がある場合は管理者にお問い合わせください。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
@@ -14325,7 +14325,7 @@ msgstr "パスワードを更新できません。アルファベットが2文�
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!"
-msgstr ""
+msgstr "パスワードを更新できません。4 つの文字 (小文字、大文字、数字、特殊文字) のうち少なくとも 3 つを含める必要があります！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
@@ -14345,11 +14345,11 @@ msgstr "いいえ(サポートされていません)"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "No past complete or the current+upcoming complete relative time value selected."
-msgstr ""
+msgstr "過去の完了または現在+今後の完了の相対時間値が選択されていません。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "選択された期間は許可された期間よりも長くなっています。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "No time scale value available for the current selected time scale value on the X axis."
@@ -14369,11 +14369,11 @@ msgstr "時刻の選択が間違っています。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select only one element or allow modification at stat generation time."
-msgstr ""
+msgstr "1 つの要素のみを選択するか、統計生成時に変更を許可してください。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field or allow modification at stat generation time."
-msgstr ""
+msgstr "このフィールドの値を少なくとも 1 つ選択するか、統計生成時に変更を許可してください。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
@@ -14393,7 +14393,7 @@ msgstr "少なくとも値を1つは選択して下さい。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
-msgstr ""
+msgstr "統計生成時に値を指定するか、変更を許可してください。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
@@ -14417,7 +14417,7 @@ msgstr "半期"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please remove the following words because they cannot be used for the ticket restrictions: %s."
-msgstr ""
+msgstr "次の単語はチケット制限に使用できないため削除してください: %s。"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
@@ -14501,15 +14501,15 @@ msgstr "監視チケット合計"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "%s Report"
-msgstr ""
+msgstr "%s レポート"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
-msgstr ""
+msgstr "エラー: このグラフを生成できませんでした: %s。"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
-msgstr ""
+msgstr "目次"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
@@ -14517,7 +14517,7 @@ msgstr "チケットのダイナミック・フィールド"
 
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid "Couldn't read ACL configuration file. Please make sure the file is valid."
-msgstr ""
+msgstr "ACL 構成ファイルを読み取れませんでした。ファイルが有効であることを確認してください。"
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid "It is currently not possible to login due to a scheduled system maintenance."
@@ -14525,7 +14525,7 @@ msgstr "予定されていたメンテナンスのため、只今の時間はロ
 
 #. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
 msgid "Invalid response from the authentication server. Maybe the process took too long. Please retry once."
-msgstr ""
+msgstr "認証サーバーからの応答が無効です。処理に時間がかかりすぎた可能性があります。もう一度お試しください。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -14569,7 +14569,7 @@ msgstr "PGPとSMIMEが有効化されていません。"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Skip notification delivery"
-msgstr ""
+msgstr "通知の配信をスキップ"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unsigned notification"
@@ -14597,23 +14597,23 @@ msgstr "この設定は無効化することはできません。"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
-msgstr ""
+msgstr "この設定は表示されません。"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences."
-msgstr ""
+msgstr "この設定はユーザー設定で上書きできます。"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences, but is not active by default."
-msgstr ""
+msgstr "この設定はユーザー設定で上書きできますが、デフォルトではアクティブではありません。"
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
-msgstr ""
+msgstr "顧客ユーザー「%s」は既に存在します。"
 
 #. Perl Module: Kernel/System/CustomerUser/DB.pm
 msgid "This email address is already in use for another customer user."
-msgstr ""
+msgstr "このメールアドレスは既に別の顧客ユーザーによって使用されています。"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
 msgid "before/after"
@@ -14623,13 +14623,13 @@ msgstr "前／後"
 msgid "between"
 msgstr "期間中"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
 msgid "e.g. Text or Te*t"
 msgstr "例: Text または Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "このフィールドは無視してください。"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/RichText.pm
 msgid "This field is required or"
@@ -14645,31 +14645,31 @@ msgstr "最大サイズは%s文字です。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "データベースの健全性チェック。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "ACL 構成を展開します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "展開が完了しました、完璧です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "データベース テーブル auto_responses を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "移行に失敗しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "データベース テーブル auto_response を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "移行が完了しました。完璧です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
@@ -14677,39 +14677,39 @@ msgstr "OTOBOキャッシュのクリーンアップ"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "完了しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "OTRSData->%s が必要です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
+msgstr "OTRS ホームにアクセスできません: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "必要なファイルはすべてコピーされ移行されました。完璧です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "データベースをコピーします。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Skipped..."
-msgstr ""
+msgstr "スキップしました..."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "システムは OTRS データベースに接続できませんでした。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "システムはデータ転送を完了できませんでした。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "データ転送が完了しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO version is correct."
@@ -14721,7 +14721,7 @@ msgstr "OTOBOとOTRSの接続が可能かどうかを確認してください。
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "OTRSHome から RELEASE ファイルを開けません: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
@@ -14729,7 +14729,7 @@ msgstr "OTOBOとOTRSのバージョンが正しいか確認してください。
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s は存在しません!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
@@ -14737,7 +14737,7 @@ msgstr "OTOBOシステムが見つかりません！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
-msgstr ""
+msgstr "このスクリプトを間違ったフレームワーク バージョン %s で実行しようとしています。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
@@ -14745,75 +14745,75 @@ msgstr "OTOBOバージョンは正しいです：%s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "OTRS のバージョンが正しいかどうかを確認します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist!"
-msgstr ""
+msgstr "OTRS RELEASE ファイル %s が存在しません！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s"
-msgstr ""
+msgstr "OTRS RELEASE ファイルを読み取れません: %s"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "OTRS システムが見つかりません！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
-msgstr ""
+msgstr "OTRS RELASE ファイルに不明な製品が見つかりました: %s。予期される値は %s です。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "OTRS バージョンは正しいです: %s。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migrate ITSM database tables."
-msgstr ""
+msgstr "ITSM データベース テーブルを移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
-msgstr ""
+msgstr "テーブル '%s' が存在しないため、何も行う必要はありません。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
-msgstr ""
+msgstr "テーブル '%s' の更新に失敗しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
-msgstr ""
+msgstr "移行が完了しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "構成設定を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration or no configuration exists."
-msgstr ""
+msgstr "SysConfig データの移行中にエラーが発生したか、構成が存在しません。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
-msgstr ""
+msgstr "XML を DB に書き込むときに SysConfig 移行中にエラーが発生しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "SysConfig データの移行が完了しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "Web サービス構成を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
+msgstr "失敗しました - ログを参照してください！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "データベース テーブルの移行通知。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "OTRSHome から Kernel/Config.pm ファイルを開けません: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
@@ -14825,35 +14825,35 @@ msgstr "Kernel/Config.pmはOTOBOホームに存在します"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "OTRS Home に接続できるかどうかを確認します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "OTRS ファイル ディレクトリに接続できません。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "OTRS ファイルディレクトリへの接続が可能です。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
-msgstr ""
+msgstr "データベース接続と健全性チェックを試してください。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "データベース オブジェクトを作成できませんでした。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr ""
+msgstr "データベース接続と健全性チェックが完了しました。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "必要なパッケージがすべてインストールされているかどうかを確認します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "以下のパッケージは OTRS にのみインストールされます。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\\\@otobo.org. We will find a solution."
@@ -14861,67 +14861,67 @@ msgstr "移行する前に、パッケージをインストール（またはア
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
+msgstr "両方のシステムに同じパッケージがインストールされています。完璧です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Package specific tasks"
-msgstr ""
+msgstr "パッケージ固有のタスク"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Done -"
-msgstr ""
+msgstr "終わり -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Failed at -"
-msgstr ""
+msgstr "失敗しました -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "必要な Perl モジュールがすべてインストールされているかどうかを確認します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "%s スクリプトは存在しません。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
-msgstr ""
+msgstr "必要な Perl モジュールが 1 つ以上ありません。推奨どおりにインストールし、移行スクリプトを再度実行してください。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "必要な Perl モジュールがすべてインストールされました。完璧です!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "ポストマスター フィルターを移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
+msgstr "プロセス管理構成を展開します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "データベース テーブル response_template を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "データベース テーブルの挨拶を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "データベース テーブル署名を移行します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "統計を移行します。"
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Couldn't read Notification configuration file. Please make sure the file is valid."
-msgstr ""
+msgstr "通知構成ファイルを読み取れませんでした。ファイルが有効であることを確認してください。"
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
-msgstr ""
+msgstr "インポートされた通知の本文テキストが 4000 文字を超えています。"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -14945,7 +14945,7 @@ msgstr "ファイルがインストールされていません！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "ファイルが違います!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
@@ -14953,23 +14953,23 @@ msgstr "ファイルを読み込めません！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
-msgstr ""
+msgstr "<p>追加パッケージにより、OTOBO は多くの便利な機能で強化されます。ただし、このパッケージは OTOBO をあらゆる方法で変更する可能性があるため、パッケージの出所が信頼できるものであることを確認してください。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "パッケージは OTOBO コミュニティによって検証されていません！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
+msgstr "<p>検証されていないパッケージのインストールは無効になっています。検証されていないパッケージのインストールは、「Package::AllowNotVerifiedPackages」システム構成設定で有効にできます。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Verification not possible (e.g. no internet connection)!"
-msgstr ""
+msgstr "検証できません（例：インターネット接続なし）！"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "プロセス「%s」とそのすべてのデータが正常にインポートされました。"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -15145,7 +15145,7 @@ msgstr "ステータス・タイプの履歴"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/ArticleList.pm
 msgid "Historic Time Range"
-msgstr ""
+msgstr "歴史的な時間範囲"
 
 #. Template: AdminImportExport
 msgid "Number"
@@ -15225,15 +15225,15 @@ msgstr "日"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "キュー / チケット"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
-msgstr ""
+msgstr "古くなったテーブル"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated tables were found in the database. These can be removed if empty."
-msgstr ""
+msgstr "データベース内に古いテーブルが見つかりました。空の場合は削除できます。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Presence"
@@ -15285,7 +15285,7 @@ msgstr "データーベースサーバーのキャラクターセット"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "データベースを文字セット「utf8mb4」に変換してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -15293,7 +15293,7 @@ msgstr "Table キャラクターセット"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
-msgstr ""
+msgstr "文字セットとして「utf8mb4」を持たないテーブルが見つかりました。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -15309,7 +15309,7 @@ msgstr "デフォルト値は不正です"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid "Tables with invalid default values were found. In order to fix it automatically, please run: bin/otobo.Console.pl Maint::Database::Check --repair"
-msgstr ""
+msgstr "無効なデフォルト値を持つテーブルが見つかりました。自動的に修正するには、次を実行してください: bin/otobo.Console.pl Maint::Database::Check --repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
@@ -15317,7 +15317,7 @@ msgstr "最大クエリサイズ"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
+msgstr "設定「max_allowed_packet」は 64 MB 以上である必要があります。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -15365,11 +15365,11 @@ msgstr "NLS_DATE_FORMAT 設定 SQL チェック"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid "Primary Key Sequences and Triggers"
-msgstr ""
+msgstr "主キーシーケンスとトリガー"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid "The following sequences and/or triggers with possible wrong names have been found. Please rename them manually."
-msgstr ""
+msgstr "次のシーケンスおよび/またはトリガーは、名前が間違っている可能性があります。手動で名前を変更してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
@@ -15389,23 +15389,23 @@ msgstr "日付の設定はISOフォーマットに従ってください"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "Primary Key Sequences"
-msgstr ""
+msgstr "主キーシーケンス"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "The following sequences with possible wrong names have been found. Please rename them manually."
-msgstr ""
+msgstr "名前が間違っている可能性のある次のシーケンスが見つかりました。手動で名前を変更してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 9.2 or higher is required."
-msgstr ""
+msgstr "PostgreSQL 9.2 以上が必要です。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Certificate check"
-msgstr ""
+msgstr "証明書の確認"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
-msgstr ""
+msgstr "廃止された暗号化関数が見つかりました。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
@@ -15449,15 +15449,15 @@ msgstr "必要な Perl モジュールが一部インストールされていま
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Perl モジュール監査"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number."
-msgstr ""
+msgstr "CPAN::Audit は、インストールされている 1 つ以上の Perl モジュールに既知の脆弱性があることを報告しました。バージョン番号を変更せずに Perl モジュールにパッチを適用したディストリビューションでは、誤検知が発生する可能性があることに注意してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "CPAN::Audit did not report any known vulnerabilities in the installed Perl modules."
-msgstr ""
+msgstr "CPAN::Audit は、インストールされた Perl モジュールに既知の脆弱性を報告しませんでした。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -15469,7 +15469,7 @@ msgstr "スワップが存在していません。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Used Swap Space (MB)"
-msgstr "利用 Swap 領域 (MB) "
+msgstr "使用Swap領域 (MB)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be more than 60% free swap space."
@@ -15489,7 +15489,7 @@ msgstr "記事検索インデックスのステータス"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
-msgstr ""
+msgstr "索引記事"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
@@ -15517,19 +15517,19 @@ msgstr "コミュニケーション・ログのアカウント・ステータス
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
-msgstr ""
+msgstr "接続が見つかりません。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
-msgstr ""
+msgstr "OK"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
-msgstr ""
+msgstr "永続的な接続エラー"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
-msgstr ""
+msgstr "断続的な接続エラー"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
@@ -15653,11 +15653,11 @@ msgstr "従来構成のバックアップファイルは見つかりませんで
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages."
-msgstr ""
+msgstr "レガシー構成バックアップ ファイルは Kernel/Config/Backups フォルダーにありますが、一部のパッケージでは引き続き必要になる場合があります。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder."
-msgstr ""
+msgstr "インストールされたパッケージには従来の構成バックアップ ファイルは不要になったため、Kernel/Config/Backups フォルダーから削除してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
@@ -15693,7 +15693,7 @@ msgstr "パッケージリスト"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
-msgstr ""
+msgstr "セッション構成設定"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
@@ -15729,7 +15729,7 @@ msgstr "ロックされたチケットを持つ無効なユーザー"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "チケットがロックされている無効なユーザーがいます。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
@@ -15741,7 +15741,7 @@ msgstr "チケット検索インデックス・モジュール"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches."
-msgstr ""
+msgstr "インデックス作成プロセスでは、フィルターを実行したりストップワード リストを適用したりせずに、元の記事テキストを記事検索インデックスに強制的に保存します。これにより、検索インデックスのサイズが大きくなり、全文検索が遅くなる可能性があります。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -15797,7 +15797,7 @@ msgstr "UI - 担当者のテーマ使用状況"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "UI - Special Statistics"
-msgstr "UI - 特殊レポート"
+msgstr "UI - 特別な統計"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
@@ -15805,7 +15805,7 @@ msgstr "カスタムメインメニューのオーダーを使用する担当者
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
-msgstr ""
+msgstr "管理者概要のお気に入りを使用するエージェント"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
@@ -15861,19 +15861,19 @@ msgstr "環境変数"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support Data Collection"
-msgstr ""
+msgstr "データ収集のサポート"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
-msgstr ""
+msgstr "Web サーバーからサポート データを収集できませんでした。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "PSGI環境"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "PSGIで実行"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15905,7 +15905,7 @@ msgstr "設定 %s は存在しません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s is not locked to this user!"
-msgstr "Setting %s is not locked to this user!"
+msgstr "設定 %s はこのユーザーにロックされていません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting value is not valid!"
@@ -15933,11 +15933,11 @@ msgstr "設定が不正です: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "設定値を Perl ハッシュに結合できませんでした。"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "ユーザーID '%s' のデプロイメントをロックできません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -15949,11 +15949,11 @@ msgstr "デフォルト"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
-msgstr ""
+msgstr "値が正しくありません。このフィールドを更新することを検討してください。"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value doesn't satisfy regex (%s)."
-msgstr ""
+msgstr "値が正規表現 (%s) を満たしていません。"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Enabled"
@@ -15973,7 +15973,7 @@ msgstr "システムはユーザー日時をOTOBOTimeZoneから算出できま�
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
-msgstr ""
+msgstr "値が正しくありません。このモジュールを更新することを検討してください。"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/VacationDays.pm
 msgid "Value is not correct! Please, consider updating this setting."
@@ -15985,7 +15985,7 @@ msgstr "アンロック時間のリセット"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "チャット参加者"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
@@ -15993,7 +15993,7 @@ msgstr "チャットメッセージ本文"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "ログイン試行の失敗回数が多すぎます。%s 秒後に再試行してください。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -16001,9 +16001,9 @@ msgstr "ログインできません。ユーザー名またはパスワードを
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
-msgstr ""
+msgstr "認証は成功しましたが、データベースにユーザー データ レコードが見つかりません。管理者に問い合わせてください。"
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr "セッションIDを削除できません。"
 
@@ -16053,7 +16053,7 @@ msgstr "このemailアドレスの登録は認められていません。サポ�
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "顧客パネル経由で追加されました (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
@@ -16061,7 +16061,7 @@ msgstr "顧客ユーザーが追加できませんでした。"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "アカウント情報を送信できません!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "New account created. Sent login information to %s. Please check your email."
@@ -16069,19 +16069,19 @@ msgstr "新規アカウントを作成しました。ログイン情報を %s �
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "installer.pl を再実行する場合は、SysConfig で SecureMode を無効にします。"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "アクション「%s」が見つかりません！"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "migration.pl を再実行する場合は、SysConfig で SecureMode を無効にします。"
 
 #. Perl Module: Kernel/System/Web/InterfacePublic.pm
 msgid "Could not connect to the database."
-msgstr ""
+msgstr "データベースに接続できませんでした。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -16097,7 +16097,7 @@ msgstr "管理者用グループ"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
-msgstr "レポート・レポート操作用のグループ"
+msgstr "統計アクセス用のグループ。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
@@ -16181,7 +16181,7 @@ msgstr "対応中チケット"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
-msgstr ""
+msgstr "顧客がチケットを削除しました。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
@@ -16245,7 +16245,7 @@ msgstr "新規チケット"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are not possible. A new ticket will be created."
-msgstr ""
+msgstr "クローズされたチケットのフォローアップはできません。新しいチケットが作成されます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
@@ -16269,7 +16269,7 @@ msgstr "自動返答"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic reply which will be sent out after a new ticket has been created."
-msgstr ""
+msgstr "新しいチケットが作成された後に送信される自動返信。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
@@ -16277,7 +16277,7 @@ msgstr "自動リジェクト"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is \"reject\")."
-msgstr ""
+msgstr "フォローアップが拒否された後に送信される自動拒否 (キューのフォローアップ オプションが「拒否」の場合)。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
@@ -16285,7 +16285,7 @@ msgstr "自動フォローアップ"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is \"possible\")."
-msgstr ""
+msgstr "チケットのフォローアップが受信された後に送信される自動確認 (キューのフォローアップ オプションが「可能」の場合)。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -16293,7 +16293,7 @@ msgstr "自動返答/新規チケット"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is \"new ticket\")."
-msgstr ""
+msgstr "フォローアップが拒否され、新しいチケットが作成された後に送信される自動応答 (キューのフォローアップ オプションが「新しいチケット」の場合)。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
@@ -16301,23 +16301,23 @@ msgstr "自動除去"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
-msgstr ""
+msgstr "顧客がリクエストを削除した後、自動削除が送信されます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "デフォルトの返信（新しいチケットが作成された後の返信）"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "デフォルトの拒否（クローズされたチケットのフォローアップと拒否後）"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "デフォルトのフォローアップ（チケットフォローアップが追加された後）"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject/new ticket created (after closed follow-up with new ticket creation)"
-msgstr ""
+msgstr "デフォルトの拒否/新しいチケットの作成（新しいチケットの作成によるフォローアップ終了後）"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
@@ -16353,7 +16353,7 @@ msgstr "ロック"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
-msgstr ""
+msgstr "tmp_lock"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
@@ -16381,7 +16381,7 @@ msgstr "チケット・フォローアップ通知 (ロック解除)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "「マイキュー」または「マイサービス」にあるロック解除されたチケットに対して顧客がフォローアップを送信すると、通知が届きます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -16389,7 +16389,7 @@ msgstr "チケット・フォローアップ通知 (ロック)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible."
-msgstr ""
+msgstr "あなたがチケット所有者または責任者であるロックされたチケットに対して顧客がフォローアップを送信すると、通知が届きます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
@@ -16397,7 +16397,7 @@ msgstr "ロック期限切れチケット通知"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification as soon as a ticket owned by you is automatically unlocked."
-msgstr ""
+msgstr "あなたが所有するチケットが自動的にロック解除されるとすぐに通知が届きます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
@@ -16449,7 +16449,7 @@ msgstr "予約リマインダーの通知"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification each time a reminder time is reached for one of your appointments."
-msgstr ""
+msgstr "予定のリマインダー時間に達するたびに通知が届きます。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
@@ -16457,11 +16457,11 @@ msgstr "チケット送信失敗通知"
 
 #. JS File: Core.AJAX
 msgid "Error during AJAX communication. Status: %s, Error: %s"
-msgstr ""
+msgstr "AJAX 通信中にエラーが発生しました。ステータス: %s、エラー: %s"
 
 #. JS File: Core.AJAX
 msgid "This window must be called from compose window."
-msgstr ""
+msgstr "このウィンドウは作成ウィンドウから呼び出す必要があります。"
 
 #. JS File: Core.Agent.Admin.ACL
 msgid "Add all"
@@ -16477,7 +16477,7 @@ msgstr "このアイテムは、配下にサブアイテムを保有していま
 
 #. JS File: Core.Agent.Admin.About
 msgid "Do you really want to delete this language?"
-msgstr ""
+msgstr "この言語を本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -16521,7 +16521,7 @@ msgstr "フィールドとそれに属するデータを削除します。これ
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
-msgstr ""
+msgstr "このダイナミックフィールドを削除する"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -16529,7 +16529,7 @@ msgstr "選択項目を削除"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "この管理用ジョブを本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -16565,11 +16565,11 @@ msgstr "デバッグログを削除"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
-msgstr ""
+msgstr "エラー処理モジュールを削除する"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "It is not possible to add a new event trigger because the event is not set."
-msgstr ""
+msgstr "イベントが設定されていないため、新しいイベントトリガーを追加することはできません。"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -16577,23 +16577,23 @@ msgstr "このAPI実行元を削除"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing condition can't be removed."
-msgstr ""
+msgstr "申し訳ございませんが、唯一の既存の条件は削除できません。"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing field can't be removed."
-msgstr ""
+msgstr "申し訳ありませんが、既存のフィールドは削除できません。"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Delete conditions"
-msgstr ""
+msgstr "条件を削除する"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key %s"
-msgstr ""
+msgstr "キー %s のマッピング"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key"
-msgstr ""
+msgstr "キーのマッピング"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Delete this Key Mapping"
@@ -16621,11 +16621,11 @@ msgstr "警告: あなたの名前を変更するグループの管理者はシ�
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "このメールアカウントを削除する"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
-msgstr ""
+msgstr "メール アカウントとそのデータを削除しています。しばらく時間がかかる場合があります..."
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
@@ -16637,11 +16637,11 @@ msgstr "この通知を本当に削除しますか？"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "このキーを本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "There is a package upgrade process running, click here to see status information about the upgrade progress."
-msgstr ""
+msgstr "パッケージのアップグレード プロセスが実行中です。アップグレードの進行状況に関するステータス情報を表示するには、ここをクリックしてください。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "A package upgrade was recently finished. Click here to see the results."
@@ -16649,7 +16649,7 @@ msgstr "パッケージのアップグレードが最近終了しました。 �
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "パッケージのアップグレード結果の取得からの応答がありません。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
@@ -16665,7 +16665,7 @@ msgstr "パッケージを全て更新する"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "パッケージアップグレードからの応答がありません。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16685,7 +16685,7 @@ msgstr "全てのパッケージを更新します。よろしいですか？"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "パッケージ アップグレード実行ステータスの取得からの応答がありません。"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -16753,7 +16753,7 @@ msgstr "領域の詳細を編集"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Customer interface does not support articles not visible for customers."
-msgstr ""
+msgstr "顧客インターフェイスは、顧客に表示されない記事をサポートしていません。"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
@@ -16761,7 +16761,7 @@ msgstr "申し訳ありませんが、最後に残された選択肢は削除で
 
 #. JS File: Core.Agent.Admin.SMIME
 msgid "Do you really want to delete this certificate?"
-msgstr ""
+msgstr "この証明書を本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Sending Update..."
@@ -16769,7 +16769,7 @@ msgstr "更新を送信中…"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "サポートデータ情報が正常に送信されました。"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Was not possible to send Support Data information."
@@ -16801,11 +16801,11 @@ msgstr "メールが送信できませんでした"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "It is not possible to set this entry to invalid. All affected configuration settings have to be changed beforehand."
-msgstr ""
+msgstr "このエントリを無効に設定することはできません。影響を受けるすべての構成設定を事前に変更する必要があります。"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Cannot proceed"
-msgstr ""
+msgstr "続行できません"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Update manually"
@@ -16813,19 +16813,19 @@ msgstr "手動アップデート"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing 'update manually'."
-msgstr ""
+msgstr "影響を受ける設定を自動的に更新して、行った変更を反映させるか、「手動で更新」を押して自分で更新することができます。"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Save and update automatically"
-msgstr ""
+msgstr "自動的に保存して更新する"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Don't save, update manually"
-msgstr ""
+msgstr "保存しないで手動で更新する"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "The item you're currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you're unsure what to do next, please contact your system administrator."
-msgstr ""
+msgstr "現在表示している項目は、まだ展開されていない構成設定の一部であるため、現在の状態では編集できません。設定が展開されるまでお待ちください。次に何をすればよいかわからない場合は、システム管理者にお問い合わせください。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -16841,7 +16841,7 @@ msgstr "何かを見つけるために少なくとも1つの検索単語を入�
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later."
-msgstr ""
+msgstr "残念ながら、現在デプロイできません。別のエージェントがすでにデプロイ中である可能性があります。後でもう一度お試しください。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
@@ -16853,31 +16853,31 @@ msgstr "デプロイメントはすでに実行中です。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr "デプロイに成功しました。 "
+msgstr "デプロイに成功しました。リダイレクト中です..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "There was an error. Please save all settings you are editing and check the logs for more information."
-msgstr ""
+msgstr "エラーが発生しました。編集中のすべての設定を保存し、詳細についてはログを確認してください。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "リセットオプションが必要です!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?"
-msgstr ""
+msgstr "このデプロイメントを復元すると、すべての設定がデプロイメント時の値に戻ります。本当に続行しますか?"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Keys with values can't be renamed. Please remove this key/value pair instead and re-add it afterwards."
-msgstr ""
+msgstr "値を持つキーの名前を変更することはできません。代わりにこのキー/値のペアを削除し、後で再度追加してください。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
-msgstr ""
+msgstr "設定のロックを解除します。"
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "すべてのユーザー値を削除してもよろしいですか?"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
@@ -16889,7 +16889,7 @@ msgstr "テンプレートを削除"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Deleting the template and its data. This may take a while..."
-msgstr ""
+msgstr "テンプレートとそのデータを削除しています。しばらく時間がかかる場合があります..."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Jump"
@@ -16965,7 +16965,7 @@ msgstr "有効化されたカレンダーが多すぎます"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Please either turn some off first or increase the limit in configuration."
-msgstr ""
+msgstr "最初にいくつかをオフにするか、設定で制限を増やしてください。"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Restore default settings"
@@ -16973,11 +16973,11 @@ msgstr "デフォルト値に戻す"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Are you sure you want to delete this appointment? This operation cannot be undone."
-msgstr ""
+msgstr "この予定を削除してもよろしいですか? この操作は元に戻せません。"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "First select a customer user, then select a customer ID to assign to this ticket."
-msgstr ""
+msgstr "まず顧客ユーザーを選択し、次にこのチケットに割り当てる顧客 ID を選択します。"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "Duplicated entry"
@@ -16985,7 +16985,7 @@ msgstr "重複した登録"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "フィールドから削除されます。もう一度お試しください。"
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
@@ -16997,7 +16997,7 @@ msgstr "OTOBO デーモンの紹介"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
-msgstr ""
+msgstr "有効な入力については、赤でマークされたフィールドを確認してください。"
 
 #. JS File: Core.Agent.Dashboard
 msgid "month"
@@ -17065,11 +17065,11 @@ msgstr "この要素は子供が存在するため削除できません。"
 
 #. JS File: Core.Agent.Statistics
 msgid "Do you really want to delete this statistic?"
-msgstr "このレポートを削除してよろしいですか？"
+msgstr "この統計を本当に削除してよろしいですか？"
 
 #. JS File: Core.Agent.StatisticsReports
 msgid "Do you really want to delete this report?"
-msgstr ""
+msgstr "このレポートを本当に削除しますか?"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
@@ -17081,7 +17081,7 @@ msgstr "本当にこの操作を継続してよろしいですか？"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...and %s more"
-msgstr ""
+msgstr " ...その他 %s 件"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
@@ -17141,7 +17141,7 @@ msgstr "ページのリロード(%s秒)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
-msgstr "Namespace %s could not be initialized, because %s could not be found."
+msgstr "名前空間 %s は、%s が見つからなかったため初期化できませんでした。"
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
@@ -17221,7 +17221,7 @@ msgstr "検索条件をクリア"
 
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "このページから移動します。全てのポップアップウィンドウを閉じてもよろしいですか？"
+msgstr "今このページを離れると、開いているポップアップ ウィンドウもすべて閉じられます！"
 
 #. JS File: Core.UI.Popup
 msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
@@ -17281,7 +17281,7 @@ msgstr "%sファイルのみアップロード可能です。"
 
 #. JS File: Core.UI
 msgid "Please only select at most %s files for upload."
-msgstr ""
+msgstr "アップロードするファイルは最大 %s 個まで選択してください。"
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
@@ -17321,11 +17321,11 @@ msgstr "いいえ"
 
 #. JS File: Core.Language.UnitTest
 msgid "This is %s"
-msgstr ""
+msgstr "これは%sです"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
-msgstr ""
+msgstr "%s 引数を持つ複雑な %s"
 
 #. JS File: OTOBOLineChart
 msgid "No Data Available."
@@ -17333,11 +17333,11 @@ msgstr "データが存在しません。"
 
 #. JS File: OTOBOMultiBarChart
 msgid "Grouped"
-msgstr ""
+msgstr "グループ化"
 
 #. JS File: OTOBOMultiBarChart
 msgid "Stacked"
-msgstr ""
+msgstr "積み重ね"
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Stream"
@@ -17354,6 +17354,10 @@ msgid ""
 "            in an extra table\n"
 "        "
 msgstr ""
+"\n"
+"            オプションパラメータもパラメータリストに表示します。無効にすると、オプションパラメータは追加のテーブル\n"
+"　　　にのみ表示されます\n"
+"        "
 
 #. SysConfig
 msgid ""
@@ -17407,7 +17411,7 @@ msgstr "%s"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr "(ユーザー名) 姓 名 "
+msgstr "(ユーザー名) 姓名"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
@@ -17511,15 +17515,15 @@ msgstr "Elasticsearchを有効化。"
 
 #. SysConfig
 msgid "Activate the customer frontend."
-msgstr ""
+msgstr "顧客フロントエンドをアクティブ化します。"
 
 #. SysConfig
 msgid "Activate the public frontend."
-msgstr ""
+msgstr "パブリック フロントエンドをアクティブ化します。"
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
+msgstr "DynamicField ブロックの外部で DynamicFields のレンダリングをアクティブにします。"
 
 #. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
@@ -17579,7 +17583,7 @@ msgstr "対応時間に%sを追加(合計%s)。"
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "Added email. %s"
+msgstr "メールを追加しました。%s"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
@@ -17587,7 +17591,7 @@ msgstr "フォローアップ[%s]。 %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "Added link to ticket \"%s\"."
+msgstr "チケット「%s」へのリンクを追加しました。"
 
 #. SysConfig
 msgid "Added note (%s)."
@@ -17603,7 +17607,7 @@ msgstr "顧客への電話発信。"
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Added subscription for user \"%s\"."
+msgstr "ユーザー「%s」のサブスクリプションを追加しました。"
 
 #. SysConfig
 msgid "Added system request (%s)."
@@ -17647,7 +17651,7 @@ msgstr "管理エリア。"
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "データに関する管理者の連絡先"
 
 #. SysConfig
 msgid "Admin Notification"
@@ -17659,7 +17663,7 @@ msgstr "担当者Webインタフェースの管理ナビゲーション"
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "データに関する管理者の連絡先。"
 
 #. SysConfig
 msgid "Admin modules overview."
@@ -17675,7 +17679,7 @@ msgstr "管理"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "データ検索によるエージェントの連絡先"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -17687,19 +17691,19 @@ msgstr "担当者顧客の検索"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "担当者ダイナミックフィールドデータベース詳細検索"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "担当者ダイナミックフィールドデータベースの詳細"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "担当者ダイナミックフィールドデータベース検索"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "担当者名"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
@@ -17711,7 +17715,7 @@ msgstr "担当者のプリファレンス。"
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr "担当者に関する統計"
+msgstr "担当者統計"
 
 #. SysConfig
 msgid "Agent User Search"
@@ -17723,19 +17727,19 @@ msgstr "担当者の検索"
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "データ検索に関する担当者の連絡先。"
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "担当者のダイナミックフィールドデータベースの詳細検索。"
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "担当者ダイナミックフィールド データベースの詳細。"
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "担当者ダイナミックフィールドデータベース検索。"
 
 #. SysConfig
 msgid "Agent frontend module registration (disable 'Edit contacts with data' link if if there is no source field configured)."
@@ -17751,15 +17755,15 @@ msgstr "S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで
 
 #. SysConfig
 msgid "Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "ナビゲーション バー経由で CIC 検索にアクセスするための担当者インターフェイス モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「Group」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "ナビゲーション バー経由で全文検索にアクセスするための担当者インターフェイス モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「Group」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "ナビゲーション バー経由で検索プロファイルにアクセスするための担当者インターフェイス モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「Group」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true."
@@ -17767,11 +17771,11 @@ msgstr "S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "ロックされたチケットの数を確認するための担当者インターフェイス通知モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「Group」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "担当者が担当するチケットの数を確認するためのエージェント インターフェイス通知モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「グループ」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
@@ -17779,11 +17783,11 @@ msgstr "担当者Webインタフェース通知モジュールを使用して、
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr ""
+msgstr "監視対象のチケットの数を確認するための担当者インターフェイス通知モジュール。このリンクを表示するかどうかの追加のアクセス制御は、キー「Group」とコンテンツ「rw:group1;move_into:group2」を使用して実行できます。"
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays Contact with data dynamic field in the side bar."
-msgstr ""
+msgstr "サイドバーにデータダイナミックフィールドを持つ連絡先を表示する AgentTicketZoom ウィジェット。"
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays a table of objects linked to the ticket."
@@ -17811,7 +17815,7 @@ msgstr "顧客ユーザーの全てのCustomerID"
 
 #. SysConfig
 msgid "All closed tickets."
-msgstr ""
+msgstr "すべてのチケットはクローズされています。"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -17835,31 +17839,31 @@ msgstr "全保留チケット中、期限切れのもの"
 
 #. SysConfig
 msgid "Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスのチケットのクローズ画面にメモを追加できるようにします。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスのチケットのフリー テキスト画面にメモを追加できます。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスのチケット ノート画面にノートを追加できるようにします。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスで拡大されたチケットのチケット所有者画面にメモを追加できるようにします。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスの拡大されたチケットのチケット保留画面にメモを追加できるようにします。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスの拡大されたチケットのチケット優先度画面にメモを追加できるようにします。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "担当者インターフェイスのチケット担当画面にメモを追加できます。Ticket::Frontend::NeedAccountedTime によって上書きできます。"
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
@@ -17891,7 +17895,7 @@ msgstr "顧客が顧客インタフェースでチケット優先度を設定す
 
 #. SysConfig
 msgid "Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured."
-msgstr ""
+msgstr "顧客が顧客インターフェイスでチケット キューを設定できるようにします。これが有効になっていない場合は、QueueDefault を構成する必要があります。"
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17899,11 +17903,11 @@ msgstr "顧客が顧客インタフェースでチケット・サービスを設
 
 #. SysConfig
 msgid "Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured."
-msgstr ""
+msgstr "顧客が顧客インターフェイスでチケットの種類を設定できるようにします。これが有効になっていない場合は、TicketTypeDefault を構成する必要があります。"
 
 #. SysConfig
 msgid "Allows default services to be selected also for non existing customers."
-msgstr ""
+msgstr "既存でない顧客に対してもデフォルトのサービスを選択できるようになります。"
 
 #. SysConfig
 msgid "Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled)."
@@ -17911,19 +17915,19 @@ msgstr "チケットに関するサービスおよびSLA（例：email, desktop,
 
 #. SysConfig
 msgid "Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "担当者インターフェイスのチケット検索で拡張検索条件を許可します。この機能を使用すると、たとえば「(*key1*&&*key2*)」や「(*key1*||*key2*)」のような条件でチケットのタイトルを検索できます。"
 
 #. SysConfig
 msgid "Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "顧客インターフェースのチケット検索で拡張検索条件を許可します。この機能を使用すると、たとえば「(*key1*&&*key2*)」や「(*key1*||*key2*)」のような条件でチケットのタイトルを検索できます。"
 
 #. SysConfig
 msgid "Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "管理用ジョブインターフェイスのチケット検索で拡張検索条件を許可します。この機能を使用すると、たとえば「(*key1*&&*key2*)」や「(*key1*||*key2*)」のような条件でチケットのタイトルを検索できます。"
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
-msgstr ""
+msgstr "管理用ジョブがカスタム モジュールを実行できるようにします。"
 
 #. SysConfig
 msgid "Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information)."
@@ -17947,55 +17951,55 @@ msgstr "管理者が、ユーザ管理パネルを通じて、別のユーザと
 
 #. SysConfig
 msgid "Allows to save current work as draft in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケットのクローズ画面で、現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the email outbound screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスの電子メール送信画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket compose screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット作成画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket forward screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット転送画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット フリー テキスト画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket move screen of the agent interface."
-msgstr ""
+msgstr "担当者者インターフェイスのチケット移動画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット移動画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket owner screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット所有者画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket pending screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット保留画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット電話着信画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット電話発信画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket priority screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット優先度画面で現在の作業を下書きとして保存できます。"
 
 #. SysConfig
 msgid "Allows to save current work as draft in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスのチケット担当画面で現在の作業を下書きとして保存できるようにします。"
 
 #. SysConfig
 msgid "Allows to set a new ticket state in the move ticket screen of the agent interface."
@@ -18003,7 +18007,7 @@ msgstr "担当者インタフェースの移動チケット画面で、新しい
 
 #. SysConfig
 msgid "Always show RichText if available"
-msgstr ""
+msgstr "利用可能な場合は常にリッチテキストを表示する"
 
 #. SysConfig
 msgid "Answer"
@@ -18019,11 +18023,11 @@ msgstr "予約の通知"
 
 #. SysConfig
 msgid "Appointment calendar event module that prepares notification entries for appointments."
-msgstr ""
+msgstr "予定の通知エントリを準備する予定カレンダー イベント モジュール。"
 
 #. SysConfig
 msgid "Appointment calendar event module that updates the ticket with data from ticket appointment."
-msgstr ""
+msgstr "チケットの予約データを使用してチケットを更新する予約カレンダー イベント モジュール。"
 
 #. SysConfig
 msgid "Appointment edit screen."
@@ -18047,15 +18051,15 @@ msgstr "予約"
 
 #. SysConfig
 msgid "Arabic (Saudi Arabia)"
-msgstr ""
+msgstr "アラビア語（サウジアラビア）"
 
 #. SysConfig
 msgid "Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected)."
-msgstr ""
+msgstr "チケット呼び出し側構成フロントエンドで使用できる記事属性 (0 = 表示/選択可能、1 = デフォルト/事前選択済み)。"
 
 #. SysConfig
 msgid "ArticleTree"
-msgstr ""
+msgstr "記事ツリー"
 
 #. SysConfig
 msgid "Attachment Name"
@@ -18063,7 +18067,7 @@ msgstr "添付ファイル名"
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "Znuny4OTOBOPasswordPolicy 拡張機能の自動ロード。"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -18071,15 +18075,15 @@ msgstr "X個の文字型の後の、テキスト・メッセージにおける�
 
 #. SysConfig
 msgid "Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state."
-msgstr ""
+msgstr "無効な所有者のチケットは、ロックが解除されると自動的にステータスが変更されます。状態タイプから新しいチケットステータスにマップされます。"
 
 #. SysConfig
 msgid "Automatically generate statistics reports and email them to the specified recipients."
-msgstr ""
+msgstr "統計レポートを自動的に生成し、指定された受信者に電子メールで送信します。"
 
 #. SysConfig
 msgid "Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface."
-msgstr ""
+msgstr "担当者インターフェイスの移動チケット画面を開いた後、自動的にロックされ、所有者が現在の担当者に設定されます。"
 
 #. SysConfig
 msgid "Automatically lock and set owner to current Agent after selecting for an Bulk Action."
@@ -18087,7 +18091,7 @@ msgstr "バルク・アクションのために選択した後に、所有者を
 
 #. SysConfig
 msgid "Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface."
-msgstr ""
+msgstr "チケットの所有者をそのチケットの責任者として自動的に設定します (チケット責任者機能が有効になっている場合)。これは、ログインしたユーザーの手動アクションによってのみ機能します。GenericAgent、Postmaster、GenericInterface などの自動アクションでは機能しません。"
 
 #. SysConfig
 msgid "Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update."
@@ -18099,7 +18103,7 @@ msgstr "アバター"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
+msgstr "フェリックス・ニクラスによるバランスのとれた白い肌（スリムバージョン）。"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
@@ -18107,11 +18111,11 @@ msgstr "Felix Niklasによるバランスト・ホワイト・スキンです。
 
 #. SysConfig
 msgid "Based on global RichText setting"
-msgstr ""
+msgstr "グローバルリッチテキスト設定に基づく"
 
 #. SysConfig
 msgid "Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
-msgstr ""
+msgstr "基本的なフルテキスト インデックス設定。新しいインデックスを生成するには、「bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild」を実行します。"
 
 #. SysConfig
 msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address."
@@ -18119,7 +18123,7 @@ msgstr "件名に有効なチケット番号を持たない全ての受信メー
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr "Bounced to \"%s\"."
+msgstr "「%s」に返送されました。"
 
 #. SysConfig
 msgid "Bulgarian"
@@ -18139,23 +18143,23 @@ msgstr "CSV区切り文字"
 
 #. SysConfig
 msgid "Cache time in seconds for agent authentication in the GenericInterface."
-msgstr ""
+msgstr "GenericInterface での担当者の認証のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for customer authentication in the GenericInterface."
-msgstr ""
+msgstr "GenericInterface での顧客認証のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
-msgstr ""
+msgstr "DB ACL バックエンドのキャッシュ時間（秒単位）。"
 
 #. SysConfig
 msgid "Cache time in seconds for the DB process backend."
-msgstr ""
+msgstr "DB プロセス バックエンドのキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the SSL certificate attributes."
-msgstr ""
+msgstr "SSL 証明書属性のキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Cache time in seconds for the ticket process navigation bar output module."
@@ -18163,7 +18167,7 @@ msgstr "チケットプロセスナビゲーションバー出力モジュール
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
-msgstr ""
+msgstr "Web サービス構成バックエンドのキャッシュ時間 (秒単位)。"
 
 #. SysConfig
 msgid "Calendar manage screen."
@@ -18171,15 +18175,15 @@ msgstr "カレンダー管理の画面"
 
 #. SysConfig
 msgid "Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view."
-msgstr ""
+msgstr "チケットが設定された一時停止状態 (EscalationSuspendStates) にある場合、エスカレーション全体をキャンセルします。設定された一時停止状態では、チケットはまったくエスカレーションされません。エスカレーション時間は表示されません。チケットはエスカレーション ビューに表示されません。"
 
 #. SysConfig
 msgid "Catalan"
-msgstr ""
+msgstr "カタロニア語"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
-msgstr ""
+msgstr "チケットの表示に使用されるカテゴリ。デフォルトの色が指定されていない場合、カラー ハッシュで選択が定義されていないと、項目は表示されません。オプションで属性 Text を追加してフィールド値を上書きしたり、テンプレート メソッドを使用したりできます (例: \"Text\" => \"[% Data.Value | remove('^.+::') %]\")。リンクも同様に使用できます。"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
@@ -18247,7 +18251,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
+msgstr "優先度を「%s」(%s) から「%s」(%s) に変更しました。"
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
@@ -18479,11 +18483,11 @@ msgstr "サポートを改善するために、OTOBOチームへのサポート�
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr ""
+msgstr "アバウト情報を設定します。"
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr ""
+msgstr "プライバシー ポリシーを設定します。"
 
 #. SysConfig
 msgid "Configure which screen should be shown after a new ticket has been created."
@@ -18723,11 +18727,11 @@ msgstr "顧客情報センターの検索"
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "カスタマーインフォメーションセンター検索。"
 
 #. SysConfig
 msgid "Customer Information Center."
-msgstr ""
+msgstr "カスタマーインフォメーションセンター。"
 
 #. SysConfig
 msgid "Customer Password."
@@ -18751,11 +18755,11 @@ msgstr "顧客ユーザー情報センターの検索"
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "顧客ユーザー情報センター検索。"
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr ""
+msgstr "顧客ユーザー情報センター。"
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
@@ -18783,11 +18787,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
-msgstr ""
+msgstr "この顧客のクローズ済みチケットを情報ブロックとして表示する顧客項目 (アイコン)。CustomerUserLogin を 1 に設定すると、CustomerID ではなくログイン名に基づいてチケットが検索されます。"
 
 #. SysConfig
 msgid "Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
-msgstr ""
+msgstr "この顧客のオープンチケットを情報ブロックとして表示する顧客項目 (アイコン)。CustomerUserLogin を 1 に設定すると、CustomerID ではなくログイン名に基づいてチケットが検索されます。"
 
 #. SysConfig
 msgid "Customer preferences."
@@ -19387,11 +19391,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, about new password."
-msgstr ""
+msgstr "新しいパスワードについて担当者に送信される通知メールの本文テキストを定義します。"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, with token about new requested password."
-msgstr ""
+msgstr "新しく要求されたパスワードに関するトークンを含む、担当者に送信される通知メールの本文テキストを定義します。"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to customers, about new account."
@@ -19603,17 +19607,7 @@ msgstr "チケット検索画面で、デフォルトの表示されるチケッ
 
 #. SysConfig
 msgid "Defines the default shown ticket search attribute for ticket search screen. Example: \"Key\" must have the name of the Dynamic Field in this case 'X', \"Content\" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';."
-msgstr ""
-"デフォルトで表示するチケット検索条件を定義します。\n"
-"Keyはダイナミック・フィールドの名前（この例の場合は\"X\"）を指定します。\n"
-"Contentはダイナミック・フィールドの形式によって設定内容が異なります。\n"
-"例）\n"
-"[テキスト]\n"
-"’文字列’ （任意の文字列）\n"
-"[ドロップダウン]\n"
-"'1' （項目の順番）\n"
-"[日時]\n"
-"Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
+msgstr "チケット検索画面に表示されるデフォルトのチケット検索属性を定義します。例: 「キー」には動的フィールドの名前 (この場合は 'X') が必要です。「コンテンツ」には動的フィールドの種類に応じた動的フィールドの値が必要です。テキスト: 'a text'、ドロップダウン: '1'、日付/時刻: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' および 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';。"
 
 #. SysConfig
 msgid "Defines the default sort criteria for all queues displayed in the queue view."
@@ -19977,7 +19971,7 @@ msgstr "リンク・タイプのグループの定義です。同じグループ
 
 #. SysConfig
 msgid "Defines the list of online repositories. Another installations can be used as repository, for example: Key=\"http://example.com/otobo/public.pl?Action=PublicRepository;File=\" and Content=\"Some Name\"."
-msgstr ""
+msgstr "オンライン リポジトリのリストを定義します。別のインストールをリポジトリとして使用できます。例: Key=\"http://example.com/otobo/public.pl?Action=PublicRepository;File=\" および Content=\"Some Name\"。"
 
 #. SysConfig
 msgid "Defines the list of params that can be passed to ticket search function."
@@ -20273,7 +20267,7 @@ msgstr "PDFドキュメントのプロポーショナル・フォントを扱う
 
 #. SysConfig
 msgid "Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt."
-msgstr ""
+msgstr "表示される情報ファイルのパスを定義します。このファイルは、Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt の下にあります。"
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
@@ -20545,7 +20539,7 @@ msgstr "このチケットを削除"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Deleted link to ticket \"%s\"."
+msgstr "チケット「%s」へのリンクを削除しました。"
 
 #. SysConfig
 msgid "Deletes a session if the session id is used with an invalid remote IP address."
@@ -20577,7 +20571,7 @@ msgstr "チケットへ移動していくであろう、可能性あるキュー
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
-msgstr "レポート・モジュールがチケットリストを生成するかどうかを決定します。"
+msgstr "統計モジュールがチケットリストを生成するかどうかを決定します。"
 
 #. SysConfig
 msgid "Determines the next possible ticket states, after the creation of a new email ticket in the agent interface."
@@ -20949,7 +20943,7 @@ msgstr "フィルターを有効にする"
 
 #. SysConfig
 msgid "Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder."
-msgstr "PGPを有効化します。PGPサポートでメールの署名と暗号化が有効になっている場合は、.gnupgフォルダにアクセスする際の権限問題を回避するため、WebサーバーをOTOBOユーザーとして実行することを強くお勧めします。 "
+msgstr "PGP サポートを有効にします。メールの署名と暗号化に PGP サポートを有効にする場合は、Web サーバーを OTOBO ユーザーとして実行することを強くお勧めします。そうしないと、.gnupg フォルダーにアクセスするときに権限に問題が発生します。"
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -21269,7 +21263,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "Forwarded to \"%s\"."
+msgstr "「%s」に転送されました。"
 
 #. SysConfig
 msgid "French"
@@ -21353,7 +21347,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr "ダッシュボードのレポート情報を生成します。"
+msgstr "ダッシュボードの統計を生成します。"
 
 #. SysConfig
 msgid "Generic Info module."
@@ -22085,7 +22079,7 @@ msgstr "ロックされたチケット"
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "Locked ticket."
+msgstr "ロックされたチケット。"
 
 #. SysConfig
 msgid "Logged in users."
@@ -22337,8 +22331,7 @@ msgstr "受信メッセージについてフィルターし操作するための
 
 #. SysConfig
 msgid "Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =>."
-msgstr "受信メッセージについてフィルターし操作するためのモジュールです。チケットのフリーテキストに対して4桁の数字を得て、「Match」において正規表現を使用します。\n"
-"（例：From / '(.+?)@.+?'とし、「Set」にて「[***]」として後方参照を使用します。）"
+msgstr "受信メッセージをフィルタリングおよび操作するモジュール。チケットのフリーテキストに 4 桁の数字を取得し、Match で正規表現を使用します (例: From => '(.+?)@.+?')。Set => で () を [***] として使用します。"
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
@@ -23030,7 +23023,7 @@ msgstr "保留期限切れチケット"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr "Removed subscription for user \"%s\"."
+msgstr "ユーザー「%s」のサブスクリプションを削除しました。"
 
 #. SysConfig
 msgid "Removes old generic interface debug log entries created before the specified amount of days."
@@ -24478,11 +24471,11 @@ msgstr "ステータス"
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr "レポート一覧"
+msgstr "統計一覧"
 
 #. SysConfig
 msgid "Statistics reports."
-msgstr ""
+msgstr "統計レポート。"
 
 #. SysConfig
 msgid "Status view"
@@ -24558,7 +24551,7 @@ msgstr "テンプレート ↔ キュー"
 
 #. SysConfig
 msgid "Textarea"
-msgstr "Textarea"
+msgstr "テキストエリア"
 
 #. SysConfig
 msgid "Thai"
@@ -24946,7 +24939,7 @@ msgstr "チケット"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
-msgstr ""
+msgstr "CustomerDashboard のタイル登録。モジュールが必要です。"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
@@ -25030,7 +25023,7 @@ msgstr "メモが追加され、所有者が外出中の場合は、チケット
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "Unlocked ticket."
+msgstr "ロック解除されたチケット。"
 
 #. Template: AdminImportExport
 msgid "Up"
@@ -25759,6 +25752,7 @@ msgstr "インポート/エクスポート"
 #~ msgid "A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the Rother OSS GmbH, using an alternate method."
 #~ msgstr "サポートバンドルを含むファイルをダウンロードします。ファイルを保存しOTOBOグループに他の手段で送信してください。"
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "アスタリスク（*）が付いている全ての領域は必須入力です。"
 
@@ -25967,10 +25961,6 @@ msgstr ""
 msgid "Include invalid appointment notifications"
 msgstr ""
 
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr ""
-
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
 msgstr ""
@@ -25985,35 +25975,35 @@ msgstr ""
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info"
-msgstr ""
+msgstr "顧客情報"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Customer Info Management"
-msgstr ""
+msgstr "顧客情報管理"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create new info tile entry"
-msgstr ""
+msgstr "新しい情報タイルエントリを作成する"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Filter for info tile entries"
-msgstr ""
+msgstr "情報タイルのエントリをフィルターする"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Create a new entry to be displayed on the info tile on the customer dashboard."
-msgstr ""
+msgstr "顧客ダッシュボードの情報タイルに表示される新しいエントリを作成します。"
 
 #. Template: AdminCustomerDashboardInfoTile
 msgid "Delete info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリを削除"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Edit customer dashboard info tile entry"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイルのエントリを編集する"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Tile content"
-msgstr ""
+msgstr "タイルコンテンツ"
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Content Body"
@@ -26025,11 +26015,11 @@ msgstr ""
 
 #. Template: AdminCustomerDashboardInfoTileEdit
 msgid "Group Selection"
-msgstr ""
+msgstr "グループ選択"
 
 #. Template: AdminCustomerDashboardInfoTileNew
 msgid "Create new customer dashboard info tile entry"
-msgstr ""
+msgstr "新しい顧客ダッシュボード情報タイルエントリを作成する"
 
 #. Template: AdminCustomerUser
 msgid "Include invalid customer users"
@@ -26253,15 +26243,15 @@ msgstr ""
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Manage ticket state pre-selections for response templates"
-msgstr ""
+msgstr "応答テンプレートのチケット状態の事前選択を管理する"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Edit Response"
-msgstr ""
+msgstr "応答の編集"
 
 #. Template: AdminResponseTemplatesStatePreselection
 msgid "Pre-selected ticket state"
-msgstr ""
+msgstr "事前に選択されたチケットのステータス"
 
 #. Template: AdminRole
 msgid "Include invalid roles"
@@ -26301,15 +26291,15 @@ msgstr ""
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask Management"
-msgstr ""
+msgstr "チケットマスク管理"
 
 #. Template: AdminTicketMask
 msgid "Change mask definition"
-msgstr ""
+msgstr "マスク定義を変更する"
 
 #. Template: AdminTicketMask
 msgid "Ticket Mask"
-msgstr ""
+msgstr "チケットマスク"
 
 #. Template: AdminTicketMask
 msgid "Change"
@@ -26325,15 +26315,15 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Add Translations"
-msgstr ""
+msgstr "翻訳を追加する"
 
 #. Template: AdminTranslations
 msgid "Edit Translations"
-msgstr ""
+msgstr "翻訳を編集する"
 
 #. Template: AdminTranslations
 msgid "Deploy Translations"
-msgstr ""
+msgstr "翻訳を展開する"
 
 #. Template: AdminTranslations
 msgid "Translation States"
@@ -26357,35 +26347,35 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Changes made here only affect the system behaviour after your draft translations have been deployed. By deploying them, all changes will be written to the language files."
-msgstr ""
+msgstr "ここで行った変更は、ドラフト翻訳がデプロイされた後のシステムの動作にのみ影響します。デプロイすると、すべての変更が言語ファイルに書き込まれます。"
 
 #. Template: AdminTranslations
 msgid "Select an object to start adding translations. Depending on your selection, single or multiple translations can be added."
-msgstr ""
+msgstr "翻訳を追加するには、オブジェクトを選択します。選択内容に応じて、1 つまたは複数の翻訳を追加できます。"
 
 #. Template: AdminTranslations
 msgid "Edit active translations using provided text fields!"
-msgstr ""
+msgstr "提供されたテキスト フィールドを使用して有効な翻訳を編集します。"
 
 #. Template: AdminTranslations
 msgid "List custom translations for"
-msgstr ""
+msgstr "カスタム翻訳の一覧"
 
 #. Template: AdminTranslations
 msgid "Draft Translations"
-msgstr ""
+msgstr "翻訳ドラフト"
 
 #. Template: AdminTranslations
 msgid "Filter for Draft Translations"
-msgstr ""
+msgstr "翻訳ドラフトのフィルター"
 
 #. Template: AdminTranslations
 msgid "Active Translations"
-msgstr ""
+msgstr "有効な翻訳"
 
 #. Template: AdminTranslations
 msgid "Filter for Active Translations"
-msgstr ""
+msgstr "有効な翻訳をフィルターする"
 
 #. Template: AdminTranslations
 msgid "Translation"
@@ -26413,7 +26403,7 @@ msgstr ""
 
 #. Template: AdminTranslations
 msgid "Translations"
-msgstr ""
+msgstr "翻訳"
 
 #. Template: AdminType
 msgid "Include invalid types"
@@ -26445,7 +26435,7 @@ msgstr ""
 
 #. Template: TranslationsTable
 msgid "Filter for Translations"
-msgstr ""
+msgstr "翻訳のフィルター"
 
 #. Template: TranslationsTable
 msgid "No content available to translate."
@@ -26481,7 +26471,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error creating the info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリの作成中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Need ID!"
@@ -26497,19 +26487,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was added successfully!"
-msgstr ""
+msgstr "情報タイルのエントリが正常に追加されました！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "Info tile entry was updated successfully!"
-msgstr ""
+msgstr "情報タイルのエントリが正常に更新されました。"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "There was an error updating the info tile entry"
-msgstr ""
+msgstr "情報タイルのエントリの更新中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminCustomerDashboardInfoTile.pm
 msgid "It was not possible to delete the info tile entry: %s!"
-msgstr ""
+msgstr "情報タイルのエントリを削除できませんでした: %s!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "The referenced dynamic field"
@@ -26609,23 +26599,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations changed!"
-msgstr ""
+msgstr "翻訳が変更されました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were changed!"
-msgstr ""
+msgstr "翻訳は変更されませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Errors trying to change translations!"
-msgstr ""
+msgstr "翻訳を変更しようとしてエラーが発生しました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations added!"
-msgstr ""
+msgstr "翻訳を追加しました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "No translations were given to add!"
-msgstr ""
+msgstr "追加する翻訳は提供されませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translation already exists!"
@@ -26633,7 +26623,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Translations deployed successfuly!"
-msgstr ""
+msgstr "翻訳が正常に展開されました!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
 msgid "Nothing to do!"
@@ -26773,11 +26763,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.CustomerDashboardInfoTile
 msgid "Do you really want to delete this customer dashboard info tile entry?"
-msgstr ""
+msgstr "この顧客ダッシュボード情報タイルのエントリを本当に削除しますか?"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "Missing Translations"
-msgstr ""
+msgstr "翻訳が見つかりません"
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "At least one translation must be filled!"
@@ -26785,7 +26775,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Translations
 msgid "All translations must be filled!"
-msgstr ""
+msgstr "すべての翻訳を記入する必要があります。"
 
 #. JS File: Core.Agent.ArticleFeatures
 msgid "Article Delete"
@@ -26853,11 +26843,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage advanced definitions for ticket masks."
-msgstr ""
+msgstr "チケット マスクの高度な定義を作成および管理します。"
 
 #. SysConfig
 msgid "Create and manage custom translations."
-msgstr ""
+msgstr "カスタム翻訳を作成および管理します。"
 
 #. SysConfig
 msgid "Customer Reference Dynamic Field With Data Search"
@@ -26873,7 +26863,7 @@ msgstr ""
 
 #. SysConfig
 msgid "CustomerDashboard Info Tile"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイル"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields."
@@ -26929,7 +26919,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to display a notification in the customer interface. UseMarquee options: 1/0. NotifyPriority options: Notice/Error/Success/Info."
-msgstr ""
+msgstr "顧客インターフェイスに通知を表示するモジュールを定義します。UseMarquee オプション: 1/0。NotifyPriority オプション: Notice/Error/Success/Info。"
 
 #. SysConfig
 msgid "Defines the redirect URL for setting a ticket article to 'seen'."
@@ -26949,7 +26939,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines if the statistics module may generate article lists."
-msgstr ""
+msgstr "統計モジュールが記事リストを生成できるかどうかを決定します。"
 
 #. SysConfig
 msgid "Dialog to show after marking a ticket as seen"
@@ -27013,7 +27003,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables or disables the debug mode for translations module."
-msgstr ""
+msgstr "翻訳モジュールのデバッグ モードを有効または無効にします。"
 
 #. SysConfig
 msgid "Evaluate all script fields."
@@ -27021,7 +27011,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "顧客インターフェイスのダッシュボード情報タイルのフロントエンド モジュール。"
 
 #. SysConfig
 msgid "General Label"
@@ -27045,19 +27035,19 @@ msgstr ""
 
 #. SysConfig
 msgid "List of ticket masks which can be altered using AdminTicketMask."
-msgstr ""
+msgstr "AdminTicketMask を使用して変更できるチケット マスクのリスト。"
 
 #. SysConfig
 msgid "Loader module for dashboard info tile in customer interface."
-msgstr ""
+msgstr "顧客インターフェイスのダッシュボード情報タイルのローダー モジュール。"
 
 #. SysConfig
 msgid "Manage Customer Dashboard Info Tile Entries"
-msgstr ""
+msgstr "顧客ダッシュボード情報タイルのエントリを管理する"
 
 #. SysConfig
 msgid "Manage ticket state pre-selections for response templates."
-msgstr ""
+msgstr "応答テンプレートのチケット状態の事前選択を管理します。"
 
 #. SysConfig
 msgid "Mark ticket as seen"
@@ -27129,7 +27119,7 @@ msgstr ""
 
 #. SysConfig
 msgid "State pre-selection for Templates"
-msgstr ""
+msgstr "テンプレートのステータスの事前選択"
 
 #. SysConfig
 msgid "Strict"
@@ -27149,7 +27139,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Masks"
-msgstr ""
+msgstr "チケットマスク"
 
 #. SysConfig
 msgid "Ticket States"
@@ -27161,11 +27151,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket state pre-selection for response templates"
-msgstr ""
+msgstr "応答テンプレートのチケット・ステータスの事前選択"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value."
-msgstr ""
+msgstr "CustomerDashboard のタイル登録。モジュールが必要です。オプションで、アイテムの順序を設定できます。順序には、アイテムの名前をキーとして、目的の位置を整数値として指定する必要があります。"
 
 #. SysConfig
 msgid "Translate the country names in the country selection. The CLDR country codes will be stored in the database. Requires that Locale::CLDR 0.40.0 and the relevant language packs are installed."
@@ -27213,7 +27203,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
-msgstr ""
+msgstr "ダイナミックフィールド「%s」はチケットマスクで既に使用されています。"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Agent.pm
 msgid "External-source key"
@@ -27257,5 +27247,293 @@ msgstr "連絡先: hello@otobo.io"
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
+msgstr "チケットをこのグループ/キューに移動する権限。カレンダーに使用する場合、ユーザーはカレンダーの選択を変更せずに、カレンダー内の予定を変更できます。"
+
+#. Template: AdminRoleGroup
+msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to open the priority action in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+msgid "Notice: search in lens fields is currently disabled"
+msgstr ""
+
+#. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr "キューとサービスの親子変換を自動的に生成するかどうかを定義します。"
+
+#. SysConfig
+msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL hostname verification"
+msgstr "SSL ホスト名検証"
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in RequiredArgs."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in PreviewTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in StorageTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
+msgstr ""
+
+#. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
+msgstr ""
+
+#. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
+msgstr ""
+
+#. SysConfig
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Elasticsearch (u)"
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
+msgstr ""
+
+#. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
 msgstr ""
 

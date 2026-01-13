@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,9 +46,11 @@ sub new {
     return $Self;
 }
 
+# optional AclActionLookup
 sub CheckAccess {
     my ( $Self, %Param ) = @_;
 
+    # Check needed stuff.
     for my $Needed (qw(Ticket Article ChannelName UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -59,9 +61,45 @@ sub CheckAccess {
         }
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     return if $Param{ChannelName} ne 'Internal';
     return if $Param{Article}->{IsVisibleForCustomer};
-    return if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
+    return if $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage') =~ m/ArticleStorageS3/;
+
+    # NOTE checking for AgentTicketArticleEdit because
+    #   AgentTicketArticleVersion has no module config on its own
+    #   and permission is viewed as transferable from AgentTicketArticleVersion
+    # check if module is registered
+    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketArticleEdit};
+
+    # check Acl
+    return if !$Param{AclActionLookup}->{AgentTicketArticleEdit};
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketArticleEdit');
+    if ( $Config->{Permission} ) {
+        my $Ok = $TicketObject->TicketPermission(
+            Type     => $Config->{Permission},
+            TicketID => $Param{Ticket}->{TicketID},
+            UserID   => $Param{UserID},
+            LogNo    => 1,
+        );
+        return if !$Ok;
+    }
+    if ( $Config->{RequiredLock} ) {
+        my $Locked = $TicketObject->TicketLockGet(
+            TicketID => $Param{Ticket}->{TicketID}
+        );
+        if ($Locked) {
+            my $AccessOk = $TicketObject->OwnerCheck(
+                TicketID => $Param{Ticket}->{TicketID},
+                OwnerID  => $Param{UserID},
+            );
+            return if !$AccessOk;
+        }
+    }
 
     return 1;
 }

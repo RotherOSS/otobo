@@ -4,7 +4,7 @@
 # Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.594566196337436;
+    $Self->{Completeness}        = 0.588436894650574;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -162,6 +162,7 @@ sub Data {
         'Calendar with same name already exists.' => '',
         'Color' => '',
         'Permission group' => '',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => '',
         'Rule' => 'قاعده',
         'Remove this entry' => 'پاک کردن این ورودی',
@@ -198,7 +199,6 @@ sub Data {
         'Add Notification' => 'افزودن اعلان',
         'Edit Notification' => 'ویرایش اعلان',
         'Include invalid appointment notifications' => '',
-        'Include invalid appoitnment notifications' => '',
         'Export Notifications' => 'ارسال اطلاعات',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -680,6 +680,8 @@ sub Data {
             'در اینجا شما می توانید یک لینک HTTP اختیاری برای مقدار فیلد در صفحه نمایش بررسی ها و زوم را مشخص کنید.',
         'Example' => 'مثال',
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
+        'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
             '',
         'Link for preview' => 'لینک برای پیش نمایش',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -1351,8 +1353,11 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'مسیر کامل دایرکتوری که در آن اقتدار صدور گواهینامه گواهی CA ها در سیستم فایل ذخیره می شود.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTOBO / ور / گواهی / SOAP / CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
+        'SSL verify mode' => '',
+        'Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
         'Controller mapping for Invoker' => ' برای  کنترل نگاشت Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
@@ -1986,6 +1991,9 @@ sub Data {
             'اگر یک درخواست بسته شده و مشترک یک پیگیری ارسال کند، درخواست تحویل صاحب قدیمی خواهد شد.',
         'System address' => 'آدرس سیستم',
         'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ به ایمیل استفاده خواهد شد.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'کلید امضای پیش‌فرض',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1993,6 +2001,10 @@ sub Data {
         'The salutation for email answers.' => 'عنوان برای پاسخ‌های ایمیلی',
         'Signature' => 'امضاء',
         'The signature for email answers.' => 'یامضاء برای پاسخ‌های ایمیل ',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -2120,18 +2132,25 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'اگر چیزی انتخاب نشود، هیچ دسترسی در این گروه وجود نخواهد داشت (درخواست‌ها برای نقش در دسترس نخواهند بود)',
         'Toggle %s permission for all' => 'اعمال دسترسی %s برای همه',
+        'Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar.' =>
+            '',
         'move_into' => 'انتقال به',
-        'Permissions to move tickets into this group/queue.' => 'مجوز انتقال درخواست به این گروه/لیست.',
+        'Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection.' =>
+            '',
         'create' => 'ساختن',
-        'Permissions to create tickets in this group/queue.' => 'مجوز ایجاد درخواست در این گروه/لیست.',
+        'Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar.' =>
+            '',
         'note' => 'یادداشت',
-        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
+        'Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the \'Inform Agents\' section in the Notes.' =>
+            '',
         'owner' => 'صاحب',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
+        'Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket.' =>
+            '',
         'priority' => 'الویت',
-        'Permissions to change the ticket priority in this group/queue.' =>
-            'مجوز تغییر اولویت درخواست در این گروه/لیست.',
+        'Permissions to open the priority action in this group/queue.' =>
+            '',
+        'Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself.' =>
+            '',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'مدیریت روابط کارشناس-نقش',
@@ -2556,6 +2575,13 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'مدیریت روابط کارشناس-گروه',
+        'Permissions to move tickets into this group/queue.' => 'مجوز انتقال درخواست به این گروه/لیست.',
+        'Permissions to create tickets in this group/queue.' => 'مجوز ایجاد درخواست در این گروه/لیست.',
+        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
+        'Permissions to change the ticket priority in this group/queue.' =>
+            'مجوز تغییر اولویت درخواست در این گروه/لیست.',
 
         # Template: AgentAppointmentAgendaOverview
         'Agenda Overview' => '',
@@ -2961,6 +2987,7 @@ sub Data {
         'Edit Article "%s" of %s%s%s' => '',
         'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
         'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
+        'All fields marked with an asterisk (*) are mandatory.' => 'همه فیلدهایی که با ستاره مشخص شده اند (*) الزامی است.',
         'Ticket Settings' => 'تنظیمات درخواست',
         'Queue invalid.' => '',
         'Service invalid.' => 'سرویس نامعتبر',
@@ -3037,7 +3064,6 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'ساخت درخواست ایمیلی جدید',
-        'Example Template' => 'به عنوان مثال قالب',
         'To customer user' => 'به کاربران مشتری',
         'Please include at least one customer user for the ticket.' => 'لطفا حداقل یک کاربر مشتری برای درخواست قرار دهید',
         'Select this customer as the main customer.' => 'این مشتری را به عنوان مشتری اصلی انتخاب کنید.',
@@ -4110,6 +4136,9 @@ sub Data {
         'The attribute of the referenced object' => '',
         'Select the attribute dynamic field that references an object' =>
             '',
+        'A field of type %s is currently not usable as lens attribute.' =>
+            '',
+        'Field %s is not a reference field.' => '',
         'Not a valid dynamic field.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
@@ -4121,9 +4150,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
         'Need valid field driver.' => '',
-        'Bad value in RequiredArgs.' => '',
-        'Bad value in PreviewTriggers.' => '',
-        'Bad value in StorageTriggers.' => '',
+        'Erroneous value in RequiredArgs.' => '',
+        'Erroneous value in PreviewTriggers.' => '',
+        'Erroneous value in StorageTriggers.' => '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
         'Missing Dynamic Field.' => '',
@@ -4131,6 +4160,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -4281,6 +4312,8 @@ sub Data {
         'Need valid Subaction!' => '',
         'This field should be an integer.' => '',
         'File or Directory not found.' => '',
+        'This key is already used' => '',
+        'This key is not allowed' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'یکی دیگر از خدمات وب سایت با همین نام وجود دارد.',
@@ -4400,6 +4433,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'اطلاعات مدیریت فرآیند از پایگاه اطلاع داده هماهنگ با پیکربندی سیستم نیست، لطفا تمام فرآیندها را همگام سازی کنید.',
         'Need ExampleProcesses!' => 'نیاز ExampleProcesses!',
+        'There was an error setting the entity sync status for Process entity: %s' =>
+            'خطا در تنظیم وضعیت همگام نهاد برای نهاد فرآیند وجود دارد: %s',
         'Need ProcessID!' => 'نیاز ProcessID!',
         'Yes (mandatory)' => 'بله (اجباری)',
         'Unknown Process %s!' => 'فرایند ناشناخته %s !',
@@ -4407,8 +4442,6 @@ sub Data {
             'یک خطای تولید یک EntityID جدید برای این فرایند وجود دارد',
         'The StateEntityID for state Inactive does not exists' => 'StateEntityID برای حالت غیر فعال وجود ندارد',
         'There was an error creating the Process' => 'خطایی در ایجاد این فرآیند وجود دارد',
-        'There was an error setting the entity sync status for Process entity: %s' =>
-            'خطا در تنظیم وضعیت همگام نهاد برای نهاد فرآیند وجود دارد: %s',
         'Could not get data for ProcessID %s' => 'نمی تواند داده ها را برای ProcessID بگیرد %s',
         'There was an error updating the Process' => 'خطایی در به روزرسانی این فرآیند وجود دارد',
         'Process: %s could not be deleted' => 'فرآیند: %s نمی تواند حذف شود',
@@ -4767,6 +4800,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => '',
+        'This action is not permitted on the article!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => '',
@@ -5018,6 +5052,9 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/BasePassword.pm
+        'Can`t remove SessionID.' => 'نمیتواند SESSIONID را حذف کنید.',
+
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
@@ -5029,6 +5066,9 @@ sub Data {
         'Invalid Key!' => '',
         'Failed to load Content!' => '',
         'Destination unknown.' => '',
+
+        # Perl Module: Kernel/Modules/CustomerPreferences.pm
+        'No valid config for %s' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
@@ -5522,11 +5562,20 @@ sub Data {
         'between' => 'بین',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-        'e.g. Text or Te*t' => '',
         'Referenced object type' => '',
         'Select the type of the referenced object' => '',
         'Input mode of edit field' => '',
         'Select the input mode for the edit field.' => '',
+        'Link type' => '',
+        'Select the link type.' => '',
+        'Forwards: Referencing (Source) -> Referenced (Target)' => '',
+        'Backwards: Referenced (Source) -> Referencing (Target)' => '',
+        'Link Direction' => '',
+        'The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field.' =>
+            '',
+
+        # Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+        'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
@@ -5564,6 +5613,9 @@ sub Data {
 
         # Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
         'Pretty print the exported concatenated JSON' => '',
+
+        # Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+        'Empty fields indicate that the current values are kept' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5807,6 +5859,11 @@ sub Data {
         'Internal Error: Could not read file.' => 'خطای داخلی: فایل خوانده نشد.',
         'Tables found which are not present in the database.' => 'استفاده از جدول موجود که در حال حاضر در پایگاه داده است.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+        'Database Type' => '',
+        'The type auf the database looks strange as it contain no latin letters.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'اندازه پایگاه داده',
         'Could not determine database size.' => ' اندازه پایگاه داده مشخص نیست.',
@@ -5851,6 +5908,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '5.x خروجی زیر و یا بالاتر مورد نیاز است.',
+        'Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'تنظیم NLS_LANG',
@@ -6173,7 +6231,6 @@ sub Data {
             'ورود ناموفق! نام کاربری یا کلمه عبور وارد شده اشتباه می‌باشد.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
-        'Can`t remove SessionID.' => 'نمیتواند SESSIONID را حذف کنید.',
         'Logout successful.' => 'خروج موفقیت آمیز.',
         'Feature not active!' => 'این ویژگی فعال نیست.',
         'Sent password reset instructions. Please check your email.' => 'دستورالعمل تنظیم مجدد کلمه عبور ارسال شد. لطفا ایمیل خود را چک نمایید.',
@@ -6792,8 +6849,6 @@ Thanks for your help!
         ' 2 minutes' => '۲ دقیقه',
         ' 5 minutes' => '۵ دقیقه',
         ' 7 minutes' => '۷ دقیقه',
-        '"Slim" skin which tries to save screen space for power users.' =>
-            '\ "اسلیم " پوست که تلاش می کند برای صرفه جویی در فضای صفحه نمایش برای کاربران قدرت.',
         '%s' => '٪s',
         '(UserLogin) Firstname Lastname' => '(صفحهی) نام نام خانوادگی',
         '(UserLogin) Lastname Firstname' => '(صفحهی) نام خانوادگی FIRSTNAME',
@@ -6817,6 +6872,8 @@ Thanks for your help!
         'A Website' => 'یک وبسایت',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'یک لیست از زمینه پویا که بلیط اصلی را به در جریان یک عملیات ادغام. تنها زمینه های پویا که بلیط اصلی در خالی هستند مجموعه خواهد شد.',
+        'A list of parameters which can be updated via the UpdateAJAX.' =>
+            '',
         'A picture' => 'یک تصویر',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ماژول ACL فقط زمانی که تمام درخواست‌های فرزند بسته شده باشد، اجازه بستن درخواست‌های والد را می‌دهد. ("وضعیت" نان می‌دهد که کدام وضعیت‌ها برای درخواست والدتا زمانی که تمام درخواست‌های فرزند بسته شده است، در دسترس می‌باشد.)',
@@ -7052,13 +7109,11 @@ Thanks for your help!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'به طور خودکار مجموعه مسئول یک بلیط (در صورت تنظیم نشده است) پس از به روز رسانی صاحب اول.',
         'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس (نسخه باریک).',
-        'Balanced white skin by Felix Niklas.' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس.',
         'Based on global RichText setting' => 'بر اساس تنظیم RichText جهانی',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
-        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            'بلوک تمام ایمیل های دریافتی است که یک تعداد بلیط معتبر در موضوع با از ندارید: @ example.com آدرس.',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
+            '',
         'Bounced to "%s".' => 'لینک ثابت به : "%s"',
         'Bulgarian' => 'بلغاری',
         'Bulk Action' => 'اعمال کلی',
@@ -7183,6 +7238,10 @@ Thanks for your help!
         'Configure the privacy policy.' => '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'پیکربندی که صفحه نمایش باید نشان داده شود پس از یک درخواست جدید ایجاد شده است.',
+        'Configure which screen should be shown after a ticket has been marked as seen.' =>
+            '',
+        'Configure which screen should be shown after a ticket has been marked as unseen.' =>
+            '',
         'Configure your own log text for PGP.' => 'پیکربندی متن ورود به سیستم خود  برای PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
@@ -7243,6 +7302,7 @@ Thanks for your help!
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'کرواتی',
+        'Custom CSS styles for RichText articles.' => '',
         'Custom RSS Feed' => 'سفارشی خوراک RSS',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'متن دلخواه برای صفحه نشان داده شده به مشتریان است که هیچ بلیط هنوز (اگر شما نیاز به آن متن ترجمه آنها را به یک ماژول ترجمه سفارشی اضافه کنید).',
@@ -7293,7 +7353,6 @@ Thanks for your help!
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'داده استفاده شده برای ارسال نتایج جستجو به قالب CSV',
         'Date / Time' => 'زمان تاریخ',
-        'Default (Slim)' => 'به طور پیش فرض (لاغر)',
         'Default ACL values for ticket actions.' => 'مقادیر ACL پیش‌فرض برای عملیات‌های درخواست',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'به طور پیش فرض پیشوند نهاد مدیریت پردازش برای شناسه های نهاد است که به طور خودکار تولید می شود.',
@@ -7308,7 +7367,6 @@ Thanks for your help!
             'نوع صفحه نمایش به طور پیش فرض برای فرستنده (از) نام در AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'ماژول جلوگیری از تشکیل حلقه پیش‌فرض',
         'Default queue ID used by the system in the agent interface.' => 'شناسه پیش‌فرض صف استفاده شده برای سیستم در واسط کاربری کارشناس',
-        'Default skin for the agent interface (slim version).' => 'پوست به طور پیش فرض برای رابط عامل (نسخه باریک).',
         'Default skin for the agent interface.' => 'پوست به طور پیش فرض برای رابط عامل.',
         'Default skin for the customer interface.' => 'پوست به طور پیش فرض برای رابط مشتری.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -7403,9 +7461,9 @@ Thanks for your help!
         'Defines an overview module to show the address book view of a customer user list.' =>
             '',
         'Defines available article actions for Chat articles.' => '',
-        'Defines available article actions for Email articles.' => '',
         'Defines available article actions for Internal articles.' => '',
         'Defines available article actions for Phone articles.' => '',
+        'Defines available article actions for e-mail articles.' => '',
         'Defines available article actions for invalid articles.' => '',
         'Defines available groups for the admin overview screen.' => '',
         'Defines chat communication channel.' => '',
@@ -7460,12 +7518,14 @@ Thanks for your help!
             'تعریف می کند اگر عوامل باید مجاز به ورود در صورتی که هیچ راز به اشتراک گذاشته شده ذخیره شده در تنظیمات خود را و در نتیجه با استفاده از احراز هویت دو عامل است.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'تعریف می کند اگر مشتریان باید مجاز به ورود در صورتی که هیچ راز به اشتراک گذاشته شده ذخیره شده در تنظیمات خود را و در نتیجه با استفاده از احراز هویت دو عامل است.',
+        'Defines if parent-child translations for queues and services should be generated automatically.' =>
+            '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'تعریف می کند اگر حالت پیشرفته استفاده شود (را قادر می سازد استفاده از جدول، جایگزین، زیرنویس، بالانویس، چسباندن از Word، و غیره) در رابط مشتری می باشد.',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
-            'تعریف می کند اگر حالت پیشرفته استفاده شود (را قادر می سازد استفاده از جدول، جایگزین، زیرنویس، بالانویس، چسباندن از Word، و غیره).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
         'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
@@ -7563,8 +7623,6 @@ Thanks for your help!
         'Defines the data objects avaliable to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'تعریف فرمت تاریخ ورودی مورد استفاده در اشکال (گزینه و یا ورودی زمینه).',
-        'Defines the default CSS for creating CKEditor articles.' => '',
-        'Defines the default CSS used for displaying articles.' => '',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
             '',
         'Defines the default auto response type of the article for this operation.' =>
@@ -7748,8 +7806,6 @@ Thanks for your help!
             '',
         'Defines the headers which will be shown to generic content for the requested key.' =>
             '',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'تعریف می کند که ارتفاع برای غنی جزء ویرایشگر متن برای این صفحه نمایش. تعداد (پیکسل) یا ارزش درصد (نسبی) را وارد کنید.',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'تعریف می کند که ارتفاع برای غنی جزء ویرایشگر متن. تعداد (پیکسل) یا ارزش درصد (نسبی) را وارد کنید.',
         'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
@@ -7807,6 +7863,8 @@ Thanks for your help!
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             'تعریف می کند که ساعت و روز هفته  برای شمارش زمان کاردر تقویم نشان داده میشود.',
         'Defines the hours and week days to count the working time.' => 'تعریف می کند که ساعت و روز هفته برای شمارش زمان کار است.',
+        'Defines the initial height in pixels for the rich text editor component for this screen.' =>
+            '',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             'تعریف می کند که کلید با هسته :: :: ماژول AgentInfo بررسی می شود. اگر این تنظیمات کلید کاربر درست است، این پیام است که توسط سیستم پذیرفته شده است.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
@@ -8049,6 +8107,8 @@ Thanks for your help!
             '',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'تعریف می کند که ایالات معتبر برای بلیط باز شده است. برای باز کردن قفل بلیط اسکریپت \ "بن / otobo.Console.pl سیستم maint :: بلیط :: UnlockTimeout " می تواند استفاده شود.',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8137,6 +8197,8 @@ Thanks for your help!
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
+            '',
+        'Display a message explaining that the asterisk indicates mandatory fields.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'نمایش اخطار و جلوگیری از جستجو زمانی که با استفاده از کلمات در درون جستجوی متن هست.',
@@ -8253,6 +8315,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'ویرایش شرکت مشتری',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'آدرس‌های ایمیل',
         'Email Outbound' => 'عازم ناحیه دور دست ایمیل',
@@ -8469,6 +8532,7 @@ Thanks for your help!
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => 'هندی',
+        'How many rotated otobo.log files to keep. Default is 3.' => '',
         'Hungarian' => 'مجارستانی',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'اگر \ "DB " برای مشتریان :: AuthModule انتخاب شد، یک راننده پایگاه داده (به طور معمول خودکار استفاده می شود) می تواند مشخص شود.',
@@ -8550,6 +8614,8 @@ Thanks for your help!
             'اگر هر یک از \ "SMTP " مکانیزم به عنوان SendmailModule از mailhost می فرستد که از ایمیل باید مشخص شود انتخاب شد.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'اگر هر یک از \ "SMTP " مکانیزم به عنوان SendmailModule انتخاب شد، بندر که در آن mailserver ای خود را برای اتصالات ورودی گوش دادن باید مشخص شود.',
+        'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
+            '',
         'If enabled debugging information for ACLs is logged.' => 'اگر اطلاعات اشکال زدایی فعال برای ACL ها وارد شده است.',
         'If enabled debugging information for transitions is logged.' => 'در صورت فعال بودن اطلاعات اشکال زدایی برای انتقال به سیستم وارد شده است.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8601,6 +8667,8 @@ Thanks for your help!
         'Import and export object information.' => 'ورود و صدور اطلاعات آبجکت',
         'Import appointments screen.' => '',
         'Import/Export' => 'ورود/صدور',
+        'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
+            '',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'شامل بلیط از subqueues در به طور پیش فرض در هنگام انتخاب یک صف.',
         'Include unknown customers in ticket filter.' => 'شامل مشتریان ناشناخته در فیلتر درخواست',
@@ -8628,8 +8696,6 @@ Thanks for your help!
         'Italian' => 'ایتالیایی',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف ایتالیایی شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
-        'Ivory' => 'عاج',
-        'Ivory (Slim)' => 'عاج (لاغر)',
         'Japanese' => 'ژاپنی',
         'JavaScript function for the search frontend.' => 'جاوا اسکریپت تابع برای ظاهر جستجو.',
         'Jump to OTOBO!' => '',
@@ -8730,14 +8796,18 @@ Thanks for your help!
         'Manage different calendars.' => '',
         'Manage dynamic field in screens.' => '',
         'Manage existing sessions.' => 'مدیریت session های موجود',
+        'Manage import and export of objects.' => '',
         'Manage support data.' => 'مدیریت داده پشتیبانی می کند.',
         'Manage system registration.' => 'مدیریت ثبت نام سیستم.',
         'Manage tasks triggered by event or time based execution.' => 'مدیریت وظایف موجب شده توسط رویداد یا زمان اجرای .',
         'Manage ticket state pre-selections for response templates.' => '',
+        'Mark as (un)seen' => '',
         'Mark as Spam!' => 'به‌عنوان هرزنامه علامت بزن',
+        'Mark as seen' => '',
         'Mark this ticket as junk!' => 'علامت گذاری به عنوان این درخواست به عنوان آشغال!',
         'Mark ticket as seen' => '',
         'Mark ticket as unseen' => '',
+        'Mark tickets as seen or unseen via bulk action' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'حداکثر اندازه (در شخصیت) از جدول اطلاعات مربوط به مشتری (تلفن و ایمیل) در صفحه نوشتن.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8746,6 +8816,8 @@ Thanks for your help!
             'حداکثر اندازه (در ردیف) از جمله عوامل مرتبط در رابط عامل جعبه.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'حداکثر اندازه از افراد در یک پاسخ ایمیل و در برخی از صفحه نمایش مرور کلی.',
+        'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
+            '',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'پاسخ به ایمیل خودکار حداکثر به خود آدرس ایمیل در روز (حلقه حفاظت).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8773,6 +8845,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'با هم ادغام شدند بلیط <OTOBO_TICKET> تا <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'تنظیمات اضافی',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -8851,6 +8924,8 @@ Thanks for your help!
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'تعداد خطوط (در هر بلیط) که توسط ابزار جستجو در رابط عامل نشان داده شده است.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
@@ -8981,6 +9056,10 @@ Thanks for your help!
         'ParentChild' => 'ParentChild',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             'راه را برای ورود به سیستم فایل (تنها در صورتی به \ "FS " برای LoopProtectionModule انتخاب شد و آن الزامی است).',
+        'Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
+        'Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!' =>
+            '',
         'Pending time' => '',
         'People' => 'کاربران',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
@@ -9131,6 +9210,8 @@ Thanks for your help!
         'Russian' => 'روسی',
         'S/MIME Certificates' => 'گواهینامه‌های S/MIME',
         'SLAs' => '',
+        'SSL_VERIFY_NONE - no verification of mail server host' => '',
+        'SSL_VERIFY_PEER - verify the mail server host' => '',
         'Salutations' => 'عنوان',
         'Sample command output' => 'خروجی دستور نمونه',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
@@ -9771,6 +9852,8 @@ Thanks for your help!
             '',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             '',
+        'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
+            '',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9795,8 +9878,8 @@ Thanks for your help!
         'This option defines the process tickets default state.' => 'این گزینه به طور پیش فرض درخواست روند دولت تعریف می کند.',
         'This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.' =>
             '',
-        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
-            'این گزینه دسترسی به بلیط شرکت مشتری، که توسط کاربران مشتری ایجاد نمی انکار کند.',
+        'This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate "CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket" so that the button is no longer visible.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'این تنظیم امکان را به نادیده گرفتن ساخته شده است در لیست کشور با لیست خود را از کشور است. این امر به ویژه مفید است اگر شما فقط می خواهید به استفاده از یک گروه را انتخاب کنید کوچکی از کشورها.',
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
@@ -9854,8 +9937,8 @@ Thanks for your help!
             '',
         'Tile registration for the CustomerDashboard. Module is required. Optionally, an order for items can be set. The order must have the name of the item as key and the desired position as integer value.' =>
             '',
-        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'زمان در ثانیه است که می شود به زمان واقعی اضافه شده است اگر تنظیم یک انتظار دولت (به طور پیش فرض: 86،400 = 1 روز).',
+        'Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week.' =>
+            '',
         'To accept login information, such as an EULA or license.' => 'برای قبول اطلاعات ورود به سیستم، مانند EULA یا مجوز.',
         'To download attachments.' => 'برای دانلود فایل پیوست کنید.',
         'To view HTML attachments.' => '',
@@ -9910,6 +9993,8 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => 'استفاده از richtext برای اطلاع رسانی مشاهده و ویرایش درخواست',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'استفاده از richtext برای مشاهده و ویرایش: مقالات، درود، امضا، قالب استاندارد، پاسخ خودکار و اطلاعیه ها.',
+        'Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts.' =>
+            '',
         'Vietnam' => 'ویتنام',
         'View performance benchmark results.' => 'نمایش نتایج آزمون کارایی',
         'View stored article version.' => '',
@@ -9925,6 +10010,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => 'وب سرویس',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -9937,8 +10023,6 @@ Thanks for your help!
             'هنگامی که بلیط هم ادغام شدند، مشتری می تواند در هر ایمیل با تنظیم چک باکس \ "اطلاع فرستنده " آگاه است. در این متن، شما می توانید یک متن از قبل فرمت شده که بعدا توسط عوامل اصلاح شود را تعریف کنیم.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
             '',
-        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
-            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'یا نه به جمع آوری اطلاعات متا از مقالات با استفاده از فیلتر تنظیم شده در بلیط :: ظاهر :: ZoomCollectMetaFilters.',
         'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
@@ -9946,10 +10030,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'بله، اما آرشیو درخواست پنهان است',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'ایمیل خود را با تعداد درخواست  \ "<OTOBO_TICKET> " منعکس است با \ "<OTOBO_BOUNCE_TO> ". این آدرس برای کسب اطلاعات بیشتر تماس بگیرید.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Email شما با شماره درخواست  "<OTOBO_TICKET>" با درخواست "<OTOBO_MERGE_TO_TICKET>"  ادغام گردید.',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'انتخاب صف خود را از صف نظر خود را. شما همچنین دریافت در مورد کسانی که صف از طریق ایمیل مطلع اگر فعال باشد.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

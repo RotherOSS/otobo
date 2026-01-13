@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -230,12 +230,8 @@ sub Run {
     }
 
     # serve new content id and url to rte
-    my $Session = '';
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $Session = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
-    }
     my $URL = $LayoutObject->{Baselink}
-        . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
+        . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew";
 
     # if ResponseType is JSON, do not return template content but a JSON structure
     if ( $ResponseType eq 'json' ) {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +21,8 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
+use Test2::Tools::Explain;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;                                 # Set up $Kernel::OM and the test driver $Self
@@ -934,6 +936,7 @@ for my $Test (@Tests) {
                 delete $HistoryEntry->{Name};
             }
         }
+        diag "Debug - ModuleName - RequesterResult = " . explain($RequesterResult);
 
         if ( ref $RequesterResult->{Data}->{TicketHistory} eq 'HASH' ) {
             my $TicketHistory = $RequesterResult->{Data}->{TicketHistory};

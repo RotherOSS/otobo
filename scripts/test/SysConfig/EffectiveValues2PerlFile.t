@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -92,7 +92,7 @@ my @Tests = (
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::ZZZAAAuto;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 $Self->{'SettingName'} =  '1';
 EOF
         },
@@ -118,7 +118,7 @@ EOF
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::ZZZAAAuto;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 $Self->{'SettingName'} =  '1';
 $Self->{'AnotherSettingName'} =  '2';
 EOF
@@ -143,7 +143,7 @@ EOF
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::User::1;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 $Self->{'SettingName'} =  [
   {
     'Value' => 1
@@ -179,7 +179,7 @@ EOF
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::User::1;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 $Self->{'SettingName'} =  [
   {
     'Value' => 1
@@ -222,7 +222,7 @@ EOF
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::User::1;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 $Self->{'SettingName'}->{'Key1'} =  [
   {
     'Value' => 1
@@ -266,7 +266,7 @@ EOF
         },
         ExpectedValue => {
             Package => 'Kernel::Config::Files::User::1;',
-            Value   => << 'EOF'
+            Value   => <<'EOF'
 delete $Self->{'DefaultUsedLanguages'};
 EOF
         },
@@ -277,7 +277,7 @@ EOF
 my $AssembleExpectedValue = sub {
     my %Param = @_;
 
-    my $File = << "EOF";
+    my $File = <<"EOF";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package $Param{Package}
@@ -291,7 +291,7 @@ EOF
 
     $File .= $Param{Value};
 
-    $File .= << 'EOF';
+    $File .= <<'EOF';
     return;
 }
 1;

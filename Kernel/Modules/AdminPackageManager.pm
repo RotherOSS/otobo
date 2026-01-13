@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AdminPackageManager;
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use v5.24;
@@ -62,7 +61,7 @@ sub Run {
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Source = $Self->{UserRepository} || '';
+    my $Source = $Self->{Session}{UserRepository} || '';
     my %Errors;
 
     # ------------------------------------------------------------ #

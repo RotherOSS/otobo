@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::Modules::AgentInfo;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -25,8 +26,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     $Self->{InfoKey}  = $ConfigObject->Get('InfoKey');
@@ -38,25 +38,25 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Self->{RequestedURL} ) {
-        $Self->{RequestedURL} = 'Action=';
-    }
+    # default value
+    $Self->{RequestedURL} ||= 'Action=';
 
-    # redirect if no primary group is selected
-    if ( !$Self->{ $Self->{InfoKey} } && $Self->{Action} ne 'AgentInfo' ) {
+    # no redirect when the InfoKey already is in the User preferences
+    return if $Self->{Session}->{ $Self->{InfoKey} };
+    return if $Self->{Action} eq 'AgentInfo';
 
-        # remove requested url from session storage
-        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'UserRequestedURL',
-            Value     => $Self->{RequestedURL},
-        );
+    # The originally requested URL will be needed when presenting AgentInfo.
+    # Therefore remember the requesed URL in the user session.
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'UserRequestedURL',
+        Value     => $Self->{RequestedURL},
+    );
 
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => "Action=AgentInfo" );
-    }
-    else {
-        return;
-    }
+    # show the AgentInfo page, usually asking for confirmation that the page had been seen
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+        OP => 'Action=AgentInfo'
+    );
 }
 
 sub Run {
@@ -70,7 +70,7 @@ sub Run {
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    if ( $Self->{ $Self->{InfoKey} } ) {
+    if ( $Self->{Session}{ $Self->{InfoKey} } ) {
 
         # remove requested url from session storage
         $SessionObject->UpdateSessionID(
@@ -91,7 +91,7 @@ sub Run {
             Value     => 1,
         );
 
-        # set preferences
+        # remember that the user has seen the AgentInfo message
         $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Self->{InfoKey},
@@ -111,15 +111,13 @@ sub Run {
     else {
 
         # show info
-        my $Output = $LayoutObject->Header();
-        $Output
-            .= $LayoutObject->Output(
+        return join '',
+            $LayoutObject->Header,
+            $LayoutObject->Output(
                 TemplateFile => $Self->{InfoFile},
                 Data         => \%Param
-            );
-        $Output .= $LayoutObject->Footer();
-
-        return $Output;
+            ),
+            $LayoutObject->Footer;
     }
 }
 

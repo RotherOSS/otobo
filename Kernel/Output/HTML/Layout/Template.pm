@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -228,64 +228,6 @@ sub Output {
         $Self->FatalError();
     }
 
-    # If the browser does not send the session cookie, we need to append it to all links and image urls.
-    #   We cannot do this in the template preprocessor because links are often dynamically generated.
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-
-        # rewrite a hrefs
-        $Output =~ s{
-            (<a.+?href=") \s* (.+?) (\#.+?|) (".+?>)
-        }
-        {
-            my $AHref   = $1;
-            my $Target  = $2;
-            my $End     = $3;
-            my $RealEnd = $4;
-            if (
-                lc($Target) =~ m/^(?:http:|https:|#|ftp:)/        # external link or anchor in same page
-                ||
-                !$Self->{SessionID}                               # don't add a session ID when there isn't one
-                ||
-                lc($Target) =~ m!^//!                             # protocol relative links
-                ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
-                ||
-                $Target =~ /\Q$Self->{SessionName}\E/             # session ID not already included
-            )
-            {
-                $AHref.$Target.$End.$RealEnd;
-            }
-            else {
-                $AHref.$Target.';'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
-            }
-        }iegxs;
-
-        # rewrite img and iframe src
-        $Output =~ s{
-            (<(?:img|iframe).+?src=") \s* (.+?)(".+?>)
-        }
-        {
-            my $AHref  = $1;
-            my $Target = $2;
-            my $End    = $3;
-            if (
-                lc($Target) =~ m{^http s? :}smx
-                ||
-                !$Self->{SessionID}                               # don't add a session ID when there isn't one
-                ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/    # only dynamic HTML
-                ||
-                $Target =~ /\Q$Self->{SessionName}\E/             # session ID not already included
-            )
-            {
-                $AHref.$Target.$End;
-            }
-            else {
-                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
-            }
-        }iegxs;
-    }
-
     #
     # "Post" Output filter handling
     #
@@ -332,9 +274,9 @@ sub Output {
         my %Data = %{ $Self->{_JSData} // {} };
         if (%Data) {
             my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data          => \%Data,
-                SortKeys      => 1,
-                TypeAllString => 1,
+                Data             => \%Data,
+                SortKeys         => 1,
+                StringifyScalars => 1,
             );
             $Output .= <<"END_HTML";
 
@@ -370,6 +312,62 @@ sub AddJSOnDocumentComplete {
     return;
 }
 
+=head2 AddJSOnDocumentCompleteIfNotExists()
+
+this functions adds JavaScript by the function C<AddJSOnDocumentComplete()> only if it does not exist yet.
+
+    my $Success = $LayoutObject->AddJSOnDocumentCompleteIfNotExists(
+        Key  => 'identifier_key_of_your_js',
+        Code => $JSBlock,
+    );
+
+Returns:
+
+    my $Success = 1;
+
+=cut
+
+sub AddJSOnDocumentCompleteIfNotExists {
+    my ( $Self, %Param ) = @_;
+
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
+    # check needed stuff
+    NEEDED:
+    for my $Needed (qw(Key Code)) {
+
+        next NEEDED if defined $Param{$Needed};
+
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Parameter '$Needed' is needed!",
+        );
+
+        return;
+    }
+
+    my $Exists = 0;
+    CODEJS:
+    for my $CodeJS ( @{ $Self->{_JSOnDocumentComplete} || [] } ) {
+
+        next CODEJS if $CodeJS !~ m{ Key: \s $Param{Key}}xms;
+
+        $Exists = 1;
+
+        last CODEJS;
+    }
+
+    return 1 if $Exists;
+
+    my $AddCode = "// Key: $Param{Key}\n" . $Param{Code};
+
+    $Self->AddJSOnDocumentComplete(
+        Code => $AddCode,
+    );
+
+    return 1;
+}
+
 =head2 AddJSData()
 
 dynamically add JavaScript data that should be handed over to
@@ -383,6 +381,8 @@ As a workaround, use C<"1"> for true and C<''> for false.
         Key   => 'Key1',  # the key to store this data
         Value => { ... }  # simple or complex data
     );
+
+Use C<AddJSBoolean()> for really passing boolean values.
 
 =cut
 

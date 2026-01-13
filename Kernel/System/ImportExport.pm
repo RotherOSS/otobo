@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1077,7 +1077,7 @@ sub FormatDataDelete {
 
 =head2 MappingList()
 
-Return a list of mapping ids sorted by position as array reference
+Return a list of mapping IDs sorted by position as array reference
 
     my $MappingIDs = $ImportExportObject->MappingList(
         TemplateID => 123,
@@ -2158,6 +2158,7 @@ Export function
     my $ResultRef = $ImportExportObject->Export(
         TemplateID => 123,
         UserID     => 1,
+        ChunkSize  => 1_000, # optional, for chunked export
     );
 
 returns something like
@@ -2170,6 +2171,8 @@ returns something like
             [ 'Attr_2a', 'Attr_2b', 'Attr_3c', ],
         ],
     };
+
+This method will be called several times when the export is meant to be in chunks.
 
 =cut
 
@@ -2221,10 +2224,12 @@ sub Export {
 
     return unless $FormatBackend;
 
-    # get export data,
+    # get export data
+    # Only the current chunk, when ChunkSize is passed
     # passing the template ID gives the backend access to the mapping list
     # and to the export format.
     my $ExportData = $ObjectBackend->ExportDataGet(
+        ChunkSize  => $Param{ChunkSize},
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
@@ -2270,13 +2275,22 @@ sub Export {
         }
 
         # add column headers as first row
-        unshift @{$ExportData}, \@ColumnNames;
+        unshift $ExportData->@*, \@ColumnNames;
+    }
+
+    # Backends with support for chunking must provide the method IsExportComplete().
+    # Backends without support for chunking do not have to provide that method. An undefined
+    # value for ChunkingFinished indicates no support for chunking.
+    my $ChunkingFinished;
+    if ( $ObjectBackend->can('IsExportComplete') ) {
+        $ChunkingFinished = $ObjectBackend->IsExportComplete;
     }
 
     my %Result = (
         Success            => 0,
         Failed             => 0,
         DestinationContent => [],
+        ChunkingFinished   => $ChunkingFinished,
     );
 
     EXPORTDATAROW:
@@ -2298,6 +2312,11 @@ sub Export {
         # add row to destination content
         push @{ $Result{DestinationContent} }, $DestinationContentRow;
         $Result{Success}++;
+    }
+
+    # writing the header line does not count as success
+    if ( $FormatData->{IncludeColumnHeaders} ) {
+        $Result{Success}--;
     }
 
     # log result
@@ -2330,7 +2349,11 @@ sub Import {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Disable the cache for faster import.
+    # Get the current cache configurations before import.
+    my $PrevConfigCacheInMemory  = $CacheObject->{CacheInMemory};
+    my $PrevConfigCacheInBackend = $CacheObject->{CacheInBackend};
+
+    # Temporarily disable the cache configurations for faster import.
     $CacheObject->Configure(
         CacheInMemory  => 0,
         CacheInBackend => 0,
@@ -2367,7 +2390,7 @@ sub Import {
         return;
     }
 
-    # load object backend
+    # load object backend, instance variables are kept
     my $ObjectBackend = $Kernel::OM->Get(
         'Kernel::System::ImportExport::ObjectBackend::' . $TemplateData->{Object}
     );
@@ -2435,6 +2458,12 @@ sub Import {
             $Result{Success}++;
         }
     }
+
+    # Re-configure the cache after import.
+    $CacheObject->Configure(
+        CacheInMemory  => $PrevConfigCacheInMemory,
+        CacheInBackend => $PrevConfigCacheInBackend,
+    );
 
     # log result
     $LogObject->Log(

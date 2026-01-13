@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -86,10 +86,15 @@ sub new {
     }
     else {
 
+        # There is no guarantee that this method won't be called many times in a batch script.
+        # In order to avoid the IO layers are piling up, clear the previous layers before
+        # adding a new layer.
         if ( is_interactive(*STDOUT) ) {
+            binmode STDOUT;
             binmode STDOUT, ":encoding(console_out)";
         }
         if ( is_interactive(*STDERR) ) {
+            binmode STDERR;
             binmode STDERR, ":encoding(console_out)";
         }
     }
@@ -302,7 +307,7 @@ sub EncodeInput {
     if ( ref $What eq 'SCALAR' ) {
         return $What unless defined $What->$*;
 
-        # assuming the the incoming string is already encoded in UTF-8
+        # assuming that the incoming string is already encoded in UTF-8
         Encode::_utf8_on( $What->$* );
 
         return $What;
@@ -314,14 +319,14 @@ sub EncodeInput {
         for my $String ( $What->@* ) {
             next STRING unless defined $String;
 
-            # assuming the the incoming string is already encoded in UTF-8
+            # assuming that the incoming string is already encoded in UTF-8
             Encode::_utf8_on($String);
         }
 
         return $What;
     }
 
-    # assuming the the incoming string is already encoded in UTF-8
+    # assuming that the incoming string is already encoded in UTF-8
     # TODO: It is not documented that strings can be passed in directly.
     Encode::_utf8_on($What);
 
@@ -389,11 +394,14 @@ sub ConfigureOutputFileHandle {
     my ( $Self, %Param ) = @_;
 
     return unless defined $Param{FileHandle};
-    return if ref $Param{FileHandle} ne 'GLOB';
+    return unless ref $Param{FileHandle} eq 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
-    # http://bugs.otrs.org/show_bug.cgi?id=12100
-    binmode( $Param{FileHandle}, ':utf8' );    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    # There is no guarantee that this method won't be called many times in a batch script.
+    # In order to avoid the IO layers are piling up, clear the previous layers before
+    # adding a new layer.
+    binmode $Param{FileHandle};
+    binmode $Param{FileHandle}, ':utf8';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     return 1;
 }

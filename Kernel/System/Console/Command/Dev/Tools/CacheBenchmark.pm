@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -51,7 +51,7 @@ sub Run {
     # get home directory
     my $HomeDir = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    # get all avaliable backend modules
+    # get all available backend modules
     my @BackendModuleFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $HomeDir . '/Kernel/System/Cache/',
         Filter    => '*.pm',

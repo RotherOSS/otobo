@@ -54,7 +54,7 @@
         </Value>
     </Setting>
     <Setting Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).</Description>
+        <Description Translatable="1">Defines the system identifier. Every ticket number contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO). The SystemID may also be used in HTTP session backends.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">10</Item>
@@ -494,7 +494,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-build-classic/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor5-47.3.0/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -512,35 +512,49 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
+            <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-content.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default CSS used for displaying articles.</Description>
+        <Description Translatable="1">Custom CSS styles for RichText articles.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">font-family:'Quicksand', sans-serif; font-size: 14px; line-height: 1.5; color: #00023c;</Item>
+            <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::RichTextArticleStyles" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default CSS for creating CKEditor articles.</Description>
+        <Description Translatable="1">Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">common/css/CKEditor.min.css</Item>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-content.css</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::RichTextEditorStyles" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">common/css/ckeditor5-47.3.0-editor.css</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
-        <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
+        <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -764,6 +778,20 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="LogModule::LogFile::MaxSize" Required="0" Valid="1">
+        <Description Translatable="1">MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).</Description>
+        <Navigation>Core::Log</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]*$">524288000</Item>
+        </Value>
+    </Setting>
+    <Setting Name="LogModule::LogFile::MaxKeepRotated" Required="0" Valid="1">
+        <Description Translatable="1">How many rotated otobo.log files to keep. Default is 3.</Description>
+        <Navigation>Core::Log</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]*$">3</Item>
+        </Value>
+    </Setting>
     <Setting Name="MinimumLogLevel" Required="1" Valid="1">
         <Description Translatable="1">Set the minimum log level. If you select 'error', just errors are logged. With 'debug' you get all logging messages. The order of log levels is: 'debug', 'info', 'notice' and 'error'.</Description>
         <Navigation>Core::Log</Navigation>
@@ -816,6 +844,16 @@
         <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Password">MailserverPassword</Item>
+        </Value>
+    </Setting>
+    <Setting Name="SendmailModule::SSLVerifyMode" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.</Description>
+        <Navigation>Core::Email</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="0">
+                <Item ValueType="Option" Value="0" Translatable="1">SSL_VERIFY_NONE - no verification of mail server host</Item>
+                <Item ValueType="Option" Value="1" Translatable="1">SSL_VERIFY_PEER - verify the mail server host</Item>
+            </Item>
         </Value>
     </Setting>
     <Setting Name="SendmailBcc" Required="0" Valid="1" ConfigLevel="200">
@@ -1122,13 +1160,6 @@
     </Setting>
     <Setting Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
         <Description Translatable="1">Deletes requested sessions if they have timed out.</Description>
-        <Navigation>Core::Session</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SessionUseCookie" Required="1" Valid="1">
-        <Description Translatable="1">Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -3329,6 +3360,24 @@ You can log in via the following URL:
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">user_id</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Preferences::UpdateAJAX::Allowed###001-Framework" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">A list of parameters which can be updated via the UpdateAJAX.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="UserTicketZoomArticleTableHeight">1</Item>
+                <Item Key="UserSystemConfigurationCategory">1</Item>
+                <Item Key="UserSystemConfigurationFavourites">1</Item>
+                <Item Key="UserAgentDoNotShowBrowserLinkMessage">1</Item>
+                <Item Key="AdminNavigationBarFavourites">1</Item>
+                <Item Key="UserNavBarItemsOrder">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Actions">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Navigation">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Sticky">1</Item>
+                <Item Key="UserWidgetState_SystemConfiguration_Help">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Password" Required="0" Valid="1">
@@ -7277,7 +7326,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Customer::View::Login</Navigation>
         <Value>
             <Hash>
-                <Item Key="LoginText">Your Tickets. Your OTOBO.</Item>
+                <Item Key="LoginText" Translatable="1">Your Tickets. Your OTOBO.</Item>
                 <Item Key="Background">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/LoginBG.jpg</Item>
             </Hash>
         </Value>
@@ -7388,7 +7437,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Customer::View::Dashboard::Configuration</Navigation>
         <Value>
             <Hash>
-                <Item Key="WelcomeText">Welcome %s, to your OTOBO.</Item>
+                <Item Key="WelcomeText" Translatable="1">Welcome %s, to your OTOBO.</Item>
                 <Item Key="Name">UserFirstname</Item>
                 <Item Key="SubText">This service portal is available to you all day every day.</Item>
             </Hash>
@@ -7441,7 +7490,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileTicketList</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="Text">Your last tickets</Item>
+                        <Item Key="Text" Translatable="1">Your last tickets</Item>
                         <Item Key="SortBy">Age</Item>
                         <Item Key="OrderBy">Down</Item>
                         <Item Key="StateType"></Item>
@@ -7461,7 +7510,7 @@ via the Preferences button after logging in.
                 <Item Key="Template">Dashboard/TilePlainText</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="HeaderText">Message of the day</Item>
+                        <Item Key="HeaderText" Translatable="1">Message of the day</Item>
                         <Item Key="MainText" ValueType="Textarea">Hello World! :)</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="BackgroundColor">#fff</Item>
@@ -7479,7 +7528,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileToolBox</Item>
                 <Item Key="Config">
                     <Hash>
-                        <Item Key="Text">Your external tools</Item>
+                        <Item Key="Text" Translatable="1">Your external tools</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="Links">
                             <Hash>
@@ -8620,14 +8669,14 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
+                <Item>thirdparty/jquery-3.7.1/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
-                <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.21.0/jquery.validate.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
+                <Item>thirdparty/nunjucks-3.2.4/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
@@ -8707,13 +8756,13 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
+                <Item>thirdparty/jquery-3.7.1/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-validate-1.21.0/jquery.validate.min.js</Item>
                 <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
+                <Item>thirdparty/nunjucks-3.2.4/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Exception.js</Item>
@@ -8747,7 +8796,7 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="OpenMainMenuOnHover" Required="1" Valid="1">
+    <Setting Name="OpenMainMenuOnHover" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the first level of the main menu opens on mouse hover (instead of click only).</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
@@ -8783,42 +8832,6 @@ via the Preferences button after logging in.
                 <Item Key="VisibleName" Translatable="1">Default</Item>
                 <Item Key="Description" Translatable="1">This is the default orange - black skin.</Item>
                 <Item Key="HomePage">www.otobo.org</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Agent::Skin###001-slim" Required="0" Valid="1">
-        <Description Translatable="1">Default skin for the agent interface (slim version).</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="InternalName">slim</Item>
-                <Item Key="VisibleName" Translatable="1">Default (Slim)</Item>
-                <Item Key="Description" Translatable="1">"Slim" skin which tries to save screen space for power users.</Item>
-                <Item Key="HomePage">www.otobo.org</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Agent::Skin###001-ivory" Required="0" Valid="1">
-        <Description Translatable="1">Balanced white skin by Felix Niklas.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="InternalName">ivory</Item>
-                <Item Key="VisibleName" Translatable="1">Ivory</Item>
-                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas.</Item>
-                <Item Key="HomePage">www.felixniklas.de</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Agent::Skin###001-ivory-slim" Required="0" Valid="1">
-        <Description Translatable="1">Balanced white skin by Felix Niklas (slim version).</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="InternalName">ivory-slim</Item>
-                <Item Key="VisibleName" Translatable="1">Ivory (Slim)</Item>
-                <Item Key="Description" Translatable="1">Balanced white skin by Felix Niklas (slim version).</Item>
-                <Item Key="HomePage">www.felixniklas.de</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9773,6 +9786,16 @@ via the Preferences button after logging in.
            </Hash>
         </Value>
     </Setting>
+    <Setting Name="Elasticsearch::IndexSettings###TmpAttachments" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NS">1</Item>
+                <Item Key="NR">0</Item>
+           </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Elasticsearch::QuickSearchCreatedFormat" Required="0" Valid="0">
         <Description Translatable="1">Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
@@ -9796,10 +9819,10 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="TicketNumber">Ticket#</Item>
-                        <Item Key="Title">Title</Item>
-                        <Item Key="Queue">Queue</Item>
-                        <Item Key="Age">Age</Item>
+                        <Item Key="TicketNumber" Translatable="1">Ticket Number</Item>
+                        <Item Key="Title" Translatable="1">Ticket Title</Item>
+                        <Item Key="Queue" Translatable="1">Queue</Item>
+                        <Item Key="Age" Translatable="1">Age</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -9820,9 +9843,9 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="CustomerCompanyName">Name</Item>
-                        <Item Key="CustomerID">ID</Item>
-                        <Item Key="CustomerCompanyComment">Comment</Item>
+                        <Item Key="CustomerCompanyName" Translatable="1">Customer Name</Item>
+                        <Item Key="CustomerID" Translatable="1">Customer ID</Item>
+                        <Item Key="CustomerCompanyComment" Translatable="1">Comment</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -9844,10 +9867,10 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="UserLogin">Login</Item>
-                        <Item Key="UserFirstname">Name</Item>
-                        <Item Key="UserLastname">Name</Item>
-                        <Item Key="UserEmail">Email</Item>
+                        <Item Key="UserLogin" Translatable="1">Login</Item>
+                        <Item Key="UserFirstname" Translatable="1">Firstname</Item>
+                        <Item Key="UserLastname" Translatable="1">Lastname</Item>
+                        <Item Key="UserEmail" Translatable="1">Email</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -10375,6 +10398,13 @@ via the Preferences button after logging in.
                 <Item Key="State" Translatable="1">Ticket States</Item>
                 <Item Key="Type" Translatable="1">Ticket Types</Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Translations::TranslateParentChild" Required="0" Valid="1">
+        <Description Translatable="1">Defines if parent-child translations for queues and services should be generated automatically.</Description>
+        <Navigation>Core::Translations</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Translations::AllowModifyAll" Required="1" Valid="1">

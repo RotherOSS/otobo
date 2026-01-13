@@ -5923,7 +5923,7 @@ msgstr ""
 msgid "move_into"
 msgstr "Преместване"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to move tickets into this group/queue."
 msgstr "Позволение за преместване на билет в тази група/опашка."
 
@@ -5931,7 +5931,7 @@ msgstr "Позволение за преместване на билет в та
 msgid "create"
 msgstr "Създаване"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to create tickets in this group/queue."
 msgstr "Позволение за създаване на билет в тази група/опашка."
 
@@ -5939,7 +5939,7 @@ msgstr "Позволение за създаване на билет в тази
 msgid "note"
 msgstr "Бележка"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to add notes to tickets in this group/queue."
 msgstr ""
 
@@ -5947,7 +5947,7 @@ msgstr ""
 msgid "owner"
 msgstr "Собственик"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
 
@@ -5955,7 +5955,7 @@ msgstr ""
 msgid "priority"
 msgstr "Приоритет"
 
-#. Template: AdminRoleGroup
+#. Template: AdminUserGroup
 msgid "Permissions to change the ticket priority in this group/queue."
 msgstr "Позволение за промяна на приоритета на билет в тази група/опашка."
 
@@ -14619,7 +14619,7 @@ msgstr "преди/след"
 msgid "between"
 msgstr "между"
 
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
@@ -15999,7 +15999,7 @@ msgstr "Вписването неуспешно! Въвели сте грешн�
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#. Perl Module: Kernel/Modules/BasePassword.pm
 msgid "Can`t remove SessionID."
 msgstr ""
 
@@ -25587,10 +25587,6 @@ msgstr ""
 msgid "Include invalid appointment notifications"
 msgstr ""
 
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
-msgstr ""
-
 #. Template: AdminAttachment
 msgid "Include invalid attachments"
 msgstr ""
@@ -26877,5 +26873,297 @@ msgstr ""
 
 #. SysConfig
 msgid "Define possible namespaces for dynamic fields. Must only contain alphanumeric characters. A namespace must not be longer than 64 characters. Namespace plus dynamic field name must not exceed 190 characters."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to open the priority action in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/Lens.pm
+msgid "Notice: search in lens fields is currently disabled"
+msgstr ""
+
+#. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL hostname verification"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in RequiredArgs."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in PreviewTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
+msgid "Erroneous value in StorageTriggers."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
+msgstr ""
+
+#. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
+msgstr ""
+
+#. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "All fields marked with an asterisk (*) are mandatory."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
+msgstr ""
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
+msgstr ""
+
+#. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
+msgstr ""
+
+#. SysConfig
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Manage import and export of objects."
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Elasticsearch (u)"
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
+msgstr ""
+
+#. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
 msgstr ""
 

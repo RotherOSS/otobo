@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -142,9 +142,9 @@ perform TicketCreate Operation. This will return the created ticket number.
                 HistoryComment                  => 'Some  history comment',    # optional
                 TimeUnit                        => 123,                        # optional
                 NoAgentNotify                   => 1,                          # optional
-                ForceNotificationToUserID       => [1, 2, 3]                   # optional
-                ExcludeNotificationToUserID     => [1, 2, 3]                   # optional
-                ExcludeMuteNotificationToUserID => [1, 2, 3]                   # optional
+                ForceNotificationToUserID       => [1, 2, 3],                  # optional
+                ExcludeNotificationToUserID     => [1, 2, 3],                  # optional
+                ExcludeMuteNotificationToUserID => [1, 2, 3],                  # optional
             },
 
             DynamicField => [                                                  # optional
@@ -162,9 +162,9 @@ perform TicketCreate Operation. This will return the created ticket number.
 
             Attachment => [
                 {
-                    Content     => 'content'                                 # base64 encoded
-                    ContentType => 'some content type'
-                    Filename    => 'some fine name'
+                    Content     => 'content',                                # base64 encoded
+                    ContentType => 'some content type',
+                    Filename    => 'some fine name',
                 },
                 # ...
             ],
@@ -1096,7 +1096,13 @@ sub _CheckDynamicField {
     }
 
     # check DynamicField->Value
-    if ( !$Self->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
+    if (
+        !$Self->ValidateDynamicFieldValue(
+            %{$DynamicField},
+            ExternalSource => 1,
+        )
+        )
+    {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: DynamicField->Value parameter is invalid!",

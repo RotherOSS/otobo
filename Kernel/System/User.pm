@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::System::User;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -23,9 +24,9 @@ use warnings;
 use Digest::SHA ();
 
 # CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
-use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt );
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -93,7 +94,7 @@ get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
         UserID => 123,
     );
 
-    or
+or
 
     my %User = $UserObject->GetUserData(
         User          => 'franz',
@@ -114,51 +115,45 @@ sub GetUserData {
             Priority => 'error',
             Message  => 'Need User or UserID!',
         );
+
         return;
     }
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get configuration for the full name order
     my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
 
-    # check if result is cached
-    if ( $Param{Valid} ) {
-        $Param{Valid} = 1;
-    }
-    else {
-        $Param{Valid} = 0;
-    }
-    if ( $Param{NoOutOfOffice} ) {
-        $Param{NoOutOfOffice} = 1;
-    }
-    else {
-        $Param{NoOutOfOffice} = 0;
-    }
+    # normalize input
+    my $RequireValidity = $Param{Valid}         ? 1 : 0;
+    my $NoOutOfOffice   = $Param{NoOutOfOffice} ? 1 : 0;
 
+    # check if result is cached
     my $CacheKey;
     if ( $Param{User} ) {
         $CacheKey = join '::', 'GetUserData', 'User',
             $Param{User},
-            $Param{Valid},
+            $RequireValidity,
             $FirstnameLastNameOrder,
-            $Param{NoOutOfOffice};
+            $NoOutOfOffice;
     }
     else {
         $CacheKey = join '::', 'GetUserData', 'UserID',
             $Param{UserID},
-            $Param{Valid},
+            $RequireValidity,
             $FirstnameLastNameOrder,
-            $Param{NoOutOfOffice};
+            $NoOutOfOffice;
     }
 
     # check cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type => $Self->{CacheType},
-        Key  => $CacheKey,
-    );
-    return %{$Cache} if $Cache;
+    {
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+
+        return $Cache->%* if $Cache;
+    }
 
     # get initial data
     my @Bind;
@@ -179,7 +174,7 @@ sub GetUserData {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => 1,
@@ -205,6 +200,7 @@ sub GetUserData {
                 Priority => 'notice',
                 Message  => "No UserData for user: '$Param{User}'.",
             );
+
             return;
         }
         else {
@@ -212,6 +208,7 @@ sub GetUserData {
                 Priority => 'notice',
                 Message  => "No UserData for user id: '$Param{UserID}'.",
             );
+
             return;
         }
     }
@@ -220,17 +217,19 @@ sub GetUserData {
     my $CacheTTL = $Self->{CacheTTL};
 
     # check valid, return if there is locked for valid users
-    if ( $Param{Valid} ) {
+    if ($RequireValidity) {
 
-        my $Hit = 0;
+        my $IsValid = 0;
+        VALID_ID:
+        for my $ValidID ( $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() ) {
+            next VALID_ID unless $Data{ValidID} eq $ValidID;
 
-        for ( $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() ) {
-            if ( $_ eq $Data{ValidID} ) {
-                $Hit = 1;
-            }
+            $IsValid = 1;    # got a hit
+
+            last VALID_ID;
         }
 
-        if ( !$Hit ) {
+        if ( !$IsValid ) {
 
             # set cache
             $Kernel::OM->Get('Kernel::System::Cache')->Set(
@@ -239,6 +238,7 @@ sub GetUserData {
                 Key   => $CacheKey,
                 Value => {},
             );
+
             return;
         }
     }
@@ -284,7 +284,7 @@ sub GetUserData {
     }
 
     # out of office check
-    if ( !$Param{NoOutOfOffice} ) {
+    if ( !$NoOutOfOffice ) {
         if ( $Preferences{OutOfOffice} ) {
 
             my $CurrentTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -339,7 +339,7 @@ sub GetUserData {
         }
     }
 
-    # merge hash
+    # merge hash, this adds UserEmail to %Data
     %Data = ( %Data, %Preferences );
 
     # add preferences defaults
@@ -349,7 +349,7 @@ sub GetUserData {
         KEY:
         for my $Key ( sort keys %{$Config} ) {
 
-            next KEY if !defined $Config->{$Key}->{DataSelected};
+            next KEY unless defined $Config->{$Key}->{DataSelected};
 
             # check if data is defined
             next KEY if defined $Data{ $Config->{$Key}->{PrefKey} };
@@ -789,31 +789,40 @@ to set users passwords
 sub SetPassword {
     my ( $Self, %Param ) = @_;
 
+    # This method is similar to Kernel::System::CustomerUser::DB::SetPassword()
+
+    my $Login = $Param{UserLogin};
+    my $Pw    = $Param{PW} || '';
+
     # check needed stuff
-    if ( !$Param{UserLogin} ) {
+    if ( !$Login ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
+
         return;
     }
 
     # get old user data
-    my %User = $Self->GetUserData( User => $Param{UserLogin} );
+    my %User = $Self->GetUserData( User => $Login );
     if ( !$User{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No such User!',
         );
+
         return;
     }
 
-    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigSection = 'AuthModule::DB';
 
-    my $CryptType = $ConfigObject->Get('AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType = $ConfigObject->Get("${ConfigSection}::CryptType") || 'sha2';
+
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -824,37 +833,37 @@ sub SetPassword {
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = crypt( $Pw, $Login );
     }
 
-    # crypt with md5
+    # crypt with unix_md5_crypt
     elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = unix_md5_crypt( $Pw, $Login );
     }
 
     # crypt with md5 (compatible with Apache's .htpasswd files)
     elsif ( $CryptType eq 'apr1' ) {
 
-        # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+        # encode output, needed by apache_md5_crypt() only non utf8 signs
+        $EncodeObject->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Login );
 
-        $CryptedPw = apache_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = apache_md5_crypt( $Pw, $Login );
     }
 
     # crypt with sha1
     elsif ( $CryptType eq 'sha1' ) {
 
         my $SHAObject = Digest::SHA->new('sha1');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -863,7 +872,7 @@ sub SetPassword {
     elsif ( $CryptType eq 'sha512' ) {
 
         my $SHAObject = Digest::SHA->new('sha512');
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
     }
@@ -871,16 +880,17 @@ sub SetPassword {
     # bcrypt
     elsif ( $CryptType eq 'bcrypt' ) {
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message  => "User: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
 
-        my $Cost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
+        my $Cost = $ConfigObject->Get("${ConfigSection}::bcryptCost") // 12;
 
         # Don't allow values smaller than 9 for security.
         $Cost = 9 if $Cost < 9;
@@ -888,10 +898,10 @@ sub SetPassword {
         # Current Crypt::Eksblowfish::Bcrypt limit is 31.
         $Cost = 31 if $Cost > 31;
 
-        my $Salt = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 16 );
+        my $Salt = $MainObject->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
@@ -914,7 +924,7 @@ sub SetPassword {
         my $SHAObject = Digest::SHA->new('sha256');
 
         # encode output, needed by sha256_hex() only non utf8 signs
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $EncodeObject->EncodeOutput( \$Pw );
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
@@ -922,7 +932,8 @@ sub SetPassword {
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
@@ -1069,7 +1080,7 @@ get user name
         User => 'some-login',
     );
 
-    or
+or
 
     my $Name = $UserObject->UserName(
         UserID => 123,
@@ -1207,7 +1218,7 @@ generate a random password
 
     my $Password = $UserObject->GenerateRandomPassword();
 
-    or
+or
 
     my $Password = $UserObject->GenerateRandomPassword(
         Size => 16,
@@ -1218,7 +1229,7 @@ generate a random password
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default
     my $Size = $Param{Size} || 8;
 
     my $Password = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -823,16 +823,19 @@ sub CustomerIDs {
 
 get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
-    my %User = $CustomerUserObject->CustomerUserDataGet(
+    my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
         User => 'franz',
     );
+
+When there are multiple backends then only the data from the first backend where the customer user is found.
+An empty list is returned when the customer user was't found in any backend.
 
 =cut
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{User};
+    return unless $Param{User};
 
     # fetch dynamic field configurations for CustomerUser.
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(

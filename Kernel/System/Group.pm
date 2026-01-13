@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -58,7 +58,7 @@ sub new {
 
 =head2 GroupLookup()
 
-get id or name for group
+gets either the ID or the name for a group.
 
     my $Group = $GroupObject->GroupLookup(
         GroupID => $GroupID,
@@ -79,6 +79,7 @@ sub GroupLookup {
             Priority => 'error',
             Message  => 'Need Group or GroupID!',
         );
+
         return;
     }
 
@@ -1468,7 +1469,7 @@ add new permissions or update existing one to the given group of a given role
             ro        => 1,
             move_into => 1,
             create    => 1,
-            note      =  1,
+            note      => 1,
             owner     => 1,
             priority  => 0,
             rw        => 0,

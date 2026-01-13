@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +19,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 @media screen,projection,tv,handheld {
+
+/** 
+ * @subsection Fallback Color Definitions 
+ */
+
+:root {
+    --colMainDark: #00023c;
+    --colMainLight: #000099;
+    --colMainHover: #001bff;
+    --colBGElement: #fff;
+    --colBGLight: #f7f7f9;
+    --colBGLightMedium: #eeeef2;
+    --colBGMedium: #e5e5eb;
+    --colBGMediumDark: #cdcdd8;
+    --colBGDark: #bfc0ce;
+    --colTextLight: #7f809d;
+    --colTextMedium: #54557c;
+    --colTextDark: #00023c;
+    --colTextErr: #ea2400;
+    --colTextWarn: #f5af36;
+    --colTextLink: #001bff;
+    --colHighlight: #fef235;
+    --colNotifyOK: #c4cdfa;
+    --colNotifyWarn: #fffccc;
+    --colNotifyErr: #f9bcb2;
+    --colHoverLight: #fffccc;
+    --colHoverDark: #fef235;
+    --colShadowDark: rgba(0, 2, 71, 0.16);
+}
+  
 
 /**
  * @subsection  Fonts
@@ -413,7 +443,7 @@ div.DnDUpload i {
     position: absolute;
     top: 10px;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -10px;
     font-size: 20px;
     margin-bottom: 10px;
 }
@@ -525,6 +555,11 @@ table.AttachmentList.DataTable thead th {
     text-indent: -9999px;
     white-space: nowrap;
     position: absolute !important;
+}
+
+a.DisabledLink {
+    pointer-events: none;
+    cursor: default;
 }
 
 /**
@@ -1117,6 +1152,10 @@ span.ImportantArticles i {
     color: var(--colTextDark);
 }
 
+.DatepickerIcon.DisabledLink {
+    color: var(--colTextLight);
+}
+
 .RTL .DatepickerIcon {
     margin: 0 4px 0 0;
 }
@@ -1134,6 +1173,15 @@ td.Highlight a.ui-state-default {
 
 /*Weekend*/
 .ui-datepicker-week-end {
+}
+
+#ui-datepicker-div {
+    /*
+     * z-index for autocomplete dropdowns has the same value as z-index for modernized select dropdowns
+     * compare Core.InputFields.css line 305
+     * important is necessary because it would otherwise be overwritten by jquery-ui css
+     * */
+    z-index: 6100 !important;
 }
 
 /**
@@ -1388,67 +1436,35 @@ iframe.TextOption.CustomerUserAddressBook {
 }
 
 /**
- * @subsection global CKEditor 5 fixes/improvements
+ * @subsection CKEditorResizeHandle
  */
 
- .ck.ck-content p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
- }
-
-.ck.ck-content h1 {
-    font-size: 2em;
- } 
-
-.ck.ck-content h2 {
-    font-size: 1.5em;
- }
-
-.ck.ck-content h3 {
-    font-size: 1.17em;
- }
-
-.ck.ck-content h5 {
-    font-size: 0.83em;
- } 
-
-.ck.ck-content h6 {
-    font-size: 0.67em;
- } 
-
-.ck.ck-content blockquote {
-    font-style: normal !important;
-    border-left: solid var(--colMainLight) 1.5pt !important; 
-    padding: 0cm 0cm 0cm 4pt !important;    
-}
-
-.ck.ck-editor__editable_inline {
-    padding: 15px !important;
-    line-height: 1.6;
- }
-
-.ck.ck-editor__editable_inline ul,
-.ck.ck-editor__editable_inline ol  
- {
-    padding: 0 50px !important;
- }
- 
-.ck-source-editing-area {
-    width: 100% !important;
-    height: 320px;
-}
-
-.ck-source-editing-area > textarea {
-    overflow: auto !important;
+.RichTextField .ui-resizable-s {
     position: relative;
-    width: 100% !important;
-    height: 100% !important;
-}
+    bottom: 0px;
+    box-sizing: border-box;
+    height: 4px;
+    margin-top: -2px;
+    overflow: hidden;
 
+    i {
+        width: 30px;
+        position: relative;
+        display: block;
+        margin: auto;
+        margin-top: -2px;
+        border-radius: 5px;
+        background-color: var(--colBGDark);
+        color: var(--colTextLight);
+        text-align: center;
+        font-size: 9px;
+        cursor: s-resize;
+    }
+}
 
 /**
- * end @subsection global CKEditor 5 fixes/improvements
-*/
+ * end @subsection CKEditorResizeHandle
+ */
 
 /**
  * @subsection global nvd3 improvements/fixes
@@ -1746,7 +1762,7 @@ body > div.MetaFloater > a.Close {
 
     /*
      * @subsection Responsive footer classes
-     * @description Used to determinethe active screen size in JavaScript
+     * @description Used to determine the active screen size in JavaScript
      */
     #ResponsiveFooter .Visible-ScreenXL {
         display: block !important;

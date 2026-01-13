@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -615,7 +615,7 @@ sub AgentQueueListOption {
             }
 
             # create selectable elements
-            my $String               = $Space . $Queue[-1];
+            my $String               = $Space . ( $TreeView ? $Self->{LanguageObject}->Translate( $Queue[-1] ) : $Queue[-1] );
             my $OptionTitleHTMLValue = '';
             if ($OptionTitle) {
                 my $HTMLValue = $HTMLUtilsObject->ToHTML(
@@ -638,7 +638,7 @@ sub AgentQueueListOption {
                     .= '<option selected value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
+                    . $String
                     . "</option>\n";
             }
             elsif ( $CurrentQueueID eq $_ )
@@ -646,7 +646,7 @@ sub AgentQueueListOption {
                 $Param{MoveQueuesStrg}
                     .= '<option value="-" disabled'
                     . $OptionTitleHTMLValue . '>'
-                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
+                    . $String
                     . "</option>\n";
             }
             else {
@@ -654,14 +654,14 @@ sub AgentQueueListOption {
                     .= '<option value="'
                     . $HTMLValue . '"'
                     . $OptionTitleHTMLValue . '>'
-                    . ( $TreeView ? $Self->{LanguageObject}->Translate($String) : $String )
+                    . $String
                     . "</option>\n";
             }
         }
     }
     $Param{MoveQueuesStrg} .= "</select>\n";
 
-    if ( $Param{TreeView} ) {
+    if ($TreeView) {
         my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
         $Param{MoveQueuesStrg}
             .= ' <a href="#" title="'

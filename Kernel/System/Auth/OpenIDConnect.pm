@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -156,7 +156,7 @@ sub Auth {
     # check the state
     my $RandLength = $OpenIDConfig->{Misc}{RandLength} // $Self->{DefaultRandLength};
     my $StateCSRF  = substr $GetParam{State}, 0, $RandLength;
-    my $CookieCSRF = $ParamObject->GetCookie( Key => 'OIDCCSRF' );
+    my $CookieCSRF = $ParamObject->GetCookie( Key => 'OIDCCSRF-' . $StateCSRF );
     my %StateCache = (
         Type => 'OpenIDConnect_State',
         Key  => $StateCSRF,
@@ -377,8 +377,7 @@ sub PreAuth {
 
     # store the RandomString as a CSRF cookie
     $LayoutObject->SetCookie(
-        Key     => 'OIDCCSRF',
-        Name    => 'OIDCCSRF',
+        Key     => 'OIDCCSRF-' . $RandomString,
         Value   => $RandomString,
         Expires => '+' . $TTL . 's',
     );

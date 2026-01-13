@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -161,7 +160,7 @@ Body
 
 for my $Test (@Tests) {
 
-    my @Email = split( /\n/, $Test->{Email} );
+    my @Email = map { $_ . "\n" } split /\n/, $Test->{Email};
 
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
@@ -180,7 +179,7 @@ for my $Test (@Tests) {
     my $EmailParams = $PostMasterObject->GetEmailParams();
 
     for my $EmailParam ( sort keys %{ $Test->{EmailParams} } ) {
-        $Self->Is(
+        is(
             $EmailParams->{$EmailParam},
             $Test->{EmailParams}->{$EmailParam},
             "$Test->{Name} - $EmailParam",
@@ -196,6 +195,4 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup cache is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

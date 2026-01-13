@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -94,7 +94,7 @@ sub GetQueueID {
         }
 
         # Address/Email not matched with any that is configured in the system
-        #   or any error occured while checking it.
+        #   or any error occurred while checking it.
 
         $Self->{CommunicationLogObject}->ObjectLog(
             ObjectLogType => 'Message',
@@ -105,7 +105,7 @@ sub GetQueueID {
     }
 
     # If we get here means that none of the addresses in the message is defined as a system address
-    #   or an error occured while checking it.
+    #   or an error occurred while checking it.
 
     my $Queue   = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterDefaultQueue');
     my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(

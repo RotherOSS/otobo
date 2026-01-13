@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -642,9 +642,11 @@ fieldset.TableLike .Row > .FieldCell label:not(.ck-label) {
     padding-top: 0.3em;
     padding-bottom: 1px;
     text-shadow: 0 1px 0 var(--colBGLightMedium);
+    text-wrap: wrap;
 }
 
-fieldset.TableLike .Row.MultiColumn > .FieldCell label {
+fieldset.TableLike .Row.MultiColumn > .FieldCell label,
+fieldset.TableLike .DFSetOuterField .DynamicFieldSet .Row.MultiColumn > .FieldCell label {
     float: none;
     line-height: 1.9em;
     width: auto;
@@ -716,6 +718,12 @@ fieldset.TableLike .Row.MultiColumn > .FieldCell > .Field {
     width: calc(100% - 40px);
 }
 
+fieldset.TableLike .Row.MultiColumn > .FieldCell > .RichTextField,
+fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .RichTextField { /* has to override normal sets */
+    width: calc(100% - 40px) !important;
+    max-width: calc(100% - 40px);
+}
+
 /* Dynamic Field Set */
 
 fieldset.TableLike .DFSetOuterField {
@@ -739,6 +747,11 @@ fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .Field {
     width: calc( 76% - 48px );
 }
 
+fieldset.TableLike .DynamicFieldSet > .Row > .FieldCell > .RichTextField {
+    width: calc( 76% - 38px ) !important;
+    max-width: calc( 76% - 38px );
+}
+
 fieldset.TableLike .DynamicFieldSet > .Row.MultiValue > .FieldCell.MultiValue_0 > .Field {
     margin-left: 0;
 }
@@ -756,8 +769,8 @@ fieldset.TableLike .DynamicFieldSet > .Row.MultiColumn > .FieldCell > .Field {
 }
 
 /* multivalue sets. necessary because of competing CSS specificities*/
-fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"]),
-fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"]) {
+fieldset.TableLike > .Row.MultiValue > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, [type="checkbox"], .ui-resizable-s),
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Field > :not(.AJAXLoader, .ck-editor, [type="checkbox"], .ui-resizable-s) {
     width: 100%;
     box-sizing: border-box;
 }
@@ -775,6 +788,10 @@ fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet
     width: 100% !important;
     margin-left: 0px;
     padding-left: 0px;
+}
+
+fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField  input.DynamicFieldText {
+    padding-left: 3px;
 }
 
 fieldset.TableLike > .Row > .FieldCell > .Field.DFSetOuterField .DynamicFieldSet .Row_DynamicField .DynamicFieldDate > input {
@@ -862,22 +879,18 @@ fieldset.TableLike > .Row > .FloatingField {
 }
 
 fieldset.TableLike .RichTextField {
-    resize: vertical;
     z-index: 10;
     position: relative;
-    overflow: hidden;
     min-height: 150px !important;
-    height: 320px;
-    max-width: 620px;
+    max-width: 70%;
     padding-bottom: 2px;
     margin-bottom: 6px;
     padding-left: 10px;
     margin-left: 30%;
     margin-right: 0;
-}
-
-fieldset.TableLike > .RichTextField {
-    height: 400px;
+    box-sizing: border-box;
+    height: min-content;    /* overwritten by Core.UI.RichTextEditor.js! */
+    width: 70%;             /* overwritten by Core.UI.RichTextEditor.js! */
 }
 
 body.Popup fieldset.TableLike > .Row > .RichTextField,

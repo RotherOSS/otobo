@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -64,6 +64,13 @@ sub Run {
             );
         }
 
+        # check setting active state
+        if ( !$Preferences{$Group}{Active} ) {
+            return $LayoutObject->ErrorScreen(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'No valid config for %s', $Group ),
+            );
+        }
+
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $Self->{UserLogin} );
         my $Module   = $Preferences{$Group}->{Module};
@@ -107,6 +114,18 @@ sub Run {
         else {
             $Priority = 'Error';
             $Message  = $Object->Error();
+        }
+
+        if ( $Priority ne 'Error' && $Group eq 'Password' && exists $GetParam{NewPw} && exists $GetParam{CurPw} ) {
+
+            # clear *all* sessions for this user (issue #3440)
+            my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            if ( !$AuthSessionObject->RemoveSessionByUser( UserLogin => $UserData{UserLogin} ) ) {
+                $LayoutObject->FatalError(
+                    Message => Translatable('Can`t remove SessionID.'),
+                    Comment => Translatable('Please contact the administrator.'),
+                );    # throws a Kernel::System::Web::Exception
+            }
         }
 
         # check redirect

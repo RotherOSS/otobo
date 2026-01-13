@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,21 +53,24 @@ $Selenium->RunTest(
         my $WaitForDaemon = sub {
             my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
-            # Sleep up to 20 seconds - we tried with 10 seconds, but in some cases it's not enough.
-            my $WaitTime = 20;
+            # Sleep up to 40 seconds - we tried with 10 seconds, but in some cases it's not enough.
+            my $WaitTime = 40;
+
+            sleep 2;
 
             # Wait for daemon to do it's magic.
             note "Waiting at most $WaitTime s until tasks are executed";
             ACTIVESLEEP:
             for my $Seconds ( 1 .. $WaitTime ) {
-                my @TaskList = $SchedulerDBObject->TaskList();
-
-                last ACTIVESLEEP unless @TaskList;
 
                 note "Sleeping for $Seconds seconds...";
                 sleep 1;
-            }
 
+                my @TaskList = $SchedulerDBObject->TaskList();
+
+                last ACTIVESLEEP unless @TaskList;
+            }
+            
             my @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
                 my $Tasks = $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -307,7 +310,7 @@ $Selenium->RunTest(
             my $UntilDateTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
-                    String => '2016-01-01 00:00:00',
+                    String => '2025-01-01 00:00:00',
                 },
             );
             my $UntilTimeDelta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
@@ -320,7 +323,7 @@ $Selenium->RunTest(
         my $DynamicField1TimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
-                String => '2016-01-01 00:00:00',
+                String => '2025-01-01 00:00:00',
             },
         );
         $Success = $DynamicFieldValueObject->ValueSet(
@@ -338,7 +341,7 @@ $Selenium->RunTest(
         my $DynamicField2TimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
-                String => '2016-01-01 12:00:00',
+                String => '2025-01-01 12:00:00',
             },
         );
         $Success = $DynamicFieldValueObject->ValueSet(
@@ -496,11 +499,11 @@ $Selenium->RunTest(
                 },
                 AppointmentUpdate => {
                     StartTime => '1953-06-28 10:20:00',
-                    EndTime   => '2016-07-04 19:45:00',
+                    EndTime   => '2025-07-04 19:45:00',
                 },
                 AppointmentUpdateResult => {
                     'DynamicField_' . $DynamicFields[0]->{Name} => '1953-06-28 10:20:00',
-                    'DynamicField_' . $DynamicFields[1]->{Name} => '2016-07-04 19:45:00',
+                    'DynamicField_' . $DynamicFields[1]->{Name} => '2025-07-04 19:45:00',
                 },
             },
             {
@@ -526,8 +529,8 @@ $Selenium->RunTest(
                     EndTime   => $PendingTimeEndObject->ToString(),
                 },
                 AppointmentUpdate => {
-                    StartTime => '2016-01-01 00:00:00',
-                    EndTime   => '2016-01-01 01:00:00',
+                    StartTime => '2025-01-01 00:00:00',
+                    EndTime   => '2025-01-01 01:00:00',
                 },
                 AppointmentUpdateResult => {
                     UntilTime => $UntilTime,

@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -111,6 +111,13 @@ sub ValueGet {
         LensDynamicFieldConfig => $LensDFConfig,
     );
 
+    # Get the dynamic field config for the referenced object
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $ObjectIDOrName = $ReferenceDFConfig->{FieldType} =~ /^Customer/ ? 'ObjectName' : 'ObjectID';
+
     # in set case, values need to be collected one by one
     if ( $Param{Set} ) {
         my @Values;
@@ -121,7 +128,7 @@ sub ValueGet {
             else {
                 push @Values, $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
                     DynamicFieldConfig => $AttributeDFConfig,
-                    ObjectID           => $RefID,
+                    $ObjectIDOrName    => $RefID,
                 );
             }
         }
@@ -130,18 +137,27 @@ sub ValueGet {
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueGet(
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        $ObjectIDOrName    => $ReferencedObjectID,
     );
 }
 
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $LensDFConfig = $Param{DynamicFieldConfig};
+    # if not explicitly deactivated we assume being on an edit mask
+    my $EditFieldValue = $Param{EditFieldValue} // 1;
+    my $LensDFConfig   = $Param{DynamicFieldConfig};
 
     my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
         LensDynamicFieldConfig => $LensDFConfig,
     );
+
+    # Get the dynamic field config for the referenced object
+    my $ReferenceDFConfig = $Self->_GetReferenceDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $ObjectIDOrName = $ReferenceDFConfig->{FieldType} =~ /^Customer/ ? 'ObjectName' : 'ObjectID';
 
     # in set case, we iterate over the values and set them one by one
     if ( $Param{Set} ) {
@@ -155,8 +171,13 @@ sub ValueSet {
             my $ReferencedObjectID = $Self->_GetReferencedObjectID(
                 ObjectID               => $Param{ObjectID},
                 LensDynamicFieldConfig => $LensDFConfig,
-                EditFieldValue         => $Param{EditFieldValue} // 1,
+                EditFieldValue         => $EditFieldValue,
             );
+
+            # clean up object id in case that ObjectName is passed to not collide
+            if ( $ObjectIDOrName eq 'ObjectName' ) {
+                delete $Param{ObjectID};
+            }
 
             next INDEX unless $ReferencedObjectID;
 
@@ -167,7 +188,7 @@ sub ValueSet {
                 EditFieldValue     => 0,
                 Set                => 0,
                 DynamicFieldConfig => $AttributeDFConfig,
-                ObjectID           => $ReferencedObjectID,
+                $ObjectIDOrName    => $ReferencedObjectID,
             );
         }
         return 1;
@@ -177,17 +198,22 @@ sub ValueSet {
     my $ReferencedObjectID = $Self->_GetReferencedObjectID(
         ObjectID               => $Param{ObjectID},
         LensDynamicFieldConfig => $LensDFConfig,
-        EditFieldValue         => $Param{EditFieldValue} // 1,
+        EditFieldValue         => $EditFieldValue,
     );
 
     return unless $ReferencedObjectID;
+
+    # clean up object id in case that ObjectName is passed to not collide
+    if ( $ObjectIDOrName eq 'ObjectName' ) {
+        delete $Param{ObjectID};
+    }
 
     return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
         %Param,
         ConfigItemHandled  => 0,
         EditFieldValue     => 0,
         DynamicFieldConfig => $AttributeDFConfig,
-        ObjectID           => $ReferencedObjectID,
+        $ObjectIDOrName    => $ReferencedObjectID,
     );
 }
 
@@ -207,25 +233,16 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    if ( $Param{Operator} eq 'Like' ) {
-
-        # TODO: also search ConfigItemID when an integer is given
-        return $DBObject->QueryCondition(
-            Key   => "$Param{TableAlias}.value_text",
-            Value => $Param{SearchTerm},
-        );
-    }
-
-    # TODO: should other operators be supported ??
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        'Priority' => 'error',
-        'Message'  => "Unsupported Operator $Param{Operator}",
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    return;
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchSQLGet(
+        %Param,
+        DynamicFieldConfig => $AttributeDFConfig,
+    );
 }
 
 sub SearchSQLOrderFieldGet {
@@ -313,111 +330,81 @@ sub DisplayValueRender {
 sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
-    # take config from field config
-    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # set the field value
-    my $Value = $Param{DefaultValue} // '';
-
-    # get the field value, this function is always called after the profile is loaded
-    my $FieldValue = $Self->SearchFieldValueGet(%Param);
-
-    # set values from profile if present
-    if ( defined $FieldValue ) {
-        $Value = $FieldValue;
-    }
-
-    # check if value is an array reference (GenericAgent Jobs and NotificationEvents)
-    if ( IsArrayRefWithData($Value) ) {
-        $Value = @{$Value}[0];
-    }
-
-    # check and set class if necessary
-    my $FieldClass = $Self->{FieldCSSClass};    # for field specific JS
-
-    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $Value,
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
     );
 
-    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
-    );
-
-    my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
-EOF
-
-    my $AdditionalText;
-    if ( $Param{UseLabelHints} ) {
-        $AdditionalText = Translatable('e.g. Text or Te*t');
-    }
-
-    # call EditLabelRender on the common Driver
-    my $LabelString = $Self->EditLabelRender(
+    return $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldRender(
         %Param,
-        FieldName      => $FieldName,
-        AdditionalText => $AdditionalText,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
     );
-
-    return {
-        Field => $HTMLString,
-        Label => $LabelString,
-    };
 }
 
 sub SearchFieldValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $Value;
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # get dynamic field value from param object
-    if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}->GetParam(
-            Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name}
-        );
-    }
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    # otherwise get the value from the profile
-    elsif ( defined $Param{Profile} ) {
-        $Value = $Param{Profile}->{ 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} };
-    }
-    else {
-        return;
-    }
-
-    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
-        return {
-            'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
-        };
-    }
-
-    return $Value;
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldValueGet(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
 }
 
 sub SearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    # get field value
-    my $Value = $Self->SearchFieldValueGet(%Param);
+    my $LensDFConfig = $Param{DynamicFieldConfig};
 
-    # set operator
-    my $Operator = 'Equals';
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
 
-    # search for a wild card in the value
-    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldParameterBuild(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
+}
 
-        # change operator
-        $Operator = 'Like';
-    }
+sub SearchFieldPreferences {
 
-    # return search parameter structure
-    return {
-        Parameter => {
-            $Operator => $Value,
-        },
-        Display => $Value,
-    };
+    my ( $Self, %Param ) = @_;
+
+    my $LensDFConfig = $Param{DynamicFieldConfig};
+
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $LensDFConfig,
+    );
+
+    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->SearchFieldPreferences(
+        %Param,
+        DynamicFieldConfig => {
+            $AttributeDFConfig->%*,
+            Name  => $LensDFConfig->{Name},
+            Label => $LensDFConfig->{Label},
+        }
+    );
+    return $Result;
 }
 
 sub StatsFieldParameterBuild {
@@ -709,7 +696,7 @@ sub GetFieldState {
             # TODO: Validate the Reference ObjectID here, or earlier, to prevent data leaks!
             ObjectID              => 1,    # will not be used;
             UseReferenceEditField => 1,
-        );
+        ) // '';
     }
     else {
         $AttributeFieldValue = '';
@@ -903,6 +890,7 @@ sub _GetReferencedObjectID {
             ForLens        => 1,
         );
 
+        return if !$ObjectID;
         return $ObjectID->[0];
     }
 
@@ -912,6 +900,8 @@ sub _GetReferencedObjectID {
         ForLens            => 1,
         Set                => $Param{Set},
     );
+
+    return if !$ObjectID;
 
     # in set case, we need to map the returned array of arrays into an array of first values as multivalue lenses are not supported at the moment
     if ( $Param{Set} ) {

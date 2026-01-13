@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -29,7 +29,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 our $Self;
 
 # plan the tests
-my $ChildCount   = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
+my $ChildCount   = 5;
 my $NumTestUsers = 3;
 plan(
     $NumTestUsers                            # creation of a test user
@@ -55,7 +55,7 @@ my @TargetUserIDs;
     }
 }
 
-my $FileBase = << 'EOF';
+my $FileBase = <<'EOF';
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::0;

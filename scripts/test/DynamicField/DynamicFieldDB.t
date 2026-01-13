@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,15 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -60,10 +63,7 @@ for my $Count ( 1 .. 2 ) {
         ValidID             => 1,
         UserID              => 1,
     );
-    $Self->True(
-        $CustomerCompanyID,
-        "$CustomerCompanyID is created"
-    );
+    ok( $CustomerCompanyID, "$CustomerCompanyID is created" );
     push @CustomerCompanyIDs,   $CustomerCompanyID;
     push @CustomerCompanyNames, $CustomerCompanyName;
 }
@@ -86,10 +86,7 @@ for my $CustomerCompanyName (@CustomerCompanyNames) {
             ValidID        => 1,
             UserID         => 1,
         );
-        $Self->True(
-            $CustomerUserLogin,
-            "$CustomerUserLogin is created"
-        );
+        ok( $CustomerUserLogin, "$CustomerUserLogin is created" );
         push @CustomerUsers, $CustomerUserLogin;
     }
 }
@@ -107,10 +104,7 @@ my $TicketID     = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
-    $TicketID,
-    "TicketID $TicketID is created"
-);
+ok( $TicketID, "TicketID $TicketID is created" );
 
 # Create first test dynamic field database.
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -455,10 +449,7 @@ for my $Test (@Tests) {
         UserID  => 1,
         Reorder => 0,
     );
-    $Self->True(
-        $DynamicFieldID,
-        "DFDatabase ID $DynamicFieldID is created"
-    );
+    ok( $DynamicFieldID, "DFDatabase ID $DynamicFieldID is created" );
     push @DynamicFieldIDs, $DynamicFieldID;
 
     # Get the test dynamic field value.
@@ -510,51 +501,39 @@ for my $Test (@Tests) {
 # Cleanup - it is not possible to use RestoreDatabase for this UnitTest.
 
 # Delete created ticket.
-my $Success = $TicketObject->TicketDelete(
+my $TicketDeleteSuccess = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );
-$Self->True(
-    $Success,
-    "TicketID $TicketID is deleted"
-);
+ok( $TicketDeleteSuccess, "TicketID $TicketID is deleted" );
 
 # Delete created customer users.
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 for my $CustomerUserLogin (@CustomerUsers) {
-    $Success = $DBObject->Do(
+    my $Success = $DBObject->Do(
         SQL  => "DELETE FROM customer_user WHERE login = ?",
         Bind => [ \$CustomerUserLogin ],
     );
-    $Self->True(
-        $Success,
-        "$CustomerUserLogin is deleted",
-    );
+    ok( $Success, "$CustomerUserLogin is deleted", );
 }
 
 # Delete created customer company.
 for my $CustomerCompanyName (@CustomerCompanyNames) {
-    $Success = $DBObject->Do(
+    my $Success = $DBObject->Do(
         SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
         Bind => [ \$CustomerCompanyName ],
     );
-    $Self->True(
-        $Success,
-        "$CustomerCompanyName is deleted",
-    );
+    ok( $Success, "$CustomerCompanyName is deleted", );
 }
 
 # Delete created dynamic field.
 for my $DynamicFieldID (@DynamicFieldIDs) {
-    $Success = $DynamicFieldObject->DynamicFieldDelete(
+    my $Success = $DynamicFieldObject->DynamicFieldDelete(
         ID      => $DynamicFieldID,
         UserID  => 1,
         Reorder => 0,
     );
-    $Self->True(
-        $Success,
-        "DFDatabase ID $DynamicFieldID is deleted",
-    );
+    ok( $Success, "DFDatabase ID $DynamicFieldID is deleted", );
 }
 
-$Self->DoneTesting();
+done_testing;

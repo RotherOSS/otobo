@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,11 +18,17 @@ package Kernel::System::Auth::LDAP;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -37,11 +43,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -57,8 +59,11 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::Host$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
+
+    # the BaseDN is required
     if ( defined( $ConfigObject->Get( 'AuthModule::LDAP::BaseDN' . $Param{Count} ) ) ) {
         $Self->{BaseDN} = $ConfigObject->Get( 'AuthModule::LDAP::BaseDN' . $Param{Count} );
     }
@@ -67,8 +72,11 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
+
+    # the UID, indicating the attribute containing the OTOBO user id, is required
     if ( $ConfigObject->Get( 'AuthModule::LDAP::UID' . $Param{Count} ) ) {
         $Self->{UID} = $ConfigObject->Get( 'AuthModule::LDAP::UID' . $Param{Count} );
     }
@@ -77,8 +85,11 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthModule::LDAP::UID$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
+
+    # optional settings
     $Self->{SearchUserDN}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} )  || '';
     $Self->{SearchUserPw}  = $ConfigObject->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} )  || '';
     $Self->{GroupDN}       = $ConfigObject->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )       || '';
@@ -86,19 +97,9 @@ sub new {
     $Self->{UserAttr}      = $ConfigObject->Get( 'AuthModule::LDAP::UserAttr' . $Param{Count} )      || 'DN';
     $Self->{UserSuffix}    = $ConfigObject->Get( 'AuthModule::LDAP::UserSuffix' . $Param{Count} )    || '';
     $Self->{UserLowerCase} = $ConfigObject->Get( 'AuthModule::LDAP::UserLowerCase' . $Param{Count} ) || 0;
-
-    # ldap filter always used
-    $Self->{AlwaysFilter} = $ConfigObject->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
-
-    # Net::LDAP new params
-    if ( $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params} = $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} );
-    }
-    else {
-        $Self->{Params} = {};
-    }
-
-    $Self->{StartTLS} = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+    $Self->{Params}        = $ConfigObject->Get( 'AuthModule::LDAP::Params' . $Param{Count} )        || {};
+    $Self->{AlwaysFilter}  = $ConfigObject->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} )  || '';
+    $Self->{StartTLS}      = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} )      || '';
 
     return $Self;
 }
@@ -140,38 +141,45 @@ sub Auth {
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
     $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   'utf-8' );
 
-    # get params
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    # get the remote address for log messages
+    my $RemoteAddr;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        $RemoteAddr = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    }
 
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;
     $Param{User} =~ s/\s+$//;
 
-    # Convert username to lower case letters
+    # Convert username to lower case letters.
+    # This is often not necessary as the attribute uid is usually already case insensitive.
     if ( $Self->{UserLowerCase} ) {
         $Param{User} = lc $Param{User};
     }
+
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
 
     # add user suffix
     if ( $Self->{UserSuffix} ) {
         $Param{User} .= $Self->{UserSuffix};
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "User: ($Param{User}) added $Self->{UserSuffix} to username!",
+                Message  => "User: $Param{User} added $Self->{UserSuffix} to username!",
             );
         }
     }
 
     # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    if ($Debug) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "User: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' "
-                . "(REMOTE_ADDR: $RemoteAddr)",
+            Message  => "User: $Param{User} tried to authenticate (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -186,6 +194,7 @@ sub Auth {
                 Priority => 'error',
                 Message  => "Can't connect to $Self->{Host}: $@",
             );
+
             return;
         }
     }
@@ -201,10 +210,12 @@ sub Auth {
                     Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
                 );
                 $LDAP->disconnect();
+
                 return;
             }
         }
     }
+
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
         $Result = $LDAP->bind(
@@ -227,7 +238,7 @@ sub Auth {
     # build filter
     my $Filter = "($Self->{UID}=" . escape_filter_value( $Param{User} ) . ')';
 
-    # prepare filter
+    # join an optional filter condition with '&', that is 'logical and'
     if ( $Self->{AlwaysFilter} ) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
@@ -245,10 +256,12 @@ sub Auth {
         );
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
-    # get whole user dn
+    # get whole user distinctive name,
+    # when more than one entry is found then the picked entry is random, as no sort order was specified
     my $UserDN = '';
     my $User   = '';
     for my $Entry ( $Result->all_entries() ) {
@@ -269,14 +282,15 @@ sub Auth {
         # take down session
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
-    # check if user need to be in a group!
+    # check if user needs to be in a group!
     if ( $Self->{AccessAttr} && $Self->{GroupDN} ) {
 
         # just in case for debug
-        if ( $Self->{Debug} > 0 ) {
+        if ($Debug) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => 'check for groupdn!',
@@ -306,6 +320,7 @@ sub Auth {
             # take down session
             $LDAP->unbind();
             $LDAP->disconnect();
+
             return;
         }
 
@@ -328,6 +343,7 @@ sub Auth {
             # take down session
             $LDAP->unbind();
             $LDAP->disconnect();
+
             return;
         }
     }
@@ -350,6 +366,7 @@ sub Auth {
         # take down session
         $LDAP->unbind();
         $LDAP->disconnect();
+
         return;
     }
 
@@ -371,6 +388,7 @@ sub Auth {
     # take down session
     $LDAP->unbind();
     $LDAP->disconnect();
+
     return $User;
 }
 
@@ -394,29 +412,6 @@ sub _ConvertTo {
         Text => $Text,
         From => $Charset,
         To   => 'utf-8',
-    );
-}
-
-# TODO: this method seems to be unused
-sub _ConvertFrom {
-    my ( $Self, $Text, $Charset ) = @_;
-
-    return if !defined $Text;
-
-    # get encode object
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    if ( !$Charset ) {
-        $EncodeObject->EncodeInput( \$Text );
-
-        return $Text;
-    }
-
-    # convert from directory charset (utf-8) to input charset ($Charset)
-    return $EncodeObject->Convert(
-        Text => $Text,
-        From => 'utf-8',
-        To   => $Charset,
     );
 }
 

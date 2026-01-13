@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -58,7 +58,7 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
     TargetNS.RemoveContainer = function (IDSelector){
 
         // cleanup operation selection
-        var Operation = $('#' + IDSelector).parent().find('.Operation').html();
+        var Operation = $('#' + IDSelector).parent().parent().find('[name=Operation]').val();
         $('#OutboundHeadersOperationSelection option[value="' + Operation +'"]').attr('selected', false).attr('disabled', false);
         $('#OutboundHeadersOperationSelection').trigger('redraw.InputField');
 
@@ -196,11 +196,12 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
      * @memberof Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker
      * @function
      * @returns {Boolean} Returns false
-     * @param {String} Operation - contains selected operation name
+     * @param {String} Operation - contains selected operation identifier
+     * @param {String} OperationName - contains selected operation name
      * @description
      *      This function adds a new container for specific headers
      */
-    TargetNS.AddContainer = function (Operation) {
+    TargetNS.AddContainer = function (Operation, OperationName) {
 
         var $Clone, ActiveID, $InputListContainerObj;
 
@@ -224,7 +225,8 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
         ActiveID.removeClass('OperationOutboundHeadersActiveTemplate');
 
         $Clone.find('.ValueCounter').val('0');
-        $Clone.find('.Operation').html(Operation);
+        $Clone.find('.Operation').html(OperationName);
+        $Clone.find('[name=Operation]').attr('id', 'Operation' + Operation).val(Operation);
 
         $Clone.find('div > :input, div > a.RemoveButton, div > a.AddValue').each(function(){
             var ID = $(this).attr('id');
@@ -318,6 +320,9 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
         $('#UseSSL').on('change', function(){
             if ($(this).val() === 'Yes') {
                 $('.SSLField').removeClass('Hidden');
+
+                // initialize modernized selections
+                Core.UI.InputFields.Activate($('.SSLField'));
             }
 
             else {
@@ -349,7 +354,8 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker = (fun
         // bind change function to operation selection field
         $('#OutboundHeadersOperationSelection').on('change', function(){
             TargetNS.AddContainer(
-                $(this).val()
+                $(this).val(),
+                this.options[this.selectedIndex].text
             );
             return false;
         });

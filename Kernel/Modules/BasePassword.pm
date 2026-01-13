@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,8 @@ package Kernel::Modules::BasePassword;
 
 use strict;
 use warnings;
+
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -158,8 +160,16 @@ sub Run {
             Value     => '',
         );
 
+        # clear *all* sessions for this user (issue #3440)
+        if ( !$AuthSessionObject->RemoveSessionByUser( UserLogin => $UserData{UserLogin} ) ) {
+            $LayoutObject->FatalError(
+                Message => Translatable('Can`t remove SessionID.'),
+                Comment => Translatable('Please contact the administrator.'),
+            );    # throws a Kernel::System::Web::Exception
+        }
+
         # redirect to original requested url
-        return $LayoutObject->Redirect( OP => "$Self->{UserRequestedURL}" );
+        return $LayoutObject->Redirect( OP => $Self->{UserRequestedURL} // '' );
     }
 
     # show change screen
@@ -189,16 +199,19 @@ sub _Screen {
     }
 
     # show sysconfig settings link if admin
-    my $HasAdminPermission = $GroupObject->PermissionCheck(
-        UserID    => $Self->{UserID},
-        GroupName => 'admin',
-        Type      => 'ro',
-    );
-    if ($HasAdminPermission) {
-        $LayoutObject->Block(
-            Name => 'AdminConfig',
-            Data => { %Param, %{ $Config->{Password} } },
+    if ( $Self->_FrontendTypeGet() eq 'Agent' ) {
+
+        my $HasAdminPermission = $GroupObject->PermissionCheck(
+            UserID    => $Self->{UserID},
+            GroupName => 'admin',
+            Type      => 'ro',
         );
+        if ($HasAdminPermission) {
+            $LayoutObject->Block(
+                Name => 'AdminConfig',
+                Data => { %Param, %{ $Config->{Password} } },
+            );
+        }
     }
 
     $Output .= $Self->_OutputTemplate(

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,13 +21,12 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(FixedTimeSet);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 # get needed objects
 my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
@@ -473,13 +472,13 @@ Some Content in Body
 
         @Return = $PostMasterObject->Run();
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         "$Test->{Name} - Create new ticket",
     );
 
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "$Test->{Name} - Create new ticket (TicketID)",
     );
@@ -492,7 +491,7 @@ Some Content in Body
     );
 
     for my $Key ( sort keys %{ $Test->{CheckNewTicket} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Key},
             $Test->{CheckNewTicket}->{$Key},
             "$Test->{Name} - NewTicket - Check result value $Key",
@@ -520,16 +519,16 @@ Some Content in Body
         @Return = $PostMasterObject->Run();
     }
 
-    $Self->Is(
+    is(
         $Return[0] || 0,
         2,
         "$Test->{Name} - Create follow up ticket",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "$Test->{Name} - Create follow up ticket (TicketID)",
     );
-    $Self->Is(
+    is(
         $Return[1],
         $TicketID,
         "$Test->{Name} - Create follow up ticket (TicketID of original ticket)",
@@ -541,7 +540,7 @@ Some Content in Body
     );
 
     for my $Key ( sort keys %{ $Test->{CheckFollowUp} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Key},
             $Test->{CheckFollowUp}->{$Key},
             "$Test->{Name} - FollowUp - Check result value $Key",
@@ -562,6 +561,4 @@ $CommunicationLogObject->CommunicationStop(
     Status => 'Successful',
 );
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing;

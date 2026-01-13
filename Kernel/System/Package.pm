@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -554,7 +554,7 @@ sub PackageInstall {
         );
     }
 
-    # check if one of this files is already intalled by an other package
+    # check if one of those files is already installed by an other package
     if ( %Structure && !$Param{Force} ) {
         return unless $Self->_PackageFileCheck(
             Structure => \%Structure,
@@ -2718,7 +2718,7 @@ sub PackageIsInstalled {
     );
 
     my $Flag = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
+    while ( $DBObject->FetchrowArray() ) {
         $Flag = 1;
     }
 
@@ -2854,7 +2854,7 @@ sub PackageFileGetMD5Sum {
         Type  => 'PackageFileGetMD5Sum',
         Key   => $CacheKey,
         Value => \%MD5SumLookup,
-        TTL   => 6 * 30 * 24 * 60 * 60,    # 6 Months (Aprox)
+        TTL   => 6 * 30 * 24 * 60 * 60,    # 6 Months (approximately)
     );
 
     return \%MD5SumLookup;
@@ -2941,11 +2941,11 @@ sub AnalyzePackageFrameworkRequirements {
                 # check for minimum or maximum required framework, if it was defined
                 if ( $FrameworkMinimum || $FrameworkMaximum ) {
 
-                    # prepare hash for framework comparsion
-                    my %FrameworkComparsion;
-                    $FrameworkComparsion{MinimumFrameworkRequired} = $FrameworkMinimum;
-                    $FrameworkComparsion{MaximumFrameworkRequired} = $FrameworkMaximum;
-                    $FrameworkComparsion{CurrentFramework}         = $CurrentFramework;
+                    # prepare hash for framework comparison
+                    my %FrameworkComparison;
+                    $FrameworkComparison{MinimumFrameworkRequired} = $FrameworkMinimum;
+                    $FrameworkComparison{MaximumFrameworkRequired} = $FrameworkMaximum;
+                    $FrameworkComparison{CurrentFramework}         = $CurrentFramework;
 
                     # prepare version parts hash
                     my %VersionParts;
@@ -2954,7 +2954,7 @@ sub AnalyzePackageFrameworkRequirements {
                     for my $Type (qw(MinimumFrameworkRequired MaximumFrameworkRequired CurrentFramework)) {
 
                         # split version string
-                        my @ThisVersionParts = split /\./, $FrameworkComparsion{$Type};
+                        my @ThisVersionParts = split /\./, $FrameworkComparison{$Type};
                         $VersionParts{$Type} = \@ThisVersionParts;
                     }
 
@@ -2972,7 +2972,7 @@ sub AnalyzePackageFrameworkRequirements {
                                 if $VersionParts{MinimumFrameworkRequired}->[$Count] eq
                                 $VersionParts{CurrentFramework}->[$Count];
 
-                            # skip current framework verion parts containing "x"
+                            # skip current framework version parts containing "x"
                             next COUNT if $VersionParts{CurrentFramework}->[$Count] =~ /x/;
 
                             if (
@@ -3009,7 +3009,7 @@ sub AnalyzePackageFrameworkRequirements {
                                 if $VersionParts{MaximumFrameworkRequired}->[$Count] eq
                                 $VersionParts{CurrentFramework}->[$Count];
 
-                            # skip current framework verion parts containing "x"
+                            # skip current framework version parts containing "x"
                             next COUNT if $VersionParts{CurrentFramework}->[$Count] =~ /x/;
 
                             if (
@@ -3330,7 +3330,6 @@ sub _GetIntegratedPackages {
     return {
         11 => {
             0 => [
-                'ITSM',    # the ITSM bundle is no longer supported in 11.0.x, can be considered as integrated
                 'Ayte-CustomTranslations',
                 'ExtendedCDBInfoTile',
                 'ImportExport',
@@ -3340,10 +3339,15 @@ sub _GetIntegratedPackages {
                 'ResponseTemplatesStatePreselection',
                 'RotherOSS-LightAdmin',
                 'RotherOSS-InternalTransitionActions',
+                'TicketTimeUnitsMandatoryOnlyWithArticle',
             ],
 
             # future releases
-            1 => [],
+            1 => [
+                'ImportExportTicket',    # integrated when ImportExport console commands were added
+                'RestorePendingInformation',
+                'RotherOSS-AccountedTimeInViews',
+            ],
         }
     };
 }
@@ -3354,8 +3358,8 @@ Gets a list of packages and its corresponding install order including is package
     install order means to install first.
 
     my %Result = $PackageObject->PackageInstallOrderListGet(
-        InstalledPackages => \@PakageList,      # as returned from RepositoryList(Result => 'short')
-        OnlinePackages    => \@PakageList,      # as returned from PackageOnlineList()
+        InstalledPackages => \@PackageList,      # as returned from RepositoryList(Result => 'short')
+        OnlinePackages    => \@PackageList,      # as returned from PackageOnlineList()
     );
 
     %Result = (
@@ -3408,7 +3412,7 @@ sub PackageInstallOrderListGet {
     my %InstallOrder;
     my %Failed;
 
-    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(    ## no critic qw(Variables::ProhibitUnusedVarsStricter)
+    my $DependenciesSuccess = $Self->_PackageInstallOrderListGet(
         Callers             => {},
         InstalledVersions   => \%InstalledVersions,
         TargetPackages      => \%InstalledVersions,
@@ -3905,7 +3909,7 @@ sub _CheckModuleRequired {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Sorry, can't install package, because module "
-                        . "$Module->{Content} v$Module->{Version} is required "
+                        . "$Module->{Content}" . ( defined $Module->{Version} ? " v$Module->{Version}" : '' ) . " is required "
                         . "and not installed!",
                 );
                 return;
@@ -5044,7 +5048,7 @@ Helper function for PackageInstallOrderListGet() to process the packages and its
         }
         InstallOrder => {           # current install order
             PackageA => 2,
-            PacakgeB => 1,
+            PackageB => 1,
             # ...
         },
         Failed => {                 # current failed packages or dependencies

@@ -1,8 +1,8 @@
 What is OTOBO?
 ===================================
-[OTOBO](https://otobo.io) is an extremely flexible, web-based open-source ticketing tool,
-used to streamline communication in service organisations
-such as IT Helpdesks, Customer Service, Call Centers etc.
+[OTOBO](https://otobo.io) is an extremely flexible, web-based open-source ticketing tool.
+The application is used for streamlining communication in service organisations
+such as IT helpdesks, customer service centers, call centers etc.
 
 It provides classical ticketing functionality, a knowledgebase/FAQs
 with internal and external interface, helps to automate processes

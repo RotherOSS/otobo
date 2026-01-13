@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,25 +16,24 @@
 
 package Kernel::System::Email::SMTPS;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Net::SMTP;
-
 use parent qw(Kernel::System::Email::SMTP);
 
+# core modules
+
+# CPAN modules
+use Net::SMTP;
+use IO::Socket::SSL ();
+
+# OTOBO modules
+
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
 );
-
-# Use Net::SSLGlue::SMTP on systems with older Net::SMTP modules that cannot handle SMTPS.
-BEGIN {
-    if ( !defined &Net::SMTP::starttls ) {
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
-        require Net::SSLGlue::SMTP;
-    }
-}
 
 sub _Connect {
     my ( $Self, %Param ) = @_;
@@ -54,6 +53,9 @@ sub _Connect {
     my $FQDN = $Param{FQDN};
     $FQDN =~ s{:\d+}{}smx;
 
+    # Do not verify the mail server per default
+    my $SSLVerifyMode = $Kernel::OM->Get('Kernel::Config')->Get('SendmailModule::SSLVerifyMode') // IO::Socket::SSL::SSL_VERIFY_NONE();
+
     # set up connection connection
     my $SMTP = Net::SMTP->new(
         $Param{MailHost},
@@ -62,7 +64,7 @@ sub _Connect {
         Timeout         => 30,
         Debug           => $Param{SMTPDebug},
         SSL             => 1,
-        SSL_verify_mode => 0,
+        SSL_verify_mode => $SSLVerifyMode,
     );
 
     return $SMTP;

@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -52,17 +52,20 @@ fieldset.Columns .Column .InputField_ListContainer div {
     display: none !important;
 }
 
-.DynamicFieldSet .FieldCell .RichTextField {
-    height: fit-content;
-}
-
 .Row,
 .RichTextHolder {
     margin-top: 40px;
     white-space: nowrap;
 }
 
+.RichTextHolder > div,
+.RichTextHolder > textarea {
+    white-space: wrap;
+}
+
 .RichTextHolder {
+    height: 400px;
+    width: 66%;
     margin-left: auto;
     margin-right: auto;
     background-color: var(--colBGLight);
@@ -428,6 +431,11 @@ label.oooFocus.LabelError {
     background-color: #fff;
 }
 
+input[type='checkbox']:disabled,
+.FieldCell input[type='checkbox']:disabled ~ * {
+    color: var(--colBGDark);
+}
+
 input[type='checkbox']:checked + .oooAltCheck:before,
 input[type='checkbox']:checked + .AJAXLoader + .oooAltCheck:before {
     content: "\e908";
@@ -613,11 +621,14 @@ input[readonly] {
 }
 
 .oooTooltip i {
+    position: relative;
+    z-index: 100;
     font-size: 18px;
 }
 
 .oooTooltip > .Content {
-    z-index: 1;
+    z-index: 1100;
+    position: relative;
     display: none;
     color: #00023c;
     color: var(--colTextDark);
@@ -629,6 +640,7 @@ input[readonly] {
     left: -260px;
     top: -8px;
     width: 280px;
+    z-index: 1100;
 }
 
 .TooltipContainer {
@@ -834,34 +846,20 @@ div.InputField_ToolbarContainer ul li a:hover {
 /**
  * @subsection  DynamicFieldRichText
  */
- .RichTextHolder {
-    --RTE-init-size-small: 320px;
-    --RTE-init-size-large: 450px;
-    min-height: 150px;
- }
-
-.FieldCell > .Field.RichTextField {
-    height: auto;
-}
-
 fieldset .RichTextHolder {
     margin-top: 0px;
     padding-top: 48px;
     border-radius: 10px;
-    resize: vertical;
-    overflow: hidden;
     z-index: 10;
     position: relative;
-    height: var(--RTE-init-size-small);
     padding-bottom: 2px;
-    
+    width: 100%;
 }
 
 fieldset > .RichTextHolder {
-    height: var(--RTE-init-size-large);
-    width: 66%;
     margin-top: 48px;
     padding-top: 0px;
+    width: 66%;
 }
 
 .Messenger fieldset > .RichTextHolder {

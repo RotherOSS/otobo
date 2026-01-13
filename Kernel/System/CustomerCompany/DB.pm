@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -371,7 +371,7 @@ sub CustomerCompanySearchDetail {
         }
     }
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject = $Self->{DBObject};
 
     # Assemble the conditions used in the WHERE clause.
     my @SQLWhere;
@@ -552,7 +552,7 @@ sub CustomerCompanySearchDetail {
         #   from the dynamic field search.
         if (@DynamicFieldCustomerIDs) {
 
-            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+            my $SQLQueryInCondition = $DBObject->QueryInCondition(
                 Key      => $Self->{CustomerCompanyKey},
                 Values   => \@DynamicFieldCustomerIDs,
                 BindMode => 0,
@@ -570,7 +570,7 @@ sub CustomerCompanySearchDetail {
 
         next FIELD if !@{ $Param{ $Field->{Name} } };
 
-        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
+        my $SQLQueryInCondition = $DBObject->QueryInCondition(
             Key      => $Field->{DatabaseField},
             Values   => $Param{ $Field->{Name} },
             BindMode => 0,

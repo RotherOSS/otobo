@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
@@ -60,13 +64,6 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # Enable session management use html cookies.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 1,
-        );
-
         # Define random test variable.
         my $RandomID = $Helper->GetRandomID();
 
@@ -102,10 +99,7 @@ $Selenium->RunTest(
                 ValidID     => 1,
                 UserID      => 1,
             );
-            $Self->True(
-                $SignatureID,
-                "SignatureID $SignatureID is created"
-            );
+            ok( $SignatureID, "SignatureID $SignatureID is created" );
             push @SignatureIDs, $SignatureID;
 
             my $QueueID = $QueueObject->QueueAdd(
@@ -118,10 +112,7 @@ $Selenium->RunTest(
                 Comment         => 'Selenium Queue',
                 UserID          => 1,
             );
-            $Self->True(
-                $QueueID,
-                "QueueID $QueueID is created"
-            );
+            ok( $QueueID, "QueueID $QueueID is created" );
             push @QueueIDs,   $QueueID;
             push @QueueNames, $Data->{QueueName};
 
@@ -135,10 +126,7 @@ $Selenium->RunTest(
                 ValidID        => 1,
                 UserID         => 1,
             );
-            $Self->True(
-                $CustomerUserID,
-                "CustomerUserID $CustomerUserID is created"
-            );
+            ok( $CustomerUserID, "CustomerUserID $CustomerUserID is created" );
             push @CustomerUserIDs, $CustomerUserID;
         }
 
@@ -175,7 +163,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject.Error").length' );
 
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#Subject.Error').length"),
             'Client side validation correctly detected missing input value',
         );
@@ -197,7 +185,7 @@ $Selenium->RunTest(
 
         # There is no selected customer, should be no replaced tags in signature.
         my $SignatureText = "Customer First Name: -";
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#Signature").val()'),
             $SignatureText,
             "Signature is found with no replaced tags"
@@ -229,7 +217,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject", 'css' )->send_keys($TicketSubject);
 
         # Queue and customer are selected, signature has replaced tags.
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#Signature").val()'),
             $SignatureText,
             "Signature is found with replaced tags on selected customer"
@@ -247,7 +235,7 @@ $Selenium->RunTest(
 
         # Queue is changed, verify signature change with replaced tags.
         $SignatureText = "Customer Last Name: $TestData[0]->{UserLastName}";
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#Signature").val()'),
             $SignatureText,
             "Signature is found with replaced tags on queue change"
@@ -276,7 +264,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
 
         # Selected customer is changed, signature replaced tags are changed.
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#Signature").val()'),
             $SignatureText,
             "Signature is found with replaced tags on selected customer change"
@@ -294,12 +282,10 @@ $Selenium->RunTest(
         my $TicketNumber = (%TicketIDs)[1];
         my $TicketID     = (%TicketIDs)[0];
 
-        $Self->True(
-            $TicketID,
-            "Ticket was created and found - $TicketID",
-        ) || die;
+        # TODO: is bail_out() more appropriate here?
+        ok( $TicketID, "Ticket was created and found - $TicketID" ) || die;
 
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketID' )]"),
             "Ticket with ticket number $TicketNumber is created",
         );
@@ -308,35 +294,29 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Check if test ticket values are genuine.
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $TicketSubject ) > -1,
             "$TicketSubject found on page",
         ) || die "$TicketSubject not found on page";
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $TicketBody ) > -1,
             "$TicketBody found on page",
         ) || die "$TicketBody not found on page";
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $TestData[1]->{UserLogin} ) > -1,
             "$TestData[1]->{UserLogin} found on page",
         ) || die "$TestData[1]->{UserLogin} not found on page";
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $SignatureText ) > -1,
             "Signature found on page"
         ) || die "$SignatureText not found on page";
 
-        # Disable session management use html cookies to check signature update (see bug#12890).
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 0,
-        );
-
-        # Navigate to AgentTicketEmail screen and login because there is no session cookies.
+        # There is no redirect to the login page as support for SessionUseCookie = 1
+        # had been removed for OTOBO 11.1.x
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
-        $Selenium->find_element( "#User",        'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#Password",    'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#LoginButton", 'css' )->VerifiedClick();
+        $Selenium->find_no_element_ok( "#User",        'css' );
+        $Selenium->find_no_element_ok( "#Password",    'css' );
+        $Selenium->find_no_element_ok( "#LoginButton", 'css' );
 
         my $DestValue = $Selenium->execute_script(
             "return \$('#Dest option').filter(function () { return \$(this).html() == '$QueueNames[0]'; } ).val();"
@@ -364,7 +344,7 @@ $Selenium->RunTest(
         );
 
         # Check if signature have correct text after set queue and customer user.
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#Signature").val()'),
             $SignatureText,
             "Signature has correct text"
@@ -384,47 +364,35 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted",
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
 
         # Delete created test customer users.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         for my $CustomerLogin (@CustomerUserIDs) {
             my $TestCustomer = $DBObject->Quote($CustomerLogin);
-            $Success = $DBObject->Do(
+            my $Success      = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE login = ?",
                 Bind => [ \$TestCustomer ],
             );
-            $Self->True(
-                $Success,
-                "Customer user $TestCustomer is deleted",
-            );
+            ok( $Success, "Customer user $TestCustomer is deleted" );
         }
 
         # Delete created test queues.
         for my $QueueID (@QueueIDs) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM queue WHERE id = ?",
                 Bind => [ \$QueueID ],
             );
-            $Self->True(
-                $Success,
-                "QueueID $QueueID is deleted",
-            );
+            ok( $Success, "QueueID $QueueID is deleted" );
         }
 
         # Delete created test signature.
         for my $SignatureID (@SignatureIDs) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM signature WHERE id = ?",
                 Bind => [ \$SignatureID ],
             );
-            $Self->True(
-                $Success,
-                "SignatureID $SignatureID is deleted",
-            );
+            ok( $Success, "SignatureID $SignatureID is deleted" );
         }
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -437,4 +405,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -135,19 +135,23 @@ sub new {
 
 to execute the run process
 
-    $PostMasterObject->Run(
+    my ($RetCode, $TicketID) = $PostMasterObject->Run(
         Queue   => 'Junk',  # optional, specify target queue for new tickets
         QueueID => 1,       # optional, specify target queue for new tickets
     );
 
-return params
+An empty list is returned in case of an error.
 
-    0 = error (also false)
+The first returned value indicates what has been done.
+
+    0 = error (also undefined)
     1 = new ticket created
     2 = follow up / open/reopen
     3 = follow up / close -> new ticket
     4 = follow up / close -> reject
     5 = ignored (because of X-OTOBO-Ignore header)
+
+When there is a new or followup ticket then this ticket id is returned as the second value.
 
 =cut
 
@@ -178,8 +182,10 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
+            # Note that passing ParserObject to the constructor of the filter object
+            # allows the filter to modify the message itself. This is used in SMIME decryption.
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
             );
@@ -222,6 +228,7 @@ sub Run {
                 "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTOBO-Ignore is set (X-OTOBO-Ignore: $GetParam->{'X-OTOBO-Ignore'}).",
         );
+
         return (5);
     }
 
@@ -242,7 +249,7 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -358,9 +365,7 @@ sub Run {
                 LinkToTicketID   => $TicketID,
             );
 
-            if ( !$TicketID ) {
-                return;
-            }
+            return unless $TicketID;
 
             @Return = ( 3, $TicketID );
         }
@@ -386,9 +391,7 @@ sub Run {
                 AutoResponseType => 'auto reject',
             );
 
-            if ( !$Run ) {
-                return;
-            }
+            return unless $Run;
 
             @Return = ( 4, $TicketID );
         }
@@ -405,9 +408,7 @@ sub Run {
                 AutoResponseType => 'auto follow up',
             );
 
-            if ( !$Run ) {
-                return;
-            }
+            return unless $Run;
 
             @Return = ( 2, $TicketID );
         }
@@ -443,7 +444,7 @@ sub Run {
             AutoResponseType => 'auto reply',
         );
 
-        return if !$TicketID;
+        return unless $TicketID;
 
         @Return = ( 1, $TicketID );
     }
@@ -459,7 +460,7 @@ sub Run {
         JOB:
         for my $Job ( sort keys %Jobs ) {
 
-            return if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            return unless $MainObject->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 %{$Self},
@@ -472,6 +473,7 @@ sub Run {
                     Key           => 'Kernel::System::PostMaster',
                     Value         => "new() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
+
                 next JOB;
             }
 

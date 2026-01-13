@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -30,15 +30,7 @@ use parent qw( Kernel::Modules::AgentTicketActionCommon );
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = qw(
-    Kernel::Config
-    Kernel::Output::HTML::Layout
-    Kernel::System::Log
-    Kernel::System::Ticket
-    Kernel::System::Ticket::Article
-    Kernel::System::Ticket::ArticleFeatures
-    Kernel::System::Web::Request
-);
+our $ObjectManagerDisabled = 1;
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -91,6 +83,36 @@ sub Run {
     # check whether this article type is eligible for changing
     my $ChannelName    = $ArticleBackendObject->ChannelNameGet();
     my $ArticleActions = $ConfigObject->Get("Ticket::Frontend::Article::Actions")->{$ChannelName};
+
+    # call permission check of corresponding article action
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+    );
+    my $ActionStrg = 'AgentTicketArticleEdit';
+    if ( $Self->{Subaction} ) {
+        if ( $Self->{Subaction} eq 'Delete' ) {
+            $ActionStrg = 'AgentTicketArticleDelete';
+        }
+        elsif ( $Self->{Subaction} eq 'Restore' ) {
+            $ActionStrg = 'AgentTicketArticleRestore';
+        }
+    }
+    my $Access = $Kernel::OM->Get( 'Kernel::Output::HTML::ArticleAction::' . $ActionStrg )->CheckAccess(
+        Ticket          => \%Ticket,
+        Article         => \%Article,
+        ChannelName     => $ChannelName,
+        UserID          => $Self->{UserID},
+        AclActionLookup => {
+            $ActionStrg => 1,
+        },
+    );
+    if ( !$Access ) {
+        return $LayoutObject->NoPermission(
+            Message    => $LayoutObject->{LanguageObject}->Translate('This action is not permitted on the article!'),
+            WithHeader => 'yes',
+        );
+    }
 
     if ( $Self->{Subaction} eq 'ArticleDelete' ) {
         if ( !$ArticleActions->{'AgentTicketArticleDelete'} ) {

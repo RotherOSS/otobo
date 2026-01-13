@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -414,10 +414,17 @@ Core.Form.Validate = (function (TargetNS) {
         DateMinuteClassPrefix = 'Validate_DateMinute_',
         DateAfterBefore,
         DateCheck,
+        CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
         $UsedObj;
 
         // Skip validation if field is not used (bug#12210)
-        $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        if (CustomerInterface) {
+            $UsedObj = $(Element).parent().siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        }
+        else {
+            $UsedObj = $(Element).siblings('input.DynamicFieldText[id*="Used"][type="checkbox"]');
+        }
+
         if ($UsedObj.length > 0 && $UsedObj.is(':checked') === false) {
             return true;
         }

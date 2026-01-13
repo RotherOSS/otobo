@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2012-2019 Znuny GmbH, http://znuny.com/
 # Copyright (C) (2014) (Denny Bresch) (dennybresch@gmail.com) (https://github.com/dennybresch)
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,12 +20,7 @@ package Kernel::Modules::AgentTicketQuickClose;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
-);
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,6 +120,14 @@ sub _SetState {
     my $State = $Param{Config}{State};
 
     return if !$State;
+
+    if ( $Param{Config}{RequiredLock} ) {
+        $TicketObject->TicketOwnerSet(
+            TicketID  => $Self->{TicketID},
+            UserID    => $Self->{UserID},
+            NewUserID => $Self->{UserID},
+        );
+    }
 
     my $Success = $TicketObject->TicketStateSet(
         State    => $State,

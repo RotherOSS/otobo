@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -64,7 +64,7 @@ by using Kernel::System::DynamicField::Backend->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -88,8 +88,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custom extensions
-    # allow passing ExtensionClass, relevant for ActivityID and ProcessID
-    my ($ShortType) = $Param{ExtensionClass} // reverse split /::/, $Type;    # 'Text' or 'TextArea'
+    my ($ShortType) = reverse split /::/, $Type;    # 'Text' or 'TextArea'
     my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::Extension::Driver::$ShortType");
 
     EXTENSION:
@@ -376,7 +375,7 @@ sub EditFieldRender {
     }
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my %FieldTemplateData = (
@@ -484,15 +483,26 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            # delete empty values (can happen if the user has selected the "-" entry)
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+
+                if ( !defined $ValueItem || $ValueItem eq '' ) {
+                    push @TmpValues, undef;
+
+                    next VALUEITEM;
+                }
+
+                push @TmpValues, $ValueItem;
+                push @Data,      @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {
@@ -529,35 +539,39 @@ sub EditFieldValueValidate {
         $Value = [$Value];
     }
 
-    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
+    my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         $ValueItem //= '';
 
         # perform necessary validations
-        if ( $Param{Mandatory} && $ValueItem eq '' ) {
-            $ServerError = 1;
-        }
-        elsif (
-            IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
-            && ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) )
-            )
-        {
+        if ( $ValueItem ne '' ) {
 
-            # check regular expressions
-            my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+            $ValueItemsPresent++;
 
-            REGEXENTRY:
-            for my $RegEx (@RegExList) {
+            if ( IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} ) ) {
 
-                if ( $ValueItem !~ $RegEx->{Value} ) {
-                    $ServerError  = 1;
-                    $ErrorMessage = $RegEx->{ErrorMessage};
+                # check regular expressions
+                my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
 
-                    last REGEXENTRY;
+                REGEXENTRY:
+                for my $RegEx (@RegExList) {
+
+                    if ( $ValueItem !~ $RegEx->{Value} ) {
+                        $ServerError  = 1;
+                        $ErrorMessage = $RegEx->{ErrorMessage};
+
+                        last REGEXENTRY;
+                    }
                 }
             }
         }
+    }
+
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
+
+        $ServerError  = 1;
+        $ErrorMessage = 'The field content is invalid';
     }
 
     # return resulting structure
@@ -640,9 +654,8 @@ sub SearchFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldName  = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel = $Param{DynamicFieldConfig}->{Label};
 
     # set the field value
     my $Value = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
@@ -668,7 +681,7 @@ sub SearchFieldRender {
     );
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
-        Text => $FieldLabel,
+        Text => $Param{LayoutObject}{LanguageObject}->Translate($FieldLabel),
     );
 
     my $HTMLString = <<"EOF";

@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,7 +26,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
-    # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    # Print the console commands to install all missing packages for the standard configuration via the system package manager.
     # No version check is done.
     bin/otobo.CheckModules.pl --inst
 
@@ -63,8 +63,13 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
 =head1 DESCRIPTION
 
-This scripts can be used for checking whether required Perl modules are installed.
+This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
+
+Some modules that are checked here are actually in Perl core. These checks
+are kept in place as it can not be guaranteed that no Perl modules
+are removed from Perl core. Also, Linux distributes have occasionally removed
+core modules from their default installation.
 
 =cut
 
@@ -85,6 +90,7 @@ use Term::ANSIColor                qw(color);
 use Pod::Usage                     qw(pod2usage);
 use Module::Metadata 1.000031      ();
 use CPAN::Meta::Requirements 2.140 ();
+use Term::ReadLine;    # avoids error when checking for Term::ReadLine::Gnu
 
 # CPAN modules
 
@@ -164,25 +170,26 @@ my %DistToInstType = (
     freebsd => 'ports',
 );
 
+# defines a set of features considered standard for non-docker and docker environments
+my %IsCommonFeature = (
+    'db:mysql'     => 1,
+    'div:bcrypt'   => 1,
+    'div:hanextra' => 1,
+    'div:ldap'     => 1,
+    'div:xslt'     => 1,
+    'mail:ntlm'    => 1,
+    'mail:sasl'    => 1,
+);
+
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
+    %IsCommonFeature,
     'apache:mod_perl' => 1,
-    'db:mysql'        => 1,
-    'div:bcrypt'      => 1,
-    'div:hanextra'    => 1,
-    'div:ldap'        => 1,
-    'div:xmlparser'   => 1,
-    'div:xslt'        => 1,
-    'mail'            => 1,
-    'mail:imap'       => 1,
-    'mail:ntlm'       => 1,
-    'mail:sasl'       => 1,
-    'mail:ssl'        => 1,
 );
 
 # defines a set of features considered standard for docker environments
 my %IsDockerFeature = (
-    'db:mysql'           => 1,
+    %IsCommonFeature,
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
@@ -190,16 +197,10 @@ my %IsDockerFeature = (
     'devel:encoding'     => 1,
     'devel:test'         => 1,
     'devel:i18n'         => 1,
-    'div:bcrypt'         => 1,
     'div:cldr'           => 1,
     'div:qrcode'         => 1,
-    'div:ldap'           => 1,
-    'div:xslt'           => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
-    'mail:imap'          => 1,
-    'mail:ntlm'          => 1,
-    'mail:sasl'          => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
     'auth:openidconnect' => 1,
@@ -207,30 +208,30 @@ my %IsDockerFeature = (
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
-    'aaacore'         => 'Required packages',
-    'apache'          => 'Recommended features for setups using apache',
-    'db'              => 'Database support (installing one is required)',
-    'db:mysql'        => 'Support for database MySQL',
-    'db:odbc'         => 'Support for database access via ODBC',
-    'db:oracle'       => 'Support for database Oracle',
-    'db:postgresql'   => 'Support for database PostgreSQL',
-    'db:sqlite'       => 'Support for database SQLLite',
-    'devel:debugging' => 'Features which can be useful in development environments',
-    'devel:encoding'  => 'Modules for debugging encoding issues',
-    'devel:test'      => 'Modules for running the test suite',
-    'devel:i18n'      => 'Modules for dealing with translation and internationalisation',
-    'div'             => 'Various features for additional functionality',
-    'gazelle'         => 'Required packages if you want to use Gazelle webserver',
-    'mail'            => 'Features enabling communication with a mail-server',
-    'performance'     => 'required and optional features which can increase performance',
-    'storage:s3'      => 'AWS S3 compatible storage',
-    'zzznone'         => 'Uncategorized',
+    'aaacore'           => 'Required packages',
+    'apache'            => 'Recommended features for setups using apache',
+    'db'                => 'Database support (installing one is required)',
+    'db:mysql'          => 'Support for database MySQL',
+    'db:odbc'           => 'Support for database access via ODBC',
+    'db:oracle'         => 'Support for database Oracle',
+    'db:postgresql'     => 'Support for database PostgreSQL',
+    'db:sqlite'         => 'Support for database SQLLite',
+    'devel:debugging'   => 'Features which can be useful in development environments',
+    'devel:encoding'    => 'Modules for debugging encoding issues',
+    'devel:test'        => 'Modules for running the test suite',
+    'devel:i18n'        => 'Modules for dealing with translation and internationalisation',
+    'div'               => 'Various features for additional functionality',
+    'gazelle'           => 'Required packages if you want to use Gazelle webserver',
+    'mail'              => 'Features enabling communication with a mail-server',
+    'performance:redis' => 'Modules for running with Redis Cache Server',
+    'storage:s3'        => 'AWS S3 compatible storage',
+    'zzznone'           => 'Uncategorized',
 );
 
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-    import Linux::Distribution;
+    Linux::Distribution->import;
 
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
@@ -295,9 +296,10 @@ if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $E
 
 my $ExitCode = 0;    # success
 
-# This is the reference for Perl modules that are required by OTOBO or are optional.
+# The array @NeededModules is the declaration of Perl modules that are
+# either required or optional in OTOBO.
 # Modules that are required are marked by setting 'Required' to 1.
-# Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+#
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 # Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
@@ -314,6 +316,7 @@ my @NeededModules = (
 
     # Core
     {
+        # In Perl core since Perl 5.9.3
         Module    => 'Archive::Tar',
         Required  => 1,
         Comment   => 'Required for compressed file generation (in perlcore).',
@@ -327,7 +330,7 @@ my @NeededModules = (
     {
         Module    => 'Archive::Zip',
         Required  => 1,
-        Comment   => 'Required for compressed file generation.',
+        Comment   => 'Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV',
         InstTypes => {
             aptget => 'libarchive-zip-perl',
             emerge => 'dev-perl/Archive-Zip',
@@ -370,36 +373,30 @@ my @NeededModules = (
     {
         Module          => 'DateTime',
         Required        => 1,
-        VersionRequired => '>= 1.08',
+        VersionRequired => '>= 1.08',    # from 2014
         InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
             zypper => 'perl-DateTime',
             ports  => 'devel/p5-TimeDate',
         },
-        Depends => [
-            {
-                Module              => 'DateTime::TimeZone',
-                Comment             => 'Olson time zone database, required for correct time calculations.',
-                VersionsRecommended => [
-                    {
-                        Version => '2.20',
-                        Comment => 'This version includes recent time zone changes for Chile.',
-                    },
-                ],
-                InstTypes => {
-                    aptget => 'libdatetime-timezone-perl',
-                    emerge => undef,
-                    zypper => 'perl-DateTime-TimeZone',
-                    ports  => undef,
-                },
-            },
-        ],
+    },
+    {
+        Module          => 'DateTime::TimeZone',
+        Comment         => 'Olson time zone database, required for correct time calculations.',
+        Required        => 1,
+        VersionRequired => '>= 2.20',                                                             # from 2018
+        InstTypes       => {
+            aptget => 'libdatetime-timezone-perl',
+            emerge => 'dev-perl/DateTime-TimeZone',
+            zypper => 'perl-DateTime-TimeZone',
+            ports  => 'devel/p5-DateTime-TimeZone',
+        },
     },
     {
         Module          => 'CSS::Minifier::XS',
         Required        => 1,
-        VersionRequired => '>= 0.09',                        # released in 2013
+        VersionRequired => '>= 0.09',                                                             # released in 2013
         Comment         => 'A CSS minifier written in XS',
         InstTypes       => {
             aptget => 'libcss-minifier-xs-perl',
@@ -440,7 +437,9 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.9.3
         Module    => 'Digest::SHA',
+        Comment   => '(in perlcore)',
         Required  => 1,
         InstTypes => {
             aptget => 'perl',
@@ -473,6 +472,23 @@ my @NeededModules = (
         },
     },
     {
+        Module              => 'IO::Socket::SSL',
+        Required            => 1,
+        Comment             => 'Required for SSL connections to web and mail servers',
+        VersionsRecommended => [
+            {
+                Version => '2.066',
+                Comment => 'This version fixes email sending (bug#14357).',
+            },
+        ],
+        InstTypes => {
+            aptget => 'libio-socket-ssl-perl',
+            emerge => 'dev-perl/IO-Socket-SSL',
+            zypper => 'perl-IO-Socket-SSL',
+            ports  => 'security/p5-IO-Socket-SSL',
+        },
+    },
+    {
         Module    => 'JavaScript::Minifier::XS',
         Required  => 1,
         Comment   => 'A JavaScript minifier written in XS',
@@ -484,15 +500,16 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'JSON::XS',
-        Required  => 1,
-        Comment   => 'JSON parsing and generation',
-        InstTypes => {
-            aptget => 'libjson-xs-perl',
-            emerge => 'dev-perl/JSON-XS',
-            yum    => 'perl-JSON-XS',
-            zypper => 'perl-JSON-XS',
-            ports  => 'converters/p5-JSON-XS',
+        Module          => 'Cpanel::JSON::XS',
+        Required        => 1,
+        VersionRequired => '>= 4.0',
+        Comment         => 'correct and fast JSON support',
+        InstTypes       => {
+            aptget => 'libcpanel-jsperl',
+            emerge => 'dev-perl/Cpanel-JSON-XS',
+            yum    => 'perl-Cpanel-JSON-XS',
+            zypper => 'perl-Cpanel-JSON-XS',
+            ports  => 'converters/p5-Cpanel-JSON-XS',
         },
     },
     {
@@ -528,6 +545,21 @@ my @NeededModules = (
             emerge => 'dev-perl/libwww-perl',
             zypper => 'perl-libwww-perl',
             ports  => 'www/p5-libwww',
+        },
+    },
+    {
+        # fetch mails via IMAP, handle both secure and unsecure connections
+        # Version 3.40 is from Dec  6th 2018, there is no particular reason for requiring at least this version.
+        # IO::Socket::SSL is loaded only when needed. This is fine, as IO::Socket::SSL is a required module anyways.
+        Module          => 'Mail::IMAPClient',
+        Required        => 1,
+        VersionRequired => '>= 3.40',
+        Comment         => 'Required for IMAP TLS connections.',
+        InstTypes       => {
+            aptget => 'libmail-imapclient-perl',
+            emerge => 'dev-perl/Mail-IMAPClient',
+            zypper => 'perl-Mail-IMAPClient',
+            ports  => 'mail/p5-Mail-IMAPClient',
         },
     },
     {
@@ -666,9 +698,10 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.7.3
         Module    => 'Time::HiRes',
         Required  => 1,
-        Comment   => 'Required for high resolution timestamps.',
+        Comment   => 'Required for high resolution timestamps (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => 'perl-core/Time-HiRes',
@@ -687,8 +720,19 @@ my @NeededModules = (
         },
     },
     {
+        Module          => 'Type::Tiny',
+        VersionRequired => '>= 1.008',     # version provided by Debian 20.04 LTS Focal Fossa
+        Required        => 1,
+        InstTypes       => {
+            aptget => 'libtype-tiny-perl',
+            emerge => 'dev-perl/Type-Tiny',
+            zypper => 'perl-Type-Tiny',
+            ports  => 'devel/p5-Type-Tiny',
+        },
+    },
+    {
         # This module is a requirement for JSON::XS. It is listed
-        # here explicitly because it is also unded independently
+        # here explicitly because it is also used independently
         # from JSON::XS
         Module    => 'Types::Serialiser',
         Required  => 1,
@@ -752,18 +796,6 @@ my @NeededModules = (
         Features        => ['storage:s3'],
         Comment         => 'support for the REST requests to the S3 storage',
         InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            yum    => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Cpanel::JSON::XS',
-        Features  => ['storage:s3'],
-        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
-        InstTypes => {
             aptget => undef,
             emerge => undef,
             yum    => undef,
@@ -864,36 +896,7 @@ my @NeededModules = (
         },
     },
 
-    # Feature mail
-    {
-        Module              => 'Net::SMTP',
-        Features            => ['mail'],
-        Comment             => 'Simple Mail Transfer Protocol Client.',
-        VersionsRecommended => [
-            {
-                Version => '3.11',
-                Comment => 'This version fixes email sending (bug#14357).',
-            },
-        ],
-        InstTypes => {
-            aptget => 'perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module          => 'Mail::IMAPClient',
-        VersionRequired => '>= 3.22',
-        Features        => ['mail:imap'],
-        Comment         => 'Required for IMAP TLS connections.',
-        InstTypes       => {
-            aptget => 'libmail-imapclient-perl',
-            emerge => 'dev-perl/Mail-IMAPClient',
-            zypper => 'perl-Mail-IMAPClient',
-            ports  => 'mail/p5-Mail-IMAPClient',
-        },
-    },
+    # Feature mail:imap, mail:sasl, mail:ntlm
     {
         Module    => 'Authen::SASL',
         Features  => ['mail:sasl'],
@@ -1042,23 +1045,6 @@ my @NeededModules = (
         },
     },
     {
-        Module              => 'IO::Socket::SSL',
-        Features            => [ 'div:ssl', 'mail:ssl' ],
-        Comment             => 'Required for SSL connections to web and mail servers.',
-        VersionsRecommended => [
-            {
-                Version => '2.066',
-                Comment => 'This version fixes email sending (bug#14357).',
-            },
-        ],
-        InstTypes => {
-            aptget => 'libio-socket-ssl-perl',
-            emerge => 'dev-perl/IO-Socket-SSL',
-            zypper => 'perl-IO-Socket-SSL',
-            ports  => 'security/p5-IO-Socket-SSL',
-        },
-    },
-    {
         Module    => 'Net::LDAP',
         Comment   => 'Required for directory authentication.',
         Features  => ['div:ldap'],
@@ -1081,11 +1067,12 @@ my @NeededModules = (
         },
     },
     {
-        Module          => 'Locale::CLDR',
-        Features        => ['div:cldr'],
-        VersionRequired => '== 0.44.1',
-        Comment         => 'localisation from the CLDR project',
-        InstTypes       => {
+        Module                => 'Locale::CLDR',
+        Features              => ['div:cldr'],
+        VersionRequired       => '== 0.44.1',
+        DockerVersionRequired => '== 0.46.0',
+        Comment               => 'localisation from the CLDR project',
+        InstTypes             => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
@@ -1129,6 +1116,32 @@ my @NeededModules = (
         VersionRequired => '>= 0.000010',
         Features        => ['devel:debugging'],
         Comment         => 'convenient and informative dumping data structures',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module          => 'Devel::Confess',
+        VersionRequired => '>= 0.009004',
+        Features        => ['devel:debugging'],
+        Comment         => 'add stack trace to warnings',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        # The module Term::ReadLine::Gnu requires that Term::ReadLine is already loaded
+        # before it is loaded. That is why Term::ReadLine is loaded on top of this script.
+        Module          => 'Term::ReadLine::Gnu',
+        VersionRequired => '>= 1.35',                                                     # released in 2016
+        Features        => ['devel:debugging'],
+        Comment         => 'command history in Perl debugger and in Dev::Tools::Shell',
         InstTypes       => {
             aptget => undef,
             emerge => undef,
@@ -1187,6 +1200,29 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test::Strict',
+        Features  => ['devel:test'],
+        Comment   => 'check for strictures and warnings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Test::Warnings',
+        Features  => ['devel:test'],
+        Comment   => 'check whether the test script emits warnings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        # in Perl core since Perl 5.40
         Module    => 'Test2::Suite',
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
@@ -1198,9 +1234,10 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.6.2
         Module    => 'Test::Simple',
         Features  => ['devel:test'],
-        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)',
         InstTypes => {
             aptget => 'perl',
             emerge => undef,
@@ -1220,6 +1257,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test2::Tools::Explain',
+        Features  => ['devel:test'],
+        Comment   => 'bring explain() back to test scripts',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Unicode::GCString',
         Features  => ['devel:test'],
         Comment   => 'support for formatting test results',
@@ -1230,6 +1278,8 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+
+    # Feature devel:i18n
     {
         Module    => 'Locale::PO',
         Features  => ['devel:i18n'],
@@ -1249,11 +1299,12 @@ my @NeededModules = (
 for my $Code (qw(Ar De Es Fr Hu Ko Nb Pt Ru Sr Zh)) {
     push @NeededModules,
         {
-            Module          => "Locale::CLDR::Locales::$Code",
-            Features        => ['div:cldr'],
-            VersionRequired => '== 0.44.1',
-            Comment         => 'language packs from the CLDR project',
-            InstTypes       => {
+            Module                => "Locale::CLDR::Locales::$Code",
+            Features              => ['div:cldr'],
+            VersionRequired       => '== 0.44.1',
+            DockerVersionRequired => '== 0.46.0',
+            Comment               => 'language packs from the CLDR project',
+            InstTypes             => {
                 aptget => undef,    # not in any Debian package
                 emerge => undef,
                 zypper => undef,
@@ -1392,7 +1443,8 @@ else {
     if ($DoPrintAllModules) {
         MODULE:
         for my $Module (@NeededModules) {
-            next MODULE if !$Module->{Features};
+            next MODULE unless $Module->{Features};
+
             for my $Feature ( @{ $Module->{Features} } ) {
                 $Features{$Feature}++;
             }
@@ -1440,12 +1492,11 @@ else {
     }
 
     # try to determine module version number
-    my $Depends = 0;
 
     for my $Category ( sort keys %PrintFeatures ) {
         print $FeatureDescription{$Category} ? "\n$FeatureDescription{$Category}:\n" : "\nPackages needed for the feature '$Category':\n";
         for my $Module ( @{ $PrintFeatures{$Category} } ) {
-            Check( $Module, $Depends, $NoColors );
+            Check( $Module, $NoColors );
         }
     }
 
@@ -1462,7 +1513,6 @@ else {
                     Module   => $Module,
                     Required => 1,
                 },
-                $Depends,
                 $NoColors
             );
         }
@@ -1471,11 +1521,10 @@ else {
 }
 
 sub Check {
-    my ( $Module, $Depends, $NoColors ) = @_;
+    my ( $Module, $NoColors ) = @_;
 
-    print "  " x ( $Depends + 1 );
-    print "o $Module->{Module}";
-    my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
+    print "  o $Module->{Module}";
+    my $Length = 33 - length( $Module->{Module} );
     print '.' x $Length;
 
     # $Metadata is undefined when the module is not found in @INC
@@ -1485,6 +1534,8 @@ sub Check {
 
         my $ErrorMessage = '';
         if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+
+            # Note that this message might not give the actual reason why the module can't be loaded
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
@@ -1510,17 +1561,23 @@ sub Check {
             }
         }
 
-        if ( $Module->{VersionRequired} ) {
+        # There might be a version requirement
+        my $VersionRequired = $ENV{OTOBO_RUNS_UNDER_DOCKER}
+            ?
+            ( $Module->{DockerVersionRequired} // $Module->{VersionRequired} )
+            :
+            $Module->{VersionRequired};
+        if ($VersionRequired) {
 
             # Check the required version range.
             # The version range is given in META.json, or cpanfile, style.
             # E.g. '4.0, != 4.043, < 5.000'
             my $Requirements = CPAN::Meta::Requirements->new;
-            $Requirements->add_string_requirement( $Module->{Module} => $Module->{VersionRequired} );
+            $Requirements->add_string_requirement( $Module->{Module} => $VersionRequired );
             my $IsAccepted = $Requirements->accepts_module( $Module->{Module} => $Version );
 
             if ( !$IsAccepted ) {
-                $ErrorMessage .= "Version $Version installed but $Module->{VersionRequired} is required! ";
+                $ErrorMessage .= "Version $Version installed but $VersionRequired is required! ";
                 if ( $Module->{VersionComments} ) {
                     $ErrorMessage .= join "\n", '', $Module->{VersionComments}->@*;
                 }
@@ -1592,12 +1649,6 @@ sub Check {
                 . 'Not installed!'
                 . color('reset')
                 . "$InstallText ($Required$Comment)\n";
-        }
-    }
-
-    if ( $Module->{Depends} ) {
-        for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 

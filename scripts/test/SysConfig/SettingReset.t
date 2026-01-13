@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -41,7 +41,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $SettingsXML = << 'END_XML';
+my $SettingsXML = <<'END_XML';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">
@@ -232,6 +232,7 @@ for my $Test (@Tests) {
         'Default setting must be lock for resetting it.',
     );
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Perl::UnitTestConfigChanges)
     my $Success = $SysConfigObject->SettingReset(
         %{ $Test->{Params} },
         ExclusiveLockGUID => $ExclusiveLockGUID,

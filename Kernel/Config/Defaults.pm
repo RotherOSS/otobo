@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,8 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
+use experimental 'bitwise'; # can be removed when "use v5.28" is active
+use feature 'bitwise';      # can be removed when "use v5.28" is active
 
 # core modules
 use Digest::MD5    qw(md5_hex);
@@ -52,6 +54,8 @@ Kernel::Config::Defaults - Base class for the ConfigObject.
 This class implements several internal functions that are used internally in
 L<Kernel::Config>. The two externally used functions are documented as part
 of L<Kernel::Config>, even though they are actually implemented here.
+
+This module also holds examples of settings that may be used in F<Kernel/Config.pm>.
 
 =head1 PUBLIC INTERFACE
 
@@ -160,6 +164,18 @@ sub LoadDefaults {
     # If you want to use the sql slow log feature, enable this here.
     # (To log every sql query which takes longer the 4 sec.)
     #    $Self->{'Database::SlowLog'} = 0;
+
+    # Specify Database::Attributes when you want to pass installation specific
+    # database connect attributes. One use case is activating an encrypted connection
+    # to a MySQL or MariaDB database server.
+    #
+    # The *.pem files may copied from a MySQL db container, from /var/lib/mysql,
+    # See https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-secure-connections.html#secure-deployment-distribute-client-cert-key-files
+    #$Self->{'Database::Attribute'} = {
+    #    mysql_ssl_ca_file     => '/opt/otobo/var/ca.pem',
+    #    mysql_ssl_client_key  => '/opt/otobo/var/client-key.pem',
+    #    mysql_ssl_client_cert => '/opt/otobo/var/client-cert.pem',
+    #};
 
     # --------------------------------------------------- #
     # otobo.psgi configuration                            #
@@ -538,7 +554,7 @@ sub LoadDefaults {
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
-#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
 #            SSLCertificate => 'SSL_cert_file',     # client certificate
 #            SSLKey         => 'SSL_key_file',      # client cert key
 #            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
@@ -909,14 +925,6 @@ sub LoadDefaults {
     # (Delete session's witch are requested and to old?) [0|1]
     $Self->{SessionDeleteIfTimeToOld} = 1;
 
-    # SessionUseCookie
-    # (Should the session management use html cookies?
-    # It's more comfortable to send links -==> if you have a valid
-    # session, you don't have to login again.) [0|1]
-    # Note: If the client browser disabled html cookies, the system
-    # will work as usual, append SessionID to links!
-    $Self->{SessionUseCookie} = 1;
-
     # SessionUseCookieAfterBrowserClose
     # (store cookies in browser after closing a browser) [0|1]
     $Self->{SessionUseCookieAfterBrowserClose} = 0;
@@ -1038,7 +1046,10 @@ sub LoadDefaults {
     # article dir
     $Self->{'Ticket::Article::Backend::MIMEBase::ArticleDataDir'} = '<OTOBO_CONFIG_Home>/var/article';
 
-    # html template dirs
+    # HTML template dirs
+    #
+    # TemplateDir is also used for assembling the path Kernel/Output/HMTL/Layout/,
+    # which holds the base classes of the Kernel::Output::HTML::Layout module
     $Self->{TemplateDir}       = '<OTOBO_CONFIG_Home>/Kernel/Output';
     $Self->{CustomTemplateDir} = '<OTOBO_CONFIG_Home>/Custom/Kernel/Output';
 
@@ -1096,13 +1107,13 @@ sub LoadDefaults {
 
     # Customer Common JS
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} = [
-        'thirdparty/jquery-3.6.0/jquery.min.js',
+        'thirdparty/jquery-3.7.1/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
+        'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
         'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
-        'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
+        'thirdparty/nunjucks-3.2.4/nunjucks.min.js',
         'Core.Init.js',
         'Core.Debug.js',
         'Core.Exception.js',
@@ -1137,14 +1148,14 @@ sub LoadDefaults {
 
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
-        'thirdparty/jquery-3.6.0/jquery.min.js',
+        'thirdparty/jquery-3.7.1/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
-        'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
+        'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
-        'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
+        'thirdparty/nunjucks-3.2.4/nunjucks.min.js',
         'Core.Init.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Debug.js',
@@ -1538,7 +1549,7 @@ via the Preferences button after logging in.
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
-#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 and SSLVerifyMode => 0 are also possible but should only be used for testing purposes
 #            SSLCertificate => 'SSL_cert_file',     # client certificate
 #            SSLKey         => 'SSL_key_file',      # client cert key
 #            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
@@ -2173,7 +2184,8 @@ sub new {
     # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load specific settings from Kernel/Config.pm
+    # Load specific settings from Kernel/Config.pm.
+    # Overriding settings from Kernel/Config/Defaults.pm.
     $Self->Load();
 
     # when in cluster mode, we must consider that files in Kernel/Config/Files
@@ -2310,7 +2322,7 @@ sub Get {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undef>';
+        my $Value = $Self->{$What} // '<undef>';
         print STDERR "Debug: Config.pm ->Get('$What') --> $Value\n";
     }
 
@@ -2328,7 +2340,7 @@ sub Set {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Param{Value} ? $Param{Value} : '<undef>';
+        my $Value = $Param{Value} // '<undef>';
         print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Value)\n";
     }
 
@@ -2358,7 +2370,8 @@ sub Set {
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
 # This is a no-op to mark a text as translatable in the Perl code.
-#   We use our own version here instead of importing Language::Translatable to not add a dependency.
+# We use our own version of Translatable() here instead of importing Kernel::Language::Translatable(). This
+# avoids the need to add a dependency.
 
 sub Translatable {
     return shift;
@@ -2462,7 +2475,7 @@ sub SyncWithS3 {
     while (1) {
 
         # run a blocking GET request to S3, getting all keys below the prefix
-        # The keys are the pathes of files relative to Kernel/Config/Files
+        # The keys are the paths of files relative to Kernel/Config/Files
         my %SubPath2Properties = $StorageS3Object->ListObjects(
             Prefix    => "$FilesPrefix/",
             Delimiter => '',

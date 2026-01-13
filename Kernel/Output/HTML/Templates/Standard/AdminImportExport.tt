@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -188,6 +188,7 @@
                             </div>
 
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("NewObjectFormat") %]
 [% RenderBlockStart("EditObjectFormat") %]
                         <label>[% Translate("Object") | html %]:</label>
@@ -265,6 +266,7 @@
                                 <p>[% Translate(Data.ErrorMessage) | html %]</p>
                             </div>
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("TemplateEdit2Element") %]
                         <div class="Field SpacingTop">
                             <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>
@@ -313,6 +315,7 @@
                             </div>
 [% RenderBlockEnd("TemplateEdit3ElementRequired") %]
                         </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("TemplateEdit3Element") %]
                         <div class="Field SpacingTop">
                             <button class="Back CallForAction" type="button" name="Back" ><span>[% Translate("Back") | html %]</span></button>

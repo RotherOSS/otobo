@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -212,7 +212,8 @@ sub AddArgument {
         die;
     }
 
-    if ( $Self->{_OptionSeen}->{ $Param{Name} } ) {
+    # No need to check for clashes with alternative option names
+    if ( $Self->{_CanonicalOptionNameSeen}->{ $Param{Name} } ) {
         $Self->PrintError("Cannot add argument '$Param{Name}', because it is already registered as an option.");
         die;
     }
@@ -258,6 +259,17 @@ indicate which arguments it can process.
         Multiple     => 0,  # optional, allow more than one occurrence (only possible if HasValue is true)
     );
 
+Alternative names can be declared as well. In this case the I<CanonicalName> has to be specified.
+
+    $Self->AddOption(
+        Name          => 'module-directory|dir',
+        CanonicalName => 'module-directory',
+        Description   => "Specify the directory containing the module sources (otherwise the OTOBO home directory will be used).",
+        Required      => 0,
+        HasValue      => 1,
+        ValueRegex    => qr/.*/smx,
+    );
+
 B<Option Naming Conventions>
 
 If there is a source and a target involved in the command, the related options should start
@@ -295,19 +307,38 @@ sub AddOption {
         }
     }
 
+    # check the CanonicalName
+    if ( $Param{Name} =~ m/[|]/ ) {
+        if ( !$Param{CanonicalName} ) {
+            $Self->PrintError("A canonical option name must be declared for the option '$Param{Name}'.");
+            die;
+        }
+
+        my %IsAlternative = map { $_ => 1 } split /[|]/, $Param{Name};
+        if ( !$IsAlternative{ $Param{CanonicalName} } ) {
+            $Self->PrintError("The canonical option name '$Param{CanonicalName}' must be one of the alternative names.");
+            die;
+        }
+    }
+
     if ( $Param{Multiple} && !$Param{HasValue} ) {
         $Self->PrintError("Multiple can only be specified if HasValue is true.");
         die;
     }
 
-    if ( $Self->{_OptionSeen}->{ $Param{Name} }++ ) {
-        $Self->PrintError("Cannot register option '$Param{Name}' twice.");
-        die;
-    }
+    # The Name may include alternative names, e.g. 'module-directory|dir'
+    $Self->{_CanonicalOptionNameSeen}->{ $Param{CanonicalName} // $Param{Name} }++;
+    for my $Name ( split /[|]/, $Param{Name} ) {
 
-    if ( $Self->{_ArgumentSeen}->{ $Param{Name} } ) {
-        $Self->PrintError("Cannot add option '$Param{Name}', because it is already registered as an argument.");
-        die;
+        if ( $Self->{_OptionSeen}->{$Name}++ ) {
+            $Self->PrintError("Cannot register option '$Name' twice.");
+            die;
+        }
+
+        if ( $Self->{_ArgumentSeen}->{$Name} ) {
+            $Self->PrintError("Cannot add option '$Param{Name}', because it is already registered as an argument.");
+            die;
+        }
     }
 
     $Self->{_Options} //= [];
@@ -333,7 +364,7 @@ if the option was specified, and undef otherwise.
 sub GetOption {
     my ( $Self, $Option ) = @_;
 
-    if ( !$Self->{_OptionSeen}->{$Option} ) {
+    if ( !$Self->{_CanonicalOptionNameSeen}->{$Option} ) {
         $Self->PrintError("Option '--$Option' was not configured and cannot be accessed.");
 
         return;

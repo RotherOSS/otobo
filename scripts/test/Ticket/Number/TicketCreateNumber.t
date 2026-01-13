@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -41,21 +45,26 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
     $InitialCounterID = $Row[0];
 }
 
-my $CacheType = 'UnitTestTicketCounter';
-
-my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
-
+my $CacheType  = 'UnitTestTicketCounter';
+my $ChildCount = 5;
 for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
     for my $ChildIndex ( 1 .. $ChildCount ) {
 
         # Disconnect database before fork.
         $DBObject->Disconnect();
 
-        # Create a fork of the current process
+        # Create a fork of the current process. Using the fork idom from
+        # https://blogs.perl.org/users/aristotle/2025/03/conditional-branch-scoping.html
         #   parent gets the PID of the child
         #   child gets PID = 0
-        my $PID = fork;
-        if ( !$PID ) {
+        #   PID is undefined when fork fails
+        if ( my $PID = fork ) {
+
+            # nothing to do in the parent
+        }
+        elsif ( defined $PID ) {
+
+            # Create a ticket number and ticket in the child. Store the info in the cache.
 
             # Destroy objects.
             $Kernel::OM->ObjectsDiscard();
@@ -65,8 +74,7 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
                 Value => {},
             );
 
-            my $TicketNumber
-                = $Kernel::OM->Get("Kernel::System::Ticket::Number::$TicketNumberBackend")->TicketCreateNumber();
+            my $TicketNumber = $Kernel::OM->Get("Kernel::System::Ticket::Number::$TicketNumberBackend")->TicketCreateNumber();
 
             my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
                 TN           => $TicketNumber,
@@ -93,12 +101,13 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
             exit 0;
         }
+        else {
+            fail("Couldn't fork: $!");
+        }
     }
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-
     my %ChildData;
-
     my $Wait = 1;
     while ($Wait) {
         CHILDINDEX:
@@ -134,30 +143,24 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
         my %Data = %{ $ChildData{$ChildIndex} };
 
-        $Self->Is(
+        is(
             $TicketNumbers{ $Data{TicketNumber} } || 0,
             0,
             "TicketNumber from child $ChildIndex '$Data{TicketNumber}' with $TicketNumberBackend assigned multiple times",
         );
 
-        $Self->True(
-            $Data{TicketID},
-            "TicketID from child $ChildIndex using $TicketNumberBackend",
-        );
+        ok( $Data{TicketID}, "TicketID from child $ChildIndex using $TicketNumberBackend" );
 
         $TicketNumbers{ $Data{TicketNumber} } = 1;
 
-        next CHILDINDEX if !$Data{TicketID};
+        next CHILDINDEX unless $Data{TicketID};
 
         my $Success = $TicketObject->TicketDelete(
             TicketID => $Data{TicketID},
             UserID   => 1,
         );
 
-        $Self->True(
-            $Success,
-            "TicketDelete for $Data{TicketID}",
-        );
+        ok( $Success, "TicketDelete for $Data{TicketID}" );
     }
     $CacheObject->CleanUp(
         Type => $CacheType,
@@ -166,13 +169,10 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
 # Cleanup counters.
 if ($InitialCounterID) {
-    $Success = $DBObject->Do(
+    my $Success = $DBObject->Do(
         SQL => "DELETE from ticket_number_counter WHERE id > $InitialCounterID",
     );
-    $Self->True(
-        $Success,
-        "Removed added ticket number counters",
-    );
+    ok( $Success, "Removed added ticket number counters" );
 }
 
-$Self->DoneTesting();
+done_testing;

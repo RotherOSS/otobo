@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,12 +21,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -58,7 +57,7 @@ my $FieldID   = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldAd
 );
 
 # verify dynamic field creation
-$Self->True(
+ok(
     $FieldID,
     "DynamicFieldAdd() successful for Field $FieldName",
 );
@@ -176,12 +175,12 @@ for my $Test (@Tests) {
             Status => 'Successful',
         );
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         $Test->{Return},
         "$Name - NewTicket/FollowUp",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "$Name - TicketID",
     );
@@ -196,7 +195,7 @@ for my $Test (@Tests) {
     );
 
     for my $Key ( sort keys %{ $Test->{Check} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Key},
             $Test->{Check}->{$Key},
             "Run('$Test->{Name}') - $Key",
@@ -209,6 +208,4 @@ for my $Test (@Tests) {
     $Index++;
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

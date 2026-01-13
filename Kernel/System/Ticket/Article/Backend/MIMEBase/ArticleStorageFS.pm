@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -448,7 +448,8 @@ sub ArticleWriteAttachment {
     my $UniqueFilename = $OrigFilename;
     {
         my %Index = $Self->ArticleAttachmentIndex(
-            ArticleID => $Param{ArticleID},
+            ArticleID     => $Param{ArticleID},
+            OnlyMyBackend => 1,
         );
 
         # Normalize filenames to find file names which are identical but in a different unicode form.
@@ -797,7 +798,7 @@ sub ArticleAttachmentIndexRaw {
         # strip filename
         $Filename =~ s!^.*/!!;
 
-        # add the info the the hash
+        # add the info to the hash
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,

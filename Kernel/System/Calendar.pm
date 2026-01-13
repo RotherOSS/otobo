@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -98,6 +98,7 @@ creates a new calendar for given user.
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',
@@ -198,7 +199,6 @@ sub CalendarCreate {
 
     %Calendar = $Self->CalendarGet(
         CalendarName => $Param{CalendarName},
-        UserID       => $Param{UserID},
     );
     return if !%Calendar;
 
@@ -253,6 +253,7 @@ Returns Calendar data:
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',
@@ -268,7 +269,7 @@ Returns Calendar data:
 
 Returns an empty list when no calendar is found.
 
-Returns an empty list the the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
+Returns an empty list if the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
 
 =cut
 
@@ -534,6 +535,7 @@ updates an existing calendar.
                 StartDate => 'FirstResponse',
                 EndDate   => 'Plus_5',
                 QueueID   => [ 2 ],
+                RuleID    => "363665b0ad6b1a7d14a9a30354e80c60",
                 SearchParams => {
                     Title => 'This is a title',
                     Types => 'This is a type',

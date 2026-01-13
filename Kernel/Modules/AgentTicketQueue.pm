@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -284,8 +284,8 @@ sub Run {
     my $View = $ParamObject->GetParam( Param => 'View' ) || '';
 
     # lookup latest used view mode
-    if ( !$View && $Self->{ 'UserTicketOverview' . $Self->{Action} } ) {
-        $View = $Self->{ 'UserTicketOverview' . $Self->{Action} };
+    if ( !$View && $Self->{Session}{ 'UserTicketOverview' . $Self->{Action} } ) {
+        $View = $Self->{Session}{ 'UserTicketOverview' . $Self->{Action} };
     }
 
     # otherwise use Preview as default as in LayoutTicket
@@ -305,7 +305,7 @@ sub Run {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
-    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{Session}{$PageShownPreferencesKey} || 10;
 
     # do shown tickets lookup
     my $Limit = 10_000;

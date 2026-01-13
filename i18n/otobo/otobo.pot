@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-06-21 14:03+0000\n"
+"POT-Creation-Date: 2025-12-17 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -379,6 +379,10 @@ msgid "Permission group"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
 msgstr ""
 
@@ -488,10 +492,6 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Include invalid appointment notifications"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Include invalid appoitnment notifications"
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
@@ -1960,6 +1960,10 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "You can reference the field with its own field name. You can also refer to other fields, e.g. with 'DynamicField_OtherFieldName'."
+msgstr ""
+
+#. Template: AdminDynamicFieldDB
+msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
@@ -4011,11 +4015,19 @@ msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "SSL hostname verification."
+msgid "SSL hostname verification"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "SSL verify mode"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Abort the request if SSL verification fails. Disabling skips SSL verification entirely. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -5951,6 +5963,14 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr ""
 
 #. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Default sign key"
 msgstr ""
 
@@ -5972,6 +5992,14 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
 msgstr ""
 
 #. Template: AdminQueue
@@ -6359,11 +6387,15 @@ msgid "Toggle %s permission for all"
 msgstr ""
 
 #. Template: AdminRoleGroup
+msgid "Read only access to the ticket in this group/queue. The ticket can be found via a search and its TicketZoom can be accessed. If used for a calendar, users can see and export all appointments in the calendar."
+msgstr ""
+
+#. Template: AdminRoleGroup
 msgid "move_into"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Permissions to move tickets into this group/queue."
+msgid "Permissions to move tickets into this group/queue. If used for a calendar, users can modify appointments in the calendar, but without changing the calendar selection."
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -6371,7 +6403,7 @@ msgid "create"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Permissions to create tickets in this group/queue."
+msgid "Permissions to create tickets in this group/queue. If used for a calendar, users can create and delete appointments in the calendar."
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -6379,7 +6411,7 @@ msgid "note"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Permissions to add notes to tickets in this group/queue."
+msgid "Permissions to add notes to tickets in this group/queue. It also allows agents to be informed via the 'Inform Agents' section in the Notes."
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -6387,7 +6419,7 @@ msgid "owner"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Permissions to change the owner of tickets in this group/queue."
+msgid "Permissions to be become the owner of tickets in this group/queue. One can be selected as an owner while creating a ticket or changing the owner. Being the owner gives full rw permissions to this ticket."
 msgstr ""
 
 #. Template: AdminRoleGroup
@@ -6395,7 +6427,11 @@ msgid "priority"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Permissions to change the ticket priority in this group/queue."
+msgid "Permissions to open the priority action in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Full read and write access to the tickets in this group/queue. If used for a calendar, users can manage the calendar itself."
 msgstr ""
 
 #. Template: AdminRoleUser
@@ -7606,6 +7642,26 @@ msgstr ""
 msgid "Manage Agent-Group Relations"
 msgstr ""
 
+#. Template: AdminUserGroup
+msgid "Permissions to move tickets into this group/queue."
+msgstr ""
+
+#. Template: AdminUserGroup
+msgid "Permissions to create tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminUserGroup
+msgid "Permissions to add notes to tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminUserGroup
+msgid "Permissions to change the owner of tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminUserGroup
+msgid "Permissions to change the ticket priority in this group/queue."
+msgstr ""
+
 #. Template: AgentAppointmentAgendaOverview
 msgid "Agenda Overview"
 msgstr ""
@@ -8739,6 +8795,10 @@ msgid "Undo & close"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "All fields marked with an asterisk (*) are mandatory."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
 msgstr ""
 
@@ -8972,10 +9032,6 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
-msgstr ""
-
-#. Template: AgentTicketEmail
-msgid "Example Template"
 msgstr ""
 
 #. Template: AgentTicketEmail
@@ -11823,6 +11879,14 @@ msgid "Select the attribute dynamic field that references an object"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "A field of type %s is currently not usable as lens attribute."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
+msgid "Field %s is not a reference field."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldLens.pm
 msgid "Not a valid dynamic field."
 msgstr ""
 
@@ -11851,15 +11915,15 @@ msgid "Need valid field driver."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in RequiredArgs."
+msgid "Erroneous value in RequiredArgs."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in PreviewTriggers."
+msgid "Erroneous value in PreviewTriggers."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScript.pm
-msgid "Bad value in StorageTriggers."
+msgid "Erroneous value in StorageTriggers."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
@@ -11876,6 +11940,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
@@ -12334,6 +12402,14 @@ msgstr ""
 msgid "File or Directory not found."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is already used"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
+msgid "This key is not allowed"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
 msgstr ""
@@ -12695,6 +12771,10 @@ msgid "Need ExampleProcesses!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+msgid "There was an error setting the entity sync status for Process entity: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
 msgstr ""
 
@@ -12716,10 +12796,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagement.pm
-msgid "There was an error setting the entity sync status for Process entity: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
@@ -13710,6 +13786,10 @@ msgstr ""
 msgid "No ArticleID is given!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
+msgid "This action is not permitted on the article!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
 msgid "Can't set this Ticket option, no TicketID is given!"
 msgstr ""
@@ -14394,6 +14474,10 @@ msgstr ""
 msgid "Error: the file could not be deleted properly. Please contact your administrator (missing FileID)."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/BasePassword.pm
+msgid "Can`t remove SessionID."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
 msgstr ""
@@ -14416,6 +14500,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Destination unknown."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerPreferences.pm
+msgid "No valid config for %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
@@ -15531,10 +15619,6 @@ msgid "between"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
-msgid "e.g. Text or Te*t"
-msgstr ""
-
-#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Referenced object type"
 msgstr ""
 
@@ -15548,6 +15632,34 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
 msgid "Select the input mode for the edit field."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link type"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Select the link type."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Forwards: Referencing (Source) -> Referenced (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Backwards: Referenced (Source) -> Referencing (Target)"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "Link Direction"
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseReference.pm
+msgid "The referencing object is the one containing this dynamic field, the referenced object is the one selected as value of the dynamic field."
+msgstr ""
+
+#. Perl Module: Kernel/System/DynamicField/Driver/BaseScript.pm
+msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
@@ -15644,6 +15756,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/ImportExport/FormatBackend/JSON.pm
 msgid "Pretty print the exported concatenated JSON"
+msgstr ""
+
+#. Perl Module: Kernel/System/ImportExport/ObjectBackend/Translations.pm
+msgid "Empty fields indicate that the current values are kept"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
@@ -16254,6 +16370,14 @@ msgstr ""
 msgid "Tables found which are not present in the database."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "Database Type"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
+msgid "The type auf the database looks strange as it contain no latin letters."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
 msgid "Database Size"
 msgstr ""
@@ -16340,6 +16464,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Client Info"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
@@ -17020,10 +17148,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Can`t remove SessionID."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -18474,10 +18598,6 @@ msgid " 7 minutes"
 msgstr ""
 
 #. SysConfig
-msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
-
-#. SysConfig
 msgid "%s"
 msgstr ""
 
@@ -18563,6 +18683,10 @@ msgstr ""
 
 #. SysConfig
 msgid "A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set."
+msgstr ""
+
+#. SysConfig
+msgid "A list of parameters which can be updated via the UpdateAJAX."
 msgstr ""
 
 #. SysConfig
@@ -19198,14 +19322,6 @@ msgid "Avatar"
 msgstr ""
 
 #. SysConfig
-msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
-
-#. SysConfig
-msgid "Balanced white skin by Felix Niklas."
-msgstr ""
-
-#. SysConfig
 msgid "Based on global RichText setting"
 msgstr ""
 
@@ -19214,7 +19330,7 @@ msgid "Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Tick
 msgstr ""
 
 #. SysConfig
-msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address."
+msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
 msgstr ""
 
 #. SysConfig
@@ -19598,6 +19714,14 @@ msgid "Configure which screen should be shown after a new ticket has been create
 msgstr ""
 
 #. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as seen."
+msgstr ""
+
+#. SysConfig
+msgid "Configure which screen should be shown after a ticket has been marked as unseen."
+msgstr ""
+
+#. SysConfig
 msgid "Configure your own log text for PGP."
 msgstr ""
 
@@ -19798,6 +19922,10 @@ msgid "Croatian"
 msgstr ""
 
 #. SysConfig
+msgid "Custom CSS styles for RichText articles."
+msgstr ""
+
+#. SysConfig
 msgid "Custom RSS Feed"
 msgstr ""
 
@@ -19982,10 +20110,6 @@ msgid "Date / Time"
 msgstr ""
 
 #. SysConfig
-msgid "Default (Slim)"
-msgstr ""
-
-#. SysConfig
 msgid "Default ACL values for ticket actions."
 msgstr ""
 
@@ -20019,10 +20143,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Default skin for the agent interface (slim version)."
 msgstr ""
 
 #. SysConfig
@@ -20246,15 +20366,15 @@ msgid "Defines available article actions for Chat articles."
 msgstr ""
 
 #. SysConfig
-msgid "Defines available article actions for Email articles."
-msgstr ""
-
-#. SysConfig
 msgid "Defines available article actions for Internal articles."
 msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for Phone articles."
+msgstr ""
+
+#. SysConfig
+msgid "Defines available article actions for e-mail articles."
 msgstr ""
 
 #. SysConfig
@@ -20382,15 +20502,19 @@ msgid "Defines if customers should be allowed to login if they have no shared se
 msgstr ""
 
 #. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr ""
+
+#. SysConfig
 msgid "Defines if the communication between this system and the servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others."
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface."
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.)."
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -20611,14 +20735,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default CSS for creating CKEditor articles."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default CSS used for displaying articles."
 msgstr ""
 
 #. SysConfig
@@ -20998,10 +21114,6 @@ msgid "Defines the headers which will be shown to generic content for the reques
 msgstr ""
 
 #. SysConfig
-msgid "Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative)."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative)."
 msgstr ""
 
@@ -21115,6 +21227,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
 
 #. SysConfig
@@ -21646,6 +21762,10 @@ msgid "Defines the valid state types for a ticket. If a ticket is in a state whi
 msgstr ""
 
 #. SysConfig
+msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the valid states for unlocked tickets. To unlock tickets the script \"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
 
@@ -21851,6 +21971,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Disables the redirection to the last screen overview / dashboard after a ticket is closed."
+msgstr ""
+
+#. SysConfig
+msgid "Display a message explaining that the asterisk indicates mandatory fields."
 msgstr ""
 
 #. SysConfig
@@ -22151,6 +22275,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit customer company"
+msgstr ""
+
+#. SysConfig
+msgid "Elasticsearch (u)"
 msgstr ""
 
 #. SysConfig
@@ -22762,6 +22890,10 @@ msgid "Hindi"
 msgstr ""
 
 #. SysConfig
+msgid "How many rotated otobo.log files to keep. Default is 3."
+msgstr ""
+
+#. SysConfig
 msgid "Hungarian"
 msgstr ""
 
@@ -22926,6 +23058,10 @@ msgid "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the por
 msgstr ""
 
 #. SysConfig
+msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
 msgstr ""
 
@@ -23046,6 +23182,10 @@ msgid "Import/Export"
 msgstr ""
 
 #. SysConfig
+msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
+msgstr ""
+
+#. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
 msgstr ""
 
@@ -23115,14 +23255,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Italian stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
-msgid "Ivory"
-msgstr ""
-
-#. SysConfig
-msgid "Ivory (Slim)"
 msgstr ""
 
 #. SysConfig
@@ -23474,6 +23606,10 @@ msgid "Manage existing sessions."
 msgstr ""
 
 #. SysConfig
+msgid "Manage import and export of objects."
+msgstr ""
+
+#. SysConfig
 msgid "Manage support data."
 msgstr ""
 
@@ -23490,7 +23626,15 @@ msgid "Manage ticket state pre-selections for response templates."
 msgstr ""
 
 #. SysConfig
+msgid "Mark as (un)seen"
+msgstr ""
+
+#. SysConfig
 msgid "Mark as Spam!"
+msgstr ""
+
+#. SysConfig
+msgid "Mark as seen"
 msgstr ""
 
 #. SysConfig
@@ -23503,6 +23647,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark ticket as unseen"
+msgstr ""
+
+#. SysConfig
+msgid "Mark tickets as seen or unseen via bulk action"
 msgstr ""
 
 #. SysConfig
@@ -23519,6 +23667,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Max size of the subjects in an email reply and in some overview screens."
+msgstr ""
+
+#. SysConfig
+msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
 msgstr ""
 
 #. SysConfig
@@ -23587,6 +23739,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
 msgstr ""
 
 #. SysConfig
@@ -23811,6 +23967,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
 msgstr ""
 
 #. SysConfig
@@ -24123,6 +24283,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Path for the log file (it only applies if \"FS\" was selected for LoopProtectionModule and it is mandatory)."
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor content CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
+msgstr ""
+
+#. SysConfig
+msgid "Path to CKEditor editor CSS file. Changes to this setting will only consistently apply after deleting the OTOBO Cache via the Maint::Cache::Delete command!"
 msgstr ""
 
 #. SysConfig
@@ -24543,6 +24711,14 @@ msgstr ""
 
 #. SysConfig
 msgid "SLAs"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_NONE - no verification of mail server host"
+msgstr ""
+
+#. SysConfig
+msgid "SSL_VERIFY_PEER - verify the mail server host"
 msgstr ""
 
 #. SysConfig
@@ -26074,6 +26250,10 @@ msgid "This configuration defines the number of iterations that should be perfor
 msgstr ""
 
 #. SysConfig
+msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
+msgstr ""
+
+#. SysConfig
 msgid "This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime."
 msgstr ""
 
@@ -26142,7 +26322,7 @@ msgid "This option sets additional quick date buttons to pending dates. For orde
 msgstr ""
 
 #. SysConfig
-msgid "This option will deny the access to customer company tickets, which are not created by the customer user."
+msgid "This option will deny the access to customer company tickets, which are not created by the customer user. Please also deactivate \"CustomerFrontend::Navigation###CustomerTicketOverview###002-Ticket\" so that the button is no longer visible."
 msgstr ""
 
 #. SysConfig
@@ -26346,7 +26526,7 @@ msgid "Tile registration for the CustomerDashboard. Module is required. Optional
 msgstr ""
 
 #. SysConfig
-msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
+msgid "Time in seconds that gets added to the actual time if setting a pending-state. Examples: 86400 = 1 day or 604800 = 1 week."
 msgstr ""
 
 #. SysConfig
@@ -26502,6 +26682,10 @@ msgid "Uses richtext for viewing and editing: articles, salutations, signatures,
 msgstr ""
 
 #. SysConfig
+msgid "Verify mailserver when securely fetching mails from POP3S/POP3TLS/IMAPS/IMAPTLS mail accounts."
+msgstr ""
+
+#. SysConfig
 msgid "Vietnam"
 msgstr ""
 
@@ -26550,6 +26734,10 @@ msgid "Web Services"
 msgstr ""
 
 #. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid "Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" and \"UserLogin\" will be substituted."
 msgstr ""
 
@@ -26574,10 +26762,6 @@ msgid "Whether extended customer information is shown in the ticket print screen
 msgstr ""
 
 #. SysConfig
-msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
-msgstr ""
-
-#. SysConfig
 msgid "Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters."
 msgstr ""
 
@@ -26594,11 +26778,23 @@ msgid "Yes, but hide archived tickets"
 msgstr ""
 
 #. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to \"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
 
 #. SysConfig
 msgid "Your email with ticket number \"<OTOBO_TICKET>\" is merged to \"<OTOBO_MERGE_TO_TICKET>\"."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
 msgstr ""
 
 #. SysConfig

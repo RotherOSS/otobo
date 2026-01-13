@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 // --
 
-/*eslint-disable no-window*/
+/*eslint-disable otobo/no-window*/
 
 "use strict";
 
@@ -496,11 +496,6 @@ var Core = Core || {};
                 TargetNS.SettingRender(Response, $Widget);
 
                 if (Response.Data.SettingData.IsDirty) {
-                    // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
-                    if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
-                        LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
-                    }
-
                     Core.UI.ShowNotification(
                         Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                         'Notice',
@@ -1106,11 +1101,6 @@ var Core = Core || {};
                         );
                     }
                     else {
-                        // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
-                        if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
-                            LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
-                        }
-
                         Core.UI.ShowNotification(
                             Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                             'Notice',
@@ -1721,12 +1711,11 @@ var Core = Core || {};
                         Counter++;
                     },
                 });
+
+                Core.Agent.Admin.SystemConfiguration.InitFavourites();
+
             }, 'html'
         );
-
-        window.setTimeout(function() {
-            Core.Agent.Admin.SystemConfiguration.InitFavourites();
-        }, 1000);
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Shell;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -61,9 +62,9 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Repl = Devel::REPL->new();
+    my $Repl = Devel::REPL->new;
 
-    for my $Plugin (qw(History LexEnv MultiLine::PPI FancyPrompt OTOBO)) {
+    for my $Plugin (qw(History LexEnv MultiLine::PPI FancyPrompt DumpHistory OTOBO)) {
         $Repl->load_plugin($Plugin);
     }
 
@@ -82,13 +83,13 @@ sub Run {
     my $Code = $Self->GetOption('eval');
     if ($Code) {
         my @Result = $Repl->formatted_eval($Code);
-        $Self->Print("@Result") if !$Repl->exit_repl();
+        $Self->Print("@Result") unless $Repl->exit_repl;
     }
     else {
-        $Repl->run();
+        $Repl->run;
     }
 
-    return $Self->ExitCodeOk();
+    return $Self->ExitCodeOk;
 }
 
 1;

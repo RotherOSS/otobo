@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -276,7 +276,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( '%vd', $^V ),
+                PerlVersion  => sprintf( "%vd", $^V ),
                 %Param,
                 %GetParam,
                 %OSInfo,
@@ -421,7 +421,7 @@ sub Run {
         # check SupportDataSending if it is enable
         $Param{SupportDataSendingChecked} = '';
         if ( $RegistrationData{SupportDataSending} eq 'Yes' ) {
-            $Param{SupportDataSendingChecked} = 'checked ';
+            $Param{SupportDataSendingChecked} = 'checked="checked"';
         }
 
         $LayoutObject->Block(
@@ -429,7 +429,7 @@ sub Run {
             Data => {
                 FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion  => sprintf( '%vd', $^V ),
+                PerlVersion  => sprintf( "%vd", $^V ),
                 %Param,
             },
         );
@@ -606,7 +606,7 @@ sub _SentDataOverview {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         my %System       = (
-            PerlVersion        => sprintf( '%vd', $^V ),
+            PerlVersion        => sprintf( "%vd", $^V ),
             OSType             => $OSInfo{OS},
             OSVersion          => $OSInfo{OSName},
             OTOBOVersion       => $ConfigObject->Get('Version'),

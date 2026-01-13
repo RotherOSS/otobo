@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -87,7 +87,7 @@ sub _Add {
     my %GetParam;
 
     # check if we clone from an existing field
-    my $CloneFieldID = $ParamObject->GetParam( Param => "ID" );
+    my $CloneFieldID = $ParamObject->GetParam( Param => "CloneFieldID" );
     if ($CloneFieldID) {
         my $FieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
             ID => $CloneFieldID,
@@ -166,6 +166,7 @@ sub _CheckInclude {
 
     my $DynamicFieldObject        = $Param{DynamicFieldObject};
     my $DynamicFieldBackendObject = $Param{DynamicFieldBackendObject};
+    my $ObjectType                = $Param{ObjectType};
     my $TicketMaskObject          = $Kernel::OM->Get('Kernel::System::Ticket::Mask');
 
     my @Masks = $TicketMaskObject->ConfiguredMasksList();
@@ -226,12 +227,21 @@ sub _CheckInclude {
             return;
         }
 
+        # DF is of same object type as Set itself
+        if ( $DynamicField->{ObjectType} ne $ObjectType ) {
+            $Errors{IncludeServerError} = 'ServerError';
+            $Errors{IncludeServerErrorMessage}
+                = sprintf( Translatable('The object type of the dynamic field "%s" does not match the object type of the Set field.'), $DFElement );
+
+            return;
+        }
+
         return 1;
     };
 
     LINE:
     for my $Line ( $Param{IncludeFrontend}->@* ) {
-        if ( $Line->{Grid} ) {
+        if ( IsHashRefWithData( $Line->{Grid} ) ) {
 
             if ( !IsArrayRefWithData( $Line->{Grid}{Rows} ) ) {
                 $Errors{IncludeServerError}        = 'ServerError';
@@ -258,7 +268,7 @@ sub _CheckInclude {
 
                 for my $DFEntry ( $Row->@* ) {
 
-                    if ( !$DFEntry->{DF} ) {
+                    if ( !IsHashRefWithData($DFEntry) || !$DFEntry->{DF} ) {
                         $Errors{IncludeServerError}        = 'ServerError';
                         $Errors{IncludeServerErrorMessage} = Translatable('Misconfigured Grid - Rows must contain entries with key \'DF\'!');
                         last LINE;
@@ -321,6 +331,13 @@ sub _AddAction {
         }
     }
 
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace)
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -336,7 +353,8 @@ sub _AddAction {
             my $CheckResult = $Self->_CheckInclude(
                 DynamicFieldObject        => $DynamicFieldObject,
                 DynamicFieldBackendObject => $DynamicFieldBackendObject,
-                IncludeFrontend           => $IncludeFrontend
+                IncludeFrontend           => $IncludeFrontend,
+                ObjectType                => $GetParam{ObjectType},
             );
 
             if ( IsHashRefWithData($CheckResult) ) {
@@ -354,13 +372,6 @@ sub _AddAction {
             $Errors{IncludeServerError}        = 'ServerError';
             $Errors{IncludeServerErrorMessage} = Translatable('The field must be a valid YAML containing an array of dynamic fields.');
         }
-    }
-
-    for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace)
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
@@ -581,6 +592,13 @@ sub _ChangeAction {
         }
     }
 
+    for my $ConfigParam (
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace)
+        )
+    {
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
+    }
+
     my @Include;
     if ( $GetParam{Include} ) {
         my $IncludeFrontend = $Kernel::OM->Get('Kernel::System::YAML')->Load(
@@ -593,7 +611,8 @@ sub _ChangeAction {
             my $CheckResult = $Self->_CheckInclude(
                 DynamicFieldObject        => $DynamicFieldObject,
                 DynamicFieldBackendObject => $DynamicFieldBackendObject,
-                IncludeFrontend           => $IncludeFrontend
+                IncludeFrontend           => $IncludeFrontend,
+                ObjectType                => $GetParam{ObjectType},
             );
 
             if ( IsHashRefWithData($CheckResult) ) {
@@ -612,13 +631,6 @@ sub _ChangeAction {
             $Errors{IncludeServerError}        = 'ServerError';
             $Errors{IncludeServerErrorMessage} = Translatable('The field must be a valid YAML containing an array of dynamic fields.');
         }
-    }
-
-    for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID Tooltip MultiValue Namespace)
-        )
-    {
-        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     for my $FilterParam (qw(ObjectTypeFilter NamespaceFilter)) {
@@ -966,7 +978,7 @@ sub _ShowScreen {
     # get the field id
     my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
-    # only if the dymamic field exists and should be edited,
+    # only if the dynamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 
@@ -1029,6 +1041,12 @@ sub _ShowScreen {
             );
         }
 
+    }
+    elsif ( $Param{CloneFieldID} && IsArrayRefWithData( $Param{Include} ) ) {
+
+        $Param{Include} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+            Data => $Param{Include},
+        );
     }
 
     my $FilterStrg = '';

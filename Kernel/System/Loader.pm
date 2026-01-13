@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -588,7 +588,7 @@ sub CacheDelete {
 deletes all the loader cache files. That is all files with the prefix I<var/httpd/htdocs>
 where the key contains neither I</js-cache/> nor I</css-cache>.
 
-Returns the success of the the discard operations.
+Returns the success of the discard operations.
 
     my $Success = $LoaderObject->_S3CacheDelete();
 

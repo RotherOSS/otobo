@@ -5,7 +5,7 @@
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
 
-# Required for compressed file generation.
+# Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
 # Support for readonly Perl variables
@@ -18,6 +18,9 @@ requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
 
+# Olson time zone database, required for correct time calculations.
+requires 'DateTime::TimeZone', '>= 2.20';
+
 # A CSS minifier written in XS
 requires 'CSS::Minifier::XS', '>= 0.09';
 
@@ -28,6 +31,7 @@ requires 'DBI';
 # Sane persistent database connection
 requires 'DBIx::Connector';
 
+# (in perlcore)
 requires 'Digest::SHA';
 
 requires 'File::chmod';
@@ -35,17 +39,24 @@ requires 'File::chmod';
 # HTTP style message
 requires 'HTTP::Message', '>= 6.18';
 
+# Required for SSL connections to web and mail servers
+# Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
+requires 'IO::Socket::SSL';
+
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
-# JSON parsing and generation
-requires 'JSON::XS';
+# correct and fast JSON support
+requires 'Cpanel::JSON::XS', '>= 4.0';
 
 requires 'List::Util', '>= 1.45';
 
 requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
+
+# Required for IMAP TLS connections.
+requires 'Mail::IMAPClient', '>= 3.40';
 
 # Required for random number generator.
 requires 'Moo';
@@ -80,10 +91,12 @@ requires 'Text::CSV_XS', '>= 1.34';
 
 requires 'Text::Trim';
 
-# Required for high resolution timestamps.
+# Required for high resolution timestamps (in perlcore)
 requires 'Time::HiRes';
 
 requires 'Try::Tiny';
+
+requires 'Type::Tiny', '>= 1.008';
 
 requires 'Types::Serialiser';
 
@@ -159,6 +172,12 @@ feature 'devel:debugging', 'Features which can be useful in development environm
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
+
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
+
 };
 
 feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
@@ -186,14 +205,23 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # a quick compile check
     requires 'Test::Compile';
 
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
+
     # basic test functions
     requires 'Test2::Suite';
 
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';
@@ -263,13 +291,6 @@ feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
 
 };
 
-feature 'div:ssl', 'Support for feature div:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
-
-};
-
 feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
@@ -291,19 +312,6 @@ feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
 
 };
 
-feature 'mail', 'Features enabling communication with a mail-server' => sub {
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
-
-};
-
-feature 'mail:imap', 'Support for feature mail:imap' => sub {
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
-
-};
-
 feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
@@ -316,19 +324,9 @@ feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
 
 };
 
-feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
-
-};
-
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
@@ -354,13 +352,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
-
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
@@ -389,10 +380,6 @@ feature 'optional', 'Support for feature optional' => sub {
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
 
-    # Required for SSL connections to web and mail servers.
-    # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
-    requires 'IO::Socket::SSL';
-
     # Required for directory authentication.
     requires 'Net::LDAP';
 
@@ -414,6 +401,12 @@ feature 'optional', 'Support for feature optional' => sub {
     # convenient and informative dumping data structures
     requires 'Data::Dx', '>= 0.000010';
 
+    # add stack trace to warnings
+    requires 'Devel::Confess', '>= 0.009004';
+
+    # command history in Perl debugger and in Dev::Tools::Shell
+    requires 'Term::ReadLine::Gnu', '>= 1.35';
+
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
 
@@ -426,14 +419,23 @@ feature 'optional', 'Support for feature optional' => sub {
     # a quick compile check
     requires 'Test::Compile';
 
+    # check for strictures and warnings
+    requires 'Test::Strict';
+
+    # check whether the test script emits warnings
+    requires 'Test::Warnings';
+
     # basic test functions
     requires 'Test2::Suite';
 
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';
@@ -476,7 +478,7 @@ feature 'optional', 'Support for feature optional' => sub {
 
 };
 
-feature 'performance:redis', 'Support for feature performance:redis' => sub {
+feature 'performance:redis', 'Modules for running with Redis Cache Server' => sub {
     # For usage with Redis Cache Server.
     requires 'Redis';
 
@@ -488,9 +490,6 @@ feature 'performance:redis', 'Support for feature performance:redis' => sub {
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
     requires 'Mojolicious', '>= 9.22';
-
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
 
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';

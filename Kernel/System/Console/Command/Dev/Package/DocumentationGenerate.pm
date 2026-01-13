@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -157,9 +157,11 @@ sub Run {
     );
 
     my $Success = $MainObject->FileWrite(
-        Location => "$Home/doc/content/index.rst",
-        Content  => \$RST,
-        Mode     => 'utf8',
+        Directory => "$Home/doc/content",
+        Filename  => 'index.rst',
+        Content   => \$RST,
+        Mode      => 'utf8',
+        MakePath  => 1,
     );
 
     if ( !$Success ) {
@@ -258,7 +260,7 @@ sub ConfigReference {
             "$NavEntry\n" .
             "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n";
 
-        for my $Setting ( sort $Navigation{$NavEntry}->@* ) {
+        for my $Setting ( sort { $a->{Name} cmp $b->{Name} } $Navigation{$NavEntry}->@* ) {
             $ConfigReference .=
                 "$Setting->{Name}\n" .
                 '""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""' .

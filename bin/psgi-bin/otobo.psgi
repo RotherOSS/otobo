@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -30,9 +30,6 @@ otobo.psgi - OTOBO PSGI application
     # new process for every request , useful for development
     plackup --server Shotgun bin/psgi-bin/otobo.psgi
 
-    # with profiling (untested)
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -48,16 +45,11 @@ in F<otobo.web.dockerfile>.
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as:
+In order to activate profiling install L<Plack::Middleware::Profiler::NYTProf>
+and activate profiling by assigning C<$ProfilingIsActive> a true value. There is no need
+to start Plack with special options or with a special environment.
 
-    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-
-For actual profiling append C<&NYTProf=mymarker> to a request.
-This creates a file called nytprof-mymarker.out, which you can process with
-
-    nytprofhtml -f nytprof-mymarker.out
-
-Then point your browser at nytprof/index.html.
+See L<https://metacpan.org/pod/Plack::Middleware::Profiler::NYTProf> for the available options.
 
 =cut
 
@@ -75,6 +67,7 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 # core modules
 use Cwd            qw(abs_path);
@@ -82,26 +75,40 @@ use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules
 use Encode         ();              ## no perlimports
 use File::Basename qw(dirname);
 use File::Path     qw(make_path);
+use Time::HiRes    ();
 
 # CPAN modules
-use DateTime 1.08    ();                                   ## no perlimports
-use Template         ();                                   ## no perlimports
-use Plack::Builder   qw(builder enable enable_if mount);
-use Plack::Request   ();
-use Plack::Response  ();
-use Plack::App::File ();
+use DateTime 1.08         ();                                   ## no perlimports
+use Template              ();                                   ## no perlimports
+use Plack::Builder        qw(builder enable enable_if mount);
+use Plack::Request        ();
+use Plack::Response       ();
+use Plack::App::File      ();
+use Plack::App::Directory ();
 
 # OTOBO modules
-use Kernel::Config;                                        # assure that Kernel/Config.pm exists, though the file might be modified later
-use Kernel::System::ModuleRefresh ();                      # based on Module::Refresh
-use Kernel::System::ObjectManager ();
-use Kernel::System::Web::App      ();
+use Kernel::Config;                                             # assure that Kernel/Config.pm exists, though the file might be modified later
+use Kernel::System::ModuleRefresh                 ();           # based on Module::Refresh
+use Kernel::System::ObjectManager                 ();
+use Kernel::GenericInterface::Provider            ();
+use Kernel::System::Web::InterfaceAgent           ();
+use Kernel::System::Web::InterfaceCustomer        ();
+use Kernel::System::Web::InterfaceInstaller       ();
+use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::System::Web::InterfacePublic          ();
+
+# turn warnings into warnings with stack trace
+# this should only be enabled during debugging
+#use Devel::Confess;
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
 eval {
     require Net::DNS;
 };
+
+# Activate profiling only when Plack::Middleware::Profiler::NYTProf is installed.
+my $ProfilingIsActive = 0;
 
 # Put the modules in %INC into %Module::Refresh::CACHE.
 # This is important for Kernel/Config.pm as that file might be modified by installer.pl
@@ -124,35 +131,12 @@ if ($S3Active) {
 # Middlewares
 ################################################################################
 
-# conditionally enable profiling, UNTESTED
-my $NYTProfMiddleware = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        # check whether this request runs under Devel::NYTProf
-        my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
-            $ProfilingIsOn = 1;
-            DB::enable_profile("nytprof-$1.out");
-        }
-
-        # do the work
-        my $Res = $App->($Env);
-
-        # clean up profiling, write the output file
-        DB::finish_profile() if $ProfilingIsOn;
-
-        return $Res;
-    };
-};
-
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
 # This setting is used internally by Kernel::System::Log, and in the support data collector.
+#
 # In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
-# In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+# But this is countered by DBIx::Connector::Driver::mysql which explicitly turns off mysql_auto_reconnect.
 my $SetSystemEnvMiddleware = sub {
     my $App = shift;
 
@@ -206,9 +190,35 @@ my $ManageObjectsMiddleware = sub {
     return sub {
         my $Env = shift;
 
-        # make sure that the managed objects will be recreated for the current request
+        # Make sure that the managed objects will be recreated for the current request.
+        # Kernel::System::ObjectManager::DESTROY() will be called when exiting the subroutine.
         local $Kernel::OM = Kernel::System::ObjectManager->new();
 
+        return $App->($Env);
+    };
+};
+
+# force HTTPS if configured
+my $RedirectToHTTPS = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # Check if HTTPS forcing is active, and redirect if needed.
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
+            my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+            if ( !$ParamObject->HttpsIsOn ) {
+                my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
+                my $RequestURI   = $ParamObject->RequestURI();
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
+            }
+        }
+
+        # no redirecting occured, so continue work
         return $App->($Env);
     };
 };
@@ -458,36 +468,40 @@ my $RedirectOtoboApp = sub {
 
 # Check whether PublicFrontend::Active is on. If so serve the public interface.
 # Otherwise act as if the public interface does not exist and redirect to the default interface.
-my $CheckPublicInterfaceApp = sub {
-    my $Env = shift;
+my $CheckPublicInterfaceMiddleware = sub {
+    my $App = shift;
 
-    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+    return sub {
+        my $Env = shift;
 
-    return Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfacePublic',
-    )->to_app->($Env) if $Active;
+        my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
 
-    # trick $RedirectOtoboApp into doing the right thing
-    $Env->{PATH_INFO} = 'public.pl';
+        return $App->($Env) if $Active;
 
-    return $RedirectOtoboApp->($Env);
+        # trick $RedirectOtoboApp into doing the right thing
+        $Env->{PATH_INFO} = 'public.pl';
+
+        return $RedirectOtoboApp->($Env);
+    };
 };
 
 # Check whether CustomerFrontend::Active is on. If so serve the customer interface.
 # Otherwise act as if the customer interface does not exist and redirect to the default interface.
-my $CheckCustomerInterfaceApp = sub {
-    my $Env = shift;
+my $CheckCustomerInterfaceMiddleware = sub {
+    my $App = shift;
 
-    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+    return sub {
+        my $Env = shift;
 
-    return Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceCustomer',
-    )->to_app->($Env) if $Active;
+        my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
 
-    # trick $RedirectOtoboApp into doing the right thing
-    $Env->{PATH_INFO} = 'customer.pl';
+        return $App->($Env) if $Active;
 
-    return $RedirectOtoboApp->($Env);
+        # trick $RedirectOtoboApp into doing the right thing
+        $Env->{PATH_INFO} = 'customer.pl';
+
+        return $RedirectOtoboApp->($Env);
+    };
 };
 
 # Serve the static assets in var/httpd/htdocs.
@@ -523,7 +537,8 @@ my $HtdocsApp = builder {
     }
     $SyncFromS3Middleware;
 
-    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
+    # serve static files without directory listing
+    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app;
 };
 
 # Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
@@ -539,8 +554,44 @@ my $OTOBOApp = builder {
     # a simplistic detection whether we are behinde a reverse proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # conditionally enable profiling
-    enable $NYTProfMiddleware;
+    # enable profiling only when Plack::Middleware::Profiler::NYTProf is installed
+    if ($ProfilingIsActive) {
+
+        # Store the profile id also in a closed over variable,
+        # so that it is available in report_dir
+        my $ProfileID;
+
+        enable 'Profiler::NYTProf',
+
+            # in case that only specific pages should be profiled
+            #enable_profile => sub { return $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ? 1 : 0; }, # untested
+
+            # Order by time, in order to make it easier looking at the latest report.
+            # Add a human readable timestamp.
+            # Add the process ID in order to see whether requests ran in the same process.
+            generate_profile_id => sub {
+                my ( $Minute, $Hour, $MonthDay, $MonthZeroBased ) = (gmtime)[ 1, 2, 3, 4 ];
+
+                $ProfileID = sprintf '%02d-%02d-%02d:%02d-%f-%d',
+                $MonthZeroBased + 1,
+                $MonthDay,
+                $Hour,
+                $Minute,
+                Time::HiRes::time(),
+                $$;
+
+                return $ProfileID;
+            },
+
+            # generate a new directory for each report
+            report_dir => sub {
+                my $ReportDir = "var/httpd/htdocs/nytprof/$ProfileID";
+                make_path($ReportDir);
+
+                return "var/httpd/htdocs/nytprof/$ProfileID";
+            },
+            ;
+    }
 
     # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
@@ -560,21 +611,33 @@ my $OTOBOApp = builder {
     # set up $Env
     enable $SetPSGIEnvMiddleware;
 
-    # force destruction and recreation of managed objects
+    # force destruction and recreation of managed objects,
+    # in short: handle the globally available variable $Kernel::OM
     enable $ManageObjectsMiddleware;
 
-    # The actual functionality of OTOBO is implemented as a set of Plack apps.
-    # Dispatching is done with an URL map.
-    # Kernel::System::Web::App loads the interface modules and calls the Response() method.
-    # Add "Debug => 1" in order to enable debugging.
+    # The actual functionality of OTOBO is implemented as a collection
+    # of Plack middlewares and Plack apps. These components are tied together via an URL map.
+    # The OTOBO interface modules are actually Plack components, calling to_app() on them
+    # creates a PSGI app. Note that a Plack app is just a plain old subroutine.
+    #
+    # Pass "Debug => 1" to the constructor of the relevant component in order to enable debugging.
 
     # enable for debugging
     #mount '/dump_env' => $DumpEnvApp;
     #mount '/hello'    => $HelloApp;
 
-    mount '/index.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceAgent',
-    )->to_app;
+    mount '/index.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Agent';
+
+        Kernel::System::Web::InterfaceAgent->new(
+            Debug => 0,
+        )->to_app;
+    };
 
     mount '/installer.pl' => builder {
 
@@ -585,8 +648,8 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceInstaller',
+        Kernel::System::Web::InterfaceCustomer->new(
+            Debug => 0,
         )->to_app;
     };
 
@@ -599,18 +662,45 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::App->new(
-            Interface => 'Kernel::System::Web::InterfaceMigrateFromOTRS',
+        Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+            Debug => 0,
         )->to_app;
     };
 
-    mount '/nph-genericinterface.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::GenericInterface::Provider',
+    mount '/nph-genericinterface.pl' => Kernel::GenericInterface::Provider->new(
+        Debug => 0,
     )->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
-    mount '/customer.pl' => $CheckCustomerInterfaceApp;
-    mount '/public.pl'   => $CheckPublicInterfaceApp;
+    mount '/customer.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Customer';
+
+        enable $CheckCustomerInterfaceMiddleware;
+
+        Kernel::System::Web::InterfaceCustomer->new(
+            Debug => 0,
+        )->to_app;
+    };
+
+    mount '/public.pl' => builder {
+
+        # handle the SysConfig setting HTTPSForceRedirect
+        enable $RedirectToHTTPS;
+
+        enable 'OTOBO::PerformanceLog',
+            interface => 'Public';
+
+        enable $CheckPublicInterfaceMiddleware;
+
+        Kernel::System::Web::InterfacePublic->new(
+            Debug => 0,
+        )->to_app;
+    };
 
     # redirect to Frontend::DefaultInterface when in doubt
     mount '/' => $RedirectOtoboApp;
@@ -632,10 +722,15 @@ builder {
 
     # fiddling with slashes
     enable $MergeSlashesMiddleware;
+
+    # let '/' behave like '/index.html'
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
+
+    # directory listing for the nytprof directory
+    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app;
 
     # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $HtdocsApp;

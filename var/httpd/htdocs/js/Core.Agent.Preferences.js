@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -132,6 +132,11 @@ Core.Agent.Preferences = (function (TargetNS) {
                             // if settings need a reload, show a notification
                             if (typeof Response.NeedsReload !== 'undefined' && parseInt(Response.NeedsReload, 10) > 0) {
                                 Core.UI.ShowNotification(Core.Language.Translate('Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.'), 'Notice', Link);
+                            }
+
+                            // if browser reload is forced after password change (issue #3440)
+                            if (typeof Response.ForceReload !== 'undefined' && parseInt(Response.ForceReload, 10) > 0) {
+                                location.reload();
                             }
                         }
                     }

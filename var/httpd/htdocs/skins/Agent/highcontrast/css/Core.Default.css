@@ -1,7 +1,7 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
 Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +19,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 @media screen,projection,tv,handheld {
+
+*:focus {
+    border: black 2px dashed !important;
+}
+
+th *:focus,
+#ToolBar *:focus {
+    border: white 2px dashed !important;
+}
 
 /**
  * @subsection  Fonts
@@ -131,7 +140,8 @@ table.AttachmentList .AttachmentDelete:focus i {
     color: var(--colTextLight);
 }
 
-.BreadCrumb a {
+.BreadCrumb a,
+.BreadCrumb span {
     color: var(--colTextLight);
 }
 
@@ -228,14 +238,6 @@ span.ImportantArticles i {
     color: #C10505;
 }
 
-/**
- * @subsection global CKEditor 5 fixes/improvements
- */
-.ck.ck-content p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
-}
-
 /*
  * @subsection Media Query Reset-CSS (for desktop screen resolutions)
  */
@@ -247,6 +249,10 @@ span.ImportantArticles i {
     .TableFilterContainer .FilterRemove:hover,
     .TableFilterContainer .FilterRemove:active {
         color: #000;
+    }
+
+    .fa {
+        color: var(--colTextLight);
     }
 
 }

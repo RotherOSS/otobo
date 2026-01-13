@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +21,11 @@ package Kernel::System::AuthSession::FS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -36,13 +41,11 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get more common params
+    # get more config settings
     $Self->{SessionSpool} = $ConfigObject->Get('SessionDir');
     $Self->{SystemID}     = $ConfigObject->Get('SystemID');
 
@@ -100,8 +103,8 @@ sub CheckSessionID {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
-                . "different from registered IP ($RemoteAddr). Invalidating session!"
-                . " Disable config 'SessionCheckRemoteIP' if you don't want this!",
+                . "different from registered IP ($RemoteAddr). Invalidating session! "
+                . "Disable config 'SessionCheckRemoteIP' if you don't want this!",
         );
 
         # delete session id if it isn't the same remote ip?
@@ -150,7 +153,7 @@ sub CheckSessionID {
             Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
-        # delete session id if too old?
+        # delete session id if too old
         if ( $ConfigObject->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
@@ -174,7 +177,7 @@ sub GetSessionIDData {
     if ( !$Param{SessionID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no SessionID!!'
+            Message  => 'Got no SessionID!'
         );
         return;
     }
@@ -222,9 +225,14 @@ sub CreateSessionID {
     my $RemoteAddr      = $ParamObject->RemoteAddr()         || 'none';
     my $RemoteUserAgent = $ParamObject->Header('User-Agent') || 'none';
 
+    # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # create session id
+    #
+    # The SystemID is included in the session ID because
+    # the session ID is part of data file name in the session dir. The
+    # The session dir might be shared between different OTOBO installations,
     my $SessionID = $Self->{SystemID} . $MainObject->GenerateRandomString(
         Length => 32,
     );
@@ -327,6 +335,7 @@ sub RemoveSessionID {
 
     delete $Self->{Cache}->{ $Param{SessionID} };
 
+    # log event
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "Removed SessionID $Param{SessionID}."
@@ -386,6 +395,7 @@ sub GetActiveSessions {
 
     my $MaxSessionIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
 
+    # get system time
     my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');

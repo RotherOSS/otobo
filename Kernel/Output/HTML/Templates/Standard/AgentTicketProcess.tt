@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,6 +24,12 @@
             <input type="hidden" id="LinkTicketID" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
             <input type="hidden" id="ArticleID" name="ArticleID" value="[% Data.ArticleID | html %]"/>
             <fieldset class="TableLike">
+[% RenderBlockStart("AsteriskExplanation") %]
+                <div class="Field">
+                    <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
 [% RenderBlockStart("ProcessList") %]
                 <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>[% Translate("Process") | html %]:</label>
                 <div class="Field">

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $main::Self
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::PostMaster ();
-
-our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -46,39 +44,37 @@ my $Home = $ConfigObject->Get('Home');
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
-my %NeededDynamicfields = (
-    TicketFreeKey1  => 1,
-    TicketFreeText1 => 1,
-    TicketFreeKey2  => 1,
-    TicketFreeText2 => 1,
-    TicketFreeKey3  => 1,
-    TicketFreeText3 => 1,
-    TicketFreeKey4  => 1,
-    TicketFreeText4 => 1,
-    TicketFreeKey5  => 1,
-    TicketFreeText5 => 1,
-    TicketFreeKey5  => 1,
-    TicketFreeText5 => 1,
-    TicketFreeKey6  => 1,
-    TicketFreeText6 => 1,
-    TicketFreeTime1 => 1,
-    TicketFreeTime2 => 1,
-    TicketFreeTime3 => 1,
-    TicketFreeTime4 => 1,
-    TicketFreeTime5 => 1,
-    TicketFreeTime6 => 1,
+my @NeededDynamicfields = qw(
+    TicketFreeKey1
+    TicketFreeKey2
+    TicketFreeKey3
+    TicketFreeKey4
+    TicketFreeKey5
+    TicketFreeKey6
+    TicketFreeText1
+    TicketFreeText2
+    TicketFreeText3
+    TicketFreeText4
+    TicketFreeText5
+    TicketFreeText6
+    TicketFreeTime1
+    TicketFreeTime2
+    TicketFreeTime3
+    TicketFreeTime4
+    TicketFreeTime5
+    TicketFreeTime6
 );
 
 # list available dynamic fields
-my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+my $DynamicFieldID2Name = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
     Valid      => 0,
     ResultType => 'HASH',
 );
-$DynamicFields = ( ref $DynamicFields eq 'HASH' ? $DynamicFields : {} );
-$DynamicFields = { reverse %{$DynamicFields} };
+$DynamicFieldID2Name = ( ref $DynamicFieldID2Name eq 'HASH' ? $DynamicFieldID2Name : {} );
+my $DynamicFieldName2ID = { reverse $DynamicFieldID2Name->%* };
 
-for my $FieldName ( sort keys %NeededDynamicfields ) {
-    if ( !$DynamicFields->{$FieldName} ) {
+for my $FieldName ( sort @NeededDynamicfields ) {
+    if ( !$DynamicFieldName2ID->{$FieldName} ) {
 
         # create a dynamic field
         my $FieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldAdd(
@@ -95,15 +91,14 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         );
 
         # verify dynamic field creation
-        $Self->True(
-            $FieldID,
-            "DynamicFieldAdd() successful for Field $FieldName",
-        );
+        ok( $FieldID, "DynamicFieldAdd() successful for Field $FieldName" );
 
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $DynamicFieldName2ID->{$FieldName}
+        );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
@@ -116,7 +111,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
             );
 
             # verify dynamic field creation
-            $Self->True(
+            ok(
                 $SuccessUpdate,
                 "DynamicFieldUpdate() successful update for Field $DynamicField->{Name}",
             );
@@ -137,18 +132,6 @@ my %NeededXHeaders = (
     'X-OTOBO-DynamicField-TicketFreeTime4' => 1,
     'X-OTOBO-DynamicField-TicketFreeTime5' => 1,
     'X-OTOBO-DynamicField-TicketFreeTime6' => 1,
-    'X-OTOBO-TicketKey1'                   => 1,
-    'X-OTOBO-TicketValue1'                 => 1,
-    'X-OTOBO-TicketKey2'                   => 1,
-    'X-OTOBO-TicketValue2'                 => 1,
-    'X-OTOBO-TicketKey3'                   => 1,
-    'X-OTOBO-TicketValue3'                 => 1,
-    'X-OTOBO-TicketTime1'                  => 1,
-    'X-OTOBO-TicketTime2'                  => 1,
-    'X-OTOBO-TicketTime3'                  => 1,
-    'X-OTOBO-TicketTime4'                  => 1,
-    'X-OTOBO-TicketTime5'                  => 1,
-    'X-OTOBO-TicketTime6'                  => 1,
     'X-OTOBO-Owner'                        => 1,
     'X-OTOBO-OwnerID'                      => 1,
     'X-OTOBO-Responsible'                  => 1,
@@ -160,6 +143,7 @@ my @PostmasterXHeader = @{$XHeaders};
 HEADER:
 for my $Header ( sort keys %NeededXHeaders ) {
     next HEADER if ( grep { $_ eq $Header } @PostmasterXHeader );
+
     push @PostmasterXHeader, $Header;
 }
 $ConfigObject->Set(
@@ -213,8 +197,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             # add and check rand postmaster filters
             my $FilterRandConfig = [
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test',
@@ -236,23 +221,24 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-Queue',
-                            Value => 'Misc',
-                        },
-                        {
-                            Key   => 'X-OTOBO-TicketKey1',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                             Value => 'Key1',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue1',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                             Value => 'Text1',
+                        },
+                        {
+                            Key   => 'X-OTOBO-Queue',
+                            Value => 'Misc',
                         },
                     ],
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test',
@@ -274,19 +260,20 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-TicketKey2',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey2',
                             Value => 'Key2',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue2',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText2',
                             Value => 'Text2',
                         },
                     ],
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID,
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'test 1',
@@ -308,19 +295,20 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     ],
                     Set => [
                         {
-                            Key   => 'X-OTOBO-TicketKey3',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                             Value => 'Key3',
                         },
                         {
-                            Key   => 'X-OTOBO-TicketValue3',
-                            Value => 'Text3',
+                            Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
+                            Value => '³ - U+000B3 - SUPERSCRIPT THREE, ٣ - U+00663 - ARABIC-INDIC DIGIT THREE',
                         },
                     ],
                     StopAfterMatch => 0,
                 },
                 {
-                    Name  => 'filter' . $Helper->GetRandomID(),
-                    Match => [
+                    Name    => 'filter' . $Helper->GetRandomID(),
+                    ValidID => 1,
+                    Match   => [
                         {
                             Key   => 'Subject',
                             Value => 'NOT REGEX',
@@ -351,12 +339,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             ];
             for my $Filter ( @{$FilterRandConfig} ) {
                 $PostMasterFilter->FilterAdd(
-                    %{$Filter},
+                    $Filter->%*,
                 );
                 my %FilterData = $PostMasterFilter->FilterGet(
                     Name => $Filter->{Name},
                 );
-                $Self->IsDeeply(
+                is(
                     \%FilterData,
                     $Filter,
                     "Added filter $Filter->{Name}",
@@ -364,12 +352,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             }
 
             # get rand sender address
-            my $UserRand1 = 'example-user' . $Helper->GetRandomID() . '@example.com';
+            my $UserRand1 = 'example-user' . $Helper->GetRandomID . '@example.com';
 
             FILE:
             for my $File (qw(1 2 3 5 6 11 17 18 21 22 23)) {
 
-                my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
+                my $NamePrefix = "$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
                 # new ticket check
                 my $Location   = "$Home/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
@@ -391,8 +379,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 for my $Line (@Content) {
                     push @ContentNew, $Line;
                 }
-                my @Return;
 
+                my @Return;
                 $ConfigObject->Set(
                     Key   => 'PostmasterDefaultState',
                     Value => 'new'
@@ -407,26 +395,26 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
 
                 if ( $File != 22 ) {
-                    $Self->Is(
+                    is(
                         $Return[0] || 0,
                         1,
                         $NamePrefix . ' Run() - NewTicket',
                     );
 
-                    $Self->True(
+                    ok(
                         $Return[1] || 0,
                         $NamePrefix . ' Run() - NewTicket/TicketID',
                     );
                 }
                 else {
-                    $Self->Is(
+                    is(
                         $Return[0] || 0,
                         5,
                         $NamePrefix . ' Run() - NewTicket',
                     );
 
-                    $Self->False(
-                        $Return[1],
+                    ok(
+                        !$Return[1],
                         $NamePrefix . ' Run() - NewTicket/TicketID',
                     );
 
@@ -476,11 +464,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key    => 'DynamicField_TicketFreeText3',
-                            Result => 'Text3',
+                            Result => '³ - U+000B3 - SUPERSCRIPT THREE, ٣ - U+00663 - ARABIC-INDIC DIGIT THREE',
                         },
                     );
                     for my $Test (@Tests) {
-                        $Self->Is(
+                        is(
                             $Ticket{ $Test->{Key} },
                             $Test->{Result},
                             $NamePrefix . " $Test->{Key} check",
@@ -497,7 +485,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         DynamicFields => 1,
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '91346794644d70cd95553ab46d5f3334',
                         $NamePrefix . ' md5 body check',
@@ -512,7 +500,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                     );
                     $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '4e78ae6bffb120669f50bca56965f552',
                         $NamePrefix . ' md5 attachment check',
@@ -561,11 +549,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         },
                         {
                             Key    => 'DynamicField_TicketFreeTime6',
-                            Result => '2008-01-12 13:19:20',
+                            Result => '2025-08-05 13:01:20',
                         },
                     );
                     for my $Test (@Tests) {
-                        $Self->Is(
+                        is(
                             $Ticket{ $Test->{Key} } || '',
                             $Test->{Result} || '-',
                             $NamePrefix . " $Test->{Key} check",
@@ -582,7 +570,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         DynamicFields => 1,
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '44da7f29cd0cca31532f6acd50b42da8',
                         $NamePrefix . ' md5 body check',
@@ -597,7 +585,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                     );
                     $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
-                    $Self->Is(
+                    is(
                         $MD5,
                         '0596f2939525c6bd50fc2b649e40fbb6',
                         $NamePrefix . ' md5 attachment check',
@@ -614,7 +602,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     );
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
 
-                    $Self->Is(
+                    is(
                         $MD5,
                         '52f20c90a1f0d8cf3bd415e278992001',
                         $NamePrefix . ' md5 body check',
@@ -644,12 +632,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -662,7 +650,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'new',
                     $NamePrefix . ' Run() - FollowUp/State check',
@@ -672,7 +660,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $StateSet || 0,
                     $NamePrefix . ' StateSet() - pending reminder',
                 );
@@ -696,12 +684,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -724,12 +712,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#: xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -752,12 +740,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#:xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -780,12 +768,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
                     @Return = $PostMasterObject->Run();
                 }
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp (Ticket::Hook#xxxxxxxxxx)',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -798,7 +786,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'open',
                     $NamePrefix . ' Run() - FollowUp/PostmasterFollowUpState check',
@@ -808,7 +796,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $StateSet || 0,
                     $NamePrefix . ' StateSet() - closed successful',
                 );
@@ -837,12 +825,12 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     @Return = $PostMasterObject->Run();
                 }
 
-                $Self->Is(
+                is(
                     $Return[0] || 0,
                     2,
                     $NamePrefix . ' Run() - FollowUp',
                 );
-                $Self->True(
+                ok(
                     $Return[1] || 0,
                     $NamePrefix . ' Run() - FollowUp/TicketID',
                 );
@@ -855,7 +843,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );
-                $Self->Is(
+                is(
                     $Ticket{State} || 0,
                     'new',
                     $NamePrefix . ' Run() - FollowUp/PostmasterFollowUpStateClosed check',
@@ -866,7 +854,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     TicketID => $Return[1],
                     UserID   => 1,
                 );
-                $Self->True(
+                ok(
                     $Delete || 0,
                     $NamePrefix . ' TicketDelete()',
                 );
@@ -883,8 +871,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 # filter test
 my @Tests = (
     {
-        Name  => '#1 - From Test',
-        Check => {
+        Name    => '#1 - From Test',
+        ValidID => 1,
+        Check   => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey3  => 'Key3',
             DynamicField_TicketFreeText3 => 'Text3',
@@ -902,19 +891,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3',
                 },
             ],
@@ -932,27 +921,28 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3',
                 },
             ],
         },
     },
     {
-        Name  => '#2 - From Test',
-        Check => {
+        Name    => '#2 - From Test',
+        ValidID => 1,
+        Check   => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey1  => 'Key1#2',
             DynamicField_TicketFreeText1 => 'Text1#2',
@@ -970,19 +960,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => 'Key4#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText4',
                     Value => 'Text4#2',
                 },
             ],
@@ -1000,27 +990,28 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => 'Key4#2',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText4',
                     Value => 'Text4#2',
                 },
             ],
         },
     },
     {
-        Name   => '#3 - From Test',
-        Config => {
+        Name    => '#3 - From Test',
+        ValidID => 1,
+        Config  => {
             Match => [
                 {
                     Key   => 'From',
@@ -1033,19 +1024,19 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3#3',
                 },
             ],
@@ -1063,27 +1054,28 @@ my @Tests = (
                     Value => 'Misc',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey1',
                     Value => 'Key1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue1',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                     Value => 'Text1#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketKey3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey3',
                     Value => 'Key3#3',
                 },
                 {
-                    Key   => 'X-OTOBO-TicketValue3',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeText3',
                     Value => 'Text3#3',
                 },
             ],
         },
     },
     {
-        Name  => '#4 - Regular Expressions - match',
-        Check => {
+        Name    => '#4 - Regular Expressions - match',
+        ValidID => 1,
+        Check   => {
             DynamicField_TicketFreeKey4 => 'sender',
         },
         Config => {
@@ -1095,7 +1087,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => '[***]',
                 },
             ],
@@ -1109,15 +1101,16 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey4',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey4',
                     Value => '[***]',
                 },
             ],
         },
     },
     {
-        Name  => '#5 - Regular Expressions - match but no optional match result',
-        Check => {
+        Name    => '#5 - Regular Expressions - match but no optional match result',
+        ValidID => 1,
+        Check   => {
             DynamicField_TicketFreeKey5 => undef,
         },
         Config => {
@@ -1129,7 +1122,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey5',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                     Value => '[***]',
                 },
             ],
@@ -1143,7 +1136,7 @@ my @Tests = (
             ],
             Set => [
                 {
-                    Key   => 'X-OTOBO-TicketKey5',
+                    Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                     Value => '[***]',
                 },
             ],
@@ -1159,6 +1152,7 @@ for my $Type (qw(Config DB)) {
         if ( $Type eq 'DB' ) {
             $PostMasterFilter->FilterAdd(
                 Name           => $Test->{Name},
+                ValidID        => $Test->{ValidID},
                 StopAfterMatch => 0,
                 %{ $Test->{DB} },
             );
@@ -1191,12 +1185,12 @@ Some Content in Body
 
         @Return = $PostMasterObject->Run();
     }
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         "#Filter $Type Run() - NewTicket",
     );
-    $Self->True(
+    ok(
         $Return[1] || 0,
         "#Filter $Type Run() - NewTicket/TicketID",
     );
@@ -1214,7 +1208,7 @@ Some Content in Body
     for my $Test (@Tests) {
         next TEST if !$Test->{Check};
         for my $Key ( sort keys %{ $Test->{Check} } ) {
-            $Self->Is(
+            is(
                 $Ticket{$Key},
                 $Test->{Check}->{$Key},
                 "#Filter $Type Run('$Test->{Name}') - $Key",
@@ -1227,7 +1221,7 @@ Some Content in Body
         TicketID => $Return[1],
         UserID   => 1,
     );
-    $Self->True(
+    ok(
         $Delete || 0,
         "#Filter $Type TicketDelete()",
     );
@@ -1249,8 +1243,9 @@ Some Content in Body
 # filter test Envelope-To and X-Envelope-To
 @Tests = (
     {
-        Name  => '#1 - Envelope-To Test',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#1 - Envelope-To Test',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 Envelope-To: Some EnvelopeTo Name <envelopeto@example.com>
 Subject: some subject
@@ -1269,11 +1264,11 @@ Some Content in Body
                 Value => 'Junk',
             },
             {
-                Key   => 'X-OTOBO-TicketKey5',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeKey5',
                 Value => 'Key5#1',
             },
             {
-                Key   => 'X-OTOBO-TicketValue5',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText5',
                 Value => 'Text5#1',
             },
         ],
@@ -1284,8 +1279,9 @@ Some Content in Body
         },
     },
     {
-        Name  => '#2 - X-Envelope-To Test',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#2 - X-Envelope-To Test',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1304,11 +1300,11 @@ Some Content in Body
                 Value => 'Misc',
             },
             {
-                Key   => 'X-OTOBO-TicketKey6',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeKey6',
                 Value => 'Key6#1',
             },
             {
-                Key   => 'X-OTOBO-TicketValue6',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText6',
                 Value => 'Text6#1',
             },
         ],
@@ -1319,8 +1315,9 @@ Some Content in Body
         },
     },
     {
-        Name  => '#3 - X-Envelope-To Test with old post master format',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#3 - X-Envelope-To Test with old post master format',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1331,9 +1328,9 @@ Some Content in Body
             'X-Envelope-To' => 'xenvelopeto@example.com'
         },
         Set => {
-            'X-OTOBO-Queue'        => 'Misc',
-            'X-OTOBO-TicketKey6'   => 'Key6#1',
-            'X-OTOBO-TicketValue6' => 'Text6#1',
+            'X-OTOBO-Queue'                        => 'Misc',
+            'X-OTOBO-DynamicField-TicketFreeKey6'  => 'Key6#1',
+            'X-OTOBO-DynamicField-TicketFreeText6' => 'Text6#1',
         },
         Check => {
             Queue                        => 'Misc',
@@ -1343,8 +1340,9 @@ Some Content in Body
         Type => 'Config',
     },
     {
-        Name  => '#4 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::NewTicketReject',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#4 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::NewTicketReject',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1370,8 +1368,9 @@ Some Content in Body
         Type => 'Config',
     },
     {
-        Name  => '#4 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::NewTicketReject',
-        Email => 'From: Sender <sender@example.com>
+        Name    => '#4 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::NewTicketReject',
+        ValidID => 1,
+        Email   => 'From: Sender <sender@example.com>
 To: Some Name <recipient@example.com>
 X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
 Subject: some subject
@@ -1447,6 +1446,7 @@ for my $Test (@Tests) {
         if ( $Type eq 'DB' ) {
             $PostMasterFilter->FilterAdd(
                 Name           => $Test->{Name},
+                ValidID        => $Test->{ValidID},
                 StopAfterMatch => 0,
                 %{$Test},
             );
@@ -1470,7 +1470,7 @@ for my $Test (@Tests) {
 
             @Return = $PostMasterObject->Run();
         }
-        $Self->Is(
+        is(
             $Return[0] || 0,
             $Test->{Check}->{ReturnCode} || 1,
             "#Filter $Type Run('$Test->{Name}') - NewTicket",
@@ -1483,7 +1483,7 @@ for my $Test (@Tests) {
 
         if ( !$Test->{Check}->{ReturnCode} || !$LookupRejectReturnCode{ $Test->{Check}->{ReturnCode} } ) {
 
-            $Self->True(
+            ok(
                 $Return[1] || 0,
                 "#Filter $Type Run('$Test->{Name}') - NewTicket/TicketID",
             );
@@ -1501,7 +1501,7 @@ for my $Test (@Tests) {
             for my $TestCheck ($Test) {
                 next TEST if !$TestCheck->{Check};
                 for my $Key ( sort keys %{ $TestCheck->{Check} } ) {
-                    $Self->Is(
+                    is(
                         $Ticket{$Key},
                         $TestCheck->{Check}->{$Key},
                         "#Filter $Type Run('$TestCheck->{Name}') - $Key",
@@ -1514,7 +1514,7 @@ for my $Test (@Tests) {
                 TicketID => $Return[1],
                 UserID   => 1,
             );
-            $Self->True(
+            ok(
                 $Delete || 0,
                 "#Filter $Type TicketDelete()",
             );
@@ -1542,7 +1542,7 @@ for my $DynamicField (@DynamicFieldUpdate) {
         UserID  => 1,
         %{$DynamicField},
     );
-    $Self->True(
+    ok(
         $SuccessUpdate,
         "Reverted changes on ValidID for $DynamicField->{Name} field.",
     );
@@ -1555,7 +1555,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
         ID     => $DynamicFieldID,
         UserID => 1,
     );
-    $Self->True(
+    ok(
         $FieldDelete,
         "Deleted dynamic field with id $DynamicFieldID.",
     );
@@ -1614,13 +1614,13 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
 
     my @Return = $PostMasterObject->Run();
 
-    $Self->Is(
+    is(
         $Return[0] || 0,
         1,
         $Test . ' Run() - NewTicket',
     );
 
-    $Self->True(
+    ok(
         $Return[1],
         $Test . ' Run() - NewTicket/TicketID',
     );
@@ -1634,7 +1634,7 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
     );
 
     for my $Field ( sort keys %{ $OwnerResponsibleTests{$Test}->{Check} } ) {
-        $Self->Is(
+        is(
             $Ticket{$Field},
             $OwnerResponsibleTests{$Test}->{Check}->{$Field},
             $Test . ' Check Field - ' . $Field,
@@ -1679,17 +1679,15 @@ my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
     ArticleID => $ArticleID,
 );
 
-$Self->Is(
+is(
     $Index{1}->{Filename},
     'Test-123-456-789',
     "ArticleID $ArticleID has attachment with name '$Index{1}->{Filename}'",
 );
-$Self->Is(
+is(
     $Index{1}->{ContentType},
     'application/xml; charset=utf-8',
     "ArticleID $ArticleID has attachment with content-type '$Index{1}->{ContentType}'",
 );
-
-# cleanup is done by RestoreDatabase
 
 done_testing;

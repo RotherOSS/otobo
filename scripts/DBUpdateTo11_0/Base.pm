@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -35,7 +35,26 @@ our $ObjectManagerDisabled = 1;
 
 scripts::DBUpdateTo11_0::Base - base class for migrations.
 
+=head1 SYNOPSIS
+
+    # Used in task modules in the directory scripts/DBUpdateTo11_0
+    use parent qw(scripts::DBUpdateTo11_0::Base);
+
+=head1 DESCRIPTION
+
+This modules provides methods for the task modules that are located in F<scripts/DBUpdateTo11_0>.
+
 =head1 PUBLIC INTERFACE
+
+=cut
+
+=head2 new()
+
+The constructor provided by the base module and used in F<scripts/DBUpdateTo11.0.pm>.
+
+        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_0::' . $Task->{Module} )->Run;
+
+C<new()> is called implicitly by C<Kernen::ObjectManager::Create()>.
 
 =cut
 

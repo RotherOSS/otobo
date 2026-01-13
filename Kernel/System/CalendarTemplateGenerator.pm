@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::System::CalendarTemplateGenerator;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -65,8 +66,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{RichText} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText');
 
@@ -90,6 +90,7 @@ sub NotificationEvent {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
+    # UserID is required, but not actually used
     for my $Needed (qw(Notification Recipient UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -177,7 +178,6 @@ sub NotificationEvent {
         Recipient     => $Param{Recipient},
         AppointmentID => $Param{AppointmentID},
         CalendarID    => $Param{CalendarID},
-        UserID        => $Param{UserID},
         Language      => $Language,
     );
 
@@ -187,7 +187,6 @@ sub NotificationEvent {
         Recipient     => $Param{Recipient},
         AppointmentID => $Param{AppointmentID},
         CalendarID    => $Param{CalendarID},
-        UserID        => $Param{UserID},
         Language      => $Language,
     );
 
@@ -210,7 +209,7 @@ sub _Replace {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Text RichText UserID)) {
+    for (qw(Text RichText)) {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -451,7 +450,7 @@ sub _Replace {
             # get a list of available (readable) teams
             my %TeamList = $TeamObject->TeamList(
                 Valid  => 0,
-                UserID => $Self->{UserID},
+                UserID => $Self->{UserID},    # TODO: $Self->{UserID} isn't set anywhere
             );
 
             next ATTRIBUTE if !IsHashRefWithData( \%TeamList );

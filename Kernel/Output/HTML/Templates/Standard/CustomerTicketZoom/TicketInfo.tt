@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,10 +24,10 @@
                 <div class="oooSection">
                     <h3>[% Translate('Ticket Information') | html %]</h3>
 [% RenderBlockStart("Type") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Data.Type | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Type') | html %]:</span> [% Translate(Data.Type) | html %]</p>
 [% RenderBlockEnd("Type") %]
 [% RenderBlockStart("Service") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Service') | html %]:</span> [% Translate(Data.Service) | html | replace('::', '<wbr>::<wbr>') %]</p>
 [% RenderBlockEnd("Service") %]
 [% RenderBlockStart("SLA") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('SLA') | html %]:</span> [% Translate(Data.SLA) | html %]</p>
@@ -39,7 +39,7 @@
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Priority') | html %]:</span> [% Translate(Data.Priority) | html %]</p>
 [% RenderBlockEnd("Priority") %]
 [% RenderBlockStart("Queue") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Data.Queue | html %]</p>
+                    <p class='ooo12'><span class='ooo12g'>[% Translate('Queue') | html %]:</span> [% Translate(Data.Queue) | html | replace('::', '<wbr>::<wbr>') %]</p>
 [% RenderBlockEnd("Queue") %]
 [% RenderBlockStart("TicketTimeUnits") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Accounted time') | html %]:</span> [% Data.TicketTimeUnits | html %]</p>
@@ -50,10 +50,6 @@
 [% RenderBlockStart("Responsible") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate('Responsible') | html %]:</span> [% Data.ResponsibleName | html %]</p>
 [% RenderBlockEnd("Responsible") %]
-[% RenderBlockStart("ProcessData") %]
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Process') | html %]:</span> [% Data.Process | html %]</p>
-                    <p class='ooo12'><span class='ooo12g'>[% Translate('Activity') | html %]:</span> [% Data.Activity | html %]</p>
-[% RenderBlockEnd("ProcessData") %]
 [% RenderBlockStart("TicketDynamicField") %]
                     <p class='ooo12'><span class='ooo12g'>[% Translate(Data.Label) | html %]:</span>
 [% RenderBlockStart("TicketDynamicFieldLink") %]

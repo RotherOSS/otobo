@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,12 +16,18 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Database::RandomDataInsert;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -32,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Group',
+    'Kernel::System::Main',
     'Kernel::System::Queue',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -43,6 +50,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Insert random data into the OTOBO database for testing purposes.');
+
     $Self->AddOption(
         Name        => 'generate-tickets',
         Description => "Specify how many tickets should be generated.",
@@ -56,6 +64,13 @@ sub Configure {
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
+    );
+    $Self->AddOption(
+        Name        => 'attachments-per-article',
+        Description => "Specify how many attachments should be generated per article.",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^[0-9]+$/smx,
     );
     $Self->AddOption(
         Name        => 'generate-users',
@@ -174,6 +189,25 @@ sub Run {
         CompanyCreate( $Self->GetOption('generate-customer-companies') );
     }
 
+    # rather arbitrarily generate 16 articles of 16 kb
+    my @RandomTextAttachments;
+    if ( $Self->GetOption('attachments-per-article') ) {
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+        for my $Count ( 1 .. 16 ) {
+            my $String = $MainObject->GenerateRandomString(
+                Length => 15,
+            );
+
+            # The content should be 16 kB = (15+1)*1024 B
+            push @RandomTextAttachments,
+                {
+                    Content     => ( "$String\n" x 1024 ),
+                    ContentType => 'text/plain',
+                    Filename    => ( sprintf '%02d_%s.txt', $Count, ${String} ),
+                };
+        }
+    }
+
     my $Counter = 1;
 
     # create tickets
@@ -183,14 +217,14 @@ sub Run {
 
             my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
                 Title        => RandomSubject(),
-                QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
+                QueueID      => $QueueIDs[ int( rand( scalar @QueueIDs ) ) ],
                 Lock         => 'unlock',
                 Priority     => PriorityGet(),
                 State        => 'new',
-                CustomerNo   => int( rand(1000) ),
+                CustomerNo   => int( rand(1_000) ),                             # 0 .. 999
                 CustomerUser => RandomAddress(),
-                OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
-                UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
+                OwnerID      => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
+                UserID       => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
             );
 
         if ( $Self->GetOption('mark-tickets-as-seen') ) {
@@ -214,6 +248,12 @@ sub Run {
                 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
                     ChannelName => 'Internal',
                 );
+                my @Attachments = $Self->GetOption('attachments-per-article')
+                    ?
+                    ( map { $RandomTextAttachments[ int rand scalar @RandomTextAttachments ] } ( 1 .. $Self->GetOption('attachments-per-article') ) )
+                    :
+                    ();
+
                 my $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketID,
                     IsVisibleForCustomer => 1,
@@ -226,8 +266,9 @@ sub Run {
                     ContentType          => 'text/plain; charset=ISO-8859-15',
                     HistoryType          => 'AddNote',
                     HistoryComment       => 'Some free text!',
-                    UserID               => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify        => 1,                                    # if you don't want to send agent notifications
+                    UserID               => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
+                    NoAgentNotify        => 1,                                            # if you don't want to send agent notifications
+                    Attachment           => \@Attachments,
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {
@@ -253,7 +294,7 @@ sub Run {
                     my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         ObjectID           => $ArticleID,
-                        UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                        UserID             => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
                     );
 
                     if ( $Result->{Success} ) {
@@ -275,7 +316,7 @@ sub Run {
                 my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
-                    UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
+                    UserID             => $UserIDs[ int( rand( scalar @UserIDs ) ) ],
                 );
 
                 if ( $Result->{Success} ) {
@@ -301,8 +342,8 @@ sub Run {
 # Helper functions below
 #
 sub RandomAddress {
-    my $Name   = int( rand(1_000) );
-    my @Domain = (
+    my $Name    = int( rand(1_000) );    # 0 - 999
+    my @Domains = (
         'example.com',
         'example-sales.com',
         'example-service.com',
@@ -320,11 +361,11 @@ sub RandomAddress {
         'slow-company-example-service.com',
     );
 
-    return $Name . '@' . $Domain[ int( rand( $#Domain + 1 ) ) ];
+    return join '@', $Name, $Domains[ int( rand( scalar @Domains ) ) ];
 }
 
 sub RandomSubject {
-    my @Text = (
+    my @Texts = (
         'some subject alalal',
         'Re: subject alalal 1234',
         'Re: Some Problem with my ...',
@@ -341,12 +382,13 @@ sub RandomSubject {
         'What a wonderful day!',
         '1237891234123412784 2314 test testsetsetset set set',
     );
-    return $Text[ int( rand( $#Text + 1 ) ) ];
+
+    return $Texts[ int( rand( scalar @Texts ) ) ];
 }
 
 sub RandomBody {
-    my $Body = '';
-    my @Text = (
+    my $Body  = '';
+    my @Texts = (
         'some body  alalal',
         'Re: body alalal 1234',
         'and we go an very long way to home',
@@ -392,8 +434,9 @@ sub RandomBody {
         'is usually localised resulting in talents.[citation needed]',
     );
     for ( 1 .. 50 ) {
-        $Body .= $Text[ int( rand( $#Text + 1 ) ) ] . "\n";
+        $Body .= $Texts[ int( rand( scalar @Texts ) ) ] . "\n";
     }
+
     return $Body;
 }
 
@@ -406,7 +449,8 @@ sub PriorityGet {
     for my $PriorityID ( sort keys %PriorityList ) {
         push @Priorities, $PriorityList{$PriorityID};
     }
-    return $Priorities[ int( rand( $#Priorities + 1 ) ) ];
+
+    return $Priorities[ int( rand( scalar @Priorities ) ) ];
 }
 
 sub QueueGet {
@@ -415,6 +459,7 @@ sub QueueGet {
     for ( sort keys %Queues ) {
         push @QueueIDs, $_;
     }
+
     return @QueueIDs;
 }
 
@@ -424,7 +469,7 @@ sub QueueCreate {
 
     my @QueueIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-queue' . int( rand(100_000_000) );
+        my $Name = 'fill-up-queue' . int( rand(100_000_000) );            # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name              => $Name,
             ValidID           => 1,
@@ -447,15 +492,15 @@ sub QueueCreate {
             push( @QueueIDs, $ID );
         }
     }
+
     return @QueueIDs;
 }
 
 sub GroupGet {
-    my @GroupIDs;
     my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
-    for ( sort keys %Groups ) {
-        push @GroupIDs, $_;
-    }
+
+    my @GroupIDs = sort keys %Groups;
+
     return @GroupIDs;
 }
 
@@ -464,7 +509,7 @@ sub GroupCreate {
 
     my @GroupIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-group' . int( rand(100_000_000) );
+        my $Name = 'fill-up-group' . int( rand(100_000_000) );            # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
             Name    => $Name,
             ValidID => 1,
@@ -490,18 +535,18 @@ sub GroupCreate {
             );
         }
     }
+
     return @GroupIDs;
 }
 
 sub UserGet {
-    my @UserIDs;
     my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );
-    for ( sort keys %Users ) {
-        push @UserIDs, $_;
-    }
+
+    my @UserIDs = sort keys %Users;
+
     return @UserIDs;
 }
 
@@ -511,7 +556,7 @@ sub UserCreate {
 
     my @UserIDs;
     for ( 1 .. $Count ) {
-        my $Name = 'fill-up-user' . int( rand(100_000_000) );
+        my $Name = 'fill-up-user' . int( rand(100_000_000) );           # 0 .. 99_999_999
         my $ID   = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
             UserFirstname => "$Name-Firstname",
             UserLastname  => "$Name-Lastname",
@@ -524,7 +569,7 @@ sub UserCreate {
             print "User '$Name' with ID '$ID' created.\n";
             push( @UserIDs, $ID );
             for my $GroupID (@GroupIDs) {
-                my $GroupAdd = int( rand(3) );
+                my $GroupAdd = int( rand(3) );    # 0 .. 2
                 if ( $GroupAdd == 2 ) {
                     $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
                         GID        => $GroupID,
@@ -558,6 +603,7 @@ sub UserCreate {
             }
         }
     }
+
     return @UserIDs;
 }
 
@@ -565,9 +611,9 @@ sub CustomerCreate {
     my $Count = shift || return;
 
     for ( 1 .. $Count ) {
-        my $Name      = 'fill-up-user' . int( rand(100_000_000) );
+        my $Name      = 'fill-up-user' . int( rand(100_000_000) );                           # 0 .. 99_999_999
         my $UserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',            # CustomerUser source config
+            Source         => 'CustomerUser',                                                # CustomerUser source config
             UserFirstname  => $Name,
             UserLastname   => $Name,
             UserCustomerID => $Name,
@@ -578,6 +624,7 @@ sub CustomerCreate {
         );
         print "CustomerUser '$Name' created.\n";
     }
+
     return;
 }
 
@@ -586,9 +633,9 @@ sub CompanyCreate {
 
     for ( 1 .. $Count ) {
 
-        my $Name       = 'fill-up-company' . int( rand(100_000_000) );
+        my $Name       = 'fill-up-company' . int( rand(100_000_000) );                              # 0 .. 99_999_999
         my $CustomerID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
-            Source                 => 'CustomerCompany',          # CustomerCompany source config
+            Source                 => 'CustomerCompany',                                            # CustomerCompany source config
             CustomerID             => $Name . '_CustomerID',
             CustomerCompanyName    => $Name,
             CustomerCompanyStreet  => '5201 Blue Lagoon Drive',
@@ -603,6 +650,7 @@ sub CompanyCreate {
 
         print "CustomerCompany '$Name' created.\n";
     }
+
     return;
 }
 

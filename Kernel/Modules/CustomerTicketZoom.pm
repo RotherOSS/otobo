@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -123,7 +123,7 @@ sub new {
         },
     ];
 
-    # dependancies of standard fields which are not defined via ACLs - here for consistency
+    # dependencies of standard fields which are not defined via ACLs - here for consistency
     $Self->{InternalDependancy} = {};
 
     return $Self;
@@ -446,7 +446,7 @@ sub Run {
 
                 my %NewChangedElements;
 
-                # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+                # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
                 my %Check = (
                     NextStateID => 'NextStateID',
                     PriorityID  => 'PriorityID',
@@ -514,7 +514,7 @@ sub Run {
                         }
 
                         # autoselect
-                        elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                        if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                                 PossibleValues => $StdFieldValues{QueueID},
                             ) || '';
@@ -534,7 +534,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                    if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                         $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                         ) || '';
@@ -634,7 +634,7 @@ sub Run {
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
                 for my $i ( 0 .. $#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-                        ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
+                        ? ( $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] // '' )
                         :
                         (
                             $BackendObject->BuildSelectionDataGet(
@@ -690,7 +690,7 @@ sub Run {
                 if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $SetField->{Values}{$FrontendName} eq 'ARRAY' ) {
                     for my $i ( 0 .. $#{ $SetField->{Values}{$FrontendName} } ) {
                         my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
-                            ? $SetField->{Values}{$FrontendName}[$i]
+                            ? ( $SetField->{Values}{$FrontendName}[$i] // '' )
                             :
                             (
                                 $BackendObject->BuildSelectionDataGet(
@@ -1211,10 +1211,7 @@ sub Run {
         # if user clicked submit on the main screen
         # store also chat protocol
         if ( !$GetParam{FromChat} && $GetParam{FromChatID} ) {
-            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-            my %Chat       = $ChatObject->ChatGet(
-                ChatID => $GetParam{FromChatID},
-            );
+            my $ChatObject      = $Kernel::OM->Get('Kernel::System::Chat');
             my @ChatMessageList = $ChatObject->ChatMessageList(
                 ChatID => $GetParam{FromChatID},
             );
@@ -1364,7 +1361,7 @@ sub Run {
 
             my %NewChangedElements;
 
-            # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
+            # which standard fields to check - FieldID => GetParamValue (necessary for Dest)
             my %Check = (
                 NextStateID => 'NextStateID',
                 PriorityID  => 'PriorityID',
@@ -1432,7 +1429,7 @@ sub Run {
                     }
 
                     # autoselect
-                    elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
+                    if ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                         $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
                             PossibleValues => $StdFieldValues{QueueID},
                         ) || '';
@@ -1452,7 +1449,7 @@ sub Run {
                 }
 
                 # autoselect
-                elsif ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
+                if ( !$GetParam{ $Field->{FieldID} } && $Autoselect && $Autoselect->{ $Field->{FieldID} } ) {
                     $GetParam{ $Field->{FieldID} } = $FieldRestrictionsObject->Autoselect(
                         PossibleValues => $StdFieldValues{ $Field->{FieldID} },
                     ) || '';
@@ -1625,7 +1622,6 @@ sub _Mask {
 
     # build article stuff
     my $SelectedArticleID = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
-    my $BaseLink          = $LayoutObject->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # prepare errors!
@@ -1818,26 +1814,12 @@ sub _Mask {
         # create additional objects for process management
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
         my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-        my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-        my $ProcessData          = $ProcessObject->ProcessGet(
-            ProcessEntityID => $Param{$ProcessEntityIDField},
-        );
-
-        my $ActivityData = $ActivityObject->ActivityGet(
+        my $ActivityData         = $ActivityObject->ActivityGet(
             Interface        => 'CustomerInterface',
             ActivityEntityID => $Param{$ActivityEntityIDField},
         );
 
-        # output process information in the sidebar
-        $LayoutObject->Block(
-            Name => 'ProcessData',
-            Data => {
-                Process  => $ProcessData->{Name}  || '',
-                Activity => $ActivityData->{Name} || '',
-            },
-        );
-
-        # output the process widget the the main screen
+        # output the process widget on the main screen
         $LayoutObject->Block(
             Name => 'ProcessWidget',
             Data => {
@@ -1847,20 +1829,16 @@ sub _Mask {
 
         # get next activity dialogs
         my $NextActivityDialogs;
-        if ( $Param{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = $ActivityData;
+        if (
+            $Param{$ActivityEntityIDField}
+            && IsHashRefWithData($ActivityData)
+            && IsHashRefWithData( $ActivityData->{ActivityDialog} )
+            )
+        {
+            $NextActivityDialogs = $ActivityData->{ActivityDialog} || {};
         }
 
         if ( IsHashRefWithData($NextActivityDialogs) ) {
-
-            # we don't need the whole Activity config,
-            # just the Activity Dialogs of the current Activity
-            if ( IsHashRefWithData( $NextActivityDialogs->{ActivityDialog} ) ) {
-                %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
-            }
-            else {
-                $NextActivityDialogs = {};
-            }
 
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
                 return $LayoutObject->FatalError(
@@ -2007,7 +1985,7 @@ sub _Mask {
 
     # standard ticket categories
     CAT:
-    for my $CatName (qw/Type Queue Service State Owner/) {
+    for my $CatName (qw/Priority Type Queue Service State Owner/) {
         next CAT if !$Param{$CatName};
         if ( $CategoryConfig->{$CatName} ) {
             my $Conf = $CategoryConfig->{$CatName};
@@ -2184,9 +2162,6 @@ sub _Mask {
                         );
 
                         # Get all online users
-                        my @OnlineUsers = $Kernel::OM->Get('Kernel::System::Chat')->OnlineUserList(
-                            UserType => 'User',
-                        );
                         my $AvailabilityCheck = $Kernel::OM->Get('Kernel::Config')->Get("ChatEngine::CustomerFrontend::AvailabilityCheck")
                             || 0;
                         my %AvailableUsers;
@@ -2244,14 +2219,12 @@ sub _Mask {
     }
 
     # Expand option
-    my $ExpandOption = ( $ZoomExpand ? 'One'              : 'All' );
-    my $ExpandText   = ( $ZoomExpand ? 'Show one article' : 'Show all articles' );
     $LayoutObject->Block(
         Name => 'Expand',
         Data => {
             ZoomExpand   => !$ZoomExpand,
-            ExpandOption => $ExpandOption,
-            ExpandText   => $ExpandText,
+            ExpandOption => ( $ZoomExpand ? 'One'              : 'All' ),
+            ExpandText   => ( $ZoomExpand ? 'Show one article' : 'Show all articles' ),
             %Param,
         },
     );
@@ -2260,8 +2233,6 @@ sub _Mask {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
 
     my $ShownArticles;
     my $LastSenderType = '';
@@ -2356,7 +2327,6 @@ sub _Mask {
             }
         }
 
-        my $ArticleArray = 0;
         for my $ArticleTmp (@ArticleBox) {
             my %ArticleTmp1 = %$ArticleTmp;
             if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
@@ -2548,6 +2518,13 @@ sub _Mask {
     }
     else {
         $UserInitials = substr( $CustomerUser{UserFirstName}, 0, 1 ) . substr( $CustomerUser{UserLastName}, 0, 1 );
+    }
+
+    # explanatory message about asterisk
+    if ( $ConfigObject->Get('Ticket::Frontend::AsteriskExplanation') ) {
+        $LayoutObject->Block(
+            Name => 'AsteriskExplanation',
+        );
     }
 
     # select the output template

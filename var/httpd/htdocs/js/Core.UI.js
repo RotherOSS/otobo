@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -241,7 +241,7 @@ Core.UI = (function (TargetNS) {
      * @returns {String} ID of the element
      * @param {jQueryObject} $Element - The HTML element
      * @description
-     *      Returns the ID of the Element and creates one for it if nessessary.
+     *      Returns the ID of the Element and creates one for it if necessary.
      */
     TargetNS.GetID = function ($Element) {
         var ID;
@@ -571,18 +571,6 @@ Core.UI = (function (TargetNS) {
                 return false;
             }
 
-            // If SessionUseCookie is disabled use Session cookie in AjaxAttachment. See bug#14432.
-            // The untyped comparison with '==' works when SessionUseCookie is either the string '0' or the number 0.
-            if ( ( Core.Config.Get('SessionUseCookie') ?? 'not configured' ) == '0') {
-                if (CGIHandle.indexOf('index') > -1) {
-                    SessionName =  Core.Config.Get('SessionName');
-                }
-                else if (CGIHandle.indexOf('customer') > -1) {
-                    SessionName =  Core.Config.Get('CustomerPanelSessionName');
-                }
-                SessionToken = ';' + SessionName + '=' + $DropObj.closest('form').find('input[name=' + SessionName + ']').val();
-            }
-
             // if the original upload field doesn't have the multiple attribute,
             // prevent uploading of more than one file
             if (!IsMultiple && SelectedFiles.length > 1) {
@@ -625,7 +613,7 @@ Core.UI = (function (TargetNS) {
             var UploadTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemUploadingCustomer' : 'AjaxDnDUpload/AttachmentItemUploading' ),
                 AttachTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemCustomer'          : 'AjaxDnDUpload/AttachmentItem' );
 
-            $.each(SelectedFiles, function(index, File) {
+            $.each(SelectedFiles, function(_index, File) {
 
                 var FileIcon = UploadIcons[ 'text' ];
                 for ( var Key in UploadIcons ) {
@@ -740,7 +728,7 @@ Core.UI = (function (TargetNS) {
                     processData: false,
                     success: function(Response) {
 
-                        $.each(Response, function(index, Attachment) {
+                        $.each(Response, function(_index, Attachment) {
 
                             // walk through the list to see if we can update an entry
                             var AttachmentItem,
@@ -799,9 +787,30 @@ Core.UI = (function (TargetNS) {
                         $DropObj.prev('input[type=file]').val('');
                         $DropObj.removeClass('Uploading');
                     },
-                    error: function() {
-                        // TODO: show an error tooltip?
+                    error: function(Response) {
+
+                        // we need to empty the relevant file upload field because it would otherwise
+                        // transfer the selected files again (only on click select, not on drag & drop)
+                        $DropObj.prev('input[type=file]').val('');
                         $DropObj.removeClass('Uploading');
+
+                        // find table row of file with failed upload
+                        var $ExistingItemObj = $ContainerObj.find('.AttachmentList tbody tr td.Filename').filter(function() {
+                                if ($(this).text() === File.name) {
+                                    return $(this);
+                                }
+                            });
+
+                        // properly remove it from the table
+                        $ExistingItemObj.parent().remove();
+
+                        // hide file table if neccessary
+                        if ( $ContainerObj.find('.AttachmentList tbody tr').length == 0 ) {
+                            $ContainerObj.find('.AttachmentList').addClass('Hidden').hide();
+                        }
+
+                        // show dialog with error message
+                        Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), Core.Language.Translate(Response.responseText));
                     }
                 });
             });
@@ -895,13 +904,13 @@ Core.UI = (function (TargetNS) {
                         if (Response.Data && Response.Data.length) {
 
                             // go through all attachments and update the FileIDs
-                            $.each(Response.Data, function(index, Attachment) {
+                            $.each(Response.Data, function(_index, Attachment) {
                                 $AttachmentListContainerObj.find('.AttachmentList td:contains(' + Attachment.Filename + ')').closest('tr').find('a').data('file-id', Attachment.FileID);
                             });
                             $AttachmentListContainerObj.find('.Busy').fadeOut();
                         }
                         else {
-                            $AttachmentListContainerObj.find('.AttachmentList').hide();
+                            $AttachmentListContainerObj.find('.AttachmentList').addClass('Hidden').hide();
                             $AttachmentListContainerObj.find('.Busy').hide();
 
                             // Remove input field because validation is not needed when there is no attachments (see bug#13081).
@@ -937,6 +946,9 @@ Core.UI = (function (TargetNS) {
                 .hide()
                 .on('change', function(Event) {
                     UploadFiles(Event.target.files, $(this).next('.DnDUpload'));
+
+                    // clear value to not erroneously upload rejected files with form submit
+                    $(this).val('');
                 })
                 .after($(UploadContainer))
                 .next('.DnDUpload')
@@ -1029,7 +1041,7 @@ Core.UI = (function (TargetNS) {
         }
 
         RepositionElement($Element, Width);
-        $(window).off('scroll.StickyElement').on('scroll.StickyElement', function() {
+        $(document).off('scroll.StickyElement').on('scroll.StickyElement', function() {
             RepositionElement($Element, Width);
         });
     };

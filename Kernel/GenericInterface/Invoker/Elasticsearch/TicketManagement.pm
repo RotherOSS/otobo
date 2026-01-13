@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -804,7 +804,7 @@ sub AssessResponse {
         $ResponseError = $ErrorMessage;
     }
 
-    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+    if ( $ResponseCode !~ m{ \A 20 [0-9] \z }xms ) {
         $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
     }
 
@@ -863,7 +863,7 @@ sub HandleResponse {
 
         # fix ExecutionTime param
         if ( $QueryParams{ExecutionTime} ) {
-            $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
+            $QueryParams{ExecutionTime} =~ s{([0-9]+)\+([0-9]+)}{$1 $2};
         }
 
         return {
@@ -885,7 +885,7 @@ sub HandleResponse {
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # create the ticket
-        my ($TicketID) = $Param{Data}->{error}->{reason} =~ m/ \Q[_doc][\E (\d+) \Q]:\E \s /x;    # e.g. "[_doc][5]: "
+        my ($TicketID) = $Param{Data}->{error}->{reason} =~ m/ \Q[_doc][\E ([0-9]+) \Q]:\E \s /x;    # e.g. "[_doc][5]: "
         my $Errors = 0;
         if ( !$ESObject->TicketCreate( TicketID => $TicketID ) ) {
             $Errors++;

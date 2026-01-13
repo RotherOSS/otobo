@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -153,17 +153,19 @@ sub Run {
         # get customer interface session name
         my $SessionName = $ConfigObject->Get('CustomerPanelSessionName') || 'CSID';
 
-        # create a new LayoutObject with SessionIDCookie
-        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
-        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
-            $Expires = '';
-        }
-
+        # create a new LayoutObject
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SessionID   => $NewSessionID,
             SessionName => $ConfigObject->Get('SessionName'),
         );
+
+        # set the session cookie
+        my $Expires = $ConfigObject->Get('SessionUseCookieAfterBrowserClose')
+            ?
+            '+' . $ConfigObject->Get('SessionMaxTime') . 's'
+            :
+            '';
         $LayoutObject->SetCookie(
             Key     => 'SessionIDCookie',
             Name    => $SessionName,
@@ -178,21 +180,16 @@ sub Run {
                 "Switched from Agent to Customer ($Self->{UserLogin} -=> $UserData{UserLogin})",
         );
 
-        # build URL to customer interface
-        my $URL = $ConfigObject->Get('HttpType')
-            . '://'
-            . $ConfigObject->Get('FQDN')
-            . '/'
-            . $ConfigObject->Get('ScriptAlias')
-            . 'customer.pl';
+        # redirect to customer interface
+        my $ExtURL = join '',
+            $ConfigObject->Get('HttpType'),
+            '://',
+            $ConfigObject->Get('FQDN'),
+            '/',
+            $ConfigObject->Get('ScriptAlias'),
+            'customer.pl';
 
-        # if no sessions are used we attach the session as URL parameter
-        if ( !$ConfigObject->Get('SessionUseCookie') ) {
-            $URL .= "?$SessionName=$NewSessionID";
-        }
-
-        # redirect to customer interface with new session id
-        return $LayoutObject->Redirect( ExtURL => $URL );
+        return $LayoutObject->Redirect( ExtURL => $ExtURL );
     }
 
     # search user list
@@ -455,7 +452,10 @@ sub Run {
                         UserObject => $CustomerUserObject,
                         Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param( UserData => \%UserData );
+                    my @Params = $Object->Param(
+                        UserData => \%UserData,
+                        Customer => 1,
+                    );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
@@ -708,7 +708,11 @@ sub Run {
                         UserObject => $CustomerUserObject,
                         Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                    my @Params = $Object->Param(
+                        %{ $Preferences{$Group} },
+                        UserData => \%UserData,
+                        Customer => 1,
+                    );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
@@ -1251,7 +1255,7 @@ sub _Edit {
                 Language => $LayoutObject->{UserLanguage},
             );
 
-            # Make sure that the previous value exists in the selection list even if isn't a countr code.
+            # Make sure that the previous value exists in the selection list even if isn't a country code.
             my $PreviousCountry = $Param{ $Entry->[0] };
             if ($PreviousCountry) {
                 $CountryList->{$PreviousCountry} //= $PreviousCountry;
@@ -1463,7 +1467,10 @@ sub _Edit {
                     UserObject => $Kernel::OM->Get('Kernel::System::CustomerUser'),
                     Debug      => $Self->{Debug},
                 );
-                my @Params = $Object->Param( UserData => \%Param );
+                my @Params = $Object->Param(
+                    UserData => \%Param,
+                    Customer => 1,
+                );
                 if (@Params) {
                     for my $ParamItem (@Params) {
                         $LayoutObject->Block(

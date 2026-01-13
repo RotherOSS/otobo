@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -97,11 +97,19 @@ sub new {
 
 =head2 BackendForArticle()
 
-Returns the correct back end for a given article, or the
-L<Invalid|Kernel::System::Ticket::Article::Backend::Invalid> back end, so that you can always expect
+Returns the correct instance of the back end for a given article, or an instance of the
+L<Invalid|Kernel::System::Ticket::Article::Backend::Invalid> back end. Thus you can always expect
 a back end object instance that can be used for chain-calling.
 
-    my $ArticleBackendObject = $ArticleObject->BackendForArticle( TicketID => 42, ArticleID => 123 );
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+        TicketID            => 42,
+        ArticleID           => 123,
+        ShowDeletedArticles => 1, # optional, used only when no CommunicationChannelID is given, default is false
+        VersionView         => 1, # optional, used only when no CommunicationChannelID is given, default is false
+    );
+
+The parameters C<ShowDeletedArticles> and C<VersionView> determine whether deleted or versioned articles are
+considered as valid articles when determining the backend.
 
 Alternatively, you can pass in a hash with base article data as returned by L</ArticleList()>, this will avoid the
 lookup for the C<CommunicationChannelID> of the article:
@@ -122,6 +130,7 @@ sub BackendForArticle {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Invalid');
         }
     }
@@ -142,6 +151,7 @@ sub BackendForArticle {
         my $ChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelObjectGet(
             ChannelID => $Param{CommunicationChannelID},
         );
+
         return $ChannelObject->ArticleBackend() if $ChannelObject && $ChannelObject->can('ArticleBackend');
     }
 
@@ -240,6 +250,7 @@ sub ArticleList {
             Priority => 'error',
             Message  => 'Need TicketID!',
         );
+
         return;
     }
 
@@ -248,11 +259,13 @@ sub ArticleList {
             Priority => 'error',
             Message  => 'OnlyFirst and OnlyLast cannot be used together!',
         );
+
         return;
     }
 
     my @MetaArticleList = $Self->_MetaArticleList(%Param);
-    return if !@MetaArticleList;
+
+    return unless @MetaArticleList;
 
     if ( $Param{ArticleID} ) {
         @MetaArticleList = grep { $_->{ArticleID} == $Param{ArticleID} } @MetaArticleList;
@@ -642,6 +655,30 @@ sub ArticleAccountedTimeGet {
     while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
         $TimeUnit =~ s/,/./g;
         $AccountedTime += $TimeUnit;
+    }
+
+    return $AccountedTime if $AccountedTime;
+
+    # article not found in time_accounting table, check if it is deleted and sum former times
+    return if !$DBObject->Prepare(
+        SQL   => 'SELECT id FROM article_version WHERE source_article_id = ? AND article_delete = 1 ORDER BY id DESC',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1,
+    );
+
+    if ( my ($DeletedArticleID) = $DBObject->FetchrowArray ) {
+
+        # db query
+        return if !$DBObject->Prepare(
+            SQL  => 'SELECT time_unit FROM time_accounting_version WHERE article_id = ?',
+            Bind => [ \$DeletedArticleID ],
+        );
+
+        # Sum the result rows, even if usually there is only one row.
+        while ( my ($TimeUnit) = $DBObject->FetchrowArray ) {
+            $TimeUnit =~ s/,/./g;
+            $AccountedTime += $TimeUnit;
+        }
     }
 
     return $AccountedTime;
@@ -1250,7 +1287,7 @@ sub _MetaArticleList {
                         av.create_by, av.create_time, av.change_by, av.change_time, av.article_delete
                         FROM article_version av WHERE av.ticket_id = ? AND av.article_delete = 1
                     ) at
-                    ORDER BY at.create_time ASC, at.id DESC",
+                    ORDER BY at.create_time ASC, at.id ASC",
             Bind => [ \$Param{TicketID}, \$Param{TicketID} ],
         );
     }

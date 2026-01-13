@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -21,12 +22,11 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 use Kernel::System::EmailParser ();
-
-our $Self;
 
 # Test that filenames with CR + LF are properly cleaned up.
 # See http://bugs.otrs.org/show_bug.cgi?id=13554.
@@ -45,7 +45,7 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 
 my @Attachments = $EmailParserObject->GetAttachments();
 
-$Self->Is(
+is(
     scalar @Attachments,
     3,
     "Found files",
@@ -54,10 +54,10 @@ $Self->Is(
 # Tested cleaning up CR and LF
 # CR => 0D hexadecimal
 # LF => 0A hexadecimal
-$Self->Is(
+is(
     $Attachments[2]->{'Filename'} || '',
     'Test__test_test_test_dokument.eml',
     "Filename with multiple newlines removed",
 );
 
-$Self->DoneTesting();
+done_testing;

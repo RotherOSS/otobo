@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,15 @@
 
 package Kernel::Modules::AgentTicketLockedView;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -27,17 +33,13 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get needed object
+    # get needed objects
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
@@ -161,10 +163,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # starting with page ...
-    my $Refresh = '';
-    if ( $Self->{UserRefreshTime} ) {
-        $Refresh = 60 * $Self->{UserRefreshTime};
-    }
+    my $Refresh = $Self->{UserRefreshTime} ? 60 * $Self->{UserRefreshTime} : '';
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
         $Output = $LayoutObject->Header(
@@ -257,7 +256,6 @@ sub Run {
     $HeaderColumn =~ s{\A ColumnFilter }{}msxg;
     my @OriginalViewableTickets;
     my @ViewableTickets;
-    my $ViewableTicketCount = 0;
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -328,10 +326,6 @@ sub Run {
             Key    => $StoredFiltersKey,
             Value  => $JSONObject->Encode( Data => $StoredFilters ),
         );
-    }
-
-    if ( $ViewableTicketCount > $Limit ) {
-        $ViewableTicketCount = $Limit;
     }
 
     my %NavBarFilter;
@@ -421,7 +415,8 @@ sub Run {
     );
 
     # get page footer
-    $Output .= $LayoutObject->Footer();
+    $Output .= $LayoutObject->Footer;
+
     return $Output;
 }
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,6 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
@@ -162,11 +161,8 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
         }
 
-        # We have to allow a 11 second delay for Apache2::Reload or Kernel::System::ModuleRefresh to pick up the changed process cache.
-        # TODO: https://github.com/RotherOSS/otobo/issues/932
-        sleep 11;
-
         # Get Process list.
+        # This works without waiting because the files in Kernel/Config/Files are reloaded for each request.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
             UserID      => $TestUserID,
@@ -190,8 +186,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length;' );
         $Selenium->find_element( ".Primary.CallForAction", 'css' )->VerifiedClick();
 
-        my @Ticket          = split /TicketID=/, $Selenium->get_current_url();
-        my $TicketIDProcess = $Ticket[1];
+        my ( undef, $TicketIDProcess ) = split /TicketID=/, $Selenium->get_current_url;
 
         # Navigate to zoom view and create note visible for customer.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDProcess");
@@ -278,7 +273,6 @@ $Selenium->RunTest(
                 Key   => 'Ticket::Frontend::CustomerTicketOverview###ColumnHeader',
                 Value => $ColumnHeader,
             );
-            sleep 1;
 
             my $TitleElement = $Selenium->find_element_by_css(
                 qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}

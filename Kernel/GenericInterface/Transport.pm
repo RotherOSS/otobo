@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -147,8 +147,8 @@ sub ProviderGenerateResponse {
     if ( !defined $Param{Success} ) {
         $ErrorMessage = 'Missing parameter Success.';
     }
-    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        $ErrorMessage = 'Data is not a hash reference.';
+    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
+        $ErrorMessage = 'Data is not a hash or array reference.';
     }
 
     # throw errors as an exception
@@ -216,10 +216,10 @@ sub RequesterPerformRequest {
         );
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    if ( $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
+            Summary => 'Data is not a hash or array reference.',
         );
     }
 

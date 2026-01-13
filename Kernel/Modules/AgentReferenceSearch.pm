@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,8 +46,8 @@ sub Run {
     # only search is supported
     return $LayoutObject->JSONReply(
         Data => {
-            Success  => 0,
-            Messsage => qq{Subaction '$Self->{Subaction}' is not supported!},
+            Success => 0,
+            Message => qq{Subaction '$Self->{Subaction}' is not supported!},
         },
     ) if $Self->{Subaction};
 
@@ -100,8 +100,8 @@ sub Run {
     if ($Error) {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => 'Need Field!',
+                Success => 0,
+                Message => 'Need Field!',
             },
         );
     }
@@ -122,8 +122,8 @@ sub Run {
     {
         return $LayoutObject->JSONReply(
             Data => {
-                Success  => 0,
-                Messsage => qq{Error reading the dynamic field '$FieldName'!},
+                Success => 0,
+                Message => qq{Error reading the dynamic field '$FieldName'!},
             }
         );
     }
@@ -177,6 +177,7 @@ sub Run {
     for my $ObjectID (@ObjectIDs) {
         my %Description = $DynamicFieldBackendObject->ObjectDescriptionGet(
             DynamicFieldConfig => $DynamicFieldConfig,
+            LayoutObject       => $LayoutObject,
             ObjectID           => $ObjectID,
             UserID             => 1,
         );

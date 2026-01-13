@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Dict';
 use strict;
 use warnings;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use Carp;
 use Compress::Zlib ();
@@ -383,7 +383,7 @@ sub _restore {
 sub restore {
     my $self = shift;
     if ($self->_in_text_object()) {
-        carp 'Calling save from a text content object has no effect';
+        carp 'Calling restore from a text content object has no effect';
         return;
     }
 
@@ -1048,23 +1048,6 @@ sub close {
     return $self;
 }
 
-=head2 end
-
-    $content = $content->end();
-
-Ends the current path without filling or stroking.
-
-=cut
-
-# Deprecated (renamed)
-sub endpath { return end(@_) }
-
-sub end {
-    my $self = shift();
-    $self->add('n');
-    return $self;
-}
-
 =head1 SHAPE CONSTRUCTION (DRAWING)
 
 The following are convenience methods for drawing closed paths.
@@ -1179,7 +1162,7 @@ sub pie {
 
 =head2 stroke_color
 
-    $content = $content->stroke_color($color, @arguments);
+    $content->stroke_color($color, @arguments);
 
 Sets the stroke color, which is black by default.
 
@@ -1202,7 +1185,7 @@ can be given as C<%F000> or C<%FFFF000000000000>.
 
 =head2 fill_color
 
-    $content = $content->fill_color($color, @arguments);
+    $content->fill_color($color, @arguments);
 
 Sets the fill color, which is black by default.  Arguments are the same as in
 L</"stroke_color">.
@@ -1446,6 +1429,24 @@ sub clip {
 
     $self->add($even_odd ? 'W*' : 'W');
 
+    return $self;
+}
+
+=head2 end
+
+    $content = $content->end();
+
+Ends the current path without filling or stroking.  This is used primarily for
+the side effect of changing the current clipping path.
+
+=cut
+
+# Deprecated (renamed)
+sub endpath { return end(@_) }
+
+sub end {
+    my $self = shift();
+    $self->add('n');
     return $self;
 }
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,27 +16,25 @@
 
 package Kernel::Modules::AgentTicketPrint;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
-use Kernel::Language              qw(Translatable);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -61,7 +59,7 @@ sub Run {
     );
 
     # No permission, do not show ticket.
-    return $LayoutObject->NoPermission( WithHeader => 'yes' ) if !$Access;
+    return $LayoutObject->NoPermission( WithHeader => 'yes' ) unless $Access;
 
     # Get ACL restrictions.
     my %PossibleActions = (

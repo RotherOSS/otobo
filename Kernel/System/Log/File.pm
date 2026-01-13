@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,6 +20,9 @@ package Kernel::System::Log::File;
 
 use strict;
 use warnings;
+
+use File::Basename qw(basename dirname);
+use File::Copy     qw(move);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,11 +51,84 @@ sub new {
         $Self->{LogFile} .= ".$Y-$M";
     }
 
+    $Self->{AlreadyRotated} = 0;
+
     return $Self;
+}
+
+sub _RotateOtoboLog {
+
+    my ( $Self, %Param ) = @_;
+
+    # only rotate once per request
+    return if $Self->{AlreadyRotated};
+
+    $Self->{AlreadyRotated} = 1;
+
+    # nothing to rotate if it does not exist yet
+    return unless -e $Self->{LogFile};
+
+    # only rotate if MaxSize sysconfig is set
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $MaxSize = $ConfigObject->Get('LogModule::LogFile::MaxSize');
+
+    return unless $MaxSize;
+
+    # rotate the logfile if size exceeds MaxSize setting
+    my $LogFileSize = -s $Self->{LogFile};
+
+    if ( $LogFileSize > $MaxSize ) {
+
+        # rotate the otobo.log
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $DateTimeString = $DateTimeObject->Format( Format => '%Y-%m-%dT%H:%M:%S' );
+
+        my $ArchivedLogFile = $Self->{LogFile} . "-$DateTimeString.rotated";
+
+        move( $Self->{LogFile}, $ArchivedLogFile );
+
+        # unlink rotated log files if number of rotated log files exceeds max
+
+        my $LogDir   = dirname $Self->{LogFile};
+        my @LogFiles = glob "$LogDir/*.rotated";
+
+        # sort ascending, oldest rotated files are first
+        @LogFiles = sort @LogFiles;
+
+        my $MaxKeepRotated = $ConfigObject->Get('LogModule::LogFile::MaxKeepRotated');
+        if ($MaxKeepRotated) {
+
+            my $LogFilesCount = @LogFiles;
+
+            if ( $LogFilesCount > $MaxKeepRotated ) {
+
+                my $NumberOfLogFiles2Remove = $LogFilesCount - $MaxKeepRotated;
+
+                # slice the array so we keep only the files to be rotated
+                @LogFiles = @LogFiles[ 0 .. ( $NumberOfLogFiles2Remove - 1 ) ];
+
+            }
+            else {
+                # do not unlink any rotated files
+                @LogFiles = ();
+            }
+        }
+
+        for my $LogFile (@LogFiles) {
+
+            unlink $LogFile;
+        }
+    }
+
+    return;
 }
 
 sub Log {
     my ( $Self, %Param ) = @_;
+
+    $Self->_RotateOtoboLog();
 
     my $FH;
 

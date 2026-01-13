@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -155,6 +155,8 @@ sub Import {
     my $PluginObject      = $Kernel::OM->Get('Kernel::System::Calendar::Plugin');
     my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
 
+    my %DeprecatedTimeZones = DateTime::TimeZone->links();
+
     ENTRY:
     for my $Entry (@Entries) {
         my $Properties = $Entry->properties();
@@ -222,12 +224,18 @@ sub Import {
                 # check timezone
                 if ( $Properties->{'dtstart'}->[0]->{'_parameters'}->{'TZID'} ) {
                     $TimezoneID = $Properties->{'dtstart'}->[0]->{'_parameters'}->{'TZID'};
+
+                    # translate deprecated timezones (ex: Europe/Amsterdam -> Europe/Brussels)
+                    if ( $DeprecatedTimeZones{$TimezoneID} ) {
+                        $TimezoneID = $DeprecatedTimeZones{$TimezoneID};
+                    }
                 }
             }
 
             my $StartTimeICal = $Self->_FormatTime(
                 Time => $Properties->{'dtstart'}->[0]->{'value'},
             );
+
             my $StartTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
@@ -257,6 +265,11 @@ sub Import {
                 # check timezone
                 if ( $Properties->{'dtend'}->[0]->{'_parameters'}->{'TZID'} ) {
                     $TimezoneID = $Properties->{'dtend'}->[0]->{'_parameters'}->{'TZID'};
+
+                    # translate deprecated timezones (ex: Europe/Amsterdam -> Europe/Brussels)
+                    if ( $DeprecatedTimeZones{$TimezoneID} ) {
+                        $TimezoneID = $DeprecatedTimeZones{$TimezoneID};
+                    }
                 }
             }
 

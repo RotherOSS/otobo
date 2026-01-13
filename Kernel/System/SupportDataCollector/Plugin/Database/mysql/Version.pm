@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,11 +16,19 @@
 
 package Kernel::System::SupportDataCollector::Plugin::Database::mysql::Version;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -37,9 +45,7 @@ sub Run {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
-        return $Self->GetResults();
-    }
+    return $Self->GetResults() unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
 
     # version check
     my $Version = $DBObject->Version();
@@ -66,6 +72,15 @@ sub Run {
             Message => Translatable("Could not determine database version."),
         );
     }
+
+    # The client info is just for information. Sadly there is no clear information
+    # on whether we have libmysqlclient of libmariadb.
+    # For what it worth, libmariadb.so.3 was reported as 3.3.17 in 2025.
+    $Self->AddResultOk(
+        Identifier => 'ClientInfo',
+        Label      => Translatable('Client Info'),
+        Value      => ( $DBObject->{dbh}->{mysql_clientinfo} // 'no client info' ),
+    );
 
     return $Self->GetResults();
 }

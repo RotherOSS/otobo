@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -328,7 +328,7 @@ sub _CheckSLA {
     # return failure if there are no assigned SLAs for this Service
     return if !IsHashRefWithData( \%SLAs );
 
-    # return failure if the the SLA is not assigned to the Service
+    # return failure if the SLA is not assigned to the Service
     return if !$SLAs{ $Param{SLAID} };
 
     # otherwise return success

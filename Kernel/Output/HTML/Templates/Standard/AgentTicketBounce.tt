@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -49,6 +49,14 @@
         <div class="Content">
 
             <fieldset class="TableLike FixedLabel">
+
+[% RenderBlockStart("AsteriskExplanation") %]
+                <div class="Field">
+                    <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("AsteriskExplanation") %]
+
                 <label class="Mandatory" for="BounceTo"><span class="Marker">*</span>[% Translate("Bounce to") | html %]:</label>
                 <div class="Field">
                     <input type="[% Env("EmailFieldType") | html %]" name="BounceTo" id="BounceTo" value="[% Data.BounceTo | html %]" class="W50pc Validate_Required [% Data.BounceToInvalid | html %]"/>

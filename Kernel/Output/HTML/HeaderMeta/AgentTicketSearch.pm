@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -40,12 +40,6 @@ sub Run {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Session = '';
-    if ( !$LayoutObject->{SessionIDCookie} ) {
-        $Session = ';' . $LayoutObject->{SessionName} . '='
-            . $LayoutObject->{SessionID};
-    }
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -58,7 +52,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
-                . ';Subaction=OpenSearchDescriptionTicketNumber' . $Session,
+                . ';Subaction=OpenSearchDescriptionTicketNumber',
         },
     );
 
@@ -72,7 +66,7 @@ sub Run {
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
             Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
-                . ';Subaction=OpenSearchDescriptionFulltext' . $Session,
+                . ';Subaction=OpenSearchDescriptionFulltext',
         },
     );
     return 1;

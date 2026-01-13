@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,9 @@
 
 package Kernel::Modules::AdminPerformanceLog;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -201,9 +201,9 @@ sub Run {
 
             # set output class
             if ( $Action{$Minute} ) {
-                my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
-                my $I       = 100 / $MaxRequest;
-                my $Width   = $Action{$Minute}->{Count} * $I || 1;
+                my $Average            = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
+                my $I                  = 100 / $MaxRequest;
+                my $WidthOfProgressbar = $Action{$Minute}->{Count} * $I || 1;
 
                 $LayoutObject->Block(
                     Name => 'ViewRow',
@@ -214,7 +214,7 @@ sub Run {
                         Min     => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
                         Average => sprintf( '%.3f', $Average ),
                         Date    => $DateTimeObject->ToString(),
-                        Width   => $Width . '%',
+                        Width   => $WidthOfProgressbar . '%',
                     },
                 );
             }
@@ -227,7 +227,7 @@ sub Run {
                         Count   => $Action{$Minute}->{Count} || '0',
                         Average => 0,
                         Date    => $DateTimeObject->ToString(),
-                        Width   => '0%',
+                        Width   => '0%',                               # progress bar not shown
                     },
                 );
             }

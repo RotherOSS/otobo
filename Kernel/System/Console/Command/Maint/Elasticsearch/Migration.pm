@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -142,6 +142,11 @@ sub Run {
         $Self->CreateAttachmentPipeline(
             ESObject => $ESObject,
         );
+        $Self->CreateTmpAttachmentsIndex(
+            ESObject => $ESObject,
+            Config   => $ConfigIndexSettings->{TmpAttachments} // $Config,
+            Template => $IndexTemplates->{TmpAttachments}      // $IndexTemplates->{Default},
+        );
     }
 
     if ( $Targets =~ m/c/ ) {
@@ -227,6 +232,48 @@ sub CreateAttachmentPipeline {
     else {
         $Self->Print("<red>Attachment pipeline could not be set up!</red>\n");
 
+        return 0;
+    }
+
+    return 1;
+}
+
+sub CreateTmpAttachmentsIndex {
+    my ( $Self, %Param ) = @_;
+
+    my %IndexName = (
+        index => 'tmpattachments',
+    );
+    my $Success = $Param{ESObject}->DropIndex(
+        IndexName => \%IndexName,
+    );
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>The previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
+
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in IndexSettingsGet
+        return 0;
+    }
+
+    my %Request = (
+        settings => $IndexSettings,
+    );
+
+    $Success = $Param{ESObject}->CreateIndex(
+        IndexName => \%IndexName,
+        Request   => \%Request,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>Temporary attachments index created.</green>\n");
+    }
+    else {
+        $Self->Print("<red>Temporary attachments index could not be created!</red>\n");
         return 0;
     }
 

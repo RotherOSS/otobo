@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,8 +16,18 @@
 
 package Kernel::Output::PDF::Ticket;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -34,16 +44,10 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
 );
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
-
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub GeneratePDF {
@@ -56,6 +60,7 @@ sub GeneratePDF {
                 Priority => "error",
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -339,7 +344,7 @@ sub GeneratePDF {
     );
 
     # Return the PDF document.
-    return $PDFObject->DocumentOutput();
+    return $PDFObject->DocumentOutput;
 }
 
 sub _PDFOutputTicketInfos {
@@ -445,14 +450,16 @@ sub _PDFOutputTicketInfos {
         if ( $Param{Interface}{Agent} || $CustomerConfig->{AttributesView}->{Service} ) {
             my $RowService = {
                 Key   => $LayoutObject->{LanguageObject}->Translate('Service'),
-                Value => $Ticket{Service} || '-',
+                Value => $LayoutObject->{LanguageObject}->Translate( $Ticket{Service} )
+                    || $Ticket{Service} || '-',
             };
             push( @{$TableLeft}, $RowService );
         }
         if ( $Param{Interface}{Agent} || $CustomerConfig->{AttributesView}->{SLA} ) {
             my $RowSLA = {
                 Key   => $LayoutObject->{LanguageObject}->Translate('SLA'),
-                Value => $Ticket{SLA} || '-',
+                Value => $LayoutObject->{LanguageObject}->Translate( $Ticket{SLA} )
+                    || $Ticket{SLA} || '-',
             };
             push( @{$TableLeft}, $RowSLA );
         }
@@ -603,6 +610,7 @@ sub _PDFOutputTicketInfos {
             $Page{PageCount}++;
         }
     }
+
     return 1;
 }
 
@@ -779,23 +787,10 @@ sub _PDFOutputTicketDynamicFields {
 
         # start a new section for every title
         if ( $DynamicFieldConfig->{FieldType} eq 'Title' ) {
-            push @Sections, {
-                Title => {
-                    Text  => $DynamicFieldConfig->{Label},
-                    Style => "",
-                    Size  => $DynamicFieldConfig->{Config}{FontSize}  || 12,
-                    Color => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
-                },
-            };
+            $Sections[-1]{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
+            $Sections[-1]{CellData}[$Row][0]{Font}    = 'ProportionalBold';
 
-            if ( $DynamicFieldConfig->{Config}{CBFontStyleBoldValue} ) {
-                $Sections[-1]{Title}{Style} .= "Bold";
-            }
-            if ( $DynamicFieldConfig->{Config}{CBFontStyleItalicValue} ) {
-                $Sections[-1]{Title}{Style} .= "Italic";
-            }
-
-            $Row    = 0;
+            $Row++;
             $Output = 1;
 
             next DYNAMICFIELD;
@@ -886,7 +881,7 @@ sub _PDFOutputTicketDynamicFields {
                     Text     => $Section->{Title}{Text},
                     Type     => 'Cut',
                     Font     => 'Proportional' . $Section->{Title}{Style},
-                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also mutliplied by 5/3
+                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also multiplied by 5/3
                     Color    => $Section->{Title}{Color},
                 );
 
@@ -1076,7 +1071,7 @@ sub _PDFOutputArticles {
         my %Article = %{$ArticleTmp};
 
         # Get attachment string.
-        my %AtmIndex = ();
+        my %AtmIndex;
         if ( $Article{Atms} ) {
             %AtmIndex = %{ $Article{Atms} };
         }
@@ -1323,6 +1318,7 @@ sub _PDFOutputArticles {
         }
         $ArticleCounter++;
     }
+
     return 1;
 }
 

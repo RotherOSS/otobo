@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -130,9 +130,10 @@ sub IsArticleDeleted {
 Mark an article as Deleted.
 
     my $Success = $ArticleFeaturesObject->ArticleDelete(
-        ArticleID => 123,   # required
-        TicketID  => 100,   # required
-        UserID    => 1,     # required
+        ArticleID => 123,           # required
+        TicketID  => 100,           # required
+        UserID    => 1,             # required
+        UserLogin => 'some_login',  # required
     );
 
 Returns db success:
@@ -538,10 +539,10 @@ sub ArticleRestore {
 
 =head2 DeleteVersionData()
 
-Delete all version data for an article.
+Delete all version data for all articles in a ticket.
 
     my $Success = $ArticleFeaturesObject->DeleteVersionData(
-        ArticleID => 123,   # required
+        TicketID => 123,   # required
     );
 
 Returns:
@@ -628,7 +629,8 @@ Returns db success:
 
     $Success = 1; 1: If successful, 0: Error
 
-    or
+or
+
     $Success = 100; Flag ID: If for status Get
 
 =cut

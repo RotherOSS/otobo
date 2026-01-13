@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,7 +24,7 @@ use warnings;
 # core modules
 
 # CPAN modules
-use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substution
+use URI::Escape qw(uri_escape_utf8 uri_unescape);    ## no perlimports, methods are used in a substitution
 
 # OTOBO modules
 use Kernel::Language              ();
@@ -357,7 +357,7 @@ sub Sender {
         }
     }
 
-    # Format sender realname and address conformant to RFC 5322. This is relevant when the real name contain commas
+    # Format sender realname and address compliant to RFC 5322. This is relevant when the real name contain commas
     # or other special symbols.
     return Mail::Address->new( $Address{RealName}, $Address{Email} )->format();
 }
@@ -1563,8 +1563,8 @@ sub _Replace {
         }
     }
 
-    # Dropdown, Checkbox and MultipleSelect DynamicFields, can store values (keys) that are
-    # different from the the values to display
+    # Dropdown, Checkbox and MultiSelect DynamicFields, can store values (keys) that are
+    # different from the values to display
     # <OTOBO_TICKET_DynamicField_NameX> returns the stored key
     # <OTOBO_TICKET_DynamicField_NameX_Value> returns the display value
 
@@ -1639,7 +1639,7 @@ sub _Replace {
             Value              => $DisplayValue,
         );
 
-        # fill the DynamicFielsDisplayValues
+        # fill the DynamicFieldDisplayValues
         if ($DisplayValueStrg) {
             $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' } = $DisplayValueStrg->{Value};
 

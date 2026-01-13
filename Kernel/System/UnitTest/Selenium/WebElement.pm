@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -128,5 +128,31 @@ sub VerifiedClick {
 
     return;
 }
+
+=head2 get_value()
+
+    # get value might fail for select objects, try to workaround using JS
+    # this is a base class override
+
+=cut
+
+sub get_value {
+
+    my $Self = shift;
+
+    my $Result = $Self->SUPER::get_value(@_);;
+
+    return $Result if $Result;
+
+    my $ID = $Self->get_attribute( 'id' );
+    if($ID) {
+        # use plain old getElementById - some few IDs will be not so valid
+        # css selectors, especially when coming with embeded square brackets []
+        return $Self->driver()->execute_script("return document.getElementById('$ID').value;");
+    }
+
+    return;
+}
+
 
 1;

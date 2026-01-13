@@ -7,18 +7,22 @@ jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
         container:
-            image: perldocker/perl-tester:5.24
+            # Previously the tag 5.24 was used, but that used Debian 10 (Buster) which fell out of the support window
+            # Found no images for Debian 11 (Bullseye)
+            # Perl 5.36 seems to be the oldest Perl for Debian 12 (Bookworm), so let's use that
+            image: perldocker/perl-tester:5.36-bookworm
         env:
             PERL5LIB: local/lib/perl5
         steps:
 
-            # list of added or changed files will be used in the 'compile-checcompile-check' step
+            # list of added or changed files will be used in the 'compile-check' step
             - id: changed-files
-              uses: tj-actions/changed-files@v43
+              uses: tj-actions/changed-files@v46
 
             - name: 'install dependencies'
-              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc gettext npm && npm install eslint
 
+            # check out the merge commit of the pull request that triggerd this workflow
             - name: 'check out OTOBO'
               uses: actions/checkout@v4
 
@@ -47,12 +51,15 @@ jobs:
               run: |
                 echo '${{steps.get-sha.outputs.sha}}'
 
-            - name: 'check cache for CPAN modules'
+            -
+              # The cache key contains the checksum of the cpanfile,
+              # therefore the branch does not have to be included in the key.
+              name: 'check cache for CPAN modules'
               uses: actions/cache@v4
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20240320a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20250714a
 
             # for debugging when there a problems installing a module
             # - name: 'XML::LibXSLT'
@@ -60,13 +67,26 @@ jobs:
             #     sudo apt install -y cpanminus
             #     cpanm -l local --notest XML::LibXSLT || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
-            - name: 'install Perl modules from CPAN'
+            - name: 'install App::perlimports from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
                   App::perlimports
-                cpanfile: cpanfile.docker
+                global: false
+                tests: false
+                sudo: false
+
+            - name: 'move cpanfile in place'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              run: |
+                cp cpanfile.docker cpanfile
+
+            - name: 'install Perl modules from CPAN with App::cpm'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
+              uses: perl-actions/install-with-cpm@stable
+              with:
+                args: '--verbose'
                 global: false
                 tests: false
                 sudo: false

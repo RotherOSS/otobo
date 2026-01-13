@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,6 +22,12 @@ package Kernel::System::ZnunyHelper;
 use strict;
 use warnings;
 
+# core modules
+use List::AllUtils qw(none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -198,7 +204,8 @@ sub _PostmasterXHeaderAdd {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        UserID => 1,
+        Comments => 'PostmasterX-Header settings added.',
+        UserID   => 1,
     );
 }
 
@@ -274,7 +281,8 @@ sub _PostmasterXHeaderRemove {
                 EffectiveValue => [ sort keys %ConfiguredHeaders ],
             },
         ],
-        UserID => 1,
+        Comments => 'PostmasterX-Header settings removed.',
+        UserID   => 1,
     );
 }
 
@@ -283,7 +291,7 @@ sub _PostmasterXHeaderRemove {
 This function adds an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventAdd(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -356,7 +364,8 @@ sub _EventAdd {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        UserID => 1,
+        Comments => 'Event settings added.',
+        UserID   => 1,
     );
 }
 
@@ -365,7 +374,7 @@ sub _EventAdd {
 This function removes an Event to the list of Events of an Object to the SysConfig.
 
     my $Success = $ZnunyHelperObject->_EventRemove(
-        Object => 'Ticket', # Ticket, Article, Queue...
+        Object => 'Ticket', # Ticket, Article, Queue, ...
         Event  => 'MyCustomEvent'
     );
 
@@ -437,7 +446,8 @@ sub _EventRemove {
                 EffectiveValue => \@ConfigEvents,
             },
         ],
-        UserID => 1,
+        Comments => 'Event settings removed.',
+        UserID   => 1,
     );
 }
 
@@ -605,7 +615,7 @@ sub _DefaultColumnsGet {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -708,7 +718,7 @@ sub _DefaultColumnsEnable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -764,6 +774,7 @@ sub _DefaultColumnsEnable {
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
         UserID   => 1,
+        Comments => 'Default columns settings enabled.',
     );
 
     return 1 if $NoConfigRebuild;
@@ -849,7 +860,7 @@ sub _DefaultColumnsDisable {
         }
 
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -891,7 +902,8 @@ sub _DefaultColumnsDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            UserID => 1,
+            Comments => 'Default columns settings disabled.',
+            UserID   => 1,
         );
     }
 
@@ -1055,7 +1067,7 @@ sub _DynamicFieldsScreenGet {
 
         my $ConfigItemConfig = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($ConfigItemConfig);
             $ConfigItemConfig = $ConfigItemConfig->{ $Keys[$Index] };
         }
@@ -1145,7 +1157,7 @@ sub _DynamicFieldsScreenEnable {
         # Ticket::Frontend::CustomerTicketZoom###FollowUpDynamicField
         # Ticket::Frontend::AgentTicketSearch###SearchCSVDynamicField
         #
-        # on regular calls $View contains for examlpe "AgentTicketEmail"
+        # on regular calls $View contains for example "AgentTicketEmail"
         #
         # for the three special cases $View contains:
         # AgentTicketSearch###Defaults###DynamicField
@@ -1174,7 +1186,7 @@ sub _DynamicFieldsScreenEnable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1203,6 +1215,7 @@ sub _DynamicFieldsScreenEnable {
 
     $SysConfigObject->SettingsSet(
         Settings => \@Settings,
+        Comments => 'DynamicFields screen settings enabled.',
         UserID   => 1,
     );
 
@@ -1285,7 +1298,7 @@ sub _DynamicFieldsScreenDisable {
         # Ticket::Frontend::CustomerTicketZoom###FollowUpDynamicField
         # Ticket::Frontend::AgentTicketSearch###SearchCSVDynamicField
         #
-        # on regular calls $View contains for examlpe "AgentTicketEmail"
+        # on regular calls $View contains for example "AgentTicketEmail"
         #
         # for the three special cases $View contains:
         # AgentTicketSearch###Defaults###DynamicField
@@ -1314,7 +1327,7 @@ sub _DynamicFieldsScreenDisable {
 
         my $Config = $ConfigObject->Get( $Keys[0] );
         INDEX:
-        for my $Index ( 1 ... $#Keys ) {
+        for my $Index ( 1 .. $#Keys ) {
             last INDEX if !IsHashRefWithData($Config);
             $Config = $Config->{ $Keys[$Index] };
         }
@@ -1339,7 +1352,8 @@ sub _DynamicFieldsScreenDisable {
                     EffectiveValue => \%NewDynamicFieldConfig,
                 },
             ],
-            UserID => 1,
+            Comments => 'DynamicFields screen settings disabled.',
+            UserID   => 1,
         );
 
         # reload the ZZZ files
@@ -1590,6 +1604,7 @@ Returns:
 sub _DynamicFieldsCreate {
     my ( $Self, @DynamicFields ) = @_;
 
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $ValidObject        = $Kernel::OM->Get('Kernel::System::Valid');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
@@ -1630,10 +1645,127 @@ sub _DynamicFieldsCreate {
 
     # performance improvement for the FieldOrderAfterField functionality
     my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
+    my $Error                      = 0;
+
+    # check dynamic fields and split dynamic fields in three separate groups
+    my %Namespaces;
+    my @NormalFields;
+    my @LensFields;
+    my @SetFields;
+    for my $DynamicFieldConfig (@DynamicFields) {
+
+        # check for namespaces
+        my $FieldName = $DynamicFieldConfig->{Name};
+        if ( $FieldName !~ m{ \A [a-zA-Z\d\-]+ \z }xms ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Invalid DynamicField name '$FieldName'.",
+            };
+        }
+        if ( $FieldName =~ /^([^-]+)-/ ) {
+            $Namespaces{$1} = 1;
+        }
+
+        # sort field into fitting array
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
+            push @LensFields, $DynamicFieldConfig;
+        }
+        elsif ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+            push @SetFields, $DynamicFieldConfig;
+        }
+        else {
+            push @NormalFields, $DynamicFieldConfig;
+        }
+    }
+
+    # sort lens fields in case a lens has another lens as attribute dynamic field
+    my @LensFieldsSorted = sort {
+        ( $b->{Name} eq $a->{Config}{AttributeDF} ) <=> ( $a->{Name} eq $b->{Config}{AttributeDF} )
+    } @LensFields;
+
+    # namespace handling
+    if (%Namespaces) {
+
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        # Get current setting value.
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => 'DynamicField::Namespaces',
+        );
+
+        my $ExistingNamespaces = $Setting{EffectiveValue};
+        my %AllNamespaces      = (
+            ( map { $_ => 1 } $ExistingNamespaces->@* ),
+            %Namespaces,
+        );
+
+        # check if namespaces need to be changed
+        my $UpdateNamespaces = 0;
+        NEWNAMESPACE:
+        for my $NewNamespace ( keys %AllNamespaces ) {
+            if ( none { $NewNamespace eq $_ } $ExistingNamespaces->@* ) {
+                $UpdateNamespaces = 1;
+                last NEWNAMESPACE;
+            }
+        }
+        if ($UpdateNamespaces) {
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                UserID    => 1,
+                Force     => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+
+            # Update setting with modified data
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => 'DynamicField::Namespaces',
+                IsValid           => 1,
+                EffectiveValue    => [ keys %AllNamespaces ],
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+            if ( !$Result{Success} ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Could not update setting DynamicField::Namespaces.',
+                };
+            }
+
+            my $Success = $SysConfigObject->SettingUnlock(
+                UserID    => 1,
+                DefaultID => $Setting{DefaultID},
+            );
+            if ( !$Success ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Could not unlock setting DynamicField::Namespaces.',
+                };
+            }
+
+            my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+                Comments      => "DynamicFieldImport updating DynamicField::Namespaces",
+                UserID        => 1,
+                Force         => 1,
+                DirtySettings => ['DynamicField::Namespaces'],
+            );
+
+            if ( !$DeploymentResult{Success} ) {
+                return {
+                    Success      => 0,
+                    ErrorMessage => 'Deployment failed!',
+                };
+            }
+        }
+    }
 
     # create or update dynamic fields
     DYNAMICFIELD:
-    for my $NewDynamicField (@DynamicFields) {
+    for my $NewDynamicField ( @NormalFields, @LensFieldsSorted, @SetFields ) {
+
+        # field config transformation
+        $NewDynamicField = $DynamicFieldObject->DynamicFieldConfigName2ID(
+            DynamicFieldConfig => $NewDynamicField,
+        );
 
         my $CreateDynamicField;
 
@@ -1642,7 +1774,7 @@ sub _DynamicFieldsCreate {
             $CreateDynamicField = 1;
         }
 
-        # if the field exists check if the type match with the needed type
+        # if the field exists check if the type matches with the needed type
         elsif (
             $DynamicFieldLookup{ $NewDynamicField->{Name} }->{FieldType}
             ne $NewDynamicField->{FieldType}
@@ -1656,6 +1788,14 @@ sub _DynamicFieldsCreate {
                 Name   => $OldDynamicFieldConfig{Name} . 'Old',
                 UserID => 1,
             );
+
+            if ( !$Success ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message  => "Error while renaming dynamic field $OldDynamicFieldConfig{Name}!",
+                );
+                $Error = 1;
+            }
 
             $CreateDynamicField = 1;
         }
@@ -1676,6 +1816,13 @@ sub _DynamicFieldsCreate {
                 Reorder    => 0,
                 UserID     => 1,
             );
+            if ( !$Success ) {
+                $LogObject->Log(
+                    Priority => 'error',
+                    Message  => "Error while updating dynamic field $OldDynamicFieldConfig{Name}!",
+                );
+                $Error = 1;
+            }
         }
 
         # check if new field has to be created
@@ -1697,13 +1844,20 @@ sub _DynamicFieldsCreate {
             ValidID       => $NewDynamicField->{ValidID}       || $ValidID,
             UserID        => 1,
         );
+        if ( !$FieldID ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Error while creating dynamic field $NewDynamicField->{Name}!",
+            );
+            $Error = 1;
+        }
         next DYNAMICFIELD if !$FieldID;
 
         # increase the order number
         $NextOrderNumber++;
     }
 
-    return 1;
+    return !$Error;
 }
 
 =item DynamicFieldFieldOrderAfterFieldGet()
@@ -1924,6 +2078,17 @@ sub _DynamicFieldsConfigExport {
                 delete $DynamicField->{$Key};
             }
         }
+    }
+
+    # perform transformations if necessary
+    for my $DynamicFieldConfig (@DynamicFieldConfigs) {
+        $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldConfigID2Name(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        # tidy export data
+        delete $DynamicFieldConfig->{Config}{PartOfSet};
+        delete $DynamicFieldConfig->{ID};
     }
 
     my $Data;
@@ -4673,7 +4838,8 @@ sub _ProcessWidgetDynamicFieldGroupsAdd {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        UserID => 1,
+        Comments => 'Process widget dynamic field groups settings added.',
+        UserID   => 1,
     );
 
     # reload the ZZZ files
@@ -4754,7 +4920,8 @@ sub _ProcessWidgetDynamicFieldGroupsRemove {
                 EffectiveValue => \%NewDynamicFieldConfig,
             },
         ],
-        UserID => 1,
+        Comments => 'Process widget dynamic field groups settings removed.',
+        UserID   => 1,
     );
 
     # reload the ZZZ files
@@ -4873,7 +5040,8 @@ sub _ModuleGroupAdd {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        UserID => 1,
+        Comments => 'Module group settings added.',
+        UserID   => 1,
     );
 
     return 1;
@@ -4985,7 +5153,8 @@ sub _ModuleGroupRemove {
                 EffectiveValue => $ModuleRegistration,
             },
         ],
-        UserID => 1,
+        Comments => 'Module group settings removed.',
+        UserID   => 1,
     );
 
     return 1;
@@ -5581,7 +5750,7 @@ sub _ArticleActionsAdd {
 
     my $SettingSet = $SysConfigObject->SettingsSet(
         UserID   => 1,
-        Comments => 'Article action settings added by package setup of Znuny4OTRS-MarkTicketSeenUnseen.',
+        Comments => 'Article action settings added.',
         Settings => \@Settings,
     );
 
@@ -5639,7 +5808,7 @@ sub _ArticleActionsRemove {
 
     my $SettingSet = $SysConfigObject->SettingsSet(
         UserID   => 1,
-        Comments => 'Article action settings removed by package setup of Znuny4OTRS-MarkTicketSeenUnseen.',
+        Comments => 'Article action settings removed.',
         Settings => \@Settings,
     );
 

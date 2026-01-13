@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -118,7 +118,8 @@ The functions can be grouped as follows:
 
 test supplied data to determine if it is a string - an empty string is valid
 
-returns 1 if data matches criteria or undef otherwise
+Returns undef when no or when more than one argument is passed.
+Returns 1 if data matches criteria or undef otherwise.
 
     my $Result = IsString(
         'abc', # data to be tested
@@ -133,7 +134,7 @@ sub IsString {
 
     return if scalar @_ ne 1;
     return if ref $TestData;
-    return if !defined $TestData;
+    return unless defined $TestData;
 
     return 1;
 }
@@ -161,9 +162,10 @@ sub IsStringWithData {
 
 =head2 IsArrayRefWithData()
 
-test supplied data to determine if it is an array reference and contains at least one key
+tests the supplied data to determine if it is an array reference and contains at least one item.
 
-returns 1 if data matches criteria or undef otherwise
+Returns undef when no or when more than one argument is passed.
+Returns 1 if data matches criteria or undef otherwise.
 
     my $Result = IsArrayRefWithData(
         [ # data to be tested
@@ -188,7 +190,8 @@ sub IsArrayRefWithData {
 
 tests supplied data to determine if it is a hash reference and contains at least one key/value pair.
 
-Returns 1 if data matches criteria or undef otherwise
+Returns undef when no or when more than one argument is passed.
+Returns 1 if data matches criteria or undef otherwise.
 
     my $Result = IsHashRefWithData(
         { # data to be tested

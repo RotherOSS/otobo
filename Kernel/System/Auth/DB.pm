@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,7 @@ package Kernel::System::Auth::DB;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -25,9 +26,9 @@ use warnings;
 use Digest::SHA ();
 
 # CPAN modules
+use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 # OTOBO modules
-use Crypt::PasswdMD5 qw(apache_md5_crypt unix_md5_crypt);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -45,24 +46,16 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
-    # Debug 0=off 1=on
-    $Self->{Debug} = 0;
-
-    # get config object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get user table
-    $Self->{UserTable} = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )
-        || 'users';
-    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} )
-        || 'id';
-    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
-        || 'pw';
-    $Self->{UserTableUser} = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )
-        || 'login';
+    $Self->{UserTable}       = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )       || 'users';
+    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} ) || 'id';
+    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} ) || 'pw';
+    $Self->{UserTableUser}   = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )   || 'login';
 
     return $Self;
 }
@@ -97,6 +90,7 @@ sub Auth {
             Priority => 'error',
             Message  => "Need User!"
         );
+
         return;
     }
 
@@ -106,8 +100,8 @@ sub Auth {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
     my $UserID      = '';
-    my $GetPw       = '';
-    my $Method;
+    my $GetPw       = '';                                                        # the hashed password, may include salt and other settings
+    my $Method      = '';
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -167,7 +161,6 @@ sub Auth {
                 $CryptedPw = unix_md5_crypt( $Pw, $Salt );
                 $Method    = 'unix_md5_crypt';
             }
-
         }
 
         # sha256 pw
@@ -187,19 +180,19 @@ sub Auth {
             $EncodeObject->EncodeOutput( \$Pw );
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
-            $Method    = 'sha256';
+            $Method    = 'sha512';
         }
 
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
 
             # require module, log errors if module was not found
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') )
-            {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  =>
-                        "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                        "User: $User tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
+
                 return;
             }
 
@@ -251,7 +244,7 @@ sub Auth {
     # crypt pw
     else {
 
-        # strip Salt only for (Extended) DES, not for any of Modular crypt's
+        # strip salt only for (Extended) DES, not for any of modular crypts
         if ( $Salt !~ /^\$\d\$/ ) {
             $Salt =~ s/^(..).*/$1/;
         }
@@ -263,12 +256,23 @@ sub Auth {
         $Method    = 'crypt';
     }
 
-    # just in case for debug!
-    if ( $Self->{Debug} > 0 ) {
+    # Debugging can only be activated in the source code,
+    # so that sensitive information is not inadvertently leaked.
+    my $Debug = 0;
+    if ($Debug) {
+        my $EnteredPw  = $CryptedPw;
+        my $ExpectedPw = $GetPw;
+
+        # Don't log plaintext passwords.
+        if ( $Method eq 'plain' ) {
+            $EnteredPw  = 'xxx';
+            $ExpectedPw = 'xxx';
+        }
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  =>
-                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$Method/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+                "User: $User tried to authenticate (User ID: $UserID, method: $Method, entered password: $EnteredPw, expected password: $ExpectedPw, salt: $Salt, remote address: $RemoteAddr)",
         );
     }
 
@@ -278,26 +282,28 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
+
         return;
     }
 
     # login note
-    elsif ( ( ($GetPw) && ($User) && ($UserID) ) && $CryptedPw eq $GetPw ) {
-
+    elsif ( $GetPw && $User && $UserID && $CryptedPw eq $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
+
         return $User;
     }
 
     # just a note
-    elsif ( ($UserID) && ($GetPw) ) {
+    elsif ( $UserID && $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  =>
                 "User: $User authentication with wrong Pw!!! (Method: $Method, REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 
@@ -307,6 +313,7 @@ sub Auth {
             Priority => 'notice',
             Message  => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
+
         return;
     }
 }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,6 +20,12 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
+use List::Util qw(uniq);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -73,16 +79,24 @@ sub Run {
             LanguageID     => $ParamObject->GetParam( Param => 'LanguageID' )
         );
 
-        # ------------------------------------------------------------ #
-        # Delete
-        # ------------------------------------------------------------ #
     }
+
+    # ------------------------------------------------------------ #
+    # Delete
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
-        $Param{ID}            = $ParamObject->GetParam( Param => 'DeleteID' )    || '';
-        $Param{UserLanguage}  = $ParamObject->GetParam( Param => 'LanguageID' )  || '';
-        $Param{MarkForDelete} = $ParamObject->GetParam( Param => 'Mark' )        || '';
-        $Param{Content}       = $ParamObject->GetParam( Param => 'Content' )     || '';
-        $Param{Translation}   = $ParamObject->GetParam( Param => 'Translation' ) || '';
+
+        $Param{ID}            = $ParamObject->GetParam( Param => 'DeleteID' )   || '';
+        $Param{UserLanguage}  = $ParamObject->GetParam( Param => 'LanguageID' ) || '';
+        $Param{MarkForDelete} = $ParamObject->GetParam( Param => 'Mark' )       || '';
+        $Param{Content}       = $ParamObject->GetParam(
+            Param => 'Content',
+            Raw   => 1
+        ) || '';
+        $Param{Translation} = $ParamObject->GetParam(
+            Param => 'Translation',
+            Raw   => 1
+        ) || '';
 
         my $Success;
         my $Message = '';
@@ -135,7 +149,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UndoDelete' ) {
         $Param{UserLanguage} = $ParamObject->GetParam( Param => 'LanguageID' ) || '';
-        $Param{Content}      = $ParamObject->GetParam( Param => 'Content' )    || '';
+        $Param{Content}      = $ParamObject->GetParam(
+            Param => 'Content',
+            Raw   => 1
+        ) || '';
         my $Success;
 
         if ( $Param{UserLanguage} && $Param{Content} ) {
@@ -177,9 +194,15 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
-        $GetParam{ID}           = $ParamObject->GetParam( Param => 'ID' )              || '';
-        $GetParam{Content}      = $ParamObject->GetParam( Param => 'EditContent' )     || '';
-        $GetParam{Translation}  = $ParamObject->GetParam( Param => 'EditTranslation' ) || '';
+        $GetParam{ID}      = $ParamObject->GetParam( Param => 'ID' ) || '';
+        $GetParam{Content} = $ParamObject->GetParam(
+            Param => 'EditContent',
+            Raw   => 1
+        ) || '';
+        $GetParam{Translation} = $ParamObject->GetParam(
+            Param => 'EditTranslation',
+            Raw   => 1
+        ) || '';
         $GetParam{UserLanguage} = $ParamObject->GetParam( Param => 'LanguageID' )
             || $ParamObject->GetParam( Param => 'UserLanguage' ) || '';
 
@@ -229,13 +252,18 @@ sub Run {
             # Loop over change additions
             CHANGEADDITION:
             for ( my $Count = 1; $Count <= $Param{CountNew}; $Count++ ) {
-                my $Content        = $ParamObject->GetParam( Param => 'TranslateInput_Content_Change_' . $Count ) || '';
-                my $OldTranslation = $ParamObject->GetParam( Param => 'TranslateInput_Old_Change_' . $Count )     || '';
-                my $NewTranslation = $ParamObject->GetParam( Param => 'TranslateInput_Change_' . $Count )         || '';
-
-                $Content        =~ s/^\s+|\s+$//g;
-                $OldTranslation =~ s/^\s+|\s+$//g;
-                $NewTranslation =~ s/^\s+|\s+$//g;
+                my $Content = $ParamObject->GetParam(
+                    Param => 'TranslateInput_Content_Change_' . $Count,
+                    Raw   => 1
+                ) || '';
+                my $OldTranslation = $ParamObject->GetParam(
+                    Param => 'TranslateInput_Old_Change_' . $Count,
+                    Raw   => 1
+                ) || '';
+                my $NewTranslation = $ParamObject->GetParam(
+                    Param => 'TranslateInput_Change_' . $Count,
+                    Raw   => 1
+                ) || '';
 
                 next CHANGEADDITION if $OldTranslation eq $NewTranslation;
 
@@ -258,13 +286,18 @@ sub Run {
                 # Change existing draft translations
                 DRAFTCHANGES:
                 for my $ID (@ChangeIDs) {
-                    my $Content        = $ParamObject->GetParam( Param => 'TranslateInput_Content_' . $ID );
-                    my $OldTranslation = $ParamObject->GetParam( Param => 'TranslateInput_Old_' . $ID );
-                    my $NewTranslation = $ParamObject->GetParam( Param => 'TranslateInput_' . $ID );
-
-                    $Content        =~ s/^\s+|\s+$//g;
-                    $OldTranslation =~ s/^\s+|\s+$//g;
-                    $NewTranslation =~ s/^\s+|\s+$//g;
+                    my $Content = $ParamObject->GetParam(
+                        Param => 'TranslateInput_Content_' . $ID,
+                        Raw   => 1
+                    );
+                    my $OldTranslation = $ParamObject->GetParam(
+                        Param => 'TranslateInput_Old_' . $ID,
+                        Raw   => 1
+                    );
+                    my $NewTranslation = $ParamObject->GetParam(
+                        Param => 'TranslateInput_' . $ID,
+                        Raw   => 1
+                    );
 
                     next DRAFTCHANGES if $OldTranslation eq $NewTranslation;
 
@@ -283,13 +316,18 @@ sub Run {
             }
         }
         else {
-            $Param{Content}        = $ParamObject->GetParam( Param => 'Content' )        || '';
-            $Param{Translation}    = $ParamObject->GetParam( Param => 'Translation' )    || '';
-            $Param{OldTranslation} = $ParamObject->GetParam( Param => 'OldTranslation' ) || '';
-
-            $Param{Content}        =~ s/^\s+|\s+$//g;
-            $Param{Translation}    =~ s/^\s+|\s+$//g;
-            $Param{OldTranslation} =~ s/^\s+|\s+$//g;
+            $Param{Content} = $ParamObject->GetParam(
+                Param => 'Content',
+                Raw   => 1
+            ) || '';
+            $Param{Translation} = $ParamObject->GetParam(
+                Param => 'Translation',
+                Raw   => 1
+            ) || '';
+            $Param{OldTranslation} = $ParamObject->GetParam(
+                Param => 'OldTranslation',
+                Raw   => 1
+            ) || '';
 
             my $Success;
 
@@ -412,11 +450,14 @@ sub Run {
         };
 
         if ( $Param{Object} eq 'GeneralLabel' || ( $Param{Object} eq 'DynamicFieldLabel' && $Param{DynamicFieldID} ne 'ListAll' ) ) {
-            $Param{Content}     = $ParamObject->GetParam( Param => 'Content' );
-            $Param{Translation} = $ParamObject->GetParam( Param => 'Translation' );
-
-            $Param{Content}     =~ s/^\s+|\s+$//g;
-            $Param{Translation} =~ s/^\s+|\s+$//g;
+            $Param{Content} = $ParamObject->GetParam(
+                Param => 'Content',
+                Raw   => 1
+            );
+            $Param{Translation} = $ParamObject->GetParam(
+                Param => 'Translation',
+                Raw   => 1
+            );
 
             if ( !$UniqueValues{ $Param{Content} } ) {
 
@@ -442,11 +483,14 @@ sub Run {
         else {
             # Loop over field data
             for ( my $Count = 1; $Count <= $Param{ItemCount}; $Count++ ) {
-                my $Content     = $ParamObject->GetParam( Param => 'TranslateInput_Content_' . $Count );
-                my $Translation = $ParamObject->GetParam( Param => 'TranslateInput_' . $Count );
-
-                $Content     =~ s/^\s+|\s+$//g;
-                $Translation =~ s/^\s+|\s+$//g;
+                my $Content = $ParamObject->GetParam(
+                    Param => 'TranslateInput_Content_' . $Count,
+                    Raw   => 1
+                );
+                my $Translation = $ParamObject->GetParam(
+                    Param => 'TranslateInput_' . $Count,
+                    Raw   => 1
+                );
 
                 if ( $Content && $Translation && !$UniqueValues{$Content} ) {
                     my $Success = $TranslationsObject->DraftTranslationsAdd(
@@ -520,7 +564,7 @@ sub Run {
 
         my $Message;
         my $Success = $TranslationsObject->WriteTranslationFile(
-            UserLanguage => $Param{UserLanguage}
+            UserLanguage => $Param{UserLanguage},
         ) || 0;
 
         if ( $Success == 1 ) {
@@ -1154,10 +1198,18 @@ sub _GetDraftTable {
             %ObjectList = $Kernel::OM->Get('Kernel::System::SLA')->SLAList( UserID => 1 );
         }
         elsif ( $Param{Object} eq 'Queue' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList();
+            %ObjectList = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+
+            # remove parent elements from queue name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'State' ) {
-            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList( UserID => $Self->{UserID} );
+            %ObjectList = $Kernel::OM->Get('Kernel::System::State')->StateList(
+                UserID => $Self->{UserID},
+                Valid  => 0,
+            );
         }
         elsif ( $Param{Object} eq 'Template' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList( Valid => 0 );
@@ -1170,23 +1222,27 @@ sub _GetDraftTable {
                 Valid  => 0,
                 UserID => 1
             );
+
+            # remove parent elements from service name
+            for my $Key ( keys %ObjectList ) {
+                $ObjectList{$Key} =~ s/^(.+::)*//;
+            }
         }
         elsif ( $Param{Object} eq 'Type' ) {
             %ObjectList = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
         }
 
-        if ( keys %ObjectList ) {
-            for my $Row ( sort keys %ObjectList ) {
-                if ( !$UniqueValues{ $ObjectList{$Row} } ) {
-                    my $Reference = {
-                        ID      => $IDs,
-                        Content => $ObjectList{$Row},
-                        Value   => ''
-                    };
-                    push @DataValues, $Reference;
-                    $IDs++;
-                }
-            }
+        ROW:
+        for my $Row ( uniq sort values %ObjectList ) {
+
+            next ROW if $UniqueValues{$Row};
+
+            push @DataValues, {
+                ID      => $IDs,
+                Content => $Row,
+                Value   => ''
+            };
+            $IDs++;
         }
     }
 

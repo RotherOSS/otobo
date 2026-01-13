@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -294,8 +294,12 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
 
-        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
-            . $LogTime . "\n\n", $^V;
+        my $Error = sprintf 'ERROR: %s Perl: %vd OS: %s Time: %s',
+            $Self->{LogPrefix},    # from constructor argument
+            $^V,                   # $PERL_VERSION, the Perl version object
+            $^O,                   # $OSNAME, the operating system
+            $LogTime;              # a string with the current date and time
+        $Error .= "\n\n";
         $Error .= " Message: $Message\n\n";
 
         # More info when we are in a web context.

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -63,7 +63,7 @@ sub LoadPreferences {
     # we only take what is left of the minus; our version string: "Microsoft SQL Server 2012"
     $Self->{'DB::Version'} = 'SELECT LEFT( @@VERSION, (CHARINDEX ( \'-\' ,@@VERSION) -2) )';
 
-    # dbi attributes
+    # DBI/DBD::Sybase or such attributes. These will be passed when connecting to the database.
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 70 * 1024 * 1024,

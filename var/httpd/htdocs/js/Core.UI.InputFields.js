@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+// Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -241,8 +241,8 @@ Core.UI.InputFields = (function (TargetNS) {
             $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField');
 
             // initialize FormUpdate fields
-            $('.FormUpdate', $Context).each(function(Index, Element) {
-                $(this).on('change', function () {
+            $('.FormUpdate', $Context).each(function() {
+                $(this).off('change.FormUpdate').on('change.FormUpdate', function () {
                     Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'));
                 });
             });
@@ -333,7 +333,8 @@ Core.UI.InputFields = (function (TargetNS) {
             Checkbox = $('.Field > input[type=checkbox]', Element),
             Select = $('.Field > select', Element),
             Textarea = $('.Field > textarea:not(.HasCKEInstance)', Element),
-            // TODO suggestion, DB fields return two elements here (correct one and resultelementtext)
+
+            // DB fields return two elements here (correct one and resultelementtext)
             TextInput = $('input[type="text"]', Element).first(),
             TextValue;
 
@@ -1324,7 +1325,7 @@ Core.UI.InputFields = (function (TargetNS) {
      * @name InitSelect
      * @memberof Core.UI.InputFields
      * @function
-     * @returns {Boolean} Returns true if successfull, false otherwise
+     * @returns {Boolean} Returns true if successfully, false otherwise
      * @param {jQueryObject} $SelectFields - Fields to initialize.
      * @description
      *      This function initializes select input fields, based on supplied CSS selector.
@@ -1385,7 +1386,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 Focused = null;
 
                 // Get width now, since we will hide the element
-                // TODO: Angucken
                 if (!$SelectObj.closest('.Row').hasClass('Row_DynamicField')) {
                     SelectWidth = $SelectObj.outerWidth();
                 }
@@ -1458,7 +1458,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 });
 
                 // set width after page and layout are fully loaded
-                window.addEventListener = ("load", (event) => {
+                window.addEventListener = ("load", () => {
                     // Set width of search field to that of the select field
                     $SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
@@ -1477,7 +1477,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                 }
 
-                // Set the earch field label attribute if there was no label element.
+                // Set the search field label attribute if there was no label element.
                 if (!$LabelObj || $LabelObj.length === 0) {
                     if ($SelectObj.attr('aria-label')) {
                         SearchLabel = $SelectObj.attr('aria-label');
@@ -2000,7 +2000,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // click is also triggered (besides select_node), which
                     // could result in a bubbled-up event
-                    // prevents dialogs from accidently closing
+                    // prevents dialogs from accidentally closing
                     // jstree triggers a click event for pressing the enter key
                     // so we try to handle this here
                     .on('click.jstree', function (Event) {
@@ -2678,7 +2678,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     CloseOpenSelections();
                 });
 
-                // TODO: Fix - the first multicalue id now has _0 and thus is different, too - what is the initial event?
+                // TODO: Fix - the first multivalue id now has _0 and thus is different, too - what is the initial event?
                 /*if ( $SelectObj.closest('.Row_DynamicField').hasClass('MultiValue') && $SelectObj.attr('id') != $SelectObj.attr('name') ) {
                     $SelectObj.off('change.multivalue').on('change.multivalue', function() {
                         $('[name=' + $SelectObj.attr('name') + ']').first().trigger('change');
@@ -2734,7 +2734,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                 // initialize FormUpdate
                 if ( $SelectObj.hasClass('FormUpdate') ) {
-                    $SelectObj.on('change', function () {
+                    $SelectObj.off('change.FormUpdate').on('change.FormUpdate', function () {
                         Core.AJAX.FormUpdate($SelectObj.parents('form'), 'AJAXUpdate', $SelectObj.attr('name'));
                     });
                 }
@@ -2808,7 +2808,7 @@ Core.UI.InputFields = (function (TargetNS) {
         });
 
         // Some dynamic fields might not show the label for the added dynamic fields.
-        // TODO: it labels are included in the HTML, then that should refer to the appropriate field.
+        // TODO: if labels are included in the HTML, then that should refer to the appropriate field.
         // TODO: replace by a nice css-only version (MultiValue_0 vs MultiValue_X, respecting non multi value, possibly in multi value multicolumn grid)
         if ( CellGridPosition.Row === 0 ) {
             $Cell.children('label').show();
@@ -2858,17 +2858,18 @@ Core.UI.InputFields = (function (TargetNS) {
             $('[name^=DynamicField_]', $NewCell).each( function() {
                 if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
                     $(this).addClass('Validate_Required');
+                    $(this).removeClass('ValidationIgnore');
                 }
             });
         }
         // multivalue set
         else {
-            // TODO: We need a solution for sets here
-            /*$('[name^=DynamicField_]', $NewCell).each( function() {
+            // Set template uses the ValidationIgnore class to skip validation
+            $('.ValidationIgnore', $NewCell).each( function() {
                 if ( $('[name=' + $(this).attr('name') + ']').first().hasClass('Validate_Required') ) {
-                    $(this).addClass('Validate_Required');
+                    $(this).removeClass('ValidationIgnore');
                 }
-            });*/
+            });
         }
 
         //shift ValueRowIndex of all following cells in this column
@@ -2885,17 +2886,21 @@ Core.UI.InputFields = (function (TargetNS) {
         ReplaceCellIndex( $NewCell, 'Template', CellGridPosition.Row+1 );
         $Cell.after($NewCell);
         InitMultiValueCell( $NewCell );
-        DynamicFieldInit( $NewCell );
+        let $SubCells = $('.DynamicFieldSet .FieldCell', $NewCell);
+        if ($SubCells.length == 0) {
+            DynamicFieldInit($NewCell);
+        } else {
+            $SubCells.each( function() {
+                let $SubCell = $(this);
+                DynamicFieldInit( $SubCell );
+                if ($SubCell[0] .className.split(' ').find( ClassName =>
+                                ClassName.startsWith('MultiValue_')))
+                {
+                    InitMultiValueCell( $SubCell );
+                }
+            })
+        }
 
-        $('.DynamicFieldSet .FieldCell', $NewCell).each( function() {
-            let $SubCell = $(this);
-            DynamicFieldInit( $SubCell );
-            if ($SubCell[0] .className.split(' ').find( ClassName =>
-                            ClassName.startsWith('MultiValue_')))
-            {
-                InitMultiValueCell( $SubCell );
-            }
-        })
     }
 
     /**
@@ -3033,7 +3038,7 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             // for attributes which can also contain multivalue data, we have to target the second to last index if two are present
-            ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\d+)?(Data|Container)?)', 'g' );
+            ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\\d+)?(Data|Container)?)', 'g' );
 
             $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_], [id^=Autocomplete_DynamicField_]', $Cell).each( function() {
                 ['id', 'field'].forEach( Attribute => {
@@ -3179,7 +3184,7 @@ Core.UI.InputFields = (function (TargetNS) {
     // Skip ESLint check below for no camelcase property, we are overriding an existing one!
     $.jstree.defaults.multiselect = {};
     $.jstree.plugins.multiselect = function (options, parent) {
-        this.activate_node = function (obj, e) { //eslint-disable-line camelcase
+        this.activate_node = function (obj, e) {
             e.ctrlKey = true;
             parent.activate_node.call(this, obj, e);
         };

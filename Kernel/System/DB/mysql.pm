@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -74,12 +74,9 @@ sub LoadPreferences {
     # this is primarily needed during migration
     $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
 
-    # DBI/DBD::mysql attributes
-    # disable automatic reconnects as they do not execute DB::Connect, which will
-    # cause charset problems
-    $Self->{'DB::Attribute'} = {
-        mysql_auto_reconnect => 0,
-    };
+    # DBI/DBD::mysql attributes. These will be passed when connecting to the database.
+    # Note that "mysql_auto_reconnect => 0" is set by DBIx::Connector::Driver::mysql.
+    $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
@@ -225,6 +222,7 @@ sub TableCreate {
             push @{ $Foreign{$ForeignKey} }, $Tag;
         }
     }
+
     for my $Tag (@Column) {
 
         # type translation
@@ -853,13 +851,16 @@ sub Insert {
     return $SQL;
 }
 
+# This method changes the attribute 'Type' of the passed in hashref
 sub _TypeTranslation {
     my ( $Self, $Tag ) = @_;
 
-    if ( $Tag->{Type} =~ /^DATE$/i ) {
+    # The types SMALLINT, BIGINT, INTEGER, DECIMAL, and LONGBLOB are supported natively
+
+    if ( $Tag->{Type} =~ m/^DATE$/i ) {
         $Tag->{Type} = 'DATETIME';
     }
-    if ( $Tag->{Type} =~ /^VARCHAR$/i ) {
+    elsif ( $Tag->{Type} =~ m/^VARCHAR$/i ) {
         if ( $Tag->{Size} > 16777215 ) {
             $Tag->{Type} = 'LONGTEXT';
         }
@@ -873,7 +874,7 @@ sub _TypeTranslation {
             $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
         }
     }
-    if ( $Tag->{Type} =~ /^DECIMAL$/i ) {
+    elsif ( $Tag->{Type} =~ m/^DECIMAL$/i ) {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
 

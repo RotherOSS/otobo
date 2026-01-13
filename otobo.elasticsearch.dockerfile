@@ -1,11 +1,14 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
 
+# The main reason for having a custom Elasticsearch image in OTOBO
+# is that additional plugins are installed.
+
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use 7.17.3, because latest flag is not available
-# This image is based on Ubuntu 20.04. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+# Use 7.17.27, because latest flag is not available
+# It is currently unclear un which OS the image is based. The User is root.
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.27 AS otobo-elasticsearch
 
 # Install system tools
 # Hadolint ignore=DL3008
@@ -28,7 +31,6 @@ ENV LANG=C.UTF-8
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
 # The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
-# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
 LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'

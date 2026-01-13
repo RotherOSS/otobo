@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,10 +23,11 @@ use warnings;
 # core modules
 
 # CPAN modules
-use Mail::Address ();
-use MIME::Entity  ();
-use MIME::Parser  ();
-use MIME::Words   qw(encode_mimewords);
+use Mail::Address  ();
+use Mail::Internet ();
+use MIME::Entity   ();
+use MIME::Parser   ();
+use MIME::Words    qw(encode_mimewords);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -564,6 +565,7 @@ sub Send {
             );
 
             my $Parser = MIME::Parser->new();
+            $Parser->output_to_core('ALL');
 
             $Parser->output_dir( $ConfigObject->Get('TempDir') );
             $Entity = $Parser->parse_data( $Header . $EncryptedMessage );
@@ -596,7 +598,7 @@ sub Send {
 
     # get recipients
     my @ToArray;
-    my $To = '';
+    my $To = '';    # only used for logging
 
     RECIPIENT:
     for my $Recipient (qw(To Cc Bcc)) {
@@ -701,7 +703,7 @@ Really send the mail
 
     my $Result = $SendObject->SendExecute(
         From                   => $RealFrom,
-        ToArray                => \@ToArray,
+        To                     => \@ToArray,
         Header                 => \$Param{Header},
         Body                   => \$Param{Body},
         CommunicationLogObject => $CommunicationLogObject,

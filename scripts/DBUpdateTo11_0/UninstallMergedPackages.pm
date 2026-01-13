@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2021 OTRS AG, https://otrs.com/
 # Copyright (C) 2021 Znuny GmbH, https://znuny.org/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,6 +32,7 @@ use List::Util qw(uniq);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::DB',
     'Kernel::System::Package',
 );
 
@@ -70,6 +71,37 @@ sub Run {
         my $Success = $PackageObject->_PackageUninstallMerged(
             Name => $PackageName,
         );
+
+        if ( $PackageName eq 'Ayte-CustomTranslations' ) {
+
+            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+            # check if table translation_item exists
+            my %TableNames = map { lc $_ => 1 } $DBObject->ListTables;
+            if ( $TableNames{translation_item} ) {
+
+                # check if column import exists and thus needs to be renamed
+                $DBObject->Prepare(
+                    SQL   => "SELECT * FROM translation_item",
+                    Limit => 1,
+                );
+                my %ColumnNames = map { lc $_ => 1 } $DBObject->GetColumnNames();
+                if ( $ColumnNames{import} ) {
+
+                    # rename column 'import' to 'import_param'
+                    my @XMLStrings;
+                    push @XMLStrings, <<'END_XML';
+<TableAlter Name="translation_item">
+    <ColumnChange NameOld="import" NameNew="import_param" Required="false" Type="SMALLINT" />
+</TableAlter>
+END_XML
+
+                    return unless $Self->ExecuteXMLDBArray(
+                        XMLArray => \@XMLStrings,
+                    );
+                }
+            }
+        }
 
         next PACKAGENAME if $Success;
 

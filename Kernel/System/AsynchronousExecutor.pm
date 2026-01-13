@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,8 +16,10 @@
 
 package Kernel::System::AsynchronousExecutor;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
@@ -56,7 +58,7 @@ creates a scheduler daemon task to execute a function asynchronously.
                                                                 #   task by the scheduler
         MaximumParallelInstances => 1,                          # optional, default: 0 (unlimited), number of same
                                                                 #   function calls from the same object that can be
-                                                                #   executed at the the same time
+                                                                #   executed at the same time
     );
 
 Returns:
@@ -78,6 +80,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "Function needs to be a non empty string!",
         );
+
         return;
     }
 
@@ -105,6 +108,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "$ObjectName object is not valid!",
         );
+
         return;
     }
 
@@ -114,6 +118,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "$ObjectName can not execute $FunctionName()!",
         );
+
         return;
     }
 
@@ -122,6 +127,7 @@ sub AsyncCall {
             Priority => 'error',
             Message  => "FunctionParams needs to be a hash or list reference.",
         );
+
         return;
     }
 

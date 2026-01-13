@@ -1,0 +1,312 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+use v5.24;
+use strict;
+use warnings;
+use utf8;
+
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# configure the first auth backend to authenticate via the database
+# no further setting are required
+$ConfigObject->Set(
+    Key   => 'AuthModule',
+    Value => 'Kernel::System::Auth::DB',
+);
+
+# no additional auth backends
+for my $Count ( 1 .. 10 ) {
+    $ConfigObject->Set(
+        Key   => "AuthModule$Count",
+        Value => undef,
+    );
+}
+
+# disable email checks to create new user
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+# add test user $UserRand
+my $UserRand = 'example-user' . $Helper->GetRandomID();
+{
+    my $TestUserID = $UserObject->UserAdd(
+        UserFirstname => 'Firstname Test1',
+        UserLastname  => 'Lastname Test1',
+        UserLogin     => $UserRand,
+        UserEmail     => $UserRand . '@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    ) || die "Could not create test user";
+
+    ok( $TestUserID, 'a test user could be created' );
+}
+
+my @Tests = (
+    {
+        Password   => 'simple',
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => 'very long password line which is unusual',
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => 'Переводчик',
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => 'كل ما تحب معرفته عن',
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => ' ',
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => "\n",
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => "\t",
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => "a" x 64,    # max length for plain
+        AuthResult => $UserRand,
+    },
+
+    # SQL security tests
+    {
+        Password   => "'UNION'",
+        AuthResult => $UserRand,
+    },
+    {
+        Password   => "';",
+        AuthResult => $UserRand,
+    },
+);
+
+for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
+
+    subtest "CryptType $CryptType" => sub {
+
+        # make sure that the user objects gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => [
+                'Kernel::System::User',
+                'Kernel::System::Auth',
+            ],
+        );
+
+        $ConfigObject->Set(
+            Key   => "AuthModule::DB::CryptType",
+            Value => $CryptType
+        );
+
+        # get needed objects
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+
+        TEST:
+        for my $Test (@Tests) {
+
+            my $PasswordSet = $UserObject->SetPassword(
+                UserLogin => $UserRand,
+                PW        => $Test->{Password},
+            );
+
+            if ( $CryptType eq 'plain' && $Test->{PlainFail} ) {
+                ok( !$PasswordSet, "Password is not set for crype type 'plain'" );
+
+                next TEST;
+            }
+
+            ok( $PasswordSet, "Password set" );
+
+            my $AuthResult = $AuthObject->Auth(
+                User => $UserRand,
+                Pw   => $Test->{Password},
+            );
+
+            is(
+                $AuthResult,
+                $Test->{AuthResult},
+                "Password '$Test->{Password}'",
+            );
+
+            if ( $CryptType eq 'bcrypt' ) {
+                my $OldCost = $ConfigObject->Get('AuthModule::DB::bcryptCost') // 12;
+                my $NewCost = $OldCost + 2;
+
+                # Increase cost and check if old passwords can still be used.
+                $ConfigObject->Set(
+                    Key   => 'AuthModule::DB::bcryptCost',
+                    Value => $NewCost,
+                );
+
+                $AuthResult = $AuthObject->Auth(
+                    User => $UserRand,
+                    Pw   => $Test->{Password},
+                );
+
+                is(
+                    $AuthResult,
+                    $Test->{AuthResult},
+                    "old Password '$Test->{Password}' with changed default cost ($NewCost)",
+                );
+
+                $PasswordSet = $UserObject->SetPassword(
+                    UserLogin => $UserRand,
+                    PW        => $Test->{Password},
+                );
+
+                ok( $PasswordSet, "Password set - with new cost $NewCost" );
+
+                $AuthResult = $AuthObject->Auth(
+                    User => $UserRand,
+                    Pw   => $Test->{Password},
+                );
+
+                is(
+                    $AuthResult,
+                    $Test->{AuthResult},
+                    "new Password '$Test->{Password}' with changed default cost ($NewCost)",
+                );
+
+                # Restore old cost value
+                $ConfigObject->Set(
+                    Key   => 'AuthModule::DB::bcryptCost',
+                    Value => $OldCost,
+                );
+            }
+
+            $AuthResult = $AuthObject->Auth(
+                User => $UserRand,
+                Pw   => $Test->{Password},
+            );
+
+            is(
+                $AuthResult,
+                $Test->{AuthResult},
+                "Password '$Test->{Password}' (cached)",
+            );
+
+            $AuthResult = $AuthObject->Auth(
+                User => $UserRand,
+                Pw   => 'wrong_pw',
+            );
+
+            ok( !$AuthResult, "not authenticated as password '$Test->{Password}' is the wrong password" );
+
+            $AuthResult = $AuthObject->Auth(
+                User => 'non_existing_user_id',
+                Pw   => $Test->{Password},
+            );
+
+            ok( !$AuthResult, "not authenticated as the password '$Test->{Password}' is for the wrong user" );
+        }
+    };
+}
+
+# Check auth for user which password is encrypted by crypt algorithm different than system one.
+@Tests = (
+    {
+        Password  => 'test111test111test111',
+        UserLogin => 'example-user' . $Helper->GetRandomID(),
+        CryptType => 'crypt',
+    },
+    {
+        Password  => 'test222test222test222',
+        UserLogin => 'example-user' . $Helper->GetRandomID(),
+        CryptType => 'sha1',
+    }
+);
+
+my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+
+# Create users.
+for my $Test (@Tests) {
+    my $UserID = $UserObject->UserAdd(
+        UserFirstname => $Test->{CryptType} . '-Firstname',
+        UserLastname  => $Test->{CryptType} . '-Lastname',
+        UserLogin     => $Test->{UserLogin},
+        UserEmail     => $Test->{UserLogin} . '@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+
+    ok( $UserID, "UserID $UserID is created" );
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::User',
+            'Kernel::System::Auth',
+        ],
+    );
+
+    $ConfigObject->Set(
+        Key   => "AuthModule::DB::CryptType",
+        Value => $Test->{CryptType},
+    );
+
+    $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+
+    my $PasswordSet = $UserObject->SetPassword(
+        UserLogin => $Test->{UserLogin},
+        PW        => $Test->{Password},
+    );
+
+    ok( $PasswordSet, "Password '$Test->{Password}' is set" );
+}
+
+# System is set to sha1 crypt type at this moment and
+# we try to authenticate first created user (password is encrypted by different crypt type).
+# This works because the crypt type can be deduced from the password stored in 'users.pw'
+{
+    my $Result = $AuthObject->Auth(
+        User => $Tests[0]->{UserLogin},
+        Pw   => $Tests[0]->{Password},
+    );
+    ok(
+        $Result,
+        "System crypt type - $Tests[1]->{CryptType}, crypt type for user password - $Tests[0]->{CryptType}, user password '$Tests[0]->{Password}'",
+    );
+}
+
+done_testing;

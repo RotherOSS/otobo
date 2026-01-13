@@ -54,6 +54,18 @@ sub Run {
             Name   => 'Increase translation content length.',
             Module => 'DBUpdateTranslationLength',
         },
+        {
+            Name   => 'Update the list of installed packages',
+            Module => 'UninstallMergedPackages',
+        },
+        {
+            Name   => 'Add valid_id to postmaster_filter.',
+            Module => 'DBUpdatePostMasterFilter',
+        },
+        {
+            Name   => 'Add process dynamic fields to ticket zoom dynamic field screen configs',
+            Module => 'SysConfigUpdateTicketZoomDFScreens',
+        },
     );
 
     TASK:

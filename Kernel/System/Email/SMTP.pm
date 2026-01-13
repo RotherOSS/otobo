@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,13 +16,14 @@
 
 package Kernel::System::Email::SMTP;
 
+use v5.24;
 use strict;
 use warnings;
 
 # core modules
-use Net::SMTP;
 
 # CPAN modules
+use Net::SMTP;
 
 # OTOBO modules
 
@@ -38,8 +39,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless {%Param}, $Type;
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
@@ -49,7 +49,7 @@ sub new {
         $Self->{SMTPDebug} = 1;
     }
 
-    ( $Self->{SMTPType} ) = ( $Type =~ m/::Email::(.*)$/i );
+    ( $Self->{SMTPType} ) = $Type =~ m/::Email::(.*)$/i;
 
     return $Self;
 }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -98,9 +98,11 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
         Multiple    => 1
     );
+
+    # none, one or multiple directories or scripts can be passed
     $Self->AddArgument(
         Name        => 'test-script-path',
-        Description => "Pathes to directories with test scripts or to single test scripts. All other test selection options will be ignored.",
+        Description => "Paths to directories with test scripts or to single test scripts. All other test selection options will be ignored.",
         Required    => 0,
         ValueRegex  => qr/.*/smx,
         Slurpy      => 1,
@@ -125,15 +127,15 @@ sub Run {
     );
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-        Tests            => $Self->GetOption('test'),
-        TestScriptPathes => $Self->GetArgument('test-script-path'),
-        Directory        => $Self->GetOption('directory'),
-        SOPMFiles        => $Self->GetOption('sopm'),
-        Packages         => $Self->GetOption('package'),
-        Verbose          => $Self->GetOption('verbose'),
-        Merge            => $Self->GetOption('merge'),
-        Shuffle          => $Self->GetOption('shuffle'),
-        PostTestScripts  => $Self->GetOption('post-test-script'),
+        Tests           => $Self->GetOption('test'),
+        TestScriptPaths => $Self->GetArgument('test-script-path'),
+        Directory       => $Self->GetOption('directory'),
+        SOPMFiles       => $Self->GetOption('sopm'),
+        Packages        => $Self->GetOption('package'),
+        Verbose         => $Self->GetOption('verbose'),
+        Merge           => $Self->GetOption('merge'),
+        Shuffle         => $Self->GetOption('shuffle'),
+        PostTestScripts => $Self->GetOption('post-test-script'),
     );
 
     return $Self->ExitCodeOk if $FunctionResult;
