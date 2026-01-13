@@ -37,7 +37,7 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
 Then examine the differences and check in the verified changes.
 
     git diff
-    git add --patch local
+    git add --patch
     git commit
 
 Sometimes a module is not installed because it is already installed in a system location. A workaround

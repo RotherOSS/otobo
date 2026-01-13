@@ -1,0 +1,17 @@
+To: test@otobo.io
+Subject: Content in UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+The header is pure ASCII, which is implicitly UTF-8.
+
+This content has Umlauts which are encoded in two bytes:
+ä - U+000E4 - C3 A4 - LATIN SMALL LETTER A WITH DIAERESIS
+Ä - U+000C4 - C3 84 - LATIN CAPITAL LETTER A WITH DIAERESIS
+
+Code points encoded in three bytes:
+ऄ - U+00904 - E0 A4 84 - DEVANAGARI LETTER SHORT A
+⛄ - U+026C4 - E2 9B 84 - SNOWMAN WITHOUT SNOW
+
+Code points encoded in four bytes:
+𐡀 - U+10840 - F0 90 A1 80 - IMPERIAL ARAMAIC LETTER ALEPH

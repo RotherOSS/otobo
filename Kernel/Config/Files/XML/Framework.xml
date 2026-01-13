@@ -9819,10 +9819,10 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="TicketNumber">Ticket#</Item>
-                        <Item Key="Title">Title</Item>
-                        <Item Key="Queue">Queue</Item>
-                        <Item Key="Age">Age</Item>
+                        <Item Key="TicketNumber" Translatable="1">Ticket Number</Item>
+                        <Item Key="Title" Translatable="1">Ticket Title</Item>
+                        <Item Key="Queue" Translatable="1">Queue</Item>
+                        <Item Key="Age" Translatable="1">Age</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -9843,9 +9843,9 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="CustomerCompanyName">Name</Item>
-                        <Item Key="CustomerID">ID</Item>
-                        <Item Key="CustomerCompanyComment">Comment</Item>
+                        <Item Key="CustomerCompanyName" Translatable="1">Customer Name</Item>
+                        <Item Key="CustomerID" Translatable="1">Customer ID</Item>
+                        <Item Key="CustomerCompanyComment" Translatable="1">Comment</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -9867,10 +9867,10 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="UserLogin">Login</Item>
-                        <Item Key="UserFirstname">Name</Item>
-                        <Item Key="UserLastname">Name</Item>
-                        <Item Key="UserEmail">Email</Item>
+                        <Item Key="UserLogin" Translatable="1">Login</Item>
+                        <Item Key="UserFirstname" Translatable="1">Firstname</Item>
+                        <Item Key="UserLastname" Translatable="1">Lastname</Item>
+                        <Item Key="UserEmail" Translatable="1">Email</Item>
                     </Hash>
                 </Item>
             </Hash>

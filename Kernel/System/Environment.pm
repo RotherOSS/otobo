@@ -327,7 +327,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20251228.001',
+            'VersionRequired' => '== 20260104.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
