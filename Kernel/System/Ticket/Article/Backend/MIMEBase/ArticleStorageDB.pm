@@ -16,9 +16,9 @@
 
 package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
@@ -230,7 +230,7 @@ sub ArticleWritePlain {
 
     # write article to db 1:1
     if ( !$Param{DeletedVersionID} ) {
-        return if !$DBObject->Do(
+        return unless $DBObject->Do(
             SQL => 'INSERT INTO article_data_mime_plain '
                 . ' (article_id, body, create_time, create_by, change_time, change_by) '
                 . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -239,7 +239,7 @@ sub ArticleWritePlain {
         );
     }
     else {
-        return if !$DBObject->Do(
+        return unless $DBObject->Do(
             SQL => 'INSERT INTO article_data_mime_plain_version '
                 . ' (article_id, body, create_time, create_by, change_time, change_by) '
                 . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
