@@ -19,6 +19,7 @@ package Kernel::System::VirtualFS::DB;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 use MIME::Base64 qw(decode_base64 encode_base64);
@@ -37,8 +38,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # config (not used right now)
     $Self->{Compress} = 0;
@@ -128,6 +128,7 @@ sub Write {
 
     # check if already exists
     my $Exists = $Self->_FileLookup( $Param{Filename} );
+
     return if $Exists;
 
     # compress (in case)
@@ -159,12 +160,7 @@ sub Write {
         $Param{Content} = \$Content;
     }
 
-    my $Encode = 1;
-    if ( lc $Param{Mode} eq 'binary' ) {
-        $Encode = 0;
-    }
-
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'INSERT INTO virtual_fs_db (filename, content, create_time) '
             . 'VALUES ( ?, ?, current_timestamp )',
         Bind => [ \$Param{Filename}, $Param{Content} ],
@@ -172,7 +168,8 @@ sub Write {
     );
 
     my $FileID = $Self->_FileLookup( $Param{Filename} );
-    return if !$FileID;
+
+    return unless $FileID;
 
     my $BackendKey = $Self->_BackendKeyGenerate(
         FileID   => $FileID,
