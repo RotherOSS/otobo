@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -479,17 +479,28 @@ sub EditFieldValueGet {
         && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
         )
     {
-        my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+        my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
 
         if ( $Param{DynamicFieldConfig}{Config}{MultiValue} ) {
 
             # delete the template value
-            pop @Data;
+            pop @DataAll;
         }
-        else {
 
-            # delete empty values
-            @Data = grep {$_} @Data;
+        my @TmpValues;
+        my @Data;
+        VALUEITEM:
+        for my $ValueItem (@DataAll) {
+
+            if ( !defined $ValueItem || $ValueItem eq '' ) {
+                push @TmpValues, undef;
+
+                next VALUEITEM;
+            }
+
+            push @TmpValues, $ValueItem;
+            push @Data,      @TmpValues;
+            @TmpValues = ();
         }
 
         $Value = \@Data;
@@ -533,25 +544,28 @@ sub EditFieldValueValidate {
     }
 
     # get possible values list
-    my $PossibleValues             = $Self->PossibleValuesGet(%Param);
-    my $MandatoryValueItemsPresent = 0;
+    my $PossibleValues    = $Self->PossibleValuesGet(%Param);
+    my $ValueItemsPresent = 0;
+
+    VALUEITEM:
     for my $ValueItem ( @{$Value} ) {
 
-        # perform necessary validations
-        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+        $ValueItem //= '';
 
-            $MandatoryValueItemsPresent++;
-        }
-        else {
+        # perform necessary validations
+        if ( $ValueItem ne '' ) {
+            $ValueItemsPresent++;
+
             # validate if value is in possible values list (but let pass empty values)
-            if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
+            if ( !$PossibleValues->{$ValueItem} ) {
                 $ServerError  = 1;
                 $ErrorMessage = 'The field content is invalid';
+                last VALUEITEM;
             }
         }
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';

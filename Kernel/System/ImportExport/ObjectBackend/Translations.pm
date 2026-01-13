@@ -74,7 +74,7 @@ sub new {
     return bless {
         AllRows          => undef,    # will be initialized in first call to ExportDataGet()
         LastHandledIndex => -1,       # used for chunking
-        ChunkingFinished =>  1,       # indicate that chunking is finished
+        ChunkingFinished =>  1,       # indicate that chunking is finished, which is kind of true when no chunking is requested
     }, $Type;
 }
 
@@ -298,6 +298,21 @@ sub ExportDataGet {
         TemplateID => $Param{TemplateID},
         UserID     => $Param{UserID},
     );
+}
+
+=head2 IsExportComplete()
+
+Indicate whether the last C<ExportDataGet()> has returned the last chunk of data.
+A true value is also returned when chunking had not been activated.
+
+    my $ChunkingFinished = $ObjectBackend->IsExportComplete;
+
+=cut
+
+sub IsExportComplete {
+    my ($Self) = @_;
+
+    return $Self->{ChunkingFinished};
 }
 
 =head2 ImportDataSave()

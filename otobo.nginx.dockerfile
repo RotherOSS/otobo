@@ -12,17 +12,15 @@
 #
 # builder-for-kerberos used to create a dynamic spnego auth module
 # https://gist.github.com/hermanbanken/96f0ff298c162a522ddbba44cad31081
-FROM nginx:mainline AS builder-for-kerberos
+FROM nginx:mainline-trixie AS builder-for-kerberos
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
 ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
-        gcc \
-        libc-dev \
-        make \
-        libpcre3-dev \
+        build-essential \
+        libpcre2-dev \
         zlib1g-dev \
         libkrb5-dev \
         wget
@@ -45,7 +43,7 @@ RUN NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline AS base
+FROM nginx:mainline-trixie AS base
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008

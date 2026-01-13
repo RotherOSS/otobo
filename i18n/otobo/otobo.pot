@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-09-25 08:11+0000\n"
+"POT-Creation-Date: 2025-12-17 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,6 +376,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Insufficient group permissions."
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -5959,6 +5963,14 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr ""
 
 #. Template: AdminQueue
+msgid "Is defined in Admin > System addresses."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Default sign key"
 msgstr ""
 
@@ -5980,6 +5992,14 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
+msgstr ""
+
+#. Template: AdminQueue
+msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
 msgstr ""
 
 #. Template: AdminQueue
@@ -11920,6 +11940,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The dynamic field \"%s\" is already in use in a ticket mask."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
+msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
@@ -20486,11 +20510,11 @@ msgid "Defines if the communication between this system and the servers that pro
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface."
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.)."
+msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
 
 #. SysConfig
@@ -22254,6 +22278,10 @@ msgid "Edit customer company"
 msgstr ""
 
 #. SysConfig
+msgid "Elasticsearch (u)"
+msgstr ""
+
+#. SysConfig
 msgid "Elasticsearch quick result module."
 msgstr ""
 
@@ -23711,6 +23739,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
+msgstr ""
+
+#. SysConfig
+msgid "Message of the day"
 msgstr ""
 
 #. SysConfig
@@ -26702,6 +26734,10 @@ msgid "Web Services"
 msgstr ""
 
 #. SysConfig
+msgid "Welcome %s, to your OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid "Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" and \"UserLogin\" will be substituted."
 msgstr ""
 
@@ -26742,11 +26778,23 @@ msgid "Yes, but hide archived tickets"
 msgstr ""
 
 #. SysConfig
+msgid "Your Tickets. Your OTOBO."
+msgstr ""
+
+#. SysConfig
 msgid "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to \"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
 
 #. SysConfig
 msgid "Your email with ticket number \"<OTOBO_TICKET>\" is merged to \"<OTOBO_MERGE_TO_TICKET>\"."
+msgstr ""
+
+#. SysConfig
+msgid "Your external tools"
+msgstr ""
+
+#. SysConfig
+msgid "Your last tickets"
 msgstr ""
 
 #. SysConfig

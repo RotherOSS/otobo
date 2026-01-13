@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,6 +23,8 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::Compare qw(bag array);
+use Test2::Tools::Explain;
 use Capture::Tiny qw(capture);
 
 # OTOBO modules
@@ -50,6 +52,89 @@ my $ThawedAuditReport;
 # just a sanity check of the keys on the top level
 for my $Key (qw( dists errors meta )) {
     ok( exists $ThawedAuditReport->{$Key}, "top level key '$Key' exists" );
+}
+
+# check keys on the meta level
+for my $Key (qw( args command cpan_audit total_advisories )) {
+    ok( exists $ThawedAuditReport->{meta}->{$Key}, "key 'meta->$Key' exists" );
+}
+
+# check the version of the advisories list
+is(
+    $ThawedAuditReport->{meta}->{cpan_audit},
+    {
+        db      => '20260104.001',
+        version => '20250829.001',
+    },
+    'got expected version of the advisory list'
+);
+
+# There are known advisories. Report only on new advisories.
+my @Excemptions = (
+    {
+        'App-cpanminus' => {
+            advisories => bag {
+                item { cves => array { item 'CVE-2024-45321'; end(); } };
+                end();
+            },
+        }
+    },
+    {
+        'File-Temp' => {
+            advisories => bag {
+                item { cves => array { item 'CVE-2011-4116'; end(); } };
+                end();
+            },
+        }
+    },
+    {
+        'Mojolicious' => {
+            advisories => bag {
+                item { cves => array { item 'CVE-2024-58135'; end(); } };
+                item { cves => array { item 'CVE-2024-58134'; end(); } };
+                end();
+            },
+        }
+    },
+    {
+        'Mozilla-CA' => {
+            advisories => bag {
+                item { cves => array { item 'CVE-2024-39689'; end(); } };
+                end();
+            },
+        }
+    },
+    {
+        'perl-ldap' => {
+            advisories => bag {
+                item { cves => array { item 'CVE-2020-16093'; end(); } };
+                end();
+            },
+        }
+    },
+);
+
+for my $Excemption (@Excemptions) {
+    my ($Dist) = keys $Excemption->%*;
+    my $Found = like(
+        $ThawedAuditReport->{dists},
+        $Excemption,
+        "found dist $Dist with matching advisories"
+    );
+
+    if ($Found) {
+        delete $ThawedAuditReport->{dists}->{$Dist};
+    }
+}
+
+my $FoundNoUnexpedtedAdvisories = is(
+    $ThawedAuditReport->{dists},
+    {},
+    'no unexpected advisories'
+);
+
+if ( !$FoundNoUnexpedtedAdvisories ) {
+    diag explain $ThawedAuditReport->{dists};
 }
 
 done_testing;

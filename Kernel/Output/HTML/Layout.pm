@@ -712,12 +712,12 @@ sub Login {
     }
 
     # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
-    $Self->LoaderCreateAgentCSSCalls( Skin => 'default' );
+    $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
     $Self->LoaderCreateJavaScriptTranslationData();
     $Self->LoaderCreateJavaScriptTemplateData();
 
-    # we need the baselink for VerfifiedGet() of selenium tests
+    # we need the baselink for VerifiedGet() of selenium tests
     $Self->AddJSData(
         Key   => 'Baselink',
         Value => $Self->{Baselink},
@@ -942,6 +942,19 @@ sub ChallengeTokenCheck {
     return;
 }
 
+=head2 FatalError()
+
+Log the error message and present the error message in the browser.
+
+This method does not return as it throws an exception of the class
+C<Kernel::System::Web::Exception>.
+
+    $LayoutObject->FatalError(
+        Message => "Can't open $ConfigFile: $!",
+    );
+
+=cut
+
 sub FatalError {
     my ( $Self, %Param ) = @_;
 
@@ -1110,16 +1123,14 @@ sub Warning {
 
 =head2 Notify()
 
-create notify lines
-
-info lines, the text will be translated
+creates informational notify lines. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Warning',
         Info     => 'Some Info Message',
     );
 
-data with link, the text will be translated
+The content of C<Data> will be presented as a link. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority  => 'Warning',
@@ -1128,14 +1139,14 @@ data with link, the text will be translated
         LinkClass => 'some_CSS_class',              # optional
     );
 
-errors, the text will be translated
+The content will be presented as an error. The text will be translated.
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
         Info     => 'Some Error Message',
     );
 
-errors from log backend, if no error exists, a '' will be returned
+Present the errors from the log backend. If no error exists then an empty string will be returned
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
@@ -1148,14 +1159,18 @@ sub Notify {
 
     # create & return output
     if ( !$Param{Info} && !$Param{Data} ) {
-        $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Notice',
-            What => 'Message',
+        $Param{BackendMessage} =
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+                Type => 'Notice',
+                What => 'Message',
             )
-            || $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+            ||
+            $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                 Type => 'Error',
                 What => 'Message',
-            ) || '';
+            )
+            ||
+            '';
 
         $Param{Info} = $Param{BackendMessage};
 
@@ -1207,6 +1222,7 @@ sub Notify {
             },
         );
     }
+
     return $Self->Output(
         TemplateFile => 'Notify',
         Data         => {
@@ -1468,7 +1484,7 @@ sub Header {
             my $ToolBarItemSeparatorMyTickets = 0;
             my $ToolBarItemSeparatorSearch    = 0;
 
-            # Check which seperator is needed
+            # Check which separator is needed
             SHORTCUTAVAILIBLE:
             for my $Key ( sort keys %Modules ) {
                 next SHORTCUTAVAILIBLE if !%{ $Modules{$Key} };
@@ -1691,7 +1707,11 @@ sub _AddHeadersToResponseObject {
     # Add the cookies that had been set in the constructor.
     # The values of $Self->{SetCookies} are plain hash references.
     # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
-    if ( $Self->{SetCookies} && ref $Self->{SetCookies} eq 'HASH' ) {
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+    )
+    {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
             # make a copy because we might need $Self->{SetCookies} later on
@@ -4479,14 +4499,14 @@ sub CustomerFooter {
         );
 
         for my $Link ( sort keys %{$FooterLinks} ) {
-            my $SubstitudedLink = $Link;
+            my $SubstitutedLink = $Link;
             for my $Option (qw/HttpType FQDN ScriptAlias/) {
-                $SubstitudedLink =~ s/<OTOBO_CONFIG_$Option>/$URLConfig{ $Option }/g;
+                $SubstitutedLink =~ s/<OTOBO_CONFIG_$Option>/$URLConfig{ $Option }/g;
             }
 
             push @FooterLinks, {
                 Description => $FooterLinks->{$Link},
-                Target      => $SubstitudedLink,
+                Target      => $SubstitutedLink,
             };
         }
 
@@ -6781,7 +6801,7 @@ sub SetCookie {
         # the configured value is the regular case
         $SameSite //= $ConfigObject->Get('SessionSameSite');
 
-        # fallback when neiter configured or passed from command line
+        # fallback when neither configured or passed from command line
         $SameSite //= 'lax';
 
         # lower case
@@ -6807,7 +6827,7 @@ sub SetCookie {
         # the configured value is the regular case
         $Path //= $ConfigObject->Get('ScriptAlias');
 
-        # fallback when neiter configured or passed from command line
+        # fallback when neither configured or passed from command line
         $Path //= '';
 
         # leading slash unless there already is a leading slash

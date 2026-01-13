@@ -2718,7 +2718,7 @@ sub PackageIsInstalled {
     );
 
     my $Flag = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $Flag = 1;
     }
 
@@ -3346,6 +3346,7 @@ sub _GetIntegratedPackages {
             1 => [
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
                 'RestorePendingInformation',
+                'RotherOSS-AccountedTimeInViews',
             ],
         }
     };

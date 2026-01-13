@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -634,7 +634,7 @@ sub Run {
             if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
                 for my $i ( 0 .. $#{ $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
                     my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-                        ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
+                        ? ( $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] // '' )
                         :
                         (
                             $BackendObject->BuildSelectionDataGet(
@@ -690,7 +690,7 @@ sub Run {
                 if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $SetField->{Values}{$FrontendName} eq 'ARRAY' ) {
                     for my $i ( 0 .. $#{ $SetField->{Values}{$FrontendName} } ) {
                         my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
-                            ? $SetField->{Values}{$FrontendName}[$i]
+                            ? ( $SetField->{Values}{$FrontendName}[$i] // '' )
                             :
                             (
                                 $BackendObject->BuildSelectionDataGet(
@@ -1819,7 +1819,7 @@ sub _Mask {
             ActivityEntityID => $Param{$ActivityEntityIDField},
         );
 
-        # output the process widget the the main screen
+        # output the process widget on the main screen
         $LayoutObject->Block(
             Name => 'ProcessWidget',
             Data => {

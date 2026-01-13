@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.414838035527691;
+    $Self->{Completeness}        = 0.414096259871852;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -165,6 +165,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Un calendrier avec un nom identique existe déjà.',
         'Color' => 'Couleur',
         'Permission group' => 'Permission du groupe',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Rendez-vous du ticket',
         'Rule' => 'Règle',
         'Remove this entry' => 'Supprimer cette entrée',
@@ -1993,6 +1994,9 @@ sub Data {
             'Si le tiket est clos et que le client envoie un suivi, le ticket sera vérouillé à l\'ancien propriétaire.',
         'System address' => 'Adresse Système',
         'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expédition pour les réponses par e-mail de cette file.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Clé de signature par défaut',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -2000,6 +2004,10 @@ sub Data {
         'The salutation for email answers.' => 'La formule de politesse pour les réponses par e-mail.',
         'Signature' => 'Signature',
         'The signature for email answers.' => 'La signature pour les réponses par e-mail.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4155,6 +4163,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -4843,7 +4853,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketForward.pm
         'Article %s could not be found!' => 'L\'article %s n\'a pas été trouvé !',
         'Forwarded message from' => 'Message transféré par',
-        'End forwarded message' => 'Fin du message tranféré',
+        'End forwarded message' => 'Fin du message transféré',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
         'Can\'t show history, no TicketID is given!' => 'Impossible de monter l\'historique, aucun TicketID fourni !',
@@ -7504,9 +7514,9 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8297,6 +8307,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => '',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Adresses e-mail',
         'Email Outbound' => '',
@@ -8826,6 +8837,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Fusionner le ticket <OTOBO_TICKET> avec <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Divers',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9990,6 +10002,7 @@ Thanks for your help!
             '',
         'Web Service' => 'Service Web',
         'Web Services' => 'Services Web',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10009,10 +10022,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Oui mais masquer les tickets archivés',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Votre email avec le ticket numéro "<OTOBO_TICKET>" est renvoyé à "<OTOBO_BOUNCE_TO>". Contactez cette adresse pour plus d\'informations.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Votre e-mail avec le numéro de ticket "<OTOBO_TICKET>" a été fusionné avec le ticket numéro "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Votre sélection de files préférées. Vous serez également notifié(e) par courriel à propos de ces files si les notifications sont activées.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

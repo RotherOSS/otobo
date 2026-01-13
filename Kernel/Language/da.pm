@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.365576951783848;
+    $Self->{Completeness}        = 0.364923260318879;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -158,6 +158,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Der findes allerede en kalender med samme navn.',
         'Color' => 'Farve',
         'Permission group' => 'Tilladelsesgruppe',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Sags aftaler',
         'Rule' => 'Regel',
         'Remove this entry' => 'Fjern denne parameter',
@@ -1986,6 +1987,9 @@ sub Data {
             'Hvis en kunde sender en opfølging på en lukket sag, vil sagen blive tildelt dens sidste ejer.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Bliver til denne køs afsenderadresse for mail-svar.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Standard signeringsnøgle',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1993,6 +1997,10 @@ sub Data {
         'The salutation for email answers.' => 'Den hilsen, der bruges til mail-svar.',
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Den signatur, der bruges til mail-svar.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4148,6 +4156,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7497,9 +7507,9 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8290,6 +8300,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Rediger kunde firma',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Email-adresser',
         'Email Outbound' => '',
@@ -8819,6 +8830,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Samlet sag <OTOBO_TICKET> med <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Diverse',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9983,6 +9995,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => 'Web Tjenester',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10002,10 +10015,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Ja, men skjul arkiverede sager',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Din e-mail med sagsnummer "<OTOBO_TICKET>" er overgivet til "<OTOBO_BOUNCE_TO>". Kontakt denne adresse for yderligere information.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Din sag nummer "<OTOBO_TICKET>" er blevet samlet med sag nummer "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

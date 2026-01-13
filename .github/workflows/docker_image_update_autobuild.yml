@@ -62,16 +62,19 @@ jobs:
           'latest-11_0-autobuild'
         ]
         include:
-          # the latest release for every release branch - has to be updated
+
+          # The branch with the latest patch level release for every release series. This is
+          # irrespective of the target.
+          # Has to be updated for every new patch level release.
           -
-            docker_tag: 'latest-10_0-autobuild'
-            patch:      'rel-10_0_26'
+            docker_tag:   'latest-10_0-autobuild'
+            otobo_branch: 'rel-10_0_27'
           -
-            docker_tag: 'latest-10_1-autobuild'
-            patch:      'rel-10_1_15'
+            docker_tag:   'latest-10_1-autobuild'
+            otobo_branch: 'rel-10_1_16'
           -
-            docker_tag: 'latest-11_0-autobuild'
-            patch:      'rel-11_0_12'
+            docker_tag:   'latest-11_0-autobuild'
+            otobo_branch: 'rel-11_0_13'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
           -
@@ -121,11 +124,11 @@ jobs:
         # These variables can be accessed in the env context
         name: Setting up the environment file (autobuild)
         run: |
-          patch=${{ matrix.patch }}
+          otobo_branch=${{ matrix.otobo_branch }}
           docker_tag=${{ matrix.docker_tag }}
           build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           (
-            echo "otobo_branch=${patch}"
+            echo "otobo_branch=${otobo_branch}"
             echo "otobo_docker_tag=${docker_tag}"
             echo "otobo_ref=${{ matrix.repository }}:${docker_tag}"
             echo "otobo_base_image=${{ matrix.base_image }}"
@@ -253,14 +256,15 @@ jobs:
               title: 'Issue created by the Github action DockerImageUpdateAutobuild',
               body: `
             The Github workflow DockerImageUpdateAutobuild has found that
-            the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker image has changed.
+            the base image of ${{ steps.count_builds.outputs.num_builds }} autobuild Docker images has changed.
 
             This means that there is work to do. Please test the newly created Docker images.
             This can be done via the 'New Pipeline' button in https://git.otobo.org/otobo/otobo/-/pipelines .
+            Choose 'autobuild' for the variable OTOBO_DOCKER_DEVEL.
 
-            Note that the GitLab pipeline tests do not cover the service nginx. For sanity testing nginx
-            please pull the autobuild images, start an installation with the autobuild images and see whether
-            OTOBO can be accessed via HTTPS.
+            Note that the GitLab pipeline tests do not cover the service nginx. Please do manual sanity testing.
+            First pull current images with 'docker compose pull'. Then start an installation with the autobuild images
+            and see whether OTOBO can be accessed via HTTPS.
 
             Rebuild the released Docker images when things look fine. The rebuild can be done
             via the Github action DockerImageUpdateAll.

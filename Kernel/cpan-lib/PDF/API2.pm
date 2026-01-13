@@ -3,7 +3,7 @@ package PDF::API2;
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use Carp;
 use Encode qw(:all);
@@ -811,7 +811,7 @@ sub is_encrypted {
 
 =head2 outline
 
-    $outline = $pdf->outlines();
+    $outline = $pdf->outline();
 
 Creates (if needed) and returns the document's outline tree, which is also known
 as its bookmarks or the table of contents, depending on the PDF reader.
@@ -1819,8 +1819,8 @@ sub default_page_size {
     }
 
     # Get
-    my $boundaries = $self->default_page_boundaries();
-    return @{$boundaries->{'media'}};
+    my %boundaries = $self->default_page_boundaries();
+    return @{$boundaries{'media'}};
 }
 
 =head2 default_page_boundaries
@@ -1910,8 +1910,8 @@ Add a font to the PDF.  Returns the font object, to be used by
 L<PDF::API2::Content>.
 
 The font C<$name> is either the name of one of the L<standard 14
-fonts|PDF::API2::Resource::Font::CoreFont/"STANDARD FONTS"> (e.g. Helvetica) or
-the path to a font file.
+fonts|PDF::API2::Resource::Font::CoreFont/"STANDARD FONTS"> (e.g. Helvetica),
+a C<Font::TTF::Font> object, or the path to a font file.
 
     my $pdf = PDF::API2->new();
     my $font1 = $pdf->font('Helvetica-Bold');
@@ -1990,6 +1990,7 @@ sub font {
     }
 
     my $format = $options{'format'};
+    $format //= 'truetype' if UNIVERSAL::isa($name, 'Font::TTF::Font');
     $format //= ($name =~ /\.[ot]tf$/i ? 'truetype' :
                  $name =~ /\.pf[ab]$/i ? 'type1'    :
                  $name =~ /\.bdf$/i    ? 'bitmap'   : '');
@@ -2025,7 +2026,7 @@ sub font {
 
     $font = $pdf->synthetic_font($base_font, %options)
 
-Create and return a new synthetic font object.  See
+Creates and returns a new synthetic font object.  See
 L<PDF::API2::Resource::Font::SynFont> for details.
 
 =cut
@@ -2049,6 +2050,35 @@ sub synthetic_font {
     $obj->tounicodemap() if $opts{-unicodemap};
 
     return $obj;
+}
+
+=head2 standard_fonts
+
+    @names = $pdf->standard_fonts()
+
+Returns the names of the 14 standard (built-in) fonts.  See
+L<PDF::API2::Resource::Font::CoreFont> for details.
+
+=cut
+
+sub standard_fonts {
+    require PDF::API2::Resource::Font::CoreFont;
+    return PDF::API2::Resource::Font::CoreFont->names();
+}
+
+=head2 is_standard_font
+
+    $boolean = PDF::API2->is_standard_font($name);
+
+Returns true if C<$name> is an exact, case-sensitive match for one of the
+standard font names.
+
+=cut
+
+sub is_standard_font {
+    my $name = pop();
+    require PDF::API2::Resource::Font::CoreFont;
+    return PDF::API2::Resource::Font::CoreFont->is_standard($name);
 }
 
 =head2 font_path
@@ -2160,11 +2190,11 @@ sub ttfont {
 
     # -noembed is deprecated (replace with embed => 0)
     if ($opts{'-noembed'}) {
-        $opts{'embed'} //= 1;
+        $opts{'embed'} //= 0;
     }
     $opts{'embed'} //= 1;
 
-    my $file = _find_font($name) or croak "Unable to find font \"$name\"";
+    my $file = UNIVERSAL::isa($name,'Font::TTF::Font') ? $name : _find_font($name) or croak "Unable to find font \"$name\"";
     require PDF::API2::Resource::CIDFont::TrueType;
     my $obj = PDF::API2::Resource::CIDFont::TrueType->new($self->{'pdf'}, $file, %opts);
 
@@ -2229,7 +2259,7 @@ a page's content:
 
 C<$file> may be either a file name, a filehandle, or a L<GD::Image> object.
 
-See L<PDF::API2::Content/"place"> for details about placing images on a page
+See L<PDF::API2::Content/"object"> for details about placing images on a page
 once they're imported.
 
 The image format is normally detected automatically based on the file's
@@ -2807,7 +2837,7 @@ sub colorspace_devicen {
     $resource = $pdf->egstate();
 
 Creates and returns a new extended graphics state object, described in
-L<PDF::API2::ExtGState>.
+L<PDF::API2::Resource::ExtGState>.
 
 =cut
 

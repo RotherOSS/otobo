@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 // --
 
-/*eslint-disable no-window*/
+/*eslint-disable otobo/no-window*/
 
 "use strict";
 
@@ -747,4 +747,4 @@ Core.UI.Popup = (function (TargetNS) {
     return TargetNS;
 }(Core.UI.Popup || {}));
 
-/*eslint-enable no-window*/
+/*eslint-enable otobo/no-window*/

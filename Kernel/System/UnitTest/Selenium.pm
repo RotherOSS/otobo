@@ -43,7 +43,7 @@ our $ObjectManagerDisabled = 1;
 
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
-# Extending with 'around' is only done when the the class is actually extended.
+# Extending with 'around' is only done when the class is actually extended.
 {
     # Check whether Selenium testing is activated.
     # Note that $Kernel::OM must exist before this module is loaded.
@@ -1229,6 +1229,32 @@ sub find_no_element_by_css_ok {
     $Context->fail_and_release($TestDescription);
 
     return 0;
+}
+
+=head2 get_selected_value
+
+Helper to get the value property of form elements, definded by using a Css Selector
+
+=cut
+
+sub get_selected_value {
+    my ( $Self, $CssSelector )  = @_;
+
+    return $Self->execute_script("return \$('$CssSelector')[0].value;");
+}
+
+=head2 get_value_by_id
+
+Helper to get the value property of form elements, similar to above helper,
+but using a DOM id and getElementById to allow for IDs that are not valid 
+CSS Selectors.
+
+=cut
+
+sub get_value_by_id {
+    my ( $Self, $ID )  = @_;
+
+    return $Self->execute_script("return document.getElementById('$ID').value;");
 }
 
 1;

@@ -240,7 +240,7 @@ sub Connect {
         # between DBI and DBIx::Connector.
         # For DBI they are off per default, but for DBIx::Connector they are on per default.
         # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+        #             This is OK as the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
         #
@@ -514,7 +514,7 @@ simple scalars, these must be passed by reference.
     my $Var2 = 'Togo';  # also serum run to Nome in 1925
 
     my $InsertSuccess = $DBObject->Do(
-        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?)",
+        SQL  => "INSERT INTO pack_of_hounds (name1, name2, howl_loudly, are_vegan ) VALUES (?, ?, ?, ?)",
         Bind => [
             \$Var1,
             \$Var2,

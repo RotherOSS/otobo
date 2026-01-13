@@ -956,7 +956,7 @@ sub GetStatTable {
     my %DynamicFieldRestrictions;
     for my $ParameterName ( sort keys %{ $Param{Restrictions} } ) {
         if (
-            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
+            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d\-]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
             )
         {
             my $FieldName = $1;
@@ -1021,12 +1021,12 @@ sub GetStatTable {
 
     # OlderTicketsExclude for historic searches
     # takes tickets that were closed before the
-    # start of the searched time periode
+    # start of the searched time period
     my %OlderTicketsExclude;
 
     # NewerTicketExclude for historic searches
     # takes tickets that were created after the
-    # searched time periode
+    # searched time period
     my %NewerTicketsExclude;
     my %StateList = $StateObject->StateList( UserID => 1 );
 
@@ -1034,8 +1034,8 @@ sub GetStatTable {
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # UnixTimeStart & End:
-    # The Time periode the historic search is executed
-    # if no time periode has been selected we take
+    # The Time period the historic search is executed
+    # if no time period has been selected we take
     # Unixtime 0 as StartTime and SystemTime as EndTime
     my $UnixTimeStart = 0;
     my $UnixTimeEnd   = $DateTimeObject->ToEpoch();
@@ -1117,7 +1117,7 @@ sub GetStatTable {
     }
 
     # if we had Tickets we need to reduce the found tickets
-    # to those not beeing in %OlderTicketsExclude
+    # to those not being in %OlderTicketsExclude
     # as well as not in %NewerTicketsExclude
     if ( %OlderTicketsExclude || %NewerTicketsExclude ) {
         @TicketIDs =
@@ -1200,7 +1200,6 @@ sub GetStatTable {
 
             # And now get the StatesByType
             # Result is a Hash {ID => StateName,}
-            my @StateTypes = keys %StateTypeHash;
             %StateIDs = $StateObject->StateGetStatesByType(
                 StateType => [ keys %StateTypeHash ],
                 Result    => 'HASH',
@@ -1254,7 +1253,7 @@ sub GetStatTable {
                         }
 
                         # if it is not in the searched states
-                        # a state change happend ->
+                        # a state change happened ->
                         # delete the record
                         else {
                             delete $FoundTickets{$TicketID};
@@ -1411,10 +1410,6 @@ sub GetStatTable {
             );
         }
 
-        # get time object
-        # remember current time to prevent searches for future timestamps
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
         my $Count = 0;
 
         METAARTICLE:
@@ -1547,7 +1542,7 @@ sub GetStatTable {
             $Ticket{NumberOfArticles}            ||= 0;
 
             for my $ParameterName ( sort keys %Ticket ) {
-                if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+                if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d\-]+ ) \z}xms ) {
 
                     # loop over the dynamic fields configured
                     DYNAMICFIELD:
@@ -2068,7 +2063,7 @@ sub _SortedAttributes {
         ArticleNumber
     );
 
-    # cycle trought the Dynamic Fields
+    # cycle through the Dynamic Fields
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -2135,7 +2130,7 @@ sub _OrderByIsValueOfTicketSearchSort {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # cycle trought the Dynamic Fields
+    # cycle through the Dynamic Fields
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -2162,7 +2157,7 @@ sub _IndividualResultOrder {
     my @Unsorted = @{ $Param{StatArray} };
     my @Sorted;
 
-    # find out the positon of the values which should be
+    # find out the position of the values which should be
     # used for the order
     my $Counter          = 0;
     my $SortedAttributes = $Self->_SortedAttributes();

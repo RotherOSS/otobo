@@ -823,16 +823,19 @@ sub CustomerIDs {
 
 get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
 
-    my %User = $CustomerUserObject->CustomerUserDataGet(
+    my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
         User => 'franz',
     );
+
+When there are multiple backends then only the data from the first backend where the customer user is found.
+An empty list is returned when the customer user was't found in any backend.
 
 =cut
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{User};
+    return unless $Param{User};
 
     # fetch dynamic field configurations for CustomerUser.
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(

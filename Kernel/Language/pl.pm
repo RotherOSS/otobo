@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.680101507687715;
+    $Self->{Completeness}        = 0.678885412010133;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -160,6 +160,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Kalendarz z tą nazwą już istnieje.',
         'Color' => 'Kolor',
         'Permission group' => 'Grupa uprawnień',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Wydarzenia Zgłoszeń',
         'Rule' => 'Reguła',
         'Remove this entry' => 'Usuń tę pozycję',
@@ -1989,6 +1990,9 @@ sub Data {
             'Jeśli zgłoszenie jest zamknięte a klient wyśle nową wiadomość do zgłoszenia, zgłoszenie to będzie zablokowane dla ostatniego właściciela.',
         'System address' => 'Adres systemowy',
         'Will be the sender address of this queue for email answers.' => 'Będzie adresem nadawcy odpowiedzi e-mailowych wysyłanych z tej kolejki.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Domyślny klucz do podpisywania',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1996,6 +2000,10 @@ sub Data {
         'The salutation for email answers.' => 'Powitanie dla odpowiedzi e-mailowych.',
         'Signature' => 'Podpis',
         'The signature for email answers.' => 'Podpis dla odpowiedzi e-mailowych.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -4151,6 +4159,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             '',
         'The dynamic field "%s" is already in use in a ticket mask.' => '',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => '',
         'Misconfigured Grid - need Columns as integer > 0!' => '',
         'Misconfigured Grid - Rows can\'t be empty!' => '',
@@ -7500,9 +7510,9 @@ Thanks for your help!
             '',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8293,6 +8303,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Edytuj firmę klienta',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Adresy e-mail',
         'Email Outbound' => 'Email Zewnętrzny',
@@ -8822,6 +8833,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Dołącz Ticket<OTOBO_TICKET> do <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Różne',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9986,6 +9998,7 @@ Thanks for your help!
             '',
         'Web Service' => '',
         'Web Services' => 'Serwisy Sieciowe (WS)',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10005,10 +10018,13 @@ Thanks for your help!
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Tak, ale ukryj zarchiwizowane zgłoszenia',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'Twój e-mail ze zgłoszeniem o numerze "<OTOBO_TICKET>" został przekazany do "<OTOBO_BOUNCE_TO>". Skontaktuj się z tym adresem w celu uzyskania dalszych informacji.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Twoje zgłoszenie o numerze "<OTOBO_TICKET>" zostało scalone z "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'Wybór ulubionych kolejek spośród dostępnych. O tych kolejkach będziesz informowany emailem, o ile włączysz powiadomienia.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

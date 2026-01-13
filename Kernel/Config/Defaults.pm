@@ -1109,11 +1109,11 @@ sub LoadDefaults {
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.7.1/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
+        'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
         'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
-        'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
+        'thirdparty/nunjucks-3.2.4/nunjucks.min.js',
         'Core.Init.js',
         'Core.Debug.js',
         'Core.Exception.js',
@@ -1152,10 +1152,10 @@ sub LoadDefaults {
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
-        'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
+        'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
-        'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
+        'thirdparty/nunjucks-3.2.4/nunjucks.min.js',
         'Core.Init.js',
         'Core.JavaScriptEnhancements.js',
         'Core.Debug.js',
@@ -2184,7 +2184,8 @@ sub new {
     # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load specific settings from Kernel/Config.pm
+    # Load specific settings from Kernel/Config.pm.
+    # Overriding settings from Kernel/Config/Defaults.pm.
     $Self->Load();
 
     # when in cluster mode, we must consider that files in Kernel/Config/Files
@@ -2474,7 +2475,7 @@ sub SyncWithS3 {
     while (1) {
 
         # run a blocking GET request to S3, getting all keys below the prefix
-        # The keys are the pathes of files relative to Kernel/Config/Files
+        # The keys are the paths of files relative to Kernel/Config/Files
         my %SubPath2Properties = $StorageS3Object->ListObjects(
             Prefix    => "$FilesPrefix/",
             Delimiter => '',

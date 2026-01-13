@@ -2438,6 +2438,13 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
+    <Setting Name="AccountedTime::UsedUnits" Required="1" Valid="1">
+        <Description Translatable="1">Which units are used and shown in the overview for timeunits?</Description>
+        <Navigation>Frontend::Agent::Ticket::AccountedTime</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Minutes</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###SortBy::Default" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the default ticket attribute for ticket sorting in the status view of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketStatus</Navigation>
@@ -5787,11 +5794,12 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
-                <Item Key="Description" Translatable="1">Elasticsearch</Item>
+                <Item Key="Description" Translatable="1">Elasticsearch (u)</Item>
                 <Item Key="Name" Translatable="1">FulltextES</Item>
                 <Item Key="Block">ToolBarSearchFulltextES</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="Priority">1990050</Item>
+                <Item Key="AccessKey">u</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10602,36 +10610,36 @@
                     <Array>
                         <Item>Core.Agent.Admin.TicketMask.css</Item>
                         <Item>Core.CodeMirrorEditor.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.css</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/lib/codemirror.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/hint/show-hint.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldgutter.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/dialog/dialog.css</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/display/fullscreen.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/codemirror-5.65.16/lib/codemirror.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/mode/yaml/yaml.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/hint/show-hint.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchtags.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/matchbrackets.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closetag.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/closebrackets.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/searchcursor.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/search.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldcode.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/edit/trailingspace.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/selection/selection-pointer.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/foldgutter.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/brace-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/indent-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/fold/comment-fold.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/comment/comment.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/comment/continuecomment.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/dialog/dialog.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/search/jump-to-line.js</Item>
-                        <Item>thirdparty/codemirror-5.65.16/addon/display/fullscreen.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/lib/codemirror.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/mode/yaml/yaml.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/hint/show-hint.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/matchtags.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/matchbrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/closetag.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/closebrackets.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/searchcursor.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/search.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldcode.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/edit/trailingspace.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/selection/selection-pointer.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/foldgutter.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/brace-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/indent-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/fold/comment-fold.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/comment/comment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/comment/continuecomment.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/dialog/dialog.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/search/jump-to-line.js</Item>
+                        <Item>thirdparty/codemirror-5.65.20/addon/display/fullscreen.js</Item>
                         <Item>Core.UI.CodeMirrorEditor.js</Item>
                     </Array>
                 </Item>
@@ -13158,6 +13166,13 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###ArticleListShowTimeUnits" Required="0" Valid="1">
+        <Description Translatable="1">If the accounted time units for articles are shown in the article list. Only showing if at least one article has any accounted time.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation" Required="0" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays ticket data in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
@@ -13859,6 +13874,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13897,6 +13913,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13935,6 +13952,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -13973,6 +13991,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14011,6 +14030,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14049,6 +14069,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14087,6 +14108,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>
@@ -14125,6 +14147,7 @@ Thanks for your help!
                     <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
                     <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
                 </DefaultItem>
+                <Item Key="AccountedTime" SelectedID="1"></Item>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
                 <Item Key="Created" SelectedID="1"></Item>

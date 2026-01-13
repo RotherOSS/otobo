@@ -149,12 +149,6 @@ sub Run {
     # override UserID if specified as a parameter in the TA config
     $Param{UserID} = $Self->_OverrideUserID(%Param);
 
-    # special case for DyanmicField UserID, convert form DynamicField_UserID to UserID
-    if ( defined $Param{Config}->{DynamicField_UserID} ) {
-        $Param{Config}->{UserID} = $Param{Config}->{DynamicField_UserID};
-        delete $Param{Config}->{DynamicField_UserID};
-    }
-
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
     $Self->_ReplaceAdditionalAttributes(%Param);
@@ -163,9 +157,16 @@ sub Run {
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    my $TicketID = delete $Param{Config}->{TicketID};
+    my $TicketID;
+    if ( exists $Param{Config}->{TicketID} ) {
 
-    if ($TicketID) {
+        $TicketID = delete $Param{Config}->{TicketID};
+
+        # for the processes mostly the ConfigItems will come from reference fields
+        if ( ref $TicketID eq 'ARRAY' ) {
+            $TicketID = $TicketID->[0];
+        }
+
         if ( !$Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $TicketID ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -214,6 +215,7 @@ sub Run {
             ObjectID           => $TicketID,
             Value              => $Param{Config}->{$CurrentDynamicField},
             UserID             => $Param{UserID},
+            EditFieldValue     => 0,
         );
 
         # check if everything went right

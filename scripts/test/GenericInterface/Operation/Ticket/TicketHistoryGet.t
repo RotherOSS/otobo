@@ -21,6 +21,8 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
+use Test2::Tools::Explain;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;                                 # Set up $Kernel::OM and the test driver $Self
@@ -934,6 +936,7 @@ for my $Test (@Tests) {
                 delete $HistoryEntry->{Name};
             }
         }
+        diag "Debug - ModuleName - RequesterResult = " . explain($RequesterResult);
 
         if ( ref $RequesterResult->{Data}->{TicketHistory} eq 'HASH' ) {
             my $TicketHistory = $RequesterResult->{Data}->{TicketHistory};

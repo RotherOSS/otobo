@@ -140,7 +140,8 @@ table.AttachmentList .AttachmentDelete:focus i {
     color: var(--colTextLight);
 }
 
-.BreadCrumb a {
+.BreadCrumb a,
+.BreadCrumb span {
     color: var(--colTextLight);
 }
 
@@ -248,6 +249,10 @@ span.ImportantArticles i {
     .TableFilterContainer .FilterRemove:hover,
     .TableFilterContainer .FilterRemove:active {
         color: #000;
+    }
+
+    .fa {
+        color: var(--colTextLight);
     }
 
 }

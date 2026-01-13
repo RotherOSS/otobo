@@ -1134,15 +1134,14 @@ input.FilterBox {
 }
 
 .WidgetSimple .WidgetMessage.Error {
-    background: var(--colTextErr);
-    color: rgba(255, 255, 255, 0.8);
+    background: var(--colNotifyErr);
+    color: var(--colTextDark);
     border: 0px;
 }
 
 .WidgetSimple .WidgetMessage.Warning {
-    background: #F7AE40;
-    border-color: #D18F2B;
-    color: #774a06;
+    background: var(--colNotifyWarn);
+    color: var(--colTextDark);
 }
 
 .WidgetSimple .WidgetMessage.Warning * {

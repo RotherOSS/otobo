@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.616808478877444;
+    $Self->{Completeness}        = 0.61570555803904;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -165,6 +165,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Esiste già un calendario con lo stesso nome.',
         'Color' => 'Colore',
         'Permission group' => 'Permessi di gruppo',
+        'Insufficient group permissions.' => '',
         'Ticket Appointments' => 'Appuntamenti ticket',
         'Rule' => 'Regola',
         'Remove this entry' => 'Rimuovi questa voce',
@@ -1993,6 +1994,9 @@ sub Data {
             'Se un ticket viene chiuso e il cliente invia un follow-up, il ticket sarà preso in carica dal vecchio proprietario.',
         'System address' => 'Indirizzo di sistema',
         'Will be the sender address of this queue for email answers.' => 'Sarà l’indirizzo del mittente di questa cosa per le risposte via email.',
+        'Is defined in Admin > System addresses.' => '',
+        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
+            '',
         'Default sign key' => 'Chiave di default per le firme',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Per utilizzare una chiave di segno, è necessario aggiungere chiavi PGP o certificati S / MIME con identificatori per l\'indirizzo di sistema della coda selezionato.',
@@ -2000,6 +2004,10 @@ sub Data {
         'The salutation for email answers.' => 'Saluto (parte iniziale) per le email generate automaticamente dal sistema.',
         'Signature' => 'Firma',
         'The signature for email answers.' => 'Firma (parte finale) per le email generate automaticamente dal sistema.',
+        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+            '',
+        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+            '',
         'This queue is used in the following config settings:' => 'Questa coda viene utilizzata nelle seguenti impostazioni di configurazione:',
 
         # Template: AdminQueueAutoResponse
@@ -4155,6 +4163,8 @@ sub Data {
         'The dynamic field type "%s" of dynamic field "%s" can not be used in sets.' =>
             'Il tipo di campo dinamico "%s" del campo dinamico "%s" non può essere utilizzato nei set.',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'Il campo dinamico "%s" è già in uso in una maschera di ticket.',
+        'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
+            '',
         'Misconfigured Grid - need Rows as Array!' => 'Griglia configurata in modo errato: è necessario che le righe siano un array!',
         'Misconfigured Grid - need Columns as integer > 0!' => 'Griglia configurata in modo errato: è necessario che le colonne siano un numero intero > 0!',
         'Misconfigured Grid - Rows can\'t be empty!' => 'Griglia configurata in modo errato: le righe non possono essere vuote!',
@@ -7504,9 +7514,9 @@ Thanks for your help!
             'Definisce se le traduzioni padre-figlio per code e servizi devono essere generate automaticamente.',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
             '',
-        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
             '',
@@ -8297,6 +8307,7 @@ Thanks for your help!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => '',
+        'Elasticsearch (u)' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Indirizzi Email',
         'Email Outbound' => 'Posta in uscita',
@@ -8826,6 +8837,7 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Ticket <OTOBO_TICKET> unito a <OTOBO_MERGE_TO_TICKET>.',
+        'Message of the day' => '',
         'Minute' => '',
         'Miscellaneous' => 'Varie',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -9994,6 +10006,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
             'Abbiamo modificato il comportamento predefinito dello sblocco dei ticket in OTOBO 10.1. Ora, il ticket non viene solo sbloccato, ma anche assegnato nuovamente all\'utente di sistema. Pertanto, il comportamento è più chiaro, ma non è più possibile sapere chi ha modificato il ticket per ultimo. Disattiva questa opzione per ripristinare il comportamento delle versioni OTRS dalla 2 alla 6 e OTOBO versione 10.0.',
         'Web Service' => '',
         'Web Services' => 'Web service',
+        'Welcome %s, to your OTOBO.' => '',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -10013,10 +10026,13 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Indica se forzare il reindirizzamento di tutte le richieste dal protocollo http al protocollo https. Per favore, seleziona questa opzione se il tuo webserver è configurato correttamente per gestire questa opzione.',
         'Yes, but hide archived tickets' => 'Sì, ma nascondi i ticket archiviati',
+        'Your Tickets. Your OTOBO.' => '',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             'La tua email con la richiesta numero "<OTOBO_TICKET>" è stata reinviata a "<OTOBO_BOUNCE_TO>". Contatta questo indirizzo per ulteriori informazioni.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'La tua email con il numero di ticket "<OTOBO_TICKET>" è stata unita a "<OTOBO_MERGE_TO_TICKET>".',
+        'Your external tools' => '',
+        'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             'La selezione delle tue code preferite. Vengono inoltre abilitate le notifiche via email, se abilitate, di queste ultime.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

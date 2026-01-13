@@ -66,7 +66,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 This script can be used for checking whether required Perl modules are installed.
 Another usage is the generation of cpanfiles.
 
-Modules that are in Perl core in Perl 5.24 or later are no included in the list of required modules.
+Some modules that are checked here are actually in Perl core. These checks
+are kept in place as it can not be guaranteed that no Perl modules
+are removed from Perl core. Also, Linux distributes have occasionally removed
+core modules from their default installation.
 
 =cut
 
@@ -167,22 +170,26 @@ my %DistToInstType = (
     freebsd => 'ports',
 );
 
+# defines a set of features considered standard for non-docker and docker environments
+my %IsCommonFeature = (
+    'db:mysql'     => 1,
+    'div:bcrypt'   => 1,
+    'div:hanextra' => 1,
+    'div:ldap'     => 1,
+    'div:xslt'     => 1,
+    'mail:ntlm'    => 1,
+    'mail:sasl'    => 1,
+);
+
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
+    %IsCommonFeature,
     'apache:mod_perl' => 1,
-    'db:mysql'        => 1,
-    'div:bcrypt'      => 1,
-    'div:hanextra'    => 1,
-    'div:ldap'        => 1,
-    'div:xslt'        => 1,
-    'mail'            => 1,
-    'mail:ntlm'       => 1,
-    'mail:sasl'       => 1,
 );
 
 # defines a set of features considered standard for docker environments
 my %IsDockerFeature = (
-    'db:mysql'           => 1,
+    %IsCommonFeature,
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
@@ -190,15 +197,10 @@ my %IsDockerFeature = (
     'devel:encoding'     => 1,
     'devel:test'         => 1,
     'devel:i18n'         => 1,
-    'div:bcrypt'         => 1,
     'div:cldr'           => 1,
     'div:qrcode'         => 1,
-    'div:ldap'           => 1,
-    'div:xslt'           => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
-    'mail:ntlm'          => 1,
-    'mail:sasl'          => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
     'auth:openidconnect' => 1,
@@ -314,6 +316,18 @@ my @NeededModules = (
 
     # Core
     {
+        # In Perl core since Perl 5.9.3
+        Module    => 'Archive::Tar',
+        Required  => 1,
+        Comment   => 'Required for compressed file generation (in perlcore).',
+        InstTypes => {
+            aptget => 'perl',
+            emerge => 'perl-core/Archive-Tar',
+            zypper => 'perl-Archive-Tar',
+            ports  => 'archivers/p5-Archive-Tar',
+        },
+    },
+    {
         Module    => 'Archive::Zip',
         Required  => 1,
         Comment   => 'Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV',
@@ -420,6 +434,18 @@ my @NeededModules = (
             emerge => undef,
             zypper => undef,
             ports  => undef,
+        },
+    },
+    {
+        # In Perl core since Perl 5.9.3
+        Module    => 'Digest::SHA',
+        Comment   => '(in perlcore)',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'perl',
+            emerge => 'dev-perl/Digest-SHA',
+            zypper => 'perl-Digest-SHA',
+            ports  => 'security/p5-Digest-SHA'
         },
     },
     {
@@ -672,6 +698,18 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.7.3
+        Module    => 'Time::HiRes',
+        Required  => 1,
+        Comment   => 'Required for high resolution timestamps (in perlcore)',
+        InstTypes => {
+            aptget => 'perl',
+            emerge => 'perl-core/Time-HiRes',
+            zypper => 'perl-Time-HiRes',
+            ports  => 'devel/p5-Time-HiRes',
+        },
+    },
+    {
         Module    => 'Try::Tiny',
         Required  => 1,
         InstTypes => {
@@ -858,24 +896,7 @@ my @NeededModules = (
         },
     },
 
-    # Feature mail
-    {
-        Module              => 'Net::SMTP',
-        Features            => ['mail'],
-        Comment             => 'Simple Mail Transfer Protocol Client.',
-        VersionsRecommended => [
-            {
-                Version => '3.11',
-                Comment => 'This version fixes email sending (bug#14357).',
-            },
-        ],
-        InstTypes => {
-            aptget => 'perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
+    # Feature mail:imap, mail:sasl, mail:ntlm
     {
         Module    => 'Authen::SASL',
         Features  => ['mail:sasl'],
@@ -1213,11 +1234,34 @@ my @NeededModules = (
         },
     },
     {
+        # In Perl core since Perl 5.6.2
+        Module    => 'Test::Simple',
+        Features  => ['devel:test'],
+        Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)',
+        InstTypes => {
+            aptget => 'perl',
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test2::Tools::HTTP',
         Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
             aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Test2::Tools::Explain',
+        Features  => ['devel:test'],
+        Comment   => 'bring explain() back to test scripts',
+        InstTypes => {
+            aptget => undef,
             emerge => undef,
             zypper => undef,
             ports  => undef,

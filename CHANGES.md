@@ -1,204 +1,252 @@
 
+# OTOBO 11.0.14 2025-12-17
+- 2025-12-17 10:39:25 +0100 Create new OTOBO language files.
+- 2025-12-16 18:52:02 +0100 Install Perl modules from https://cpan.metacpan.org when building Docker images (https://github.com/RotherOSS/otobo/issues/4953)
+- 2025-12-16 12:56:00 +0000 Heading styles differ in CK5 and in article. (https://github.com/RotherOSS/otobo/issues/4816)
+- 2025-12-16 11:19:01 +0000 [Changed]  Let CKEditor5 generate hex instead of HSL color CSS styles (https://github.com/RotherOSS/otobo/issues/4766)
+- 2025-12-16 07:58:57 +0100 AdminAutoResponse: Review overview button layout (https://github.com/RotherOSS/otobo/issues/3597)
+- 2025-12-15 16:34:52 +0100 Make the test CPANAudit.t more stringent (https://github.com/RotherOSS/otobo/issues/4877)
+- 2025-12-15 15:22:47 +0100 Update the CPAN snapshot
+- 2025-12-15 15:16:58 +0100 Update the CPAN snapshot
+- 2025-12-15 15:05:44 +0100 Update the CPAN snapshot
+- 2025-12-15 11:50:51 +0000 Update jquery-validate to version 1.21.0 (https://github.com/RotherOSS/otobo/issues/4934)
+- 2025-12-15 12:48:24 +0100 A couple of minor changes in Kernel::System::Environment
+- 2025-12-15 12:38:12 +0100 Update CPAN::Audit to 20250829.001 and CPANSA::DB to 20251214.001 (https://github.com/RotherOSS/otobo/issues/4941)
+- 2025-12-15 11:53:35 +0100 [Bugfix]   Modification of texts using otobo translation tool (https://github.com/RotherOSS/otobo/issues/4664)
+- 2025-12-15 09:27:50 +0000 Update nunjucks to version 3.2.4 (https://github.com/RotherOSS/otobo/issues/4933)
+- 2025-12-12 14:27:00 +0100 Improve the documentation of Kernel::System::EventHandler (https://github.com/RotherOSS/otobo/issues/4867)
+- 2025-12-10 14:06:44 +0000 Update CKEditor to 47.3.0 (https://github.com/RotherOSS/otobo/issues/4906)
+- 2025-12-10 15:09:23 +0100 Leftovers of orange in the system (https://github.com/RotherOSS/otobo/issues/4888)
+- 2025-12-10 14:34:24 +0100 Long DynamicField Title text is being cut off in AgentTicketPhone (https://github.com/RotherOSS/otobo/issues/4755)
+- 2025-12-10 08:27:34 +0000 Update Codemirror to version 5.65.20 (https://github.com/RotherOSS/otobo/issues/4918)
+- 2025-12-10 11:22:41 +0100 Fix slightly unusually formatted phone number in installer.pl (https://github.com/RotherOSS/otobo/issues/4922)
+- 2025-12-10 09:51:43 +0100 Not everything shown in High Contrast Skin (https://github.com/RotherOSS/otobo/issues/3700)
+- 2025-12-10 09:45:10 +0100 [Bugfix]   Missing Delete Filter Icon in High-Contrast Skin (https://github.com/RotherOSS/otobo/issues/4899)
+- 2025-12-10 08:52:03 +0100 Check if ObjectType of Set-inner dynamic fields is the same as ObjectType of the Set dynamic field itself (https://github.com/RotherOSS/otobo/issues/4893)
+- 2025-12-10 08:29:15 +0100 Corrected dymamic to dynamic.
+- 2025-12-10 08:26:51 +0100 Corrected dymamic to dynamic.
+- 2025-12-09 09:21:40 +0100 [Bugfix]   prevent AgentTIcketZoom Selenium test from failing (https://github.com/RotherOSS/otobo/issues/4904)
+- 2025-12-09 15:58:53 +0100 Start using Test2::V0 in a test script
+- 2025-12-09 11:40:13 +0100 Elaborate on how to test the autobuild images.
+- 2025-12-08 18:29:04 +0100 Update the CPAN snapshot
+- 2025-12-08 18:24:39 +0100 [Bugfix]   Printing Tickets with Unicode codepoints outside basic multilingual plane (https://github.com/RotherOSS/otobo/issues/1848) - in progress
+- 2025-12-08 11:12:10 +0100 Enhance a code comment.
+- 2025-12-05 13:00:25 +0100 stabilize FieldRestrictions/GetFieldStates.t (https://github.com/RotherOSS/otobo/issues/4897)
+- 2025-12-05 17:30:42 +0100 Steal some changes and fixes from rel-11_1
+- 2025-12-05 16:45:04 +0100 Accept suggestions from CodePolicy
+- 2025-12-05 16:41:58 +0100 Rename the variable $ReConfigure to $ReConfigureFailed
+- 2025-12-05 16:30:59 +0100 Enhance the POD of the layout object
+- 2025-12-05 15:06:37 +0100 Convert a test script to Test2::V0
+- 2025-12-04 18:10:45 +0100 [Enhanced] New Transitionaction: TicketPrioritySet (https://github.com/RotherOSS/otobo/issues/4896)
+- 2025-11-13 09:22:32 +0100 Clarify enhanced mode description in XML
+- 2025-12-02 14:35:21 +0000 Fix reports with graphs in reports for the default docker environment. (https://github.com/RotherOSS/otobo/issues/4890)
+- 2025-12-04 09:26:09 +0100 [Bugfix]   Calendars Can Only Be Configured of Group Members; implemented this as LightAdmin functionality, allowed all Groups for Admin. (https://github.com/RotherOSS/otobo/issues/4724)
+- 2025-12-03 12:12:01 +0100 [Bugfix]   Useless history entries are created for dynamic fields under certain circumstances (https://github.com/RotherOSS/otobo/issues/4794)
+- 2025-12-03 11:06:51 +0100 Modernize the test script Stats/StatsRun.t
+- 2025-12-03 08:38:34 +0100 Prevent some warnings around lens fields for empty references. (https://github.com/RotherOSS/otobo/issues/4892)
+- 2025-12-03 08:33:05 +0100 [Enhanced] Accept ticket reference fields to define TicketID in transition action DynamicFieldSet. (https://github.com/RotherOSS/otobo/issues/4818)
+- 2025-12-02 18:13:26 +0100 Accept suggestions from CodePolicy in test script
+- 2025-12-02 18:11:36 +0100 Do not needlessly use subroutine references in the test script
+- 2025-12-02 18:06:28 +0100 Use Test2::Require::OTOBO::Selenium in test script
+- 2025-12-02 18:02:59 +0100 Convert a test script to Test2::V0
+- 2025-12-02 17:11:49 +0100 Use Test2::Require::OTOBO::Selenium
+- 2025-12-02 17:02:48 +0100 Convert a test script to Test2::V0
+- 2025-12-02 16:57:12 +0100 Add a comment stating that there might be a sporadic failure
+- 2025-12-02 10:40:03 +0100 [Bugfix]   Dynamic fields with namespaces cannot be used as filter in statistics. (https://github.com/RotherOSS/otobo/issues/4844)
+- 2025-12-01 18:18:15 +0100 Upgrade Chrome Selenium docker container (https://github.com/RotherOSS/otobo/issues/4839)
+- 2025-11-14 18:05:00 +0100 Revert "Issue #4839: attempt to stabilize AgentTickentEventLockAfterCreate.t"
+- 2025-12-01 14:27:37 +0100 Do not check for Perl core module in otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/4376)
+- 2025-11-28 11:41:24 +0100 [Bugfix]   Fix MultiValue Set templates in CustomerTicketProcess (https://github.com/RotherOSS/otobo/issues/4886)
+- 2025-11-28 12:02:29 +0100 Update the CPAN snapshot
+- 2025-11-28 11:36:39 +0100 Update the CPAN snapshot
+- 2025-11-27 16:24:10 +0100 [Bugfix]   Prevent uninitialized value warning, when switching from single value to multi value in previously used DFs. (https://github.com/RotherOSS/otobo/issues/4884)
+- 2025-11-26 11:53:33 +0100 Include the Perl module Encode::HanExtra in the Docker image (https://github.com/RotherOSS/otobo/issues/4881)
+- 2025-11-25 18:05:07 +0100 [Tidied]   Investigate warning in AdminState (https://github.com/RotherOSS/otobo/issues/4535)
+- 2025-11-25 13:52:39 +0000 Translated using Weblate (French)
+- 2025-11-21 13:44:49 +0100 [Bugfix]   AJAX Update for Set fields not working in CustomerTicketProcess (https://github.com/RotherOSS/otobo/issues/4868)
+- 2025-11-21 12:17:33 +0100 Accept formatting suggested by CodePolicy for 10.1.x
+- 2025-11-20 14:32:13 +0100 Corrected duplicate word and mainstreamed expression.
+- 2025-11-20 18:22:33 +0100 Eliminate another duplicated 'the'.
+- 2025-11-20 18:20:55 +0100 Clean up misspellings where the word 'the' was duplicated
+- 2025-11-20 14:36:16 +0100 Fixed typo.
+- 2025-11-20 18:03:49 +0100 'conformant' is not an English word
+- 2025-11-20 17:18:14 +0100 bin/otobo.CheckModules.pl should not depend on namespace::autoclean (https://github.com/RotherOSS/otobo/issues/4864)
+- 2025-11-19 11:12:59 +0100 Added 'Template' as index when rendering multivalue Set.
+- 2025-11-18 14:31:12 +0100 Fix Javascript CodePolicy warnings (https://github.com/RotherOSS/otobo/issues/4824) - in progress
+- 2025-11-18 07:58:39 +0100 Add pp_backup to gitignore file (https://github.com/RotherOSS/otobo/issues/4847)
+- 2025-11-17 12:08:52 +0100 Update the CPAN snapshot file
+- 2025-11-17 11:14:35 +0000 Upgrade CKEditor 5 to newest version (https://github.com/RotherOSS/otobo/issues/4173)
+- 2025-11-13 14:57:44 +0100 No need to check for the requirement  Net::SMTP (https://github.com/RotherOSS/otobo/issues/4836)
+- 2025-11-13 14:03:06 +0100 Simplify setup of %IsStandardFeature and %IsDockerFeature in bin/otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/4834)
+- 2025-11-13 13:29:15 +0100 Update the CPAN snapshot file
+- 2025-11-13 13:17:56 +0100 Update the CPAN snapshot file
+- 2025-11-13 08:13:56 +0100 Improve POD of dynamic field backend modules (https://github.com/RotherOSS/otobo/issues/4820)
+- 2025-11-12 16:23:47 +0100 Enhance the POD for CustomerUserDataGet()
+- 2025-11-12 14:51:15 +0100 Think about merge strategy for CHANGES.md and the translation files (https://github.com/RotherOSS/otobo/issues/4731)
+- 2025-11-12 14:29:45 +0100 [Tidied]   Clean up InitialRun-related code (https://github.com/RotherOSS/otobo/issues/4826)
+- 2025-11-12 14:20:02 +0100 [Bugfix]   Add missing InitialRun reset in CustomerTicketMessage (https://github.com/RotherOSS/otobo/issues/4827)
+- 2025-11-12 08:14:10 +0000 Issue: #4824 Update references to ESLint rule otobo/no-window
+- 2025-11-10 09:15:57 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2025-11-10 09:14:03 +0100 [Bugfix]   Ticket event TicketDynamicFieldDefault does not actually prevent multiple execution (https://github.com/RotherOSS/otobo/issues/4809)
+- 2025-11-10 09:12:44 +0100 Revert "Issue #4809: Added missing cache key filling."
+- 2025-11-06 22:12:28 +0100 Format a line to look like the line above
+- 2025-11-06 15:39:24 +0100 Removed overlooked comment.
+- 2025-11-06 12:32:03 +0100 [Enhanced] assign Elasticsearch search-box an accesskey (https://github.com/RotherOSS/otobo/issues/4810)
+- 2025-11-04 08:31:23 +0100 Removed obsolete TODO comment in BaseText driver.
+- 2025-11-03 09:17:26 +0000 adapt emailparser/multipartmixed test to recent css change
+- 2025-10-31 11:28:23 +0000 Translated using Weblate (Czech)
+- 2025-10-30 10:54:26 +0000 [Changed]  Change default styling of tables in RichText (https://github.com/RotherOSS/otobo/issues/4800)
+- 2025-10-30 14:37:38 +0100 [Bugfix]   For AgentTicketMerge where the sender is unknown, the senders address, the ticket system is used as salutation (https://github.com/RotherOSS/otobo/issues/1902)
+- 2025-10-30 14:06:36 +0100 Revert "Issue #1902: Switched 'To' to 'From'."
+- 2025-10-29 11:42:59 +0100 Rename the attribute 'patch' with 'otobo_branch'.
+- 2025-10-29 11:32:08 +0100 Update the branch to be used for the autobuild check
+- 2025-10-29 08:47:39 +0100 [Bugfix]   Do not hardcode default skin for CSS creation in Login mask rendering (https://github.com/RotherOSS/otobo/issues/4797)
+- 2025-10-15 13:05:45 +0200 Update AdminQueue.tt
+- 2025-10-26 13:13:55 +0100 Update the CPAN snapshot file:
+- 2025-10-26 12:44:41 +0100 Update the CPAN snapshot file
+- 2025-10-24 17:10:14 +0200 Fix spelling in excluded Docker image
+- 2025-10-24 17:02:41 +0200 Fix another spelling error:
+- 2025-10-24 16:51:16 +0200 Do not include configurations that were explicitly excluded
+- 2025-10-24 16:42:51 +0200 Fix tag name in exclude block
+- 2025-10-24 16:40:55 +0200 Remove trailing commas
+- 2025-10-24 16:35:12 +0200 Exclude the two versions of Nginx before the latest
+- 2025-10-24 16:23:44 +0200 'fix_cldr' is no longer needed
+- 2025-10-24 16:18:08 +0200 Adapt to pinned Debian version of the Nginx base image
+- 2025-10-24 16:17:40 +0200 Adapt to new patchlevel releases
+- 2025-10-24 15:59:07 +0200 Revert "Issue #4752: Exclude the nginx Docker images"
+- 2025-10-23 15:07:29 +0200 Remove erroneously references issues from CHANGES.
+- 2025-10-23 14:57:13 +0200 Update CHANGES.
+- 2025-10-23 14:55:19 +0200 Create new OTOBO language files.
+- 2025-10-23 14:48:30 +0200 Update CHANGES.
+- 2025-09-25 10:05:44 +0200 Update translation files
+
+
+# OTOBO 11.0.13 2025-10-23
+- 2025-10-23 15:05:23 +0200 Create new OTOBO language files.
+- 2025-10-16 13:31:22 +0100 [Enhanced] invalid input in Autocomplete reference fields should be removed (https://github.com/RotherOSS/otobo/issues/4774)
+- 2025-10-20 14:44:34 +0200 Make system aware of `mariadb-dump` (https://github.com/RotherOSS/otobo/issues/4780)
+- 2024-03-01 14:01:01 +0100 Eliminate warnings from MIME::Decode::QuotedPrint (https://github.com/RotherOSS/otobo/issues/3088)
+- 2025-10-17 10:13:17 +0200 Add Test2::Tools::Explain as a testing requirement (https://github.com/RotherOSS/otobo/issues/4771)
+- 2025-10-14 17:05:37 +0200 [Bugfix]   Fix module permission check in AgentElasticsearchQuickResult (https://github.com/RotherOSS/otobo/issues/4768)
+- 2025-10-16 10:16:23 +0200 Update CHANGES.
+- 2025-10-14 17:07:19 +0200 React to nginx:mainline Docker image being upgraded to Debian 13 Trixie (https://github.com/RotherOSS/otobo/issues/4752)
+- 2025-10-13 12:31:56 +0200 [Bugfix]   Editing an article does not cause an unread article icon in the toolbar (https://github.com/RotherOSS/otobo/issues/4688)
+- 2025-10-08 13:02:54 +0200 [Bugfix]   Validation logic error for Dynamic Fields that are Mandatory and validate via Regex (https://github.com/RotherOSS/otobo/issues/4751)
+- 2025-10-09 13:28:36 +0000 Translated using Weblate (German)
+- 2025-10-10 11:07:17 +0200 [Enhanced] Enable lenses on customer and customer-user references. (https://github.com/RotherOSS/otobo/issues/4705)
+- 2025-10-10 10:51:49 +0200 [Bugfix]   Reference DynamicField automatic linking does not work with Sets and only links the first item in MultiValue cases. (https://github.com/RotherOSS/otobo/issues/4759)
+- 2025-10-10 10:19:56 +0200 [Bugfix]   TransitionAction DynamicFieldSet does not work for Lenses. (https://github.com/RotherOSS/otobo/issues/4758)
+- 2025-10-09 15:17:29 +0200 Regenerate cpanfile.docker.snapshot
+- 2025-10-09 15:05:45 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Mojolicious 9.41 => 9.42 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
+- 2025-10-09 14:56:33 +0200 update CPAN snapshot file: - CGI 4.70 => 4.71 - Selenium-Remote-Driver 1.49 => 1.50 - Specio 0.52 => 0.53
+- 2025-10-08 14:42:27 +0200 Tidied.
+- 2025-09-30 13:41:30 +0100 wp #1213: fix IsHTMLContent initial value for RichText
+- 2025-10-02 15:51:11 +0200 [Enhanced] DynamicFieldWidget is visible when DynamicFields are assigned (even when all are de-activated) (https://github.com/RotherOSS/otobo/issues/4684)
+- 2025-10-02 08:28:30 +0100 adapt test to css changes
+- 2025-10-01 13:46:51 +0100 [Bugfix]   Styled text is diplayed in default font in ckeditor (https://github.com/RotherOSS/otobo/issues/4618)
+- 2025-09-30 13:39:21 +0200 Really set settings for rel-10_0_26
+- 2025-09-27 13:55:40 +0200 Errors and warnings emitted by the test suite during global destruction (https://github.com/RotherOSS/otobo/issues/2297) - in progress
+- 2025-09-26 12:28:48 +0200 Update base image for the three release series
+- 2025-09-26 12:04:20 +0200 Adapt workflow to the new patch level releases
+- 2025-09-26 11:45:56 +0200 Update workflow to use the latest patch level releases
+- 2025-09-25 10:06:02 +0200 Update CHANGES.
+- 2025-09-25 10:04:52 +0200 Create new OTOBO language files.
+- 2025-09-25 09:55:34 +0200 Update CHANGES.
+- 2025-06-17 14:56:30 +0000 Translated using Weblate (French)
+
+
 # OTOBO 11.0.12 2025-09-25
 - 2025-09-25 10:12:13 +0200 Create new OTOBO language files.
-- 2025-09-24 11:09:43 +0200 Issue #4722: Ensured that ArticleAction variable contains valid action name.
+- 2025-09-24 11:09:43 +0200 [Bugfix]   AgentTicketArticleEdit does not enforce all article restrictions correctly. (https://github.com/RotherOSS/otobo/issues/4722)
 - 2025-09-23 08:56:57 +0000 Translated using Weblate (German)
 - 2025-09-23 15:21:15 +0200 Repair Changes.
-- 2025-09-18 10:17:27 +0200 Issue #4722: Implemented permission checks in article editing module.
-- 2025-09-15 15:57:45 +0200 Issue #4695: check result of pop_entry() for dynamic fields
-- 2025-09-15 15:45:44 +0200 Issue #4695: explicitly check the result from pop_entry()
-- 2025-09-23 11:14:27 +0200 Issue #4515: remove ValidationIgnore in AddCell for MV DFs if present
-- 2025-09-22 17:36:24 +0200 Issue #4515: Replace Validation_IfVisible with ValidationIgnore where approp
-- 2025-09-22 13:39:21 +0200 Issue #4515: Apply codepolicy suggestions
-- 2025-09-22 13:26:04 +0200 Issue #4515: Add changes from code review and basic MV support for DB Df \n but no backend validation align for DB yet
-- 2025-09-22 11:57:51 +0200 Issue #4515: Apply change requests from codereview
-- 2025-09-22 11:57:08 +0200 Issue #4515: Add more cases from codereview
-- 2025-09-11 11:04:58 +0200 Issue #4515: fix typo in error msg
-- 2025-09-11 10:27:43 +0200 Issue #4515: Align backend validation of mandatory multivalue dynamic fields with frontend validation
-- 2025-09-23 11:07:09 +0200 Issue #4720: Added Translatable flag to sysconfig description.
-- 2025-07-29 14:49:22 +0200 Issue #4536: Implemented logging field names if create or update fails.
-- 2025-07-29 14:11:27 +0200 Issue #4536: Used a more standardized error screen.
-- 2025-07-29 14:00:29 +0200 Issue #4536: Added error return on backend dynamic field import sub.
-- 2025-07-29 13:42:33 +0200 Issue #4536: Implemented error handling during dynamic field import.
-- 2025-09-18 13:50:37 +0100 Issue #4405: adapted EmailParser test to reflect changes in css
-- 2025-09-18 13:23:34 +0200 Issue #2297: discard objects in $Kernel::OM before global destruction
-- 2025-09-17 17:24:47 +0200 Issue #4707: we need cpanfile.docker.snapshot in the Docker image
-- 2025-09-17 16:28:28 +0200 Issue #4707: add a .gitattributes file
-- 2025-09-17 16:25:30 +0200 Issue #4707: renamed cpanfile.docker.snapshot.10_0 to cpanfile.docker.snapshot
-- 2025-09-17 15:31:17 +0200 Issue #2297: do not use the version object $^V during global destruction
-- 2025-09-17 15:24:51 +0200 Issue #2297: tell CodePolicy that using Data::Dumper is fine here
-- 2025-09-17 15:17:43 +0200 Issue #2297: avoid confusing mix of sprintf and concatenation
+- 2025-09-15 15:57:45 +0200 [Security] LDAP-Sync with activated nested group search could assign to many groups. Thanks to FREICON. (https://github.com/RotherOSS/otobo/issues/4695)
+- 2025-09-23 11:14:27 +0200 [Changed]  Align backend validation of mandatory multivalue dynamic fields with frontend validation (https://github.com/RotherOSS/otobo/issues/4515)
+- 2025-09-23 11:07:09 +0200 [Bugfix]   Translatable flag missing in description in sysconfig for ImportExport admin overview widget (https://github.com/RotherOSS/otobo/issues/4720)
+- 2025-07-29 14:49:22 +0200 [Enhanced] Implement error handling for AdminDynamicFieldImportExport (https://github.com/RotherOSS/otobo/issues/4536)
+- 2025-09-18 13:50:37 +0100 [Bugfix]   Code Blocks are not displayed in Monospace (https://github.com/RotherOSS/otobo/issues/4405)
+- 2025-09-18 13:23:34 +0200 Errors and warnings emitted by the test suite during global destruction (https://github.com/RotherOSS/otobo/issues/2297) - in progress
+- 2025-09-17 17:24:47 +0200 Set up merge strategy for cpanfile.snapshot (https://github.com/RotherOSS/otobo/issues/4707)
 - 2025-09-17 14:32:45 +0200 Tidying: satisfy the CodePolicy for OTOBO 10.0.x
 - 2025-09-17 14:16:26 +0200 Update CPAN snapshot file: URI 5.32 => 5.34
-- 2025-09-17 12:35:54 +0100 Issue #4405: monospace font added for codeblocks in richtext articles
-- 2025-09-15 17:52:25 +0200 Issue #4699: Improve backup.pl
-- 2025-09-16 15:43:02 +0200 Issue #4681: make sure that unique identifiers are used
+- 2025-09-15 17:52:25 +0200 Further improve backup.pl (https://github.com/RotherOSS/otobo/issues/4699)
+- 2025-09-16 15:43:02 +0200 [Enhanced] Enhance info about the database in the support data collector (https://github.com/RotherOSS/otobo/issues/4681)
 - 2025-09-16 15:38:52 +0200 Add dependency Authen::SASL for perl-ldap in snapshot file
-- 2025-09-16 14:31:39 +0200 Issue #4703: give an example where the connect attributes are specified
-- 2025-09-16 14:30:10 +0200 Issue #4703: enhance POD
-- 2025-09-16 14:28:24 +0200 Issue #4703: enhance a code comment
-- 2025-09-16 13:55:30 +0200 Issue #4701: update two code comments about mysql_auto_reconnect.
+- 2025-09-16 14:31:39 +0200 [Enhanced] Allow to specify database connect attributes in Kernel/Config.pm (https://github.com/RotherOSS/otobo/issues/4703)
+- 2025-09-16 13:55:30 +0200 No need to set mysql_auto_reconnect in Kernel/System/DB/mysql.pm (https://github.com/RotherOSS/otobo/issues/4701)
 - 2025-09-16 12:55:47 +0200 Regenerated the CPAN snapshot file.
-- 2025-09-16 12:34:54 +0200 Issue #4701: no longe pass 'mysql_auto_reconnect = 0'
-- 2025-09-15 13:32:35 +0200 Issue #4690: There is no otobo-kerberos in OTOBO 10.1.x
-- 2025-09-15 12:57:30 +0200 Issue #4690: update cpanfile.snapshot
-- 2025-09-15 12:44:12 +0200 Issue #4690: rebuild cpanfile.snapshot
-- 2025-09-15 12:42:13 +0200 Issue #4690: copy cpanfile.snapshot from the otobo image
-- 2025-09-15 11:48:54 +0200 Issue #4690: use the latest versions from CPAN
-- 2025-09-15 11:46:26 +0200 Issue #4690: remove cpanfile.snapshot for local builds
-- 2025-09-15 11:45:20 +0200 Issue #4690: enhance code comments
-- 2025-09-15 11:14:22 +0200 Issue #4691: add the aliases .. and ...
-- 2025-09-12 10:50:39 +0200 Issue #4554: add shotgun webserver in entrypoint.sh
-- 2025-09-12 10:34:40 +0200 Issue #4554: add missing 'fi' in entrypoint.sh
-- 2025-09-11 14:05:19 +0200 Issue #4554: first stab at flexible webserver
+- 2025-09-15 13:32:35 +0200 [Bugfix]   Docker: Really disregard cpanfile.snapshot when building local Docker images (https://github.com/RotherOSS/otobo/issues/4690)
+- 2025-09-15 11:14:22 +0200 Add that aliases .. and ... (https://github.com/RotherOSS/otobo/issues/4691)
+- 2025-09-12 10:50:39 +0200 Consider making exec_web() in entrypoint.sh ENV driven (https://github.com/RotherOSS/otobo/issues/4554)
 - 2025-09-11 13:56:11 +0100 re-adding aria-label settings to tablesorter
-- 2025-09-01 09:19:30 +0100 Issue #4565: removed invalid table sorter configuration
-- 2025-09-11 17:59:13 +0200 Issue #4681: report the attribute mysql_clientinfo
-- 2025-09-11 17:58:53 +0200 Issue #4681: a bit of tidying
-- 2025-09-11 16:38:01 +0200 Issue #4681: explicitly report the type of the database
-- 2025-09-11 16:36:40 +0200 Issue #4681: add missing closing braces in sample code in POD
-- 2025-09-11 16:35:39 +0200 Issue #4681: simplify code in frontend module,
-- 2025-09-11 12:26:07 +0100 Issue #4607: adjusted comment to reflect code change
-- 2025-09-11 11:34:27 +0100 Issue #4607: adjusted width of upload container and richtext editor
+- 2025-09-01 09:19:30 +0100 [Bugfix]   error in tablesorter configuration (https://github.com/RotherOSS/otobo/issues/4565)
+- 2025-09-11 12:26:07 +0100 Fix CKEditor and attachment widths in agent ticket masks in mobile view. (https://github.com/RotherOSS/otobo/issues/4607)
 - 2025-09-02 09:27:00 +0100 adjusted attachment field width for mobile view in ticket masks
-- 2025-09-10 16:41:58 +0200 Issue #4677: call Maint::Loader::CacheCleanup during do_upgrade_tasks()
-- 2025-09-10 16:25:55 +0200 Issue #4677: enhance code comments
-- 2025-09-01 11:51:03 +0200 Issue #4572: handle Grid within Set for AgentTicketSearch
-- 2025-08-26 10:54:28 +0200 Issue #4076: Eliminated some unused variables.
-- 2025-08-26 10:53:33 +0200 Issue #4076: Fixed typos.
-- 2025-08-26 10:51:30 +0200 Issue #4076: Reduced number of loops for autoselection of standard fields.
+- 2025-09-10 16:41:58 +0200 Call Maint::Loader::CacheCleanup during do_upgrade_tasks(), that is when upgrading Docker based installations (https://github.com/RotherOSS/otobo/issues/4677)
+- 2025-09-01 11:51:03 +0200 [Bugfix]   Set dynamic fields with Grids lead to Internal Server Error in AgentTicketSearch and Ticket Overviews (https://github.com/RotherOSS/otobo/issues/4572)
+- 2025-08-26 10:54:28 +0200 Reduce number of loops for autoselection of standard fields. (https://github.com/RotherOSS/otobo/issues/4076)
 - 2025-09-09 14:38:42 +0200 Github workflow: Saner indention of multiline string
 - 2025-09-09 14:20:53 +0200 Bug report template: fix spelling
-- 2025-09-02 08:58:50 +0100 Issue #4597: fixed label widths in set dynamic fields
-- 2025-09-01 11:57:14 +0100 Issue #4599: added padding for text fields in grids in sets
+- 2025-09-02 08:58:50 +0100 Label widths in set dynamic fields. (https://github.com/RotherOSS/otobo/issues/4597)
+- 2025-09-01 11:57:14 +0100 Left margin in input field content in dynamic field sets with grids. (https://github.com/RotherOSS/otobo/issues/4599)
 - 2025-09-09 13:59:03 +0200 Update bug_report.md, Fix spelling Podmann => Podman
 - 2025-09-09 13:45:17 +0200 Mention sanity testing the nginx autobuild image.
-- 2025-09-08 14:00:51 +0200 Issue #4668: fix multiselect webservice fields
-- 2025-09-02 17:39:07 +0100 Issue #4415: Call EntitySyncStateSet for every imported process id
-- 2025-09-09 08:19:38 +0200 Issue #4674: redirect feature requests to ideas.otobo.io
-- 2025-08-27 09:18:44 +0200 Issue #4637: Pass needed param Customer to Preferences Skin module.
-- 2025-08-27 14:21:00 +0200 Issue #4642: Removed obsolete sysconfigs of non-existing skins.
-- 2025-07-25 12:32:41 +0200 Issue #4388: Added Modernize to ImportExport dropdowns.
-- 2025-09-04 15:23:41 +0200 Issue #4539: try to stabilize test
-- 2025-09-01 16:59:49 +0200 Issue #4542: Add unit tests for Ticket::Mask
+- 2025-09-08 14:00:51 +0200 [Bugfix]   Fix Multiselect Webservice fields (https://github.com/RotherOSS/otobo/issues/4668)
+- 2025-09-02 17:39:07 +0100 [Bugfix]   Process Import: EntitySyncState is not set (https://github.com/RotherOSS/otobo/issues/4415)
+- 2025-09-09 08:19:38 +0200 Add github issue link for feature requests. (https://github.com/RotherOSS/otobo/issues/4674)
+- 2025-08-27 09:18:44 +0200 [Bugfix]   Remove non existing values for customer user skins in AdminCustomerUser. (https://github.com/RotherOSS/otobo/issues/4637)
+- 2025-08-27 14:21:00 +0200 [Tidied]   Clean up sysconfigs of non-existing skins (https://github.com/RotherOSS/otobo/issues/4642)
+- 2025-07-25 12:32:41 +0200 Modernize attribute dropdowns in ImportExport mapping (https://github.com/RotherOSS/otobo/issues/4388)
+- 2025-09-04 15:23:41 +0200 Investigate why TicketAppointments.t flickers (https://github.com/RotherOSS/otobo/issues/4539) - in progress
+- 2025-09-01 16:59:49 +0200 add tests for Kernel::System::Ticket::Mask (https://github.com/RotherOSS/otobo/issues/4542)
 - 2025-09-02 13:13:11 +0200 Accept suggestion from CodePolicy
-- 2025-09-02 11:56:18 +0200 Issue #1577: added test cases for nested group search
-- 2025-09-02 11:41:03 +0200 Issue #1577: add some notes to the test output
-- 2025-09-01 19:09:14 +0200 Issue #1577: add test cases for UserSyncGroupsDefinition
-- 2025-09-01 16:14:06 +0200 Issue #1577: add test case for UserSyncInitialGroups
-- 2025-09-01 14:53:23 +0200 Issue #1577: deactive the DB auth backend in the test script
-- 2025-09-01 12:11:26 +0200 Issue #1577: add test cases for AccessAttr, UserAttr and GroupDN
-- 2025-09-02 11:11:49 +0100 Issue #4444: Create a priority list for subitems
-- 2025-09-01 09:35:16 +0200 Issue #4130: avoid setTimeout when calling InitFavourites() afte AJAC call
+- 2025-09-02 11:56:18 +0200 Improve LDAP testing (https://github.com/RotherOSS/otobo/issues/1577)
+- 2025-09-02 11:11:49 +0100 [Bugfix]   TicketMenu in AgentTicketZoom: Configuring order of items within a cluster does not work (https://github.com/RotherOSS/otobo/issues/4444)
+- 2025-09-01 09:35:16 +0200 [Bugfix]   System Configuration: saving a setting as a favorite doesn't work (https://github.com/RotherOSS/otobo/issues/4130)
 - 2025-09-01 11:10:02 +0200 Accept suggestions from CodePolicy
-- 2025-08-28 14:27:53 +0200 Issue #4502: disable img upload if richtext editor is a DF
-- 2025-09-01 10:12:16 +0200 Issue #4570: explicitly import 'dir' from Class::Path to make the code more readable
-- 2025-08-29 14:08:25 +0200 Issue #4570: use Path::Class to check if backupdir is below OTOBO_HOME
+- 2025-08-28 14:27:53 +0200 [Bugfix]   Images disappear in dynamic fields of type "Rich Text" when creating a ticket. (https://github.com/RotherOSS/otobo/issues/4502)
+- 2025-09-01 10:12:16 +0200 [Enhanced] Early exit when the backup directory is within /opt/otobo (https://github.com/RotherOSS/otobo/issues/4570)
 - 2025-08-30 11:27:38 +0200 Accept suggestions from CodePolicy
-- 2025-08-29 16:20:42 +0200 Issue #1577: add test case for syncing to the database
-- 2025-08-29 13:54:34 +0200 Issue #1577: add test cases for AuthModule::LDAP::UserSuffix
-- 2025-08-29 13:49:37 +0200 Issue #1577: add test cases for case insensitivity
-- 2025-08-29 12:42:26 +0200 Issue #1577: add test cases for adapting AuthModule::LDAP::UID
-- 2025-08-29 12:03:57 +0200 Issue #1577: add test cases for the AlwaysFilter setting
-- 2025-08-29 13:57:53 +0200 Issue #1577: make the assignment of default values more obvious
-- 2025-08-29 12:32:56 +0200 Issue #1577: add some code comments
-- 2025-08-27 15:04:14 +0200 Issue #1577: first stab at the new test script OpenLDAP.t
-- 2025-08-29 13:51:45 +0200 Issue #4570: capitalize Otobo in error msg
-- 2025-08-28 11:03:16 +0200 Issue #4570: exit early when the backup dir is within /opt/otobo
-- 2025-08-29 11:09:56 +0100 Issue #4485: Search repeated DFs with postfix
-- 2025-08-28 14:42:39 +0200 Issue #4650: remove Kernel::System::Auth::LDAP::_ConvertFrom()
-- 2025-08-28 14:38:17 +0200 Issue #4650: tidying of LDAP authenication module
+- 2025-08-29 11:09:56 +0100 [Bugfix]   Properly hide DF by TicketACL::Autoselect when part of a set / multivalue (https://github.com/RotherOSS/otobo/issues/4485)
+- 2025-08-28 14:42:39 +0200 Remove the unused method Kernel::System::Auth::LDAP::_ConvertFrom() (https://github.com/RotherOSS/otobo/issues/4650)
 - 2025-08-27 15:03:56 +0200 Corrected links pointing to GitHub issues in comments of Lens DF admin module.
 - 2025-08-27 15:52:05 +0200 accept the suggestions from CodePolicy
-- 2025-08-27 15:43:17 +0200 Issue #4645: change the config as it was originally intended
-- 2025-08-27 15:42:09 +0200 Issue #4645: tidying, avoid unnecessary line breaks
-- 2025-08-27 15:40:22 +0200 Issue #4645: use a simple defined or operator
+- 2025-08-27 15:43:17 +0200 Fix useless config adaptions in scripts/test/Auth/DB.t (https://github.com/RotherOSS/otobo/issues/4645)
 - 2025-08-27 14:56:45 +0200 update Copyright year 2024 => 2025
-- 2025-08-25 15:34:57 +0200 Issue #4619: sanitize user input to backup.pl, review discussion cleanup
-- 2025-08-25 13:52:57 +0200 Issue #4619: sanitize user input to backup.pl
-- 2025-08-27 08:01:27 +0200 Issue #4634: Added lost next statement again.
-- 2025-08-26 16:19:43 +0200 Issue #4634: use more meaningful loop labels and variable names
-- 2025-08-26 16:07:23 +0200 Issue #4634: enhance code comments and POD
-- 2025-08-26 16:00:19 +0200 Issue #4632: Fixed Messsage typo and one other.
+- 2025-08-25 15:34:57 +0200 [Security] Sanitize input for backup.pl. Thanks to Diego Berger Tellaroli (https://github.com/RotherOSS/otobo/issues/4619)
+- 2025-08-27 08:01:27 +0200 Enhance code comments and tidy Kernel/System/Auth.pm (https://github.com/RotherOSS/otobo/issues/4634)
+- 2025-08-26 16:00:19 +0200 [Bugfix]   Fix 'Messsage' typo in parameter name (https://github.com/RotherOSS/otobo/issues/4632)
 - 2025-08-26 13:01:31 +0200 Get rid of pesky backslashes in test script
-- 2025-08-26 12:51:33 +0200 Issue #4629: move sripts/test/Auth.t to scripts/test/Auth/DB.t
-- 2025-08-26 12:47:56 +0200 Issue #4629: migrate test script to Test2::V0
-- 2025-08-26 12:38:29 +0200 Issue #4629: explain why authentication succeeds
-- 2025-08-26 12:37:41 +0200 Issue #4629: use subtests for each of the crypt types
-- 2025-08-26 12:35:00 +0200 Issue #4629: add test whether the test user could be created
-- 2025-08-26 11:10:15 +0200 Issue #4627: remove the feature div:xmlparser
-- 2025-08-25 15:45:35 +0200 Issue #4357: ignore strictly only .git
-- 2025-08-25 15:44:20 +0200 Issue #4357: tidying the boilerplate
-- 2025-08-22 16:55:06 +0200 Issue #4614: update the snapshot file
-- 2025-08-22 15:12:56 +0200 Issue #4614: switch base Docker image
-- 2025-08-22 15:11:53 +0200 Issue #4614: sync code comments with rel-10_1
-- 2025-08-22 15:09:52 +0200 Issue #4614: update snapshot file
-- 2025-08-22 12:57:11 +0200 Issue #4610: provide easy way of cycling throuth autocomplete suggestions
+- 2025-08-26 12:51:33 +0200 Rename scripts/test/Auth.t and migrate to Test2::V0 (https://github.com/RotherOSS/otobo/issues/4629)
+- 2025-08-26 11:10:15 +0200 Remove unused feature div:xmlparser in bin/otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/4627)
+- 2025-08-25 15:45:35 +0200 [Bugfix]   .github folder prevents full backup (https://github.com/RotherOSS/otobo/issues/4357)
+- 2025-08-22 16:55:06 +0200 Upgrade Perl base image to 5.40-bookworm (https://github.com/RotherOSS/otobo/issues/4614)
+- 2025-08-22 12:57:11 +0200 Allow to cycle through the autocomplete suggestions of e.g. bin/otobo.Console.pl (https://github.com/RotherOSS/otobo/issues/4610)
 - 2025-08-22 11:34:00 +0200 Removed erroneous address data from installer.
-- 2025-08-22 11:10:47 +0200 Issue #4596: Removed select success check again.
-- 2025-08-22 08:58:25 +0200 Issue #4596: Delete meta article if inserting into article_data_mime table fails.
-- 2025-08-15 10:05:26 +0200 Issue #4547: Added cache cleanup.
-- 2025-08-15 10:01:47 +0200 Issue #4547: First working version of test.
-- 2025-08-04 07:39:56 +0200 Issue #4547: Added test cases for cached visibility. FormID handling still missing.
-- 2025-08-01 13:07:17 +0200 Issue #4547: Added test cases and small adaptions.
-- 2025-08-01 11:21:37 +0200 Issue #4547: Added test case. Committing work in progress.
-- 2025-08-01 08:29:16 +0200 Issue #4547: Added ACLs to test.
-- 2025-07-31 11:22:56 +0200 Issue #4547: Added dynamic field creation to test.
-- 2025-07-31 08:43:06 +0200 Issue #4547: Implemented creating test tickets. Some small tidyings.
-- 2025-07-30 15:10:31 +0200 Issue #4547: Moved previously existing test script to match Kernel/System/ location of module.
-- 2025-08-18 15:05:21 +0200 Issue #1825: add test script for RawEmail followup check
-- 2025-08-18 12:34:35 +0200 Issue #4588: mention the caching for GetCharset() and GetContentType()
-- 2025-08-16 15:52:20 +0200 Issue #4588: more details about the MIME part merging strategy
-- 2025-08-16 15:21:05 +0200 Issue #4588: remove misleading comment about Mail-From
-- 2025-08-16 13:59:22 +0200 Issue #4588: grab a couple of tidyings from the rel-11_1 branch
-- 2025-08-16 13:32:55 +0200 Issue #4590: accept suggestion from CodePolicy
-- 2025-08-15 18:58:16 +0200 Issue #4588: enhance documentation of GetMessageBody()
-- 2025-08-15 17:21:48 +0200 Issue #4588: enhance documentation of GetAttachments()
-- 2025-08-16 13:17:21 +0200 Issue #4588: enhance documentation of GetRealname()
-- 2025-08-16 13:08:17 +0200 Issue #4588: document which methods are intended for standalone mode
-- 2025-08-16 12:59:47 +0200 Issue #4588: enhance documentation of GetParam()
-- 2025-08-16 12:37:24 +0200 Issue #4588: enhance documentation of GetPlainEmail()
-- 2025-08-14 15:29:54 +0200 Issue #4588: enhance documentation of the constructor
-- 2025-08-15 17:09:29 +0200 Issue #4588: add code comment in Kernel::System::PostMaster
-- 2025-08-14 15:31:09 +0200 Issue #4588: tidying of Kernel::System::EmailParser
-- 2025-08-15 13:27:17 +0200 Issue #4590: We get ArrayRefs in reference fields.
+- 2025-08-22 11:10:47 +0200 [Bugfix]   Tidy article table if article creation fails mid way. (https://github.com/RotherOSS/otobo/issues/4596)
+- 2025-08-15 10:05:26 +0200 Add test cases for dynamic fields and ACLs (https://github.com/RotherOSS/otobo/issues/4547)
+- 2025-08-18 15:05:21 +0200 Add unit tests for CheckFollowUpModule "Attachments" and "RawEmail" (https://github.com/RotherOSS/otobo/issues/1825)
+- 2025-08-18 12:34:35 +0200 Improve the documentation of Kernel::System::EmailParser (https://github.com/RotherOSS/otobo/issues/4588)
+- 2025-08-16 13:32:55 +0200 [Bugfix]   Standard link creation from Reference Fields fail for multi value fields. (https://github.com/RotherOSS/otobo/issues/4590)
 - 2025-08-14 13:49:25 +0200 Remove setup for rel-11_0_8 and add setup for rel-11_0_10
 - 2025-08-14 13:35:44 +0200 Package Documentation Generate: Sort sysconfig settings by name.
 - 2025-08-14 13:14:23 +0200 Use the latest rel-11_0 release for building the autocomplet images
-- 2025-08-13 14:59:41 +0200 Issue #4564: Used dedicated variables for AccessRo and AccessRw.
-- 2025-08-13 11:53:12 +0200 Issue #4564: Changed link target for customer company and customer user dynamic fields.
-- 2025-08-13 11:40:46 +0200 Issue #4564: Fixed bug in link creation sub for reference DFs Agent, CustomerCompany and CustomerUser.
-- 2025-08-13 11:33:20 +0200 Issue #4564: Fixed POD and typos.
-- 2025-08-13 10:51:09 +0200 Issue #4580: Added translations in a few places for services and SLAs. Fixed typos.
-- 2025-08-12 12:43:35 +0200 Issue #4573: add test for PostMaster::FollowUpCheck::Body
-- 2025-08-12 12:40:02 +0200 Issue #4573: fiddle with the CSV content of the test emails
-- 2025-08-12 12:38:41 +0200 Issue #4573: enhance code comments
-- 2025-08-12 12:35:13 +0200 Issue #4573: Tidying: opening brace on same line as the if
-- 2025-08-12 12:33:52 +0200 Issue #4573: remove unused attribute PartCounter
-- 2025-08-11 14:34:28 +0200 Issue #4577: Go to next replacement after replacing the current field data.
+- 2025-08-13 14:59:41 +0200 [Changed]  Change link target for CustomerUser and CustomerCompany reference dynamic fields to the information centers (https://github.com/RotherOSS/otobo/issues/4564)
+- 2025-08-13 10:51:09 +0200 [Bugfix]   Add translations for Services and SLAs in more places (https://github.com/RotherOSS/otobo/issues/4580)
+- 2025-08-12 12:43:35 +0200 Add test cases for FollowUpCheck modules and clean up code in PostMaster related files  (https://github.com/RotherOSS/otobo/issues/4573)
+- 2025-08-11 14:34:28 +0200 [Bugfix]   Passing DynamicField_Name_Data in transition actions does not work. (https://github.com/RotherOSS/otobo/issues/4577)
 - 2025-08-10 21:00:53 +0200 Use full location on error
 - 2025-08-09 00:31:42 +0200 Fix "Use of uninitialized value $File in concatenation (.) or string at /opt/otobo/Kernel/System/Console/Command/Dev/Package/Build.pm line 141."
 - 2025-08-09 19:39:43 +0200 Enhance the POD of FileWrite()
 - 2025-08-08 16:15:41 +0200 Tidying: use a saner variable name: $ArticleShowStatus => $ShowDeletedArticles
-- 2025-08-08 16:08:40 +0200 Issue #4573: eliminate the variable $Attach.
-- 2025-08-08 16:07:54 +0200 Issue #4573: fix POD: non-code should not be indented
-- 2025-08-08 16:06:19 +0200 Issue #4573: spelling: 'instead or' => 'instead of'
-- 2025-08-08 16:05:00 +0200 Issue #4573: enhance the POD for BackendForArticle()
-- 2025-08-07 16:45:07 +0200 Issue #4573: add test cases for when the HTML follows an attachment
-- 2025-08-07 16:19:49 +0200 Issue #4573: tidying: use more meaningful variable names
-- 2025-08-07 16:17:23 +0200 Issue #4573: tidying
-- 2025-08-07 16:15:54 +0200 Issue #4573: enhance the POD of the Run() method
-- 2025-08-06 12:41:40 +0200 Issue #4567: Tidying: avoid those ugly backslashes in strings
-- 2025-08-06 12:36:39 +0200 Issue #4567: add some unicode to the title
-- 2025-08-06 12:33:53 +0200 Issue #4567: fix the test failure
-- 2025-08-06 12:11:47 +0200 Issue #4567: convert test script to using Test2::V0
+- 2025-08-06 12:41:40 +0200 Test failure in Selenium/Agent/Responsive/Popups.t (https://github.com/RotherOSS/otobo/issues/4567)
 - 2025-08-02 14:02:23 +0200 Undo the change 45ad6734c817d01 for docker_image_update_autobuild.yml
 - 2025-08-01 08:52:36 +0200 Update GitHub actions after release of OTOBO 11.0.11
-- 2025-07-31 20:05:19 +0200 Issue #4555: update the snapshot after cpanfile.docker.kerberos was updated
+- 2025-07-31 20:05:19 +0200 [Bugfix]   The GitHub action DockerImageUpdateDevel is broken (https://github.com/RotherOSS/otobo/issues/4555)
 - 2025-07-31 19:21:40 +0200 Sync cpanfile.docker.kerberos with cpanfile.docker
 - 2025-07-31 18:19:06 +0200 Convert the test script Archive.t to Test2::V0
 - 2025-07-31 11:29:27 +0200 Tidying: use a simple fail() instead of checking whether 0 is true
-- 2025-07-31 09:38:13 +0200 Issue #4552: avoid warnings in Archive.t
+- 2025-07-31 09:38:13 +0200 reanimate Archive.t for rel-10_1 (https://github.com/RotherOSS/otobo/issues/4552)
 
 
 # OTOBO 11.0.11 2025-07-31
@@ -2873,5 +2921,8 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
+
+
 
 

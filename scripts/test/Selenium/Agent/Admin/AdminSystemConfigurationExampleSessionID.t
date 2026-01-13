@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -63,14 +63,6 @@ $Selenium->RunTest(
         );
         ok( $DeploymentResult{Success}, "Deployment successful." );
 
-        # Setting SessionUseCookie = 0 has no effect as the usage of cookies can no longer be turned off.
-        # Do it anyways.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionUseCookie',
-            Value => 0,
-        );
-
         # Initial login in this process.
         # There should be a redirect to the login page. After providing the credentials
         # another redirect to the admin page.
@@ -107,8 +99,7 @@ $Selenium->RunTest(
             ElementExists => '//a[contains(@href,"Subaction=Deployment")]',
         );
 
-        # verify that the deploy notification contains the session cookie
-        # No session cookie even though SessionUseCookie has been set to 0 above
+        # verify that the deploy notification does not contain the session cookie
         $Selenium->find_no_element_ok('//a[contains(@href,"Subaction=Deployment")][contains(@href,"OTOBOAgentInterface")]');
 
         # do the deployment, authenticated with the session cookie in the URL
@@ -119,7 +110,7 @@ $Selenium->RunTest(
             "The deployment link not redirecting to login.",
         );
 
-        # There is no redirekt to the login page as support for SessionUseCookie = 1
+        # There is no redirect to the login page as support for SessionUseCookie = 1
         # had been removed for OTOBO 11.1.x
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=NoCookieCheckbox"

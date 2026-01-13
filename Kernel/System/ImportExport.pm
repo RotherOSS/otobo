@@ -2278,11 +2278,19 @@ sub Export {
         unshift $ExportData->@*, \@ColumnNames;
     }
 
+    # Backends with support for chunking must provide the method IsExportComplete().
+    # Backends without support for chunking do not have to provide that method. An undefined
+    # value for ChunkingFinished indicates no support for chunking.
+    my $ChunkingFinished;
+    if ( $ObjectBackend->can('IsExportComplete') ) {
+        $ChunkingFinished = $ObjectBackend->IsExportComplete;
+    }
+
     my %Result = (
         Success            => 0,
         Failed             => 0,
         DestinationContent => [],
-        ChunkingFinished   => $ObjectBackend->{ChunkingFinished},    # TODO: this is not nice
+        ChunkingFinished   => $ChunkingFinished,
     );
 
     EXPORTDATAROW:

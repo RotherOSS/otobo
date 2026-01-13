@@ -199,7 +199,6 @@ sub CalendarCreate {
 
     %Calendar = $Self->CalendarGet(
         CalendarName => $Param{CalendarName},
-        UserID       => $Param{UserID},
     );
     return if !%Calendar;
 
@@ -270,7 +269,7 @@ Returns Calendar data:
 
 Returns an empty list when no calendar is found.
 
-Returns an empty list the the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
+Returns an empty list if the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
 
 =cut
 

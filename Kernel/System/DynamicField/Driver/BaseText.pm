@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -483,15 +483,26 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            # delete empty values (can happen if the user has selected the "-" entry)
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+
+                if ( !defined $ValueItem || $ValueItem eq '' ) {
+                    push @TmpValues, undef;
+
+                    next VALUEITEM;
+                }
+
+                push @TmpValues, $ValueItem;
+                push @Data,      @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {
@@ -528,16 +539,17 @@ sub EditFieldValueValidate {
         $Value = [$Value];
     }
 
-    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
         $ValueItem //= '';
 
         # perform necessary validations
-        if ( IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} ) ) {
+        if ( $ValueItem ne '' ) {
 
-            if ( $Param{Mandatory} || ( !$Param{Mandatory} && $ValueItem ne '' ) ) {
+            $ValueItemsPresent++;
+
+            if ( IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} ) ) {
 
                 # check regular expressions
                 my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
@@ -554,14 +566,9 @@ sub EditFieldValueValidate {
                 }
             }
         }
-        else {
-            if ( $Param{Mandatory} && $ValueItem ne '' ) {
-                $MandatoryValueItemsPresent++;
-            }
-        }
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';

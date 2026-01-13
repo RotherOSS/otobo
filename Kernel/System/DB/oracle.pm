@@ -71,7 +71,7 @@ sub LoadPreferences {
     # this is primarily needed during migration
     $Self->{'DB::Substring'} = 'SUBSTR(%s, %s, %s)';
 
-    # dbi attributes
+    # DBI/DBD::Oracle attributes. These will be passed when connecting to the database.
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
         LongReadLen => 40 * 1024 * 1024,

@@ -81,7 +81,7 @@
                     <p>Rother OSS GmbH</p>
                     <p>Oberwalting 31</p>
                     <p>94339 Leiblfing</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+49 (0) 9427 68 39 000</a></p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+49 9427 68 39 000</a></p>
                 </div>
             </div>
             <div class="Clear"></div>

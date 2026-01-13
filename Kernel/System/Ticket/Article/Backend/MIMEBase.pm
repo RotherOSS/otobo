@@ -133,7 +133,7 @@ Edit a MIME article.
         AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
 
         ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
-        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notfications,
+        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notifications,
                                                                     # will also be removed in To: line of article,
                                                                     # higher prio as ForceNotificationToUserID
         ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
@@ -171,7 +171,6 @@ sub ArticleEdit {
 
     my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $IncomingTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     my $ArticleContentPath;
 
@@ -346,23 +345,12 @@ sub ArticleEdit {
         $Param{$Attribute} = substr( $Param{$Attribute}, 0, 3800 );
     }
 
-    # Check if this is the first article (for notifications).
-    my @Articles     = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
-    my $FirstArticle = scalar @Articles ? 0 : 1;
-
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # calculate MD5 of Message ID
     if ( $Param{MessageID} ) {
         $Param{MD5} = $MainObject->MD5sum( String => $Param{MessageID} );
     }
-
-    # Generate unique fingerprint for searching created article in database to prevent race conditions
-    #   (see https://bugs.otrs.org/show_bug.cgi?id=12438).
-    my $RandomString = $MainObject->GenerateRandomString(
-        Length => 32,
-    );
-    my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ( $Param{MessageID} // '' );
 
     my $ArticleID = $Param{ArticleID};
 
@@ -463,12 +451,32 @@ sub ArticleEdit {
         }
     }
 
-    $ArticleObject->ArticleFlagDelete(
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleID,
-        Key       => 'Seen',
-        AllUsers  => 1
-    );
+    # handle seen flag for ticket and article
+    {
+        # remove Seen flag for all agents and set it again afterwards for editing agent
+        $ArticleObject->ArticleFlagDelete(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            AllUsers  => 1
+        );
+
+        # just delete the ticket Seen flag
+        #   the event module TicketNewMessageUpdate sets it again if all articles are seen
+        $TicketObject->TicketFlagDelete(
+            TicketID => $Param{TicketID},
+            Key      => 'Seen',
+            AllUsers => 1,
+        );
+
+        $ArticleObject->ArticleFlagSet(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleID,
+            Key       => 'Seen',
+            Value     => 1,
+            UserID    => $Param{UserID},
+        );
+    }
 
     $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
@@ -1036,11 +1044,6 @@ sub ArticleCreate {
 
     # send no agent notification!?
     return $ArticleID if $Param{NoAgentNotify};
-
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
-    );
 
     # remember agent to exclude notifications
     my @SkipRecipients;

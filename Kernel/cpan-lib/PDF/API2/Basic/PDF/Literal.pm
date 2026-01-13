@@ -5,7 +5,7 @@ use base 'PDF::API2::Basic::PDF::Objind';
 
 use strict;
 
-our $VERSION = '2.045'; # VERSION
+our $VERSION = '2.048'; # VERSION
 
 use PDF::API2::Basic::PDF::Filter;
 use PDF::API2::Basic::PDF::Name;

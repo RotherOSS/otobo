@@ -2,6 +2,9 @@
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
+# Required for compressed file generation (in perlcore).
+requires 'Archive::Tar';
+
 # Required for compressed file generation. Needed by Excel::Writer::XSLX, which is used in Kernel::System::CSV
 requires 'Archive::Zip';
 
@@ -27,6 +30,9 @@ requires 'DBI';
 
 # Sane persistent database connection
 requires 'DBIx::Connector';
+
+# (in perlcore)
+requires 'Digest::SHA';
 
 requires 'File::chmod';
 
@@ -84,6 +90,9 @@ requires 'Text::CSV', '>= 1.95';
 requires 'Text::CSV_XS', '>= 1.34';
 
 requires 'Text::Trim';
+
+# Required for high resolution timestamps (in perlcore)
+requires 'Time::HiRes';
 
 requires 'Try::Tiny';
 
@@ -205,8 +214,14 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
+    requires 'Test::Simple';
+
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';
@@ -297,13 +312,6 @@ feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
 
 };
 
-feature 'mail', 'Features enabling communication with a mail-server' => sub {
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
-
-};
-
 feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.
     requires 'Authen::NTLM';
@@ -344,10 +352,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Simple Mail Transfer Protocol Client.
-    # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
-    requires 'Net::SMTP';
 
     # Required for MD5 authentication mechanisms in IMAP connections.
     requires 'Authen::SASL';
@@ -424,8 +428,14 @@ feature 'optional', 'Support for feature optional' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
+    requires 'Test::Simple';
+
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
+
+    # bring explain() back to test scripts
+    requires 'Test2::Tools::Explain';
 
     # support for formatting test results
     requires 'Unicode::GCString';

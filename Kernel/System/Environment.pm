@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,7 +19,6 @@ package Kernel::System::Environment;
 use v5.24;
 use strict;
 use warnings;
-use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -28,7 +27,7 @@ use ExtUtils::MakeMaker;    # makes MM->parse_version available ## no perlimport
 use File::Spec ();
 
 # CPAN modules
-use Sys::Hostname::Long qw(hostname_long);
+use Sys::Hostname::Long qw(hostname_long);    # available from Kernel/cpan-lib
 
 # OTOBO modules
 
@@ -296,6 +295,18 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.34',
         },
         {
+            'Comment'         => 'needed by Text::vFile::asData',
+            'Module'          => 'Class::Accessor::Chained',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.01',
+        },
+        {
+            'Comment'         => 'needed by Sisimai',
+            'Module'          => 'Class::Accessor::Lite',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
+        },
+        {
             'Comment'         => 'needed by SOAP::Lite',
             'Module'          => 'Class::Inspector',
             'Required'        => 1,
@@ -310,13 +321,13 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20250115.001',
+            'VersionRequired' => '== 20250829.001',
         },
         {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
             'Module'          => 'CPANSA::DB',
             'Required'        => 1,
-            'VersionRequired' => '== 20250109.001',
+            'VersionRequired' => '== 20260104.001',
         },
         {
             'Comment'         => 'needed by CPAN::Audit',
@@ -334,6 +345,11 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Crypt::Random::Source',
             'Required'        => 1,
             'VersionRequired' => '== 0.14',
+        },
+        {
+            'Module'          => 'CSS::Minifier',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.01',
         },
         {
             'Module'          => 'Data::ICal',
@@ -400,10 +416,10 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 0.23',
         },
         {
-            'Comment'         => 'needed by Kernel::System::ReferenceData, Locale::Country',
+            'Comment'         => 'needed by Kernel::System::ReferenceData, which uses Locale::Country',
             'Module'          => 'Locale::Codes',
             'Required'        => 1,
-            'VersionRequired' => '== 3.76',
+            'VersionRequired' => '== 3.86',
         },
         {
             'Comment'         => 'needed by webservices',
@@ -451,7 +467,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by CPAN::Audit, could be useful in OTOBO as well',
             'Module'          => 'Module::Extract::VERSION',
             'Required'        => 1,
-            'VersionRequired' => '== 1.117',
+            'VersionRequired' => '== 1.119',
         },
         {
             'Comment'         => 'needed by Crypt::Random::Source',
@@ -481,7 +497,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by Kernel::System::PDF',
             'Module'          => 'PDF::API2',
             'Required'        => 1,
-            'VersionRequired' => '== 2.045',
+            'VersionRequired' => '== 2.048',
         },
         {
             'Comment'         => 'needed by console command Dev::Tools::TranslationsUpdate',
@@ -514,6 +530,11 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 1.20',
         },
         {
+            'Module'          => 'String::Diff',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.07',
+        },
+        {
             'Comment'         => 'needed by Kernel::System::Environment',
             'Module'          => 'Sys::Hostname::Long',
             'Required'        => 1,
@@ -524,6 +545,12 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'Text::Diff',
             'Required'        => 1,
             'VersionRequired' => '== 1.44',
+        },
+        {
+            'Comment'         => 'needed by Data::ICal',
+            'Module'          => 'Text::vFile::asData',
+            'Required'        => 1,
+            'VersionRequired' => '== 0.08',
         },
         {
             'Comment'         => 'needed by Kernel::Output::HTML::Dashboard::RSS',
@@ -554,7 +581,7 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'YAML',
             'Required'        => 1,
             'VersionRequired' => '== 1.30',
-        }
+        },
     );
 }
 

@@ -72,14 +72,26 @@ sub ValueSet {
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
-        my $Value     = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->[0] : $Param{Value};
+        my @Values    = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->@*
+            : $Param{Value} ? ( $Param{Value} ) : ();
 
-        $Self->_CreateAutoLinkObjectLink(
-            UserID       => $Param{UserID},
-            ObjectID     => $Param{ObjectID},
-            DynamicField => $DynamicFieldConfig,
-            Value        => $Value,
-        );
+        if ( $Param{Set} ) {
+
+            # in sets we expect either array references or undef for the single set indices
+            # from [ [Val11, Val12], undef, [Val31] ]
+            # via  ( [Val11, Val12], undef, [Val31] )
+            # to   ( Val11, Val12, Val31 )
+            @Values = map { $_ ? $_->@* : () } @Values;
+        }
+
+        for my $Value ( @Values ) {
+            $Self->_CreateAutoLinkObjectLink(
+                UserID       => $Param{UserID},
+                ObjectID     => $Param{ObjectID},
+                DynamicField => $DynamicFieldConfig,
+                Value        => $Value,
+            );
+        }
     }
 
     return $Result;
@@ -465,7 +477,7 @@ sub EditFieldValueValidate {
 
     my $ServerError;
     my $ErrorMessage;
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
 
     if ( $Value->@* ) {
 
@@ -517,11 +529,11 @@ sub EditFieldValueValidate {
 
             $Allowed = ( grep { $_ eq $ValueItem } $LastSearchResults->@* ) ? 1 : 0;
 
-            if ( $Param{Mandatory} && $Allowed ) {
+            if ($Allowed) {
 
-                $MandatoryValueItemsPresent++;
+                $ValueItemsPresent++;
             }
-            elsif ( $ValueItem && !$Allowed ) {
+            elsif ($ValueItem) {
                 return {
                     ServerError  => 1,
                     ErrorMessage => 'Value invalid!',
@@ -536,7 +548,7 @@ sub EditFieldValueValidate {
         };
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
@@ -1116,8 +1128,6 @@ sub GetFieldTypeSettings {
                 PossibleNone  => 0,
             };
     }
-
-    # EO ITSMconfigurationmanagement
 
     return @GenericSettings;
 }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -643,7 +643,7 @@ sub _RecipientsGet {
 
             if (
                 $Recipient
-                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices|CreateBy)$/
+                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices|CreateBy|CreateByTicket)$/
                 )
             {
                 if ( $Recipient eq 'AgentOwner' ) {
@@ -759,7 +759,10 @@ sub _RecipientsGet {
                     if ( $Articles[0] && $Articles[0]->{ArticleNumber} == 1 ) {
                         push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
                     }
+                }
+                elsif ( $Recipient eq 'AgentCreateByTicket' ) {
 
+                    push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
                 }
             }
 

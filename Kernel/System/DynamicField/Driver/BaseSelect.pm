@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -459,14 +459,26 @@ sub EditFieldValueGet {
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
             my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
-            my @Data;
 
             # delete the template value
             pop @DataAll;
 
-            for my $Item (@DataAll) {
-                push @Data, $Item // '';
+            my @TmpValues;
+            my @Data;
+            VALUEITEM:
+            for my $ValueItem (@DataAll) {
+
+                if ( !defined $ValueItem || $ValueItem eq '' ) {
+                    push @TmpValues, undef;
+
+                    next VALUEITEM;
+                }
+
+                push @TmpValues, $ValueItem;
+                push @Data,      @TmpValues;
+                @TmpValues = ();
             }
+
             $Value = \@Data;
         }
         else {
@@ -508,15 +520,15 @@ sub EditFieldValueValidate {
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
-    my $MandatoryValueItemsPresent = 0;
+    my $ValueItemsPresent = 0;
     for my $ValueItem ( @{$Value} ) {
 
-        # perform necessary validations
-        if ( $Param{Mandatory} && $PossibleValues->{$ValueItem} ) {
+        $ValueItem //= '';
 
-            $MandatoryValueItemsPresent++;
-        }
-        else {
+        # perform necessary validations
+        if ( $ValueItem ne '' ) {
+            $ValueItemsPresent++;
+
             # validate if value is in possible values list (but let pass empty values)
             if ( $ValueItem && !$PossibleValues->{$ValueItem} ) {
                 $ServerError  = 1;
@@ -525,7 +537,7 @@ sub EditFieldValueValidate {
         }
     }
 
-    if ( $Param{Mandatory} && $MandatoryValueItemsPresent == 0 ) {
+    if ( $Param{Mandatory} && $ValueItemsPresent == 0 ) {
 
         $ServerError  = 1;
         $ErrorMessage = 'The field content is invalid';
@@ -1057,13 +1069,13 @@ sub BuildSelectionDataGet {
             my $Parents;
             my %DisabledElements;
             my %ProcessedElements;
-            my $PosibleNoneSet;
+            my $PossibleNoneSet;
 
             # loop on all filtered possible values
             for my $Key ( sort keys %{$FilteredPossibleValues} ) {
 
                 # special case for possible none
-                if ( !$Key && !$PosibleNoneSet && $FieldConfig->{PossibleNone} ) {
+                if ( !$Key && !$PossibleNoneSet && $FieldConfig->{PossibleNone} ) {
 
                     # add possible none
                     push @Values, {

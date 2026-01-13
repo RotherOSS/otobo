@@ -113,7 +113,7 @@ Set the SysConfig setting 'FQDN'. The value is expected to be a string. The defa
 
 =item activate-elasticsearch
 
-Also set up the the Elasticsearch webservice.
+Also set up the Elasticsearch webservice.
 
 =item add-admin-user
 

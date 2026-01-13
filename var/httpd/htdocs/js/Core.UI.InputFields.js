@@ -241,7 +241,7 @@ Core.UI.InputFields = (function (TargetNS) {
             $('.DynamicFieldSet', $Context).parent().addClass('DFSetOuterField');
 
             // initialize FormUpdate fields
-            $('.FormUpdate', $Context).each(function(Index, Element) {
+            $('.FormUpdate', $Context).each(function() {
                 $(this).off('change.FormUpdate').on('change.FormUpdate', function () {
                     Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', $(this).attr('name'));
                 });
@@ -1325,7 +1325,7 @@ Core.UI.InputFields = (function (TargetNS) {
      * @name InitSelect
      * @memberof Core.UI.InputFields
      * @function
-     * @returns {Boolean} Returns true if successfull, false otherwise
+     * @returns {Boolean} Returns true if successfully, false otherwise
      * @param {jQueryObject} $SelectFields - Fields to initialize.
      * @description
      *      This function initializes select input fields, based on supplied CSS selector.
@@ -1458,7 +1458,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 });
 
                 // set width after page and layout are fully loaded
-                window.addEventListener = ("load", (event) => {
+                window.addEventListener = ("load", () => {
                     // Set width of search field to that of the select field
                     $SearchObj.blur().hide();
                     SelectWidth = $SelectObj.show().outerWidth();
@@ -1477,7 +1477,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                 }
 
-                // Set the earch field label attribute if there was no label element.
+                // Set the search field label attribute if there was no label element.
                 if (!$LabelObj || $LabelObj.length === 0) {
                     if ($SelectObj.attr('aria-label')) {
                         SearchLabel = $SelectObj.attr('aria-label');
@@ -2000,7 +2000,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // click is also triggered (besides select_node), which
                     // could result in a bubbled-up event
-                    // prevents dialogs from accidently closing
+                    // prevents dialogs from accidentally closing
                     // jstree triggers a click event for pressing the enter key
                     // so we try to handle this here
                     .on('click.jstree', function (Event) {
@@ -3038,7 +3038,7 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             // for attributes which can also contain multivalue data, we have to target the second to last index if two are present
-            ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\d+)?(Data|Container)?)', 'g' );
+            ReplaceRegEx = new RegExp( '(DynamicField_[\\w\\d_-]+?_)' + From + '((_\\d+)?(Data|Container)?)', 'g' );
 
             $('[id^=DynamicField_], [id^=DynamicFieldDBDetailedSearch_], [id^=Autocomplete_DynamicField_]', $Cell).each( function() {
                 ['id', 'field'].forEach( Attribute => {
@@ -3184,7 +3184,7 @@ Core.UI.InputFields = (function (TargetNS) {
     // Skip ESLint check below for no camelcase property, we are overriding an existing one!
     $.jstree.defaults.multiselect = {};
     $.jstree.plugins.multiselect = function (options, parent) {
-        this.activate_node = function (obj, e) { //eslint-disable-line camelcase
+        this.activate_node = function (obj, e) {
             e.ctrlKey = true;
             parent.activate_node.call(this, obj, e);
         };

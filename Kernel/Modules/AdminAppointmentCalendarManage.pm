@@ -33,6 +33,10 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    if ( !$Param{AccessRw} && $Param{AccessRo} ) {
+        $Self->{LightAdmin} = 1;
+    }
+
     # Certain search parameters for ticket appointments should be stored as scalars, not array refs.
     $Self->{SearchParamScalar} = [
         'MIMEBase_From',
@@ -209,6 +213,20 @@ sub Run {
             }
         }
 
+        if (
+            $Self->{LightAdmin}
+            && !$Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
+                    GroupID => $GetParam{GroupID},
+                ),
+                Type => 'rw',
+            )
+            )
+        {
+            $Error{GroupIDInvalid} = "ServerError";
+        }
+
         $GetParam{TicketAppointments} = $Self->_GetTicketAppointmentParams(%GetParam);
 
         # Get queue create permissions for the user.
@@ -247,7 +265,7 @@ sub Run {
         if (%Error) {
 
             # get selections
-            my $GroupSelection     = $Self->_GroupSelectionGet(%GetParam);
+            my $GroupSelection     = $Self->_GroupSelectionGet( %GetParam, %Error );
             my $ColorPalette       = $Self->_ColorPaletteGet();
             my $ValidSelection     = $Self->_ValidSelectionGet(%GetParam);
             my %TicketAppointments = $Self->_TicketAppointments();
@@ -721,14 +739,22 @@ sub Run {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
+    my %RequiredPermissions;
+
+    if ( $Self->{LightAdmin} ) {
+        %RequiredPermissions = (
+            UserID     => $Self->{UserID},
+            Permission => 'rw',
+        );
+    }
+
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
-    # get all calendars user has RW access to and apply valid state filter
+    # get all calendars user has access to and apply valid state filter
     my @Calendars;
     if ( $Self->{IncludeInvalid} ) {
         push @Calendars, $CalendarObject->CalendarList(
-            UserID     => $Self->{UserID},
-            Permission => 'rw',
+            %RequiredPermissions,
 
             # from CalendarList POD: 0 - All states
             ValidID => 0,
@@ -738,8 +764,7 @@ sub _Overview {
 
         # fetch valid
         push @Calendars, $CalendarObject->CalendarList(
-            UserID     => $Self->{UserID},
-            Permission => 'rw',
+            %RequiredPermissions,
 
             # from CalendarList POD: 1 - All valid
             ValidID => 1,
@@ -747,8 +772,7 @@ sub _Overview {
 
         # fetch invalid-temporarily
         push @Calendars, $CalendarObject->CalendarList(
-            UserID     => $Self->{UserID},
-            Permission => 'rw',
+            %RequiredPermissions,
 
             # from CalendarList POD: 3 - All temporarily invalid
             ValidID => 3,
@@ -857,18 +881,25 @@ sub _Mask {
 sub _GroupSelectionGet {
     my ( $Self, %Param ) = @_;
 
-    # get list of groups where user has RW permissions
-    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
-        UserID => $Self->{UserID},
-        Type   => 'rw',
-    );
+    my %GroupList;
+
+    # get all groups that user has access to
+    if ( $Self->{LightAdmin} ) {
+        %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+        );
+    }
+    else {
+        %GroupList = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
+    }
 
     my $GroupSelection = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
         Data        => \%GroupList,
         Name        => 'GroupID',
         SelectedID  => $Param{GroupID} || '',
         Translation => 0,
-        Class       => 'Modernize Validate_Required',
+        Class       => 'Modernize Validate_Required ' . ( $Param{GroupIDInvalid} // '' ),
     );
 
     return $GroupSelection;
