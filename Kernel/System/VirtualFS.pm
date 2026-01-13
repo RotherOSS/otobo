@@ -16,6 +16,7 @@
 
 package Kernel::System::VirtualFS;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -48,8 +49,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # load backend
     $Self->{BackendDefault} = $Kernel::OM->Get('Kernel::Config')->Get('VirtualFS::Backend')
@@ -59,7 +59,7 @@ sub new {
         return;
     }
 
-    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new();
+    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new;
 
     return $Self;
 }
@@ -138,18 +138,18 @@ sub Read {
         Bind => [ \$FileID ],
     );
 
-    while ( my @Row = $DBObject->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray ) {
         $Preferences{ $Row[0] } = $Row[1];
     }
 
     # load backend (if not default)
     if ( !$Self->{Backend}->{$Backend} ) {
 
-        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend);
+        return unless $Kernel::OM->Get('Kernel::System::Main')->Require($Backend);
 
-        $Self->{Backend}->{$Backend} = $Backend->new();
+        $Self->{Backend}->{$Backend} = $Backend->new;
 
-        return if !$Self->{Backend}->{$Backend};
+        return unless $Self->{Backend}->{$Backend};
     }
 
     # get file
@@ -157,7 +157,8 @@ sub Read {
         %Param,
         BackendKey => $BackendKey,
     );
-    return if !$Content;
+
+    return unless $Content;
 
     return (
         Preferences => \%Preferences,
@@ -213,7 +214,7 @@ sub Write {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # insert
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'INSERT INTO virtual_fs (filename, backend_key, backend, create_time)'
             . ' VALUES ( ?, \'TMP\', ?, current_timestamp)',
         Bind => [ \$Param{Filename}, \$Self->{BackendDefault} ],
@@ -243,10 +244,11 @@ sub Write {
 
     # store file
     my $BackendKey = $Self->{Backend}->{ $Self->{BackendDefault} }->Write(%Param);
-    return if !$BackendKey;
+
+    return unless $BackendKey;
 
     # update backend key
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL  => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
         Bind => [ \$BackendKey, \$FileID ],
     );
