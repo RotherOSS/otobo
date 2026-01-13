@@ -16,6 +16,7 @@
 
 package Kernel::System::VirtualFS::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -145,10 +146,15 @@ sub Write {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # encode attachment if it's a postgresql backend!!!
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
 
+        # Make sure that the content is passed as a byte array and is bound as binary
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Content} );
-
+        $ExtraDoParams{BindAsBinary} = [ 0, 1 ];
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Content} );
         my $Content = encode_base64( ${ $Param{Content} } );
         $Param{Content} = \$Content;
     }
@@ -162,6 +168,7 @@ sub Write {
         SQL => 'INSERT INTO virtual_fs_db (filename, content, create_time) '
             . 'VALUES ( ?, ?, current_timestamp )',
         Bind => [ \$Param{Filename}, $Param{Content} ],
+        %ExtraDoParams,
     );
 
     my $FileID = $Self->_FileLookup( $Param{Filename} );

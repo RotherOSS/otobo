@@ -401,7 +401,14 @@ sub RepositoryAdd {
     my $FileName = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.xml';
 
     my $Content = $Param{String};
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        # Make sure that the content is passed as a byte array and is bound as binary
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
+        $ExtraDoParams{BindAsBinary} = [ 1, 0, 0, 0, 0, ];
+    }
+    else {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
         $Content = encode_base64($Content);
     }
@@ -417,6 +424,7 @@ sub RepositoryAdd {
             \$Structure{Name}->{Content},   \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Content,
         ],
+        %ExtraDoParams,
     );
 
     # cleanup cache

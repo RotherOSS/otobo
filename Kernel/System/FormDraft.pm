@@ -16,6 +16,7 @@
 
 package Kernel::System::FormDraft;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -30,6 +31,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Storable',
@@ -321,7 +323,14 @@ sub FormDraftAdd {
     );
 
     my $Content = $StorableContent;
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        # Make sure that the content is passed as a byte array and is bound as binary
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($StorableContent);
+        $ExtraDoParams{BindAsBinary} = [ 0, 0, 0, 0, 1, 0, 0, ];
+    }
+    else {
         $Content = encode_base64($StorableContent);
     }
 
@@ -335,6 +344,7 @@ sub FormDraftAdd {
             \$Param{ObjectType}, \$Param{ObjectID}, \$Param{Action}, \$Param{Title}, \$Content,
             \$Param{UserID},     \$Param{UserID},
         ],
+        %ExtraDoParams,
     );
 
     # delete affected caches
@@ -435,7 +445,14 @@ sub FormDraftUpdate {
     );
 
     my $Content = $StorableContent;
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        # Make sure that the content is passed as a byte array and is bound as binary
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($StorableContent);
+        $ExtraDoParams{BindAsBinary} = [ 0, 1, 0, 0 ];
+    }
+    else {
         $Content = encode_base64($StorableContent);
     }
 
@@ -446,6 +463,7 @@ sub FormDraftUpdate {
             . ' SET title = ?, content = ?, change_time = current_timestamp, change_by = ?'
             . ' WHERE id = ?',
         Bind => [ \$Param{Title}, \$Content, \$Param{UserID}, \$Param{FormDraftID}, ],
+        %ExtraDoParams,
     );
 
     # delete affected caches

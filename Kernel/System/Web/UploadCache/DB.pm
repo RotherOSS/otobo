@@ -16,6 +16,7 @@
 
 package Kernel::System::Web::UploadCache::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -113,10 +114,15 @@ sub FormIDAddFile {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # encode attachment if it's a postgresql backend!!!
-    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+    my %ExtraDoParams;
+    if ( $DBObject->GetDatabaseFunction('DirectBlob') ) {
 
+        # Make sure that the content is passed as a byte array and is bound as binary
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
-
+        $ExtraDoParams{BindAsBinary} = [ 0, 0, 0, 0, 1, 0, 0, 0 ];
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
@@ -134,7 +140,7 @@ sub FormIDAddFile {
     # write attachment to db
     my $Time = time();
 
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => '
             INSERT INTO web_upload_cache (form_id, filename, content_type, content_size, content,
                 create_time_unix, content_id, disposition)
@@ -143,6 +149,7 @@ sub FormIDAddFile {
             \$Param{FormID},  \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
             \$Param{Content}, \$Time,            \$ContentID,          \$Param{Disposition}
         ],
+        %ExtraDoParams,
     );
 
     return 1;
