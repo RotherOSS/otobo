@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2026-01-06 01:00+0000\n"
+"PO-Revision-Date: 2026-01-13 10:21+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-10/"
 "hu/>\n"
@@ -14586,7 +14586,7 @@ msgstr "Jelszó ellenőrzése"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr "A jelenlegi jelszó nem helyes. Próbálja újra."
+msgstr "A jelenlegi jelszó nem helyes. Próbálja újra!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -15029,7 +15029,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr "Nem lehet megnyitni a RELEASE fájlt az OTRS saját könyvtárából: %s"
+msgstr "Nem lehet megnyitni a RELEASE fájlt az OTRS saját könyvtárából: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
@@ -22901,7 +22901,7 @@ msgstr "A tárgyak legnagyobb mérete egy e-mail válasznál és néhány áttek
 msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
 msgstr ""
 "Legnagyobb méret bájtban, amíg az otobo.log forgatásra nem kerül. "
-"Alapértelmezetten 524288000 (500 MiB = 500 × 1024 × 1024)"
+"Alapértelmezetten 524288000 (500 MiB = 500 × 1024 × 1024)."
 
 #. SysConfig
 msgid "Maximal auto email responses to own email-address a day (Loop-Protection)."
