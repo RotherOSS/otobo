@@ -69,6 +69,68 @@
                 <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for groups") | html %]" />
             </div>
         </div>
+[% RenderBlockStart("ImportExportWidget") %]
+        <div class='WidgetSimple' id='RoleGroupImportExportWidget'>
+            <div class='Header'>
+                <h1 class="InvisibleText">
+                    [% Translate("Import / Export") | html %]
+                </h1>
+            </div>
+
+            [% BreadcrumbPath = [
+                    {
+                        Name => Translate('Import / Export'),
+                    },
+                ]
+            %]
+
+            [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+            <div class='Content'>
+                <p class='FieldExplanation'>
+                    [% Translate('Here you can upload a configuration file to import role-group relations to your system. The file needs to be in .yml format as exported by role-group management module.') | html %]
+                </p>
+                <ul class='ActionList SpacingTop'>
+                    <li>
+                        <form action='[% Env("CGIHandle") %]' method='post' enctype='multipart/form-data' class='Validate PreventMultipleSubmits'>
+                            <input type='hidden' name='ChallengeToken' value=[% Env("UserChallengeToken") | JSON %]>
+                            <input type='hidden' name='Action' value='AdminRoleGroupImportExport'/>
+                            <input type='hidden' name='Subaction' value='Import'/>
+                            <input name='FileUpload' id='FileUpload' type='file' size='18' class='Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]'/>
+                            <div id='FileUploadError' class='TooltipErrorMessage'>
+                                <p>
+                                    [% Translate('This field is required.') | html %]
+                                </p>
+                            </div>
+                            <div id='FileUploadServerError' class='TooltipErrorMessage'>
+                                <p>
+                                    % Translate('This field is required.') | html %]
+                                </p>
+                            </div>
+                            <fieldset class='SpacingTop'>
+                                <input type='checkbox' id='OverwriteExistingEntitiesExample' name='OverwriteExistingEntities' value='1'/>
+                                <label for='OverwriteExistingEntitiesExample'>
+                                    [% Translate('Overwrite existing entities') | html %]
+                                </label>
+                            </fieldset>
+                            <button class='CallForAction Fullsize Center SpacingTop' id='RoleGroupImport' type='submit'>
+                                <span><i class='fa fa-upload'></i>
+                                    [% Translate('Role-Group Import') | html %]
+                                </span>
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <a href='[% Env("Baselink") %]Action=AdminRoleGroupImportExport;Subaction=Export' id='GroupExport' class='CallForAction Fullsize Center'>
+                            <span><i class='fa fa-download'></i>
+                                [% Translate('Role-Group Export') | html %]
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ImportExportWidget") %]
     </div>
     <div class="ContentColumn">
         <div class="WidgetSimple">

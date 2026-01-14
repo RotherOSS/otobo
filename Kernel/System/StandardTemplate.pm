@@ -509,4 +509,111 @@ sub NameExistsCheck {
     return 0;
 }
 
+sub ExportTemplates {
+    my ( $Self, %Param ) = @_;
+
+    my %TemplateFilter;
+    if ( IsArrayRefWithData( $Param{Templates} ) ) {
+        %TemplateFilter = map { $_ => 1 } $Param{Templates}->@*;
+    }
+
+    # get necessary objects
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
+    # fetch lookup lists
+    my %TemplateList = $Self->StandardTemplateList(
+        Valid => 0,
+    );
+
+    my %ExportData;
+    TEMPLATEID:
+    for my $TemplateID ( sort keys %TemplateList ) {
+
+        my %TemplateData = $Self->StandardTemplateGet(
+            ID => $TemplateID,
+        );
+
+        if (%TemplateFilter) {
+            next TEMPLATEID unless $TemplateFilter{ $TemplateData{Name} };
+        }
+
+        # translate IDs into names or name-like identifiers
+        ATTRIBUTE:
+        for my $Attribute ( keys %TemplateData ) {
+
+            next ATTRIBUTE unless $Attribute =~ /ID/;
+
+            if ( $Attribute eq 'ValidID' ) {
+                my $Valid = $ValidObject->ValidLookup(
+                    ValidID => $TemplateData{ValidID},
+                );
+                $TemplateData{Valid} = $Valid;
+                delete $TemplateData{ValidID};
+            }
+        }
+
+        # delete unneeded attributes to avoid bloating the export
+        delete $TemplateData{ChangeBy};
+        delete $TemplateData{ChangeTime};
+        delete $TemplateData{CreateBy};
+        delete $TemplateData{CreateTime};
+        delete $TemplateData{ID};
+
+        $ExportData{ $TemplateData{Name} } = \%TemplateData;
+    }
+
+    return \%ExportData;
+}
+
+sub ImportTemplates {
+    my ( $Self, %Param ) = @_;
+
+    my $UserID = $Self->{UserID} || $Param{UserID};
+
+    # get necessary objects
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
+    # fetch lookup lists
+    my %TemplateList = $Self->StandardTemplateList(
+        Valid => 0,
+    );
+    my %TemplateLookup = reverse %TemplateList;
+
+    TEMPLATENAME:
+    for my $TemplateName ( keys $Param{Templates}->%* ) {
+        my $TemplateData = $Param{Templates}{$TemplateName};
+
+        my $TemplateID = $TemplateLookup{ $TemplateData->{Name} };
+
+        # skip if template with same name exists and overwrite is not set
+        next TEMPLATENAME if ( !$Param{OverwriteExistingEntities} && $TemplateID );
+
+        # translate named data back to IDs
+        $TemplateData->{ValidID} = $ValidObject->ValidLookup(
+            Valid => $TemplateData->{Valid},
+        );
+
+        # update
+        if ($TemplateID) {
+            my $Success = $Self->StandardTemplateUpdate(
+                $TemplateData->%*,
+                ID     => $TemplateID,
+                UserID => $UserID,
+            );
+            return unless $Success;
+        }
+
+        # create
+        else {
+            my $TemplateID = $Self->StandardTemplateAdd(
+                $TemplateData->%*,
+                UserID => $UserID,
+            );
+            return unless $TemplateID;
+        }
+    }
+
+    return 1;
+}
+
 1;

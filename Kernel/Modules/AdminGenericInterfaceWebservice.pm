@@ -374,7 +374,13 @@ sub Run {
         }
 
         # Dump configuration into a YAML structure.
-        my $YAMLContent = $YAMLObject->Dump( Data => $WebserviceData->{Config} );
+        # export webservice name to be flexible regarding filename
+        my $YAMLContent = $YAMLObject->Dump(
+            Data => {
+                $WebserviceData->{Config}->%*,
+                Name => $WebserviceData->{Name},
+            },
+        );
 
         # Return YAML to download.
         my $YAMLFile = $WebserviceData->{Name};
