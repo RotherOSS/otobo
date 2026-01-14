@@ -51,6 +51,10 @@ sub Run {
 
     my @Tasks = (
         {
+            Name   => 'Increase translation content length',
+            Module => 'DBUpdateTranslationLength',
+        },
+        {
             Name   => 'Update the list of installed packages',
             Module => 'UninstallMergedPackages',
         },
