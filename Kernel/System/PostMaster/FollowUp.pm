@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -456,7 +456,7 @@ sub Run {
         TicketID             => $Param{TicketID},
         SenderType           => $GetParam{'X-OTOBO-FollowUp-SenderType'},
         IsVisibleForCustomer => $IsVisibleForCustomer,
-        From                 => $GetParam{From},
+        From                 => ( $GetParam{'X-OTOBO-From'} ? $GetParam{'X-OTOBO-From'} : $GetParam{From} ),
         ReplyTo              => $GetParam{ReplyTo},
         To                   => $GetParam{To},
         Cc                   => $GetParam{Cc},
