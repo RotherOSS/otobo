@@ -432,6 +432,7 @@ sub _Overview {
     #    $LayoutObject->Block(Name=>'ActionList');
     $LayoutObject->Block( Name => 'FilterTemplate' );
     $LayoutObject->Block( Name => 'FilterQueue' );
+    $LayoutObject->Block( Name => 'ImportExportWidget' );
     $LayoutObject->Block( Name => 'OverviewResult' );
 
     my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');

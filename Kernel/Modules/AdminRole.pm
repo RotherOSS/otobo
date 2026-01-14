@@ -325,6 +325,7 @@ sub _Overview {
         },
     );
     $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block( Name => 'ImportExportWidget' );
 
     my %List = $GroupObject->RoleList(
         Valid => $Self->{IncludeInvalid} ? 0 : 1,

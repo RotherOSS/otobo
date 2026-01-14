@@ -1,0 +1,137 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    [%
+        SET Type  = Translate(Data.Type);
+        SET Label = Translate("GenericAgents");
+    %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("%s - %s",Label, Type),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericAgent" class="CallForAction Fullsize Center">
+                        <span><i class="fa fa-plus-square"></i>[% Translate("GenericAgents") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %] - [% Translate(Data.Type) | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        <b>
+                            [% Translate("Select the items you want to ") | html %] [% Translate(Data.Type) | html %].
+                        </b>
+
+                        <p>
+                            </br>
+[% RenderBlockStart("ImportHint") %]
+                        [% Translate("Select the desired elements and confirm the import with 'import'.") | html %]
+[% RenderBlockEnd("ImportHint") %]
+[% RenderBlockStart("ExportHint") %]
+                        [% Translate("Here you can export a configuration file of generic agents to import these on another system. The configuration file is exported in yml format.") | html %]
+[% RenderBlockEnd("ExportHint") %]
+                         </p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("GenericAgents List") | html %]</h2>
+            </div>
+            <div class="Clear"></div>
+            <div class="Content LayoutGrid ColumnsWithSpacing">
+
+                <form id='Form' action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Env("Subaction") %]Action"/>
+                    <input type="hidden" name="Type" value="[% Data.Type | html %]"/>
+                    <input type="hidden" name="OverwriteExistingEntities"  value="[% Data.OverwriteExistingEntities | html %]">
+                    <table class="DataTable" id="GenericAgentsTable" summary="List of all registered GenericAgents">
+                        <thead>
+                            <tr>
+                                <th class='Center'>
+                                    <input type="checkbox" name="SelectAllGenericAgents" title="[% Translate('Toggle all available elements') | html %]" checked value="" />
+                                    [% Translate("Fields") | html %]
+                                </th>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th>[% Translate("Validity") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("GenericAgentsRow") %]
+                            <tr id="GenericAgentID_[% Data.GenericAgentID | html %]">
+                                <td class='Center'>
+[% RenderBlockStart("GenericAgentCheckbox") %]
+                                    <input type="checkbox" id="GenericAgents" name="GenericAgents" value="[% Data.Name | html %]" checked />
+[% RenderBlockEnd("GenericAgentCheckbox") %]
+                                </td>
+                                <td>
+[% RenderBlockStart("Import") %]
+                                    [% Data.Name %]
+[% RenderBlockEnd("Import") %]
+[% RenderBlockStart("Export") %]
+                                    <a href="[% Env("Baselink") %]Action=AdminGenericAgent;Subaction=Update;Profile=[% Data.Name | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
+[% RenderBlockEnd("Export") %]
+                                </td>
+                                <td>
+                                    <div>[% Translate(Data.Valid) | html %]</div>
+                                </td>
+                            </tr>
+[% RenderBlockEnd("GenericAgentsRow") %]
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop" style="text-align: center;">
+                        <button class="Primary CallForAction" type="submit" id="Export" value="[% Translate(Data.Type) | html %]">
+                            <span>[% Translate(Data.Type) | html %]</span>
+                        </button>
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=AdminGenericAgent" >[% Translate("Cancel") | html %]</a>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+</div>

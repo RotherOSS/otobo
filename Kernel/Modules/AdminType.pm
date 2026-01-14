@@ -490,6 +490,7 @@ sub _Overview {
         },
     );
     $LayoutObject->Block( Name => 'Filter' );
+    $LayoutObject->Block( Name => 'ImportExportWidget' );
 
     $LayoutObject->Block(
         Name => 'OverviewResult',
