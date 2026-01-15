@@ -2254,23 +2254,16 @@ sub CustomerAge {
         if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
 
             # implement fallback for CreatedAt param
-            my $CreatedAtDateTimeObject;
+            my $CreatedAt = $Param{CreatedAt};
             if ( !$Param{CreatedAt} ) {
-                $CreatedAtDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                my $CreatedAtDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
                 $CreatedAtDateTimeObject->Subtract(
                     Seconds => $Age,
                 );
-            }
-            else {
-                $CreatedAtDateTimeObject = $Kernel::OM->Create(
-                    'Kernel::System::DateTime',
-                    ObjectParams => {
-                        String => $Param{CreatedAt},
-                    },
-                );
+                $CreatedAt = $CreatedAtDateTimeObject->ToString();
             }
 
-            return $Self->{LanguageObject}->FormatTimeString( $CreatedAtDateTimeObject->ToString(), 'DateFormat', 'NoSeconds' );
+            return $Self->{LanguageObject}->FormatTimeString( $CreatedAt, 'DateFormatShort', 'NoSeconds' );
         }
     }
 
