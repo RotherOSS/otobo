@@ -2250,11 +2250,11 @@ sub CustomerAge {
 
     # expected to be an integer number
     my $TimeShowCreatedAt = $ConfigObject->Get('CustomerFrontend::TimeShowCreatedAt');
-    if ( IsInteger($TimeShowCreatedAt) && $Param{CreatedAt} ) {
+    if ( IsInteger($TimeShowCreatedAt) && $Param{Date} ) {
 
         # check if age transformation should be applied
         if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
-            return $Self->{LanguageObject}->FormatTimeString( $Param{CreatedAt}, 'DateFormat', 'NoSeconds' );
+            return $Self->{LanguageObject}->FormatTimeString( $Param{Date}, 'DateFormat', 'NoSeconds' );
         }
     }
 
