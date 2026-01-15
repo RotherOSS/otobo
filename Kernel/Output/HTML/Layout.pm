@@ -2241,43 +2241,24 @@ sub CustomerAge {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $AgeStrg = '';
     if ( $Age =~ /^-(.*)/ ) {
-        $Age = $1;
+        $Age     = $1;
+        $AgeStrg = '-';
     }
 
     # expected to be an integer number
     my $TimeShowCreatedAt = $ConfigObject->Get('CustomerFrontend::TimeShowCreatedAt');
-    if ( IsInteger($TimeShowCreatedAt) ) {
+    if ( IsInteger($TimeShowCreatedAt) && $Param{CreatedAt} ) {
 
         # check if age transformation should be applied
         if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
-
-            # implement fallback for CreatedAt param
-            my $CreatedAt = $Param{CreatedAt};
-            if ( !$Param{CreatedAt} ) {
-                my $CreatedAtDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-                $CreatedAtDateTimeObject->Subtract(
-                    Seconds => $Age,
-                );
-                $CreatedAt = $CreatedAtDateTimeObject->ToString();
-            }
-
-            return $Self->{LanguageObject}->FormatTimeString( $CreatedAt, 'DateFormatShort', 'NoSeconds' );
+            return $Self->{LanguageObject}->FormatTimeString( $Param{CreatedAt}, 'DateFormat', 'NoSeconds' );
         }
     }
 
-    return $Self->FormatAge(%Param);
-}
-
-sub FormatAge {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
-    my $AgeStrg   = '';
     my $DayDsc    = Translatable('d');
     my $HourDsc   = Translatable('h');
     my $MinuteDsc = Translatable('m');
@@ -2285,10 +2266,6 @@ sub FormatAge {
         $DayDsc    = Translatable('day(s)');
         $HourDsc   = Translatable('hour(s)');
         $MinuteDsc = Translatable('minute(s)');
-    }
-    if ( $Age =~ /^-(.*)/ ) {
-        $Age     = $1;
-        $AgeStrg = '-';
     }
 
     # get days
