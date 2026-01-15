@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -528,7 +528,7 @@ sub Run {
             $Article{Created} = $Ticket{Created};
 
             # create human age
-            $Article{Age} = $LayoutObject->FormatAge(
+            $Article{Age} = $LayoutObject->CustomerAge(
                 Age   => $Article{Age},
                 Space => ' ',
             );
@@ -1401,12 +1401,12 @@ sub Run {
 
         # escalation human times
         if ( $Article{EscalationTime} ) {
-            $Article{EscalationTimeHuman} = $LayoutObject->FormatAge(
+            $Article{EscalationTimeHuman} = $LayoutObject->CustomerAge(
                 Age                => $Article{EscalationTime},
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
             );
-            $Article{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
+            $Article{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
                 Age                => $Article{EscalationTimeWorkingTime},
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
@@ -1531,12 +1531,12 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Article{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Article{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman} = $LayoutObject->FormatAge(
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAge(
                         Age                => $EscalationData{EscalationTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     ) || '-';
-                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
                         Age                => $EscalationData{EscalationTimeWorkingTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1559,7 +1559,7 @@ sub Run {
                 my $CSSClass  = '';
                 if ( $TicketColumn eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Article{SolutionTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1570,7 +1570,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Article{FirstResponseTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1585,7 +1585,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Article{UpdateTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1596,7 +1596,7 @@ sub Run {
                 }
                 elsif ( $TicketColumn eq 'PendingTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age   => $Article{'UntilTime'},
                         Space => ' '
                     );

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1668,14 +1668,14 @@ sub Run {
 
         # create human age
         if ( $Self->{Config}->{Time} ne 'Age' ) {
-            $Ticket{Time} = $LayoutObject->FormatAge(
+            $Ticket{Time} = $LayoutObject->CustomerAge(
                 Age                => $Ticket{ $Self->{Config}->{Time} },
                 TimeShowAlwaysLong => 1,
                 Space              => ' ',
             );
         }
         else {
-            $Ticket{Time} = $LayoutObject->FormatAge(
+            $Ticket{Time} = $LayoutObject->CustomerAge(
                 Age   => $Ticket{ $Self->{Config}->{Time} },
                 Space => ' ',
             );
@@ -1752,12 +1752,12 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman} = $LayoutObject->FormatAge(
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAge(
                         Age                => $EscalationData{EscalationTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     ) || '-';
-                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->FormatAge(
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
                         Age                => $EscalationData{EscalationTimeWorkingTime},
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1772,14 +1772,14 @@ sub Run {
                     next COLUMN;
                 }
                 elsif ( $Column eq 'Age' ) {
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age   => $Ticket{Age},
                         Space => ' ',
                     );
                 }
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Ticket{SolutionTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1790,7 +1790,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Ticket{FirstResponseTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1805,7 +1805,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age                => $Ticket{UpdateTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
@@ -1816,7 +1816,7 @@ sub Run {
                 }
                 elsif ( $Column eq 'PendingTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->FormatAge(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age   => $Ticket{'UntilTime'},
                         Space => ' ',
                     );

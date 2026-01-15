@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -407,7 +407,7 @@ sub _Show {
     );
 
     # create human age
-    $Article{Age} = $LayoutObject->FormatAge(
+    $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
         Space => ' ',
     );
@@ -779,12 +779,12 @@ sub _Show {
 
     # show first response time if needed
     if ( defined $Article{FirstResponseTime} ) {
-        $Article{FirstResponseTimeHuman} = $LayoutObject->FormatAge(
+        $Article{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Article{FirstResponseTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Article{FirstResponseTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -803,12 +803,12 @@ sub _Show {
 
     # show update time if needed
     if ( defined $Article{UpdateTime} ) {
-        $Article{UpdateTimeHuman} = $LayoutObject->FormatAge(
+        $Article{UpdateTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Article{UpdateTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{UpdateTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Article{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Article{UpdateTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -827,12 +827,12 @@ sub _Show {
 
     # show solution time if needed
     if ( defined $Article{SolutionTime} ) {
-        $Article{SolutionTimeHuman} = $LayoutObject->FormatAge(
+        $Article{SolutionTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Article{SolutionTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Article{SolutionTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Article{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Article{SolutionTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',

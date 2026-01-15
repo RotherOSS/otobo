@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -488,20 +488,20 @@ sub TableCreateComplex {
                     }
                     elsif ( $Column eq 'EscalationTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age   => $Ticket->{'EscalationTime'},
                             Space => ' '
                         );
                     }
                     elsif ( $Column eq 'Age' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age   => $Ticket->{Age},
                             Space => ' ',
                         );
                     }
                     elsif ( $Column eq 'EscalationSolutionTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age                => $Ticket->{SolutionTime} || 0,
                             TimeShowAlwaysLong => 1,
                             Space              => ' ',
@@ -516,14 +516,14 @@ sub TableCreateComplex {
                         );
                     }
                     elsif ( $Column eq 'EscalationUpdateTime' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age                => $Ticket->{UpdateTime} || 0,
                             TimeShowAlwaysLong => 1,
                             Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'PendingTime' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->FormatAge(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age   => $Ticket->{'UntilTime'},
                             Space => ' '
                         );

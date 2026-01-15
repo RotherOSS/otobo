@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -94,12 +94,12 @@ sub Run {
 
     # show first response time if needed
     if ( defined $Ticket{FirstResponseTime} ) {
-        $Ticket{FirstResponseTimeHuman} = $LayoutObject->FormatAge(
+        $Ticket{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Ticket{FirstResponseTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Ticket{FirstResponseTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -115,12 +115,12 @@ sub Run {
 
     # show update time if needed
     if ( defined $Ticket{UpdateTime} ) {
-        $Ticket{UpdateTimeHuman} = $LayoutObject->FormatAge(
+        $Ticket{UpdateTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Ticket{UpdateTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Ticket{UpdateTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -136,12 +136,12 @@ sub Run {
 
     # show solution time if needed
     if ( defined $Ticket{SolutionTime} ) {
-        $Ticket{SolutionTimeHuman} = $LayoutObject->FormatAge(
+        $Ticket{SolutionTimeHuman} = $LayoutObject->CustomerAge(
             Age                => $Ticket{SolutionTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
         );
-        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->FormatAge(
+        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
             Age                => $Ticket{SolutionTimeWorkingTime},
             TimeShowAlwaysLong => 1,
             Space              => ' ',
@@ -194,7 +194,7 @@ sub Run {
             },
         )->ToString();
 
-        $Ticket{PendingUntil} .= $LayoutObject->FormatAge(
+        $Ticket{PendingUntil} .= $LayoutObject->CustomerAge(
             Age   => $Ticket{UntilTime},
             Space => ' '
         );
