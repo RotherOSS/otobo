@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -2253,14 +2253,24 @@ sub CustomerAge {
         # check if age transformation should be applied
         if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
 
-            my $CreatedAtDateTimeObject = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    String => $Param{CreatedAt},
-                },
-            );
+            # implement fallback for CreatedAt param
+            my $CreatedAtDateTimeObject;
+            if ( !$Param{CreatedAt} ) {
+                $CreatedAtDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                $CreatedAtDateTimeObject->Subtract(
+                    Seconds => $Age,
+                );
+            }
+            else {
+                $CreatedAtDateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $Param{CreatedAt},
+                    },
+                );
+            }
 
-            return $CreatedAtDateTimeObject->ToString();
+            return $Self->{LanguageObject}->FormatTimeString( $CreatedAtDateTimeObject->ToString(), 'DateFormat', 'NoSeconds' );
         }
     }
 
