@@ -12401,6 +12401,7 @@
                 <Item>X-OTOBO-Service</Item>
                 <Item>X-OTOBO-SLA</Item>
                 <Item>X-OTOBO-Title</Item>
+                <Item>X-OTOBO-From</Item>
                 <Item>X-OTOBO-CustomerNo</Item>
                 <Item>X-OTOBO-CustomerUser</Item>
                 <Item>X-OTOBO-SenderType</Item>

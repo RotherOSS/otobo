@@ -90,7 +90,7 @@ $Selenium->RunTest(
         my $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/EmailParser/UTF-8.box';
         my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Location,
-            Mode     => 'utf8',
+            Mode     => 'binmode',
             Result   => 'SCALAR',
         );
 
