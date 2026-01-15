@@ -2262,7 +2262,7 @@ sub _Mask {
         $Article{Age} = $LayoutObject->CustomerAge(
             Age       => $Delta->{AbsoluteSeconds},
             Space     => ' ',
-            CreatedAt => $Ticket{Created},
+            CreatedAt => $Article{CreateTime},
         );
 
         $Article{Subject} = $TicketObject->TicketSubjectClean(
