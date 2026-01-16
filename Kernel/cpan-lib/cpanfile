@@ -122,6 +122,9 @@ requires 'Net::HTTP', '== 6.17';
 # needed by Kernel::System::MailAccount::IMAP, removed in OTOBO 11.1.x
 requires 'Net::IMAP::Simple', '== 1.2209';
 
+# needed by OTOBO email modules, removed in OTOBO 11.1.x
+requires 'Net::SSLGlue', '== 1.058';
+
 # needed by Kernel::System::PDF
 requires 'PDF::API2', '== 2.048';
 
