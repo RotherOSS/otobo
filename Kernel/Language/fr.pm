@@ -10,7 +10,7 @@
 # Copyright (C) 2009-2010,2013 Olivier Sallou <olivier.sallou at irisa.fr>
 # Copyright (C) 2011-2013 Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 # Copyright (C) 2013 Dylan Oberson <dylan.oberson@epfl.ch>
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
