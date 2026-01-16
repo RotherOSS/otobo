@@ -17,7 +17,7 @@
 [% RenderBlockStart("General") %]
         <label class="Mandatory" for="Content"><span class="Marker">*</span> [% Translate("Content") | html %]:</label>
         <div class="Field">
-            <input type="text" name="Content" id="Content" [% Data.Readonly | html %] value="[% Data.Content | html %]" class="W50pc [% Data.ContentInvalid | html %] Validate_Required" maxlength="200"/>
+            <input type="text" name="Content" id="Content" [% Data.Readonly | html %] value="[% Data.Content | html %]" class="W50pc [% Data.ContentInvalid | html %] Validate_Required" maxlength="3800"/>
             <div id="ContentError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
             <div id="ContentServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
         </div>
@@ -25,7 +25,7 @@
 
         <label class="Mandatory" for="Translation"><span class="Marker">*</span> [% Translate("Translation") | html %]:</label>
         <div class="Field">
-            <input type="text" name="Translation" id="Translation" value="[% Data.Value | html %]" class="W50pc [% Data.TranslationInvalid | html %] Validate_Required" maxlength="200"/>
+            <input type="text" name="Translation" id="Translation" value="[% Data.Value | html %]" class="W50pc [% Data.TranslationInvalid | html %] Validate_Required" maxlength="3800"/>
             <div id="TranslationError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
             <div id="TranslationServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
         </div>

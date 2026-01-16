@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1710,7 +1710,7 @@ sub _AddHeadersToResponseObject {
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
-    )
+        )
     {
         for my $Key ( sort keys $Self->{SetCookies}->%* ) {
 
@@ -2241,9 +2241,24 @@ sub CustomerAge {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age     = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $AgeStrg = '';
+    if ( $Age =~ /^-(.*)/ ) {
+        $Age     = $1;
+        $AgeStrg = '-';
+    }
+
+    # expected to be an integer number
+    my $TimeShowCreatedAt = $ConfigObject->Get('CustomerFrontend::TimeShowCreatedAt');
+    if ( IsInteger($TimeShowCreatedAt) && $Param{Date} ) {
+
+        # check if age transformation should be applied
+        if ( $Age >= ( $TimeShowCreatedAt * 86400 ) ) {
+            return $Self->{LanguageObject}->FormatTimeString( $Param{Date}, 'DateFormat', 'NoSeconds' );
+        }
+    }
+
     my $Space     = $Param{Space} || '<br/>';
-    my $AgeStrg   = '';
     my $DayDsc    = Translatable('d');
     my $HourDsc   = Translatable('h');
     my $MinuteDsc = Translatable('m');
@@ -2251,10 +2266,6 @@ sub CustomerAge {
         $DayDsc    = Translatable('day(s)');
         $HourDsc   = Translatable('hour(s)');
         $MinuteDsc = Translatable('minute(s)');
-    }
-    if ( $Age =~ /^-(.*)/ ) {
-        $Age     = $1;
-        $AgeStrg = '-';
     }
 
     # get days

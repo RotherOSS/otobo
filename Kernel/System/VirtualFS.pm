@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2025 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -70,7 +70,7 @@ read a file from virtual file system
 
     my %File = $VirtualFSObject->Read(
         Filename => '/Object/some/name.txt',
-        Mode     => 'utf8',
+        Mode     => 'utf8', # allowed values are 'utf8' or 'binary'
 
         # optional
         DisableWarnings => 1,
@@ -103,12 +103,13 @@ sub Read {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename Mode)) {
-        if ( !$Param{$_} ) {
+    for my $Key (qw(Filename Mode)) {
+        if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -122,6 +123,7 @@ sub Read {
                 Message  => "No such file '$Param{Filename}'!",
             );
         }
+
         return;
     }
 
@@ -170,7 +172,7 @@ write a file to virtual file system
     my $Success = $VirtualFSObject->Write(
         Content  => \$Content,
         Filename => '/Object/SomeFileName.txt',
-        Mode     => 'binary'            # (binary|utf8)
+        Mode     => 'binary'            # allowed values are 'utf8' and 'binary'
 
         # optional, preferences data
         Preferences => {
