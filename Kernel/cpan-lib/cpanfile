@@ -65,6 +65,9 @@ requires 'Exporter::Tiny', '== 1.002001';
 # needed by Text::Diff::FormattedHTML, removed in OTOBO 11.1.x
 requires 'File::Slurp', '== 9999.32';
 
+# removed in OTOBO 11.0.x
+requires 'File::Slurp::Tiny', '== 0.004';
+
 # needed by PDF::API2
 requires 'Font::TTF', '== 1.06';
 
