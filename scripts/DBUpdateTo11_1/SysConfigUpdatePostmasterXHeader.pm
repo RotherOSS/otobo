@@ -72,10 +72,10 @@ sub Run {
     my %Result = $SysConfigObject->SettingUpdate(
         Name           => 'PostmasterX-Header',
         IsValid        => 1,
-        EffectiveValue => {
+        EffectiveValue => [
             $PostmasterXHeaderSetting{EffectiveValue}->@*,
             'X-OTOBO-From',
-        },
+        ],
         ExclusiveLockGUID => $ExclusiveLockGUID,
         UserID            => 1,
     );
