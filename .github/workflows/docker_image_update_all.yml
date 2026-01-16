@@ -28,19 +28,14 @@ jobs:
     # Needs to be updated for new patch level releases.
     outputs:
 
-      otobo_web_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_25 }}
-      otobo_web_rel_10_0_26: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_26 }}
-      otobo_web_rel_10_0_27: ${{ steps.collect_summary.outputs.otobo_web_rel_10_0_27 }}
-      otobo_web_latest_10_0: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0 }}
-
       otobo_web_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_14 }}
       otobo_web_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_15 }}
       otobo_web_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_web_rel_10_1_16 }}
       otobo_web_latest_10_1: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1 }}
 
-      otobo_web_rel_11_0_11: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_11 }}
       otobo_web_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_12 }}
       otobo_web_rel_11_0_13: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_13 }}
+      otobo_web_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_14 }}
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
 
       #otobo_elasticsearch_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_24 }}
@@ -58,49 +53,34 @@ jobs:
       #otobo_elasticsearch_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_11_0_12 }}
       #otobo_elasticsearch_latest_11_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0 }}
 
-      otobo_nginx_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_25 }}
-      otobo_nginx_webproxy_rel_10_0_26: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_26 }}
-      otobo_nginx_webproxy_rel_10_0_27: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_0_27 }}
-      otobo_nginx_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0 }}
-
       otobo_nginx_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_14 }}
       otobo_nginx_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_15 }}
       otobo_nginx_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_10_1_16 }}
       otobo_nginx_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1 }}
 
-      otobo_nginx_webproxy_rel_11_0_11: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_11 }}
       otobo_nginx_webproxy_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_12 }}
       otobo_nginx_webproxy_rel_11_0_13: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_13 }}
+      otobo_nginx_webproxy_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_rel_11_0_14 }}
       otobo_nginx_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0 }}
-
-      otobo_nginx_kerberos_webproxy_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_25 }}
-      otobo_nginx_kerberos_webproxy_rel_10_0_26: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_26 }}
-      otobo_nginx_kerberos_webproxy_rel_10_0_27: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_0_27 }}
-      otobo_nginx_kerberos_webproxy_latest_10_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_0 }}
 
       otobo_nginx_kerberos_webproxy_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_14 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_15 }}
       otobo_nginx_kerberos_webproxy_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_10_1_16 }}
       otobo_nginx_kerberos_webproxy_latest_10_1: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1 }}
 
-      otobo_nginx_kerberos_webproxy_rel_11_0_11: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_11 }}
       otobo_nginx_kerberos_webproxy_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_12 }}
       otobo_nginx_kerberos_webproxy_rel_11_0_13: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_13 }}
+      otobo_nginx_kerberos_webproxy_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_rel_11_0_14 }}
       otobo_nginx_kerberos_webproxy_latest_11_0: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0 }}
-
-      otobo_selenium_chrome_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_25 }}
-      otobo_selenium_chrome_rel_10_0_26: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_26 }}
-      otobo_selenium_chrome_rel_10_0_27: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_0_27 }}
-      otobo_selenium_chrome_latest_10_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0 }}
 
       otobo_selenium_chrome_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_14 }}
       otobo_selenium_chrome_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_15 }}
       otobo_selenium_chrome_rel_10_1_16: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_10_1_16 }}
       otobo_selenium_chrome_latest_10_1: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1 }}
 
-      otobo_selenium_chrome_rel_11_0_11: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_11 }}
       otobo_selenium_chrome_rel_11_0_12: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_12 }}
       otobo_selenium_chrome_rel_11_0_13: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_13 }}
+      otobo_selenium_chrome_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_rel_11_0_14 }}
       otobo_selenium_chrome_latest_11_0: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0 }}
 
     strategy:
@@ -111,35 +91,22 @@ jobs:
         #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
-          'rel-10_0_25', 'rel-10_0_26', 'rel-10_0_27', 'latest-10_0',
           'rel-10_1_14', 'rel-10_1_15', 'rel-10_1_16', 'latest-10_1',
-          'rel-11_0_11', 'rel-11_0_12', 'rel-11_0_13', 'latest-11_0'
+          'rel-11_0_12', 'rel-11_0_13', 'rel-11_0_14', 'latest-11_0'
         ]
         exclude:
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-10_0_25'
-          -
-            target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-10_0_26'
-          -
-            target:     'otobo-nginx-webproxy'
             docker_tag: 'rel-10_1_14'
           -
             target:     'otobo-nginx-webproxy'
             docker_tag: 'rel-10_1_15'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-11_0_11'
-          -
-            target:     'otobo-nginx-webproxy'
             docker_tag: 'rel-11_0_12'
           -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_25'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_26'
+            target:     'otobo-nginx-webproxy'
+            docker_tag: 'rel-11_0_13'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'rel-10_1_14'
@@ -148,40 +115,21 @@ jobs:
             docker_tag: 'rel-10_1_15'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-11_0_11'
+            docker_tag: 'rel-11_0_12'
           -
             target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-11_0_12'
+            docker_tag: 'rel-11_0_13'
 
         include:
           # the latest release for every release branch - has to be updated
-          -
-            docker_tag: 'latest-10_0'
-            patch:      'rel-10_0_27'
           -
             docker_tag: 'latest-10_1'
             patch:      'rel-10_1_16'
           -
             docker_tag: 'latest-11_0'
-            patch:      'rel-11_0_13'
+            patch:      'rel-11_0_14'
 
           # otobo-web uses different base images in the different release branches
-          -
-            target:     'otobo-web'
-            docker_tag: 'rel-10_0_25'
-            base_image: 'perl:5.32-buster'
-          -
-            target:     'otobo-web'
-            docker_tag: 'rel-10_0_26'
-            base_image: 'perl:5.40-bookworm'
-          -
-            target:     'otobo-web'
-            docker_tag: 'rel-10_0_27'
-            base_image: 'perl:5.40-bookworm'
-          -
-            target:     'otobo-web'
-            docker_tag: 'latest-10_0'
-            base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
             docker_tag: 'rel-10_1_14'
@@ -200,15 +148,15 @@ jobs:
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_0_11'
+            docker_tag: 'rel-11_0_12'
             base_image: 'perl:5.38-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_0_12'
+            docker_tag: 'rel-11_0_13'
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
-            docker_tag: 'rel-11_0_13'
+            docker_tag: 'rel-11_0_14'
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
@@ -216,22 +164,6 @@ jobs:
             base_image: 'perl:5.40-bookworm'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_0_25'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_0_26'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_0_27'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'latest-10_0'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
           #-
           #  target:     'otobo-nginx-kerberos-webproxy'
           #  docker_tag: 'rel-10_1_14'

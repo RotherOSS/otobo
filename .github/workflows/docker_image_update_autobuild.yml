@@ -29,7 +29,6 @@ jobs:
     # This long list is a workaround so that
     # the outputs from all matrix iterations can be collected.
     outputs:
-      otobo_web_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_0_autobuild }}
       otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
       otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
 
@@ -37,15 +36,12 @@ jobs:
       #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
       #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
 
-      otobo_nginx_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_0_autobuild }}
       otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
       otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
 
-      otobo_nginx_kerberos_webproxy_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_0_autobuild }}
       otobo_nginx_kerberos_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_10_1_autobuild }}
       otobo_nginx_kerberos_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_kerberos_webproxy_latest_11_0_autobuild }}
 
-      otobo_selenium_chrome_latest_10_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_0_autobuild }}
       otobo_selenium_chrome_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_10_1_autobuild }}
       otobo_selenium_chrome_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_selenium_chrome_latest_11_0_autobuild }}
 
@@ -57,7 +53,6 @@ jobs:
         #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
-          'latest-10_0-autobuild',
           'latest-10_1-autobuild',
           'latest-11_0-autobuild'
         ]
@@ -67,20 +62,13 @@ jobs:
           # irrespective of the target.
           # Has to be updated for every new patch level release.
           -
-            docker_tag:   'latest-10_0-autobuild'
-            otobo_branch: 'rel-10_0_27'
-          -
             docker_tag:   'latest-10_1-autobuild'
             otobo_branch: 'rel-10_1_16'
           -
             docker_tag:   'latest-11_0-autobuild'
-            otobo_branch: 'rel-11_0_13'
+            otobo_branch: 'rel-11_0_14'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'latest-10_0-autobuild'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
           -
             target:     'otobo-nginx-kerberos-webproxy'
             docker_tag: 'latest-10_1-autobuild'
