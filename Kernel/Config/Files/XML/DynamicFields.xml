@@ -2151,7 +2151,7 @@
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::DynamicField::Event::UpdateLensFieldMultiValue</Item>
-                <Item Key="Event">DynamicFieldAdd|DynamicFieldDelete|DynamicFieldUpdate</Item>
+                <Item Key="Event">DynamicFieldAdd|DynamicFieldUpdate</Item>
                 <Item Key="Transaction">1</Item>
             </Hash>
         </Value>

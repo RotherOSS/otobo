@@ -141,10 +141,6 @@ sub Run {
             }
         }
     }
-    elsif ( $Param{Event} eq 'DynamicFieldDelete' ) {
-
-        # do nothing
-    }
 
     return 1;
 }
