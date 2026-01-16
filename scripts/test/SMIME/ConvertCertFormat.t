@@ -27,6 +27,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -349,7 +350,10 @@ sub CertificationConversionTest {
 }
 
 # check certificates
+CERTIFICATE:
 for my $Certificate (@Certificates) {
+
+    next CERTIFICATE if (!IsHashRefWithData($Certificate));
 
     # PEM check
     my $PemCertificate = CertificationConversionTest(
