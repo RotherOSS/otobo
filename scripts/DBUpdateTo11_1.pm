@@ -69,7 +69,11 @@ sub Run {
         {
             Name   => 'Add X-OTOBO-From to PostmasterX-Header',
             Module => 'SysConfigUpdatePostmasterXHeader',
-        }
+        },
+        {
+            Name   => 'Update MultiValue attribute of Lens dynamic fields',
+            Module => 'UpdateLensDynamicFieldsMultiValue',
+        },
     );
 
     TASK:
