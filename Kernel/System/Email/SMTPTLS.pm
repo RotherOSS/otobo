@@ -35,6 +35,15 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
+# Use Net::SSLGlue::SMTP on systems with older Net::SMTP modules that cannot handle SSL.
+BEGIN {
+    if ( !defined &Net::SMTP::starttls ) {
+        ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+        ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
+        require Net::SSLGlue::SMTP;
+    }
+}
+
 sub _Connect {
     my ( $Self, %Param ) = @_;
 
