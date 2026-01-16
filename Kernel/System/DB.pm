@@ -124,6 +124,11 @@ sub new {
     $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
+    # Connections to MariaDB and MySQL should both use the driver module DBD::MariaDB. Therefore
+    # it is recommended to use a DSN starting with 'DBI:MariaDB:'. But updated system might still
+    # have a DSN that starts with 'DBI:mysql'. Switch the driver by fiddling with DSN.
+    $Self->{DSN} =~ s/DBI:mysql:/DBI:MariaDB:/;
+
     # mirror DB related
     $Self->{IsMirrorDB}    = $Param{IsMirrorDB};    # a guard that stops creation of a further mirror DB
     $Self->{_InitMirrorDB} = 0;                     # a guard that avoids reconnecting to a mirror DB
