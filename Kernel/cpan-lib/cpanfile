@@ -47,8 +47,14 @@ requires 'Data::ICal', '== 0.22';
 
 requires 'Date::ICal', '== 2.678';
 
+# removed in OTOBO 11.0.x
+requires 'Devel::StackTrace', '== 2.02';
+
 # needed by Kernel::System::CheckItem
 requires 'Email::Valid', '== 1.202';
+
+# removed in OTOBO 11.0.x
+requires 'Encode::Locale', '== 1.05';
 
 # needed by Kernel::System::CSV
 requires 'Excel::Writer::XLSX', '== 0.95';
@@ -64,6 +70,12 @@ requires 'Font::TTF', '== 1.06';
 
 # needed by HTMLUtils, contains adaption by OTOBO
 requires 'HTML::Scrubber', '== 0.20';
+
+# removed in OTOBO 11.0.x
+requires 'HTTP::Date', '== 6.02';
+
+# removed in OTOBO 11.0.x
+requires 'HTTP::Message', '== 6.13';
 
 # needed by console commands
 requires 'IO::Interactive', '== 1.022';

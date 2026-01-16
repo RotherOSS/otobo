@@ -369,10 +369,22 @@ sub BundleModulesDeclarationGet {
             'VersionRequired' => '== 2.678',
         },
         {
+            'Comment'         => 'removed in OTOBO 11.0.x',
+            'Module'          => 'Devel::StackTrace',
+            'Required'        => 1,
+            'VersionRequired' => '== 2.02',
+        },
+        {
             'Comment'         => 'needed by Kernel::System::CheckItem',
             'Module'          => 'Email::Valid',
             'Required'        => 1,
             'VersionRequired' => '== 1.202',
+        },
+        {
+            'Comment'         => 'removed in OTOBO 11.0.x',
+            'Module'          => 'Encode::Locale',
+            'Required'        => 1,
+            'VersionRequired' => '== 1.05',
         },
         {
             'Comment'         => 'needed by Kernel::System::CSV',
@@ -403,6 +415,18 @@ sub BundleModulesDeclarationGet {
             'Module'          => 'HTML::Scrubber',
             'Required'        => 1,
             'VersionRequired' => '== 0.20',
+        },
+        {
+            'Comment'         => 'removed in OTOBO 11.0.x',
+            'Module'          => 'HTTP::Date',
+            'Required'        => 1,
+            'VersionRequired' => '== 6.02',
+        },
+        {
+            'Comment'         => 'removed in OTOBO 11.0.x',
+            'Module'          => 'HTTP::Message',
+            'Required'        => 1,
+            'VersionRequired' => '== 6.13',
         },
         {
             'Comment'         => 'needed by console commands',
