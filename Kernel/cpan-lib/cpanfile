@@ -186,6 +186,9 @@ requires 'XML::Simple', '== 2.25';
 # needed by XML::FeedPP
 requires 'XML::TreePP', '== 0.43';
 
+# removed in OTOBO 11.0.x
+requires 'URI', '== 1.71';
+
 # needed by Sisimai, OTOBO itself uses YAML::XS
 requires 'YAML', '== 1.30';
 
