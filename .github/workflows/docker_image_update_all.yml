@@ -96,8 +96,8 @@ jobs:
         ]
         exclude:
 
-          # Exlude the Ngnix Images prior to rel-10_1_16 and rel-11_0_13
-          # because those can't be built, because of libpcre2 vs. libpcre3
+          # Exclude the Ngnix Images prior to rel-10_1_16 and rel-11_0_13.
+          # These versions can't be rebuilt because of an incompatability between libpcre2 and libpcre3.
           -
             target:     'otobo-nginx-webproxy'
             docker_tag: 'rel-10_1_14'
