@@ -38,8 +38,8 @@ my $DBPassword   = $ConfigObject->Get('DatabasePw');
 my $DBServer     = $ConfigObject->Get('DatabaseHost');
 
 # Check if DB is MySQL, finish test if it is not.
-if ( $ConfigObject->Get('DatabaseDSN') !~ /^DBI:mysql/ ) {
-    skip_all("Finishing prematurely test, need MySQL database");
+if ( $ConfigObject->Get('DatabaseDSN') !~ /^DBI:(?:mariadb|mysql):/i ) {
+    skip_all('Skipping test as we need a MariaDB or MySQL database');
 }
 
 # Create random test variable.

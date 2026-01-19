@@ -16,8 +16,10 @@
 
 package Kernel::System::DynamicFieldDB;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 
@@ -92,10 +94,17 @@ sub new {
         }
     }
     else {
-        $DatabaseDSN = 'DBI:' . $Self->{DynamicFieldConfig}->{Config}->{DBType}
-            . ':database=' . $Self->{DynamicFieldConfig}->{Config}->{DBName}
-            . ';host=' . $Self->{DynamicFieldConfig}->{Config}->{Server}
-            . ';port=' . $Self->{DynamicFieldConfig}->{Config}->{Port};
+
+        # The driver module DBD::MariaDB expects an integer value for the port when given.
+        # Therefore set the port only when there actually is a port.
+        $DatabaseDSN = join ':',
+            'DBI',
+            $Self->{DynamicFieldConfig}->{Config}->{DBType},
+            "database=$Self->{DynamicFieldConfig}->{Config}->{DBName}",
+            "host=$Self->{DynamicFieldConfig}->{Config}->{Server}";
+        if ( $Self->{DynamicFieldConfig}->{Config}->{Port} ) {
+            $DatabaseDSN .= ":port=$Self->{DynamicFieldConfig}->{Config}->{Port}";
+        }
     }
 
     # get the correct database type
@@ -545,7 +554,7 @@ sub DatabaseSearchByConfig {
         && $Param{ResultLimit} =~ /^\d+$/
         )
     {
-        return if !$Self->{DBObject}->Prepare(
+        return unless $Self->{DBObject}->Prepare(
             SQL   => $SQL,
             Bind  => \@BindParams,
             Limit => $Param{ResultLimit},
@@ -553,7 +562,7 @@ sub DatabaseSearchByConfig {
     }
     else {
 
-        return if !$Self->{DBObject}->Prepare(
+        return unless $Self->{DBObject}->Prepare(
             SQL  => $SQL,
             Bind => \@BindParams,
         );
