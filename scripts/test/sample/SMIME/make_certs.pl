@@ -22,7 +22,6 @@ use warnings;
 
 use JSON;
 use Path::Class qw(file);
-use Data::Dumper;
 use Time::Piece;
 
 my $ExpireInDays = 365;
