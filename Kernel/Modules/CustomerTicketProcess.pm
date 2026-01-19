@@ -502,7 +502,7 @@ sub _RenderAjax {
             }
 
             my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
-                ? $SetField->{Values}{$FrontendName}
+                ? ( $SetField->{Values}{$FrontendName} // '' )
                 :
                 (
                     $DynamicFieldBackendObject->BuildSelectionDataGet(
@@ -568,7 +568,7 @@ sub _RenderAjax {
         }
 
         my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
-            ? $DFParam->{"DynamicField_$Name"}
+            ? ( $DFParam->{"DynamicField_$Name"} // '' )
             :
             (
                 $DynamicFieldBackendObject->BuildSelectionDataGet(
