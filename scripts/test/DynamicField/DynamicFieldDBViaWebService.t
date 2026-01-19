@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -60,19 +61,19 @@ my $DatabaseDSN    = $ConfigObject->Get('DatabaseDSN');
 
 # Get database type.
 my $DatabaseType;
-if ( $DatabaseDSN =~ /:mysql/i ) {
+if ( $DatabaseDSN =~ m/^DBI:(?:mariadb|mysql)/i ) {
     $DatabaseType = 'mysql';
 }
-elsif ( $DatabaseDSN =~ /:pg/i ) {
+elsif ( $DatabaseDSN =~ m/^DBI:pg/i ) {
     $DatabaseType = 'postgresql';
 }
-elsif ( $DatabaseDSN =~ /:oracle/i ) {
+elsif ( $DatabaseDSN =~ m/^DBI:oracle/i ) {
     $DatabaseType = 'oracle';
 }
-elsif ( $DatabaseDSN =~ /:db2/i ) {
+elsif ( $DatabaseDSN =~ m/^DBI:db2/i ) {
     $DatabaseType = 'db2';
 }
-elsif ( $DatabaseDSN =~ /(mssql|sybase|sql server)/i ) {
+elsif ( $DatabaseDSN =~ m/^DBI:(?:mssql|sybase|sql server)/i ) {
     $DatabaseType = 'mssql';
 }
 
