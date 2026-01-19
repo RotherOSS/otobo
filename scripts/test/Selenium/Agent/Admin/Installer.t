@@ -52,7 +52,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
             # Parse the TestDatabase hash from configuration to variables.
             my $TestDatabase = $ConfigObject->Get('TestDatabase');
             my ( $DBType, $DBName, $DBPort, $DBHost );
-            if ( $TestDatabase->{DatabaseDSN} =~ /^DBI:mysql/ ) {
+            if ( $TestDatabase->{DatabaseDSN} =~ m/^DBI:(?:mariadb|mysql):/ ) {
                 $DBType = 'mysql';
                 ( $DBName, $DBHost ) = ( $TestDatabase->{DatabaseDSN} =~ /database=(.*);host=(.*);?/ );
             }
