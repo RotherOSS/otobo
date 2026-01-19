@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use v5.20;
+use v5.24;
 use utf8;
 use strict;
 use warnings;
@@ -140,7 +140,9 @@ foreach my $ID ( 1 .. 3 ) {
 }
 
 # write test expectations to JSON file
-file("scripts/test/sample/SMIME/smime_test.json")->spew(encode_json($JSON));
+file("scripts/test/sample/SMIME/smime_test.json")->spew(
+    JSON->new->utf8->pretty->encode($JSON)
+);
 
 # generate the example test .eml encrypted by cert "1"
 system("openssl smime -encrypt -in scripts/test/sample/SMIME/Plain-Test.eml -to 'unittest\@example.org' -from 'unittest\@example.org' -subject 'Unittest data' -out scripts/test/sample/SMIME/SMIME-Test.eml -des3 scripts/test/sample/SMIME/SMIMECertificate-1.asc");
