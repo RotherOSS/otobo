@@ -20,9 +20,11 @@ use utf8;
 
 # core modules
 use File::Path qw(mkpath rmtree);
+use JSON;
 
 # CPAN modules
 use Test2::V0;
+use Path::Class qw(file);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -144,15 +146,14 @@ if ( !$SMIMEObject ) {
 # Setup environment
 #
 
-# OpenSSL 1.0.0 hashes
-my $Check1Hash = 'f62a2257';
-my $Check2Hash = '35c7d865';
+my $TestConfigJSON = file("$HomeDir/scripts/test/sample/SMIME/smime_test.json")->slurp;
+my $TestConfig     = decode_json($TestConfigJSON);
 
 # certificates
 my @Certificates = (
     {
         CertificateName       => 'Check1',
-        CertificateHash       => $Check1Hash,
+        CertificateHash       => $TestConfig->{"1"}->{Hash},
         CertificateFileName   => 'SMIMECertificate-1.asc',
         PrivateKeyFileName    => 'SMIMEPrivateKey-1.asc',
         PrivateSecretFileName => 'SMIMEPrivateKeyPass-1.asc',
