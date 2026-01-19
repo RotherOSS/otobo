@@ -18,14 +18,14 @@ my %TestCases = (
     1 => 'unittest@example.org',
     2 => 'unittest2@example.org',
     3 => 'unittest3@example.org',
-#    4 => 'unittest4@example.org',
-#    5 => 'unittest5@example.org',
+    4 => 'unittest_expired@example.org',
 );
 
 my %Passwords = (
     1 => 'a passphrase',
     2 => 'anotherpassphrase',
     3 => 'a passphrase',
+    4 => 'a passphrase',
 );
 
 my $JSON = {};
@@ -49,7 +49,11 @@ foreach my $ID ( 1 .. 3 ) {
     }
 
     # the openssl command line assembled
-    my $Cmd = "openssl req -x509 -newkey rsa:4096 -passout 'pass:$Password' -keyout $KeyOut -out $CertOut -sha256 -days $ExpireInDays -subj '$Subject' $SubjectAltName";
+    my $Days = $ExpireInDays;
+    if($ID == 4 ) {
+        $Days = 1;
+    }
+    my $Cmd = "openssl req -x509 -newkey rsa:4096 -passout 'pass:$Password' -keyout $KeyOut -out $CertOut -sha256 -days $Days -subj '$Subject' $SubjectAltName";
 
     print "$Cmd\n";
 
@@ -138,3 +142,8 @@ foreach my $ID ( 1 .. 3 ) {
 # write test expectations to JSON file
 file("scripts/test/sample/SMIME/smime_test.json")->spew(encode_json($JSON));
 
+# generate the example test .eml encrypted by cert "1"
+system("openssl smime -encrypt -in scripts/test/sample/SMIME/Plain-Test.eml -to 'unittest\@example.org' -from 'unittest\@example.org' -subject 'Unittest data' -out scripts/test/sample/SMIME/SMIME-Test.eml -des3 scripts/test/sample/SMIME/SMIMECertificate-1.asc");
+
+# to test decryption using openssl (passphrase is 'a passphrase')
+# openssl smime -in scripts/test/sample/SMIME/SMIME-Test.eml -inkey scripts/test/sample/SMIME/SMIMEPrivateKey-1.asc -decrypt scripts/test/sample/SMIME/SMIMECertificate-1.asc
