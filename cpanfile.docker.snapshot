@@ -2406,6 +2406,7 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
+      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -2732,21 +2733,21 @@ DISTRIBUTIONS
       Digest::HMAC_MD5 0
       ExtUtils::MakeMaker 0
       MIME::Base64 0
-  Net-DNS-1.53
-    pathname: N/NL/NLNETLABS/Net-DNS-1.53.tar.gz
+  Net-DNS-1.54
+    pathname: N/NL/NLNETLABS/Net-DNS-1.54.tar.gz
     provides:
-      Net::DNS 1.53
+      Net::DNS 1.54
       Net::DNS::Domain 2002
       Net::DNS::DomainName 2005
       Net::DNS::DomainName1035 2005
       Net::DNS::DomainName2535 2005
-      Net::DNS::Header 2002
+      Net::DNS::Header 2042
       Net::DNS::Mailbox 2002
       Net::DNS::Mailbox1035 2002
       Net::DNS::Mailbox2535 2002
       Net::DNS::Nameserver 2002
       Net::DNS::Packet 2003
-      Net::DNS::Parameters 2021
+      Net::DNS::Parameters 2043
       Net::DNS::Question 2002
       Net::DNS::RR 2037
       Net::DNS::RR::A 2003
@@ -2758,14 +2759,15 @@ DISTRIBUTIONS
       Net::DNS::RR::CAA 2003
       Net::DNS::RR::CDNSKEY 2003
       Net::DNS::RR::CDS 2003
-      Net::DNS::RR::CERT 2002
+      Net::DNS::RR::CERT 2042
       Net::DNS::RR::CNAME 2003
       Net::DNS::RR::CSYNC 2003
-      Net::DNS::RR::DELEG 2039
+      Net::DNS::RR::DELEG 2043
+      Net::DNS::RR::DELEGI 2043
       Net::DNS::RR::DHCID 2003
       Net::DNS::RR::DNAME 2003
-      Net::DNS::RR::DNSKEY 2003
-      Net::DNS::RR::DS 2003
+      Net::DNS::RR::DNSKEY 2042
+      Net::DNS::RR::DS 2042
       Net::DNS::RR::DSYNC 2003
       Net::DNS::RR::EUI48 2003
       Net::DNS::RR::EUI64 2003
@@ -2813,15 +2815,15 @@ DISTRIBUTIONS
       Net::DNS::RR::PX 2003
       Net::DNS::RR::RESINFO 2003
       Net::DNS::RR::RP 2002
-      Net::DNS::RR::RRSIG 2003
+      Net::DNS::RR::RRSIG 2042
       Net::DNS::RR::RT 2003
-      Net::DNS::RR::SIG 2003
+      Net::DNS::RR::SIG 2042
       Net::DNS::RR::SMIMEA 2003
       Net::DNS::RR::SOA 2002
       Net::DNS::RR::SPF 2003
       Net::DNS::RR::SRV 2003
       Net::DNS::RR::SSHFP 2003
-      Net::DNS::RR::SVCB 2037
+      Net::DNS::RR::SVCB 2043
       Net::DNS::RR::TKEY 2035
       Net::DNS::RR::TLSA 2003
       Net::DNS::RR::TSIG 2003
@@ -2838,7 +2840,7 @@ DISTRIBUTIONS
       Net::DNS::Resolver::cygwin 2002
       Net::DNS::Resolver::os2 2007
       Net::DNS::Resolver::os390 2007
-      Net::DNS::Text 2002
+      Net::DNS::Text 2043
       Net::DNS::Update 2017
       Net::DNS::ZoneFile 2002
       Net::DNS::ZoneFile::Generator 2002
@@ -4488,7 +4490,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
