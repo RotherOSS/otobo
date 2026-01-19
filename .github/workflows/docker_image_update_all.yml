@@ -38,11 +38,6 @@ jobs:
       otobo_web_rel_11_0_14: ${{ steps.collect_summary.outputs.otobo_web_rel_11_0_14 }}
       otobo_web_latest_11_0: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0 }}
 
-      #otobo_elasticsearch_rel_10_0_24: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_24 }}
-      #otobo_elasticsearch_rel_10_0_25: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_25 }}
-      #otobo_elasticsearch_rel_10_0_26: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_0_26 }}
-      #otobo_elasticsearch_latest_10_0: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_0 }}
-
       #otobo_elasticsearch_rel_10_1_13: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_13 }}
       #otobo_elasticsearch_rel_10_1_14: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_14 }}
       #otobo_elasticsearch_rel_10_1_15: ${{ steps.collect_summary.outputs.otobo_elasticsearch_rel_10_1_15 }}
@@ -278,7 +273,7 @@ jobs:
 
       -
         # the name of the Dockerfile might depend on the branch
-        # there is a special case for rel-10_0 and rel-10_1
+        # there is a special case for rel-10_1
         name: Get the name of the Dockerfile
         if: ${{ steps.check.outputs.needs-updating == 'true' }}
         id: get-dockerfile
