@@ -16,16 +16,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /* Added from var/httpd/htdocs/skins/Agent/default/css/Core.Reset.css to ensure consistent styling */
 
 .ck-content html, .ck-content body, .ck-content div,
-.ck-content span, .ck-content applet, .ck-content object,
-.ck-content iframe, .ck-content h1, .ck-content h2,
+.ck-content span, .ck-content h1, .ck-content h2,
 .ck-content h3, .ck-content h4, .ck-content h5,
 .ck-content h6, .ck-content p, .ck-content blockquote,
-.ck-content pre, .ck-content a, .ck-content abbr,
-.ck-content acronym, .ck-content address, .ck-content big,
-.ck-content cite, .ck-content code, .ck-content del,
-.ck-content dfn, .ck-content em, .ck-content font,
-.ck-content img, .ck-content ins, .ck-content kbd,
-.ck-content q, .ck-content s, .ck-content samp,
+.ck-content cite, .ck-content code,
+.ck-content em, .ck-content img,
+.ck-content q, .ck-content s,
 .ck-content small, .ck-content strike, .ck-content strong,
 .ck-content sub, .ck-content sup, .ck-content tt,
 .ck-content var, .ck-content dl, .ck-content dt,
@@ -41,7 +37,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     outline: 0;
     font-weight: inherit;
     font-style: inherit;
-    font-size: 12px;
+    font-size: inherit;
     font-family: inherit;
     vertical-align: baseline;
     background-image: none;
@@ -54,7 +50,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-wrap: wrap;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
-    line-height: 1.3em;
+    line-height: 1.2em;
     font-weight: normal;
     color: #000000;
     margin-bottom: 0px;
@@ -96,35 +92,41 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 15px;
+    color: inherit;
 } 
 
 .ck-content h2 {
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 10px;
+    color: inherit;
 }
 
 .ck-content h3 {
     font-size: 1.17em;
     font-weight: bold;
     margin-bottom: 5px;
+    color: inherit;
 }
 
 .ck-content h4 {
     font-size: 1em;
     font-weight: bold;
     margin-bottom: 5px;
+    color: inherit;
 }
 
 .ck-content h5 {
     font-size: 0.83em;
     font-weight: bold;
     margin-bottom: 5px;
+    color: inherit;
 } 
 
 .ck-content h6 {
     font-size: 0.67em;
     font-weight: bold;
+    color: inherit;
 } 
 
 .ck-content blockquote {
