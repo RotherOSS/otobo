@@ -23,7 +23,6 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use Data::Peek qw(DDump);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -87,7 +86,7 @@ $Selenium->RunTest(
 
         # Write test sample email as article plain.
         # The sample mail contains German umlauts.
-        my $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/EmailParser/UTF-8.box';
+        my $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/AgentTicketPlain/UTF-8.box';
         my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Location,
             Mode     => 'binmode',
@@ -132,7 +131,6 @@ $Selenium->RunTest(
         # The page source is a string with the UTF-8 flag active, containing some double encoded characters.
         my $PageSource = $Selenium->get_page_source;
 
-        #diag 'PageSource:', "\n", scalar DDump $PageSource;
         $Selenium->content_contains( 'Subject: Content in UTF-8', 'found subject in plain format email' );
         my @Lines = (
             'ä - U+000E4 - C3 A4 - LATIN SMALL LETTER A WITH DIAERESIS',
