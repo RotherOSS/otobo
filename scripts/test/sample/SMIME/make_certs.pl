@@ -2,8 +2,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2026-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -87,9 +86,12 @@ for my $ID ( 1 .. 3 ) {
     $Subject2 =~ s/\s+$//;
     $Subject2 =~ s/=/= /g;
 
-    my $Issuer = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;
-    $Issuer =~ s/\s+$//;
-    $Issuer =~ s/=/= /g;
+    my $Issuer  = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;    
+    $Issuer  =~ s/\s+$//;
+    
+    my $Issuer2 = $Issuer;
+    $Issuer  =~ s/=/= /g;
+    $Issuer2 =~ s/ =/=/g;
 
     my $Hash = qx~openssl x509 -hash -noout -in $CertOut ~;
     $Hash =~ s/\s+$//;
@@ -120,7 +122,7 @@ for my $ID ( 1 .. 3 ) {
         Email          => $Email,
         Modulus        => $Modulus,
         Subject        => [ $Subject, $Subject2 ],
-        Issuer         => $Issuer,
+        Issuer         => [ $Issuer, $Issuer2 ],
         Hash           => $Hash,
         Private        => $Private,
         Serial         => $Serial,
