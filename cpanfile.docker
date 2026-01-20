@@ -22,6 +22,7 @@ requires 'DBI';
 # Sane persistent database connection
 requires 'DBIx::Connector';
 
+# (in perlcore)
 requires 'Digest::SHA';
 
 requires 'File::chmod';

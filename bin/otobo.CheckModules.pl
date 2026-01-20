@@ -301,9 +301,9 @@ my $Options = shift || '';
 my $NoColors;
 
 if (
-    $DoPrintCpanfile
+    $DoGenerateCpanfiles
+    || $DoPrintCpanfile
     || $DoPrintDockerCpanfile
-    || $DoGenerateCpanfiles
     || $DoPrintBundledCpanfile
     || $ENV{nocolors}
     || $Options =~ m{\A nocolors}msxi
@@ -441,6 +441,7 @@ my @NeededModules = (
     {
         # In Perl core since Perl 5.9.3
         Module    => 'Digest::SHA',
+        Comment   => '(in perlcore)',
         Required  => 1,
         InstTypes => {
             aptget => 'perl',
@@ -1186,22 +1187,12 @@ if ($DoGenerateCpanfiles) {
 
     {
         open( STDOUT, '>', "$Home/cpanfile" ) or die "Can't open STDOUT: $!";
-        say <<'END_HEADER';
-# Do not change this file manually.
-# Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
-END_HEADER
-        PrintCpanfile( \@NeededModules, 1, 1, 0 );
+        PrintStandardCpanfile();
     }
 
     {
         open( STDOUT, '>', "$Home/cpanfile.docker" ) or die "Can't open STDOUT: $!";
-        say <<'END_HEADER';
-# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
-# Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
-END_HEADER
-        PrintCpanfile( \@NeededModules, 1, 1, 1 );
+        PrintDockerCpanfile();
     }
 
     {
@@ -1225,22 +1216,10 @@ END_HEADER
     open( STDOUT, '>&', $OldOutFh ) or die "Can't dup \$OldOutFh: $!";
 }
 elsif ($DoPrintCpanfile) {
-    say <<'END_HEADER';
-# Do not change this file manually.
-# Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
-END_HEADER
-
-    PrintCpanfile( \@NeededModules, 1, 1, 0 );
+    PrintStandardCpanfile();
 }
 elsif ($DoPrintDockerCpanfile) {
-    say <<'END_HEADER';
-# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
-# Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
-END_HEADER
-
-    PrintCpanfile( \@NeededModules, 1, 1, 1 );
+    PrintDockerCpanfile();
 }
 elsif ($DoPrintBundledCpanfile) {
     say <<'END_HEADER';
@@ -1647,6 +1626,28 @@ sub GetInstallCommand {
         SubCMD  => $SubCMD,
         Package => $Package,
     );
+}
+
+sub PrintStandardCpanfile {
+    say <<'END_HEADER';
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
+END_HEADER
+    PrintCpanfile( \@NeededModules, 1, 1, 0 );
+
+    return;
+}
+
+sub PrintDockerCpanfile {
+    say <<'END_HEADER';
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+END_HEADER
+    PrintCpanfile( \@NeededModules, 1, 1, 1 );
+
+    return;
 }
 
 sub PrintCpanfile {
