@@ -51,11 +51,11 @@ parties and forks of OTOBO.
 The following versions of OTOBO are currently being supported with security updates.
 Older versions are not supported and may have known vulnerabilities.
 
-| Version | Supported          | Known vulnerabilities |
-| ------- | ------------------ | --------------------- |
-| 10.0.x  | :x:                | :x:                   |
-| 10.1.x  | :white_check_mark: | :x:                   |
-| 11.0.x  | :white_check_mark: | :x:                   |
+| Version | Supported          | End of Life       |
+| ------- | ------------------ | ------------------|
+| 10.0.x  | :x:                | January 1st 2026  |
+| 10.1.x  | :white_check_mark: |                   |
+| 11.0.x  | :white_check_mark: |                   |
 
 ## How to report a security vulnerability?
 
