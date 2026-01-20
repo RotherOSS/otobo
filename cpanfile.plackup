@@ -14,12 +14,12 @@ requires 'Const::Fast';
 # Neater interface for capturing STDOUT and STDERR.
 requires 'Capture::Tiny';
 
-# JSON parsing and generation
-requires 'JSON::XS';
-
 requires 'Date::Format';
 
 requires 'DateTime', '>= 1.08';
+
+# Olson time zone database, required for correct time calculations.
+requires 'DateTime::TimeZone', '>= 2.20';
 
 # A CSS minifier written in XS
 requires 'CSS::Minifier::XS', '>= 0.09';
@@ -46,11 +46,17 @@ requires 'IO::Socket::SSL';
 # A JavaScript minifier written in XS
 requires 'JavaScript::Minifier::XS';
 
+# correct and fast JSON support
+requires 'Cpanel::JSON::XS', '>= 4.0';
+
 requires 'List::Util', '>= 1.45';
 
 requires 'List::AllUtils', '>= 0.11';
 
 requires 'LWP::UserAgent';
+
+# Required for IMAP TLS connections.
+requires 'Mail::IMAPClient', '>= 3.40';
 
 # Required for random number generator.
 requires 'Moo';
@@ -89,6 +95,10 @@ requires 'Text::Trim';
 requires 'Time::HiRes';
 
 requires 'Try::Tiny';
+
+requires 'Type::Tiny', '>= 1.008';
+
+requires 'Types::Serialiser';
 
 # for generating properly escaped URLs
 requires 'URI';
@@ -225,12 +235,6 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # Feature 'graph:graphviz' is not needed
 
-
-# feature 'mail:imap', 'Support for feature mail:imap' => sub {
-    # Required for IMAP TLS connections.
-    requires 'Mail::IMAPClient', '>= 3.22';
-
-# };
 
 # feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.

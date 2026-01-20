@@ -1378,41 +1378,21 @@ if (0) {
 
 if ($DoGenerateCpanfiles) {
     my $Home = dirname($RealBin);
-    my $OldOutFh;
 
-    open( $OldOutFh, '>&', STDOUT ) or die "Can't dup STDOUT: $!";
+    # remember the old STDOUT filehandle
+    open( my $OldOutFh, '>&', STDOUT ) or die "Can't dup STDOUT: $!";
 
-    {
-        open( STDOUT, '>', "$Home/cpanfile" ) or die "Can't open STDOUT: $!";
-        PrintStandardCpanfile();
-    }
+    open( STDOUT, '>', "$Home/cpanfile" ) or die "Can't open STDOUT: $!";
+    PrintStandardCpanfile();
 
-    {
-        open( STDOUT, '>', "$Home/cpanfile.docker" ) or die "Can't open STDOUT: $!";
-        PrintDockerCpanfile();
-    }
+    open( STDOUT, '>', "$Home/cpanfile.docker" ) or die "Can't open STDOUT: $!";
+    PrintDockerCpanfile();
 
-    {
-        open( STDOUT, '>', "$Home/cpanfile.plackup" ) or die "Can't open STDOUT: $!";
-        PrintPlackupCpanfile();
-    }
+    open( STDOUT, '>', "$Home/cpanfile.plackup" ) or die "Can't open STDOUT: $!";
+    PrintPlackupCpanfile();
 
-    {
-        open( STDOUT, '>', "$Home/Kernel/cpan-lib/cpanfile" ) or die "Can't open STDOUT: $!";
-        say <<'END_HEADER';
-# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
-#
-# Do not change this file manually.
-# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
-# and call:
-#    mkdir tmp-cpan-lib
-#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
-#
-END_HEADER
-
-        my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
-        PrintCpanfile( \@BundledModules, 1, 0, 0, 0 );
-    }
+    open( STDOUT, '>', "$Home/Kernel/cpan-lib/cpanfile" ) or die "Can't open STDOUT: $!";
+    PrintBundledCpanfile();
 
     # restore STDOUT
     open( STDOUT, '>&', $OldOutFh ) or die "Can't dup \$OldOutFh: $!";
@@ -1427,19 +1407,7 @@ elsif ($DoPrintPlackupCpanfile) {
     PrintPlackupCpanfile();
 }
 elsif ($DoPrintBundledCpanfile) {
-    say <<'END_HEADER';
-# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
-#
-# Do not change this file manually.
-# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
-# and call:
-#    mkdir tmp-cpan-lib
-#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
-#
-END_HEADER
-
-    my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
-    PrintCpanfile( \@BundledModules, 1, 0, 0, 0 );
+    PrintBundledCpanfile();
 }
 elsif ($DoPrintInstCommand) {
 
@@ -1844,6 +1812,24 @@ sub PrintPlackupCpanfile {
 #    ./bin/otobo.CheckModules.pl --plackup-cpanfile > cpanfile.plackup
 END_HEADER
     PrintCpanfile( \@NeededModules, 1, 1, 0, 1 );
+
+    return;
+}
+
+sub PrintBundledCpanfile {
+    say <<'END_HEADER';
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+END_HEADER
+
+    my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+    PrintCpanfile( \@BundledModules, 1, 0, 0, 0 );
 
     return;
 }
