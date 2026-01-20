@@ -490,11 +490,6 @@ sub Run {
         }
     }
 
-    # ACL compatibility translation
-    my %ACLCompatGetParam = (
-        StateID => $GetParam{NewStateID},
-    );
-
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -1346,7 +1341,6 @@ sub Run {
         );
         my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedElementsDFStart = %ChangedElements;
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -2125,6 +2119,24 @@ sub Run {
             $TreeView = 1;
         }
 
+        # Get values for Ticket fields and use default value for Article fields, if given.
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( values $Self->{DynamicField}->%* ) {
+            next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+
+            # This overwrites the values that might have been taken from the web request.
+            # Note that there shouldn't be any values from the web request,
+            # because submits, successful and unsuccessful have been handled already above.
+            if ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) {
+
+                # Value is stored in the database from Ticket.
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+            elsif ( $DynamicFieldConfig->{ObjectType} eq 'Article' ) {
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Config}->{DefaultValue} || '';
+            }
+        }
+
         my $Autoselect = $ConfigObject->Get('TicketACL::Autoselect') || undef;
 
         # gather fields which are supposed to be hidden when autoselected
@@ -2341,7 +2353,6 @@ sub Run {
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
                     LoopProtection  => \$LoopProtection,
-                    InitialRun      => $InitialRun,
                 );
 
                 # combine FieldStates
