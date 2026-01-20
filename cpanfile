@@ -62,7 +62,7 @@ requires 'Text::CSV';
 
 requires 'Text::Trim';
 
-# Required for high resolution timestamps.
+# Required for high resolution timestamps (in perlcore)
 requires 'Time::HiRes';
 
 requires 'Try::Tiny';
@@ -166,7 +166,7 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
     # testing PSGI apps and URLs
@@ -332,7 +332,7 @@ feature 'optional', 'Support for feature optional' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
     requires 'Test::Simple';
 
     # testing PSGI apps and URLs
