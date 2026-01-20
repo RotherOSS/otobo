@@ -86,9 +86,12 @@ for my $ID ( 1 .. 3 ) {
     $Subject2 =~ s/\s+$//;
     $Subject2 =~ s/=/= /g;
 
-    my $Issuer = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;
-    $Issuer =~ s/\s+$//;
-    $Issuer =~ s/=/= /g;
+    my $Issuer  = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;
+    my $Issuer2 = $Issuer;
+    
+    $Issuer  =~ s/\s+$//;
+    $Issuer  =~ s/=/= /g;
+    $Issuer2 =~ s/ =/=/g;
 
     my $Hash = qx~openssl x509 -hash -noout -in $CertOut ~;
     $Hash =~ s/\s+$//;
@@ -119,7 +122,7 @@ for my $ID ( 1 .. 3 ) {
         Email          => $Email,
         Modulus        => $Modulus,
         Subject        => [ $Subject, $Subject2 ],
-        Issuer         => $Issuer,
+        Issuer         => [ $Issuer, $Issuer2 ],
         Hash           => $Hash,
         Private        => $Private,
         Serial         => $Serial,
