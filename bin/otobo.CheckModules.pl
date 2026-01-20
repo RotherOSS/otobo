@@ -50,6 +50,11 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --flist devel:test
     bin/otobo.CheckModules.pl --finst devel:test
 
+    # The dependency declarations of this script can also be dumped in the form of a cpanfile.
+    # These cpanfiles serve different purposes and are differentiated by their extension.
+    # They can be generated in a single step or printed out individually.
+    bin/otobo.CheckModules.pl --generate-cpanfiles
+
     # Print a cpanfile with the required modules regardless whether they are already available.
     bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
@@ -96,6 +101,8 @@ use CPAN::Meta::Requirements 2.140 ();
 # OTOBO modules
 use Kernel::System::Environment ();
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
+
+## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps InputOutput::RequireBriefOpen);
 
 my %InstTypeToCMD = (
 
@@ -183,7 +190,8 @@ my %IsCommonFeature = (
     'performance:json' => 1,
 );
 
-# defines a set of features considered standard for non docker environments
+# defines a set of features considered standard for native installations
+# used for creating the file 'cpanfile'
 my %IsStandardFeature = (
     %IsCommonFeature,
     'apache:mod_perl' => 1,
@@ -191,6 +199,7 @@ my %IsStandardFeature = (
 );
 
 # defines a set of features considered standard for docker environments
+# used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
     %IsCommonFeature,
     'db:odbc'            => 1,
@@ -240,6 +249,7 @@ my $DoPrintAllModules;
 my $DoPrintInstCommand;
 my $DoPrintPackageList;
 my $DoPrintFeatures;
+my $DoGenerateCpanfiles;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
 my $DoPrintBundledCpanfile;
@@ -247,16 +257,17 @@ my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'           => \$DoPrintHelp,
-    'inst'             => \$DoPrintInstCommand,
-    'list'             => \$DoPrintPackageList,
-    'all'              => \$DoPrintAllModules,
-    'features'         => \$DoPrintFeatures,
-    'finst=s{1,}'      => \@FeatureInstList,
-    'flist=s{1,}'      => \@FeatureList,
-    'cpanfile'         => \$DoPrintCpanfile,
-    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
-    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
+    'help|h'             => \$DoPrintHelp,
+    'inst'               => \$DoPrintInstCommand,
+    'list'               => \$DoPrintPackageList,
+    'all'                => \$DoPrintAllModules,
+    'features'           => \$DoPrintFeatures,
+    'finst=s{1,}'        => \@FeatureInstList,
+    'flist=s{1,}'        => \@FeatureList,
+    'generate-cpanfiles' => \$DoGenerateCpanfiles,
+    'cpanfile'           => \$DoPrintCpanfile,
+    'docker-cpanfile'    => \$DoPrintDockerCpanfile,
+    'bundled-cpanfile'   => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -270,6 +281,7 @@ elsif (
     && !$DoPrintInstCommand
     && !$DoPrintPackageList
     && !$DoPrintFeatures
+    && !$DoGenerateCpanfiles
     && !$DoPrintCpanfile
     && !$DoPrintDockerCpanfile
     && !$DoPrintBundledCpanfile
@@ -288,7 +300,15 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $DoPrintBundledCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if (
+    $DoPrintCpanfile
+    || $DoPrintDockerCpanfile
+    || $DoGenerateCpanfiles
+    || $DoPrintBundledCpanfile
+    || $ENV{nocolors}
+    || $Options =~ m{\A nocolors}msxi
+    )
+{
     $NoColors = 1;
 }
 
@@ -310,8 +330,7 @@ my $ExitCode = 0;    # success
 # specified with the attribute 'DockerVersionRequired'.
 #
 # ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
-#            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
-#            bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+#            bin/otobo.CheckModules.pl --generate-cpanfiles
 my @NeededModules = (
 
     # Core
@@ -1159,7 +1178,53 @@ if (0) {
     exit;
 }
 
-if ($DoPrintCpanfile) {
+if ($DoGenerateCpanfiles) {
+    my $Home = dirname($RealBin);
+    my $OldOutFh;
+
+    open( $OldOutFh, '>&', STDOUT ) or die "Can't dup STDOUT: $!";
+
+    {
+        open( STDOUT, '>', "$Home/cpanfile" ) or die "Can't open STDOUT: $!";
+        say <<'END_HEADER';
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
+END_HEADER
+        PrintCpanfile( \@NeededModules, 1, 1, 0 );
+    }
+
+    {
+        open( STDOUT, '>', "$Home/cpanfile.docker" ) or die "Can't open STDOUT: $!";
+        say <<'END_HEADER';
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+END_HEADER
+        PrintCpanfile( \@NeededModules, 1, 1, 1 );
+    }
+
+    {
+        open( STDOUT, '>', "$Home/Kernel/cpan-lib/cpanfile" ) or die "Can't open STDOUT: $!";
+        say <<'END_HEADER';
+# This cpanfile can be used for updating Kernel/cpan-lib. See Kernel/cpan-lib/README.md for details.
+#
+# Do not change this file manually.
+# Instead adapt the module list in the method Kernel::System::Environment::BundleModulesDeclarationGet()
+# and call:
+#    mkdir tmp-cpan-lib
+#    ./bin/otobo.CheckModules.pl --bundled-cpanfile > tmp-cpan-lib/cpanfile
+#
+END_HEADER
+
+        my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
+        PrintCpanfile( \@BundledModules, 1, 0, 0 );
+    }
+
+    # restore STDOUT
+    open( STDOUT, '>&', $OldOutFh ) or die "Can't dup \$OldOutFh: $!";
+}
+elsif ($DoPrintCpanfile) {
     say <<'END_HEADER';
 # Do not change this file manually.
 # Instead adapt bin/otobo.CheckModules.pl and call
