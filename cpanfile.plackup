@@ -1,6 +1,6 @@
 # Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
 # Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+#    ./bin/otobo.CheckModules.pl --plackup-cpanfile > cpanfile.plackup
 
 # Required for compressed file generation (in perlcore).
 requires 'Archive::Tar';
@@ -112,11 +112,8 @@ requires 'Plack::Middleware::ReverseProxy';
 # Feature 'apache:mod_perl' is not needed
 
 
-# feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
-    # Required for authentication via OpenIDConnect.
-    requires 'Crypt::JWT';
+# Feature 'auth:openidconnect' is not needed
 
-# };
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MariaDB or MySQL database.
@@ -127,90 +124,29 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'db:odbc', 'Support for database access via ODBC' => sub {
-    # Required to connect to a MS-SQL database.
-    # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
-    requires 'DBD::ODBC', '!= 1.23';
+# Feature 'db:odbc' is not needed
 
-# };
 
 # Feature 'db:oracle' is not needed
 
 
-# feature 'db:postgresql', 'Support for database PostgreSQL' => sub {
-    # Required to connect to a PostgreSQL database.
-    requires 'DBD::Pg';
+# Feature 'db:postgresql' is not needed
 
-# };
 
-# feature 'db:sqlite', 'Support for database SQLLite' => sub {
-    # Required to connect to a SQLite database.
-    requires 'DBD::SQLite';
+# Feature 'db:sqlite' is not needed
 
-# };
 
-# feature 'devel:debugging', 'Features which can be useful in development environments' => sub {
-    # nicer formatting when dumping data structures
-    requires 'Data::Dump', '>= 1.25';
+# Feature 'devel:debugging' is not needed
 
-    # convenient and informative dumping data structures
-    requires 'Data::Dx', '>= 0.000010';
 
-    # add stack trace to warnings
-    requires 'Devel::Confess', '>= 0.009004';
+# Feature 'devel:encoding' is not needed
 
-    # command history in Perl debugger and in Dev::Tools::Shell
-    requires 'Term::ReadLine::Gnu', '>= 1.35';
 
-# };
+# Feature 'devel:i18n' is not needed
 
-# feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
-    # for deeply inspecting scalars, especially strings
-    requires 'Data::Peek';
 
-    # for deeply inspecting strings
-    requires 'String::Dump';
+# Feature 'devel:test' is not needed
 
-# };
-
-# feature 'devel:i18n', 'Modules for dealing with translation and internationalisation' => sub {
-    # module for manipulating .po entries
-    requires 'Locale::PO';
-
-# };
-
-# feature 'devel:test', 'Modules for running the test suite' => sub {
-    # for deeply inspecting scalars, especially strings
-    requires 'Data::Peek';
-
-    # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver', '>= 1.49';
-
-    # a quick compile check
-    requires 'Test::Compile';
-
-    # check for strictures and warnings
-    requires 'Test::Strict';
-
-    # check whether the test script emits warnings
-    requires 'Test::Warnings';
-
-    # basic test functions
-    requires 'Test2::Suite';
-
-    # contains Test2::API which is used in Kernel::System::UnitTest::Driver, (in perlcore)
-    requires 'Test::Simple';
-
-    # testing PSGI apps and URLs
-    requires 'Test2::Tools::HTTP';
-
-    # bring explain() back to test scripts
-    requires 'Test2::Tools::Explain';
-
-    # support for formatting test results
-    requires 'Unicode::GCString';
-
-# };
 
 # feature 'div:bcrypt', 'Support for feature div:bcrypt' => sub {
     # For strong password hashing.
@@ -220,40 +156,40 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # feature 'div:cldr', 'Support for feature div:cldr' => sub {
     # localisation from the CLDR project
-    requires 'Locale::CLDR', '== 0.46.0';
+    requires 'Locale::CLDR', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ar', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Ar', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::De', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::De', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Es', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Es', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Fr', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Fr', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Hu', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Hu', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ko', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Ko', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Nb', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Nb', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Pt', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Pt', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Ru', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Ru', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Sr', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Sr', '== 0.44.1';
 
     # language packs from the CLDR project
-    requires 'Locale::CLDR::Locales::Zh', '== 0.46.0';
+    requires 'Locale::CLDR::Locales::Zh', '== 0.44.1';
 
 # };
 
@@ -269,11 +205,8 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
-    # Support for QR code in PDF files
-    requires 'Text::QRCode';
+# Feature 'div:qrcode' is not needed
 
-# };
 
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
@@ -290,11 +223,8 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
-    # A wrapper for AT&T's Graphviz
-    requires 'GraphViz2', '>= 2.67';
+# Feature 'graph:graphviz' is not needed
 
-# };
 
 # feature 'mail:imap', 'Support for feature mail:imap' => sub {
     # Required for IMAP TLS connections.
@@ -326,14 +256,5 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'storage:s3', 'AWS S3 compatible storage' => sub {
-    # support for the REST requests to the S3 storage
-    requires 'Mojolicious', '>= 9.22';
+# Feature 'storage:s3' is not needed
 
-    # correct and fast JSON support, used by Mojo::JSON
-    requires 'Cpanel::JSON::XS';
-
-    # support for S3 using Mojo::UserAgent
-    requires 'Mojolicious::Plugin::AWS';
-
-# };

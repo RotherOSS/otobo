@@ -57,6 +57,9 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # This file is used in otobo.web.dockerfile.
     bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
+    # Print a cpanfile with the required modules for a native installation which use plackup
+    bin/otobo.CheckModules.pl --plackup-cpanfile > cpanfile.plackup
+
     # Print a cpanfile with the required modules for Kernel/cpan-lib
     # This file is only used for sporadic updates
     bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile
@@ -182,13 +185,24 @@ my %IsCommonFeature = (
     'mail:sasl'    => 1,
 );
 
-# defines a set of features considered standard for non docker environments
+# defines a set of features considered standard for nativ installations
+# used for creating the file 'cpanfile'
+my %IsPlackupFeature = (
+    %IsCommonFeature,
+    'gazelle'           => 1,
+    'div:cldr'          => 1,
+    'performance:redis' => 1,
+);
+
+# defines a set of features for native installations which use plackup, specifically Gazelle
+# used for creating the file 'cpanfile.plackup'
 my %IsStandardFeature = (
     %IsCommonFeature,
     'apache:mod_perl' => 1,
 );
 
 # defines a set of features considered standard for docker environments
+# used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
     %IsCommonFeature,
     'db:odbc'            => 1,
@@ -245,6 +259,7 @@ my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
 my $DoPrintDockerCpanfile;
+my $DoPrintPlackupCpanfile;
 my $DoPrintBundledCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
@@ -259,6 +274,7 @@ GetOptions(
     'flist=s{1,}'      => \@FeatureList,
     'cpanfile'         => \$DoPrintCpanfile,
     'docker-cpanfile'  => \$DoPrintDockerCpanfile,
+    'plackup-cpanfile' => \$DoPrintPlackupCpanfile,
     'bundled-cpanfile' => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
@@ -275,6 +291,7 @@ elsif (
     && !$DoPrintFeatures
     && !$DoPrintCpanfile
     && !$DoPrintDockerCpanfile
+    && !$DoPrintPlackupCpanfile
     && !$DoPrintBundledCpanfile
     )
 {
@@ -313,8 +330,9 @@ my $ExitCode = 0;    # success
 # specified with the attribute 'DockerVersionRequired'.
 #
 # ATTENTION: when making changes here then make sure that you also regenerate the cpanfiles:
-#            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
-#            bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+#            bin/otobo.CheckModules.pl --cpanfile         > cpanfile
+#            bin/otobo.CheckModules.pl --docker-cpanfile  > cpanfile.docker
+#            bin/otobo.CheckModules.pl --plackup-cpanfile > cpanfile.plackup
 my @NeededModules = (
 
     # Core
@@ -1341,7 +1359,7 @@ if ($DoPrintCpanfile) {
 #    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
 END_HEADER
 
-    PrintCpanfile( \@NeededModules, 1, 1, 0 );
+    PrintCpanfile( \@NeededModules, 1, 1, 0, 0 );
 }
 elsif ($DoPrintDockerCpanfile) {
     say <<'END_HEADER';
@@ -1350,7 +1368,16 @@ elsif ($DoPrintDockerCpanfile) {
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 END_HEADER
 
-    PrintCpanfile( \@NeededModules, 1, 1, 1 );
+    PrintCpanfile( \@NeededModules, 1, 1, 1, 0 );
+}
+elsif ($DoPrintPlackupCpanfile) {
+    say <<'END_HEADER';
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --plackup-cpanfile > cpanfile.plackup
+END_HEADER
+
+    PrintCpanfile( \@NeededModules, 1, 1, 0, 1 );
 }
 elsif ($DoPrintBundledCpanfile) {
     say <<'END_HEADER';
@@ -1365,7 +1392,7 @@ elsif ($DoPrintBundledCpanfile) {
 END_HEADER
 
     my @BundledModules = Kernel::System::Environment->BundleModulesDeclarationGet;
-    PrintCpanfile( \@BundledModules, 1, 0, 0 );
+    PrintCpanfile( \@BundledModules, 1, 0, 0, 0 );
 }
 elsif ($DoPrintInstCommand) {
 
@@ -1751,7 +1778,7 @@ sub GetInstallCommand {
 }
 
 sub PrintCpanfile {
-    my ( $NeededModules, $FilterRequired, $HandleFeatures, $ForDocker ) = @_;
+    my ( $NeededModules, $FilterRequired, $HandleFeatures, $ForDocker, $ForPlackup ) = @_;
 
     # Indent the statements in the feature sections
     my $Indent = $FilterRequired ? '' : '    ';
@@ -1824,16 +1851,23 @@ sub PrintCpanfile {
 
         # When a cpanfile for Docker is generated then filter out the not-needed features
         if ( $ForDocker && !$IsDockerFeature{$Feature} ) {
-            say "# Feature '$Feature' is not needed for Docker\n";
+            say "# Feature '$Feature' is not needed\n";
+
+            next FEATURE;
+        }
+
+        # When a cpanfile for Docker is generated then filter out the not-needed features
+        if ( $ForPlackup && !$IsPlackupFeature{$Feature} ) {
+            say "# Feature '$Feature' is not needed\n";
 
             next FEATURE;
         }
 
         # Don't declare the features in the Docker case
-        my $PoundOrEmpty = $ForDocker ? '# ' : '';
+        my $PoundOrEmpty = ( $ForDocker || $ForPlackup ) ? '# ' : '';
         my $Desc         = $FeatureDescription{$Feature} // "Support for feature $Feature";
         say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
-        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
+        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker, $ForPlackup );
         say "${PoundOrEmpty}};";
     }
 
