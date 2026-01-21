@@ -38,9 +38,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2025-06-18 15:34+0000\n"
+"PO-Revision-Date: 2025-11-25 14:41+0000\n"
 "Last-Translator: Manuel Girardin <Manuel.Girardin@unil.ch>\n"
-"Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-10/fr/>\n"
+"Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-10/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12978,7 +12979,7 @@ msgstr "Message transféré par"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "End forwarded message"
-msgstr "Fin du message tranféré"
+msgstr "Fin du message transféré"
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
 msgid "Can't show history, no TicketID is given!"
@@ -25583,4 +25584,3 @@ msgstr "statistiques"
 
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Cela va autoriser le système à envoyer des messages par SMS."
-
