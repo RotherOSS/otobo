@@ -18,14 +18,14 @@ use v5.24;
 use strict;
 use warnings;
 use utf8;
-use JSON;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use File::Path  qw(rmtree make_path);
+use File::Path qw(rmtree make_path);
 use Path::Class qw(file);
+use JSON;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
@@ -200,6 +200,10 @@ for my $Count ( 1 .. 3 ) {
                     $Success = 1 if $Certs[0]->{$ID} eq $String;
                 }
 
+                if ( !$Success ) {
+                    diag "$ID not found in list: '$Certs[0]->{$ID}'";
+                }
+
                 ok( $Success, "CertificateSearch() - $ID" );
             }
             else {
@@ -358,7 +362,7 @@ for my $Count ( 1 .. 3 ) {
 
 # test search for alternate names, based on check 3
 # we have private keys now though
-$TestConfig->{3}->{Private}= 'Yes';
+$TestConfig->{3}->{Private} = 'Yes';
 for my $Count ( 3 .. 5 ) {
     subtest "alternate names $Count" => sub {
         my @Certs = $SMIMEObject->CertificateSearch(
