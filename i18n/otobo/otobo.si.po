@@ -21025,7 +21025,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the default interface. Unknown pathes below the script alias are "
+"Defines the default interface. Unknown paths below the script alias are "
 "redirected to the selected interface."
 msgstr ""
 
@@ -25014,7 +25014,7 @@ msgid ""
 "replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. "
 "If both are present and not equal this one has priority. Use 'Elasticsearch::"
 "IndexSettings###...' if you want to define special settings for single "
-"indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
+"indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
 "'ConfigItem'."
 msgstr ""
 
