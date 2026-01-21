@@ -542,7 +542,18 @@ END_CONTENT
                 "return \$('#DynamicField_Field3${RandomID}_0 option:not([value=\"\"])').length;"
             ),
             2,
-            "There are only two entries in the dynamic field 3 selection",
+            "There are only two entries in the first dynamic field 3 selection",
+        );
+
+        # $Selenium->find_element( '.FieldCell.MultiValue_0 .AddValueRow', 'css' )->click();
+        $Selenium->execute_script("\$('#DynamicField_Field3${RandomID}_0').closest('.FieldCell').find('.AddValueRow').trigger('click');");
+
+        is(
+            $Selenium->execute_script(
+                "return \$('#DynamicField_Field3${RandomID}_1 option:not([value=\"\"])').length;"
+            ),
+            2,
+            "There are only two entries in the second dynamic field 3 selection",
         );
 
         # De-select the dynamic field value for the first field.
@@ -561,7 +572,21 @@ END_CONTENT
         is(
             $Selenium->execute_script("return \$('#DynamicField_Field3${RandomID}_0 option:not([value=\"\"])').length;"),
             4,
-            "There are all four entries in the dynamic field 3 selection",
+            "There are all four entries in the first dynamic field 3 selection",
+        );
+
+        is(
+            $Selenium->execute_script("return \$('#DynamicField_Field3${RandomID}_1 option:not([value=\"\"])').length;"),
+            4,
+            "There are all four entries in the second dynamic field 3 selection",
+        );
+
+        $Selenium->execute_script("\$('#DynamicField_Field3${RandomID}_1').closest('.FieldCell').find('.AddValueRow').trigger('click');");
+
+        is(
+            $Selenium->execute_script("return \$('#DynamicField_Field3${RandomID}_2 option:not([value=\"\"])').length;"),
+            4,
+            "There are all four entries in the third dynamic field 3 selection",
         );
 
         # Close the new note popup.
