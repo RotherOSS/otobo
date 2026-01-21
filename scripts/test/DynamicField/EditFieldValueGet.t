@@ -3157,7 +3157,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_Agent => [],
+            DynamicField_Agent => [''],
         },
         Success => 1,
     },
@@ -3231,7 +3231,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMS => [],
+            DynamicField_AgentMS => [''],
         },
         Success => 1,
     },
@@ -3305,7 +3305,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMV => [],
+            DynamicField_AgentMV => [''],
         },
         Success => 1,
     },
@@ -3323,7 +3323,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMV => [],
+            DynamicField_AgentMV => [''],
         },
         Success => 1,
     },
@@ -3377,7 +3377,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_AgentMV => [ $FirstUserID, undef, $SecondUserID ],
+            DynamicField_AgentMV => [ $FirstUserID, '', $SecondUserID ],
         },
         Success => 1,
     },
@@ -3438,7 +3438,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerCompanyMV => [ $FirstCustomerCompanyID, undef, $SecondCustomerCompanyID ],
+            DynamicField_CustomerCompanyMV => [ $FirstCustomerCompanyID, '', $SecondCustomerCompanyID ],
         },
         Success => 1,
     },
@@ -3477,7 +3477,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUser => [],
+            DynamicField_CustomerUser => [''],
         },
         Success => 1,
     },
@@ -3533,7 +3533,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUserMV => [],
+            DynamicField_CustomerUserMV => [''],
         },
         Success => 1,
     },
@@ -3551,7 +3551,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUserMV => [],
+            DynamicField_CustomerUserMV => [''],
         },
         Success => 1,
     },
@@ -3605,7 +3605,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CustomerUserMV => [ $FirstCustomerUserLogin, undef, $SecondCustomerUserLogin ],
+            DynamicField_CustomerUserMV => [ $FirstCustomerUserLogin, '', $SecondCustomerUserLogin ],
         },
         Success => 1,
     },
@@ -3644,7 +3644,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRef => [],
+            DynamicField_TicketRef => [''],
         },
         Success => 1,
     },
@@ -3718,7 +3718,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMS => [],
+            DynamicField_TicketRefMS => [''],
         },
         Success => 1,
     },
@@ -3792,7 +3792,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMV => [],
+            DynamicField_TicketRefMV => [''],
         },
         Success => 1,
     },
@@ -3810,7 +3810,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMV => [],
+            DynamicField_TicketRefMV => [''],
         },
         Success => 1,
     },
@@ -3864,7 +3864,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_TicketRefMV => [ $FirstReferenceTicketID, undef, $SecondReferenceTicketID ],
+            DynamicField_TicketRefMV => [ $FirstReferenceTicketID, '', $SecondReferenceTicketID ],
         },
         Success => 1,
     },
