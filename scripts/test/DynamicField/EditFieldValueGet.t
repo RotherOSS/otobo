@@ -3381,6 +3381,8 @@ my @Tests = (
         },
         Success => 1,
     },
+
+    # testing handling of trailing empty values, see GitHub Issue #4790
     {
         Name   => 'Agent MultiValue: Value array ref with value inbetween and template value',
         Config => {
@@ -3399,6 +3401,8 @@ my @Tests = (
         },
         Success => 1,
     },
+
+    # testing handling of multiple empty values, see GitHub Issue #4790
     {
         Name   => 'Agent MultiValue: Value array ref with multiple empty strings and template value',
         Config => {
