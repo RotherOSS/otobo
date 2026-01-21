@@ -14644,7 +14644,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketQuickClose###CommunicationChannel" Required="0" Valid="1">
-        <Description Translatable="1">Defines the communication chanel for the quick close article action.</Description>
+        <Description Translatable="1">Defines the communication channel for the quick close article action.</Description>
         <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Internal</Item>

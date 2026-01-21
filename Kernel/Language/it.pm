@@ -3370,7 +3370,7 @@ sub Data {
         'Cached data found' => '',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             '',
-        'An error occured.' => '',
+        'An error occurred.' => '',
         'Discard previous progress' => '',
         'Insecure HTTP connection' => '',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -5281,21 +5281,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => '',
         'Can\'t read OTRS RELEASE file: %s' => '',
         'No OTRS system found!' => '',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             '',
         'OTRS Version is correct: %s.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => '',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'Nothing to do, as the table \'%s\' does not exist.' => '',
         'UPDATE of the table \'%s\' failed.' => '',
         'Migration completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             '',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             '',
         'SysConfig data migration completed.' => '',
 
@@ -7143,7 +7143,7 @@ Thanks for your help!
         'Defines the close state for quick close.' => '',
         'Defines the column to store the keys for the preferences table.' =>
             'Definisce le colonne in cui memorizzare le chiavi per la tabella delle preferenze.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
@@ -7171,7 +7171,7 @@ Thanks for your help!
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             'Definisce la lingua frontend predefinita. Tutti i valori possibili sono determinati dai file di lingua disponibili sul sistema. Questi valori sono elencati come chiavi nell\'impostazione \'DefaultUsedLanguages\'.',
         'Defines the default history type in the customer interface.' => '',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             '',
@@ -8413,9 +8413,9 @@ Thanks for your help!
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
         'Open the OTOBO home page in a new window' => '',

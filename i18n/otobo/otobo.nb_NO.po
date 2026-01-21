@@ -9788,7 +9788,7 @@ msgid "You will continue where you aborted the migration last time. If you do no
 msgstr "Du fortsetter der du avbrøt migreringen forrige gang. Hvis du ikke ønsker dette, vennligst forkast din tidligere fremgang."
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "En feil oppstod."
 
 #. Template: Intro
@@ -14788,7 +14788,7 @@ msgid "No OTRS system found!"
 msgstr "Ingen OTRS-system funnet!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr "Ukjent PRODUKT funnet i OTRS RELASE-fil: %s. Forventede verdier er %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14800,7 +14800,7 @@ msgid "Migrate ITSM database tables."
 msgstr "Migrer ITSM-databasetabeller."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr "Ingenting å gjøre, siden tabellen '%s' ikke eksisterer."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -14816,11 +14816,11 @@ msgid "Migrate configuration settings."
 msgstr "Migrer konfigurasjonsinnstillinger."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr "Det oppstod en feil under SysConfig-datamigrering eller ingen konfigurasjon eksisterer."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr "Det oppstod en feil under SysConfig-migrering ved skriving av XML til DB."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -19433,7 +19433,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "Definerer hvilken kolonne som skal brukes for å lagre nøkler til valgtabellen."
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr "Definerer kommunikasjonskanalen for rask lukking av artikkelhandlingen."
 
 #. SysConfig
@@ -19497,7 +19497,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "Spesifiserer standard historikkvisning i kundeportalen."
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr "Definerer standardgrensesnittet. Ukjente stier under skriptaliaset blir omdirigert til det valgte grensesnittet."
 
 #. SysConfig
@@ -22529,7 +22529,7 @@ msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note
 msgstr "Antall skår (NS), replikaer (NR) og feltgrense for indeksen. Merk: 'Elasticsearch::ArticleIndexCreationSettings' er utdatert. For kompatibilitet oppover, bruk 'Elasticsearch::IndexSettings###Default' i stedet."
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr "Antall skjær (NS), replikaer (NR) og feltgrense for indeksene. Dette erstatter 'Elasticsearch::ArticleIndexCreationSettings' i fremtidige versjoner. Hvis begge er tilstede og ikke like, har denne prioritet. Bruk 'Elasticsearch::IndexSettings###...' hvis du vil definere spesielle innstillinger for enkeltindekser.'...' kan være en av 'Customer', 'CustomerUser', 'Ticket' eller 'ConfigItem'."
 
 #. SysConfig
@@ -22557,11 +22557,11 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "OTOBO støtter ikke gjentakende avtaler uten sluttdato eller antall iterasjoner. Under importprosessen kan det hende at ICS-filen inneholder slike avtaler. I stedet oppretter systemet alle tidligere avtaler, pluss avtaler for de neste N månedene (120 måneder/10 år som standard)."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr "Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr "Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises. Saksattributter, unntatt kø, må eksplisitt lagres via Elasticsearch."
 
 #. SysConfig

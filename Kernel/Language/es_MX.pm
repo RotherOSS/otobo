@@ -3362,7 +3362,7 @@ sub Data {
         'Cached data found' => 'Datos encontrados en caché',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Continuará donde abortó la migración la última vez. Si no quiere esto, por favor, descarte su progreso anterior.',
-        'An error occured.' => 'Se ha producido un error.',
+        'An error occurred.' => 'Se ha producido un error.',
         'Discard previous progress' => 'Descartar el progreso anterior',
         'Insecure HTTP connection' => 'Conexión HTTP no segura',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -5273,21 +5273,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => '',
         'Can\'t read OTRS RELEASE file: %s' => '',
         'No OTRS system found!' => '¡No se ha encontrado ningún sistema OTRS!',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             '',
         'OTRS Version is correct: %s.' => 'La versión de OTRS es correcta: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => '',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'Nothing to do, as the table \'%s\' does not exist.' => '',
         'UPDATE of the table \'%s\' failed.' => '',
         'Migration completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migrar los ajustes de configuración.',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             'Se ha producido un error durante la migración de datos de SysConfig o no existe ninguna configuración.',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             'Se ha producido un error durante la migración de SysConfig al escribir XML en la base de datos.',
         'SysConfig data migration completed.' => 'Se ha completado la migración de datos de SysConfig.',
 
@@ -7146,7 +7146,7 @@ Su equipo de asistencia técnica
         'Defines the close state for quick close.' => 'Define el estado de cierre para el cierre rápido.',
         'Defines the column to store the keys for the preferences table.' =>
             'Define la columna para guardar las llaves en la tabla de preferencias.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             'Define el canal de comunicación para la acción de cierre rápido del artículo.',
         'Defines the config options for the autocompletion feature.' => 'Define las opciones de configuración de la función de autocompletado.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
@@ -7174,7 +7174,7 @@ Su equipo de asistencia técnica
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => 'Define el tipo de historia por defecto en la interfaz del cliente.',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Define el número máximo por defecto de atributos para el eje X, en la escala de tiempo.',
@@ -8416,9 +8416,9 @@ Su equipo de asistencia técnica
             'OTOBO puede utilizar una o más bases de datos espejo de sólo lectura para operaciones costosas como la búsqueda de texto completo o la generación de estadísticas. Aquí puede especificar el DSN para la primera base de datos espejo.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTOBO no soporta Citas recurrentes sin fecha de finalización o número de iteraciones. Durante el proceso de importación, puede ocurrir que el archivo ICS contenga tales Citas. En su lugar, el sistema crea todas las Citas del pasado, más las Citas de los próximos N meses (120 meses/10 años por defecto).',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             'Objetos a buscar, cuántas entradas y qué atributos mostrar.',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             'Objetos a buscar, cuántas entradas y qué atributos mostrar. Los atributos de las entradas, excepto la cola, tienen que ser almacenados explícitamente a través de Elasticsearch.',
         'Open an external link!' => '¡Abrir un enlace externo!',
         'Open the OTOBO home page in a new window' => 'Abrir la página de inicio de OTOBO en una nueva ventana',

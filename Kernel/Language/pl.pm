@@ -3366,7 +3366,7 @@ sub Data {
         'Cached data found' => 'Wykryto dane tymczasowe',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Będziesz kontynuował migrację od miejsca gdzie została przerwana. Jeżeli nie chcesz tego, odrzuć dotychczasowy postęp.',
-        'An error occured.' => 'Wystąpił błąd.',
+        'An error occurred.' => 'Wystąpił błąd.',
         'Discard previous progress' => 'Odrzuć wcześniejszy postęp',
         'Insecure HTTP connection' => 'Niezabezpieczone połączenie HTTP',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -5277,21 +5277,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => 'Plik %s OTRS RELEASE nie istnieje!',
         'Can\'t read OTRS RELEASE file: %s' => 'Nie można odczytać pliku OTRS RELEASE: %s',
         'No OTRS system found!' => 'Nie odnaleziono systemu OTRS!',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             'Nieznany PRODUKT znaleziony w pliku OTRS RELEASE: %s. Oczekiwane wartości to %s.',
         'OTRS Version is correct: %s.' => 'Poprawna wersja OTRS: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'Migruj tabele bazodanowe ITSM.',
-        'Nothing to do, as the the table \'%s\' does not exist.' => 'Nic do zrobienia, jako że tabela \'%s\' nie istnieje.',
+        'Nothing to do, as the table \'%s\' does not exist.' => 'Nic do zrobienia, jako że tabela \'%s\' nie istnieje.',
         'UPDATE of the table \'%s\' failed.' => '',
         'Migration completed.' => 'Migracja zakończona.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migruj ustawienia konfiguracyjne.',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             '',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             '',
         'SysConfig data migration completed.' => 'Migracja SysConfig zakończona.',
 
@@ -7139,7 +7139,7 @@ Thanks for your help!
         'Defines the close state for quick close.' => '',
         'Defines the column to store the keys for the preferences table.' =>
             'Definiuje kolumny przechowujące klucze w preferencjach tabeli.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => 'Definiuje opcje konfiguracyjne dla fukcji autouzupełnienia.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
@@ -7167,7 +7167,7 @@ Thanks for your help!
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => 'Definiuje domyślny rodzaj historii w interfejsie klienta.',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             '',
@@ -8409,9 +8409,9 @@ Thanks for your help!
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
         'Open the OTOBO home page in a new window' => 'Otwórz stronę główną OTOBO w nowym oknie',

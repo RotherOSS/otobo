@@ -9780,7 +9780,7 @@ msgid "You will continue where you aborted the migration last time. If you do no
 msgstr "ستتم المتابعة حيث قمت بإجهاض الترحيل في المرة الأخيرة. إذا كنت تريد بدء الترحيل مرة أخرى من الصفر، تجاهل كل التغييرات السابقة."
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "حدث خطأ."
 
 #. Template: Intro
@@ -14780,7 +14780,7 @@ msgid "No OTRS system found!"
 msgstr "لم يتم العثور على نظام OTRS!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr "تم العثور على منتج غير معروف في ملف OTRS RELEASE: ‎%s. القيم المتوقعة: ‎%s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14792,7 +14792,7 @@ msgid "Migrate ITSM database tables."
 msgstr "ترحيل جداول قاعدة بيانات ITSM."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr "لا شيء للقيام به، لأن الجدول '‎%s' غير موجود."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -14808,11 +14808,11 @@ msgid "Migrate configuration settings."
 msgstr "ترحيل إعدادات التكوين."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr "حدث خطأ أثناء ترحيل بيانات SysConfig أو لا يوجد تكوين."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr "حدث خطأ أثناء ترحيل SysConfig عند كتابة XML إلى DB."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -19426,7 +19426,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "يعرف العمود الذي يجب أن يتم فيه تخزين مفاتيح الجدول مع الإعدادات."
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr "يحدد قناة الاتصال لإجراء العنصر \"إغلاق فوري\"."
 
 #. SysConfig
@@ -19490,7 +19490,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "يحدد نوع المحفوظات الافتراضي في واجهة العميل."
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr "يحدد الواجهة الافتراضية. تتم إعادة توجيه المسارات غير المعروفة أسفل الاسم المستعار للبرنامج النصي إلى الواجهة المحددة."
 
 #. SysConfig
@@ -22522,7 +22522,7 @@ msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note
 msgstr "عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم استخدام \"Elasticsearch::ArticleIndexCreationSettings\". بدلا من ذلك، استخدم \"Elasticsearch::IndexSettings###Default\" لضمان التوافق مع الإصدارات الأحدث."
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr "عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهارس. يحل هذا الإعداد محل \"Elasticsearch::ArticleIndexCreationSettings\" في الإصدارات الأحدث. إذا كان كلا الإعدادين موجودين ويختلفان، تحديد أولوياتهما. استخدم \"Elasticsearch::IndexSettings###... \" لتحديد إعدادات محددة للفهارس الفردية. '. . . ' يمكن أن تكون إحدى القيم التالية: \"Customer\" أو \"CustomerUser\" أو \"Ticket\" أو \"ConfigItem\"."
 
 #. SysConfig
@@ -22550,11 +22550,11 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "لا يدعم OTOBO المواعيد المتكررة بدون تاريخ انتهاء أو عدد التكرارات. أثناء عملية الاستيراد، قد يحدث أن يحتوي ملف ICS على مثل هذه المواعيد. بدلا من ذلك، يقوم النظام بإنشاء جميع المواعيد في الماضي، بالإضافة إلى المواعيد للأشهر N التالية (120 شهرا / 10 سنوات افتراضيا)."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr "يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr "يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في Elasticsearch."
 
 #. SysConfig
