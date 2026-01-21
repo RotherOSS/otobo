@@ -116,7 +116,7 @@ my %InstTypeToCMD = (
     # }
     # Set UseModule to 1 if you want to use the
     # CPAN module name of the package as replace string.
-    # e.g. yum install "perl(Date::Format)"
+    # e.g. dnf install "perl(Date::Format)"
     # If you set it 0 it will use the name
     # for the InstType of the module
     # e.g. apt-get install -y libtimedate-perl
@@ -134,8 +134,8 @@ my %InstTypeToCMD = (
         CMD       => 'ppm install %s',
         UseModule => 0,
     },
-    yum => {
-        CMD       => 'yum install "%s"',
+    dnf => {
+        CMD       => 'dnf install "%s"',
         SubCMD    => 'perl(%s)',
         UseModule => 1,
     },
@@ -167,11 +167,11 @@ my %DistToInstType = (
     '"gentoo"' => 'emerge',
     gentoo     => 'emerge',
 
-    # yum
-    centos => 'yum',
-    fedora => 'yum',
-    rhel   => 'yum',
-    redhat => 'yum',
+    # dnf
+    centos => 'dnf',
+    fedora => 'dnf',
+    rhel   => 'dnf',
+    redhat => 'dnf',
 
     # zypper
     suse => 'zypper',
@@ -272,18 +272,18 @@ my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'           => \$DoPrintHelp,
-    'inst'             => \$DoPrintInstCommand,
-    'list'             => \$DoPrintPackageList,
-    'all'              => \$DoPrintAllModules,
-    'features'         => \$DoPrintFeatures,
-    'finst=s{1,}'      => \@FeatureInstList,
-    'flist=s{1,}'      => \@FeatureList,
-    'cpanfile'         => \$DoPrintCpanfile,
+    'help|h'             => \$DoPrintHelp,
+    'inst'               => \$DoPrintInstCommand,
+    'list'               => \$DoPrintPackageList,
+    'all'                => \$DoPrintAllModules,
+    'features'           => \$DoPrintFeatures,
+    'finst=s{1,}'        => \@FeatureInstList,
+    'flist=s{1,}'        => \@FeatureList,
+    'cpanfile'           => \$DoPrintCpanfile,
     'generate-cpanfiles' => \$DoGenerateCpanfiles,
-    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
-    'plackup-cpanfile' => \$DoPrintPlackupCpanfile,
-    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
+    'docker-cpanfile'    => \$DoPrintDockerCpanfile,
+    'plackup-cpanfile'   => \$DoPrintPlackupCpanfile,
+    'bundled-cpanfile'   => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
@@ -502,7 +502,7 @@ my @NeededModules = (
             aptget => 'libhttp-message-perl',
             emerge => 'dev-perl/HTTP-Message',
             zypper => 'perl-HTTP-Message',
-            yum    => 'perl-HTTP-Message',
+            dnf    => 'perl-HTTP-Message',
             ports  => undef,
         },
     },
@@ -542,7 +542,7 @@ my @NeededModules = (
         InstTypes       => {
             aptget => 'libcpanel-jsperl',
             emerge => 'dev-perl/Cpanel-JSON-XS',
-            yum    => 'perl-Cpanel-JSON-XS',
+            dnf    => 'perl-Cpanel-JSON-XS',
             zypper => 'perl-Cpanel-JSON-XS',
             ports  => 'converters/p5-Cpanel-JSON-XS',
         },
@@ -660,7 +660,7 @@ my @NeededModules = (
             aptget => 'libplack-perl',
             emerge => 'dev-perl/Plack',
             zypper => 'perl-Plack',
-            yum    => 'perl-Plack',
+            dnf    => 'perl-Plack',
             ports  => undef,
         },
     },
@@ -820,7 +820,7 @@ my @NeededModules = (
 
             # This is a core Perl module which should be available on most distributions.
             # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
-            yum => 'perl-Unicode-Collate',
+            dnf => 'perl-Unicode-Collate',
         },
     },
 
@@ -833,7 +833,7 @@ my @NeededModules = (
         InstTypes       => {
             aptget => undef,
             emerge => undef,
-            yum    => undef,
+            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -845,7 +845,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,
             emerge => undef,
-            yum    => undef,
+            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -881,7 +881,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
-            yum    => undef,
+            dnf    => undef,
             zypper => undef,
             ports  => 'databases/p5-DBD-ODBC',
         },
@@ -893,7 +893,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
-            yum    => undef,
+            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -961,7 +961,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libredis-perl',
             emerge => 'dev-perl/Redis',
-            yum    => 'perl-Redis',
+            dnf    => 'perl-Redis',
             zypper => 'perl-Redis',
             ports  => 'databases/p5-Redis',
         },
@@ -973,7 +973,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libredis-fast-perl',
             emerge => undef,
-            yum    => undef,
+            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -1193,7 +1193,7 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdata-peek-perl',
             emerge => undef,
-            yum    => 'perl-Data-Peek',
+            dnf    => 'perl-Data-Peek',
             zypper => undef,
             ports  => undef,
         },
