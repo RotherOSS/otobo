@@ -251,7 +251,7 @@ sub Run {
                 if ( !$Result || !defined $Result->{Successful} ) {
                     $Result->{Successful} = 0;
                     $Result->{Message}    = $AJAXTask;
-                    $Result->{Comment}    = 'A fatal error occured.';
+                    $Result->{Comment}    = 'A fatal error occurred.';
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
@@ -647,7 +647,7 @@ sub _TaskError {
     );
 
     return {
-        Message => "An error occured.",
+        Message => "An error occurred.",
         Comment => "Task '$Task' not defined for $Self->{Subaction}!",
         Success => 0,
     };

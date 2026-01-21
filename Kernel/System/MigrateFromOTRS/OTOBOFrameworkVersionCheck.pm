@@ -266,7 +266,7 @@ sub _CheckOTRSRelease {
             Message => $Message,
             Comment => $Self->{LanguageObject}->Translate("No OTRS system found!"),
             Comment => $Self->{LanguageObject}->Translate(
-                "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.",
+                "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.",
                 $Location,
                 $ExpectedNames
             ),

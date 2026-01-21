@@ -9825,7 +9825,7 @@ msgid "You will continue where you aborted the migration last time. If you do no
 msgstr "Você continuará de onde abortou a migração da última vez. Se você não quiser isso, descarte seu progresso anterior."
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "Um erro ocorreu."
 
 #. Template: Intro
@@ -14801,7 +14801,7 @@ msgid "No OTRS system found!"
 msgstr "Nenhum sistema OTRS encontrado!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14813,7 +14813,7 @@ msgid "Migrate ITSM database tables."
 msgstr "Migrar tabelas de banco de dados ITSM."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr "Nada a ser feito, uma vez que a tabela '%s' não existe."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -14829,11 +14829,11 @@ msgid "Migrate configuration settings."
 msgstr "Migre as definições de configuração."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr "Um erro ocorreu durante a migração de dados da Configuração do Sistema ou não existe configuração."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr "Um erro ocorreu durante a migração da Configuração do Sistema durante a escrita do XML para o Banco de Dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -19463,7 +19463,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "Define a coluna para armazenar as chaves para a tabela de preferências."
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr ""
 
 #. SysConfig
@@ -19519,7 +19519,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "Define o tipo de histórico padrão na interface de cliente."
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr ""
 
 #. SysConfig
@@ -22547,7 +22547,7 @@ msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr ""
 
 #. SysConfig
@@ -22575,11 +22575,11 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "OTOBO não suporta Agendamentos recorrentes sem uma data de término ou um número de iterações. Durante o processo de importação, pode ocorrer que o arquivo ICS não contenha esses Agendamentos. Ao invés disso, o sistema cria Agendamentos no passado mais Agendamentos para os próximos N meses (120 meses/10 anos por padrão)."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr ""
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
 
 #. SysConfig

@@ -100,7 +100,7 @@ sub Configure {
     );
     $Self->AddArgument(
         Name        => 'test-script-path',
-        Description => "Pathes to directories with test scripts or to single test scripts. All other test selection options will be ignored.",
+        Description => "Paths to directories with test scripts or to single test scripts. All other test selection options will be ignored.",
         Required    => 0,
         ValueRegex  => qr/.*/smx,
         Slurpy      => 1,

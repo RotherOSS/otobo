@@ -9791,7 +9791,7 @@ msgid "You will continue where you aborted the migration last time. If you do no
 msgstr "Continuará donde abortó la migración la última vez. Si no quiere esto, por favor, descarte su progreso anterior."
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "Se ha producido un error."
 
 #. Template: Intro
@@ -14767,7 +14767,7 @@ msgid "No OTRS system found!"
 msgstr "¡No se ha encontrado ningún sistema OTRS!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14779,7 +14779,7 @@ msgid "Migrate ITSM database tables."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -14795,11 +14795,11 @@ msgid "Migrate configuration settings."
 msgstr "Migrar los ajustes de configuración."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr "Se ha producido un error durante la migración de datos de SysConfig o no existe ninguna configuración."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr "Se ha producido un error durante la migración de SysConfig al escribir XML en la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -19429,7 +19429,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "Define la columna para guardar las llaves en la tabla de preferencias."
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr "Define el canal de comunicación para la acción de cierre rápido del artículo."
 
 #. SysConfig
@@ -19485,7 +19485,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "Define el tipo de historia por defecto en la interfaz del cliente."
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr ""
 
 #. SysConfig
@@ -22513,7 +22513,7 @@ msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note
 msgstr "Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice. Nota: Elasticsearch::ArticleIndexCreationSettings' está obsoleto. Para la compatibilidad hacia arriba, utilice 'Elasticsearch::IndexSettings###Default' en su lugar."
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr "Número de fragmentos (NS), réplicas (NR) y límite de campos para los índices. Esto reemplaza a 'Elasticsearch::ArticleIndexCreationSettings' en futuras versiones. Si ambos están presentes y no son iguales este tiene prioridad. Utiliza 'Elasticsearch::IndexSettings##...' si quieres definir ajustes especiales para índices individuales.'...' puede ser uno de 'Customer', 'CustomerUser', 'Ticket' o 'ConfigItem'."
 
 #. SysConfig
@@ -22541,11 +22541,11 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "OTOBO no soporta Citas recurrentes sin fecha de finalización o número de iteraciones. Durante el proceso de importación, puede ocurrir que el archivo ICS contenga tales Citas. En su lugar, el sistema crea todas las Citas del pasado, más las Citas de los próximos N meses (120 meses/10 años por defecto)."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr "Objetos a buscar, cuántas entradas y qué atributos mostrar."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr "Objetos a buscar, cuántas entradas y qué atributos mostrar. Los atributos de las entradas, excepto la cola, tienen que ser almacenados explícitamente a través de Elasticsearch."
 
 #. SysConfig
@@ -25629,7 +25629,7 @@ msgstr "Importar/Exportar"
 #~ msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used."
 #~ msgstr "Guarda los archivos adjuntos de los artículos. \"DB\" almacena todos los datos en la base de datos (no se recomienda para almacenar archivos adjuntos grandes). \"FS\" almacena los datos en el sistema de archivos; esto es más rápido, pero el servidor web debe ejecutarse bajo el usuario OTOBO. Puede alternar entre los módulos incluso en un sistema que ya está en producción sin ninguna pérdida de datos. Nota: la búsqueda de nombres de archivos adjuntos no se admite cuando se utiliza \"FS\"."
 
-#~ msgid "An error occured during SysConfig data migration."
+#~ msgid "An error occurred during SysConfig data migration."
 #~ msgstr "Se ha producido un error durante la migración de datos de SysConfig."
 
 #~ msgid "Disk Usage"

@@ -9788,7 +9788,7 @@ msgid "You will continue where you aborted the migration last time. If you do no
 msgstr "你将从上次退出的位置继续进行迁移，当然如果不需要，你也可以放弃以前的进程。"
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "发生一个错误。"
 
 #. Template: Intro
@@ -14764,7 +14764,7 @@ msgid "No OTRS system found!"
 msgstr "没发现OTRS系统！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14776,7 +14776,7 @@ msgid "Migrate ITSM database tables."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -14792,11 +14792,11 @@ msgid "Migrate configuration settings."
 msgstr "迁移配置设置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr "SysConfig数据迁移时发生错误或配置不存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr "将XML写入DB时，在SysConfig迁移期间发生一个错误。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -19424,7 +19424,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "定义在偏好设置表中存储密钥的字段。"
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr "为快速关闭操作设置通讯通道。"
 
 #. SysConfig
@@ -19480,7 +19480,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "定义客户界面中的默认历史类型。"
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr ""
 
 #. SysConfig
@@ -22508,7 +22508,7 @@ msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr ""
 
 #. SysConfig
@@ -22536,11 +22536,11 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "OTOBO不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。"
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr "搜索的目标，显示的条目和属性。"
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr "要搜索的对象，要显示的条目数和属性。"
 
 #. SysConfig
@@ -25624,7 +25624,7 @@ msgstr "导入/导出"
 #~ msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used."
 #~ msgstr "保存信件的附件。“数据库”在数据库中存储所有数据（不推荐在存储大容量附件时使用）。“文件系统”在文件系统中保存数据；这个选项更快但WEB服务器要以OTOBO用户运行。即使是在生产环境您也可以在这两种模式间切换，而不会丢失数据。备注：使用“文件系统”时不能搜索附件名。"
 
-#~ msgid "An error occured during SysConfig data migration."
+#~ msgid "An error occurred during SysConfig data migration."
 #~ msgstr "在SysConfig数据迁移期间发生一个错误。"
 
 #~ msgid "Disk Usage"

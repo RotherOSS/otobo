@@ -3584,7 +3584,7 @@ sub Data {
         'Cached data found' => 'Dados armazenados em cache encontrados',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Você continuará de onde abortou a migração da última vez. Se você não quiser isso, descarte seu progresso anterior.',
-        'An error occured.' => 'Um erro ocorreu.',
+        'An error occurred.' => 'Um erro ocorreu.',
         'Discard previous progress' => 'Descartar o progresso anterior',
         'Insecure HTTP connection' => 'Conexão HTTP insegura',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -5660,21 +5660,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => '',
         'Can\'t read OTRS RELEASE file: %s' => '',
         'No OTRS system found!' => 'Nenhum sistema OTRS encontrado!',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             '',
         'OTRS Version is correct: %s.' => 'Versão do OTRS esta correta: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'Migrar tabelas de banco de dados ITSM.',
-        'Nothing to do, as the the table \'%s\' does not exist.' => 'Nada a ser feito, uma vez que a tabela \'%s\' não existe.',
+        'Nothing to do, as the table \'%s\' does not exist.' => 'Nada a ser feito, uma vez que a tabela \'%s\' não existe.',
         'UPDATE of the table \'%s\' failed.' => '',
         'Migration completed.' => 'Migração completa.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migre as definições de configuração.',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             'Um erro ocorreu durante a migração de dados da Configuração do Sistema ou não existe configuração.',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             'Um erro ocorreu durante a migração da Configuração do Sistema durante a escrita do XML para o Banco de Dados.',
         'SysConfig data migration completed.' => 'Migração de dados da Configuração de Sistema completa.',
 
@@ -7604,7 +7604,7 @@ Obrigado pela ajuda!
         'Defines the close state for quick close.' => '',
         'Defines the column to store the keys for the preferences table.' =>
             'Define a coluna para armazenar as chaves para a tabela de preferências.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => 'Define as opções de configuração para o recurso de preenchimento automático.',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
@@ -7636,7 +7636,7 @@ Obrigado pela ajuda!
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => 'Define o tipo de histórico padrão na interface de cliente.',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Define o número máximo padrão de atributos do eixo X para a escala de tempo.',
@@ -8943,9 +8943,9 @@ Obrigado pela ajuda!
             'OTOBO não suporta Agendamentos recorrentes sem uma data de término ou um número de iterações. Durante o processo de importação, pode ocorrer que o arquivo ICS não contenha esses Agendamentos. Ao invés disso, o sistema cria Agendamentos no passado mais Agendamentos para os próximos N meses (120 meses/10 anos por padrão).',
         'Object backend module registration for the import/export module.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => 'Abra um link externo!',
         'Open the OTOBO home page in a new window' => '',
