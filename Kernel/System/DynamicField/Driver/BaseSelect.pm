@@ -100,7 +100,6 @@ sub ValueSet {
     );
 }
 
-# TODO: probably adjust Base.pm to check for arrays
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
@@ -498,8 +497,6 @@ sub EditFieldValueValidate {
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         $Value = [$Value];
     }
-
-    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
 
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};

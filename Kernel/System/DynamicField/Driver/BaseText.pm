@@ -168,7 +168,6 @@ sub ValueSet {
     );
 }
 
-# TODO: probably adjust Base.pm to check for arrays
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
