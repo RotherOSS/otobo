@@ -4655,7 +4655,7 @@ bin/otobo.Daemon.pl status\').',
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5858,7 +5858,7 @@ bin/otobo.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7617,7 +7617,7 @@ Helpdesk Team Anda
         'Defines the connections for http/ftp, via a proxy.' => 'Mendefinisikan koneksi untuk http / ftp, melalui proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Mendefinisikan kunci preferensi pelanggan di mana kunci rahasia bersama disimpan.',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Mendefinisikan format tanggal input yang digunakan dalam bentuk (pilihan atau masukan bidang).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

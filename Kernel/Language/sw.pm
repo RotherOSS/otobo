@@ -4656,7 +4656,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5859,7 +5859,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7610,7 +7610,7 @@ Mfano:
         'Defines the connections for http/ftp, via a proxy.' => 'Inafafanua miunganiko kwa ajili ya http/ftp, kupitia seva mbadala.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Inafafanua umbizo umbizo ingizo la tarehe linalotumika katika fomu (hiari au uga ingizo).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

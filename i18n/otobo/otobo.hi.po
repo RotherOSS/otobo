@@ -26191,7 +26191,7 @@ msgid "Translation already exists!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
-msgid "Translations deployed successfuly!"
+msgid "Translations deployed successfully!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
@@ -26467,7 +26467,7 @@ msgid "Defines the config parameters available in the preferences view. The defa
 msgstr ""
 
 #. SysConfig
-msgid "Defines the data objects avaliable to be translated."
+msgid "Defines the data objects available to be translated."
 msgstr ""
 
 #. SysConfig
@@ -27047,7 +27047,7 @@ msgid "Database Type"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
-msgid "The type auf the database looks strange as it contain no latin letters."
+msgid "The type of the database looks strange as it contain no Latin letters."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm

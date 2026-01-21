@@ -4661,7 +4661,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5864,7 +5864,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7626,7 +7626,7 @@ Ditt Helpdesk-team
         'Defines the connections for http/ftp, via a proxy.' => 'Spesifiserer proxy-oppsett for http/ftp.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Definerer kundepreferansenøkkelen der den delte hemmelige nøkkelen er lagret.',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Spesifiserer datoformat på skjema (valg- eller tekstfelter).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

@@ -4656,7 +4656,7 @@ sub Data {
         'Translations added!' => '翻訳を追加しました!',
         'No translations were given to add!' => '追加する翻訳は提供されませんでした。',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '翻訳が正常に展開されました!',
+        'Translations deployed successfully!' => '翻訳が正常に展開されました!',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5859,7 +5859,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7621,7 +7621,7 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'プロキシ経由で、http/ftpのための接続を定義します。',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'フォームで使用されるデータ・インプット・フォーマットを定義します（オプションまたはインプット・フィールド）。',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

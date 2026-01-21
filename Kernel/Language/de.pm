@@ -4653,7 +4653,7 @@ sub Data {
         'Translations added!' => 'Übersetzungen hinzugefügt!',
         'No translations were given to add!' => 'Es wurden keine Übersetzungen übergeben!',
         'Translation already exists!' => 'Übersetzung bereits vorhanden!',
-        'Translations deployed successfuly!' => 'Übersetzungen erfolgreich übernommen!',
+        'Translations deployed successfully!' => 'Übersetzungen erfolgreich übernommen!',
         'Nothing to do!' => 'Nichts zu tun!',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             'Fehler beim Versuch, die Übersetzung zu übernehmen. Bitte überprüfen Sie das Systemprotokoll!',
@@ -5856,7 +5856,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7618,7 +7618,7 @@ Ihr Helpdesk-Team
         'Defines the connections for http/ftp, via a proxy.' => 'Definiert Verbindungen für HTTP/FTP über einen Proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Defininiert das Einstellungsfeld für Kunden, in dem der Share Secret-Key gespeichert wird.',
-        'Defines the data objects avaliable to be translated.' => 'Legt fest, welche Datenobjekte zur Übersetzung angeboten werden.',
+        'Defines the data objects available to be translated.' => 'Legt fest, welche Datenobjekte zur Übersetzung angeboten werden.',
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

@@ -4656,7 +4656,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5859,7 +5859,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7620,7 +7620,7 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'กำหนดการเชื่อมต่อสำหรับ http/ftp ผ่านพร็อกซี่',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'กำหนดคีย์การตั้งค่าลูกค้าซึ่งคีย์ลับที่ใช้ร่วมกันถูกเก็บไว้',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'กำหนดรูปแบบการป้อนวันที่ ที่ใช้ในแบบฟอร์ม (ตัวเลือกหรือช่องใส่)',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>

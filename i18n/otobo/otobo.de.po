@@ -26945,7 +26945,7 @@ msgid "Translation already exists!"
 msgstr "Übersetzung bereits vorhanden!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
-msgid "Translations deployed successfuly!"
+msgid "Translations deployed successfully!"
 msgstr "Übersetzungen erfolgreich übernommen!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
@@ -27221,7 +27221,7 @@ msgid "Defines the config parameters available in the preferences view. The defa
 msgstr "Definiert die zur Verfügung stehenden Konfigurationsparameter in der Einstellungsansicht. Der Standard-Umleitungs-URL der SysConfig-Einstellung 'MarkTicketUnseenRedirectDefaultURL' wird verwendet, falls der Agent keine Auswahl getroffen hat."
 
 #. SysConfig
-msgid "Defines the data objects avaliable to be translated."
+msgid "Defines the data objects available to be translated."
 msgstr "Legt fest, welche Datenobjekte zur Übersetzung angeboten werden."
 
 #. SysConfig
@@ -27829,7 +27829,7 @@ msgid "Database Type"
 msgstr "Datenbanktyp"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
-msgid "The type auf the database looks strange as it contain no latin letters."
+msgid "The type of the database looks strange as it contain no Latin letters."
 msgstr ""
 "Der Typ der Datenbank wirkt seltsam — er enthält keine lateinischen "
 "Buchstaben."

@@ -4653,7 +4653,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5856,7 +5856,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7615,7 +7615,7 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => '프록시를 통해 http / ftp에 대한 연결을 정의합니다.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '공유 비밀 키가 저장되는 고객 기본 설정 키를 정의합니다.',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             '양식 (옵션 또는 입력 필드)에 사용되는 날짜 입력 형식을 정의합니다.',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
