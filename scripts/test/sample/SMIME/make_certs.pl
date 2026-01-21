@@ -2,7 +2,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2026-2026 Rother OSS GmbH, https://otobo.io/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,14 +15,19 @@
 # --
 
 use v5.24;
-use utf8;
 use strict;
 use warnings;
+use utf8;
 
+# core modules
+
+# CPAN modules
 use JSON;
 use Path::Class qw(file);
 use Data::Dumper;
 use Time::Piece;
+
+# OTOBO modules
 
 my $ExpireInDays = 365;
 
@@ -84,11 +89,14 @@ for my $ID ( 1 .. 3 ) {
 
     my $Subject2 = qx~openssl x509 -subject -noout -in $CertOut   | sed 's/^subject=//' ~;
     $Subject2 =~ s/\s+$//;
-    $Subject2 =~ s/=/= /g;
 
-    my $Issuer  = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;    
-    $Issuer  =~ s/\s+$//;
-    
+    my $Subject3 = $Subject2;
+    $Subject2 =~ s/=/= /g;
+    $Subject3 =~ s/ =/=/g;
+
+    my $Issuer = qx~openssl x509 -issuer -noout -in $CertOut   | sed 's/^issuer=//' ~;
+    $Issuer =~ s/\s+$//;
+
     my $Issuer2 = $Issuer;
     $Issuer  =~ s/=/= /g;
     $Issuer2 =~ s/ =/=/g;
@@ -121,8 +129,8 @@ for my $ID ( 1 .. 3 ) {
     $JSON->{$ID} = {
         Email          => $Email,
         Modulus        => $Modulus,
-        Subject        => [ $Subject, $Subject2 ],
-        Issuer         => [ $Issuer, $Issuer2 ],
+        Subject        => [ $Subject2, $Subject3 ],
+        Issuer         => [ $Issuer,   $Issuer2 ],
         Hash           => $Hash,
         Private        => $Private,
         Serial         => $Serial,
@@ -156,7 +164,7 @@ for my $ID ( 1 .. 3 ) {
 
 # write test expectations to JSON file
 file("scripts/test/sample/SMIME/smime_test.json")->spew(
-    JSON->new->utf8->pretty->encode($JSON)
+    JSON->new->canonical(1)->utf8->pretty->encode($JSON)
 );
 
 # generate the example test .eml encrypted by cert "1"

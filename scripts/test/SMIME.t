@@ -26,6 +26,7 @@ use JSON;
 use Test2::V0;
 use File::Path  qw(make_path rmtree);
 use Path::Class qw(file);
+use JSON;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
@@ -198,6 +199,10 @@ for my $Count ( 1 .. 3 ) {
 
                 for my $String ( @{ $TestConfig->{$Count}->{$ID} } ) {
                     $Success = 1 if $Certs[0]->{$ID} eq $String;
+                }
+
+                if ( !$Success ) {
+                    diag "$ID not found in list: '$Certs[0]->{$ID}'";
                 }
 
                 ok( $Success, "CertificateSearch() - $ID" );
