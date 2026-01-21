@@ -3381,6 +3381,42 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Agent MultiValue: Value array ref with value inbetween and template value',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{AgentMV},
+            Template           => {},
+            ParamObject        => $ParamObject,
+            CGIParam           => {
+                DynamicField_AgentMV => [ undef, $FirstUserID, undef, undef ],
+            },
+            TransformDates          => 0,
+            ReturnValueStructure    => 0,
+            ReturnTemplateStructure => 1,
+        },
+        ExpectedResults => {
+            DynamicField_AgentMV => [ '', $FirstUserID, '' ],
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Agent MultiValue: Value array ref with multiple empty strings and template value',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{AgentMV},
+            Template           => {},
+            ParamObject        => $ParamObject,
+            CGIParam           => {
+                DynamicField_AgentMV => [ undef, undef, undef, undef ],
+            },
+            TransformDates          => 0,
+            ReturnValueStructure    => 0,
+            ReturnTemplateStructure => 1,
+        },
+        ExpectedResults => {
+            DynamicField_AgentMV => [ '', '', '' ],
+        },
+        Success => 1,
+    },
 
     # Dynamic Field CustomerCompany
     # CustomerCompany SingleSelect
