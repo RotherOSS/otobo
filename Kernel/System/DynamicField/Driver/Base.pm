@@ -45,51 +45,55 @@ Kernel::System::DynamicField::Driver::Base - common dynamic field backend functi
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
-    # normalize array structures for comparison
-    my @Value1;
+    # handle array comparison
     if ( ref $Param{Value1} eq 'ARRAY' ) {
-        @Value1 = $Param{Value1}->@*;
 
-        # throw away trailing undef or empty string values
-        VALUE1:
-        while ( scalar @Value1 ) {
-            if ( !defined $Value1[-1] || $Value1[-1] eq '' ) {
-                pop @Value1;
+        # strip trailing empty values and map empty strings to undef
+        #   for comparison of frontend value with database value
+        my @TmpValues;
+        my @Values;
+        VALUEITEM:
+        for my $ValueItem ( $Param{Value1}->@* ) {
+            if ( defined $ValueItem && $ValueItem eq '' ) {
+                $ValueItem = undef;
             }
-            else {
-                last VALUE1;
-            }
+            push @TmpValues, $ValueItem;
+
+            next VALUEITEM unless defined $ValueItem;
+
+            push @Values, @TmpValues;
+            @TmpValues = ();
         }
-
-        # convert empty string to undef for comparison of database value with frontend value
-        @Value1 = map { $_ eq '' ? undef : $_ } @Value1;
+        $Param{Value1} = \@Values;
 
         # special case where the values are different but they should be reported as equals
-        if ( !defined $Param{Value2} && !@Value1 ) {
+        if ( !defined $Param{Value2} && !$Param{Value1}->@* ) {
             return;
         }
     }
 
-    my @Value2;
     if ( ref $Param{Value2} eq 'ARRAY' ) {
-        @Value2 = $Param{Value2}->@*;
 
-        # throw away trailing undef or empty string values
-        VALUE2:
-        while ( scalar @Value2 ) {
-            if ( !defined $Value2[-1] || $Value2[-1] eq '' ) {
-                pop @Value2;
+        # strip trailing empty values and map empty strings to undef
+        #   for comparison of frontend value with database value
+        my @TmpValues;
+        my @Values;
+        VALUEITEM:
+        for my $ValueItem ( $Param{Value2}->@* ) {
+            if ( defined $ValueItem && $ValueItem eq '' ) {
+                $ValueItem = undef;
             }
-            else {
-                last VALUE2;
-            }
+            push @TmpValues, $ValueItem;
+
+            next VALUEITEM unless defined $ValueItem;
+
+            push @Values, @TmpValues;
+            @TmpValues = ();
         }
-
-        # convert empty string to undef for comparison of database value with frontend value
-        @Value2 = map { $_ eq '' ? undef : $_ } @Value2;
+        $Param{Value2} = \@Values;
 
         # special case where the values are different but they should be reported as equals
-        if ( !defined $Param{Value1} && !@Value2 ) {
+        if ( !defined $Param{Value1} && !$Param{Value2}->@* ) {
             return;
         }
     }
@@ -100,8 +104,8 @@ sub ValueIsDifferent {
 
     # compare the results
     return DataIsDifferent(
-        Data1 => ref $Param{Value1} eq 'ARRAY' ? \@Value1 : \$Param{Value1},
-        Data2 => ref $Param{Value2} eq 'ARRAY' ? \@Value2 : \$Param{Value2},
+        Data1 => ref $Param{Value1} ? $Param{Value1} : \$Param{Value1},
+        Data2 => ref $Param{Value2} ? $Param{Value2} : \$Param{Value2},
     );
 }
 
