@@ -3587,7 +3587,7 @@ sub Data {
         'Cached data found' => 'Bufret data funnet',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'Du fortsetter der du avbrøt migreringen forrige gang. Hvis du ikke ønsker dette, vennligst forkast din tidligere fremgang.',
-        'An error occured.' => 'En feil oppstod.',
+        'An error occurred.' => 'En feil oppstod.',
         'Discard previous progress' => 'Forkast tidligere fremgang',
         'Insecure HTTP connection' => 'Usikker HTTP-tilkobling',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -4661,7 +4661,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5663,21 +5663,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => 'OTRS RELEASE-filen %s eksisterer ikke!',
         'Can\'t read OTRS RELEASE file: %s' => 'Kan ikke lese OTRS RELEASE-fil: %s',
         'No OTRS system found!' => 'Ingen OTRS-system funnet!',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             'Ukjent PRODUKT funnet i OTRS RELASE-fil: %s. Forventede verdier er %s.',
         'OTRS Version is correct: %s.' => 'OTRS-versjonen er riktig: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'Migrer ITSM-databasetabeller.',
-        'Nothing to do, as the the table \'%s\' does not exist.' => 'Ingenting å gjøre, siden tabellen \'%s\' ikke eksisterer.',
+        'Nothing to do, as the table \'%s\' does not exist.' => 'Ingenting å gjøre, siden tabellen \'%s\' ikke eksisterer.',
         'UPDATE of the table \'%s\' failed.' => 'OPPDATERING av tabellen \'%s\' mislyktes.',
         'Migration completed.' => 'Migrering fullført.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migrer konfigurasjonsinnstillinger.',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             'Det oppstod en feil under SysConfig-datamigrering eller ingen konfigurasjon eksisterer.',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             'Det oppstod en feil under SysConfig-migrering ved skriving av XML til DB.',
         'SysConfig data migration completed.' => 'SysConfig-datamigrering fullført.',
 
@@ -5864,7 +5864,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7610,7 +7610,7 @@ Ditt Helpdesk-team
         'Defines the close state for quick close.' => 'Definerer lukketilstanden for hurtiglukking.',
         'Defines the column to store the keys for the preferences table.' =>
             'Definerer hvilken kolonne som skal brukes for å lagre nøkler til valgtabellen.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             'Definerer kommunikasjonskanalen for rask lukking av artikkelhandlingen.',
         'Defines the config options for the autocompletion feature.' => 'Definerer konfigurasjonsalternativene for autofullføringsfunksjonen.',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
@@ -7626,7 +7626,7 @@ Ditt Helpdesk-team
         'Defines the connections for http/ftp, via a proxy.' => 'Spesifiserer proxy-oppsett for http/ftp.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Definerer kundepreferansenøkkelen der den delte hemmelige nøkkelen er lagret.',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'Spesifiserer datoformat på skjema (valg- eller tekstfelter).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
@@ -7642,7 +7642,7 @@ Ditt Helpdesk-team
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             'Definerer standard frontend-språket. Alle mulige verdier bestemmes av de tilgjengelige språkfilene på systemet. Disse verdiene er oppført som nøklene i innstillingen \'DefaultUsedLanguages\'.',
         'Defines the default history type in the customer interface.' => 'Spesifiserer standard historikkvisning i kundeportalen.',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             'Definerer standardgrensesnittet. Ukjente stier under skriptaliaset blir omdirigert til det valgte grensesnittet.',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Setter standardverdi for maks. antall atributter på X-aksen for tidsskalaen.',
@@ -8949,9 +8949,9 @@ Ditt Helpdesk-team
             'OTOBO støtter ikke gjentakende avtaler uten sluttdato eller antall iterasjoner. Under importprosessen kan det hende at ICS-filen inneholder slike avtaler. I stedet oppretter systemet alle tidligere avtaler, pluss avtaler for de neste N månedene (120 måneder/10 år som standard).',
         'Object backend module registration for the import/export module.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises.',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises. Saksattributter, unntatt kø, må eksplisitt lagres via Elasticsearch.',
         'Open an external link!' => 'Åpne en ekstern lenke!',
         'Open the OTOBO home page in a new window' => 'Åpne OTOBO-hjemmesiden i et nytt vindu',

@@ -3582,7 +3582,7 @@ sub Data {
         'Cached data found' => 'キャッシュされたデータが見つかりました',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             '前回移行を中止したところから続行します。これを望まない場合は、以前の進行状況を破棄してください。',
-        'An error occured.' => 'エラーが発生しました。',
+        'An error occurred.' => 'エラーが発生しました。',
         'Discard previous progress' => '以前の進行状況を破棄',
         'Insecure HTTP connection' => '安全でない HTTP 接続',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -4656,7 +4656,7 @@ sub Data {
         'Translations added!' => '翻訳を追加しました!',
         'No translations were given to add!' => '追加する翻訳は提供されませんでした。',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '翻訳が正常に展開されました!',
+        'Translations deployed successfully!' => '翻訳が正常に展開されました!',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5658,21 +5658,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => 'OTRS RELEASE ファイル %s が存在しません！',
         'Can\'t read OTRS RELEASE file: %s' => 'OTRS RELEASE ファイルを読み取れません: %s',
         'No OTRS system found!' => 'OTRS システムが見つかりません！',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             'OTRS RELASE ファイルに不明な製品が見つかりました: %s。予期される値は %s です。',
         'OTRS Version is correct: %s.' => 'OTRS バージョンは正しいです: %s。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'ITSM データベース テーブルを移行します。',
-        'Nothing to do, as the the table \'%s\' does not exist.' => 'テーブル \'%s\' が存在しないため、何も行う必要はありません。',
+        'Nothing to do, as the table \'%s\' does not exist.' => 'テーブル \'%s\' が存在しないため、何も行う必要はありません。',
         'UPDATE of the table \'%s\' failed.' => 'テーブル \'%s\' の更新に失敗しました。',
         'Migration completed.' => '移行が完了しました。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '構成設定を移行します。',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             'SysConfig データの移行中にエラーが発生したか、構成が存在しません。',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             'XML を DB に書き込むときに SysConfig 移行中にエラーが発生しました。',
         'SysConfig data migration completed.' => 'SysConfig データの移行が完了しました。',
 
@@ -5859,7 +5859,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7605,7 +7605,7 @@ Thanks for your help!
         'Defines the close state for quick close.' => '',
         'Defines the column to store the keys for the preferences table.' =>
             'プレファレンス・テーブルのためのキーを格納するコラムを定義してください。',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
@@ -7621,7 +7621,7 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'プロキシ経由で、http/ftpのための接続を定義します。',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             '',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'フォームで使用されるデータ・インプット・フォーマットを定義します（オプションまたはインプット・フィールド）。',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
@@ -7637,7 +7637,7 @@ Thanks for your help!
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => '顧客インタフェースのデフォルトの履歴タイプを定義します。',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'タイム・スケールに関するX軸属性の、デフォルト最大数を定義します。',
@@ -8944,9 +8944,9 @@ Thanks for your help!
             '',
         'Object backend module registration for the import/export module.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '外部リンクを開く！',
         'Open the OTOBO home page in a new window' => '',

@@ -9996,7 +9996,7 @@ msgstr ""
 "szeretné, akkor vesse el az előző folyamatot."
 
 #. Template: Intro
-msgid "An error occured."
+msgid "An error occurred."
 msgstr "Hiba történt."
 
 #. Template: Intro
@@ -15035,7 +15035,7 @@ msgid "No OTRS system found!"
 msgstr "Nem található OTRS rendszer!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
+msgid "Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s."
 msgstr ""
 "Ismeretlen PRODUCT található az OTRS RELEASE fájlban: %s. Az elvárt értékek: "
 "%s."
@@ -15049,7 +15049,7 @@ msgid "Migrate ITSM database tables."
 msgstr "Az ITSM adatbázistábláinak költöztetése."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-msgid "Nothing to do, as the the table '%s' does not exist."
+msgid "Nothing to do, as the table '%s' does not exist."
 msgstr "Nincs mit tenni, mivel a(z) „%s” tábla nem létezik."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
@@ -15065,13 +15065,13 @@ msgid "Migrate configuration settings."
 msgstr "A konfigurációs beállítások költöztetése."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration or no configuration exists."
+msgid "An error occurred during SysConfig data migration or no configuration exists."
 msgstr ""
 "Hiba történt a rendszerbeállítási adatok költöztetése során, vagy nem "
 "léteznek a beállítások."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig migration when writing XML to DB."
+msgid "An error occurred during SysConfig migration when writing XML to DB."
 msgstr ""
 "Hiba történt a rendszerbeállítások költöztetése során az XML-tartalom "
 "adatbázisba írásakor."
@@ -19860,7 +19860,7 @@ msgid "Defines the column to store the keys for the preferences table."
 msgstr "Meghatározza az oszlopot a kulcsok tárolásához a beállítások táblánál."
 
 #. SysConfig
-msgid "Defines the communication chanel for the quick close article action."
+msgid "Defines the communication channel for the quick close article action."
 msgstr ""
 "Meghatározza a kommunikációs csatornát a gyors lezárás bejegyzésművelethez."
 
@@ -19917,7 +19917,7 @@ msgid "Defines the default history type in the customer interface."
 msgstr "Meghatározza az alapértelmezett előzménytípust az ügyfélfelületen."
 
 #. SysConfig
-msgid "Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface."
+msgid "Defines the default interface. Unknown paths below the script alias are redirected to the selected interface."
 msgstr ""
 "Meghatározza az alapértelmezett felületet. A parancsfájlálnév alatti "
 "ismeretlen útvonalak a kiválasztott felületre lesznek átirányítva."
@@ -23176,7 +23176,7 @@ msgstr ""
 "„Elasticsearch::IndexSettings###Default” beállítást helyette."
 
 #. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices. '...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr ""
 "Töredékek száma (NS), replikák száma (NR) és mezők korlátai az indexekhez. "
 "Ez lecseréli az „Elasticsearch::ArticleIndexCreationSettings” beállítást a "
@@ -23211,12 +23211,12 @@ msgid "OTOBO doesn't support recurring Appointments without end date or number o
 msgstr "Az OTOBO nem támogatja a befejezési dátum vagy az ismétlések száma nélküli ismétlődő időpontokat. Az importálási folyamat során előfordulhat, hogy az ICS-fájl ilyen időpontokat tartalmaz. Ehelyett a rendszer az összes időpontot a múltban hozza létre, valamint a következő N hónapban (120 hónap/10 év alapértelmezetten)."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show."
+msgid "Objects to search for, how many entries and which attributes to show."
 msgstr ""
 "Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg."
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
 "Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg. A "
 "jegyattribútumokat, kivéve a várólistát, egyértelműen el kell tárolni az "
@@ -27637,7 +27637,7 @@ msgid "Translation already exists!"
 msgstr "A fordítás már létezik!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
-msgid "Translations deployed successfuly!"
+msgid "Translations deployed successfully!"
 msgstr "A fordítások sikeresen üzembe állítva!"
 
 #. Perl Module: Kernel/Modules/AdminTranslations.pm
@@ -27944,7 +27944,7 @@ msgstr ""
 "ki semmit."
 
 #. SysConfig
-msgid "Defines the data objects avaliable to be translated."
+msgid "Defines the data objects available to be translated."
 msgstr "Meghatározza a fordításhoz elérhető adatobjektumokat."
 
 #. SysConfig
@@ -28707,7 +28707,7 @@ msgid "Database Type"
 msgstr "Adatbázis típusa"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
-msgid "The type auf the database looks strange as it contain no latin letters."
+msgid "The type of the database looks strange as it contain no Latin letters."
 msgstr "Az adatbázis típusa furcsának tűnik, mivel nem tartalmaz latin betűket."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm

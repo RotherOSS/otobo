@@ -92,7 +92,7 @@ sub Run {
     if ( !$Self->TableExists( Table => $Table ) ) {
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( "Nothing to do, as the the table '%s' does not exist.", $Table ),
+            Comment    => $Self->{LanguageObject}->Translate( "Nothing to do, as the table '%s' does not exist.", $Table ),
             Successful => 1,
         };
     }

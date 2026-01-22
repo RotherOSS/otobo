@@ -3581,7 +3581,7 @@ sub Data {
         'Cached data found' => 'تم العثور على البيانات المخزنة مؤقتا',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             'ستتم المتابعة حيث قمت بإجهاض الترحيل في المرة الأخيرة. إذا كنت تريد بدء الترحيل مرة أخرى من الصفر، تجاهل كل التغييرات السابقة.',
-        'An error occured.' => 'حدث خطأ.',
+        'An error occurred.' => 'حدث خطأ.',
         'Discard previous progress' => 'تجاهل التغييرات السابقة',
         'Insecure HTTP connection' => 'اتصال HTTP غير آمن',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
@@ -4655,7 +4655,7 @@ sub Data {
         'Translations added!' => '',
         'No translations were given to add!' => '',
         'Translation already exists!' => '',
-        'Translations deployed successfuly!' => '',
+        'Translations deployed successfully!' => '',
         'Nothing to do!' => '',
         'Errors ocurred when trying to deploy translation. Please check system logs!' =>
             '',
@@ -5657,21 +5657,21 @@ sub Data {
         'OTRS RELEASE file %s does not exist!' => 'ملف إصدار OTRS ‎%s غير موجود!',
         'Can\'t read OTRS RELEASE file: %s' => 'يتعذر قراءة ملف إصدار OTRS: ‎%s',
         'No OTRS system found!' => 'لم يتم العثور على نظام OTRS!',
-        'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
+        'Unknown PRODUCT found in OTRS RELEASE file: %s. Expected values are %s.' =>
             'تم العثور على منتج غير معروف في ملف OTRS RELEASE: ‎%s. القيم المتوقعة: ‎%s.',
         'OTRS Version is correct: %s.' => 'إصدار OTRS صحيح: ‎%s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'ترحيل جداول قاعدة بيانات ITSM.',
-        'Nothing to do, as the the table \'%s\' does not exist.' => 'لا شيء للقيام به، لأن الجدول \'‎%s\' غير موجود.',
+        'Nothing to do, as the table \'%s\' does not exist.' => 'لا شيء للقيام به، لأن الجدول \'‎%s\' غير موجود.',
         'UPDATE of the table \'%s\' failed.' => 'فشل تحديث الجدول \'‎%s\'.',
         'Migration completed.' => 'اكتمل الترحيل.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'ترحيل إعدادات التكوين.',
-        'An error occured during SysConfig data migration or no configuration exists.' =>
+        'An error occurred during SysConfig data migration or no configuration exists.' =>
             'حدث خطأ أثناء ترحيل بيانات SysConfig أو لا يوجد تكوين.',
-        'An error occured during SysConfig migration when writing XML to DB.' =>
+        'An error occurred during SysConfig migration when writing XML to DB.' =>
             'حدث خطأ أثناء ترحيل SysConfig عند كتابة XML إلى DB.',
         'SysConfig data migration completed.' => 'اكتمل ترحيل بيانات SysConfig.',
 
@@ -5858,7 +5858,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
         'Database Type' => '',
-        'The type auf the database looks strange as it contain no latin letters.' =>
+        'The type of the database looks strange as it contain no Latin letters.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -7604,7 +7604,7 @@ Thanks for your help!
         'Defines the close state for quick close.' => 'يعرف حالة الإغلاق ل "إغلاق فوري".',
         'Defines the column to store the keys for the preferences table.' =>
             'يعرف العمود الذي يجب أن يتم فيه تخزين مفاتيح الجدول مع الإعدادات.',
-        'Defines the communication chanel for the quick close article action.' =>
+        'Defines the communication channel for the quick close article action.' =>
             'يحدد قناة الاتصال لإجراء العنصر "إغلاق فوري".',
         'Defines the config options for the autocompletion feature.' => 'تعريف خيارات التكوين لميزة الإكمال التلقائي.',
         'Defines the config parameters available in the preferences view. The default redirect URL from SysConfig \'MarkTicketSeenRedirectDefaultURL\' is used if no selection is made by the agent.' =>
@@ -7620,7 +7620,7 @@ Thanks for your help!
         'Defines the connections for http/ftp, via a proxy.' => 'تعريف الاتصالات ل http/ftp، عبر وكيل.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'يعرف حقل إعدادات العميل حيث يتم تخزين المفتاح السري المشترك.',
-        'Defines the data objects avaliable to be translated.' => '',
+        'Defines the data objects available to be translated.' => '',
         'Defines the date input format used in forms (option or input fields).' =>
             'يعرف تنسيق إدخال التاريخ المستخدم في النماذج (حقول الخيار أو الإدخال).',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
@@ -7636,7 +7636,7 @@ Thanks for your help!
         'Defines the default frontend language. All the possible values are determined by the available language files on the system. These values are listed as the keys in the setting \'DefaultUsedLanguages\'.' =>
             '',
         'Defines the default history type in the customer interface.' => 'يحدد نوع المحفوظات الافتراضي في واجهة العميل.',
-        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+        'Defines the default interface. Unknown paths below the script alias are redirected to the selected interface.' =>
             'يحدد الواجهة الافتراضية. تتم إعادة توجيه المسارات غير المعروفة أسفل الاسم المستعار للبرنامج النصي إلى الواجهة المحددة.',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'يعرف الحد الأقصى الافتراضي للسمات لمحور x للمحور الزمني.',
@@ -8943,9 +8943,9 @@ Thanks for your help!
             'لا يدعم OTOBO المواعيد المتكررة بدون تاريخ انتهاء أو عدد التكرارات. أثناء عملية الاستيراد، قد يحدث أن يحتوي ملف ICS على مثل هذه المواعيد. بدلا من ذلك، يقوم النظام بإنشاء جميع المواعيد في الماضي، بالإضافة إلى المواعيد للأشهر N التالية (120 شهرا / 10 سنوات افتراضيا).',
         'Object backend module registration for the import/export module.' =>
             '',
-        'Objects to search for, how many entries and which attributs to show.' =>
+        'Objects to search for, how many entries and which attributes to show.' =>
             'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها.',
-        'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في Elasticsearch.',
         'Open an external link!' => 'افتح الرابط الخارجي!',
         'Open the OTOBO home page in a new window' => 'يفتح صفحة OTOBO الرئيسية في نافذة جديدة',

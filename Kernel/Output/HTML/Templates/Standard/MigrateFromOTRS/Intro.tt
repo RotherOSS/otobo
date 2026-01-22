@@ -49,7 +49,7 @@
                 <p>[% Translate("You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.") | html %]</p>
             </div>
             <div id="DeleteCacheError" style="display:none" class="LayoutGrid Content">
-                <p class="Error">[% Translate("An error occured.") | html %]</p>
+                <p class="Error">[% Translate("An error occurred.") | html %]</p>
             </div>
             <div class="LayoutGrid Content">
                 <button type="button" class="CallForAction" id="ButtonDeleteCache"><span>[% Translate("Discard previous progress") | html %]</span></button>
@@ -66,7 +66,7 @@
                 <p class="Error">[% Translate("You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.") | html %]</p>
             </div>
             <div class="LayoutGrid Content">
-                <input type="checkbox" id="CheckIgnoreHTTP" title="[% Translate("Continue anyways :(") | html %]" ><span>[% Translate(" Continue anyways :(") | html %]</span></input>
+                <input type="checkbox" id="CheckIgnoreHTTP" title="[% Translate("Continue anyways :(") | html %]" ><span>[% Translate("Continue anyways :(") | html %]</span></input>
             </div>
             <div class="Clear"></div>
         </div>
