@@ -104,8 +104,8 @@ sub ValueIsDifferent {
 
     # compare the results
     return DataIsDifferent(
-        Data1 => ref $Param{Value1} ? $Param{Value1} : \$Param{Value1},
-        Data2 => ref $Param{Value2} ? $Param{Value2} : \$Param{Value2},
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2},
     );
 }
 
