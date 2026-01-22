@@ -1,0 +1,27 @@
+<otobo_config version="2.0" init="Application">
+    <Setting Name="AgentLogoCustom###OTOBO-Dark" Required="0" Valid="1">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "OTOBO Dark". See "AgentLogo" for further description.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="URL">skins/Agent/otobo-dark/img/logo_bg.png</Item>
+                <Item Key="StyleTop">0px</Item>
+                <Item Key="StyleRight">24px</Item>
+                <Item Key="StyleHeight">110px</Item>
+                <Item Key="StyleWidth">300px</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Agent::Skin###001-OTOBO-Dark" Required="0" Valid="1">
+        <Description Translatable="1">A dark skin for OTOBO.</Description>
+        <Navigation>Frontend::Base::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="InternalName">otobo-dark</Item>
+                <Item Key="VisibleName" Translatable="1">OTOBO Dark</Item>
+                <Item Key="Description" Translatable="1">A dark skin for OTOBO.</Item>
+                <Item Key="HomePage">www.otobo.de</Item>
+            </Hash>
+        </Value>
+    </Setting>
+</otobo_config>

@@ -1,0 +1,122 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Forms
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Input focus
+ * @note        Does not work in IE6, only partially in IE7 (no focus)
+ */
+
+.DynamicFieldDBContainer {
+    background-color: #F2F2F2;
+    border: 1px solid #CCCCCC;
+    -moz-box-shadow: inset 1px 1px 5px #ccc;
+    -webkit-box-shadow: inset 1px 1px 5px #ccc;
+    box-shadow: inset 1px 1px 5px #ccc;
+    padding: 5px 7px 10px 6px;
+    width: 60%;
+    position: relative;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    margin-top: 5px;
+}
+
+.DynamicFieldDBContainer > div {
+    margin-top: 5px;
+}
+
+.DynamicFieldDBContainer .ResultElementText {
+    width: 89%;
+    margin-left: 7px;
+}
+
+.DynamicFieldDBContainer .ResultElementText {
+    transition: background-color 1s ease, border 1s ease;
+}
+
+.DynamicFieldDBContainer .ResultElementText.MainCustomer {
+    background-color: #F7ECC3;
+    border: 1px solid #E8CC8B;
+}
+
+.DynamicFieldDBContainer .ResultElementText.Radio {
+    width: 84%;
+    margin-left: 0px;
+}
+
+#EntityUpdate .ValueRow.Card {
+    display: block;
+    float: left;
+    background: #eee;
+    padding: 15px;
+    width: 260px;
+    box-shadow: 1px 1px 0px #ccc;
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+#EntityUpdate .ValueRow.Card .RemoveButton {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: #fff;
+    width: 25px;
+    line-height: 25px;
+    text-align: center;
+    color: #999;
+    transition: all ease 0.3s;
+}
+
+#EntityUpdate .ValueRow.Card .RemoveButton:hover {
+    color: #333;
+}
+
+#EntityUpdate .ValueRow.Card label {
+    display: block;
+    margin-top: 5px;
+}
+
+#EntityUpdate .ValueRow.Card label:first-child {
+    margin-top: 0px;
+}
+
+#EntityUpdate .ValueRow.Card input[type=text] {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+#EntityUpdate .ValueRow.Card label.CheckboxLabel {
+    margin-top: 10px;
+}
+
+#EntityUpdate .ValueRow.Card label.CheckboxLabel + label.CheckboxLabel {
+    margin-top: 5px;
+}
+
+#EntityUpdate .ValueRow.Card div.InputField_InputContainer,
+#EntityUpdate .ValueRow.Card div.InputField_Container {
+    width: 100%;
+}
+
+} /* end @media */

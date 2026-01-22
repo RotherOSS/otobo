@@ -1,0 +1,341 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Grid
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  LayoutFixedSidebar
+ */
+
+.LayoutFixedSidebar {
+    display: block;
+}
+
+.LayoutFixedSidebar > .ContentColumn {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+.TicketZoom .LayoutFixedSidebar > .ContentColumn {
+    min-height: 500px;
+}
+
+.LayoutFixedSidebar > .SidebarColumn {
+    overflow-x: hidden;
+}
+
+.LayoutFixedSidebar.SidebarLast > .SidebarColumn {
+    width: 270px;
+    float: right;
+    margin-left: 16px;
+    margin-right: 0;
+}
+
+.RTL .LayoutFixedSidebar.SidebarLast > .SidebarColumn {
+    float: left;
+    margin-left: 0;
+    margin-right: 16px;
+}
+
+.LayoutFixedSidebar.SidebarFirst > .SidebarColumn {
+    width: 270px;
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.RTL .LayoutFixedSidebar.SidebarFirst > .SidebarColumn {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+/**
+ * @subsection   LayoutGrid
+ */
+.LayoutGrid {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+.LayoutGrid > div,
+.LayoutGrid > li {
+    float: left;
+}
+
+.RTL .LayoutGrid > div,
+.RTL .LayoutGrid > li {
+    float: right;
+}
+
+.LayoutGrid > .Size1of2 {
+    width: 50%;
+}
+
+.LayoutGrid > .Size1of3 {
+    width: 33.333%;
+}
+
+.LayoutGrid > .Size2of3 {
+    width: 66.666%;
+}
+
+.LayoutGrid > .Size1of4 {
+    width: 25%;
+}
+
+.LayoutGrid > .Size2of4 {
+    width: 50%;
+}
+
+.LayoutGrid > .Size3of4 {
+    width: 75%;
+}
+
+.LayoutGrid > div > div,
+.LayoutGrid > li > div {
+    /**
+     * @note    force own Block Formatting Context for nested floats
+     */
+    overflow: hidden;
+}
+
+/**
+ * @note        ColumnsWithSpacing: inserts margins between the grid elements,
+ *                  but not on the outside.
+ */
+
+.LayoutGrid.ColumnsWithSpacing > div > div  {
+    margin-left: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.RTL .LayoutGrid.ColumnsWithSpacing > div > div {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.LayoutGrid.ColumnsWithSpacing > li > * {
+    padding-right: 10px;
+}
+
+/**
+ * do not add left margin for first element in each row
+ */
+.LayoutGrid.ColumnsWithSpacing > div:first-child > div,
+.LayoutGrid.ColumnsWithSpacing > div.Clear + div > div {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/**
+ * @subsection  LayoutPopup
+ */
+.LayoutPopup > .Header {
+    padding: 7px 20px;
+    background-color: #141414;
+}
+
+.RTL .LayoutPopup > .Header {
+    padding: 7px 20px 7px 5px;
+}
+
+.LayoutPopup > .Header h1 {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0px 5px 0 0;
+    margin-bottom: 0px;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.RTL .LayoutPopup > .Header h1 {
+    padding: 5px 0 0 5px;
+}
+
+.LayoutPopup > .Header p {
+    padding: 15px 5px 0 0;
+}
+
+.RTL .LayoutPopup > .Header p {
+    padding: 5px 10px 0 5px;
+}
+
+.LayoutPopup .Notice {
+    color: red;
+}
+
+.LayoutPopup > .Content {
+    padding: 20px;
+    background-color: #141414;
+}
+
+.RTL .LayoutPopup > .Content {
+    padding: 5px 20px 5px 5px;
+}
+
+.LayoutPopup > .Footer {
+    padding: 5px;
+    text-align: center;
+    min-height: 28px;
+}
+
+.LayoutPopup > .Footer .CallForAction {
+    display: inline-block;
+    margin: 10px 0px 5px 0px;
+    min-width: 150px;
+}
+
+/**
+ * @subsection  ItemListGrid
+ */
+
+.ItemListGrid {
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+.ItemListGrid > li {
+    float: left;
+    line-height: 140%;
+    width: 24%;
+    min-width: 240px;
+    max-width: 320px;
+    height: 80px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    line-height: 140%;
+}
+
+.ItemListGrid.WithIcons > li {
+    height: 102px;
+}
+
+.ItemListGrid > li.FilterMessage {
+    height: auto;
+    line-height: 90%;
+    margin: -7px 0px 3px 5px;
+    color: #777;
+}
+
+.ItemListGrid > li.FilterMessage.Hidden {
+    display: none;
+}
+
+.ItemListGrid > li > a {
+    padding-top: 20px;
+    text-align: center;
+    display: block;
+    height: 100%;
+    background: #272727;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #555;
+    position: relative;
+}
+
+.ItemListGrid.WithIcons > li > a {
+    padding-top: 56px;
+    transition: all ease 0.4s;
+}
+
+.ItemListGrid.WithIcons > li > a.Disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.ItemListGrid > li > a:not(.Disabled):hover,
+.ItemListGrid > li > a:not(.Disabled):active,
+.ItemListGrid > li > a:not(.Disabled):focus,
+.ItemListGrid > li > a.Active {
+    background: #333;
+    border-color: #999;
+}
+
+.ItemListGrid > li span.Icons {
+    border: 1px solid #999;
+    border-radius: 30px;
+    height: 20px;
+    left: 50%;
+    margin-left: -20px;
+    padding: 10px;
+    position: absolute;
+    top: 8px;
+    width: 20px;
+    transition: all ease 0.4s;
+}
+
+.ItemListGrid.WithIcons > li a:not(.Disabled):hover span.Icons,
+.ItemListGrid.WithIcons > li a.Active span.Icons,
+.ItemListGrid.WithIcons > li a:not(.Disabled):hover span.Icons i.Icon2,
+.ItemListGrid.WithIcons > li a.Active span.Icons i.Icon2 {
+    background: #444;
+}
+
+.ItemListGrid.WithIcons > li span.Icons i {
+    color: #999;
+    font-size: 20px;
+}
+
+.ItemListGrid.WithIcons > li span.Icons i.Icon2 {
+    background: #272727;
+    border: 1px solid #999;
+    border-radius: 20px;
+    font-size: 12px;
+    height: 15px;
+    line-height: 15px;
+    padding: 3px;
+    position: absolute;
+    right: -14px;
+    text-align: center;
+    top: -5px;
+    width: 15px;
+    transition: all ease 0.4s;
+}
+
+.ItemListGrid > li span.Title {
+    font-size: 15px;
+    width: 80%;
+    margin: 0px auto;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ItemListGrid > li span.Description {
+    display: block;
+    width: 80%;
+    margin: 0px auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #c8c6c4;
+}
+
+
+} /* end @media */

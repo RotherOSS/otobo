@@ -1,0 +1,171 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @package     Skin "default"
+ * @section     General
+ */
+
+.AdminSupportDataCollector .CheckResults > li {
+    margin-bottom: 10px;
+}
+
+.AdminSupportDataCollector .CheckResults > li:last-child {
+    margin-bottom: 0px;
+}
+
+.AdminSupportDataCollector .CheckResults > li > p {
+    padding: 3px 5px;
+    margin: 2px 0px 2px 28px;
+    display: inline-block;
+}
+
+.AdminSupportDataCollector textarea.Value {
+    min-height: 150px;
+    width: 96%;
+    line-height: 140%;
+    margin: 5px 0px 5px 28px;
+}
+
+.DialogMessage {
+    padding: 10px;
+    width: 350px;
+    min-height: 150px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.AdminSupportDataCollector .CheckResults > li h3.Heading {
+    position: relative;
+    padding-left: 28px;
+    font-size: 13px;
+    margin-bottom: 0px;
+}
+
+.AdminSupportDataCollector .CheckResults > li.CheckResultUnknown span.Value,
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK span.Value,
+.AdminSupportDataCollector .CheckResults > li.CheckResultInformation span.Value {
+    color: #888;
+}
+
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK > p {
+    color: #888;
+}
+
+.AdminSupportDataCollector .CheckResults > li > p:empty {
+    display: none;
+}
+
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK:hover > p {
+    color: #00023c;
+}
+
+.AdminSupportDataCollector .CheckResultProblem p {
+    background-color: #da3633;
+    color: #ddd;
+}
+
+.AdminSupportDataCollector .CheckResultWarning p {
+    background-color: #f6a72b;
+    color: #1f1f1f;
+}
+
+/**
+ * @subsection  SubGroup
+ */
+
+.AdminSupportDataCollector .CheckResults > li h3.SubHeading {
+    margin-top: 10px;
+}
+
+.AdminSupportDataCollector .CheckResults > li table {
+    margin: 10px 0px 10px 28px;
+    width: 96%;
+}
+
+.AdminSupportDataCollector .CheckResults > li table td.Status {
+    width: 27px;
+}
+
+.AdminSupportDataCollector .CheckResults > li table.SupportDataTable {
+    margin: 0;
+    width: 100%;
+}
+
+.AdminSupportDataCollector .CheckResults > li .SupportDataTableScrollbar {
+    max-height: 400px;
+    overflow-y: auto;
+    display: block;
+    margin: 10px 0px 10px 28px;
+    width: 96%;
+}
+
+
+/**
+ * @subsection  Flag
+ */
+
+.AdminSupportDataCollector .Flag {
+    position: absolute;
+    left: 0px;
+    top: 2px;
+}
+
+.AdminSupportDataCollector .DataTable .Flag {
+    position: static;
+    display: block;
+}
+
+.AdminSupportDataCollector .Flag.Unknown span {
+    background-color: #555555;
+}
+
+.AdminSupportDataCollector .Flag.Information span {
+    background-color: #CDCDCD;
+}
+
+.AdminSupportDataCollector .Flag.OK span {
+    background-color: #008000;
+}
+
+.AdminSupportDataCollector .Flag.Warning span {
+    background-color: #ffa000;
+}
+
+.AdminSupportDataCollector .Flag.Problem span {
+    background-color: #ff0000;
+}
+
+#SupportBundleOptionsDialog legend {
+    color: #333333;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+}
+
+#SupportBundleOptionsDialog fieldset {
+    margin-bottom: 15px;
+}
+#SupportBundleOptionsDialog {
+    width: 560px;
+    padding-right: 20px;
+}
+
+
+
+} /* end @media */

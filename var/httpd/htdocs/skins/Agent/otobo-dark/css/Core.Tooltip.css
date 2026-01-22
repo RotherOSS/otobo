@@ -1,0 +1,128 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Tooltips
+ */
+
+@media screen,projection,tv,handheld {
+
+div.TooltipContainer {
+    position: absolute;
+    z-index: 6000;
+    display: none;
+}
+
+div.Tooltip {
+    width: 244px;
+}
+
+div.Tooltip.TongueTop,
+div.Tooltip.TongueBottom {
+    width: 400px;
+}
+
+div.Tooltip.TongueLeft {
+    margin-left: -37px;
+}
+
+/* RTL intentionally the same */
+.RTL div.Tooltip.TongueLeft {
+}
+
+div.Tooltip.TongueRight {
+    margin-left: -202px;
+}
+
+div.Tooltip > div.Content {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    position: relative;
+}
+
+div.Tooltip.TongueTop > div.Content {
+    margin-bottom: 15px;
+}
+
+div.Tooltip.TongueBottom > div.Content {
+    margin-top: 15px;
+}
+
+div.Tooltip > div.Content:after,
+div.Tooltip > div.Content:before {
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+div.Tooltip.TongueTop > div.Content:after,
+div.Tooltip.TongueTop > div.Content:before {
+    top: 100%;
+}
+
+div.Tooltip.TongueBottom > div.Content:after,
+div.Tooltip.TongueBottom > div.Content:before {
+    bottom: 100%;
+}
+
+div.Tooltip.TongueLeft > div.Content:after,
+div.Tooltip.TongueLeft > div.Content:before {
+    left: 10%;
+}
+
+div.Tooltip.TongueRight > div.Content:after,
+div.Tooltip.TongueRight > div.Content:before {
+    left: 90%;
+    right: 10%;
+}
+
+div.Tooltip > div.Content:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-width: 6px;
+    margin-left: -6px;
+}
+
+div.Tooltip > div.Content:before {
+    border-color: rgba(204, 204, 204, 0);
+    margin-left: -7px;
+}
+
+div.Tooltip.TongueTop > div.Content:after {
+    border-top-color: #fff;
+    border-width: 6px;
+}
+
+div.Tooltip.TongueTop > div.Content:before {
+    border-top-color: #ccc;
+    border-width: 7px;
+}
+
+div.Tooltip.TongueBottom > div.Content:after {
+    border-bottom-color: #fff;
+    border-width: 6px;
+}
+
+div.Tooltip.TongueBottom > div.Content:before {
+    border-bottom-color: #ccc;
+    border-width: 7px;
+}
+
+} /* end @media */

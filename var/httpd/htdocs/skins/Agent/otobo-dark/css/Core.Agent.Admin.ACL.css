@@ -1,0 +1,310 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  ACL Administration
+ */
+
+@media screen,projection,tv,handheld {
+
+.WidgetSimple fieldset.Separated {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    margin: 9px 0px;
+    padding: 4px;
+}
+
+a.Copy {
+    background: url(../img/icons/reports.png) no-repeat left center;
+    padding-left: 24px;
+}
+
+.ACLStructure {
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.ACLFields {
+    width: 600px;
+    margin: 0px auto;
+}
+
+.ACLFields > h4 {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+fieldset:first-child .ACLFields > h4 {
+    margin-top: 0px;
+}
+
+.ACLFields > p {
+    font-size: 11px;
+    width: 450px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #333;
+}
+
+.ACLFields > p a {
+    color: #c8c6c4;
+    text-decoration: underline;
+}
+
+.ACLFields > p a:hover {
+    text-decoration: none;
+}
+
+.ACLFieldGroup {
+    padding: 5px 0px;
+}
+
+.ItemAddLevel1 {
+    min-width: 150px;
+}
+
+.ACLFieldGroup input {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.AddAll {
+    display: inline-block;
+    padding: 4px 7px 4px 7px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    line-height: 12px;
+    font-size: 11px;
+    background-color: #444;
+    position: relative;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.AddAll:hover {
+    background-color: #555;
+}
+
+.ACLFieldGroup input.NewDataItem {
+    font-size: 11px;
+}
+
+.ACLFieldGroup input.LiveEdit {
+    margin-right: 5px;
+    margin-left: 3px;
+    font-size: 11px;
+    padding: 3px 5px;
+    margin-bottom: 4px;
+}
+
+.ACLFieldGroup input.LiveEdit.Big {
+    font-size: 12px;
+    padding: 3px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.ACLFieldGroup li {
+    line-height: 30px;
+    position: relative;
+}
+
+.ACLFieldGroup li .Trigger {
+    position: absolute;
+    width: 12px;
+    height: 13px;
+    left: -17px;
+    top: -1px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.ACLFieldGroup li .Trigger .fa-caret-right {
+    display: inline-block;
+}
+
+.ACLFieldGroup .DataItem strong {
+    cursor: pointer;
+}
+
+.ACLFieldGroup ul li .Trigger {
+    left: 2px;
+    top: 0px;
+}
+
+.ACLFieldGroup > li .Trigger.Collapse .fa-caret-down {
+    display: inline-block;
+}
+
+.ACLFieldGroup > li .Trigger.Collapse .fa-caret-right {
+    display: none;
+}
+
+.ACLFieldGroup li ul li {
+    line-height: 25px;
+    padding-left: 20px;
+}
+
+.ACLFieldGroup > li > ul > li > ul {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+.ACLFieldGroup > li > ul > li > ul > li > ul {
+    margin-bottom: 2px;
+}
+
+.ACLFieldGroup > li > ul > li > ul > li > ul.Boolean {
+    margin-bottom: 4px;
+}
+
+.ACLFieldGroup li ul li ul li .Icon {
+    margin-right: 5px;
+}
+
+.ItemPrefix {
+    width: 140px;
+}
+
+.ACLFieldGroup > li.DataItem:first-child {
+    margin-top: -3px;
+}
+
+.ACLFieldGroup li ul li ul li ul {
+    margin-left: 22px;
+}
+
+.ACLFieldGroup .LastLevel {
+    margin-left: 23px;
+    margin-top: 5px;
+}
+
+.ACLFieldGroup li ul li ul li ul.Boolean {
+    display: inline-block;
+    margin-left: 0px;
+}
+
+.ACLFieldGroup li ul li ul li ul.Boolean li.DataItem select {
+    display: none;
+}
+
+.ACLFieldGroup li ul li ul li ul li,
+.ACLFieldGroup .LastLevel li {
+    display: inline-block;
+    padding: 0px;
+}
+
+.ACLFieldGroup li ul li ul li ul li.DataItem,
+.ACLFieldGroup .LastLevel li.DataItem {
+    padding: 5px 25px 5px 7px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    line-height: 12px;
+    font-size: 11px;
+    background-color: #333;
+    position: relative;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.ACLFieldGroup li ul li ul li ul.Boolean li.DataItem {
+    padding: 0px;
+    background: none;
+    margin: 0px;
+}
+
+.ACLFieldGroup li ul li ul li ul li em,
+.ACLFieldGroup .LastLevel li em {
+    display: block;
+    position: absolute;
+    -moz-border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 5px 5px 0px;
+    background-color: #444;
+    right: 0px;
+    top: 0px;
+    font-style: normal;
+    padding: 4px 6px 6px 6px;
+    color: #eee;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.ACLFieldGroup li ul li ul li ul li em:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+.Icon {
+    height: 16px;
+    width: 16px;
+    padding: 1px;
+    margin-top: -1px;
+    margin-right: -2px;
+    border-style: none;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+.Icon.NoMargin {
+    margin-right: 0px !important;
+}
+
+.Icon.Boolean {
+    cursor: pointer;
+}
+
+.Icon.True {
+    background: url(../img/icons/tick.png) no-repeat center;
+}
+
+.Icon.False {
+    background: url(../img/icons/cross.png) no-repeat center;
+}
+
+.Icon.Add {
+    cursor: default;
+    background: url(../img/filter_add.png) no-repeat center;
+}
+
+.Icon.Add.AddDataItem {
+    cursor: pointer;
+}
+
+.Icon.Add.AddDataItem:hover {
+    background: url(../img/filter_add_hover.png) no-repeat center;
+}
+
+.Icon.Remove {
+    background: url(../img/filter_remove.png) no-repeat center;
+}
+
+.Icon.Remove:hover {
+    background: url(../img/filter_remove_hover.png) no-repeat center;
+}
+
+.ACLNote {
+    background: #000;
+    border: 1px solid #333;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+}
+
+}

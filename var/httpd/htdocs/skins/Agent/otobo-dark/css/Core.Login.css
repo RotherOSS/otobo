@@ -1,0 +1,153 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Login screen
+ */
+
+@media screen,projection,tv,handheld {
+
+.LoginScreen {
+    padding-top: 90px;
+    height: calc(100vh - 90px);
+    min-height: 430px;
+}
+
+.LoginScreen .MainBox {
+    padding: 0px;
+}
+
+.LoginScreen .ErrorBox,
+.LoginScreen .SuccessBox {
+    margin-bottom: 10px;
+    padding: 10px 25px;
+    border-radius: 10px;
+}
+
+.LoginScreen .SuccessBox {
+    background-color: #c4cdfa;
+    color: #c8c6c4;
+    border-radius: 10px;
+}
+
+#LostPassword,
+#BackToLogin {
+    color: #999;
+}
+
+.LoginScreen #Header {
+    display: none;
+}
+
+.LoginScreen #Footer {
+    border: 0px;
+    bottom: 0px;
+    box-sizing: border-box;
+    padding: 15px 0px;
+    position: relative;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.LoginScreen #Footer a {
+    padding-left: 0px;
+}
+
+#Footer a {
+    color: #999;
+    font-size: 11px;
+    display: inline-block;
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 5px;
+    transition: all ease 0.4s;
+    text-transform: none;
+}
+
+#Footer a span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../img/otobo-signet.svg);
+    background-size: cover;
+    margin: 20px auto 10px auto;
+    transition: all ease 0.4s;
+    opacity: 0.7;
+}
+
+#Footer a:hover {
+    text-decoration: none;
+    color: #c8c6c4;
+}
+
+#Footer a:hover span {
+    opacity: 1;
+}
+
+.LoginBox,
+#PasswordBox {
+    width: 350px;
+    margin: 0px auto;
+}
+
+.LoginBox > .WidgetSimple,
+#PasswordBox > .WidgetSimple {
+    padding: 15px;
+}
+
+.LoginBox > .WidgetSimple form > fieldset > div,
+#PasswordBox > .WidgetSimple form > fieldset > div {
+    position: relative;
+}
+
+.LoginBox input,
+#PasswordBox input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.LoginBox .Error.Center.Spacing:empty,
+#PasswordBox .Error.Center.Spacing:empty {
+    display: none;
+}
+
+.LoginBox .CallForAction.Fullsize,
+#PasswordBox .CallForAction.Fullsize {
+    width: 100%;
+}
+
+.LoginBox .CallForAction.Fullsize span,
+#PasswordBox .CallForAction.Fullsize span {
+    padding: 7px 10px;
+}
+
+/**
+ * @subsection  Customizable logos
+ */
+#LoginLogo {
+    background: transparent url(../img/Otobo_Wortmarke_Digital_Blau_RGB.svg) center no-repeat;
+    background-size: contain;
+    height: 220px;
+    margin-bottom: 30px;
+}
+
+} /* end @media */

@@ -1,0 +1,580 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     WidgetMenu
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Control Row
+ */
+.ControlRow {
+    position: relative;
+    overflow: hidden;
+    min-height: 24px;
+    background-color: #333;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.ControlRow a {
+    color: #c8c6c4;
+}
+
+.ControlRow a:hover {
+    color: #fff;
+}
+
+.ControlRow a.Active {
+    color: #fff;
+}
+
+/**
+ * @subsection  Control Row Tabs
+ */
+.RTL .ControlRow .Tabs {
+    float: right;
+}
+
+.ControlRow li {
+    padding-left: 2px;
+    float: left;
+    position: relative;
+}
+
+.RTL .ControlRow li {
+    margin-left: 0;
+    margin-right: -3px;
+    float: right;
+}
+
+.ControlRow li:hover {
+    background: #444;
+}
+
+.ControlRow li.Active,
+.ControlRow li.Active:hover,
+.ControlRow li.Active:active {
+    background: #5D5D5D;
+    padding-left: 2px;
+}
+
+.ControlRow li > a {
+    padding: 7px 12px 7px 11px;
+    color: #c8c6c4;
+    font-size: 11px;
+    display: block;
+}
+
+.RTL .ControlRow li > a {
+    padding: 7px 11px 7px 12px;
+}
+
+.ControlRow li:hover > a {
+    color: #fff;
+}
+
+.ControlRow li.Active > a,
+.ControlRow li.Active:hover > a,
+.ControlRow li.Active:active > a {
+    color: #FFF;
+}
+
+.ControlRow li > a > span {
+    padding-left: 4px;
+}
+
+/**
+ * @subsection  Context Functions
+ */
+ul.ContextFunctions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.RTL ul.ContextFunctions {
+    right: auto;
+    left: 0;
+}
+
+h1 ul.ContextFunctions {
+    top: -4px;
+}
+
+ul.ContextFunctions li {
+    padding-left: 3px;
+}
+
+ul.ContextFunctions li span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
+.RTL ul.ContextFunctions li {
+    float: right;
+}
+
+ul.ContextFunctions li.ContextHelp a,
+ul.ContextFunctions li.ContextSettings a {
+    display: block;
+    width: 22px;
+    height: 24px;
+    padding: 0;
+}
+
+ul.ContextFunctions li.ContextHelp a span,
+ul.ContextFunctions li.ContextSettings a span {
+    display: block;
+    width: 19px;
+    height: 24px;
+}
+
+ul.ContextFunctions li.ContextSettings .fa {
+    display: block;
+    font-size: 14px;
+    padding: 5px 0px 5px 3px;
+}
+
+ul.ContextFunctions li:last-child:hover > a {
+    background-position: 50px 50px;
+}
+
+/**
+ * @subsection  Control Row Headline
+ */
+.ControlRow h2 {
+    padding-top: 1px;
+    margin-left: 8px;
+    height: 24px;
+    font-size: 13px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #c8c6c4;
+    text-shadow: 0 1px 0 #000;
+    margin-bottom: 2px;
+}
+
+/**
+ * @subsection  Control Row Additional Information
+ */
+
+.AdditionalInformation {
+    right: 7px;
+    top: 7px;
+    font-size: 11px;
+    position: absolute;
+}
+
+.AdditionalInformation.ControlRow {
+    top: 1px;
+    right: 0px;
+    background: none;
+}
+
+.AdditionalInformation.SpacingLoader {
+    margin-left: 0px;
+    margin-right: 23px;
+}
+
+.RTL .AdditionalInformation.SpacingLoader {
+    margin-left: 23px;
+    margin-right: 0px;
+}
+
+.RTL .AdditionalInformation {
+    right: auto;
+    left: 0;
+}
+
+/**
+ * @subsection  Control Row Action Row
+ */
+.ActionRow {
+    position: relative;
+    overflow: hidden;
+    background: #1f1f1f;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+/*    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16); */
+}
+
+.WidgetSimple .Content .ActionRow {
+    margin: -5px;
+    background: none;
+    border-bottom: 0px;
+}
+
+.Actions {
+    padding: 0;
+    float: left;
+}
+
+.RTL .Actions {
+    float: right;
+}
+
+.Actions li {
+    line-height: 18px;
+    font-size: 11px;
+    display: inline-block;
+    z-index: 19;
+}
+
+.Actions li:after {
+    color: #BBBBBB;
+    content: " | ";
+    display: block;
+    float: right;
+    margin: 5px 3px;
+}
+
+.Actions li.Hidden {
+    display: none;
+}
+
+.Actions li.Hidden ~ li#BulkAction {
+    margin-left: 5px;
+}
+
+.Actions li:last-child:after {
+    content: " | ";
+    display: block;
+    visibility: hidden;
+}
+
+.RTL .Actions li {
+    margin-right: 0;
+    margin-left: -3px;
+    padding: 0 3px 0 1px;
+    float: right;
+}
+
+.Actions li:first-child {
+    margin-left: 0;
+    padding-left: 5px;
+}
+
+.RTL .Actions li:first-child {
+    margin-right: 0;
+    padding-right: 0;
+    background: none;
+}
+
+.Actions li:last-child {
+    background: none;
+}
+
+.Actions li a,
+.Actions li span {
+    padding: 5px 2px 0;
+    color: #c8c6c4;
+    display: inline-block;
+    border-bottom: 1px solid transparent;
+}
+
+.Actions li a:hover,
+.Actions li span:hover,
+.OverviewZoom a:hover {
+    border-color: #bfbfce;
+}
+
+.Actions li.NoHover:hover a {
+    background: none;
+}
+
+.Actions li input#SelectAllTickets {
+    margin: 0 1px 0 3px;
+}
+
+.RTL .Actions li input#SelectAllTickets {
+    margin: 0 3px 0 1px;
+}
+
+.RTL .Actions li:first-child a {
+    background-image: none;
+}
+
+.Actions li.Inactive a {
+    color: #999;
+    text-shadow: 1px 1px #000;
+    cursor: default;
+}
+
+.Actions li.Inactive:hover a {
+    background: none;
+    border-color: transparent;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
+}
+
+.ActionMessage {
+    display: block;
+    float: left;
+    font-size: 11px;
+    padding: 9px 8px 8px 4px;
+}
+
+.Actions form {
+    padding: 4px 4px 4px 0;
+    display: inline-block;
+}
+
+.Actions li.SortBy {
+    padding: 5px 8px;
+}
+
+.Actions li select {
+    font-size: 11px;
+}
+
+.Tab.Actions li {
+    height: auto;
+    padding: 0;
+}
+
+.Tab.Actions li:after {
+    color: #bbb;
+}
+
+.Tab.Actions li:first-child a {
+    padding-left: 3px;
+}
+
+.RTL .Tab.Actions li:first-child a {
+    padding: 3px 3px 4px 8px;
+}
+
+.Tab.Actions li a {
+    padding: 5px 5px 8px 2px;
+    color: #999;
+}
+
+.Tab.Actions li a:hover {
+    color: #c8c6c4;
+    background: none;
+    text-decoration: underline;
+    border-bottom: 0px;
+}
+
+.Tab.Actions li:last-child {
+    background: none;
+}
+
+.Tab.Actions li.Selected a {
+    color: #dbd9d7;
+    font-weight: bold;
+}
+
+/**
+ * @subsection  LightRow
+ */
+
+.LightRow {
+}
+
+.LightRow.Header {
+    background: #ddd;
+    padding-right: 5px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    position: relative;
+    -webkit-box-shadow: inset 0 -1px 0 #FFF;
+    box-shadow: inset 0 -1px 0 #FFF;
+}
+
+.RTL .LightRow.Header {
+    padding-right: 0;
+    padding-left: 5px;
+}
+
+.Collapsed .LightRow.Header {
+    border-bottom-color: #C6C5C4;
+    border-radius: 2px;
+}
+
+.LightRow.Bottom {
+    background: #1f1f1f;
+    border-bottom: 1px solid #1f1f1f;
+}
+
+.Collapsed .LightRow.Bottom {
+    display: none;
+}
+
+.LightRow h2 {
+    margin: 0;
+    padding: 4px 0 5px;
+    font-weight: normal;
+    color: #171717;
+}
+
+.Collapsed .LightRow.Header {
+    -webkit-box-shadow: 0 -1px 0 #DDD inset;
+    box-shadow: 0 -1px 0 #DDD inset;
+    border-bottom-color: #AAA;
+}
+
+.LightRow .WidgetAction.Toggle {
+    margin-left: 7px;
+}
+
+.RTL .LightRow .WidgetAction.Toggle {
+    margin-left: 6px;
+    margin-right: 7px;
+}
+
+.LightRow #AJAXImageDestQueueID {
+    display: none;
+}
+
+.LightRow select {
+    margin-top: 1px;
+}
+
+.LightRow.Bottom .Actions li span input[type="checkbox"] {
+    margin-top: 0;
+}
+
+/**
+ * @subsection  Filter settings
+ */
+.Filter {
+    padding-top: 3px;
+    margin-left: 6px;
+    float: left;
+}
+
+.RTL .Filter {
+    margin-left: 0;
+    margin-right: 6px;
+    float: right;
+}
+
+.Filter select {
+    font-size: 11px;
+}
+
+.Filter .Concat {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/*
+ * @subsection  Dashboard Ticket Filter
+ */
+.TicketFilter > a.Selected,
+.UserFilter > a.Selected {
+    text-decoration: underline;
+}
+
+/**
+ * @subsection  Control Row Pagination
+ */
+/*
+ * form.Pagination is the new style pagination, div.Pagination the old style
+ * Both should work with this CSS
+ */
+.Pagination {
+    float: right;
+    margin-right: 0;
+    font-size: 11px;
+    padding: 3px 0px 5px 0px;
+}
+
+.RTL .Pagination {
+    float: left;
+}
+
+form.Pagination > * {
+    float: left;
+}
+
+.RTL .Pagination > * {
+    float: right;
+}
+
+.Pagination > span {
+    margin-top: 3px;
+}
+
+form.Pagination a {
+    height: 24px;
+    width: 24px;
+    display: block;
+}
+
+span.Pagination a {
+    color: #c8c6c4;
+}
+
+span.Pagination a:hover {
+    color: #F92;
+}
+
+span.Pagination a.Selected {
+    font-weight: bold;
+}
+
+span.Pagination span.PaginationLimit {
+    color: #FF0000;
+}
+
+.Pagination a span {
+    margin: 7px 6px;
+    height: 9px;
+    width: 11px;
+    text-indent: -9999px;
+    background: url(../img/arrows.png) no-repeat;
+    display: block;
+}
+
+.Pagination .ArrowLeft span {
+    background-position: left top;
+}
+
+.RTL .Pagination .ArrowLeft span {
+    background-position: right top;
+}
+
+.Pagination .ArrowRight span {
+    background-position: right top;
+}
+
+.RTL .Pagination .ArrowRight span {
+    background-position: left top;
+}
+
+.Pagination input {
+    width: 16px;
+    margin-right: 2px;
+    padding: 1px 3px;
+    font-size: 11px;
+    font-family: inherit;
+    text-align: right;
+}
+
+
+} /* end @media */

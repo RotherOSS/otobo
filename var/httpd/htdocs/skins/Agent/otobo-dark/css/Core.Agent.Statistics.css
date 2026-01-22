@@ -1,0 +1,164 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AgentStatistics
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.PreviewWidget {
+    position: relative;
+}
+
+.PreviewContainer {
+    overflow: hidden !important;
+}
+
+.PreviewContainer .nvd3 text {
+    font-size: 11px;
+}
+
+.PreviewContainer .Preview {
+	width: 70%;
+	background: #272727;
+	height: 300px;
+    padding: 10px 0px;
+	margin: 20px auto;
+	border: 1px solid #333;
+}
+
+.PreviewContainer .Preview .Error,
+.PreviewContainer .Preview .Hint {
+    text-align: center;
+    color: #777;
+}
+
+.PreviewContainer .Preview .Error i,
+.PreviewContainer .Preview .Hint i {
+    display: block;
+    font-size: 30px;
+    color: #bbb;
+    margin-bottom: 5px;
+}
+
+.PreviewContainer .Preview .Error:first-child,
+.PreviewContainer .Preview .Hint:first-child {
+    margin-top: 130px;
+}
+
+.PreviewContainer .PreviewSettings {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.PreviewContainer .PreviewSettings a.Active {
+    border-bottom: 1px solid #000;
+}
+
+.PreviewContainer .PreviewSettings .Warning {
+    display: block;
+    margin-top: 15px;
+    color: #aaa;
+}
+
+.PreviewContainer .CallForAction {
+    width: 100px;
+}
+
+.PreviewSettings .CallForAction {
+    width: auto;
+}
+
+.PreviewSettings .CallForAction.Active {
+    background-color: #c8c6c4;
+    border-color: #c8c6c4;
+    color: #1f1f1f;
+}
+
+.PreviewContainer .CallForAction span {
+    height: auto;
+}
+
+.PreviewContainer .CallForAction span i {
+    display: block;
+    width: 100%;
+    margin: 3px 0px 5px 0px;
+}
+
+.PreviewContainer .CallForAction.Left,
+.PreviewContainer .CallForAction.Right {
+	position: absolute;
+	top: 50%;
+	margin-top: -30px;
+	left: 50px;
+	text-align: center;
+}
+
+.PreviewContainer .CallForAction.Right {
+	left: auto;
+	right: 50px;
+}
+
+.PreviewContainer .CallForAction.Bottom {
+	display: block;
+	margin: 0px auto 20px auto;
+}
+
+.WidgetSimple fieldset legend {
+    padding-top: 10px;
+}
+
+fieldset legend {
+    position: relative;
+}
+
+fieldset legend a {
+    position: absolute;
+    top: 4px;
+    left: 29%;
+    margin-left: -2px;
+}
+
+.PreviewContainer #PreviewCanvas {
+	width: 100%;
+	margin: 15px 0px;
+	height: 300px;
+}
+
+.PreviewContainer .PreviewTable {
+    overflow: auto;
+    height: 300px;
+    margin: 0 10px;
+}
+
+.PreviewContainer .PreviewTable td {
+	white-space: nowrap;
+}
+
+#EditDialog {
+    width: 800px;
+}
+
+#EditDialog .InputField_Search {
+    min-width: 500px;
+}
+} /* end @media */

@@ -1,0 +1,183 @@
+/*
+Copyright (C) 2001-2019 Rother OSS GmbH, https://otobo.de/
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     FAQDetails
+ */
+
+@media screen,projection,tv,handheld {
+
+
+/**
+ * @subsection  Article table body
+ */
+
+.ArticleFAQContent {
+    padding: 11px 12px;
+    line-height: 1.3;
+}
+
+.ArticleFAQContent .FAQVoteForm {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.ArticleFAQContent p.Center {
+    padding-bottom: 10px;
+    margin: 0px 50px;
+    border-bottom: 1px solid #ccc;
+}
+
+.ArticleFAQContent .FAQVoteForm .CallForAction {
+    display: block;
+    margin: 10px auto 0px auto;
+}
+
+.ArticleFAQContent .FAQVoteForm .CallForAction.Hidden {
+    display: none;
+}
+
+.FAQStateName {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 80%;
+    font-style: italic;
+}
+
+fieldset .FAQStateName {
+    position: static;
+}
+
+.RateButtons {
+    text-align: center;
+    display: inline-block;
+}
+
+.RateButtons > li {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.RateButtons > li:first-child,
+.RateButtons > li:last-child {
+    font-weight: bold;
+}
+
+.Visible-ScreenS .RateButtons > li {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.Visible-ScreenS .RateButtons > li span {
+    width: auto !important;
+    float: none !important;
+}
+
+.RateButton {
+    position: relative;
+    text-align: center;
+    display: block;
+    height: 30px;
+    width: 25px;
+    cursor: pointer;
+    float: left;
+    color: #c8c6c4;
+    text-align: center;
+}
+
+.RateButton i {
+    display: block;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    color: #777;
+}
+
+.RateButton i.fa-star {
+    display: none;
+}
+
+.RateButton.RateChecked i.fa-star {
+    display: block;
+    color: #3ab5e4;
+}
+
+.RateButton.RateChecked i.fa-star-o {
+    display: none;
+}
+
+.RateButton:hover i.fa-star-o {
+    color: #c8c6c4;
+}
+
+.RateStar {
+    display: block;
+    height: 16px;
+    float: left;
+    padding-left: 1px;
+    font-size: 10px;
+}
+
+.RateStarText {
+    text-indent:5px;
+}
+
+.RateLabelBefore,
+.RateLabelAfter {
+    color: #333;
+    padding-top: 5px;
+    font-weight: bold;
+}
+
+.RateLabelBefore {
+    float: left;
+    padding-right: 6px;
+}
+
+.RateLabelAfter {
+    float: left;
+    padding-left: 5px;
+}
+
+.ZoomSmallButton{
+    margin-left: 12px;
+}
+
+.FAQMessageBrowser {
+    margin-bottom: 10px;
+    padding: 0px;
+    border-radius: 2px;
+    position: relative;
+}
+
+.FAQMessageBrowser p {
+     padding: 5px 20px;
+     background-color: #444;
+     font-size: 11px;
+     text-align: center;
+}
+
+.FAQMessageBrowser a.Close {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 4px;
+    top: 6px;
+    color: #5D5D5D;
+}
+
+.FAQMessageBrowser a.Close:hover {
+    color: #000;
+}
+}
