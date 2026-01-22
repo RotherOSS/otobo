@@ -622,28 +622,37 @@ sub Do {
     return unless $Self->Connect;
 
     # send sql to database, taken from the implemetation of DBI::do
-    my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
+    # The number of affected rows will be returned in the variable $Rows.
+    # In case of error $Rows is kept undefined.
+    my $Rows;
+    DBI_DO_EMULATION:
+    {
+        my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
 
-    return unless $StatementHandle;
+        next DBI_DO_EMULATION unless $StatementHandle;
 
-    if ( ref $Param{BindAsBinary} eq 'ARRAY' ) {
-        my $Index = 1;
-        FLAG:
-        for my $Flag ( $Param{BindAsBinary}->@* ) {
-            next FLAG unless $Flag;
+        if ( ref $Param{BindAsBinary} eq 'ARRAY' ) {
+            my $Index = 1;
+            FLAG:
+            for my $Flag ( $Param{BindAsBinary}->@* ) {
+                next FLAG unless $Flag;
 
-            $StatementHandle->bind_param( $Index, '', DBI::SQL_BINARY );
+                $StatementHandle->bind_param( $Index, '', DBI::SQL_BINARY );
+            }
+            continue {
+                $Index++;    # bind index are based on 1
+            }
         }
-        continue {
-            $Index++;    # bind index are based on 1
-        }
+        my $ExecuteSuccess = $StatementHandle->execute(@Array);
+
+        next DBI_DO_EMULATION unless $ExecuteSuccess;
+
+        # indicate success
+        $Rows = $StatementHandle->rows;
     }
-    my $ExecuteSuccess = $StatementHandle->execute(@Array);
 
-    return unless $ExecuteSuccess;
-
-    my $Rows = $StatementHandle->rows;
-    if ( $Rows != 0 && !$Rows ) {
+    # zero affected rows are fine
+    if ( !defined $Rows ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'error',
