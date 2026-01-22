@@ -1384,12 +1384,11 @@ Returns an Base64 encoded or a storable string. The UTF-8 flag is off in both ca
 sub _SerializeMessage {
     my ( $Self, %Param ) = @_;
 
+    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
     my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
     my $Message        = $StorableObject->Serialize(
         Data => $Param{Message},
     );
-
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
         $Message = encode_base64( $Message, );
     }
