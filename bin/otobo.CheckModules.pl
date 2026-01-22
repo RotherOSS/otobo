@@ -130,10 +130,6 @@ my %InstTypeToCMD = (
         CMD       => 'emerge %s',
         UseModule => 0,
     },
-    ppm => {
-        CMD       => 'ppm install %s',
-        UseModule => 0,
-    },
     dnf => {
         CMD       => 'dnf install "%s"',
         SubCMD    => 'perl(%s)',
@@ -1694,7 +1690,6 @@ sub CollectPackageInfo {
     my @Packages;
     my @CPANOnlyModules;
 
-    # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
     for my $Module ( @{$PackageList} ) {
 
@@ -1725,18 +1720,19 @@ sub CollectPackageInfo {
 
 sub GetInstallCommand {
     my ($Module) = @_;
+
     my $CMD;
     my $SubCMD;
     my $Package;
 
-    # returns the installation type e.g. ppm
+    # returns the installation type e.g. 'aptget'
     my $InstType     = $DistToInstType{$OSDist};
     my $OuputInstall = 1;
 
     if ($InstType) {
 
         # gets the install command for installation type
-        # e.g. ppm install %s
+        # e.g. 'apt-get install -y %s'
         # default is the CPAN install command
         # e.g. cpanm %s
         $CMD    = $InstTypeToCMD{$InstType}->{CMD};
@@ -1758,13 +1754,13 @@ sub GetInstallCommand {
             $Package = $Module->{Module};
         }
         else {
-            # if the package name is defined for the installation type
-            # e.g. ppm then we use this as package name
+            # If the package name is defined for the installation type,
+            # e.g. aptget, then we use this as package name.
             $Package = $Module->{InstTypes}->{$InstType};
         }
     }
 
-    return if !$OuputInstall;
+    return unless $OuputInstall;
 
     if ( !$CMD || !$Package ) {
         $CMD     = $InstTypeToCMD{default}->{CMD};
