@@ -1349,7 +1349,7 @@ sub Run {
                         Name        => "DynamicField_$DynamicFieldConfig->{Name}_$i",
                         Data        => $DataValues,
                         SelectedID  => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                         Max         => 100,
                     };
                 }
@@ -1370,7 +1370,7 @@ sub Run {
                         Name        => "DynamicField_$DynamicFieldConfig->{Name}_Template",
                         Data        => $DataValues,
                         SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                         Max         => 100,
                     };
                 }
@@ -1395,7 +1395,7 @@ sub Run {
                 Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data        => $DataValues,
                 SelectedID  => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                 Max         => 100,
             };
         }
@@ -1426,7 +1426,7 @@ sub Run {
                             Name        => 'DynamicField_' . $FrontendName . "_$i",
                             Data        => $DataValues,
                             SelectedID  => $SetField->{Values}{$FrontendName}[$i],
-                            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                            Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                             Max         => 100,
                         };
                     }
@@ -1447,7 +1447,7 @@ sub Run {
                             Name        => 'DynamicField_' . $FrontendName . "_Template",
                             Data        => $DataValues,
                             SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
-                            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                            Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                             Max         => 100,
                         };
                     }
@@ -1472,7 +1472,7 @@ sub Run {
                     Name        => 'DynamicField_' . $FrontendName,
                     Data        => $DataValues,
                     SelectedID  => $SetField->{Values}{$FrontendName},
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                     Max         => 100,
                 };
             }

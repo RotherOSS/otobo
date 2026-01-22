@@ -494,7 +494,7 @@ sub _RenderAjax {
                         Name        => 'DynamicField_' . $FrontendName . "_$i",
                         Data        => $DataValues,
                         SelectedID  => $SetField->{Values}{$FrontendName}[$i],
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                         Max         => 100,
                     };
                 }
@@ -515,7 +515,7 @@ sub _RenderAjax {
                         Name        => 'DynamicField_' . $FrontendName . "_Template",
                         Data        => $DataValues,
                         SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                         Max         => 100,
                     };
                 }
@@ -540,7 +540,7 @@ sub _RenderAjax {
                 Name        => 'DynamicField_' . $FrontendName,
                 Data        => $DataValues,
                 SelectedID  => $SetField->{Values}{$FrontendName},
-                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                 Max         => 100,
             };
         }
@@ -581,7 +581,7 @@ sub _RenderAjax {
                     Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",    # contains the id suffix
                     Data        => $DataValues,
                     SelectedID  => $DFParam->{"DynamicField_$Name"}[$i],
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                     Max         => 100,
                 };
             }
@@ -602,7 +602,7 @@ sub _RenderAjax {
                     Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_Template",    # contains the id suffix
                     Data        => $DataValues,
                     SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                     Max         => 100,
                 };
             }
@@ -627,7 +627,7 @@ sub _RenderAjax {
             Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},            # contains the id suffix
             Data        => $DataValues,
             SelectedID  => $DFParam->{"DynamicField_$Name"},
-            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+            Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
             Max         => 100,
         };
     }
