@@ -545,7 +545,6 @@ END_CONTENT
             "There are only two entries in the first dynamic field 3 selection",
         );
 
-        # $Selenium->find_element( '.FieldCell.MultiValue_0 .AddValueRow', 'css' )->click();
         $Selenium->execute_script("\$('#DynamicField_Field3${RandomID}_0').closest('.FieldCell').find('.AddValueRow').trigger('click');");
 
         is(
