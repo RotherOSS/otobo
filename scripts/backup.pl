@@ -265,7 +265,7 @@ if ($DBOnlyBackup) {
 else {
     # backup Kernel/Config.pm
     print "Backup $Directory/Config.tar.$CompressEXT ... ";
-    if ( !system("tar -c -$Compress -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
+    if ( !system("tar -h -c -$Compress -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
         say "done";
     }
     else {
@@ -277,7 +277,7 @@ else {
     if ($FullBackup) {
         print "Backup $Directory/Application.tar.$CompressEXT ... ";
         my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
-        if ( !system("tar $Excludes -c -$Compress -f $Directory/Application.tar.$CompressEXT .") ) {
+        if ( !system("tar -h $Excludes -c -$Compress -f $Directory/Application.tar.$CompressEXT .") ) {
             say "done";
         }
         else {
@@ -290,7 +290,7 @@ else {
     # backup vardir
     else {
         print "Backup $Directory/VarDir.tar.$CompressEXT ... ";
-        if ( !system("tar -c -$Compress -f $Directory/VarDir.tar.$CompressEXT var/") ) {
+        if ( !system("tar -h -c -$Compress -f $Directory/VarDir.tar.$CompressEXT var/") ) {
             print "done\n";
         }
         else {
@@ -303,7 +303,7 @@ else {
     # backup datadir
     if ( $ArticleDir !~ m/\A\Q$Home\E/ ) {
         print "Backup $Directory/DataDir.tar.$CompressEXT ... ";
-        if ( !system("tar -c -$Compress -f $Directory/DataDir.tar.$CompressEXT $ArticleDir") ) {
+        if ( !system("tar -h -c -$Compress -f $Directory/DataDir.tar.$CompressEXT $ArticleDir") ) {
             print "done\n";
         }
         else {
