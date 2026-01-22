@@ -97,13 +97,11 @@ sub new {
 
         # The driver module DBD::MariaDB expects an integer value for the port when given.
         # Therefore set the port only when there actually is a port.
-        $DatabaseDSN = join ':',
-            'DBI',
-            $Self->{DynamicFieldConfig}->{Config}->{DBType},
-            "database=$Self->{DynamicFieldConfig}->{Config}->{DBName}",
-            "host=$Self->{DynamicFieldConfig}->{Config}->{Server}";
+        $DatabaseDSN = 'DBI:' . $Self->{DynamicFieldConfig}->{Config}->{DBType}
+            . ':database=' . $Self->{DynamicFieldConfig}->{Config}->{DBName}
+            . ';host=' . $Self->{DynamicFieldConfig}->{Config}->{Server};
         if ( $Self->{DynamicFieldConfig}->{Config}->{Port} ) {
-            $DatabaseDSN .= ":port=$Self->{DynamicFieldConfig}->{Config}->{Port}";
+            $DatabaseDSN .= ";port=$Self->{DynamicFieldConfig}->{Config}->{Port}";
         }
     }
 
@@ -554,7 +552,7 @@ sub DatabaseSearchByConfig {
         && $Param{ResultLimit} =~ /^\d+$/
         )
     {
-        return unless $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL   => $SQL,
             Bind  => \@BindParams,
             Limit => $Param{ResultLimit},
@@ -562,7 +560,7 @@ sub DatabaseSearchByConfig {
     }
     else {
 
-        return unless $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => $SQL,
             Bind => \@BindParams,
         );
