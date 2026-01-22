@@ -124,11 +124,6 @@ sub new {
     $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
-    # Connections to MariaDB and MySQL should both use the driver module DBD::MariaDB. Therefore
-    # it is recommended to use a DSN starting with 'DBI:MariaDB:'. But updated system might still
-    # have a DSN that starts with 'DBI:mysql'. Switch the driver by fiddling with DSN.
-    $Self->{DSN} =~ s/DBI:mysql:/DBI:MariaDB:/;
-
     # mirror DB related
     $Self->{IsMirrorDB}    = $Param{IsMirrorDB};    # a guard that stops creation of a further mirror DB
     $Self->{_InitMirrorDB} = 0;                     # a guard that avoids reconnecting to a mirror DB
@@ -147,7 +142,12 @@ sub new {
         $Self->{PW} = $Self->_Decrypt($1);
     }
 
-    # get database type
+    # Connections to MariaDB and MySQL should both use the driver module DBD::MariaDB. Therefore
+    # it is recommended to use a DSN starting with 'DBI:MariaDB:'. But updated system might still
+    # have a DSN that starts with 'DBI:mysql'. Switch the driver by fiddling with DSN.
+    $Self->{DSN} =~ s/DBI:mysql:/DBI:MariaDB:/;
+
+    # determine which Kernel/System/DB/*.pm database driver module should be used
     $Self->{'DB::Type'} = eval {
 
         # overwrite with an explicit param has highest priority
@@ -157,8 +157,7 @@ sub new {
         return $ConfigObject->Get('Database::Type') if $ConfigObject->Get('Database::Type');
 
         # otherwise auto detection from the DSN
-        return 'mysql'      if $Self->{DSN} =~ m/:mysql/i;
-        return 'mysql'      if $Self->{DSN} =~ m/:MariaDB/i;
+        return 'mysql'      if $Self->{DSN} =~ m/:mariadb/i;
         return 'postgresql' if $Self->{DSN} =~ m/:pg/i;
         return 'oracle'     if $Self->{DSN} =~ m/:oracle/i;
         return 'db2'        if $Self->{DSN} =~ m/:db2/i;
@@ -175,10 +174,10 @@ sub new {
         return;
     }
 
-    # normalize
+    # normalize the database driver module
     $Self->{'DB::Type'} = lc $Self->{'DB::Type'};
 
-    # load backend module
+    # load the database driver module
     {
         my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
 
