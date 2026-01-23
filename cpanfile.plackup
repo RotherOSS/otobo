@@ -122,8 +122,11 @@ requires 'Plack::Middleware::ReverseProxy';
 # Feature 'apache:mod_perl' is not needed
 
 
-# Feature 'auth:openidconnect' is not needed
+# feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
 
+# };
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MariaDB or MySQL database.
