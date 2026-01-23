@@ -86,6 +86,8 @@ sub ValueIsDifferent {
     }
 
     # special cases where the values are different but they should be reported as equals
+    # NOTE in case that either Value1 or Value2 is an array ref, we rely on stringified
+    #   array references not being empty for this to work
     return if !defined $Param{Value1} && ( defined $Param{Value2} && $Param{Value2} eq '' );
     return if !defined $Param{Value2} && ( defined $Param{Value1} && $Param{Value1} eq '' );
 
