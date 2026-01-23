@@ -108,43 +108,46 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps InputOutput::RequireBriefOpen);
 
+# [InstType] => {
+#    CMD                     => '[cmd to install OS package]',
+#    PackageNamingConvention => sub {...}
+# }
+#
+# The in @NeededModules explicitly declared package name has precedence.
+# The fallback for the package name is based on the Perl module name. If declared the sub PackageNamingConvention
+# is used for deriving the package name from the module name. Otherwise the unchanged module name is used.
+# For RedHat 'Date::Format' would be changed into "perl-Date-Format".
+#
+# The package name will be used for the placeholder.
+# E.g. 'apt-get install -y %s' is turned into 'apt-get install -y libtimedate-perl'.
+# Ss fallback the default CPAN install command
+# e.g. cpanm DBD::Oracle is used.
 my %InstTypeToCMD = (
-
-    # [InstType] => {
-    #    CMD       => '[cmd to install module]',
-    #    UseModule => 1/0,
-    # }
-    # Set UseModule to 1 if you want to use the
-    # CPAN module name of the package as replace string.
-    # e.g. dnf install "perl(Date::Format)"
-    # If you set it 0 it will use the name
-    # for the InstType of the module
-    # e.g. apt-get install -y libtimedate-perl
-    # and as fallback the default CPAN install command
-    # e.g. cpanm DBD::Oracle
     aptget => {
-        CMD       => 'apt-get install -y %s',
-        UseModule => 0,
+        CMD => 'apt-get install -y %s',
     },
     emerge => {
-        CMD       => 'emerge %s',
-        UseModule => 0,
+        CMD => 'emerge %s',
     },
     dnf => {
-        CMD       => 'dnf install "%s"',
-        SubCMD    => 'perl(%s)',
-        UseModule => 1,
+        CMD                     => 'dnf install "%s"',
+        PackageNamingConvention =>
+            sub {
+                my ($PerlModule) = @_;
+
+                return join '-',
+                'perl',
+                split /::/, $PerlModule;
+            },
     },
 
     # for a Perl package list see https://packagehub.suse.com/package-categories/perl/
     zypper => {
-        CMD       => 'zypper install %s',
-        UseModule => 0,
+        CMD => 'zypper install %s',
     },
     ports => {
-        CMD       => 'cd /usr/ports %s',
-        SubCMD    => ' && make -C %s install clean',
-        UseModule => 0,
+        CMD    => 'cd /usr/ports %s',
+        SubCMD => ' && make -C %s install clean',
     },
     default => {
         CMD => 'cpanm %s',
@@ -254,6 +257,9 @@ eval {
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
 $OSDist //= $^O;
+
+# For development the OS can be mocked
+#$OSDist = 'redhat';
 
 # extract command line parameters
 my $DoPrintAllModules;
@@ -499,7 +505,6 @@ my @NeededModules = (
             aptget => 'libhttp-message-perl',
             emerge => 'dev-perl/HTTP-Message',
             zypper => 'perl-HTTP-Message',
-            dnf    => 'perl-HTTP-Message',
             ports  => undef,
         },
     },
@@ -539,7 +544,6 @@ my @NeededModules = (
         InstTypes       => {
             aptget => 'libcpanel-jsperl',
             emerge => 'dev-perl/Cpanel-JSON-XS',
-            dnf    => 'perl-Cpanel-JSON-XS',
             zypper => 'perl-Cpanel-JSON-XS',
             ports  => 'converters/p5-Cpanel-JSON-XS',
         },
@@ -657,7 +661,6 @@ my @NeededModules = (
             aptget => 'libplack-perl',
             emerge => 'dev-perl/Plack',
             zypper => 'perl-Plack',
-            dnf    => 'perl-Plack',
             ports  => undef,
         },
     },
@@ -808,16 +811,16 @@ my @NeededModules = (
             ports  => 'textproc/p5-YAML-LibYAML',
         },
     },
+
+    # This is a core Perl module which should be available on most distributions.
+    # Redhat might be an exception. See https://github.com/RotherOSS/otobo/issues/219
+    # In that case it should be installable with the package 'perl-Unicode-Collate',
     {
         Module    => 'Unicode::Collate',
         Required  => 1,
         Comment   => 'For internationalised sorting',
         InstTypes => {
             aptget => 'perl',
-
-            # This is a core Perl module which should be available on most distributions.
-            # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
-            dnf => 'perl-Unicode-Collate',
         },
     },
 
@@ -830,7 +833,6 @@ my @NeededModules = (
         InstTypes       => {
             aptget => undef,
             emerge => undef,
-            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -842,7 +844,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,
             emerge => undef,
-            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -873,7 +874,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
-            dnf    => undef,
             zypper => undef,
             ports  => 'databases/p5-DBD-ODBC',
         },
@@ -885,7 +885,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
-            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -953,7 +952,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libredis-perl',
             emerge => 'dev-perl/Redis',
-            dnf    => 'perl-Redis',
             zypper => 'perl-Redis',
             ports  => 'databases/p5-Redis',
         },
@@ -965,7 +963,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libredis-fast-perl',
             emerge => undef,
-            dnf    => undef,
             zypper => undef,
             ports  => undef,
         },
@@ -1185,7 +1182,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libdata-peek-perl',
             emerge => undef,
-            dnf    => 'perl-Data-Peek',
             zypper => undef,
             ports  => undef,
         },
@@ -1742,16 +1738,19 @@ sub GetInstallCommand {
         $CMD    = $InstTypeToCMD{$InstType}->{CMD};
         $SubCMD = $InstTypeToCMD{$InstType}->{SubCMD};
 
-        # gets the target package
-        if ( $InstTypeToCMD{$InstType}->{UseModule} ) {
+        # the explicitly declared package has precedence
+        $Package = $Module->{InstTypes}->{$InstType};
 
-            # default is the CPAN module name
-            $Package = $Module->{Module};
-        }
-        else {
-            # If the package name is defined for the installation type,
-            # e.g. aptget, then we use this as package name.
-            $Package = $Module->{InstTypes}->{$InstType};
+        # the fallback is based on the Perl module name
+        if ( !$Package ) {
+            my $Module2Package = $InstTypeToCMD{$InstType}->{PackageNamingConvention};
+            if ($Module2Package) {
+                $Package = $Module2Package->( $Module->{Module} );
+            }
+            else {
+                # default is the CPAN module name
+                $Package = $Module->{Module};
+            }
         }
     }
 
