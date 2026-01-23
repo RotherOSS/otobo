@@ -223,9 +223,10 @@ my %IsDockerFeature = (
 # used for creating the file 'cpanfile.plackup'
 my %IsPlackupFeature = (
     %IsCommonFeature,
-    'gazelle'           => 1,
-    'div:cldr'          => 1,
-    'performance:redis' => 1,
+    'auth:openidconnect' => 1,
+    'div:cldr'           => 1,
+    'gazelle'            => 1,
+    'performance:redis'  => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -273,18 +274,18 @@ my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'           => \$DoPrintHelp,
-    'inst'             => \$DoPrintInstCommand,
-    'list'             => \$DoPrintPackageList,
-    'all'              => \$DoPrintAllModules,
-    'features'         => \$DoPrintFeatures,
-    'finst=s{1,}'      => \@FeatureInstList,
-    'flist=s{1,}'      => \@FeatureList,
-    'cpanfile'         => \$DoPrintCpanfile,
+    'help|h'             => \$DoPrintHelp,
+    'inst'               => \$DoPrintInstCommand,
+    'list'               => \$DoPrintPackageList,
+    'all'                => \$DoPrintAllModules,
+    'features'           => \$DoPrintFeatures,
+    'finst=s{1,}'        => \@FeatureInstList,
+    'flist=s{1,}'        => \@FeatureList,
+    'cpanfile'           => \$DoPrintCpanfile,
     'generate-cpanfiles' => \$DoGenerateCpanfiles,
-    'docker-cpanfile'  => \$DoPrintDockerCpanfile,
-    'plackup-cpanfile' => \$DoPrintPlackupCpanfile,
-    'bundled-cpanfile' => \$DoPrintBundledCpanfile,
+    'docker-cpanfile'    => \$DoPrintDockerCpanfile,
+    'plackup-cpanfile'   => \$DoPrintPlackupCpanfile,
+    'bundled-cpanfile'   => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
 
 if (@FeatureList) {
