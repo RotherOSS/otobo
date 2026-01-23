@@ -3842,7 +3842,9 @@ Returns:
         UserModificationActive => 0,         # 1 or 0
         EffectiveValue         => "Product 6",
         CreateTime             => "2016-05-29 11:04:04",
+        CreateBy               => 1,
         ChangeTime             => "2016-05-29 11:04:04",
+        ChangeBy               => 1,
     );
 
 =cut
@@ -3879,7 +3881,7 @@ sub ModifiedSettingVersionGet {
             SELECT smv.id, smv.sysconfig_default_version_id, sdv.sysconfig_default_id, sm.id,
                 smv.name, smv.user_id,
                 smv.is_valid, smv.reset_to_default, smv.user_modification_active, smv.effective_value,
-                smv.create_time, smv.change_time
+                smv.create_time, smv.create_by, smv.change_time, smv.change_by
             FROM sysconfig_modified_version smv
             LEFT JOIN sysconfig_default_version sdv
                 ON smv.sysconfig_default_version_id = sdv.id
@@ -3910,7 +3912,9 @@ sub ModifiedSettingVersionGet {
             EffectiveValue         => $EffectiveValue,
             DeploymentTimeStamp    => $Data[10],
             CreateTime             => $Data[10],
-            ChangeTime             => $Data[11],
+            CreateBy               => $Data[11],
+            ChangeTime             => $Data[12],
+            ChangeBy               => $Data[13],
         );
     }
 
