@@ -1725,11 +1725,15 @@ sub GetInstallCommand {
     my $SubCMD;
     my $Package;
 
-    # returns the installation type e.g. 'aptget'
-    my $InstType     = $DistToInstType{$OSDist};
-    my $OuputInstall = 1;
+    # get the installation type e.g. 'aptget'
+    my $InstType = $DistToInstType{$OSDist};
 
     if ($InstType) {
+
+        # If there is a hash key for the installation type but the value is not defined
+        # then we prevent the output for the installation command.
+        # Instead a note about installation from CPAN is printed.
+        return if exists $Module->{InstTypes}->{$InstType} && !defined $Module->{InstTypes}->{$InstType};
 
         # gets the install command for installation type
         # e.g. 'apt-get install -y %s'
@@ -1739,16 +1743,7 @@ sub GetInstallCommand {
         $SubCMD = $InstTypeToCMD{$InstType}->{SubCMD};
 
         # gets the target package
-        if (
-            exists $Module->{InstTypes}->{$InstType}
-            && !defined $Module->{InstTypes}->{$InstType}
-            )
-        {
-            # if we a hash key for the installation type but a undefined value
-            # then we prevent the output for the installation command
-            $OuputInstall = 0;
-        }
-        elsif ( $InstTypeToCMD{$InstType}->{UseModule} ) {
+        if ( $InstTypeToCMD{$InstType}->{UseModule} ) {
 
             # default is the CPAN module name
             $Package = $Module->{Module};
@@ -1759,8 +1754,6 @@ sub GetInstallCommand {
             $Package = $Module->{InstTypes}->{$InstType};
         }
     }
-
-    return unless $OuputInstall;
 
     if ( !$CMD || !$Package ) {
         $CMD     = $InstTypeToCMD{default}->{CMD};
