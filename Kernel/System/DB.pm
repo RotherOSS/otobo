@@ -625,12 +625,12 @@ sub Do {
     # that should be bound as binary. This implementation is inspired by the implemetation of DBI::do().
     # In case of an error an information message is logged and an empty list is returned.
     my $ExecuteSuccess;
-    DBI_DO_EMULATION:
-    {
-        my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
 
-        next DBI_DO_EMULATION unless $StatementHandle;
+    my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
 
+    if ($StatementHandle) {
+
+        # BindAsBinary is optional
         if ( ref $Param{BindAsBinary} eq 'ARRAY' ) {
             my $Index = 1;
             FLAG:
@@ -643,12 +643,8 @@ sub Do {
                 $Index++;    # bind index are based on 1
             }
         }
-        my $ExecuteSuccess = $StatementHandle->execute(@Array);
 
-        next DBI_DO_EMULATION unless $ExecuteSuccess;
-
-        # indicate success
-        $ExecuteSuccess = 1;
+        $ExecuteSuccess = $StatementHandle->execute(@Array);
     }
 
     # zero affected rows are fine
