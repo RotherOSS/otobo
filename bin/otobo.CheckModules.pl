@@ -222,9 +222,10 @@ my %IsDockerFeature = (
 # used for creating the file 'cpanfile.plackup'
 my %IsPlackupFeature = (
     %IsCommonFeature,
-    'gazelle'           => 1,
-    'div:cldr'          => 1,
-    'performance:redis' => 1,
+    'auth:openidconnect' => 1,
+    'div:cldr'           => 1,
+    'gazelle'            => 1,
+    'performance:redis'  => 1,
 );
 
 # Used for the generation of a cpanfile.
