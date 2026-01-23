@@ -52,7 +52,12 @@ sub ValueIsDifferent {
         # strip trailing empty values and map empty strings to undef
         #   for comparison of frontend value with database value
         my @Values = map { ( defined $_ && $_ eq '' ) ? undef : $_ } $Param{Value1}->@*;
-        splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
+        if ( any { defined $_ } @Values ) {
+            splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
+        }
+        else {
+            @Values = ();
+        }
         $Param{Value1} = \@Values;
 
         # special case where the values are different but they should be reported as equals
@@ -66,7 +71,12 @@ sub ValueIsDifferent {
         # strip trailing empty values and map empty strings to undef
         #   for comparison of frontend value with database value
         my @Values = map { ( defined $_ && $_ eq '' ) ? undef : $_ } $Param{Value2}->@*;
-        splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
+        if ( any { defined $_ } @Values ) {
+            splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
+        }
+        else {
+            @Values = ();
+        }
         $Param{Value2} = \@Values;
 
         # special case where the values are different but they should be reported as equals
