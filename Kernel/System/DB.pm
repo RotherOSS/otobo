@@ -621,10 +621,10 @@ sub Do {
 
     return unless $Self->Connect;
 
-    # send sql to database, taken from the implemetation of DBI::do
-    # The number of affected rows will be returned in the variable $Rows.
-    # In case of error $Rows is kept undefined.
-    my $Rows;
+    # Run an SQL statement on the database with consideration of bind variables
+    # that should be bound as binary. This implementation is inspired by the implemetation of DBI::do().
+    # In case of an error an information message is logged and an empty list is returned.
+    my $ExecuteSuccess;
     DBI_DO_EMULATION:
     {
         my $StatementHandle = $Self->{dbh}->prepare( $Param{SQL} );
@@ -648,11 +648,11 @@ sub Do {
         next DBI_DO_EMULATION unless $ExecuteSuccess;
 
         # indicate success
-        $Rows = $StatementHandle->rows;
+        $ExecuteSuccess = 1;
     }
 
     # zero affected rows are fine
-    if ( !defined $Rows ) {
+    if ( !$ExecuteSuccess ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'error',
