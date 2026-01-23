@@ -25,6 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use List::AllUtils qw(any last_index);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(DataIsDifferent IsHashRefWithData IsArrayRefWithData IsPositiveInteger);
@@ -50,20 +51,8 @@ sub ValueIsDifferent {
 
         # strip trailing empty values and map empty strings to undef
         #   for comparison of frontend value with database value
-        my @TmpValues;
-        my @Values;
-        VALUEITEM:
-        for my $ValueItem ( $Param{Value1}->@* ) {
-            if ( defined $ValueItem && $ValueItem eq '' ) {
-                $ValueItem = undef;
-            }
-            push @TmpValues, $ValueItem;
-
-            next VALUEITEM unless defined $ValueItem;
-
-            push @Values, @TmpValues;
-            @TmpValues = ();
-        }
+        my @Values = map { ( defined $_ && $_ eq '' ) ? undef : $_ } $Param{Value1}->@*;
+        splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
         $Param{Value1} = \@Values;
 
         # special case where the values are different but they should be reported as equals
@@ -76,20 +65,8 @@ sub ValueIsDifferent {
 
         # strip trailing empty values and map empty strings to undef
         #   for comparison of frontend value with database value
-        my @TmpValues;
-        my @Values;
-        VALUEITEM:
-        for my $ValueItem ( $Param{Value2}->@* ) {
-            if ( defined $ValueItem && $ValueItem eq '' ) {
-                $ValueItem = undef;
-            }
-            push @TmpValues, $ValueItem;
-
-            next VALUEITEM unless defined $ValueItem;
-
-            push @Values, @TmpValues;
-            @TmpValues = ();
-        }
+        my @Values = map { ( defined $_ && $_ eq '' ) ? undef : $_ } $Param{Value2}->@*;
+        splice( @Values, ( last_index { defined $_ } @Values ) + 1 );
         $Param{Value2} = \@Values;
 
         # special case where the values are different but they should be reported as equals
