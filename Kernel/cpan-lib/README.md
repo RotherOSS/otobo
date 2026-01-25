@@ -39,6 +39,7 @@ Then examine the differences and check in the verified changes.
     git diff
     git add --patch
     git commit
+    git push
 
 Sometimes a module is not installed because it is already installed in a system location. A workaround
 for that case is to call something like:
