@@ -31,7 +31,7 @@ requires 'Class::ReturnValue', '== 0.55';
 requires 'CPAN::Audit', '== 20250829.001';
 
 # database of adbisories used by CPAN::Audit
-requires 'CPANSA::DB', '== 20260110.003';
+requires 'CPANSA::DB', '== 20260120.004';
 
 # needed by CPAN::Audit
 requires 'CPAN::DistnameInfo', '== 0.12';

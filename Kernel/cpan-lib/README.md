@@ -37,6 +37,7 @@ Then examine the differences and check in the verified changes.
     git diff
     git add --patch
     git commit
+    git push
 
 Finally clean up the temporary installation directory again:
 
