@@ -135,7 +135,7 @@ sub ToAscii {
     my %Cite;
     $Counter = 0;
     $Param{String} =~ s{
-        <blockquote(.*?)>(.+?)</blockquote>
+        <blockquote([^>]*)>(.+?)</blockquote>
     }
     {
         my $Ascii = $Self->ToAscii(
