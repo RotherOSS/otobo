@@ -493,7 +493,28 @@ sub _RenderAjax {
                         Name        => 'DynamicField_' . $FrontendName . "_$i",
                         Data        => $DataValues,
                         SelectedID  => $SetField->{Values}{$FrontendName}[$i],
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
+                        Max         => 100,
+                    };
+                }
+
+                # add template value for keeping templates in line with ACLs
+                if ( !$SetField->{FieldStates}{$FrontendName}{NotACLReducible} ) {
+                    my $DataValues = (
+                        $DynamicFieldBackendObject->BuildSelectionDataGet(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            PossibleValues     => $SetField->{FieldStates}{$FrontendName}{PossibleValues},
+                            Value              => [ $DynamicFieldConfig->{Config}{DefaultValue} // '' ],
+                            )
+                            || $SetField->{FieldStates}{$FrontendName}{PossibleValues}
+                    );
+
+                    # add dynamic field to the list of fields to update
+                    push @JSONCollector, {
+                        Name        => 'DynamicField_' . $FrontendName . "_Template",
+                        Data        => $DataValues,
+                        SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
+                        Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                         Max         => 100,
                     };
                 }
@@ -518,7 +539,7 @@ sub _RenderAjax {
                 Name        => 'DynamicField_' . $FrontendName,
                 Data        => $DataValues,
                 SelectedID  => $SetField->{Values}{$FrontendName},
-                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                 Max         => 100,
             };
         }
@@ -556,10 +577,31 @@ sub _RenderAjax {
 
                 # add dynamic field to the list of fields to update
                 push @JSONCollector, {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",      # contains the id suffix
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",    # contains the id suffix
                     Data        => $DataValues,
                     SelectedID  => $DFParam->{"DynamicField_$Name"}[$i],
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
+                    Max         => 100,
+                };
+            }
+
+            # add template value for keeping templates in line with ACLs
+            if ( !$DynFieldStates{Fields}{$Name}{NotACLReducible} ) {
+                my $DataValues = (
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Name}{PossibleValues},
+                        Value              => [ $DynamicFieldConfig->{Config}{DefaultValue} // '' ],
+                        )
+                        || $DynFieldStates{Fields}{$Name}{PossibleValues}
+                );
+
+                # add dynamic field to the list of fields to update
+                push @JSONCollector, {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_Template",    # contains the id suffix
+                    Data        => $DataValues,
+                    SelectedID  => $DynamicFieldConfig->{Config}{DefaultValue} // '',
+                    Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
                     Max         => 100,
                 };
             }
@@ -581,10 +623,10 @@ sub _RenderAjax {
 
         # add dynamic field to the list of fields to update
         push @JSONCollector, {
-            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},              # contains the id suffix
+            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},            # contains the id suffix
             Data        => $DataValues,
             SelectedID  => $DFParam->{"DynamicField_$Name"},
-            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+            Translation => $DynamicFieldConfig->{Config}{TranslatableValues} || 0,
             Max         => 100,
         };
     }

@@ -100,7 +100,6 @@ sub ValueSet {
     );
 }
 
-# TODO: probably adjust Base.pm to check for arrays
 sub ValueIsDifferent {
     my ( $Self, %Param ) = @_;
 
@@ -458,26 +457,10 @@ sub EditFieldValueGet {
         )
     {
         if ( $Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
-            my @DataAll = $Param{ParamObject}->GetArray( Param => $FieldName );
+            my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
             # delete the template value
-            pop @DataAll;
-
-            my @TmpValues;
-            my @Data;
-            VALUEITEM:
-            for my $ValueItem (@DataAll) {
-
-                if ( !defined $ValueItem || $ValueItem eq '' ) {
-                    push @TmpValues, undef;
-
-                    next VALUEITEM;
-                }
-
-                push @TmpValues, $ValueItem;
-                push @Data,      @TmpValues;
-                @TmpValues = ();
-            }
+            pop @Data;
 
             $Value = \@Data;
         }
@@ -514,8 +497,6 @@ sub EditFieldValueValidate {
     if ( !$Param{DynamicFieldConfig}->{Config}->{MultiValue} ) {
         $Value = [$Value];
     }
-
-    # TODO: check whether EditFieldValueGet returns ('first','second','','','fifth','') in case of added but unfilled multivalue fields
 
     # get possible values list
     my $PossibleValues = $Param{PossibleValuesFilter} // $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
