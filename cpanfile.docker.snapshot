@@ -796,10 +796,10 @@ DISTRIBUTIONS
       perl 5.012
       strict 0
       warnings 0
-  Data-Peek-0.53
-    pathname: H/HM/HMBRAND/Data-Peek-0.53.tgz
+  Data-Peek-0.54
+    pathname: H/HM/HMBRAND/Data-Peek-0.54.tgz
     provides:
-      Data::Peek 0.53
+      Data::Peek 0.54
     requirements:
       Data::Dumper 0
       ExtUtils::MakeMaker 0
@@ -4490,6 +4490,7 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -4502,6 +4503,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
