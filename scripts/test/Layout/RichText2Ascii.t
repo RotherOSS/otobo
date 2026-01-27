@@ -14,16 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
-# get layout object
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 my @Tests = (
@@ -42,11 +45,7 @@ for my $Test (@Tests) {
     my $Plain = $LayoutObject->RichText2Ascii(
         String => $Test->{String},
     );
-    $Self->Is(
-        $Plain || '',
-        $Test->{Result},
-        $Test->{Name},
-    );
+    is( $Plain, $Test->{Result}, $Test->{Name} );
 }
 
-$Self->DoneTesting();
+done_testing;
