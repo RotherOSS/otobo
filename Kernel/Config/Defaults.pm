@@ -156,6 +156,29 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 #    $ENV{NLS_LANG}        = 'GERMAN_GERMANY.AL32UTF8';
 
+    # Additional connect attributes.
+    # Set the attributes needed for encrypted database connections here.
+    $Self->{DatabaseConnectAttributes} = {};
+
+    # Activate these attributes when the connection to the MariaDB or MySQL database is secured by TLS.
+    # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
+    # Note that these attributes apply to all MySQL database connections.
+    #
+    #    mysql_ssl             : boolean, enforce encryption with TLS
+    #    mysql_ssl_ca          : specify the certificate authority file
+    #                            Do not specify this with self signed certificates.
+    #                            See https://serverfault.com/questions/399487/cant-connect-to-mysql-using-self-signed-ssl-certificate
+    #    mysql_ssl_client_cert : PEM certificate
+    #    mysql_ssl_client_key  : private key of the client, the server must have the public key
+    #    mysql_ssl_optional    : boolean workarounda for strange behavior when connecting
+    #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
+#    $Self->{DatabaseConnectAttributes} = {
+#        mysql_ssl             => 1,
+#        mysql_ssl_client_cert => '/opt/otobo/var/db/ssl/client-cert.pem',
+#        mysql_ssl_client_key  => '/opt/otobo/var/db/ssl/client-key.pem',
+#        mysql_ssl_optional    => 1,
+#    };
+
     # If you want to use an init sql after connect, use this here.
     # (e. g. can be used for mysql encoding between client and server)
     #    $Self->{'Database::Connect'} = 'SET NAMES utf8';
