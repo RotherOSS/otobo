@@ -1,0 +1,19 @@
+[Unit]
+Description = Otobo Daemon Service
+Documentation = https://doc.otobo.org
+
+[Service]
+Type = forking
+User = otobo
+Group = otobo
+WorkingDirectory = /opt/otobo
+Environment = OTOBO_HOME=/opt/otobo
+Environment = PERL5LIB=/opt/otobo/install/local/lib/perl5
+Environment = PATH=/opt/otobo/local/bin:/opt/otobo/install/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart = /opt/otobo/bin/otobo.Daemon.pl start
+ExecStop = /opt/otobo/bin/otobo.Daemon.pl stop
+RestartSec = 5min
+Restart = always
+
+[Install]
+WantedBy = multi-user.target
