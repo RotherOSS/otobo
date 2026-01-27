@@ -1068,21 +1068,21 @@ sub Run {
         {
 
             # move ticket (send notification if no new owner is selected)
-            my $BodyAsText = '';
+            my $BodyText = '';
             if ( $LayoutObject->{BrowserRichText} ) {
-                $BodyAsText = $LayoutObject->RichText2Ascii(
+                $BodyText = $LayoutObject->RichText2Ascii(
                     String => $GetParam{Body} || 0,
                 );
             }
             else {
-                $BodyAsText = $GetParam{Body} || 0;
+                $BodyText = $GetParam{Body} || 0;
             }
             my $Move = $TicketObject->TicketQueueSet(
                 QueueID            => $GetParam{NewQueueID},
                 UserID             => $Self->{UserID},
                 TicketID           => $Self->{TicketID},
                 SendNoNotification => $GetParam{NewUserID},
-                Comment            => $BodyAsText,
+                Comment            => $BodyText,
                 Action             => $Self->{Action},
             );
             if ( !$Move ) {
