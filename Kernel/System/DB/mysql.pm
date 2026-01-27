@@ -92,12 +92,6 @@ sub LoadPreferences {
 
     #$Self->{'DB::ShellConnect'} = '';
 
-    # init sql setting on db connect
-    # TODO: test whether this is needed for MySQL
-    #if ( !$Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
-    #    $Self->{'DB::Connect'} = 'SET NAMES utf8mb4';
-    #}
-
     return 1;
 }
 
