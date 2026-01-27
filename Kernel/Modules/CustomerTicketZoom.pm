@@ -2489,9 +2489,9 @@ sub _Mask {
             }
             $Param{PriorityStrg} = $LayoutObject->BuildSelection(
                 Data => $Priorities,
-                Name => 'PriorityID FormUpdate',
+                Name => 'PriorityID',
                 %PrioritySelected,
-                Class => 'Modernize',
+                Class => 'Modernize FormUpdate',
             );
             $LayoutObject->Block(
                 Name => 'FollowUpPriority',
