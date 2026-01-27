@@ -347,7 +347,7 @@ sub ToAscii {
         'times' => chr(215),    # times is a keyword in perl
         divide  => chr(247),
 
-        # these seem to be available only sind Perl 5.8.0
+        # these seem to be available only since Perl 5.8.0
         OElig    => chr(338),
         oelig    => chr(339),
         Scaron   => chr(352),

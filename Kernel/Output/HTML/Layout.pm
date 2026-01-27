@@ -5210,7 +5210,7 @@ sub Ascii2RichText {
 
 =head2 RichText2Ascii()
 
-converts text to rich text
+converts rich text, that is HTML, to laid out plain text
 
     my $TextString = $LayoutObject->RichText2Ascii(
         String => $HTMLString,
@@ -5233,7 +5233,7 @@ sub RichText2Ascii {
         }
     }
 
-    # ascii 2 html
+    # HTML to plain text
     $Param{String} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
         String => $Param{String},
     );
