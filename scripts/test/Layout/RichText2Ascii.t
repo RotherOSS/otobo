@@ -40,6 +40,11 @@ my @Tests = (
         String => '&Auml;nderung',
         Result => 'Änderung',
     },
+    {
+        Name   => 'α - U+003B1 - GREEK SMALL LETTER ALPHA',
+        String => '&alpha;',
+        Result => 'α',
+    },
 );
 for my $Test (@Tests) {
     my $Plain = $LayoutObject->RichText2Ascii(
