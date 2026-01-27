@@ -273,19 +273,25 @@ sub Connect {
             #}
         }
 
-        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-        # between DBI and DBIx::Connector.
-        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+        # Note that the default values for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector
+        # they are on per default.
         # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
         #             This is OK as the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
         #
-        # Note that mysql_auto_reconnect = 0 is set by DBIx::Connector::Driver::mysql,
-        # so that setting doesn't have to be passed here.
+        # Driver specific attributes may be set by the driver modules. As of January 2026
+        # only Kernel::System::DB::mssql and Kernel::System::DB::oracle use this opportunity.
+        #
+        # Additional attributes my be set via the SysConfig. This settings override the previous settings.
+        # One use case is the support for encrypted connections where keys and certificates
+        # have to be passed.
+        my $AttrFromSysConfig = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseConnectAttributes') // {};
         my %ConnectAttributes = (
             RaiseError => 0,
             $Self->{Backend}->{'DB::Attribute'}->%*,
+            $AttrFromSysConfig->%*,
         );
 
         # Generation of the cache key is copied from DBI::connect_cached().
