@@ -78,6 +78,7 @@ sub Load {
     # The database DSN for Oracle ==> more: "perldoc DBD::oracle"
 #    $Self->{DatabaseDSN} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
 #
+    # environment variables for DBD::oracle
 #    $ENV{ORACLE_HOME}     = '/path/to/your/oracle';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';

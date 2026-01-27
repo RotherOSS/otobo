@@ -241,19 +241,63 @@ sub Connect {
 
     # db connect
     {
-        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-        # between DBI and DBIx::Connector.
-        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
+        {
+            if ( $Self->{Backend}->{'DB::Connect'} ) {
+
+                # run a command for initializing a session
+                my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
+
+                # maybe deactivate foreign key checks
+                my $DeactivateSQL;
+                if ( $Self->{DeactivateForeignKeyChecks} ) {
+                    $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
+                }
+
+                $Callbacks{connected} = sub {
+                    my $DatabaseHandle = shift;
+
+                    if ($DBConnectSQL) {
+                        $DatabaseHandle->do($DBConnectSQL);
+                    }
+
+                    if ($DeactivateSQL) {
+                        $DatabaseHandle->do($DeactivateSQL);
+                    }
+
+                    return;
+                };
+            }
+
+            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
+            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
+            # this is no longer necessary.
+            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            #    $ConnectAttributes{pg_enable_utf8} = 1;
+            #}
+        }
+
+        # Note that the default values for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector
+        # they are on per default.
         # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
         #             This is OK as the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
         #
-        # Note that mysql_auto_reconnect = 0 is set by DBIx::Connector::Driver::mysql,
-        # so that setting doesn't have to be passed here.
+        # Driver specific attributes may be set by the driver modules. As of January 2026
+        # only Kernel::System::DB::mssql and Kernel::System::DB::oracle use this opportunity.
+        #
+        # Additional attributes my be set via the SysConfig. This settings override the previous settings.
+        # One use case is the support for encrypted connections where keys and certificates
+        # have to be passed.
+        my $AttrFromSysConfig = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseConnectAttributes') // {};
         my %ConnectAttributes = (
             RaiseError => 0,
             $Self->{Backend}->{'DB::Attribute'}->%*,
+            $AttrFromSysConfig->%*,
         );
 
         # Generation of the cache key is copied from DBI::connect_cached().
