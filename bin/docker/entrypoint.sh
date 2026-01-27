@@ -233,7 +233,7 @@ fi
 # Start the OTOBO daemon
 if [ "$1" = "daemon" ]; then
 
-    # When /opt/otobo isn't a Docker volume we rirst check whether the container is started with a new image.
+    # When /opt/otobo isn't a Docker volume we first check whether the container is started with a new image.
     # If /opt/otobo is a volume we assume that there is a web container who does this for us.
     if ! mountpoint -q "/opt/otobo"; then
 
