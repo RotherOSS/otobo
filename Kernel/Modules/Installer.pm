@@ -803,7 +803,7 @@ sub Run {
             },
             Name       => 'CheckMXRecord',
             Class      => 'Modernize',
-            SelectedID => '1',
+            SelectedID => '0',
         );
 
         # Read FQDN using Net::Domain and pre-populate the field.
