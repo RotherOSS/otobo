@@ -604,7 +604,7 @@ sub DBCreateUserAndDatabase {
             }
         }
         else {
-            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$Param{OTOBODBPassword}'";
+            push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} BY '$Param{OTOBODBPassword}'";
         }
     }
 
