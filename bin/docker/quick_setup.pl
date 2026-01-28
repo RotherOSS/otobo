@@ -486,10 +486,12 @@ sub DBConnectAsRoot {
         return 0, "$SubName: the parameter '$Key' is required";
     }
 
-    # verify that the connection to the DB is possible, password was passed on command line
+    # actually connect as root
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
-    my $DSN          = "DBI:mysql:database=mysql;host=$DatabaseHost;";
+    my $DSN          = $ConfigObject->Get('DatabaseDSN');
+
+    # in quick setup we don't want to specify a database that might not exist yet
+    $DSN =~ s/(?<=database=).*?(?=;)//i;
 
     my $DBHandle = DBI->connect( $DSN, 'root', $Param{DBPassword} );
     if ( !$DBHandle ) {
