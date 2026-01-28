@@ -92,6 +92,12 @@ Optional. Print out the usage.
 
 The admin password of the database.
 
+=item authentication-plugin
+
+This is currently only supported for MariaDB and MySQL databases.
+Possible values are 'mysql_native_password', 'caching_sha2_password', and 'ed25519'.
+The default is 'mysql_native_password'.
+
 =item http-type
 
 Set the SysConfig setting 'HttpType'. The value is either 'http' or 'https'. The default is 'https'.
@@ -156,34 +162,36 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager ();
 
 sub Main {
-    my $HelpFlag;                                           # print help
-    my $DBPassword;                                         # required
-    my $HTTPPort               = 80;                        # only used for success message
-    my $SystemID               = 10;                        # distinguish between different installations
-    my $ActivateElasticsearch  = 0;                         # must be explicitly enabled
-    my $AddUser                = 0;                         # must be explicitly enabled
-    my $AddAdminUser           = 0;                         # must be explicitly enabled
-    my $AgentsAreOnRotheraTime = 0;                         # must be explicitly enabled
-    my $AddCustomerUser        = 0;                         # must be explicitly enabled
-    my $AddCalendar            = 0;                         # must be explicitly enabled
-    my $HttpType               = 'https';                   # the SysConfig setting HttpType
-    my $FQDN                   = 'yourhost.example.com';    # the SysConfig setting FQDN
-    my $ActivateSyncWithS3     = 0;                         # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                                            # print help
+    my $DBPassword;                                          # required
+    my $AuthenticationPlugin   = 'mysql_native_password';    # only supported for MySQL
+    my $HTTPPort               = 80;                         # only used for success message
+    my $SystemID               = 10;                         # distinguish between different installations
+    my $ActivateElasticsearch  = 0;                          # must be explicitly enabled
+    my $AddUser                = 0;                          # must be explicitly enabled
+    my $AddAdminUser           = 0;                          # must be explicitly enabled
+    my $AgentsAreOnRotheraTime = 0;                          # must be explicitly enabled
+    my $AddCustomerUser        = 0;                          # must be explicitly enabled
+    my $AddCalendar            = 0;                          # must be explicitly enabled
+    my $HttpType               = 'https';                    # the SysConfig setting HttpType
+    my $FQDN                   = 'yourhost.example.com';     # the SysConfig setting FQDN
+    my $ActivateSyncWithS3     = 0;                          # activate S3 in the SysConfig, still experimental
 
     GetOptions(
-        'help'                   => \$HelpFlag,
-        'db-password=s'          => \$DBPassword,
-        'http-port=i'            => \$HTTPPort,
-        'http-type=s'            => \$HttpType,
-        'system-id=i'            => \$SystemID,
-        'fqdn=s'                 => \$FQDN,
-        'activate-elasticsearch' => \$ActivateElasticsearch,
-        'add-user'               => \$AddUser,
-        'add-admin-user'         => \$AddAdminUser,
-        'agent-timezone-rothera' => \$AgentsAreOnRotheraTime,
-        'add-customer-user'      => \$AddCustomerUser,
-        'add-calendar'           => \$AddCalendar,
-        'activate-sync-with-S3'  => \$ActivateSyncWithS3,
+        'help'                    => \$HelpFlag,
+        'db-password=s'           => \$DBPassword,
+        'authentication-plugin=s' => \$AuthenticationPlugin,
+        'http-port=i'             => \$HTTPPort,
+        'http-type=s'             => \$HttpType,
+        'system-id=i'             => \$SystemID,
+        'fqdn=s'                  => \$FQDN,
+        'activate-elasticsearch'  => \$ActivateElasticsearch,
+        'add-user'                => \$AddUser,
+        'add-admin-user'          => \$AddAdminUser,
+        'agent-timezone-rothera'  => \$AgentsAreOnRotheraTime,
+        'add-customer-user'       => \$AddCustomerUser,
+        'add-calendar'            => \$AddCalendar,
+        'activate-sync-with-S3'   => \$ActivateSyncWithS3,
         )
         || pod2usage(
             {
@@ -236,10 +244,11 @@ sub Main {
 
     {
         my ( $Success, $Message ) = DBCreateUserAndDatabase(
-            DBName          => $DBName,
-            DBPassword      => $DBPassword,
-            OTOBODBUser     => $OTOBODBUser,
-            OTOBODBPassword => $OTOBODBPassword,
+            DBName               => $DBName,
+            DBPassword           => $DBPassword,
+            AuthenticationPlugin => $AuthenticationPlugin,
+            OTOBODBUser          => $OTOBODBUser,
+            OTOBODBPassword      => $OTOBODBPassword,
         );
 
         say $Message if defined $Message;
@@ -544,7 +553,7 @@ sub DBCreateUserAndDatabase {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { !$Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
+    for my $Key ( grep { !$Param{$_} } qw(DBPassword AuthenticationPlugin DBName OTOBODBUser OTOBODBPassword) ) {
         my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
@@ -568,14 +577,31 @@ sub DBCreateUserAndDatabase {
     # An explicit statement for user creation is needed because MySQL 8 no longer
     # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
     # Also note that there are multiple authentication plugins for MySQL/MariaDB.
-    # 'mysql_native_password' works without an encrypted DB connection and is used here.
+    # 'mysql_native_password' works without an encrypted DB connection and is used per default here.
     # The advantage is that no encryption keys have to be set up.
+    #
     # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
     # a case switch must be used here.
-    my $CreateUserSQL;
+    #
+    # Different authentication plugins are supported. For the ed25519 plugin in MariaDB see
+    # https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+    my @CreateUserSQLs;
     {
         if ( $DBHandle->{mysql_serverinfo} =~ m/mariadb/i ) {
-            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
+            if ( $Param{AuthenticationPlugin} eq 'mysql_native_password' ) {
+                push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
+            }
+            else {
+                if ( $Param{AuthenticationPlugin} eq 'ed25519' ) {
+                    $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
+                    my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $Param{OTOBODBPassword} );
+                    push @CreateUserSQLs,
+                        "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
+                }
+                else {
+                    push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
+                }
+            }
         }
         else {
             $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$Param{OTOBODBPassword}'";
@@ -584,7 +610,7 @@ sub DBCreateUserAndDatabase {
 
     my @Statements = (
         "CREATE DATABASE `$Param{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-        $CreateUserSQL,
+        @CreateUserSQLs,
         "GRANT ALL PRIVILEGES ON `$Param{DBName}`.* TO `$Param{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
     );
 
