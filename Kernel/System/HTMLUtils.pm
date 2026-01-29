@@ -138,6 +138,8 @@ sub ToAscii {
         <blockquote(.*?)>(.+?)</blockquote>
     }
     {
+        # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
+        # which has the effect that the replacement is done only for the first <blockquote>.
         my $Ascii = $Self->ToAscii(
             String => $2,
         );
@@ -145,7 +147,11 @@ sub ToAscii {
         if ( length $Ascii > $LineLength ) {
             $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
+
+        # add the leading '> ' to the lines
         $Ascii =~ s/^(.*?)$/> $1/gm;
+
+        # do not substitute the adapted string, but a key so that the actual substitution can be done later
         $Counter++;
         my $Key     = "######Cite::$Counter######";
         $Cite{$Key} = $Ascii;
