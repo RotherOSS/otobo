@@ -32,7 +32,7 @@ use List::Util qw(none);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -72,7 +72,8 @@ sub ValueSet {
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
-        my @Values    = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->@*
+        my @Values    = $ValueType && $ValueType eq 'ARRAY'
+            ? $Param{Value}->@*
             : $Param{Value} ? ( $Param{Value} ) : ();
 
         if ( $Param{Set} ) {
@@ -84,7 +85,7 @@ sub ValueSet {
             @Values = map { $_ ? $_->@* : () } @Values;
         }
 
-        for my $Value ( @Values ) {
+        for my $Value (@Values) {
             $Self->_CreateAutoLinkObjectLink(
                 UserID       => $Param{UserID},
                 ObjectID     => $Param{ObjectID},
@@ -1227,7 +1228,7 @@ sub GetFieldState {
         return if !$Value->[0];
 
         # value holds object id(s) at this point
-        # TODO finish multivalue changes
+        my @CheckedValues;
         ITEM:
         for my $ValueItem ( $Value->@* ) {
 
@@ -1243,11 +1244,19 @@ sub GetFieldState {
 
             #   if not, then return hashref with NewValue => undef
             if ( !@ObjectIDs ) {
-                return (
-                    NewValue => '',
-                );
+                push @CheckedValues, '';
+            }
+            else {
+                push @CheckedValues, $ValueItem;
             }
         }
+
+        if ( DataIsDifferent( Data1 => $Value, Data2 => \@CheckedValues ) ) {
+            return (
+                NewValue => \@CheckedValues,
+            );
+        }
+
         return ();
     }
 
@@ -1268,8 +1277,12 @@ sub GetFieldState {
         PossibleValues => $PossibleValues,
     );
 
-    if ( $Value && !$PossibleValues->{$Value} ) {
-        $Return{NewValue} = '';
+    # filter values which are no longer allowed
+    my @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+
+    # check if value has changed
+    if ( DataIsDifferent( Data1 => $Value, Data2 => \@CheckedValues ) ) {
+        $Return{NewValue} = \@CheckedValues;
     }
 
     return %Return;
