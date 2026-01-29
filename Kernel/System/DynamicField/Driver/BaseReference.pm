@@ -1236,6 +1236,7 @@ sub GetFieldState {
             # do not execute search for empty values for performance reasons
             if ( !defined $ValueItem || $ValueItem eq '' ) {
                 push @CheckedValues, $ValueItem;
+
                 next ITEM;
             }
 
