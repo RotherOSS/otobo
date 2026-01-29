@@ -32,7 +32,7 @@ use List::Util qw(none);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -72,7 +72,8 @@ sub ValueSet {
         my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
         my $ValueType = ref( $Param{Value} );
-        my @Values    = $ValueType && $ValueType eq 'ARRAY' ? $Param{Value}->@*
+        my @Values    = $ValueType && $ValueType eq 'ARRAY'
+            ? $Param{Value}->@*
             : $Param{Value} ? ( $Param{Value} ) : ();
 
         if ( $Param{Set} ) {
@@ -84,7 +85,7 @@ sub ValueSet {
             @Values = map { $_ ? $_->@* : () } @Values;
         }
 
-        for my $Value ( @Values ) {
+        for my $Value (@Values) {
             $Self->_CreateAutoLinkObjectLink(
                 UserID       => $Param{UserID},
                 ObjectID     => $Param{ObjectID},
@@ -1227,9 +1228,17 @@ sub GetFieldState {
         return if !$Value->[0];
 
         # value holds object id(s) at this point
-        # TODO finish multivalue changes
+        my @CheckedValues;
+        my $ValueChanged = 0;
         ITEM:
         for my $ValueItem ( $Value->@* ) {
+
+            # do not execute search for empty values for performance reasons
+            if ( !defined $ValueItem || $ValueItem eq '' ) {
+                push @CheckedValues, $ValueItem;
+
+                next ITEM;
+            }
 
             # check if $ValueItem is still valid
             my @ObjectIDs = $Self->SearchObjects(
@@ -1241,13 +1250,22 @@ sub GetFieldState {
                 ObjectID => $ValueItem,
             );
 
-            #   if not, then return hashref with NewValue => undef
+            # collect values and set change flag if needed
             if ( !@ObjectIDs ) {
-                return (
-                    NewValue => '',
-                );
+                push @CheckedValues, '';
+                $ValueChanged = 1;
+            }
+            else {
+                push @CheckedValues, $ValueItem;
             }
         }
+
+        if ($ValueChanged) {
+            return (
+                NewValue => \@CheckedValues,
+            );
+        }
+
         return ();
     }
 
@@ -1268,8 +1286,12 @@ sub GetFieldState {
         PossibleValues => $PossibleValues,
     );
 
-    if ( $Value && !$PossibleValues->{$Value} ) {
-        $Return{NewValue} = '';
+    # filter values which are no longer allowed
+    my @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
+
+    # check if value has changed
+    if ( DataIsDifferent( Data1 => $Value, Data2 => \@CheckedValues ) ) {
+        $Return{NewValue} = \@CheckedValues;
     }
 
     return %Return;
