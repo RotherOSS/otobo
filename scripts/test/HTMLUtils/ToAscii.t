@@ -185,7 +185,7 @@ test
         Name   => 'ToAscii - two <blockquote> elements'
     },
     {
-        Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<start_block>line C in broken blockquote</block>},
+        Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<start_block>line C in broken blockquote</blockquote>},
         Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
         Name   => 'ToAscii - with a broken start tag <blockquote>'
     },
