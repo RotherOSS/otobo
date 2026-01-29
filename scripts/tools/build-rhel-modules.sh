@@ -18,7 +18,7 @@
 set -Euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-PROJECT_ROOT="$SCRIPT_DIR/.."
+PROJECT_ROOT="$SCRIPT_DIR/../.."
 TARGET_LIB="$PROJECT_ROOT/install/local"
 ARCHIVE_NAME="otobo-deps-11.0-rhel-9.7.tar.gz"
 # Directory at /opt/otobo to compress to tar.gz
