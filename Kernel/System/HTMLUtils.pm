@@ -135,7 +135,7 @@ sub ToAscii {
     my %Cite;
     $Counter = 0;
     $Param{String} =~ s{
-        <blockquote.*?>(.+?)</blockquote>
+        <blockquote [^>]*>(.+?)</blockquote>
     }
     {
         # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
