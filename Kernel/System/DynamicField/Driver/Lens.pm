@@ -615,6 +615,7 @@ sub GetFieldState {
     my ( $Self, %Param ) = @_;
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
+    my $DFParam            = $Param{GetParam}{DynamicField};
     my $NeedsReset;
 
     # reset if the referenced object changes
@@ -623,20 +624,13 @@ sub GetFieldState {
     }
 
     # or if we have the field reappear
-    elsif ( $Param{CachedVisibility} && !$Param{CachedVisibility}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
+    elsif ( !$Param{CachedVisibility} || !$Param{CachedVisibility}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
         $NeedsReset = 1;
     }
 
-    # TODO: also on initial run?
-
-    return () if !$NeedsReset;
-
-    my $PossibleValues;
-    my %Return;
+    my $AttributeFieldValue;
     if ($NeedsReset) {
-        my $DFParam = $Param{GetParam}{DynamicField};
 
-        my $AttributeFieldValue;
         my $IsACLReducible = $Self->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
@@ -705,203 +699,45 @@ sub GetFieldState {
         else {
             $AttributeFieldValue = '';
         }
-
-        if ( $Self->HasBehavior( DynamicFieldConfig => $DynamicFieldConfig, Behavior => 'IsSetField' ) ) {
-            my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
-                LensDynamicFieldConfig => $DynamicFieldConfig,
-            );
-            my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-            my $InnerDynamicFields        = $Self->_GetIncludedDynamicFields(
-                InputFieldDefinition => $AttributeDFConfig->{Config}{Include},
-                DynamicFieldObject   => $Kernel::OM->Get('Kernel::System::DynamicField'),
-            );
-            if ( $DynamicFieldConfig->{ProcessSuffix} ) {
-                for my $InnerFieldConfig ( values $InnerDynamicFields->%* ) {
-                    $InnerFieldConfig->{ProcessSuffix} = $DynamicFieldConfig->{ProcessSuffix};
-                }
-            }
-
-            my $SetValueCount     = IsArrayRefWithData($AttributeFieldValue) ? scalar $AttributeFieldValue->@* : 1;
-            my $CompleteFieldName = $DynamicFieldConfig->{Name} . ( $DynamicFieldConfig->{ProcessSuffix} || '' );
-
-            # pre-fill return hash with attribute field value
-            my %SetReturn = (
-                Set => {
-                    $DynamicFieldConfig->{Name} => {
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        FieldStates        => {
-                            $CompleteFieldName => {
-                                PossibleValues  => undef,
-                                NotACLReducible => 1,
-                            },
-                        },
-                        Values => {
-                            $CompleteFieldName => $SetValueCount,
-                        },
-                    },
-                },
-            );
-            for my $DFKey ( keys $InnerDynamicFields->%* ) {
-
-                my $InnerDFIsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-                    DynamicFieldConfig => $InnerDynamicFields->{$DFKey},
-                    Behavior           => 'IsACLReducible',
-                );
-
-                my $FrontendKey = $DFKey . ( $DynamicFieldConfig->{ProcessSuffix} // '' );
-
-                $SetReturn{Set}{$DFKey}{DynamicFieldConfig} = $InnerDynamicFields->{$DFKey};
-                $SetReturn{Set}{$DFKey}{FieldStates} //= {};
-
-                if ( IsArrayRefWithData($AttributeFieldValue) ) {
-                    for my $Index ( 0 .. ( scalar $AttributeFieldValue->@* ) - 1 ) {
-
-                        $SetReturn{Set}{$DFKey}{FieldStates}{ $FrontendKey . '_' . $Index } //= {};
-                        $SetReturn{Set}{$DFKey}{Values}{ $FrontendKey . '_' . $Index } = $AttributeFieldValue->[$Index]{$DFKey};
-                        if ( !$InnerDFIsACLReducible ) {
-                            $SetReturn{Set}{$DFKey}{FieldStates}{ $FrontendKey . '_' . $Index }{PossibleValues}  = undef;
-                            $SetReturn{Set}{$DFKey}{FieldStates}{ $FrontendKey . '_' . $Index }{NotACLReducible} = 1;
-                        }
-                    }
-                }
-            }
-
-            my %SetFieldStates = $DynamicFieldBackendObject->GetFieldState(
-                %Param,
-                InitialRun         => 1,
-                DynamicFieldConfig => {
-                    $AttributeDFConfig->%*,
-                    ProcessSuffix => $DynamicFieldConfig->{ProcessSuffix},
-                    Name          => $DynamicFieldConfig->{Name},
-                },
-                GetParam => {
-                    $Param{GetParam}->%*,
-                    DynamicField => {
-                        $Param{GetParam}{DynamicField}->%*,
-                        'DynamicField_' . $DynamicFieldConfig->{Name} => $AttributeFieldValue,
-                    },
-                },
-                ACLPreselection => undef,
-            );
-
-            # merge both together
-            for my $DFKey ( keys $SetFieldStates{Set}->%* ) {
-                $SetReturn{Set}{$DFKey}{FieldStates} = {
-                    $SetReturn{Set}{$DFKey}{FieldStates}->%*,
-                    $SetFieldStates{Set}{$DFKey}{FieldStates}->%*,
-                };
-            }
-
-            return %SetReturn;
-        }
-
-        # set the new value if it differs
-        if (
-            $Self->ValueIsDifferent(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Value1             => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
-                Value2             => $AttributeFieldValue,
-            )
-            )
-        {
-            $Return{NewValue} = $AttributeFieldValue;
-
-            # already write the new value to DFParam, for possible values check further down
-            $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $AttributeFieldValue;
-        }
-
-        # if this field is non ACL reducible, set the field values
-        return %Return if !$IsACLReducible;
-
-        # get possible values if ACLReducible
-        # this is what the FieldRestrictions object would do for other fields
-        $PossibleValues = $Self->PossibleValuesGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-        );
-
-        # convert possible values key => value to key => key for ACLs using a Hash slice
-        my %AclData = %{$PossibleValues};
-        @AclData{ keys %AclData } = keys %AclData;
-
-        # set possible values filter from ACLs
-        if ( $Param{TicketObject} ) {
-            my $ACL = $Param{TicketObject}->TicketAcl(
-                %{ $Param{GetParam} },
-                TicketID       => $Param{TicketID},
-                Action         => $Param{Action},
-                UserID         => $Param{UserID},
-                CustomerUserID => $Param{CustomerUser} || '',
-                ReturnType     => 'Ticket',
-                ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data           => \%AclData,
-            );
-            if ($ACL) {
-                my %Filter = $Param{TicketObject}->TicketAclData();
-
-                # convert Filter key => key back to key => value using map
-                %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
-            }
-        }
-        elsif ( $Param{ConfigItemObject} ) {
-            my $ACL = $Param{ConfigItemObject}->ConfigItemAcl(
-                %{ $Param{GetParam} },
-                ConfigItemID  => $Param{ConfigItemID},
-                Action        => $Param{Action},
-                UserID        => $Param{UserID},
-                ReturnType    => 'ConfigItem',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-            );
-            if ($ACL) {
-                my %Filter = $Param{ConfigItemObject}->ConfigItemAclData();
-
-                # convert Filter key => key back to key => value using map
-                %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
-            }
-        }
-        else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                'Priority' => 'error',
-                'Message'  => "Need Ticket or CI Object.",
-            );
-
-            return ();
-        }
-
-        # check whether all selected entries are still valid
-        if (
-            defined $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
-            &&
-            ( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} || $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq '0' )
-            )
-        {
-            # multiselect fields
-            if ( ref( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} ) ) {
-                SELECTED:
-                for my $Selected ( @{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
-
-                    # if a selected value is not possible anymore
-                    if ( !defined $PossibleValues->{$Selected} ) {
-                        $Return{NewValue} = grep { defined $PossibleValues->{$Selected} } @{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} };
-
-                        last SELECTED;
-                    }
-                }
-            }
-
-            # singleselect fields
-            else {
-                if ( !defined $PossibleValues->{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
-                    $Return{NewValue} = '';
-                }
-            }
-        }
     }
 
-    return (
-        %Return,
-        PossibleValues => $PossibleValues,
+    my $AttributeDFConfig = $Self->_GetAttributeDFConfig(
+        LensDynamicFieldConfig => $DynamicFieldConfig,
     );
+
+    my %FieldStates = $Param{FieldRestrictionsObject}->GetFieldStates(
+        %Param,
+        InitialRun      => 1,
+        ACLPreselection => undef,
+        DynamicFields   => {
+            $DynamicFieldConfig->{Name} => {
+                $AttributeDFConfig->%*,
+                Name => $DynamicFieldConfig->{Name},
+            },
+        },
+        PossibleValuesOnly => 1,
+        GetParam           => {
+            $Param{GetParam}->%*,
+            DynamicField => {
+                $Param{GetParam}{DynamicField}->%*,
+                'DynamicField_' . $DynamicFieldConfig->{Name} => $AttributeFieldValue // $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            },
+        },
+    );
+    if ( defined $FieldStates{NewValues}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
+        $FieldStates{NewValue} = $FieldStates{NewValues}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+    }
+    elsif ( defined $AttributeFieldValue ) {
+        $FieldStates{NewValue} = $AttributeFieldValue;
+    }
+    if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
+        $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
+    }
+    if ( $FieldStates{Sets}->%* ) {
+        $FieldStates{Set}->%* = $FieldStates{Sets}->%*;
+    }
+
+    return %FieldStates;
 }
 
 =head1 internal methods
