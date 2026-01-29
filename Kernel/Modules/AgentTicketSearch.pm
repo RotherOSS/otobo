@@ -220,9 +220,24 @@ sub Run {
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
 
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD unless $DynamicFieldConfig->{FieldType} eq 'Set';
 
-        my @SetElements = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+        my $IsSetField = $BackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsSetField',
+        );
+        next DYNAMICFIELD unless $IsSetField;
+
+        my @SetElements;
+        if ( $DynamicFieldConfig->{FieldType} eq 'Lens' ) {
+            my $AttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
+                ID => $DynamicFieldConfig->{Config}{AttributeDF},
+            );
+            @SetElements = @{ $AttributeDFConfig->{Config}{Include} // [] };
+        }
+        else {
+            @SetElements = @{ $DynamicFieldConfig->{Config}{Include} // [] };
+        }
+
         for my $SetElement (@SetElements) {
 
             $Self->_ExtractInnerDynamicFields(

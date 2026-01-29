@@ -359,19 +359,49 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
-            let { FieldName } = /^DynamicField_(?<FieldName>[A-Za-z0-9-]+(_[a-f0-9]{32})?).*$/.exec(DataKey).groups;
-            if ( $('[name="SetIndex_' + FieldName + '"]').parent().hasClass('DFSetOuterField') ) {
-                SetValueCounts[DataKey] = DataValue;
+            let TemplateRegExp = /_Template$/;
+            if ( DataKey.match(TemplateRegExp) ) {
                 return;
             }
 
-            let RegExpCheck = /_\d+$/.exec(DataKey);
-            if ( RegExpCheck ) {
+            let { FieldName } = /^DynamicField_(?<FieldName>[A-Za-z0-9-]+(_[a-f0-9]{32})?).*$/.exec(DataKey).groups;
+            if ( $('[name="SetIndex_' + FieldName + '"]').parent().hasClass('DFSetOuterField') ) {
+                if ( typeof DataValue == 'number' ) {
+                    SetValueCounts[DataKey] = DataValue;
+                }
+                return;
+            }
+
+            let { BaseName, FieldIndex } = /^(?<BaseName>.+?)(_(?<FieldIndex>\d+))?$/.exec(DataKey).groups;
+            let IndexRegExp = /_\d+$/;
+            if ( !FieldIndex ) {
+                if ( $('#' + BaseName + '_0').closest('.FieldCell').hasClass('MultiValue_0') ) {
+                    MultiValueKeys.push(DataKey + '_0');
+                }
+                return;
+            }
+            else if ( FieldIndex == 0 ) {
+                return;
+            }
+            else if ( BaseName.match(IndexRegExp) ) {
                 MultiValueKeys.push(DataKey);
+                return;
+            }
+            else if ( $('#' + BaseName + '_0').closest('.FieldCell').hasClass('MultiValue_0') ) {
+                MultiValueKeys.push(DataKey);
+                return;
+            }
+            else if ( $('#' + BaseName + '_0').closest('.DFSetOuterField').length ) {
+                return;
+            }
+            else {
+                console.log('ERROR');
+                return;
             }
         });
+        MultiValueKeys.sort();
 
-        if ( MultiValueKeys.length ) {
+        if ( Object.keys(MultiValueKeys).length || Object.keys(SetValueCounts).length ) {
             Core.UI.InputFields.AddEmptyMultiValueCells(MultiValueKeys, SetValueCounts);
         }
 

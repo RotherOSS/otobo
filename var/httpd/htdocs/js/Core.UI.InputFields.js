@@ -2772,9 +2772,16 @@ Core.UI.InputFields = (function (TargetNS) {
      */
     TargetNS.AddEmptyMultiValueCells = function ( MultiValueKeys, SetValueCounts ) {
 
-        // check if given argument is array
-        if (!Array.isArray(MultiValueKeys)) {
-            return;
+        // iterate Set field deletion
+        if ( Object.keys(SetValueCounts).length ) {
+            Object.keys(SetValueCounts).forEach(function (SetFieldName) {
+                let { ShortSetName } = /^DynamicField_(?<ShortSetName>[A-Za-z0-9-]+(_[a-f0-9]{32})?)/.exec(SetFieldName).groups;
+                $('[name=SetIndex_' + ShortSetName + ']').parents('.FieldCell[class*=MultiValue]').each(function (_Index, Element) {
+                    if ( $(Element).is(':visible') ) {
+                        RemoveCell($(Element));
+                    }
+                });
+            });
         }
 
         let DeletionDone = {};
@@ -2794,13 +2801,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         return;
                     }
 
-                    let $CellToRemove = $(Element).closest('.FieldCell');
-                    if ( $CellToRemove.parents('.FieldCell').length ) {
-                        CellsToRemove[Index] = $CellToRemove.parents('.FieldCell');
-                    }
-                    else {
-                        CellsToRemove[Index] = $CellToRemove;
-                    }
+                    CellsToRemove[Index] = $(Element).closest('.FieldCell');
                     DeletionDone[PlainFieldName] = 1;
                 });
                 Object.keys(CellsToRemove).forEach(function(Index) {

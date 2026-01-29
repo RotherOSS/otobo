@@ -937,6 +937,31 @@ sub GetFieldState {
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
         }
+
+        my $SetValueCount     = @SetValue ? scalar @SetValue : 1;
+        my $CompleteFieldName = $SetConfig->{Name} . ( $SetConfig->{ProcessSuffix} || '' );
+
+        # add count of Set values for adding the correct number of fields in the frontend
+        $Return{Set}{ $SetConfig->{Name} } = {
+            DynamicFieldConfig => $SetConfig,
+            FieldStates        => {
+                $CompleteFieldName => {
+                    PossibleValues  => undef,
+                    NotACLReducible => 1,
+                },
+            },
+            Values => {
+                $CompleteFieldName => $SetValueCount,
+            },
+        };
+    }
+
+    # fill up NewValue with existing ones
+    if ( exists $Return{NewValue} ) {
+        $Return{NewValue} = $Self->_MergeValues(
+            GetParamValue => $DFParam{"DynamicField_$SetConfig->{Name}"},
+            NewValue      => $Return{NewValue},
+        );
     }
 
     return %Return;
@@ -1058,6 +1083,28 @@ sub _GetIncludedFieldOrdered {
     }
 
     return @Return;
+}
+
+sub _MergeValues {
+    my ( $Self, %Param ) = @_;
+
+    my @Return;
+
+    # we need a merge with respect to the nested structure
+    SETINDEX:
+    for my $SetIndex ( 0 .. $#{ $Param{GetParamValue} } ) {
+
+        # pre-fill new values with existing ones
+        $Return[$SetIndex]->%* = $Param{GetParamValue}[$SetIndex]->%*;
+
+        if ( defined $Param{NewValue} && IsArrayRefWithData( $Param{NewValue} ) ) {
+            for my $NewValueKey ( keys $Param{NewValue}[$SetIndex]->%* ) {
+                $Return[$SetIndex]{$NewValueKey} = $Param{NewValue}[$SetIndex]{$NewValueKey};
+            }
+        }
+    }
+
+    return \@Return;
 }
 
 1;

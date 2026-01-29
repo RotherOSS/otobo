@@ -47,7 +47,13 @@ sub new {
     );
 
     # TODO Adjust GenericAgent module to handle multivalue and set fields correctly
-    $Self->{DynamicField}->@* = grep { !$_->{Config}{MultiValue} && $_->{FieldType} ne 'Set' } $DynamicField->@*;
+    $Self->{DynamicField}->@* = grep {
+        my $IsSetField = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
+            DynamicFieldConfig => $_,
+            Behavior           => 'IsSetField',
+        );
+        !$_->{Config}{MultiValue} && !$IsSetField
+    } $DynamicField->@*;
 
     return $Self;
 }
