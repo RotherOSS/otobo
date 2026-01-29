@@ -1229,8 +1229,15 @@ sub GetFieldState {
 
         # value holds object id(s) at this point
         my @CheckedValues;
+        my $ValueChanged = 0;
         ITEM:
         for my $ValueItem ( $Value->@* ) {
+
+            # do not execute search for empty values for performance reasons
+            if ( !defined $ValueItem || $ValueItem eq '' ) {
+                push @CheckedValues, $ValueItem;
+                next ITEM;
+            }
 
             # check if $ValueItem is still valid
             my @ObjectIDs = $Self->SearchObjects(
@@ -1242,16 +1249,17 @@ sub GetFieldState {
                 ObjectID => $ValueItem,
             );
 
-            #   if not, then return hashref with NewValue => undef
+            # collect values and set change flag if needed
             if ( !@ObjectIDs ) {
                 push @CheckedValues, '';
+                $ValueChanged = 1;
             }
             else {
                 push @CheckedValues, $ValueItem;
             }
         }
 
-        if ( DataIsDifferent( Data1 => $Value, Data2 => \@CheckedValues ) ) {
+        if ($ValueChanged) {
             return (
                 NewValue => \@CheckedValues,
             );
