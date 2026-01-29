@@ -159,10 +159,40 @@ test
         Name   => 'ToAscii - <code>'
     },
     {
-        Input =>
-            "<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text",
-        Result => "> Some Text\n> \n> With new Lines \n\nSome Other Text",
+        Input  => qq{<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text},
+        Result => qq{> Some Text\n> \n> With new Lines \n\nSome Other Text},
         Name   => 'ToAscii - <blockquote>'
+    },
+    {
+        Input  => qq{before\n<blockquote>line X\nline Y</blockquote>line Z after blockquote},
+        Result => qq{before > line X line Y\nline Z after blockquote},
+        Name   => 'ToAscii - with newlines <blockquote>'
+    },
+    {
+        Input  => qq{<BlockQuote>Some Text</BlockQuote>},
+        Result => qq{> Some Text\n},
+        Name   => 'ToAscii - case insensitive <blockquote>'
+    },
+    {
+        Input  => qq{before<BlockQuote>Some Text</BlockQuote>},
+        Result => qq{before> Some Text\n},
+        Name   => 'ToAscii - no line break before <blockquote>'
+    },
+    {
+        # note that the '> ' is added only for the first blockquote element
+        Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D<blockquote>},
+        Result => qq{before> line A\n> line B\nafter\nbeforeline C\nline D},
+        Name   => 'ToAscii - two <blockquote> elements'
+    },
+    {
+        Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<start_block>line C in broken blockquote</block>},
+        Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
+        Name   => 'ToAscii - with a broken start tag <blockquote>'
+    },
+    {
+        Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<blockquote>line C in broken blockquote</end_block>},
+        Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
+        Name   => 'ToAscii - with a broken end tag </blockquote>'
     },
     {
         Input =>
