@@ -506,28 +506,38 @@ sub Run {
                 }
 
                 # SQL for creating the OTOBO user.
+                #
                 # An explicit statement for user creation is needed because MySQL 8 no longer
                 # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
                 # Also note that there are multiple authentication plugins for MySQL/MariaDB.
-                # 'mysql_native_password' works without an encrypted DB connection and is used here.
+                # 'mysql_native_password' works without an encrypted DB connection and is used per default here.
                 # The advantage is that no encryption keys have to be set up.
-                # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
+                #
+                # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therefore
                 # a case switch must be used here.
-                my $CreateUserSQL;
+                #
+                # For now only 'mysql_native_password' is supported for different database systems.
+                my @CreateUserSQLs;
                 {
-                    if ( $DBH->{mysql_serverinfo} =~ m/mariadb/i ) {
-                        $CreateUserSQL
-                            .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'";
+                    # Use portable way of getting the name of the database system.
+                    # Previously this was done using attributes of the database handle,
+                    # but the prefixes of the attributes differ with different database driver modules.
+                    #
+                    # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
+                    my $DbmsName = $DBH->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
+                    if ( $DbmsName =~ m/mariadb/i ) {
+                        push @CreateUserSQLs,
+                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'";
                     }
                     else {
-                        $CreateUserSQL
-                            .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'";
+                        push @CreateUserSQLs,
+                            "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'";
                     }
                 }
 
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-                    $CreateUserSQL,
+                    @CreateUserSQLs,
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
                 );
             }
