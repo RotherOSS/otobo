@@ -156,6 +156,7 @@ use Sub::Util    qw(subname);
 # CPAN modules
 use Path::Class qw(dir);
 use DBI         ();
+use DBI::Const::GetInfoType;
 use Const::Fast qw(const);
 
 # OTOBO modules
@@ -583,32 +584,39 @@ sub DBCreateUserAndDatabase {
     # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
     # a case switch must be used here.
     #
-    # Different authentication plugins are supported. For the ed25519 plugin in MariaDB see
-    # https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+    # Different authentication plugins are supported for different database systems.
     my @CreateUserSQLs;
     {
 
-        # In OTOBO 11.1.x the Perl database driver DBD::MariaDB is used. This means
-        # that the attributes of the database handle carry the 'mariadb_' prefix.
-        # 'mariadb_serverinfo' has values like "10.5.29-MariaDB-ubu2004".
-        if ( $DBHandle->{mariadb_serverinfo} =~ m/mariadb/i ) {
+        # Use portable way of getting the name of the database system.
+        # Previously this was done using attributes of the database handle,
+        # but the prefixes of the attributes differ with different database driver modules.
+        #
+        # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
+        my $DbmsName = $DBHandle->get_info( $GetInfoType{SQL_DBMS_NAME} );
+        if ( $DbmsName =~ m/mariadb/i ) {
             if ( $Param{AuthenticationPlugin} eq 'mysql_native_password' ) {
-                push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
+                push @CreateUserSQLs,
+                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
             }
             else {
                 if ( $Param{AuthenticationPlugin} eq 'ed25519' ) {
+
+                    # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
                     $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
                     my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $Param{OTOBODBPassword} );
                     push @CreateUserSQLs,
                         "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
                 }
                 else {
-                    push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
+                    push @CreateUserSQLs,
+                        "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
                 }
             }
         }
         else {
-            push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} BY '$Param{OTOBODBPassword}'";
+            push @CreateUserSQLs,
+                "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} BY '$Param{OTOBODBPassword}'";
         }
     }
 
