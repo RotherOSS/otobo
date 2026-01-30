@@ -587,7 +587,11 @@ sub DBCreateUserAndDatabase {
     # https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
     my @CreateUserSQLs;
     {
-        if ( $DBHandle->{mysql_serverinfo} =~ m/mariadb/i ) {
+
+        # In OTOBO 11.1.x the Perl database driver DBD::MariaDB is used. This means
+        # that the attributes of the database handle carry the 'mariadb_' prefix.
+        # 'mariadb_serverinfo' has values like "10.5.29-MariaDB-ubu2004".
+        if ( $DBHandle->{mariadb_serverinfo} =~ m/mariadb/i ) {
             if ( $Param{AuthenticationPlugin} eq 'mysql_native_password' ) {
                 push @CreateUserSQLs, "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
             }
