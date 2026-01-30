@@ -648,7 +648,7 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        Kernel::System::Web::InterfaceCustomer->new(
+        Kernel::System::Web::InterfaceInstaller->new(
             Debug => 0,
         )->to_app;
     };
