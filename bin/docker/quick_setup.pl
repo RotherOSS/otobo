@@ -154,10 +154,10 @@ use Pod::Usage   qw(pod2usage);
 use Sub::Util    qw(subname);
 
 # CPAN modules
-use Path::Class qw(dir);
-use DBI         ();
-use DBI::Const::GetInfoType;
-use Const::Fast qw(const);
+use Path::Class             qw(dir);
+use DBI                     ();
+use DBI::Const::GetInfoType ();          # set up %DBI::Const::GetInfoType::GetInfoType
+use Const::Fast             qw(const);
 
 # OTOBO modules
 use Kernel::System::ObjectManager ();
@@ -575,13 +575,14 @@ sub DBCreateUserAndDatabase {
     my $Host = '%';
 
     # SQL for creating the OTOBO user.
+    #
     # An explicit statement for user creation is needed because MySQL 8 no longer
     # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
     # Also note that there are multiple authentication plugins for MySQL/MariaDB.
     # 'mysql_native_password' works without an encrypted DB connection and is used per default here.
     # The advantage is that no encryption keys have to be set up.
     #
-    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
+    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therefore
     # a case switch must be used here.
     #
     # Different authentication plugins are supported for different database systems.
@@ -593,25 +594,23 @@ sub DBCreateUserAndDatabase {
         # but the prefixes of the attributes differ with different database driver modules.
         #
         # Quite sensibly, the name 'MariaDB' is returned for a MariaDB database
-        my $DbmsName = $DBHandle->get_info( $GetInfoType{SQL_DBMS_NAME} );
+        my $DbmsName = $DBHandle->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_NAME} );
         if ( $DbmsName =~ m/mariadb/i ) {
             if ( $Param{AuthenticationPlugin} eq 'mysql_native_password' ) {
                 push @CreateUserSQLs,
                     "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
             }
-            else {
-                if ( $Param{AuthenticationPlugin} eq 'ed25519' ) {
+            elsif ( $Param{AuthenticationPlugin} eq 'ed25519' ) {
 
-                    # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
-                    $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
-                    my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $Param{OTOBODBPassword} );
-                    push @CreateUserSQLs,
-                        "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
-                }
-                else {
-                    push @CreateUserSQLs,
-                        "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
-                }
+                # See https://mariadb.com/docs/server/reference/plugins/authentication-plugins/authentication-plugin-ed25519
+                $DBHandle->do(q{CREATE FUNCTION ed25519_password RETURNS STRING SONAME "auth_ed25519.so"});
+                my ($Using) = $DBHandle->selectrow_array( 'SELECT ed25519_password(?)', undef, $Param{OTOBODBPassword} );
+                push @CreateUserSQLs,
+                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING '$Using'";
+            }
+            else {
+                push @CreateUserSQLs,
+                    "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH $Param{AuthenticationPlugin} USING PASSWORD('$Param{OTOBODBPassword}')";
             }
         }
         else {
