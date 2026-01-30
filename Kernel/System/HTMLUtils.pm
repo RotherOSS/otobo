@@ -135,12 +135,12 @@ sub ToAscii {
     my %Cite;
     $Counter = 0;
     $Param{String} =~ s{
-        <blockquote ([^>]*)> (.+?) </blockquote>
+        <blockquote (?<element_attr>[^>]*)> (?<element_content>.+?) </blockquote>
     }
     {
         # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
         # which has the effect that the replacement is done only for the first <blockquote>.
-        my $Ascii = $Self->ToAscii( String => $2 );
+        my $Ascii = $Self->ToAscii( String => $+{element_content} );
 
         # force line breaking, note that below there is a different $1 than above
         if ( length $Ascii > $LineLength ) {
