@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::SupportDataCollector::Plugin::Database::Type;
+package Kernel::System::SupportDataCollector::Plugin::Database::mysql::Connection;
 
 use v5.24;
 use strict;
@@ -38,31 +38,33 @@ sub GetDisplayPath {
     return Translatable('Database');
 }
 
+=for stopwords TLS
+
+=head1 Run()
+
+This plugin reports information about the database connection. Currently is it only
+reported whether the connection is encrypted with TLS.
+
+=cut
+
 sub Run {
     my $Self = shift;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # Note that this reports only which OTOBO database driver module is used.
-    # E.g. the value 'mysql' indicates that Kernel::System::DB::mysql is used.
-    my $Type = $DBObject->GetDatabaseFunction('Type') // '';
+    # this plugin is only for 'mysql'
+    return $Self->GetResults() unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
 
-    # just a sanity check
-    if ( $Type =~ m/[a-zA-Z]/ ) {
-        $Self->AddResultOk(
-            Identifier => 'DatabaseType',
-            Label      => Translatable('Database Type'),
-            Value      => $Type,
-        );
-    }
-    else {
-        $Self->AddResultProblem(
-            Identifier => 'DatabaseType',
-            Label      => Translatable('Database Type'),
-            Value      => $Type,
-            Message    => Translatable('The type of the database looks strange as it contain no Latin letters.')
-        );
-    }
+    # find the info in the session status
+    my ( undef, $SSLVersion ) = $DBObject->SelectRowArray(
+        SQL => q{SHOW SESSION STATUS LIKE 'Ssl_version'},
+    );
+
+    # only report as information
+    $Self->AddResultInformation(
+        Label => Translatable('SSL Version'),
+        Value => ( $SSLVersion || 'connection not secured with TLS' ),
+    );
 
     return $Self->GetResults();
 }
