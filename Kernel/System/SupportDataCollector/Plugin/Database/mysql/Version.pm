@@ -46,7 +46,7 @@ sub Run {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return $Self->GetResults() unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
+    return $Self->GetResults unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
 
     # version check
     my $Version = $DBObject->Version();

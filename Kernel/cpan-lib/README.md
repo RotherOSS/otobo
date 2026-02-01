@@ -50,6 +50,8 @@ Finally clean up the temporary installation directory again:
 
     rm -rf local
 
+When updating CPANSA::DB then also update the version check in scripts/test/Console/Command/Dev/Code/CPANAudit.t .
+
 ### A fresh install of the bundled modules
 
 The files will first be installed in a fresh working directory called new_cpan_lib.
