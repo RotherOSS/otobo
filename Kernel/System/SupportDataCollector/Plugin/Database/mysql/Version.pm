@@ -75,6 +75,7 @@ sub Run {
     }
 
     my $DBHandle = $DBObject->{dbh};
+
     # The client info is just for information. Sadly there is no clear information
     # on whether we have libmysqlclient of libmariadb.
     # For what it worth, libmariadb.so.3 was reported as 3.3.17 in 2025.
@@ -96,7 +97,6 @@ sub Run {
     );
 
     return $Self->GetResults;
->>>>>>> rel-10_1
 }
 
 1;
