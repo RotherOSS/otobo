@@ -27,6 +27,7 @@ use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 # core modules
 
 # CPAN modules
+use DBI::Const::GetInfoType ();    # set up %DBI::Const::GetInfoType::GetInfoType
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
@@ -45,7 +46,7 @@ sub Run {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return $Self->GetResults() unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
+    return $Self->GetResults unless $DBObject->GetDatabaseFunction('Type') eq 'mysql';
 
     # version check
     my $Version = $DBObject->Version();
@@ -73,16 +74,29 @@ sub Run {
         );
     }
 
+    my $DBHandle = $DBObject->{dbh};
     # The client info is just for information. Sadly there is no clear information
     # on whether we have libmysqlclient of libmariadb.
     # For what it worth, libmariadb.so.3 was reported as 3.3.17 in 2025.
-    $Self->AddResultOk(
+    my $ClientInfo = $DBObject->{dbh}->{mariadb_clientinfo} || $DBObject->{dbh}->{mysql_clientinfo} || 'no client info';
+    $Self->AddResultInformation(
         Identifier => 'ClientInfo',
         Label      => Translatable('Client Info'),
-        Value      => ( $DBObject->{dbh}->{mysql_clientinfo} // 'no client info' ),
+        Value      => $ClientInfo,
     );
 
-    return $Self->GetResults();
+    # The Perl database driver is also interesting
+    my $PerlDriverName    = $DBHandle->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DRIVER_NAME} ) || '';
+    my $PerlDriverVersion = $DBHandle->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DRIVER_VER} )  || '';
+    my $PerlClientInfo    = join ' ', $PerlDriverName, $PerlDriverVersion;
+    $Self->AddResultInformation(
+        Identifier => 'PerlClientInfo',
+        Label      => Translatable('Perl Client Info'),
+        Value      => $PerlClientInfo,
+    );
+
+    return $Self->GetResults;
+>>>>>>> rel-10_1
 }
 
 1;
