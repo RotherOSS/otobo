@@ -1,4 +1,5 @@
 # carton snapshot format: version 1.0
+# Testing whether DBD::mysql can be installed
 DISTRIBUTIONS
   Alien-Build-2.84
     pathname: P/PL/PLICEASE/Alien-Build-2.84.tar.gz
