@@ -191,7 +191,7 @@ sub new {
     # as these settings are most often set in a local scope for testing.
     for my $Setting (
         qw(
-            Type Limit DirectBlob Attribute QuoteSingle QuoteBack
+            Type Limit DirectBlob QuoteSingle QuoteBack
             Connect Encode CaseSensitive LcaseLikeInLargeText
         )
         )
@@ -201,6 +201,33 @@ sub new {
         }
         elsif ( defined $ConfigObject->Get("Database::$Setting") ) {
             $Self->{Backend}->{"DB::$Setting"} = $ConfigObject->Get("Database::$Setting");
+        }
+    }
+
+    # The options DB::Attribute is a special case. As with the other options,
+    # the value passed in the method call has precedence and default settings can
+    # be declared in the SysConfig. But for DB::Attribute there is a default
+    # for the main 'otobo' database connection as well as a default
+    # for all database connections. It is best practice to declare the defaults
+    # for the 'otobo' connection only, as the declaration for all connections
+    # may have unwanted effects.
+    for my $Setting (qw(Attribute)) {
+        if ( defined $Param{$Setting} ) {
+            $Self->{Backend}->{"DB::$Setting"} = $Param{$Setting};
+        }
+        elsif ( !$Param{DatabaseDSN} && defined $ConfigObject->Get("Database$Setting") ) {
+
+            # default for the main DB connection, note the missing '::'
+            $Self->{Backend}->{"DB::$Setting"} = $ConfigObject->Get("Database$Setting");
+        }
+        elsif ( defined $ConfigObject->Get("Database::$Setting") ) {
+
+            # default for the main DB connection when Database$Setting does not exist
+            # also default for the other DB connections like the customer database of database dynamic fields
+            $Self->{Backend}->{"DB::$Setting"} = $ConfigObject->Get("Database::$Setting");
+        }
+        else {
+            # the value given in the driver module prevails
         }
     }
 
@@ -291,11 +318,9 @@ sub Connect {
         # Additional attributes my be set via the SysConfig. This settings override the previous settings.
         # One use case is the support for encrypted connections where keys and certificates
         # have to be passed.
-        my $AttrFromSysConfig = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseConnectAttributes') // {};
         my %ConnectAttributes = (
             RaiseError => 0,
-            $Self->{Backend}->{'DB::Attribute'}->%*,
-            $AttrFromSysConfig->%*,
+            ( $Self->{Backend}->{'DB::Attribute'} // {} )->%*,
         );
 
         # Generation of the cache key is copied from DBI::connect_cached().
