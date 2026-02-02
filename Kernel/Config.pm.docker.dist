@@ -126,7 +126,7 @@ sub Load {
 
     # Additional connect attributes for the standard 'otobo' database connection.
     # Set the attributes needed for encrypted database connections here.
-#    $Self->{DatabaseConnectAttributes} = {};
+#    $Self->{DatabaseAttribute} = {};
 
     # ---------------------------------------------------- #
     # fs root directory, without trailing slash            #
