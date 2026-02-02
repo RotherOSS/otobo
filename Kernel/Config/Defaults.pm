@@ -156,7 +156,7 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 #    $ENV{NLS_LANG}        = 'GERMAN_GERMANY.AL32UTF8';
 
-    # Additional connect attributes.
+    # Additional connect attributes for the standard 'otobo' database connection.
     # Set the attributes needed for encrypted database connections here.
     $Self->{DatabaseConnectAttributes} = {};
 

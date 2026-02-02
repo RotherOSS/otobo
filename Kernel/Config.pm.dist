@@ -82,6 +82,10 @@ sub Load {
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 
+    # Additional connect attributes for the standard 'otobo' database connection.
+    # Set the attributes needed for encrypted database connections here.
+#    $Self->{DatabaseConnectAttributes} = {};
+
     # ---------------------------------------------------- #
     # fs root directory, without trailing slash            #
     # ---------------------------------------------------- #
