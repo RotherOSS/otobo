@@ -186,22 +186,22 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  Authen-SASL-2.1900
-    pathname: E/EH/EHUELS/Authen-SASL-2.1900.tar.gz
+  Authen-SASL-2.2000
+    pathname: E/EH/EHUELS/Authen-SASL-2.2000.tar.gz
     provides:
-      Authen::SASL 2.1900
-      Authen::SASL::CRAM_MD5 2.1900
-      Authen::SASL::EXTERNAL 2.1900
-      Authen::SASL::Perl 2.1900
-      Authen::SASL::Perl::ANONYMOUS 2.1900
-      Authen::SASL::Perl::CRAM_MD5 2.1900
-      Authen::SASL::Perl::DIGEST_MD5 2.1900
-      Authen::SASL::Perl::EXTERNAL 2.1900
-      Authen::SASL::Perl::GSSAPI 2.1900
-      Authen::SASL::Perl::LOGIN 2.1900
-      Authen::SASL::Perl::OAUTHBEARER 2.1900
-      Authen::SASL::Perl::PLAIN 2.1900
-      Authen::SASL::Perl::XOAUTH2 2.1900
+      Authen::SASL 2.2000
+      Authen::SASL::CRAM_MD5 2.2000
+      Authen::SASL::EXTERNAL 2.2000
+      Authen::SASL::Perl 2.2000
+      Authen::SASL::Perl::ANONYMOUS 2.2000
+      Authen::SASL::Perl::CRAM_MD5 2.2000
+      Authen::SASL::Perl::DIGEST_MD5 2.2000
+      Authen::SASL::Perl::EXTERNAL 2.2000
+      Authen::SASL::Perl::GSSAPI 2.2000
+      Authen::SASL::Perl::LOGIN 2.2000
+      Authen::SASL::Perl::OAUTHBEARER 2.2000
+      Authen::SASL::Perl::PLAIN 2.2000
+      Authen::SASL::Perl::XOAUTH2 2.2000
     requirements:
       Crypt::URandom 0
       Digest::HMAC_MD5 0
