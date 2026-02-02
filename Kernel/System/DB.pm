@@ -60,8 +60,8 @@ All database functions to connect/insert/update/delete/... to a database.
 
 =head2 new()
 
-create a database object the allows to connect to a database.
-Usually you do not use it directly, instead use:
+creates an object the allows to connect to a database.
+Usually you do not use the constructor directly, instead use:
 
     use Kernel::System::ObjectManager;
 
@@ -185,6 +185,10 @@ sub new {
 
     # Check or get extra database configuration options, that is overwrite auto-detection with config options.
     # These presets are typically specified in the file Kernel/Config.pm.
+    #
+    # Note that these configuration options from the SysConfig
+    # applies to all database connections. This is mostly fine
+    # as these settings are most often set in a local scope for testing.
     for my $Setting (
         qw(
             Type Limit DirectBlob Attribute QuoteSingle QuoteBack

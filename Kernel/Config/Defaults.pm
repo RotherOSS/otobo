@@ -191,6 +191,10 @@ sub LoadDefaults {
     # database connect attributes. One use case is activating an encrypted connection
     # to a MySQL or MariaDB database server.
     #
+    # Note that attributes specified here apply to all database connections. This includes
+    # connections to the Customer database and connections for database dynamic fields.
+    # For setting attributes only for the standard connection please use DatabaseAttribute.
+    #
     # The *.pem files may copied from a MySQL db container, from /var/lib/mysql,
     # See https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-secure-connections.html#secure-deployment-distribute-client-cert-key-files
     #$Self->{'Database::Attribute'} = {
