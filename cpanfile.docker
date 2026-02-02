@@ -1,4 +1,6 @@
 # Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
+# Testing whether DBD::mysql can be installed in the Github workflows
+
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
