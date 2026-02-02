@@ -158,7 +158,7 @@ sub LoadDefaults {
 
     # Additional connect attributes for the standard 'otobo' database connection.
     # Set the attributes needed for encrypted database connections here.
-    $Self->{DatabaseConnectAttributes} = {};
+    $Self->{DatabaseAttribute} = {};
 
     # Activate these attributes when the connection to the MariaDB or MySQL database is secured by TLS.
     # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
@@ -172,7 +172,7 @@ sub LoadDefaults {
     #    mysql_ssl_client_key  : private key of the client, the server must have the public key
     #    mysql_ssl_optional    : boolean workarounda for strange behavior when connecting
     #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
-#    $Self->{DatabaseConnectAttributes} = {
+#    $Self->{DatabaseAttribute} = {
 #        mysql_ssl             => 1,
 #        mysql_ssl_client_cert => '/opt/otobo/var/db/ssl/client-cert.pem',
 #        mysql_ssl_client_key  => '/opt/otobo/var/db/ssl/client-key.pem',
