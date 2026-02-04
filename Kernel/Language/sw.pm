@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.413649232603189;
+    $Self->{Completeness}        = 0.413525994339342;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3588,7 +3588,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             '',
         'Continue anyways :(' => '',
-        ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
         'DSN' => '',
@@ -5880,6 +5879,9 @@ sub Data {
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
             '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+        'SSL Version' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => '',
         'The setting innodb_log_file_size must be at least 256 MB.' => '',
@@ -5907,6 +5909,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x au zaidi inahitajika.',
         'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Mipangilio ya NLS_LANG ',
@@ -6580,7 +6583,6 @@ sub Data {
         'Missing Translations' => '',
         'At least one translation must be filled!' => '',
         'All translations must be filled!' => '',
-        'Close' => 'Funga',
 
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => '',
@@ -6816,10 +6818,6 @@ sub Data {
         'Expanded' => 'Imepanuliwa',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '',
         '
 Dear Customer,
 
@@ -7170,6 +7168,7 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Usiku wa kuamkia Krismasi.',
+        'Close' => 'Funga',
         'Close this ticket' => 'Funga tiketi hii',
         'Closed Tickets' => '',
         'Closed tickets (customer user)' => 'Tiketi zilizofungwa (Mteja mtumiaji)',
@@ -8919,7 +8918,7 @@ Mfano:
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha wakala.',
@@ -8935,7 +8934,7 @@ Mfano:
             '',
         'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
         'Open the OTOBO home page in a new window' => '',
@@ -9491,6 +9490,8 @@ Mfano:
         'Show article as rich text even if rich text writing is disabled.' =>
             'Inaonyesha makala kama matini tajiri hata kama uandishi wa matini tajiri haujaruhusiwa.',
         'Show command line output.' => '',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => 'Inaonyesha mmiliki wa sasa katika kiolesura cha mteja.',
@@ -9900,6 +9901,7 @@ Mfano:
         'Ticket Queue Overview' => 'Mapitio ya foleni ya tiketi',
         'Ticket Responsible.' => '',
         'Ticket States' => '',
+        'Ticket Title' => '',
         'Ticket Types' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
@@ -10122,7 +10124,6 @@ Mfano:
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

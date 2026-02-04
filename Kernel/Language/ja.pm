@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.849500819549993;
+    $Self->{Completeness}        = 0.848949798897661;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3588,7 +3588,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'http経由で移行スクリプトを使用しています。プロセス中にさまざまなパスワードが必要になるため、これは非常に安全ではなく、暗号化されずに転送されます。 あなたとOTOBOサーバーの間の誰もがそれらを読むことができます！ 代わりにhttpsの設定を検討してください。',
         'Continue anyways :(' => 'とにかく続けましょう:(',
-        ' Continue anyways :(' => ' とにかく続けましょう:(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5880,6 +5879,9 @@ sub Data {
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
             '文字セットとして「utf8mb4」を持たないテーブルが見つかりました。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+        'SSL Version' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDBログのファイルサイズ',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'innodb_log_file_size 設定は最低でも256MBにする必要があります。',
@@ -5907,6 +5909,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '動作要件は MySQL 5.x 以上になっています 。',
         'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG 設定',
@@ -6580,7 +6583,6 @@ sub Data {
         'Missing Translations' => '翻訳が見つかりません',
         'At least one translation must be filled!' => '',
         'All translations must be filled!' => 'すべての翻訳を記入する必要があります。',
-        'Close' => 'クローズ',
 
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => 'カレンダー',
@@ -6816,13 +6818,6 @@ sub Data {
         'Expanded' => '展開',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            オプションパラメータもパラメータリストに表示します。無効にすると、オプションパラメータは追加のテーブル
-　　　にのみ表示されます
-        ',
         '
 Dear Customer,
 
@@ -7184,6 +7179,7 @@ Thanks for your help!
             '通知を受け取りたいチケット通知を選択します。 必須としてチェックされたチケット通知を無効にすることは出来ません。',
         'Choose which notifications you\'d like to receive.' => '受信する通知を選択します。',
         'Christmas Eve' => 'クリスマスイブ',
+        'Close' => 'クローズ',
         'Close this ticket' => 'このチケットをクローズ',
         'Closed Tickets' => '',
         'Closed tickets (customer user)' => 'クローズ・チケット(顧客ユーザー)',
@@ -8930,7 +8926,7 @@ Thanks for your help!
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '担当者インタフェースの検索結果の各ページで、表示されるチケットの数です。',
@@ -8946,7 +8942,7 @@ Thanks for your help!
             '',
         'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '外部リンクを開く！',
         'Open the OTOBO home page in a new window' => '',
@@ -9502,6 +9498,8 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             'リッチ・テキストのライティングが無効にされている場合でも、項目をリッチ・テキストで表示します。',
         'Show command line output.' => '',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
@@ -9911,6 +9909,7 @@ Thanks for your help!
         'Ticket Queue Overview' => 'チケット・キュー一覧',
         'Ticket Responsible.' => 'チケット責任者',
         'Ticket States' => '',
+        'Ticket Title' => '',
         'Ticket Types' => '',
         'Ticket Watcher' => 'チケット監視者',
         'Ticket Zoom' => 'チケットのズーム',
@@ -10133,7 +10132,6 @@ Thanks for your help!
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
