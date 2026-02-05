@@ -134,11 +134,8 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'db:oracle', 'Support for database Oracle' => sub {
-    # Required to connect to a Oracle database.
-    requires 'DBD::Oracle';
+# Feature 'db:oracle' is not needed
 
-# };
 
 # feature 'db:postgresql', 'Support for database PostgreSQL' => sub {
     # Required to connect to a PostgreSQL database.
@@ -221,11 +218,8 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
-    # Support for QR code in PDF files
-    requires 'Text::QRCode';
+# Feature 'div:qrcode' is not needed
 
-# };
 
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.

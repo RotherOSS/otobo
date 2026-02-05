@@ -53,7 +53,7 @@ cp cpanfile.plackup cpanfile -f
 
 if [ -f "cpanfile" ]; then
     echo "Installing dependencies to $TARGET_LIB..."
-    cpanm --local-lib "$TARGET_LIB" --self-contained --notest --installdeps .
+    cpanm --local-lib "$TARGET_LIB" --self-contained --notest --mirror "http://www.cpan.org" --mirror-only --installdeps .
 else
     echo "Error: Couldn't find cpanfile in $PROJECT_ROOT!"
     exit 1
