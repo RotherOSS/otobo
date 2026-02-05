@@ -175,6 +175,10 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
         );
 
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').length;"
+        );
+
         my $ArticleID = $Selenium->execute_script(
             "return \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').val();"
         );
@@ -192,8 +196,14 @@ $Selenium->RunTest(
 
         # Check article body created in transition action of the test ticket.
         # See bug#14229 for more information.
+        
+        my $IsArticleCreatedWell = index( $Article{Body}, $DefaultValue ) > -1;
+        if(!$IsArticleCreatedWell) {
+            print STDERR "# WARN ArticleBody: Could not find string '$DefaultValue' in ArticleBody: $Article{Body}\n";
+        }
+        
         $Self->True(
-            index( $Article{Body}, $DefaultValue ) > -1,
+            $IsArticleCreatedWell,
             "Article body is created well.",
         );
 
