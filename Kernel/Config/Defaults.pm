@@ -1855,6 +1855,13 @@ via the Preferences button after logging in.
 #            DSN  => 'DBI:odbc:yourdsn',
 #            Type => 'mssql', # only for ODBC connections
 #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            # Extra connect attributes can be used for secured connections
+#            Attribute => {
+#                mysql_ssl             => 1,
+#                mysql_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
+#                mysql_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
+#                mysql_ssl_optional    => 1,
+#            },
 #            User => '',
 #            Password => '',
             Table => 'customer_company',
