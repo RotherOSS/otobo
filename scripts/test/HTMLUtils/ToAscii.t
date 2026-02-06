@@ -256,6 +256,17 @@ after cite},
     },
     {
         Line  => __LINE__,
+        Input => 'Line 0<div type="cite">Line 1</div>Line 2<div type="cite">Line 3</div>
+Line 4',
+        Result => qq{Line 0
+> Line 1
+Line 2
+> Line 3
+ Line 4},
+        Name => 'ToAscii - two  <div type="cite">'
+    },
+    {
+        Line  => __LINE__,
         Input =>
             "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
         Result => "[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
