@@ -160,12 +160,12 @@ sub ArticleActions {
     # Determine channel name for this Article.
     my $ChannelName = $ArticleBackendObject->ChannelNameGet();
 
-    my $ActionsConfig = $ConfigObject->Get('Ticket::Frontend::Article::Actions');
+    my $ActionsConfig = $ConfigObject->Get("Ticket::Frontend::Article::Actions::$ChannelName");
+    return () if !IsHashRefWithData($ActionsConfig);
 
-    my $Config = {};
-    if ( IsHashRefWithData($ActionsConfig) ) {
-        $Config = $ActionsConfig->{$ChannelName};
-    }
+    # combine different sources
+    # NOTE sorting the keys enables overwriting existing items with packages
+    my $Config = { map { $ActionsConfig->{$_}->%* } sort keys $ActionsConfig->%* };
     return () if !$Config;
 
     # Get ACL restrictions.
