@@ -138,8 +138,6 @@ sub ToAscii {
         <blockquote (?<element_attr>[^>]*)> (?<element_content>.+?) </blockquote>
     }
     {
-        # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
-        # which has the effect that the replacement is done only for the first <blockquote>.
         my $Ascii = $Self->ToAscii( String => $+{element_content} );
 
         # force line breaking, note that below there is a different $1 than above

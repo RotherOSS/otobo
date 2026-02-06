@@ -203,8 +203,8 @@ test
     {
         # note that the '> ' is added only for the first blockquote element
         Line   => __LINE__,
-        Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D<blockquote>},
-        Result => qq{before\n> line A\n> line B\nafter\nbeforeline C\nline D},
+        Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D</blockquote>},
+        Result => qq{before\n> line A\n> line B\nafter\nbefore\n> line C\n> line D\n},
         Name   => 'ToAscii - two <blockquote> elements'
     },
     {
