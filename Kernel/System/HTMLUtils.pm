@@ -150,6 +150,9 @@ sub ToAscii {
         # add the leading '> ' to the lines
         $Ascii =~ s/^(.*?)$/> $1/gm;
 
+        # start the replacement on a new line
+        $Ascii = "\n" . $Ascii;
+
         # do not substitute the adapted string, but a key so that the actual substitution can be done later
         $CiteCounter++;
         my $Key     = "######Cite::$CiteCounter######";
@@ -616,6 +619,9 @@ sub ToAscii {
     if (@Links) {
         $Param{String} .= "\n\n" . join '', @Links;
     }
+
+    # remove leading newlines that might have been added by the previous replacements
+    $Param{String} =~ s/^\n+//;
 
     return $Param{String};
 }

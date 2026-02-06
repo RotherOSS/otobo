@@ -122,8 +122,7 @@ More Text',
         Line  => __LINE__,
         Input =>
             '<ul><li>a</li><li>b</li><li>c</li></ul><ol><li>one</li><li>two</li><li>three</li></ol>',
-        Result => '
- - a
+        Result => ' - a
  - b
  - c
 
@@ -144,8 +143,7 @@ test<br />
 test<br />
 </p>
 <ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></body></html>',
-        Result => '
-test
+        Result => 'test
 test
 test
 test
@@ -163,13 +161,13 @@ test
     {
         Line   => __LINE__,
         Input  => "<pre>Some Text\n\nWith new Lines</pre>",
-        Result => "\nSome Text\n\nWith new Lines\n\n",
+        Result => "Some Text\n\nWith new Lines\n\n",
         Name   => 'ToAscii - <pre>'
     },
     {
         Line   => __LINE__,
         Input  => "<code>Some Text\n\nWith new Lines  </code><br />Some Other Text",
-        Result => "\nSome Text\n\nWith new Lines  \n\nSome Other Text",
+        Result => "Some Text\n\nWith new Lines  \n\nSome Other Text",
         Name   => 'ToAscii - <code>'
     },
     {
@@ -187,7 +185,7 @@ test
     {
         Line   => __LINE__,
         Input  => qq{before\n<blockquote>line X\nline Y</blockquote>line Z after blockquote},
-        Result => qq{before > line X line Y\nline Z after blockquote},
+        Result => qq{before \n> line X line Y\nline Z after blockquote},
         Name   => 'ToAscii - with newlines <blockquote>'
     },
     {
@@ -199,26 +197,26 @@ test
     {
         Line   => __LINE__,
         Input  => qq{before<BlockQuote>Some Text</BlockQuote>},
-        Result => qq{before> Some Text\n},
-        Name   => 'ToAscii - no line break before <blockquote>'
+        Result => qq{before\n> Some Text\n},
+        Name   => 'ToAscii - line break before <blockquote>'
     },
     {
         # note that the '> ' is added only for the first blockquote element
         Line   => __LINE__,
         Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D<blockquote>},
-        Result => qq{before> line A\n> line B\nafter\nbeforeline C\nline D},
+        Result => qq{before\n> line A\n> line B\nafter\nbeforeline C\nline D},
         Name   => 'ToAscii - two <blockquote> elements'
     },
     {
         Line   => __LINE__,
         Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<start_block>line C in broken blockquote</blockquote>},
-        Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
+        Result => qq{before\n> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
         Name   => 'ToAscii - with a broken start tag <blockquote>'
     },
     {
         Line   => __LINE__,
         Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<blockquote>line C in broken blockquote</end_block>},
-        Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
+        Result => qq{before\n> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
         Name   => 'ToAscii - with a broken end tag </blockquote>'
     },
     {
@@ -228,6 +226,7 @@ test
 Line 2<br/>
 Line 3</div>",
         Result => "Line 0
+
 > Line 1
 > Line 2
 > Line 3
@@ -247,7 +246,7 @@ after cite},
         Line  => __LINE__,
         Input =>
             "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
-        Result => "\n[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
+        Result => "[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
         Name   => 'ToAscii - <a class ... href ..>'
     },
     {
