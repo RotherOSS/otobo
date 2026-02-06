@@ -156,9 +156,10 @@ $DatabaseName //= $Kernel::OM->Get('Kernel::Config')->Get('Database');
 $DatabaseUser //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
 $DatabasePw   //= $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 $DatabaseType //=
-    $DatabaseDSN =~ m/:mysql/i  ? 'mysql' :
-    $DatabaseDSN =~ m/:pg/i     ? 'postgresql' :
-    $DatabaseDSN =~ m/:oracle/i ? 'oracle' :
+    $DatabaseDSN =~ m/:mariadb/i ? 'mysql' :
+    $DatabaseDSN =~ m/:mysql/i   ? 'mysql' :
+    $DatabaseDSN =~ m/:pg/i      ? 'postgresql' :
+    $DatabaseDSN =~ m/:oracle/i  ? 'oracle' :
     'mysql';
 $DatabaseType = lc $DatabaseType;
 

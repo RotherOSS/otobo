@@ -148,7 +148,7 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 # check db backup support
 my $DB     = '';
 my $DBDump = '';
-if ( $DatabaseDSN =~ m/:mysql/i ) {
+if ( $DatabaseDSN =~ m/:mariadb/i || $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
     $DBDump = 'mysql';
 
