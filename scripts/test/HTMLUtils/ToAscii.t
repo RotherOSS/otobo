@@ -174,6 +174,12 @@ test
     },
     {
         Line   => __LINE__,
+        Input  => "before code<code>Some Text\n\nWith new Lines  </code><br />Some Other Text",
+        Result => "before code\n\nSome Text\n\nWith new Lines  \n\nSome Other Text",
+        Name   => 'ToAscii - <code> after preceeding content'
+    },
+    {
+        Line   => __LINE__,
         Input  => qq{<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text},
         Result => qq{> Some Text\n> \n> With new Lines \n\nSome Other Text},
         Name   => 'ToAscii - <blockquote>'
@@ -227,6 +233,15 @@ Line 3</div>",
 > Line 3
 ",
         Name => 'ToAscii - Quote using <div type="cite"> with additional parameter.'
+    },
+    {
+        Line   => __LINE__,
+        Input  => 'before cite<div type="cite">Line 1<br/></div>after cite',
+        Result => q{before cite
+> Line 1
+
+after cite},
+        Name => 'ToAscii - Quote using <div type="cite"> with preceeding plain content'
     },
     {
         Line  => __LINE__,
