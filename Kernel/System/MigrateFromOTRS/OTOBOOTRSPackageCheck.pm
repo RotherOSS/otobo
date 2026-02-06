@@ -221,7 +221,7 @@ sub _GetPackages {
     my $DBObject;
     my $DBData = $Param{DBData};
 
-    # If DBDSN is given, we need a connection =! otobo database
+    # If DBDSN is given, we need a connection != otobo database
     if ( defined $DBData ) {
 
         # create CloneDB backend object
