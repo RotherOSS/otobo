@@ -3962,6 +3962,18 @@ via the Preferences button after logging in.
             <Item ValueType="String" ValueRegex="">DBI:MariaDB:database=customerdb;host=customerdbhost</Item>
         </Value>
     </Setting>
+    <Setting Name="Customer::AuthModule::DB::Attribute" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.</Description>
+        <Navigation>Core::Auth::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="mysql_ssl">1</Item>
+                <Item Key="mysql_client_cert">/opt/otobo/tls/client-cert.pem</Item>
+                <Item Key="mysql_client_key">/opt/otobo/tls/client-key.pem</Item>
+                <Item Key="mysql_ssl_optional">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Customer::AuthModule::DB::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.</Description>
         <Navigation>Core::Auth::Customer</Navigation>

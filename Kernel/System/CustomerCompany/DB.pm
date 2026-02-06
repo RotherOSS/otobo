@@ -16,9 +16,15 @@
 
 package Kernel::System::CustomerCompany::DB;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -34,10 +40,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get customer company map
+    # actually the parameter CustomerCompanyMap includes the complete config of the backend
     $Self->{CustomerCompanyMap} = $Param{CustomerCompanyMap} || die "Got no CustomerCompanyMap!";
 
     # config options
@@ -64,13 +70,11 @@ sub new {
         $Self->{CacheTTL}    = $Self->{CustomerCompanyMap}->{CacheTTL} || 0;
     }
 
-    # get database object
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
     # create new db connect if DSN is given
     if ( $Self->{CustomerCompanyMap}->{Params}->{DSN} ) {
         $Self->{DBObject} = Kernel::System::DB->new(
             DatabaseDSN             => $Self->{CustomerCompanyMap}->{Params}->{DSN},
+            Attribute               => $Self->{CustomerCompanyMap}->{Params}->{Attribute},
             DatabaseUser            => $Self->{CustomerCompanyMap}->{Params}->{User},
             DatabasePw              => $Self->{CustomerCompanyMap}->{Params}->{Password},
             Type                    => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
@@ -79,6 +83,9 @@ sub new {
 
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
+    }
+    else {
+        $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     }
 
     # this setting specifies if the table has the create_time,

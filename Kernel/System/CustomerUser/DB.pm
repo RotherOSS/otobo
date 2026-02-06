@@ -57,9 +57,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # get database object
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-
     # max shown user per search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 250;
 
@@ -112,6 +109,9 @@ sub new {
 
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
+    }
+    else {
+        $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     }
 
     # this setting specifies if the table has the create_time,

@@ -115,10 +115,13 @@ sub new {
     }
 
     # get the specific database object
+    # Passing a not defined 'Attribute' enables the fallback to attributes in the SysConfig.
+    # Passing an empty hashref as 'Attribute' overrides the attributes from the SysConfig
     $Self->{DBObject} = Kernel::System::DB->new(
         DatabaseDSN             => $DatabaseDSN,
         DatabaseUser            => $Self->{DynamicFieldConfig}->{Config}->{User},
         DatabasePw              => $Self->{DynamicFieldConfig}->{Config}->{Password},
+        Attribute               => $Self->{DynamicFieldConfig}->{Config}->{Attribute},
         Type                    => $DatabaseType,
         DisconnectOnDestruction => 1,
     );

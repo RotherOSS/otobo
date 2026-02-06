@@ -177,8 +177,8 @@ sub LoadDefaults {
     #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
 #    $Self->{DatabaseAttribute} = {
 #        mysql_ssl             => 1,
-#        mysql_ssl_client_cert => '/opt/otobo/var/db/ssl/client-cert.pem',
-#        mysql_ssl_client_key  => '/opt/otobo/var/db/ssl/client-key.pem',
+#        mysql_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
+#        mysql_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
 #        mysql_ssl_optional    => 1,
 #    };
 
@@ -1666,6 +1666,13 @@ via the Preferences button after logging in.
 #            DSN  => 'DBI:odbc:yourdsn',
 #            Type => 'mssql', # only for ODBC connections
 #            DSN => 'DBI:MariaDB:database=customerdb;host=customerdbhost',
+#            # Extra connect attributes can be used for secured connections
+#            Attribute => {
+#                mysql_ssl             => 1,
+#                mysql_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
+#                mysql_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
+#                mysql_ssl_optional    => 1,
+#            },
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
@@ -1853,6 +1860,13 @@ via the Preferences button after logging in.
 #            DSN  => 'DBI:odbc:yourdsn',
 #            Type => 'mssql', # only for ODBC connections
 #            DSN => 'DBI:MariaDB:database=customerdb;host=customerdbhost',
+#            # Extra connect attributes can be used for secured connections
+#            Attribute => {
+#                mysql_ssl             => 1,
+#                mysql_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
+#                mysql_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
+#                mysql_ssl_optional    => 1,
+#            },
 #            User => '',
 #            Password => '',
             Table => 'customer_company',

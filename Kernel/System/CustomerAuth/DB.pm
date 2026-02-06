@@ -47,8 +47,6 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    # get needed objects
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # config options
@@ -62,8 +60,11 @@ sub new {
         || '';
 
     if ( $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ) ) {
+
+        # use a dedicated database connection
         $Self->{DBObject} = Kernel::System::DB->new(
             DatabaseDSN             => $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ),
+            Attribute               => $ConfigObject->Get( 'Customer::AuthModule::DB::Attribute' . $Param{Count} ) // {},
             DatabaseUser            => $ConfigObject->Get( 'Customer::AuthModule::DB::User' . $Param{Count} ),
             DatabasePw              => $ConfigObject->Get( 'Customer::AuthModule::DB::Password' . $Param{Count} ),
             Type                    => $ConfigObject->Get( 'Customer::AuthModule::DB::Type' . $Param{Count} ) || '',
@@ -73,6 +74,11 @@ sub new {
         # Remember that the DBObject is not taken from object manager.
         # The cleanup must be done seperately.
         $Self->{NotParentDBObject} = 1;
+    }
+    else {
+
+        # use the main database connection per default
+        $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     }
 
     return $Self;
