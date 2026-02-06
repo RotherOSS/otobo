@@ -52,6 +52,18 @@ my @Tests = (
     },
     {
         Line   => __LINE__,
+        Input  => '<b>Some Text</b><br/><a href="http://example.com">Some URL</a> more text<br><a href="http://example.com">Same URL</a> yet more text',
+        Result => 'Some Text
+[1]Some URL more text
+[2]Same URL yet more text
+
+[1] http://example.com
+[2] http://example.com
+',
+        Name => 'ToAscii - replace two URLs'
+    },
+    {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br/><a href="http://example.com<script>alert(\'JavaScript\')</script>">Some URL</a>',
         Result => 'Some Text
 [1]Some URL
