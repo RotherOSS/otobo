@@ -14616,7 +14616,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Internal" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::Article::Actions::Internal###000-Ticket" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for Internal articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
@@ -14722,7 +14722,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Phone" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::Article::Actions::Phone###000-Ticket" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for Phone articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
@@ -14800,7 +14800,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Email" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::Article::Actions::Email###000-Ticket" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for e-mail articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
@@ -14892,7 +14892,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::Article::Actions###Invalid" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::Article::Actions::Invalid###000-Ticket" Required="1" Valid="1">
         <Description Translatable="1">Defines available article actions for invalid articles.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
         <Value>
