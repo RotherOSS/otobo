@@ -10,9 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2026-01-13 10:21+0000\n"
+"PO-Revision-Date: 2026-02-06 18:00+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
-"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/hu/>\n"
+"Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/"
+"hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20327,7 +20328,12 @@ msgstr "Meghatározza a megjelenített oszlopokat és a pozíciót az ügyintéz
 
 #. SysConfig
 msgid "Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted."
-msgstr "Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
+msgstr ""
+"Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén "
+"megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a "
+"„Content” tartalomban lévő érték a megjelenített címke. Az "
+"<OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az "
+"<OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
@@ -25807,7 +25813,6 @@ msgstr "Importálás/exportálás"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Ha úgy dönt, hogy visszavált az ((OTOBO)) Community Edition verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot."
 
-#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Minden csillaggal (*) jelölt mező kötelező."
 
@@ -27635,7 +27640,7 @@ msgstr "Adatbázis típusa"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
 msgid "The type of the database looks strange as it contain no Latin letters."
-msgstr "Az adatbázis típusa furcsának tűnik, mivel nem tartalmaz latin betűket."
+msgstr "Az adatbázis típusa furcsának tűnik, mivel nem latin betűket tartalmaz."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Client Info"
@@ -27647,73 +27652,90 @@ msgstr "Objektumok importálásának és exportálásának kezelése."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Insufficient group permissions."
-msgstr ""
+msgstr "Elégtelen csoportjogosultságok."
 
 #. Template: AdminQueue
 msgid "Is defined in Admin > System addresses."
-msgstr ""
+msgstr "Az Adminisztráció > Rendszercímek modulban van meghatározva."
 
 #. Template: AdminQueue
 msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
 msgstr ""
+"Csak akkor fontos, ha a levelezési fiók „Szétválogatás az e-mail címzett "
+"mezője szerint” értékre van állítva."
 
 #. Template: AdminQueue
 msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
 msgstr ""
+"Az munkaidőnaptár a feloldási időhőhöz és az eszkalációs időkhöz. Ha semmi "
+"sincs kiválasztva, akkor az alapértelmezett naptár lesz használva."
 
 #. Template: AdminQueue
 msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
 msgstr ""
+"Az Adminisztráció > Rendszerbeállítások alatt a navigációs fa Core > Time "
+"ágában van meghatározva (alapértelmezett naptár = nincs kiválasztás) vagy az "
+"1-9. naptárakban."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
 msgstr ""
+"A(z) „%s” dinamikus mező objektumtípusa nem egyezik a Beállítás mező "
+"objektumtípusával."
 
 #. SysConfig
 msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
 msgstr ""
+"Meghatározza, hogy a bővített módot kell használni (táblázat, csere, alsó "
+"index, felső index, beillesztés Wordből stb. használatát engedélyezi) az "
+"ügyintézői felületen."
 
 #. SysConfig
 msgid "Elasticsearch (u)"
-msgstr ""
+msgstr "Elasticsearch (u)"
 
 #. SysConfig
 msgid "Message of the day"
-msgstr ""
+msgstr "A nap üzenete"
 
 #. SysConfig
 msgid "Welcome %s, to your OTOBO."
-msgstr ""
+msgstr "Üdvözöljük %s, az Ön OTOBO-jában!"
 
 #. SysConfig
 msgid "Your Tickets. Your OTOBO."
-msgstr ""
+msgstr "Az Ön jegyei. Az Ön OTOBO-ja."
 
 #. SysConfig
 msgid "Your external tools"
-msgstr ""
+msgstr "Az Ön külső eszközei"
 
 #. SysConfig
 msgid "Your last tickets"
-msgstr ""
+msgstr "Az Ön utolsó jegyei"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
 msgid "SSL Version"
-msgstr ""
+msgstr "SSL verzió"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Perl Client Info"
-msgstr ""
+msgstr "Perl ügyfél-információk"
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
 msgstr ""
+"Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg. A "
+"jegyattribútumokat, kivéve a várólistát, egyértelműen el kell tárolni az "
+"Elasticsearch-kiszolgálón keresztül."
 
 #. SysConfig
 msgid "Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table."
 msgstr ""
+"Az elhagyható paramétereket is jelenítse meg a paraméterlistában. Ha le van "
+"tiltva, akkor az elhagyható paraméterek csak egy kiegészítő táblázatban "
+"jelennek meg."
 
 #. SysConfig
 msgid "Ticket Title"
-msgstr ""
-
+msgstr "Jegycím"
