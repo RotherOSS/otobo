@@ -29,16 +29,19 @@ use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my @Tests = (
     {
+        Line   => __LINE__,
         Input  => 'Some Text',
         Result => 'Some Text',
         Name   => 'ToAscii - simple'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b>',
         Result => 'Some Text',
         Name   => 'ToAscii - with bold markup'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br/><a href="http://example.com">Some URL</a>',
         Result => 'Some Text
 [1]Some URL
@@ -48,6 +51,7 @@ my @Tests = (
         Name => 'ToAscii - replace URL'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br/><a href="http://example.com<script>alert(\'JavaScript\')</script>">Some URL</a>',
         Result => 'Some Text
 [1]Some URL
@@ -57,6 +61,7 @@ my @Tests = (
         Name => 'ToAscii -JavaScript in href will be removed.'
     },
     {
+        Line   => __LINE__,
         Input  => qq{<b>Some Text</b><br/><a href \n\n    =  \n \n  "http://example.com<script>alert('JavaScript')</script>">Some URL</a>},
         Result => 'Some Text
 [1]Some URL
@@ -66,24 +71,28 @@ my @Tests = (
         Name => 'ToAscii -JavaScript in href will be removed, even with surrounding white space'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br/>More Text',
         Result => 'Some Text
 More Text',
         Name => 'ToAscii - simple'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br  type="_moz" />More Text',
         Result => 'Some Text
 More Text',
         Name => 'ToAscii - simple'
     },
     {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br />More <i>Text</i>',
         Result => 'Some Text
 More Text',
         Name => 'ToAscii - simple'
     },
     {
+        Line  => __LINE__,
         Input => '&gt; This is the first test.<br/>
 &gt; <br/>
 &gt; Buenas noches,<br/>
@@ -93,6 +102,7 @@ More Text',
         Name => 'ToAscii - simple'
     },
     {
+        Line  => __LINE__,
         Input => '<div>Martin,</div>
 <div>&nbsp;</div>
 <div>I am lost. <b>Martin</b> says that...</div>
@@ -109,6 +119,7 @@ More Text',
         Name => 'ToAscii - simple'
     },
     {
+        Line  => __LINE__,
         Input =>
             '<ul><li>a</li><li>b</li><li>c</li></ul><ol><li>one</li><li>two</li><li>three</li></ol>',
         Result => '
@@ -121,9 +132,10 @@ More Text',
  - three
 
 ',
-        Name => 'ToAscii - simple'
+        Name => 'ToAscii - unordered list'
     },
     {
+        Line  => __LINE__,
         Input =>
             '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;"><p>test<br />
 test<br />
@@ -146,55 +158,65 @@ test
  - 5
 
 ',
-        Name => 'ToAscii - simple'
+        Name => 'ToAscii - head, body, ul'
     },
     {
+        Line   => __LINE__,
         Input  => "<pre>Some Text\n\nWith new Lines</pre>",
         Result => "\nSome Text\n\nWith new Lines\n\n",
         Name   => 'ToAscii - <pre>'
     },
     {
+        Line   => __LINE__,
         Input  => "<code>Some Text\n\nWith new Lines  </code><br />Some Other Text",
         Result => "\nSome Text\n\nWith new Lines  \n\nSome Other Text",
         Name   => 'ToAscii - <code>'
     },
     {
+        Line   => __LINE__,
         Input  => qq{<blockquote>Some Text<br/><br/>With new Lines  </blockquote><br />Some Other Text},
         Result => qq{> Some Text\n> \n> With new Lines \n\nSome Other Text},
         Name   => 'ToAscii - <blockquote>'
     },
     {
+        Line   => __LINE__,
         Input  => qq{before\n<blockquote>line X\nline Y</blockquote>line Z after blockquote},
         Result => qq{before > line X line Y\nline Z after blockquote},
         Name   => 'ToAscii - with newlines <blockquote>'
     },
     {
+        Line   => __LINE__,
         Input  => qq{<BlockQuote>Some Text</BlockQuote>},
         Result => qq{> Some Text\n},
         Name   => 'ToAscii - case insensitive <blockquote>'
     },
     {
+        Line   => __LINE__,
         Input  => qq{before<BlockQuote>Some Text</BlockQuote>},
         Result => qq{before> Some Text\n},
         Name   => 'ToAscii - no line break before <blockquote>'
     },
     {
         # note that the '> ' is added only for the first blockquote element
+        Line   => __LINE__,
         Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D<blockquote>},
         Result => qq{before> line A\n> line B\nafter\nbeforeline C\nline D},
         Name   => 'ToAscii - two <blockquote> elements'
     },
     {
+        Line   => __LINE__,
         Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<start_block>line C in broken blockquote</blockquote>},
         Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
         Name   => 'ToAscii - with a broken start tag <blockquote>'
     },
     {
+        Line   => __LINE__,
         Input  => qq{before<blockquote>line A in blockquote<br/>line B in blockquote</blockquote>after<blockquote>line C in broken blockquote</end_block>},
         Result => qq{before> line A in blockquote\n> line B in blockquote\nafterline C in broken blockquote},
         Name   => 'ToAscii - with a broken end tag </blockquote>'
     },
     {
+        Line  => __LINE__,
         Input =>
             "<div>Line 0</div><div style=\"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt\" type=\"cite\">Line 1<br/>
 Line 2<br/>
@@ -207,12 +229,14 @@ Line 3</div>",
         Name => 'ToAscii - Quote using <div type="cite"> with additional parameter.'
     },
     {
+        Line  => __LINE__,
         Input =>
             "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
         Result => "\n[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
         Name   => 'ToAscii - <a class ... href ..>'
     },
     {
+        Line  => __LINE__,
         Input => 'First Line<br>
 Second Line<br />
 Third Line<br class="foo">
@@ -226,98 +250,117 @@ Fifth Line',
         Name => 'ToAscii - <br> and line breaks'
     },
     {
+        Line  => __LINE__,
         Input =>
             '<html><head><style type="text/css"> #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => 'Important Text! Some more text.',
         Name   => 'ToAscii - Test for bug#7937 - HTMLUtils.pm ignore to much of e-mail source code.'
     },
     {
+        Line  => __LINE__,
         Input =>
             '<html><head><style type="text/css">/**<a href="https://otobo.io">otobo</a>**/ #some_css {color: #FF0000} </style><body>Important Text!<style type="text/css"> #some_more_css{ color: #00FF00 } </style> Some more text.</body></html>',
         Result => 'Important Text! Some more text.',
         Name   => 'ToAscii - Test for issue #3880 - ignoring links in style tags.'
     },
     {
+        Line   => __LINE__,
         Input  => '<td>Test table cell</td><td>Second cell</td>',
         Result => 'Test table cell Second cell ',
         Name   => 'ToAscii - Test for bug#8352 - Wrong substitution regex in HTMLUtils.pm->ToAscii.'
     },
     {
+        Line   => __LINE__,
         Input  => 'a       b',
         Result => 'a b',
         Name   => 'ToAscii - Whitespace removal'
     },
     {
+        Line   => __LINE__,
         Input  => 'a<style>b</style>c<style type="text/css">d</style  >e',
         Result => 'ace',
         Name   => 'ToAscii - <style> removal'
     },
     {
+        Line   => __LINE__,
         Input  => '<!-- asdlfjasdf sdflajsdfj -->',
         Result => '',
         Name   => 'ToAscii - comment removal'
     },
     {
+        Line   => __LINE__,
         Input  => 'a <!-- asdlfjasdf sdflajsdfj -->   ce',
         Result => 'a ce',
         Name   => 'ToAscii - comment removal with content'
     },
     {
+        Line   => __LINE__,
         Input  => "a <!-- asdlfjasdf \n sdflajsdfj -->   ce",
         Result => 'a ce',
         Name   => 'ToAscii - comment removal with content',
     },
     {
+        Line   => __LINE__,
         Input  => 'a<style />bc<style type="text/css">d</style  >e',
         Result => 'abce',
         Name   => 'ToAscii - <style /> removal'
     },
     {
+        Line   => __LINE__,
         Input  => 'a<style type="text/css" />bc<style type="text/css">d</style  >e',
         Result => 'abce',
         Name   => 'ToAscii - <style /> (with attributes) removal'
     },
     {
+        Line   => __LINE__,
         Input  => 'a<style/>bc<style type="text/css">d</style  >e',
         Result => 'abce',
         Name   => 'ToAscii - <style/> (no whitespaces) removal'
     },
     {
+        Line   => __LINE__,
         Input  => '&#55357;&#56833;',
         Result => '&#55357;&#56833;',
         Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (decimal)'
     },
     {
+        Line   => __LINE__,
         Input  => '&#xD83D;&#xDE01;',
         Result => '&#xD83D;&#xDE01;',
         Name   => 'Incorrectly encoded GRINNING FACE WITH SMILING EYES (hex)'
     },
     {
+        Line   => __LINE__,
         Input  => '&#128512;',
         Result => '😀',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (decimal)',
     },
     {
+        Line   => __LINE__,
         Input  => '&#x1F600;',
         Result => '😀',
         Name   => 'Correctly encoded GRINNING FACE WITH SMILING EYES (hex)',
     },
     {
+        Line   => __LINE__,
         Input  => '&#252;',
         Result => 'ü',
         Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (decimal)',
     },
     {
+        Line   => __LINE__,
         Input  => '&#xfc;',
         Result => 'ü',
         Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (hex)',
     },
     {
+        Line   => __LINE__,
         Input  => '&uuml;',
         Result => 'ü',
         Name   => 'Correctly encoded LATIN SMALL LETTER U WITH DIAERESIS (named)',
     },
     {
+        Line   => __LINE__,
         Input  => 'just a simple string',
         Result => "just\na simple\nstring\n",
         Name   => 'Consider Ticket::Frontend::TextAreaNote',
@@ -346,7 +389,7 @@ for my $Test (@Tests) {
     is(
         $Ascii,
         $Test->{Result},
-        $Test->{Name},
+        "$Test->{Name} - line $Test->{Line}",
     );
 }
 
