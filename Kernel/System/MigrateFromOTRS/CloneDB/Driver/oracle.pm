@@ -56,7 +56,7 @@ Please look there for a detailed reference of the functions.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
-    # check OTRSDBSettings
+    # check OTRSDBSettings, Attribute is optional
     # in contrast to postgresql.pm and mysql.pm, DBDSN is used instead of DBHost and DBName
     for my $Needed (qw(DBDSN DBUser DBPassword DBType)) {
         if ( !$Param{$Needed} ) {
@@ -77,6 +77,7 @@ sub CreateOTRSDBConnection {
         DatabaseUser            => $Param{DBUser},
         DatabasePw              => $Param{DBPassword},
         Type                    => $Param{DBType},
+        Attribute               => $Param{Attribute},
         DisconnectOnDestruction => 1,
     );
 

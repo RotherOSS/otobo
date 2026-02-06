@@ -55,7 +55,7 @@ Please look there for a detailed reference of the functions.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
-    # check OTRSDBSettings
+    # check OTRSDBSettings, Attribute is optional
     for my $Needed (
         qw(DBHost DBName DBUser DBPassword DBType)
         )
@@ -80,6 +80,7 @@ sub CreateOTRSDBConnection {
         DatabaseUser            => $Param{DBUser},
         DatabasePw              => $Param{DBPassword},
         Type                    => $Param{DBType},
+        Attribute               => $Param{Attribute},
         DisconnectOnDestruction => 1,
     );
 
