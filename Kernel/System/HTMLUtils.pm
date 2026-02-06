@@ -158,16 +158,17 @@ sub ToAscii {
         $Key;
     }segxmi;
     $Param{String} =~ s{
-        <div[^>]+type="cite"[^>]*>(.+?)</div>
+        <div[^>]+type="cite"[^>]*>(?<element_content>.+?)</div>
     }
     {
-        my $Ascii = $Self->ToAscii(
-            String => $1,
-        );
-        # force line breaking
+        my $Ascii = $Self->ToAscii( String => $+{element_content} );
+
+        # force line breaking, note that below there is a different $1 than above
         if ( length $Ascii > $LineLength ) {
             $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
+
+        # add the leading '> ' to the lines
         $Ascii =~ s/^(.*?)$/> $1/gm;
 
         # start the replacement on a new line
