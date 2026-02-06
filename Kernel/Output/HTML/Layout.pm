@@ -5132,7 +5132,7 @@ sub Ascii2RichText {
 
 =head2 RichText2Ascii()
 
-converts text to rich text
+converts rich text, that is HTML, to laid out plain text
 
     my $TextString = $LayoutObject->RichText2Ascii(
         String => $HTMLString,
@@ -5144,17 +5144,18 @@ sub RichText2Ascii {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String)) {
-        if ( !defined $Param{$_} ) {
+    for my $Key (qw(String)) {
+        if ( !defined $Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Key!"
             );
+
             return;
         }
     }
 
-    # ascii 2 html
+    # HTML to plain text
     $Param{String} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
         String => $Param{String},
     );

@@ -56,8 +56,7 @@ msgstr ""
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
 "PO-Revision-Date: 2025-12-24 23:53+0000\n"
 "Last-Translator: Furch Services <max.furch@furch-services.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
-">\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18379,7 +18378,7 @@ msgstr "Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten."
 msgid "Christmas Eve"
 msgstr "Heiligabend"
 
-#. JS File: Core.Agent.Admin.Translations
+#. SysConfig
 msgid "Close"
 msgstr "Schließen"
 
@@ -25948,6 +25947,7 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
+#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27694,9 +27694,7 @@ msgstr "Leere Felder zeigen an, dass aktuelle Werte beibehalten werden"
 
 #. SysConfig
 msgid "If any of the \"SSL\" mechanisms was selected as SendmailModule than declare whether the mail server should be verified."
-msgstr ""
-"Wenn einer der SSL Mechanismen als SendmailModule gewählt wurde — lege fest, "
-"ob der Mailserver überprüft werden soll."
+msgstr "Wenn einer der SSL Mechanismen als SendmailModule gewählt wurde — lege fest, ob der Mailserver überprüft werden soll."
 
 #. SysConfig
 msgid "SSL_VERIFY_NONE - no verification of mail server host"
@@ -27728,20 +27726,11 @@ msgstr "Definiert verfügbare Artikelaktionen für E-Mail-Artikel."
 
 #. SysConfig
 msgid "Display a message explaining that the asterisk indicates mandatory fields."
-msgstr ""
-"Zeigt eine Meldung die erklärt, dass das Sternchen Pflichtfelder "
-"kennzeichnet."
+msgstr "Zeigt eine Meldung die erklärt, dass das Sternchen Pflichtfelder kennzeichnet."
 
 #. SysConfig
 msgid "In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without \"DynamicField_\" as a prefix) and more."
-msgstr ""
-"Falls in einer Dropdownliste genau ein Wert übrig bleibt — gibt es drei "
-"Optionen. 0 — Du änderst das Feld nicht und zeigst es an. 1 — Der einzelne "
-"Wert wird automatisch gewählt und das Feld bleibt sichtbar. 2 — Der einzelne "
-"Wert wird automatisch gewählt und das Feld wird ausgeblendet — der Wert "
-"bleibt gesetzt. Mögliche Dropdownfelder z. B. Dest (Zielwarteschlange), "
-"ServiceID, SLAID, TypeID, DynamicFields ( nenne die DF-Namen ohne das Präfix "
-"\"DynamicField_\" ) und weitere."
+msgstr "Falls in einer Dropdownliste genau ein Wert übrig bleibt — gibt es drei Optionen. 0 — Du änderst das Feld nicht und zeigst es an. 1 — Der einzelne Wert wird automatisch gewählt und das Feld bleibt sichtbar. 2 — Der einzelne Wert wird automatisch gewählt und das Feld wird ausgeblendet — der Wert bleibt gesetzt. Mögliche Dropdownfelder z. B. Dest (Zielwarteschlange), ServiceID, SLAID, TypeID, DynamicFields ( nenne die DF-Namen ohne das Präfix \"DynamicField_\" ) und weitere."
 
 #. SysConfig
 msgid "Mark tickets as seen or unseen via bulk action"
@@ -27749,20 +27738,11 @@ msgstr "Tickets per Sammelaktion als gesehen oder ungesehen markieren"
 
 #. SysConfig
 msgid "This configuration registers a bulk module to mark tickets as seen or unseen via bulk action."
-msgstr ""
-"Diese Konfiguration registriert ein Sammelmodul um Tickets per Sammelaktion "
-"als gesehen oder ungesehen zu markieren."
+msgstr "Diese Konfiguration registriert ein Sammelmodul um Tickets per Sammelaktion als gesehen oder ungesehen zu markieren."
 
 #. SysConfig
 msgid "Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system's cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
-msgstr ""
-"Definiert die gültigen Statustypen für ein Ticket. Befindet sich ein Ticket "
-"in einem Status, der einen der hier festgelegten Statustypen hat, wird "
-"dieses Ticket als offen betrachtet, andernfalls als geschlossen. Diese "
-"Einstellung steuert z. B., ob ein Statustyp in der AgentTicketStatusView im "
-"Bereich Offene Tickets oder Geschlossene Tickets sichtbar ist. Es kann "
-"erforderlich sein, den Cache deines Systems zu löschen, um Änderungen zu "
-"sehen (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
+msgstr "Definiert die gültigen Statustypen für ein Ticket. Befindet sich ein Ticket in einem Status, der einen der hier festgelegten Statustypen hat, wird dieses Ticket als offen betrachtet, andernfalls als geschlossen. Diese Einstellung steuert z. B., ob ein Statustyp in der AgentTicketStatusView im Bereich Offene Tickets oder Geschlossene Tickets sichtbar ist. Es kann erforderlich sein, den Cache deines Systems zu löschen, um Änderungen zu sehen (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete)."
 
 #. SysConfig
 msgid "Mark as (un)seen"
@@ -27774,51 +27754,31 @@ msgstr "Als gelesen markieren"
 
 #. Template: AdminDynamicFieldDB
 msgid "If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called."
-msgstr ""
-"Wenn ein dynamisches Feld mit Namespace referenziert werden soll, wird der "
-"Feldname in einer Variable gespeichert und aufgerufen."
+msgstr "Wenn ein dynamisches Feld mit Namespace referenziert werden soll, wird der Feldname in einer Variable gespeichert und aufgerufen."
 
 #. SysConfig
 msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. \"To\" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work."
-msgstr ""
-"Blockiert alle eingehenden E-Mails ohne gültige Ticketnummer im Betreff mit —"
-" in diesem Beispiel — einer Absenderadresse From: @example.com. RegEx ist "
-"hier einsetzbar. In Match lässt sich eine neue Zeile ergänzen — um mehrere "
-"Felder wie To zu prüfen — ebenfalls per RegEx. Eine automatische "
-"Ablehnungsnachricht legst du über "
-"PostMaster::PreFilterModule::NewTicketReject::Body, "
-"PostMaster::PreFilterModule::NewTicketReject::Subject und "
-"PostMaster::PreFilterModule::NewTicketReject::Sender fest. Ein Match — z. B. "
-"From -> . — ist erforderlich — damit die Funktion greift."
+msgstr "Blockiert alle eingehenden E-Mails ohne gültige Ticketnummer im Betreff mit — in diesem Beispiel — einer Absenderadresse From: @example.com. RegEx ist hier einsetzbar. In Match lässt sich eine neue Zeile ergänzen — um mehrere Felder wie To zu prüfen — ebenfalls per RegEx. Eine automatische Ablehnungsnachricht legst du über PostMaster::PreFilterModule::NewTicketReject::Body, PostMaster::PreFilterModule::NewTicketReject::Subject und PostMaster::PreFilterModule::NewTicketReject::Sender fest. Ein Match — z. B. From -> . — ist erforderlich — damit die Funktion greift."
 
 #. SysConfig
 msgid "Configure which screen should be shown after a ticket has been marked as seen."
-msgstr ""
-"Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als gesehen "
-"angezeigt wird."
+msgstr "Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als gesehen angezeigt wird."
 
 #. SysConfig
 msgid "Configure which screen should be shown after a ticket has been marked as unseen."
-msgstr ""
-"Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als "
-"ungesehen angezeigt wird."
+msgstr "Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als ungesehen angezeigt wird."
 
 #. SysConfig
 msgid "How many rotated otobo.log files to keep. Default is 3."
-msgstr ""
-"Wie viele rotierte otobo.log Dateien aufbewahrt werden. Standardwert ist 3."
+msgstr "Wie viele rotierte otobo.log Dateien aufbewahrt werden. Standardwert ist 3."
 
 #. SysConfig
 msgid "MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024)."
-msgstr ""
-"Maximale Größe in Byte — bis otobo.log rotiert wird. Standardwert ist "
-"524288000 (500 MB = 500 * 1024 * 1024)."
+msgstr "Maximale Größe in Byte — bis otobo.log rotiert wird. Standardwert ist 524288000 (500 MB = 500 * 1024 * 1024)."
 
 #. SysConfig
 msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'tmpattachments'."
-msgstr ""
-"Anzahl der Shards — NS, Replikate — NR und Feldbegrenzung — für den Index "
-"tmpattachments."
+msgstr "Anzahl der Shards — NS, Replikate — NR und Feldbegrenzung — für den Index tmpattachments."
 
 #. Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
 msgid "This action is not permitted on the article!"
@@ -27830,9 +27790,7 @@ msgstr "Datenbanktyp"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
 msgid "The type of the database looks strange as it contain no Latin letters."
-msgstr ""
-"Der Typ der Datenbank wirkt seltsam — er enthält keine lateinischen "
-"Buchstaben."
+msgstr "Der Typ der Datenbank wirkt seltsam — er enthält keine lateinischen Buchstaben."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Client Info"
@@ -27852,39 +27810,28 @@ msgstr "Ist definiert unter Admin > Systemadressen."
 
 #. Template: AdminQueue
 msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
-msgstr ""
-"Nur relevant, wenn das Postmaster Mail Konto auf Versand über das To: Feld "
-"gesetzt ist."
+msgstr "Nur relevant, wenn das Postmaster Mail Konto auf Versand über das To: Feld gesetzt ist."
 
 #. Template: AdminQueue
 msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
-msgstr ""
-"Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl "
-"bedeutet Standardkalender"
+msgstr "Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl bedeutet Standardkalender"
 
 #. Template: AdminQueue
 msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
-msgstr ""
-"Ist definiert unter Admin > SystemConfiguration > Core > Time — "
-"Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
+msgstr "Ist definiert unter Admin > SystemConfiguration > Core > Time — Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
-msgstr ""
-"Der Objekttyp des dynamischen Feldes „%s“ stimmt nicht mit dem Objekttyp des "
-"Set Feldes überein."
+msgstr "Der Objekttyp des dynamischen Feldes „%s“ stimmt nicht mit dem Objekttyp des Set Feldes überein."
 
 #. SysConfig
 msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface."
-msgstr ""
-"Legt fest ,ob der erweiterte Modus im Agenteninterface verwendet wird ("
-"aktiviert Tabellen, Ersetzen, Tiefgestellt, Hochgestellt, Einfügen aus Word "
-"und weitere Funktionen)."
+msgstr "Legt fest ,ob der erweiterte Modus im Agenteninterface verwendet wird (aktiviert Tabellen, Ersetzen, Tiefgestellt, Hochgestellt, Einfügen aus Word und weitere Funktionen)."
 
 #. SysConfig
 #, fuzzy
 msgid "Elasticsearch (u)"
-msgstr "Elasticsearch (u)"
+msgstr ""
 
 #. SysConfig
 msgid "Message of the day"
@@ -27905,3 +27852,24 @@ msgstr "Externe Tools"
 #. SysConfig
 msgid "Your last tickets"
 msgstr "Deine letzten Tickets"
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+msgid "SSL Version"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Perl Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
+msgstr ""
+
+#. SysConfig
+msgid "Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Title"
+msgstr ""
+

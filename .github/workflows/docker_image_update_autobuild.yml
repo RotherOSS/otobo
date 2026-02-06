@@ -66,7 +66,7 @@ jobs:
             otobo_branch: 'rel-10_1_16'
           -
             docker_tag:   'latest-11_0-autobuild'
-            otobo_branch: 'rel-11_0_14'
+            otobo_branch: 'rel-11_0_15'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
           -

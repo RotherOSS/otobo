@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-12-17 09:38+0000\n"
+"POT-Creation-Date: 2026-02-04 07:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10454,10 +10454,6 @@ msgstr ""
 msgid "Continue anyways :("
 msgstr ""
 
-#. Template: Intro
-msgid " Continue anyways :("
-msgstr ""
-
 #. Template: OTRSDBSettings
 msgid "DSN"
 msgstr ""
@@ -16418,6 +16414,10 @@ msgstr ""
 msgid "There were tables found which do not have 'utf8mb4' as charset."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+msgid "SSL Version"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
 msgstr ""
@@ -16468,6 +16468,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Client Info"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Perl Client Info"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
@@ -18050,10 +18054,6 @@ msgstr ""
 msgid "All translations must be filled!"
 msgstr ""
 
-#. JS File: Core.Agent.Admin.Translations
-msgid "Close"
-msgstr ""
-
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Jump"
 msgstr ""
@@ -18556,14 +18556,6 @@ msgstr ""
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Expanded"
-msgstr ""
-
-#. SysConfig
-msgid ""
-"\n"
-"            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown\n"
-"            in an extra table\n"
-"        "
 msgstr ""
 
 #. SysConfig
@@ -19551,6 +19543,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Christmas Eve"
+msgstr ""
+
+#. SysConfig
+msgid "Close"
 msgstr ""
 
 #. SysConfig
@@ -24014,7 +24010,7 @@ msgid "Objects to search for, how many entries and which attributes to show."
 msgstr ""
 
 #. SysConfig
-msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
 msgstr ""
 
 #. SysConfig
@@ -25406,6 +25402,10 @@ msgid "Show command line output."
 msgstr ""
 
 #. SysConfig
+msgid "Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table."
+msgstr ""
+
+#. SysConfig
 msgid "Show or Hide deleted articles."
 msgstr ""
 
@@ -26435,6 +26435,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket States"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Title"
 msgstr ""
 
 #. SysConfig

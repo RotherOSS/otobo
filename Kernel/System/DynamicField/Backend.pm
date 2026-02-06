@@ -336,8 +336,8 @@ sub EditFieldRender {
         return;
     }
 
-    # use the default value per default
-    $Param{UseDefaultValue} //= 1;
+    # use the default value per default, except if the field is readonly
+    $Param{UseDefaultValue} //= $Param{DynamicFieldConfig}{Readonly} ? 0 : 1;
 
     # call the specific backend
     return $Self->{$DynamicFieldBackend}->EditFieldRender(%Param);

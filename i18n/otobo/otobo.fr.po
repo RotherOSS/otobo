@@ -18347,7 +18347,7 @@ msgstr "Choisissez quelles notifications vous souhaitez recevoir."
 msgid "Christmas Eve"
 msgstr "Réveillon de Noël"
 
-#. JS File: Core.Agent.Admin.Translations
+#. SysConfig
 msgid "Close"
 msgstr "Clôturer"
 
@@ -27385,5 +27385,25 @@ msgstr ""
 
 #. SysConfig
 msgid "Your last tickets"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+msgid "SSL Version"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
+msgid "Perl Client Info"
+msgstr ""
+
+#. SysConfig
+msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
+msgstr ""
+
+#. SysConfig
+msgid "Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table."
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Title"
 msgstr ""
 

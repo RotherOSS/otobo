@@ -159,9 +159,9 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 #    $ENV{NLS_LANG}        = 'GERMAN_GERMANY.AL32UTF8';
 
-    # Additional connect attributes.
+    # Additional connect attributes for the standard 'otobo' database connection.
     # Set the attributes needed for encrypted database connections here.
-    $Self->{DatabaseConnectAttributes} = {};
+    $Self->{DatabaseAttribute} = {};
 
     # Activate these attributes when the connection to the MariaDB or MySQL database is secured by TLS.
     # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
@@ -175,7 +175,7 @@ sub LoadDefaults {
     #    mysql_ssl_client_key  : private key of the client, the server must have the public key
     #    mysql_ssl_optional    : boolean workarounda for strange behavior when connecting
     #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
-#    $Self->{DatabaseConnectAttributes} = {
+#    $Self->{DatabaseAttribute} = {
 #        mysql_ssl             => 1,
 #        mysql_ssl_client_cert => '/opt/otobo/var/db/ssl/client-cert.pem',
 #        mysql_ssl_client_key  => '/opt/otobo/var/db/ssl/client-key.pem',
@@ -193,6 +193,10 @@ sub LoadDefaults {
     # Specify Database::Attributes when you want to pass installation specific
     # database connect attributes. One use case is activating an encrypted connection
     # to a MySQL or MariaDB database server.
+    #
+    # Note that attributes specified here apply to all database connections. This includes
+    # connections to the Customer database and connections for database dynamic fields.
+    # For setting attributes only for the standard connection please use DatabaseAttribute.
     #
     # The *.pem files may copied from a MySQL db container, from /var/lib/mysql,
     # See https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-secure-connections.html#secure-deployment-distribute-client-cert-key-files
@@ -1135,7 +1139,7 @@ sub LoadDefaults {
         'thirdparty/jquery-3.7.1/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
-        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.14.1/jquery-ui.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
         'thirdparty/nunjucks-3.2.4/nunjucks.min.js',
@@ -1175,7 +1179,7 @@ sub LoadDefaults {
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.7.1/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.14.1/jquery-ui.min.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
         'thirdparty/jquery-validate-1.21.0/jquery.validate.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',

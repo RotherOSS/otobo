@@ -135,17 +135,22 @@ sub ToAscii {
     my %Cite;
     $Counter = 0;
     $Param{String} =~ s{
-        <blockquote(.*?)>(.+?)</blockquote>
+        <blockquote (?<element_attr>[^>]*)> (?<element_content>.+?) </blockquote>
     }
     {
-        my $Ascii = $Self->ToAscii(
-            String => $2,
-        );
-        # force line breaking
+        # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
+        # which has the effect that the replacement is done only for the first <blockquote>.
+        my $Ascii = $Self->ToAscii( String => $+{element_content} );
+
+        # force line breaking, note that below there is a different $1 than above
         if ( length $Ascii > $LineLength ) {
             $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
+
+        # add the leading '> ' to the lines
         $Ascii =~ s/^(.*?)$/> $1/gm;
+
+        # do not substitute the adapted string, but a key so that the actual substitution can be done later
         $Counter++;
         my $Key     = "######Cite::$Counter######";
         $Cite{$Key} = $Ascii;
@@ -347,7 +352,7 @@ sub ToAscii {
         'times' => chr(215),    # times is a keyword in perl
         divide  => chr(247),
 
-        # these seem to be available only sind Perl 5.8.0
+        # these seem to be available only since Perl 5.8.0
         OElig    => chr(338),
         oelig    => chr(339),
         Scaron   => chr(352),

@@ -225,6 +225,14 @@ my %IsPlackupFeature = (
     'div:cldr'           => 1,
     'gazelle'            => 1,
     'performance:redis'  => 1,
+    'db:odbc'            => 1,
+    'db:oracle'          => 1,
+    'db:postgresql'      => 1,
+    'db:sqlite'          => 1,
+    'div:xslt'           => 1,
+    'div:qrcode'         => 1,
+    'div:cldr'           => 1,
+    'graph:graphviz'     => 1,
 );
 
 # Used for the generation of a cpanfile.

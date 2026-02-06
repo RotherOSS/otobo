@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995678736402921;
+    $Self->{Completeness}        = 0.999106211827797;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -157,7 +157,7 @@ sub Data {
         'Calendar with same name already exists.' => 'Ein Kalender mit gleichem Namen existiert bereits.',
         'Color' => 'Farbe',
         'Permission group' => 'Berechtigungsgruppe',
-        'Insufficient group permissions.' => '',
+        'Insufficient group permissions.' => 'Unzureichende Gruppenberechtigungen.',
         'Ticket Appointments' => 'Ticket-Termine',
         'Rule' => 'Regel',
         'Remove this entry' => 'Diesen Eintrag entfernen',
@@ -677,7 +677,7 @@ sub Data {
         'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
             'Sie können den Feldnamen verwenden, um auf ein Feld zu verweisen, oder auch auf andere Felder referenzieren – z. B. mit \'DynamicField_OtherFieldName\'.',
         'If a dynamic field with a namespace is to be referenced, the field name needs to be stored in a variable and called.' =>
-            '',
+            'Wenn ein dynamisches Feld mit Namespace referenziert werden soll, wird der Feldname in einer Variable gespeichert und aufgerufen.',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
@@ -1986,9 +1986,9 @@ sub Data {
             'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird das Ticket für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
-        'Is defined in Admin > System addresses.' => '',
+        'Is defined in Admin > System addresses.' => 'Ist definiert unter Admin > Systemadressen.',
         'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+            'Nur relevant, wenn das Postmaster Mail Konto auf Versand über das To: Feld gesetzt ist.',
         'Default sign key' => 'Standard-Signierschlüssel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
@@ -1997,9 +1997,9 @@ sub Data {
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
         'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
-            '',
+            'Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine Auswahl bedeutet Standardkalender',
         'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
-            '',
+            'Ist definiert unter Admin > SystemConfiguration > Core > Time — Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9.',
         'This queue is used in the following config settings:' => 'Diese Queue wird in folgenden Konfigurationseinstellungen verwendet:',
 
         # Template: AdminQueueAutoResponse
@@ -3585,7 +3585,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'Sie führen das Migrations-Tool über http aus. Das ist ausgesprochen unsicher! Während der Migration geben Sie verschiedene Passwörter ein, die dann unverschlüsselt übertragen werden. Jede Person, die sich zwischen Sie und den OTOBO Server schaltet, kann diese Passwörter abfangen. Bitte erwägen Sie, stattdessen https zu nutzen.',
         'Continue anyways :(' => 'Dennoch fortfahren :(',
-        ' Continue anyways :(' => ' Dennoch fortfahren :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -4156,7 +4155,7 @@ sub Data {
             'Der Dynamische Feld-Typ "%s" des Dynamischen Felds "%s" kann in Sets nicht verwendet werden.',
         'The dynamic field "%s" is already in use in a ticket mask.' => 'Das Dynamische Feld "%s" wird bereits in einer Ticketmaske verwendet.',
         'The object type of the dynamic field "%s" does not match the object type of the Set field.' =>
-            '',
+            'Der Objekttyp des dynamischen Feldes „%s“ stimmt nicht mit dem Objekttyp des Set Feldes überein.',
         'Misconfigured Grid - need Rows as Array!' => 'Fehlkonfiguriertes Grid - Zeilen als Array angeben!',
         'Misconfigured Grid - need Columns as integer > 0!' => 'Fehlkonfiguriertes Grid – Spalten als ganze Zahl >0 angeben!',
         'Misconfigured Grid - Rows can\'t be empty!' => 'Fehlkonfiguriertes Grid – Zeilen können nicht leer sein!',
@@ -4795,7 +4794,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketArticleEdit.pm
         'No ArticleID is given!' => 'Keine ArticleID vorhanden!',
-        'This action is not permitted on the article!' => '',
+        'This action is not permitted on the article!' => 'Diese Aktion ist für den Artikel nicht erlaubt!',
 
         # Perl Module: Kernel/Modules/AgentTicketArticleStatus.pm
         'Can\'t set this Ticket option, no TicketID is given!' => 'Kann diese Ticketoption nicht setzen, keine TicketID angegeben!',
@@ -5063,7 +5062,7 @@ sub Data {
         'Destination unknown.' => 'Ziel unbekannt.',
 
         # Perl Module: Kernel/Modules/CustomerPreferences.pm
-        'No valid config for %s' => '',
+        'No valid config for %s' => 'Keine gültige Konfiguration für %s',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArticleID wird benötigt!',
@@ -5855,9 +5854,9 @@ sub Data {
         'Tables found which are not present in the database.' => 'In der Datenbank fehlen Tabellen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/Type.pm
-        'Database Type' => '',
+        'Database Type' => 'Datenbanktyp',
         'The type of the database looks strange as it contain no Latin letters.' =>
-            '',
+            'Der Typ der Datenbank wirkt seltsam — er enthält keine lateinischen Buchstaben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Datenbank-Größe',
@@ -5876,6 +5875,9 @@ sub Data {
         'Table Charset' => 'Zeichensatz der Tabellen',
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
             'Es wurden Tabellen gefunden, in denen ein anderer Zeichensatz als \'utf8mb4\' verwendet wird.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+        'SSL Version' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Größe der InnoDB-Log-Datei',
@@ -5903,7 +5905,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x oder höher wird benötigt.',
-        'Client Info' => '',
+        'Client Info' => 'Client-Info',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Einstellung NLS_LANG',
@@ -6577,7 +6580,6 @@ sub Data {
         'Missing Translations' => 'Fehlende Übersetzungen',
         'At least one translation must be filled!' => 'Mindestens eine Übersetzung muss eingetragen sein!',
         'All translations must be filled!' => 'Alle Übersetzungen müssen eingetragen sein!',
-        'Close' => 'Schließen',
 
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => 'Springen',
@@ -6814,13 +6816,6 @@ sub Data {
 
         # SysConfig
         '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option deaktiviert, werden optionale
-            Parameter in einer separaten Tabelle angezeigt.
-        ',
-        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6871,7 +6866,7 @@ Ihr Helpdesk-Team
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Eine Liste der Dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere Dynamische Felder im Haupt-Ticket geändert.',
         'A list of parameters which can be updated via the UpdateAJAX.' =>
-            '',
+            'Eine Liste von Parametern — die über UpdateAJAX aktualisiert werden.',
         'A picture' => 'Ein Bild',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. ("Status" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind).',
@@ -7111,7 +7106,7 @@ Ihr Helpdesk-Team
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             'Basis-Einstellungen für den Volltext-Index. Führen Sie "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" aus, um den Index neu zu erstellen.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with (in this example) From: @example.com address. You can use RegEx here. You can also add a new line in Match to look up multiple fields, e.g. "To" and use RegEx as well. You can define an Auto Reject Message with PostMaster::PreFilterModule::NewTicketReject::Body and PostMaster::PreFilterModule::NewTicketReject::Subject and PostMaster::PreFilterModule::NewTicketReject::Sender. A Match (e.g. From -> . ) is needed for the functionality to work.' =>
-            '',
+            'Blockiert alle eingehenden E-Mails ohne gültige Ticketnummer im Betreff mit — in diesem Beispiel — einer Absenderadresse From: @example.com. RegEx ist hier einsetzbar. In Match lässt sich eine neue Zeile ergänzen — um mehrere Felder wie To zu prüfen — ebenfalls per RegEx. Eine automatische Ablehnungsnachricht legst du über PostMaster::PreFilterModule::NewTicketReject::Body, PostMaster::PreFilterModule::NewTicketReject::Subject und PostMaster::PreFilterModule::NewTicketReject::Sender fest. Ein Match — z. B. From -> . — ist erforderlich — damit die Funktion greift.',
         'Bounced to "%s".' => 'Bounced an "%s".',
         'Bulgarian' => 'Bulgarisch',
         'Bulk Action' => 'Sammel-Aktion',
@@ -7181,6 +7176,7 @@ Ihr Helpdesk-Team
             'Legen Sie fest, bei welchen Ticketänderungen Sie benachrichtigt werden möchten. Bitte beachten Sie, dass Sie Benachrichtigungen, die als verpflichtend markiert sind, nicht vollständig abschalten können.',
         'Choose which notifications you\'d like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
         'Christmas Eve' => 'Heiligabend',
+        'Close' => 'Schließen',
         'Close this ticket' => 'Dieses Ticket schließen',
         'Closed Tickets' => 'Geschlossene Tickets',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
@@ -7237,9 +7233,9 @@ Ihr Helpdesk-Team
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure which screen should be shown after a ticket has been marked as seen.' =>
-            '',
+            'Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als gesehen angezeigt wird.',
         'Configure which screen should be shown after a ticket has been marked as unseen.' =>
-            '',
+            'Konfiguriert welcher Bildschirm nach dem Markieren eines Tickets als ungesehen angezeigt wird.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             'Konfiguriert eine TicketDynamicField-Standardeinstellung. "Name" definiert, welches dynamische Feld genutzt werden soll, "Value" die zu setzenden Daten, und "Event" das auslösende Ereignis. Mehr dazu im Kapitel "Ticket Event Module" des Developer Manuals (https://doc.otobo.org/).',
@@ -7461,7 +7457,7 @@ Ihr Helpdesk-Team
         'Defines available article actions for Chat articles.' => 'Legt verfügbare Artikel-Aktionen für Chat-Artikel fest.',
         'Defines available article actions for Internal articles.' => 'Legt verfügbare Artikel-Aktionen für interne Artikel fest.',
         'Defines available article actions for Phone articles.' => 'Legt verfügbare Artikel-Aktionen für Telefon-Artikel fest.',
-        'Defines available article actions for e-mail articles.' => '',
+        'Defines available article actions for e-mail articles.' => 'Definiert verfügbare Artikelaktionen für E-Mail-Artikel.',
         'Defines available article actions for invalid articles.' => 'Legt verfügbare Artikel-Aktionen für ungültige Artikel fest.',
         'Defines available groups for the admin overview screen.' => 'Legt verfügbare Gruppen für die Administrator-Übersicht fest.',
         'Defines chat communication channel.' => 'Legt den Chat-Kommunikationskanal fest.',
@@ -7521,7 +7517,7 @@ Ihr Helpdesk-Team
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
             'Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier die Cloud Services, geht ein Teil der Funktionalität wie der Versand von Supportdaten, Package Verify™ und das "Produkt-Neuigkeiten"-Dashboard-Widget verloren.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in agent interface.' =>
-            '',
+            'Legt fest ,ob der erweiterte Modus im Agenteninterface verwendet wird (aktiviert Tabellen, Ersetzen, Tiefgestellt, Hochgestellt, Einfügen aus Word und weitere Funktionen).',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Legt fest, ob im Kundenbereich der erweiterte Modus genutzt werden soll (erlaubt die Nutzung von Tabellen, Ersetzen, Hochstellen, Tiefstellen, Einfügen aus Word, usw.).',
         'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
@@ -8106,7 +8102,7 @@ Ihr Helpdesk-Team
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
             'Definiert die gültigen Statustypen für ein Ticket. Wenn sich ein Ticket in einem Status befindet, der einen Statustyp aus dieser Einstellung hat, gilt dieses Ticket als offen, ansonsten als geschlossen.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed. This setting e.g. controls if a state type is visible in AgentTicketStatusView in the Open Tickets or Closed Tickets section. It might be necessary to delete your system\'s cache in order to see any changes (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).' =>
-            '',
+            'Definiert die gültigen Statustypen für ein Ticket. Befindet sich ein Ticket in einem Status, der einen der hier festgelegten Statustypen hat, wird dieses Ticket als offen betrachtet, andernfalls als geschlossen. Diese Einstellung steuert z. B., ob ein Statustyp in der AgentTicketStatusView im Bereich Offene Tickets oder Geschlossene Tickets sichtbar ist. Es kann erforderlich sein, den Cache deines Systems zu löschen, um Änderungen zu sehen (/opt/otobo/bin/otobo.Console.pl Maint::Cache::Delete).',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Bestimmt gültige Status für entsperrte Tickets. Um Tickets zu entsperren, kann das Script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" genutzt werden.',
         'Defines the value of the SameSite attribute of the OTOBO session cookies. Used in otobo.psgi.' =>
@@ -8197,7 +8193,7 @@ Ihr Helpdesk-Team
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             'Deaktiviert die Umleitung auf die letzte Übersicht / das Dashboard, nachdem ein Ticket geschlossen wurde.',
         'Display a message explaining that the asterisk indicates mandatory fields.' =>
-            '',
+            'Zeigt eine Meldung die erklärt, dass das Sternchen Pflichtfelder kennzeichnet.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der Volltextsuche eingegeben werden.',
         'Display communication log entries.' => 'Einträge des Verbindungsprotokolls anzeigen.',
@@ -8530,7 +8526,7 @@ Ihr Helpdesk-Team
         'High Contrast' => 'Hoher Kontrast',
         'High contrast skin for visually impaired users.' => 'Skin mit hohem Kontrast für Nutzer mit Sehschwäche.',
         'Hindi' => 'Hindi',
-        'How many rotated otobo.log files to keep. Default is 3.' => '',
+        'How many rotated otobo.log files to keep. Default is 3.' => 'Wie viele rotierte otobo.log Dateien aufbewahrt werden. Standardwert ist 3.',
         'Hungarian' => 'Ungarisch',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, kann hier ein Datenbanktreiber definiert werden. Ansonsten wird der benötigte Treiber automatisch ermittelt.',
@@ -8613,7 +8609,7 @@ Ihr Helpdesk-Team
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             'Wenn einer der SMTP-Mechanismen als SendmailModule ausgewählt wurde, muss hier der Port, auf dem Ihr Mailserver auf eingehende Verbindungen lauscht, angegeben werden.',
         'If any of the "SSL" mechanisms was selected as SendmailModule than declare whether the mail server should be verified.' =>
-            '',
+            'Wenn einer der SSL Mechanismen als SendmailModule gewählt wurde — lege fest, ob der Mailserver überprüft werden soll.',
         'If enabled debugging information for ACLs is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für ACLs geloggt.',
         'If enabled debugging information for transitions is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für Übergänge in Prozesstickets geloggt.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
@@ -8666,7 +8662,7 @@ Ihr Helpdesk-Team
         'Import appointments screen.' => 'Termin-Import Oberfläche.',
         'Import/Export' => 'Import/Export',
         'In case only one value in a dropdown is left, (0) you do nothing with the field and show it, (1) that single value is selected automatically but the field is still shown or (2) that single value is selected automatically and the field is hidden (but still has the value). Possible dropdown fields could be e.g. Dest (destination queue), ServiceID, SLAID, TypeID, DynamicFields (list your DF names without "DynamicField_" as a prefix) and more.' =>
-            '',
+            'Falls in einer Dropdownliste genau ein Wert übrig bleibt — gibt es drei Optionen. 0 — Du änderst das Feld nicht und zeigst es an. 1 — Der einzelne Wert wird automatisch gewählt und das Feld bleibt sichtbar. 2 — Der einzelne Wert wird automatisch gewählt und das Feld wird ausgeblendet — der Wert bleibt gesetzt. Mögliche Dropdownfelder z. B. Dest (Zielwarteschlange), ServiceID, SLAID, TypeID, DynamicFields ( nenne die DF-Namen ohne das Präfix "DynamicField_" ) und weitere.',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Tickets von Unterqueues automatisch mit einschließen, wenn eine Queue ausgewählt wird.',
         'Include unknown customers in ticket filter.' => 'Unbekannte Kunden in Ticketfiltern mit einschließen.',
@@ -8794,7 +8790,7 @@ Ihr Helpdesk-Team
         'Manage different calendars.' => 'Verschiedene Kalender verwalten.',
         'Manage dynamic field in screens.' => 'Dynamische Felder in Oberflächen verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
-        'Manage import and export of objects.' => '',
+        'Manage import and export of objects.' => 'Import und Export von Objekten verwalten.',
         'Manage support data.' => 'Supportdaten verwalten.',
         'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
@@ -8805,7 +8801,7 @@ Ihr Helpdesk-Team
         'Mark this ticket as junk!' => 'Dieses Ticket als Junk markieren!',
         'Mark ticket as seen' => 'Ticket als gelesen markieren',
         'Mark ticket as unseen' => 'Ticket als ungelesen markieren',
-        'Mark tickets as seen or unseen via bulk action' => '',
+        'Mark tickets as seen or unseen via bulk action' => 'Tickets per Sammelaktion als gesehen oder ungesehen markieren',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maximale Größe (Buchstaben) der Kundeninformationen (Telefon und E-Mail) in der Erfassungs-Oberfläche.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8815,7 +8811,7 @@ Ihr Helpdesk-Team
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Maximale Länge des Betreffs in einer E-Mail-Antwort und in einigen Übersichts-Bildschirmen.',
         'MaxSize in Bytes until otobo.log gets rotated. Default is 524288000 (500 MB = 500 * 1024 * 1024).' =>
-            '',
+            'Maximale Größe in Byte — bis otobo.log rotiert wird. Standardwert ist 524288000 (500 MB = 500 * 1024 * 1024).',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             'Maximale Anzahl von automatischen E-Mailantworten zur eigenen E-Mail-Adresse pro Tag (Loop-Protection).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
@@ -8924,10 +8920,10 @@ Ihr Helpdesk-Team
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index "Ticket".',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
-            '',
+            'Anzahl der Shards — NS, Replikate — NR und Feldbegrenzung — für den Index tmpattachments.',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index. Hinweis: \'Elasticsearch::ArticleIndexCreationSettings\' wird nicht mehr genutzt. Verwenden Sie stattdessen \'Elasticsearch::IndexSettings###Default\', um die Kompatibilität mit neueren Versionen sicherzustellen.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für die Indizes. Diese Einstellung ersetzt \'Elasticsearch::ArticleIndexCreationSettings\' in neueren Versionen. Sind beide Einstellungen vorhanden und unterscheiden sie sich, wird diese priorisiert behandelt. Verwenden Sie \'Elasticsearch::IndexSettings###...\', um spezifische Einstellungen für einzelne Indizes zu definieren. \'...\' kann einer der folgenden Werte sein: \'Customer\', \'CustomerUser\', \'Ticket\' oder \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Anzahl von Tickets pro Seite in Suchergebnissen im Agentenbereich.',
@@ -8943,8 +8939,8 @@ Ihr Helpdesk-Team
             'Objekt-Backend-Modulregistrierung für das Import-/Export-Modul.',
         'Objects to search for, how many entries and which attributes to show.' =>
             'Definiert, nach welchen Objekten gesucht, wie viele Einträge und welche Attribute angezeigt werden sollen.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue müssen explizit in Elasticsearch gespeichert werden.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => 'Externen Link öffnen!',
         'Open the OTOBO home page in a new window' => 'Öffnet die OTOBO Homepage in einem neuen Fenster',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
@@ -9499,6 +9495,8 @@ Ihr Helpdesk-Team
         'Show article as rich text even if rich text writing is disabled.' =>
             'Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn das Schreiben von Richtext abgeschaltet ist.',
         'Show command line output.' => 'Zeige Befehlszeilenausgabe.',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show or Hide deleted articles.' => 'Gelöschte Artikel anzeigen oder verbergen.',
         'Show queues even when only locked tickets are in.' => 'Queues auch dann anzeigen, wenn sich darin nur gesperrte Tickets befinden.',
         'Show the current owner in the customer interface.' => 'Steuert, ob der aktuelle Besitzer im Kundenbereich angezeigt werden soll.',
@@ -9851,7 +9849,7 @@ Ihr Helpdesk-Team
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
             'Diese Konfiguration definiert die maximale Anzahl der Durchläufe zur Berechnung der Arbeitszeit für ein Ticket. Achtung: Wird diese Einstellung auf hoch gesetzt, können Performance-Probleme auftreten.',
         'This configuration registers a bulk module to mark tickets as seen or unseen via bulk action.' =>
-            '',
+            'Diese Konfiguration registriert ein Sammelmodul um Tickets per Sammelaktion als gesehen oder ungesehen zu markieren.',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             'Diese Konfiguration registriert ein OutputFilter-Modul, das die JavaScript-Funktionalität zur Entfernung der PendingTime (Warten bis) einbringt.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
@@ -9908,6 +9906,7 @@ Ihr Helpdesk-Team
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket Responsible.' => 'Ticket-Verantwortlicher.',
         'Ticket States' => 'Ticketstatus',
+        'Ticket Title' => '',
         'Ticket Types' => 'Tickettypen',
         'Ticket Watcher' => 'Ticket-Beobachter',
         'Ticket Zoom' => 'Ticket-Zoom',
@@ -10130,7 +10129,6 @@ Ihr Helpdesk-Team
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

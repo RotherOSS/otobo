@@ -137,17 +137,30 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'db:odbc' is not needed
+# feature 'db:odbc', 'Support for database access via ODBC' => sub {
+    # Required to connect to a MS-SQL database.
+    # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
+    requires 'DBD::ODBC', '!= 1.23';
 
+# };
 
-# Feature 'db:oracle' is not needed
+# feature 'db:oracle', 'Support for database Oracle' => sub {
+    # Required to connect to a Oracle database.
+    requires 'DBD::Oracle';
 
+# };
 
-# Feature 'db:postgresql' is not needed
+# feature 'db:postgresql', 'Support for database PostgreSQL' => sub {
+    # Required to connect to a PostgreSQL database.
+    requires 'DBD::Pg';
 
+# };
 
-# Feature 'db:sqlite' is not needed
+# feature 'db:sqlite', 'Support for database SQLLite' => sub {
+    # Required to connect to a SQLite database.
+    requires 'DBD::SQLite';
 
+# };
 
 # Feature 'devel:debugging' is not needed
 
@@ -218,8 +231,11 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'div:qrcode' is not needed
+# feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
+    # Support for QR code in PDF files
+    requires 'Text::QRCode';
 
+# };
 
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
@@ -236,8 +252,11 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
-# Feature 'graph:graphviz' is not needed
+# feature 'graph:graphviz', 'Support for feature graph:graphviz' => sub {
+    # A wrapper for AT&T's Graphviz
+    requires 'GraphViz2', '>= 2.67';
 
+# };
 
 # feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
     # Required for NTLM authentication mechanism in IMAP connections.

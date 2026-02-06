@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843838474146923;
+    $Self->{Completeness}        = 0.843140175778341;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3587,7 +3587,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'أنت تستخدم البرنامج النصي للترحيل عبر http. وهذا أمر غير آمن إلى حد كبير لأن هناك حاجة إلى كلمات مرور مختلفة أثناء العملية، وسيتم نقلها دون تشفير. سيتمكن أي شخص بينك وبين خادم OTOBO من قراءتها! الرجاء التفكير في إعداد https بدلا من ذلك.',
         'Continue anyways :(' => 'تابع على كل حال :(',
-        ' Continue anyways :(' => ' تابع على كل حال :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5879,6 +5878,9 @@ sub Data {
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
             'تم العثور على الجداول باستخدام مجموعة أحرف أخرى غير \'utf8mb4\'.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+        'SSL Version' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'حجم ملف سجل InnoDB',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'يجب ألا يقل حجم الإعداد innodb_log_file_size عن 256 ميغابايت.',
@@ -5906,6 +5908,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'مطلوب MySQL 5.x أو أعلى.',
         'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'إعداد NLS_LANG',
@@ -6579,7 +6582,6 @@ sub Data {
         'Missing Translations' => '',
         'At least one translation must be filled!' => '',
         'All translations must be filled!' => '',
-        'Close' => 'إغلاق',
 
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => 'تخطي',
@@ -6815,13 +6817,6 @@ sub Data {
         'Expanded' => 'واسع النَطاق',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل هذا الخيار، يتم عرض المعلمات الاختيارية فقط
-في جدول اضافي
-        ',
         '
 Dear Customer,
 
@@ -7183,6 +7178,7 @@ Thanks for your help!
             'حدد تغييرات التذاكر التي تريد أن يتم إعلامك بها. يرجى ملاحظة أنه لا يمكنك إيقاف تشغيل الإشعارات التي تم وضع علامة عليها على أنها إلزامية تماما.',
         'Choose which notifications you\'d like to receive.' => 'أختر الإخطارات التي تريد تلقيها.',
         'Christmas Eve' => 'عشية عيد الميلاد',
+        'Close' => 'إغلاق',
         'Close this ticket' => 'أغلق هذه التذكرة',
         'Closed Tickets' => 'التذاكر المغلقة',
         'Closed tickets (customer user)' => 'التذاكر المغلقة (مستخدمون الزبائن)',
@@ -8929,7 +8925,7 @@ Thanks for your help!
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم استخدام "Elasticsearch::ArticleIndexCreationSettings". بدلا من ذلك، استخدم "Elasticsearch::IndexSettings###Default" لضمان التوافق مع الإصدارات الأحدث.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهارس. يحل هذا الإعداد محل "Elasticsearch::ArticleIndexCreationSettings" في الإصدارات الأحدث. إذا كان كلا الإعدادين موجودين ويختلفان، تحديد أولوياتهما. استخدم "Elasticsearch::IndexSettings###... " لتحديد إعدادات محددة للفهارس الفردية. \'. . . \' يمكن أن تكون إحدى القيم التالية: "Customer" أو "CustomerUser" أو "Ticket" أو "ConfigItem".',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'عدد التذاكر لكل صفحة في نتائج البحث في منطقة الوكيل.',
@@ -8945,8 +8941,8 @@ Thanks for your help!
             '',
         'Objects to search for, how many entries and which attributes to show.' =>
             'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في Elasticsearch.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => 'افتح الرابط الخارجي!',
         'Open the OTOBO home page in a new window' => 'يفتح صفحة OTOBO الرئيسية في نافذة جديدة',
         'Open tickets (customer user)' => 'التذاكر المفتوحة (مستخدمو العملاء)',
@@ -9501,6 +9497,8 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
         'Show command line output.' => '',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
@@ -9910,6 +9908,7 @@ Thanks for your help!
         'Ticket Queue Overview' => '',
         'Ticket Responsible.' => '',
         'Ticket States' => '',
+        'Ticket Title' => '',
         'Ticket Types' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
@@ -10132,7 +10131,6 @@ Thanks for your help!
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

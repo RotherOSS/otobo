@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.939055282372225;
+    $Self->{Completeness}        = 0.93832861611798;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3593,7 +3593,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'Du bruker migreringsskriptet via http. Dette er svært usikkert da ulike passord kreves under prosessen, og vil bli overført ukryptert. Alle mellom deg og OTOBO-serveren vil kunne lese dem! Vurder å sette opp https i stedet.',
         'Continue anyways :(' => 'Fortsett uansett :(',
-        ' Continue anyways :(' => ' Fortsett uansett :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5885,6 +5884,9 @@ sub Data {
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
             'Det ble funnet tabeller som ikke har \'utf8mb4\' som tegnsett.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Connection.pm
+        'SSL Version' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB logfilstørrelse',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Innstillingen \'innodb_log_file_size\' må minst være 256 MB.',
@@ -5912,6 +5914,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x eller høyere er nødvendig.',
         'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG innstilling',
@@ -6585,7 +6588,6 @@ sub Data {
         'Missing Translations' => '',
         'At least one translation must be filled!' => '',
         'All translations must be filled!' => '',
-        'Close' => 'Avslutt sak',
 
         # JS File: Core.Agent.AppointmentCalendar
         'Jump' => 'Hopp',
@@ -6821,13 +6823,6 @@ sub Data {
         'Expanded' => 'Utvidet',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            Vis valgfrie parametere i parameterlisten også. Hvis deaktivert,
-            vises kun de valgfrie parameterne i en ekstra tabell
-        ',
         '
 Dear Customer,
 
@@ -7189,6 +7184,7 @@ Ditt Helpdesk-team
             'Velg hvilken type saksendringer du ønsker å motta varsler om. Vær oppmerksom på at du ikke kan deaktivere varsler merket som obligatoriske fullstendig.',
         'Choose which notifications you\'d like to receive.' => 'Velg hvilke varsler du vil motta.',
         'Christmas Eve' => 'Julaften',
+        'Close' => 'Avslutt sak',
         'Close this ticket' => 'Lukk denne saken',
         'Closed Tickets' => 'Stengte saker',
         'Closed tickets (customer user)' => 'Lukkede saker (kundebruker)',
@@ -8935,7 +8931,7 @@ Ditt Helpdesk-team
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Antall skår (NS), replikaer (NR) og feltgrense for indeksen. Merk: \'Elasticsearch::ArticleIndexCreationSettings\' er utdatert. For kompatibilitet oppover, bruk \'Elasticsearch::IndexSettings###Default\' i stedet.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'Antall skjær (NS), replikaer (NR) og feltgrense for indeksene. Dette erstatter \'Elasticsearch::ArticleIndexCreationSettings\' i fremtidige versjoner. Hvis begge er tilstede og ikke like, har denne prioritet. Bruk \'Elasticsearch::IndexSettings###...\' hvis du vil definere spesielle innstillinger for enkeltindekser.\'...\' kan være en av \'Customer\', \'CustomerUser\', \'Ticket\' eller \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Antall saker som vises per side i et søkeresultat.',
@@ -8951,8 +8947,8 @@ Ditt Helpdesk-team
             '',
         'Objects to search for, how many entries and which attributes to show.' =>
             'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises. Saksattributter, unntatt kø, må eksplisitt lagres via Elasticsearch.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => 'Åpne en ekstern lenke!',
         'Open the OTOBO home page in a new window' => 'Åpne OTOBO-hjemmesiden i et nytt vindu',
         'Open tickets (customer user)' => 'Åpne saker (kunde-bruker)',
@@ -9507,6 +9503,8 @@ Ditt Helpdesk-team
         'Show article as rich text even if rich text writing is disabled.' =>
             'Vis artikkelen som rik tekst selv om rik tekstskriving er deaktivert.',
         'Show command line output.' => 'Vis kommandolinjeutdata.',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => 'Vis køer selv når kun låste billetter er inne.',
         'Show the current owner in the customer interface.' => 'Vis gjeldende eier i kundegrensesnittet.',
@@ -9916,6 +9914,7 @@ Ditt Helpdesk-team
         'Ticket Queue Overview' => 'Sakskøoversikt',
         'Ticket Responsible.' => 'Saksansvarlig.',
         'Ticket States' => '',
+        'Ticket Title' => '',
         'Ticket Types' => '',
         'Ticket Watcher' => 'Saksovervåker',
         'Ticket Zoom' => 'Sakszoom',
@@ -10138,7 +10137,6 @@ Ditt Helpdesk-team
         'Click to select files or just drop them here.',
         'Click to select or drop files here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

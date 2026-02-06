@@ -1,4 +1,103 @@
 
+# OTOBO 11.0.15 2026-02-04
+- 2026-02-04 08:10:08 +0100 Create new OTOBO language files.
+- 2026-02-02 16:37:42 +0100 Add Mock-Config-0.05 to the snapshot file
+- 2026-02-02 16:11:13 +0100 Update the CPAN snapshot file
+- 2026-02-02 15:17:55 +0100 [Bugfix]   The SysConfig setting `DatabaseAttribute` should only be used for the standard DB connection (https://github.com/RotherOSS/otobo/issues/5106)
+- 2026-02-02 12:20:25 +0100 Making an insignificant change in cpanfile.docker
+- 2026-02-02 12:16:50 +0100 Making an insignificant change in snapshot file
+- 2026-02-01 11:26:25 +0100 Forgot to remove a conflict marker
+- 2026-02-01 11:01:07 +0100 [Enhanced] Show information about the Perl DBI database driver module in the Support Data (https://github.com/RotherOSS/otobo/issues/5104)
+- 2026-02-01 10:39:01 +0100 Update CPANSA::DB to 20260129.001
+- 2026-01-29 16:15:47 +0100 Add code comment on what is meant by 'Type'
+- 2026-01-29 16:04:38 +0100 [Enhanced] Show whether the database connection is encrypted in Support Data Collector (https://github.com/RotherOSS/otobo/issues/5096)
+- 2026-01-29 11:48:40 +0100 [Bugfix]   Reference DynamicFields: Validation in GetFieldState() works incorrect (https://github.com/RotherOSS/otobo/issues/5089)
+- 2026-01-28 15:19:16 +0100 [Enhanced] Support authentication plugin 'ed25519' for MariaDB in quick_setup.pl (https://github.com/RotherOSS/otobo/issues/5087)
+- 2026-01-28 13:59:15 +0100 Move rhel and systemd files to the right scripts directory.
+- 2026-01-28 12:46:28 +0100 [Changed]  Please deactivate CheckMXRecord in installer.pl as default. (https://github.com/RotherOSS/otobo/issues/5085)
+- 2026-01-27 15:16:41 +0100 Implement required configuraiton for rhel
+- 2026-01-27 14:51:16 +0100 [Enhanced] Add support for  declaration of database connect attributes in the SysConfig (https://github.com/RotherOSS/otobo/issues/5054)
+- 2026-01-27 07:43:49 +0100 [Bugfix]   AJAX update on Priority in CustomerTicketZoom reply not working anymore (https://github.com/RotherOSS/otobo/issues/5080)
+- 2026-01-26 08:57:27 +0000 Translated using Weblate (Italian)
+- 2026-01-26 16:59:15 +0100 Update the CPAN snapshot file
+- 2026-01-26 13:08:43 +0100 Fix spelling: rirst => first
+- 2026-01-26 09:14:16 +0100 Updated version string in CPANAudit test.
+- 2026-01-23 10:52:27 +0100 [Bugfix]   Changer's name missing in History of a System Configuration Setting (https://github.com/RotherOSS/otobo/issues/5071)
+- 2026-01-23 09:46:59 +0100 [Bugfix]   Fix ACLs for MultiValue fields (https://github.com/RotherOSS/otobo/issues/4790)
+- 2026-01-25 22:29:32 +0100 Update CPANSA::DB to 20260120.004
+- 2026-01-23 09:29:56 +0100 [Enhanced] Support RHEL9 (https://github.com/RotherOSS/otobo/issues/5038)
+- 2026-01-12 14:30:08 +0100 Added Hungarian privacy policy template.
+- 2025-08-27 14:19:25 +0200 Update Ticket.xml
+- 2026-01-21 18:06:42 +0100 [Tidied]   Improve some strings in several locations. (https://github.com/RotherOSS/otobo/issues/5064)
+- 2026-01-21 17:29:27 +0100 Update translation files
+- 2026-01-13 09:40:46 +0000 Translated using Weblate (Hungarian)
+- 2025-12-24 03:45:06 +0000 Translated using Weblate (German)
+- 2025-11-25 13:52:39 +0000 Translated using Weblate (French)
+- 2025-11-10 09:15:57 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2025-10-31 11:27:23 +0000 Translated using Weblate (Czech)
+- 2026-01-21 14:45:23 +0100 Make the test script scripts/test/SMIME.t more robust (https://github.com/RotherOSS/otobo/issues/5055)
+- 2026-01-21 08:01:38 +0000 [Bugfix]   CKEditor: Strong text and links are not rendered as such. (https://github.com/RotherOSS/otobo/issues/4958)
+- 2026-01-20 22:59:51 +0100 Issue ##5056: refactor duplicate code block into the subroutine PrintBundledCpanfile()
+- 2026-01-20 18:17:34 +0100 Add convenient way of recreating all cpanfiles (https://github.com/RotherOSS/otobo/issues/5056)
+- 2026-01-20 13:48:09 +0100 Mention the end of life date of OTOBO 10.0.x in SECURITY.md
+- 2026-01-20 12:01:09 +0100 Update list of  supported release series in SECURITY.md (https://github.com/RotherOSS/otobo/issues/5002)
+- 2026-01-19 22:13:54 +0100 [Tidied]   Update copyright year range to 2019-2026 (https://github.com/RotherOSS/otobo/issues/4995)
+- 2026-01-19 22:06:48 +0100 Update the CPAN snapshot file
+- 2026-01-19 17:57:08 +0100 Issue created by the Github action DockerImageUpdateAutobuild (https://github.com/RotherOSS/otobo/issues/5034)
+- 2026-01-19 16:46:10 +0100 #5047: resolve merge conflict
+- 2026-01-19 16:16:19 +0100 update S/MIME certificates for 2026 (rel-10_1) (https://github.com/RotherOSS/otobo/issues/5047) - in progress
+- 2026-01-19 14:46:54 +0100 [Bugfix]   Showing ACL-hidden multivalue dynamic field text with partially empty value fails (https://github.com/RotherOSS/otobo/issues/4843)
+- 2026-01-19 15:06:58 +0100 update S/MIME certificates for 2026 (https://github.com/RotherOSS/otobo/issues/5043)
+- 2026-01-18 12:03:19 +0100 Update the CPAN snapshot file
+- 2026-01-18 12:02:23 +0100 Update CPANSA::DB to 20260110.003
+- 2026-01-16 19:35:56 +0100 Revert "Issue #4106: Remove Net::SSLGlue::* from Kernel/cpan-lib"
+- 2026-01-16 19:14:53 +0100 Revert "Issue #4106: Remove Net::SSLGlue::* from Kernel/cpan-lib"
+- 2026-01-16 18:37:18 +0100 Revert "Issue #4972: remove File::Slurp::Tiny"
+- 2026-01-16 18:15:38 +0100 Remove HTTP::Message from Kernel/cpan-lib for OTOBO 10.1.x (https://github.com/RotherOSS/otobo/issues/4979)
+- 2026-01-16 15:22:42 +0100 Remove URI from Kernel/cpan-lib in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4970)
+- 2026-01-15 13:19:31 +0100 mention the possible values for 'Mode'
+- 2026-01-14 14:04:52 +0100 Fixed indentation and improved readability.
+- 2026-01-15 13:21:10 +0100 Updated CONTRIBUTING.md file by copying section from README.md.
+- 2026-01-15 13:19:31 +0100 mention the possible values for 'Mode'
+- 2026-01-13 09:18:03 +0100 Updated expected db version number in CPANAudit test.
+- 2026-01-05 15:16:36 +0100 Fixed typos in code comments.
+- 2026-01-09 13:51:12 +0100 Changed ambiguous labels in Elasticsearch quick search.
+- 2026-01-12 08:52:56 +0100 Updated copyright.
+- 2026-01-09 15:41:27 +0100 Improved close button label.
+- 2026-01-12 14:30:08 +0100 Added Hungarian privacy policy template.
+- 2026-01-12 09:03:18 +0100 [Tidied]   Use of uninitialized value in array element at Kernel/System/DynamicField/Driver/Base.pm line 330 (https://github.com/RotherOSS/otobo/issues/4465)
+- 2026-01-12 07:27:12 +0100 [Bugfix]   Further prevent useless history entries (https://github.com/RotherOSS/otobo/issues/4988)
+- 2026-01-12 07:34:24 +0100 Remove support for system registration (https://github.com/RotherOSS/otobo/issues/1287) - in progress
+- 2026-01-10 17:33:54 +0100 Update CPANSA::DB to version 20260104.001
+- 2026-01-09 12:55:16 +0100 [Tidied]   Preparations for switch from DBD::mysql to DBD::MariaDB (https://github.com/RotherOSS/otobo/issues/1860)
+- 2026-01-09 13:08:37 +0100 Fix test failures in AgentTicketZoom.t (https://github.com/RotherOSS/otobo/issues/5014)
+- 2025-12-30 09:05:49 +0100 [Bugfix]   Ugly behavior of DynamicActions-Widget in AdminSystemConfiguration (https://github.com/RotherOSS/otobo/issues/3768)
+- 2026-01-02 12:27:17 +0100 [Tidied]   AdminDynamicFieldDropDown: Events are bound multiple times (https://github.com/RotherOSS/otobo/issues/4991)
+- 2026-01-07 11:18:42 +0100 Update CPANSA::DB to 20251228.001 (https://github.com/RotherOSS/otobo/issues/5001)
+- 2026-01-07 11:08:54 +0100 Update the CPAN snapshot file
+- 2026-01-07 10:56:17 +0100 Update the CPAN snapshot file
+- 2025-09-29 08:54:22 +0200 clarify security notes
+- 2025-12-29 12:27:40 +0100 Be more verbose in code comment on DB::Attribute
+- 2025-12-23 13:33:01 +0100 Look at CPAN::Audit advisories reported in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4972)
+- 2025-01-27 11:06:26 +0100 Remove Net::SSLGlue::POP3 and Net::SSLGlue::SMTP from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/4106)
+- 2025-12-21 16:52:24 +0100 Update CPANSA::DB to 20251221.001 (https://github.com/RotherOSS/otobo/issues/4981)
+- 2023-10-30 11:54:57 +0100 [Tidied]   Remove HTTP::Message from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/2612)
+- 2025-12-21 12:29:44 +0100 Add note stating that File::Slurp is gone in OTOBO 11.1.x
+- 2025-12-20 11:18:37 +0100 Upgrade PDF::API2 to 2.048 in rel-10_1 . (https://github.com/RotherOSS/otobo/issues/4977)
+- 2025-12-19 19:55:22 +0100 Add note stating that Text::Diff::FormattedHTML is removed in OTOBO 11.1.x
+- 2025-12-19 18:39:10 +0100 Update Locale::Country to 3.86 (https://github.com/RotherOSS/otobo/issues/4975)
+- 2025-12-19 11:05:47 +0100 Update CPAN::Audit for OTOBO 10.1.x (https://github.com/RotherOSS/otobo/issues/4957)
+- 2025-12-17 15:22:18 +0100 Install bundled modules via a cpanfile in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4948)
+- 2025-12-18 15:23:22 +0100 Complete the list of bundled modules in Kernel::System::Environment (https://github.com/RotherOSS/otobo/issues/4956)
+- 2025-12-18 14:52:49 +0100 Restore cpan-lib/Sys/Hostname/Long.pm to the version from CPAN (https://github.com/RotherOSS/otobo/issues/4965)
+- 2025-12-18 14:33:26 +0100 Remove LWP::Protocol::GHTTP from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/4963)
+- 2025-12-18 13:45:22 +0100 Add an useless trailing empty line
+- 2025-12-18 13:27:44 +0100 Consistent version number 1.44 for Text::Diff, Text::Diff::Table and Text::Diff::Config
+- 2025-12-18 09:47:18 +0100 Increase unit test coverage for FieldRestrictions.pm (https://github.com/RotherOSS/otobo/issues/3813)
+- 2025-12-17 14:30:23 +0100 Update CPAN::Audit to 20250109.001 (https://github.com/RotherOSS/otobo/issues/4064)
+- 2025-12-17 11:02:22 +0100 Fix CHANGES.
+
+
 # OTOBO 11.0.14 2025-12-17
 - 2025-12-17 10:39:25 +0100 Create new OTOBO language files.
 - 2025-12-16 18:52:02 +0100 Install Perl modules from https://cpan.metacpan.org when building Docker images (https://github.com/RotherOSS/otobo/issues/4953)
@@ -2921,6 +3020,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
