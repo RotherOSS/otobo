@@ -105,7 +105,7 @@ sub ToAscii {
 
     # find <a href=....> and replace it with [x]
     my @Links;
-    my $Counter = 0;
+    my $LinkCounter = 0;
     $Param{String} =~ s{
         <a\s.*?href\s*=\s*("|')(.+?)\1.*?>
     }
@@ -126,14 +126,14 @@ sub ToAscii {
 
         $Link = $SafeLink{String} // '';
 
-        $Counter++;
-        push @Links, "[$Counter] $Link\n";
-        "[$Counter]";
+        $LinkCounter++;
+        push @Links, "[$LinkCounter] $Link\n";
+        "[$LinkCounter]";
     }egxi;
 
     # pre-process <blockquote> and <div style=\"cite\"
     my %Cite;
-    $Counter = 0;
+    my $CiteCounter = 0;
     $Param{String} =~ s{
         <blockquote (?<element_attr>[^>]*)> (?<element_content>.+?) </blockquote>
     }
@@ -151,8 +151,8 @@ sub ToAscii {
         $Ascii =~ s/^(.*?)$/> $1/gm;
 
         # do not substitute the adapted string, but a key so that the actual substitution can be done later
-        $Counter++;
-        my $Key     = "######Cite::$Counter######";
+        $CiteCounter++;
+        my $Key     = "######Cite::$CiteCounter######";
         $Cite{$Key} = $Ascii;
         $Key;
     }segxmi;
@@ -168,22 +168,26 @@ sub ToAscii {
             $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
         $Ascii =~ s/^(.*?)$/> $1/gm;
-        $Counter++;
-        my $Key     = "######Cite::$Counter######";
+
+        # start the replacement on a new line
+        $Ascii = "\n" . $Ascii;
+
+        $CiteCounter++;
+        my $Key     = "######Cite::$CiteCounter######";
         $Cite{$Key} = $Ascii;
         $Key;
     }segxmi;
 
     # remember <pre> and <code> tags
     my %One2One;
-    $Counter = 0;
+    my $OneCounter = 0;
     $Param{String} =~ s{
         <(pre|code)(.*?)>(.+?)</(pre|code)(.*?)>
     }
     {
         my $Content = $3;
-        $Counter++;
-        my $Key        = "######One2One::$Counter######";
+        $OneCounter++;
+        my $Key        = "######One2One::$OneCounter######";
         $One2One{$Key} = $Content;
         $Key;
     }segxmi;
