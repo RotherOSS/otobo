@@ -350,7 +350,7 @@
                         <div class="Field">
                             [% Data.CalendarOption %]
                             <p class="FieldExplanation">
-                                [% Translate("The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard") | html %]
+                                [% Translate("The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendar is used.") | html %]
                             </p>
                             <p class="FieldExplanation">
                                 [% Translate("Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.") | html %]
