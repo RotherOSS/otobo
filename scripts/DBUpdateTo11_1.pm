@@ -73,6 +73,10 @@ sub Run {
             Module => 'SysConfigUpdatePostmasterXHeader',
         },
         {
+            Name   => 'Migrate Article::Actions system configurations to new structure',
+            Module => 'SysConfigMigrateArticleActions',
+        },
+        {
             Name   => 'Update MultiValue attribute of Lens dynamic fields',
             Module => 'UpdateLensDynamicFieldsMultiValue',
         },
