@@ -135,11 +135,9 @@ sub ToAscii {
     my %Cite;
     my $CiteCounter = 0;
     $Param{String} =~ s{
-        <blockquote (?<element_attr>[^>]*)> (?<element_content>.+?) </blockquote>
+        <blockquote [^>]*> (?<element_content>.+?) </blockquote>
     }
     {
-        # ToAscii() uses regexes internally. Apparently this resets some regex global counter,
-        # which has the effect that the replacement is done only for the first <blockquote>.
         my $Ascii = $Self->ToAscii( String => $+{element_content} );
 
         # force line breaking, note that below there is a different $1 than above
@@ -160,16 +158,17 @@ sub ToAscii {
         $Key;
     }segxmi;
     $Param{String} =~ s{
-        <div[^>]+type="cite"[^>]*>(.+?)</div>
+        <div[^>]+type="cite"[^>]*>(?<element_content>.+?)</div>
     }
     {
-        my $Ascii = $Self->ToAscii(
-            String => $1,
-        );
-        # force line breaking
+        my $Ascii = $Self->ToAscii( String => $+{element_content} );
+
+        # force line breaking, note that below there is a different $1 than above
         if ( length $Ascii > $LineLength ) {
             $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
+
+        # add the leading '> ' to the lines
         $Ascii =~ s/^(.*?)$/> $1/gm;
 
         # start the replacement on a new line

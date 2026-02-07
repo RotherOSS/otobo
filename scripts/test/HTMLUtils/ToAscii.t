@@ -52,6 +52,18 @@ my @Tests = (
     },
     {
         Line   => __LINE__,
+        Input  => '<b>Some Text</b><br/><a href="http://example.com">Some URL</a> more text<br><a href="http://example.com">Same URL</a> yet more text',
+        Result => 'Some Text
+[1]Some URL more text
+[2]Same URL yet more text
+
+[1] http://example.com
+[2] http://example.com
+',
+        Name => 'ToAscii - replace two URLs'
+    },
+    {
+        Line   => __LINE__,
         Input  => '<b>Some Text</b><br/><a href="http://example.com<script>alert(\'JavaScript\')</script>">Some URL</a>',
         Result => 'Some Text
 [1]Some URL
@@ -203,8 +215,8 @@ test
     {
         # note that the '> ' is added only for the first blockquote element
         Line   => __LINE__,
-        Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D<blockquote>},
-        Result => qq{before\n> line A\n> line B\nafter\nbeforeline C\nline D},
+        Input  => qq{before<blockquote>line A<br>line B</blockquote>after<br/>before<blockquote>line C<br>line D</blockquote>},
+        Result => qq{before\n> line A\n> line B\nafter\nbefore\n> line C\n> line D\n},
         Name   => 'ToAscii - two <blockquote> elements'
     },
     {
@@ -241,6 +253,17 @@ Line 3</div>",
 
 after cite},
         Name => 'ToAscii - Quote using <div type="cite"> with preceeding plain content'
+    },
+    {
+        Line  => __LINE__,
+        Input => 'Line 0<div type="cite">Line 1</div>Line 2<div type="cite">Line 3</div>
+Line 4',
+        Result => qq{Line 0
+> Line 1
+Line 2
+> Line 3
+ Line 4},
+        Name => 'ToAscii - two  <div type="cite">'
     },
     {
         Line  => __LINE__,
