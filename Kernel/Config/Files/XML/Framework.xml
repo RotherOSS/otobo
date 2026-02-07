@@ -3967,10 +3967,10 @@ via the Preferences button after logging in.
         <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Hash>
-                <Item Key="mysql_ssl">1</Item>
-                <Item Key="mysql_client_cert">/opt/otobo/tls/client-cert.pem</Item>
-                <Item Key="mysql_client_key">/opt/otobo/tls/client-key.pem</Item>
-                <Item Key="mysql_ssl_optional">1</Item>
+                <Item Key="mariadb_ssl">1</Item>
+                <Item Key="mariadb_client_cert">/opt/otobo/tls/client-cert.pem</Item>
+                <Item Key="mariadb_client_key">/opt/otobo/tls/client-key.pem</Item>
+                <Item Key="mariadb_ssl_optional">1</Item>
             </Hash>
         </Value>
     </Setting>
