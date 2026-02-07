@@ -167,19 +167,19 @@ sub LoadDefaults {
     # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
     # Note that these attributes apply to all MySQL database connections.
     #
-    #    mysql_ssl             : boolean, enforce encryption with TLS
-    #    mysql_ssl_ca          : specify the certificate authority file
-    #                            Do not specify this with self signed certificates.
-    #                            See https://serverfault.com/questions/399487/cant-connect-to-mysql-using-self-signed-ssl-certificate
-    #    mysql_ssl_client_cert : PEM certificate
-    #    mysql_ssl_client_key  : private key of the client, the server must have the public key
-    #    mysql_ssl_optional    : boolean workarounda for strange behavior when connecting
+    #    mariadb_ssl             : boolean, enforce encryption with TLS
+    #    mariadb_ssl_ca          : specify the certificate authority file
+    #                              Do not specify this with self signed certificates.
+    #                              See https://serverfault.com/questions/399487/cant-connect-to-mysql-using-self-signed-ssl-certificate
+    #    mariadb_ssl_client_cert : PEM certificate
+    #    mariadb_ssl_client_key  : private key of the client, the server must have the public key
+    #    mariadb_ssl_optional    : boolean workarounda for strange behavior when connecting
     #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
 #    $Self->{DatabaseAttribute} = {
-#        mysql_ssl             => 1,
-#        mysql_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
-#        mysql_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
-#        mysql_ssl_optional    => 1,
+#        mariadb_ssl             => 1,
+#        mariadb_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
+#        mariadb_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
+#        mariadb_ssl_optional    => 1,
 #    };
 
     # If you want to use an init sql after connect, use this here.
