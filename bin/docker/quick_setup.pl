@@ -504,10 +504,8 @@ sub DBConnectAsRoot {
     $DSN =~ s/(?<=database=).*?(?=;)//i;
 
     my $DBHandle = DBI->connect( $DSN, 'root', $Param{DBPassword} );
-    if ( !$DBHandle ) {
-        return 0, $DBI::errstr;
-    }
 
+    return 0, $DBI::errstr unless $DBHandle;
     return $DBHandle, "connected to '$DSN' as root";
 }
 
