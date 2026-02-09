@@ -163,24 +163,33 @@ sub LoadDefaults {
     # Set the attributes needed for encrypted database connections here.
     $Self->{DatabaseAttribute} = {};
 
-    # Activate these attributes when the connection to the MariaDB or MySQL database is secured by TLS.
+    # Activate 'mariadb_ssl_*' attributes when the connection to the MariaDB or MySQL database is secured by TLS.
     # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
     # Note that these attributes apply only to the main database connections. Depending on the
     # setup, the customer database may also use the main connection.
     #
-    #    mariadb_ssl             : boolean, enforce encryption with TLS
-    #    mariadb_ssl_ca          : specify the certificate authority file
-    #                              Do not specify this with self signed certificates.
-    #                              See https://serverfault.com/questions/399487/cant-connect-to-mysql-using-self-signed-ssl-certificate
-    #    mariadb_ssl_client_cert : PEM certificate
-    #    mariadb_ssl_client_key  : private key of the client, the server must have the public key
-    #    mariadb_ssl_optional    : boolean workarounda for strange behavior when connecting
-    #                            see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
+    #    mariadb_ssl                    : boolean, enforce encryption with TLS
+    #    mariadb_ssl_ca                 : specify the certificate authority file
+    #                                     Do not specify this with self signed certificates.
+    #                                     See https://serverfault.com/questions/399487/cant-connect-to-mysql-using-self-signed-ssl-certificate
+    #    mariadb_ssl_client_cert        : PEM certificate
+    #    mariadb_ssl_client_key         : private key of the client, the server must have the public key
+    #    mariadb_ssl_optional           : boolean workarounda for strange behavior when connecting
+    #                                     see  https://github.com/perl5-dbi/DBD-mysql/issues/333#issuecomment-888972939
+    #    mariadb_ssl_verify_server_cert : activate check of the server certificate
+    #
+    # This example prohibits the fallback to unsecured communication. Beware that DBD::MariaDB seems to be banning
+    # settings where man in the middle attacks are possible. When mariadb_ssl_optional = 0 is set
+    # then mariadb_ssl_verify_server_cert => 1 must also be passed. This means that the server certificate CN
+    # must be the DNS name which the client uses to connect to the server. In the Docker use case that CN is db.
+    #Alternatively specifying a subject alternative name SAN should work to. But this hasn't been tested.
 #    $Self->{DatabaseAttribute} = {
-#        mariadb_ssl             => 1,
-#        mariadb_ssl_client_cert => '/opt/otobo/tls/client-cert.pem',
-#        mariadb_ssl_client_key  => '/opt/otobo/tls/client-key.pem',
-#        mariadb_ssl_optional    => 1,
+#        mariadb_ssl                    => 1,
+#        mariadb_ssl_ca_file            => '/opt/otobo/tls/ca-cert.pem',
+#        mariadb_ssl_client_cert        => '/opt/otobo/tls/client-cert.pem',
+#        mariadb_ssl_client_key         => '/opt/otobo/tls/client-key.pem',
+#        mariadb_ssl_optional           => 0,
+#        mariadb_ssl_verify_server_cert => 1,
 #    };
 
     # If you want to use an init sql after connect, use this here.
