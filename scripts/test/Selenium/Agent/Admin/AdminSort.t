@@ -58,10 +58,10 @@ $Selenium->RunTest(
 
         my @NavigationChecks = (
             'Dinamikus mezők',
-            'Dynamic Fields Screens',    # not yet translated to Hungarian
+            'Dinamikus mezők képernyői',
             'Folyamatkezelés',
             'Hozzáférés-vezérlési listák (ACL)',
-            'Ticket Masks',              # not yet translated to Hungarian
+            'Jegymaszkok',
             'Webszolgáltatások',
         );
 
