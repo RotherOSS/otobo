@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2026-01-27 04:33+0000\n"
+"PO-Revision-Date: 2026-02-10 09:00+0000\n"
 "Last-Translator: Juan Tarditi <j.tarditi@tdnet.it>\n"
 "Language-Team: Italian <http://translate.otobo.org/projects/otobo/otobo-10/"
 "it/>\n"
@@ -3962,15 +3962,15 @@ msgstr "Scorciatoie MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr "Codice commento"
+msgstr "Commenta codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr "Rimuovere il codice commento"
+msgstr "Rimuovere il commento dal codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr "Auto formato codice"
+msgstr "Formata il codice automaticamente"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
@@ -3998,7 +3998,7 @@ msgstr "Trova e sostituisci tutto"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr "Mappa XSLT"
+msgstr "Mappatura XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
@@ -4019,7 +4019,7 @@ msgid ""
 msgstr ""
 "Il campo di modifica consente di utilizzare diverse funzioni come la "
 "formattazione automatica, il ridimensionamento della finestra e il "
-"completamento di tag e parentesi."
+"autocompletamento di tag e parentesi."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
