@@ -74,7 +74,24 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
-          # common info for every target; for nginx this includes the base imagie
+          # otobo-web uses different base images in different releases.
+          # perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12.
+          # This means that no overrides have to be declared here.
+
+          # otobo-selenium-crome uses different base images in different releases
+          # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_15.
+          # Declare that base image as the default and add overrides for the exceptions.
+          -
+            target:     'otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'latest-10_1-autobuild'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+
+          # common info for every target,
+          # this includes the base image when it is the same for all targets
+
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
@@ -104,7 +121,6 @@ jobs:
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
-            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
     steps:
 

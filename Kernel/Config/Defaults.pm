@@ -165,7 +165,8 @@ sub LoadDefaults {
 
     # Activate these attributes when the connection to the MariaDB or MySQL database is secured by TLS.
     # For a list of all supported parameters see https://metacpan.org/pod/DBD::mysql#connect
-    # Note that these attributes apply to all MySQL database connections.
+    # Note that these attributes apply only to the main database connections. Depending on the
+    # setup, the customer database may also use the main connection.
     #
     #    mariadb_ssl             : boolean, enforce encryption with TLS
     #    mariadb_ssl_ca          : specify the certificate authority file
