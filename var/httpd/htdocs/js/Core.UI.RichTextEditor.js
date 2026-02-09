@@ -216,6 +216,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                         classes: true,
                         styles: true
                     },
+                ],
+                disallow: [
+                    {
+                        styles: {
+                            position: /(absolute|sticky|fixed)$/
+                        }
+                    }
                 ]
             },
             image: {
