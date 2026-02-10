@@ -203,20 +203,21 @@ my %IsStandardFeature = (
 # used for creating the file 'cpanfile.docker'
 my %IsDockerFeature = (
     %IsCommonFeature,
+    'auth:openidconnect' => 1,
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
     'devel:debugging'    => 1,
     'devel:encoding'     => 1,
-    'devel:test'         => 1,
     'devel:i18n'         => 1,
+    'devel:test'         => 1,
     'div:cldr'           => 1,
+    'div:locallib'       => 1,
     'div:qrcode'         => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
-    'auth:openidconnect' => 1,
 );
 
 # defines a set of features for native installations which use plackup, specifically Gazelle
@@ -224,15 +225,15 @@ my %IsDockerFeature = (
 my %IsPlackupFeature = (
     %IsCommonFeature,
     'auth:openidconnect' => 1,
-    'div:cldr'           => 1,
-    'gazelle'            => 1,
-    'performance:redis'  => 1,
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
-    'div:xslt'           => 1,
     'div:cldr'           => 1,
+    'div:locallib'       => 1,
+    'div:xslt'           => 1,
+    'gazelle'            => 1,
     'graph:graphviz'     => 1,
+    'performance:redis'  => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -1130,6 +1131,13 @@ my @NeededModules = (
         Comment   => 'Support for QR code in PDF files',
         InstTypes => {
             aptget => 'libtext-qrcode-perl',
+        },
+    },
+    {
+        Module    => 'local::lib',
+        Features  => ['div:locallib'],
+        Comment   => 'create and use a local lib/ for perl modules with PERL5LIB',
+        InstTypes => {
         },
     },
 
