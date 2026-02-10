@@ -25,6 +25,7 @@ use utf8;
 use parent qw(Kernel::System::AsynchronousExecutor);    # for AsyncCall()
 
 # core modules
+use File::Basename;
 use File::Path qw(make_path);
 
 # CPAN modules
@@ -2480,10 +2481,7 @@ sub ConfigurationXML2DB {
         );
 
         # Cleanup filename for cache type
-        my $Filename = $File;
-        $Filename =~ s{\/\/}{\/}g;
-        $Filename =~ s{\A .+ Kernel/Config/Files/XML/ (.+)\.xml\z}{$1}msx;
-        $Filename =~ s{\A .+ scripts/test/sample/SysConfig/XML/ (.+)\.xml\z}{$1}msx;
+        my ($Filename) = fileparse( $File, '.xml' );
 
         my $CacheType = 'SysConfigPersistent';
         my $CacheKey  = "ConfigurationXML2DB::${Filename}::${MD5Sum}";
@@ -2533,9 +2531,7 @@ sub ConfigurationXML2DB {
             next FILE;
         }
 
-        my $XMLFilename = $File;
-        $XMLFilename =~ s{$Directory(.*\.xml)\z}{$1}gmsx;
-        $XMLFilename =~ s{\A/}{}gmsx;
+        my $XMLFilename = basename($File);
 
         my @ParsedSettings = $SysConfigXMLObject->SettingListParse(
             XMLInput    => $ConfigFile->$*,
