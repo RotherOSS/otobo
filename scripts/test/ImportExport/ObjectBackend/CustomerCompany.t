@@ -512,6 +512,7 @@ for my $Test (@ExportDataTests) {
             return;
         }
 
+        # ReferenceExportData should be a check of type bag
         is(
             $ExportData,
             $Test->{ReferenceExportData},
@@ -550,6 +551,8 @@ for my $Test (@ExportDataTests) {
 
             is(
                 \@Content,
+
+                # ReferenceExportContent should be a check of type bag
                 $Test->{ReferenceExportContent},
                 'ExportDataSave() produced expected content'
             );

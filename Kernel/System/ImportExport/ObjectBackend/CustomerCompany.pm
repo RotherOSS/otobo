@@ -82,8 +82,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     return $Self;
 }
@@ -142,14 +141,54 @@ gets the mapping attributes of an object as reference to an array of hash refere
 
 Returns:
 
-    # TODO
     my $Attributes = [
         {
             Input => {
                 Data => [
-                    [...]
+                    {
+                        Key   => "CustomerID",
+                        Value => "CustomerID"
+                    },
+                    {
+                        Key   => "CustomerCompanyName",
+                        Value => "CustomerCompanyName"
+                    },
+                    {
+                        Key   => "CustomerCompanyStreet",
+                        Value => "CustomerCompanyStreet"
+                    },
+                    {
+                        Key   => "CustomerCompanyZIP",
+                        Value => "CustomerCompanyZIP"
+                    },
+                    {
+                        Key   => "CustomerCompanyCity",
+                        Value => "CustomerCompanyCity"
+                    },
+                    {
+                        Key   => "CustomerCompanyCountry",
+                        Value => "CustomerCompanyCountry"
+                    },
+                    {
+                        Key   => "CustomerCompanyURL",
+                        Value => "CustomerCompanyURL"
+                    },
+                    {
+                        Key   => "CustomerCompanyComment",
+                        Value => "CustomerCompanyComment"
+                    },
+                    {
+                        Key   => "Valid",
+                        Value => "Validity"
+                    },
                 ],
+                PossibleNone => 1,
+                Required     => 1,
+                Translation  => 0,
+                Type         => "Selection",
             },
+            Key   => "Key",
+            Name  => "Key",
         },
     ];
 
@@ -170,20 +209,12 @@ sub MappingObjectAttributesGet {
         }
     }
 
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
-
-    # get object data
-    my $ObjectData = $ImportExportObject->ObjectDataGet(
-        TemplateID => $Param{TemplateID},
-        UserID     => $Param{UserID},
-    );
-
-    my @ElementList = qw{};
-    $Self->{CustomerCompanyKey}
-        = $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany')->{CustomerCompanyKey}
-        || $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany')->{Key}
+    my @ElementList           = qw{};
+    my $CustomerCompanyConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany');
+    $Self->{CustomerCompanyKey} = $CustomerCompanyConfig->{CustomerCompanyKey}
+        || $CustomerCompanyConfig->{Key}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
-    $Self->{CustomerCompanyMap} = $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany')->{Map}
+    $Self->{CustomerCompanyMap} = $CustomerCompanyConfig->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
 
     for my $CurrAttributeMapping ( @{ $Self->{CustomerCompanyMap} } ) {
@@ -218,7 +249,7 @@ sub MappingObjectAttributesGet {
         },
 
         # It doesn't make sense to configure and set the identifier:
-        # CustomerID is used to search for existing enrties anyway!
+        # CustomerID is used to search for existing entities anyway!
         # (See sub ImportDataSave)
         #        {
         #            Key   => 'Identifier',
@@ -256,14 +287,6 @@ sub SearchAttributesGet {
         }
     }
 
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
-
-    # get object data
-    my $ObjectData = $ImportExportObject->ObjectDataGet(
-        TemplateID => $Param{TemplateID},
-        UserID     => $Param{UserID},
-    );
-
     return;
 }
 
@@ -293,7 +316,9 @@ sub ExportDataGet {
         }
     }
 
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $ImportExportObject    = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $LogObject             = $Kernel::OM->Get('Kernel::System::Log');
 
     # get object data
     my $ObjectData = $ImportExportObject->ObjectDataGet(
@@ -303,7 +328,7 @@ sub ExportDataGet {
 
     # check object data
     if ( !$ObjectData || ref $ObjectData ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "No object data found for the template id $Param{TemplateID}",
         );
@@ -319,11 +344,11 @@ sub ExportDataGet {
 
     # check the mapping list
     if ( !$MappingList || ref $MappingList ne 'ARRAY' || !@{$MappingList} ) {
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "No valid mapping list found for the template id $Param{TemplateID}",
         );
+
         return;
     }
 
@@ -339,8 +364,7 @@ sub ExportDataGet {
 
         # check mapping object data
         if ( !$MappingObjectData || ref $MappingObjectData ne 'HASH' ) {
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "No valid mapping list found for the template id $Param{TemplateID}",
             );
@@ -351,27 +375,24 @@ sub ExportDataGet {
         push @MappingObjectList, $MappingObjectData;
     }
 
-    # list customer companys...
-    my %CustomerCompanyList
-        = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList();
-
+    # list customer companies
+    my %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList();
     my @ExportData;
 
     for my $CurrCompany ( keys %CustomerCompanyList ) {
 
-        my %CustomerCompanyData =
-            $Kernel::OM->Get('Kernel::System::CustomerCompany')
-            ->CustomerCompanyGet( CustomerID => $CurrCompany );
+        my %CustomerCompanyData = $CustomerCompanyObject->CustomerCompanyGet(
+            CustomerID => $CurrCompany
+        );
 
         if (%CustomerCompanyData) {
             my @CurrRow;
 
             # prepare validity...
             if ( $CustomerCompanyData{ValidID} ) {
-                $CustomerCompanyData{Valid}
-                    = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
-                        ValidID => $CustomerCompanyData{ValidID},
-                    );
+                $CustomerCompanyData{Valid} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
+                    ValidID => $CustomerCompanyData{ValidID},
+                );
             }
 
             for my $MappingObject (@MappingObjectList) {
@@ -422,10 +443,12 @@ means that the data is identical and no changes were made. 'Failed' indicates a 
 sub ImportDataSave {
     my ( $Self, %Param ) = @_;
 
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     for my $Argument (qw(TemplateID ImportDataRow Counter UserID)) {
         if ( !$Param{$Argument} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -436,7 +459,7 @@ sub ImportDataSave {
 
     # check import data row
     if ( ref $Param{ImportDataRow} ne 'ARRAY' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Can't import entity $Param{Counter}: ImportDataRow must be an array reference",
         );
@@ -444,7 +467,8 @@ sub ImportDataSave {
         return ( undef, 'Failed' );
     }
 
-    my $ImportExportObject = $Kernel::OM->Get('Kernel::System::ImportExport');
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $ImportExportObject    = $Kernel::OM->Get('Kernel::System::ImportExport');
 
     # get object data, that is the config of this template
     my $ObjectData = $ImportExportObject->ObjectDataGet(
@@ -454,7 +478,7 @@ sub ImportDataSave {
 
     # check object data
     if ( !$ObjectData || ref $ObjectData ne 'HASH' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  =>
                 "Can't import entity $Param{Counter}: "
@@ -472,8 +496,7 @@ sub ImportDataSave {
 
     # check the mapping list
     if ( !$MappingList || ref $MappingList ne 'ARRAY' || !@{$MappingList} ) {
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  =>
                 "Can't import entity $Param{Counter}: "
@@ -483,17 +506,10 @@ sub ImportDataSave {
         return ( undef, 'Failed' );
     }
 
-    # create the mapping object list
-    #    my @MappingObjectList;
-    #    my %Identifier;
-    #    my $CustomerCompanyKey     = "";
-
     my $Counter                = 0;
     my %NewCustomerCompanyData = qw{};
 
-    #--------------------------------------------------------------------------
-    #BUILD MAPPING TABLE...
-    my $IsHeadline = 1;
+    # create the mapping object list
     for my $MappingID ( @{$MappingList} ) {
 
         # get mapping object data
@@ -504,8 +520,7 @@ sub ImportDataSave {
 
         # check mapping object data
         if ( !$MappingObjectData || ref $MappingObjectData ne 'HASH' ) {
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  =>
                     "Can't import entity $Param{Counter}: "
@@ -515,49 +530,28 @@ sub ImportDataSave {
             return ( undef, 'Failed' );
         }
 
-        #        push( @MappingObjectList, $MappingObjectData );
-
-        # TO DO: It doesn't make sense to configure and set the identifier:
-        # CustomerID is used to search for existing enrties anyway!
-        #
-        #  See lines 529-530:
-        #  my %CustomerCompanyData = $Self->{CustomerCompanyObject}
-        #        ->CustomerCompanyGet( CustomerID => $NewCustomerCompanyData{CustomerID} );
-
-        #        if (
-        #            $MappingObjectData->{Identifier}
-        #            && $Identifier{ $MappingObjectData->{Key} }
-        #            )
-        #        {
-        #            $Self->{LogObject}->Log(
-        #                Priority => 'error',
-        #                Message  => "Can't import this entity. "
-        #                    . "'$MappingObjectData->{Key}' has been used multiple "
-        #                    . "times as identifier (line $Param{Counter}).!",
-        #            );
-        #        }
-        #        elsif ( $MappingObjectData->{Identifier} ) {
-        #            $Identifier{ $MappingObjectData->{Key} } =
-        #                $Param{ImportDataRow}->[$Counter];
-        #            $CustomerCompanyKey = $MappingObjectData->{Key};
-        #        }
+        # It doesn't make sense to configure and set the identifier:
+        # CustomerID is used to search for existing entities anyway!
 
         if ( $MappingObjectData->{Key} ne "CustomerCompanyCountry" ) {
             $NewCustomerCompanyData{ $MappingObjectData->{Key} } =
                 $Param{ImportDataRow}->[$Counter];
         }
         else {
-            # Sanitize country if it isn't found in OTRS to increase the chance it will
-            # Note that standardizing against the ISO 3166-1 list might be a better approach...
+
+            # Sanitize country if it isn't found in OTOBO to increase the chance it will
+            # Note that standardizing against the ISO 3166-1 list might be a better approach
             my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList();
             if ( exists $CountryList->{ $Param{ImportDataRow}->[$Counter] } ) {
-                $NewCustomerCompanyData{ $MappingObjectData->{Key} }
-                    = $Param{ImportDataRow}->[$Counter];
+                $NewCustomerCompanyData{ $MappingObjectData->{Key} } = $Param{ImportDataRow}->[$Counter];
             }
             else {
-                $NewCustomerCompanyData{ $MappingObjectData->{Key} } =
-                    join( '', map { ucfirst lc } split /(\s+)/, $Param{ImportDataRow}->[$Counter] );
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $NewCustomerCompanyData{ $MappingObjectData->{Key} } = join(
+                    '',
+                    map { ucfirst lc } split /(\s+)/,
+                    $Param{ImportDataRow}->[$Counter]
+                );
+                $LogObject->Log(
                     Priority => 'notice',
                     Message  => "Country '$Param{ImportDataRow}->[$Counter]' "
                         . "not found - save as '$NewCustomerCompanyData{ $MappingObjectData->{Key} }'.",
@@ -568,12 +562,7 @@ sub ImportDataSave {
 
     }
 
-    #--------------------------------------------------------------------------
-    #DO THE IMPORT...
-
-    #(1) Preprocess data...
-
-    # lookup Valid-ID...
+    # lookup ValidID
     if ( !$NewCustomerCompanyData{ValidID} && $NewCustomerCompanyData{Valid} ) {
         $NewCustomerCompanyData{ValidID} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
             Valid => $NewCustomerCompanyData{Valid}
@@ -583,9 +572,10 @@ sub ImportDataSave {
         $NewCustomerCompanyData{ValidID} = $ObjectData->{DefaultValid} || 1;
     }
 
-    #(1) lookup company entry...
-    my %CustomerCompanyData = $Kernel::OM->Get('Kernel::System::CustomerCompany')
-        ->CustomerCompanyGet( CustomerID => $NewCustomerCompanyData{CustomerID} );
+    # lookup company entry
+    my %CustomerCompanyData = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $NewCustomerCompanyData{CustomerID}
+    );
 
     my $NewCompany = 1;
     if (%CustomerCompanyData) {
@@ -598,18 +588,18 @@ sub ImportDataSave {
         $CustomerCompanyData{$Key} = $NewCustomerCompanyData{$Key};
     }
 
-    #(2) if company DOES NOT exist => create new entry...
+    # if company DOES NOT exist => create new entry
     my $Result     = 0;
     my $ReturnCode = "";    # Created | Changed | Failed
 
     if ($NewCompany) {
-        $Result = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+        $Result = $CustomerCompanyObject->CustomerCompanyAdd(
             %CustomerCompanyData,
             UserID => $Param{UserID},
         );
 
         if ( !$Result ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "ImportDataSave: adding CustomerCompany ("
                     . "CustomerID "
@@ -622,15 +612,15 @@ sub ImportDataSave {
         }
     }
 
-    #(3) if company DOES exist => check update...
+    # if company DOES exist => check update
     else {
-        $Result = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyUpdate(
+        $Result = $CustomerCompanyObject->CustomerCompanyUpdate(
             %CustomerCompanyData,
             UserID => $Param{UserID},
         );
 
         if ( !$Result ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "ImportDataSave: updating CustomerCompany ("
                     . "CustomerID "
@@ -642,9 +632,6 @@ sub ImportDataSave {
             $ReturnCode = "Changed";
         }
     }
-
-    #
-    #--------------------------------------------------------------------------
 
     return ( $Result, $ReturnCode );
 }
