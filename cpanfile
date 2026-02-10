@@ -275,6 +275,12 @@ feature 'div:ldap', 'Support for feature div:ldap' => sub {
 
 };
 
+feature 'div:locallib', 'Support for feature div:locallib' => sub {
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
+
+};
+
 feature 'div:qrcode', 'Support for feature div:qrcode' => sub {
     # Support for QR code in PDF files
     requires 'Text::QRCode';
@@ -396,6 +402,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Support for QR code in PDF files
     requires 'Text::QRCode';
+
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
 
     # nicer formatting when dumping data structures
     requires 'Data::Dump', '>= 1.25';

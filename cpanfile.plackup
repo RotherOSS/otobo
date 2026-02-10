@@ -218,6 +218,12 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
+# feature 'div:locallib', 'Support for feature div:locallib' => sub {
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
+
+# };
+
 # Feature 'div:qrcode' is not needed
 
 
