@@ -26,9 +26,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2026-01-27 04:33+0000\n"
+"PO-Revision-Date: 2026-02-10 09:00+0000\n"
 "Last-Translator: Juan Tarditi <j.tarditi@tdnet.it>\n"
-"Language-Team: Italian <http://translate.otobo.org/projects/otobo/otobo-11/it/>\n"
+"Language-Team: Italian <http://translate.otobo.org/projects/otobo/otobo-11/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3406,15 +3407,15 @@ msgstr "Scorciatoie MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr "Codice commento"
+msgstr "Commenta codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr "Rimuovere il codice commento"
+msgstr "Rimuovere il commento dal codice"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr "Auto formato codice"
+msgstr "Formata il codice automaticamente"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
@@ -3442,7 +3443,7 @@ msgstr "Trova e sostituisci tutto"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr "Mappa XSLT"
+msgstr "Mappatura XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
@@ -3458,7 +3459,10 @@ msgstr "Qui puoi aggiungere o modificare il codice di mappatura XSLT."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion."
-msgstr "Il campo di modifica consente di utilizzare diverse funzioni come la formattazione automatica, il ridimensionamento della finestra e il completamento di tag e parentesi."
+msgstr ""
+"Il campo di modifica consente di utilizzare diverse funzioni come la "
+"formattazione automatica, il ridimensionamento della finestra e il "
+"autocompletamento di tag e parentesi."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
@@ -25763,7 +25767,6 @@ msgstr "Importare/Esportare"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Se decidi di eseguire la retrocessione a ((OTOBO)) Community Edition, perderai tutte le tabelle del database e i dati relativi a %s."
 
-#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Tutti i campi marcati con un asterisco (*) sono obbligatori."
 
@@ -27540,4 +27543,3 @@ msgstr ""
 #. SysConfig
 msgid "Ticket Title"
 msgstr ""
-

@@ -91,26 +91,24 @@ RUN apt-get update\
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
-# Installation can be triggerd by making any modification of the file cpanfile.docker.
-#
-# Only local::lib is installed with the Perl module installer 'cpanm'. 'cpanm' is already available
-# via the Docker base image for perl.
+# Install CPAN distributions that are required by OTOBO into the directory /opt/otobo_install/local.
+# Installation can be triggered by making any modification to the file cpanfile.docker.snapshot.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
 # The modules are installed with the command `carton` as it allows to install fixed
 # version from a previous snapshot. The idea is that the snapshot is updated when
-# performing local builds. The automatic build on Github use the saved snapshot.
+# running local builds. The automated builds on Github use the saved snapshot.
 #
-# 'carton install' installs the newest version of CPAN modules when the cpanfile.snapsho does not exist.
+# 'carton install' installs the newest possible version of the CPAN modules when the cpanfile.snapshot does not exist.
 # The file cpanfile.snapshot is created, documenting which versions were installed.
 # 'carton install --deployment' will install the exact versions from cpanfile.snapshot.
 # and it will complain if modules that are not in the snapshot should be installed.
 #
 # A fatpacked script `carton` is used for building the image. This has the advantage
 # that the requirements for `carton` are not included in the generated Docker image.
+# `carton` uses internally `cpanm`. `cpanm` is supplied by the Perl base image.
 #
 # Creating the fatpacked carton script is a bit tedious. See
 # https://github.com/perl-carton/carton/issues/237 and https://github.com/miyagawa/cpanminus/pull/577.
@@ -141,8 +139,6 @@ ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 ARG DOCKER_TAG=unspecified
 RUN <<END_BASH bash
     set -eux
-
-    cpanm --local-lib local local::lib
 
     if [[ $DOCKER_TAG == local-* ]]
     then
