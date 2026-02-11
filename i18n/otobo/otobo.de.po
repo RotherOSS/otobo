@@ -54,9 +54,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2025-12-24 23:53+0000\n"
-"Last-Translator: Furch Services <max.furch@furch-services.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/>\n"
+"PO-Revision-Date: 2026-02-12 09:00+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17460,7 +17461,7 @@ msgstr "(BenutzerLogin) Nachname, Vorname"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr "*** nicht im Büro bis %s (%s Tage übrig) ***"
+msgstr "*** abwesend bis %s (%s Tage übrig) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
@@ -19368,7 +19369,9 @@ msgstr "Legt den internen Kommunikationskanal fest."
 
 #. SysConfig
 msgid "Defines out of office message template. Two string parameters (%s) available: end date and number of days left."
-msgstr "Definiert \"Nicht im Büro\"-Nachrichten-Templates. Zwei String-Parameter (%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage."
+msgstr ""
+"Definiert die Vorlage für Abwesenheits-Nachrichten. Zwei String-Parameter "
+"(%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage."
 
 #. SysConfig
 msgid "Defines phone communication channel."
@@ -20104,7 +20107,10 @@ msgstr "Definiert das Modul, das eine Benachrichtigung im Agentenbereich anzeigt
 
 #. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active."
-msgstr "Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, wenn ein Agent angemeldet ist, während er die \"Out of Office\"-Funktion aktiviert hat."
+msgstr ""
+"Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, "
+"wenn ein Agent angemeldet ist, während im System eine Abwesenheitszeit "
+"definiert ist."
 
 #. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active."
@@ -25947,7 +25953,6 @@ msgstr "Import/Export"
 #~ msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 #~ msgstr "Wenn Sie sich für ein Downgrade auf ((OTOBO)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
-#. Template: AgentTicketActionCommon
 #~ msgid "All fields marked with an asterisk (*) are mandatory."
 #~ msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
@@ -27872,4 +27877,3 @@ msgstr ""
 #. SysConfig
 msgid "Ticket Title"
 msgstr ""
-
