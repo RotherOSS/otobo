@@ -3353,6 +3353,7 @@ sub _GetIntegratedPackages {
             # future releases
             1 => [
                 'ImportExportCustomerCompany',
+                'ImportExportStandardObjects',
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
                 'PostMasterXFromHeader',
                 'RestorePendingInformation',
