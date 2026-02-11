@@ -41,7 +41,7 @@
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
-# Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023, 2024.
+# Grit Rother <mr@otobo.de>, 2020, 2021, 2022, 2023, 2024, 2026.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
 # Stefan Abel <sta@rother-oss.com>, 2022, 2023, 2024, 2025.
@@ -55,8 +55,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2025-12-24 23:53+0000\n"
-"Last-Translator: Furch Services <max.furch@furch-services.de>\n"
+"PO-Revision-Date: 2026-02-12 09:00+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/de/"
 ">\n"
 "Language: de\n"
@@ -19970,7 +19970,7 @@ msgstr "(BenutzerLogin) Nachname, Vorname"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr "*** nicht im Büro bis %s (%s Tage übrig) ***"
+msgstr "*** abwesend bis %s (%s Tage übrig) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
@@ -22880,7 +22880,7 @@ msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
 msgstr ""
-"Definiert \"Nicht im Büro\"-Nachrichten-Templates. Zwei String-Parameter "
+"Definiert die Vorlage für Abwesenheits-Nachrichten. Zwei String-Parameter "
 "(%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage."
 
 #. SysConfig
@@ -24337,8 +24337,8 @@ msgid ""
 "agent is logged in while having out-of-office active."
 msgstr ""
 "Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, "
-"wenn ein Agent angemeldet ist, während er die \"Out of Office\"-Funktion "
-"aktiviert hat."
+"wenn ein Agent angemeldet ist, während im System eine Abwesenheitszeit "
+"definiert ist."
 
 #. SysConfig
 msgid ""
