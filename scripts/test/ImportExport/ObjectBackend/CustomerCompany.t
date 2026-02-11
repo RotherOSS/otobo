@@ -200,7 +200,7 @@ $ConfigObject->Set(
 # define the test config items
 my @CustomerCompanySetups;
 
-# two config items for TwoCustomerUsers
+# two customer companies
 push @CustomerCompanySetups,
     {
         Description        => 'first simple customer company',
@@ -266,52 +266,6 @@ my @ExportDataTests = (
             },
         },
     },
-
-    # {
-    #     Name             => q{no existing template id is given (should fail)},
-    #     SourceExportData => {
-    #         ExportDataGet => {
-    #             TemplateID => $TemplateIDs[-1] + 1,
-    #             UserID     => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{no class id is given (should fail)},
-    #     SourceExportData => {
-    #         ExportDataGet => {
-    #             TemplateID => $TemplateIDs[2],
-    #             UserID     => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{invalid valid id is given (should fail)},
-    #     SourceExportData => {
-    #         ObjectData => {
-    #             ValidID => $InvalidValidID,
-    #         },
-    #         ExportDataGet => {
-    #             TemplateID => $TemplateIDs[2],
-    #             UserID     => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{mapping list is empty (should fail)},
-    #     SourceExportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         ExportDataGet => {
-    #             TemplateID => $TemplateIDs[3],
-    #             UserID     => $TestUserID,
-    #         },
-    #     },
-    # },
 
     {
         Name             => q{all required values are given (number search check)},
@@ -566,261 +520,41 @@ for my $Test (@ExportDataTests) {
 
 my @ImportDataTests = (
 
-    # {
-    #     Name             => q{ImportDataSave doesn't contains all data (check required attributes) 1},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             ImportDataRow => [],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{ImportDataSave doesn't contains all data (check required attributes) 2},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID => $TemplateIDs[20],
-    #             UserID     => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{ImportDataSave doesn't contains all data (check required attributes) 3},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[20],
-    #             ImportDataRow => [],
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{import data row must be an array reference (should fail)},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[20],
-    #             ImportDataRow => '',
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{import data row must be an array reference (should fail)},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[20],
-    #             ImportDataRow => {},
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{no existing template id is given (should fail)},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[-1] + 1,
-    #             ImportDataRow => ['Dummy'],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{no class id is given (should fail)},
-    #     SourceImportData => {
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[21],
-    #             ImportDataRow => ['Dummy'],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{invalid class id is given (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $InvalidValidID,
-    #         },
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[22],
-    #             ImportDataRow => ['Dummy'],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{mapping list is empty (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[23],
-    #             ImportDataRow => ['Dummy'],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{more than one identifier with the same name (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key        => 'CustomerID',
-    #                 Identifier => 1,
-    #             },
-    #             {
-    #                 Key        => 'CustomerID',
-    #                 Identifier => 1,
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[23],
-    #             ImportDataRow => [ '123', '321' ],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{identifier is empty (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key        => 'CustomerID',
-    #                 Identifier => 1,
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[23],
-    #             ImportDataRow => [''],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{identifier is undef (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key        => 'CustomerID',
-    #                 Identifier => 1,
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[23],
-    #             ImportDataRow => [undef],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{empty name is given (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ValidID => $ValidValidID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key => 'CustomerID',
-    #             },
-    #             {
-    #                 Key => 'CustomerCompanyName',
-    #             },
-    #             {
-    #                 Key => 'CustomerCompanyStreet',
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[24],
-    #             ImportDataRow => [ '', 'Production', 'Operational' ],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # {
-    #     Name             => q{invalid deployment state is given (should fail)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ClassID => $ValidConfigItemClassID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key => 'Name',
-    #             },
-    #             {
-    #                 Key => 'DeplState',
-    #             },
-    #             {
-    #                 Key => 'InciState',
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[24],
-    #             ImportDataRow => [ 'UnitTest - Importtest 1', 'Dummy', 'Operational' ],
-    #             UserID        => $TestUserID,
-    #         },
-    #     },
-    # },
-
-    # # test without any dynamic fields
-    # {
-    #     Name             => qq{no dynamic fields (should succeed)},
-    #     SourceImportData => {
-    #         ObjectData => {
-    #             ClassID => $ValidConfigItemClassID,
-    #         },
-    #         MappingObjectData => [
-    #             {
-    #                 Key => 'Name',
-    #             },
-    #             {
-    #                 Key => 'DeplState',
-    #             },
-    #             {
-    #                 Key => 'InciState',
-    #             },
-    #         ],
-    #         ImportDataSave => {
-    #             TemplateID    => $TemplateIDs[25],
-    #             ImportDataRow => [
-    #                 'UnitTest - Importtest 3',
-    #                 'Production',
-    #                 'Operational',
-    #             ],
-    #             UserID => $TestUserID,
-    #         },
-    #     },
-    #     ReferenceImportData => {
-    #         VersionCount => 1,
-    #         LastVersion  => {
-    #             Name                                          => 'UnitTest - Importtest 3',
-    #             DeplState                                     => 'Production',
-    #             InciState                                     => 'Operational',
-    #             "DynamicField_CustomerCIO$TestIDSuffix"       => undef,
-    #             "DynamicField_CustomerSalesTeam$TestIDSuffix" => undef,
-    #         },
-    #     },
-    # },
+    {
+        Name             => qq{standard import test (should succeed)},
+        SourceImportData => {
+            ObjectData => {
+                ValidID => $ValidValidID,
+            },
+            MappingObjectData => [
+                {
+                    Key => 'CustomerID',
+                },
+                {
+                    Key => 'CustomerCompanyName',
+                },
+                {
+                    Key => 'CustomerCompanyComment',
+                },
+            ],
+            ImportDataSave => {
+                TemplateID    => $TemplateIDs[25],
+                ImportDataRow => [
+                    'testcompany3' . $RandomID,
+                    'TestCompany 3 ' . $RandomID,
+                    'Test Comment 3 ' . $RandomID,
+                ],
+                UserID => $TestUserID,
+            },
+        },
+        ReferenceImportData => {
+            LastVersion => {
+                CustomerID             => 'testcompany3' . $RandomID,
+                CustomerCompanyName    => 'TestCompany 3 ' . $RandomID,
+                CustomerCompanyComment => 'Test Comment 3 ' . $RandomID,
+            },
+        },
+    },
 );
 
 # run general ImportDataTests tests
