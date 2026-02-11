@@ -25,8 +25,8 @@ use utf8;
 use parent qw(Kernel::System::AsynchronousExecutor);    # for AsyncCall()
 
 # core modules
-use File::Basename;
-use File::Path qw(make_path);
+use File::Basename qw(basename fileparse);
+use File::Path     qw(make_path);
 
 # CPAN modules
 
