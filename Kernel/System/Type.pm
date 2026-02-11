@@ -22,6 +22,13 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::SysConfig',
@@ -493,6 +500,19 @@ sub NameExistsCheck {
     return $Flag ? 1 : 0;
 }
 
+=head2 ExportTypes()
+
+Returns data structures ready for export for each type. Optionally filterable by giving a list of desired types.
+
+    my $ExportData = $TypeObject->ExportTypes(
+        Types => [          # (optional) restrict types to given ones
+            'TypeName01',
+            'TypeName02'
+        ],
+    );
+
+=cut
+
 sub ExportTypes {
     my ( $Self, %Param ) = @_;
 
@@ -548,6 +568,25 @@ sub ExportTypes {
 
     return \%ExportData;
 }
+
+=head2 ImportTypes()
+
+Imports new types and optionally updates existing ones.
+
+    my $Success = $TypeObject->ImportTypes(
+        Types             => {
+            'TypeName01' => {
+                # Type data
+            },
+            'TypeName02' => {
+                # Type data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportTypes {
     my ( $Self, %Param ) = @_;

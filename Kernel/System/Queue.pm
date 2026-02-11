@@ -1507,6 +1507,19 @@ sub QueueListPermission {
     return $Permission;
 }
 
+=head2 ExportQueues()
+
+Returns data structures ready for export for each queue. Optionally filterable by giving a list of desired queue. Note that the data also contains salutations, system addresses and signatures.
+
+    my $ExportData = $QueueObject->ExportQueues(
+        Queues => [             # (optional) restrict queues to given ones
+            'Queue01',
+            'Queue02'
+        ],
+    );
+
+=cut
+
 sub ExportQueues {
     my ( $Self, %Param ) = @_;
 
@@ -1637,6 +1650,25 @@ sub ExportQueues {
 
     return \%ExportData;
 }
+
+=head2 ImportQueues()
+
+Imports new queues and optionally updates existing ones. Note that given salutations, system addresses and signatures are exported as well.
+
+    my $Success = $QueueObject->ImportQueues(
+        Queues             => {
+            'QueueName01' => {
+                # Queue data
+            },
+            'QueueName02' => {
+                # Queue data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportQueues {
     my ( $Self, %Param ) = @_;
@@ -1897,6 +1929,28 @@ sub ImportQueues {
     return 1;
 }
 
+=head2 ExportQueueTemplates()
+
+Returns data structures ready for export for each queue-template relation. Optionally filterable by giving a list of desired queues.
+
+    my $ExportData = $QueueObject->ExportQueueTemplates(
+        Queues => [          # (optional) restrict queues to given ones
+            'Queue01',
+            'Queue02'
+        ],
+    );
+
+Returns:
+
+    %ExportData = {
+        Junk => ["empty answer"],
+        Misc => ["empty answer"],
+        Postmaster => ["empty answer"],
+        Raw => ["empty answer"],
+    }
+
+=cut
+
 sub ExportQueueTemplates {
     my ( $Self, %Param ) = @_;
 
@@ -1934,6 +1988,23 @@ sub ExportQueueTemplates {
 
     return \%ExportData;
 }
+
+=head2 ImportQueueTemplates()
+
+Imports new queue-template relations and optionally updates existing ones.
+
+    my $Success = $QueueObject->ImportQueueTemplates(
+        QueueTemplates => {
+            Junk => ["empty answer"],
+            Misc => ["empty answer"],
+            Postmaster => ["empty answer"],
+            Raw => ["empty answer"],
+        }
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportQueueTemplates {
     my ( $Self, %Param ) = @_;

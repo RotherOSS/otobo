@@ -916,6 +916,19 @@ sub JobEventList {
     return %Data;
 }
 
+=head2 ExportGenericAgents()
+
+Returns data structures ready for export for each generic agent. Optionally filterable by giving a list of desired generic agents.
+
+    my $ExportData = $GenericAgentObject->ExportGenericAgents(
+        GenericAgents => [          # (optional) restrict generic agents to given ones
+            'GenericAgentName01',
+            'GenericAgentName02'
+        ],
+    );
+
+=cut
+
 sub ExportGenericAgents {
     my ( $Self, %Param ) = @_;
 
@@ -1123,6 +1136,25 @@ sub ExportGenericAgents {
 
     return \%ExportData;
 }
+
+=head2 ImportGenericAgents()
+
+Imports new generic agents and optionally updates existing ones.
+
+    my $Success = $GenericAgentObject->ImportGenericAgents(
+        GenericAgents             => {
+            'GenericAgentName01' => {
+                # GenericAgent data
+            },
+            'GenericAgentName02' => {
+                # GenericAgent data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportGenericAgents {
     my ( $Self, %Param ) = @_;

@@ -19,6 +19,13 @@ package Kernel::System::Group;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -2396,6 +2403,19 @@ sub GroupUserRoleMemberAdd {
     return $Self->PermissionRoleUserAdd(%Param);
 }
 
+=head2 ExportGroups()
+
+Returns data structures ready for export for each group. Optionally filterable by giving a list of desired groups.
+
+    my $ExportData = $GroupObject->ExportGroups(
+        Groups => [         # (optional) restrict groups to given ones
+            'Group01',
+            'Group02',
+        ]
+    );
+
+=cut
+
 sub ExportGroups {
     my ( $Self, %Param ) = @_;
 
@@ -2453,6 +2473,25 @@ sub ExportGroups {
     return \%ExportData;
 }
 
+=head2 ImportGroups()
+
+Imports new groups and optionally updates existing ones.
+
+    my $Success = $GroupObject->ImportGroups(
+        Groups                    => {
+            'GroupName01' => {
+                # Group data
+            },
+            'GroupName02' => {
+                # Group data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
+
 sub ImportGroups {
     my ( $Self, %Param ) = @_;
 
@@ -2504,6 +2543,19 @@ sub ImportGroups {
 
     return 1;
 }
+
+=head2 ExportRoles()
+
+Returns data structures ready for export for each role. Optionally filterable by giving a list of desired roles.
+
+    my $ExportData = $GroupObject->ExportRoles(
+        Roles => [         # (optional) restrict roles to given ones
+            'Role01',
+            'Role02',
+        ]
+    );
+
+=cut
 
 sub ExportRoles {
     my ( $Self, %Param ) = @_;
@@ -2562,6 +2614,25 @@ sub ExportRoles {
     return \%ExportData;
 }
 
+=head2 ImportRoles()
+
+Imports new roles and optionally updates existing ones.
+
+    my $Success = $GroupObject->ImportRoles(
+        Roles                     => {
+            'RoleName01' => {
+                # Role data
+            },
+            'RoleName02' => {
+                # Role data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
+
 sub ImportRoles {
     my ( $Self, %Param ) = @_;
 
@@ -2614,6 +2685,33 @@ sub ImportRoles {
     return 1;
 }
 
+=head2 ExportRoleGroups()
+
+Returns data structures ready for export for each role-group relation. Optionally filterable by giving a list of desired roles. The return data is based on permissions.
+
+    my $ExportData = $GroupObject->ExportRoleGroups(
+        Roles => [         # (optional) restrict roles to given ones
+            'Role01',
+            'Role02',
+        ]
+    );
+
+Returns:
+
+    %ExportData = {
+        "Role01" => {
+            create => ["admin", "users", "stats"],
+            move_into => ["stats", "users", "admin"],
+            note => ["stats", "users", "admin"],
+            owner => ["users", "stats", "admin"],
+            priority => ["admin", "users", "stats"],
+            ro => ["users", "stats", "admin"],
+            rw => ["stats", "users", "admin"],
+        },
+    }
+
+=cut
+
 sub ExportRoleGroups {
     my ( $Self, %Param ) = @_;
 
@@ -2660,6 +2758,28 @@ sub ExportRoleGroups {
 
     return \%ExportData;
 }
+
+=head2 ImportRoleGroups()
+
+Imports new role-group relations and optionally updates existing ones.
+
+    my $Success = $GroupObject->ImportRoleGroups(
+        RoleGroups => {
+            "Role01" => {
+                create => ["admin", "users", "stats"],
+                move_into => ["stats", "users", "admin"],
+                note => ["stats", "users", "admin"],
+                owner => ["users", "stats", "admin"],
+                priority => ["admin", "users", "stats"],
+                ro => ["users", "stats", "admin"],
+                rw => ["stats", "users", "admin"],
+            },
+        }
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportRoleGroups {
     my ( $Self, %Param ) = @_;
