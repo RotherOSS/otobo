@@ -19,6 +19,13 @@ package Kernel::System::StandardTemplate;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
@@ -509,6 +516,19 @@ sub NameExistsCheck {
     return 0;
 }
 
+=head2 ExportTemplates()
+
+Returns data structures ready for export for each template. Optionally filterable by giving a list of desired templates.
+
+    my $ExportData = $StandardTemplateObject->ExportTemplates(
+        Templates => [          # (optional) restrict templates to given ones
+            'TemplateName01',
+            'TemplateName02'
+        ],
+    );
+
+=cut
+
 sub ExportTemplates {
     my ( $Self, %Param ) = @_;
 
@@ -564,6 +584,25 @@ sub ExportTemplates {
 
     return \%ExportData;
 }
+
+=head2 ImportTemplates()
+
+Imports new templates and optionally updates existing ones.
+
+    my $Success = $StandardTemplateObject->ImportTemplates(
+        Templates             => {
+            'TemplateName01' => {
+                # Template data
+            },
+            'TemplateName02' => {
+                # Template data
+            },
+        },
+        OverwriteExistingEntities => (0|1),
+        UserID                    => 1,
+    );
+
+=cut
 
 sub ImportTemplates {
     my ( $Self, %Param ) = @_;
