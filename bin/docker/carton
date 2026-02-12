@@ -2690,6 +2690,7 @@ $fatpacked{"Carton/Builder.pm"} = '#line '.(1+__LINE__).' "'.__FILE__."\"\n".<<'
   
       my @mirrors = ($self->mirror);
       push @mirrors, Carton::Mirror->default if $self->custom_mirror;
+
       # Hotpatch by the OTOBO Team 2025-12-15.
       # Do not fall back to installing from the BackPan.
       #push @mirrors, Carton::Mirror->new('http://backpan.perl.org/');
@@ -11215,7 +11216,11 @@ $fatpacked{"Menlo/Index/MetaDB.pm"} = '#line '.(1+__LINE__).' "'.__FILE__."\"\n"
                   version => $match->{version},
                   uri     => "cpan:///distfile/$file",
                   ($match->{latest} ? () :
-                     (download_uri => "http://backpan.perl.org/authors/id/$match->{distfile}")),
+
+                     # Hotpatch by the OTOBO Team 2026-02-12.
+                     # Download via HTTP does not work, HTTPS is preferred anyways
+                     #(download_uri => "http://backpan.perl.org/authors/id/$match->{distfile}")),
+                     (download_uri => "https://backpan.perl.org/authors/id/$match->{distfile}")),
               };
           }
       } else {
