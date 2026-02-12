@@ -155,6 +155,34 @@ jobs:
             docker_tag: 'rel-10_1_16',
             base_image: 'nginx:mainline'
 
+          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.1 and 11.0
+          # The base image nginx:mainline-trixie is used since 10.1.16
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            base_image: 'nginx:mainline-trixie'
+          # Excluded Docker tags
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_1_14'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #  base_image: 'nginx:mainline'
+          #-
+          #  target:     'otobo-nginx-kerberos-webproxy'
+          #  docker_tag: 'rel-10_1_15'
+          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          #  base_image: 'nginx:mainline'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'rel-10_1_16'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+
           # otobo-selenium-crome uses different base images in different releases
           # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_14.
           # Declare that base image as the default and add overrides for the exceptions.
@@ -182,31 +210,7 @@ jobs:
             docker_tag: 'latest-10_1'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_1_14'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          #-
-          #  target:     'otobo-nginx-kerberos-webproxy'
-          #  docker_tag: 'rel-10_1_15'
-          #  dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'rel-10_1_16'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'latest-10_1'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-
           # common info for every target; for nginx this includes the base imagie
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            dockerfile: 'otobo.nginx.dockerfile'
-            context:    'scripts/nginx'
-            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-            base_image: 'nginx:mainline-trixie'
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
