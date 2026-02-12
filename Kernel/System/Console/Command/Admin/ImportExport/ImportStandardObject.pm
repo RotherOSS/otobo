@@ -45,7 +45,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description(
-        "Import data for a standard object. Currently supported object types are:\n\n\tGenericAgent\n\tGroup\n\tQueue\n\tQueue-Template relations\n\tRole\n\tRole-Group relations\n\tTemplate\n\tType\n\nServices and SLAs are supported in case a compatible version of the ServiceCatalog package is installed."
+        "Import data for a standard object. Currently supported object types are:\n\n\tGenericAgent\n\tGroup\n\tQueue\n\tQueue-Template relations\n\tRole\n\tRole-Group relations\n\tService\n\tService Level Agreement\n\tTemplate\n\tType"
     );
     $Self->AddOption(
         Name        => 'update',
@@ -131,6 +131,16 @@ sub Run {
                 @_,
             );
         },
+        Service => sub {
+            return $ServiceObject->ImportServices(
+                @_,
+            );
+        },
+        SLA => sub {
+            return $SLAObject->ImportSLAs(
+                @_,
+            );
+        },
         Template => sub {
             return $StandardTemplateObject->ImportTemplates(
                 @_,
@@ -142,21 +152,6 @@ sub Run {
             );
         },
     );
-
-    # check if ServiceCatalog is installed and add Service to mapping, if so
-    #   implicitly assuming that it is a compatible version of the package
-    if ( $PackageObject->PackageIsInstalled( Name => 'ServiceCatalog' ) ) {
-        $ImportSubMapping{Service} = sub {
-            return $ServiceObject->ImportServices(
-                @_,
-            );
-        };
-        $ImportSubMapping{SLA} = sub {
-            return $SLAObject->ImportSLAs(
-                @_,
-            );
-        };
-    }
 
     # fetch params
     my $File                      = $Self->GetArgument('source') || '';
