@@ -1177,6 +1177,11 @@ fieldset.ModularForm {
         align-self: center;
     }
 
+    fieldset.ModularForm label[for="Subject"] {
+        padding: 5px;
+        align-self: center;
+    }
+
     fieldset.ModularForm input[type=text] {
         border-radius: 4px;
         width: 100%;
@@ -1292,6 +1297,10 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .Field #OptionCustomer {
         align-self: center;
+    }
+
+    fieldset.ModularForm .Field.AttachmentField {
+        flex-direction: column;
     }
 
     fieldset.ModularForm div.Row {
