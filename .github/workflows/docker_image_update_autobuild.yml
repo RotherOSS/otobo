@@ -50,7 +50,7 @@ jobs:
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        #target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'latest-10_1-autobuild',
@@ -68,59 +68,63 @@ jobs:
             docker_tag:   'latest-11_0-autobuild'
             otobo_branch: 'rel-11_0_15'
 
-          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            docker_tag: 'latest-10_1-autobuild'
-            dockerfile: 'otobo.nginx-kerberos.dockerfile'
-
           # otobo-web uses different base images in different releases.
           # perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12.
           # This means that no overrides have to be declared here.
-
-          # otobo-selenium-crome uses different base images in different releases
-          # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_15.
-          # Declare that base image as the default and add overrides for the exceptions.
-          -
-            target:     'otobo-selenium-chrome'
-            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
-          -
-            target:     'otobo-selenium-chrome'
-            docker_tag: 'latest-10_1-autobuild'
-            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
-
-          # common info for every target,
-          # this includes the base image when it is the same for all targets
-
           -
             target:     'otobo-web'
             dockerfile: 'otobo.web.dockerfile'
             context:    '.'
             repository: 'rotheross/otobo'
             base_image: 'perl:5.40-bookworm'
+
+          # The base image nginx:mainline-trixie is used since 11.0.12.
+          # nginx:mainline is used in rel-10_1 up to 10.1.16 and then switched to nginx:mainline-trixie
+          -
+            target:     'otobo-nginx-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-webproxy'
+            base_image: 'nginx:mainline-trixie'
+          -
+            target:     'otobo-nginx-webproxy'
+            docker_tag: 'latest-10_1-autobuild'
+            base_image: 'nginx:mainline'
+
+          # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.1 and 11.0
+          # The base image nginx:mainline-trixie is used since 10.1.16
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            dockerfile: 'otobo.nginx.dockerfile'
+            context:    'scripts/nginx'
+            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
+            base_image: 'nginx:mainline-trixie'
+          -
+            target:     'otobo-nginx-kerberos-webproxy'
+            docker_tag: 'latest-10_1-autobuild'
+            dockerfile: 'otobo.nginx-kerberos.dockerfile'
+
+          # otobo-selenium-crome uses different base images in different releases.
+          # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_14.
+          # Declare that base image as the default and add overrides for the exceptions.
+          -
+            target:     'otobo-selenium-chrome'
+            dockerfile: 'otobo.selenium-chrome.dockerfile'
+            context:    'scripts/test/sample'
+            repository: 'rotheross/otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'latest-10_1-autobuild'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+
+          # currently not supported
           #-
           #  target:     'otobo-elasticsearch'
           #  dockerfile: 'otobo.elasticsearch.dockerfile'
           #  context:    'scripts/elasticsearch'
           #  repository: 'rotheross/otobo-elasticsearch'
           #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
-          -
-            target:     'otobo-nginx-webproxy'
-            dockerfile: 'otobo.nginx.dockerfile'
-            context:    'scripts/nginx'
-            repository: 'rotheross/otobo-nginx-webproxy'
-            base_image: 'nginx:mainline'
-          -
-            target:     'otobo-nginx-kerberos-webproxy'
-            dockerfile: 'otobo.nginx.dockerfile'
-            context:    'scripts/nginx'
-            repository: 'rotheross/otobo-nginx-kerberos-webproxy'
-            base_image: 'nginx:mainline'
-          -
-            target:     'otobo-selenium-chrome'
-            dockerfile: 'otobo.selenium-chrome.dockerfile'
-            context:    'scripts/test/sample'
-            repository: 'rotheross/otobo-selenium-chrome'
 
     steps:
 
