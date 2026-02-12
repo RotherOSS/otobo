@@ -2445,14 +2445,6 @@ DISTRIBUTIONS
       Parse::RecDescent 1.94
       Test::More 0
       perl 5.008
-  Mock-Config-0.05
-    pathname: R/RU/RURBAN/Mock-Config-0.05.tar.gz
-    provides:
-      Mock::Config 0.05
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-      perl 5.006
   Module-Build-0.4234
     pathname: L/LE/LEONT/Module-Build-0.4234.tar.gz
     provides:
@@ -4498,7 +4490,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
