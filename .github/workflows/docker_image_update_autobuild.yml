@@ -78,7 +78,7 @@ jobs:
             repository: 'rotheross/otobo'
             base_image: 'perl:5.40-bookworm'
 
-          # The base image nginx:mainline-trixie is used since 11.0.12,
+          # The base image nginx:mainline-trixie is used since 11.0.12.
           # nginx:mainline is used in 10.1.x
           -
             target:     'otobo-nginx-webproxy'
@@ -88,7 +88,7 @@ jobs:
             base_image: 'nginx:mainline-trixie'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'latest-10_1-autobuild',
+            docker_tag: 'latest-10_1-autobuild'
             base_image: 'nginx:mainline'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.1 and 11.0

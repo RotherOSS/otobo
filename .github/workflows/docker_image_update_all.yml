@@ -129,7 +129,7 @@ jobs:
             docker_tag: 'rel-10_1_14'
             base_image: 'perl:5.36-bookworm'
 
-          # The base image nginx:mainline-trixie is used since 11.0.12,
+          # The base image nginx:mainline-trixie is used since 11.0.12.
           # nginx:mainline is used in 10.1.x
           -
             target:     'otobo-nginx-webproxy'
@@ -139,20 +139,20 @@ jobs:
             base_image: 'nginx:mainline-trixie'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'latest-10_1',
+            docker_tag: 'latest-10_1'
             base_image: 'nginx:mainline'
           # Excluded Docker tags
           #-
           #  target:     'otobo-nginx-webproxy'
-          #  docker_tag: 'rel-10_1_14',
+          #  docker_tag: 'rel-10_1_14'
           #  base_image: 'nginx:mainline'
           #-
           #  target:     'otobo-nginx-webproxy'
-          #  docker_tag: 'rel-10_1_15',
+          #  docker_tag: 'rel-10_1_15'
           #  base_image: 'nginx:mainline'
           -
             target:     'otobo-nginx-webproxy'
-            docker_tag: 'rel-10_1_16',
+            docker_tag: 'rel-10_1_16'
             base_image: 'nginx:mainline'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.1 and 11.0
