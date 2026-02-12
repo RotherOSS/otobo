@@ -19,12 +19,20 @@ package Kernel::System::SLA;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
     'Kernel::System::Log',
+    'Kernel::System::Service',
     'Kernel::System::Valid',
 );
 
@@ -718,6 +726,136 @@ sub SLAPreferencesGet {
     my ( $Self, %Param ) = @_;
 
     return $Self->{PreferencesObject}->SLAPreferencesGet(%Param);
+}
+
+sub ExportSLAs {
+    my ( $Self, %Param ) = @_;
+
+    my $UserID = $Self->{UserID} || $Param{UserID};
+
+    my %SLAFilter;
+    if ( IsArrayRefWithData( $Param{SLAs} ) ) {
+        %SLAFilter = map { $_ => 1 } $Param{SLAs}->@*;
+    }
+
+    my %SLAList = $Self->SLAList(
+        Valid  => 0,
+        UserID => $UserID,
+    );
+
+    my %ExportData;
+    SLAID:
+    for my $SLAID ( sort keys %SLAList ) {
+
+        my %SLAData = $Self->SLAGet(
+            SLAID  => $SLAID,
+            UserID => $UserID,
+        );
+
+        if (%SLAFilter) {
+            next SLAID unless $SLAFilter{ $SLAData{Name} };
+        }
+
+        # translate IDs into names or name-like identifiers
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        my $ValidObject   = $Kernel::OM->Get('Kernel::System::Valid');
+
+        ATTRIBUTE:
+        for my $Attribute ( keys %SLAData ) {
+
+            next ATTRIBUTE unless $Attribute =~ /ID/;
+
+            if ( $Attribute eq 'ValidID' ) {
+                my $Valid = $ValidObject->ValidLookup(
+                    ValidID => $SLAData{ValidID},
+                );
+                $SLAData{Valid} = $Valid;
+                delete $SLAData{ValidID};
+            }
+            elsif ( $Attribute eq 'ServiceIDs' ) {
+                if ( IsArrayRefWithData( $SLAData{ServiceIDs} ) ) {
+                    my @Services;
+                    for my $ServiceID ( $SLAData{ServiceIDs}->@* ) {
+                        push @Services, $ServiceObject->ServiceLookup(
+                            ServiceID => $ServiceID,
+                        );
+                    }
+                    $SLAData{Services} = \@Services;
+                    delete $SLAData{ServiceIDs};
+                }
+            }
+        }
+
+        # observation showed that Type and TypeID both are usually present
+        delete $SLAData{TypeID};
+
+        delete $SLAData{ChangeBy};
+        delete $SLAData{ChangeTime};
+        delete $SLAData{CreateBy};
+        delete $SLAData{CreateTime};
+        delete $SLAData{SLAID};
+
+        $ExportData{ $SLAData{Name} } = \%SLAData;
+    }
+
+    return \%ExportData;
+}
+
+sub ImportSLAs {
+    my ( $Self, %Param ) = @_;
+
+    my $UserID = $Self->{UserID} || $Param{UserID};
+
+    my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+    my $ValidObject   = $Kernel::OM->Get('Kernel::System::Valid');
+    my %SLAList       = $Self->SLAList(
+        Valid  => 0,
+        UserID => $UserID,
+    );
+    my %SLALookup = reverse %SLAList;
+
+    SLANAME:
+    for my $SLAName ( keys $Param{SLAs}->%* ) {
+        my $SLAData = $Param{SLAs}{$SLAName};
+
+        my $SLAID = $SLALookup{ $SLAData->{Name} };
+
+        # skip if SLA with same name exists and overwrite is not set
+        next SLANAME if ( !$Param{OverwriteExistingEntities} && $SLAID );
+
+        # translate named data back to IDs
+        if ( IsArrayRefWithData( $SLAData->{Services} ) ) {
+            my @ServiceIDs;
+            for my $Service ( $SLAData->{Services}->@* ) {
+                push @ServiceIDs, $ServiceObject->ServiceLookup(
+                    Name => $Service,
+                );
+            }
+            $SLAData->{ServiceIDs} = \@ServiceIDs;
+        }
+        $SLAData->{ValidID} = $ValidObject->ValidLookup(
+            Valid => $SLAData->{Valid},
+        );
+
+        if ($SLAID) {
+
+            my $Success = $Self->SLAUpdate(
+                $SLAData->%*,
+                SLAID  => $SLAID,
+                UserID => $UserID,
+            );
+            return unless $Success;
+        }
+        else {
+            my $SLAID = $Self->SLAAdd(
+                $SLAData->%*,
+                UserID => $UserID,
+            );
+            return unless $SLAID;
+        }
+    }
+
+    return 1;
 }
 
 1;

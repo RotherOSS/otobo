@@ -11141,6 +11141,41 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Module###AdminServiceImportExport" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the admin interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Service Import Export</Item>
+                    <Item Key="Title">ServiceImportExport</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminServiceImportExport###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.ServiceImportExport.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::Module###AdminSLA" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
@@ -11208,6 +11243,41 @@
                 <Item Key="Description" Translatable="1">Create and manage Service Level Agreements (SLAs).</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminSLAImportExport" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the admin interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">SLA Import Export</Item>
+                    <Item Key="Title">SLAImportExport</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminSLAImportExport###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.SLAImportExport.js</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>

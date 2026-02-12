@@ -265,6 +265,7 @@ sub Run {
             },
         );
         $LayoutObject->Block( Name => 'Filter' );
+        $LayoutObject->Block( Name => 'ImportExportWidget' );
 
         # output overview result
         $LayoutObject->Block(
