@@ -3,9 +3,8 @@
 # See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest nginx.
-# This image is based on Debian 10 (Buster). The User is root.
-FROM nginx:mainline AS otobo-nginx-webproxy
+# Use the latest nginx on Debian 13 (Trixie). The User is root.
+FROM nginx:mainline-trixie AS otobo-nginx-webproxy
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
