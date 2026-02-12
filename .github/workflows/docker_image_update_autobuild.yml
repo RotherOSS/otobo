@@ -104,25 +104,19 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
-          # otobo-selenium-crome uses different base images in different releases
+          # otobo-selenium-crome uses different base images in different releases.
           # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_14.
           # Declare that base image as the default and add overrides for the exceptions.
-          -
-            target:     'otobo-selenium-chrome'
-            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
-          -
-            target:     'otobo-selenium-chrome'
-            docker_tag: 'latest-10_1-autobuild'
-            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
-
-          # common info for every target,
-          # this includes the base image when it is the same for all targets
-
           -
             target:     'otobo-selenium-chrome'
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'latest-10_1-autobuild'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
           # currently not supported
           #-
@@ -131,6 +125,7 @@ jobs:
           #  context:    'scripts/elasticsearch'
           #  repository: 'rotheross/otobo-elasticsearch'
           #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
+
     steps:
 
       -
