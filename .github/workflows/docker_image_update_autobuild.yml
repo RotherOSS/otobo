@@ -79,7 +79,7 @@ jobs:
             base_image: 'perl:5.40-bookworm'
 
           # The base image nginx:mainline-trixie is used since 11.0.12.
-          # nginx:mainline is used in 10.1.x
+          # nginx:mainline is used in rel-10_1 up to 10.1.16 and then switched to nginx:mainline-trixie
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
