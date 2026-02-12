@@ -83,7 +83,7 @@ jobs:
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        #target: [ 'otobo-web', 'otobo-elasticsearch', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
+        #target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
         target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome' ]
         docker_tag: [
           'rel-10_1_14', 'rel-10_1_15', 'rel-10_1_16', 'latest-10_1',
@@ -175,12 +175,6 @@ jobs:
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
           # common info for every target; for nginx this includes the base imagie
-          #-
-          #  target:     'otobo-elasticsearch'
-          #  dockerfile: 'otobo.elasticsearch.dockerfile'
-          #  context:    'scripts/elasticsearch'
-          #  repository: 'rotheross/otobo-elasticsearch'
-          #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
           -
             target:     'otobo-nginx-webproxy'
             dockerfile: 'otobo.nginx.dockerfile'
@@ -198,6 +192,14 @@ jobs:
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
+
+          # currently not supported
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  dockerfile: 'otobo.elasticsearch.dockerfile'
+          #  context:    'scripts/elasticsearch'
+          #  repository: 'rotheross/otobo-elasticsearch'
+          #  base_image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.27'
 
     steps:
 
