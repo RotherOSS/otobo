@@ -126,6 +126,33 @@ jobs:
             docker_tag: 'rel-10_1_14'
             base_image: 'perl:5.36-bookworm'
 
+          # otobo-selenium-crome uses different base images in different releases
+          # selenium/standalone-chrome:141.0-chromedriver-141.0-20251101 is used since rel-11_0_14.
+          # Declare that base image as the default and add overrides for the exceptions.
+          -
+            target:     'otobo-selenium-chrome'
+            base_image: 'selenium/standalone-chrome:141.0-chromedriver-141.0-20251101'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'rel-11_0_13'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'rel-10_1_14'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'rel-10_1_15'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'rel-10_1_16'
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+          -
+            target:     'otobo-selenium-chrome'
+            docker_tag: 'latest-10_1',
+            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
+
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
           #-
           #  target:     'otobo-nginx-kerberos-webproxy'
@@ -173,7 +200,6 @@ jobs:
             dockerfile: 'otobo.selenium-chrome.dockerfile'
             context:    'scripts/test/sample'
             repository: 'rotheross/otobo-selenium-chrome'
-            base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
     steps:
 
