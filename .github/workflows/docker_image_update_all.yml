@@ -150,7 +150,7 @@ jobs:
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
           -
             target:     'otobo-selenium-chrome'
-            docker_tag: 'latest-10_1',
+            docker_tag: 'latest-10_1'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
           # otobo-nginx-kerberos-webproxy uses different dockerfiles in 10.0 and 10.1
