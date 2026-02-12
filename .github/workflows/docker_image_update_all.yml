@@ -120,6 +120,9 @@ jobs:
           # and add overrides for the exceptions.
           -
             target:     'otobo-web'
+            dockerfile: 'otobo.web.dockerfile'
+            context:    '.'
+            repository: 'rotheross/otobo'
             base_image: 'perl:5.40-bookworm'
           -
             target:     'otobo-web'
@@ -172,11 +175,6 @@ jobs:
             dockerfile: 'otobo.nginx-kerberos.dockerfile'
 
           # common info for every target; for nginx this includes the base imagie
-          -
-            target:     'otobo-web'
-            dockerfile: 'otobo.web.dockerfile'
-            context:    '.'
-            repository: 'rotheross/otobo'
           #-
           #  target:     'otobo-elasticsearch'
           #  dockerfile: 'otobo.elasticsearch.dockerfile'
