@@ -52,8 +52,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{FileHandleList} = [];
 
@@ -91,7 +90,9 @@ sub TempFile {
 =head2 TempDir()
 
 returns a temp directory. The directory and its contents will be removed
-if the FileTemp object goes out of scope.
+when the File::Temp object goes out of scope.
+
+    my $TempDir = $TempObject->TempDir();
 
 =cut
 
