@@ -15,10 +15,19 @@
 
 package Kernel::System::Console::Command::[% Data.CommandName %];
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
 );
@@ -27,6 +36,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     # $Self->Description('Describe this command.');
+    #
     # $Self->AddOption(
     #     Name        => 'option',
     #     Description => "Describe this option.",
@@ -34,6 +44,7 @@ sub Configure {
     #     HasValue    => 1,
     #     ValueRegex  => qr/.*/smx,
     # );
+    #
     # $Self->AddArgument(
     #     Name        => 'argument',
     #     Description => "Describe this argument.",
@@ -60,11 +71,12 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Meaningful start message...</yellow>\n");
+    $Self->PrintWarning("Meaningful start message...\n");
 
     # return $Self->ExitCodeError();
 
-    $Self->Print("<green>Done.</green>\n");
+    $Self->PrintOk("Done.\n");
+
     return $Self->ExitCodeOk();
 }
 
