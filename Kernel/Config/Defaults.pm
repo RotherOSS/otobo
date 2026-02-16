@@ -124,6 +124,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # database settings                                   #
     # --------------------------------------------------- #
+
     # DatabaseHost
     # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
@@ -180,8 +181,10 @@ sub LoadDefaults {
 #        mysql_ssl_optional    => 1,
 #    };
 
-    # If you want to use an init sql after connect, use this here.
-    # (e. g. can be used for mysql encoding between client and server)
+    # Setup for all database connections.
+
+    # Use 'Database::Connect' if you want to run initial SQL commands after connecting to the database.
+    # Formerly this sample was used with MySQL for setting the encoding between client and server.
     #    $Self->{'Database::Connect'} = 'SET NAMES utf8';
 
     # If you want to use the sql slow log feature, enable this here.
