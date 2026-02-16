@@ -25,7 +25,7 @@ use parent qw(scripts::DBUpdateTo11_1::Base);
 
 # core modules
 use File::Basename;
-use List::Util qw(any none);
+use List::Util qw(none uniq);
 
 # CPAN modules
 
@@ -65,7 +65,8 @@ sub Run {
         $ExitCode = $CommandObject->Execute();
     }
 
-    if ( !$ExitCode ) {
+    # exit code 0 means all went well
+    if ($ExitCode) {
         $LogObject->Log(
             Priority => 'error',
             Message  => "Could not deploy system configuration!",
@@ -74,10 +75,224 @@ sub Run {
         return;
     }
 
+    # hardcoded content of 11.0 default config for comparison later on
+    my %OldConfigDefault = (
+        Internal => {
+            AgentTicketArticleRestore => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore',
+                Prio   => 10,
+                Valid  => 1,
+            },
+            AgentTicketArticleDelete => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete',
+                Prio   => 20,
+                Valid  => 1,
+            },
+            AgentTicketArticleVersion => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion',
+                Prio   => 30,
+                Valid  => 1,
+            },
+            AgentTicketArticleEdit => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit',
+                Prio   => 40,
+                Valid  => 1,
+            },
+            AgentTicketCompose => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketCompose',
+                Prio   => 100,
+                Valid  => 1,
+            },
+            AgentTicketForward => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketForward',
+                Prio   => 200,
+                Valid  => 1,
+            },
+            AgentTicketBounce => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketBounce',
+                Prio   => 300,
+                Valid  => 1,
+            },
+            AgentTicketPhone => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPhone',
+                Prio   => 400,
+                Valid  => 1,
+            },
+            AgentTicketPrint => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPrint',
+                Prio   => 500,
+                Valid  => 1,
+            },
+            AgentTicketPlain => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPlain',
+                Prio   => 600,
+                Valid  => 1,
+            },
+            MarkAsImportant => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkAsImportant',
+                Prio   => 700,
+                Valid  => 1,
+            },
+            AgentTicketNote => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketNote',
+                Prio   => 800,
+                Valid  => 1,
+            },
+            MarkArticleSeenUnseen => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen',
+                Prio   => 900,
+                Valid  => 1,
+            },
+        },
+        Phone => {
+            AgentTicketCompose => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketCompose',
+                Prio   => 100,
+                Valid  => 1,
+            },
+            AgentTicketArticleEdit => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit',
+                Prio   => 1100,
+                Valid  => 1,
+            },
+            AgentTicketForward => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketForward',
+                Prio   => 200,
+                Valid  => 1,
+            },
+            AgentTicketBounce => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketBounce',
+                Prio   => 300,
+                Valid  => 1,
+            },
+            AgentTicketPhone => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPhone',
+                Prio   => 400,
+                Valid  => 1,
+            },
+            AgentTicketPrint => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPrint',
+                Prio   => 500,
+                Valid  => 1,
+            },
+            AgentTicketPlain => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPlain',
+                Prio   => 600,
+                Valid  => 1,
+            },
+            MarkAsImportant => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkAsImportant',
+                Prio   => 700,
+                Valid  => 1,
+            },
+            AgentTicketNote => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketNote',
+                Prio   => 800,
+                Valid  => 1,
+            },
+            MarkArticleSeenUnseen => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen',
+                Prio   => 900,
+                Valid  => 1,
+            },
+        },
+        Email => {
+            AgentTicketCompose => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketCompose',
+                Prio   => 100,
+                Valid  => 1,
+            },
+            AgentTicketForward => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketForward',
+                Prio   => 200,
+                Valid  => 1,
+            },
+            AgentTicketBounce => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketBounce',
+                Prio   => 300,
+                Valid  => 1,
+            },
+            AgentTicketPhone => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPhone',
+                Prio   => 400,
+                Valid  => 1,
+            },
+            AgentTicketPrint => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPrint',
+                Prio   => 500,
+                Valid  => 1,
+            },
+            AgentTicketMessageLog => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketMessageLog',
+                Prio   => 550,
+                Valid  => 1,
+            },
+            AgentTicketPlain => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketPlain',
+                Prio   => 600,
+                Valid  => 1,
+            },
+            MarkAsImportant => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkAsImportant',
+                Prio   => 700,
+                Valid  => 1,
+            },
+            AgentTicketNote => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketNote',
+                Prio   => 800,
+                Valid  => 1,
+            },
+            AgentTicketEmailResend => {
+                Module => 'Kernel::Output::HTML::ArticleAction::AgentTicketEmailResend',
+                Prio   => 900,
+                Valid  => 1,
+            },
+            MarkArticleSeenUnseen => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen',
+                Prio   => 1000,
+                Valid  => 1,
+            },
+        },
+        Invalid => {
+            ReinstallPackageLink => {
+                Module => 'Kernel::Output::HTML::ArticleAction::ReinstallPackageLink',
+                Prio   => 200,
+                Valid  => 1,
+            },
+            GetHelpLink => {
+                Module => 'Kernel::Output::HTML::ArticleAction::GetHelpLink',
+                Prio   => 100,
+                Valid  => 1,
+            },
+            MarkArticleSeenUnseen => {
+                Module => 'Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen',
+                Prio   => 100,
+                Valid  => 1,
+            },
+        },
+    );
+    my @KnownModules = (
+        'Kernel::Output::HTML::ArticleAction::AgentTicketArticleRestore',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketArticleDelete',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketArticleVersion',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketArticleEdit',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketCompose',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketForward',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketBounce',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketPhone',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketPrint',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketPlain',
+        'Kernel::Output::HTML::ArticleAction::MarkAsImportant',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketNote',
+        'Kernel::Output::HTML::ArticleAction::MarkArticleSeenUnseen',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketMessageLog',
+        'Kernel::Output::HTML::ArticleAction::AgentTicketEmailResend',
+        'Kernel::Output::HTML::ArticleAction::ReinstallPackageLink',
+        'Kernel::Output::HTML::ArticleAction::GetHelpLink',
+    );
+
     CHANNEL:
     for my $Channel (qw(Internal Phone Email Invalid)) {
-
-        next CHANNEL unless ( exists $OldConfig->{$Channel} && IsHashRefWithData( $OldConfig->{$Channel} ) );
 
         my %OldConfigSetting = $SysConfigObject->SettingGet(
             Name => "Ticket::Frontend::Article::Actions###$Channel",
@@ -88,27 +303,65 @@ sub Run {
         my $ConfigName  = "Ticket::Frontend::Article::Actions::$Channel";
         my $SettingName = "Ticket::Frontend::Article::Actions::$Channel###000-Ticket";
 
-        # tackle agent-side setting
         my %ArticleActionsSetting = $SysConfigObject->SettingGet(
             Name => $SettingName,
         );
-        next CHANNEL if !%ArticleActionsSetting;
-
-        # filter for standard actions only
-        my %TransferConfigsHash;
-
-        OLDCONFIGITEMNAME:
-        for my $OldConfigItemName ( keys $OldConfig->{$Channel}->%* ) {
-            next OLDCONFIGITEMNAME unless $ArticleActionsSetting{EffectiveValue}{$OldConfigItemName};
-            next OLDCONFIGITEMNAME unless DataIsDifferent(
-                Data1 => $OldConfig->{$Channel}{$OldConfigItemName},
-                Data2 => $ArticleActionsSetting{EffectiveValue}{$OldConfigItemName},
+        if ( !%ArticleActionsSetting ) {
+            $LogObject->Log(
+                Priority => 'error',
+                Message  => "Setting $SettingName not present despite it should be - skipping...",
             );
-
-            $TransferConfigsHash{$OldConfigItemName} = $OldConfig->{$Channel}{$OldConfigItemName};
+            next CHANNEL;
         }
 
-        next CHANNEL unless %TransferConfigsHash;
+        my %ArticleActionsToStore = $ArticleActionsSetting{EffectiveValue}->%*;
+
+        # compare modified setting with defaults from core
+        {
+            my %DefaultConfig = $OldConfigDefault{$Channel}->%*;
+
+            ACTION:
+            for my $Action ( uniq( keys $OldConfig->{$Channel}->%*, keys $ArticleActionsSetting{EffectiveValue}->%* ) ) {
+
+                # not present in old modified config - count as deleted
+                if ( !$OldConfig->{$Channel}{$Action} ) {
+                    delete $ArticleActionsToStore{$Action};
+
+                    next ACTION;
+                }
+
+                my %OldActionConfig = $OldConfig->{$Channel}{$Action}->%*;
+
+                # check if action config changed at all
+                if ( $DefaultConfig{$Action} ) {
+                    my $IsDifferent = DataIsDifferent(
+                        Data1 => $DefaultConfig{$Action},
+                        Data2 => \%OldActionConfig,
+                    );
+
+                    next ACTION unless $IsDifferent;
+                }
+
+                # check if module of changed config is present
+                my $ModuleChanged = $OldActionConfig{Module};
+                if ( none { $_ eq $ModuleChanged } @KnownModules ) {
+                    delete $ArticleActionsToStore{$Action};
+
+                    next ACTION;
+                }
+
+                # config changed and module present - update config
+                $ArticleActionsToStore{$Action} = \%OldActionConfig;
+            }
+        }
+
+        # do not update if nothing changed at all
+        my $ConfigIsDifferent = DataIsDifferent(
+            Data1 => \%ArticleActionsToStore,
+            Data2 => $ArticleActionsSetting{EffectiveValue},
+        );
+
+        next CHANNEL unless $ConfigIsDifferent;
 
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             UserID    => 1,
@@ -121,8 +374,7 @@ sub Run {
             Name           => $SettingName,
             IsValid        => 1,
             EffectiveValue => {
-                $ArticleActionsSetting{EffectiveValue}->%*,
-                %TransferConfigsHash,
+                %ArticleActionsToStore,
             },
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => 1,
