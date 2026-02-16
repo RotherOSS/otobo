@@ -1809,6 +1809,8 @@ via the Preferences button after logging in.
 #        CustomerKey => 'uid',
 #        # customer #
 #        CustomerID => 'mail',
+#        # The last field must always be the email address so that a valid
+#        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
 #        CustomerUserListFields => ['cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
 #        CustomerUserSearchPrefix => '',
