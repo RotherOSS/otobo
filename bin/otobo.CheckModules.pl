@@ -929,11 +929,11 @@ my @NeededModules = (
         },
     },
 
-    # Feature mail:imap, mail:sasl, mail:ntlm
+    # Feature mail:sasl, mail:ntlm
     {
         Module    => 'Authen::SASL',
         Features  => ['mail:sasl'],
-        Comment   => 'Required for MD5 authentication mechanisms in IMAP connections.',
+        Comment   => 'Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.',
         InstTypes => {
             aptget => 'libauthen-sasl-perl',
             emerge => 'dev-perl/Authen-SASL',
