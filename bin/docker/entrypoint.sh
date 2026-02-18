@@ -139,22 +139,6 @@ function exec_web() {
 # Files that had been added in the previous /opt/otobo are not discarded.
 function copy_otobo_next() {
 
-    # The directory Kernel/cpan-lib is a special case. Perl modules
-    # from previous OTOBO versions should not override the modules
-    # that are provided in /opt/otobo_install/local. So we remove
-    # the entire directory. Potential changes in Kernel/cpan-lib,
-    # that stem from the previous installation, can be recovered from
-    # the backup done with scripts/backup.pl
-    local cpan_lib_dir="$OTOBO_HOME/Kernel/cpan-lib"
-    if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
-        rm -r $cpan_lib_dir
-        {
-            date
-            echo "Removed the directory $cpan_lib_dir"
-            echo
-        } >> $g_update_log
-    fi
-
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
