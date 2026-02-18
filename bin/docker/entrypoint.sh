@@ -22,8 +22,8 @@
 # Declare file scoped variables
 ################################################################################
 
-otobo_next="/opt/otobo_install/otobo_next"
-update_log="/opt/otobo/var/log/update.log"
+dir_otobo_next="/opt/otobo_install/otobo_next"
+update_log="$OTOBO_HOME/var/log/update.log"
 
 ################################################################################
 # Declare functions
@@ -45,9 +45,9 @@ function handle_docker_firsttime() {
     # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
-    # $otobo_next is not removed, it is kept for future reference
+    # $dir_otobo_next is not removed, it is kept for future reference
     # Note that docker_firsttime_handled is only available in the service web.
-    mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
+    mv $dir_otobo_next/docker_firsttime $dir_otobo_next/docker_firsttime_handled
 }
 
 # An easy way to start bash.
@@ -156,12 +156,12 @@ function copy_otobo_next() {
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
-    # Copying $otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
-    cp --archive $otobo_next/. $OTOBO_HOME
+    # Copying $dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
+    cp --archive $dir_otobo_next/. $OTOBO_HOME
 
     {
         date
-        echo "Copied $otobo_next to $OTOBO_HOME"
+        echo "Copied $dir_otobo_next to $OTOBO_HOME"
         echo
     } >> $update_log
 
@@ -238,7 +238,7 @@ if [ "$1" = "daemon" ]; then
     if ! mountpoint -q "/opt/otobo"; then
 
         # There is no locking as we no other container can meddle with /opt/otobo.
-        if [ -f "$otobo_next/docker_firsttime" ]; then
+        if [ -f "$dir_otobo_next/docker_firsttime" ]; then
             handle_docker_firsttime
         fi
     fi
@@ -254,7 +254,7 @@ if [ "$1" = "web" ]; then
 
     # First check whether the container is started with a new image.
     # There is no locking as we assume that there aren't multiple containers trying to the same.
-    if [ -f "$otobo_next/docker_firsttime" ]; then
+    if [ -f "$dir_otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
 
