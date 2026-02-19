@@ -289,10 +289,10 @@
                                 [% Translate("Will be the sender address of this queue for email answers.") | html %]
                             </p>
                             <p class="FieldExplanation">
-                                [% Translate("Is defined in Admin > System addresses.") | html %]
+                                [% Translate("Is defined in Admin > Email Addresses.") | html %]
                             </p>
                             <p class="FieldExplanation">
-                                [% Translate("Only relevant if Postmaster Mail Account set to Dispatching by To: field.") | html %]
+                                [% Translate("Only relevant if Postmaster Mail Account set to dispatching by To-field.") | html %]
                             </p>
                             <div id="SystemAddressIDError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
@@ -353,7 +353,7 @@
                                 [% Translate("The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.") | html %]
                             </p>
                             <p class="FieldExplanation">
-                                [% Translate("Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.") | html %]
+                                [% Translate("Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>
