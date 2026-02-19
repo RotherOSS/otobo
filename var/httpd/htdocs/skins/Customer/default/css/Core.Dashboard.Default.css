@@ -24,22 +24,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     /* Featured Link */
-    #oooTile02 {            
+    #oooTile02 {
         grid-area: 2 / 1 / 4 / 2;
-    }                       
-                            
+    }
+
     /* Ticket List */
     #oooTile03 {
         display: none;
     }
 
     /* External Links */
-    #oooTile05 {            
+    #oooTile05 {
         grid-area: 4 / 1 / 5 / 2;
-    }                       
-                            
+    }
+
     /* InfoTile */
-    #oooTile07 {            
+    #oooTile07 {
         grid-area: 1 / 1 / 2 / 2;
     }
 
@@ -54,7 +54,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: calc( 308.99vw + 46.56px );
         grid-template-rows: repeat(5, 1fr);
     }
-    
+
 }
 
 @media only screen and (min-width: 436px) and (max-width: 767px) {
@@ -65,22 +65,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     /* Featured Link */
-    #oooTile02 {            
+    #oooTile02 {
         grid-area: 2 / 1 / 4 / 2;
-    }                       
-                            
+    }
+
     /* Ticket List */
-    #oooTile03 {            
+    #oooTile03 {
         grid-area: 5 / 1 / 9 / 2;
-    }                                           
+    }
 
     /* External Links */
-    #oooTile05 {            
+    #oooTile05 {
         grid-area: 4 / 1 / 5 / 2;
-    }                       
-                            
+    }
+
     /* InfoTile */
-    #oooTile07 {            
+    #oooTile07 {
         grid-area: 1 / 1 / 2 / 2;
     }
 
@@ -106,25 +106,25 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* New Ticket */
     #oooTile01 {
         grid-area: 1 / 1 / 2 / 2;
-    }                       
-                            
+    }
+
     /* Featured Link */
-    #oooTile02 {            
+    #oooTile02 {
         grid-area: 3 / 1 / 5 / 2;
-    }                       
+    }
 
     /* Ticket List */
-    #oooTile03 {            
+    #oooTile03 {
         grid-area: 6 / 1 / 10 / 2;
-    }                       
-                            
+    }
+
     /* External Links */
-    #oooTile05 {            
+    #oooTile05 {
         grid-area: 5 / 1 / 6 / 2;
-    }                       
-                            
+    }
+
     /* InfoTile */
-    #oooTile07 {            
+    #oooTile07 {
         grid-area: 2 / 1 / 3 / 2;
     }
 
@@ -140,7 +140,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         padding-right: calc( 50vw - 232px );
         height: 2528.96px;
     }
-    
+
 }
 
 @media only screen and (min-width: 880px) and (max-width: 1279px) {
@@ -240,7 +240,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             height: calc( 82.406vw - 99.405px );
         }
     }
-    
+
     @media only screen and (min-width: 1444px) {
         #oooMainBox {
             height: 1090.54px;
