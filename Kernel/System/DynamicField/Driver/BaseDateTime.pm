@@ -747,6 +747,9 @@ sub SearchFieldRender {
     # add type to FieldName
     $FieldName .= $Param{Type};
 
+    # is it rendered for the customer interface?
+    my $CustomerInterface = $Param{CustomerInterface} || 0;
+
     my $Value;
 
     my %DefaultValue;
@@ -834,12 +837,17 @@ sub SearchFieldRender {
     # set as checked if necessary
     my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked' : '' );
 
-    my $HTMLString = <<"EOF";
+    my $HTMLString = '';
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '<div class=' . $FieldClass . '>';
+    }
+
+    $HTMLString .= <<"EOF";
     <input type="hidden" id="$FieldName" name="$FieldName" value="1">
 EOF
 
     if ( $Param{ConfirmationCheckboxes} ) {
-        $HTMLString = <<"EOF";
+        $HTMLString .= <<"EOF";
     <input type="checkbox" id="$FieldName" name="$FieldName" value="1" $FieldChecked>
 EOF
     }
@@ -889,6 +897,10 @@ EOF
             AdditionalText => $AdditionalText,
         );
 
+        if ( $CustomerInterface == 1 ) {
+            $HTMLString .= '</div>';
+        }
+
         return {
             Field => $HTMLString,
             Label => $LabelString,
@@ -905,6 +917,11 @@ EOF
     }
 
     # build HTML for start value set
+
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '<div class="oooDate">';
+    }
+
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName . 'Start',
@@ -916,6 +933,10 @@ EOF
         %YearsPeriodRange,
         OverrideTimeZone => 1,
     );
+
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '</div>';
+    }
 
     # to put a line break between the two search dates
     my $LineBreak = ' <br>';
@@ -929,6 +950,11 @@ EOF
     $HTMLString .= ' ' . $Param{LayoutObject}->{LanguageObject}->Translate("and") . "$LineBreak\n";
 
     # build HTML for stop value set
+
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '<div class="oooDate">';
+    }
+
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix               => $FieldName . 'Stop',
@@ -941,6 +967,10 @@ EOF
         OverrideTimeZone => 1,
     );
 
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '</div>';
+    }
+
     my $AdditionalText;
     if ( $Param{UseLabelHints} ) {
         $AdditionalText = Translatable('between');
@@ -952,6 +982,10 @@ EOF
         FieldName      => $FieldName,
         AdditionalText => $AdditionalText,
     );
+
+    if ( $CustomerInterface == 1 ) {
+        $HTMLString .= '</div>';
+    }
 
     return {
         Field => $HTMLString,

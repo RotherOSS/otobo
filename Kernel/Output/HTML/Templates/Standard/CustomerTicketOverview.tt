@@ -32,7 +32,7 @@
     </div>
     <div id='oooMainBox'>
         <div id='oooTicketListHeader'>
-[% IF Env("Subaction") == 'Search' %]
+[% IF (Env("Subaction") == 'Search') && (Data.Fulltext != '') %]
             <p class="ooo12 oool Selected">
                 [% Translate("Search") | html %]:  "[% Data.Fulltext | html %]"
             </p>

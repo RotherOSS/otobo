@@ -167,19 +167,46 @@ Core.UI.Datepicker = (function (TargetNS) {
             // insert DatepickerElement
             if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
                 // CustomerInterface (otobo style)
-                var Container = $(Element.Day).parent();
+                let Container, $DateDiv;
+                let $Parent = $(Element.Day).parent();
+                if ($Parent.hasClass('oooDate')) {
+                    $DateDiv = $Parent;
+                    Container = $Parent.parent();
 
-                // reorder dynamic fields
-                Container.wrapInner("<div class='oooDate'></div>");
-                Container.addClass('oooDateContainer');
+                    //reorder elements
+                    if (!Container.hasClass('oooDateContainer')) {
+                        let $Label = Container.parent().siblings('label');
+                        $Label = $Label.detach();
+                        let $Checkbox = $('input[type=checkbox]', Container);
+                        $Checkbox = $Checkbox.detach();
+                        let $Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
+                            $Checkbox.click();
+                        });
+                        Container.prepend( $Checkbox, $Icon, $Label );
 
-                var Label = $('label', Container.parent().parent());
-                var Checkbox = $('.oooDate > input[type=checkbox]', Container);
-                var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
-                    Checkbox.click();
-                });
+                        Container.addClass('oooDateContainer');
+                    }
 
-                Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
+                    $DateDiv.before($DatepickerElement);
+                } else {
+                    Container = $Parent;
+                    // TODO: remove useless assignment?
+                    //$DateDiv = Container.wrapInner("<div class='oooDate'></div>");
+
+                    // reorder dynamic fields
+                    Container.wrapInner("<div class='oooDate'></div>");
+                    Container.addClass('oooDateContainer');
+
+                    let Label = $('label', Container.parent().parent());
+                    let Checkbox = $('.oooDate > input[type=checkbox]', Container);
+                    let Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
+                        Checkbox.click();
+                    });
+
+                    Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
+
+                }
+/* EO CustomerTicketSearch */
             } else {
                 // AgentInterface
                 Element.Year.after($DatepickerElement);
@@ -300,7 +327,8 @@ Core.UI.Datepicker = (function (TargetNS) {
                 // auto activate dynamic field on click on Datepicker
                 var DateContainer = $DatepickerElement.parent();
                 if ( DateContainer.hasClass('oooDateContainer') ) {
-                    var Checkbox = DateContainer.children('input[type=checkbox]').first();
+                    // TODO: remove useless assignment?
+                    //var Checkbox = DateContainer.children('input[type=checkbox]').first();
                     Icon.on('click', function() {
                         DateContainer.children('input[type=checkbox]').first().prop('checked', true);
                     });

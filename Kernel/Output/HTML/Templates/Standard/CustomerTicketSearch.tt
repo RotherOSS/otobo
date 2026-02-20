@@ -15,8 +15,24 @@
 # --
 
 [% RenderBlockStart("Search") %]
-<div id="MainBox" class="Search ARIARoleMain">
-    <div class="Content">
+<div id="oooContent" class="ARIARoleMain Search">
+    <div id="oooHeader">
+        <h1>[% Translate("Search for a Ticket") | html %]</h1>
+[% RenderBlockStart("SearchBox") %]
+        <div id="oooSearchBox">
+        </div>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerITSMConfigItemSearch;Filter=1;View=Small;SortBy=Age;OrderBy=Up" title="[% Translate("Search") | html %]" accesskey="[% Data.AccessKey | html %]"><button><span> [% Translate("Search") | html %]</span></button></a>
+[% RenderBlockEnd("SearchBox") %]
+    </div>
+    <div id="oooMainBox">
+        <div id="oooTicketSearchListHeader">
+[% IF Data.SiteNavBar %]
+            <div class="ooo12g ooor">
+                <p>[% Translate("Page") | html %]</p>
+                [% Data.SiteNavBar %]
+            </div>
+[% END %]
+        </div>
         <form action="[% Env("CGIHandle") %]" method="get">
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="LoadProfile"/>
@@ -37,6 +53,8 @@
         <form action="[% Env("CGIHandle") %]" method="post" name="compose">
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="Search"/>
+            <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+
             <fieldset>
                 <h2>[% Config("Ticket::Hook") %]</h2>
                 <div>
