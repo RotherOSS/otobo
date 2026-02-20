@@ -43,13 +43,10 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 EventList()
@@ -72,7 +69,6 @@ sub EventList {
     my ( $Self, %Param ) = @_;
 
     my %ObjectTypes = map { $_ => 1 } @{ $Param{ObjectTypes} || [] };
-
     my %EventConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Events') || {} };
 
     my %Result;
@@ -106,7 +102,6 @@ sub EventList {
     }
 
     return %Result;
-
 }
 
 1;
