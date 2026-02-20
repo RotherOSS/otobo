@@ -1,0 +1,258 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@media only screen and (max-width: 767px) {
+
+    #oooHeader {
+        height: 128px;
+        padding: 0px 16px 24px 16px;
+        border-radius: 20px 20px 0px 0px;
+        border-bottom: 0.6px solid #e5e5eb;
+        overflow: hidden;
+    }
+
+    #oooMainBox {
+        background-color: #f7f7f9;
+        background-color: var(--colBGLight);
+        min-height: calc( 100vh - 265px );
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooHeader {
+        height: 145px;
+        position: sticky;
+        top: 0;
+        border-bottom: 1.2px solid #e5e5eb;
+    }
+
+    .Row > input[type="text"] {
+        width: calc( 66% - 32px ) !important;
+        margin-left: 17%;
+    }
+
+    .Row > label,
+    .RichTextHolder > label {
+        left: calc( -66% + 24px );
+    }
+}
+
+#oooHeader {
+    background-color: #ffffff;
+    display: grid;
+    align-content: center;
+}
+
+#oooCustomerNotifications {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+.Row {
+    display: block flex;
+}
+
+.Row > .FieldCell {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.Row div.Field{
+    position: relative;
+    width: 100%;
+}
+
+.Row .Field > input {
+    display: inline-block;
+    height: 56px;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #7f809d;
+    color: var(--colTextLight);
+    width: calc( 100% - 32px );
+    border-radius: 10px;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    padding: 0px;
+    padding-left: 32px;
+    border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
+-webkit-transition: border 0.2s ease;
+   -moz-transition: border 0.2s ease;
+     -o-transition: border 0.2s ease;
+        transition: border 0.2s ease;
+}
+
+.Row .Field > input:hover,
+.Row .Field > input.oooFull {
+    border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
+    background-color: #fff;
+}
+
+.Row .Field > input:focus,
+.Row .Field > input.oooFull:focus {
+    border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
+    background-color: #fff;
+    color: #001bff;
+    color: var(--colMainLight);
+}
+
+.FieldCell > label {
+    position: absolute;
+    left: 24px;
+    top: 28px; /* for hardcoded field height 56px */
+    margin-top: -0.5em;
+    z-index: 1;
+}
+
+.oooTicketSearch .Field.oooFull ~ label,
+.oooTicketSearch .Field ~ label.oooFocus,
+.oooTicketSearch .Field:hover:not([class*='RichTextField']) ~ label,
+.oooTicketSearch .Field.oooSelected ~ label {
+    top: 0;
+}
+
+/* fix for style bug in Core.InputFields.css */
+.oooTicketSearch .Field:hover:not([class*='RichTextField']) ~ label.oooFocus {
+    color: var(--colMainLight)
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Row {
+    margin-top: 8px;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field,
+.oooTicketSearch .Row .TimeRestrictionField {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 100%;
+    flex-wrap: wrap;
+    height: max( 30px, fit-content );
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field > input,
+.oooTicketSearch .TimeRestrictionField > input {
+    width: fit-content;
+    height: fit-content;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field.NoLabel ~ label,
+.oooTicketSearch .TimeRestrictionFilters .Field.NoLabel label,
+.oooTicketSearch .TimeRestrictionField.NoLabel ~ label,
+.oooTicketSearch .TimeRestrictionField.NoLabel label,
+.oooTicketSearch .TimeRestrictionField ~ label[for*="TimePoint"] {
+    display: none;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .FieldCell > .Field ~ label,
+.oooTicketSearch .FieldCell > .TimeRestrictionField ~ label {
+    position: absolute;
+    left: 24px;
+    margin-top: -0.5em;
+    z-index: 1;
+    font-size: 16px;
+    background-color: unset;
+    color: #00023c;
+    color: var(--colTextDark);
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field p,
+.oooTicketSearch .TimeRestrictionField p {
+    font-size: 16px;
+    color: #00023c;
+    color: var(--colTextDark);
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 0px;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field > *,
+.oooTicketSearch .Row:not(.Row_DynamicField) .TimeRestrictionField > * {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field.NoLabel .oooDateContainer,
+.oooTicketSearch .TimeRestrictionField.NoLabel .oooDateContainer,
+.oooTicketSearch .FieldCell .Field.oooCheckboxContainer {
+    padding-left: 16px;
+}
+
+.oooTicketSearch .TimeRestrictionFilters .Field .oooDateContainer,
+.oooTicketSearch .TimeRestrictionField .oooDateContainer {
+    height: fit-content;
+    padding-top: 0px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.oooTicketSearch .Field.oooCheckboxContainer input {
+    display: none;
+}
+
+.oooTicketSearch .oooWidget .oooSection > h3 {
+    margin-bottom: 0;
+    margin-top: 16px;
+}
+
+.oooTicketSearch .oooSection > fieldset:first-of-type,
+.oooTicketSearch .oooSection > fieldset:first-of-type > .Row:first-of-type {
+    margin-top: 8px;
+}
+
+.oooTicketSearch .ActionRow {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+}
+
+#BottomActionRow {
+    text-align: center;
+}
+
+.oooTicketSearch .ActionRow > * {
+    margin-right: 24px;
+}
+
+.oooTicketSearch > div {
+    display: block;
+    width: calc( 100% - 80px );
+    height: auto;
+    margin-top: 8px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 15px;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
+    background-color: #ffffff;
+}
+
+.oooTicketSearch .oooWidget:last-of-type {
+    margin-bottom: 40px;
+}
+
+.oooTicketSearch .oooWidget {
+    position: initial;
+    max-width: none;
+    margin-top: 40px;
+}

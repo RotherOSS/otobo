@@ -64,16 +64,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     cursor: pointer;
 }
 
-.oooWidget > .oooSection {
+.oooWidget .oooSection {
     margin-top: 40px;
     padding-left: 8px;
 }
 
-.oooWidget > .oooSection:first-child {
+.oooWidget .oooSection:first-child {
     margin-top: 0px;
 }
 
-.oooWidget > .oooSection > h3 {
+.oooWidget .oooSection > h3 {
     display: inline-block;
 
     position: relative;
