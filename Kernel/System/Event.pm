@@ -71,6 +71,7 @@ sub EventList {
     my %ObjectTypes = map { $_ => 1 } @{ $Param{ObjectTypes} || [] };
     my %EventConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Events') || {} };
 
+    # filter by ObjectType, an empty filter means that no filtering is done
     my %Result;
     for my $ObjectType ( sort keys %EventConfig ) {
 
@@ -93,12 +94,14 @@ sub EventList {
 
         my @DynamicFieldEvents = map {"TicketDynamicFieldUpdate_$_"} sort values %{$DynamicFields};
 
-        push @{ $Result{'Ticket'} || [] }, @DynamicFieldEvents;
+        $Result{Ticket} ||= [];
+        push $Result{Ticket}->@*, @DynamicFieldEvents;
     }
 
     # there is currently only one article df event
     if ( !%ObjectTypes || $ObjectTypes{'Article'} ) {
-        push @{ $Result{'Article'} || [] }, 'ArticleDynamicFieldUpdate';
+        $Result{Article} ||= [];
+        push $Result{'Article'}->@*, 'ArticleDynamicFieldUpdate';
     }
 
     return %Result;
