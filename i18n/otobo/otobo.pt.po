@@ -25,16 +25,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2025-02-01 20:53+0000\n"
-"Last-Translator: Renato Sequeira <rds.516@gmail.com>\n"
-"Language-Team: Portuguese <http://translate.otobo.org/projects/otobo/"
-"otobo-10/pt/>\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Portuguese <http://translate.otobo.org/projects/otobo/otobo-"
+"10/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -17783,6 +17783,7 @@ msgid "Delete invoker"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.Group
+#, fuzzy
 msgid ""
 "WARNING: When you change the name of the group 'admin', before making the "
 "appropriate changes in the SysConfig, you will be locked out of the "
@@ -28905,6 +28906,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
 "\"<OTOBO_MERGE_TO_TICKET>\"."
