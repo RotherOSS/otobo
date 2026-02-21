@@ -4,16 +4,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
-"Language-Team: Thai (Thailand) (https://translate.otobo.org/projects/otobo10/"
-"otobo/th_TH/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Thai <http://translate.otobo.org/projects/otobo/otobo-10/th/>"
+"\n"
 "Language: th_TH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2587,6 +2589,7 @@ msgid "(e. g. 10*5155 or 105658*)"
 msgstr "(เช่น 10*5155 หรือ 105658*)"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "(e. g. 234321)"
 msgstr "(เช่น  234321)"
 
@@ -3363,12 +3366,13 @@ msgid "Configure"
 msgstr "การกำหนดค่า"
 
 #. Template: AdminGenericInterfaceInvokerDefault
+#, fuzzy
 msgid ""
 "The data from the invoker of OTOBO will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
-"ข้อมูลจากผู้ร้องขอของOTOBO  "
-"จะถูกดำเนินการจากแผนที่นี้เพื่อเปลี่ยนมันไปเป็นประเภทของข้อมูลที่คาดว่าเป็นระบบจากระยะไกล"
+"ข้อมูลจากผู้ร้องขอของOTOBO  จะถูกดำเนินการจากแผนที่นี้เพื่อเปลี่ยนมันไปเป็นประเภทของข้อมูลที่คาดว่า"
+"เป็นระบบจากระยะไกล"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
@@ -5085,14 +5089,15 @@ msgid "Continue"
 msgstr "ดำเนินการต่อ"
 
 #. Template: AdminPackageManager
+#, fuzzy
 msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
-"กรุณาตรวจสอบให้แน่ใจว่าฐานข้อมูลของคุณรับขนาดแพคเกจมากกว่า %s MB  "
-"(ขณะนี้สามารถยอมรับเฉพาะแพคเกจที่มีขนาดถึง %s MB) กรุณาปรับตั้งค่า max_allowed_packet "
-"ของฐานข้อมูลของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด"
+"กรุณาตรวจสอบให้แน่ใจว่าฐานข้อมูลของคุณรับขนาดแพคเกจมากกว่า %s MB  (ขณะนี้สามารถยอมรับเฉพา"
+"ะแพคเกจที่มีขนาดถึง %s MB) กรุณาปรับตั้งค่า max_allowed_packet ของฐานข้อมูลของคุณเพื่อหลีกเลี่"
+"ยงข้อผิดพลาด"
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -12785,6 +12790,7 @@ msgid "There was an error updating the Process"
 msgstr "มีข้อผิดพลาดในการอัพเดตการดำเนินการ"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
 msgid "Process: %s could not be deleted"
 msgstr "การดำเนินการ:  %s ไม่สามารถลบ"
 
@@ -12797,6 +12803,7 @@ msgid "The %s:%s is still in use"
 msgstr "%s:%s ยังคงอยู่ในการใช้งาน"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
 msgid "The %s:%s has a different EntityID"
 msgstr "%s:%s  มี EntityID ที่แตกต่างกัน"
 
@@ -13816,6 +13823,7 @@ msgid "Address %s replaced with registered customer address."
 msgstr "ที่อยู่% s แทนที่ด้วยที่อยู่ของลูกค้าที่ลงทะเบียน"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+#, fuzzy
 msgid "Customer user automatically added in Cc."
 msgstr "ผู้ใช้ลูกค้าถูกเพิ่มโดยอัตโนมัติใน  Cc"
 
@@ -14103,6 +14111,7 @@ msgid "Missing ProcessEntityID in Ticket %s!"
 msgstr "ProcessEntityID หายไปในตั๋ว %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
@@ -16914,8 +16923,9 @@ msgid "MPM model"
 msgstr "โมเดล MPM "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
+#, fuzzy
 msgid "OTOBO requires apache to be run with the 'prefork' MPM model."
-msgstr "OTOBO  ต้องการให้ Apache จะทำงานกับโมเดล MPM  'prefork' "
+msgstr "OTOBO  ต้องการให้ Apache จะทำงานกับโมเดล MPM  'prefork'"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "CGI Accelerator Usage"
@@ -18839,12 +18849,13 @@ msgid "Added web request from customer."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Adds a suffix with the actual year and month to the OTOBO log file. A "
 "logfile for every month will be created."
 msgstr ""
-"เพิ่มคำต่อท้ายกับปีและเดือนที่เกิดขึ้นจริงไปยังแฟ้มบันทึกของOTOBO  "
-"แฟ้มบันทึกสำหรับทุกเดือนจะถูกสร้างขึ้น"
+"เพิ่มคำต่อท้ายกับปีและเดือนที่เกิดขึ้นจริงไปยังแฟ้มบันทึกของOTOBO  แฟ้มบันทึกสำหรับทุกเดือนจะถูกสร้างขึ้"
+"น"
 
 #. SysConfig
 msgid ""
@@ -19452,8 +19463,9 @@ msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Automated line break in text messages after x number of chars."
-msgstr "แบ่งบรรทัดอัตโนมัติในข้อความหลังจากจำนวนตัวอักษร  x "
+msgstr "แบ่งบรรทัดอัตโนมัติในข้อความหลังจากจำนวนตัวอักษร  x"
 
 #. SysConfig
 msgid ""
@@ -20559,6 +20571,7 @@ msgid ""
 msgstr "กำหนดรายการลูกค้าซึ่งจะสร้างไอคอน LinkedIn ในตอนท้ายของบล็อกข้อมูลลูกค้า"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a customer item, which generates a XING icon at the end of a "
 "customer info block."
@@ -21150,14 +21163,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the package::"
 "RepositoryList is required on the remote host."
 msgstr ""
-"กำหนด IP นิพจน์ทั่วไปที่สำหรับการเข้าถึงพื้นที่เก็บข้อมูลท้องถิ่น "
-"คุณจำเป็นต้องเปิดใช้งานนี้เพื่อเข้าถึงพื้นที่เก็บข้อมูลท้องถิ่นของคุณและ  package::RepositoryList "
-"จำเป็นต้องใช้ในพื้นที่ห่างไกล"
+"กำหนด IP นิพจน์ทั่วไปที่สำหรับการเข้าถึงพื้นที่เก็บข้อมูลท้องถิ่น คุณจำเป็นต้องเปิดใช้งานนี้เพื่อเข้าถึงพื้นที่"
+"เก็บข้อมูลท้องถิ่นของคุณและ  package::RepositoryList จำเป็นต้องใช้ในพื้นที่ห่างไกล"
 
 #. SysConfig
 msgid ""
@@ -21492,6 +21505,7 @@ msgid "Defines the default queue for new tickets in the agent interface."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for dynamic objects "
 "(Form: Common Specification)."
@@ -21500,6 +21514,7 @@ msgstr ""
 "Specification)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for permissions (Form: "
 "Common Specification)."
@@ -21507,12 +21522,13 @@ msgstr ""
 "กำหนดการเลือกเริ่มต้นที่เมนูดรอปดาวน์สำหรับการอนุญาต  (Form: Common Specification)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for stats format (Form: "
 "Common Specification). Please insert the format key (see Stats::Format)."
 msgstr ""
-"กำหนดการเลือกเริ่มต้นที่เมนูดรอปดาวน์สำหรับรูปแบบสถิติ  (Form: Common Specification) "
-"กรุณาใส่รูปแบบคีย์ (see Stats::Format)"
+"กำหนดการเลือกเริ่มต้นที่เมนูดรอปดาวน์สำหรับรูปแบบสถิติ  (Form: Common Specification) กรุณา"
+"ใส่รูปแบบคีย์ (see Stats::Format)"
 
 #. SysConfig
 msgid ""
@@ -22172,12 +22188,13 @@ msgid "Defines the hours and week days to count the working time."
 msgstr "กำหนดเวลาและวันเพื่อนับเวลาการทำงาน"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the key to be checked with Kernel::Modules::AgentInfo module. If "
 "this user preferences key is true, the message is accepted by the system."
 msgstr ""
-"กำหนดกุญแจสำคัญที่จะได้รับการตรวจสอบด้วยโมดูล Kernel::Modules::AgentInfo  "
-"หากผู้ใช้กุญแจสำคัญในการตั้งค่านี้เป็นจริง ข้อความจะได้รับการยอมรับโดยระบบ"
+"กำหนดกุญแจสำคัญที่จะได้รับการตรวจสอบด้วยโมดูล Kernel::Modules::AgentInfo  หากผู้ใช้กุญแจส"
+"ำคัญในการตั้งค่านี้เป็นจริง ข้อความจะได้รับการยอมรับโดยระบบ"
 
 #. SysConfig
 msgid ""
@@ -22206,16 +22223,16 @@ msgstr ""
 "แต่ถ้าหากมีค่าต่างกัน ลิงค์ที่เกิดคือการเชื่อมโยงทิศทาง"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the link type groups. The link types of the same group cancel one "
 "another. Example: If ticket A is linked per a 'Normal' link with ticket B, "
 "then these tickets could not be additionally linked with link of a "
 "'ParentChild' relationship."
 msgstr ""
-"กำหนดกลุ่มประเภทการเชื่อมโยง ประเภทของการเชื่อมโยงของกลุ่มเดียวกันจะยกเลิกอีกกลุ่มหนึ่ง "
-"ตัวอย่าง: หากตั๋ว A  ถูกเชื่อมโยงต่อหนึ่งการเชื่อมโยงแบบ 'Normal' ด้วยตั๋ว B  "
-"แล้วตั๋วเหล่านี้จะไม่สามารถเป็นการเชื่อมโยงเพิ่มเติม ด้วยการเชื่อมโยงของความสัมพันธ์ "
-"'ParentChild'"
+"กำหนดกลุ่มประเภทการเชื่อมโยง ประเภทของการเชื่อมโยงของกลุ่มเดียวกันจะยกเลิกอีกกลุ่มหนึ่ง ตัวอย่า"
+"ง: หากตั๋ว A  ถูกเชื่อมโยงต่อหนึ่งการเชื่อมโยงแบบ 'Normal' ด้วยตั๋ว B  แล้วตั๋วเหล่านี้จะไม่สามาร"
+"ถเป็นการเชื่อมโยงเพิ่มเติม ด้วยการเชื่อมโยงของความสัมพันธ์ 'ParentChild'"
 
 #. SysConfig
 msgid ""
@@ -22253,6 +22270,7 @@ msgstr ""
 "ผลลัพท์แรกจะถูกนำมาใช้"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. syslogd."
@@ -22415,12 +22433,13 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
 msgstr ""
-"กำหนดโมดูลที่ใช้ในการจัดเก็บข้อมูลเซสชั่น ด้วย \"DB\" "
-"เซิร์ฟเวอร์ส่วนหน้าสามารถแบ่งตัวจากเซิร์ฟเวอร์ฐานข้อมูล  \"FS\" เร็วกว่า"
+"กำหนดโมดูลที่ใช้ในการจัดเก็บข้อมูลเซสชั่น ด้วย \"DB\" เซิร์ฟเวอร์ส่วนหน้าสามารถแบ่งตัวจากเซิร์ฟเว"
+"อร์ฐานข้อมูล  \"FS\" เร็วกว่า"
 
 #. SysConfig
 msgid ""
@@ -23345,6 +23364,7 @@ msgid "Dynamic Fields Overview Limit"
 msgstr "ภาพรวมทีจำกัดของไดมานิคฟิลด์"
 
 #. SysConfig
+#, fuzzy
 msgid "Dynamic Fields Text Backend GUI"
 msgstr "ฟิลด์แบบไดนามิก ฟิลด์แบบไดนามิก"
 
