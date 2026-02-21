@@ -38,16 +38,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2023-10-08 01:32+0000\n"
-"Last-Translator: Alvaro Cordero Retana <alvaro@gridshield.net>\n"
-"Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
+"PO-Revision-Date: 2026-02-21 09:46+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Spanish <http://translate.otobo.org/projects/otobo/otobo-10/"
 "es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -3419,6 +3419,7 @@ msgstr ""
 "El comportamiento por defecto es reanudar, procesando el siguiente módulo."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
+#, fuzzy
 msgid "This module allows to configure scheduled retries for failed requests."
 msgstr ""
 "Este módulo permite configurar  reintentos programados para solicitudes "
@@ -4444,6 +4445,7 @@ msgstr ""
 "del certificado que valida el certificado SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 msgstr "ej.  /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
@@ -5269,6 +5271,7 @@ msgid "Ticket dynamic fields internal key values"
 msgstr "Valores de las claves internas de los campos dinámicos de los tickets"
 
 #. Template: AdminNotificationEvent
+#, fuzzy
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
@@ -6248,10 +6251,12 @@ msgid "Do you really want to delete this Activity?"
 msgstr "¿Realmente desea eliminar esta Actividad?"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Activity Dialog?"
 msgstr "¿Realmente desea eliminar  este Diálogo de Actividad?"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Transition?"
 msgstr "¿Realmente desea eliminar  esta Transición?"
 
@@ -6537,8 +6542,9 @@ msgid "This queue is used in the following config settings:"
 msgstr ""
 
 #. Template: AdminQueueAutoResponse
+#, fuzzy
 msgid "Manage Queue-Auto Response Relations"
-msgstr "Administrar Colas - Relaciones Auto Respuesta  "
+msgstr "Administrar Colas - Relaciones Auto Respuesta"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
@@ -8246,10 +8252,12 @@ msgid "This an occurrence of a repeating appointment."
 msgstr "Esta es una ocurrencia de una cita repetitiva."
 
 #. Template: AgentAppointmentEdit
+#, fuzzy
 msgid "Click here to see the parent appointment."
 msgstr "Precione aquí  para ver la cita padre."
 
 #. Template: AgentAppointmentEdit
+#, fuzzy
 msgid "Click here to edit the parent appointment."
 msgstr "Precione aquí  para editar la cita padre."
 
@@ -9596,6 +9604,7 @@ msgid "Date Invalid!"
 msgstr "¡Fecha no válida!"
 
 #. Template: AgentTicketCustomer
+#, fuzzy
 msgid "Change Customer of %s%s%s"
 msgstr "Cambiar Cliente de  %s%s%s"
 
@@ -11996,6 +12005,7 @@ msgid "The following ACLs have been updated successfully: %s"
 msgstr "Las siguientes ACL se ha sido actualizadas correctamente: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+#, fuzzy
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
@@ -13063,6 +13073,7 @@ msgid "Need a file to import!"
 msgstr "¡Se requiere el archivo para importar!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+#, fuzzy
 msgid ""
 "The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
@@ -13175,6 +13186,7 @@ msgid "Visible to customer"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
+#, fuzzy
 msgid "PGP environment is not working. Please check log for more info!"
 msgstr ""
 "El entorno de PGP no funciona.  ¡Por favor compruebe los registros para más "
@@ -13297,6 +13309,7 @@ msgstr ""
 "de verificación!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid "Can't connect to OTOBO Feature Add-on list server!"
 msgstr ""
 "No se pudo conectarse con el servidor de la lista de Funciones de los "
@@ -14139,6 +14152,7 @@ msgid "Customer User Name"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
+#, fuzzy
 msgid "Need SourceObject and SourceKey!"
 msgstr "Se requiere  Objeto de Fuente y Clave de Fuente!"
 
@@ -14625,6 +14639,7 @@ msgstr ""
 "Entidad de Diálogo de la Actividad!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
@@ -17500,6 +17515,7 @@ msgstr ""
 "Se encuentran emails en var/spool cuáles no pueden ser procesados por OTOBO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
+#, fuzzy
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
 "El ajuste del ID del Sistema es es valido, debe contener solamente dígitos."
@@ -18262,6 +18278,7 @@ msgid "Ticket follow-up notification (unlocked)"
 msgstr "Notificación de seguimiento de Ticket (desbloqueada)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
+#, fuzzy
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
@@ -19221,6 +19238,7 @@ msgstr ""
 "cargar ésta en su lugar?"
 
 #. JS File: Core.UI.Popup
+#, fuzzy
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
@@ -19331,6 +19349,7 @@ msgid "Complex %s with %s arguments"
 msgstr ""
 
 #. JS File: OTOBOLineChart
+#, fuzzy
 msgid "No Data Available."
 msgstr "Los Datos no están  disponibles."
 
@@ -19419,6 +19438,7 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr "(LoginUsuario) Apellidos, Nombre "
 
 #. SysConfig
+#, fuzzy
 msgid "*** out of office until %s (%s d left) ***"
 msgstr "*** fuera de la oficina hasta el  %s (%s dias restantes) ***"
 
@@ -19660,6 +19680,7 @@ msgstr ""
 "OTOBO. Se creará un archivo de registro para cada mes ."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of "
 "the agent interface. The customers email address won't be added if the "
@@ -20884,6 +20905,7 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr "Controla cómo mostrar el historial de entradas como valores legibles."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Controls if CustomerID is automatically copied from the sender address for "
 "unknown customers."
@@ -21529,6 +21551,7 @@ msgstr ""
 "extremo de un bloque de información del cliente."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a filter for html output to add links behind CVE numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
@@ -26072,6 +26095,7 @@ msgid "Merged Ticket (%s/%s) to (%s/%s)."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
 msgstr "Fusionar Ticket  <OTOBO_TICKET> con <OTOBO_MERGE_TO_TICKET>."
 
@@ -28295,6 +28319,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a link in the menu for creating a calendar appointment linked to the "
 "ticket directly from the ticket zoom view of the agent interface. Additional "
@@ -28307,8 +28332,8 @@ msgstr ""
 "Muestra un vínculo en el menú para crear una cita de calendario vinculada al "
 "ticket directo desde  la vista de detalle de ticket de la interface del "
 "agente. Adicionalmente se puede hacer in control de acceso para mostrar o no "
-"este vínculo usando la Clave \"Group\" y el Contenido como \"rw:group1;"
-"move_into:group2\". Para agrupar elemento del menú use la Clave "
+"este vínculo usando la Clave \"Group\" y el Contenido como "
+"\"rw:group1;move_into:group2\". Para agrupar elemento del menú use la Clave "
 "\"ClusterName\" para el Contenido cualquier nombre que desee ver en la "
 "interface del usuario. Utilize \"ClusterPriority\" para configurar el orden "
 "de un cierto grupo dentro de la barra de herramientas."
