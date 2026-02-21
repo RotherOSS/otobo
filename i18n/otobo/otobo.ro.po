@@ -12,17 +12,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Andrei Miron <andrei.miron@iqrate.ro>, 2019\n"
-"Language-Team: Romanian (https://translate.otobo.org/projects/otobo10/otobo/"
-"ro/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Romanian <http://translate.otobo.org/projects/otobo/otobo-10/"
+"ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
-"2:1));\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -9140,10 +9142,12 @@ msgid "Resend Email for %s%s%s"
 msgstr ""
 
 #. Template: AgentTicketEscalation
+#, fuzzy
 msgid "Ticket %s: first response time is over (%s/%s)!"
 msgstr "Timpul limita a primului raspuns  pentru tichetul %s a depașit (%s%s)!"
 
 #. Template: AgentTicketEscalation
+#, fuzzy
 msgid "Ticket %s: first response time will be over in %s/%s!"
 msgstr ""
 "Timpul limita a primului raspuns  pentru tichetul %s va fi depășit în %s%s!"
@@ -17539,6 +17543,7 @@ msgid "Ticket owner update notification"
 msgstr "Notificare posesor asupra modificării tichetului"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
+#, fuzzy
 msgid "Ticket responsible update notification"
 msgstr "Notificare actualizare  responsabil tichet"
 
@@ -18168,6 +18173,7 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.CustomerSearch
+#, fuzzy
 msgid "Duplicated entry"
 msgstr "Câmp  dublat"
 
