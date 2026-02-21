@@ -44,9 +44,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2023-08-11 20:42+0000\n"
-"Last-Translator: Иван Юрьевич Пигасов <itd@avsst.ru>\n"
-"Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Russian <http://translate.otobo.org/projects/otobo/otobo-10/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -1305,6 +1305,7 @@ msgid "No accounts found."
 msgstr "Аккаунты не найдены"
 
 #. Template: AdminCommunicationLogAccounts
+#, fuzzy
 msgid "Communication Log Details (%s)"
 msgstr "Подробный просмотр записи журнала сеансов связи для:  (%s)"
 
@@ -1365,6 +1366,7 @@ msgid "Show only entries with specific priority and higher:"
 msgstr "Показывать записи только с указанным приоритетом и выше:"
 
 #. Template: AdminCommunicationLogZoom
+#, fuzzy
 msgid "Communication Log Overview (%s)"
 msgstr "Просмотр журнала сеансов связи для:  (%s)"
 
@@ -2749,6 +2751,7 @@ msgid "Delete this event"
 msgstr "Удалить это событие"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket "
 "events that will trigger this job."
@@ -3154,6 +3157,7 @@ msgid "Age"
 msgstr "Возраст"
 
 #. Template: AdminGenericInterfaceDebugger
+#, fuzzy
 msgid "GenericInterface Web Service Management"
 msgstr "Управление  GenericInterface Web Service"
 
@@ -3246,6 +3250,7 @@ msgid "General options"
 msgstr "Общие настройки"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
+#, fuzzy
 msgid ""
 "The name can be used to distinguish different error handling configurations."
 msgstr "Имя может быть использовано для для отличия настроек обработки ошибок."
@@ -7633,12 +7638,13 @@ msgstr ""
 "слева."
 
 #. Template: AdminSystemConfiguration
+#, fuzzy
 msgid ""
 "Find certain settings by using the search field below or from search icon "
 "from the top navigation."
 msgstr ""
 "Найдите нужные настройки, используя поле поиска ниже или значок поиска из "
-"верхней панели навигации.  "
+"верхней панели навигации."
 
 #. Template: AdminSystemConfiguration
 msgid "Find out how to use the system configuration by reading the %s."
@@ -8597,6 +8603,7 @@ msgid "Starting the OTOBO Daemon"
 msgstr "Запуск Планировщика OTOBO"
 
 #. Template: AgentDaemonInfo
+#, fuzzy
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job "
 "will check every 5 minutes if the OTOBO Daemon is running and start it if "
@@ -8607,6 +8614,7 @@ msgstr ""
 "запускает его при необходимости."
 
 #. Template: AgentDaemonInfo
+#, fuzzy
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otobo' user are active."
 msgstr ""
@@ -8995,6 +9003,7 @@ msgid "Go back to editing this agent"
 msgstr "Возврат к редактированию этого агента"
 
 #. Template: AgentPreferences
+#, fuzzy
 msgid ""
 "Set up your personal preferences. Save each setting by clicking the "
 "checkmark on the right."
@@ -9759,9 +9768,9 @@ msgid "A valid ticket number is required."
 msgstr "Требуется корректный номер заявки."
 
 #. Template: AgentTicketMerge
+#, fuzzy
 msgid "Try typing part of the ticket number or title in order to search by it."
-msgstr ""
-"Начните вводить номер заявки или или текст заголовка для поиска по ним."
+msgstr "Начните вводить номер заявки или или текст заголовка для поиска по ним."
 
 #. Template: AgentTicketMerge
 msgid "Limit the search to tickets with same Customer ID (%s)."
@@ -9988,6 +9997,7 @@ msgid "Ticket Last Change Time (between)"
 msgstr "Время последнего изменения заявки (между)"
 
 #. Template: AgentTicketSearch
+#, fuzzy
 msgid "Ticket Pending Until Time (before/after)"
 msgstr "Отложить заявку до (до/после)"
 
@@ -11323,6 +11333,7 @@ msgid "No user configurable notifications found."
 msgstr "Отсутствуют уведомления, настраиваемые пользователем."
 
 #. Template: PreferencesNotificationEvent
+#, fuzzy
 msgid "Receive messages for notification '%s' by transport method '%s'."
 msgstr ""
 "Получить сообщения для уведомления '%s'  с помощью метода доставки '%s'."
@@ -12268,6 +12279,7 @@ msgid "The following Notifications have been updated successfully: %s"
 msgstr "Следующие Уведомления были успешно обновлены: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+#, fuzzy
 msgid ""
 "There where errors adding/updating the following Notifications: %s. Please "
 "check the log file for more information."
@@ -12551,6 +12563,7 @@ msgid "Undefined subaction."
 msgstr "Неопределенный subaction."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+#, fuzzy
 msgid "Need %s"
 msgstr "Требуется  %s"
 
@@ -12583,6 +12596,7 @@ msgid "Need ID"
 msgstr "Требуется ID"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+#, fuzzy
 msgid "Could not get data for dynamic field %s"
 msgstr "Невозможно получить данные для динамического поля  %s"
 
@@ -13365,14 +13379,17 @@ msgid ""
 msgstr "Пакет не проверен из-за неполадок со связью с сервером верификации!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid "Can't connect to OTOBO Feature Add-on list server!"
 msgstr "Невозможно подключиться к серверу со списком  OTOBO Feature Add-on!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid "Can't get OTOBO Feature Add-on list from server!"
 msgstr "Невозможно получить список OTOBO Feature Add-on с  сервера!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid "Can't get OTOBO Feature Add-on from server!"
 msgstr "Невозможно получить OTOBO Feature Add-on с  сервера!"
 
@@ -13537,6 +13554,7 @@ msgid "There was an error creating the ActivityDialog"
 msgstr "Произошла ошибка при создании ActivityDialog"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity: "
 "%s"
@@ -14770,6 +14788,7 @@ msgid "Missing ActivityEntityID in Ticket %s!"
 msgstr "Отсутствует ActivityEntityID в Ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "This step does not belong anymore to the current activity in process for "
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
@@ -14799,6 +14818,7 @@ msgstr ""
 "\"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
@@ -15337,6 +15357,7 @@ msgid "The check \"%s\" doesn't exist!"
 msgstr "Проверка \"%s\" не существует!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "Enter the password for the database user."
 msgstr "Введите пароль пользователя  базы данных"
 
@@ -15440,6 +15461,7 @@ msgstr ""
 "max_allowed_packet для вашей СУБД во избежание ошибок."
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid ""
 "Error: Please set the value for innodb_log_file_size on your database to at "
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
@@ -17153,10 +17175,11 @@ msgid "NLS_LANG Setting"
 msgstr "Параметр NLS_LANG"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
+#, fuzzy
 msgid "NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8)."
 msgstr ""
-"NLS_LANG должен быть установлен в al32utf8 (например,  GERMAN_GERMANY."
-"AL32UTF8)."
+"NLS_LANG должен быть установлен в al32utf8 (например,  "
+"GERMAN_GERMANY.AL32UTF8)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting"
@@ -17193,6 +17216,7 @@ msgid "Date Format"
 msgstr "Формат даты"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
+#, fuzzy
 msgid "Setting DateStyle needs to be ISO."
 msgstr "Значение DateStyle должно быть  ISO."
 
@@ -17703,6 +17727,7 @@ msgid "mod_filter Usage"
 msgstr "Использование mod_filter "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
+#, fuzzy
 msgid "Please install mod_filter if mod_deflate is used."
 msgstr "Установите  mod_filter, если используете mod_deflate."
 
@@ -17946,6 +17971,7 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+#, fuzzy
 msgid "Action \"%s\" not found!"
 msgstr "Действие  \"%s\" не найдено!"
 
@@ -19963,17 +19989,18 @@ msgstr ""
 "Виджет в AgentTicketZoom отображающий таблицу объектов связанных с заявкой."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "AgentTicketZoom widget that displays customer information for the ticket in "
 "the side bar."
 msgstr ""
 "Виджет в AgentTicketZoom отображающий информацию о пользователе  в боковой "
-"панели. "
+"панели."
 
 #. SysConfig
+#, fuzzy
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
-msgstr ""
-"Виджет в AgentTicketZoom отображающий данные заявки  в боковой панели. "
+msgstr "Виджет в AgentTicketZoom отображающий данные заявки  в боковой панели."
 
 #. SysConfig
 msgid "Agents ↔ Groups"
@@ -20648,6 +20675,7 @@ msgid "Changed title from \"%s\" to \"%s\"."
 msgstr "Заголовок изменен с \"%s\" на \"%s\"."
 
 #. SysConfig
+#, fuzzy
 msgid "Changed type from \"%s\" (%s) to \"%s\" (%s)."
 msgstr "Тип изменен с  \"%s\" (%s) на \"%s\" (%s)."
 
@@ -21422,6 +21450,7 @@ msgstr ""
 "CustomerTicketZoom."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Default display type for sender (From) names in AgentTicketZoom and "
 "CustomerTicketZoom."
@@ -21610,6 +21639,7 @@ msgstr ""
 "умолчанию."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a customer item, which generates a LinkedIn icon at the end of a "
 "customer info block."
@@ -21730,6 +21760,7 @@ msgstr ""
 "необходимы в системе (напр. \"root@localhost\")."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a regular expression that filters all email addresses that should "
 "not be used in the application."
@@ -21829,20 +21860,23 @@ msgid "Defines an alternate URL, where the logout link refers to."
 msgstr "Задает альтернативную URL, для страницы выхода."
 
 #. SysConfig
+#, fuzzy
 msgid "Defines an alternate login URL for the customer panel.."
 msgstr "Задает альтернативную URL, для входа  клиента."
 
 #. SysConfig
+#, fuzzy
 msgid "Defines an alternate logout URL for the customer panel."
 msgstr "Задает альтернативную URL, для выхода  клиента."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines an external link to the database of the customer (e.g. 'http://"
 "yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
 msgstr ""
-"Задает внешнюю ссылку на БД клиента  (например, 'http://yourhost/customer."
-"php?CID=[% Data.CustomerID %]' или '')."
+"Задает внешнюю ссылку на БД клиента  (например, 'http://yourhost/"
+"customer.php?CID=[% Data.CustomerID %]' или '')."
 
 #. SysConfig
 msgid ""
@@ -22239,6 +22273,7 @@ msgstr ""
 "агентом на экране назначения ответственного за заявку, по умолчанию."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if the previously valid token should be accepted for authentication. "
 "This is slightly less secure but gives users 30 seconds more time to enter "
@@ -22545,6 +22580,7 @@ msgstr ""
 "экрана просмотра."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default next state for a ticket after customer follow-up in the "
 "customer interface."
@@ -22937,6 +22973,7 @@ msgstr ""
 "результатов поиска для этой операции."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default ticket bounced notification for customer/sender in the "
 "ticket bounce screen of the agent interface."
@@ -23149,6 +23186,7 @@ msgid ""
 msgstr "Задает динамическое поле, отображаемое при событиях календаря."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the event object types that will be handled via "
 "AdminAppointmentNotificationEvent."
@@ -23877,6 +23915,7 @@ msgstr ""
 "перенаправления заявки в интерфейсе агента."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
@@ -24020,17 +24059,18 @@ msgid ""
 msgstr "Задает путь и файл TTF для bold proportional font для PDF докуметов."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle italic monospaced font in PDF "
 "documents."
 msgstr "Задает путь и файл TTF для  italic monospaced font для PDF докуметов."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle italic proportional font in PDF "
 "documents."
-msgstr ""
-"Задает путь и файл TTF для  italic proportional font для PDF докуметов."
+msgstr "Задает путь и файл TTF для  italic proportional font для PDF докуметов."
 
 #. SysConfig
 msgid ""
@@ -24950,6 +24990,7 @@ msgstr ""
 "checbox...)."
 
 #. SysConfig
+#, fuzzy
 msgid "DynamicField object registration."
 msgstr ""
 "Регистрация объектов  для динамических полей (поле заявки или сообщения/"
@@ -25889,6 +25930,7 @@ msgstr ""
 "как example_domain\\\\user обрезать до user)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and if you want to add a "
 "suffix to every customer login name, specifiy it here, e. g. you just want "
@@ -26038,6 +26080,7 @@ msgstr ""
 "не может быть установлено из-за проблем с сетью."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail "
 "binary and the needed options must be specified."
@@ -26076,6 +26119,7 @@ msgstr ""
 "не существует, он будет создан системой."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -26084,6 +26128,7 @@ msgstr ""
 "регистрации может не соответствовать ни одному из регулярных выражений."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
@@ -26324,6 +26369,7 @@ msgid "Incoming Phone Call."
 msgstr "Входящий телефонный звонок."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "IndexAccelerator: to choose your backend TicketViewAccelerator module. "
 "\"RuntimeDB\" generates each queue view on the fly from ticket table (no "
@@ -27496,6 +27542,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
 "the agent interface. \"Group\" is used to restrict the access to the plugin "
@@ -27510,6 +27557,7 @@ msgstr ""
 "\"CacheTTLLocal\" - время обновления кэша в минутах для этого раздела."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Parameters for the dashboard backend of the customer id list overview of the "
 "agent interface . \"Limit\" is the number of entries shown by default. "
@@ -27525,6 +27573,7 @@ msgstr ""
 "\"CacheTTLLocal\" - время обновления кэша в минутах для этого раздела."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Parameters for the dashboard backend of the customer id status widget of the "
 "agent interface . \"Group\" is used to restrict the access to the plugin (e. "
@@ -27540,6 +27589,7 @@ msgstr ""
 "минутах для этого раздела."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Parameters for the dashboard backend of the customer user information of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
@@ -27649,6 +27699,7 @@ msgstr ""
 "использования в DefaultColumns."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Parameters for the dashboard backend of the queue overview widget of the "
 "agent interface. \"Group\" is used to restrict the access to the plugin (e. "
@@ -27897,6 +27948,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Parameters of the example SLA attribute Comment2."
 msgstr "Параметры для дополнительного атрибута SLA  Комментарий2(Comment2)."
 
@@ -29091,6 +29143,7 @@ msgid "Sets the password for private PGP key."
 msgstr "Устанавливает праоль для частного ключа PGP."
 
 #. SysConfig
+#, fuzzy
 msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
 msgstr ""
 "Задает единицы измерения для единиц времени (например: рабочие часы, часы, "
@@ -31546,6 +31599,7 @@ msgstr ""
 "(она не может быть изменена агентом)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "When tickets are merged, the customer can be informed per email by setting "
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
