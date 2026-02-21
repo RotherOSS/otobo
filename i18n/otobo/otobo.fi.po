@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2022-12-31 11:47+0000\n"
-"Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
-"Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Finnish <http://translate.otobo.org/projects/otobo/otobo-10/"
 "fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -18247,6 +18247,7 @@ msgid "Open date selection"
 msgstr "Avaa päivän valitsin"
 
 #. JS File: Core.UI.Datepicker
+#, fuzzy
 msgid "Invalid date (need a future date)!"
 msgstr "Virheellinen päiväys (päiväys oltava tulevaisuudessa)!"
 
