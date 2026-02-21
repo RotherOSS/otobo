@@ -10,17 +10,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Adam Sadovsky <sadovsky.adam@gmail.com>, 2018\n"
-"Language-Team: Slovak (Slovakia) (https://translate.otobo.org/projects/"
-"otobo10/otobo/sk_SK/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Slovak <http://translate.otobo.org/projects/otobo/otobo-10/"
+"sk/>\n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
-">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && "
+"n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -4598,13 +4600,14 @@ msgid "Edit Group"
 msgstr ""
 
 #. Template: AdminGroup
+#, fuzzy
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats "
 "area."
 msgstr ""
 "Create new groups to handle access permissions for different groups of agent "
-"(e. g. purchasing department =>  support department =>  sales department "
-"=>  ...)."
+"(e. g. purchasing department =>  support department =>  sales department =>  "
+"...)."
 
 #. Template: AdminGroup
 msgid ""
@@ -10446,6 +10449,7 @@ msgid ""
 msgstr ""
 
 #. Template: Finish
+#, fuzzy
 msgid ""
 "To be able to use OTOBO you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
@@ -10455,12 +10459,14 @@ msgstr ""
 "root:"
 
 #. Template: Finish
+#, fuzzy
 msgid "Restart your webserver"
 msgstr ""
 "dat \"nasledovne\") do Vasho prikazoveho riadku (terminal/shell) =>  pricom "
 "musite byt prihlaseny ako root:"
 
 #. Template: Finish
+#, fuzzy
 msgid "After doing so your OTOBO is up and running."
 msgstr "Ak to urobíte =>  Váš OTOBO je spustený."
 
@@ -12475,6 +12481,7 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+#, fuzzy
 msgid "Dispatching by email To: field."
 msgstr "Posielam emailom =>  prijemca: pole"
 
