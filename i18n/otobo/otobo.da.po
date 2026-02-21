@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2021-04-21 08:44+0000\n"
-"Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
-"Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
-">\n"
+"PO-Revision-Date: 2026-02-21 09:46+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Danish <http://translate.otobo.org/projects/otobo/otobo-10/"
+"da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -757,6 +757,7 @@ msgid "Notification Text"
 msgstr "Beskedtekst"
 
 #. Template: AdminAppointmentNotificationEvent
+#, fuzzy
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
@@ -8198,13 +8199,14 @@ msgid "Starting the OTOBO Daemon"
 msgstr "Starter OTOBO tjeneste"
 
 #. Template: AgentDaemonInfo
+#, fuzzy
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job "
 "will check every 5 minutes if the OTOBO Daemon is running and start it if "
 "needed."
 msgstr ""
-"Kontroller at filen '%s' eksisterer (uden .dist filendelsen). Dette cron "
-"job  checker hvert 5. minut om OTOBO tjenesten kører og starter den om "
+"Kontroller at filen '%s' eksisterer (uden .dist filendelsen). Dette cron job"
+"  checker hvert 5. minut om OTOBO tjenesten kører og starter den om "
 "nødvendigt."
 
 #. Template: AgentDaemonInfo
@@ -28921,6 +28923,7 @@ msgid "Users, Groups & Roles"
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Uses richtext for viewing and editing ticket notification."
 msgstr "Bruger richtext til til visning og redigering af sagsbeskeder."
 
