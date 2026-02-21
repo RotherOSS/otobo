@@ -4,16 +4,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
-"Language-Team: Hindi (https://translate.otobo.org/projects/otobo10/otobo/"
-"hi/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Hindi <http://translate.otobo.org/projects/otobo/otobo-10/hi/>"
+"\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -265,6 +267,7 @@ msgid "Add new language"
 msgstr ""
 
 #. Template: AdminAbout
+#, fuzzy
 msgid "Save Changes"
 msgstr "परिवर्तन  सुरक्षित करें"
 
@@ -2875,6 +2878,7 @@ msgid "CMD"
 msgstr "CMD"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
@@ -4823,8 +4827,10 @@ msgid ""
 msgstr "विषय के पहले 20 वर्ण (नवीनतम ग्राहक अनुच्छेद में से) प्राप्त करने के लिए।"
 
 #. Template: AdminNotificationEvent
+#, fuzzy
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "मुख्य-भाग (नवीनतम ग्राहक अनुच्छेद  के) के पहले 5 लाइनें प्राप्त करने के लिए।"
+msgstr ""
+"मुख्य-भाग (नवीनतम ग्राहक अनुच्छेद  के) के पहले 5 लाइनें प्राप्त करने के लिए।"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
@@ -5929,6 +5935,7 @@ msgid "Unlock timeout"
 msgstr "अनलॉक समय समाप्त"
 
 #. Template: AdminQueue
+#, fuzzy
 msgid "0 = no unlock"
 msgstr "0 = कोई अनलॉक  नहीं"
 
@@ -12985,6 +12992,7 @@ msgid "Role added!"
 msgstr "भूमिका जोडी गयी।"
 
 #. Perl Module: Kernel/Modules/AdminRoleGroup.pm
+#, fuzzy
 msgid "Change Group Relations for Role"
 msgstr "समूह संबंधों को भूमिका  के लिए बदलॆ"
 
@@ -13001,6 +13009,7 @@ msgid "Change Role Relations for Agent"
 msgstr "प्रतिनिधि के लिए भूमिका संबंधों को बदलॆ"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
+#, fuzzy
 msgid "Change Agent Relations for Role"
 msgstr "प्रतिनिधि संबंधों को भूमिका  के लिए बदलॆ"
 
@@ -16040,6 +16049,7 @@ msgid "Ticket Close Time"
 msgstr "टिकट बंद होने का समय"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
+#, fuzzy
 msgid "Accounted time by Agent"
 msgstr "प्रतिनिधि द्वारा लेखा  समय"
 
@@ -19028,6 +19038,7 @@ msgstr ""
 "आँकड़ॊ की धुरी विनिमय करने के लिए प्रतिनिधि को अनुमति देता है यदि वे एक उत्पन्न करते है।"
 
 #. SysConfig
+#, fuzzy
 msgid "Allows agents to generate individual-related stats."
 msgstr "अलग अलग संबंधित आँकड़े उत्पन्न करने के लिए प्रतिनिधि को अनुमति देता है।"
 
@@ -19521,6 +19532,7 @@ msgid "Changed pending time to \"%s\"."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
 msgstr "अद्यतन प्राथमिकता \"%s\" (%s)  \"%s\" (%s)।"
 
@@ -20277,15 +20289,16 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
-"HTML उत्पादन को  परिभाषित स्ट्रिंग के पीछे की लिंक जोड़ने के लिए एक निस्पादक परिभाषित "
-"करे। तत्व छवि दो इनपुट प्रकार की अनुमति देता है। एक बार एक छवि के नाम से(उदा.faq."
-"png)। ऐसी स्थिति में OTOBO छवि के पथ का उपयोग किया जाएगा। दूसरी संभावना छवि को कड़ी "
+"HTML उत्पादन को  परिभाषित स्ट्रिंग के पीछे की लिंक जोड़ने के लिए एक निस्पादक परिभाषित करे"
+"। तत्व छवि दो इनपुट प्रकार की अनुमति देता है। एक बार एक छवि के नाम से(उदा.faq.png)। "
+"ऐसी स्थिति में OTOBO छवि के पथ का उपयोग किया जाएगा। दूसरी संभावना छवि को कड़ी "
 "सम्मिलित करने की है।"
 
 #. SysConfig
@@ -20680,6 +20693,7 @@ msgid "Defines if a ticket lock is required for the quick close."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the close ticket screen of the agent "
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
@@ -20704,6 +20718,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket bounce screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -20714,6 +20729,7 @@ msgstr ""
 "उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket compose screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -20724,6 +20740,7 @@ msgstr ""
 "उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket forward screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -20734,6 +20751,7 @@ msgstr ""
 "उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket free text screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -20744,6 +20762,7 @@ msgstr ""
 "उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket merge screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
@@ -20754,6 +20773,7 @@ msgstr ""
 "प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket note screen of the agent "
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
@@ -20764,6 +20784,7 @@ msgstr ""
 "उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket owner screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
@@ -20774,6 +20795,7 @@ msgstr ""
 "प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket pending screen of a "
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
@@ -20792,6 +20814,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket phone outbound screen of "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
@@ -20802,6 +20825,7 @@ msgstr ""
 "प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket priority screen of a "
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
@@ -20813,6 +20837,7 @@ msgstr ""
 "वर्तमान प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket responsible screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -21258,6 +21283,7 @@ msgstr ""
 "तयशुदा स्थिति को परिभाषित करता है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket owner screen of a zoomed ticket in the agent interface."
@@ -21266,6 +21292,7 @@ msgstr ""
 "अगली तयशुदा स्थिति को परिभाषित करता है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket pending screen of a zoomed ticket in the agent interface."
@@ -21274,6 +21301,7 @@ msgstr ""
 "अगली तयशुदा स्थिति को परिभाषित करता है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket priority screen of a zoomed ticket in the agent interface."
@@ -22291,6 +22319,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
@@ -22341,6 +22370,7 @@ msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next possible states after composing / answering a ticket in the "
 "ticket compose screen of the agent interface."
@@ -22349,6 +22379,7 @@ msgstr ""
 "परिभाषित करता है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next possible states after forwarding a ticket in the ticket "
 "forward screen of the agent interface."
@@ -23121,8 +23152,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Determines the way the linked objects are displayed in each zoom mask."
-msgstr "लिंक वस्तुऐं हर ज़ूम नकाब में जिस तरह से प्रदर्शित  की जाती हैं उसे निर्धारित करता है।"
+msgstr ""
+"लिंक वस्तुऐं हर ज़ूम नकाब में जिस तरह से प्रदर्शित  की जाती हैं उसे निर्धारित करता है।"
 
 #. SysConfig
 msgid ""
@@ -23131,6 +23164,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
@@ -23540,6 +23574,7 @@ msgid "Enables or disables the debug mode over frontend interface."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
@@ -23548,6 +23583,7 @@ msgstr ""
 "अक्षम बनाता है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
@@ -24419,6 +24455,7 @@ msgstr ""
 "(mail=*), (objectclass=user) or (!objectclass=computer)।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the password to "
 "authenticate to the radius host must be specified."
@@ -25341,6 +25378,7 @@ msgstr ""
 "noreply@ address के साथ।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Module to filter and manipulate incoming messages. Get a 4 digit number to "
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
@@ -27050,6 +27088,7 @@ msgstr ""
 "है।"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default note text for new telephone tickets. E.g 'New ticket via "
 "call' in the agent interface."
