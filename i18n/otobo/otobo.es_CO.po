@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2023-11-14 21:32+0000\n"
-"Last-Translator: Aychel Mora Alpízar <aychel@gridshield.net>\n"
-"Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
-"es_CO/>\n"
+"PO-Revision-Date: 2026-02-21 09:46+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Spanish (Colombia) <http://translate.otobo.org/projects/otobo/"
+"otobo-10/es_CO/>\n"
 "Language: es_CO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -7979,10 +7979,12 @@ msgid "This an occurrence of a repeating appointment."
 msgstr "Esta es una ocurrencia de una cita repetitiva."
 
 #. Template: AgentAppointmentEdit
+#, fuzzy
 msgid "Click here to see the parent appointment."
 msgstr "Precione aquí  para ver la cita padre."
 
 #. Template: AgentAppointmentEdit
+#, fuzzy
 msgid "Click here to edit the parent appointment."
 msgstr "Precione aquí  para editar la cita padre."
 
@@ -21472,6 +21474,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Defines the body text for rejected emails."
 msgstr ""
 "Define el texto para el cuerpo de los correos electrónicos electrónicos "
@@ -27296,6 +27299,7 @@ msgid "Send notifications to users."
 msgstr "Enviar notificaciones a usuarios."
 
 #. SysConfig
+#, fuzzy
 msgid "Sender type for new tickets from the customer inteface."
 msgstr ""
 "Tipo de destinatario para tickets nuevos, creados  en la interfaz del "
@@ -28226,6 +28230,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a link in the menu for creating a calendar appointment linked to the "
 "ticket directly from the ticket zoom view of the agent interface. Additional "
@@ -28238,8 +28243,8 @@ msgstr ""
 "Muestra un vínculo en el menú para crear una cita de calendario vinculada al "
 "ticket directo desde  la vista de detalle de ticket de la interface del "
 "agente. Adicionalmente se puede hacer in control de acceso para mostrar o no "
-"este vínculo usando la Clave \"Group\" y el Contenido como \"rw:group1;"
-"move_into:group2\". Para agrupar elemento del menú use la Clave "
+"este vínculo usando la Clave \"Group\" y el Contenido como "
+"\"rw:group1;move_into:group2\". Para agrupar elemento del menú use la Clave "
 "\"ClusterName\" para el Contenido cualquier nombre que desee ver en la "
 "interface del usuario. Utilize \"ClusterPriority\" para configurar el orden "
 "de un cierto grupo dentro de la barra de herramientas."
