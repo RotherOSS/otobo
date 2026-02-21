@@ -9,16 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
-"Language-Team: Indonesian (https://translate.otobo.org/projects/otobo10/"
-"otobo/id/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Indonesian <http://translate.otobo.org/projects/otobo/otobo-"
+"10/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -171,6 +173,7 @@ msgid "Match settings"
 msgstr "Cocokan pengaturan"
 
 #. Template: AdminACLEdit
+#, fuzzy
 msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current "
 "screen or 'PropertiesDatabase' to match attributes of the current ticket "
@@ -2852,6 +2855,7 @@ msgid "Ticket update time reached between"
 msgstr "waktu pembaruan tiket tercapai antara"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "Escalation - solution time"
 msgstr "Eskalasi -  waktu solusi"
 
@@ -2968,6 +2972,7 @@ msgid "Delete tickets"
 msgstr "Hapus tiket"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
@@ -4209,6 +4214,7 @@ msgstr ""
 "SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 msgstr "Misalnya  /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
@@ -4422,6 +4428,7 @@ msgid "Text to be used to as function wrapper name suffix or replacement."
 msgstr "Teks yang digunakan sebagai nama fungsi akhiran atau penggantian."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
+#, fuzzy
 msgid ""
 "Please consider XML element naming restrictions (e.g. don't use '<' and '&')."
 msgstr ""
@@ -15664,6 +15671,7 @@ msgid "valid"
 msgstr "valid"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+#, fuzzy
 msgid "No (not supported)"
 msgstr "Tidak (Tidak didukung)"
 
@@ -19106,6 +19114,7 @@ msgid "A picture"
 msgstr "Sebuah gambar"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
@@ -19461,6 +19470,7 @@ msgstr ""
 "konten seperti \"rw:group1;move_into:group2\"."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Agent interface notification module to see the number of tickets in My "
 "Services. Additional access control to show or not show this link can be "
@@ -21342,6 +21352,7 @@ msgid "Defines how many deployments the system should keep."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines how the From field from the emails (sent from answers and email "
 "tickets) should look like."
@@ -22229,6 +22240,7 @@ msgstr ""
 "setelah prioritas."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default sort order for all services in the service view, after "
 "priority sort."
@@ -24465,6 +24477,7 @@ msgid "Enables or disables the debug mode over frontend interface."
 msgstr "Mengaktifkan atau menonaktifkan mode debug lebih antarmuka front end."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
@@ -24473,6 +24486,7 @@ msgstr ""
 "tanpa  menjadi pemilik atau pihak yang bertanggung jawab."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
@@ -25168,6 +25182,7 @@ msgid "Hungarian"
 msgstr "Hongaria"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally "
 "autodetection is used) can be specified."
@@ -25568,6 +25583,7 @@ msgid "If enabled, the cache data will be stored in cache backend."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
@@ -26099,6 +26115,7 @@ msgid "Makes the application block external content loading."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -26139,6 +26156,7 @@ msgid "Manage POP3 or IMAP accounts to fetch email from."
 msgstr "Mengelola POP3 atau IMAP account untuk mengambil email dari."
 
 #. SysConfig
+#, fuzzy
 msgid "Manage S/MIME certificates for email encryption."
 msgstr "Mengelola sertifikat  S/MIME untuk enkripsi email."
 
@@ -26486,6 +26504,7 @@ msgid "MyLastChangedTickets dashboard widget."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Name of custom queue. The custom queue is a queue selection of your "
 "preferred queues and can be selected in the preferences settings."
@@ -29058,6 +29077,7 @@ msgstr ""
 "tiket dari antarmuka agen."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a link in the menu to see the priority of a ticket in the ticket zoom "
 "view of the agent interface. Additional access control to show or not show "
@@ -29736,6 +29756,7 @@ msgstr ""
 "Menentukan urutan nama depan dan nama belakang dari agen akan ditampilkan."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Specifies the path of the file for the logo in the page header (gif|jpg|png, "
 "700 x 100 pixel)."
@@ -29978,6 +29999,7 @@ msgid "The PGP signature with the keyid is good."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -30090,6 +30112,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "The maximal number of articles expanded on a single page in AgentTicketZoom."
 msgstr ""
