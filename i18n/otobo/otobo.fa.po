@@ -10,16 +10,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
-"Language-Team: Persian (https://translate.otobo.org/projects/otobo10/otobo/"
-"fa/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Persian <http://translate.otobo.org/projects/otobo/otobo-10/"
+"fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -54,6 +56,7 @@ msgid "Configuration Import"
 msgstr "دریافت پیکربندی"
 
 #. Template: AdminACL
+#, fuzzy
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
@@ -998,6 +1001,7 @@ msgid "Configuration"
 msgstr "پیکر بندی"
 
 #. Template: AdminCloudServiceSupportDataCollector
+#, fuzzy
 msgid "Send support data"
 msgstr "ارسال پشتیبانی  داده ها"
 
@@ -1040,12 +1044,13 @@ msgid ""
 msgstr ""
 
 #. Template: AdminCloudServices
+#, fuzzy
 msgid ""
 "Please note that the use of OTOBO cloud services requires the system to be "
 "registered."
 msgstr ""
 "لطفا توجه داشته باشید که استفاده از سیستم های ابری  OTOBO نیاز به این سیستم  "
-"ثبت نام دارد . "
+"ثبت نام دارد ."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -1752,6 +1757,7 @@ msgid "This feature allows to add (multiple) contacts with data to tickets."
 msgstr ""
 
 #. Template: AdminDynamicField
+#, fuzzy
 msgid ""
 "To add a new field, select the field type from one of the object's list, the "
 "object defines the boundary of the field and it can't be changed after the "
@@ -2176,6 +2182,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
+#, fuzzy
 msgid "Restrict entering of dates"
 msgstr "محدود کردن ورود از  تاریخ"
 
@@ -2336,8 +2343,9 @@ msgid "Number of rows"
 msgstr "تعداد ردیف"
 
 #. Template: AdminDynamicFieldText
+#, fuzzy
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr "شاخص ارتفاع (در خط) در این زمینه در حالت ویرایش است  . "
+msgstr "شاخص ارتفاع (در خط) در این زمینه در حالت ویرایش است  ."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -2620,6 +2628,7 @@ msgstr ""
 "که بلیط منطبق است. تنها پس از آن کار است که بر روی بلیط را اجرا کنید."
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "Do you really want to delete this event trigger?"
 msgstr "آیا شما واقعا می خواهید این محرک رویداد را حذف کنید  ."
 
@@ -3094,6 +3103,7 @@ msgid "Do you really want to delete this error handling module?"
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
+#, fuzzy
 msgid "All configuration data will be lost."
 msgstr "همه داده های پیکربندی  از دست خواهد رفت."
 
@@ -3464,6 +3474,7 @@ msgid "Add Event"
 msgstr "اضافه کردن رویداد"
 
 #. Template: AdminGenericInterfaceInvokerDefault
+#, fuzzy
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
@@ -3539,10 +3550,12 @@ msgid "Remove this Field"
 msgstr "حذف این فیلد"
 
 #. Template: AdminGenericInterfaceInvokerEvent
+#, fuzzy
 msgid "And can't be repeated on the same condition."
 msgstr "و نمی تواند در شرایط یکسان  تکرار شود."
 
 #. Template: AdminGenericInterfaceInvokerEvent
+#, fuzzy
 msgid "Add New Condition"
 msgstr "اضافه کردن شرط  جدید"
 
@@ -3690,6 +3703,7 @@ msgid "Default rule for unmapped values"
 msgstr "قانون به طور پیش فرض برای مقادیر نگاشت نیامده"
 
 #. Template: AdminGenericInterfaceMappingSimple
+#, fuzzy
 msgid "This rule will apply for all values with no mapping rule."
 msgstr "این قانون برای همه با ارزش  قانون نگاشت اعمال نمی شود."
 
@@ -3750,6 +3764,7 @@ msgid "Add value mapping"
 msgstr "اضافه کردن ارزش نگاشت"
 
 #. Template: AdminGenericInterfaceMappingSimple
+#, fuzzy
 msgid "Do you really want to delete this key mapping?"
 msgstr "آیا شما واقعا می خواهید  این نگاشت کلید را حذف کنید؟"
 
@@ -4228,8 +4243,9 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
 msgid "Controller mapping for Invoker"
-msgstr " برای  کنترل نگاشت Invoker"
+msgstr "برای  کنترل نگاشت Invoker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4405,6 +4421,7 @@ msgid "Request name free text"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
+#, fuzzy
 msgid "Text to be used to as function wrapper name suffix or replacement."
 msgstr ""
 "متن باید به عنوان نام تابع لفاف بسته بندی پسوند و یا جایگزینی استفاده  شود."
@@ -4523,6 +4540,7 @@ msgid "Delete web service"
 msgstr "حذف وب سرویس"
 
 #. Template: AdminGenericInterfaceWebservice
+#, fuzzy
 msgid "Do you really want to delete this web service?"
 msgstr "آیا شما واقعا  حذف این وب سرویس رامی خواهید؟"
 
@@ -5577,8 +5595,9 @@ msgstr ""
 "صادر می شود."
 
 #. Template: AdminProcessManagement
+#, fuzzy
 msgid "Upload process configuration"
-msgstr " روند  بارگذاری پیکربندی"
+msgstr "روند  بارگذاری پیکربندی"
 
 #. Template: AdminProcessManagement
 msgid "Import process configuration"
@@ -5691,6 +5710,7 @@ msgid "Assigned Activity Dialogs"
 msgstr "فعالیتهای واگذارشده به گفتگو"
 
 #. Template: AdminProcessManagementActivityDialog
+#, fuzzy
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
@@ -5960,10 +5980,12 @@ msgid "Do you really want to delete this Process?"
 msgstr "آیا واقعا میخواهید این روند را حذف کنید؟"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Activity?"
 msgstr "آیا شما واقعا می خواهید  این فعالیت را حذف کنید ؟"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Activity Dialog?"
 msgstr "آیا شما واقعا می خواهید  این فعالیت گفت و گو را حذف کنید؟"
 
@@ -5972,6 +5994,7 @@ msgid "Do you really want to delete this Transition?"
 msgstr "آیا واقعا میخواهید این انتقال را حذف کنید؟"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Transition Action?"
 msgstr "آیا شما واقعا می خواهید  این حرکت انتقال را حذف کنید؟"
 
@@ -6427,6 +6450,7 @@ msgid "We will inform you about our new services and offerings soon."
 msgstr "ما شما را در مورد خدمات و ارائه جدید ما به زودی اطلاع رسانی خواهد شد."
 
 #. Template: AdminRegistration
+#, fuzzy
 msgid "Can I use OTOBO without being registered?"
 msgstr "آیا می توانم از OTOBO  استفاده کنم بدون اینکه ثبت نام کنم؟"
 
@@ -6435,6 +6459,7 @@ msgid "System registration is optional."
 msgstr "ثبت نام سیستم اختیاری است."
 
 #. Template: AdminRegistration
+#, fuzzy
 msgid "You can download and use OTOBO without being registered."
 msgstr ""
 "شما می توانید دانلود کنید و استفاده کنید از  OTOBO بدون اینکه ثبت نام کنید ."
@@ -6792,6 +6817,7 @@ msgid "Filter for certificates"
 msgstr "فیلتر برای گواهی"
 
 #. Template: AdminSMIME
+#, fuzzy
 msgid "To show certificate details click on a certificate icon."
 msgstr "برای نشان دادن جزئیات گواهی  بر روی آیکون گواهی کلیک کنید ."
 
@@ -7236,6 +7262,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminSupportDataCollector
+#, fuzzy
 msgid "Error: Support data could not be collected (%s)."
 msgstr "خطا: اطلاعات پشتیبانی نمی تواند جمع آوری  شود ( %s )."
 
@@ -9129,6 +9156,7 @@ msgstr ""
 "جدید دریافت خواهید کرد را انتخاب کنید."
 
 #. Template: AgentTicketActionCommon
+#, fuzzy
 msgid "Text will also be received by"
 msgstr "متن نیز دریافت می شود  توسط"
 
@@ -9306,6 +9334,7 @@ msgid "Select this customer as the main customer."
 msgstr "این مشتری را به عنوان مشتری اصلی انتخاب کنید."
 
 #. Template: AgentTicketEmail
+#, fuzzy
 msgid "Remove Ticket Customer User"
 msgstr "حذف درخواست  کاربرمشتری"
 
@@ -9742,6 +9771,7 @@ msgid "Resize"
 msgstr "تغییر اندازه"
 
 #. Template: AgentTicketZoom
+#, fuzzy
 msgid "Mark this article as read"
 msgstr "علامت گذاری  این مقاله به عنوان خوانده شده"
 
@@ -9750,8 +9780,9 @@ msgid "Show Full Text"
 msgstr "نمایش کامل متن "
 
 #. Template: AgentTicketZoom
+#, fuzzy
 msgid "Full Article Text"
-msgstr " متن  کامل مقاله"
+msgstr "متن  کامل مقاله"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
@@ -9934,6 +9965,7 @@ msgid ""
 msgstr ""
 
 #. Template: CustomerFooterJS
+#, fuzzy
 msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
@@ -10042,8 +10074,9 @@ msgid "Create Account"
 msgstr "ثبت نام"
 
 #. Template: CustomerLogin
+#, fuzzy
 msgid "Please fill out this form to receive login credentials."
-msgstr "لطفا این فرم را  برای دریافت اعتبار ورود پر کنید . "
+msgstr "لطفا این فرم را  برای دریافت اعتبار ورود پر کنید ."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
@@ -10458,6 +10491,7 @@ msgid "Use an existing database for OTOBO"
 msgstr "استفاده از یک پایگاه داده موجود برای OTOBO"
 
 #. Template: InstallerDBmssql
+#, fuzzy
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
@@ -11631,12 +11665,13 @@ msgid "Update and extend your system with software packages."
 msgstr "به روزرسانی و گسترش سیستم به کمک بسته‌های نرم‌افزاری"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+#, fuzzy
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
 msgstr ""
 "اطلاعات ACL از پایگاه اطلاع داده  هماهنگی با پیکربندی سیستم نیست، لطفا تمام "
-"ACL ها را مستقر کنید . "
+"ACL ها را مستقر کنید ."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -11821,10 +11856,12 @@ msgid "Notification added!"
 msgstr "اطلاع رسانی اضافه شده است!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+#, fuzzy
 msgid "There was an error getting data for Notification with ID:%s!"
 msgstr "یک خطای گرفتن داده برای هشدار  با ID وجود دارد: %s !"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+#, fuzzy
 msgid "Unknown Notification %s!"
 msgstr "هشدار نامشخص  از طریق %s !"
 
@@ -11833,6 +11870,7 @@ msgid "%s (copy)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+#, fuzzy
 msgid "There was an error creating the Notification"
 msgstr "خطایی در ایجاد هشدار  وجود دارد"
 
@@ -11849,6 +11887,7 @@ msgid "The following Notifications have been added successfully: %s"
 msgstr "این اعلانها با موفقیت اضافه شده است: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+#, fuzzy
 msgid "The following Notifications have been updated successfully: %s"
 msgstr "این اعلانها  با موفقیت به روز شده است: %s"
 
@@ -12854,6 +12893,7 @@ msgid "No such file %s in package!"
 msgstr "بدون چنین فایل %s در بسته!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid "No such file %s in local file system!"
 msgstr "بدون چنین فایلی  %s در فایل سیستم محلی!"
 
@@ -12943,6 +12983,7 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+#, fuzzy
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr "بسته بندی با توجه به یک موضوع ارتباط با سرور تأیید، تأیید نمی کند!"
@@ -13053,6 +13094,7 @@ msgid "Process: %s is not Inactive"
 msgstr "فرآیند: %sغیر فعال نیست"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+#, fuzzy
 msgid "There was an error generating a new EntityID for this Activity"
 msgstr "یک خطای تولید  EntityID جدید برای این فعالیت وجود دارد"
 
@@ -13110,6 +13152,7 @@ msgid "Edit Activity \"%s\""
 msgstr "ویرایش فعالیت \\\\ \" %s \""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
 msgid "There was an error generating a new EntityID for this ActivityDialog"
 msgstr "یک خطای تولید  EntityID جدید برای این ActivityDialog وجود دارد"
 
@@ -13148,6 +13191,7 @@ msgid "Customer Interface"
 msgstr "رابط مشتری"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
 msgid "Agent and Customer Interface"
 msgstr "عامل و  رابط مشتری"
 
@@ -13168,6 +13212,7 @@ msgid "Edit Path"
 msgstr "ویرایش مسیر"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+#, fuzzy
 msgid "There was an error generating a new EntityID for this Transition"
 msgstr "یک خطای تولید  EntityID جدید برای این انتقال وجود دارد"
 
@@ -13345,10 +13390,12 @@ msgid "Relation added!"
 msgstr "رابطه اضافه شده است!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
+#, fuzzy
 msgid "Impossible to add relation!"
 msgstr "اضافه کردن رابطه غیر ممکن است  !"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
+#, fuzzy
 msgid "Relation doesn't exists"
 msgstr "رابطه  وجود ندارد"
 
@@ -13357,8 +13404,9 @@ msgid "Relation deleted!"
 msgstr "حذف رابطه !"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
+#, fuzzy
 msgid "Impossible to delete relation!"
-msgstr "  حذف رابطه غیر ممکن است!"
+msgstr "حذف رابطه غیر ممکن است!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Certificate %s could not be read!"
@@ -13511,6 +13559,7 @@ msgid "System was not able to delete the user setting values!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
+#, fuzzy
 msgid "Start date shouldn't be defined after Stop date!"
 msgstr "نباید تاریخ شروع  پس از تاریخ توقف تعریف  شود!"
 
@@ -13751,6 +13800,7 @@ msgid "Can't get element data of %s!"
 msgstr "نمی توانید داده های عنصررا بگیرید %s !"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
+#, fuzzy
 msgid "Can't get filter content data of %s!"
 msgstr "نمی توانید داده ها محتوای فیلتر را بگیرید  %s !"
 
@@ -13792,6 +13842,7 @@ msgid "%s links added successfully."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
+#, fuzzy
 msgid "The object %s cannot link with other object!"
 msgstr "هدف %s نمی تواند با جسم دیگر  لینک شود!"
 
@@ -13856,6 +13907,7 @@ msgid "Could not load stat."
 msgstr "آمار نمی تواند بارگزاری شود ."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
+#, fuzzy
 msgid "Add New Statistic"
 msgstr "اضافه کردن  آمارجدید"
 
@@ -13924,9 +13976,9 @@ msgid "Loading draft failed!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+#, fuzzy
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
-"با عرض پوزش،برای انجام این عملیات شما نیاز به اطلاعت  صاحب بلیط دارید . "
+msgstr "با عرض پوزش،برای انجام این عملیات شما نیاز به اطلاعت  صاحب بلیط دارید ."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -13945,6 +13997,7 @@ msgid "FormDraft name %s is already in use!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
+#, fuzzy
 msgid "Could not perform validation on field %s!"
 msgstr "نمی تواند اعتبار سنجی در زمینه انجام شود  %s !"
 
@@ -14001,6 +14054,7 @@ msgid "Can't lock Tickets, no TicketIDs are given!"
 msgstr "نمی توانید درخواست را قفل کنید، هیچ TicketIDs داده نمی شود!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+#, fuzzy
 msgid "Ticket (%s) is not unlocked!"
 msgstr "درخواست  ( %s )باز نشده است ."
 
@@ -14227,6 +14281,7 @@ msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
 msgstr ": می تواند بلیط برای TicketID نیست %s در _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
@@ -14255,6 +14310,7 @@ msgid "Can't get Ticket \"%s\"!"
 msgstr "نمی توانید بلیط \\\\ \"از %s \"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
 msgstr ""
 "نمی توانید ProcessEntityID یا ActivityEntityID برای درخواست  \\\\ \"بگیرید "
@@ -14427,6 +14483,7 @@ msgid "Ticket"
 msgstr "درخواست‌ها"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
+#, fuzzy
 msgid "printed by"
 msgstr "چاپ شده توسط  :"
 
@@ -14779,6 +14836,7 @@ msgid "FileID and ArticleID are needed!"
 msgstr "FileID و ArticleID مورد نیاز است!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
+#, fuzzy
 msgid "No such attachment (%s)!"
 msgstr "چنین ضمیمه  ( %s )!"
 
@@ -14824,6 +14882,7 @@ msgid "Created more than ... ago"
 msgstr "ایجاد شده بیشتر از ... قبل"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+#, fuzzy
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
 msgstr ""
@@ -14867,6 +14926,7 @@ msgid "Directory \"%s\" not found!"
 msgstr "راهنمای \\\\ \" %s \" یافت نشد!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "Install OTOBO"
 msgstr "نصب  OTOBO"
 
@@ -14987,6 +15047,7 @@ msgid "Can't connect to database, read comment!"
 msgstr "نمی توانید به پایگاه داده متصل شوید، به عنوان خواننده نظر!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "Database already contains data - it should be empty!"
 msgstr "پایگاه داده در حال حاضر حاوی اطاعات است  -باید خالی باشد !"
 
@@ -15279,6 +15340,7 @@ msgid "User was inactive for a while."
 msgstr "کاربر غیر فعال در حالی که برای بود."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
+#, fuzzy
 msgid "The start time of a ticket has been set after the end time!"
 msgstr "زمان شروع یک درخواست پس از زمان پایان تنظیم  شده است!"
 
@@ -15793,6 +15855,7 @@ msgid "Table of Contents"
 msgstr ""
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
+#, fuzzy
 msgid "Ticket Dynamic Fields"
 msgstr "درخواست زمینه  پویا"
 
@@ -15871,6 +15934,7 @@ msgid "Send unsigned notification"
 msgstr "ارسال هشدار از طریق بدون علامت"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
+#, fuzzy
 msgid "Send unencrypted notification"
 msgstr "ارسال هشدار از طریق تکه تکه کردن"
 
@@ -15887,6 +15951,7 @@ msgid "This setting is not active by default."
 msgstr "این تنظیم به طور پیش فرض فعال است."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
+#, fuzzy
 msgid "This setting can not be deactivated."
 msgstr "این تنظیمات نمی تواند غیر فعال  شود."
 
@@ -16314,8 +16379,9 @@ msgid "Username and password do not match. Please try again."
 msgstr "نام کاربری و رمز عبور مطابقت ندارند. لطفا دوباره تلاش کنید."
 
 #. Perl Module: Kernel/System/Registration.pm
+#, fuzzy
 msgid "Problems processing server result. Please try again later."
-msgstr " نتیجه مشکلات پردازش  سرور . لطفا بعدا دوباره امتحان کنید."
+msgstr "نتیجه مشکلات پردازش  سرور . لطفا بعدا دوباره امتحان کنید."
 
 #. Perl Module: Kernel/System/Stats.pm
 msgid "Sum"
@@ -16362,6 +16428,7 @@ msgid "Escalation"
 msgstr "تشدید"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
+#, fuzzy
 msgid "Escalation - First Response Time"
 msgstr "تشدید -  زمان اولین پاسخ"
 
@@ -16878,6 +16945,7 @@ msgid "Config Settings"
 msgstr "تنظیمات پیکربندی"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
+#, fuzzy
 msgid "Could not determine value."
 msgstr "نمی تواند ارزش را تعیین  کند."
 
@@ -16934,6 +17002,7 @@ msgid "Process Tickets"
 msgstr "بلیط روند"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
+#, fuzzy
 msgid "Months Between First And Last Ticket"
 msgstr "ماهها از اولین تا  آخرین درخواست"
 
@@ -16986,6 +17055,7 @@ msgid "File System Writable"
 msgstr "سیستم فایل قابل نوشتن"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
+#, fuzzy
 msgid "The file system on your OTOBO partition is not writable."
 msgstr "سیستم فایل در پارتیشن OTOBO  قابل نوشتن نیست."
 
@@ -17074,6 +17144,7 @@ msgid "Ticket Index Module"
 msgstr "درخواست شاخص ماژول"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
+#, fuzzy
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
@@ -17204,6 +17275,7 @@ msgid "mod_deflate Usage"
 msgstr "طریقه استفاده mod_deflate"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
+#, fuzzy
 msgid "Please install mod_deflate to improve GUI speed."
 msgstr "لطفا  mod_deflate به منظور بهبود سرعت رابط کاربری گرافیکی نصب کنید."
 
@@ -17574,6 +17646,7 @@ msgid "pending auto close+"
 msgstr "حالت تعلیق-بستن خودکار(+)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
+#, fuzzy
 msgid "Ticket is pending for automatic close."
 msgstr "درخواست  نزدیک اتوماتیک در انتظار."
 
@@ -17819,6 +17892,7 @@ msgstr ""
 "دریافت خواهید کرد."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
+#, fuzzy
 msgid "Ticket owner update notification"
 msgstr "درخواست  شخصی به روزرسانی اطلاعات"
 
@@ -17855,6 +17929,7 @@ msgid "Ticket escalation notification"
 msgstr "درخواست تشدید اطلاع رسانی "
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
+#, fuzzy
 msgid "Ticket escalation warning notification"
 msgstr "درخواست  تشدید اطلاع رسانی هشدار دهنده"
 
@@ -17943,6 +18018,7 @@ msgid "Attachment was deleted successfully."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be "
 "LOST!"
@@ -18368,6 +18444,7 @@ msgid "Are you sure you want to remove all user values?"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
+#, fuzzy
 msgid "Do you really want to delete this scheduled system maintenance?"
 msgstr ""
 "آیا شما واقعا می خواهید  این تعمیر و نگهداری سیستم های برنامه ریزی شده را "
@@ -18784,6 +18861,7 @@ msgid "Remove the filter"
 msgstr ""
 
 #. JS File: Core.UI.TreeSelection
+#, fuzzy
 msgid "There are currently no elements available to select from."
 msgstr "در حال حاضر هیچ یک از عناصر در دسترس برای انتخاب  وجود ندارد."
 
@@ -18929,6 +19007,7 @@ msgid "%s"
 msgstr "٪s"
 
 #. SysConfig
+#, fuzzy
 msgid "(UserLogin) Firstname Lastname"
 msgstr "(صفحهی) نام نام خانوادگی"
 
@@ -19116,6 +19195,7 @@ msgid "ActivityID"
 msgstr "ActivityID"
 
 #. SysConfig
+#, fuzzy
 msgid "Add a note to this ticket"
 msgstr "اضافه کردن یک یادداشت  به این بلیط"
 
@@ -19542,6 +19622,7 @@ msgstr ""
 "اجازه می دهد تا انتخاب حالت نوشتن بعدی برای درخواست مشتری در رابط مشتری."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
 msgstr "به مشتریان  برای تغییر اولویت بلیط در رابط مشتری اجازه می دهد ."
@@ -19561,6 +19642,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Allows customers to set the ticket service in the customer interface."
 msgstr ""
 "اجازه می دهد به مشتریان تا قراردهند  مجموعه خدمات درخواست در رابط مشتری."
@@ -19578,14 +19660,15 @@ msgstr ""
 "شود."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
 msgstr ""
-"اجازه تعریف خدمات و SLA ها برای درخواست  می دهد (به عنوان مثال ایمیل، "
-"دسکتاپ، شبکه، ...)، و تشدید ویژگی برای SLA ها (اگر سرویس بلیط / ویژگی های "
-"SLA فعال باشد)."
+"اجازه تعریف خدمات و SLA ها برای درخواست  می دهد (به عنوان مثال ایمیل، دسکتاپ"
+"، شبکه، ...)، و تشدید ویژگی برای SLA ها (اگر سرویس بلیط / ویژگی های SLA فعال "
+"باشد)."
 
 #. SysConfig
 msgid ""
@@ -19632,9 +19715,9 @@ msgstr ""
 "دهد نیز اطلاعات مربوط به مشتری)."
 
 #. SysConfig
+#, fuzzy
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
-"اجازه تولید به  عوامل نامعتبر برای آمار و ارقام مربوط به فرد را میدهد. "
+msgstr "اجازه تولید به  عوامل نامعتبر برای آمار و ارقام مربوط به فرد را میدهد."
 
 #. SysConfig
 msgid ""
@@ -19739,6 +19822,7 @@ msgstr ""
 "حرکت از رابط عامل."
 
 #. SysConfig
+#, fuzzy
 msgid "Always show RichText if available"
 msgstr "همیشه RichText  نشان می دهد اگر موجود باشد"
 
@@ -19983,6 +20067,7 @@ msgid "Change queue!"
 msgstr "تغییر صف درخواست!"
 
 #. SysConfig
+#, fuzzy
 msgid "Change the customer for this ticket"
 msgstr "تغییر مشتری  برای این درخواست"
 
@@ -19991,6 +20076,7 @@ msgid "Change the owner for this ticket"
 msgstr "تغییرمالک برای این درخواست "
 
 #. SysConfig
+#, fuzzy
 msgid "Change the priority for this ticket"
 msgstr "تغییر اولویت  برای این درخواست"
 
@@ -20330,6 +20416,7 @@ msgstr ""
 "است."
 
 #. SysConfig
+#, fuzzy
 msgid "Configure your own log text for PGP."
 msgstr "پیکربندی متن ورود به سیستم خود  برای PGP."
 
@@ -20361,6 +20448,7 @@ msgid "Controls if customers have the ability to sort their tickets."
 msgstr "کنترل اگر مشتریان توانایی مرتب سازی درخواست های خود را داشته باشند."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
@@ -21066,12 +21154,13 @@ msgstr ""
 "کنید، اما برای سیستم (یعنی \\\\ \"ریشه @ localhost را \") لازم است."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a regular expression that filters all email addresses that should "
 "not be used in the application."
 msgstr ""
-"تعریف یک عبارت منظم است که فیلتر تمام آدرس های ایمیل  نباید در برنامه "
-"استفاده  شود."
+"تعریف یک عبارت منظم است که فیلتر تمام آدرس های ایمیل  نباید در برنامه استفاده"
+"  شود."
 
 #. SysConfig
 msgid ""
@@ -21092,6 +21181,7 @@ msgid "Defines all the X-headers that should be scanned."
 msgstr "تعریف می کند همه X-header که باید اسکن شود."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only English names of languages here."
@@ -21100,6 +21190,7 @@ msgstr ""
 "زبان را در اینجا مشخص کنید."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only native names of languages here."
@@ -21254,6 +21345,7 @@ msgstr ""
 "تعریف می کند اگر قبل از مرتب کردن بر اساس اولویت باید در نظر صف انجام شود."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a pre-sorting by priority should be done in the service view."
 msgstr ""
@@ -21727,6 +21819,7 @@ msgid "Defines the config options for the autocompletion feature."
 msgstr "تعریف می کند که گزینه های پیکربندی برای قابلیت تکمیل خودکار است."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the config parameters of this item, to be shown in the preferences "
 "view."
@@ -22469,6 +22562,7 @@ msgstr ""
 "تعریف می کند که فیلتر است که پردازش متن در مقالات، به منظور برجسته آدرس ها."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
@@ -22731,6 +22825,7 @@ msgstr ""
 "عامل استفاده می شود."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the hours and week days of the indicated calendar, to count the "
 "working time."
@@ -22742,6 +22837,7 @@ msgid "Defines the hours and week days to count the working time."
 msgstr "تعریف می کند که ساعت و روز هفته برای شمارش زمان کار است."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the key to be checked with Kernel::Modules::AgentInfo module. If "
 "this user preferences key is true, the message is accepted by the system."
@@ -23302,6 +23398,7 @@ msgstr ""
 "PDF. را دارد"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path of the shown info file, that is located under Kernel/Output/"
 "HTML/Templates/Standard/CustomerAccept.tt."
@@ -23347,6 +23444,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Defines the postmaster default queue."
 msgstr "تعریف می کند  به طور پیش فرض صف رئيس پست را."
 
@@ -23716,6 +23814,7 @@ msgstr ""
 "انتظار به حالت (کلید) رسیده است."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
@@ -23795,6 +23894,7 @@ msgstr ""
 "شما می توانید یک یادداشت حرکت بلیط برای اضافه کنید."
 
 #. SysConfig
+#, fuzzy
 msgid "Determines if the statistics module may generate ticket lists."
 msgstr "تعیین  ماژول آمار ممکن است لیست درخواست تولید کند."
 
@@ -24407,6 +24507,7 @@ msgstr ""
 "کلمات توقف انگلیسی برای شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد."
 
 #. SysConfig
+#, fuzzy
 msgid "Enroll process for this ticket"
 msgstr "ثبت نام فرآیند  این درخواست برای"
 
@@ -24457,6 +24558,7 @@ msgstr ""
 "زمینه های پویا بلیط نیاز همان رویداد."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
@@ -24694,10 +24796,12 @@ msgid "FirstResponseInMin"
 msgstr "FirstResponseInMin"
 
 #. SysConfig
+#, fuzzy
 msgid "Firstname Lastname"
 msgstr "نام نام خانوادگی"
 
 #. SysConfig
+#, fuzzy
 msgid "Firstname Lastname (UserLogin)"
 msgstr "نام نام خانوادگی (صفحهی)"
 
@@ -24730,6 +24834,7 @@ msgstr ""
 "فعلی به عنوان کلید، و دولت بعدی پس از عمل قفل به عنوان محتوا."
 
 #. SysConfig
+#, fuzzy
 msgid "Forces to unlock tickets after being moved to another queue."
 msgstr "نیروهای  باز کردن درخواست پس ازاین به صف دیگری نقل مکان کرد."
 
@@ -25852,6 +25957,7 @@ msgid "List of all calendar events to be displayed in the GUI."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "List of all queue events to be displayed in the GUI."
 msgstr "فهرست از تمام وقایع صف  در رابط کاربری گرافیکی نمایش داده می شود."
 
@@ -26344,6 +26450,7 @@ msgid "MyLastChangedTickets dashboard widget."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Name of custom queue. The custom queue is a queue selection of your "
 "preferred queues and can be selected in the preferences settings."
@@ -26352,6 +26459,7 @@ msgstr ""
 "در تنظیمات تنظیمات انتخاب شده است."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Name of custom service. The custom service is a service selection of your "
 "preferred services and can be selected in the preferences settings."
@@ -26601,6 +26709,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to "
 "easily add customizations."
@@ -26637,6 +26746,7 @@ msgid "Overview of all open tickets."
 msgstr "نمای کلی از تمام درخواست باز."
 
 #. SysConfig
+#, fuzzy
 msgid "Overview of customer tickets."
 msgstr "بررسی اجمالی از  درخواست مشتری ."
 
@@ -27355,12 +27465,13 @@ msgstr ""
 "کارشناس."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Required permissions to use the ticket merge screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
-"دسترسی مورد نیاز برای استفاده از صفحه نمایش ادغام درخواست یک درخواست زوم "
-"شده  در صفحه ی کارشناس."
+"دسترسی مورد نیاز برای استفاده از صفحه نمایش ادغام درخواست یک درخواست زوم شده"
+"  در صفحه ی کارشناس."
 
 #. SysConfig
 msgid ""
@@ -27564,6 +27675,7 @@ msgid "Search backend default router."
 msgstr "جستجو باطن روتر به طور پیش فرض."
 
 #. SysConfig
+#, fuzzy
 msgid "Search backend router."
 msgstr "جستجو  باطن روتر."
 
@@ -27808,10 +27920,12 @@ msgid "Sets if queue must be selected by the agent."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Sets if service must be selected by the agent."
 msgstr "مجموعه  سرویس باید توسط عامل انتخاب شود."
 
 #. SysConfig
+#, fuzzy
 msgid "Sets if service must be selected by the customer."
 msgstr "مجموعه  سرویس باید توسط مشتری انتخاب شود."
 
@@ -28995,6 +29109,7 @@ msgstr ""
 "نشان می دهد."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket free "
 "text screen of the agent interface."
@@ -29035,6 +29150,7 @@ msgstr ""
 "بزرگنمایی در رابط عامل را نشان می دهد."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "responsible screen of the agent interface."
@@ -29536,6 +29652,7 @@ msgstr ""
 " نظمی که در آن نام و نام خانوادگی از عوامل نمایش داده خواهد شد را مشخص میکند."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Specifies the path of the file for the logo in the page header (gif|jpg|png, "
 "700 x 100 pixel)."
@@ -29774,6 +29891,7 @@ msgid "The PGP signature with the keyid is good."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -29794,6 +29912,7 @@ msgid "The daemon registration for sync with S3."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "The daemon registration for the scheduler cron task manager."
 msgstr "ثبت نام شبح برای مدیریت زمانبندی کار cron  است."
 
@@ -30583,6 +30702,7 @@ msgid "Yes, but hide archived tickets"
 msgstr "بله، اما آرشیو درخواست پنهان است"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
 "\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
@@ -30591,6 +30711,7 @@ msgstr ""
 "\"<OTOBO_BOUNCE_TO> \". این آدرس برای کسب اطلاعات بیشتر تماس بگیرید."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
 "\"<OTOBO_MERGE_TO_TICKET>\"."
