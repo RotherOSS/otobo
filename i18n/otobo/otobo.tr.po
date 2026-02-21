@@ -8,16 +8,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
-"Language-Team: Turkish (https://translate.otobo.org/projects/otobo10/otobo/"
-"tr/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Turkish <http://translate.otobo.org/projects/otobo/otobo-10/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2879,6 +2881,7 @@ msgid "CMD"
 msgstr "Komut"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
