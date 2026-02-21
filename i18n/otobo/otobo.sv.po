@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Anthon Nilsson <superdos@gmail.com>, 2019\n"
-"Language-Team: Swedish (https://translate.otobo.org/projects/otobo10/otobo/"
-"sv/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Swedish <http://translate.otobo.org/projects/otobo/otobo-10/"
+"sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -542,6 +544,7 @@ msgid "Filter for notifications"
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
+#, fuzzy
 msgid ""
 "Here you can upload a configuration file to import appointment notifications "
 "to your system. The file needs to be in .yml format as exported by the "
@@ -15550,6 +15553,7 @@ msgid "Session invalid. Please log in again."
 msgstr "Ogiltig session. Vänligen logga in igen."
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
+#, fuzzy
 msgid "Session has timed out. Please log in again."
 msgstr "Sessionstiden har löpt ut.  Vänligen logga in igen."
 
@@ -16674,6 +16678,7 @@ msgid "FQDN (domain name)"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
+#, fuzzy
 msgid "Please configure your FQDN setting."
 msgstr "Ställ in  FQDN."
 
