@@ -9,16 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
-"Language-Team: Swahili (https://translate.otobo.org/projects/otobo10/otobo/"
-"sw/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Swahili <http://translate.otobo.org/projects/otobo/otobo-10/"
+"sw/>\n"
 "Language: sw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -242,12 +244,13 @@ msgid "Do you really want to delete this ACL?"
 msgstr "Je unahitaji kufuta ACL hii?"
 
 #. Template: AdminACLNew
+#, fuzzy
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
 "Tengeneza ACL mpya kwa kukusanya data. Baada ya kutengeneza ACL, utakuwa na "
-"uwezo wa kuongeza kipengee cha usanidi katika  "
+"uwezo wa kuongeza kipengee cha usanidi katika"
 
 #. Template: AdminAbout
 msgid "About"
@@ -943,6 +946,7 @@ msgid "Options of ticket dynamic fields internal key values"
 msgstr "Chaguo la thamani za muhimu za ndani za uga wenye nguvu wa tiketi."
 
 #. Template: AdminAutoResponse
+#, fuzzy
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
@@ -1538,6 +1542,7 @@ msgid "This email address failed MX check."
 msgstr "Barua pepe hii imeshindwa angalio la MX."
 
 #. Template: AdminCustomerUser
+#, fuzzy
 msgid "DNS problem, please check your configuration and the error log."
 msgstr ""
 "Matatizo katika DNS,  tafadhali anagalia usanidi wako na ingio katika makosa."
@@ -5415,6 +5420,7 @@ msgstr ""
 "info@example.com kwa kutoka, kwenda au Cc."
 
 #. Template: AdminPostMasterFilter
+#, fuzzy
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
@@ -5861,13 +5867,14 @@ msgstr ""
 "mchakato."
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element "
 "from this sidebar over the Activity placed in the canvas area."
 msgstr ""
 "Kuipa mazungumzo ya shuguli shughuli dondosha kipengele cha mazungumzo ya "
 "shughuli kutoka kwenye mwambaa upande huu juu ya shughuli iliyowekwa katika "
-"kanvasi.  "
+"kanvasi."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6111,6 +6118,7 @@ msgid "Only business hours are counted."
 msgstr "Masaa ya kazi tu ndo yanahesabika."
 
 #. Template: AdminQueue
+#, fuzzy
 msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
@@ -6453,6 +6461,7 @@ msgstr ""
 "Mfumo utatuma visasihi kwenye seva ya usajili kila baada ya muda flani."
 
 #. Template: AdminRegistration
+#, fuzzy
 msgid "Typically this would be around once every three days."
 msgstr "Hii itakuwa kila mara moja kila  siku tatu"
 
@@ -6551,6 +6560,7 @@ msgid "There is no data regularly sent from your system to %s."
 msgstr "Hakuna data za mara kwa mara zinazotumwa katika mfumo wako kwenda %s."
 
 #. Template: AdminRegistration
+#, fuzzy
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
 msgstr "Data ifuatayo inatumwa kila siku 3 katika katika mfumo wako %s."
@@ -6615,12 +6625,13 @@ msgid "Select the role:group permissions."
 msgstr "Chagua jukumu: Ruhusa za kikundi"
 
 #. Template: AdminRoleGroup
+#, fuzzy
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the role)."
 msgstr ""
 "Kama hakuna kilichochaguliwa, kutakuwa hakuna ruhusa katika kikundi hiki "
-"(tiketi hazitapatikana kwa ajili ya jukumu).  "
+"(tiketi hazitapatikana kwa ajili ya jukumu)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -7560,6 +7571,7 @@ msgid "Filter for system maintenances"
 msgstr ""
 
 #. Template: AdminSystemMaintenance
+#, fuzzy
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers "
 "the system is down for a time period."
@@ -9812,6 +9824,7 @@ msgid "Please re-install %s package in order to display this article."
 msgstr ""
 
 #. Template: AttachmentBlocker
+#, fuzzy
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Kulinda faragha yako,  yaliyomo ya mbali yamezuiliwa."
 
@@ -10358,6 +10371,7 @@ msgid "Inbound mail host"
 msgstr "Mwenyeji wa barua pepe za ndani"
 
 #. Template: InstallerConfigureMail
+#, fuzzy
 msgid "Inbound mail host."
 msgstr "Mwenyeji wa barua  pepe za ndani."
 
@@ -10414,6 +10428,7 @@ msgid "Use an existing database for OTOBO"
 msgstr "Tumia hifadhi data iliyopo kwa ajili ya OTOBO"
 
 #. Template: InstallerDBmssql
+#, fuzzy
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
@@ -10676,6 +10691,7 @@ msgid "Restart your webserver"
 msgstr "Washa upya seva ya tovuti"
 
 #. Template: Finish
+#, fuzzy
 msgid "After doing so your OTOBO is up and running."
 msgstr "Baada ya kufanya hivyo OTOBO  itafanya kazi."
 
@@ -12664,6 +12680,7 @@ msgid "Operations"
 msgstr "Operesheni"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+#, fuzzy
 msgid "OTOBO as requester"
 msgstr "OTOBO kama  muombaji"
 
@@ -12892,6 +12909,7 @@ msgid "Priority added!"
 msgstr "Kipaumbele kimeongezwa!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
+#, fuzzy
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
@@ -14707,6 +14725,7 @@ msgid "Customer Realname"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+#, fuzzy
 msgid "Created within the last"
 msgstr "Ilitengenezwa ndani ya ya mwisho"
 
@@ -16785,6 +16804,7 @@ msgid "Customers With At Least One Ticket"
 msgstr "Wateja wenye tiketi angalau zaidi ya moja"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
+#, fuzzy
 msgid "Dynamic Field Values"
 msgstr "Thamani za uga zenye  nguvu"
 
@@ -16857,6 +16877,7 @@ msgid "File System Writable"
 msgstr "Mfumo wa file unaandikika"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
+#, fuzzy
 msgid "The file system on your OTOBO partition is not writable."
 msgstr "Mfumo wa file katika kitenga chako cha OTOBO  hakiandikiki."
 
@@ -18572,6 +18593,7 @@ msgid "Clear search"
 msgstr ""
 
 #. JS File: Core.UI.Popup
+#, fuzzy
 msgid "If you now leave this page, all open popup windows will be closed, too!"
 msgstr ""
 "Kama unaondoka huu ukurasa, madirisha ibukizi  yote yaliyofunguliwa "
@@ -20549,6 +20571,7 @@ msgid "Date / Time"
 msgstr "Tarehe / Muda"
 
 #. SysConfig
+#, fuzzy
 msgid "Default ACL values for ticket actions."
 msgstr "Thamani za ACL chaguo msingi  kwa ajili ya vitendo vya tiketi."
 
@@ -20869,6 +20892,7 @@ msgid "Defines a permission context for customer to group assignment."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines a regular expression that excludes some addresses from the syntax "
 "check (if \"CheckEmailAddresses\" is set to \"Yes\"). Please enter a regex "
@@ -20878,8 +20902,8 @@ msgstr ""
 "Inafafanua semi za kawaida ambazo zinazuia baadhi ya  anwani kwenye "
 "uangalizi wa sintaksi(\"Uangalizi wa Anwani za Barua pepe\" umewekwa kuwa "
 "\"Yes\"). Tafadhali ingia regex katika uga huu kwa ajili ya anwani za barua "
-"pepe, ambazo kisintentiki zipo batili, lakini ni za lazima kwa ajili ya "
-"mfumo  (mfano \"root@localhost\")."
+"pepe, ambazo kisintentiki zipo batili, lakini ni za lazima kwa ajili ya mfumo"
+"  (mfano \"root@localhost\")."
 
 #. SysConfig
 msgid ""
@@ -20971,6 +20995,7 @@ msgid "Defines an alternate login URL for the customer panel.."
 msgstr "Inafafanua URL ya kuingia mbadala kwa paneli ya mteja."
 
 #. SysConfig
+#, fuzzy
 msgid "Defines an alternate logout URL for the customer panel."
 msgstr "Inafafanua URL ya kutoka  mbadala kwa paneli ya mteja."
 
@@ -21071,6 +21096,7 @@ msgid "Defines if a ticket lock is required for the quick close."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the close ticket screen of the agent "
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
@@ -21098,6 +21124,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket bounce screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
@@ -21158,6 +21185,7 @@ msgstr ""
 "itafungwa na wakala wa sasa ataweka otomatiki kuwa mmiliki wake)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket owner screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
@@ -21203,6 +21231,7 @@ msgstr ""
 "wake)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines if a ticket lock is required in the ticket priority screen of a "
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
@@ -21572,6 +21601,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Defines the date input format used in forms (option or input fields)."
 msgstr ""
 "Inafafanua umbizo umbizo ingizo la tarehe linalotumika katika fomu (hiari au "
@@ -21635,6 +21665,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default maximum number of X-axis attributes for the time scale."
 msgstr ""
@@ -21796,6 +21827,7 @@ msgid "Defines the default queue for new tickets in the agent interface."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for dynamic objects "
 "(Form: Common Specification)."
@@ -21804,6 +21836,7 @@ msgstr ""
 "nguvu (Kutoka: ubainishi wa kawaida)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for permissions (Form: "
 "Common Specification)."
@@ -21812,6 +21845,7 @@ msgstr ""
 "(Kutoka: ubainishi wa kawaida)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default selection at the drop down menu for stats format (Form: "
 "Common Specification). Please insert the format key (see Stats::Format)."
@@ -21837,6 +21871,7 @@ msgstr ""
 "skrini ilifungwa nje ya tiketi ya simu ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default sender type for tickets in the ticket zoom screen of the "
 "customer interface."
@@ -21961,6 +21996,7 @@ msgstr ""
 "simu zilizofungwa nje ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default subject of a note in the ticket free text screen of the "
 "agent interface."
@@ -22116,6 +22152,7 @@ msgstr ""
 "tiketi ya mchakato huu. Juu: Kongwe juu. Chini: Za sasa juu."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default ticket order in the watch view of the agent interface. "
 "Up: oldest on top. Down: latest on top."
@@ -22282,6 +22319,7 @@ msgstr ""
 "URL."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
@@ -22436,6 +22474,7 @@ msgstr ""
 "inatumika kwa ajili ya historia ya tiketi katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the history comment for this operation, which gets used for ticket "
 "history in the agent interface."
@@ -22484,6 +22523,7 @@ msgstr ""
 "ambayo inatumika kwa ajili ya historia ya tiketi katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the history type for the ticket owner screen action, which gets used "
 "for ticket history in the agent interface."
@@ -22500,6 +22540,7 @@ msgstr ""
 "ambayo inatumika kwa ajili ya historia ya tiketi katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
@@ -22509,6 +22550,7 @@ msgstr ""
 "kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the history type for the ticket phone outbound screen action, which "
 "gets used for ticket history in the agent interface."
@@ -22747,6 +22789,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
@@ -22870,6 +22913,7 @@ msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next possible states after composing / answering a ticket in the "
 "ticket compose screen of the agent interface."
@@ -22902,6 +22946,7 @@ msgstr ""
 "cha mteja."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next state of a ticket after adding a note, in the close ticket "
 "screen of the agent interface."
@@ -22934,12 +22979,13 @@ msgstr ""
 "mmiliki wa tiketi ya tiketi iliyokuzwa katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
 msgstr ""
-"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini "
-"ya  tiketi ilinayosubiri ya tiketi iliyokuzwa katika kiolesura cha wakala."
+"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini ya"
+"  tiketi ilinayosubiri ya tiketi iliyokuzwa katika kiolesura cha wakala."
 
 #. SysConfig
 msgid ""
@@ -22950,20 +22996,22 @@ msgstr ""
 "kipaumbele cha tiketi ya tiketi iliyokuzwa katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket "
 "responsible screen of the agent interface."
 msgstr ""
-"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini "
-"ya  tiketi inayohusika ya kiolesura cha wakala."
+"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini ya"
+"  tiketi inayohusika ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the next state of a ticket after being bounced, in the ticket bounce "
 "screen of the agent interface."
 msgstr ""
-"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini "
-"ya  tiketi inayodunda ya kiolesura cha wakala."
+"Inafafanua hali ijayo ya tiketi baada ya kuongeza kidokezo, katika skrini ya"
+"  tiketi inayodunda ya kiolesura cha wakala."
 
 #. SysConfig
 msgid ""
@@ -23060,6 +23108,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
@@ -23068,6 +23117,7 @@ msgstr ""
 "nafasimoja katika waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle bold italic proportional font in PDF "
 "documents."
@@ -23076,6 +23126,7 @@ msgstr ""
 "zilizosawa katika waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle bold monospaced font in PDF "
 "documents."
@@ -23084,6 +23135,7 @@ msgstr ""
 "katika waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle bold proportional font in PDF "
 "documents."
@@ -23092,6 +23144,7 @@ msgstr ""
 "waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle italic monospaced font in PDF "
 "documents."
@@ -23100,6 +23153,7 @@ msgstr ""
 "waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle italic proportional font in PDF "
 "documents."
@@ -23108,6 +23162,7 @@ msgstr ""
 "waraka wa PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle monospaced font in PDF documents."
 msgstr ""
@@ -23115,6 +23170,7 @@ msgstr ""
 "PDF."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the path and TTF-File to handle proportional font in PDF documents."
 msgstr ""
@@ -23253,12 +23309,13 @@ msgid "Defines the standard size of PDF pages."
 msgstr "Inafafanua kiwango cha ukubwa wa kurasa za PDF. "
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the state of a ticket if it gets a follow-up and the ticket was "
 "already closed."
 msgstr ""
 "Inafafanua hali ya tiketi kama ikipata kufuatiliwa  na tiketi ilikuwa tayari "
-"imefungwa. "
+"imefungwa."
 
 #. SysConfig
 msgid "Defines the state of a ticket if it gets a follow-up."
@@ -23614,6 +23671,7 @@ msgid "Determines if the statistics module may generate ticket lists."
 msgstr "Inaamua kaam moduli ya takwimu inaweza kutengeneza orodha za tiketi."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Determines the next possible ticket states, after the creation of a new "
 "email ticket in the agent interface."
@@ -24839,13 +24897,14 @@ msgid "Hungarian"
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally "
 "autodetection is used) can be specified."
 msgstr ""
-"Kama \"DB\" inachaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji,"
-"viendeshaji  hifadhi data(mara nyingi ugunduzi wa otomatiki unatumika) "
-"vinaweza kubainishwa."
+"Kama \"DB\" inachaguliwa kwa ajili ya Mteja::Moduli ya "
+"uhalalishaji,viendeshaji  hifadhi data(mara nyingi ugunduzi wa otomatiki "
+"unatumika) vinaweza kubainishwa."
 
 #. SysConfig
 msgid ""
@@ -24968,6 +25027,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and your users have only "
 "anonymous access to the LDAP tree, but you want to search through the data, "
@@ -24981,6 +25041,7 @@ msgstr ""
 "wa maalum hapa."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and your users have only "
 "anonymous access to the LDAP tree, but you want to search through the data, "
@@ -25010,6 +25071,7 @@ msgstr ""
 "mwenyeji wa LDAP anaweza kubainishwa."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, the user identifier must "
 "be specified."
@@ -25103,6 +25165,7 @@ msgstr ""
 "la pacha tuma barua pepe na michaguo inayohusika lazima ibainishwe."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If \"SysLog\" was selected for LogModule, a special log facility can be "
 "specified."
@@ -25141,6 +25204,7 @@ msgstr ""
 "ya barua pepe ya mtumiaji kuruhusu usajili."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
@@ -25191,10 +25255,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "If enabled debugging information for ACLs is logged."
 msgstr "Kama imewezeshwa kueua taarifa  kwa ajili ya ACL imewekwa batli."
 
 #. SysConfig
+#, fuzzy
 msgid "If enabled debugging information for transitions is logged."
 msgstr "Kama imewezeshwa kueua taarifa  kwa ajili ya mipito imewekwa batli."
 
@@ -25416,6 +25482,7 @@ msgid "International Workers' Day"
 msgstr "Siku ya kimataifa ya wafanyakazi. "
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "It is possible to configure different skins, for example to distinguish "
 "between diferent agents, to be used on a per-domain basis within the "
@@ -25432,6 +25499,7 @@ msgstr ""
 "Tafadhali ona maingizo ya mfano kwa  ajili fomu sahihi ya  imizo la kawaida."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "It is possible to configure different skins, for example to distinguish "
 "between diferent customers, to be used on a per-domain basis within the "
@@ -25448,6 +25516,7 @@ msgstr ""
 "Tafadhali ona maingizo ya mfano kwa  ajili fomu sahihi ya  imizo la kawaida."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "It is possible to configure different themes, for example to distinguish "
 "between agents and customers, to be used on a per-domain basis within the "
@@ -25785,6 +25854,7 @@ msgid "Makes the application check the syntax of email addresses."
 msgstr "Inafanya programu tumizi kuangalia sintaksi ya anwani ya barua pepe."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Makes the session management use html cookies. If html cookies are disabled "
 "or if the client browser disabled html cookies, then the system will work as "
@@ -26958,6 +27028,7 @@ msgid "Process Management Transition Action GUI"
 msgstr "GUI ya kitendo cha mpito cha usimamizi ya mchakato"
 
 #. SysConfig
+#, fuzzy
 msgid "Process Management Transition GUI"
 msgstr "GUI ya  mpito cha usimamizi ya mchakato"
 
@@ -27095,6 +27166,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
@@ -27195,6 +27267,7 @@ msgstr ""
 "katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Required permissions to use the ticket pending screen of a zoomed ticket in "
 "the agent interface."
@@ -27448,6 +27521,7 @@ msgid "Selects the cache backend to use."
 msgstr "Chagua hifadhi muda ya mazingira ya nyuma ya kutumia."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Selects the module to handle uploads via the web interface. \"DB\" stores "
 "all uploads in the database, \"FS\" uses the file system."
@@ -27744,6 +27818,7 @@ msgstr ""
 "wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default body text for notes added in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
@@ -27753,6 +27828,7 @@ msgstr ""
 "cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default body text for notes added in the ticket priority screen of "
 "a zoomed ticket in the agent interface."
@@ -27762,6 +27838,7 @@ msgstr ""
 "cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default body text for notes added in the ticket responsible screen "
 "of the agent interface."
@@ -27770,6 +27847,7 @@ msgstr ""
 "katika skrini ya  tiketi inayowajibika ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default error message for the login screen on Agent and Customer "
 "interface, it's shown when a running system maintenance period is active."
@@ -27895,6 +27973,7 @@ msgstr ""
 "yenye kidokezo ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default subject for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
@@ -27911,6 +27990,7 @@ msgstr ""
 "inayosubiri ya tiketi iliyokuzwa ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default subject for notes added in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
@@ -27919,6 +27999,7 @@ msgstr ""
 "kipaumbele cha tiketi  ya tiketi iliyokuzwa katika kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the default subject for notes added in the ticket responsible screen of "
 "the agent interface."
@@ -28017,6 +28098,7 @@ msgid "Sets the preferred digest to be used for PGP binary."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the prefix to the scripts folder on the server, as configured on the "
 "web server. This setting is used as a variable, OTOBO_CONFIG_ScriptAlias "
@@ -28126,6 +28208,7 @@ msgstr ""
 "kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the responsible agent of the ticket in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
@@ -28134,6 +28217,7 @@ msgstr ""
 "tketi iliyokuzwa katika  kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the responsible agent of the ticket in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
@@ -28142,6 +28226,7 @@ msgstr ""
 "tketi iliyokuzwa katika  kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the responsible agent of the ticket in the ticket responsible screen of "
 "the agent interface."
@@ -28241,6 +28326,7 @@ msgid "Sets the stats hook."
 msgstr "Inaweka ndoano ya takwimu."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the ticket owner in the close ticket screen of the agent interface."
 msgstr ""
@@ -28248,12 +28334,14 @@ msgstr ""
 "cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid "Sets the ticket owner in the ticket bulk screen of the agent interface."
 msgstr ""
 "Inamuweka mmiliki wa tiketi katika skrini ya wingi ya tiketi ya  kiolesura "
 "cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Sets the ticket owner in the ticket free text screen of the agent interface."
 msgstr ""
@@ -28261,6 +28349,7 @@ msgstr ""
 "kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid "Sets the ticket owner in the ticket note screen of the agent interface."
 msgstr ""
 "Inamuweka mmiliki wa tiketi katika skrini ya kidokezo cha tiketi ya  "
@@ -28582,6 +28671,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a link in the menu to delete a ticket in every ticket overview of the "
 "agent interface. Additional access control to show or not show this link can "
@@ -28732,6 +28822,7 @@ msgstr ""
 "kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a link to access article attachments via a html online viewer in the "
 "zoom view of the article in the agent interface."
@@ -28772,6 +28863,7 @@ msgstr ""
 "skrini ya tiketi ya kufunga ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket free "
 "text screen of the agent interface."
@@ -28796,6 +28888,7 @@ msgstr ""
 "skrini ya mmiliki wa tiketi ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "pending screen of a zoomed ticket in the agent interface."
@@ -28805,6 +28898,7 @@ msgstr ""
 "wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows a list of all the involved agents on this ticket, in the ticket "
 "priority screen of a zoomed ticket in the agent interface."
@@ -29036,6 +29130,7 @@ msgstr ""
 "kuhamisha ya kiolesura cha wakala."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows the ticket priority options in the ticket bulk screen of the agent "
 "interface."
@@ -29815,9 +29910,9 @@ msgstr ""
 "cha mchakato wa usimamizi wa mchakato kinahifadhiwa."
 
 #. SysConfig
+#, fuzzy
 msgid "This option defines the process tickets default lock."
-msgstr ""
-"Chaguo hili linafafanua ufungwaji  chaguo msingi wa tiketi ya mchakato."
+msgstr "Chaguo hili linafafanua ufungwaji  chaguo msingi wa tiketi ya mchakato."
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
@@ -29841,6 +29936,7 @@ msgstr ""
 "hazikujatengenezwa na mtumiaji wa mteja."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "This setting allows you to override the built-in country list with your own "
 "list of countries. This is particularly handy if you just want to use a "
@@ -30056,6 +30152,7 @@ msgid "To view HTML attachments."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
 msgstr ""
 "Inageuza onyesho la orodha ya vifaa vya nyongeza ya vipengele vya OTOBO  "
