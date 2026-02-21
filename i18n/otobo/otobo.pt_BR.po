@@ -58,17 +58,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2023-02-15 14:31+0000\n"
-"Last-Translator: Daniel Ferreira Pinto Bezerra da Silva <xtecnico2@gmail."
-"com>\n"
-"Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
-"otobo10/otobo/pt_BR/>\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
+"otobo/otobo-10/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -5322,6 +5321,7 @@ msgstr ""
 "Para buscar as primeiras 5 linhas do corpo (do último artigo do cliente)"
 
 #. Template: AdminNotificationEvent
+#, fuzzy
 msgid "Attributes of the current customer user data"
 msgstr "Atributos  de dados do usuário cliente atual"
 
@@ -5553,6 +5553,7 @@ msgid "Continue"
 msgstr "Continuar"
 
 #. Template: AdminPackageManager
+#, fuzzy
 msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
@@ -5816,6 +5817,7 @@ msgstr ""
 "em () como [***] na ação 'Set'."
 
 #. Template: AdminPostMasterFilter
+#, fuzzy
 msgid ""
 "You can also use named captures %s and use the names in the 'Set' action %s "
 "(e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'."
@@ -8048,6 +8050,7 @@ msgstr ""
 "Clientes que o sistema estará indisponível por um período de tempo."
 
 #. Template: AdminSystemMaintenance
+#, fuzzy
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
@@ -13703,6 +13706,7 @@ msgid "There was an error updating the Activity"
 msgstr "Ocorreu um erro durante a atualização da atividade"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+#, fuzzy
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
 msgstr "Parâmetro faltando: Necessário Activity  e ActivityDialog!"
 
@@ -13957,10 +13961,12 @@ msgstr ""
 "informações!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
+#, fuzzy
 msgid "Need param Filename to delete!"
 msgstr "Necessário o parâmetro Filename  para deletar!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
+#, fuzzy
 msgid "Need param Filename to download!"
 msgstr "Necessário o parâmetro Filename  para download!"
 
@@ -14893,6 +14899,7 @@ msgstr ""
 "Nenhum ProcessEntityID ou TicketID e ActivityDialogEntityID identificados!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
+#, fuzzy
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
@@ -16375,6 +16382,7 @@ msgid "Please select a time scale."
 msgstr "Por favor, selecione um período de tempo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+#, fuzzy
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
 msgstr ""
@@ -18759,6 +18767,7 @@ msgid "Delete field"
 msgstr "Removar campo"
 
 #. JS File: Core.Agent.Admin.DynamicField
+#, fuzzy
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Delindo o campo e seus dados.  Isto pode levar um tempo…"
 
@@ -20188,6 +20197,7 @@ msgstr ""
 "MIME."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Agent interface module to access CIC search via nav bar. Additional access "
 "control to show or not show this link can be done by using Key \"Group\" and "
@@ -22897,6 +22907,7 @@ msgstr ""
 "interface de agente."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default filter fields in the customer user address book search "
 "(CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix "
@@ -23127,6 +23138,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default shown ticket search attribute for ticket search screen "
 "(AllTickets/ArchivedTickets/NotArchivedTickets)."
@@ -24653,6 +24665,7 @@ msgid "Defines the ticket appointment type backend for ticket pending time."
 msgstr "Define o ticket appointment type backend para o ticket pending time."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the ticket fields that are going to be displayed calendar events. "
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
@@ -24973,6 +24986,7 @@ msgstr ""
 "após atingirem o limite de tempo."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Determines the strings that will be shown as recipient (To:) of the phone "
 "ticket and as sender (From:) of the email ticket in the agent interface. For "
@@ -26580,6 +26594,7 @@ msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
 msgstr ""
 "Se ativo, chamados por fone  e chamados por e-mail serão abertos em uma nova "
@@ -27391,6 +27406,7 @@ msgstr ""
 "recebidas."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
