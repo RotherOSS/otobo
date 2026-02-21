@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2025-11-11 09:59+0000\n"
-"Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
+"PO-Revision-Date: 2026-02-21 09:46+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
 "otobo/otobo-10/ar_SA/>\n"
 "Language: ar_SA\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -30975,6 +30975,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
 "\"<OTOBO_MERGE_TO_TICKET>\"."
