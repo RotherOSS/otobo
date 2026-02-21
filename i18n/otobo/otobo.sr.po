@@ -9,10 +9,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2020-01-25 16:27+0000\n"
-"Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
-"Language-Team: Serbian <https://translate.otobo.org/projects/otobo10/otobo/"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Serbian <http://translate.otobo.org/projects/otobo/otobo-10/"
 "sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -1518,6 +1519,7 @@ msgid "Full read and write access to the tickets in this group/queue."
 msgstr "Приступ без ограничења за тикете у овим групама/редовима."
 
 #. Template: AdminCustomerUser
+#, fuzzy
 msgid "Customer User Management"
 msgstr "Управљање клијентима клијентима"
 
@@ -9772,6 +9774,7 @@ msgid "Assigned to Customer User Login (complex search)"
 msgstr "Додељено клијент кориснику (сложена претрага)"
 
 #. Template: AgentTicketSearch
+#, fuzzy
 msgid "(e. g. U51*)"
 msgstr "(нпр.  U51*)"
 
@@ -11812,6 +11815,7 @@ msgid "Reset locally"
 msgstr "Поништи локално"
 
 #. JS Template: DialogReset
+#, fuzzy
 msgid "user(s) have modified this setting."
 msgstr "корисник(а) је је променило ово подешавање."
 
@@ -13326,6 +13330,7 @@ msgid "There was an error creating the Activity"
 msgstr "Дошло је до грешке приликом креирања Активности"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
+#, fuzzy
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
 msgstr ""
@@ -13387,6 +13392,7 @@ msgid "There was an error creating the ActivityDialog"
 msgstr "Дошло је до грешке приликом креирања Дијалога активности"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
+#, fuzzy
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity: "
 "%s"
@@ -13448,6 +13454,7 @@ msgid "There was an error creating the Transition"
 msgstr "Дошло је до грешке приликом креирања Транзиције"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
+#, fuzzy
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
 msgstr ""
@@ -13489,6 +13496,7 @@ msgid "There was an error creating the TransitionAction"
 msgstr "Дошло је до грешке приликом креирања Транзиционе акције"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
+#, fuzzy
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
@@ -15110,6 +15118,7 @@ msgid "Created more than ... ago"
 msgstr "Креирано пре више од ..."
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
+#, fuzzy
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
 msgstr "Молимо да уклоните следеће речи  јер се не могу користити за претрагу:"
@@ -15279,6 +15288,7 @@ msgid "Database already contains data - it should be empty!"
 msgstr "База података већ садржи податке - требало би да буде празна."
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid ""
 "Error: Please make sure your database accepts packages over %s MB in size "
 "(it currently only accepts packages up to %s MB). Please adapt the "
@@ -17744,6 +17754,7 @@ msgid "Error: invalid session."
 msgstr "Грешка: неважећа сесија."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
+#, fuzzy
 msgid "No Permission to use this frontend module!"
 msgstr "Немате дозволу за  употребу овог корисничког модула!"
 
@@ -20013,6 +20024,7 @@ msgstr ""
 "такође приказује информације о клијенту)."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also "
 "the customer information)."
@@ -22535,6 +22547,7 @@ msgstr ""
 "одлазне позиве у интерфејсу оператера."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default priority of follow-up customer tickets in the ticket "
 "zoom screen in the customer interface."
@@ -22694,6 +22707,7 @@ msgstr ""
 "реда, након сортирања по приоритету."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default sort order for all services in the service view, after "
 "priority sort."
@@ -22808,6 +22822,7 @@ msgstr ""
 "претраге тикета у овој операцији."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default ticket bounced notification for customer/sender in the "
 "ticket bounce screen of the agent interface."
@@ -23056,14 +23071,15 @@ msgstr ""
 "Дефинише филтер који обрађује текст у чланцима, да би се истакле URL адресе."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
 msgstr ""
 "Дефинише формат одговора у приказу екрана за креирање тикета интерфејса "
-"оператера ([% Data.OrigFrom | html %]  је Од у оригиналном облику, [% Data."
-"OrigFromName | html %] је само право име из Од)."
+"оператера ([% Data.OrigFrom | html %]  је Од у оригиналном облику, [% "
+"Data.OrigFromName | html %] је само право име из Од)."
 
 #. SysConfig
 msgid ""
@@ -23605,6 +23621,7 @@ msgid "Defines the module to generate code for periodic page reloads."
 msgstr "Дефинише модул за генерисање кода за периодично учитавање страница."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at "
 "all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
@@ -25629,10 +25646,12 @@ msgid "GenericInterface Operation GUI"
 msgstr "Генерички интерфејс - операција"
 
 #. SysConfig
+#, fuzzy
 msgid "GenericInterface TransportHTTPREST GUI"
 msgstr "Генерички интерфејс -  HTTP REST транспорт"
 
 #. SysConfig
+#, fuzzy
 msgid "GenericInterface TransportHTTPSOAP GUI"
 msgstr "Генерички интерфејс -  HTTP SOAP транспорт"
 
@@ -26112,6 +26131,7 @@ msgstr ""
 "наведено."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the "
 "mailhost that sends out the mails must be specified."
@@ -26250,6 +26270,7 @@ msgstr ""
 "UserDefaultTimeZone се подударају и (3) нису постављена на UTC."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
 "possible to use the email's from address instead of an empty envelope sender "
@@ -28437,6 +28458,7 @@ msgstr ""
 "оператера."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Required permissions to use the ticket priority screen of a zoomed ticket in "
 "the agent interface."
@@ -30496,6 +30518,7 @@ msgstr ""
 "тикета у интерфејсу оператера."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Shows the ticket priority options in the ticket pending screen of a zoomed "
 "ticket in the agent interface."
@@ -31244,6 +31267,7 @@ msgid "This key is not certified with a trusted signature!"
 msgstr ""
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "This module and its PreRun() function will be executed, if defined, for "
 "every request. This module is useful to check some user options or to "
@@ -31294,6 +31318,7 @@ msgid "This option defines the process tickets default state."
 msgstr "Ова опција одређује подразумевани статус тикета у обради."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "This option will deny the access to customer company tickets, which are not "
 "created by the customer user."
