@@ -9,16 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Krikor Maroukian <krikor.maroukian@gmail.com>, 2019\n"
-"Language-Team: Greek (https://translate.otobo.org/projects/otobo10/otobo/"
-"el/)\n"
+"PO-Revision-Date: 2026-02-21 09:46+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Greek <http://translate.otobo.org/projects/otobo/otobo-10/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -5787,6 +5789,7 @@ msgid "Do you really want to delete this Transition?"
 msgstr "Θέλετε να διαγράψετε αυτήν την Μετάβαση;"
 
 #. Template: AdminProcessManagementProcessEdit
+#, fuzzy
 msgid "Do you really want to delete this Transition Action?"
 msgstr "Θέλετε να διαγράψετε την  Μετάβασης;"
 
@@ -15034,6 +15037,7 @@ msgid "Minutes"
 msgstr "Λεπτά"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+#, fuzzy
 msgid "Check to activate this date"
 msgstr "Επιλέξτε για να ενεργοποιηθεί  αυτή η ημερομηνία"
 
