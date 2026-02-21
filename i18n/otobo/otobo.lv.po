@@ -7,17 +7,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Aleksejs Danilenko <a@bitit.lv>, 2019\n"
-"Language-Team: Latvian (https://translate.otobo.org/projects/otobo10/otobo/"
-"lv/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Latvian <http://translate.otobo.org/projects/otobo/otobo-10/"
+"lv/>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
-"2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -16317,6 +16318,7 @@ msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "Iestatījumam client_encoding jābūt UNICODE vai UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
+#, fuzzy
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
 msgstr "Iestatījumam server_encoding  jābūt UNICODE vai UTF8."
 
@@ -16586,6 +16588,7 @@ msgid "Domain Name"
 msgstr "Domēna nosaukums"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
+#, fuzzy
 msgid "Your FQDN setting is invalid."
 msgstr "Jūsu FQDN iestatījumi ir  nederīgi."
 
