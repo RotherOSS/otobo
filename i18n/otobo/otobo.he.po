@@ -6,17 +6,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Idan Cohen <idan2cohen@gmail.com>, 2019\n"
-"Language-Team: Hebrew (https://translate.otobo.org/projects/otobo10/otobo/"
-"he/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Hebrew <http://translate.otobo.org/projects/otobo/otobo-10/"
+"he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
-"1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -51,6 +53,7 @@ msgid "Configuration Import"
 msgstr "הגדרות ייבוא"
 
 #. Template: AdminACL
+#, fuzzy
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
@@ -15177,6 +15180,7 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
+#, fuzzy
 msgid "Can't update password, it must be at least %s characters long!"
 msgstr "לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות  %s  תווים!"
 
@@ -15213,6 +15217,7 @@ msgid "valid"
 msgstr "תקף"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
+#, fuzzy
 msgid "No (not supported)"
 msgstr "לא (לא נתמך)"
 
