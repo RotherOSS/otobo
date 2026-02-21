@@ -11,16 +11,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2025-09-25 08:04+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Ann Li <dn.annli@gmail.com>, 2019\n"
-"Language-Team: Chinese (Taiwan) (https://translate.otobo.org/projects/"
-"otobo10/otobo/zh_TW/)\n"
+"PO-Revision-Date: 2026-02-21 09:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Chinese (Traditional Han script) <http://translate.otobo.org/"
+"projects/otobo/otobo-10/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2578,8 +2580,9 @@ msgid "Select Tickets"
 msgstr "選取工單"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "(e. g. 10*5155 or 105658*)"
-msgstr "  例如: 10*5144 或者 105658*"
+msgstr "例如: 10*5144 或者 105658*"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 234321)"
@@ -5976,8 +5979,9 @@ msgid "Notify by"
 msgstr "超時觸發通知"
 
 #. Template: AdminQueue
+#, fuzzy
 msgid "0 = no escalation"
-msgstr "0 = 不升級  "
+msgstr "0 = 不升級"
 
 #. Template: AdminQueue
 msgid ""
