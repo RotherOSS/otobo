@@ -453,10 +453,10 @@ DISTRIBUTIONS
       Scalar::Util 0
       Test::More 0.88
       perl 5.006
-  Crypt-URandom-0.54
-    pathname: D/DD/DDICK/Crypt-URandom-0.54.tar.gz
+  Crypt-URandom-0.55
+    pathname: D/DD/DDICK/Crypt-URandom-0.55.tar.gz
     provides:
-      Crypt::URandom 0.54
+      Crypt::URandom 0.55
     requirements:
       Carp 1.26
       English 0
