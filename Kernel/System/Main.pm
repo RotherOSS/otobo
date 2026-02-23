@@ -828,7 +828,7 @@ sub GetReleaseInfo {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => 'Local',
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
