@@ -31,10 +31,13 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::DBUpdateTranslationLength - Adds new table translation_item.
+scripts::DBUpdateTo11_1::DBUpdateTranslationLength - enlarge the length of content and translation in translation_item.
+
+=head1 DESCRIPTION
+
+In OTOBO 11.0.x the length was 600 characters. In OTOBO 11.1.x the length had been increased to 3800 characters.
 
 =cut
-
 
 sub Run {
     my ( $Self, %Param ) = @_;
