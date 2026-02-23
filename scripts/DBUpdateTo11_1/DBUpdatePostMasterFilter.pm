@@ -66,6 +66,9 @@ sub Run {
     push @XMLStrings, <<'END_XML';
 <TableAlter Name="postmaster_filter">
     <ColumnAdd Name="valid_id" Required="true" Default="1" Type="SMALLINT" />
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
 </TableAlter>
 END_XML
 
