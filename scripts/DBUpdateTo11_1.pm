@@ -40,7 +40,9 @@ scripts::DBUpdateTo11_1 - Perform system upgrade from OTOBO 11.0 to 11.1
 
 =head1 Run
 
-This method is run without parameters.
+This method is run without parameters from the driver script F<scripts/DBUpdateTo11_1.pl>.
+
+    scripts::DBUpdateTo11_0::Run();
 
 =cut
 
