@@ -52,25 +52,24 @@ sub Run {
         Limit => 10
     );
 
-    my @Names = $DBObject->GetColumnNames();
-    if ( any { $_ eq 'valid_id' } @Names ) {
-        return 1;
+    # nothing to do when the column name 'valid_id' already exists
+    {
+        my @ColumnNames = $DBObject->GetColumnNames();
+
+        return 1 if any { $_ eq 'valid_id' } @ColumnNames;
     }
 
     # one statement per column, so that an already existing column does not abort the update
     my @XMLStrings;
 
-    # new column
+    # new column with the associated foreign key
     push @XMLStrings, <<'END_XML';
 <TableAlter Name="postmaster_filter">
     <ColumnAdd Name="valid_id" Required="true" Default="1" Type="SMALLINT" />
 </TableAlter>
 END_XML
 
-    return unless $Self->ExecuteXMLDBArray(
-        XMLArray => \@XMLStrings,
-    );
-
+    return unless $Self->ExecuteXMLDBArray( XMLArray => \@XMLStrings );
     return 1;
 }
 
