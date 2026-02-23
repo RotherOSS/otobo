@@ -67,6 +67,7 @@ add new standard template
 
     my $ID = $StandardTemplateObject->StandardTemplateAdd(
         Name         => 'New Standard Template',
+        Comment      => 'Some comment.',
         Template     => 'Thank you for your email.',
         ContentType  => 'text/plain; charset=utf-8',
         TemplateType => 'Answer',                     # or 'Forward' or 'Create'
@@ -261,6 +262,7 @@ update standard template attributes
     $StandardTemplateObject->StandardTemplateUpdate(
         ID           => 123,
         Name         => 'New Standard Template',
+        Comment      => 'Some comment.',
         Template     => 'Thank you for your email.',
         ContentType  => 'text/plain; charset=utf-8',
         TemplateType => 'Answer',
