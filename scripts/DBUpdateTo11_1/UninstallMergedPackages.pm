@@ -23,6 +23,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(scripts::DBUpdateTo11_1::Base);
+
 # core modules
 
 # CPAN modules
@@ -41,8 +43,6 @@ our @ObjectDependencies = (
 scripts::DBUpdateTo11_1::UninstallMergedPackages - Uninstalls code that was merged from packages into OTOBO.
 
 =cut
-
-use parent qw(scripts::DBUpdateTo11_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;

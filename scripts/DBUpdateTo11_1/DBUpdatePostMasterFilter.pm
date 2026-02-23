@@ -22,6 +22,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(scripts::DBUpdateTo11_1::Base);
+
 # core modules
 
 # CPAN modules
@@ -39,8 +41,6 @@ our @ObjectDependencies = (
 scripts::DBUpdateTo11_1::DBUpdatePostMasterFilter - Update postmaster_filter to include valid id column
 
 =cut
-
-use parent qw(scripts::DBUpdateTo11_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;

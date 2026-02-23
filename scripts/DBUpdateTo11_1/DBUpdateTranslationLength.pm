@@ -16,8 +16,13 @@
 
 package scripts::DBUpdateTo11_1::DBUpdateTranslationLength;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
+
+use parent qw(scripts::DBUpdateTo11_1::Base);
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
@@ -30,7 +35,6 @@ scripts::DBUpdateTo11_1::DBUpdateTranslationLength - Adds new table translation_
 
 =cut
 
-use parent qw(scripts::DBUpdateTo11_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -45,10 +49,9 @@ sub Run {
 
     );
 
-    return if !$Self->ExecuteXMLDBArray(
+    return unless $Self->ExecuteXMLDBArray(
         XMLArray => \@XMLStrings,
     );
-
     return 1;
 }
 

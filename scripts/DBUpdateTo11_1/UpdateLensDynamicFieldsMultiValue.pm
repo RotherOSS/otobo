@@ -22,6 +22,8 @@ use warnings;
 use namespace::autoclean;
 use utf8;
 
+use parent qw(scripts::DBUpdateTo11_1::Base);
+
 # core modules
 
 # CPAN modules
@@ -40,8 +42,6 @@ our @ObjectDependencies = (
 scripts::DBUpdateTo11_1::UpdateLensDynamicFieldsMultiValue - Update MultiValue attribute of Lens fields depending on the referenced field
 
 =cut
-
-use parent qw(scripts::DBUpdateTo11_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;
