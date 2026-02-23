@@ -39,7 +39,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::SysConfigUpdatePostmasterXHeader - Add key 'X-OTOBO-From' to postmaster X header config
+scripts::DBUpdateTo11_1::SysConfigUpdatePostmasterXHeader - Add the key 'X-OTOBO-From' to the setting 'PostmasterX-Header'
 
 =cut
 
@@ -49,7 +49,7 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # the setting is required, therefor not using empty array
+    # the setting is required, therefore not using empty array
     my $PostmasterXHeader = $ConfigObject->Get('PostmasterX-Header');
 
     # tackle agent-side setting

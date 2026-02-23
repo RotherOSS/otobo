@@ -51,6 +51,7 @@ sub Run {
     my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
         Valid => 0,
     );
+
     return unless IsArrayRefWithData($DynamicFieldList);
 
     DFCONFIG:

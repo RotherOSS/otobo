@@ -38,7 +38,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo11_1::DBUpdatePostMasterFilter - Update postmaster_filter to include valid id column
+scripts::DBUpdateTo11_1::DBUpdatePostMasterFilter - Update the table 'postmaster_filter' to include the column 'valid_id'
 
 =cut
 

@@ -48,7 +48,7 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # both settings are required, therefor not using empty string as default
+    # both settings are required, therefore not using empty string as default
     my $ProcessIDDF  = $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID');
     my $ActivityIDDF = $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID');
 
@@ -57,7 +57,7 @@ sub Run {
         Name => 'Ticket::Frontend::AgentTicketZoom###DynamicField',
     );
 
-    return if !%AgentTicketZoomDFScreensSetting;
+    return unless %AgentTicketZoomDFScreensSetting;
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
@@ -122,7 +122,7 @@ sub Run {
         Name => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
     );
 
-    return if !%CustomerTicketZoomDFScreensSetting;
+    return unless %CustomerTicketZoomDFScreensSetting;
 
     $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,

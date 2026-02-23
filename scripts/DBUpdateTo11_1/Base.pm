@@ -52,7 +52,7 @@ This modules provides methods for the task modules that are located in F<scripts
 
 The constructor provided by the base module and used in F<scripts/DBUpdateTo11.0.pm>.
 
-        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_1::' . $Task->{Module} )->Run;
+    my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo11_1::' . $Task->{Module} )->Run;
 
 C<new()> is called implicitly by C<Kernen::ObjectManager::Create()>.
 
