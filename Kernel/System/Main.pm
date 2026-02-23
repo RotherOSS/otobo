@@ -802,7 +802,7 @@ sub FileGetMTime {
 
 =head2 GetReleaseInfo()
 
-extract the Product and Version from a RELEASE file
+extract the attributes 'Product' and 'Version' from a RELEASE file
 
     # specify either Directory and Filename
     my $ReleaseInfo = $MainObject->GetReleaseInfo(
@@ -849,6 +849,8 @@ sub GetReleaseInfo {
     if ( open( my $ReleaseFH, '<', $Param{Location} ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
 
         # extract the release info from the file content
+        # trailing whitespace is ignored
+        # comments in the key value lines are not supported
         my %ReleaseInfo;
         LINE:
         while ( my $Line = <$ReleaseFH> ) {
@@ -856,10 +858,10 @@ sub GetReleaseInfo {
             # filtering of comment lines
             next LINE if $Line =~ m/^#/;
 
-            if ( $Line =~ m/^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+            if ( $Line =~ m/^PRODUCT\s{0,2}=\s{0,2}(.*?)\s*$/i ) {
                 $ReleaseInfo{Product} = $1;
             }
-            elsif ( $Line =~ m/^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+            elsif ( $Line =~ m/^VERSION\s{0,2}=\s{0,2}(.*?)\s*$/i ) {
                 $ReleaseInfo{Version} = $1;
             }
 
