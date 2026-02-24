@@ -350,20 +350,28 @@ Core.AJAX = (function (TargetNS) {
         }
 
         // collect data into structure for setting multivalue values combined
+        //  target is to get two things:
+        //      1. names and counts of multivalue fields
+        //      2. names and counts of set fields
         let MultiValueKeys = [];
         let SetValueCounts = {};
 
+        // loop has to run previously so that the right number of fields is present before filling them below
         $.each(Data, function(DataKey, DataValue) {
 
+            // skip anything that is not a dynamic field
             if ( !DataKey.startsWith("DynamicField_") ) {
                 return;
             }
 
+            // skip templates, as only the names and counts of the actual items are relevant
             let TemplateRegExp = /_Template$/;
             if ( DataKey.match(TemplateRegExp) ) {
                 return;
             }
 
+            // check if field is a set field and use value as count, if so
+            //  note that variable FieldName excludes all indices
             let { FieldName } = /^DynamicField_(?<FieldName>[A-Za-z0-9-]+(_[a-f0-9]{32})?).*$/.exec(DataKey).groups;
             if ( $('[name="SetIndex_' + FieldName + '"]').parent().hasClass('DFSetOuterField') ) {
                 if ( typeof DataValue == 'number' ) {
@@ -372,25 +380,28 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            // handle non set fields
+            //  possible cases:
+            //      1. DynamicField_FieldName
+            //      2. DynamicField_FieldName_1
+            //  note that variable BaseName excludes only the outermost existing index
             let { BaseName, FieldIndex } = /^(?<BaseName>.+?)(_(?<FieldIndex>\d+))?$/.exec(DataKey).groups;
-            let IndexRegExp = /_\d+$/;
+
+            // case 1: no index present - check for MultiValue field anyways
             if ( !FieldIndex ) {
                 if ( $('#' + BaseName + '_0').closest('.FieldCell').hasClass('MultiValue_0') ) {
                     MultiValueKeys.push(DataKey + '_0');
                 }
                 return;
             }
-            else if ( FieldIndex == 0 ) {
-                return;
-            }
-            else if ( BaseName.match(IndexRegExp) ) {
-                MultiValueKeys.push(DataKey);
-                return;
-            }
+
+            // case 2: one index stripped, actual basename remaining - check for MultiValue field
             else if ( $('#' + BaseName + '_0').closest('.FieldCell').hasClass('MultiValue_0') ) {
                 MultiValueKeys.push(DataKey);
                 return;
             }
+
+            // case 2: check for set field
             else if ( $('#' + BaseName + '_0').closest('.DFSetOuterField').length ) {
                 return;
             }
@@ -400,7 +411,7 @@ Core.AJAX = (function (TargetNS) {
         });
         MultiValueKeys.sort();
 
-        if ( Object.keys(MultiValueKeys).length || Object.keys(SetValueCounts).length ) {
+        if ( Object.keys(MultiValueKeys).length ) {
             Core.UI.InputFields.AddEmptyMultiValueCells(MultiValueKeys, SetValueCounts);
         }
 
