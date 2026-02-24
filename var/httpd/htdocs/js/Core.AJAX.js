@@ -109,7 +109,7 @@ Core.AJAX = (function (TargetNS) {
         var $Element = $('#' + FieldID),
             $Loader = $('#' + AJAXLoaderPrefix + FieldID),
             LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>',
-            $MultivalueButtons = $Element.parent().siblings('.AddRemoveValueRow');
+            $MultiValueButtons = $Element.parent().siblings('.AddRemoveValueRow');
 
         // Ignore hidden fields, except for database and autocomplete
         if (
@@ -151,14 +151,14 @@ Core.AJAX = (function (TargetNS) {
             else {
                 $Loader.show();
             }
-            if ($MultivalueButtons.length) {
-                $MultivalueButtons.hide();
+            if ($MultiValueButtons.length) {
+                $MultiValueButtons.hide();
             }
         }
         else {
             $Loader.hide();
-            if ($MultivalueButtons.length) {
-                $MultivalueButtons.show();
+            if ($MultiValueButtons.length) {
+                $MultiValueButtons.show();
             }
         }
     }
@@ -206,8 +206,7 @@ Core.AJAX = (function (TargetNS) {
      *      Collects additional data that are needed for the ajax requests.
      */
     function GetAdditionalDefaultData() {
-        var Data = {};
-        Data = GetSessionInformation();
+        let Data = GetSessionInformation();
         Data.Action = Core.Config.Get('Action');
         return Data;
     }
@@ -267,7 +266,7 @@ Core.AJAX = (function (TargetNS) {
             ParentBody,
             Range,
             StartRange = 0,
-            NewPosition = 0,
+            NewPosition,
             CKEditorObj;
 
         if ($Element.length) {
@@ -296,7 +295,7 @@ Core.AJAX = (function (TargetNS) {
                         // set new text
                         CKEditorObj.setData(Value);
                     }
-                    catch (Error) {
+                    catch {
                         $.noop();
                     }
                 }, 100);
@@ -454,7 +453,7 @@ Core.AJAX = (function (TargetNS) {
             // Select elements
             if ($Element.is('select')) {
                 $Element.empty();
-                $.each(DataValue, function (Index, Value) {
+                $.each(DataValue, function (_Index, Value) {
                     var NewOption,
                         OptionText = Core.App.EscapeHTML(Value[1]);
 
@@ -959,7 +958,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'json',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
@@ -1013,7 +1012,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'html',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
@@ -1070,7 +1069,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: Data,
             dataType: (typeof DataType === 'undefined') ? 'json' : DataType,
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 

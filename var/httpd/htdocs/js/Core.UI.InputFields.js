@@ -1846,7 +1846,6 @@ Core.UI.InputFields = (function (TargetNS) {
                     // jsTree init
                     $TreeObj = $('<div id="' + Core.App.EscapeSelector(TreeID) + '"><ul></ul></div>');
                     SelectedID = $SelectObj.val();
-                    Elements = {};
                     SelectedNodes = [];
 
                     // Generate JSON structure based on select field options
