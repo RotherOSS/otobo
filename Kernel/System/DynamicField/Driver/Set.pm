@@ -937,23 +937,6 @@ sub GetFieldState {
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
         }
-
-        my $SetValueCount     = @SetValue ? scalar @SetValue : 1;
-        my $CompleteFieldName = $SetConfig->{Name} . ( $SetConfig->{ProcessSuffix} || '' );
-
-        # add count of Set values for adding the correct number of fields in the frontend
-        $Return{Set}{ $SetConfig->{Name} } = {
-            DynamicFieldConfig => $SetConfig,
-            FieldStates        => {
-                $CompleteFieldName => {
-                    PossibleValues  => undef,
-                    NotACLReducible => 1,
-                },
-            },
-            Values => {
-                $CompleteFieldName => $SetValueCount,
-            },
-        };
     }
 
     # fill up NewValue with existing ones

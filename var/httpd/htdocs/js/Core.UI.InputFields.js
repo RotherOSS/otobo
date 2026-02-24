@@ -2777,14 +2777,6 @@ Core.UI.InputFields = (function (TargetNS) {
             Object.keys(SetValueCounts).forEach(function (SetFieldName) {
                 let { ShortSetName } = /^DynamicField_(?<ShortSetName>[A-Za-z0-9-]+(_[a-f0-9]{32})?)/.exec(SetFieldName).groups;
                 $('[name=SetIndex_' + ShortSetName + ']').parents('.FieldCell[class*=MultiValue]').each(function (_Index, Element) {
-
-                    // only delete fields with index higher than actually needed
-                    //  note: MultiValue_<Index> starts at 0, while SetValueCount starts at 1
-                    let ClassString = $(Element).attr('class');
-                    let { MVIndex } = /MultiValue_(?<MVIndex>[0-9]+)/.exec(ClassString).groups;
-                    if ( Number(MVIndex) < SetValueCounts[SetFieldName] ) {
-                        return;
-                    }
                     if ( $(Element).is(':visible') ) {
                         RemoveCell($(Element));
                     }

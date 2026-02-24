@@ -411,7 +411,7 @@ Core.AJAX = (function (TargetNS) {
         });
         MultiValueKeys.sort();
 
-        if ( Object.keys(MultiValueKeys).length ) {
+        if ( Object.keys(MultiValueKeys).length || Object.keys(SetValueCounts).length ) {
             Core.UI.InputFields.AddEmptyMultiValueCells(MultiValueKeys, SetValueCounts);
         }
 
