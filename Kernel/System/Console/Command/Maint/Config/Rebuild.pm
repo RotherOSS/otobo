@@ -16,9 +16,9 @@
 
 package Kernel::System::Console::Command::Maint::Config::Rebuild;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
