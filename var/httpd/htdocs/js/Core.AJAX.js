@@ -395,7 +395,6 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
             else {
-                console.log('ERROR');
                 return;
             }
         });
