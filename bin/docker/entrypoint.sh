@@ -22,9 +22,10 @@
 # Declare file scoped variables
 ################################################################################
 
-dir_otobo_next="/opt/otobo_install/otobo_next"
-update_log="$OTOBO_HOME/var/log/update.log"
+g_dir_otobo_next="/opt/otobo_install/otobo_next"
+g_update_log="$OTOBO_HOME/var/log/update.log"
 g_function=true
+g_sleep_pid=true
 
 ################################################################################
 # Declare functions
@@ -46,9 +47,9 @@ function handle_docker_firsttime() {
     # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
-    # $dir_otobo_next is not removed, it is kept for future reference
+    # $g_dir_otobo_next is not removed, it is kept for future reference
     # Note that docker_firsttime_handled is only available in the service web.
-    mv $dir_otobo_next/docker_firsttime $dir_otobo_next/docker_firsttime_handled
+    mv $g_dir_otobo_next/docker_firsttime $g_dir_otobo_next/docker_firsttime_handled
 }
 
 # An easy way to start bash.
@@ -71,7 +72,7 @@ function start_and_check_daemon() {
     # See also https://hynek.me/articles/docker-signals/.
     trap stop_daemon SIGTERM
 
-    sleep_pid=
+    g_sleep_pid=
     while true; do
 
         # Do not try to start the Daemon when /opt/otobo is still being created.
@@ -80,12 +81,12 @@ function start_and_check_daemon() {
         fi
         # the '&' activates the builtin job control system
         # remember the PID of sleep, so that the process can be terminated in stop_daemon()
-        sleep 120 & sleep_pid=$!
+        sleep 120 & g_sleep_pid=$!
 
         # wait until the sleep exits or until a signal arrives,
         # which means that the stop_daemon() can run without having to wait for the sleep command
-        wait $sleep_pid
-        sleep_pid=
+        wait $g_sleep_pid
+        g_sleep_pid=
     done
 }
 
@@ -93,7 +94,7 @@ function start_and_check_daemon() {
 function stop_daemon() {
     if [ -f "bin/otobo.Daemon.pl" ]; then
         bin/otobo.Daemon.pl stop
-        [[ $sleep_pid ]] && kill "$sleep_pid"
+        [[ $g_sleep_pid ]] && kill "$g_sleep_pid"
     fi
 
     # claim that everything is fine
@@ -151,20 +152,20 @@ function copy_otobo_next() {
             date
             echo "Removed the directory $cpan_lib_dir"
             echo
-        } >> $update_log
+        } >> $g_update_log
     fi
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
-    # Copying $dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
-    cp --archive $dir_otobo_next/. $OTOBO_HOME
+    # Copying $g_dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
+    cp --archive $g_dir_otobo_next/. $OTOBO_HOME
 
     {
         date
-        echo "Copied $dir_otobo_next to $OTOBO_HOME"
+        echo "Copied $g_dir_otobo_next to $OTOBO_HOME"
         echo
-    } >> $update_log
+    } >> $g_update_log
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
@@ -201,7 +202,7 @@ function do_update_tasks() {
         date
         echo "finished do_update_tasks()"
         echo
-    } >> $update_log
+    } >> $g_update_log
 }
 
 print_error() {
@@ -239,7 +240,7 @@ if [ "$1" = "daemon" ]; then
     if ! mountpoint -q "/opt/otobo"; then
 
         # There is no locking as we no other container can meddle with /opt/otobo.
-        if [ -f "$dir_otobo_next/docker_firsttime" ]; then
+        if [ -f "$g_dir_otobo_next/docker_firsttime" ]; then
             handle_docker_firsttime
         fi
     fi
@@ -255,7 +256,7 @@ if [ "$1" = "web" ]; then
 
     # First check whether the container is started with a new image.
     # There is no locking as we assume that there aren't multiple containers trying to the same.
-    if [ -f "$dir_otobo_next/docker_firsttime" ]; then
+    if [ -f "$g_dir_otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
 
