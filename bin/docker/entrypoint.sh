@@ -104,7 +104,7 @@ function stop_daemon() {
 # Start the webserver
 function exec_web() {
 
-    otobo_devel="${1:-unknown}"
+    local otobo_devel="${1:-unknown}"
 
     # For production use the web server Gazelle, which is implemented in C.
     # In many cases 'deployment' is also the sensible option during development.
@@ -145,7 +145,7 @@ function copy_otobo_next() {
     # the entire directory. Potential changes in Kernel/cpan-lib,
     # that stem from the previous installation, can be recovered from
     # the backup done with scripts/backup.pl
-    cpan_lib_dir="$OTOBO_HOME/Kernel/cpan-lib"
+    local cpan_lib_dir="$OTOBO_HOME/Kernel/cpan-lib"
     if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
         rm -r $cpan_lib_dir
         {
