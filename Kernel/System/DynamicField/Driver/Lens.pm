@@ -734,14 +734,13 @@ sub GetFieldState {
         $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
     }
     if ( $FieldStates{Sets}->%* ) {
-        $FieldStates{Set}->%* = $FieldStates{Sets}->%*;
 
         if ($NeedsReset) {
             my $SetValueCount     = IsArrayRefWithData( $FieldStates{NewValue} ) ? scalar $FieldStates{NewValue}->@* : 1;
             my $CompleteFieldName = $DynamicFieldConfig->{Name} . ( $DynamicFieldConfig->{ProcessSuffix} || '' );
 
             # add count of Set values for adding the correct number of fields in the frontend
-            $FieldStates{Set}{ $DynamicFieldConfig->{Name} } = {
+            $FieldStates{Sets}{ $DynamicFieldConfig->{Name} } = {
                 DynamicFieldConfig => {
                     $AttributeDFConfig->%*,
                     Name => $DynamicFieldConfig->{Name},

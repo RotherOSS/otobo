@@ -883,9 +883,9 @@ sub GetFieldState {
             my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
 
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $SuffixedName . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Sets}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
+            $Return{Sets}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
+            $Return{Sets}{$Name}{Values}{ $SuffixedName . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};
@@ -923,9 +923,9 @@ sub GetFieldState {
             my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
 
             # prepare the return used by the frontend modules for AJAX updates
-            $Return{Set}{$Name}{DynamicFieldConfig}                         = $DynamicField->{$Name};
-            $Return{Set}{$Name}{FieldStates}{ $SuffixedName . '_Template' } = $SetFieldStates{Fields}{$Name};
-            $Return{Set}{$Name}{Values}{ $SuffixedName . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
+            $Return{Sets}{$Name}{DynamicFieldConfig}                         = $DynamicField->{$Name};
+            $Return{Sets}{$Name}{FieldStates}{ $SuffixedName . '_Template' } = $SetFieldStates{Fields}{$Name};
+            $Return{Sets}{$Name}{Values}{ $SuffixedName . '_Template' }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
                 : $DFParam{"DynamicField_$Name"};

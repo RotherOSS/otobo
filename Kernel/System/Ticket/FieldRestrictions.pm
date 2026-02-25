@@ -367,10 +367,10 @@ sub GetFieldStates {
                     PossibleValues => $Content{PossibleValues},
                 };
             }
-            elsif ( exists $Content{Set} ) {
+            elsif ( exists $Content{Sets} ) {
                 %Sets = (
                     %Sets,
-                    $Content{Set}->%*,
+                    $Content{Sets}->%*,
                 );
             }
             elsif ( exists $Content{NewValue} ) {
