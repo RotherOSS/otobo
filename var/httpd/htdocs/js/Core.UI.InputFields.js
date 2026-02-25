@@ -2893,7 +2893,7 @@ Core.UI.InputFields = (function (TargetNS) {
         // set correct grid row
         $Cell.css('grid-row-start', CellGridPosition.Row+1);
 
-        let $AddRemoveValueRow = $('.AddRemoveValueRow', $Cell.children('.Field'));
+        let $AddRemoveValueRow = $Cell.children('.AddRemoveValueRow');
         $( '.AddValueRow', $AddRemoveValueRow ).off('click').on('click', function() {
             AddCell($Cell)
         });
@@ -3203,7 +3203,7 @@ Core.UI.InputFields = (function (TargetNS) {
             return;
         });
 
-        //DateTimeDynamicField
+        // DateTimeDynamicField
         $('.Validate_DateYear', $Cell).each(function () {
             var DateDiv = $(this).parent();
             var Prefix = $('[name$="Year"]', $(DateDiv)).attr('name').replace('Year', '');
