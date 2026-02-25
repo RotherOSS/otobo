@@ -24,6 +24,7 @@
 
 dir_otobo_next="/opt/otobo_install/otobo_next"
 update_log="$OTOBO_HOME/var/log/update.log"
+g_function=true
 
 ################################################################################
 # Declare functions
@@ -133,7 +134,8 @@ function exec_web() {
     fi
 }
 
-# preserve added files in the previous
+# Copy /opt/otobo_install/otobo_next without checking the flag file 'docker_firsttime'.
+# Files that had been added in the previous /opt/otobo are not discarded.
 function copy_otobo_next() {
 
     # The directory Kernel/cpan-lib is a special case. Perl modules
@@ -151,7 +153,6 @@ function copy_otobo_next() {
             echo
         } >> $update_log
     fi
-
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
@@ -249,7 +250,7 @@ if [ "$1" = "daemon" ]; then
     exit $?
 fi
 
-# Start the webserver
+# Start the web server
 if [ "$1" = "web" ]; then
 
     # First check whether the container is started with a new image.
@@ -262,16 +263,20 @@ if [ "$1" = "web" ]; then
     exec_web "${2:-deployment}"
 fi
 
-# copy /opt/otobo_install/otobo_next without checking docker_firsttime
-if [ "$1" = "copy_otobo_next" ]; then
-    copy_otobo_next
+# Handle the functions that constitute the external interface.
+if [[
+    $1 = "copy_otobo_next"
+    ||
+    $1 = "do_update_tasks"
+]];
+then
 
-    exit $?
-fi
-
-# update
-if [ "$1" = "do_update_tasks" ]; then
-    do_update_tasks
+    # additional parameters are passed to the called function
+    g_function="$1"
+    shift
+    echo "calling $g_function"
+    $g_function $@
+    echo "finished $g_function"
 
     exit $?
 fi
