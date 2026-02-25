@@ -33,142 +33,224 @@
             </div>
 [% END %]
         </div>
-        <form action="[% Env("CGIHandle") %]" method="get">
-            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-            <input type="hidden" name="Subaction" value="LoadProfile"/>
-            <fieldset>
+        <div class="oooTicketSearch">
+            <div class="oooWidget oooTicketSearchTemplateForm">
                 <h2>[% Translate("Profile") | html %]</h2>
-                <div>
-                    <label for="Profile">[% Translate("Search template") | html %]</label>
-                    [% Data.ProfilesStrg %]
-                </div>
-            </fieldset>
-            <div class="Row">
-                <button name="SelectTemplate" type="submit" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
-                <button name="EraseTemplate" type="submit" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
-                <button name="SearchTemplate" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
-            </div>
-        </form>
-
-        <form action="[% Env("CGIHandle") %]" method="post" name="compose">
-            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-            <input type="hidden" name="Subaction" value="Search"/>
-            <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
-
-            <fieldset>
-                <h2>[% Config("Ticket::Hook") %]</h2>
-                <div>
-                    <label for="TicketNumber">[% Config("Ticket::Hook") %]</label>
-                    <input title="[% Config("Ticket::Hook") | html %]" type="text" name="TicketNumber" id="TicketNumber" size="30" value="[% Data.TicketNumber | html %]"/>
-                    <p>[% Translate("e. g. 10*5155 or 105658*") | html %]</p>
-                </div>
-                <div>
-                    <label for="CustomerID">[% Translate("CustomerID") | html %]</label>
-                    [% Data.CustomerIDStrg %]
-                </div>
-            </fieldset>
-            <fieldset>
-                <h2>[% Translate("Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h2>
-[% RenderBlockStart("SearchableArticleField") %]
-                <div>
-                    <label for="[% Data.ArticleFieldKey | html %]">[% Translate(Data.ArticleFieldLabel) | html %]</label>
-                    <input title="[% Translate(Data.ArticleFieldLabel) | html %]" type="text" id="[% Data.ArticleFieldKey %]" name="[% Data.ArticleFieldKey | html %]" value="[% Data.ArticleFieldValue | html %]" size="20" class="[% Data.ArticleFieldKey %]Invalid" />
-                    <div id="[% Data.ArticleFieldKey %]ServerError" class="TooltipErrorMessage">
-                        <p>[% Data.ArticleFieldKeyTooltip | html %]</p>
+                <form action="[% Env("CGIHandle") %]" method="get">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="LoadProfile"/>
+                    <fieldset>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <div class="Field">
+                                    [% Data.ProfilesStrg %]
+                                </div>
+                                <label for="Profile">[% Translate("Search template") | html %]</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="Row ActionRow">
+                        <button name="SelectTemplate" class="oooM" type="submit" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
+                        <button name="EraseTemplate" class="oooM" type="submit" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
+                        <button name="SearchTemplate" class="oooM" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
                     </div>
-                    <div class="Clear"></div>
-                </div>
+                </form>
+            </div>
+            <div class="oooWidget oooTicketSearchForm">
+
+                <form action="[% Env("CGIHandle") %]" method="post" name="compose">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Search"/>
+                    <input type="hidden" name="SearchDialog" value='1'>
+                    <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
+                    <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+                    <div class="oooSection">
+                        <h3>[% Config("Ticket::Hook") %]</h3>
+                        <fieldset>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <input title="[% Config("Ticket::Hook") | html %]" type="text" name="TicketNumber" id="TicketNumber" size="30" value="[% Data.TicketNumber | html %]"/>
+                                    </div>
+                                    <label for="TicketNumber">[% Config("Ticket::Hook") %]</label>
+                                    <p class="FieldExplanation">[% Translate("e. g. 10*5155 or 105658*") | html %]</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.CustomerIDStrg %]
+                                    </div>
+                                    <label for="CustomerID">[% Translate("CustomerID") | html %]</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="oooSection">
+                        <h3>[% Translate("Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h3>
+                        <fieldset>
+[% RenderBlockStart("SearchableArticleField") %]
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <input title="[% Translate(Data.ArticleFieldLabel) | html %]" type="text" id="[% Data.ArticleFieldKey %]" name="[% Data.ArticleFieldKey | html %]" value="[% Data.ArticleFieldValue | html %]" size="20" class="[% Data.ArticleFieldKey %]Invalid" />
+                                    </div>
+                                    <label for="[% Data.ArticleFieldKey | html %]">[% Translate(Data.ArticleFieldLabel) | html %]</label>
+                                    <div id="[% Data.ArticleFieldKey %]ServerError" class="TooltipErrorMessage">
+                                        <p>[% Data.ArticleFieldKeyTooltip | html %]</p>
+                                    </div>
+                                </div>
+                            </div>
 [% RenderBlockEnd("SearchableArticleField") %]
 
 [% RenderBlockStart("DynamicField") %]
-                <div>
-                    [% Data.Label %]
-                    [% Data.Field %]
-                </div>
-                <div class="Clear"></div>
+                            <div class="Row Row_DynamicField">
+                                <div class="FieldCell">
+    [% IF Data.IsTimeRestrictionField %]
+                                    <div class="Field TimeRestrictionField">
+    [% ELSE %]
+                                    <div class="Field">
+    [% END %]
+                                        [% Data.Field %]
+                                    </div>
+                                    [% Data.Label %]
+                                </div>
+                            </div>
 [% RenderBlockEnd("DynamicField") %]
-            </fieldset>
+                        </fieldset>
 
 [% IF Config('Ticket::Service') || Config('Ticket::Type') %]
-            <fieldset class="Columns">
+                        <fieldset>
 [% IF Config('Ticket::Service') %]
-                <div class="Column">
-                    <h2><label for="ServiceIDs">[% Translate("Services") | html %]:</label></h2>
-                    <div>
-                        [% Data.ServicesStrg %]
-                    </div>
-                </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.ServicesStrg %]
+                                    </div>
+                                    <label for="ServiceIDs">[% Translate("Services") | html %]:</label>
+                                </div>
+                            </div>
 [% END %]
 [% IF Config('Ticket::Type') %]
-                <div class="Column">
-                    <h2><label for="TypeIDs">[% Translate("Types") | html %]:</label></h2>
-                    <div>
-                        [% Data.TypesStrg %]
-                    </div>
-                </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.TypesStrg %]
+                                    </div>
+                                    <label for="TypeIDs">[% Translate("Types") | html %]:</label>
+                                </div>
+                            </div>
 [% END %]
-                <div class="Clear"></div>
-            </fieldset>
+                        </fieldset>
 [% END %]
-
-            <fieldset class="Columns">
-                <div class="Column">
-                    <h2><label for="PriorityIDs">[% Translate("Priority") | html %]:</label></h2>
-                    <div>
-                        [% Data.PrioritiesStrg %]
+                        <fieldset>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.PrioritiesStrg %]
+                                    </div>
+                                    <label for="PriorityIDs">[% Translate("Priority") | html %]:</label>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        [% Data.StatesStrg %]
+                                    </div>
+                                    <label for="StateIDs">[% Translate("State") | html %]:</label>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                </div>
-                <div class="Column">
-                    <h2><label for="StateIDs">[% Translate("State") | html %]:</label></h2>
-                    <div>
-                        [% Data.StatesStrg %]
+                    <div class="oooSection">
+                        <h3>[% Translate("Time Restrictions") | html %]</h3>
+                        <fieldset class="TimeRestrictionFilters">
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <input title="[% Translate("No time settings") | html %]" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" [% Data.item("TimeSearchType::None") %] />
+                                    </div>
+                                    <label for="NoTimeSet">[% Translate("All") | html %]</label>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field NoLabel">
+                                        <input title="[% Translate("Specific date") | html %]" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" [% Data.item("TimeSearchType::TimePoint") %] />
+                                        <p>[% Translate("Only tickets created") | html %]</p>
+                                        [% Data.TicketCreateTimePointStart %]
+                                        [% Data.TicketCreateTimePoint %]
+                                        [% Data.TicketCreateTimePointFormat %]
+                                    </div>
+                                    <label for="Date">[% Translate("Only tickets created") | html %]</label>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field NoLabel">
+                                        <input title="[% Translate("Date range") | html %]" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %] />
+                                        <p>[% Translate("Only tickets created between") | html %]</p>
+                                        <div>
+                                            [% Data.TicketCreateTimeStart %]
+                                        </div>
+                                        <p>[% Translate("and") | html %]</p>
+                                        <div>
+                                            [% Data.TicketCreateTimeStop %]
+                                        </div>
+                                    </div>
+                                    <label for="DateRange">[% Translate("Only tickets created between") | html %]</label>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                </div>
-                <div class="Clear"></div>
-            </fieldset>
-            <fieldset class="TimeSearchType">
-                <h2>[% Translate("Time Restrictions") | html %]</h2>
-                <div>
-                    <input title="[% Translate("No time settings") | html %]" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" [% Data.item("TimeSearchType::None") %] />
-                    <label for="NoTimeSet">[% Translate("All") | html %]</label>
-                </div>
-                <div>
-                    <input title="[% Translate("Specific date") | html %]" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" [% Data.item("TimeSearchType::TimePoint") %] />
-                    <label for="Date">[% Translate("Only tickets created") | html %]</label>
-                    [% Data.TicketCreateTimePointStart %] [% Data.TicketCreateTimePoint %] [% Data.TicketCreateTimePointFormat %]
-                </div>
-                <div>
-                    <input title="[% Translate("Date range") | html %]" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %] />
-                    <label for="DateRange">[% Translate("Only tickets created between") | html %]</label>
-                    [% Data.TicketCreateTimeStart %] [% Translate("and") | html %] [% Data.TicketCreateTimeStop %]
-                </div>
-            </fieldset>
 [% RenderBlockStart("SearchInArchive") %]
-            <fieldset>
-                <h2>[% Translate("Ticket Archive System") | html %]</h2>
-                <div>
-                    <label for="SearchInArchive">[% Translate("Archive Search") | html %]:</label>
-                    [% Data.SearchInArchiveStrg %]
-                </div>
-            </fieldset>
+                    <fieldset>
+                        <h2>[% Translate("Ticket Archive System") | html %]</h2>
+                        <div class="Row">
+                            <div class="FieldCell">
+                                <div class="Field">
+                                    [% Data.SearchInArchiveStrg %]
+                                </div>
+                                <label for="SearchInArchive">[% Translate("Archive Search") | html %]:</label>
+                            </div>
+                        </div>
+                    </fieldset>
 [% RenderBlockEnd("SearchInArchive") %]
-            <fieldset>
-                <h2>[% Translate("Save Search as Template?") | html %]</h2>
-                <div>
-                    <label for="SaveProfile">[% Translate("Save as Template?") | html %]</label>
-                    <input title="[% Translate("Save as Template") | html %]" type="checkbox" id="SaveProfile" name="SaveProfile" />
-                </div>
-                <div>
-                    <label for="Profile">[% Translate("Template Name") | html %]</label>
-                    <input title="[% Translate("Pick a profile name") | html %]" type="text" id="Profile" name="Profile" size="30" value="[% Data.Profile | html %]" />
-                </div>
-            </fieldset>
-            <div id="BottomActionRow" class="ActionRow">
-                <button id="Submit" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
-                <span>[% Translate("Output to") | html %]</span>
-                [% Data.ResultFormStrg %]
+                    <div class="oooSection">
+                        <h3>[% Translate("Save Search as Template?") | html %]</h3>
+                        <fieldset>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <input title="[% Translate("Save as Template") | html %]" type="checkbox" id="SaveProfile" name="SaveProfile" />
+                                    </div>
+                                    <label for="SaveProfile">[% Translate("Save as Template?") | html %]</label>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="FieldCell">
+                                    <div class="Field">
+                                        <input title="[% Translate("Pick a profile name") | html %]" type="text" id="Profile" name="Profile" size="30" value="[% Data.Profile | html %]" />
+                                    </div>
+                                    <label for="Profile">[% Translate("Template Name") | html %]</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="oooSection">
+                        <h3>[% Translate("Output to") | html %]</h3>
+                        <fieldset>
+                            <div class="Row">
+                                [% Data.ResultFormStrg %]
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="BottomActionRow" class="ActionRow Row">
+                        <button id="Submit" class="oooM" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 [% RenderBlockEnd("Search") %]
