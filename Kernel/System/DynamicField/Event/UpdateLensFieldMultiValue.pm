@@ -97,15 +97,16 @@ sub Run {
         # check which case we are in
         if ( $UpdatedFieldConfig->{FieldType} eq 'Lens' ) {
 
-            # prevent endless loops
-            return if ( $UpdatedFieldConfig->{Config}{MultiValue} || 0 ) != ( $Param{Data}{OldData}{Config}{MultiValue} || 0 );
-
             # did attribute field change?
             return if $UpdatedFieldConfig->{Config}{AttributeDF} == $Param{Data}{OldData}{Config}{AttributeDF};
 
             my $NewAttributeDFConfig = $DynamicFieldObject->DynamicFieldGet(
                 ID => $UpdatedFieldConfig->{Config}{AttributeDF},
             );
+
+            # prevent endless loops
+            return if ( $UpdatedFieldConfig->{Config}{MultiValue} || 0 ) == ( $NewAttributeDFConfig->{Config}{MultiValue} || 0 );
+
             $DynamicFieldObject->DynamicFieldUpdate(
                 $UpdatedFieldConfig->%*,
                 Config => {
