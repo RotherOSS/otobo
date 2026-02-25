@@ -28,7 +28,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerFrontend::Navigation###CustomerTicketSearch###003-CustomerTickerSearch" Required="0" Valid="0">
+    <Setting Name="CustomerFrontend::Navigation###CustomerTicketSearch###003-CustomerTickerSearch" Required="0" Valid="1">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::MainMenu</Navigation>
         <Value>
