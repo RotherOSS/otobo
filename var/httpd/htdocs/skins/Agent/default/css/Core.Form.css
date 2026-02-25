@@ -1211,6 +1211,7 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .OptionCustomerUserAddressBook {
         align-self: center;
+        margin: 0;
     }
 
     fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
