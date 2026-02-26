@@ -49,9 +49,6 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # the setting is required, therefore not using empty array
-    my $PostmasterXHeader = $ConfigObject->Get('PostmasterX-Header');
-
     # tackle agent-side setting
     my %PostmasterXHeaderSetting = $SysConfigObject->SettingGet(
         Name => 'PostmasterX-Header',
