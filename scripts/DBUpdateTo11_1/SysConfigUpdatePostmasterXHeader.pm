@@ -49,10 +49,18 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # tackle agent-side setting
+    # tackle agent-side setting, it is expected that the setting exists
     my %PostmasterXHeaderSetting = $SysConfigObject->SettingGet(
         Name => 'PostmasterX-Header',
     );
+    if ( !%PostmasterXHeaderSetting ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Could not retrieve setting PostmasterX-Header.',
+        );
+
+        return;
+    }
 
     return if !%PostmasterXHeaderSetting;
 
