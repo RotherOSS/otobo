@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.18.2
+ * QUnit 2.24.3
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -45,10 +45,10 @@
 	@media (min-height: 500px) {
 		#qunit {
 			position: fixed;
-			left: 0px;
-			right: 0px;
-			top: 0px;
-			bottom: 0px;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
 			padding: 8px;
 			display: -webkit-box;
 			display: flex;
@@ -226,6 +226,10 @@
 	top: 100%;
 	margin-top: 2px;
 
+	/* ensure that when on a narrow viewports and having only one result,
+	   that #qunit-modulefilter-actions fall outside the dropdown rectangle. */
+	min-height: 3em;
+
 	border: 1px solid #AAA;
 	border-top-color: transparent;
 	border-radius: 0 0 .25em .25em;
@@ -325,11 +329,11 @@
 	margin:  0;
 }
 
-#qunit-tests li strong {
+#qunit-tests li .qunit-test-name {
 	cursor: pointer;
 }
 
-#qunit-tests li.skipped strong {
+#qunit-tests li.skipped .qunit-test-name {
 	cursor: default;
 }
 
