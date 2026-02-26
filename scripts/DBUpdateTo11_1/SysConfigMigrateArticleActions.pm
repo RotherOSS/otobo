@@ -51,9 +51,19 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LogObject       = $Kernel::OM->Get('Kernel::System::Log');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $OldConfig       = $ConfigObject->Get('Ticket::Frontend::Article::Actions');
 
-    return unless IsHashRefWithData($OldConfig);
+    # $OldConfig contains the old settings from OTOBO 11.0.x assuming
+    # that Maint::Config::Rebuild hasn't run with the option --cleanup before.
+    # Having executed Maint::Config::Rebuild without the cleanup option is fine.
+    my $OldConfig = $ConfigObject->Get('Ticket::Frontend::Article::Actions');
+    if ( !IsHashRefWithData($OldConfig) ) {
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Could not retrieve the setting Ticket::Frontend::Article::Actions",
+        );
+
+        return;
+    }
 
     # deploy new sysconfig settings
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
