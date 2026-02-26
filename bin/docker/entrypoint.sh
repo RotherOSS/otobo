@@ -220,7 +220,7 @@ function do_update_tasks() {
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {
-        echo "started do_update_tasks()"
+        echo "started $FUNCNAME()"
         date
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
@@ -228,7 +228,7 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         date
-        echo "finished do_update_tasks()"
+        echo "finished $FUNCNAME()"
         echo
     } >> $g_update_log
 }
