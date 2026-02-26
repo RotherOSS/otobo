@@ -53,6 +53,12 @@ sub Run {
 
     my @Tasks = (
         {
+            # Rebuilding the config affect the subsequent tasks.
+            # It is essential for at least SysConfigMigrateArticleActions.
+            Name   => 'Rebuild the configuration as files in Kernel/Config/Files/XML have changed',
+            Module => 'RebuildConfig',
+        },
+        {
             Name   => 'Increase translation content length',
             Module => 'DBUpdateTranslationLength',
         },
