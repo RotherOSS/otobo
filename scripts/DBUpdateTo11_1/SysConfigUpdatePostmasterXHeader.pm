@@ -62,16 +62,15 @@ sub Run {
         return;
     }
 
-    return if !%PostmasterXHeaderSetting;
+    # There is nothing to do if the key is already present. Report success early on.
+    # Proceeding would only add a duplicate.
+    return 1 if ( any { $_ eq 'X-OTOBO-From' } $PostmasterXHeaderSetting{EffectiveValue}->@* );
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         UserID    => 1,
         Force     => 1,
         DefaultID => $PostmasterXHeaderSetting{DefaultID},
     );
-
-    # check if key is already present to prevent duplicate
-    return if ( any { $_ eq 'X-OTOBO-From' } $PostmasterXHeaderSetting{EffectiveValue}->@* );
 
     # Update setting with modified data
     my %Result = $SysConfigObject->SettingUpdate(
