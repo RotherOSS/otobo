@@ -34,7 +34,6 @@ use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRe
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Console::Command::Maint::Config::Rebuild',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
 );
@@ -60,26 +59,6 @@ sub Run {
         $LogObject->Log(
             Priority => 'error',
             Message  => "Could not retrieve the setting Ticket::Frontend::Article::Actions",
-        );
-
-        return;
-    }
-
-    # deploy new sysconfig settings
-    my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
-    my ( $Result, $ExitCode );
-
-    {
-        local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
-        open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-        $ExitCode = $CommandObject->Execute();
-    }
-
-    # exit code 0 means all went well
-    if ($ExitCode) {
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => "Could not deploy system configuration!",
         );
 
         return;
