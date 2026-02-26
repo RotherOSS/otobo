@@ -62,6 +62,12 @@ sub Run {
         return;
     }
 
+    # The migration tasks all run in the same process using
+    # the same global variable $Kernel::OM. Discard the Kernel::Config object
+    # that is held in $Kernel::OM so that the newly generated file ZZZAAuto.pm
+    # will be loaded.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
+
     # no problem
     return 1;
 }
