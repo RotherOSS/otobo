@@ -45,7 +45,7 @@ This method is run without parameters.
 =cut
 
 sub Run {
-    print "\n Migration started ... \n";
+    say "\nMigration started ...";
 
     my $SuccessfulMigration = 1;
 
@@ -103,10 +103,12 @@ sub Run {
             Module => 'PackagePrepareITSMIncidentProblemManagement',
         },
     );
+    my $NumTasks = @Tasks;
+    my $Count    = 1;
 
     TASK:
     for my $Task (@Tasks) {
-        print "\tExecuting task '$Task->{Name}' ... \n";
+        say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ...";
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo11_0::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
@@ -122,6 +124,12 @@ sub Run {
             last TASK;
         }
     }
+    continue {
+        $Count++;
+    }
+
+    # say good bye
+    say 'Migration ', ( $SuccessfulMigration ? 'finished' : 'failed' );
 
     return $SuccessfulMigration;
 }
