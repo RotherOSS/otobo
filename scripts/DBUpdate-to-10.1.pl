@@ -15,6 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -24,30 +25,18 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::System::ObjectManager;
+# core modules
 
-use Getopt::Long;
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTOBO-DBUpdate-to-10.1.pl',
     },
 );
-
-## get options
-#my %Options = (
-#    Help           => 0,
-#    NonInteractive => 0,
-#    Timing         => 0,
-#    Verbose        => 0,
-#);
-#Getopt::Long::GetOptions(
-#    'help',                      \$Options{Help},
-#    'non-interactive',           \$Options{NonInteractive},
-#    'cleanup-orphaned-articles', \$Options{CleanupOrphanedArticles},
-#    'timing',                    \$Options{Timing},
-#    'verbose',                   \$Options{Verbose},
-#);
 
 $Kernel::OM->Create('scripts::DBUpdateTo10_1')->Run();
 

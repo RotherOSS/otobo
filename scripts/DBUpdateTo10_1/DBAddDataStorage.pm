@@ -19,6 +19,8 @@ package scripts::DBUpdateTo10_1::DBAddDataStorage;
 use strict;
 use warnings;
 
+use parent qw(scripts::DBUpdateTo10_1::Base);
+
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -29,8 +31,6 @@ our @ObjectDependencies = (
 scripts::DBUpdateTo10_1::DBAddDataStorage - Adds new table data_storage.
 
 =cut
-
-use parent qw(scripts::DBUpdateTo10_1::Base);
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -74,11 +74,11 @@ sub Run {
         </Table>',
     );
 
-    return if !$Self->ExecuteXMLDBArray(
+    return unless $Self->ExecuteXMLDBArray(
         XMLArray => \@XMLStrings,
     );
 
-    return 1;
+    return 1;    # success
 }
 
 1;

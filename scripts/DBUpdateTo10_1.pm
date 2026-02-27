@@ -16,6 +16,7 @@
 
 package scripts::DBUpdateTo10_1;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -38,13 +39,10 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -53,7 +51,7 @@ sub Run {
     # Enable auto-flushing of STDOUT.
     $| = 1;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
-    print "\n Migration started ... \n";
+    say "\nMigration started ...";
 
     my $SuccessfulMigration = 1;
 
@@ -70,6 +68,7 @@ sub Run {
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo10_1::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
+
             last TASK;
         }
 
