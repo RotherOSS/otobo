@@ -61,10 +61,12 @@ sub Run {
             Module => 'DBAddDataStorage',
         },
     );
+    my $NumTasks = @Tasks;
+    my $Count    = 1;
 
     TASK:
     for my $Task (@Tasks) {
-        print "\tExecuting task '$Task->{Name}' ... \n";
+        say "\tExecuting task $Count/$NumTasks '$Task->{Name}' ...";
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo10_1::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
