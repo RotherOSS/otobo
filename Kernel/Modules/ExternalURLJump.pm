@@ -56,7 +56,7 @@ sub Run {
     for my $Set (@URLSets) {
         LINK:
         for my $Links ( $Set->@* ) {
-            next LINK if $Links->{Link} !~ m/$ExtURL/;
+            next LINK unless $Links->{Link} =~ /\Q$ExtURL/;
 
             # redirecting because the requested link was found
             return $LayoutObject->Redirect( ExtURL => $ExtURL );

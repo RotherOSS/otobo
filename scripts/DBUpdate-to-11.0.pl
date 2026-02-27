@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager ();
+use Kernel::System::ObjectManager;
 use scripts::DBUpdateTo11_0       ();
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -41,5 +41,3 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 scripts::DBUpdateTo11_0::Run();
-
-exit 0;
