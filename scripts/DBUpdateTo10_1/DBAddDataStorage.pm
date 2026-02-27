@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo10_1::DBAddDataStorage - Adds new table data_storage.
+scripts::DBUpdateTo10_1::DBAddDataStorage - Add the new tables data_storage and stats_report.
 
 =cut
 
@@ -48,6 +48,8 @@ sub Run {
                 <Reference Local="create_by" Foreign="id"/>
             </ForeignKey>
         </Table>',
+
+        # New table stats_report
         '<Table Name="stats_report">
             <Column AutoIncrement="true" Name="id" PrimaryKey="true" Required="true" Type="INTEGER"></Column>
             <Column Name="name" Required="true" Size="200" Type="VARCHAR"></Column>
