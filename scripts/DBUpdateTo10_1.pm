@@ -57,7 +57,7 @@ sub Run {
 
     my @Tasks = (
         {
-            Name   => 'Add data_storage table.',
+            Name   => 'Add the tables data_storage and stats_report.',
             Module => 'DBAddDataStorage',
         },
     );
