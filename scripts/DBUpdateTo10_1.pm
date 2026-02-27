@@ -78,9 +78,16 @@ sub Run {
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;
+
             last TASK;
         }
     }
+    continue {
+        $Count++;
+    }
+
+    # say good bye
+    say 'Migration ', ( $SuccessfulMigration ? 'finished' : 'failed' );
 
     return $SuccessfulMigration;
 }
