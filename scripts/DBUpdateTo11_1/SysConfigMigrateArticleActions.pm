@@ -56,6 +56,9 @@ sub Run {
     # Having executed Maint::Config::Rebuild without the cleanup option is fine.
     my $OldConfig = $ConfigObject->Get('Ticket::Frontend::Article::Actions');
     if ( !IsHashRefWithData($OldConfig) ) {
+
+        # This case also occurs on installations that were installed as 11.1.x. But in that case
+        # there is no obvious reason why the migration is executed.
         $LogObject->Log(
             Priority => 'error',
             Message  => "Could not retrieve the setting Ticket::Frontend::Article::Actions",
