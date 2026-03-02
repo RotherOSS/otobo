@@ -54,16 +54,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-02-12 09:00+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/de/"
-">\n"
+"PO-Revision-Date: 2026-03-02 17:55+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -27811,7 +27811,7 @@ msgstr "Unzureichende Gruppenberechtigungen."
 
 #. Template: AdminQueue
 msgid "Is defined in Admin > System addresses."
-msgstr "Ist definiert unter Admin > Systemadressen."
+msgstr "Ist definiert unter Admin > E-Mail-Adressen."
 
 #. Template: AdminQueue
 msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
@@ -27823,7 +27823,9 @@ msgstr "Der Geschäfts­kalender für Entsperrzeit und Eskalationszeiten. Keine 
 
 #. Template: AdminQueue
 msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
-msgstr "Ist definiert unter Admin > SystemConfiguration > Core > Time — Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
+msgstr ""
+"Ist definiert unter Admin > Systemkonfiguration > Core > Time — "
+"Standardkalender = keine Auswahl oder in den Kalendern 1 bis 9."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldSet.pm
 msgid "The object type of the dynamic field \"%s\" does not match the object type of the Set field."
