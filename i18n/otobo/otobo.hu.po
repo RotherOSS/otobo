@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-03-02 12:06+0000\n"
-"PO-Revision-Date: 2026-02-06 18:00+0000\n"
+"PO-Revision-Date: 2026-03-02 17:55+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-10/"
 "hu/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -5168,7 +5168,7 @@ msgstr "Hivatkozások"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual"
-msgstr "Az adminisztrátori kézikönyv megtekintése"
+msgstr "Adminisztrátori kézikönyv megtekintése"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
@@ -17457,11 +17457,11 @@ msgstr "MySQL 5.x vagy újabb szükséges."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Client Info"
-msgstr ""
+msgstr "Ügyfél-információk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Perl Client Info"
-msgstr ""
+msgstr "Perl ügyfél-információk"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG Setting"
@@ -24830,9 +24830,8 @@ msgid ""
 msgstr ""
 "Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén "
 "megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a "
-"„Content” tartalomban lévő érték a megjelenített címke. Az "
-"<OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az "
-"<OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
+"tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az "
+"<OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
@@ -28335,7 +28334,6 @@ msgstr ""
 "Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Objects to search for, how many entries and which attributes to show. Ticket "
 "attributes, except queue, have to explicitly be stored via Elasticsearch."
@@ -30814,16 +30812,13 @@ msgid "Show command line output."
 msgstr "Parancssori kimenet megjelenítése."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Show optional parameters in parameter list, too. If disabled, the optional "
 "parameters are only shown in an extra table."
 msgstr ""
-"\n"
-"            Az elhagyható paramétereket is jelenítse meg a "
-"paraméterlistában. Ha le van tiltva, akkor az elhagyható paraméterek csak "
-"egy kiegészítő táblázatban jelennek meg.\n"
-"        "
+"Az elhagyható paramétereket is jelenítse meg a paraméterlistában. Ha le van "
+"tiltva, akkor az elhagyható paraméterek csak egy kiegészítő táblázatban "
+"jelennek meg."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
