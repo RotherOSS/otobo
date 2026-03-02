@@ -15242,7 +15242,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmail###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
-        <Navigation>Frontend::Agent::View::TicketEmail</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
         <Value>
             <Array>
                 <DefaultItem>
@@ -15418,7 +15418,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPhone###QuickDateButtons" Required="0" Valid="1">
         <Description Translatable="1">This option sets additional quick date buttons to pending dates. For ordering purposes one hash entry per array segment has to be set. The key is the button name, value is the value, where a single number n sets the date to n days from now, +n adds n days to the currently set date, and -n subtracts them.</Description>
-        <Navigation>Frontend::Agent::View::TicketPhone</Navigation>
+        <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
             <Array>
                 <DefaultItem>
