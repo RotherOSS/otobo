@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998573466476462;
+    $Self->{Completeness}        = 0.997939778129952;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3376,7 +3376,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'Du bruker migreringsskriptet via http. Dette er svært usikkert da ulike passord kreves under prosessen, og vil bli overført ukryptert. Alle mellom deg og OTOBO-serveren vil kunne lese dem! Vurder å sette opp https i stedet.',
         'Continue anyways :(' => 'Fortsett uansett :(',
-        ' Continue anyways :(' => ' Fortsett uansett :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5528,6 +5527,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x eller høyere er nødvendig.',
+        'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG innstilling',
@@ -6399,12 +6400,6 @@ sub Data {
         'Expanded' => 'Utvidet',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            Vis valgfrie parametere i parameterlisten også. Hvis deaktivert, vises kun de valgfrie parameterne i en ekstra tabell
-        ',
         '
 Dear Customer,
 
@@ -8414,7 +8409,7 @@ Ditt Helpdesk-team
             'Antall skår (NS), replikaer (NR) og feltgrense for indeksen \'sak\'.',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Antall skår (NS), replikaer (NR) og feltgrense for indeksen. Merk: \'Elasticsearch::ArticleIndexCreationSettings\' er utdatert. For kompatibilitet oppover, bruk \'Elasticsearch::IndexSettings###Default\' i stedet.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'Antall skjær (NS), replikaer (NR) og feltgrense for indeksene. Dette erstatter \'Elasticsearch::ArticleIndexCreationSettings\' i fremtidige versjoner. Hvis begge er tilstede og ikke like, har denne prioritet. Bruk \'Elasticsearch::IndexSettings###...\' hvis du vil definere spesielle innstillinger for enkeltindekser.\'...\' kan være en av \'Customer\', \'CustomerUser\', \'Ticket\' eller \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Antall saker som vises per side i et søkeresultat.',
@@ -8428,8 +8423,8 @@ Ditt Helpdesk-team
             'OTOBO støtter ikke gjentakende avtaler uten sluttdato eller antall iterasjoner. Under importprosessen kan det hende at ICS-filen inneholder slike avtaler. I stedet oppretter systemet alle tidligere avtaler, pluss avtaler for de neste N månedene (120 måneder/10 år som standard).',
         'Objects to search for, how many entries and which attributes to show.' =>
             'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'Objekter å søke etter, hvor mange oppføringer og hvilke attributter som skal vises. Saksattributter, unntatt kø, må eksplisitt lagres via Elasticsearch.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => 'Åpne en ekstern lenke!',
         'Open the OTOBO home page in a new window' => 'Åpne OTOBO-hjemmesiden i et nytt vindu',
         'Open tickets (customer user)' => 'Åpne saker (kunde-bruker)',
@@ -8964,6 +8959,8 @@ Ditt Helpdesk-team
         'Show article as rich text even if rich text writing is disabled.' =>
             'Vis artikkelen som rik tekst selv om rik tekstskriving er deaktivert.',
         'Show command line output.' => 'Vis kommandolinjeutdata.',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show queues even when only locked tickets are in.' => 'Vis køer selv når kun låste billetter er inne.',
         'Show the current owner in the customer interface.' => 'Vis gjeldende eier i kundegrensesnittet.',
         'Show the current queue in the customer interface.' => 'Vis gjeldende kø i kundegrensesnittet.',

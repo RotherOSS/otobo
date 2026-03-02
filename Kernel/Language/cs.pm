@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.256300523062292;
+    $Self->{Completeness}        = 0.258161648177496;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -253,24 +253,24 @@ sub Data {
         'Add new notification language' => 'Přidat nový notifikační jazyk',
         'Tag Reference' => '',
         'Notifications are sent to an agent.' => 'Notifikace odeslány agentovi.',
-        'You can use the following tags' => '',
-        'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
+        'You can use the following tags' => 'Můžete použít následující značky',
+        'To get the first 20 character of the appointment title.' => 'Získání prvních 20 znaků názvu schůzky.',
+        'To get the appointment attribute' => 'Získání atributu schůzky',
         ' e. g.' => ' např.',
-        'To get the calendar attribute' => '',
+        'To get the calendar attribute' => 'Získání atributu kalendáře',
         'Attributes of the recipient user for the notification' => '',
-        'Config options' => '',
+        'Config options' => 'Možnosti konfigurace',
         'Example notification' => 'Ukázková notifikace',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Další e-mailové adresy příjemců',
         'This field must have less then 200 characters.' => 'Toto pole musí být kratší než 200 znaků.',
         'Article visible for customer' => 'Článek viditelný zákazníkem',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Článek se vytvoří, pokud je oznámení zasláno zákazníkovi nebo na další e-mailovou adresu.',
         'Email template' => 'Šablona e-mailu',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Pomocí této šablony vygenerujete celý e-mail (pouze pro HTML e-maily).',
         'Enable email security' => 'Povolit zabezpečení e-mailu',
         'Email security level' => 'Úroveň zabezpečení e-mailu',
         'If signing key/certificate is missing' => 'Pokud klíč/certifikát k podpisu chybí',
@@ -299,12 +299,12 @@ sub Data {
         'Reference' => 'Reference',
         'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu.',
         'To get the first 5 lines of the email.' => 'Pro získáni prvních 5ti řádků z emailu.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Zjištění jména uživatele dle zákazníka tiketu (je-li zadáno).',
         'To get the article attribute' => 'Získat atributy článku',
-        'Options of the current customer user data' => '',
+        'Options of the current customer user data' => 'Možnosti aktuálních uživatelských údajů zákazníka',
         'Ticket owner options' => 'Nastavení vlastníka tiketu',
         'Ticket responsible options' => '',
-        'Options of the current user who requested this action' => '',
+        'Options of the current user who requested this action' => 'Možnosti aktuálního uživatele, který si tuto akci vyžádal',
         'Options of the ticket data' => '',
         'Options of ticket dynamic fields internal key values' => '',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
@@ -312,7 +312,7 @@ sub Data {
         'Example response' => 'Vzorová odpověď',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => 'Správa cloudových služeb',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => 'Nápověda',
@@ -3375,7 +3375,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             '',
         'Continue anyways :(' => '',
-        ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
         'DSN' => '',
@@ -5527,6 +5526,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x a vyšší je vyžadována.',
+        'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG nastavení,',
@@ -6398,10 +6399,6 @@ sub Data {
         'Expanded' => '',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '',
         '
 Dear Customer,
 
@@ -8400,7 +8397,7 @@ Thanks for your help!
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
@@ -8414,7 +8411,7 @@ Thanks for your help!
             '',
         'Objects to search for, how many entries and which attributes to show.' =>
             '',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
         'Open the OTOBO home page in a new window' => '',
@@ -8950,6 +8947,8 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
         'Show command line output.' => '',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',

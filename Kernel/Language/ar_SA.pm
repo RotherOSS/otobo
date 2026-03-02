@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.914724996037407;
+    $Self->{Completeness}        = 0.915055467511886;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3370,7 +3370,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'أنت تستخدم البرنامج النصي للترحيل عبر http. وهذا أمر غير آمن إلى حد كبير لأن هناك حاجة إلى كلمات مرور مختلفة أثناء العملية، وسيتم نقلها دون تشفير. سيتمكن أي شخص بينك وبين خادم OTOBO من قراءتها! الرجاء التفكير في إعداد https بدلا من ذلك.',
         'Continue anyways :(' => 'تابع على كل حال :(',
-        ' Continue anyways :(' => ' تابع على كل حال :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5522,6 +5521,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'مطلوب MySQL 5.x أو أعلى.',
+        'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'إعداد NLS_LANG',
@@ -6393,13 +6394,6 @@ sub Data {
         'Expanded' => 'واسع النَطاق',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '
-            إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل هذا الخيار، يتم عرض المعلمات الاختيارية فقط
-في جدول اضافي
-        ',
         '
 Dear Customer,
 
@@ -8409,7 +8403,7 @@ Thanks for your help!
             'عدد الأجزاء (shards) (NS) والنسخ المتماثلة (NR) والحد الأقصى للحقل لفهرس "التذكرة".',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهرس. ملاحظة: لم يعد يتم استخدام "Elasticsearch::ArticleIndexCreationSettings". بدلا من ذلك، استخدم "Elasticsearch::IndexSettings###Default" لضمان التوافق مع الإصدارات الأحدث.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'عدد الأجزاء (NS) والنسخ المتماثلة (NR) وحد الحقل للفهارس. يحل هذا الإعداد محل "Elasticsearch::ArticleIndexCreationSettings" في الإصدارات الأحدث. إذا كان كلا الإعدادين موجودين ويختلفان، تحديد أولوياتهما. استخدم "Elasticsearch::IndexSettings###... " لتحديد إعدادات محددة للفهارس الفردية. \'. . . \' يمكن أن تكون إحدى القيم التالية: "Customer" أو "CustomerUser" أو "Ticket" أو "ConfigItem".',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'عدد التذاكر لكل صفحة في نتائج البحث في منطقة الوكيل.',
@@ -8423,8 +8417,8 @@ Thanks for your help!
             'لا يدعم OTOBO المواعيد المتكررة بدون تاريخ انتهاء أو عدد التكرارات. أثناء عملية الاستيراد، قد يحدث أن يحتوي ملف ICS على مثل هذه المواعيد. بدلا من ذلك، يقوم النظام بإنشاء جميع المواعيد في الماضي، بالإضافة إلى المواعيد للأشهر N التالية (120 شهرا / 10 سنوات افتراضيا).',
         'Objects to search for, how many entries and which attributes to show.' =>
             'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'يحدد الكائنات التي سيتم البحث عنها، وعدد الإدخالات، والسمات التي سيتم عرضها. يجب تخزين جميع سمات التذاكر باستثناء قائمة الانتظار بشكل صريح في Elasticsearch.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => 'افتح الرابط الخارجي!',
         'Open the OTOBO home page in a new window' => 'يفتح صفحة OTOBO الرئيسية في نافذة جديدة',
         'Open tickets (customer user)' => 'التذاكر المفتوحة (مستخدمو العملاء)',
@@ -8664,14 +8658,14 @@ Thanks for your help!
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'يُشغِّل بحثًا أوليًا باستخدام الرموز البارزة لشركة العميل الحالية عند الوصول إلى وحدة AdminCustomerCompany.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
-            '',
+            'يقوم بإجراء بحث مبدئي باستخدام حرف البدل عن مستخدمي العملاء الحاليين عند الوصول إلى وحدة AdminCustomerUser.',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            '',
-        'Russian' => '',
-        'S/MIME Certificates' => '',
-        'SSL_VERIFY_NONE - no verification of mail server host' => '',
-        'SSL_VERIFY_PEER - verify the mail server host' => '',
-        'Salutations' => 'تحايا',
+            'يشغّل النظام في وضع "التجربة". إذا تم تمكينه، يمكن للعملاء تعديل التفضيلات، مثل اختيار اللغة والسمة عبر واجهة الويب الخاصة بالعميل. تكون هذه التغييرات صالحة فقط للجلسة الحالية. لن يتمكن العملاء من تغيير كلمات مرورهم.',
+        'Russian' => 'الروسية',
+        'S/MIME Certificates' => 'شهادات S/MIME',
+        'SSL_VERIFY_NONE - no verification of mail server host' => 'SSL_VERIFY_NONE - لا يتم التحقق من مضيف خادم البريد',
+        'SSL_VERIFY_PEER - verify the mail server host' => 'SSL_VERIFY_PEER - التحقق من مضيف خادم البريد',
+        'Salutations' => 'تحيات',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
             '',
@@ -8959,6 +8953,8 @@ Thanks for your help!
         'Show article as rich text even if rich text writing is disabled.' =>
             '',
         'Show command line output.' => '',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.972895863052782;
+    $Self->{Completeness}        = 0.972424722662441;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3368,7 +3368,6 @@ sub Data {
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             'Está utilizando el script de migración vía http. Esto es altamente inseguro ya que se requieren varias contraseñas durante el proceso, y serán transferidas sin encriptar. Cualquiera entre usted y el servidor de OTOBO podrá leerlas. Por favor, considere configurar https en su lugar.',
         'Continue anyways :(' => 'Continúa de todos modos :(',
-        ' Continue anyways :(' => ' Continúa de todos modos :(',
 
         # Template: OTRSDBSettings
         'DSN' => 'DSN',
@@ -5520,6 +5519,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Se requiere MySQL 5.x o superior.',
+        'Client Info' => '',
+        'Perl Client Info' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Variable NLS_LANG',
@@ -6391,10 +6392,6 @@ sub Data {
         'Expanded' => 'Expandido',
 
         # SysConfig
-        '
-            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
-            in an extra table
-        ' => '',
         '
 Dear Customer,
 
@@ -8404,7 +8401,7 @@ Su equipo de asistencia técnica
             'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice "ticket".',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice. Nota: Elasticsearch::ArticleIndexCreationSettings\' está obsoleto. Para la compatibilidad hacia arriba, utilice \'Elasticsearch::IndexSettings###Default\' en su lugar.',
-        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
             'Número de fragmentos (NS), réplicas (NR) y límite de campos para los índices. Esto reemplaza a \'Elasticsearch::ArticleIndexCreationSettings\' en futuras versiones. Si ambos están presentes y no son iguales este tiene prioridad. Utiliza \'Elasticsearch::IndexSettings##...\' si quieres definir ajustes especiales para índices individuales.\'...\' puede ser uno de \'Customer\', \'CustomerUser\', \'Ticket\' o \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Número de tickets desplegados en cada página del resultado de una búsqueda, en la interfaz del agente.',
@@ -8418,8 +8415,8 @@ Su equipo de asistencia técnica
             'OTOBO no soporta Citas recurrentes sin fecha de finalización o número de iteraciones. Durante el proceso de importación, puede ocurrir que el archivo ICS contenga tales Citas. En su lugar, el sistema crea todas las Citas del pasado, más las Citas de los próximos N meses (120 meses/10 años por defecto).',
         'Objects to search for, how many entries and which attributes to show.' =>
             'Objetos a buscar, cuántas entradas y qué atributos mostrar.',
-        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
-            'Objetos a buscar, cuántas entradas y qué atributos mostrar. Los atributos de las entradas, excepto la cola, tienen que ser almacenados explícitamente a través de Elasticsearch.',
+        'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
+            '',
         'Open an external link!' => '¡Abrir un enlace externo!',
         'Open the OTOBO home page in a new window' => 'Abrir la página de inicio de OTOBO en una nueva ventana',
         'Open tickets (customer user)' => 'Tickets Abiertos (usuario del cliente)',
@@ -8954,6 +8951,8 @@ Su equipo de asistencia técnica
         'Show article as rich text even if rich text writing is disabled.' =>
             'Mostrar el artículo como texto enriquecido incluso si la escritura de texto enriquecido está desactivada.',
         'Show command line output.' => 'Mostrar la salida de la línea de comandos.',
+        'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
+            '',
         'Show queues even when only locked tickets are in.' => 'Mostrar colas incluso cuando sólo hay entradas bloqueadas.',
         'Show the current owner in the customer interface.' => 'Mostrar el propietario actual en la interfaz del cliente.',
         'Show the current queue in the customer interface.' => 'Muestra la cola actual en la interfaz del cliente.',
