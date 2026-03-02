@@ -3712,7 +3712,7 @@ You can log in via the following URL:
             <Item ValueType="String" ValueRegex="">http://host.example.com/cgi-bin/login.pl</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###1-GoogleMaps" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+    <Setting Name="Frontend::CustomerUser::Item###1-GoogleMaps" Required="0" Valid="1">
         <Description Translatable="1">Defines a customer item, which generates a google maps icon at the end of a customer info block.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
@@ -3729,7 +3729,7 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###2-Google" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###2-Google" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a google icon at the end of a customer info block.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
@@ -3746,7 +3746,7 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###2-LinkedIn" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
@@ -3763,7 +3763,7 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###3-XING" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="0">
         <Description Translatable="1">Defines a customer item, which generates a XING icon at the end of a customer info block.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
@@ -9565,6 +9565,15 @@ via the Preferences button after logging in.
                         <Item Key="Description" Translatable="1">Tweak the system as you wish.</Item>
                         <Item Key="Icon">fa-cog</Item>
                         <Item Key="Prio">1002</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">Advanced</Item>
+                        <Item Key="Name" Translatable="1">Advanced</Item>
+                        <Item Key="Description" Translatable="1">Advanced settings for efficient work.</Item>
+                        <Item Key="Icon">fa-gears</Item>
+                        <Item Key="Prio">1003</Item>
                     </Hash>
                 </Item>
             </Array>
