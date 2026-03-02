@@ -8875,7 +8875,6 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.AllocationList.css</Item>
-                        <Item>QuickDateButtons.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
@@ -8884,7 +8883,6 @@
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
                         <Item>Core.Agent.TicketSplit.js</Item>
-                        <Item>QuickDateButtons.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -9671,11 +9669,17 @@
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>QuickDateButtons.css</Item>
+                    </Array>
+                </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketActionCommon.js</Item>
                         <Item>Core.Agent.TicketFormDraft.js</Item>
+                        <Item>QuickDateButtons.js</Item>
                     </Array>
                 </Item>
             </Hash>
