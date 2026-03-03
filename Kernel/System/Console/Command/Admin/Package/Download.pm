@@ -17,16 +17,20 @@
 package Kernel::System::Console::Command::Admin::Package::Download;
 
 use strict;
-use utf8;
 use warnings;
-
-use File::Spec ();
-use File::Basename qw(dirname);
-use File::Path qw(make_path);
-
-use Encode ();
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Spec     ();
+use File::Basename qw(dirname);
+use File::Path     qw(make_path);
+use Encode         ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -72,13 +76,13 @@ sub Run {
 
     my @Packages = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
 
-    if ( !@Packages ) { 
+    if ( !@Packages ) {
         $Self->Print("<green>There are no packages installed.</green>\n");
         return $Self->ExitCodeOk();
-    }   
+    }
 
-    my $PackageNameOption        = $Self->GetOption('package-name');
-    my $Path                     = $Self->GetOption('path');
+    my $PackageNameOption = $Self->GetOption('package-name');
+    my $Path              = $Self->GetOption('path');
 
     # Get package object
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
@@ -86,29 +90,28 @@ sub Run {
     PACKAGE:
     for my $PackageInstalled (@Packages) {
 
-        if ( defined $PackageNameOption && length $PackageNameOption ) { 
+        if ( defined $PackageNameOption && length $PackageNameOption ) {
             my $PackageString = $PackageInstalled->{Name} . '-' . $PackageInstalled->{Version};
             next PACKAGE if $PackageString !~ m{$PackageNameOption}i;
-        }   
+        }
 
         # get package
         my $Package = $PackageObject->RepositoryGet(
             Name    => $PackageInstalled->{Name}->{Content},
             Version => $PackageInstalled->{Version}->{Content},
-        );  
-        if ( !$Package ) { 
+        );
+        if ( !$Package ) {
             $Self->Print(
                 "<red>Package $PackageInstalled->{Name}->{Content} Error:</red>" . "\n"
-            );  
+            );
             return;
-        }   
+        }
 
         my $FileName = $PackageInstalled->{Name}->{Content} . '-' . $PackageInstalled->{Version}->{Content} . '.opm';
 
-        # If $Path is a directory, construct the full file path. 
+        # If $Path is a directory, construct the full file path.
         # If $Path is already a complete file path, simply use $Path.
         my $TargetPath = File::Spec->catfile( $Path, $FileName );
-
 
         my ( $OK, $Err ) = $Self->_WriteBinaryFile(
             Path    => $TargetPath,
@@ -118,7 +121,7 @@ sub Run {
         if ( !$OK ) {
             $Self->Print(
                 "<red>Package $PackageInstalled->{Name}->{Content} Error write file:</red>" . "\n"
-            ); 
+            );
             return;
         }
 
@@ -183,4 +186,3 @@ sub _WriteBinaryFile {
 }
 
 1;
-
