@@ -609,7 +609,7 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="TimeInputFormat" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="TimeInputFormat" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Defines the date input format used in forms (option or input fields).</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
@@ -633,7 +633,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="TimeShowAlwaysLong" Required="1" Valid="1">
+    <Setting Name="TimeShowAlwaysLong" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
@@ -8925,7 +8925,7 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="OpenMainMenuOnHover" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
+    <Setting Name="OpenMainMenuOnHover" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the first level of the main menu opens on mouse hover (instead of click only).</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
@@ -9022,7 +9022,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="TimeShowCompleteDescription" Required="1" Valid="1">
+    <Setting Name="TimeShowCompleteDescription" UserPreferencesGroup="Advanced" UserModificationActive="1" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
