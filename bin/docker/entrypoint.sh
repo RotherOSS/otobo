@@ -206,8 +206,8 @@ function copy_otobo_update {
     mkdir --parent $OTOBO_HOME/Kernel/local
     cp --archive $dir_otobo_update/local/* $OTOBO_HOME/Kernel/local
 
-    # copy dot files, like .bashrc and .bash_history
-    cp --archive $dir_otobo_update/.* $OTOBO_HOME
+    # copy the hidden file .bash_history purely for the convenience of having the history available
+    cp --archive $dir_otobo_update/.bash_history $OTOBO_HOME
 
     # copy installed stats
     mkdir --parent $OTOBO_HOME/Kernel/var/stats
