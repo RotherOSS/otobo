@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2026-02-06 18:00+0000\n"
+"PO-Revision-Date: 2026-03-02 17:55+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-11/"
 "hu/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.16\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -4347,7 +4347,7 @@ msgstr "Hivatkozások"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual"
-msgstr "Az adminisztrátori kézikönyv megtekintése"
+msgstr "Adminisztrátori kézikönyv megtekintése"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
@@ -20331,9 +20331,8 @@ msgid "Defines the shown links in the footer area of the customer interface of t
 msgstr ""
 "Meghatározza ennek az OTOBO rendszernek az ügyfélfelülete láblécterületén "
 "megjelenített hivatkozásokat. A „Key” kulcsban lévő érték a külső URL, a "
-"„Content” tartalomban lévő érték a megjelenített címke. Az "
-"<OTOBO_CONFIG_HttpType>, az <OTOBO_CONFIG_FQDN> és az "
-"<OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
+"tartalomban lévő érték a megjelenített címke. Az <OTOBO_CONFIG_HttpType>, az "
+"<OTOBO_CONFIG_FQDN> és az <OTOBO_CONFIG_ScriptAlias> helyettesítésre kerül."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
