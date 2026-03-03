@@ -130,6 +130,8 @@ sub Run {
             '<yellow>Saved to:</yellow> ' . $TargetPath . "\n"
         );
     }
+
+    return $Self->ExitCodeOk();
 }
 
 sub _WriteBinaryFile {
