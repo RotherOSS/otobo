@@ -78,6 +78,7 @@ sub Run {
 
     if ( !@Packages ) {
         $Self->Print("<green>There are no packages installed.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
@@ -92,6 +93,7 @@ sub Run {
 
         if ( defined $PackageNameOption && length $PackageNameOption ) {
             my $PackageString = $PackageInstalled->{Name} . '-' . $PackageInstalled->{Version};
+
             next PACKAGE if $PackageString !~ m{$PackageNameOption}i;
         }
 
@@ -104,6 +106,7 @@ sub Run {
             $Self->Print(
                 "<red>Package $PackageInstalled->{Name}->{Content} Error:</red>" . "\n"
             );
+
             return;
         }
 
@@ -122,6 +125,7 @@ sub Run {
             $Self->Print(
                 "<red>Package $PackageInstalled->{Name}->{Content} Error write file:</red>" . "\n"
             );
+
             return;
         }
 
