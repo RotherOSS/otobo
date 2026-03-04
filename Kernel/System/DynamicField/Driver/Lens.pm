@@ -789,6 +789,11 @@ sub GetFieldState {
         }
     }
 
+    # necessary clean-up to avoid interference with GetFieldState mechanism in FieldRestrictions modules
+    else {
+        delete $FieldStates{Sets};
+    }
+
     return %FieldStates;
 }
 
