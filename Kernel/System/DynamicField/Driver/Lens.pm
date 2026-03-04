@@ -761,10 +761,12 @@ sub GetFieldState {
     elsif ( defined $AttributeFieldValue ) {
         $FieldStates{NewValue} = $AttributeFieldValue;
     }
-    if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
+
+    # prevent autovification
+    if ( exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} } && exists $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues} ) {
         $FieldStates{PossibleValues}->%* = $FieldStates{Fields}{ $DynamicFieldConfig->{Name} }{PossibleValues}->%*;
     }
-    if ( $FieldStates{Sets}->%* ) {
+    if ( IsHashRefWithData( $FieldStates{Sets} ) ) {
 
         if ($NeedsReset) {
             my $SetValueCount     = IsArrayRefWithData( $FieldStates{NewValue} ) ? scalar $FieldStates{NewValue}->@* : 1;
