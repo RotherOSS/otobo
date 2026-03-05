@@ -423,7 +423,7 @@ my @NeededModules = (
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
             zypper => 'perl-DateTime',
-            ports  => 'devel/p5-TimeDate',
+            ports  => 'devel/p5-DateTime',
         },
     },
     {
