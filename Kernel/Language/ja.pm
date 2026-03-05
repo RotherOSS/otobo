@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.848949798897661;
+    $Self->{Completeness}        = 0.848823354185284;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1989,9 +1989,7 @@ sub Data {
             'チケットがクローズした後に顧客がチケットにフォローアップする場合、旧所有者にロックされます。',
         'System address' => 'システムアドレス',
         'Will be the sender address of this queue for email answers.' => 'このキューでのメール回答はこの送信者アドレスになります。',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => '既定のサインキー',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '鍵署名を利用するにはシステムアドレスに体操したPGPもしくはS/MIMEの証明書の追加が必要です。',
@@ -1999,9 +1997,9 @@ sub Data {
         'The salutation for email answers.' => 'メール回答の挨拶文',
         'Signature' => '署名',
         'The signature for email answers.' => 'メール回答の署名',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'このキューは、次の設定で使用されます。',
 
@@ -2339,6 +2337,8 @@ sub Data {
         'This email address is already used as system email address.' => 'このメールアドレスは、すでにシステム用メールアドレスとして利用されています。',
         'The display name and email address will be shown on mail you send.' =>
             '表示名、メールアドレスは送信メールに表示されます。',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'このシステムアドレスは無効にできません。',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'このシステムアドレスはキューもしくは自動応答で使用されているため無効にできません。',
@@ -9843,6 +9843,8 @@ Thanks for your help!
             'Eメールが転送された際の、件名の最初のテキストです。例：FW, Fwd, WG。',
         'The value of the From field' => '',
         'Theme' => 'テーマ',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

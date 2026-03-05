@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-02-04 07:09+0000\n"
+"POT-Creation-Date: 2026-03-05 14:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5963,11 +5963,7 @@ msgid "Will be the sender address of this queue for email answers."
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Is defined in Admin > System addresses."
-msgstr ""
-
-#. Template: AdminQueue
-msgid "Only relevant if Postmaster Mail Account set to Dispatching by To: field."
+msgid "Is defined in Admin > Email Addresses."
 msgstr ""
 
 #. Template: AdminQueue
@@ -5995,11 +5991,11 @@ msgid "The signature for email answers."
 msgstr ""
 
 #. Template: AdminQueue
-msgid "The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard"
+msgid "The business calendar for unlock time and the escalation times. No selection means that the default calendar is used."
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9."
+msgid "Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9."
 msgstr ""
 
 #. Template: AdminQueue
@@ -6988,6 +6984,10 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
+msgstr ""
+
+#. Template: AdminSystemAddress
+msgid "Only relevant if the postmaster mail account is set to dispatching by To-field."
 msgstr ""
 
 #. Template: AdminSystemAddress
@@ -26231,6 +26231,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Theme"
+msgstr ""
+
+#. SysConfig
+msgid "These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS."
 msgstr ""
 
 #. SysConfig

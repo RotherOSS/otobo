@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.93832861611798;
+    $Self->{Completeness}        = 0.938188859100387;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1994,9 +1994,7 @@ sub Data {
             'Hvis en sak blir stengt og kunden sender en oppfølging vil saken bli låst til den forrige eieren.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne køen.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Standard signeringsnøkkel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'For å bruke en signeringsnøkkel, må PGP-nøkler eller S/MIME-sertifikater legges til med identifikatorer for valgt køsystemadresse.',
@@ -2004,9 +2002,9 @@ sub Data {
         'The salutation for email answers.' => 'Hilsning for e-postsvar.',
         'Signature' => 'Signatur',
         'The signature for email answers.' => 'Signatur for e-postsvar.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Denne køen brukes i følgende konfigurasjonsinnstillinger:',
 
@@ -2344,6 +2342,8 @@ sub Data {
         'This email address is already used as system email address.' => 'Denne e-postadressen er allerede brukt som system-e-postadresse.',
         'The display name and email address will be shown on mail you send.' =>
             'Vist navn og e-postadresse vil vises på e-posten du sender ut.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'Denne systemadressen kan ikke settes til ugyldig.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'Denne systemadressen kan ikke settes til ugyldig, fordi den brukes i én eller flere kø(er) eller autosvar(er).',
@@ -9848,6 +9848,8 @@ Ditt Helpdesk-team
             'Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, FW.',
         'The value of the From field' => 'Verdien i Fra-feltet',
         'Theme' => 'Tema',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             'Denne konfigurasjonen definerer alle mulige skjermbilder for å aktivere eller deaktivere standardkolonner.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

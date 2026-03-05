@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.570832712647103;
+    $Self->{Completeness}        = 0.570747691391123;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1989,9 +1989,7 @@ sub Data {
             'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.',
         'System address' => 'System address',
         'Will be the sender address of this queue for email answers.' => 'Will be the sender address of this queue for email answers.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Default sign key',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1999,9 +1997,9 @@ sub Data {
         'The salutation for email answers.' => 'The salutation for email answers.',
         'Signature' => 'Signature',
         'The signature for email answers.' => 'The signature for email answers.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -2339,6 +2337,8 @@ sub Data {
         'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
             'The display name and email address will be shown on mail you send.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => '',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
@@ -9843,6 +9843,8 @@ Thanks for your help!
             'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.',
         'The value of the From field' => '',
         'Theme' => 'Theme',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>
