@@ -326,10 +326,10 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Clone-0.47
-    pathname: A/AT/ATOOMIC/Clone-0.47.tar.gz
+  Clone-0.48
+    pathname: A/AT/ATOOMIC/Clone-0.48.tar.gz
     provides:
-      Clone 0.47
+      Clone 0.48
     requirements:
       ExtUtils::MakeMaker 0
   Clone-PP-1.08
@@ -2476,10 +2476,10 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
-  Module-Build-Tiny-0.052
-    pathname: L/LE/LEONT/Module-Build-Tiny-0.052.tar.gz
+  Module-Build-Tiny-0.053
+    pathname: L/LE/LEONT/Module-Build-Tiny-0.053.tar.gz
     provides:
-      Module::Build::Tiny 0.052
+      Module::Build::Tiny 0.053
     requirements:
       CPAN::Meta 0
       DynaLoader 0
@@ -3873,49 +3873,50 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
-  TimeDate-2.33
-    pathname: A/AT/ATOOMIC/TimeDate-2.33.tar.gz
+  TimeDate-2.34
+    pathname: A/AT/ATOOMIC/TimeDate-2.34.tar.gz
     provides:
-      Date::Format 2.24
-      Date::Format::Generic 2.24
-      Date::Language 1.10
-      Date::Language::Afar 0.99
-      Date::Language::Amharic 1.00
-      Date::Language::Austrian 1.01
-      Date::Language::Brazilian 1.01
-      Date::Language::Bulgarian 1.01
-      Date::Language::Chinese 1.00
-      Date::Language::Chinese_GB 1.01
-      Date::Language::Czech 1.01
-      Date::Language::Danish 1.01
-      Date::Language::Dutch 1.02
-      Date::Language::English 1.01
-      Date::Language::Finnish 1.01
-      Date::Language::French 1.04
-      Date::Language::Gedeo 0.99
-      Date::Language::German 1.02
-      Date::Language::Greek 1.00
-      Date::Language::Hungarian 1.01
-      Date::Language::Icelandic 1.01
-      Date::Language::Italian 1.01
-      Date::Language::Norwegian 1.01
-      Date::Language::Occitan 1.04
-      Date::Language::Oromo 0.99
-      Date::Language::Romanian 1.01
-      Date::Language::Russian 1.01
-      Date::Language::Russian_cp1251 1.01
-      Date::Language::Russian_koi8r 1.01
-      Date::Language::Sidama 0.99
-      Date::Language::Somali 0.99
-      Date::Language::Spanish 1.00
-      Date::Language::Swedish 1.01
-      Date::Language::Tigrinya 1.00
-      Date::Language::TigrinyaEritrean 1.00
-      Date::Language::TigrinyaEthiopian 1.00
-      Date::Language::Turkish 1.0
-      Date::Parse 2.33
-      Time::Zone 2.24
-      TimeDate 1.21
+      Date::Format 2.34
+      Date::Format::Generic 2.34
+      Date::Language 2.34
+      Date::Language::Afar 2.34
+      Date::Language::Amharic 2.34
+      Date::Language::Arabic 2.34
+      Date::Language::Austrian 2.34
+      Date::Language::Brazilian 2.34
+      Date::Language::Bulgarian 2.34
+      Date::Language::Chinese 2.34
+      Date::Language::Chinese_GB 2.34
+      Date::Language::Czech 2.34
+      Date::Language::Danish 2.34
+      Date::Language::Dutch 2.34
+      Date::Language::English 2.34
+      Date::Language::Finnish 2.34
+      Date::Language::French 2.34
+      Date::Language::Gedeo 2.34
+      Date::Language::German 2.34
+      Date::Language::Greek 2.34
+      Date::Language::Hungarian 2.34
+      Date::Language::Icelandic 2.34
+      Date::Language::Italian 2.34
+      Date::Language::Norwegian 2.34
+      Date::Language::Occitan 2.34
+      Date::Language::Oromo 2.34
+      Date::Language::Romanian 2.34
+      Date::Language::Russian 2.34
+      Date::Language::Russian_cp1251 2.34
+      Date::Language::Russian_koi8r 2.34
+      Date::Language::Sidama 2.34
+      Date::Language::Somali 2.34
+      Date::Language::Spanish 2.34
+      Date::Language::Swedish 2.34
+      Date::Language::Tigrinya 2.34
+      Date::Language::TigrinyaEritrean 2.34
+      Date::Language::TigrinyaEthiopian 2.34
+      Date::Language::Turkish 2.34
+      Date::Parse 2.34
+      Time::Zone 2.34
+      TimeDate 2.34
     requirements:
       ExtUtils::MakeMaker 0
   Try-Tiny-0.32
@@ -4476,7 +4477,9 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0

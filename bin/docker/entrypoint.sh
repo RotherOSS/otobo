@@ -22,10 +22,8 @@
 # Declare file scoped variables
 ################################################################################
 
-g_dir_otobo_next="/opt/otobo_install/otobo_next"
-g_update_log="$OTOBO_HOME/var/log/update.log"
-g_function=true
-g_sleep_pid=true
+otobo_next="/opt/otobo_install/otobo_next"
+update_log="/opt/otobo/var/log/update.log"
 
 ################################################################################
 # Declare functions
@@ -47,9 +45,9 @@ function handle_docker_firsttime() {
     # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
-    # $g_dir_otobo_next is not removed, it is kept for future reference
+    # $otobo_next is not removed, it is kept for future reference
     # Note that docker_firsttime_handled is only available in the service web.
-    mv $g_dir_otobo_next/docker_firsttime $g_dir_otobo_next/docker_firsttime_handled
+    mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
 # An easy way to start bash.
@@ -72,7 +70,7 @@ function start_and_check_daemon() {
     # See also https://hynek.me/articles/docker-signals/.
     trap stop_daemon SIGTERM
 
-    g_sleep_pid=
+    sleep_pid=
     while true; do
 
         # Do not try to start the Daemon when /opt/otobo is still being created.
@@ -81,12 +79,12 @@ function start_and_check_daemon() {
         fi
         # the '&' activates the builtin job control system
         # remember the PID of sleep, so that the process can be terminated in stop_daemon()
-        sleep 120 & g_sleep_pid=$!
+        sleep 120 & sleep_pid=$!
 
         # wait until the sleep exits or until a signal arrives,
         # which means that the stop_daemon() can run without having to wait for the sleep command
-        wait $g_sleep_pid
-        g_sleep_pid=
+        wait $sleep_pid
+        sleep_pid=
     done
 }
 
@@ -94,7 +92,7 @@ function start_and_check_daemon() {
 function stop_daemon() {
     if [ -f "bin/otobo.Daemon.pl" ]; then
         bin/otobo.Daemon.pl stop
-        [[ $g_sleep_pid ]] && kill "$g_sleep_pid"
+        [[ $sleep_pid ]] && kill "$sleep_pid"
     fi
 
     # claim that everything is fine
@@ -104,7 +102,7 @@ function stop_daemon() {
 # Start the webserver
 function exec_web() {
 
-    local otobo_devel="${1:-unknown}"
+    otobo_devel="${1:-unknown}"
 
     # For production use the web server Gazelle, which is implemented in C.
     # In many cases 'deployment' is also the sensible option during development.
@@ -114,7 +112,7 @@ function exec_web() {
 
         s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
         if [[ "$s3_active" -eq "1" ]]; then
-            exec plackup --server Gazelle --env deployment --port 5000 -I $OTOBO_HOME -I $OTOBO_HOME/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+            exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
         else
             exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
         fi
@@ -135,34 +133,37 @@ function exec_web() {
     fi
 }
 
-# move the content of /opt/otobo to a backup dir
-#
-# The first argument is the backup dir, usually with a timestamp in the path
-function clean_slate() {
-    local dir_otobo_update="$1"
-
-    mkdir $dir_otobo_update
-
-    # the hidden files and dirs are also moved
-    mv $OTOBO_HOME/.* $OTOBO_HOME/* $dir_otobo_update
-}
-
-# Copy /opt/otobo_install/otobo_next without checking the flag file 'docker_firsttime'.
-# Files that had been added in the previous /opt/otobo are not discarded.
+# preserve added files in the previous
 function copy_otobo_next() {
 
+    # The directory Kernel/cpan-lib is a special case. Perl modules
+    # from previous OTOBO versions should not override the modules
+    # that are provided in /opt/otobo_install/local. So we remove
+    # the entire directory. Potential changes in Kernel/cpan-lib,
+    # that stem from the previous installation, can be recovered from
+    # the backup done with scripts/backup.pl
+    cpan_lib_dir="$OTOBO_HOME/Kernel/cpan-lib"
+    if [ -d  "$OTOBO_HOME/Kernel/cpan-lib" ]; then
+        rm -r $cpan_lib_dir
+        {
+            date
+            echo "Removed the directory $cpan_lib_dir"
+            echo
+        } >> $update_log
+    fi
+
+
     # Copy files recursively.
-    # Changed files are overwritten, new files are not deleted. But note that the target directory
-    # is usually empty.
+    # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
-    # Copying $g_dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
-    cp --archive $g_dir_otobo_next/. $OTOBO_HOME
+    # Copying $otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
+    cp --archive $otobo_next/. $OTOBO_HOME
 
     {
         date
-        echo "Copied $g_dir_otobo_next to $OTOBO_HOME"
+        echo "Copied $otobo_next to $OTOBO_HOME"
         echo
-    } >> $g_update_log
+    } >> $update_log
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
@@ -183,44 +184,13 @@ function copy_otobo_next() {
     touch $OTOBO_HOME/.copy_otobo_next_finished
 }
 
-# rescue files from the prev installation to the new installation
-#
-# The first argument is the backup dir, usually with a timestamp in the path
-function copy_otobo_update {
-    local dir_otobo_update="$1"
-
-    # Kernel/Config.pm contains installation specific configuration
-    mkdir --parent $OTOBO_HOME/Kernel
-    cp --archive $dir_otobo_update/Kernel/Config.pm $OTOBO_HOME/Kernel
-
-    # Articles and attachments might be stored in var/article. This directory
-    # might be large. Therefore we don't copy it back, instead we move it back
-    # to its previous location.
-    if [ -e $OTOBO_HOME/var/article ]; then
-        TZ=UTC printf -v now "%(%F_%H%M%S)T" -1
-        mv  $OTOBO_HOME/var/article  $OTOBO_HOME/var/article_$now
-    fi
-    mv $dir_otobo_update/var/article $OTOBO_HOME/var/article
-
-    # locally installed Perl modules may be installed in local
-    mkdir --parent $OTOBO_HOME/Kernel/local
-    cp --archive $dir_otobo_update/local/* $OTOBO_HOME/Kernel/local
-
-    # copy the hidden file .bash_history purely for the convenience of having the history available
-    cp --archive $dir_otobo_update/.bash_history $OTOBO_HOME
-
-    # copy installed stats
-    mkdir --parent $OTOBO_HOME/Kernel/var/stats
-    cp $dir_otobo_update/var/stats/*.installed $OTOBO_HOME/var/stats
-}
-
 function do_update_tasks() {
 
     # Reinstall packages, rebuild config, purge the cache and the cached loader files.
     # Note that this works only if OTOBO has been properly configured,
     # because some commands need access to the database.
     {
-        echo "started $FUNCNAME()"
+        echo "started do_update_tasks()"
         date
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
@@ -228,9 +198,9 @@ function do_update_tasks() {
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
         ($OTOBO_HOME/bin/otobo.Console.pl Maint::Loader::CacheCleanup 2>&1)
         date
-        echo "finished $FUNCNAME()"
+        echo "finished do_update_tasks()"
         echo
-    } >> $g_update_log
+    } >> $update_log
 }
 
 print_error() {
@@ -252,7 +222,7 @@ fi
 if [ "$1" = "" ]; then
     cat <<END_HELP
 This script is meant to be used as a Docker entrypoint script.
-Supported arguments are: 'daemon', 'web', 'clean_slate, 'copy_otobo_next', 'copy_otobo_update', and 'do_update_tasks'.
+Supported arguments are: 'daemon', 'web', 'copy_otobo_next', 'do_update_tasks'.
 When no argument is passed, then this message is printed.
 Any other argument list will be executed as a system command.
 END_HELP
@@ -268,7 +238,7 @@ if [ "$1" = "daemon" ]; then
     if ! mountpoint -q "/opt/otobo"; then
 
         # There is no locking as we no other container can meddle with /opt/otobo.
-        if [ -f "$g_dir_otobo_next/docker_firsttime" ]; then
+        if [ -f "$otobo_next/docker_firsttime" ]; then
             handle_docker_firsttime
         fi
     fi
@@ -279,12 +249,12 @@ if [ "$1" = "daemon" ]; then
     exit $?
 fi
 
-# Start the web server
+# Start the webserver
 if [ "$1" = "web" ]; then
 
     # First check whether the container is started with a new image.
     # There is no locking as we assume that there aren't multiple containers trying to the same.
-    if [ -f "$g_dir_otobo_next/docker_firsttime" ]; then
+    if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
 
@@ -292,24 +262,16 @@ if [ "$1" = "web" ]; then
     exec_web "${2:-deployment}"
 fi
 
-# Handle the functions that constitute the external interface.
-if [[
-    $1 = "clean_slate"
-    ||
-    $1 = "copy_otobo_next"
-    ||
-    $1 = "copy_otobo_update"
-    ||
-    $1 = "do_update_tasks"
-]];
-then
+# copy /opt/otobo_install/otobo_next without checking docker_firsttime
+if [ "$1" = "copy_otobo_next" ]; then
+    copy_otobo_next
 
-    # additional parameters are passed to the called function
-    g_function="$1"
-    shift
-    echo "calling $g_function"
-    $g_function $@
-    echo "finished $g_function"
+    exit $?
+fi
+
+# update
+if [ "$1" = "do_update_tasks" ]; then
+    do_update_tasks
 
     exit $?
 fi
