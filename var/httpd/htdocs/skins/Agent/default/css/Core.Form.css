@@ -1211,7 +1211,18 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .OptionCustomerUserAddressBook {
         align-self: center;
-        margin: 0;
+    }
+
+    fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
+    fieldset.ModularForm .CcCustomerContainer .CustomerTicketText, 
+    fieldset.ModularForm .BccCustomerContainer .CustomerTicketText {
+        width: calc(100% - 70px);
+    }
+
+    fieldset.ModularForm input[type=checkbox] {
+        height: var(--checkbox-size);
+        width: var(--checkbox-size);
+        margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
     }
 
     fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
