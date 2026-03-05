@@ -526,14 +526,29 @@ Core.AJAX = (function (TargetNS) {
             // both hidden and visible input element need to be set
             var $ReferenceElement = $Element.parent().find('.DynamicFieldReference');
             if ( $ReferenceElement.length ) {
-                if ( typeof DataValue == 'object' && DataValue[0] ) {
-                    $Element.val( DataValue[0][0] );
-                    $ReferenceElement.val( DataValue[0][1] );
+
+                // data in a value element consists of:
+                //  0. Key
+                //  1. Value
+                //  2. DefaultSelected
+                //  3. Selected
+                //  4. Disabled
+                let ValueID = '',
+                    ValueDisplay = '';
+                if ( typeof DataValue == 'object' ) {
+
+                    // determine selected value - only one value is expected to be selected
+                    let FilterSelected = DataValue.filter( (Value) => Value[3] == 1 );
+
+                    if ( typeof FilterSelected == 'object' && typeof FilterSelected[0] == 'object' ) {
+                        ValueID = FilterSelected[0][0];
+                        ValueDisplay = FilterSelected[0][1];
+                    }
                 }
-                else {
-                    $Element.val( '' );
-                    $ReferenceElement.val( '' );
-                }
+
+                $Element.val(ValueID);
+                $ReferenceElement.val(ValueDisplay);
+
                 return;
             }
 
