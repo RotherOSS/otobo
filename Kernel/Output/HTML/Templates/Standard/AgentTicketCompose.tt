@@ -55,10 +55,13 @@
                 <fieldset class="ModularForm FixedLabel">
 
 [% RenderBlockStart("AsteriskExplanation") %]
-                    <div class="Field">
-                        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                    <div class="Row">
+                        <div class="FieldCell">
+                            <div class="Field">
+                                <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="Clear"></div>
 [% RenderBlockEnd("AsteriskExplanation") %]
 
                     <div class="Row">
@@ -67,7 +70,6 @@
                             <div class="Field">
                                 [% Data.From | html %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -93,7 +95,6 @@
                                 </a>
                             [% END %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -158,7 +159,6 @@
                                 <input name="CustomerTicketCounterToCustomer" id="CustomerTicketCounterToCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
 [% RenderBlockEnd("MultipleCustomerCounter") %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -181,7 +181,6 @@
                                 </a>
                             [% END %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -246,7 +245,6 @@
                                 <input name="CustomerTicketCounterCcCustomer" id="CustomerTicketCounterCcCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
 [% RenderBlockEnd("CcMultipleCustomerCounter") %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -268,7 +266,6 @@
                                 </a>
 [% END %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -333,7 +330,6 @@
                                 <input name="CustomerTicketCounterBccCustomer" id="CustomerTicketCounterBccCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
 [% RenderBlockEnd("BccMultipleCustomerCounter") %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -345,7 +341,6 @@
                                 <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -360,7 +355,6 @@
                                     <p class="FieldExplanation">[% Translate(Data.FieldExplanation) | html %]</p>
                                 [% END %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 [% RenderBlockEnd("Option") %]
@@ -375,7 +369,6 @@
 <!-- OutputFilterHook_TicketOptionsEnd -->
 
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 [% RenderBlockEnd("TicketOptions") %]
@@ -390,7 +383,6 @@
                                 <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -400,7 +392,6 @@
                             <div class="Field">
 [% INCLUDE "FormElements/AttachmentList.tt" %]
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -410,7 +401,6 @@
                             <div class="Field">
                                 [% Data.NextStatesStrg %]
                             </div>
-                            <div class="Clear"></div>
 
                             <label>[% Translate("Pending date") | html %]:</label>
                             <div class="Field">
@@ -419,7 +409,6 @@
                                 <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
                                 <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 
@@ -430,7 +419,6 @@
                             <div class="Field">
                                 <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked[% END %]>
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 [% RenderBlockEnd("IsVisibleForCustomer") %]
@@ -453,7 +441,6 @@
                                 <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
                                 <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
-                            <div class="Clear"></div>
                         </div>
                     </div>
 [% RenderBlockEnd("TimeUnits") %]
