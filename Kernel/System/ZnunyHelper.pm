@@ -23,9 +23,9 @@ use strict;
 use warnings;
 
 # core modules
-use List::AllUtils qw(none);
 
 # CPAN modules
+use List::AllUtils qw(none);
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
