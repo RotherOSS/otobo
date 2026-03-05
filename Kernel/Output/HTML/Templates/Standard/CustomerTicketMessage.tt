@@ -15,7 +15,7 @@
 # --
 <div id="oooContent" class="ARIARoleMain TicketCompose">
     <div id="oooHeader">
-        <h1>[% Translate("Issue a new Ticket") | html %]</h1>
+        <h1>[% Translate("Create a new Ticket") | html %]</h1>
     </div>
     <div id="oooMainBox" class="Content">
         <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="NewCustomerTicket" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
