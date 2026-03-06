@@ -166,36 +166,6 @@ function copy_otobo_next() {
     touch $OTOBO_HOME/.copy_otobo_next_finished
 }
 
-# rescue files from the prev installation to the new installation
-#
-# The first argument is the backup dir, usually with a timestamp in the path
-function copy_otobo_update {
-    local dir_otobo_update="$1"
-
-    # Kernel/Config.pm contains installation specific configuration
-    mkdir --parent $OTOBO_HOME/Kernel
-    cp --archive $dir_otobo_update/Kernel/Config.pm $OTOBO_HOME/Kernel
-
-    # Articles and attachments might be stored in var/article. This directory
-    # might be large. Therefor that directory is not part of the
-    # backup, is kept in /opt/otobo/var/article
-
-    # locally installed Perl modules may be installed in local
-    mkdir --parent $OTOBO_HOME/local
-    if [ "$(ls $dir_otobo_update/local/*)" ]; then
-        cp --archive $dir_otobo_update/local/* $OTOBO_HOME/local
-    fi
-
-    # copy the hidden file .bash_history purely for the convenience of having the history available
-    cp --archive $dir_otobo_update/.bash_history $OTOBO_HOME
-
-    # copy installed stats
-    mkdir --parent $OTOBO_HOME/var/stats
-    if [ "$(ls $dir_otobo_update/var/stats/*.installed)" ]; then
-        cp $dir_otobo_update/var/stats/*.installed $OTOBO_HOME/var/stats
-    fi
-}
-
 function do_update_tasks() {
 
     # Reinstall packages, rebuild config, purge the cache and the cached loader files.
