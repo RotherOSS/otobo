@@ -50,7 +50,7 @@ my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldR
 my $ACLObject                 = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
 # Test User
-my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
+my ( undef, $TestUserID ) = $Helper->TestUserCreate(
     Groups => ['users'],
 );
 
@@ -97,19 +97,28 @@ subtest '[Prepare] Set all previous ACLs to invalid' => sub {
         UserID   => 1,
     );
 
-    ok(defined $ACLList, 'Got list of existing valid ACLs');
+    ok( defined $ACLList, 'Got list of existing valid ACLs' );
 
     for my $Item ( sort keys %{$ACLList} ) {
 
-        my $Result = $ACLObject->ACLUpdate(
-            ID   => $Item,
-            Name => $ACLList->{$Item},
+        my $ACL = $ACLObject->ACLGet(
+            ID     => $Item,
+            UserID => 1,
+        );
 
+        my $Result = $ACLObject->ACLUpdate(
+            $ACL->%*,
             ValidID => 2,
             UserID  => 1,
         );
-        ok($Result, 'Set ACL to tmp. invalid OK');
-    }    
+        ok( $Result, 'Set ACL to tmp. invalid OK' );
+
+        my $UpdatedACL = $ACLObject->ACLGet(
+            ID     => $Item,
+            UserID => 1,
+        );
+        is( $UpdatedACL->{ValidID}, 2, 'Checked if ACL is invalid' );
+    }
 };
 
 subtest '[Prepare] Create Dynamic Fields for Test' => sub {
@@ -304,6 +313,7 @@ subtest '[Prepare] Create Test Tickets' => sub {
         ObjectID           => $FirstTicketID,
         UserID             => 1,
     );
+    ok( $Success, "Value for dynamic field UnitTestDropDownField1$RandomID has been set correctly" );
 
     # second ticket without values for dynamic fields
     my $SecondTicketID = $TicketObject->TicketCreate(
