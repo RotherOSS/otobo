@@ -135,25 +135,13 @@ function exec_web() {
     fi
 }
 
-# move the content of /opt/otobo to a backup dir
-#
-# The first argument is the backup dir, usually with a timestamp in the path
-function clean_slate() {
-    local dir_otobo_update="$1"
-
-    mkdir $dir_otobo_update
-
-    # the hidden files and dirs are also moved
-    mv $OTOBO_HOME/.* $OTOBO_HOME/* $dir_otobo_update
-}
-
 # Copy /opt/otobo_install/otobo_next without checking the flag file 'docker_firsttime'.
 # Files that had been added in the previous /opt/otobo are not discarded.
 function copy_otobo_next() {
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted. But note that the target directory
-    # is usually empty.
+    # is usually empty except var/article.
     # File attributes are preserved.
     # Copying $g_dir_otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
     cp --archive $g_dir_otobo_next/. $OTOBO_HOME
@@ -252,7 +240,7 @@ fi
 if [ "$1" = "" ]; then
     cat <<END_HELP
 This script is meant to be used as a Docker entrypoint script.
-Supported arguments are: 'daemon', 'web', 'clean_slate, 'copy_otobo_next', 'copy_otobo_update', and 'do_update_tasks'.
+Supported arguments are: 'daemon', 'web', 'copy_otobo_next', 'copy_otobo_update', and 'do_update_tasks'.
 When no argument is passed, then this message is printed.
 Any other argument list will be executed as a system command.
 END_HELP
@@ -294,8 +282,6 @@ fi
 
 # Handle the functions that constitute the external interface.
 if [[
-    $1 = "clean_slate"
-    ||
     $1 = "copy_otobo_next"
     ||
     $1 = "copy_otobo_update"
