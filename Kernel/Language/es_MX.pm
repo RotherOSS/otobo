@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.918963205720244;
+    $Self->{Completeness}        = 0.918826333035448;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1986,9 +1986,7 @@ sub Data {
             'Si un ticket está cerrado y el cliente le da seguimiento, el ticket se bloqueará para el antigüo propietario.',
         'System address' => 'Dirección del Sistema',
         'Will be the sender address of this queue for email answers.' => 'Será la dirección del emisor en esta fila para respuestas por correo.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Llave de firma por defecto',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Para utilizar una clave de firma, es necesario añadir claves PGP o certificados S/MIME con identificadores para la dirección del sistema de colas seleccionado.',
@@ -1996,9 +1994,9 @@ sub Data {
         'The salutation for email answers.' => 'Saludo para respuestas por correo.',
         'Signature' => 'Firma',
         'The signature for email answers.' => 'Firma para respuestas por correo.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Esta cola se utiliza en los siguientes ajustes de configuración:',
 
@@ -2336,6 +2334,8 @@ sub Data {
         'This email address is already used as system email address.' => 'Esta dirección de correo electrónico ya se utiliza como dirección de correo electrónico del sistema.',
         'The display name and email address will be shown on mail you send.' =>
             'El nombre a mostrar y la dirección de correo electrónico se agregarán en los correos que ud. envíe.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'Esta dirección del sistema no se puede establecer como inválida.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'Esta dirección del sistema no puede establecerse como no válida, porque se utiliza en una o más colas o respuestas automáticas.',
@@ -9840,6 +9840,8 @@ Su equipo de asistencia técnica
             'El texto para anteponer al asunto cuando un correo electrónico se reenvía, por ejemplo: FW, Fwd, o WG.',
         'The value of the From field' => 'El valor del campo De',
         'Theme' => 'Tema',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             'Esta configuración define todas las pantallas posibles para activar o desactivar las columnas por defecto.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

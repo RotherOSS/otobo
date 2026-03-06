@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.8505884105467;
+    $Self->{Completeness}        = 0.850461721775395;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1986,9 +1986,7 @@ sub Data {
             'Ако је тикет затворен, а клијент пошаље наставак, тикет ће бити закључан на старог власника.',
         'System address' => 'Системска адреса',
         'Will be the sender address of this queue for email answers.' => 'Биће адреса пошиљаоца за имејл одговоре из овог реда.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Подразумевани кључ потписа',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'За коришћење својства потписивања, PGP кључеви или S/MIME сертификати идентитета морају бити додати за системску адресу одабраног реда.',
@@ -1996,9 +1994,9 @@ sub Data {
         'The salutation for email answers.' => 'Поздрав за имејл одговоре.',
         'Signature' => 'Потпис',
         'The signature for email answers.' => 'Потпис за имејл одговоре.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Овај ред се користи у следећим системским подешавањима:',
 
@@ -2336,6 +2334,8 @@ sub Data {
         'This email address is already used as system email address.' => 'Ова имејл адреса је већ употребљена као системска имејл адреса.',
         'The display name and email address will be shown on mail you send.' =>
             'Приказано име и имејл адреса ће бити приказани на поруци коју сте послали.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'Ова системска адреса се не може означити као неважећа.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'Ова системска адреса се не може означити као неважећа јер се користи у једном или више аутоматских одговора.',
@@ -9840,6 +9840,8 @@ Thanks for your help!
             'Текст на почетку предмета када се имејл прослеђује, нпр. FW, Fwd, или WG.',
         'The value of the From field' => 'Вредност From поља',
         'Theme' => 'Тема',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

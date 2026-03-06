@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.138537166691494;
+    $Self->{Completeness}        = 0.138516532618409;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1985,9 +1985,7 @@ sub Data {
             '',
         'System address' => '',
         'Will be the sender address of this queue for email answers.' => 'Sẽ là địa chỉ người gửi của hàng đợi này cho các email trả lời.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => '',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1995,9 +1993,9 @@ sub Data {
         'The salutation for email answers.' => 'Lời chào cho các email trả lời.',
         'Signature' => 'Chữ ký',
         'The signature for email answers.' => 'Chữ ký cho các email trả lời.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -2334,6 +2332,8 @@ sub Data {
         'Display name' => '',
         'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
+            '',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
             '',
         'This system address cannot be set to invalid.' => '',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
@@ -9828,6 +9828,8 @@ Thanks for your help!
             '',
         'The value of the From field' => '',
         'Theme' => 'Chủ đề',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

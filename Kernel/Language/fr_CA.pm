@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.300312825860271;
+    $Self->{Completeness}        = 0.300268096514745;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1993,9 +1993,7 @@ sub Data {
             'Si un client fait un suivi sur une demande fermée, cette dernière se verrouillera systématiquement au nom de l\'ancien propriétaire.',
         'System address' => 'Adresse système ',
         'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expédition des réponses par courriel de cette file.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Clé de signature par défaut',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -2003,9 +2001,9 @@ sub Data {
         'The salutation for email answers.' => 'La formule de salutation pour les réponses par courriel.',
         'Signature' => 'Signature ',
         'The signature for email answers.' => 'La signature des réponses par courriel.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '',
 
@@ -2343,6 +2341,8 @@ sub Data {
         'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
             'Les courriels que vous envoyez afficheront l\'adresse électronique et le nom inscrits.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => '',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
@@ -9836,6 +9836,8 @@ Thanks for your help!
             'Le texte affiché en début de sujet lorsqu\'un courriel est transféré, p. ex. : Tr.',
         'The value of the From field' => '',
         'Theme' => 'Thème ',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

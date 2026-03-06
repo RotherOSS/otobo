@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843140175778341;
+    $Self->{Completeness}        = 0.843014596365803;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1988,9 +1988,7 @@ sub Data {
             'إذا تم إغلاق تذكرة وأرسل العميل ردا، فسيتم قفل التذكرة للمالك القديم.',
         'System address' => 'عنوان النظام',
         'Will be the sender address of this queue for email answers.' => 'عنوان المرسل لرسائل البريد الإلكتروني من قائمة الانتظار هذه.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'مفتاح التوقيع الافتراضي',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'لاستخدام مفتاح توقيع، يجب إضافة مفاتيح PGP أو شهادات S / MIME مع معرفات لعنوان النظام المحدد إلى قائمة الانتظار.',
@@ -1998,9 +1996,9 @@ sub Data {
         'The salutation for email answers.' => 'التحية لردود البريد الإلكتروني.',
         'Signature' => 'التوقيع',
         'The signature for email answers.' => 'التوقيع لردود البريد الإلكتروني.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'يتم استخدام قائمة الانتظار هذه في إعدادات التكوين التالية:',
 
@@ -2338,6 +2336,8 @@ sub Data {
         'This email address is already used as system email address.' => 'عنوان البريد الإلكتروني هذا مستخدم بالفعل كعنوان بريد إلكتروني للنظام.',
         'The display name and email address will be shown on mail you send.' =>
             'يتم استخدام اسم العرض وعنوان البريد الإلكتروني لرسائل البريد الإلكتروني المرسلة.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'لا يمكن تعيين عنوان النظام هذا إلى غير صالح.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'لا يمكن تعيين عنوان النظام إلى غير صالح لأنه يستخدم في قائمة انتظار واحدة أو أكثر أو الردود التلقائية.',
@@ -9842,6 +9842,8 @@ Thanks for your help!
             '',
         'The value of the From field' => '',
         'Theme' => 'الثيم',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

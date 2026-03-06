@@ -209,6 +209,9 @@
                             <div id="QueueIDServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
+                            <p class="FieldExplanation">
+                                [% Translate("Only relevant if the postmaster mail account is set to dispatching by To-field.") | html %]
+                            </p>
                         </div>
                         <div class="Clear"></div>
 

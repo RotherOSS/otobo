@@ -353,9 +353,6 @@
                             <p class="FieldExplanation">
                                 [% Translate("Is defined in Admin > Email Addresses.") | html %]
                             </p>
-                            <p class="FieldExplanation">
-                                [% Translate("Only relevant if Postmaster Mail Account set to dispatching by To-field.") | html %]
-                            </p>
                             <div id="SystemAddressIDError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>

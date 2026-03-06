@@ -27,9 +27,9 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::Base);
 
 # core modules
-use List::AllUtils qw(any last_index);
 
 # CPAN modules
+use List::AllUtils qw(any last_index);
 
 # OTOBO modules
 use Kernel::Language              qw(Translatable);

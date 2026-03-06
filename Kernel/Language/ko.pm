@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.820199612691792;
+    $Self->{Completeness}        = 0.82007745010426;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1986,9 +1986,7 @@ sub Data {
             '티켓이 닫히고 고객이 후속 조치를 보내면 티켓이 이전 소유자에게 고정됩니다.',
         'System address' => '시스템 주소',
         'Will be the sender address of this queue for email answers.' => '전자 메일 응답을 위한 이 큐의 보낸사람 주소가 됩니다.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => '기본 기호 키',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1996,9 +1994,9 @@ sub Data {
         'The salutation for email answers.' => '이메일 답변에 대한 인사말.',
         'Signature' => '서명',
         'The signature for email answers.' => '이메일 답변을 위한 서명.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => '이 대기열은 다음 구성 설정에서 사용됩니다.',
 
@@ -2336,6 +2334,8 @@ sub Data {
         'This email address is already used as system email address.' => '이 전자 메일 주소는 이미 시스템 전자 메일 주소로 사용됩니다.',
         'The display name and email address will be shown on mail you send.' =>
             '표시 이름과 이메일 주소가 보내는 메일에 표시됩니다.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => '',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
@@ -9840,6 +9840,8 @@ Thanks for your help!
             '이메일이 전달 될 때 제목의 시작 부분에있는 텍스트입니다 예 : FW, FWD 또는 WG.',
         'The value of the From field' => '',
         'Theme' => '테마',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>

@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.8505884105467;
+    $Self->{Completeness}        = 0.850461721775395;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1992,9 +1992,7 @@ sub Data {
             'Ako je tiket zatvoren, a klijent pošalje nastavak, tiket će biti zaključan na starog vlasnika.',
         'System address' => 'Sistemska adresa',
         'Will be the sender address of this queue for email answers.' => 'Biće adresa pošiljaoca za imejl odgovore iz ovog reda.',
-        'Is defined in Admin > System addresses.' => '',
-        'Only relevant if Postmaster Mail Account set to Dispatching by To: field.' =>
-            '',
+        'Is defined in Admin > Email Addresses.' => '',
         'Default sign key' => 'Podrazumevani ključ potpisa',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             'Za korišćenje svojstva potpisivanja, PGP ključevi ili S/MIME sertifikati identiteta moraju biti dodati za sistemsku adresu odabranog reda.',
@@ -2002,9 +2000,9 @@ sub Data {
         'The salutation for email answers.' => 'Pozdrav za imejl odgovore.',
         'Signature' => 'Potpis',
         'The signature for email answers.' => 'Potpis za imejl odgovore.',
-        'The business calendar for Unlock Time and the Escalation Times. No selection means the Default calendard' =>
+        'The business calendar for unlock time and the escalation times. No selection means that the default calendar is used.' =>
             '',
-        'Is defined in Admin > SystemConfiguration > Core > Time (Default Calendar = no selection) or in Calendars 1 through 9.' =>
+        'Is defined in Admin > SystemConfiguration > Core > Time (default calendar) or in calendars 1 through 9.' =>
             '',
         'This queue is used in the following config settings:' => 'Ovaj red se koristi u sledećim sistemskim podešavanjima:',
 
@@ -2342,6 +2340,8 @@ sub Data {
         'This email address is already used as system email address.' => 'Ova imejl adresa je već upotrebljena kao sistemska imejl adresa.',
         'The display name and email address will be shown on mail you send.' =>
             'Prikazano ime i imejl adresa će biti prikazani na poruci koju ste poslali.',
+        'Only relevant if the postmaster mail account is set to dispatching by To-field.' =>
+            '',
         'This system address cannot be set to invalid.' => 'Ova sistemska adresa se ne može označiti kao nevažeća.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             'Ova sistemska adresa se ne može označiti kao nevažeća jer se koristi u jednom ili više automatskih odgovora.',
@@ -9846,6 +9846,8 @@ Vaša tehnička podrška
             'Tekst na početku predmeta kada se imejl prosleđuje, npr. FW, Fwd, ili WG.',
         'The value of the From field' => 'Vrednost From polja',
         'Theme' => 'Tema',
+        'These attributes are passed when connecting to the database. A common use case is a connection which is secured by TLS.' =>
+            '',
         'This configuration defines all possible screens to enable or disable default columns.' =>
             '',
         'This configuration defines all possible screens to enable or disable dynamic fields.' =>
