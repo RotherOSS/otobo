@@ -186,15 +186,19 @@ function copy_otobo_update {
     # backup, is kept in /opt/otobo/var/article
 
     # locally installed Perl modules may be installed in local
-    mkdir --parent $OTOBO_HOME/Kernel/local
-    cp --archive $dir_otobo_update/local/* $OTOBO_HOME/Kernel/local
+    mkdir --parent $OTOBO_HOME/local
+    if [ "$(ls $dir_otobo_update/local/*)" ]; then
+        cp --archive $dir_otobo_update/local/* $OTOBO_HOME/local
+    fi
 
     # copy the hidden file .bash_history purely for the convenience of having the history available
     cp --archive $dir_otobo_update/.bash_history $OTOBO_HOME
 
     # copy installed stats
-    mkdir --parent $OTOBO_HOME/Kernel/var/stats
-    cp $dir_otobo_update/var/stats/*.installed $OTOBO_HOME/var/stats
+    mkdir --parent $OTOBO_HOME/var/stats
+    if [ "$(ls $dir_otobo_update/var/stats/*.installed)" ]; then
+        cp $dir_otobo_update/var/stats/*.installed $OTOBO_HOME/var/stats
+    fi
 }
 
 function do_update_tasks() {
