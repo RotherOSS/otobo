@@ -182,13 +182,8 @@ function copy_otobo_update {
     cp --archive $dir_otobo_update/Kernel/Config.pm $OTOBO_HOME/Kernel
 
     # Articles and attachments might be stored in var/article. This directory
-    # might be large. Therefore we don't copy it back, instead we move it back
-    # to its previous location.
-    if [ -e $OTOBO_HOME/var/article ]; then
-        TZ=UTC printf -v now "%(%F_%H%M%S)T" -1
-        mv  $OTOBO_HOME/var/article  $OTOBO_HOME/var/article_$now
-    fi
-    mv $dir_otobo_update/var/article $OTOBO_HOME/var/article
+    # might be large. Therefor that directory is not part of the
+    # backup, is kept in /opt/otobo/var/article
 
     # locally installed Perl modules may be installed in local
     mkdir --parent $OTOBO_HOME/Kernel/local
