@@ -248,8 +248,6 @@ fi
 if [[
     $1 = "copy_otobo_next"
     ||
-    $1 = "copy_otobo_update"
-    ||
     $1 = "do_update_tasks"
 ]];
 then
