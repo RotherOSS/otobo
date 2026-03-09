@@ -256,6 +256,9 @@ sub GetFieldStates {
         next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
+        # sets handle visibility for their inner DFs themselves
+        next DYNAMICFIELD if ( $DynamicFieldConfig->{Config}->{PartOfSet} );
+
         my $DFName         = $DynamicFieldConfig->{Name};
         my $IsACLReducible = $Param{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -265,13 +268,23 @@ sub GetFieldStates {
         # 1. handle hidden fields
         if ( %Visibility && $Visibility{"DynamicField_$DFName"} == 0 ) {
 
-            next DYNAMICFIELD if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 );
+            next DYNAMICFIELD
+                if (
+                    $CachedVisibility &&
+                    (
+                        !defined $CachedVisibility->{"DynamicField_$DFName"}
+                        ||
+                        $CachedVisibility->{"DynamicField_$DFName"} == 0
+                    )
+                );
 
             # values of visible fields turning invisible are deleted or set to values of ticket data if present
             my $UpdateRequired = !defined $DFParam->{"DynamicField_$DFName"} ? 0 :
-                ref( $DFParam->{"DynamicField_$DFName"} ) ?
-                    ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 ) :
-                    $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
+                ref( $DFParam->{"DynamicField_$DFName"} )
+                ?
+                ( IsArrayRefWithData( $DFParam->{"DynamicField_$DFName"} ) ? 1 : 0 )
+                :
+                $DFParam->{"DynamicField_$DFName"} =~ m/^-?$/ ? 0 : 1;
 
             my %TicketData;
             if ( $Param{TicketID} ) {
@@ -341,6 +354,75 @@ sub GetFieldStates {
                 FieldRestrictionsObject => $Self,
             );
 
+            # check changed visibility for Sets
+            if ( $DynamicFieldConfig->{FieldType} eq 'Set' ) {
+
+                my $SetDFName = 'DynamicField_' . $DynamicFieldConfig->{Name};
+
+                %Visibility = (
+                    %Visibility,
+                    $Content{Visibility}->%*,
+                );
+
+                my $DFIncludes = $Param{DynamicFields}->{ $DynamicFieldConfig->{Name} }->{Config}->{Include};
+
+                my %TicketData;
+                if ( $Param{TicketID} ) {
+                    %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+                        TicketID      => $Param{TicketID},
+                        UserID        => $Param{UserID},
+                        DynamicFields => 1,
+                    );
+
+                    VIS:
+                    for my $Vis ( keys $Content{Visibility}->%* ) {
+
+                        next VIS if ( $Vis =~ /_[0-9]+$/ );
+                        next VIS if ( $Visibility{$Vis} == 0 );
+
+                        # has this visibility changed ?
+                        if (
+                            !exists $CachedVisibility->{$Vis} ||
+                            $CachedVisibility->{$Vis} != $Visibility{$Vis}
+                            )
+                        {
+                            my $ShortDFName = $Vis;
+                            $ShortDFName =~ s/^DynamicField_//;
+                            $ShortDFName =~ s/_.*$//;
+
+                            # does this visibility belong to our current Set?
+                            my $IsPartOfThisSet = scalar grep { $_->{DF} eq $ShortDFName; } $DFIncludes->@*;
+                            next VIS if ( !$IsPartOfThisSet );
+
+                            # restore data for reappearing values
+                            my $SetDatas = $TicketData{$SetDFName};
+
+                            for my $Index ( 0 .. $SetDatas->$#* ) {
+
+                                # for hidden fields take old value from TicketData
+                                my $DataHash = $TicketData{$SetDFName}->[$Index];
+
+                                for my $InnerDFName ( keys $DataHash->%* ) {
+
+                                    if ( $InnerDFName eq $ShortDFName ) {
+
+                                        my $InnerDFValue = $DataHash->{$InnerDFName};
+                                        if ( ref $InnerDFValue eq 'ARRAY' ) {
+                                            $InnerDFValue = $InnerDFValue->[0];
+                                        }
+
+                                        $Sets{$SetDFName}{Values}{ $InnerDFName . '_' . $Index }                      = $InnerDFValue;
+                                        $Sets{$SetDFName}{DynamicFieldConfig}                                         = $DynamicFieldConfig;
+                                        $Sets{$SetDFName}{FieldStates}{ $InnerDFName . '_' . $Index }{Visibility}     = 1;
+                                        $Sets{$SetDFName}{FieldStates}{ $InnerDFName . '_' . $Index }{PossibleValues} = $InnerDFValue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             # check if autoselection is activated and field changed in any way
             if ( $Content{PossibleValues} && $Param{Autoselect} && $Param{Autoselect}{DynamicField}{$DFName} ) {
 
@@ -389,7 +471,16 @@ sub GetFieldStates {
         if ( !$IsACLReducible ) {
 
             # ...but set actual or default values of reappearing fields first
-            if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DFName"} == 0 ) {
+            if (
+                $CachedVisibility
+                &&
+                (
+                    !defined $CachedVisibility->{"DynamicField_$DFName"}
+                    ||
+                    $CachedVisibility->{"DynamicField_$DFName"} == 0
+                )
+                )
+            {
                 if ( $Param{TicketID} ) {
                     my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
                         TicketID      => $Param{TicketID},

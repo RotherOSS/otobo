@@ -39,6 +39,8 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::Output::HTML::DynamicField::Mask',
     'Kernel::System::Log',
+    'Kernel::System::Cache',
+    'Kernel::System::Ticket',
 );
 
 =head1 NAME
@@ -286,6 +288,15 @@ sub EditFieldRender {
 
     # pass visibility state of set to inner fields
     my %Visibility = map { ( "DynamicField_$_" => 1 ) } keys $DynamicField->%*;
+
+    # fields like Set might pass in their own Visibility
+    if ( IsHashRefWithData( $Param{Visibility} ) ) {
+        %Visibility = (
+            %Visibility,
+            $Param{Visibility}->%*
+        );
+    }
+
     if ( $Param{ACLHidden} ) {
         for my $Key ( keys %Visibility ) {
             $Visibility{$Key} = 0;
@@ -295,7 +306,7 @@ sub EditFieldRender {
     for my $SetIndex ( 0 .. $#SetValue ) {
         my %Value;
         for my $Name ( sort keys $DynamicField->%* ) {
-            $Value{"DynamicField_$Name"}          = $SetValue[$SetIndex]{$Name};
+            $Value{"DynamicField_$Name"}          = $Visibility{"DynamicField_$Name"} ? $SetValue[$SetIndex]{$Name} : "";
             $DynamicField->{$Name}{Name}          = $Name . ( $Param{DynamicFieldConfig}{ProcessSuffix} // '' ) . '_' . $SetIndex;
             $DynamicField->{$Name}{ProcessSuffix} = $Param{DynamicFieldConfig}{ProcessSuffix};
         }
@@ -323,6 +334,7 @@ sub EditFieldRender {
             Data         => {
                 Name             => $Param{DynamicFieldConfig}->{Name},
                 Index            => $SetIndex,
+                OriginIndex      => $SetIndex,
                 DynamicFieldHTML => $DynamicFieldHTML,
             },
         );
@@ -352,6 +364,7 @@ sub EditFieldRender {
 
             # can be set by preceding GetFieldState()
             PossibleValuesFilter => $Self->{PossibleValuesFilter}{ $Param{DynamicFieldConfig}->{Name} }[ $#SetValue + 1 ] // {},
+            Visibility           => \%Visibility,
             Object               => $Param{Object},
         );
 
@@ -360,6 +373,7 @@ sub EditFieldRender {
             Data         => {
                 Name             => $Param{DynamicFieldConfig}->{Name},
                 Index            => 'Template',
+                OriginIndex      => -1,
                 DynamicFieldHTML => $DynamicFieldHTML,
             },
         );
@@ -446,6 +460,98 @@ sub EditFieldValueGet {
 
         return if !@SetData;
         $Value = \@SetData;
+
+        # Check DF Form Visibility, if possible
+
+        my $TicketID = $Param{ParamObject}->GetParam( Param => 'TicketID' );
+        my $FormID   = $Param{ParamObject}->GetParam( Param => 'FormID' );
+
+        if ($FormID) {
+
+            # get visibility from cache
+            my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+            my $Visibility  = $CacheObject->{CacheObject}->Get(
+                Type => 'HiddenFields',
+                Key  => $FormID,
+            );
+
+            # check if any of our SET inner fields are hidden
+            my @HiddenFields;
+            for my $DFName ( keys $DynamicField->%* ) {
+
+                my $Fullname = "DynamicField_$DFName";
+                if ( exists $Visibility->{$Fullname} && $Visibility->{$Fullname} == 0 ) {
+
+                    push @HiddenFields, $DFName;
+                }
+            }
+
+            # do this only if we have hidden fields at all
+            if ( scalar @HiddenFields ) {
+
+                my $IndexMax = $Param{DynamicFieldConfig}{Config}{MultiValue} ? $DataAll[-2] // 0 : 0;
+
+                # gather OriginSetIndex values
+                # to detect if we had delete/append operations
+                my @OriginSetIndex = $Param{ParamObject}->GetArray(
+                    Param => 'OriginSetIndex_' . $Param{DynamicFieldConfig}->{Name},
+                );
+
+                my %Ticket;
+                if ($TicketID) {
+
+                    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+                    %Ticket = $TicketObject->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 1,
+                    );
+                }
+
+                for my $HiddenField (@HiddenFields) {
+
+                    for my $Index ( 0 .. $IndexMax ) {
+
+                        my $OriginIndex = $OriginSetIndex[$Index];
+
+                        if ( $OriginIndex == $Index ) {
+
+                            # index is still at original position,
+                            # no delete/append happend
+                            # but since the field is hidden,
+                            # replace the incoming value
+                            # with the value from DB, or with empty
+                            # value for new Tickets
+                            if ($TicketID) {
+                                $Value->[$Index]->{$HiddenField} = $Ticket{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} }->[$Index]->{$HiddenField};
+                            }
+                            else {
+                                $Value->[$Index]->{$HiddenField} = undef;
+                            }
+                        }
+                        elsif ( $OriginIndex == -1 ) {
+
+                            # index did not exist initially,
+                            # value is result of append,
+                            # make sure hidden field gets empty value
+                            $Value->[$Index]->{$HiddenField} = undef;
+                        }
+                        else {
+                            # index has moved due to delete/append
+                            # so replace incoming value with the
+                            # value from DB at the *original* index
+                            # or with empty value for new Tickets
+                            if ($TicketID) {
+                                $Value->[$Index]->{$HiddenField} = $Ticket{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} }->[$OriginIndex]->{$HiddenField};
+                            }
+                            else {
+                                $Value->[$Index]->{$HiddenField} = undef;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
@@ -873,9 +979,8 @@ sub GetFieldState {
                 %DFParam,
                 DynamicField => \%DFParam,
             },
-            LoopProtection     => \$LoopProtection,
-            PossibleValuesOnly => 1,
-            SetIndex           => $SetIndex,
+            LoopProtection => \$LoopProtection,
+            SetIndex       => $SetIndex,
         );
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
@@ -884,7 +989,7 @@ sub GetFieldState {
 
             # prepare the return used by the frontend modules for AJAX updates
             $Return{Sets}{$Name}{DynamicFieldConfig}                             = $DynamicField->{$Name};
-            $Return{Sets}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name};
+            $Return{Sets}{$Name}{FieldStates}{ $SuffixedName . '_' . $SetIndex } = $SetFieldStates{Fields}{$Name} // {};
             $Return{Sets}{$Name}{Values}{ $SuffixedName . '_' . $SetIndex }      = exists $SetFieldStates{NewValues}{$Name}
                 ?
                 $SetFieldStates{NewValues}{$Name}
@@ -897,6 +1002,21 @@ sub GetFieldState {
 
             # store the reduced possible values in this object for a possible subsequent EditFieldRender
             $Self->{PossibleValuesFilter}{ $SetConfig->{Name} }[$SetIndex]{ 'DynamicField_' . $Name } = $SetFieldStates{Fields}{$Name}{PossibleValues};
+        }
+
+        # add visibilities from GetFieldStates to Return set
+        for my $Name ( sort keys $SetFieldStates{Visibility}->%* ) {
+            my $SuffixedName = $Name . ( $SetConfig->{ProcessSuffix} || '' );
+
+            if ( $Name !~ /_[0-9]+$/ ) {    # prevent recursion
+
+                # enable show/hide for EditFieldRender
+                $Return{Visibility}{$SuffixedName} = $SetFieldStates{Visibility}{$Name};
+
+                # enable show/hide for AjaxUpdate
+                $Return{Visibility}{ $SuffixedName . '_' . $SetIndex }          = $SetFieldStates{Visibility}{$Name};
+                $Return{Visibility}{ $SuffixedName . '_Template_' . $SetIndex } = $SetFieldStates{Visibility}{$Name};
+            }
         }
     }
 
@@ -914,8 +1034,7 @@ sub GetFieldState {
                 %DFParam,
                 DynamicField => \%DFParam,
             },
-            LoopProtection     => \$LoopProtection,
-            PossibleValuesOnly => 1,
+            LoopProtection => \$LoopProtection,
         );
 
         for my $Name ( sort keys $SetFieldStates{Fields}->%* ) {
