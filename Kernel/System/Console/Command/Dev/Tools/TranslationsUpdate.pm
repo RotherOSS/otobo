@@ -1100,6 +1100,7 @@ sub ExtractCMDBClassStrings {
             die "$File must contain a valid yaml-array!";
         }
 
+        my @OriginalTranslationStrings;
         $File =~ s{^.*/(.+?)\.yml}{$1}smx;
 
         CLASS:
@@ -1113,7 +1114,7 @@ sub ExtractCMDBClassStrings {
                     my $Word = $Page->{Name};
 
                     if ( $Word && !$Param{UsedWords}{$Word}++ ) {
-                        push $Param{OriginalTranslationStrings}->@*, {
+                        push @OriginalTranslationStrings, {
                             Location => "Ready to adopt classes: $File",
                             Source   => $Word,
                         };
@@ -1130,7 +1131,7 @@ sub ExtractCMDBClassStrings {
                             my $Word = $Header->{Header};
 
                             if ( $Word && !$Param{UsedWords}{$Word}++ ) {
-                                push $Param{OriginalTranslationStrings}->@*, {
+                                push @OriginalTranslationStrings, {
                                     Location => "Ready to adopt classes: $File",
                                     Source   => $Word,
                                 };
@@ -1145,7 +1146,7 @@ sub ExtractCMDBClassStrings {
                     my $Word = $Field->{Label};
 
                     if ( $Word && !$Param{UsedWords}{$Word}++ ) {
-                        push $Param{OriginalTranslationStrings}->@*, {
+                        push @OriginalTranslationStrings, {
                             Location => "Ready to adopt classes: $File",
                             Source   => $Word,
                         };
@@ -1154,7 +1155,7 @@ sub ExtractCMDBClassStrings {
                     if ( $Field->{Config}{TranslatableValues} && IsHashRefWithData( $Field->{Config}{PossibleValues} ) ) {
                         for my $ValWord ( values $Field->{Config}{PossibleValues}->%* ) {
                             if ( $ValWord && !$Param{UsedWords}{$ValWord}++ ) {
-                                push $Param{OriginalTranslationStrings}->@*, {
+                                push @OriginalTranslationStrings, {
                                     Location => "Ready to adopt classes: $File",
                                     Source   => $ValWord,
                                 };
@@ -1163,6 +1164,10 @@ sub ExtractCMDBClassStrings {
                     }
                 }
             }
+        }
+
+        for my $StringData ( sort { $a->{Source} cmp $b->{Source} } @OriginalTranslationStrings ) {
+            push $Param{OriginalTranslationStrings}->@*, $StringData;
         }
     }
 
