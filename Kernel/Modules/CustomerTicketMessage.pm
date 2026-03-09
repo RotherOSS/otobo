@@ -83,9 +83,6 @@ sub Run {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
-    # probably not needed...
-    my %ACLCompatGetParam;
-
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
@@ -198,7 +195,7 @@ sub Run {
                 if ( %{ $CustomerPanelOwnSelection // {} } ) {
                     $GetParam{Dest} = $QueueIDParam . '||' . $CustomerPanelOwnSelection->{$QueueParam};
                 }
-                $ACLCompatGetParam{QueueID} = $QueueIDLookup;
+                $GetParam{QueueID} = $QueueIDLookup;
             }
         }
 
@@ -508,7 +505,6 @@ sub Run {
         my $Output = $LayoutObject->CustomerHeader();
         $Output .= $Self->_MaskNew(
             %GetParam,
-            %ACLCompatGetParam,
             ToSelected       => $GetParam{Dest},
             DynamicFieldHTML => \%DynamicFieldHTML,
             FromChatID       => $GetParam{FromChatID} || '',
@@ -734,7 +730,6 @@ sub Run {
             # get the original list of queues to display
             my $Tos = $Self->_GetTos(
                 %GetParam,
-                %ACLCompatGetParam,
                 QueueID => $NewQueueID,
             );
 
