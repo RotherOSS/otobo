@@ -56,7 +56,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-03-02 12:06+0000\n"
-"PO-Revision-Date: 2026-03-08 16:00+0000\n"
+"PO-Revision-Date: 2026-03-09 10:48+0000\n"
 "Last-Translator: Arion2000 <github@arion2000.xyz>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/"
 "de/>\n"
@@ -17553,11 +17553,11 @@ msgstr "MySQL 5.x oder höher wird benötigt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Client Info"
-msgstr ""
+msgstr "Client-Info"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Perl Client Info"
-msgstr ""
+msgstr "Perl Client-Info"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG Setting"
