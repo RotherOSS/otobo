@@ -54,7 +54,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-03-08 16:00+0000\n"
+"PO-Revision-Date: 2026-03-10 07:00+0000\n"
 "Last-Translator: Arion2000 <github@arion2000.xyz>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
 "de/>\n"
@@ -27868,7 +27868,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Perl Client Info"
-msgstr ""
+msgstr "Perl Client-Info"
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."
