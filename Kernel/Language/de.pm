@@ -10037,7 +10037,7 @@ Ihr Helpdesk-Team
         'Your external tools' => 'Externe Tools',
         'Your last tickets' => 'Deine letzten Tickets',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
-            'Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
+            'Die Auswahl Ihrer bevorzugten (abonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert.',
         'Zoom' => 'Inhalt',
