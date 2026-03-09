@@ -31,7 +31,7 @@ use Pod::Strip       ();
 
 # OTOBO modules
 use Kernel::Language              ();
-use Kernel::System::VariableCheck qw(DataIsDifferent);
+use Kernel::System::VariableCheck qw(DataIsDifferent IsArrayRefWithData IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -597,6 +597,15 @@ sub HandleLanguage {
                 Source   => $String,
             };
         }
+
+        # add translatable strings in ITSMConfigurationManagement ready to adopt classes
+        if ( $IsSubTranslation && -d "$ModuleDirectory/var/itsm/configitemclasses" ) {
+            $Self->ExtractCMDBClassStrings(
+                Directory                  => "$ModuleDirectory/var/itsm/configitemclasses",
+                OriginalTranslationStrings => \@OriginalTranslationStrings,
+                UsedWords                  => \%UsedWords
+            );
+        }
     }
 
     if ($IsSubTranslation) {
@@ -1062,5 +1071,103 @@ EOF
 
     return 1;
 }
+
+sub ExtractCMDBClassStrings {
+    my ( $Self, %Param ) = @_;
+
+    my @ReadyToAdoptClasses = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => $Param{Directory},
+        Filter    => '*.yml',
+        Recursive => 0,
+    );
+
+    CLASS:
+    for my $File (@ReadyToAdoptClasses) {
+
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $File,
+            Mode     => 'utf8',
+        );
+
+        if ( !ref $ContentRef ) {
+            die "Can't open $File: $!";
+        }
+
+        my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+        my $CIClasses  = $YAMLObject->Load( Data => ${$ContentRef} );
+
+        if ( !IsArrayRefWithData($CIClasses) ) {
+            die "$File must contain a valid yaml-array!";
+        }
+
+        $File =~ s{^.*/(.+?)\.yml}{$1}smx;
+
+        CLASS:
+        for my $Class ( $CIClasses->@* ) {
+            next CLASS if !$Class->{Definition};
+
+            my $Definition = $YAMLObject->Load( Data => $Class->{Definition} );
+
+            if ( IsArrayRefWithData( $Definition->{Pages} ) ) {
+                for my $Page ( $Definition->{Pages}->@* ) {
+                    my $Word = $Page->{Name};
+
+                    if ( $Word && !$Param{UsedWords}{$Word}++ ) {
+                        push $Param{OriginalTranslationStrings}->@*, {
+                            Location => "Ready to adopt classes: $File",
+                            Source   => $Word,
+                        };
+                    }
+                }
+            }
+
+            if ( IsHashRefWithData( $Definition->{Sections} ) ) {
+                for my $Section ( values $Definition->{Sections}->%* ) {
+                    if ( IsHashRefWithData( $Section ) && IsArrayRefWithData( $Section->{Content} ) ) {
+                        my @Headers = grep { $_->{Header} } $Section->{Content}->@*;
+
+                        for my $Header ( @Headers ) {
+                            my $Word = $Header->{Header};
+
+                            if ( $Word && !$Param{UsedWords}{$Word}++ ) {
+                                push $Param{OriginalTranslationStrings}->@*, {
+                                    Location => "Ready to adopt classes: $File",
+                                    Source   => $Word,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ( IsHashRefWithData( $Class->{DynamicFields} ) ) {
+                for my $Field ( values $Class->{DynamicFields}->%* ) {
+                    my $Word = $Field->{Label};
+
+                    if ( $Word && !$Param{UsedWords}{$Word}++ ) {
+                        push $Param{OriginalTranslationStrings}->@*, {
+                            Location => "Ready to adopt classes: $File",
+                            Source   => $Word,
+                        };
+                    }
+
+                    if ( $Field->{Config}{TranslatableValues} && IsHashRefWithData( $Field->{Config}{PossibleValues} ) ) {
+                        for my $ValWord ( values $Field->{Config}{PossibleValues}->%* ) {
+                            if ( $ValWord && !$Param{UsedWords}{$ValWord}++ ) {
+                                push $Param{OriginalTranslationStrings}->@*, {
+                                    Location => "Ready to adopt classes: $File",
+                                    Source   => $ValWord,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+
 
 1;
