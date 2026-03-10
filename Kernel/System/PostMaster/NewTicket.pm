@@ -439,6 +439,7 @@ END_MESSAGE
                 ObjectID           => $TicketID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
+                ExternalSource     => 1,
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
@@ -479,6 +480,7 @@ END_MESSAGE
                         ObjectID           => $TicketID,
                         Value              => $GetParam{$Key},
                         UserID             => $Param{InmailUserID},
+                        ExternalSource     => 1,
                     );
                 }
 
@@ -694,6 +696,7 @@ END_MESSAGE
                 ObjectID           => $ArticleID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
+                ExternalSource     => 1,
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
@@ -734,6 +737,7 @@ END_MESSAGE
                         ObjectID           => $ArticleID,
                         Value              => $GetParam{$Key},
                         UserID             => $Param{InmailUserID},
+                        ExternalSource     => 1,
                     );
                 }
 

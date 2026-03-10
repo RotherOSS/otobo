@@ -396,6 +396,7 @@ sub Run {
                 ObjectID           => $Param{TicketID},
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
+                ExternalSource     => 1,
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
@@ -436,6 +437,7 @@ sub Run {
                         ObjectID           => $Param{TicketID},
                         Value              => $GetParam{$Key},
                         UserID             => $Param{InmailUserID},
+                        ExternalSource     => 1,
                     );
                 }
 
@@ -635,6 +637,7 @@ sub Run {
                 ObjectID           => $ArticleID,
                 Value              => $GetParam{$Key},
                 UserID             => $Param{InmailUserID},
+                ExternalSource     => 1,
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
@@ -674,6 +677,7 @@ sub Run {
                         ObjectID           => $ArticleID,
                         Value              => $GetParam{$Key},
                         UserID             => $Param{InmailUserID},
+                        ExternalSource     => 1,
                     );
                 }
 
