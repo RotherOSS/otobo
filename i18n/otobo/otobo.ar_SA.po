@@ -4,14 +4,14 @@
 # khh <khh@rother-oss.com>, 2022, 2023, 2024.
 # Grit Rother <mr@otobo.de>, 2024.
 # Stefan Härter <sha@rother-oss.com>, 2024.
-# Khalil Hamada <khh@rother-oss.com>, 2025.
+# Khalil Hamada <khh@rother-oss.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2026-03-02 12:06+0000\n"
-"PO-Revision-Date: 2026-02-21 09:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-03-10 19:00+0000\n"
+"Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
 "otobo/otobo-10/ar_SA/>\n"
 "Language: ar_SA\n"
@@ -672,7 +672,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr "أرسل على الرغم من خارج المكتب."
+msgstr "أرسل على الرغم من خارج المكتب"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -29194,16 +29194,12 @@ msgid "Show command line output."
 msgstr ""
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Show optional parameters in parameter list, too. If disabled, the optional "
 "parameters are only shown in an extra table."
 msgstr ""
-"\n"
-"            إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل "
-"هذا الخيار، يتم عرض المعلمات الاختيارية فقط\n"
-"في جدول اضافي\n"
-"        "
+"إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل هذا الخيار، "
+"يتم عرض المعلمات الاختيارية فقط في جدول اضافي"
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -30993,12 +30989,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
 "\"<OTOBO_MERGE_TO_TICKET>\"."
 msgstr ""
-"بريدك مع رقم البطاقة  \"<OTOBO_TICKET>\" دمجت مع \"<OTOBO_MERGE_TO_TICKET>\"."
+"بريدك مع رقم البطاقة \"<OTOBO_TICKET>\" دمجت مع \"<OTOBO_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""
