@@ -79,8 +79,8 @@ Core.SystemConfiguration.DateTime = (function (TargetNS) {
         }
 
         // get id without the "Day" suffix (needed for other items)
-        SubID = ID.substr(0, ID.length - 3);
-        OldSubID = OldID.substr(0, OldID.length - 3);
+        SubID = ID.substring(0, ID.length - 3);
+        OldSubID = OldID.substring(0, OldID.length - 3);
 
         Class = $Object.attr("class");
 
@@ -173,7 +173,7 @@ Core.SystemConfiguration.DateTime = (function (TargetNS) {
 
         // extract prefix
         Prefix = $Object.attr("id");
-        Prefix = Prefix.substr(0, Prefix.length - 3);
+        Prefix = Prefix.substring(0, Prefix.length - 3);
 
         // Escape selector.
         Prefix = Core.App.EscapeSelector(Prefix);
