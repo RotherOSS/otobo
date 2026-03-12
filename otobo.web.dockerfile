@@ -57,18 +57,16 @@ RUN apt-get update\
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
-# Installation can be triggerd by making any modification of the file cpanfile.docker.
+# Install CPAN distributions that are required by OTOBO into the local lib directory /opt/otobo_install/local.
+# './local' happens to be the default installation directory of carton.
+# Installation can be triggered by modifying the file cpanfile.docker.snapshot in any way.
 #
-# Only local::lib is installed with ghe Perl module installer 'cpanm'. 'cpanm' is already available
-# via the Docker base image for perl.
-#
-# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by carton.
 # This hopefully reduces potential conflicts.
 #
 # The modules are installed with the command `carton` as it allows to install fixed
 # version from a previous snapshot. The idea is that the snapshot is updated when
-# performing local builds. The automatic build on Github use the saved snapshot.
+# performing local builds. The automatic build on Github uses the saved snapshot.
 #
 # 'carton install' installs the newest version of CPAN modules when the cpanfile.snapsho does not exist.
 # The file cpanfile.snapshot is created, documenting which versions were installed.
@@ -107,8 +105,6 @@ ENV PATH="/opt/otobo_install/local/bin:${PATH}"
 ARG DOCKER_TAG=unspecified
 RUN <<END_BASH bash
     set -eux
-
-    cpanm --local-lib local local::lib
 
     if [[ $DOCKER_TAG == local-* ]]
     then
