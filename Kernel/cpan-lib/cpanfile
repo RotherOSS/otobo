@@ -138,7 +138,7 @@ requires 'Module::Find', '== 0.15';
 requires 'Module::Refresh', '== 0.17';
 
 # needed by LWP::Protocol::https
-requires 'Mozilla::CA', '== 20200520';
+requires 'Mozilla::CA', '== 20250602';
 
 # needed by LWP::Protocol::https
 requires 'Net::HTTP', '== 6.17';
