@@ -21,7 +21,7 @@ USER root
 # Install some required and optional Debian packages.
 #
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
-# For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+# For ODBC for SQLite, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 #
 # The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
 # 'default-mysql-client' is installed. This allows the building
