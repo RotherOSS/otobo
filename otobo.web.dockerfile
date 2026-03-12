@@ -290,7 +290,6 @@ RUN <<END_BASH bash
         echo "requires 'LWP::Authen::Negotiate';"
     ) >> cpanfile
 
-    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
     /opt/otobo_install/carton install
 
     rm -rf "/root/.cpanm"
