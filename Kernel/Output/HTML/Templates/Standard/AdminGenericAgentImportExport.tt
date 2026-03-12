@@ -115,7 +115,7 @@
 [% RenderBlockEnd("Export") %]
                                 </td>
                                 <td>
-                                    <div>[% Translate(Data.Valid) | html %]</div>
+                                    [% Translate(Data.ShownValid) | html %]
                                 </td>
                             </tr>
 [% RenderBlockEnd("GenericAgentsRow") %]

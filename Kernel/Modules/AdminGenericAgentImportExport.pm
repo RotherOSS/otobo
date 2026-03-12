@@ -295,6 +295,7 @@ sub _GenericAgentShow {
 
             my %GenericAgentData = (
                 %{$GenericAgentData},
+                ShownValid => $GenericAgentData->{Valid} ? 'valid' : 'invalid',
             );
 
             for my $Blocks ( 'GenericAgentsRow', 'GenericAgentCheckbox', $Param{Type} ) {
