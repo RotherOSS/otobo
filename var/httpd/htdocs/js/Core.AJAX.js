@@ -368,7 +368,7 @@ Core.AJAX = (function (TargetNS) {
             // Select elements
             if ($Element.is('select')) {
                 $Element.empty();
-                $.each(DataValue, function (Index, Value) {
+                $.each(DataValue, function (_Index, Value) {
                     var NewOption,
                         OptionText = Core.App.EscapeHTML(Value[1]);
 
@@ -649,7 +649,7 @@ Core.AJAX = (function (TargetNS) {
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
 
         if (FieldsToUpdate) {
-            $.each(FieldsToUpdate, function (Index, Value) {
+            $.each(FieldsToUpdate, function (_Index, Value) {
                 ToggleAJAXLoader(Value, true);
             });
         }
@@ -659,7 +659,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'json',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
@@ -680,7 +680,7 @@ Core.AJAX = (function (TargetNS) {
             },
             complete: function () {
                 if (FieldsToUpdate) {
-                    $.each(FieldsToUpdate, function (Index, Value) {
+                    $.each(FieldsToUpdate, function (_Index, Value) {
                         ToggleAJAXLoader(Value, false);
                     });
                 }
@@ -716,7 +716,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'html',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
@@ -773,7 +773,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: Data,
             dataType: (typeof DataType === 'undefined') ? 'json' : DataType,
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
