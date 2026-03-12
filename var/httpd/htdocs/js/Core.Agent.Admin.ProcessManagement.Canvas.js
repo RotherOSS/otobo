@@ -430,7 +430,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     if (SelectedInterface.length) {
                         SelectedInterface += '/';
                     }
-                    SelectedInterface += InterfaceValue.substr(0, 1);
+                    SelectedInterface += InterfaceValue.substring(0, 1);
                 });
                 text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " </li>";
             });

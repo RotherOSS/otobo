@@ -706,8 +706,8 @@ Core.AJAX = (function (TargetNS) {
         var QueryString, QueryIndex = URL.indexOf("?"), GlobalResponse;
 
         if (QueryIndex >= 0) {
-            QueryString = URL.substr(QueryIndex + 1);
-            URL = URL.substr(0, QueryIndex);
+            QueryString = URL.substring(QueryIndex + 1);
+            URL = URL.substring(0, QueryIndex);
         }
         QueryString += SerializeData(GetSessionInformation());
 

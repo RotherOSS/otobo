@@ -389,7 +389,7 @@ var Core = Core || {};
                     }
 
                     FullName = SettingName + $(this).attr("data-suffix");
-                    FullName = FullName.substr(0, FullName.lastIndexOf("_Array"));
+                    FullName = FullName.substring(0, FullName.lastIndexOf("_Array"));
                 }
                 else {
                     // Array is not empty.
@@ -401,7 +401,7 @@ var Core = Core || {};
                 if ($(this).closest(".Hash").find("> .HashItem > .SettingContent").length == 0) {
                     Value = {};
                     FullName = SettingName + $(this).attr("data-suffix");
-                    FullName = FullName.substr(0, FullName.lastIndexOf("_Hash"));
+                    FullName = FullName.substring(0, FullName.lastIndexOf("_Hash"));
                 }
                 else {
                     // Hash is not empty.
@@ -429,7 +429,7 @@ var Core = Core || {};
                 // some value types, e.g. Day, need to be rewritten
                 // note that in those situations using '###' in the key breaks this
                 if ( Key.indexOf('###') === -1 ) {
-                    FullName = FullName.substr(0, FullName.lastIndexOf("###"));
+                    FullName = FullName.substring(0, FullName.lastIndexOf("###"));
                     FullName += "###" + Key;
                 }
             }

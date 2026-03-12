@@ -60,7 +60,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
         if ( typeof ActivityDialogID !== 'undefined' ) {
-            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+            ActivityDialogID = ActivityDialogID.substring('ActivityDialog-'.length);
         }
         else {
             ActivityDialogID = '';
@@ -100,7 +100,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
         if ( typeof ActivityDialogID !== 'undefined' ) {
-            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+            ActivityDialogID = ActivityDialogID.substring('ActivityDialog-'.length);
         }
         else {
             ActivityDialogID = '';
@@ -214,7 +214,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             // check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
             var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $Element.closest('form')).val();
             if (typeof ActivityDialogID !== 'undefined') {
-                ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+                ActivityDialogID = ActivityDialogID.substring('ActivityDialog-'.length);
             }
             else {
                 ActivityDialogID = '';
@@ -598,7 +598,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
         if ( typeof ActivityDialogID !== 'undefined' ) {
-            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+            ActivityDialogID = ActivityDialogID.substring('ActivityDialog-'.length);
         }
         else {
             ActivityDialogID = '';
@@ -607,7 +607,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         var FieldNameLong = Field;
         var IndexOfActivityDialogID = Field.indexOf('_' + ActivityDialogID);
         if ( ActivityDialogID != '' && IndexOfActivityDialogID > 0 ) {
-            Field = Field.substr(0, IndexOfActivityDialogID);
+            Field = Field.substring(0, IndexOfActivityDialogID);
         }
 
         URL = Core.Config.Get('Baselink');

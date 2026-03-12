@@ -268,7 +268,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
         }
 
         DialogTitle = $.trim(DialogTitle);
-        DialogTitle = DialogTitle.substr(0, DialogTitle.length - 1);
+        DialogTitle = DialogTitle.substring(0, DialogTitle.length - 1);
         DialogTitle = DialogTitle.replace(/^\*\s+/, '');
 
         // Check if there are elements to select from

@@ -272,8 +272,9 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
     TargetNS.RemoveValueMapping = function (Object) {
         var ID = Object.attr('id'),
         HTML = '';
+
         // 18 is the length for 'RemoveValueMapping' string
-        ID = ID.substr(18);
+        ID = ID.substring(18);
 
         HTML += '<div>';
         HTML += '    <input type="hidden" name="ValueName' + ID + '" value="' + TargetNS.DeletedString + '" />';
