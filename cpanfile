@@ -196,6 +196,12 @@ feature 'div:ldap', 'Support for feature div:ldap' => sub {
 
 };
 
+feature 'div:locallib', 'Support for feature div:locallib' => sub {
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
+
+};
+
 feature 'div:xmlparser', 'Support for feature div:xmlparser' => sub {
     # Recommended for XML processing.
     requires 'XML::Parser';
@@ -302,6 +308,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for directory authentication.
     requires 'Net::LDAP';
+
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
 
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';
