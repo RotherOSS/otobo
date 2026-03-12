@@ -142,7 +142,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         InitDynamicFields();
 
         // Since new process screen loads activity via an AJAX call, we need to subscribe to an event
-        //   in order to re-initalize dynamic fields. Please see bug#13146 for more information.
+        //   in order to re-initialize dynamic fields. Please see bug#13146 for more information.
         Core.App.Subscribe('TicketProcess.Init.FirstActivityDialog.Load', function ($ActivityDialog) {
             InitDynamicFields($ActivityDialog);
         });
@@ -239,7 +239,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             });
 
             // Hide tooltip in autocomplete field, if user already typed something to prevent the autocomplete list
-            // to be hidden under the tooltip. (Only needed for serverside errors)
+            // to be hidden under the tooltip. (Only needed for server-side errors)
             $Element.off('keyup.Validate').on('keyup.Validate', function() {
                 Value = $Element.val();
                 if($Element.hasClass('ServerError') && Value.length) {
@@ -491,7 +491,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             return false;
         }
 
-        // set sufix
+        // set suffix
         Suffix = '_' + IdentifierKey;
 
         // remove unnecessary classes
@@ -656,7 +656,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             $('#' + Field + 'Data').val('');
         }
         else {
-            $.each(DataInputValueChunks, function(Index, Value) {
+            $.each(DataInputValueChunks, function(_Index, Value) {
 
                 if (Value != RemoveValue) {
                     DataInputValueNew = DataInputValueNew + Value + ',';
@@ -755,7 +755,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
 
         // restore the needed search attributes after the back button was used
-        $('#SelectFieldList option').each(function(Key, Value) {
+        $('#SelectFieldList option').each(function(_Key, Value) {
 
             if ($('#' + $(this).text()).val()) {
 

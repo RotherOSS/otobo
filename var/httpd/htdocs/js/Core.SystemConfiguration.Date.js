@@ -41,7 +41,7 @@ Core.SystemConfiguration.Date = (function (TargetNS) {
     TargetNS.ValueGet = function ($Object) {
         var Value;
 
-        // There are many input/select fields, but we should calcutale Date only once.
+        // There are many input/select fields, but we should calculate Date only once.
         if ($Object.attr("name").endsWith("Day")) {
             Value = DateValueGet($Object);
         }

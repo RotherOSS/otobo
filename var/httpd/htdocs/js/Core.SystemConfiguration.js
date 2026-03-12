@@ -1433,7 +1433,7 @@ var Core = Core || {};
      * @function
      * @param {jQueryObject} $Object - jQueryObject
      * @description
-     *      Go through all items that are used for EffectiveValue calcutation,
+     *      Go through all items that are used for EffectiveValue calculation,
      *      and update their IDs according to the latest changes(array position
      *      or renamed hash key).
      */
