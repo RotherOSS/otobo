@@ -54,8 +54,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2024-03-27 14:04+0000\n"
-"PO-Revision-Date: 2026-03-02 17:55+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2026-03-10 07:00+0000\n"
+"Last-Translator: Arion2000 <github@arion2000.xyz>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-11/"
 "de/>\n"
 "Language: de\n"
@@ -25242,7 +25242,9 @@ msgstr "Ihre E-Mail mit Ticket-Nummer \"<OTOBO_TICKET>\" wurde zu Ticket-Nummer 
 
 #. SysConfig
 msgid "Your queue selection of your preferred queues. You also get notified about those queues via email if enabled."
-msgstr "Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist."
+msgstr ""
+"Die Auswahl Ihrer bevorzugten (abonnierten) Queues. Sie werden auch per E-"
+"Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist."
 
 #. SysConfig
 msgid "Your service selection of your preferred services. You also get notified about those services via email if enabled."
@@ -27866,7 +27868,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "Perl Client Info"
-msgstr ""
+msgstr "Perl Client-Info"
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch."

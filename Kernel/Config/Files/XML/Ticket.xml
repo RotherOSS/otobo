@@ -12409,6 +12409,7 @@
                 <Item>AgentTicketHistory</Item>
                 <Item>AgentTicketLink</Item>
                 <Item>AgentTicketLock</Item>
+                <Item>AgentTicketMarkSeenUnseen</Item>
                 <Item>AgentTicketMerge</Item>
                 <Item>AgentTicketMove</Item>
                 <Item>AgentTicketNote</Item>
