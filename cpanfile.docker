@@ -190,6 +190,12 @@ requires 'Const::Fast';
 
 # };
 
+# feature 'div:locallib', 'Support for feature div:locallib' => sub {
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'local::lib';
+
+# };
+
 # Feature 'div:xmlparser' is not needed for Docker
 
 

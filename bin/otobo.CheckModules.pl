@@ -207,6 +207,7 @@ my %IsDockerFeature = (
     'db:sqlite'          => 1,
     'devel:encoding'     => 1,
     'devel:test'         => 1,
+    'div:locallib'       => 1,
     'gazelle'            => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
@@ -985,6 +986,17 @@ my @NeededModules = (
             emerge => 'dev-perl/perl-ldap',
             zypper => 'perl-ldap',
             ports  => 'net/p5-perl-ldap',
+        },
+    },
+    {
+        Module    => 'local::lib',
+        Comment   => 'create and use a local lib/ for perl modules with PERL5LIB',
+        Features  => ['div:locallib'],
+        InstTypes => {
+            aptget => 'liblocal-lib-perl',
+            emerge => 'dev-perl/local-lib',
+            zypper => 'perl-local-lib',
+            ports  => 'p5-local-lib',
         },
     },
     {
