@@ -97,14 +97,6 @@ my @Excemptions = (
         }
     },
     {
-        'Mozilla-CA' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2024-39689'; end(); } };
-                end();
-            },
-        }
-    },
-    {
         'perl-ldap' => {
             advisories => bag {
                 item { cves => array { item 'CVE-2020-16093'; end(); } };

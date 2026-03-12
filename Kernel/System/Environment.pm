@@ -504,7 +504,7 @@ sub BundleModulesDeclarationGet {
             'Comment'         => 'needed by LWP::Protocol::https',
             'Module'          => 'Mozilla::CA',
             'Required'        => 1,
-            'VersionRequired' => '== 20200520',
+            'VersionRequired' => '== 20250602',
         },
         {
             'Comment'         => 'needed by LWP::Protocol::https',
