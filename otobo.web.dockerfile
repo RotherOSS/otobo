@@ -26,7 +26,7 @@ USER root
 # Install some required and optional Debian packages.
 #
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
-# For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+# For ODBC for SQLite, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 #
 # The webserver needs to connect to MariaDB service using DBD::mysql. For that purpose
 # 'default-mysql-client' is installed. This allows the building
@@ -93,10 +93,11 @@ RUN apt-get update\
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Install CPAN distributions that are required by OTOBO into the directory /opt/otobo_install/local.
-# Installation can be triggered by making any modification to the file cpanfile.docker.snapshot.
+# Install CPAN distributions that are required by OTOBO into the local lib directory /opt/otobo_install/local.
+# './local' happens to be the default installation directory of carton.
+# Installation can be triggered by modifying the file cpanfile.docker.snapshot in any way.
 #
-# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by carton.
 # This hopefully reduces potential conflicts.
 #
 # The modules are installed with the command `carton` as it allows to install fixed
@@ -300,7 +301,6 @@ RUN <<END_BASH bash
         echo "requires 'LWP::Authen::Negotiate';"
     ) >> cpanfile
 
-    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local"
     /opt/otobo_install/carton install
 
     rm -rf "/root/.cpanm"
