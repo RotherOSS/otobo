@@ -208,10 +208,10 @@ sub DebugLog {
     }
 
     # mask configured attributes
-    my $BlackListedParams = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Debugger::Settings::MaskParameter') // [];
-    for my $MaskParam ( $BlackListedParams->@* ) {
-        $DataString =~ s/"$MaskParam":(\s*)".+?"(,|\n|\})/"$MaskParam":$1"xxx"$2/g;
-        $DataString =~ s/'$MaskParam' =\> '.+?'(,|\n|\})/'$MaskParam => 'xxx'$1/g;
+    my $BlackListedParams = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Debugger::Settings::RedactParameter') // [];
+    for my $RedactParam ( $BlackListedParams->@* ) {
+        $DataString =~ s/"$RedactParam":(\s*)".+?"(,|\n|\})/"$RedactParam":$1"xxx"$2/g;
+        $DataString =~ s/'$RedactParam' =\> '.+?'(,|\n|\})/'$RedactParam => 'xxx'$1/g;
     }
 
     if ( !$Self->{TestMode} ) {

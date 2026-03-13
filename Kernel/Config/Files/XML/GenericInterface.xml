@@ -1155,8 +1155,8 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="GenericInterface::Debugger::Settings::MaskParameter" Required="0" Valid="1">
-        <Description Translatable="1">Define names of sensitive parameter for which the content should be masked in the debugger (e.g. credentials). Note: The masking won't affect previously logged data, it only takes effect for future requests.</Description>
+    <Setting Name="GenericInterface::Debugger::Settings::RedactParameter" Required="0" Valid="1">
+        <Description Translatable="1">Define names of sensitive parameters. Their contents will be redacted in the debugger (for example, credentials). Note: Redaction will not affect previously logged data, it only takes effect for future requests.</Description>
         <Navigation>GenericInterface::Debugger::Settings</Navigation>
         <Value>
             <Array>
