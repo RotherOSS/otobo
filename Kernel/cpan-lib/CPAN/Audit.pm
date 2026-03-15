@@ -14,7 +14,7 @@ use CPAN::Audit::Version;
 use CPAN::Audit::Query;
 use CPANSA::DB;
 
-our $VERSION = '20250829.001';
+our $VERSION = '20260308.002';
 
 sub new {
 	my( $class, %params ) = @_;
@@ -57,7 +57,10 @@ sub _get_db {
 		return CPANSA::DB->db;
 	}
 
-	$rc = eval { require CPAN::Audit::DB };
+	$rc = eval {
+		warn "CPAN::Audit::DB is deprecated. Use CPANSA::DB instead.\n";
+		require CPAN::Audit::DB
+		};
 	if ( $rc ) {
 		return CPAN::Audit::DB->db;
 	}
@@ -330,8 +333,19 @@ CPAN::Audit - Audit CPAN distributions for known vulnerabilities
 
 =head1 DESCRIPTION
 
-CPAN::Audit is a module and a database at the same time. It is used by
-L<cpan-audit> command line application to query for vulnerabilities.
+CPAN::Audit uses the CPAN Security Advisory database to connect vulnerability
+reports to installed CPAN modules. It is used by L<cpan-audit> command-line
+application to query for vulnerabilities.
+
+This used to come with its own version of the database, C<CPAN::Audit::DB>, but
+this was moved to its own distribution and is now deprecated in favor of
+L<CPANSA::DB>.
+
+This module will try to load L<CPANSA::DB>, and if it can't, will try the
+deprecated C<CPAN::Audit::DB> (with a warning). Eventually, C<CPAN::Audit::DB>
+support will be completely removed. If you've been updating your own version of
+C<CPAN::Audit::DB>, change its package to  L<CPANSA::DB>. The modules are the
+same otherwise.
 
 =head1 LICENSE
 

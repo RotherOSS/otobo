@@ -328,7 +328,7 @@ sub BundleModulesDeclarationGet {
         {
             'Module'          => 'CPAN::Audit',
             'Required'        => 1,
-            'VersionRequired' => '== 20250829.001',
+            'VersionRequired' => '== 20260308.002',
         },
         {
             'Comment'         => 'database of adbisories used by CPAN::Audit',
