@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use CPAN::Audit::Version;
 
-our $VERSION = "1.001";
+our $VERSION = "1.002";
 
 =encoding utf8
 
@@ -26,9 +26,9 @@ CPAN::Audit::Query - filter the database for advisories that interest you
 
 =item * new(HASH)
 
-The only parameter is the hash reference from L<CPAN::Audit::DB> or
-L<CPANSA::DB>. With no C<db> parameter, it uses the empty hash, which
-means that you'll find no advisories.
+The only parameter is the hash reference from L<CPAN::Audit::DB> (deprecated) or
+L<CPANSA::DB>. With no C<db> parameter, it uses the empty hash,
+which means that you'll find no advisories.
 
 =cut
 
