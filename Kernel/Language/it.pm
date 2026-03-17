@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596830427892235;
+    $Self->{Completeness}        = 0.596988906497623;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -319,7 +319,7 @@ sub Data {
         'Hint' => 'Suggerimento',
         'Currently support data is only shown in this system.' => 'Attualmente i dati di supporto sono mostrati solo in questo sistema.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Alcune volte è consigliato inviare questi dati al team OTOBO per ottenere una migliore assistenza.',
         'Configuration' => 'Configurazione',
         'Send support data' => 'Invia dati di supporto',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
@@ -1141,21 +1141,21 @@ sub Data {
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => 'Scorciatoie generiche',
         'MacOS Shortcuts' => 'Scorciatoie MacOS',
-        'Comment code' => 'Codice commento',
-        'Uncomment code' => 'Rimuovere il codice commento',
-        'Auto format code' => 'Auto formato codice',
+        'Comment code' => 'Commenta codice',
+        'Uncomment code' => 'Rimuovere il commento dal codice',
+        'Auto format code' => 'Formata il codice automaticamente',
         'Expand/Collapse code block' => 'Espandi / comprimi blocco di codice',
         'Find' => 'Trova',
         'Find next' => 'Trova successivo',
         'Find previous' => 'Trova precedente',
         'Find and replace' => 'Trova e sostituisci',
         'Find and replace all' => 'Trova e sostituisci tutto',
-        'XSLT Mapping' => 'Mappa XSLT',
+        'XSLT Mapping' => 'Mappatura XSLT',
         'XSLT stylesheet' => 'Foglio di stile XSLT',
         'The entered data is not a valid XSLT style sheet.' => 'I dati inseriti non sono un foglio di stile XSLT valido.',
         'Here you can add or modify your XSLT mapping code.' => 'Qui puoi aggiungere o modificare il codice di mappatura XSLT.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
-            'Il campo di modifica consente di utilizzare diverse funzioni come la formattazione automatica, il ridimensionamento della finestra e il completamento di tag e parentesi.',
+            'Il campo di modifica consente di utilizzare diverse funzioni come la formattazione automatica, il ridimensionamento della finestra e il autocompletamento di tag e parentesi.',
         'Data includes' => 'Certificato client',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
             'Selezionare uno o più set di dati che sono stati creati nelle fasi precedenti di richiesta/risposta da includere nei dati mappabili.',

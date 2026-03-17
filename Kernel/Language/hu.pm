@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999366085578447;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1459,7 +1459,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Hozzáadhat kedvenceket, ha a kurzort a jobb oldalon lévő elemek fölé viszi, és a csillag ikonra kattint.',
         'Links' => 'Hivatkozások',
-        'View the admin manual' => 'Az adminisztrátori kézikönyv megtekintése',
+        'View the admin manual' => 'Adminisztrátori kézikönyv megtekintése',
         'No Matches' => 'Nincs találat',
         'Sorry, your search didn\'t match any items.' => 'Sajnáljuk, a keresése nem illeszkedik egyetlen elemre sem.',
         'Set as favorite' => 'Beállítás kedvencként',
@@ -5524,8 +5524,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x vagy újabb szükséges.',
-        'Client Info' => '',
-        'Perl Client Info' => '',
+        'Client Info' => 'Ügyfél-információk',
+        'Perl Client Info' => 'Perl ügyfél-információk',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'NLS_LANG beállítás',
@@ -8421,7 +8421,7 @@ Az Ön ügyfélszolgálati csapata
         'Objects to search for, how many entries and which attributes to show.' =>
             'Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg.',
         'Objects to search for, how many entries and which attributes to show. Ticket attributes, except queue, have to explicitly be stored via Elasticsearch.' =>
-            '',
+            'Keresendő objektumok, hány bejegyzés és mely attribútumok jelenjenek meg. A jegyattribútumokat, kivéve a várólistát, egyértelműen el kell tárolni az Elasticsearch-kiszolgálón keresztül.',
         'Open an external link!' => 'Nyisson meg egy külső hivatkozást!',
         'Open the OTOBO home page in a new window' => 'Az OTOBO honlapjának megnyitása új ablakban',
         'Open tickets (customer user)' => 'Nyitott jegyek (ügyfél-felhasználó)',
@@ -8957,7 +8957,7 @@ Az Ön ügyfélszolgálati csapata
             'Bejegyzés megjelenítése Rich Textként még akkor is, ha a Rich Text írás le van tiltva.',
         'Show command line output.' => 'Parancssori kimenet megjelenítése.',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
-            '',
+            'Az elhagyható paramétereket is jelenítse meg a paraméterlistában. Ha le van tiltva, akkor az elhagyható paraméterek csak egy kiegészítő táblázatban jelennek meg.',
         'Show queues even when only locked tickets are in.' => 'Várólisták megjelenítése még akkor is, ha csak zárolt jegyek vannak bennük.',
         'Show the current owner in the customer interface.' => 'Az aktuális tulajdonos megjelenítése az ügyfélfelületen.',
         'Show the current queue in the customer interface.' => 'Az aktuális várólista megjelenítése az ügyfélfelületen.',

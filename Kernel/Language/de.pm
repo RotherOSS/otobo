@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999366085578447;
+    $Self->{Completeness}        = 0.999683042789223;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5519,8 +5519,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x oder höher wird benötigt.',
-        'Client Info' => '',
-        'Perl Client Info' => '',
+        'Client Info' => 'Client-Info',
+        'Perl Client Info' => 'Perl Client-Info',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Einstellung NLS_LANG',
@@ -6423,7 +6423,7 @@ Ihr Helpdesk-Team
         '(UserLogin) Firstname Lastname' => '(BenutzerLogin) Vorname Nachname',
         '(UserLogin) Lastname Firstname' => '(BenutzerLogin) Nachname Vorname',
         '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
-        '*** out of office until %s (%s d left) ***' => '*** nicht im Büro bis %s (%s Tage übrig) ***',
+        '*** out of office until %s (%s d left) ***' => '*** abwesend bis %s (%s Tage übrig) ***',
         '0 - Disabled' => '0 - Deaktiviert',
         '1 - Available' => '1 - Verfügbar',
         '1 - Enabled' => '1 - Aktiviert',
@@ -7105,7 +7105,7 @@ Ihr Helpdesk-Team
             'Bestimmt, ob das Zeiterfassungs-Feld für alle Tickets im Stapelverarbeitungs-Bildschirm gesetzt werden soll.',
         'Defines internal communication channel.' => 'Legt den internen Kommunikationskanal fest.',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
-            'Definiert "Nicht im Büro"-Nachrichten-Templates. Zwei String-Parameter (%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage.',
+            'Definiert die Vorlage für Abwesenheits-Nachrichten. Zwei String-Parameter (%s) stehen zur Verfügung: Enddatum und Anzahl der übrigen Tage.',
         'Defines phone communication channel.' => 'Legt den Telefon-Kommunikationskanal fest.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Bestimmt die Queues, deren Tickets für die Anzeige als Kalender-Ereignisse berücksichtigt werden sollen.',
@@ -7450,7 +7450,7 @@ Ihr Helpdesk-Team
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
             'Definiert das Modul, das eine Benachrichtigung im Agentenbereich anzeigt, wenn ein Agent noch keine Zeitzone festgelegt hat.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
-            'Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, wenn ein Agent angemeldet ist, während er die "Out of Office"-Funktion aktiviert hat.',
+            'Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, wenn ein Agent angemeldet ist, während im System eine Abwesenheitszeit definiert ist.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, wenn ein Agent angemeldet ist, während die Systemwartung aktiv ist.',
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
@@ -9466,7 +9466,7 @@ Ihr Helpdesk-Team
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Ihre E-Mail mit Ticket-Nummer "<OTOBO_TICKET>" wurde zu Ticket-Nummer "<OTOBO_MERGE_TO_TICKET>" zusammengefasst.',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
-            'Die Auswahl ihrer bevorzugten (abbonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
+            'Die Auswahl Ihrer bevorzugten (abonnierten) Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diesen ausgewählten Services versendet, falls aktiviert.',
         'Zoom' => 'Inhalt',
