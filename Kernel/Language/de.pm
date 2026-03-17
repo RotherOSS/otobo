@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99836163240989;
+    $Self->{Completeness}        = 0.998510574918082;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5906,7 +5906,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x oder höher wird benötigt.',
         'Client Info' => 'Client-Info',
-        'Perl Client Info' => '',
+        'Perl Client Info' => 'Perl Client-Info',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
         'NLS_LANG Setting' => 'Einstellung NLS_LANG',

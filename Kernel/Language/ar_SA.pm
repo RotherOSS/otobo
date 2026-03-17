@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.843014596365803;
+    $Self->{Completeness}        = 0.843163538873995;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -226,7 +226,7 @@ sub Data {
         'Send to these agents' => 'أرسل إلى هؤلاء العمال',
         'Send to all group members (agents only)' => 'إرسال إلى جميع أعضاء المجموعة (ينطبق على العمال فقط)',
         'Send to all role members' => '',
-        'Send on out of office' => 'أرسل على الرغم من خارج المكتب.',
+        'Send on out of office' => 'أرسل على الرغم من خارج المكتب',
         'Also send if the user is currently out of office.' => 'أرسل أيضا عندما لا يكون المستخدم في العمل.',
         'Once per day' => 'مرة في اليوم',
         'Notify user just once per day about a single appointment using a selected transport.' =>
@@ -9498,7 +9498,7 @@ Thanks for your help!
             '',
         'Show command line output.' => '',
         'Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown in an extra table.' =>
-            '',
+            'إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل هذا الخيار، يتم عرض المعلمات الاختيارية فقط في جدول اضافي',
         'Show or Hide deleted articles.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
@@ -10035,7 +10035,7 @@ Thanks for your help!
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
-            'بريدك مع رقم البطاقة  "<OTOBO_TICKET>" دمجت مع "<OTOBO_MERGE_TO_TICKET>".',
+            'بريدك مع رقم البطاقة "<OTOBO_TICKET>" دمجت مع "<OTOBO_MERGE_TO_TICKET>".',
         'Your external tools' => '',
         'Your last tickets' => '',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
