@@ -1100,4 +1100,323 @@ input[type=text].ArticleFreeKey {
     width: 50%;
 }
 
+/**
+ * @subsection  New Form CSS
+ */
+
+fieldset.ModularForm {
+    --max-field-width: 620px;
+    --field-column-gap: 5px;
+    --grid-column-gap: 16px;
+    --text-input-padding: 3px;
+    --field-padding-vertical: 3px;
+    --field-padding-horizontal: 0px;
+    --multivalue-gap: 3px;
+    --set-padding: 8px;
+    --line-height: 1em;
+    --row-gap: 0px;
+    --checkbox-size: 1em;
+    --customer-id-selection-button-width: 110px; /* set in style tag */
+    --multivalue-icon-width: 0.8575em;
+    --address-book-button-width: 16px; /* width set for .AdditionlFieldIcon */
+    --address-book-button-margin: 3px; /* margin set for .AdditionlFieldIcon */
+    
+    --search-icon-width: var(--multivalue-icon-width);
+    --multivalue-buttons-width: calc( var(--multivalue-icon-width)*2 + var(--multivalue-gap)*2 );
+    --label-padding-vertical: calc( var(--field-padding-vertical) + var(--text-input-padding) + 1px );
+    --label-padding:    var(--label-padding-vertical) 
+                        0px 
+                        var(--label-padding-vertical) 
+                        var(--field-padding-horizontal);
+    --min-field-height: calc( var(--label-padding-vertical)*2 + var(--line-height) );
+
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: var(--line-height);
+    row-gap: var(--row-gap);
+}
+
+    fieldset.ModularForm .AJAXLoader {
+        margin: 3px;
+    }
+
+    fieldset.ModularForm * {
+        box-sizing: border-box;
+    }
+
+    fieldset.ModularForm div.Field {
+        position: relative;
+        grid-column: field;
+        overflow: hidden;
+        width: 100%;
+        height: min-content;
+        min-height: var(--min-field-height);
+        padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+    }
+
+    fieldset.ModularForm div.Field:not(.Hidden) {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    fieldset.ModularForm div.DnDUpload {
+        width: 100%;
+    }
+
+    fieldset.ModularForm label {
+        grid-column: label;
+        text-align: right;
+        vertical-align: middle;
+        padding: var(--label-padding);
+        text-wrap: wrap;
+    }
+
+    fieldset.ModularForm label[for="Subject"] {
+        padding: var(--label-padding);
+        align-self: center;
+    }
+
+    fieldset.ModularForm input[type=text] {
+        border-radius: 4px;
+        width: 100%;
+        line-height: inherit;
+    }
+
+    fieldset.ModularForm .Field > input[type=text] {
+        flex: 1 1 auto;
+    }
+
+    fieldset.ModularForm .AJAXLoader {
+        position: absolute;
+        right: 0;
+    }
+
+    fieldset.ModularForm #CustomerID {
+        --margin-to-button: 3px;
+        margin-right: var(--margin-to-button);
+        width: calc( 100% - ( var(--customer-id-selection-button-width) + var(--margin-to-button) ) );
+    }
+
+    fieldset.ModularForm #ToCustomer,
+    fieldset.ModularForm #CcCustomer,
+    fieldset.ModularForm #BccCustomer {
+        width: calc( 100% - ( var(--address-book-button-width) + var(--address-book-button-margin) ) );
+    }
+
+    fieldset.ModularForm .OptionCustomerUserAddressBook {
+        align-self: center;
+    }
+
+    fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
+    fieldset.ModularForm .CcCustomerContainer .CustomerTicketText, 
+    fieldset.ModularForm .BccCustomerContainer .CustomerTicketText {
+        width: calc(100% - 70px);
+    }
+
+    fieldset.ModularForm input[type=checkbox] {
+        height: var(--checkbox-size);
+        width: var(--checkbox-size);
+        margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
+    }
+
+    fieldset.ModularForm .DynamicFieldDate {
+        display: flex;
+        flex-direction: row;
+        align-self: center;
+        column-gap: 1px;
+    }
+
+    fieldset.ModularForm .DynamicFieldDate input[type="checkbox"] {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    fieldset.ModularForm textarea {
+        resize: vertical;
+        width: 100%;
+        border-radius: 4px;
+    }
+    
+    fieldset.ModularForm .FieldCell .RichTextField {
+        flex-direction: column;
+        z-index: 10;
+        position: relative;
+        overflow: hidden;
+        --initial-height: 520px;
+        height: var(--initial-height);
+        --preferred-width: 620px;
+        width: min( 100%, var(--preferred-width) );
+        max-width: 100%
+    }
+
+    fieldset.ModularForm .RichTextField > .RichTextField_resizeHandle {
+        --handle-width: 30px;
+        position: absolute;
+        bottom: calc( var(--field-padding-vertical) - 0.5px );
+        width: var( --handle-width );
+        box-sizing: border-box;
+        height: 4px;
+        left: calc( 50% - var( --handle-width ) / 2 );
+        border-radius: 5px;
+        background-color: var(--colBGDark);
+        cursor: s-resize;
+        overflow: hidden;
+
+        i {
+            display: block;
+            margin: auto;
+            margin-top: -2px;
+            color: var(--colTextLight);
+            text-align: center;
+            font-size: 9px;
+        }
+    }
+
+    fieldset.ModularForm .InputField_Container {
+        width: 100%
+    }
+
+    fieldset.ModularForm .InputField_InputContainer {
+        width: 100%;
+        line-height: inherit;
+    }
+
+    fieldset.ModularForm .Field > select {
+        width: 100%;
+    }
+
+    fieldset.ModularForm .Field.AttachmentField {
+        flex-direction: column;
+    }
+
+    fieldset.ModularForm .Field #OptionCustomer {
+        align-self: center;
+    }
+
+    fieldset.ModularForm div.Row {
+        width: 100%;
+    }
+
+    /* surrounding div of dynamic fields */
+    fieldset.ModularForm div.Row > div.FieldCell {
+        display: grid;
+        position: relative;
+        grid-template-areas:   "label                                       field                                                                               multivaluebuttons";
+        grid-template-columns:  calc( 30% - var(--field-column-gap)*2 )     min( calc( 70% - var( --multivalue-buttons-width ) ), var( --max-field-width ) )    var( --multivalue-buttons-width );
+        grid-column-gap: var(--field-column-gap);
+        overflow: hidden;
+    }
+
+    /* +- button div for multivalue rows */
+    fieldset.ModularForm div.AddRemoveValueRow {
+        grid-area: multivaluebuttons;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        column-gap: 3px;
+        padding: var(--label-padding);
+    }
+    
+    fieldset.ModularForm .DatepickerIcon {
+        margin: -2px 4px -2px 4px;
+    }
+
+    fieldset.ModularForm div.Row .DFSetOuterField {
+        padding: 8px;
+        margin: var(--field-padding-vertical) 0;
+        border: 1px solid var(--colBGDark);
+        border-radius: 4px;
+    }
+
+    fieldset.ModularForm div.Row fieldset.DynamicFieldSet {
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--row-gap);
+        width: 100%;
+    }
+
+    fieldset.ModularForm div.Row.MultiColumn {
+        display: grid;
+        column-gap: var(--grid-column-gap);
+    }
+
+    fieldset.ModularForm > div.Row.MultiColumn {
+        --left-margin: 10%;
+        margin: 8px 0 8px var( --left-margin);
+        width: calc( 100% - var( --left-margin ) );
+        column-gap: var(--grid-column-gap);
+    }
+
+    fieldset.ModularForm div.Row.MultiColumn div.FieldCell {
+        --field-column-gap: 5px;
+        grid-template-areas:    "label ."
+                                "field multivaluebuttons";
+        grid-template-rows: min-content 1fr;
+        grid-template-columns: min(calc( 100% - ( var(--multivalue-buttons-width) + var(--field-column-gap) )), var(--max-field-width))  var( --multivalue-buttons-width );
+        grid-column-gap: var(--field-column-gap);
+        overflow: hidden;
+        vertical-align: top;
+    }
+    
+    fieldset.ModularForm div.Row.MultiColumn div[class*=MultiValue_] {
+        grid-template-areas:    "field multivaluebuttons";
+    }
+
+    fieldset.ModularForm div.Row.MultiColumn div.MultiValue_0 {
+        grid-template-areas:    "label ."
+                                "field multivaluebuttons" !important;
+    }
+
+    fieldset.ModularForm div.Row.MultiColumn div.FieldCell label {
+        text-align: left;
+    }
+
+    fieldset.ModularForm .InputField_Container ~ a.GetAllAJAX {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    fieldset.ModularForm .Field .DynamicFieldDB {
+        width: calc ( 100% - var(--search-icon-width));
+    }
+
+    fieldset.ModularForm .DynamicFieldDB ~ a {
+        display: unset;
+        position: static;
+        padding: calc( var(--text-input-padding) + 1px );
+    }
+
+    fieldset.ModularForm .DynamicFieldDBContainer {
+        width: 100%;
+    }
+
+    fieldset.ModularForm .CustomerContainer, 
+    fieldset.ModularForm .CcCustomerContainer, 
+    fieldset.ModularForm .BccCustomerContainer {
+        width: 100%;
+    }
+
+    fieldset.ModularForm div.Field.InfoTextField {
+        padding: var(--label-padding);
+    }
+
+    fieldset.ModularForm .FieldExplanation {
+        text-wrap: wrap;
+    }
+
+    fieldset.ModularForm .DynamicFieldDB ~ a {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+/**
+ * end @subsection New Form CSS
+ */
+
 } /* end @media */
