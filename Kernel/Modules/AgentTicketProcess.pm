@@ -442,6 +442,30 @@ sub Run {
     }
     if ( $Self->{Subaction} eq 'DisplayActivityDialog' && $ProcessEntityID ) {
 
+        # initial rendering - pre-fill dynamic fields with ticket values
+        my %Ticket;
+        if ($TicketID) {
+            my %Ticket = $TicketObject->TicketGet(
+                TicketID      => $TicketID,
+                UserID        => $Self->{UserID},
+                DynamicFields => 1,
+            );
+        }
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( values $Self->{DynamicField}->%* ) {
+            next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+
+            # This overwrites the values that might have been taken from the web request.
+            # Note that there shouldn't be any values from the web request,
+            # because submits, successful and unsuccessful have been handled already above.
+            if ( ( $DynamicFieldConfig->{ObjectType} eq 'Ticket' ) && $TicketID ) {
+
+                # Value is stored in the database from Ticket.
+                $GetParam->{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            }
+        }
+
         return $Self->_OutputActivityDialog(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -1867,7 +1891,7 @@ sub _OutputActivityDialog {
             CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
             GetParam                  => $Param{GetParam},
             Autoselect                => $Autoselect,
-            ACLPreselection           => $ACLPreselection // '',
+            ACLPreselection           => $ACLPreselection,
             LoopProtection            => \$LoopProtection,
         );
 
