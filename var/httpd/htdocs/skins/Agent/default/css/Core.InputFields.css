@@ -83,7 +83,7 @@ div.InputField_InputContainer {
     display: none !important;
 }
 
-.Row_DynamicField {
+.TableLike .Row_DynamicField {
     display: grid;
 }
 
@@ -194,7 +194,7 @@ fieldset.TableLike > .Row.MultiColumn > .FieldCell .InputField_InputContainer > 
 }
 
 .DynamicFieldDB {
-    width: calc(100% - 12px) !important;
+    width: calc(100% - 12px);
     box-sizing: border-box;
 }
 
@@ -241,7 +241,7 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
     text-shadow: 0 1px 0 #FAFAFA;
 }*/
 
-.AddRemoveValueRow {
+fieldset.TableLike .AddRemoveValueRow {
     display: inline-block;
     padding-left: 8px;
 }
@@ -251,17 +251,17 @@ div.Row.Row_DynamicField div.MultiColumn > div.MultiValueItem > label {
     cursor: pointer;
 }
 
-fieldset.DynamicFieldSet {
+fieldset.TableLike fieldset.DynamicFieldSet {
     box-sizing: border-box;
     width: 100%
 }
 
 /* needed for multivalue sets due to current difference in outer structure compared to single value sets */
-.MultiValue > .FieldCell > .Field > .DynamicFieldSet {
+fieldset.TableLike .MultiValue > .FieldCell > .Field > .DynamicFieldSet {
     width: 100%;
 }
 
-.MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
+fieldset.TableLike .MultiValue .DFSetOuterField ~ .AddRemoveValueRow {
     vertical-align: top;
     padding-top: 16px;
 }
