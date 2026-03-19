@@ -7380,18 +7380,16 @@ via the Preferences button after logging in.
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="Links">
                             <Hash>
-                                <Item Key="https://duckduckgo.com/">1</Item>
-                                <Item Key="https://www.wikipedia.org">2</Item>
-                                <Item Key="https://www.openstreetmap.org">3</Item>
-                                <Item Key="https://protonvpn.com/">4</Item>
+                                <Item Key="https://www.otobo.io">1</Item>
+                                <Item Key="https://www.openstreetmap.org">2</Item>
+                                <Item Key="https://www.wikipedia.org">3</Item>
                             </Hash>
                         </Item>
                         <Item Key="Images">
                             <Hash>
-                                <Item Key="https://cdn3.iconfinder.com/data/icons/social-media-logos-flat-colorful-1/2048/5364_-_DuckDuckGo-512.png">1</Item>
-                                <Item Key="https://cdn3.iconfinder.com/data/icons/inficons-round-brand-set-2/512/wikipedia-512.png">2</Item>
-                                <Item Key="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/openstreetmap-512.png">3</Item>
-                                <Item Key="https://protonvpn.com/assets/img/media/protonvpn-sign-green.png">4</Item>
+                                <Item Key="sample_otobo.png">1</Item>
+                                <Item Key="sample_openstreetmap.png">2</Item>
+                                <Item Key="sample_wikipedia.png">3</Item>
                             </Hash>
                         </Item>
                         <Item Key="Titles">
