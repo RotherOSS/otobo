@@ -3618,6 +3618,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
+<input type="hidden" id="DynamicField_$DynamicFieldConfigs{Set}->{Name}_0" name="OriginSetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Set}->{Name}_0" name="SetIndex_$DynamicFieldConfigs{Set}->{Name}" value="0"/>
 <fieldset class="DynamicFieldSet">
                         <div class="Row Row_DynamicField" style="grid-template-columns: 1fr">
