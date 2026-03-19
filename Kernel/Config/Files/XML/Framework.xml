@@ -7394,6 +7394,13 @@ via the Preferences button after logging in.
                                 <Item Key="https://protonvpn.com/assets/img/media/protonvpn-sign-green.png">4</Item>
                             </Hash>
                         </Item>
+                        <Item Key="Titles">
+                            <Hash>
+                                <Item Key="OTOBO">1</Item>
+                                <Item Key="OpenStreetMap">2</Item>
+                                <Item Key="Wikipedia">3</Item>
+                            </Hash>
+                        </Item>
                     </Hash>
                 </Item>
             </Hash>
