@@ -1380,6 +1380,7 @@ sub SendEmail {
             ObjectID           => $ObjectID,
             Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
             UserID             => $Self->{UserID},
+            ParamObject        => $ParamObject,
         );
     }
 
