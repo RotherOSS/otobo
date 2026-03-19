@@ -399,3 +399,8 @@ o Name:    Spectrum
 o Name:    DejaVu Fonts
   Web:     https://dejavu-fonts.github.io/
   License: Free License - https://dejavu-fonts.github.io/License.html
+
+o Name:    Wikipedia Logo
+  Web:     https://commons.wikimedia.org/wiki/File:Antu_wikipedia.svg
+  License: Creative Commons Attribution-Share Alike 3.0 Unported - https://creativecommons.org/licenses/by-sa/3.0/deed.en
+  Note:    This file is from the Antü Plasma Suite. No changes were made. Path to file is var/httpd/htdocs/skins/Customer/default/img/sample_wikipedia.png.
