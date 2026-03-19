@@ -7387,9 +7387,9 @@ via the Preferences button after logging in.
                         </Item>
                         <Item Key="Images">
                             <Hash>
-                                <Item Key="sample_otobo.png">1</Item>
-                                <Item Key="sample_openstreetmap.png">2</Item>
-                                <Item Key="sample_wikipedia.png">3</Item>
+                                <Item Key="/otobo-web/skins/Customer/default/img/sample_otobo.png">1</Item>
+                                <Item Key="/otobo-web/skins/Customer/default/img/sample_openstreetmap.png">2</Item>
+                                <Item Key="/otobo-web/skins/Customer/default/img/sample_wikipedia.png">3</Item>
                             </Hash>
                         </Item>
                         <Item Key="Titles">
