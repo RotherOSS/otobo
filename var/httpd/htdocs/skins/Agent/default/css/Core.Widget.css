@@ -45,6 +45,7 @@ ul.Tablelike li {
     padding: 0 4px;
     min-height: 20px;
     background-color: #FFF;
+    overflow-wrap: break-word;
 }
 
 ul.Tablelike li.OneRow,
