@@ -210,8 +210,7 @@ Core.AJAX = (function (TargetNS) {
      *      Collects additional data that are needed for the ajax requests.
      */
     function GetAdditionalDefaultData() {
-        var Data = {};
-        Data = GetSessionInformation();
+        var Data = GetSessionInformation();
         Data.Action = Core.Config.Get('Action');
         return Data;
     }
@@ -271,7 +270,7 @@ Core.AJAX = (function (TargetNS) {
             ParentBody,
             Range,
             StartRange = 0,
-            NewPosition = 0,
+            NewPosition,
             CKEditorObj;
 
         if ($Element.length) {
@@ -300,7 +299,7 @@ Core.AJAX = (function (TargetNS) {
                         // set new text
                         CKEditorObj.setData(Value);
                     }
-                    catch (Error) {
+                    catch {
                         $.noop();
                     }
                 }, 100);
