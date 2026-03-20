@@ -595,9 +595,6 @@ Core.AJAX = (function (TargetNS) {
                     MultiValueFields.forEach( function( Cell ) {
                         $(Cell).addClass("oooACLHidden");
                     });
-                    if ( $FieldRow.hasClass('MultiColumn') ) {
-                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
-                    }
                 }
                 if ( !$FieldRow.hasClass('MultiColumn') || $FieldRow.children('.FieldCell:visible').length == 0 ) {
                     $FieldRow.addClass('oooACLHidden');
