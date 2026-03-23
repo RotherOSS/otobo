@@ -1075,7 +1075,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
         if ( $Config->{'Queue'} ) {
-            $GetParam{Dest}    = $ParamObject->GetParam( Param => 'Dest' ) || '';
             $GetParam{QueueID} = '';
             if ( $GetParam{Dest} =~ /^(\d{1,100})\|\|.+?$/ ) {
                 $GetParam{QueueID} = $1;
@@ -1091,14 +1090,6 @@ sub Run {
                     $GetParam{Dest} = $QueueDefaultID . '||' . $QueueDefault;
                 }
                 $GetParam{QueueID} = $QueueDefaultID;
-            }
-
-            # warn if there is no (valid) default queue and the customer can't select one
-            else {
-                $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
-                    Comment => Translatable('Please contact the administrator.'),
-                );
             }
         }
 
