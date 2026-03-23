@@ -206,7 +206,7 @@ Core.AJAX = (function (TargetNS) {
      *      Collects additional data that are needed for the ajax requests.
      */
     function GetAdditionalDefaultData() {
-        let Data = GetSessionInformation();
+        var Data = GetSessionInformation();
         Data.Action = Core.Config.Get('Action');
         return Data;
     }
@@ -656,9 +656,6 @@ Core.AJAX = (function (TargetNS) {
                     MultiValueFields.forEach( function( Cell ) {
                         $(Cell).addClass("oooACLHidden");
                     });
-                    if ( $FieldRow.hasClass('MultiColumn') ) {
-                        Core.UI.InputFields.HideMultiAddRemoveButtons( $FieldRow );
-                    }
                 }
                 if ( !$FieldRow.hasClass('MultiColumn') || $FieldRow.children('.FieldCell:visible').length == 0 ) {
                     $FieldRow.addClass('oooACLHidden');
