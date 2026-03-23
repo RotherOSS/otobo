@@ -39,7 +39,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBOPackageSpecifics - Migrate response table to OTOBO.
+Kernel::System::MigrateFromOTRS::OTOBOPackageSpecifics - migration tasks that are specific to optional packages
 
 =head1 SYNOPSIS
 
