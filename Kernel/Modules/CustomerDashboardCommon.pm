@@ -51,9 +51,40 @@ sub Run {
 
     my $Output = $LayoutObject->CustomerHeader();
 
+    # validate that each tile has a valid and unique Order
+    # tiles with invalid or duplicate Order are moved to the end by giving them top Order values
+    my $MaxOrder = 0;
+    my %OrderUsed;
+    my @InvalidOrderTiles;
+    for my $Tile ( sort { $UsedTiles->{$a}->{Order} <=> $UsedTiles->{$b}->{Order} } keys $UsedTiles->%* ) {
+
+        # check if the Order is valid and unique
+        my $Order = $UsedTiles->{$Tile}{Order};
+        if ( $Order !~ m/^\d+$/ || $OrderUsed{$Order} ) {
+            push @InvalidOrderTiles, $Tile;
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.',
+                $Tile,
+            );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $Message,
+            );
+        }
+        else {
+            if ( $Order > $MaxOrder ) {
+                $MaxOrder = $Order;
+            }
+            $OrderUsed{$Order} = 1;
+        }
+    }
+
+    for my $Tile (@InvalidOrderTiles) {
+        $UsedTiles->{$Tile}{Order} = ++$MaxOrder;
+    }
+
     # generate the HTML of the individual tiles
     my $TileHTML = '';
-    my %OrderUsed;
     for my $Tile ( sort { $UsedTiles->{$a}->{Order} <=> $UsedTiles->{$b}->{Order} } keys $UsedTiles->%* ) {
 
         # check if the registration for each tile is valid
@@ -94,21 +125,6 @@ sub Run {
         # create a backend object
         my $BackendObject = $BackendModule->new();
 
-        # check if the Order is an unique number
-        my $TileID = sprintf '%02d', $UsedTiles->{$Tile}{Order};    # assuming Order being less than 100
-        if ( $TileID !~ m/^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
-            my $Message = $LayoutObject->{LanguageObject}->Translate(
-                'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.',
-                $Tile,
-            );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $Message,
-            );
-
-            return $LayoutObject->ErrorScreen( Message => $Message );
-        }
-
         # replace the OTOBO_CONFIG macro in the config, for settings like:
         #   <Item Key="BackgroundImage">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;common/img/Dashboard/dashboard_bgfl.png</Item>
         my $Config = $UsedTiles->{$Tile}->{Config} || {};
@@ -119,6 +135,8 @@ sub Run {
 
             $Config->{$Key} =~ s{<OTOBO_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
         }
+
+        my $TileID = sprintf '%02d', $UsedTiles->{$Tile}{Order};    # assuming Order being less than 100
 
         # get the HTML
         $TileHTML .= $BackendObject->Run(
