@@ -142,6 +142,9 @@ requires 'Const::Fast';
 
 # };
 
+# Feature 'devel:profiling' is not needed for Docker
+
+
 # feature 'devel:test', 'Modules for running the test suite' => sub {
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';

@@ -148,6 +148,15 @@ feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
 
 };
 
+feature 'devel:profiling', 'Modules for profiling Perl code' => sub {
+    # for profiling Perl code
+    requires 'Devel::NYTProf', '>= 6.12';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
+
+};
+
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
@@ -359,6 +368,12 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # bring explain() back to test scripts
     requires 'Test2::Tools::Explain';
+
+    # for profiling Perl code
+    requires 'Devel::NYTProf', '>= 6.12';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
 
 };
 
