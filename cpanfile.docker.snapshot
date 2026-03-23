@@ -349,6 +349,12 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Compress-Raw-Zlib-2.222
+    pathname: P/PM/PMQS/Compress-Raw-Zlib-2.222.tar.gz
+    provides:
+      Compress::Raw::Zlib 2.222
+    requirements:
+      ExtUtils::MakeMaker 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
@@ -2407,7 +2413,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -4496,7 +4501,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -4509,6 +4513,7 @@ DISTRIBUTIONS
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
       LWP 0
       LWP::MediaTypes 0
       LWP::Protocol 0
