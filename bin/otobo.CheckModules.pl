@@ -214,6 +214,7 @@ my %IsDockerFeature = (
     'div:cldr'           => 1,
     'div:locallib'       => 1,
     'div:qrcode'         => 1,
+    'div:zlib'           => 1,
     'gazelle'            => 1,
     'graph:graphviz'     => 1,
     'performance:redis'  => 1,
@@ -1090,6 +1091,15 @@ my @NeededModules = (
             zypper => 'perl-ldap',
             ports  => 'net/p5-perl-ldap',
         },
+    },
+    {
+        # A current version of Compress::Raw::Zlib is only required for Docker installations.
+        # For native installation the system libz.so is used.
+        Module                => 'Compress::Raw::Zlib',
+        Comment               => 'create and use a local lib/ for perl modules with PERL5LIB',
+        Features              => ['div:zlib'],
+        DockerVersionRequired => 2.222,
+        InstTypes             => {},
     },
     {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
