@@ -823,7 +823,6 @@ sub Run {
                 );
             }
 
-            $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $Self->_MaskNew(
                 Attachments => \@Attachments,
                 %GetParam,
