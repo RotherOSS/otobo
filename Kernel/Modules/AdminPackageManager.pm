@@ -147,12 +147,14 @@ sub Run {
                 );
             }
         }
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -514,6 +516,7 @@ sub Run {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -749,6 +752,7 @@ sub Run {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -769,6 +773,7 @@ sub Run {
                 Message => Translatable('No such package!'),
             );
         }
+
         return $LayoutObject->Attachment(
             Content     => $Package,
             ContentType => 'application/octet-stream',
@@ -795,6 +800,7 @@ sub Run {
                 Message => Translatable('No such package!'),
             );
         }
+
         return $LayoutObject->Attachment(
             Content     => $Package,
             ContentType => 'application/octet-stream',
@@ -817,6 +823,7 @@ sub Run {
             Key       => 'UserRepository',
             Value     => $Source,
         );
+
         return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
@@ -960,6 +967,7 @@ sub Run {
                 Data         => \%Param,
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -979,6 +987,7 @@ sub Run {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
     }
@@ -1054,6 +1063,7 @@ sub Run {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -1133,6 +1143,7 @@ sub Run {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -1152,6 +1163,7 @@ sub Run {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
     }
@@ -1230,6 +1242,7 @@ sub Run {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -1287,6 +1300,7 @@ sub Run {
                     FormID  => $FormID,
                 );
             }
+
             return $Self->_InstallHandling(
                 Package => $UploadStuff{Content},
                 FormID  => $FormID,
@@ -1320,6 +1334,7 @@ sub Run {
             String => $Package,
         );
         my $File = $PackageObject->PackageBuild(%Structure);
+
         return $LayoutObject->Attachment(
             Content     => $File,
             ContentType => 'application/octet-stream',
@@ -1947,6 +1962,7 @@ sub Run {
         TemplateFile => 'AdminPackageManager',
     );
     $Output .= $LayoutObject->Footer();
+
     return $Output;
 }
 
@@ -1989,6 +2005,7 @@ sub _MessageGet {
             }
         }
     }
+
     return if !$Description && !$Title;
 
     $Description = $Self->_GetSafeString( String => $Description );
@@ -2066,6 +2083,7 @@ sub _DocumentationGet {
     elsif ($DocumentationFileFallback) {
         $Doc{Location} = $DocumentationFileFallback;
     }
+
     return %Doc;
 }
 
@@ -2151,6 +2169,7 @@ sub _InstallHandling {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -2197,6 +2216,7 @@ sub _InstallHandling {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
 
     }
@@ -2244,6 +2264,7 @@ sub _InstallHandling {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -2313,6 +2334,7 @@ sub _InstallHandling {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -2387,6 +2409,7 @@ sub _UpgradeHandling {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -2425,6 +2448,7 @@ sub _UpgradeHandling {
             TemplateFile => 'AdminPackageManager',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -2470,6 +2494,7 @@ sub _UpgradeHandling {
                 TemplateFile => 'AdminPackageManager',
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 

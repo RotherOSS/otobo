@@ -209,7 +209,7 @@ sub Run {
 
     if ( !$Self->{Subaction} ) {
 
-        #Get default Queue ID if none is set
+        # Get default Queue ID if none is set
         my $QueueDefaultID;
         if ( !$GetParam{Dest} ) {
             my $QueueDefault = $Config->{'QueueDefault'} || '';
@@ -1074,13 +1074,27 @@ sub Run {
 
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
-        $GetParam{Dest} = $ParamObject->GetParam( Param => 'Dest' ) || '';
+        if ( $Config->{'Queue'} ) {
+            $GetParam{QueueID} = '';
+            if ( $GetParam{Dest} =~ /^(\d{1,100})\|\|.+?$/ ) {
+                $GetParam{QueueID} = $1;
+            }
+        }
+
+        # use QueueDefault as fallback if Queue selection is disabled
+        else {
+            my $QueueDefault = $Config->{'QueueDefault'} || '';
+            if ($QueueDefault) {
+                my $QueueDefaultID = $QueueObject->QueueLookup( Queue => $QueueDefault );
+                if ($QueueDefaultID) {
+                    $GetParam{Dest} = $QueueDefaultID . '||' . $QueueDefault;
+                }
+                $GetParam{QueueID} = $QueueDefaultID;
+            }
+        }
+
         my $CustomerUser   = $Self->{UserID};
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-        $GetParam{QueueID} = '';
-        if ( $GetParam{Dest} =~ /^(\d{1,100})\|\|.+?$/ ) {
-            $GetParam{QueueID} = $1;
-        }
 
         # get list type
         my $TreeView = 0;
