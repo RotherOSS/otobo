@@ -474,7 +474,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 $domEditableElement.resizable();
                 $domEditableElement.resizable("option", "handles", "s");
-                $(".ui-resizable-s", $domEditableElement).append("<i class='ooofo ooofo-more_h'></i>");
+                let $resizeHandle = $(".ui-resizable-s", $domEditableElement);
+                $resizeHandle.append("<i class='ooofo ooofo-more_h'></i>");
+                $resizeHandle.addClass("RichTextField_resizeHandle");
 
                 $domEditableElement.on('resize', function() {
                     adjustEditorSize();
@@ -492,7 +494,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                     let verticalPadding = parseFloat($editingArea.css("padding-top")) + parseFloat($editingArea.css("padding-bottom"));
                     let borderWidth = parseFloat($editingArea.css("border-top")) + parseFloat($editingArea.css("border-bottom"));
-                    let newSize = newEditorSize - (toolbarHeight + verticalPadding)
+                    let newSize = newEditorSize - toolbarHeight;
                     if (sourceEditingActive) {
                         $editingArea.height(newSize);
                         editor.editing.view.forceRender();
