@@ -214,6 +214,12 @@ feature 'div:xslt', 'Support for feature div:xslt' => sub {
 
 };
 
+feature 'div:zlib', 'Support for feature div:zlib' => sub {
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'Compress::Raw::Zlib';
+
+};
+
 feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => sub {
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
@@ -311,6 +317,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # create and use a local lib/ for perl modules with PERL5LIB
     requires 'local::lib';
+
+    # create and use a local lib/ for perl modules with PERL5LIB
+    requires 'Compress::Raw::Zlib';
 
     # For strong password hashing.
     requires 'Crypt::Eksblowfish::Bcrypt';

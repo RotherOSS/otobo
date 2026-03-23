@@ -208,6 +208,7 @@ my %IsDockerFeature = (
     'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:locallib'       => 1,
+    'div:zlib'           => 1,
     'gazelle'            => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
@@ -265,8 +266,8 @@ GetOptions(
     'features'           => \$DoPrintFeatures,
     'finst=s{1,}'        => \@FeatureInstList,
     'flist=s{1,}'        => \@FeatureList,
-    'generate-cpanfiles' => \$DoGenerateCpanfiles,
     'cpanfile'           => \$DoPrintCpanfile,
+    'generate-cpanfiles' => \$DoGenerateCpanfiles,
     'docker-cpanfile'    => \$DoPrintDockerCpanfile,
     'bundled-cpanfile'   => \$DoPrintBundledCpanfile,
 ) || pod2usage(2);
@@ -998,6 +999,15 @@ my @NeededModules = (
             zypper => 'perl-local-lib',
             ports  => 'p5-local-lib',
         },
+    },
+    {
+        # A current version of Compress::Raw::Zlib is only required for Docker installations.
+        # For native installation the system libz.so is used.
+        Module                => 'Compress::Raw::Zlib',
+        Comment               => 'create and use a local lib/ for perl modules with PERL5LIB',
+        Features              => ['div:zlib'],
+        DockerVersionRequired => 2.222,
+        InstTypes             => {},
     },
     {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
