@@ -95,6 +95,72 @@ sub new {
     return $Self;
 }
 
+sub FieldValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    # Check for defined value.
+    if ( !defined $Param{Value} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Value in $Param{DynamicFieldConfig}->{FieldType} DynamicField!",
+        );
+
+        return;
+    }
+
+    # validate values via SearchObjects
+    #   driver prevents usage of PossibleValuesGet on purpose for performance reasons
+    if ( length $Param{Value} ) {
+        my @Values;
+        if ( ref $Param{Value} eq 'ARRAY' ) {
+            @Values = @{ $Param{Value} };
+        }
+        else {
+            push @Values, $Param{Value};
+        }
+
+        if ( $Param{ExternalSource} && $Param{DynamicFieldConfig}{Config}{ImportSearchAttribute} ) {
+            my $TransformedValues = $Self->_TransformExternalSource(
+                DynamicFieldConfig => $Param{DynamicFieldConfig},
+                ValueArray         => \@Values,
+                UserID             => $Param{UserID},
+            );
+            VALUE:
+            for my $Value ( $TransformedValues->@* ) {
+
+                # empty values are considered valid
+                next VALUE unless $Value;
+
+                my @SearchResult = $Self->SearchObjects(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ObjectID           => $Value,
+                    UserID             => $Param{UserID},
+                );
+
+                return unless @SearchResult;
+            }
+        }
+        else {
+            VALUE:
+            for my $Value (@Values) {
+
+                # empty values are considered valid
+                next VALUE unless $Value;
+
+                my @SearchResult = $Self->SearchObjects(
+                    DynamicFieldConfig => $Param{DynamicFieldConfig},
+                    ObjectID           => $Value,
+                    UserID             => $Param{UserID},
+                );
+
+                return unless @SearchResult;
+            }
+        }
+    }
+
+    return 1;
+}
+
 sub PossibleValuesGet {
 
     # this field makes no use of PossibleValuesGet for performance purpose - instead, values are checked via CustomerUserDataGet
