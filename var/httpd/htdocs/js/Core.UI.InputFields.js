@@ -2824,7 +2824,7 @@ Core.UI.InputFields = (function (TargetNS) {
             TimeStrings.forEach(TimeString => {
                     var $DateTimeElement = $DateTime.find('.Validate_Date' + TimeString);
                     if ( $DateTimeElement.length ) {
-                        var DateTimeFieldName = $DateTimeElement.attr('name').substr(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
+                        var DateTimeFieldName = $DateTimeElement.attr('name').substring(0, $DateTimeElement.attr('name').lastIndexOf(TimeString));
                         TimeStrings.forEach(ClassTimeString => {
                             var ClassString = 'Validate_Date' + ClassTimeString + '_' + DateTimeFieldName + ClassTimeString;
                             $DateTimeElement.hasClass(ClassString) && $DateTimeElement.removeClass(ClassString) && $DateTimeElement.addClass(ClassString + '_' + CellGridPosition.Row);
