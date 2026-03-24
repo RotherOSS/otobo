@@ -28,6 +28,7 @@ use PerlIO;    ## no perlimports, not sure whether this is needed
 use HTTP::Status    qw(status_message);
 use Plack::Response ();
 use SOAP::Lite;    # for enabling debugging import +trace => 'all'
+use Text::Trim qw(rtrim);
 
 # OTOBO modules
 use Kernel::System::VariableCheck  qw(:all);
@@ -210,6 +211,10 @@ sub ProviderProcessRequest {
         Summary => 'Received data by provider from remote system',
         Data    => $Content,
     );
+
+    # Normalize Content by removing trailing white space.
+    # This make SOAP::Lite work with XML::Parser >= 1.48.
+    rtrim($Content);
 
     # Deserialize data.
     my $Deserialized      = eval { SOAP::Deserializer->deserialize($Content); };

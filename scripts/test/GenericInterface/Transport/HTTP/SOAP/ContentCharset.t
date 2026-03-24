@@ -110,6 +110,10 @@ plan( scalar @Tests );
 
 for my $Test (@Tests) {
 
+    # This test request XML has a trailing newline. There have been problems with that
+    # when XML::Parser >= 1.48 is used.
+    # Therefore Kernel::GenericInterface::Transport::HTTP::SOAP::ProviderProcessRequest()
+    # has been tweaked to trim trailing white space.
     my $Request = <<"END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
