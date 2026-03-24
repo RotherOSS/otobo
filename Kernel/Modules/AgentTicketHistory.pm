@@ -114,11 +114,9 @@ sub Run {
         );
     }
 
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
     my $Time;
 
-    for my $Data (@Lines) {
+    for my $Data ( reverse @Lines ) {
         $Data->{Class} = '';
 
         my $HistoryArticleTime = $Kernel::OM->Create(
