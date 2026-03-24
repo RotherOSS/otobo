@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -104,6 +104,10 @@ plan( scalar @Tests );
 
 for my $Test (@Tests) {
 
+    # This test request XML has a trailing newline. There have been problems with that
+    # when XML::Parser >= 1.48 is used.
+    # Therefore Kernel::GenericInterface::Transport::HTTP::SOAP::ProviderProcessRequest()
+    # has been tweaked to trim trailing white space.
     my $Request = << "END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
@@ -114,7 +118,6 @@ for my $Test (@Tests) {
    </soapenv:Body>
 </soapenv:Envelope>
 END_XML
-
     $EncodeObject->EncodeOutput( \$Request );
 
     # Fake STDIN and fill it with the request.
