@@ -225,8 +225,8 @@ sub GetFieldTypeSettings {
             Explanation     => Translatable('When set via an external source (e.g. web service or import / export), the value will be interpreted as this attribute.'),
             InputType       => 'Selection',
             SelectionData   => {
-                'UserLogin' => 'Login',
-                'UserEmail' => 'E-Mail',
+                'UserLogin'        => 'Login',
+                'PostMasterSearch' => 'E-Mail',
             },
             PossibleNone => 1,
             Multiple     => 0,
