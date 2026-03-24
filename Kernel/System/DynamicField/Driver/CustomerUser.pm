@@ -38,9 +38,9 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CustomerUser',
-    'Kernel::System::Group',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Group',
     'Kernel::System::Log',
 );
 
