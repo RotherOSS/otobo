@@ -407,7 +407,7 @@ div.DnDUploadBox {
 
 div.DnDUpload {
     border: 1px solid var(--colBGDark);
-    border-radius: 10px;
+    border-radius: 4px;
     color: var(--colTextLight);
     min-height: 60px;
     text-align: center;
