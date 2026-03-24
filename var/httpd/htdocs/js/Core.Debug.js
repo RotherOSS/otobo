@@ -194,7 +194,7 @@ Core.Debug = (function (TargetNS) {
                             InputType === 'text') {
                             InputValue = CurrentNode.getAttribute('value');
                             if (InputValue && InputValue.length) {
-                                ReplacementValue = Replacement.substr(0, InputValue.length);
+                                ReplacementValue = Replacement.substring(0, InputValue.length);
                                 CurrentNode.setAttribute('value', ReplacementValue);
                             }
                         }
@@ -216,7 +216,7 @@ Core.Debug = (function (TargetNS) {
                     continue;
                 }
 
-                CurrentNode.nodeValue = Replacement.substr(0, CurrentText.length);
+                CurrentNode.nodeValue = Replacement.substring(0, CurrentText.length);
             }
         }
 

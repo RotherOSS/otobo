@@ -268,7 +268,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
         }
 
         DialogTitle = $.trim(DialogTitle);
-        DialogTitle = DialogTitle.substr(0, DialogTitle.length - 1);
+        DialogTitle = DialogTitle.substring(0, DialogTitle.length - 1);
         DialogTitle = DialogTitle.replace(/^\*\s+/, '');
 
         // Check if there are elements to select from
@@ -304,7 +304,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             plugins: [ 'search' ]
         })
         /*eslint-enable camelcase */
-        .on('select_node.jstree', function (node, selected, event) {
+        .on('select_node.jstree', function (_node, selected, event) {
             var $Node = $('#' + selected.node.id);
             if ($Node.hasClass('Disabled') || !$Node.is(':visible')) {
                 $TreeObj.jstree('deselect_node', selected.node);
@@ -525,7 +525,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $FieldObj.find('option').remove();
 
-        $.each(Data, function(index, OptionData) {
+        $.each(Data, function(_index, OptionData) {
 
             Key = OptionData[0] || '';
             Value = OptionData[1] || '';
@@ -583,7 +583,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             return 0;
         });
 
-        $.each(SelectData, function(index, SelectedData) {
+        $.each(SelectData, function(_index, SelectedData) {
             $FieldObj.append('<option value="' + SelectedData.Key + '"' + SelectedData.SelectedAttr + SelectedData.DisabledAttr + '>' + SelectedData.Value + '</option>');
         });
 

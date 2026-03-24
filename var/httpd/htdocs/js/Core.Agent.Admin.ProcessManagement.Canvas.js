@@ -38,7 +38,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      * @memberof Core.Agent.Admin.ProcessManagement.Canvas
      * @member {Array}
      * @description
-     *      Glocal list of all process management elements (activities, ...).
+     *      Global list of all process management elements (activities, ...).
      */
     var Elements = {},
     /**
@@ -77,7 +77,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         ScreenWidth = $Element.width();
 
         // Loop through available elements and find max needed width and height
-        $.each(Core.Agent.Admin.ProcessManagement.ProcessLayout, function (Key, Value) {
+        $.each(Core.Agent.Admin.ProcessManagement.ProcessLayout, function (_Key, Value) {
             var Left = parseInt(Value.left, 10),
                 Top = parseInt(Value.top, 10);
 
@@ -120,7 +120,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      * @description
      *      Show confirmation dialog to remove entity from canvas.
      */
-    function ShowRemoveEntityCanvasConfirmationDialog(EntityType, EntityName, EntityID, Callback) {
+    function ShowRemoveEntityCanvasConfirmationDialog(EntityType, EntityName, _EntityID, Callback) {
         var DialogID = 'Remove' + EntityType + 'CanvasConfirmationDialog',
             $DialogElement = $('#Dialogs #' + DialogID);
 
@@ -331,7 +331,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Add content to the tooltip
         text += "<ul>";
         if (AssignedTransitionActions.length) {
-            $.each(AssignedTransitionActions, function (Key, Value) {
+            $.each(AssignedTransitionActions, function (_Key, Value) {
                 text += "<li>" + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.TransitionAction[Value].Name) + "</li>";
             });
         }
@@ -419,15 +419,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Add content to the tooltip
         text += "<ul>";
         if (ActivityDialogs) {
-            $.each(ActivityDialogs, function (Key, Value) {
+            $.each(ActivityDialogs, function (_Key, Value) {
                 var Interfaces = Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Interface,
                     SelectedInterface = '';
 
-                $.each(Interfaces, function (InterfaceKey, InterfaceValue) {
+                $.each(Interfaces, function (_InterfaceKey, InterfaceValue) {
                     if (SelectedInterface.length) {
                         SelectedInterface += '/';
                     }
-                    SelectedInterface += InterfaceValue.substr(0, 1);
+                    SelectedInterface += InterfaceValue.substring(0, 1);
                 });
                 text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " </li>";
             });
@@ -734,7 +734,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      * @name CreateTransition
      * @memberof Core.Agent.Admin.ProcessManagement.Canvas
      * @function
-     * @returns {Boolean} Returns fale, if start activity or end activity is not defined.
+     * @returns {Boolean} Returns false, if start activity or end activity is not defined.
      * @param {String} StartElement
      * @param {String} EndElement
      * @param {String} EntityID
@@ -1169,7 +1169,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     Path[Data.sourceId][TransitionID].ActivityEntityID = Data.targetId;
                 }
 
-                // set connection style to blackagain (if it was red before)
+                // set connection style to black again (if it was red before)
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
                 Data.targetEndpoint.setPaintStyle({ fillStyle: "#000" });
             }

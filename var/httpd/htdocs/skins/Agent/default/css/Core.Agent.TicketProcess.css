@@ -37,6 +37,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: #efefef;
     border: 1px solid #ddd;
     line-height: 150%;
+    overflow-wrap: break-word;
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label {
