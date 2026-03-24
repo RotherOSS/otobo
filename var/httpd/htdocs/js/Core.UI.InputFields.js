@@ -261,7 +261,7 @@ Core.UI.InputFields = (function (TargetNS) {
     TargetNS.Deactivate = function ($Context) {
 
         // Restore select fields
-        $('select.Modernize', $Context).each(function (Index, SelectObj) {
+        $('select.Modernize', $Context).each(function (_Index, SelectObj) {
             var $SelectObj = $(SelectObj),
                 $ShowTreeObj = $SelectObj.next('.ShowTreeSelection');
 
@@ -542,7 +542,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
 
         // Check for empty values (allow field clearing).
-        $SelectObj.find('option').each(function (Index, Option) {
+        $SelectObj.find('option').each(function (_Index, Option) {
             if ($(Option).attr('value') === '' || $(Option).attr('value') === '||-') {
                 PossibleNone = true;
                 return true;
@@ -585,7 +585,7 @@ Core.UI.InputFields = (function (TargetNS) {
             }
 
             // Iterate through all selected values
-            $.each(Selection, function (Index, Value) {
+            $.each(Selection, function (_Index, Value) {
                 var $SelectionObj,
                     Text,
                     $TextObj,
@@ -985,7 +985,7 @@ Core.UI.InputFields = (function (TargetNS) {
             FilterIndex = parseInt($SelectObj.data('filtered'), 10) - 1;
 
             // Insert filtered data
-            $.each($SelectObj.data('filters').Filters[FilterIndex].Data, function (Index, Option) {
+            $.each($SelectObj.data('filters').Filters[FilterIndex].Data, function (_Index, Option) {
                 var $OptionObj = $('<option />');
                 $OptionObj.attr('value', Option.Key)
                     .text(Option.Value);
@@ -1076,7 +1076,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 $FilterObj.off('click.InputField').on('click.InputField', function (Event) {
 
                     // Allow selection of only one filter
-                    $FilterObj.siblings('input').each(function (Index, Filter) {
+                    $FilterObj.siblings('input').each(function (_Index, Filter) {
                         if ($(Filter).attr('id') !== $FilterObj.attr('id')) {
                             $(Filter).attr('checked', false);
                         }
@@ -1211,7 +1211,7 @@ Core.UI.InputFields = (function (TargetNS) {
             if (Data === undefined) {
                 Data = new Array();
             }
-            $.each(Elements, function (Index, Element) {
+            $.each(Elements, function (_Index, Element) {
                 if (typeof Element === 'object') {
                     if (Element.state) {
                         if (Element.state.selected) {
@@ -1338,7 +1338,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         // Iterate over all found fields
-        $SelectFields.each(function (Index, SelectObj) {
+        $SelectFields.each(function (_Index, SelectObj) {
 
             // Global variables
             var $ToolbarContainerObj,
@@ -1686,7 +1686,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     }
 
-                    $SelectObj.find('option').each(function (Index, Option) {
+                    $SelectObj.find('option').each(function (_Index, Option) {
                         if ($(Option).attr('value') === '' || $(Option).attr('value') === '||-') {
                             PossibleNone = true;
                             return true;
@@ -1958,7 +1958,7 @@ Core.UI.InputFields = (function (TargetNS) {
 
                     // Handle node selection in tree list
                     // Skip eslint check on next line for unused vars (it's actually event)
-                    .on('select_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
+                    .on('select_node.jstree', function (_Node, Selected) {  //eslint-disable-line no-unused-vars
                         var $SelectedNode = $('#' + Selected.node.id),
                             SelectedNodesIDs;
 
@@ -2189,7 +2189,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     .on('loaded.jstree', function () {
                         if (SelectedID) {
                             if (typeof SelectedID === 'object') {
-                                $.each(SelectedID, function (NodeIndex, Data) {
+                                $.each(SelectedID, function (_NodeIndex, Data) {
                                     $TreeObj.jstree('select_node', $TreeObj.find('li[data-id="' + Core.App.EscapeSelector(Data) + '"]'));
                                 });
                             }
@@ -3183,7 +3183,7 @@ Core.UI.InputFields = (function (TargetNS) {
     // jsTree plugin for multi selection without modifier key
     // Skip ESLint check below for no camelcase property, we are overriding an existing one!
     $.jstree.defaults.multiselect = {};
-    $.jstree.plugins.multiselect = function (options, parent) {
+    $.jstree.plugins.multiselect = function (_options, parent) {
         this.activate_node = function (obj, e) {
             e.ctrlKey = true;
             parent.activate_node.call(this, obj, e);
