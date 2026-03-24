@@ -391,7 +391,7 @@ Core.AJAX = (function (TargetNS) {
             // Select elements
             if ($Element.is('select')) {
                 $Element.empty();
-                $.each(DataValue, function (Index, Value) {
+                $.each(DataValue, function (_Index, Value) {
                     var NewOption,
                         OptionText = Core.App.EscapeHTML(Value[1]);
 
@@ -893,7 +893,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'json',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
                 if (RedirectAfterSessionTimeOut(XHRObject)) {
@@ -937,8 +937,8 @@ Core.AJAX = (function (TargetNS) {
         var QueryString, QueryIndex = URL.indexOf("?"), GlobalResponse;
 
         if (QueryIndex >= 0) {
-            QueryString = URL.substr(QueryIndex + 1);
-            URL = URL.substr(0, QueryIndex);
+            QueryString = URL.substring(QueryIndex + 1);
+            URL = URL.substring(0, QueryIndex);
         }
         QueryString += SerializeData(GetSessionInformation());
 
@@ -947,7 +947,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: QueryString,
             dataType: 'html',
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 
@@ -1004,7 +1004,7 @@ Core.AJAX = (function (TargetNS) {
             url: URL,
             data: Data,
             dataType: (typeof DataType === 'undefined') ? 'json' : DataType,
-            success: function (Response, Status, XHRObject) {
+            success: function (Response, _Status, XHRObject) {
 
                 Core.App.Publish('Core.App.AjaxErrorResolved');
 

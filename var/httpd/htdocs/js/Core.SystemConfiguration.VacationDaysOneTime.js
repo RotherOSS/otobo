@@ -41,7 +41,7 @@ Core.SystemConfiguration.VacationDaysOneTime = (function (TargetNS) {
     TargetNS.ValueGet = function ($Object) {
         var Value;
 
-        // There are many input/select fields, but we should calcutale Date only once.
+        // There are many input/select fields, but we should calculate Date only once.
         if ($Object.attr("id").endsWith("Day")) {
             Value = VacationDaysValueGet($Object);
         }
@@ -57,7 +57,7 @@ Core.SystemConfiguration.VacationDaysOneTime = (function (TargetNS) {
      * @param {jQueryObject} $Object - jquery object.
      * @returns {Object} - Vacation days data.
      * @description
-     *      This function calcutates vacation days.
+     *      This function calculates vacation days.
      */
     function VacationDaysValueGet($Object) {
         var Prefix,
@@ -68,7 +68,7 @@ Core.SystemConfiguration.VacationDaysOneTime = (function (TargetNS) {
             Description;
 
         Prefix = $Object.attr("id");
-        Prefix = Prefix.substr(0, Prefix.length - 3);
+        Prefix = Prefix.substring(0, Prefix.length - 3);
 
         // Escape selector.
         Prefix = Core.App.EscapeSelector(Prefix);
