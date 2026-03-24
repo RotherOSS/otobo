@@ -1655,7 +1655,7 @@
         <Description Translatable="1">Shows the ticket history (reverse ordered) in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketHistory</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="normal">
+            <Item ValueType="Select" SelectedID="reverse">
                 <Item ValueType="Option" Value="reverse" Translatable="1">reverse</Item>
                 <Item ValueType="Option" Value="normal" Translatable="1">normal</Item>
             </Item>
