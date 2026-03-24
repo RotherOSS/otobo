@@ -524,8 +524,6 @@ sub _GetHTTPLink {
                 $AccessRo = 1;
             }
         }
-
-        return;
     }
 
     if ( $AccessRo || $AccessRw ) {
