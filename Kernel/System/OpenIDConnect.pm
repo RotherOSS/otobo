@@ -280,6 +280,7 @@ Extracts IDToken data and validates it
         IDToken          => $IDToken,
         ProviderSettings => $ProviderSettings,
         ClientSettings   => $ClientSettings,
+        Leeway           => $AllowedTimeDriftSeconds, # optional
     );
 
 =cut
@@ -298,8 +299,12 @@ sub ValidateIDToken {
         }
     }
 
+    my $Leeway    = int( $Param{Leeway} // 2 );
     my $Return    = { Success => 0 };
-    my $TokenData = $Self->DecodeIDToken(%Param);
+    my $TokenData = $Self->DecodeIDToken(
+        %Param,
+        Leeway => $Leeway,
+    );
 
     return $Return if !$TokenData;
 
@@ -368,7 +373,6 @@ sub ValidateIDToken {
     }
 
     my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-    my $Leeway      = int( $Param{Leeway} // 2 );
 
     if ( $TokenData->{iat} - $Leeway > $CurrentTime ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -432,6 +436,7 @@ Returns the decoded token
     my $TokenData = $OpenIDConnectObject->DecodeIDToken(
         IDToken          => $IDToken,
         ProviderSettings => $ProviderSettings,
+        Leeway           => $AllowedTimeDriftSeconds, # optional
     );
 
 =cut
@@ -483,6 +488,7 @@ sub DecodeIDToken {
         $TokenData = decode_jwt(
             token    => $Param{IDToken},
             kid_keys => $OpenIDProviderData->{KeyData},
+            leeway   => $Param{Leeway} // 2,
         ) // {};
 
         # check whether the issuer is correct - if not the cached data might just be outdated
