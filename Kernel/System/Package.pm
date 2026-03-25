@@ -406,7 +406,7 @@ sub RepositoryAdd {
 
         # Make sure that the content is passed as a byte array and is bound as binary
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-        $ExtraDoParams{BindAsBinary} = [ 1, 0, 0, 0, 0, ];
+        $ExtraDoParams{BindAsBinary} = [ 0, 0, 0, 0, 1 ];
     }
     else {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
@@ -421,8 +421,11 @@ sub RepositoryAdd {
             . Translatable('not installed') . '\', '
             . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
-            \$Structure{Name}->{Content},   \$Structure{Version}->{Content},
-            \$Structure{Vendor}->{Content}, \$FileName, \$Content,
+            \$Structure{Name}->{Content},
+            \$Structure{Version}->{Content},
+            \$Structure{Vendor}->{Content},
+            \$FileName,
+            \$Content,
         ],
         %ExtraDoParams,
     );
