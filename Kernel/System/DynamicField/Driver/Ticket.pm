@@ -491,6 +491,10 @@ sub SearchObjects {
                     };
                 }
 
+                elsif ( $FilterItem->{ReferenceObjectAttribute} eq 'CustomerUserID' ) {
+                    $SearchParams{CustomerUserLogin} = [$EqualsObjectAttribute];
+                }
+
                 # array attribute
                 else {
                     $SearchParams{$AttributeName} = [$EqualsObjectAttribute];
