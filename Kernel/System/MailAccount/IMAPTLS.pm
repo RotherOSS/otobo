@@ -298,6 +298,13 @@ sub _Fetch {
             ),
         );
 
+        $CommunicationLogObject->ObjectLog(
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailAccount::IMAPOAuth2',
+            Value         => 'Could not fetch messages. Please check the log.',
+        );
+
         $ConnectionWithErrors = 1;
     };
 
