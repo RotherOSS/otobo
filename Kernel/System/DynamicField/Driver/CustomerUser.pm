@@ -381,6 +381,8 @@ sub SearchObjects {
             User => $Param{ObjectID},
         );
 
+        return () unless %CustomerUserData;
+
         # check if customer user matches search params
         for my $ParamName ( keys %SearchParams ) {
 

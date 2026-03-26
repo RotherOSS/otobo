@@ -456,7 +456,7 @@ sub SearchObjects {
                             }
                         }
 
-                        return unless $ParamName;
+                        return () unless $ParamName;
 
                         $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
 
@@ -476,8 +476,8 @@ sub SearchObjects {
                     $EqualsObjectAttribute = $Param{UserID};
                 }
 
-                return unless $EqualsObjectAttribute;
-                return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
+                return () unless $EqualsObjectAttribute;
+                return () if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
                 # config item attribute
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
@@ -489,6 +489,10 @@ sub SearchObjects {
                     $SearchParams{$AttributeName} = {
                         Equals => $EqualsObjectAttribute,
                     };
+                }
+
+                elsif ( $FilterItem->{ReferenceObjectAttribute} eq 'CustomerUserID' ) {
+                    $SearchParams{CustomerUserLogin} = [$EqualsObjectAttribute];
                 }
 
                 # array attribute
@@ -540,7 +544,7 @@ sub SearchObjects {
                     }
                 }
 
-                return unless @TypeIDs;
+                return () unless @TypeIDs;
 
                 $SearchParams{TypeIDs} = \@TypeIDs;
                 delete $SearchParams{Types};
@@ -574,7 +578,7 @@ sub SearchObjects {
                 }
             }
 
-            return unless @QueueIDs;
+            return () unless @QueueIDs;
 
             $SearchParams{QueueIDs} = \@QueueIDs;
             delete $SearchParams{Queues};

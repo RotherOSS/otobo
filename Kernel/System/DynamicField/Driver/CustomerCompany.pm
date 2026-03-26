@@ -353,7 +353,7 @@ sub SearchObjects {
                             }
                         }
 
-                        return unless $ParamName;
+                        return () unless $ParamName;
 
                         $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
 
@@ -373,8 +373,8 @@ sub SearchObjects {
                     $EqualsObjectAttribute = $Param{UserID};
                 }
 
-                return unless $EqualsObjectAttribute;
-                return if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
+                return () unless $EqualsObjectAttribute;
+                return () if ( ref $EqualsObjectAttribute eq 'ARRAY' && !$EqualsObjectAttribute->@* );
 
                 # config item attribute
                 if ( $FilterItem->{ReferenceObjectAttribute} =~ m{^Con}i ) {
