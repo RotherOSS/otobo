@@ -585,10 +585,13 @@ sub Run {
                     TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
                     CustomerUser              => $Self->{UserID},
-                    GetParam                  => {%GetParam},
-                    Autoselect                => $Autoselect,
-                    ACLPreselection           => $ACLPreselection,
-                    LoopProtection            => \$LoopProtection,
+                    GetParam                  => {
+                        %GetParam,
+                        CustomerID => $Self->{UserCustomerID},
+                    },
+                    Autoselect      => $Autoselect,
+                    ACLPreselection => $ACLPreselection,
+                    LoopProtection  => \$LoopProtection,
                 );
 
                 # combine FieldStates
@@ -1542,10 +1545,13 @@ sub Run {
                 TicketID                  => $Self->{TicketID},
                 FormID                    => $Self->{FormID},
                 CustomerUser              => $Self->{UserID},
-                GetParam                  => \%GetParam,
-                Autoselect                => $Autoselect,
-                ACLPreselection           => $ACLPreselection,
-                LoopProtection            => \$LoopProtection,
+                GetParam                  => {
+                    %GetParam,
+                    CustomerID => $Self->{UserCustomerID},
+                },
+                Autoselect      => $Autoselect,
+                ACLPreselection => $ACLPreselection,
+                LoopProtection  => \$LoopProtection,
             );
 
             # combine FieldStates
@@ -2539,8 +2545,8 @@ sub _Mask {
                 SeparateDynamicFields => $SeparateDynamicFields,
                 CustomerInterface     => 1,
                 Object                => {
-                    CustomerID     => $Self->{CustomerID},
-                    CustomerUserID => $Self->{CustomerUserID},
+                    CustomerID     => $Self->{UserCustomerID},
+                    CustomerUserID => $Self->{UserID},
                     %DynamicFieldValues,
                 },
             );

@@ -444,6 +444,7 @@ sub Run {
                     CustomerUser              => $Self->{UserID},
                     GetParam                  => {
                         %GetParam,
+                        CustomerID => $Self->{UserCustomerID},
                     },
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
@@ -1292,6 +1293,7 @@ sub Run {
                     CustomerUser              => $Self->{UserID},
                     GetParam                  => {
                         %GetParam,
+                        CustomerID => $Self->{UserCustomerID},
                     },
                     Autoselect      => $Autoselect,
                     ACLPreselection => $ACLPreselection,
