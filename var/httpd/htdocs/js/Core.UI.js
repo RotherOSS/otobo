@@ -865,8 +865,11 @@ Core.UI = (function (TargetNS) {
         $('.AttachmentList').off('click').on('click', '.AttachmentDelete', function() {
 
             var $TriggerObj = $(this),
+                CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
                 $AttachmentListContainerObj = $TriggerObj.closest('.AttachmentListContainer'),
-                $UploadFieldObj = $AttachmentListContainerObj.next('.AjaxDnDUpload'),
+                $UploadFieldObj = CustomerInterface
+                                    ? $AttachmentListContainerObj.prev('.oooDnD').children('.AjaxDnDUpload')
+                                    : $AttachmentListContainerObj.next('.AjaxDnDUpload'),
                 FormID = $UploadFieldObj.data('form-id') ? $UploadFieldObj.data('form-id') : $(this).closest('form').find('input[name=FormID]').val(),
                 Data = {
                     Action: $(this).data('delete-action') ? $(this).data('delete-action') : 'AjaxAttachment',
@@ -875,11 +878,9 @@ Core.UI = (function (TargetNS) {
                     FormID: FormID,
                     ObjectID: $(this).data('object-id'),
                     FieldID: $(this).data('field-id'),
-                },
-                CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+                };
 
             $TriggerObj.closest('.AttachmentListContainer').find('.Busy').fadeIn();
-
             Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                 if (Response && Response.Message && Response.Message == 'Success') {
                     $TriggerObj.closest('tr').fadeOut(function() {
