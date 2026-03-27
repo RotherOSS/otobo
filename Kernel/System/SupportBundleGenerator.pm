@@ -20,8 +20,14 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
 use Archive::Tar;
 use Cwd qw(abs_path);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -709,7 +715,6 @@ sub _GetCustomFileList {
 
     return @Files;
 }
-
 
 sub _MaskPasswords {
     my ( $Self, %Param ) = @_;
