@@ -27,12 +27,18 @@
 
 # Keep some directories from the top level.
 # Note that specific files in these directories will be added to the ignore list later on.
-!bin
 !Custom
 !doc
 !Kernel
 
-# keep scripts but exclude some files and directories that are not needed in the Docker image
+# keep 'bin' but ignore files that are needed only for development or for building the docker image
+!bin
+bin/docker/build_docker_images.sh
+bin/docker/lint_docker_files.sh
+bin/docker/set_up_minio.sh
+bin/devel
+
+# keep 'scripts' but exclude some files and directories that are not needed in the Docker image
 !scripts
 scripts/elasticsearch/
 scripts/nginx/
@@ -40,7 +46,7 @@ scripts/nginx-*.conf/
 scripts/systemd/
 scripts/tools/build-rhel-modules.sh
 
-# keep var but skip the files in var that might have been generated during development and testing
+# keep 'var' but ignore the files that might have been generated during development and testing
 !var
 var/httpd/htdocs/skins/Agent/*/css-cache/*
 var/httpd/htdocs/js/js-cache/*
@@ -62,12 +68,6 @@ var/tmp/
 **/*.sw?
 **/*~
 
-# ignore files that are only needed only for building the docker image
-bin/docker/build_docker_images.sh
-bin/docker/lint_docker_files.sh
-bin/docker/set_up_minio.sh
-bin/devel
-
 # ignore Config files that might have been added during development and testing
 # ignore Config.pm.dist, as Config.pm.docker.dist is actually used
 Kernel/Config.pm
@@ -85,6 +85,7 @@ bin/Cron.sh
 
 # in case somebody generated keys or certificates,
 # but keep the sample files needed for the unit tests
+# also keep the cacert.pem needed for Mozilla::CA
 **/*.cert
 **/*.crt
 !scripts/test/sample/SMIME/SMIME*.crt
