@@ -25,7 +25,8 @@
 !SECURITY.md
 !UPDATING.md
 
-# keep some dirs from the top level
+# Keep some directories from the top level.
+# Note that specific files in these directories will be added to the ignore list later on.
 !bin
 !Custom
 !doc
