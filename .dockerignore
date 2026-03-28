@@ -31,7 +31,14 @@
 !Custom
 !doc
 !Kernel
+
+# keep scripts but exclude some files and directories that are not needed in the Docker image
 !scripts
+scripts/elasticsearch/
+scripts/nginx/
+scripts/nginx-*.conf/
+scripts/systemd/
+scripts/tools/build-rhel-modules.sh
 
 # keep var but skip the files in var that might have been generated during development and testing
 !var
@@ -49,7 +56,6 @@ var/tmp/
 # The not wanted dot files are listed here explicitly.
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
-
 
 # ignore editor swap files and other temporary files
 **/.#*
