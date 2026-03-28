@@ -66,12 +66,11 @@ bin/devel
 Kernel/Config.pm
 Kernel/Config/Files/*.pm
 Kernel/Config.pm.dist
-Kernel/Config.pod
 
 # ignore files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
-bin/cgi-bin
-Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
+bin/cgi-bin/
+Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/
 
 # no need for cronjobs in Docker image
 var/cron

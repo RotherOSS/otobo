@@ -159,7 +159,6 @@ function copy_otobo_next() {
     # Make sure that an initial config is available. But don't overwrite existing config.
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
-    cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 
     # Indicate the time when copy_otobo_next() was last called. This is used primarily
     # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
