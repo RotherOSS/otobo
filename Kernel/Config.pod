@@ -46,6 +46,9 @@ Don't use the constructor directly, use the ObjectManager instead:
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+Most SysConfig settings are loaded from F<*.pm> files in the directory F<Kernel/Config/Files/>.
+The '<OTOBO_CONFIG_key>' macros are evaluated in the loaded strings.
+
 =head2 Get()
 
 Retrieves the value of a config setting.
