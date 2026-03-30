@@ -116,6 +116,9 @@ requires 'Plack::Middleware::ReverseProxy';
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
 
+    # Required for HTTPS connections to OpenID Connect providers.
+    requires 'LWP::Protocol::https';
+
 # };
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
@@ -232,6 +235,9 @@ requires 'Plack::Middleware::ReverseProxy';
     requires 'XML::LibXSLT';
 
 # };
+
+# Feature 'div:zlib' is not needed
+
 
 # feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => sub {
     # High-performance preforking PSGI/Plack web server

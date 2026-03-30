@@ -1067,6 +1067,17 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+    {
+        Module    => 'LWP::Protocol::https',
+        Features  => ['auth:openidconnect'],
+        Comment   => 'Required for HTTPS connections to OpenID Connect providers.',
+        InstTypes => {
+            aptget => 'liblwp-protocol-https-perl',
+            emerge => 'dev-perl/LWP-Protocol-https',
+            zypper => 'perl-LWP-Protocol-https',
+            ports  => 'www/p5-LWP-Protocol-https',
+        },
+    },
 
     # Feature div
     {

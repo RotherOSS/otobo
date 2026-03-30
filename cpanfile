@@ -119,6 +119,9 @@ feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
 
+    # Required for HTTPS connections to OpenID Connect providers.
+    requires 'LWP::Protocol::https';
+
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
@@ -390,6 +393,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for authentication via OpenIDConnect.
     requires 'Crypt::JWT';
+
+    # Required for HTTPS connections to OpenID Connect providers.
+    requires 'LWP::Protocol::https';
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', '>= 0.23';
