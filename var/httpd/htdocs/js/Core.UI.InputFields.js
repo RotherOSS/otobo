@@ -1366,6 +1366,21 @@ Core.UI.InputFields = (function (TargetNS) {
                 WholeRowClicked,
                 ScrollEventListener;
 
+            // Set width of search field to that of the select field
+            function UpdateFieldWidth() {
+
+                //setting the size via css breakes form styling
+                if ($SelectObj.closest('fieldset').hasClass('ModularForm'))
+                    return;
+
+                $SearchObj.blur().hide();
+                SelectWidth = $SelectObj.show().outerWidth();
+                $SelectObj.hide();
+                $SearchObj.outerWidth(SelectWidth).show();
+            }
+
+        
+
             // For performance reasons:
             // Do not initialize modern inputfields on selects with many entries
             if ($(SelectObj).children('option').length > Config.MaxNumberOfOptions) {
@@ -1444,26 +1459,19 @@ Core.UI.InputFields = (function (TargetNS) {
                     $SearchObj.addClass('Small');
                 }
 
-                // Set width of search field to that of the select field
-                $SearchObj.outerWidth(SelectWidth);
+                // skip if in a form, setting the size via css breaks form styling
+                if (!$SelectObj.closest('fieldset').hasClass('ModularForm'))
+                    // Set width of search field to that of the select field
+                    $SearchObj.outerWidth(SelectWidth);
 
                 // Subscribe on window resize event
                 Core.App.Subscribe('Event.UI.InputFields.Resize', function() {
-
-                    // Set width of search field to that of the select field
-                    $SearchObj.blur().hide();
-                    SelectWidth = $SelectObj.show().outerWidth();
-                    $SelectObj.hide();
-                    $SearchObj.outerWidth(SelectWidth).show();
+                    UpdateFieldWidth();
                 });
 
                 // set width after page and layout are fully loaded
                 window.addEventListener = ("load", () => {
-                    // Set width of search field to that of the select field
-                    $SearchObj.blur().hide();
-                    SelectWidth = $SelectObj.show().outerWidth();
-                    $SelectObj.hide();
-                    $SearchObj.outerWidth(SelectWidth).show();
+                    UpdateFieldWidth();
                 });
 
                 // Handle clicks on related label
@@ -2706,11 +2714,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     }
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
 
-                    // before fetching the outer width, the select element has to be displayed
-                    // because outerWidth() does not work correctly on hidden elements
-                    SelectWidth = $SelectObj.show().outerWidth();
-                    $SelectObj.hide();
-                    $SearchObj.width(SelectWidth);
+                    UpdateFieldWidth();
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
