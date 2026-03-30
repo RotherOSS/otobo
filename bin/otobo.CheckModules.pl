@@ -1002,11 +1002,12 @@ my @NeededModules = (
     },
     {
         # A current version of Compress::Raw::Zlib is only required for Docker installations.
+        # The minimal version 2.221 was chosen as it is packaged in Perl 5.40.4 and Perl 5.42.2.
         # For native installation the system libz.so is used.
         Module                => 'Compress::Raw::Zlib',
         Comment               => 'create and use a local lib/ for perl modules with PERL5LIB',
         Features              => ['div:zlib'],
-        DockerVersionRequired => 2.222,
+        DockerVersionRequired => 2.221,
         InstTypes             => {},
     },
     {
