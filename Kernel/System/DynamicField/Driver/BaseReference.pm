@@ -1224,6 +1224,14 @@ sub GetFieldState {
         $Value = [$Value];
     }
 
+    my %Object = (
+        $Param{GetParam}->%*,
+        $Param{GetParam}{DynamicField}->%*,
+
+        # ticket specific
+        CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
+    );
+
     if ( $DynamicFieldConfig->{Config}{EditFieldMode} eq 'AutoComplete' ) {
         return if !$Value->[0];
 
@@ -1243,10 +1251,7 @@ sub GetFieldState {
             # check if $ValueItem is still valid
             my @ObjectIDs = $Self->SearchObjects(
                 %Param,
-                Object => {
-                    $Param{GetParam}->%*,
-                    $Param{GetParam}{DynamicField}->%*,
-                },
+                Object   => \%Object,
                 ObjectID => $ValueItem,
             );
 
@@ -1272,14 +1277,7 @@ sub GetFieldState {
     # fetch possible values for dynamic field
     my $PossibleValues = $Self->PossibleValuesGet(
         DynamicFieldConfig => $DynamicFieldConfig,
-        Object             => {
-
-            # ticket specific
-            CustomerUserID => $Param{CustomerUser} || $Param{GetParam}{CustomerUserID},
-
-            # general
-            $Param{GetParam}->%*,
-        },
+        Object             => \%Object,
     );
 
     my %Return = (
@@ -1290,7 +1288,13 @@ sub GetFieldState {
     my @CheckedValues = map { $PossibleValues->{$_} ? $_ : '' } $Value->@*;
 
     # check if value has changed
-    if ( DataIsDifferent( Data1 => $Value, Data2 => \@CheckedValues ) ) {
+    if (
+        DataIsDifferent(
+            Data1 => $Value,
+            Data2 => \@CheckedValues
+        )
+        )
+    {
         $Return{NewValue} = \@CheckedValues;
     }
 
