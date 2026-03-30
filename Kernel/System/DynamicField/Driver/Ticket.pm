@@ -27,7 +27,7 @@ use utf8;
 use parent qw(Kernel::System::DynamicField::Driver::BaseReference);
 
 # core modules
-use List::Util qw(any none);
+use List::Util qw(any first none);
 
 # CPAN modules
 
@@ -441,7 +441,7 @@ sub SearchObjects {
                         # NOTE trying attribute itself is crucially important in case of QueueID
                         #   because AgentTicketPhone does not provide QueueID, but puts the id in
                         #   Dest, and AgentTicketEmail leaves Dest as a string but puts the id in QueueID
-                        my ($ParamName) = grep { $_ eq $FilterItem->{EqualsObjectAttribute} } @ParamNames;
+                        my $ParamName = first { $_ eq $FilterItem->{EqualsObjectAttribute} } @ParamNames;
 
                         # if not, try to find a mapped attribute name
                         if ( !$ParamName ) {
@@ -452,7 +452,7 @@ sub SearchObjects {
 
                                 MAPPEDATTRIBUTE:
                                 for my $MappedAttribute ( $MappedAttributes->@* ) {
-                                    ($ParamName) = grep { $_ eq $MappedAttribute } @ParamNames;
+                                    $ParamName = first { $_ eq $MappedAttribute } @ParamNames;
 
                                     last MAPPEDATTRIBUTE if $ParamName;
                                 }
