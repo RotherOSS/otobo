@@ -711,6 +711,10 @@ div.AJAXWaiting {
     display: inline;
 }
 
+.Dialog {
+    position: absolute;
+}
+
 }
 
 /**
