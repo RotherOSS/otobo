@@ -234,7 +234,7 @@ ARG GIT_COMMIT=unspecified
 RUN <<END_BASH bash
     set -eux
 
-    install -d var/stats var/packages var/article var/tmp
+    install -d var/stats var/packages var/tmp
     (
         echo "# File created by Dockerfile"
         echo ""

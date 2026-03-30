@@ -51,7 +51,7 @@ scripts/tools/build-rhel-modules.sh
 var/httpd/htdocs/skins/Agent/*/css-cache/*
 var/httpd/htdocs/js/js-cache/*
 var/httpd/htdocs/SeleniumScreenshots
-var/article/*
+var/article/
 var/log/*
 var/run/
 var/sessions/*
