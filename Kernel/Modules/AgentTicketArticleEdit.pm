@@ -81,8 +81,8 @@ sub Run {
     }
 
     # check whether this article type is eligible for changing
-    my $ChannelName   = $ArticleBackendObject->ChannelNameGet();
-    my $ActionsConfig = $ConfigObject->Get("Ticket::Frontend::Article::Actions::$ChannelName}");
+    my $ChannelName    = $ArticleBackendObject->ChannelNameGet();
+    my $ActionsConfig = $ConfigObject->Get("Ticket::Frontend::Article::Actions::$ChannelName");
 
     # NOTE sorting the keys enables overwriting existing items with packages
     my $ArticleActions = { map { $ActionsConfig->{$_}->%* } sort keys $ActionsConfig->%* };
