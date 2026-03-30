@@ -2413,7 +2413,6 @@ DISTRIBUTIONS
     requirements:
       CPAN 0
       Encode 1.98
-      Encode::HanExtra 0.20
       ExtUtils::MakeMaker 6.42
       Test::More 0
       perl 5.005
@@ -4350,32 +4349,32 @@ DISTRIBUTIONS
       common::sense 3.75
     requirements:
       ExtUtils::MakeMaker 0
-  libwww-perl-6.81
-    pathname: O/OA/OALDERS/libwww-perl-6.81.tar.gz
+  libwww-perl-6.82
+    pathname: O/OA/OALDERS/libwww-perl-6.82.tar.gz
     provides:
-      LWP 6.81
-      LWP::Authen::Basic 6.81
-      LWP::Authen::Digest 6.81
-      LWP::Authen::Ntlm 6.81
-      LWP::ConnCache 6.81
-      LWP::Debug 6.81
-      LWP::Debug::TraceHTTP 6.81
-      LWP::DebugFile 6.81
-      LWP::MemberMixin 6.81
-      LWP::Protocol 6.81
-      LWP::Protocol::cpan 6.81
-      LWP::Protocol::data 6.81
-      LWP::Protocol::file 6.81
-      LWP::Protocol::ftp 6.81
-      LWP::Protocol::gopher 6.81
-      LWP::Protocol::http 6.81
-      LWP::Protocol::loopback 6.81
-      LWP::Protocol::mailto 6.81
-      LWP::Protocol::nntp 6.81
-      LWP::Protocol::nogo 6.81
-      LWP::RobotUA 6.81
-      LWP::Simple 6.81
-      LWP::UserAgent 6.81
+      LWP 6.82
+      LWP::Authen::Basic 6.82
+      LWP::Authen::Digest 6.82
+      LWP::Authen::Ntlm 6.82
+      LWP::ConnCache 6.82
+      LWP::Debug 6.82
+      LWP::Debug::TraceHTTP 6.82
+      LWP::DebugFile 6.82
+      LWP::MemberMixin 6.82
+      LWP::Protocol 6.82
+      LWP::Protocol::cpan 6.82
+      LWP::Protocol::data 6.82
+      LWP::Protocol::file 6.82
+      LWP::Protocol::ftp 6.82
+      LWP::Protocol::gopher 6.82
+      LWP::Protocol::http 6.82
+      LWP::Protocol::loopback 6.82
+      LWP::Protocol::mailto 6.82
+      LWP::Protocol::nntp 6.82
+      LWP::Protocol::nogo 6.82
+      LWP::RobotUA 6.82
+      LWP::Simple 6.82
+      LWP::UserAgent 6.82
     requirements:
       Digest::MD5 0
       Encode 2.12
@@ -4502,7 +4501,6 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
-      Authen::SASL 2.00
       Convert::ASN1 0.2
       Digest::HMAC_MD5 0
       Digest::MD5 0
@@ -4510,11 +4508,15 @@ DISTRIBUTIONS
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
