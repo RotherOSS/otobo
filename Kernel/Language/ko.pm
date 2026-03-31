@@ -5050,9 +5050,9 @@ sub Data {
         'Can`t remove SessionID.' => 'SessionID를 제거 할 수 없습니다.',
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+        'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
             '',
-        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             '',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm

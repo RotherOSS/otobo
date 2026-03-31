@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-03-05 14:06+0000\n"
+"POT-Creation-Date: 2026-03-31 09:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14475,11 +14475,11 @@ msgid "Can`t remove SessionID."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
+msgid "Registration for tile '%s' of CustomerDashboard is invalid! Order needs to be a number and unique."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
-msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
+msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm

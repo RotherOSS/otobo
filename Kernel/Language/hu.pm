@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999255287459041;
+    $Self->{Completeness}        = 0.999106344950849;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5055,10 +5055,10 @@ sub Data {
         'Can`t remove SessionID.' => 'Nem lehet eltávolítani a munkamenet-azonosítót.',
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
+            '',
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! Vagy a modul, vagy a sablon szükséges.',
-        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
-            'Az ügyfél vezérlőpultjának %s csempéje regisztrációja érvénytelen! A sorrendnek egyedi számnak kell lennie.',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
         'Need Key!' => 'Kulcs szükséges!',
