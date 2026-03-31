@@ -64,7 +64,7 @@ sub Run {
     else {
         $Self->AddResultOk(
             Label   => Translatable('Perl Modules Audit'),
-            Value   => '',
+            Value   => $CommandOutput,
             Message =>
                 Translatable('CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.'),
         );
