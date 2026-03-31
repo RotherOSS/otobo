@@ -1219,7 +1219,7 @@ sub GetFieldState {
 
     my $Value = $Param{GetParam}{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
 
-    # currently, all reference fields have behavior BaseArray and thus $Value is an array ref, but just to be safe, include value transformation
+    # currently, all reference field values are array refs, but just to be safe, include value transformation
     if ( !ref $Value ) {
         $Value = [$Value];
     }
