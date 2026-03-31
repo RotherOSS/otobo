@@ -445,7 +445,7 @@ sub Run {
         # initial rendering - pre-fill dynamic fields with ticket values
         my %Ticket;
         if ($TicketID) {
-            my %Ticket = $TicketObject->TicketGet(
+            %Ticket = $TicketObject->TicketGet(
                 TicketID      => $TicketID,
                 UserID        => $Self->{UserID},
                 DynamicFields => 1,
