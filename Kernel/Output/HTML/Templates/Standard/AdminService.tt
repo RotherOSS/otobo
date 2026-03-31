@@ -99,7 +99,7 @@
 
             <div class='Content'>
                 <p class='FieldExplanation'>
-                    [% Translate('Here you can upload a configuration file to import services to your system. The file needs to be in .yml format as exported by queue management module.') | html %]
+                    [% Translate('Here you can upload a configuration file to import services to your system. The file needs to be in .yml format as exported by the service management module.') | html %]
                 </p>
                 <ul class='ActionList SpacingTop'>
                     <li>

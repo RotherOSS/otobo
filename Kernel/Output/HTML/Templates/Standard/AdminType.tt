@@ -102,7 +102,7 @@
 
             <div class='Content'>
                 <p class='FieldExplanation'>
-                    [% Translate('Here you can upload a configuration file to import types to your system. The file needs to be in .yml format as exported by type management module.') | html %]
+                    [% Translate('Here you can upload a configuration file to import types to your system. The file needs to be in .yml format as exported by the type management module.') | html %]
                 </p>
                 <ul class='ActionList SpacingTop'>
                     <li>

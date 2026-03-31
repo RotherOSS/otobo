@@ -32,7 +32,7 @@
 
     <div class='Content'>
         <p class='FieldExplanation'>
-            [% Translate('Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.') | html %]
+            [% Translate('Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by the dynamic field management module.') | html %]
         </p>
         <ul class='ActionList SpacingTop'>
             <li>
