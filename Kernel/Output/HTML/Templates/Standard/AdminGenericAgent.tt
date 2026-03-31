@@ -102,7 +102,7 @@
 
             <div class='Content'>
                 <p class='FieldExplanation'>
-                    [% Translate('Here you can upload a configuration file to import generic agents to your system. The file needs to be in .yml format as exported by generic agent management module.') | html %]
+                    [% Translate('Here you can upload a configuration file to import generic agents to your system. The file needs to be in .yml format as exported by the generic agent management module.') | html %]
                 </p>
                 <ul class='ActionList SpacingTop'>
                     <li>
