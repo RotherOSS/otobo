@@ -16,11 +16,19 @@
 
 package Kernel::System::SupportDataCollector::Plugin::OS::PerlModulesAudit;
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -38,7 +46,6 @@ sub Run {
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Code::CPANAudit');
 
     my ( $CommandOutput, $ExitCode );
-
     {
         local *STDOUT;
         open STDOUT, '>:utf8', \$CommandOutput;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
