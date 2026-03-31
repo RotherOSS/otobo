@@ -29,7 +29,7 @@
     [% Data.LabelCustomerUser | html %]:
 </label>
 <div class="Field">
-    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDServerError | html %]" autocomplete="off" />
+    <input id="CustomerAutoComplete" type="text" name="CustomerAutoComplete" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerAutoCompleteServerError | html %]" autocomplete="off" />
     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 </div>
