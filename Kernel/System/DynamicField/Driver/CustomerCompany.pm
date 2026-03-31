@@ -265,12 +265,10 @@ sub SearchObjects {
     # prepare mapping of edit mask attribute names
     my %AttributeNameMapping = (
         CustomerUser => [
-
-            # AgentTicketEmail
-            'From',
-
-            # AgentTicketPhone
-            'To',
+            'SelectedCustomerUser',
+        ],
+        CustomerUserID => [
+            'SelectedCustomerUser',
         ],
         ResponsibleID => [
             'NewResponsibleID',
