@@ -286,13 +286,10 @@ Core.UI.Dialog = (function (TargetNS) {
          *      Calculates the correct position of the dialog, given by the Position.
          */
         function CalculateDialogPosition(Position, Type) {
-            var ScrollTop = $(window).scrollTop(),
-                WindowHeight = $(window).height();
 
-            if ( CustomerInterface ) {
-                // element is positioned "fixed"
-                ScrollTop = 0;
-            }
+            // element is positioned "fixed"
+            var ScrollTop = 0,
+                WindowHeight = $(window).height();
 
             Type = Type || 'top';
             // convert Position to a string so that numbers can be passed too
