@@ -28,7 +28,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 use Cwd qw(abs_path);
 
 # CPAN modules
-use CPAN::Audit 20250829.001 ();
+use CPAN::Audit 20260308.002 ();
 
 # OTOBO modules
 
