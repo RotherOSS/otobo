@@ -59,10 +59,11 @@ use warnings;
 use utf8;
 
 # expect that otobo.psgi is two level below the OTOBO home dir
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use File::Basename qw(dirname);
+use FindBin        qw($RealBin);
+use lib dirname( dirname($RealBin) );
+use lib dirname( dirname($RealBin) ) . '/Kernel/cpan-lib';
+use lib dirname( dirname($RealBin) ) . '/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
@@ -73,7 +74,6 @@ use lib "$Bin/../../Custom";
 use Cwd            qw(abs_path);
 use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules)
 use Encode         ();              ## no perlimports
-use File::Basename qw(dirname);
 use File::Path     qw(make_path);
 use Time::HiRes    ();
 
@@ -116,7 +116,7 @@ my $ProfilingIsActive = 0;
 Kernel::System::ModuleRefresh->new;
 
 # The OTOBO home is determined from the location of otobo.psgi.
-my $Home = abs_path("$Bin/../..");
+my $Home = abs_path("$RealBin/../..");
 
 # The question whether there is a S3 backend must the resolved early.
 # Beware that $S3Active won't be updated when S3 is activated afterwards.
