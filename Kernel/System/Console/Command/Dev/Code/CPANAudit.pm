@@ -19,12 +19,13 @@ package Kernel::System::Console::Command::Dev::Code::CPANAudit;
 use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use File::Basename qw(dirname);
-use FindBin        qw($Bin);
+use Cwd qw(abs_path);
 
 # CPAN modules
 use CPAN::Audit 20250829.001 ();
@@ -32,6 +33,7 @@ use CPAN::Audit 20250829.001 ();
 # OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::JSON',
 );
 
@@ -56,15 +58,28 @@ sub Run {
     );
 
     # We need to pass an explicit list of paths to be scanned by CPAN::Audit, otherwise it will fallback to @INC which
-    #   includes our complete tree, with article storage, cache, temp files, etc. It can result in a downgraded
-    #   performance if this command is run often.
-    #   Please see bug#14666 for more information.
+    # includes our complete tree, with article storage, cache, temp files, etc. It can result in a downgraded
+    # performance if this command is run often.
+    # Please see bug#14666 for more information.
+    #
+    # Normalize the pathes before comparing them as @INC has pathes like '/opt/otobo/bin/psgi-bin/../../Custom'.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Home         = abs_path( $ConfigObject->Get('Home') // '/opt/otobo' );
     my @PathsToScan;
     PATH:
     for my $Path (@INC) {
-        next PATH if $Path && $Path eq '.';                          # Current folder, relevant for old Perls
-        next PATH if $Path && $Path eq dirname($Bin);                # OTOBO home folder
-        next PATH if $Path && $Path eq dirname($Bin) . '/Custom';    # Custom folder
+
+        # no need to search in non-existing dirs
+        next PATH unless $Path;
+        next PATH unless -d $Path;
+
+        # older Perls have '.' in @INC. This path is not excluded, just to stay on the safe side
+
+        # ignore the search pathes with OTOBO files
+        my $AbsPath = abs_path($Path);
+
+        next PATH if $AbsPath eq $Home;             # OTOBO home folder
+        next PATH if $AbsPath eq "$Home/Custom";    # Custom folder
 
         push @PathsToScan, $Path;
     }
