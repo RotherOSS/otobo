@@ -2540,7 +2540,7 @@ sub _Mask {
                 CustomerInterface     => 1,
                 Object                => {
                     CustomerID     => $Self->{CustomerID},
-                    CustomerUserID => $Self->{CustomerUserID},
+                    CustomerUserID => $Self->{UserID},
                     %DynamicFieldValues,
                 },
             );
