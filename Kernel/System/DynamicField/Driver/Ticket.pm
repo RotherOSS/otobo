@@ -38,6 +38,7 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
@@ -395,6 +396,8 @@ sub SearchObjects {
     # incorporate referencefilterlist into search params
     if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}{ReferenceFilterList} ) && !$Param{ExternalSource} ) {
 
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
@@ -416,6 +419,15 @@ sub SearchObjects {
                     $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
                 }
                 elsif ( defined $Param{ParamObject} ) {
+
+                    # check if CustomerUserID is given and if so, fetch customer user data
+                    my %CustomerUserData;
+                    if ( $Param{CustomerUserID} ) {
+                        %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                            User => $Param{CustomerUserID},
+                        );
+                    }
+
                     if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
                         my $DFName             = $+{DFName};
                         my $FilterItemDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -457,17 +469,23 @@ sub SearchObjects {
                             }
                         }
 
-                        return () unless $ParamName;
+                        if ($ParamName) {
+                            $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
 
-                        $EqualsObjectAttribute = $Param{ParamObject}->GetParam( Param => $ParamName );
-
-                        # when called by AgentReferenceSearch, Dest is a string and we need to extract the QueueID
-                        if ( $ParamName eq 'Dest' ) {
-                            my $QueueID = '';
-                            if ( $EqualsObjectAttribute =~ /^(\d{1,100})\|\|.+?$/ ) {
-                                $QueueID = $1;
+                            # when called by AgentReferenceSearch, Dest is a string and we need to extract the QueueID
+                            if ( $ParamName eq 'Dest' ) {
+                                my $QueueID = '';
+                                if ( $EqualsObjectAttribute =~ /^(\d{1,100})\|\|.+?$/ ) {
+                                    $QueueID = $1;
+                                }
+                                $EqualsObjectAttribute = $QueueID;
                             }
-                            $EqualsObjectAttribute = $QueueID;
+                        }
+                        elsif ( %CustomerUserData && $CustomerUserData{ $FilterItem->{EqualsObjectAttribute} } ) {
+                            $EqualsObjectAttribute = $CustomerUserData{ $FilterItem->{EqualsObjectAttribute} };
+                        }
+                        else {
+                            return;
                         }
                     }
                 }
