@@ -371,7 +371,6 @@ sub SearchObjects {
     $Param{Term} //= '';
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
-
     my %SearchParams;
 
     if ( $Param{ObjectID} ) {

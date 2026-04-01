@@ -269,7 +269,6 @@ sub SearchObjects {
     $Param{Term} //= '*';
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
-
     my %SearchParams;
 
     if ( $Param{ObjectID} ) {
@@ -288,6 +287,7 @@ sub SearchObjects {
 
     # incorporate referencefilterlist into search params
     if ( $DynamicFieldConfig->{Config}{ReferenceFilterList} && !$Param{ExternalSource} ) {
+
         FILTERITEM:
         for my $FilterItem ( $DynamicFieldConfig->{Config}{ReferenceFilterList}->@* ) {
 
@@ -304,10 +304,13 @@ sub SearchObjects {
                 }
                 elsif ( defined $Param{ParamObject} ) {
                     if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
+                        my $DFName             = $+{DFName};
                         my $FilterItemDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
-                            Name => $+{DFName},
+                            Name => $DFName,
                         );
+
                         next FILTERITEM unless IsHashRefWithData($FilterItemDFConfig);
+
                         $EqualsObjectAttribute = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
                             ParamObject        => $Param{ParamObject},
                             DynamicFieldConfig => $FilterItemDFConfig,

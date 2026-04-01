@@ -426,6 +426,7 @@ sub SearchObjects {
                         %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
                             User => $Param{CustomerUserID},
                         );
+                        $CustomerUserData{CustomerUserID} = $Param{CustomerUserID};
                     }
 
                     if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
