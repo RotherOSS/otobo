@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.848823354185284;
+    $Self->{Completeness}        = 0.848674411677093;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5053,10 +5053,10 @@ sub Data {
         'Can`t remove SessionID.' => 'セッションIDを削除できません。',
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile \'%s\' of CustomerDashboard is invalid! Order needs to be a number and unique.' =>
+            '',
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'CustomerDashboard のタイル %s の登録が無効です。モジュールまたはテンプレートが必要です。',
-        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
-            'CustomerDashboard のタイル %s の登録が無効です。注文は一意の番号である必要があります。',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
         'Need Key!' => 'キーが必要です!',

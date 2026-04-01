@@ -2704,7 +2704,9 @@ sub Attachment {
         # object-src: allow 'self' so that the browser can load plugins for PDF display
         # frame-src:  block all frames
         # style-src:  allow inline styles for nice email display
-        $Headers{'Content-Security-Policy'} = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline';};
+        # referrer:   don't send referrers to prevent referrer-leak attacks
+        $Headers{'Content-Security-Policy'}
+            = q{default-src 'self'; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
         # in order to prevent referrer-leak attacks.
