@@ -96,15 +96,6 @@ my @Excemptions = (
         }
     },
     {
-        'Mojolicious' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2024-58135'; end(); } };
-                item { cves => array { item 'CVE-2024-58134'; end(); } };
-                end();
-            },
-        }
-    },
-    {
         'perl-ldap' => {
             advisories => bag {
                 item { cves => array { item 'CVE-2020-16093'; end(); } };
@@ -125,6 +116,23 @@ for my $Excemption (@Excemptions) {
     if ($Found) {
         delete $ThawedAuditReport->{dists}->{$Dist};
     }
+}
+
+# eliminate the evaluated advisories
+DIST_NAME:
+for my $DistName ( keys $ThawedAuditReport->{dists}->%* ) {
+    my $Dist = $ThawedAuditReport->{dists}->{$DistName};
+    $Dist->{advisories} //= [];
+    $Dist->{advisories} = [
+        grep { ( !$_->{otobo_evaluation} ) || $_->{otobo_evaluation}->{is_relevant_for_otobo} }
+            $Dist->{advisories}->@*
+    ];
+
+    # keep dists that still have advisories
+    next DIST_NAME if $Dist->{advisories}->@*;
+
+    # remove dists without advisories
+    delete $ThawedAuditReport->{dists}->{$DistName};
 }
 
 my $FoundNoUnexpedtedAdvisories = is(
