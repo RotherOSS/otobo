@@ -28,7 +28,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 use Cwd qw(abs_path);
 
 # CPAN modules
-use CPAN::Audit 20250829.001 ();
+use CPAN::Audit 20260308.002 ();
 
 # OTOBO modules
 
@@ -42,12 +42,40 @@ sub Configure {
 
     $Self->Description('Scan CPAN dependencies in Kernel/cpan-lib and in the system for known vulnerabilities.');
 
+    $Self->AddOption(
+        Name        => 'dump-otobo-evaluations',
+        Description => 'Show the relevance for OTOBO of advisories evaluated by the OTOBO team',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get options
+    my $DoDumpEvaluations = $Self->GetOption('dump-otobo-evaluations');
+
+    my %Evaluations = $Self->GetOtoboEvaluations;
+
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    if ($DoDumpEvaluations) {
+        $Self->Print(
+            $JSONObject->Encode(
+                Data     => \%Evaluations,
+                SortKeys => 1,
+                Pretty   => 1,
+            )
+        );
+
+        # always successfull
+        return 0;
+    }
+
+    # Do the actual auditing per default
     my $Audit = CPAN::Audit->new(
         no_color    => 1,
         no_corelist => 0,
@@ -86,17 +114,61 @@ sub Run {
 
     my $Result = $Audit->command( 'installed', @PathsToScan );
 
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-    my $Dump       = $JSONObject->Encode(
-        Data     => $Result,
-        SortKeys => 1,
-        Pretty   => 1,
-    );
-    $Self->Print($Dump);
+    # Consider the evaluations by the OTOBO team
+    my $NumRelevantAdvisories = 0;
+    for my $DistName ( keys $Result->{dists}->%* ) {
+        my $Dist = $Result->{dists}->{$DistName};
 
-    my $NumAdvisories = $Result->{meta}->{total_advisories} // -1;
+        ADVISORY:
+        for my $Advisory ( $Dist->{advisories}->@* ) {
+            my $AdvisoryId = $Advisory->{id};
+
+            if ( $Evaluations{$AdvisoryId} ) {
+                $Advisory->{otobo_evaluation} = $Evaluations{$AdvisoryId};
+                $NumRelevantAdvisories += $Evaluations{$AdvisoryId}->{is_relevant_for_otobo};
+
+                next ADVISORY;
+            }
+
+            # no OTOBO evaluation
+            $NumRelevantAdvisories += 1;
+        }
+    }
+
+    # tell about the OTOBO evaluation
+    $Result->{meta}->{total_otobo_relevant_advisories} = $NumRelevantAdvisories;
+
+    $Self->Print(
+        $JSONObject->Encode(
+            Data     => $Result,
+            SortKeys => 1,
+            Pretty   => 1,
+        )
+    );
+
+    my $NumAdvisories = $Result->{meta}->{total_otobo_relevant_advisories} // $Result->{meta}->{total_advisories} // -1;
 
     return $NumAdvisories ? 1 : 0;
+}
+
+sub GetOtoboEvaluations {
+    my %Reason = (
+        Mojolicious => <<'END_REASON',
+This advisory is about default encryption settings when creating a new Mojolicious app.
+But OTOBO uses Mojolicious in a very limited way, only as a helper for the S3 compatible backend.
+Therefore default settings for new applications are of no concern here.
+END_REASON
+    );
+
+    return
+        "CPANSA-Mojolicious-2024-58134" => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{Mojolicious},
+        },
+        "CPANSA-Mojolicious-2024-58135" => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{Mojolicious},
+        };
 }
 
 1;
