@@ -3244,7 +3244,7 @@ sub _RenderCustomer {
 
     # output server errors
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}{CustomerUserID} ) {
-        $Data{CustomerUserIDServerError} = 'ServerError';
+        $Data{CustomerAutoCompleteServerError} = 'ServerError';
     }
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}{CustomerID} ) {
         $Data{CustomerIDServerError} = 'ServerError';
@@ -4776,7 +4776,7 @@ sub _StoreActivityDialog {
             # the content of the original field as customer user id
             if ( !$CustomerUserID ) {
 
-                $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerUserID' );
+                $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerAutoComplete' );
 
                 # check email address
                 for my $Email ( Mail::Address->parse($CustomerUserID) ) {
