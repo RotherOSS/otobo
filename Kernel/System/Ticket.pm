@@ -4806,8 +4806,6 @@ or for access control
 sub OwnerCheck {
     my ( $Self, %Param ) = @_;
 
-    my $SQL = '';
-
     # check needed stuff
     if ( !$Param{TicketID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -4839,7 +4837,7 @@ sub OwnerCheck {
             Bind => [ \$Param{TicketID}, \$Param{OwnerID}, \$Param{OwnerID}, ],
         );
         my $Access = 0;
-        while ( my @Row = $DBObject->FetchrowArray() ) {
+        while ( $DBObject->FetchrowArray() ) {
             $Access = 1;
         }
 
@@ -4958,7 +4956,7 @@ sub TicketOwnerSet {
     }
 
     # check if update is needed!
-    my ( $OwnerID, $Owner ) = $Self->OwnerCheck( TicketID => $Param{TicketID} );
+    my ($OwnerID) = $Self->OwnerCheck( TicketID => $Param{TicketID} );
     if ( $OwnerID eq $Param{NewUserID} ) {
 
         # update is "not" needed!
