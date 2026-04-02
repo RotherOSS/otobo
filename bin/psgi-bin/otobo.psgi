@@ -127,9 +127,7 @@ if ($S3Active) {
     require Kernel::System::Storage::S3;
 }
 
-################################################################################
 # Middlewares
-################################################################################
 
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
@@ -371,9 +369,7 @@ my $ModuleRefreshMiddleware = sub {
     };
 };
 
-################################################################################
 # Apps
-################################################################################
 
 # The most basic App, no permission check
 my $HelloApp = sub {
@@ -706,10 +702,7 @@ my $OTOBOApp = builder {
     mount '/' => $RedirectOtoboApp;
 };
 
-################################################################################
-# finally, the complete PSGI application itself
-################################################################################
-
+# the final statement gives the complete PSGI application itself
 builder {
 
     # for debugging
