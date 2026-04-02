@@ -330,7 +330,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor(
-            ElementExists => "//input[contains(\@name,'CustomerUserID')]"
+            ElementExists => "//input[contains(\@name,'CustomerAutoComplete')]"
         );
 
         # Verify form is loaded.
