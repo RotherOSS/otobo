@@ -453,7 +453,7 @@ sub TicketSearch {
         }
     );
 
-    # convert the Elasticsearch return to the needed OTRS structure and return
+    # convert the Elasticsearch return to the needed OTOBO structure and return
     if ( $ResultType eq 'HASH' ) {
         return (
             map {
