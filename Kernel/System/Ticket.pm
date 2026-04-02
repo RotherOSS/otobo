@@ -8321,7 +8321,6 @@ sub ObjectAttributesGet {
             PriorityID             => 1,
             Customer               => 1,
             CustomerID             => 1,
-            CustomerUser           => 1,
             CustomerUserID         => 1,
             IsVisibleForCustomer   => 1,
             ActivityDialogEntityID => 1,
