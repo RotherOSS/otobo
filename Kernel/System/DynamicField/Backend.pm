@@ -3048,7 +3048,8 @@ This is used in auto completion when searching for possible object IDs.
         DynamicFieldConfig => $DynamicFieldConfig,
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => $Self->{UserID},
+        UserID             => $Self->{UserID},      # either UserID or CustomerUserID is mandatory
+        CustomerUserID     => $Self->{UserID},
         ParamObject        => $ParamObject,
         LayoutObject       => $LayoutObject,
     );
@@ -3068,6 +3069,14 @@ sub SearchObjects {
 
             return;
         }
+    }
+    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need UserID or CustomerUserID!"
+        );
+
+        return;
     }
 
     # set the dynamic field specific backend
