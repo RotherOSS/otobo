@@ -133,18 +133,20 @@ sub Run {
     my $Term       = $ParamObject->GetParam( Param => 'Term' ) || '';
     my $SetIndex   = $ParamObject->GetParam( Param => 'SetIndex' );
 
-    my %AdditionalSearchData;
+    my %UserData;
     if ( $LayoutObject->{SessionSource} eq 'CustomerInterface' ) {
-        $AdditionalSearchData{CustomerUserID} = $Self->{UserID};
+        $UserData{CustomerUserID} = $Self->{UserID};
+    }
+    else {
+        $UserData{UserID} = $Self->{UserID};
     }
 
     my @ObjectIDs = $DynamicFieldBackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,    # this might contain search restrictions
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => $Self->{UserID},
         ParamObject        => $ParamObject,
-        %AdditionalSearchData,
+        %UserData,
     );
 
     my $FormID = $ParamObject->GetParam( Param => 'FormID' );
