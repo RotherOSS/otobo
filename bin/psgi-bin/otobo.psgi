@@ -422,7 +422,7 @@ my $RedirectOtoboApp = sub {
 
         # Special case for https://example.com/otobo . The path below 'otobo' is empty. So for redirecting
         # we needed information how we got here. Often REQUEST_URI is '/otobo' but this is not guaranteed.
-        my ($LastComponent) = reverse split '/', $Env->{REQUEST_URI};
+        my ($LastComponent) = reverse split /\//, $Env->{REQUEST_URI};
         $Redirect = join '/', $LastComponent, $Interface;    # e.g. otobo/index.pl
     }
     else {
