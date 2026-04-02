@@ -88,14 +88,6 @@ my @Excemptions = (
         }
     },
     {
-        'libwww-perl' => {
-            advisories => bag {
-                item { cves => array { end(); } };
-                end();
-            },
-        }
-    },
-    {
         'perl-ldap' => {
             advisories => bag {
                 item { cves => array { item 'CVE-2020-16093'; end(); } };
