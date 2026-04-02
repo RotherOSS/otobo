@@ -264,9 +264,6 @@ sub SearchObjects {
 
     # prepare mapping of edit mask attribute names
     my %AttributeNameMapping = (
-        CustomerUser => [
-            'SelectedCustomerUser',
-        ],
         CustomerUserID => [
             'SelectedCustomerUser',
         ],
@@ -314,6 +311,18 @@ sub SearchObjects {
                 my $EqualsObjectAttribute;
                 if ( IsHashRefWithData( $Param{Object} ) ) {
                     $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
+
+                    if ( !$EqualsObjectAttribute && $Param{CustomerUserID} ) {
+                        if ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' ) {
+                            $EqualsObjectAttribute = $Param{CustomerUserID};
+                        }
+                        elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' ) {
+                            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                                User => $Param{CustomerUserID},
+                            );
+                            $EqualsObjectAttribute = $CustomerUserData{CustomerID};
+                        }
+                    }
                 }
                 elsif ( defined $Param{ParamObject} ) {
 
@@ -339,6 +348,17 @@ sub SearchObjects {
                             DynamicFieldConfig => $FilterItemDFConfig,
                             TransformDates     => 0,
                         );
+                    }
+                    elsif ( $Param{CustomerUserID} ) {
+                        if ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' ) {
+                            $EqualsObjectAttribute = $Param{CustomerUserID};
+                        }
+                        elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' ) {
+                            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                                User => $Param{CustomerUserID},
+                            );
+                            $EqualsObjectAttribute = $CustomerUserData{CustomerID};
+                        }
                     }
                     else {
 
@@ -379,8 +399,16 @@ sub SearchObjects {
                                 $EqualsObjectAttribute = $QueueID;
                             }
                         }
-                        elsif ( %CustomerUserData && $CustomerUserData{ $FilterItem->{EqualsObjectAttribute} } ) {
-                            $EqualsObjectAttribute = $CustomerUserData{ $FilterItem->{EqualsObjectAttribute} };
+                        elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' ) {
+
+                            # try if CustomerUser is on the mask
+                            my $CustomerUserID = $Param{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
+                            if ($CustomerUserID) {
+                                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                                    User => $CustomerUserID,
+                                );
+                                $EqualsObjectAttribute = $CustomerUserData{CustomerID};
+                            }
                         }
                         else {
                             return;
@@ -406,6 +434,10 @@ sub SearchObjects {
                     $SearchParams{$AttributeName} = {
                         Equals => $EqualsObjectAttribute,
                     };
+                }
+
+                elsif ( $FilterItem->{ReferenceObjectAttribute} eq 'CustomerUserID' ) {
+                    $SearchParams{CustomerUserLogin} = [$EqualsObjectAttribute];
                 }
 
                 # array attribute
