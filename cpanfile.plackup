@@ -168,6 +168,9 @@ requires 'Plack::Middleware::ReverseProxy';
 # Feature 'devel:i18n' is not needed
 
 
+# Feature 'devel:profiling' is not needed
+
+
 # Feature 'devel:test' is not needed
 
 
@@ -242,6 +245,9 @@ requires 'Plack::Middleware::ReverseProxy';
     requires 'XML::LibXSLT';
 
 # };
+
+# Feature 'div:zlib' is not needed
+
 
 # feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => sub {
     # High-performance preforking PSGI/Plack web server

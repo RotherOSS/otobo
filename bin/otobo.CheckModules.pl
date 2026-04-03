@@ -217,6 +217,10 @@ my %IsDockerFeature = (
     'graph:graphviz'     => 1,
     'performance:redis'  => 1,
     'storage:s3'         => 1,
+
+    # Devel::NYTProf is not installed by default in the Docker image.
+    # Uncomment the next line in order to add profiling modules during development.
+    #'devel:profiling'    => 1,
 );
 
 # defines a set of features for native installations which use plackup, specifically Gazelle
@@ -249,6 +253,7 @@ my %FeatureDescription = (
     'devel:encoding'    => 'Modules for debugging encoding issues',
     'devel:test'        => 'Modules for running the test suite',
     'devel:i18n'        => 'Modules for dealing with translation and internationalisation',
+    'devel:profiling'   => 'Modules for profiling Perl code',
     'div'               => 'Various features for additional functionality',
     'gazelle'           => 'Required packages if you want to use Gazelle webserver',
     'mail'              => 'Features enabling communication with a mail-server',
@@ -1338,6 +1343,22 @@ my @NeededModules = (
             zypper => undef,
             ports  => undef,
         },
+    },
+
+    # Feature devel:profiling
+    {
+        Module          => 'Devel::NYTProf',
+        VersionRequired => '>= 6.12',                   # released in 2022, with significant changes
+        Features        => ['devel:profiling'],
+        Comment         => 'for profiling Perl code',
+        InstTypes       => {},
+    },
+    {
+        Module          => 'Plack::Middleware::Profiler::NYTProf',
+        VersionRequired => '>= 0.17',                                                      # latest released version from 2014
+        Features        => ['devel:profiling'],
+        Comment         => 'plack middleware for profiling a plack app like otobo.psgi',
+        InstTypes       => {},
     },
 );
 

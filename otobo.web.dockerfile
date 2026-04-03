@@ -223,7 +223,7 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Activate SysConfig settings that should override that defaults when running in Docker.
 RUN cp Kernel/Config/Files/XML/DockerConfig.xml.dist Kernel/Config/Files/XML/DockerConfig.xml
 
-# Create dirs.
+# Create empty dirs.
 # Enable bash completion.
 # Add a .vimrc.
 # make Docker image identifyable via the files git-(repo|branch|commit).txt
@@ -234,7 +234,7 @@ ARG GIT_COMMIT=unspecified
 RUN <<END_BASH bash
     set -eux
 
-    install -d var/stats var/packages var/tmp
+    install -d var/stats var/packages var/tmp var/httpd/htdocs/static
     (
         echo "# File created by Dockerfile"
         echo ""
