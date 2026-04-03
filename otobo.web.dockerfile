@@ -166,7 +166,7 @@ USER $OTOBO_USER
 # to pick up the changed host and to check whether Elasticsearch is available.
 RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" scripts/database/otobo-initial_insert.xml
 
-# Create dirs.
+# Create empty dirs.
 # Enable bash completion.
 # Add a .vimrc.
 # make Docker image identifyable via the files git-(repo|branch|commit).txt
@@ -177,7 +177,7 @@ ARG GIT_COMMIT=unspecified
 RUN <<END_BASH bash
     set -eux
 
-    install -d var/stats var/packages var/article var/tmp
+    install -d var/stats var/packages var/article var/tmp var/httpd/htdocs/static
     (
         echo "# File created by Dockerfile"
         echo ""
