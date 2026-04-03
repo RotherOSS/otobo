@@ -325,7 +325,7 @@ requires 'Plack::Middleware::ReverseProxy';
 # };
 
 # feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
-    # Required for MD5 authentication mechanisms in IMAP connections.
+    # Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.
     requires 'Authen::SASL';
 
 # };

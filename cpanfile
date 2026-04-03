@@ -337,7 +337,7 @@ feature 'mail:ntlm', 'Support for feature mail:ntlm' => sub {
 };
 
 feature 'mail:sasl', 'Support for feature mail:sasl' => sub {
-    # Required for MD5 authentication mechanisms in IMAP connections.
+    # Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.
     requires 'Authen::SASL';
 
 };
@@ -368,7 +368,7 @@ feature 'optional', 'Support for feature optional' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Required for MD5 authentication mechanisms in IMAP connections.
+    # Required for DIGEST-MD5 authentication in IMAP and SASL mechanism in SMTP connections.
     requires 'Authen::SASL';
 
     # Required for NTLM authentication mechanism in IMAP connections.
