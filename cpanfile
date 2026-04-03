@@ -185,6 +185,15 @@ feature 'devel:i18n', 'Modules for dealing with translation and internationalisa
 
 };
 
+feature 'devel:profiling', 'Modules for profiling Perl code' => sub {
+    # for profiling Perl code
+    requires 'Devel::NYTProf', '>= 6.12';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
+
+};
+
 feature 'devel:test', 'Modules for running the test suite' => sub {
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
@@ -462,6 +471,12 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # module for manipulating .po entries
     requires 'Locale::PO';
+
+    # for profiling Perl code
+    requires 'Devel::NYTProf', '>= 6.12';
+
+    # plack middleware for profiling a plack app like otobo.psgi
+    requires 'Plack::Middleware::Profiler::NYTProf', '>= 0.17';
 
     # language packs from the CLDR project
     requires 'Locale::CLDR::Locales::Ar', '== 0.44.1';

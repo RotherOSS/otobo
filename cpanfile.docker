@@ -179,6 +179,9 @@ requires 'Plack::Middleware::ReverseProxy';
 
 # };
 
+# Feature 'devel:profiling' is not needed
+
+
 # feature 'devel:test', 'Modules for running the test suite' => sub {
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
