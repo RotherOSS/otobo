@@ -3513,11 +3513,11 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  XML-Parser-2.55
-    pathname: T/TO/TODDR/XML-Parser-2.55.tar.gz
+  XML-Parser-2.56
+    pathname: T/TO/TODDR/XML-Parser-2.56.tar.gz
     provides:
-      XML::Parser 2.55
-      XML::Parser::Expat 2.55
+      XML::Parser 2.56
+      XML::Parser::Expat 2.56
       XML::Parser::Style::Debug undef
       XML::Parser::Style::Objects undef
       XML::Parser::Style::Stream undef
@@ -3756,17 +3756,23 @@ DISTRIBUTIONS
       Net::LDAPI 0.04
       Net::LDAPS 0.06
     requirements:
+      Authen::SASL 2.00
       Convert::ASN1 0.2
+      Digest::HMAC_MD5 0
       Digest::MD5 0
       ExtUtils::MakeMaker 6.59
       File::Basename 0
       File::Compare 0
       File::Path 0
+      HTTP::Negotiate 0
       HTTP::Response 0
       HTTP::Status 0
       IO::File 0
       IO::Socket::SSL 1.26
+      JSON 0
+      LWP 0
       LWP::MediaTypes 0
+      LWP::Protocol 0
       MIME::Base64 0
       Test::More 0
       Text::Soundex 0
