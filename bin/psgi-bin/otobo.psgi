@@ -562,7 +562,7 @@ my $OTOBOApp = builder {
                 my $ReportDir = "var/httpd/htdocs/static/nytprof/$ProfileID";
                 make_path($ReportDir);
 
-                return "var/httpd/htdocs/static/nytprof/$ProfileID";
+                return $ReportDir;
             },
             ;
     }
