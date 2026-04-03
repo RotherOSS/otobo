@@ -508,8 +508,11 @@ my $HtdocsApp = builder {
     }
     $SyncFromS3Middleware;
 
-    # serve static files without directory listing
-    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
+    # serve static files without directory listing.
+    # Directory listing is active only for  "$Home/var/httpd/htdocs/static".
+    Plack::App::File->new(
+        root => "$Home/var/httpd/htdocs"
+    )->to_app;
 };
 
 # Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
@@ -556,10 +559,10 @@ my $OTOBOApp = builder {
 
             # generate a new directory for each report
             report_dir => sub {
-                my $ReportDir = "var/httpd/htdocs/nytprof/$ProfileID";
+                my $ReportDir = "var/httpd/htdocs/static/nytprof/$ProfileID";
                 make_path($ReportDir);
 
-                return "var/httpd/htdocs/nytprof/$ProfileID";
+                return "var/httpd/htdocs/static/nytprof/$ProfileID";
             },
             ;
     }
@@ -657,7 +660,9 @@ builder {
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
     # directory listing for the nytprof directory
-    mount '/otobo-web/nytprof' => Plack::App::Directory->new( root => "$Home/var/httpd/htdocs/nytprof" )->to_app();
+    mount '/otobo-web/static' => Plack::App::Directory->new(
+        root => "$Home/var/httpd/htdocs/static"
+    )->to_app;
 
     # Server the static assets in var/httpd/htdocs.
     mount '/otobo-web' => $HtdocsApp;
