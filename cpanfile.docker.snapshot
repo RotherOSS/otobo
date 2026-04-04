@@ -3042,6 +3042,7 @@ DISTRIBUTIONS
       Parse::RecDescent::Token 1.967015
       Parse::RecDescent::UncondReject 1.967015
     requirements:
+      ExtUtils::MakeMaker 6.5702
       Test::More 0
       Text::Balanced 1.95
   Path-Class-0.37
@@ -4245,11 +4246,11 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  XML-Parser-2.54
-    pathname: T/TO/TODDR/XML-Parser-2.54.tar.gz
+  XML-Parser-2.56
+    pathname: T/TO/TODDR/XML-Parser-2.56.tar.gz
     provides:
-      XML::Parser 2.54
-      XML::Parser::Expat 2.54
+      XML::Parser 2.56
+      XML::Parser::Expat 2.56
       XML::Parser::Style::Debug undef
       XML::Parser::Style::Objects undef
       XML::Parser::Style::Stream undef
