@@ -16,14 +16,19 @@
 
 package Kernel::System::Console::Command::Maint::Elasticsearch::Migration;
 
+use v5.24;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
 use Time::HiRes();
 
-use Kernel::System::VariableCheck qw(:all);
+# CPAN modules
 
-use parent qw(Kernel::System::Console::BaseCommand);
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
@@ -52,7 +57,7 @@ our @SoftObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Migrate existing tickets, customers and customerusers to Elasticsearch.');
+    $Self->Description('Migrate existing tickets, customers and customer users to Elasticsearch.');
     $Self->AddOption(
         Name        => 'target',
         Description =>
