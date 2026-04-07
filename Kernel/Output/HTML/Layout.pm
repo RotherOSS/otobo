@@ -423,8 +423,8 @@ EOF
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  =>
-                "No existing template directory found ('$Self->{TemplateDir}')!.
-                Default theme used instead.",
+                "No existing template directory found ('$Self->{TemplateDir}')!"
+                . " Default theme used instead.",
         );
 
         # Set TemplateDir to 'Standard' as a fallback.
@@ -2167,8 +2167,7 @@ also string ref is possible
 sub LinkQuote {
     my ( $Self, %Param ) = @_;
 
-    my $Text   = $Param{Text}   || '';
-    my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
+    my $Text = $Param{Text} || '';
 
     # check ref
     my $TextScalar;
@@ -2989,8 +2988,6 @@ sub PageNavBar {
 
         # over window ">>" and ">|"
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
-            my $StartWindow        = $WindowStart + $WindowSize + 1;
-            my $LastStartWindow    = int( $Pages / $WindowSize );
             my $BaselinkOneForward = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
             my $BaselinkAllForward = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
@@ -3033,7 +3030,6 @@ sub PageNavBar {
 
         # over window "<<" and "|<"
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
-            my $StartWindow     = $WindowStart - $WindowSize - 1;
             my $BaselinkAllBack = $Baselink . 'StartHit=1;StartWindow=1';
             my $BaselinkOneBack = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
 
@@ -3340,7 +3336,7 @@ sub NavigationBar {
         $Self->Block(
             Name => 'ItemArea',
             Data => {
-                %$Item,
+                %{$Item},
                 AccessKeyReference => $Item->{AccessKey} ? " ($Item->{AccessKey})" : '',
             },
         );
@@ -3370,7 +3366,7 @@ sub NavigationBar {
             $Self->Block(
                 Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
                 Data => {
-                    %$ItemSub,
+                    %{$ItemSub},
                     AccessKeyReference => $ItemSub->{AccessKey} ? " ($ItemSub->{AccessKey})" : '',
                 },
             );
@@ -3625,9 +3621,7 @@ sub BuildDateSelection {
 
     my $DiffTime = $Param{DiffTime} || 0;
     my $Format   = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
-    my $Area     = $Param{Area}                   || 'Agent';
     my $Optional = $Param{ $Prefix . 'Optional' } || 0;
-    my $Required = $Param{ $Prefix . 'Required' } || 0;
     my $Used     = $Param{ $Prefix . 'Used' }     || 0;
     my $Class    = $Param{ $Prefix . 'Class' }    || '';
 
@@ -3662,10 +3656,10 @@ sub BuildDateSelection {
         return map { $Details{$_} } (qw(Second Minute Hour Day Month Year));
     };
 
-    my ( $s, $m, $h, $D, $M, $Y ) = $GetCurSysDTUnitFromLowest->(
+    my ( undef, $m, $h, $D, $M, $Y ) = $GetCurSysDTUnitFromLowest->(
         AddSeconds => $DiffTime,
     );
-    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $GetCurSysDTUnitFromLowest->();
+    my ( undef, undef, undef, undef, undef, $CY ) = $GetCurSysDTUnitFromLowest->();
 
     # time zone translation
     if (
@@ -4792,8 +4786,7 @@ sub CustomerNavigationBar {
         }
     }
 
-    my $Total   = keys %NavBarModule;
-    my $Counter = 0;
+    my $Total = keys %NavBarModule;
 
     if ( $NavBarModule{Sub} ) {
         $Total = int($Total) - 1;
@@ -5569,7 +5562,7 @@ sub _BuildSelectionOptionRefCreate {
 
     # set Translation option
     $OptionRef->{Translation} = 1;
-    if ( defined $Param{Translation} && $Param{Translation} eq 0 ) {
+    if ( defined $Param{Translation} && $Param{Translation} == 0 ) {
         $OptionRef->{Translation} = 0;
     }
 
@@ -5704,9 +5697,8 @@ create the data hash
 sub _BuildSelectionDataRefCreate {
     my ( $Self, %Param ) = @_;
 
-    my $AttributeRef = $Param{AttributeRef};
-    my $OptionRef    = $Param{OptionRef};
-    my $DataRef      = [];
+    my $OptionRef = $Param{OptionRef};
+    my $DataRef   = [];
 
     my $Counter = 0;
 
@@ -6372,7 +6364,7 @@ sub SetRichTextParameters {
             ['Maximize'],
         ];
     }
-    elsif ( $ConfigObject->Get("Frontend::RichText::EnhancedMode") == '1' ) {
+    elsif ( $ConfigObject->Get("Frontend::RichText::EnhancedMode") == 1 ) {
         @Toolbar = [
             [
                 'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
@@ -6504,7 +6496,7 @@ sub CustomerSetRichTextParameters {
     my @ToolbarMidi;
     my @ToolbarMini;
 
-    if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode::Customer") == '1' ) {
+    if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode::Customer") == 1 ) {
         @Toolbar = [
             [
                 'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
@@ -6732,7 +6724,7 @@ sub _HasOnlyOIDCAuthModules {
 
         my $Module = $ConfigObject->Get("$LoginModule$Count");
 
-        if ($Module && $Module ne $OIDCAuthModule ) {
+        if ( $Module && $Module ne $OIDCAuthModule ) {
 
             return 0;
         }
@@ -6740,6 +6732,5 @@ sub _HasOnlyOIDCAuthModules {
 
     return 1;
 }
-
 
 1;
