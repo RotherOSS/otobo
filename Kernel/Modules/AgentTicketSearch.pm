@@ -16,9 +16,15 @@
 
 package Kernel::Modules::AgentTicketSearch;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -28,16 +34,11 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my $Output;
 
     # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -748,7 +749,7 @@ sub Run {
         # check whether we want to perform a search via Elasticsearch or not
         # use normal search for sorting, or if ES is not activated
         if ( $GetParam{FulltextES} && ( !$ESActive || $Self->{TakeLastSearch} ) ) {
-            $GetParam{Fulltext} = $GetParam{Fulltext} || $GetParam{FulltextES};
+            $GetParam{Fulltext} ||= $GetParam{FulltextES};
             delete $GetParam{FulltextES};
         }
 
@@ -1473,7 +1474,8 @@ sub Run {
             my %SearchStrings;
             SEARCHSTRINGPARAMNAME:
             for my $SearchStringParamName ( sort @ParamNames ) {
-                next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
+                next SEARCHSTRINGPARAMNAME unless $SearchStringParamName =~ m{\ASearchStrings\[(.*)\]\z}sm;
+
                 $SearchStrings{$1} = $ParamObject->GetParam( Param => $SearchStringParamName );
             }
 
@@ -2650,7 +2652,7 @@ sub Run {
     }
 
     # show default search screen
-    $Output = $LayoutObject->Header();
+    my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
     # Notify if there are tickets which are not updated.
