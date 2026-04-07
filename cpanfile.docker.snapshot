@@ -355,12 +355,6 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  Compress-Raw-Zlib-2.222
-    pathname: P/PM/PMQS/Compress-Raw-Zlib-2.222.tar.gz
-    provides:
-      Compress::Raw::Zlib 2.222
-    requirements:
-      ExtUtils::MakeMaker 0
   Const-Fast-0.014
     pathname: L/LE/LEONT/Const-Fast-0.014.tar.gz
     provides:
