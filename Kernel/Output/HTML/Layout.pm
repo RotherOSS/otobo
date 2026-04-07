@@ -3612,14 +3612,24 @@ sub BuildDateSelection {
 
     my $DateInputStyle = $ConfigObject->Get('TimeInputFormat');
     my $MinuteStep     = $ConfigObject->Get('TimeInputMinutesStep');
-    my $Prefix         = $Param{Prefix}   || '';
-    my $DiffTime       = $Param{DiffTime} || 0;
-    my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
-    my $Area           = $Param{Area}                   || 'Agent';
-    my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
-    my $Required       = $Param{ $Prefix . 'Required' } || 0;
-    my $Used           = $Param{ $Prefix . 'Used' }     || 0;
-    my $Class          = $Param{ $Prefix . 'Class' }    || '';
+    my $Prefix         = $Param{Prefix} || '';
+
+    # sanitize prefix
+    #   allow the following:
+    #       - characters (not only A-Za-z, as umlauts should be allowed as well)
+    #       - digits (arabic as well as non-arabic)
+    #       - dash (e.g. for dynamic field namespaces)
+    #       - underscore
+    #       - : and # (e.g. for system configuration names)
+    $Prefix =~ s/[^\w\d\-_:#]//g;
+
+    my $DiffTime = $Param{DiffTime} || 0;
+    my $Format   = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
+    my $Area     = $Param{Area}                   || 'Agent';
+    my $Optional = $Param{ $Prefix . 'Optional' } || 0;
+    my $Required = $Param{ $Prefix . 'Required' } || 0;
+    my $Used     = $Param{ $Prefix . 'Used' }     || 0;
+    my $Class    = $Param{ $Prefix . 'Class' }    || '';
 
     # Defines, if the date selection should be validated on client side with JS
     my $Validate = $Param{Validate} || 0;
