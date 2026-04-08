@@ -162,7 +162,7 @@ Core.Customer.Login = (function (TargetNS) {
         $LocalInputs.first().focus();
 
         // add all tab-able inputs
-        $LocalInputs.add($(Location + ' a, button'));
+        $LocalInputs = $LocalInputs.add($(Location + ' a, button'));
 
         // collect all global tab-able inputs
         // give the input fields of all other slides a negative 'tabindex' to prevent
