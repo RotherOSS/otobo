@@ -1254,6 +1254,10 @@ fieldset.ModularForm {
         width: 100%;
         border-radius: 4px;
     }
+
+    fieldset.ModularForm .oooTitle {
+        max-width: 100%;
+    }
     
     fieldset.ModularForm .FieldCell .RichTextField {
         flex-direction: column;
