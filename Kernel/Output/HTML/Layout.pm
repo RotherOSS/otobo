@@ -3897,6 +3897,15 @@ sub BuildDateSelection {
         $WeekDayStart = 1;
     }
 
+    # sanitize WeekDayStart
+    #   allow the following:
+    #       - characters (not only A-Za-z, as umlauts should be allowed as well)
+    #       - digits (arabic as well as non-arabic)
+    #       - dash (e.g. for dynamic field namespaces)
+    #       - underscore
+    #       - : and # (e.g. for system configuration names)
+    $WeekDayStart =~ s/[^\w\d\-_:#]//g;
+
     my $Output = '';
 
     # optional checkbox
