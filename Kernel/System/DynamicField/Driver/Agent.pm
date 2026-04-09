@@ -116,7 +116,7 @@ sub GetFieldTypeSettings {
         {
             ConfigParamName => 'Group',
             Label           => Translatable('Group of the agents'),
-            Explanation     => Translatable('Select the group of the agents'),
+            Explanation     => Translatable('Select the group of the agents.'),
             InputType       => 'Selection',
             SelectionData   => \%GroupList,
             PossibleNone    => 1,

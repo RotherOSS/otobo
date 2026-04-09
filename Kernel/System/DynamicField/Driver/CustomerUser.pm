@@ -194,7 +194,7 @@ sub GetFieldTypeSettings {
             {
                 ConfigParamName => 'ReferencedObjectType',
                 Label           => Translatable('Referenced object type'),
-                Explanation     => Translatable('Select the type of the referenced object'),
+                Explanation     => Translatable('Select the type of the referenced object.'),
                 InputType       => 'Selection',
                 SelectionData   => { $Self->{ReferencedObjectType} => $Self->{ReferencedObjectType} },
                 PossibleNone    => 0,
