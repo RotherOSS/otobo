@@ -307,6 +307,36 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     color: var(--colTextDark)
 }
 
+#ToolBar .Extended textarea {
+    box-shadow: none;
+    border-radius: 4px;
+    color: var(--colNotifyOK);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    border: 1px solid var(--colHighlight);
+    background: var(--colMainDark);
+    color:var(--colMainDark);
+    overflow:auto;
+    resize:horizontal;
+    white-space: nowrap;
+    transition: all ease 0.3s;
+    position: relative;
+    top:1px;
+}
+
+#ToolBar .Extended textarea:focus {
+    background: var(--colHoverLight);
+    color: var(--colTextDark);
+}
+
+#ToolBar .Extended.SearchFulltext:focus-within::before {
+    content: "";
+}
+
+#ToolBar .Extended textarea:focus::placeholder {
+    color: var(--colHoverLight);
+}
+
 #ToolBar .Extended input[type=text]:not(.InputField_Search) {
     width: 90px !important;
 }
@@ -605,6 +635,68 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #Navigation > .Active > ul > li:last-child > a {
     border-bottom: none;
+}
+
+form.ElasticSearch {
+    display:inline;
+}
+
+div.ElasticSearch {
+    padding:8px 0px 0px 8px;
+}
+
+#ESQUickHelp {
+	margin:5px;
+	padding:1px;
+	color:var(--colHoverLight);
+	border: 1px solid var(--colHoverLight);
+	border-radius:50%;
+	cursor: help;
+}
+
+#ESQUickHelp:hover {
+	color: var(--colMainDark);
+	background-color:  var(--colHoverLight);
+}
+
+div.ESQuickHelpPopupContainer {
+	position:relative;
+	z-index:5000;
+}
+
+div.ESQuickHelpPopup {
+	left:0px;
+	top:-5px;
+	width:350px;
+	position:absolute;
+	z-index:155;
+	display:none;
+	color:var(--colTextDark);
+	background-color: var(--colHoverLight);
+	padding:15px;
+	border-radius:10px;
+}
+
+div.ESQuickHelpPopup div {
+	float:right !important;
+}
+
+div.ESQuickHelpPopup div i {
+	padding:3px;
+	cursor: pointer;
+}
+div.ESQuickHelpPopup div i:hover {
+	color:var(--colHoverLight);
+	background-color:var(--colTextDark);;
+}
+
+div.ESQuickHelpPopup p {
+	margin:5px 0px;
+}
+
+div.ESQuickHelpPopup a {
+	display:inline !important;
+	float:none !important;
 }
 
 } /* end @media */

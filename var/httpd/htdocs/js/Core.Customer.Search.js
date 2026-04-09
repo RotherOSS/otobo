@@ -40,8 +40,7 @@ Core.Customer.Search = (function (TargetNS) {
             $('#oooSearch').addClass('oooFull');
             $('#oooSearch').focus();
 
-            // TODO: include FAQ to ES
-            if (Core.Config.Get('ESActive') == 1 && Core.Config.Get('Action') !== 'CustomerFAQExplorer' && Core.Config.Get('Action') !== 'CustomerFAQZoom'){
+            if (Core.Config.Get('ESActive') == 1){
                 Core.UI.Elasticsearch.InitSearchField($('#oooSearch'), "CustomerElasticsearchQuickResult");
             }
 
