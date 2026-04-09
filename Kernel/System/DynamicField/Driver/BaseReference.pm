@@ -1202,7 +1202,7 @@ sub PossibleValuesGet {
         );
         %PossibleValues = (
             %PossibleValues,
-            $ResultItem => $ItemDescription{Long},
+            $ResultItem => $ItemDescription{Normal},
         );
     }
 
