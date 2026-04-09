@@ -58,6 +58,8 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             if ( typeof FulltextESValue == 'undefined' ){
                 FulltextESValue = '';
             }
+            FulltextESValue = FulltextESValue.trim();
+
             var LengthFulltext = FulltextESValue.length;
 
             // close an existing dialog, if the search string is less than MinSearch characters long
@@ -87,6 +89,46 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }
         });
 
+        $('#FulltextES').keydown(function(e) {
+            if(e.which === 13 ) {
+
+                e.preventDefault();
+                $(this).closest("form").submit();
+                return;
+            }
+            if(e.key === "Escape") {
+
+                e.preventDefault();
+                let el = $(this);
+                if(el.attr("expanded") === undefined ) {
+                    el.css("width",'50vw');
+                    el.attr("expanded","true");
+                }
+                else {
+                    el.css("width",'auto');
+                    el.removeAttr("expanded");
+                }
+                return;
+            }
+        });
+
+        $('#ESQUickHelp').click( function(e) {
+
+            var isVisible = $('#ESQuickHelpPopup').css('display') == 'block';
+
+            if(!isVisible) {
+                $('#ESQuickHelpPopup').css('display','block');
+            }
+            else {
+                $('#ESQuickHelpPopup').css('display','none');
+            }
+        });
+
+        $('#closeESQuickHelp').click( function(e) {
+
+            $('#ESQuickHelpPopup').css('display','none');
+        });
+
     };
 
     /**
@@ -107,6 +149,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
                 Action: Action,
                 Subaction: 'SearchUpdate',
                 FulltextES: FulltextESValue,
+                URL: window.location.href,
             };
 
         // initiate the AJAX call
