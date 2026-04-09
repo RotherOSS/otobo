@@ -122,6 +122,30 @@
             </tbody>
         </table>
 [% END %]
-
+[% IF Data.FAQs %]
+        <h3>[% Translate("FAQs") | html  %]</h3>
+        <table class="TableSmall NoCellspacing">
+            <thead>
+                <tr>
+[% RenderBlockStart("FAQHeader") %]
+                    <th class="OverviewHeader">
+                        <p name="OverviewControl"  title="[% Translate(Data.Header) | html  %]">[% Translate(Data.Header) | html  %]</p>
+                    </th>
+[% RenderBlockEnd("FAQHeader") %]
+                </tr>
+            </thead>
+            <tbody>
+[% RenderBlockStart("RecordFAQ") %]
+                <tr class="MasterAction">
+[% RenderBlockStart("FAQEntry") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentFAQZoom;ItemID=[% Data.ItemID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.Entry | html %]</a>
+                    </td>
+[% RenderBlockEnd("FAQEntry") %]
+                </tr>
+[% RenderBlockEnd("RecordFAQ") %]
+            </tbody>
+        </table>
+[% END %]
     </form>
 </div>

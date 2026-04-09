@@ -50,6 +50,7 @@ our @ObjectDependencies = (
 # Soft dependencies are modules that used by this object, but who don't affect the state of this object.
 # There is no need to discard this module when one of the soft dependencies is discarded.
 our @SoftObjectDependencies = (
+    'Kernel::System::FAQ',
     'Kernel::System::GeneralCatalog',
     'Kernel::System::ITSMConfigItem',
 );
@@ -61,10 +62,10 @@ sub Configure {
     $Self->AddOption(
         Name        => 'target',
         Description =>
-            "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; i: ITSMConfigItems; If not specified, 'tuci' (all four) will be handled.",
+            "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; i: ITSMConfigItems; f: FAQs;If not specified, 'tucif' (all five) will be handled.",
         Required   => 0,
         HasValue   => 1,
-        ValueRegex => qr/^[tuci]+$/smx,
+        ValueRegex => qr/^[tucif]+$/smx,
     );
     $Self->AddOption(
         Name        => 'micro-sleep',
@@ -139,11 +140,11 @@ sub Run {
         return 0;
     }
 
-    my $Targets            = $Self->GetOption('target') || 'tuci';
+    my $Targets            = $Self->GetOption('target') || 'tucif';
     my $MicroSleep         = $Self->GetOption('micro-sleep');
     my $CustomerLimitLevel = $Self->GetOption('use-customer-batches') || '0';
 
-    if ( $Targets =~ m/t|i/ ) {
+    if ( $Targets =~ m/t|i|f/ ) {
         $Self->CreateAttachmentPipeline(
             ESObject => $ESObject,
         );
@@ -188,6 +189,16 @@ sub Run {
             Config   => $ConfigIndexSettings->{ConfigItem} // $Config,
             Template => $IndexTemplates->{ConfigItem}      // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
+        );
+    }
+
+    if ( $Targets =~ /f/ ) {
+        $Self->MigrateFAQs(
+            ESObject => $ESObject,
+            Config   => $ConfigIndexSettings->{FAQ}   // $Config,
+            Template => $IndexTemplates->{ConfigItem} // $IndexTemplates->{Default},
+            Sleep    => $MicroSleep,
+            UserID   => 1,
         );
     }
 
@@ -753,6 +764,119 @@ sub MigrateConfigItems {
     }
     else {
         $Self->Print("<green>ConfigItem transfer complete. Transferred $Count config items.</green>\n");
+    }
+
+    return 1;
+}
+
+sub MigrateFAQs {
+    my ( $Self, %Param ) = @_;
+
+    # check whether FAQ is installed
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $IsInstalled   = $PackageObject->PackageIsInstalled(
+        Name => 'FAQ',
+    );
+    if ( !$IsInstalled ) {
+        $Self->Print("<green>Skipping FAQs (FAQ not installed)...</green>\n");
+
+        return 1;
+    }
+
+    my %IndexName = (
+        index => 'faq',
+    );
+    my $Success = $Param{ESObject}->DropIndex(
+        IndexName => \%IndexName,
+    );
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>The previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
+
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in IndexSettingsGet
+        return 0;
+    }
+
+    my %Request = (
+        settings => $IndexSettings,
+        mappings => {
+            properties => {
+                ItemID => {
+                    type => 'integer',
+                },
+                CategoryID => {
+                    type => 'integer',
+                },
+            }
+        },
+    );
+
+    $Success = $Param{ESObject}->CreateIndex(
+        IndexName => \%IndexName,
+        Request   => \%Request,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>FAQ index created.</green>\n");
+    }
+    else {
+        $Self->Print("<red>FAQ index could not be created!</red>\n");
+
+        return 0;
+    }
+
+    # return if no StoreFields are defined
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::FAQStoreFields') ) {
+        $Self->Print("<yellow>No FAQStoreFields are defined.</yellow>\n");
+
+        return 1;
+    }
+
+    my $FAQObject = $Kernel::OM->Get('Kernel::System::FAQ');
+    my @FAQs      = $FAQObject->FAQSearch(
+        UserID => 1,
+    );
+
+    my $Count    = 0;
+    my $FAQCount = scalar @FAQs;
+
+    my $Errors = 0;
+    for my $ItemID (@FAQs) {
+
+        $Count++;
+
+        # create the FAQ in Elasticsearch
+        if (
+            !$Param{ESObject}->FAQCreate(
+                ItemID => $ItemID,
+                UserID => 1,
+            )
+            )
+        {
+            $Errors++;
+        }
+
+        # show progress and potentially sleep
+        if ( $Count % 1000 == 0 ) {
+            my $Percent = int( $Count / ( $FAQCount / 100 ) );
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$FAQCount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
+        }
+
+        Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
+    }
+
+    if ($Errors) {
+        $Self->Print("<yellow>FAQ transfer complete. $Errors error(s) occured!</yellow>\n");
+    }
+    else {
+        $Self->Print("<green>FAQ transfer complete. Transferred $Count FAQ items.</green>\n");
     }
 
     return 1;

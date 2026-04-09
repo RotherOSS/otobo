@@ -15,6 +15,7 @@
 # --
 
 package Kernel::Modules::CustomerElasticsearchQuickResult;
+## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -67,6 +68,68 @@ sub Run {
     # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
     if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 && $Count ) {
 
+        my $Url = $ParamObject->GetParam(
+            Param => 'URL'
+        );
+        if ( $Url =~ /Action=CustomerFAQ/ ) {
+
+            # Search FAQ by ES sort by Number. Show $Size results.
+            my $SearchResult = $ESObject->FAQSearch(
+                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
+                UserID    => $Self->{UserID},
+                UserLogin => $Self->{UserLogin},
+                Limit     => $Count,
+                Result    => 'FULL',
+                ExtendedSearch => 0,
+            );
+            my @FAQIDs = $SearchResult->{Data}->@*;
+
+            $LayoutObject->Block(
+                Name => 'FAQHeader',
+            );
+            for my $FAQ (@FAQIDs) {
+                my ( $FAQID, $FAQParam ) = ( %{$FAQ} );
+
+                $LayoutObject->Block(
+                    Name => 'FAQRecord',
+                    Data => {
+                        FAQID => $FAQID,
+                    },
+                );
+
+                $LayoutObject->Block(
+                    Name => 'RecordFAQNumber',
+                    Data => {
+                        FAQID     => $FAQID,
+                        FAQNumber => $FAQParam->{Number},
+                    },
+                );
+                $LayoutObject->Block(
+                    Name => 'RecordFAQTitle',
+                    Data => {
+                        FAQID    => $FAQID,
+                        FAQTitle => $FAQParam->{Title},
+                    },
+                );
+            }
+
+            # Create output
+            my $Output = $LayoutObject->Output(
+                TemplateFile => 'CustomerElasticsearchQuickResult',
+                Data         => \%Param,
+            );
+
+            #Return HTML-output back to callback function in Core.UI.Elasticsearch.js
+            return $LayoutObject->Attachment(
+                NoCache     => 1,
+                ContentType => 'text/html',
+                Charset     => $LayoutObject->{UserCharset},
+                Content     => $Output || '',
+                Type        => 'inline',
+            );
+
+        }
+
         # Add filter for customer company if the company tickets are not disabled.
         my %Selection;
         if ( !$DisableCompanyTickets ) {
@@ -80,13 +143,19 @@ sub Run {
         }
 
         # Search ticket by ES sort by age. Show $Size results.
-        my @TicketIDs = $ESObject->TicketSearch(
+        # Block ticket data
+        my $SearchResult = $ESObject->TicketSearch(
             %Selection,
             Fulltext       => $ParamObject->GetParam( Param => 'FulltextES' ),
             CustomerUserID => $Self->{UserID},
             Limit          => $Count,
             Permission     => 'ro',
             Result         => 'FULL',
+            ExtendedSearch => 0,
+        );
+        my @TicketIDs = $SearchResult->{Data}->@*;
+        $LayoutObject->Block(
+            Name => 'TicketHeader',
         );
 
         # Block ticket data

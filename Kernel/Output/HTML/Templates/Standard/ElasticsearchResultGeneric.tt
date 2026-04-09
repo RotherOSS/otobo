@@ -1,0 +1,108 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2026 Rother OSS GmbH, https://otobo.io/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+
+[% RenderBlockStart("ElasticSearchResultGenericFilter") %]
+
+[% RenderBlockStart("ElasticSearchResultGenericFilterNavBar") %]
+<span class="Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ElasticSearchResultGenericFilterNavBar") %]
+[% RenderBlockEnd("ElasticSearchResultGenericFilter") %]
+
+#<!-- This form will not be submitted, we need it for the AJAX calls. -->
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+    <input type="hidden" name="CustomerUserID" value="[% Data.CustomerUserID | html %]"/>
+    <input type="hidden" name="Filter[% Data.Name | html %]" id="Filter[% Data.Name | html %]" value="[% Data.FilterValue | html %]" />
+    <input type="hidden" name="AdditionalFilter[% Data.Name | html %]" id="AdditionalFilter[% Data.Name | html %]" value="[% Data.AdditionalFilterValue | html %]" />
+    <table class="DataTable">
+        <thead>
+[% RenderBlockStart("ElasticSearchResultGenericHeader") %]
+            <tr>
+
+[% RenderBlockStart("GeneralOverviewHeader") %]
+[% RenderBlockStart("ElasticSearchResultGenericHeaderColumn") %]
+                <th class="DashboardHeader [% Data.HeaderColumnName | html %] [% Data.CSS | html %]" data-column="[% Data.HeaderColumnName | html %]">
+
+[% RenderBlockStart("ElasticSearchResultGenericHeaderColumnLink") %]
+                    <a id="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" name="[% Data.HeaderColumnName | html %]OverviewControl[% Data.Name | html %]" href="#" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated | html %]</a>
+[% RenderBlockEnd("ElasticSearchResultGenericHeaderColumnLink") %]
+
+[% RenderBlockStart("ElasticSearchResultGenericHeaderColumnEmpty") %]
+                    <span class="Gray" title="[% Data.Title | html %]" >[% Data.HeaderNameTranslated %]</span>
+[% RenderBlockEnd("ElasticSearchResultGenericHeaderColumnEmpty") %]
+                </th>
+[% RenderBlockEnd("ElasticSearchResultGenericHeaderColumn") %]
+
+[% RenderBlockEnd("GeneralOverviewHeader") %]
+
+            </tr>
+
+[% RenderBlockEnd("ElasticSearchResultGenericHeader") %]
+        </thead>
+
+        <tbody>
+[% RenderBlockStart("ElasticSearchResultGenericRow") %]
+            <tr class="MasterAction">
+
+[% RenderBlockStart("GeneralOverviewRow") %]
+[% RenderBlockStart("ElasticSearchResultGenericTicketColumn") %]
+[% RenderBlockStart("ElasticSearchResultGenericTicketNumber") %]
+                <td>
+                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]" title="[% Data.Title | html %]" class="AsBlock MasterActionLink">[% Data.TicketNumber | html %]</a>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericTicketNumber") %]
+[% RenderBlockStart("ElasticSearchResultGenericCustomerCompanyName") %]
+                <td>
+                    <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" title="[% Data.CustomerID | html %]" class="MasterActionLink">[% Data.CustomerName | html %]&nbsp;</a>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericCustomerCompanyName") %]
+[% RenderBlockStart("ElasticSearchResultGenericCustomerUserLogin") %]
+                <td>
+                    <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserLogin | uri %]" title="[% Data.UserLogin | html %]" class="MasterActionLink">[% Data.UserLogin | html %]&nbsp;</a>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericCustomerUserLogin") %]
+[% RenderBlockStart("ElasticSearchResultGenericConfigItem") %]
+                <td>
+                    <a href="[% Env("Baselink") %]Action=AgentITSMConfigItemZoom;ConfigItemID=[% Data.ConfigItemID | uri %]" title="[% Data.ConfigItemID | html %]" class="MasterActionLink">[% Data.GenericValue | html %]</a>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericConfigItem") %]
+[% RenderBlockStart("ElasticSearchResultGenericFAQNumber") %]
+                <td>
+                    <a href="[% Env("Baselink") %]Action=AgentFAQZoom;ItemID=[% Data.FAQID | uri %]" title="[% Data.FAQID | html %]" class="MasterActionLink">[% Data.GenericValue | html %]</a>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericFAQNumber") %]
+[% RenderBlockStart("ElasticSearchResultGenericColumn") %]
+                <td>
+                    <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(40) | html %]</div>
+                </td>
+[% RenderBlockEnd("ElasticSearchResultGenericColumn") %]
+[% RenderBlockEnd("ElasticSearchResultGenericTicketColumn") %]
+[% RenderBlockEnd("GeneralOverviewRow") %]
+            </tr>
+[% RenderBlockEnd("ElasticSearchResultGenericRow") %]
+[% RenderBlockStart("ElasticSearchResultGenericNone") %]
+            <tr>
+                <td class="AutoColspan">
+                    [% Translate("none") | html %]
+                </td>
+            </tr>
+[% RenderBlockEnd("ElasticSearchResultGenericNone") %]
+        </tbody>
+    </table>
+</form>

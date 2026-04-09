@@ -20,6 +20,7 @@
         <input type="hidden" name="Subaction" value="Redirect"/>
         <table class="TableSmall NoCellspacing">
             <thead>
+[% RenderBlockStart("TicketHeader") %]
                 <tr>
                     <th class="OverviewHeader TicketNumber">
                         <a name="OverviewControl"  title="TicketNummer">Ticket#</a>
@@ -31,6 +32,17 @@
                         <a name="OverviewControl"  title="TicketTitle">[% Translate("Title") | html  %]</a>
                     </th>
                 </tr>
+[% RenderBlockEnd("TicketHeader") %]
+[% RenderBlockStart("FAQHeader") %]
+                <tr>
+                    <th class="OverviewHeader FAQNumber">
+                        <a name="OverviewControl"  title="FAQNumber">[% Translate("FAQ#") | html  %]</a>
+                    </th>
+                    <th class="OverviewHeader FAQTitle">
+                        <a name="OverviewControl"  title="FAQTitle">[% Translate("Title") | html  %]</a>
+                    </th>
+                </tr>
+[% RenderBlockEnd("FAQHeader") %]
             </thead>
             <tbody>
 
@@ -56,6 +68,22 @@
 [% RenderBlockEnd("RecordTicketTitle") %]
                 </tr>
 [% RenderBlockEnd("Record") %]
+[% RenderBlockStart("FAQRecord") %]
+                <tr id="FAQID_[% Data.FAQID | html %]" class="MasterAction">
+
+[% RenderBlockStart("RecordFAQNumber") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=CustomerFAQZoom;ItemID=[% Data.FAQID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.FAQNumber | html %]</a>
+                    </td>
+[% RenderBlockEnd("RecordFAQNumber") %]
+
+[% RenderBlockStart("RecordFAQTitle") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=CustomerFAQZoom;ItemID=[% Data.FAQID | uri %]" title="[%  Data.Title | html %]" class="MasterActionLink">[% Data.FAQTitle %]</a>
+                    </td>
+[% RenderBlockEnd("RecordFAQTitle") %]
+                </tr>
+[% RenderBlockEnd("FAQRecord") %]
             </tbody>
         </table>
     </form>

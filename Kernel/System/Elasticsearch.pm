@@ -43,6 +43,8 @@ our @ObjectDependencies = (
 # Soft dependencies are modules that used by this object, but who don't affect the state of this object.
 # There is no need to discard this module when one of the soft dependencies is discarded.
 our @SoftObjectDependencies = (
+
+    'Kernel::System::FAQ',
     'Kernel::System::GeneralCatalog',
     'Kernel::System::ITSMConfigItem',
 );
@@ -137,6 +139,9 @@ sub TicketSearch {
     my $OrderBy      = $Param{OrderBy} || [ 'Down',  'Down' ];
     my $SortBy       = $Param{SortBy}  || [ 'Score', 'Age' ];
     my $Limit        = $Param{Limit}   || 10000;
+
+    my $From           = $Param{From} || 0;
+    my $ExtendedSearch = $Param{ExtendedSearch} // 1;
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -403,11 +408,24 @@ sub TicketSearch {
             }
         }
 
+        my $Query = $Self->_AugmentTicketSearchQueryString(
+            Query          => $Param{Fulltext},
+            SearchFields   => \@SearchFields,
+            ExtendedSearch => $ExtendedSearch,
+        );
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Elasticsearch [ticket] Query: " . $Query
+        );
+
+
         # add queue restrictions
         push @Musts, {
             query_string => {
                 fields => \@SearchFields,
-                query  => "*$Param{Fulltext}*",
+
+                query => $Query,
             },
         };
 
@@ -450,22 +468,42 @@ sub TicketSearch {
             Limit     => $Limit,
             Return    => $Return,
             Sort      => \@Sort,
+            From => $From,
         }
     );
 
-    # convert the Elasticsearch return to the needed OTOBO structure and return
+    my $Total   = $Result->{Data}->{Total}   // 0;
+    my $Records = $Result->{Data}->{Records} // [];
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'debug',
+        Message  => "Elasticsearch [ticket] Result: " . $Total . " Hits\n"
+    );
+
+    # convert the Elasticsearch return to the needed OTRS structure and return
+
+
     if ( $ResultType eq 'HASH' ) {
-        return (
+
+        my %Data = (
             map {
                 { $_->{TicketID} => $_->{TicketNumber} }
-            } @{ $Result->{Data} }
+            } @{$Records}
         );
-    }
 
+        return {
+            Data  => \%Data,
+            Total => $Total,
+        };
+    }
     elsif ( $ResultType eq 'ARRAY' ) {
-        return ( map { $_->{TicketID} } @{ $Result->{Data} } );
-    }
 
+        my @Data = map { $_->{TicketID} } @{$Records};
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
+    }
     elsif ( $ResultType eq 'FULL' ) {
 
         # age has to be calulated
@@ -473,18 +511,22 @@ sub TicketSearch {
             'Kernel::System::DateTime'
         )->ToEpoch();
 
-        for my $Data ( @{ $Result->{Data} } ) {
+        for my $Data ( @{$Records} ) {
             $Data->{Age} = $Now - $Data->{Created};
         }
-        return (
-            map {
-                { $_->{TicketID} => $_ }
-            } @{ $Result->{Data} }
-        );
-    }
 
+        my @Data = map {
+            { $_->{TicketID} => $_ }
+        } @{$Records};
+
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
+    }
     elsif ( $ResultType eq 'COUNT' ) {
-        return scalar @{ $Result->{Data} };
+
+        return $Total;
     }
 
 }
@@ -494,16 +536,33 @@ sub CustomerCompanySearch {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
     my $Limit        = $Param{Limit}  || 10000;
+    my $From           = $Param{From}    || 0;
+    my $SortBy         = $Param{SortBy}  || 'CustomerID';
+    my $OrderBy        = $Param{OrderBy} || 'asc';
+    my $ExtendedSearch = $Param{ExtendedSearch} // 1;
+
+    if ( $OrderBy eq 'Up' ) {
+        $OrderBy = 'asc';
+    }
+    elsif ( $OrderBy eq 'Down' ) {
+        $OrderBy = 'desc';
+    }
+
+    my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
+
+    $Param{Fulltext} = $Self->_AugmentCustomerCompanySearchQueryString(
+        Query          => $Param{Fulltext},
+        SearchFields   => $FulltextFields,
+        ExtendedSearch => $ExtendedSearch,
+    );
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
 
-        my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
-
         push @Musts, {
             query_string => {
                 fields => $FulltextFields,
-                query  => "*$Param{Fulltext}*",
+                query => $Param{Fulltext},
             },
         };
     }
@@ -521,14 +580,27 @@ sub CustomerCompanySearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
+            From => $From,
+            Sort => [
+                { $SortBy => $OrderBy }
+            ]
         }
     );
 
+
+    my $Total   = $Result->{Data}->{Total};
+    my $Records = $Result->{Data}->{Records};
+
     if ( $ResultType eq 'ARRAY' ) {
-        return ( map { $_->{CustomerCompanyKey} } @{ $Result->{Data} } );
+
+        my @Data = map { $_->{CustomerCompanyKey} } @{$Records};
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
     }
     elsif ( $ResultType eq 'COUNT' ) {
-        return scalar @{ $Result->{Data} };
+        return $Total;
     }
 
 }
@@ -538,16 +610,33 @@ sub CustomerUserSearch {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
     my $Limit        = $Param{Limit}  || 10000;
+    my $From           = $Param{From}    || 0;
+    my $SortBy         = $Param{SortBy}  || 'UserLogin';
+    my $OrderBy        = $Param{OrderBy} || 'asc';
+    my $ExtendedSearch = $Param{ExtendedSearch} // 1;
+
+    if ( $OrderBy eq 'Up' ) {
+        $OrderBy = 'asc';
+    }
+    elsif ( $OrderBy eq 'Down' ) {
+        $OrderBy = 'desc';
+    }
+
+    my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
+
+    $Param{Fulltext} = $Self->_AugmentCustomerUserSearchQueryString(
+        Query          => $Param{Fulltext},
+        SearchFields   => $FulltextFields,
+        ExtendedSearch => $ExtendedSearch,
+    );
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
 
-        my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
-
         push @Musts, {
             query_string => {
                 fields => $FulltextFields,
-                query  => "*$Param{Fulltext}*",
+                query => $Param{Fulltext},
             },
         };
     }
@@ -565,21 +654,43 @@ sub CustomerUserSearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
+            From => $From,
+            Sort => [
+                { $SortBy => $OrderBy }
+            ]
         }
     );
+
+
+    my $Total   = $Result->{Data}->{Total};
+    my $Records = $Result->{Data}->{Records};
+
     if ( $ResultType eq 'HASH' ) {
-        return (
+
+        my %Data = (
             map {
                 { $_->{CustomerKey} => $_->{UserFullname} }
-            } @{ $Result->{Data} }
+            } @{$Records}
         );
+
+        return {
+            Data  => \%Data,
+            Total => $Total,
+        };
     }
     elsif ( $ResultType eq 'ARRAY' ) {
-        return ( map { $_->{CustomerKey} } @{ $Result->{Data} } );
+
+        my @Data = ( map { $_->{CustomerKey} } @{$Records} );
+
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
     }
     elsif ( $ResultType eq 'COUNT' ) {
-        return scalar @{ $Result->{Data} };
+        return $Total;
     }
+
 }
 
 =head2 ConfigItemSearch()
@@ -600,6 +711,8 @@ sub ConfigItemSearch {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
     my $Limit        = $Param{Limit}  || 10000;
+    my $From           = $Param{From} || 0;
+    my $ExtendedSearch = $Param{ExtendedSearch} // 1;
 
     # check required params
     for my $Needed (qw/UserID Fulltext/) {
@@ -611,6 +724,14 @@ sub ConfigItemSearch {
             return;
         }
     }
+
+    my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
+
+    $Param{Fulltext} = $Self->_AugmentConfigItemSearchQueryString(
+        Query          => $Param{Fulltext},
+        SearchFields   => $FulltextFields,
+        ExtendedSearch => $ExtendedSearch,
+    );
 
     my ( @Musts, @Filters );
 
@@ -682,7 +803,7 @@ sub ConfigItemSearch {
         push @Musts, {
             query_string => {
                 fields => \@SearchFields,
-                query  => "*$Param{Fulltext}*",
+                query => $Param{Fulltext},
             },
         };
     }
@@ -700,18 +821,34 @@ sub ConfigItemSearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
+            From => $From,
         }
     );
 
+    my $Total   = $Result->{Data}->{Total};
+    my $Records = $Result->{Data}->{Records};
+
     if ( $ResultType eq 'FULL' ) {
-        return (
+
+        my @Data = (
             map {
                 { $_->{ConfigItemID} => $_ }
-            } @{ $Result->{Data} }
+            } @{$Records}
         );
+
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
+
     }
     else {
-        return ( map { $_->{ConfigItemID} } @{ $Result->{Data} } );
+
+        my @Data = ( map { $_->{ConfigItemID} } @{$Records} );
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
     }
 
 }
@@ -910,6 +1047,314 @@ sub ConfigItemCreate {
 
     return 1;
 
+}
+
+
+=head2 FAQCreate()
+
+Explicitly creates a FAQ in the Elasticsearch database. Happens mostly event based in a productive system.
+
+    $ESObject->FAQCreate(
+        ItemID => $FAQItemID,
+    );
+
+=cut
+
+sub FAQCreate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw/ItemID/) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+
+    # create the FAQ
+    my $Result = $RequesterObject->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'FAQManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event  => 'FAQCreate',
+            ItemID => $Param{ItemID},
+            UserID => $Param{UserID},
+        }
+    );
+
+    return if !$Result->{Success};
+
+    # update the attachments
+    if (
+        $ConfigObject->Get('Elasticsearch::FAQSearchFields')
+        &&
+        $ConfigObject->Get('Elasticsearch::FAQSearchFields')->{'Attachments'}
+        )
+    {
+        my $FAQObject = $Kernel::OM->Get('Kernel::System::FAQ');
+
+        my @AttachmentIndex = $FAQObject->AttachmentIndex(
+            ItemID => $Param{ItemID},
+            UserID => $Param{UserID}
+        );
+
+        for my $AttachmentEntry (@AttachmentIndex) {
+            my %Attachment = $FAQObject->AttachmentGet(
+                ItemID => $Param{ItemID},
+                FileID => $AttachmentEntry->{FileID},
+                UserID => $Param{UserID},
+            );
+
+            $Result = $RequesterObject->Run(
+                WebserviceID => $Self->{WebserviceID},
+                Invoker      => 'FAQManagement',
+                Asynchronous => 0,
+                Data         => {
+                    %Attachment,
+                    Event  => 'FAQAttachmentAddPost',
+                    ItemID => $Param{ItemID},
+                }
+            );
+        }
+    }
+
+    return 1;
+
+}
+
+=head2 FAQSearch()
+
+Performs a FAQ search via Elasticsearch.
+
+    $ESObject->FAQSearch(
+        Fulltext => $String,
+        Limit    => 20,     # optional
+        Result   => ARRAY,  # optional, ARRAY (default) | FULL
+
+    );
+
+=cut
+
+sub FAQSearch {
+    my ( $Self, %Param ) = @_;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit}  || 10000;
+
+    my $From           = $Param{From}    || 0;
+    my $SortBy         = $Param{SortBy}  || 'Title';
+    my $OrderBy        = $Param{OrderBy} || 'asc';
+    my $ExtendedSearch = $Param{ExtendedSearch} // 1;
+
+    if ( $OrderBy eq 'Up' ) {
+        $OrderBy = 'asc';
+    }
+    elsif ( $OrderBy eq 'Down' ) {
+        $OrderBy = 'desc';
+    }
+
+    my $FulltextFields = $ConfigObject->Get('Elasticsearch::FAQSearchFields') // {};
+
+    $Param{Fulltext} = $Self->_AugmentFAQSearchQueryString(
+        Query          => $Param{Fulltext},
+        SearchFields   => $FulltextFields,
+        ExtendedSearch => $ExtendedSearch,
+    );
+
+    # check required params
+    for my $Needed (qw/UserID Fulltext/) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # set up category filter corresponding to the access rights
+    my $FAQObject = $Kernel::OM->Get('Kernel::System::FAQ');
+
+    my $CategoryGroupHashRef;
+    if ( $Param{UserLogin} ) {
+        if ( $ConfigObject->Get('CustomerGroupSupport') ) {
+            $CategoryGroupHashRef = $FAQObject->GetCustomerCategories(
+                Type         => 'ro',
+                UserID       => $Param{UserID},
+                CustomerUser => $Param{UserLogin},
+            );
+        }
+        else {
+            $CategoryGroupHashRef = $FAQObject->CategoryList(
+                UserID => $Param{UserID}
+            );
+        }
+    }
+    else {
+        $CategoryGroupHashRef = $FAQObject->GetUserCategories(
+            Type   => 'ro',
+            UserID => $Param{UserID},
+        );
+    }
+
+    # For more details about the code below, please see CustomerFAQSearch:500 ff
+    my %AllowedCategoryIDs = ();
+    if ( $CategoryGroupHashRef && ref $CategoryGroupHashRef eq 'HASH' ) {
+        for my $Level ( sort keys %{$CategoryGroupHashRef} ) {
+            if ( $CategoryGroupHashRef->{$Level} && ref $CategoryGroupHashRef->{$Level} eq 'HASH' ) {
+                my %TempIDs = map { $_ => 1 } keys %{ $CategoryGroupHashRef->{$Level} };
+                %AllowedCategoryIDs = (
+                    %AllowedCategoryIDs,
+                    %TempIDs
+                );
+            }
+        }
+    }
+    my @CategoryIDs = ();
+    if (%AllowedCategoryIDs) {
+        @CategoryIDs = keys %AllowedCategoryIDs;
+    }
+
+    my ( @Musts, @Filters );
+
+    if ( $Param{UserLogin} ) {
+        my $InterfaceStates = $FAQObject->StateTypeList(
+            Types  => $ConfigObject->Get('FAQ::Customer::StateTypes'),
+            UserID => $Param{UserID},
+        );
+        push @Filters, {
+            bool => {
+                filter => [
+                    {
+                        terms => {
+                            CategoryID => \@CategoryIDs,
+                        }
+                    },
+                    {
+                        terms => {
+                            StateTypeID => [ keys $InterfaceStates->%* ],
+                        }
+                    },
+                ]
+            }
+        };
+    }
+    else {
+        push @Filters, {
+            bool => {
+                filter => [
+                    {
+                        terms => {
+                            CategoryID => \@CategoryIDs,
+                        }
+                    },
+                ]
+            }
+        };
+    }
+
+    if ( defined $Param{Fulltext} ) {
+
+        my @SearchFields;
+        if ( $Param{UserLogin} ) {
+            my @CandidateFields = @{ $FulltextFields->{Basic} // [] };
+            for my $Field (@CandidateFields) {
+                if ( $Field =~ /(Field\d)/ ) {
+                    my $FieldState = $ConfigObject->Get( 'FAQ::Item::' . $1 )->{Show};
+                    if ( $FieldState =~ /^public|external$/ ) {
+                        push @SearchFields, $Field;
+                    }
+                }
+                else {
+                    push @SearchFields, $Field;
+                }
+            }
+        }
+        else {
+            @SearchFields = (
+                @{ $FulltextFields->{Basic} // [] },
+            );
+        }
+
+        if ( $FulltextFields->{Attachments} ) {
+            push @SearchFields, ( 'Attachments.Content', 'Attachments.Filename' );
+        }
+
+        # handle dynamic fields
+        if ( $FulltextFields->{DynamicField} ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+            DYNAMICFIELD:
+            for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicField);
+
+                # add all faq dynamic fields
+                if ( $DynamicField->{ObjectType} eq 'FAQ' ) {
+                    push @SearchFields, "DynamicField_$DynamicFieldName";
+                }
+            }
+        }
+
+        push @Musts, {
+            query_string => {
+                fields => \@SearchFields,
+                query => $Param{Fulltext},
+            },
+        };
+    }
+
+    # define the return type
+    my $Return = ( $ResultType eq 'FULL' ) ? '' : 'FAQItemID';
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Search',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => 'faq',
+            Must      => \@Musts,
+            Filter    => \@Filters,
+            Limit     => $Limit,
+            Return    => $Return,
+            From => $From,
+        }
+    );
+
+
+    my $Total   = $Result->{Data}->{Total};
+    my $Records = $Result->{Data}->{Records};
+
+    if ( $ResultType eq 'FULL' ) {
+
+        my @Data = (
+            map {
+                { $_->{ItemID} => $_ }
+            } @{$Records}
+        );
+
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
+    }
+    else {
+
+        my @Data = ( map { $_->{ItemID} } @{$Records} );
+
+        return {
+            Data  => \@Data,
+            Total => $Total,
+        };
+    }
 }
 
 =head2 TestConnection()
@@ -1343,6 +1788,263 @@ sub InitialSetup {
     );
 
     return $Success, 0;
+}
+
+sub _IsUsingExtendedSearchSyntax {
+
+    my ( $Self, %Param ) = @_;
+
+    my $Query = $Param{Query};
+
+    # SearchTerm does contain any of:
+    #      colon ':', boolean operator  'AND, OR, NOT' or the shorthands '&&, ||, !''
+    #      bracket '(', or double-quote '"'
+
+    if (
+        $Query =~ m/
+            \*|
+            :|
+            (\bAND\b)|
+            (\bOR\b)|
+            (\bNOT\b)|
+            (!)|
+            (\b&&\b)|
+            (\b\|\|\b)|
+            (\()|
+            (")
+        /x
+        )
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+sub _AugmentTicketSearchQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $Query          = $Param{Query};
+    my $SearchFields   = $Param{SearchFields};
+    my $ExtendedSearch = $Param{ExtendedSearch};
+
+    # Extended Syntax is introduced with 'ES:' prefix
+    if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+
+        # we don't want the agent to know about
+        # the 'ArticlesInternal.', 'ArticlesExternal.', etc
+        # prefixes of the Searchfields, and the agent
+        # should not need to type them in. Instead we want
+        # to be able to just search for "Subject:" or "From:"
+        # or "Body:" etc
+        # therefore translate search terms like "Body:XYZ"
+        # into "(ArticlesInternal.Body:XYZ OR ArticlesExternal.Body:XYZ)"
+
+        for my $SearchField (@$SearchFields) {
+
+            if ( $SearchField =~ /^ArticlesInternal\./ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^ArticlesInternal\.//;
+
+                my $Rgx = qr/((?:\b$RawField:[^' )]+)|(?:\b$RawField:"[^"]*"))/;
+                $Query =~ s/$Rgx/(ArticlesInternal.$1 OR ArticlesExternal.$1 )/g;
+            }
+            elsif ( $SearchField =~ /^AttachmentsInternal\./ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^AttachmentsInternal\.//;
+
+                my $Rgx = qr/(?:(\b$RawField:[^" )]+)|(?:\b$RawField:"[^"]*"))/;
+                $Query =~ s/$Rgx/(AttachmentsInternal.$1 OR AttachmentsExternal.$1 )/g;
+            }
+            elsif ( $SearchField =~ /^DynamicField_/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^DynamicField_//;
+
+                my $Rgx = qr/\@\b$RawField:/;
+                $Query =~ s/$Rgx/$SearchField:/g;
+            }
+        }
+        $Query =~ s/\bTicket:/Title:/g;
+        return $Query;
+    }
+
+    # fallback to classic fulltext search
+    my @QueryParts = split / +/, $Query;
+    @QueryParts = map { '*' . $_ . '*' } @QueryParts;
+
+    $Query = join ' ', @QueryParts;
+    return $Query;
+}
+
+sub _AugmentCustomerCompanySearchQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $Query          = $Param{Query};
+    my $SearchFields   = $Param{SearchFields};
+    my $ExtendedSearch = $Param{ExtendedSearch};
+
+    if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+
+        # Allow to drop the "Customer" prefix from search
+        # fields, for example CompanyName instead of CustomerCompanyName
+
+        for my $SearchField (@$SearchFields) {
+
+            if ( $SearchField =~ /^Customer/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^Customer//;
+
+                my $Rgx = qr/((?:\b$RawField:[^' )]+)|(?:\b$RawField:'[^']*'))/;
+                $Query =~ s/$Rgx/Customer$1/g;
+            }
+            elsif ( $SearchField =~ /^DynamicField_/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^DynamicField_//;
+
+                my $Rgx = qr/\@\b$RawField:/;
+                $Query =~ s/$Rgx/$SearchField:/g;
+            }
+        }
+        return $Query;
+    }
+
+    # fallback to classic fulltext search
+    my @QueryParts = split / +/, $Query;
+    @QueryParts = map { '*' . $_ . '*' } @QueryParts;
+
+    $Query = join ' ', @QueryParts;
+    return $Query;
+}
+
+sub _AugmentCustomerUserSearchQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $Query          = $Param{Query};
+    my $SearchFields   = $Param{SearchFields};
+    my $ExtendedSearch = $Param{ExtendedSearch};
+
+    if ( $ExtendedSearch &&  $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+
+        # Allow to drop the "User" prefix from search
+        # fields, for example Email instead of UserEmail
+
+        FIELD:
+        for my $SearchField (@$SearchFields) {
+
+            if ( $SearchField =~ /UserCustomerID/ ) {
+                next FIELD;
+            }
+
+            if ( $SearchField =~ /^User/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^User//;
+
+                my $Rgx = qr/((?:\b$RawField:[^' )]+)|(?:\b$RawField:'[^']*'))/;
+                $Query =~ s/$Rgx/User$1/g;
+            }
+            elsif ( $SearchField =~ /^DynamicField_/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^DynamicField_//;
+
+                my $Rgx = qr/\@\b$RawField:/;
+                $Query =~ s/$Rgx/$SearchField:/g;
+            }
+        }
+        return $Query;
+    }
+
+    # fallback to classic fulltext search
+    my @QueryParts = split / +/, $Query;
+    @QueryParts = map { '*' . $_ . '*' } @QueryParts;
+
+    # fallback to classic fulltext search
+    $Query = join ' ', @QueryParts;
+    return $Query;
+}
+
+sub _AugmentConfigItemSearchQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $Query          = $Param{Query};
+    my $SearchFields   = $Param{SearchFields};
+    my $ExtendedSearch = $Param{ExtendedSearch};
+
+    if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+
+        # Allow to drop the "User" prefix from search
+        # fields, for example Email instead of UserEmail
+
+        FIELD:
+        for my $SearchField ( $SearchFields->{DynamicField}->@* ) {
+
+            if ( $SearchField =~ /^DynamicField_/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^DynamicField_//;
+
+                my $Rgx = qr/\@\b$RawField:/;
+                $Query =~ s/$Rgx/$SearchField:/g;
+            }
+        }
+        return $Query;
+    }
+
+    # fallback to classic fulltext search
+    my @QueryParts = split / +/, $Query;
+    @QueryParts = map { '*' . $_ . '*' } @QueryParts;
+
+    $Query = join ' ', @QueryParts;
+    return $Query;
+}
+
+sub _AugmentFAQSearchQueryString {
+    my ( $Self, %Param ) = @_;
+
+    my $Query          = $Param{Query};
+    my $SearchFields   = $Param{SearchFields};
+    my $ExtendedSearch = $Param{ExtendedSearch};
+
+    if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+
+        # special handling for Field1, Field2, and Field3
+
+        $Query =~ s/\bSymptom:/Field1:/g;
+        $Query =~ s/\bProblem:/Field2:/g;
+        $Query =~ s/\bSolution:/Field3:/g;
+
+        $Query =~ s/\bFAQ:/Title:/g;
+
+        # Allow to drop the "User" prefix from search
+        # fields, for example Email instead of UserEmail
+
+        FIELD:
+        for my $SearchField ( $SearchFields->{DynamicField}->@* ) {
+
+            if ( $SearchField =~ /^DynamicField_/ ) {
+
+                my $RawField = $SearchField;
+                $RawField =~ s/^DynamicField_//;
+
+                my $Rgx = qr/\@\b$RawField:/;
+                $Query =~ s/$Rgx/$SearchField:/g;
+            }
+        }
+        return $Query;
+    }
+
+    # fallback to classic fulltext search
+    my @QueryParts = split / +/, $Query;
+    @QueryParts = map { '*' . $_ . '*' } @QueryParts;
+
+    $Query = join ' ', @QueryParts;
+    return $Query;
 }
 
 1;

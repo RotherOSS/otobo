@@ -15,9 +15,12 @@
 # --
 
 package Kernel::Modules::AgentElasticsearchQuickResult;
+## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
+
+use Path::Class;
 
 our $ObjectManagerDisabled = 1;
 
@@ -59,7 +62,19 @@ sub Run {
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
     my $ESObject              = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
-    if ( $Self->{Subaction} eq 'SearchUpdate' ) {
+    if ( $Self->{Subaction} eq 'ViewDocs') {
+
+        my $File = file($ConfigObject->Get('Home').'/doc/en/Elasticsearch-Extension.pdf');
+        my $Pdf  = $File->slurp(iomode => '<:raw');
+
+        return $LayoutObject->Attachment(
+            Filename    => "doc/en/Elasticsearch-ExtendedSearch.pdf",
+            ContentType => 'application/octet-stream',
+            Content     => $Pdf,
+        );
+
+    }
+    elsif ( $Self->{Subaction} eq 'SearchUpdate' ) {
 
         my $SearchObjects = $ConfigObject->Get('Elasticsearch::QuickSearchShow');
 
@@ -68,7 +83,7 @@ sub Run {
         # check module permissions to determine whether results can be shown
         my %Permission;
         MODULE:
-        for my $Module (qw/AgentTicketZoom AgentCustomerInformationCenter AgentCustomerUserInformationCenter AgentITSMConfigItemZoom/) {
+        for my $Module (qw/AgentTicketZoom AgentCustomerInformationCenter AgentCustomerUserInformationCenter AgentITSMConfigItemZoom AgentFAQZoom/) {
             my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{$Module};
 
             # module is not configured
@@ -139,17 +154,17 @@ sub Run {
         }
 
         # get objects
-        my ( @TicketIDs, @CustomerKeys, @CustomerUserKeys, @ConfigItems );
-
+        my ( @TicketIDs, @CustomerKeys, @CustomerUserKeys, @ConfigItems, @FAQs );
         if ( $SearchObjects->{Ticket} && $SearchObjects->{Ticket}{Count} && $Permission{AgentTicketZoom} ) {
 
             # Search ticket by ES sort by age. Show $Size results (default to 10 in SysConfig)
-            @TicketIDs = $ESObject->TicketSearch(
+            my $SearchResult = $ESObject->TicketSearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 UserID   => $Self->{UserID},
                 Limit    => $SearchObjects->{Ticket}{Count},
                 Result   => 'FULL',
             );
+            @TicketIDs = $SearchResult->{Data}->@*;
         }
 
         if (
@@ -159,11 +174,12 @@ sub Run {
             )
         {
             # Search customer by ES.
-            @CustomerKeys = $ESObject->CustomerCompanySearch(
+            my $SearchResult = $ESObject->CustomerCompanySearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit    => $SearchObjects->{CustomerCompany}{Count},
                 Result   => 'ARRAY',
             );
+            @CustomerKeys = $SearchResult->{Data}->@*;
         }
 
         if ( $SearchObjects->{CustomerUser} && $SearchObjects->{CustomerUser}{Count} && $Permission{AgentCustomerUserInformationCenter} )
@@ -179,13 +195,27 @@ sub Run {
         if ( $SearchObjects->{ConfigItem} && $SearchObjects->{ConfigItem}{Count} && $Permission{AgentITSMConfigItemZoom} )
         {
             # Search customer user by ES.
-            @ConfigItems = $ESObject->ConfigItemSearch(
+            my $SearchResult = $ESObject->ConfigItemSearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit    => $SearchObjects->{ConfigItem}{Count},
                 Result   => 'FULL',
                 UserID   => $Self->{UserID},
             );
+            @ConfigItems = $SearchResult->{Data}->@*;
         }
+        if ( $SearchObjects->{FAQ} && $SearchObjects->{FAQ}{Count} && $Permission{AgentFAQZoom} )
+        {
+            # Search FAQ by ES.
+
+            my $SearchResult = $ESObject->FAQSearch(
+                Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
+                Limit    => $SearchObjects->{FAQ}{Count},
+                Result   => 'FULL',
+                UserID   => $Self->{UserID},
+            );
+            @FAQs = $SearchResult->{Data}->@*;
+        }
+# EO Elasticsearch-extension
 
         # Start to fill the blockdata for the template
         if (@TicketIDs) {
@@ -353,6 +383,39 @@ sub Run {
                 }
             }
         }
+        if (@FAQs) {
+            for my $Attr ( @{ $SearchObjects->{FAQ}{Attributes} } ) {
+                $LayoutObject->Block(
+                    Name => 'FAQHeader',
+                    Data => {
+                        Header => $SearchObjects->{FAQ}{AttributeHeader}{$Attr},
+                    },
+                );
+            }
+
+            # Block FAQ data
+            for my $FAQ (@FAQs) {
+
+                my ( $FAQItemID, $FAQParam ) = ( %{$FAQ} );
+
+                $LayoutObject->Block(
+                    Name => 'RecordFAQ',
+                    Data => {},
+                );
+
+                # block entries
+                for my $Attr ( @{ $SearchObjects->{FAQ}{Attributes} } ) {
+                    $LayoutObject->Block(
+                        Name => 'FAQEntry',
+                        Data => {
+                            ItemID => $FAQItemID,
+                            Title  => $FAQParam->{Title},
+                            Entry  => $FAQParam->{$Attr},
+                        },
+                    );
+                }
+            }
+        }
 
         # Create output
         my $Output = $LayoutObject->Output(
@@ -363,6 +426,7 @@ sub Run {
                 Companies     => scalar @CustomerKeys,
                 CustomerUsers => scalar @CustomerUserKeys,
                 ConfigItems   => scalar @ConfigItems,
+                FAQs          => scalar @FAQs,
             }
         );
 
