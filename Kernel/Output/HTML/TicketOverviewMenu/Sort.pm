@@ -23,6 +23,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
     'Kernel::Language',
@@ -118,10 +119,10 @@ sub Run {
 
     # build redirect param hash for Core.App.InternalRedirect
     my %RedirectParams;
-    $RedirectParams{Action} = "\'$Self->{Action}\'";
+    $RedirectParams{Action} = $Self->{Action};
     for my $PossibleParam (qw(Filter)) {
         if ( $Param{$PossibleParam} ) {
-            $RedirectParams{$PossibleParam} = "\'$Param{ $PossibleParam }\'";
+            $RedirectParams{$PossibleParam} = $Param{$PossibleParam};
         }
     }
 
@@ -130,13 +131,10 @@ sub Run {
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
             if ( defined $KeyValue[1] ) {
-                $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
+                $RedirectParams{ $KeyValue[0] } = $KeyValue[1];
             }
         }
     }
-
-    $RedirectParams{SortBy}  = 'Selection[0]';
-    $RedirectParams{OrderBy} = 'Selection[1]';
 
     my $JSONObject               = $Kernel::OM->Get('Kernel::System::JSON');
     my $RedirectParamsJSONString = $JSONObject->Encode(
@@ -147,7 +145,10 @@ sub Run {
 \$("#SortBy").change(function(){
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
-        Core.App.InternalRedirect($RedirectParamsJSONString);
+        let RedirectJSON = $RedirectParamsJSONString;
+        RedirectJSON.SortBy = Selection[0];
+        RedirectJSON.OrderBy = Selection[1];
+        Core.App.InternalRedirect(RedirectJSON);
     }
 });
 JS
