@@ -301,7 +301,7 @@ sub _Fetch {
         $CommunicationLogObject->ObjectLog(
             ObjectLogType => 'Connection',
             Priority      => 'Error',
-            Key           => 'Kernel::System::MailAccount::IMAPOAuth2',
+            Key           => 'Kernel::System::MailAccount::IMAPTLS',
             Value         => 'Could not fetch messages. Please check the log.',
         );
 
