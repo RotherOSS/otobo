@@ -1056,17 +1056,14 @@ sub FatalDie {
     }
 
     # get backend error messages
-    for (qw(Message Traceback)) {
-        my $Backend = 'Backend' . $_;
-        $Param{$Backend} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Error',
-            What => $_
-        ) || '';
-        $Param{$Backend} = $Self->Ascii2Html(
-            Text           => $Param{$Backend},
-            HTMLResultMode => 1,
-        );
-    }
+    $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+        Type => 'Error',
+        What => 'Message'
+    ) || '';
+    $Param{BackendMessage} = $Self->Ascii2Html(
+        Text           => $Param{BackendMessage},
+        HTMLResultMode => 1,
+    );
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
@@ -1088,36 +1085,23 @@ sub Error {
     my ( $Self, %Param ) = @_;
 
     # get backend error messages
-    for (qw(Message Traceback)) {
-        my $Backend = 'Backend' . $_;
-        $Param{$Backend} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Error',
-            What => $_
-        ) || '';
-    }
-    if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
+    $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+        Type => 'Error',
+        What => 'Message'
+    ) || '';
+    if ( !$Param{BackendMessage} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Param{Message} || '?',
         );
-        for (qw(Message Traceback)) {
-            my $Backend = 'Backend' . $_;
-            $Param{$Backend} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-                Type => 'Error',
-                What => $_
-            ) || '';
-        }
+        $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+            Type => 'Error',
+            What => 'Message'
+        ) || '';
     }
 
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
-    }
-
-    if ( $Param{BackendTraceback} ) {
-        $Self->Block(
-            Name => 'ShowBackendTraceback',
-            Data => \%Param,
-        );
     }
 
     # create & return output
@@ -4967,23 +4951,19 @@ sub CustomerError {
     my ( $Self, %Param ) = @_;
 
     # get backend error messages
-    for (qw(Message Traceback)) {
-        $Param{ 'Backend' . $_ } = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-            Type => 'Error',
-            What => $_
-        ) || '';
-    }
-    if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
+    $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+        Type => 'Error',
+        What => 'Message'
+    ) || '';
+    if ( !$Param{BackendMessage} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Param{Message} || '?',
         );
-        for (qw(Message Traceback)) {
-            $Param{ 'Backend' . $_ } = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
-                Type => 'Error',
-                What => $_
-            ) || '';
-        }
+        $Param{BackendMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
+            Type => 'Error',
+            What => 'Message'
+        ) || '';
     }
 
     if ( !$Param{Message} ) {
