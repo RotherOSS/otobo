@@ -158,17 +158,35 @@ This advisory is about default encryption settings when creating a new Mojolicio
 But OTOBO uses Mojolicious in a very limited way, only as a helper for the S3 compatible backend.
 Therefore default settings for new applications are of no concern here.
 END_REASON
+
+        cpanm => <<'END_REASON',
+In Docker based installations the commands /opt/otobo/bin/docker/carton and /usr/local/bin/cpanm
+have been patched to download source via HTTPS.
+END_REASON
+
+        'debian_unimportant' => <<'END_REASON',
+Debian has classified the urgency of this advisory as unimportant. OTOBO does the same.
+END_REASON
     );
 
     return
-        "CPANSA-Mojolicious-2024-58134" => {
+        'CPANSA-Mojolicious-2024-58134' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{Mojolicious},
         },
-        "CPANSA-Mojolicious-2024-58135" => {
+        'CPANSA-Mojolicious-2024-58135' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{Mojolicious},
-        };
+        },
+        'CPANSA-App-cpanminus-2024-45321' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{cpanm},
+        },
+        'CPANSA-File-Temp-2011-4116' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{debian_unimportant},
+        },
+        ;
 }
 
 1;

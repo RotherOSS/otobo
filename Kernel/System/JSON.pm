@@ -130,9 +130,6 @@ sub Encode {
     # turned into the string `q{""}`.
     my $JSONEncoded = $JSONObject->encode( $Param{Data} ) // q{""};
 
-    #use Devel::Peek;
-    #Dump( $JSONEncoded );
-
     # Special handling of problematic unicode code points:
     #   U+02028 - LINE SEPARATOR
     #   U+02029 - PARAGRAPH SEPARATOR

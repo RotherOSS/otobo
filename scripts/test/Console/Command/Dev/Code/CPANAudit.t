@@ -72,22 +72,6 @@ is(
 # There are known advisories. Report only on new advisories.
 my @Excemptions = (
     {
-        'App-cpanminus' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2024-45321'; end(); } };
-                end();
-            },
-        }
-    },
-    {
-        'File-Temp' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2011-4116'; end(); } };
-                end();
-            },
-        }
-    },
-    {
         'perl-ldap' => {
             advisories => bag {
                 item { cves => array { item 'CVE-2020-16093'; end(); } };
