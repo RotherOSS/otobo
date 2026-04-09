@@ -308,7 +308,7 @@ sub Output {
             next FILTER if !$Param{TemplateFile};
             next FILTER if !$TemplateList{ $Param{TemplateFile} };
 
-            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
+            next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(
