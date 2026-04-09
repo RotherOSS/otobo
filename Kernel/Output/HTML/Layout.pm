@@ -420,8 +420,8 @@ EOF
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  =>
-                "No existing template directory found ('$Self->{TemplateDir}')!.
-                Default theme used instead.",
+                "No existing template directory found ('$Self->{TemplateDir}')!"
+                . " Default theme used instead.",
         );
 
         # Set TemplateDir to 'Standard' as a fallback.
@@ -3296,7 +3296,7 @@ sub NavigationBar {
         $Self->Block(
             Name => 'ItemArea',
             Data => {
-                %$Item,
+                %{$Item},
                 AccessKeyReference => $Item->{AccessKey} ? " ($Item->{AccessKey})" : '',
             },
         );
@@ -3326,7 +3326,7 @@ sub NavigationBar {
             $Self->Block(
                 Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
                 Data => {
-                    %$ItemSub,
+                    %{$ItemSub},
                     AccessKeyReference => $ItemSub->{AccessKey} ? " ($ItemSub->{AccessKey})" : '',
                 },
             );
@@ -3569,13 +3569,23 @@ sub BuildDateSelection {
 
     my $DateInputStyle = $ConfigObject->Get('TimeInputFormat');
     my $MinuteStep     = $ConfigObject->Get('TimeInputMinutesStep');
-    my $Prefix         = $Param{Prefix}   || '';
-    my $Suffix         = $Param{Suffix}   || '';
-    my $DiffTime       = $Param{DiffTime} || 0;
-    my $Format         = $Param{Format} // 'DateInputFormatLong';
-    my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
-    my $Used           = $Param{ $Prefix . 'Used' }     || 0;
-    my $Class          = $Param{ $Prefix . 'Class' }    || '';
+    my $Prefix         = $Param{Prefix} || '';
+    my $Suffix         = $Param{Suffix} || '';
+
+    # sanitize prefix
+    #   allow the following:
+    #       - characters (not only A-Za-z, as umlauts should be allowed as well)
+    #       - digits (arabic as well as non-arabic)
+    #       - dash (e.g. for dynamic field namespaces)
+    #       - underscore
+    #       - : and # (e.g. for system configuration names)
+    $Prefix =~ s/[^\w\d\-_:#]//g;
+
+    my $DiffTime = $Param{DiffTime} || 0;
+    my $Format   = $Param{Format} // 'DateInputFormatLong';
+    my $Optional = $Param{ $Prefix . 'Optional' } || 0;
+    my $Used     = $Param{ $Prefix . 'Used' }     || 0;
+    my $Class    = $Param{ $Prefix . 'Class' }    || '';
 
     # Defines, if the date selection should be validated on client side with JS
     my $Validate = $Param{Validate} || 0;
@@ -3842,6 +3852,15 @@ sub BuildDateSelection {
     if ( !defined $WeekDayStart ) {
         $WeekDayStart = 1;
     }
+
+    # sanitize WeekDayStart
+    #   allow the following:
+    #       - characters (not only A-Za-z, as umlauts should be allowed as well)
+    #       - digits (arabic as well as non-arabic)
+    #       - dash (e.g. for dynamic field namespaces)
+    #       - underscore
+    #       - : and # (e.g. for system configuration names)
+    $WeekDayStart =~ s/[^\w\d\-_:#]//g;
 
     my $Output = '';
 
@@ -5560,7 +5579,7 @@ sub _BuildSelectionOptionRefCreate {
 
     # set Translation option
     $OptionRef->{Translation} = 1;
-    if ( defined $Param{Translation} && $Param{Translation} eq 0 ) {
+    if ( defined $Param{Translation} && $Param{Translation} == 0 ) {
         $OptionRef->{Translation} = 0;
     }
 
