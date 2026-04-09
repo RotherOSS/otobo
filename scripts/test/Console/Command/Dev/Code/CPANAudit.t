@@ -72,14 +72,6 @@ is(
 # There are known advisories. Report only on new advisories.
 my @Excemptions = (
     {
-        'File-Temp' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2011-4116'; end(); } };
-                end();
-            },
-        }
-    },
-    {
         'libwww-perl' => {
             advisories => bag {
                 item { cves => array { end(); } };
