@@ -69,7 +69,10 @@ is(
     'got expected version of the advisory list'
 );
 
-# There are known advisories. Report only on new advisories.
+# These are the known advisories that are reported by CPAN::Audit and
+# not exempted by Dev::Code::CPANAudit. The test script verifies
+# that these advisories are indeed reported and that no new
+# unexempted advisories have cropped up.
 my @Excemptions = (
     {
         'libwww-perl' => {
