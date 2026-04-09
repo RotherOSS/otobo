@@ -1369,23 +1369,23 @@ sub _CreateAutoLinkObjectLink {
     );
 
     my $Links = $LinkList->{$SourceObject}->{$LinkType};
-    for my $LinkTypeKey ( keys %$Links ) {
+    for my $LinkTypeKey ( keys $Links->%* ) {
 
         my $References = $Links->{$LinkTypeKey};
-        for my $Key ( keys %$References ) {
+        for my $Key ( keys $References->%* ) {
 
-            return unless $Key != $SourceKey;
+            return if $Key == $SourceKey;
         }
     }
 
     # and the other way round
     $Links = $LinkList->{$TargetObject}->{$LinkType};
-    for my $LinkTypeKey ( keys %$Links ) {
+    for my $LinkTypeKey ( keys $Links->%* ) {
 
         my $References = $Links->{$LinkTypeKey};
-        for my $Key ( keys %$References ) {
+        for my $Key ( keys $References->%* ) {
 
-            return unless $Key != $TargetKey;
+            return if $Key == $TargetKey;
         }
     }
 
