@@ -117,7 +117,7 @@ sub GetFieldTypeSettings {
         {
             ConfigParamName => 'Queue',
             Label           => Translatable('Queue of the ticket'),
-            Explanation     => Translatable('Select the queue of the ticket'),
+            Explanation     => Translatable('Select the queue of the ticket.'),
             InputType       => 'Selection',
             SelectionData   => \%QueueID2Name,
             PossibleNone    => 1,
@@ -132,7 +132,7 @@ sub GetFieldTypeSettings {
             {
                 ConfigParamName => 'TicketType',
                 Label           => Translatable('Type of the ticket'),
-                Explanation     => Translatable('Select the type of the ticket'),
+                Explanation     => Translatable('Select the type of the ticket.'),
                 InputType       => 'Selection',
                 SelectionData   => \%TypeID2Name,
                 PossibleNone    => 1,
@@ -145,7 +145,7 @@ sub GetFieldTypeSettings {
         {
             ConfigParamName => 'SearchAttribute',
             Label           => Translatable('Attribute which will be searched on autocomplete'),
-            Explanation     => Translatable('Select the attribute which tickets will be searched by'),
+            Explanation     => Translatable('Select the attribute which tickets will be searched by.'),
             InputType       => 'Selection',
             SelectionData   => {
                 'TicketNumber' => 'TicketNumber',
@@ -174,7 +174,7 @@ sub GetFieldTypeSettings {
         {
             ConfigParamName => 'DisplayType',
             Label           => Translatable('Attribute which is displayed for values'),
-            Explanation     => Translatable('Select the type of display'),
+            Explanation     => Translatable('Select the type of display.'),
             InputType       => 'Selection',
             SelectionData   => {
                 'TicketNumber'      => 'Ticket#<Ticket Number>',
