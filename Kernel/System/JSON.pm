@@ -104,9 +104,6 @@ sub Encode {
     # $Param{Data}->{sample_newline} = "\x{2028}" if ref $Param{Data} eq 'HASH';
     my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || q{""};
 
-    #use Devel::Peek;
-    #Dump( $JSONEncoded );
-
     # Special handling of problematic unicode code points:
     #   U+02028 - LINE SEPARATOR
     #   U+02029 - PARAGRAPH SEPARATOR
