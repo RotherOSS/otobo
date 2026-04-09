@@ -167,6 +167,11 @@ END_REASON
         'debian_unimportant' => <<'END_REASON',
 Debian has classified the urgency of this advisory as unimportant. OTOBO does the same.
 END_REASON
+
+        'ldaps' => <<'END_REASON',
+The advisory is about default settings in the underlying module Net::LDAPS. In OTOBO the admin
+is responsible for setting up the connection to the LDAP server.
+END_REASON
     );
 
     return
@@ -185,6 +190,10 @@ END_REASON
         'CPANSA-File-Temp-2011-4116' => {
             is_relevant_for_otobo => 0,
             reason                => $Reason{debian_unimportant},
+        },
+        'CPANSA-Net-LDAPS-2020-16093' => {
+            is_relevant_for_otobo => 0,
+            reason                => $Reason{ldaps},
         },
         ;
 }
