@@ -82,14 +82,6 @@ my @Excemptions = (
             },
         }
     },
-    {
-        'perl-ldap' => {
-            advisories => bag {
-                item { cves => array { item 'CVE-2020-16093'; end(); } };
-                end();
-            },
-        }
-    },
 );
 
 for my $Excemption (@Excemptions) {
