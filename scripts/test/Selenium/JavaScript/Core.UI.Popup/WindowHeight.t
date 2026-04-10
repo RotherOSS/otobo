@@ -117,8 +117,7 @@ $Selenium->RunTest(
             "return \$(window).height();"
         );
 
-print STDERR "$PopupWindowHeight\n";
-        # two sizes are acceptable, as under Chrome that is a message about remote control
+        # Two sizes are acceptable, as under Chrome that is a message about remote control
         # plus another one since switch to chrom 141. Note the checked value can
         # change if you watch the test via VNC because the actual size depends on the
         # screen being used, different sized screens actually can return different values!
