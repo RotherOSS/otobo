@@ -25,6 +25,7 @@ use utf8;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -1732,7 +1733,7 @@ sub DynamicFieldConfigName2ID {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: Name -> ID
         if ( $DynamicFieldConfig->{Config}{Queue} ) {
@@ -1801,7 +1802,7 @@ sub DynamicFieldConfigID2Name {
 
     my $DynamicFieldConfig = $Param{DynamicFieldConfig};
 
-    if ( grep { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
+    if ( any { $DynamicFieldConfig->{FieldType} eq $_ } qw(Agent ConfigItem ConfigItemVersion CustomerCompany CustomerUser FAQ Ticket) ) {
 
         # needed transformation: ID -> Name
         if ( $DynamicFieldConfig->{Config}{Queue} ) {

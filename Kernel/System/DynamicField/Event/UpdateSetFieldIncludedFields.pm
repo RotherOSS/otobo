@@ -99,7 +99,7 @@ sub Run {
             my $PartOfSet = ( any { $_->{ID} eq $IncludedFieldConfig->{ID} } values $IncludedFields->%* ) ? $SetDynamicFieldConfig->{ID} : 0;
 
             # skip field if nothing changed
-            next FIELD if $PartOfSet && grep { $_->{ID} eq $IncludedFieldConfig->{ID} } values $OldIncludedFields->%*;
+            next FIELD if $PartOfSet && any { $_->{ID} eq $IncludedFieldConfig->{ID} } values $OldIncludedFields->%*;
 
             $DynamicFieldObject->DynamicFieldUpdate(
                 $IncludedFieldConfig->%*,
