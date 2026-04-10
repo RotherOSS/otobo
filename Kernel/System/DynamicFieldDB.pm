@@ -873,7 +873,6 @@ sub DatabaseSearchByAttributes {
 
     # extract the SELECT items out of the possible values
     my $SQL = 'SELECT ';
-    my @ResultDataTemplate;
     my @SELECTItems;
     my @WHERESQL;
     my $Counter       = 0;

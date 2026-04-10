@@ -459,8 +459,8 @@ sub EditFieldRender {
 
         # set as checked if necessary
         my $FieldChecked =
-            ( defined $Value->{UsedValue} ? $Value->{UsedValue} == 1 : 1 )
-            && defined $Value->{FieldValue} && $Value->{FieldValue} == 1;
+            ( defined $Value->{UsedValue} ? $Value->{UsedValue} eq 1 : 1 )
+            && defined $Value->{FieldValue} && $Value->{FieldValue} eq 1;
         $FieldTemplateData{FieldChecked} = $FieldChecked ? 'checked ' : '';
 
         push @ResultHTML, $Param{LayoutObject}->Output(
@@ -654,7 +654,7 @@ sub EditFieldValueValidate {
     for my $ValueItem ( @{$Value} ) {
 
         # validate only 0 or 1 as possible values
-        if ( $ValueItem && $ValueItem != 1 ) {
+        if ( $ValueItem && $ValueItem ne 1 ) {
             $ServerError  = 1;
             $ErrorMessage = 'The field content is invalid';
         }
@@ -799,7 +799,7 @@ sub SearchFieldValueGet {
         return;
     }
 
-    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} == 1 ) {
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
         return {
             'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
         };
@@ -827,9 +827,9 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem = $Item == 1
+                my $DisplayItem = $Item eq 1
                     ? 'Checked'
-                    : $Item == -1 ? 'Unchecked'
+                    : $Item eq -1 ? 'Unchecked'
                     :               '';
 
                 # translate the value
@@ -840,7 +840,7 @@ sub SearchFieldParameterBuild {
                 push @DisplayItemList, $DisplayItem;
 
                 # set the correct value for "unchecked" (-1) search options
-                if ( $Item && $Item == -1 ) {
+                if ( $Item && $Item eq -1 ) {
                     $Item = '0';
                 }
             }
@@ -851,9 +851,9 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue = $Value == 1
+            $DisplayValue = $Value eq 1
                 ? 'Checked'
-                : $Value == -1 ? 'Unchecked'
+                : $Value eq -1 ? 'Unchecked'
                 :                '';
 
             # translate the value
@@ -863,7 +863,7 @@ sub SearchFieldParameterBuild {
         }
 
         # set the correct value for "unchecked" (-1) search options
-        if ( $Value && $Value == -1 ) {
+        if ( $Value && $Value eq -1 ) {
             $Value = '0';
         }
     }
