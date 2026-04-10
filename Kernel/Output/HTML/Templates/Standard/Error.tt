@@ -27,10 +27,9 @@
                     [% Translate(Data.Comment) | html %]
                 </p>
 
-                <form action="https://github.com/RotherOSS/otobo/issues" target="_blank">
-                    <input type="hidden" name="product" value="OTOBO Helpdesk" />
+                <form action="https://github.com/RotherOSS/otobo/issues/new" target="_blank">
 
-                    <textarea class="Hidden" name="comment" rows="1" cols="1">
+                    <textarea class="Hidden" name="body" rows="1" cols="1">
 Message:
 [% Data.Message | html %]
 
@@ -40,7 +39,6 @@ Comment:
 Traceback:
 [% Data.BackendTraceback | html %]
                     </textarea>
-                    <input type="hidden" name="bug_file_loc" value="[% Env("SERVER_NAME") | html %][% Env("REQUEST_URI") | html %]"/>
 
                     <p class="SpacingTop">
                         <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
