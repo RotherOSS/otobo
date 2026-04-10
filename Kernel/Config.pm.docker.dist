@@ -16,6 +16,8 @@
 
 package Kernel::Config;
 
+=for stopwords redis
+
 =head1 NAME
 
 Kernel::Config - settings that can be adapted by the user
@@ -53,8 +55,8 @@ the MySQL database is running in a separate container.
 
 =item DatabasePw
 
-A different default password is used in the Docker case, as that potential
-mixups with a database running on the Docker host are less likely.
+A different default password is used in the Docker case. This is meant to make
+mix-ups with a database running on the Docker host less likely.
 
 =item LogModule and LogModule::LogFile
 
