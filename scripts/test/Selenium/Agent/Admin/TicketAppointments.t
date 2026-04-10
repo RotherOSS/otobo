@@ -70,7 +70,7 @@ $Selenium->RunTest(
 
                 last ACTIVESLEEP unless @TaskList;
             }
-            
+
             my @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
                 my $Tasks = $Kernel::OM->Get('Kernel::System::Main')->Dump(

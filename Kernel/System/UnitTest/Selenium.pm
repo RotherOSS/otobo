@@ -1238,7 +1238,7 @@ Helper to get the value property of form elements, definded by using a Css Selec
 =cut
 
 sub get_selected_value {
-    my ( $Self, $CssSelector )  = @_;
+    my ( $Self, $CssSelector ) = @_;
 
     return $Self->execute_script("return \$('$CssSelector')[0].value;");
 }
@@ -1252,7 +1252,7 @@ CSS Selectors.
 =cut
 
 sub get_value_by_id {
-    my ( $Self, $ID )  = @_;
+    my ( $Self, $ID ) = @_;
 
     return $Self->execute_script("return document.getElementById('$ID').value;");
 }

@@ -148,7 +148,7 @@ $Selenium->RunTest(
 
             $Selenium->find_element( "#Subject",  'css' )->click();
             $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
-            $Selenium->find_element( "#RichText",  'css' )->click();
+            $Selenium->find_element( "#RichText", 'css' )->click();
             $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
 
             $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();

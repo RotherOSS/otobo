@@ -25,7 +25,7 @@ use Test2::V0;
 use Test2::Tools::Explain;
 
 # CPAN modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Kernel::OM the test driver $Self
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM the test driver $Self
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
 our $Self;

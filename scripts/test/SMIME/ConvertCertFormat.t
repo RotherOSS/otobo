@@ -353,7 +353,7 @@ sub CertificationConversionTest {
 CERTIFICATE:
 for my $Certificate (@Certificates) {
 
-    next CERTIFICATE if (!IsHashRefWithData($Certificate));
+    next CERTIFICATE if ( !IsHashRefWithData($Certificate) );
 
     # PEM check
     my $PemCertificate = CertificationConversionTest(

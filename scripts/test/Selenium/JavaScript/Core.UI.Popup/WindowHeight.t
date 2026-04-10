@@ -123,7 +123,7 @@ print STDERR "$PopupWindowHeight\n";
         # change if you watch the test via VNC because the actual size depends on the
         # screen being used, different sized screens actually can return different values!
         ok(
-            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 || $PopupWindowHeight == 647),
+            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 || $PopupWindowHeight == 647 ),
             "Default popup window height, considering the remote control warning"
         );
 

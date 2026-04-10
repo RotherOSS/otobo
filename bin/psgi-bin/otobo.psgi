@@ -71,11 +71,11 @@ use lib dirname( dirname($RealBin) ) . '/Custom';
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 # core modules
-use Cwd            qw(abs_path);
-use Data::Dumper   ();              ## no critic qw(Modules::ProhibitEvilModules)
-use Encode         ();              ## no perlimports
-use File::Path     qw(make_path);
-use Time::HiRes    ();
+use Cwd          qw(abs_path);
+use Data::Dumper ();              ## no critic qw(Modules::ProhibitEvilModules)
+use Encode       ();              ## no perlimports
+use File::Path   qw(make_path);
+use Time::HiRes  ();
 
 # CPAN modules
 use DateTime 1.08         ();                                   ## no perlimports

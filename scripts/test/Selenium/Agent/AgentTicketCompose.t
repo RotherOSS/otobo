@@ -742,8 +742,8 @@ $Selenium->RunTest(
 
         # Delete group-user relation.
         $Success = $DBObject->Do(
-           SQL  => "DELETE FROM group_user WHERE user_id = ?",
-           Bind => [ \$UserID ],
+            SQL  => "DELETE FROM group_user WHERE user_id = ?",
+            Bind => [ \$UserID ],
         );
         ok( $Success, "Group relation for UserID $UserID is deleted" );
 

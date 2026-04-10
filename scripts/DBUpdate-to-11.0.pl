@@ -32,7 +32,7 @@ use lib dirname($RealBin) . '/Custom';
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
-use scripts::DBUpdateTo11_0       ();
+use scripts::DBUpdateTo11_0 ();
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

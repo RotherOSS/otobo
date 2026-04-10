@@ -21,12 +21,12 @@ use warnings;
 
 # use ../ as lib location
 use File::Basename qw(dirname);
-use FindBin qw($RealBin);
+use FindBin        qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
-use File::Spec ();
+use File::Spec  ();
 use Getopt::Std qw(getopt);
 
 # CPAN modules

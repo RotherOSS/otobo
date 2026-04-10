@@ -144,8 +144,9 @@ sub get_value {
 
     return $Result if $Result;
 
-    my $ID = $Self->get_attribute( 'id' );
-    if($ID) {
+    my $ID = $Self->get_attribute('id');
+    if ($ID) {
+
         # use plain old getElementById - some few IDs will be not so valid
         # css selectors, especially when coming with embeded square brackets []
         return $Self->driver()->execute_script("return document.getElementById('$ID').value;");
@@ -153,6 +154,5 @@ sub get_value {
 
     return;
 }
-
 
 1;
