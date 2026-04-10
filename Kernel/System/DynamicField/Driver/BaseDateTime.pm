@@ -94,7 +94,6 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Prefix          = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
 
     # check values
@@ -232,7 +231,7 @@ sub EditFieldRender {
     my @ValueParts;
     for my $ValueItem ( $Value->@* ) {
         $ValueItem //= '';
-        my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $ValueItem =~
+        my ( $Year, $Month, $Day, $Hour, $Minute ) = $ValueItem =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
         # If a value is sent this value must be active, then the Used part needs to be set to 1
@@ -534,12 +533,12 @@ sub EditFieldValueGet {
     }
 
     # check if return value structure is needed
-    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} == 1 ) {
+    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq 1 ) {
         return $Value;
     }
 
     # check if return template structure is needed
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} == 1 ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
         return $Value;
     }
 
@@ -1439,8 +1438,6 @@ sub RandomValueSet {
 
 sub ObjectMatch {
     my ( $Self, %Param ) = @_;
-
-    my $FieldName = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
     # not supported
     return 0;

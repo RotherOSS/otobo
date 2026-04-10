@@ -154,7 +154,7 @@ sub DynamicFieldAdd {
     );
 
     my $NameExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $NameExists = 1;
     }
 
@@ -395,7 +395,7 @@ sub DynamicFieldUpdate {
     }
 
     my $Reorder;
-    if ( !exists $Param{Reorder} || $Param{Reorder} == 1 ) {
+    if ( !exists $Param{Reorder} || $Param{Reorder} eq 1 ) {
         $Reorder = 1;
     }
 
@@ -440,7 +440,7 @@ sub DynamicFieldUpdate {
     );
 
     my $NameExists;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $NameExists = 1;
     }
 
@@ -1896,11 +1896,6 @@ sub _DynamicFieldReorder {
             return;
         }
     }
-
-    # get the Dynamic Field trigger
-    my $DynamicFieldTrigger = $Self->DynamicFieldGet(
-        ID => $Param{ID},
-    );
 
     # extract the field order from the params
     my $TriggerFieldOrder = $Param{FieldOrder};
