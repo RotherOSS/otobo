@@ -498,7 +498,7 @@ sub EditFieldValueGet {
         $Value = \@Data;
     }
 
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} == 1 ) {
         return {
             $FieldName => $Value,
         };

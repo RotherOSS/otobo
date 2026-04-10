@@ -615,12 +615,12 @@ sub EditFieldValueGet {
     }
 
     # check if return value structure is needed
-    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq 1 ) {
+    if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} == 1 ) {
         return $Value;
     }
 
     # check if return template structure is needed
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} == 1 ) {
         return $Value;
     }
 

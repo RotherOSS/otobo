@@ -513,7 +513,7 @@ sub EditFieldValueGet {
         }
     }
 
-    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq 1 ) {
+    if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} == 1 ) {
         return {
             $FieldName => $Value,
         };
@@ -706,7 +706,7 @@ sub SearchFieldValueGet {
         return;
     }
 
-    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} eq 1 ) {
+    if ( defined $Param{ReturnProfileStructure} && $Param{ReturnProfileStructure} == 1 ) {
         return {
             'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} => $Value,
         };

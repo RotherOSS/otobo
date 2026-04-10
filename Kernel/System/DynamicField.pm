@@ -394,7 +394,7 @@ sub DynamicFieldUpdate {
     }
 
     my $Reorder;
-    if ( !exists $Param{Reorder} || $Param{Reorder} eq 1 ) {
+    if ( !exists $Param{Reorder} || $Param{Reorder} == 1 ) {
         $Reorder = 1;
     }
 
