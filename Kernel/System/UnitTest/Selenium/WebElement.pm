@@ -140,7 +140,7 @@ sub get_value {
 
     my $Self = shift;
 
-    my $Result = $Self->SUPER::get_value(@_);;
+    my $Result = $Self->SUPER::get_value(@_);
 
     return $Result if $Result;
 
