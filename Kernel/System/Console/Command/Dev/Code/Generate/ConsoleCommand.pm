@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::Console::Command::Dev::Code::Generate::ConsoleCommand;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
 use strict;

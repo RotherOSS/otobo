@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::MigrateFromOTRS::Base;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
 use strict;

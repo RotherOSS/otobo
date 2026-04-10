@@ -15,6 +15,7 @@
 # --
 
 package var::processes::examples::Application_for_leave_post;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::SysConfig::ValueType::Entity;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
 use strict;

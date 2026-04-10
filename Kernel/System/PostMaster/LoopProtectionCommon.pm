@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::PostMaster::LoopProtectionCommon;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use strict;

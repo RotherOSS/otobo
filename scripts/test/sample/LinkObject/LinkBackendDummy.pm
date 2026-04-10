@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::LinkObject::Dummy;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::SpellCheck)
 
 use strict;

@@ -15,6 +15,7 @@
 # --
 
 package var::processes::examples::Service_Operation_Incident_Management_pre;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

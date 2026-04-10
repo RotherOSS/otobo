@@ -15,6 +15,7 @@
 # --
 
 package var::webservices::examples::Base;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

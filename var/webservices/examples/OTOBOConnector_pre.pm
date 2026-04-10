@@ -15,6 +15,7 @@
 # --
 
 package var::webservices::examples::OTOBOConnector_pre;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

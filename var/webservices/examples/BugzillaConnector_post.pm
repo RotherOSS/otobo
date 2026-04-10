@@ -15,6 +15,7 @@
 # --
 
 package var::webservices::examples::BugzillaConnector_post;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

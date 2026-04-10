@@ -15,6 +15,7 @@
 # --
 
 package var::processes::examples::Base;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

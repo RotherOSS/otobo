@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::Stats::Static::StateAction;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use strict;

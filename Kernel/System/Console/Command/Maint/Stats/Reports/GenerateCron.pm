@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::Console::Command::Maint::Stats::Reports::GenerateCron;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
 use strict;

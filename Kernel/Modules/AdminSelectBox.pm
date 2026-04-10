@@ -15,6 +15,7 @@
 # --
 
 package Kernel::Modules::AdminSelectBox;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;

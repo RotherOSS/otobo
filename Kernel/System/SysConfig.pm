@@ -5654,6 +5654,7 @@ sub _EffectiveValues2PerlFile {
             $EffectiveValue =~ s/\$VAR1 =//;
             $PerlHashStrg .= "\$Self->{'$Name'} = $EffectiveValue";
         }
+
         ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {
             $PerlHashStrg .= "delete \$Self->{'$Name'};\n";

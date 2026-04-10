@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::SysConfig::ValueType::Password;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
 use strict;

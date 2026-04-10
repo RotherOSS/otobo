@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::ObjectManager;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PodSpelling)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
@@ -48,6 +49,7 @@ use Kernel::System::Log          ();
 use Kernel::System::Main         ();
 use Kernel::System::Web::Request ();
 use Kernel::System::User         ();
+
 ## use perlimports
 
 =head1 NAME

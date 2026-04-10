@@ -15,6 +15,7 @@
 # --
 
 package var::processes::examples::Conference_Room_Reservation_pre;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;

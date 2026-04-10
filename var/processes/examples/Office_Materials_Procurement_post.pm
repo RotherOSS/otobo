@@ -15,6 +15,7 @@
 # --
 
 package var::processes::examples::Office_Materials_Procurement_post;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PerlCritic)
 
 use strict;
