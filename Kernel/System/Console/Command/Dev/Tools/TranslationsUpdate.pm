@@ -40,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Storable',
     'Kernel::System::SysConfig',
+    'Kernel::System::YAML',
 );
 
 sub Configure {
@@ -1124,10 +1125,10 @@ sub ExtractCMDBClassStrings {
 
             if ( IsHashRefWithData( $Definition->{Sections} ) ) {
                 for my $Section ( values $Definition->{Sections}->%* ) {
-                    if ( IsHashRefWithData( $Section ) && IsArrayRefWithData( $Section->{Content} ) ) {
+                    if ( IsHashRefWithData($Section) && IsArrayRefWithData( $Section->{Content} ) ) {
                         my @Headers = grep { $_->{Header} } $Section->{Content}->@*;
 
-                        for my $Header ( @Headers ) {
+                        for my $Header (@Headers) {
                             my $Word = $Header->{Header};
 
                             if ( $Word && !$Param{UsedWords}{$Word}++ ) {
@@ -1173,6 +1174,5 @@ sub ExtractCMDBClassStrings {
 
     return 1;
 }
-
 
 1;
