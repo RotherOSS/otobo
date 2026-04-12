@@ -56,9 +56,7 @@ my ( undef, $TestUserID ) = $Helper->TestUserCreate(
 
 my $RandomID = $Helper->GetRandomID();
 
-############################################
 # Test globals
-############################################
 
 # Test DF
 my %DynamicTestFields;
@@ -86,9 +84,7 @@ my $Autoselect = {
     'TypeID'      => '0',
 };
 
-############################################
 # Prepare test environment
-############################################
 
 subtest '[Prepare] Set all previous ACLs to invalid' => sub {
 
@@ -335,9 +331,7 @@ subtest '[Prepare] Create Test Tickets' => sub {
     $TestTicketIDs{'TicketIDWithoutDFValues'} = $SecondTicketID;
 };
 
-############################################
 # Main test routine for all test cases
-############################################
 
 sub TestFieldRestrictions {
 
@@ -464,10 +458,8 @@ sub TestFieldRestrictions {
     return;
 }
 
-############################################
 # Test scenario table
 #  Param QueueID: 1 - Postmaster, 2 - Raw
-############################################
 
 my @TestCases = (
     {
@@ -917,9 +909,7 @@ subtest '[Cleanup] TestConfig' => sub {
 
 done_testing;
 
-########################################################
 # Setup test fixture helpers
-########################################################
 
 sub _CreateACL {
 

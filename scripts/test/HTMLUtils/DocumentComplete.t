@@ -33,7 +33,7 @@ my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 
-### Setting up
+# Setting up
 
 my $TestCustomCSS          = ':root{color:red;}';
 my $TestCKEditorContentCSS = 'div{color:blue;}';

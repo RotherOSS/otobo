@@ -35,7 +35,7 @@ my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-### Setting up
+# Setting up
 
 # Minimize amount of added CSS for testing
 $Helper->ConfigSettingChange(

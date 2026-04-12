@@ -68,9 +68,7 @@ my $ReferencedTicketID;
 my $FirstReferencingTicketID;
 my $SecondReferencingTicketID;
 
-############################################
 # Prepare test
-############################################
 
 subtest 'Create Dynamic Fields for Test' => sub {
 
@@ -115,10 +113,8 @@ subtest 'Create Test Tickets with DF' => sub {
     );
 };
 
-############################################
 # Main Test routine to test DF Lense Ticket
 # Searches
-############################################
 
 sub TestTicketSearch {
 
@@ -154,10 +150,7 @@ sub TestTicketSearch {
     return;
 }
 
-############################################
 # Test Cases Table
-############################################
-
 my @TestCases = (
 
     # the most basic search
@@ -341,9 +334,7 @@ foreach my $TestCase (@TestCases) {
 # cleanup
 $Self->DoneTesting();
 
-########################################################
 # Setup test fixture helpers
-########################################################
 
 sub _CreateTicket {
 

@@ -263,9 +263,7 @@ for my $TestCase (@AdminTranslationTestCases) {
 
 done_testing;
 
-########################################
 # test helpers
-########################################
 
 sub _GetExistingAdminTranslation {
 
