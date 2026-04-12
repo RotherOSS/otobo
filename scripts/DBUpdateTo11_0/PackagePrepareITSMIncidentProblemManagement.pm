@@ -26,7 +26,12 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Updates ITSMIncidentProblemManagement to 11.0.0 containing no files, to prepare Upgrade of ITSMCore to the latest version
+scripts::DBUpdateTo11_0::PackagePrepareITSMIncidentProblemManagement
+
+=head1 DESCRIPTION
+
+Updates ITSMIncidentProblemManagement to 11.0.0 containing no files.
+In order to prepare upgrade of ITSMCore to the latest version.
 
 =cut
 
@@ -53,29 +58,31 @@ sub Run {
         }
     }
 
-    $InstalledVersion =~ /^(\d+)\./;
+    # extract the major version
+    my $MajorVersion;
+    if ( $InstalledVersion =~ m/^(\d+)\./ ) {
+        $MajorVersion = $1;
+    }
 
-    my $MajorVersion = $1;
     if ( !$MajorVersion ) {
         die "Could not determine major version of installed ITSMIncidentProblemManagement ($InstalledVersion)\n";
     }
 
     if ( $MajorVersion >= 11 ) {
         print "\t  ITSMIncidentProblemManagement version already is >= 11 - skipping.\n";
+
         return 1;
     }
 
     print "\t  Upgrading ITSMIncidentProblemManagement to temporary version 11.0.0.\n";
 
     return $PackageObject->PackageUpgrade(
-        String => $Self->TemporaryPackageString(),
+        String => $Self->TemporaryPackageString,
     );
 }
 
 sub TemporaryPackageString {
-    my ( $Self, %Param ) = @_;
-
-    return <<EOF
+    return <<'END_SOPM';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
     <Name>ITSMIncidentProblemManagement</Name>
@@ -86,8 +93,7 @@ sub TemporaryPackageString {
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">The OTOBO::ITSM Incident and Problem Management package.</Description>
 </otobo_package>
-EOF
-
+END_SOPM
 }
 
 1;
