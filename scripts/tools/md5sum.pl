@@ -15,6 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -29,6 +30,7 @@ use Pod::Usage  qw(pod2usage);
 if ( !$ARGV[0] ) {
     pod2usage();
 }
+
 my $Filename = $ARGV[0];
 
 if ( open my $FH, '<', $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
@@ -62,5 +64,3 @@ builtin on many systems, not all platforms (Windows!) have this.
 In that case using this script is a nice alternative.
 
 =cut
-
-=end
