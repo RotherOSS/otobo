@@ -3046,12 +3046,65 @@ This is used in auto completion when searching for possible object IDs.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
-        Term               => $Term,
+        Term               => $Term,                # either Term or ObjectID is needed to search for
+        ObjectID           => 1234,                 # searching for a specific object id, e.g. for validation
         MaxResults         => $MaxResults,
         UserID             => $Self->{UserID},      # either UserID or CustomerUserID is mandatory
         CustomerUserID     => $Self->{UserID},
-        ParamObject        => $ParamObject,
+        ParamObject        => $ParamObject,         # either Object or ParamObject is needed for FieldRestrictions
+        Object             => {
+            # containing context data
+        }
+        ChangedElements    => {
+            CustomerID => 1,
+            # ...
+        }
         LayoutObject       => $LayoutObject,
+    );
+
+The subroutine is called from three different paths with different parameter constellations.
+
+First: Rendering a reference drop-down field on a mask and / or recalculating possible values upon AJAX update.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        UserID             => $Self->{UserID},
+        Object             => {
+            CustomerID     => $Param{CustomerID},
+            CustomerUserID => $Param{CustomerUser},
+            UserID         => $Self->{UserID},
+        },
+        LayoutObject       => $LayoutObject,
+    );
+
+Second: Changing / clearing a reference auto-complete field upon AJAX update.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        CustomerUser       => $Param{CustomerUser},
+        UserID             => $Self->{UserID},
+        Object             => {
+            CustomerID     => $Param{CustomerID},
+            CustomerUserID => $Param{CustomerUser},
+            UserID         => $Self->{UserID},
+        },
+        ChangedElements    => {
+            CustomerID     => 1,
+            CustomerUserID => 1,
+            ServiceID      => 1,
+        }
+        LayoutObject       => $LayoutObject,
+    );
+
+Third: Searching for values for a reference auto-complete field via AgentReferenceSearch.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        Term               => $Term,
+        MaxResults         => $MaxResults,
+        ParamObject        => $ParamObject,
+        CustomerUserID     => $Self->{UserID},      # customer interface
+        UserID             => $Self->{UserID},      # agent interface
     );
 
 =cut
