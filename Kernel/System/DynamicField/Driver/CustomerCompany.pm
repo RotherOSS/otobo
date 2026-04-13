@@ -325,16 +325,6 @@ sub SearchObjects {
                     }
                 }
                 elsif ( defined $Param{ParamObject} ) {
-
-                    # check if CustomerUserID is given and if so, fetch customer user data
-                    my %CustomerUserData;
-                    if ( $Param{CustomerUserID} ) {
-                        %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                            User => $Param{CustomerUserID},
-                        );
-                        $CustomerUserData{CustomerUserID} = $Param{CustomerUserID};
-                    }
-
                     if ( $FilterItem->{EqualsObjectAttribute} =~ /^DynamicField_(?<DFName>\S+)/ ) {
                         my $DFName             = $+{DFName};
                         my $FilterItemDFConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
