@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 use Mail::Address ();
@@ -2336,7 +2337,7 @@ sub _OutputActivityDialog {
         elsif ( $CurrentField eq 'PendingTime' ) {
 
             # PendingTime is just useful if we have State or StateID
-            if ( !grep {m{^(StateID|State)$}xms} @{ $ActivityDialog->{FieldOrder} } ) {
+            if ( none {m{^(StateID|State)$}xms} @{ $ActivityDialog->{FieldOrder} } ) {
                 my $Message = $LayoutObject->{LanguageObject}->Translate(
                     'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!',
                     $ActivityActivityDialog->{ActivityDialog},
