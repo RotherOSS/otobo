@@ -8,17 +8,7 @@
 
 # Use 7.17.27, because latest flag is not available
 # It is currently unclear un which OS the image is based. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.27 AS otobo-elasticsearch
-
-# Install system tools
-# Hadolint ignore=DL3008
-RUN apt-get update \
- && apt-get -y --no-install-recommends install -y\
- "less"\
- "nano"\
- "tree"\
- "vim"\
- && rm -rf /var/lib/apt/lists/*
+FROM elasticsearch:8.19.3 AS otobo-elasticsearch
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment

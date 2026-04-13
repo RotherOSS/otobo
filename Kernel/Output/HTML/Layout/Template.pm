@@ -250,7 +250,7 @@ sub Output {
             next FILTER if !$Param{TemplateFile};
             next FILTER if !$TemplateList{ $Param{TemplateFile} };
 
-            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
+            next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(
@@ -278,8 +278,11 @@ sub Output {
                 SortKeys         => 1,
                 StringifyScalars => 1,
             );
-            $Output .= <<"END_HTML";
 
+            # remove script tags to avoid code injection (CVE-2025-59490).
+            $JSONString =~ s{<\/?script(?:\s.*?)?>}{}gmsi;
+
+            $Output .= <<"END_HTML";
 <script type="text/javascript">//<![CDATA[
 "use strict";
 Core.Config.AddConfig($JSONString);

@@ -23,6 +23,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
     'Kernel::Language',
@@ -119,10 +120,10 @@ sub Run {
 
     # build redirect param hash for Core.App.InternalRedirect
     my %RedirectParams;
-    $RedirectParams{Action} = "\'$Self->{Action}\'";
+    $RedirectParams{Action} = $Self->{Action};
     for my $PossibleParam (qw(Filter)) {
         if ( $Param{$PossibleParam} ) {
-            $RedirectParams{$PossibleParam} = "\'$Param{ $PossibleParam }\'";
+            $RedirectParams{$PossibleParam} = $Param{$PossibleParam};
         }
     }
 
@@ -131,37 +132,24 @@ sub Run {
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
             if ( defined $KeyValue[1] ) {
-                $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
+                $RedirectParams{ $KeyValue[0] } = $KeyValue[1];
             }
         }
     }
 
-    $RedirectParams{SortBy}  = 'Selection[0]';
-    $RedirectParams{OrderBy} = 'Selection[1]';
-
-    my $RedirectParamsString = '';
-    my $ParamLength          = scalar keys %RedirectParams;
-    my $ParamCounter         = 0;
-    for my $ParamKey ( sort keys %RedirectParams ) {
-        $ParamCounter++;
-        $RedirectParamsString .= "$ParamKey: $RedirectParams{$ParamKey}";
-
-        # prevent comma after last element for correct functionality in IE
-        if ( $ParamCounter < $ParamLength ) {
-            $RedirectParamsString .= ",\n";
-        }
-        else {
-            $RedirectParamsString .= "\n";
-        }
-    }
+    my $JSONObject               = $Kernel::OM->Get('Kernel::System::JSON');
+    my $RedirectParamsJSONString = $JSONObject->Encode(
+        Data => \%RedirectParams,
+    );
 
     $LayoutObject->AddJSOnDocumentComplete( Code => <<"JS" );
 \$("#SortBy").change(function(){
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
-        Core.App.InternalRedirect({
-            ${RedirectParamsString}
-        });
+        let RedirectJSON = $RedirectParamsJSONString;
+        RedirectJSON.SortBy = Selection[0];
+        RedirectJSON.OrderBy = Selection[1];
+        Core.App.InternalRedirect(RedirectJSON);
     }
 });
 JS

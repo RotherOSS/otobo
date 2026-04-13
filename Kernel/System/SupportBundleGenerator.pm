@@ -18,6 +18,7 @@ package Kernel::System::SupportBundleGenerator;
 
 use strict;
 use warnings;
+use utf8;
 
 # core modules
 use Cwd          qw(abs_path);
@@ -26,6 +27,11 @@ use Archive::Tar ();
 # CPAN modules
 
 # OTOBO modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,6 +44,7 @@ our @ObjectDependencies = (
     'Kernel::System::SupportDataCollector',
     'Kernel::System::SysConfig',
     'Kernel::System::DateTime',
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
@@ -518,7 +525,7 @@ sub GenerateRegistrationInfo {
 
 =head2 GenerateConfigurationDump()
 
-Generates a <.yml> file with the otobo system registration information
+Generates a C<.yml> file with the otobo system registration information
 
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateConfigurationDump();
 
@@ -717,10 +724,12 @@ sub _GetCustomFileList {
 sub _MaskPasswords {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+
     for my $Needed (qw(StringToMask)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
@@ -730,6 +739,68 @@ sub _MaskPasswords {
     }
 
     my $StringToMask = $Param{StringToMask};
+
+    if ( $Param{YAML} ) {
+        my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+        my $Data = $YAMLObject->Load(
+            Data => $StringToMask,
+        );
+        return $StringToMask if !IsHashRefWithData($Data);
+        return $StringToMask if !IsHashRefWithData( $Data->{Modified} );
+
+        OPTIONNAME:
+        for my $OptionName ( sort keys %{ $Data->{Modified} } ) {
+            my $Option = $Data->{Modified}->{$OptionName};
+
+            # Skip specific password settings that contain complex configuration hashes
+            my $SkipMaskPasswordSettings = $ConfigObject->Get('SupportDataCollector::SkipMaskPasswordSettings');
+            next OPTIONNAME if grep { $OptionName eq $_ } @{$SkipMaskPasswordSettings};
+
+            # Skip if no EffectiveValue is defined
+            next OPTIONNAME if !defined $Option->{EffectiveValue};
+
+            # Check if we have ValueTypeInfo (new structured approach - preferred)
+            if ( $Option->{ValueTypeInfo} ) {
+                my $Masked = $Self->_MaskPasswordsByValueTypeInfo(
+                    Option => $Option,
+                );
+
+                next OPTIONNAME if $Masked;
+            }
+
+            # Fallback: Check by name for backwards compatibility
+            # Check by name for password values
+            if ( $OptionName =~ m{Password|Pwd}i ) {
+
+                # Mask the password value (simple approach for name-based matching)
+                if ( ref $Option->{EffectiveValue} eq 'ARRAY' ) {
+                    $Option->{EffectiveValue} = [
+                        map {'xxx'} @{ $Option->{EffectiveValue} }
+                    ];
+                }
+                elsif ( ref $Option->{EffectiveValue} eq 'HASH' ) {
+                    $Option->{EffectiveValue} = {
+                        map { $_ => 'xxx' } keys %{ $Option->{EffectiveValue} }
+                    };
+                }
+
+                elsif ( !ref $Option->{EffectiveValue} ) {
+                    $Option->{EffectiveValue} = 'xxx';
+                }
+
+                next OPTIONNAME;
+            }
+
+        }
+
+        my $String = $YAMLObject->Dump(
+            Data => $Data,
+        );
+        return $StringToMask if !IsStringWithData($String);
+
+        return $String;
+    }
 
     # Trim any passswords.
     # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}.
@@ -743,8 +814,69 @@ sub _MaskPasswords {
 
     # Obfuscate user login data to avoid showing it.
     $StringToMask =~ s{://\w+:\w+@}{://[user]:[password]@}smxg;
-
     return $StringToMask;
+}
+
+=head2 _MaskPasswordsByValueTypeInfo()
+
+Masks password values based on ValueTypeInfo structure.
+Handles simple types, arrays, and hashes with key-specific types only first level.
+
+    $Self->_MaskPasswordsByValueTypeInfo(
+        Option => {                                          # (required) Modified setting with EffectiveValue and ValueTypeInfo
+            EffectiveValue => $Option->{EffectiveValue},     # (required) EffectiveValue to mask
+            ValueTypeInfo  => $ValueTypeInfo,                # (required) ValueTypeInfo structure to determine how to mask the EffectiveValue
+        },
+    );
+
+=cut
+
+sub _MaskPasswordsByValueTypeInfo {
+    my ( $Self, %Param ) = @_;
+
+    my $Option = $Param{Option};
+    return if !$Option;
+    return if !IsHashRefWithData($Option);
+    return if !defined $Option->{EffectiveValue};
+    return if !IsHashRefWithData( $Option->{ValueTypeInfo} );
+
+    my $ValueTypeInfo = $Option->{ValueTypeInfo};
+
+    # ValueTypeInfo should always be a hash structure
+    return if !IsHashRefWithData($ValueTypeInfo);
+    return if !$ValueTypeInfo->{Type};
+
+    # Simple String item with ItemType='Password'
+    if ( $ValueTypeInfo->{Type} eq 'String' && $ValueTypeInfo->{ItemType} eq 'Password' ) {
+        if ( !ref $Option->{EffectiveValue} ) {
+            $Option->{EffectiveValue} = 'xxx';
+        }
+        return 1;
+    }
+
+    # Array with ItemType='Password'
+    if ( $ValueTypeInfo->{Type} eq 'Array' && $ValueTypeInfo->{ItemType} eq 'Password' ) {
+        if ( ref $Option->{EffectiveValue} eq 'ARRAY' ) {
+            $Option->{EffectiveValue} = [ map {'xxx'} @{ $Option->{EffectiveValue} } ];
+        }
+        return 1;
+    }
+
+    # Hash with key-specific types
+    if ( $ValueTypeInfo->{Type} eq 'Hash' && ref $Option->{EffectiveValue} eq 'HASH' ) {
+        my $Keys = $ValueTypeInfo->{Keys} || {};
+
+        for my $Key ( sort keys %{ $Option->{EffectiveValue} } ) {
+            my $KeyValueType = $Keys->{$Key} || $ValueTypeInfo->{Default} || '';
+
+            if ( $KeyValueType eq 'Password' ) {
+                $Option->{EffectiveValue}->{$Key} = 'xxx';
+            }
+        }
+        return 1;
+    }
+
+    return;
 }
 
 sub _GetAbsPath {
