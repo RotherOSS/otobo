@@ -21,14 +21,5 @@
     [% IF Data.Comment %]
         <p>[% Translate(Data.Comment) | html %]</p>
     [% END %]
-    [% IF Data.BackendTraceback %]
-        <p><a href="#" class="TriggerFullErrorDetails">[% Translate("Error Details") | html %]</a></p>
-    [% END %]
     </div>
-    [% IF Data.BackendTraceback %]
-    <div class="Content Error Hidden ErrorDetails">
-        <h2>[% Translate("Traceback") | html %]</h2>
-        <pre>[% Data.BackendTraceback | html %]</pre>
-    </div>
-    [% END %]
 </div>

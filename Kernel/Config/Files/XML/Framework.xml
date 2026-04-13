@@ -81,6 +81,16 @@
             <Item ValueType="String" ValueRegex="^[2-9][0-9]{1,}|[1-9][0-9]{2,}$">20</Item>
         </Value>
     </Setting>
+    <Setting Name="SupportDataCollector::SkipMaskPasswordSettings" Required="1" Valid="1">
+        <Description Translatable="1">When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.</Description>
+        <Navigation>Core::SupportDataCollector</Navigation>
+        <Value>
+            <Array>
+                <Item ValueType="String">PreferencesGroups###Password</Item>
+                <Item ValueType="String">CustomerPreferencesGroups###Password</Item>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then 'http' must be specified here. The setting of 'HttpType' has no affect on the web server's settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping 'HttpType' set to 'https' is that the session management cookie will only be set for secure connections.</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -3082,8 +3092,9 @@
         <Navigation>Core::Crypt::PGP</Navigation>
         <Value>
             <Hash>
-                <Item Key="D2DF79FA">SomePassword</Item>
-                <Item Key="488A0B8F">SomePassword</Item>
+                <DefaultItem ValueType="Password">Secret</DefaultItem>
+                <Item ValueType="Password" Key="D2DF79FA">SomePassword</Item>
+                <Item ValueType="Password" Key="488A0B8F">SomePassword</Item>
             </Hash>
         </Value>
     </Setting>

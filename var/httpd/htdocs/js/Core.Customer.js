@@ -96,11 +96,6 @@ Core.Customer = (function (TargetNS) {
             }
         });
 
-        // unveil full error details only on click
-        $('.TriggerFullErrorDetails').on('click', function() {
-            $('.Content.ErrorDetails').toggle();
-        });
-
         // move customer notifications between header and content
         $('#oooCustomerNotifications').insertAfter('#oooHeader');
         if ($('#oooCustomerNotifications > div').length == 0) {
