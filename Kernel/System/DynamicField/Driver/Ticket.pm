@@ -415,16 +415,14 @@ sub SearchObjects {
                 if ( IsHashRefWithData( $Param{Object} ) ) {
                     $EqualsObjectAttribute = $Param{Object}{DynamicField}{ $FilterItem->{EqualsObjectAttribute} } // $Param{Object}{ $FilterItem->{EqualsObjectAttribute} };
 
-                    if ( !$EqualsObjectAttribute && $Param{CustomerUserID} ) {
-                        if ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' ) {
-                            $EqualsObjectAttribute = $Param{CustomerUserID};
-                        }
-                        elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' ) {
-                            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                                User => $Param{CustomerUserID},
-                            );
-                            $EqualsObjectAttribute = $CustomerUserData{CustomerID};
-                        }
+                    if ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' && !$EqualsObjectAttribute && $Param{CustomerUserID} ) {
+                        $EqualsObjectAttribute = $Param{CustomerUserID};
+                    }
+                    elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' && !$EqualsObjectAttribute && $Param{CustomerUserID} ) {
+                        my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                            User => $Param{CustomerUserID},
+                        );
+                        $EqualsObjectAttribute = $CustomerUserData{CustomerID};
                     }
                 }
                 elsif ( defined $Param{ParamObject} ) {
@@ -442,16 +440,14 @@ sub SearchObjects {
                             TransformDates     => 0,
                         );
                     }
-                    elsif ( $Param{CustomerUserID} ) {
-                        if ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' ) {
-                            $EqualsObjectAttribute = $Param{CustomerUserID};
-                        }
-                        elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' ) {
-                            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                                User => $Param{CustomerUserID},
-                            );
-                            $EqualsObjectAttribute = $CustomerUserData{CustomerID};
-                        }
+                    elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerUserID' && $Param{CustomerUserID} ) {
+                        $EqualsObjectAttribute = $Param{CustomerUserID};
+                    }
+                    elsif ( $FilterItem->{EqualsObjectAttribute} eq 'CustomerID' && $Param{CustomerUserID} ) {
+                        my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                            User => $Param{CustomerUserID},
+                        );
+                        $EqualsObjectAttribute = $CustomerUserData{CustomerID};
                     }
                     else {
 
