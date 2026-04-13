@@ -500,6 +500,13 @@ sub SearchObjects {
                             }
                         }
                         else {
+
+                            # neither attribute nor mapped alternatives available
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                Priority => 'error',
+                                Message  => "The attribute '$FilterItem->{EqualsObjectAttribute}' and its associated alternatives is not available on the mask!",
+                            );
+
                             return;
                         }
                     }
