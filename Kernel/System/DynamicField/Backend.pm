@@ -3062,33 +3062,19 @@ This is used in auto completion when searching for possible object IDs.
         LayoutObject       => $LayoutObject,
     );
 
-The subroutine is called from three different paths with different parameter constellations.
+The subroutine is called from two main paths with different parameter constellations.
 
 First: Rendering a reference drop-down field on a mask and / or recalculating possible values upon AJAX update.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
+        CustomerUser       => $Param{CustomerUser},         # optional, takes precedence over $Param{Object}{CustomerUserID}
         UserID             => $Self->{UserID},
         Object             => {
             CustomerID     => $Param{CustomerID},
             CustomerUserID => $Param{CustomerUser},
-            UserID         => $Self->{UserID},
         },
-        LayoutObject       => $LayoutObject,
-    );
-
-Second: Changing / clearing a reference auto-complete field upon AJAX update.
-
-    my @ObjectIDs = $BackendObject->SearchObjects(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        CustomerUser       => $Param{CustomerUser},
-        UserID             => $Self->{UserID},
-        Object             => {
-            CustomerID     => $Param{CustomerID},
-            CustomerUserID => $Param{CustomerUser},
-            UserID         => $Self->{UserID},
-        },
-        ChangedElements    => {
+        ChangedElements    => {                             # optional
             CustomerID     => 1,
             CustomerUserID => 1,
             ServiceID      => 1,
@@ -3096,7 +3082,7 @@ Second: Changing / clearing a reference auto-complete field upon AJAX update.
         LayoutObject       => $LayoutObject,
     );
 
-Third: Searching for values for a reference auto-complete field via AgentReferenceSearch.
+Second: Searching for values for a reference auto-complete field via AgentReferenceSearch.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
@@ -3104,6 +3090,7 @@ Third: Searching for values for a reference auto-complete field via AgentReferen
         MaxResults         => $MaxResults,
         ParamObject        => $ParamObject,
         CustomerUserID     => $Self->{UserID},      # customer interface
+                                                    # or
         UserID             => $Self->{UserID},      # agent interface
     );
 
