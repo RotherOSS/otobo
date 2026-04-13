@@ -780,13 +780,6 @@ sub _RenderAjax {
     if ( $ChangedElements{ServiceID} ) {
         $ChangedElements{CustomerUserID} = 1;
         $ChangedElements{CustomerID}     = 1;
-
-        if ( $Param{GetParam}{CustomerUserID} ) {
-            my %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $Param{GetParam}{CustomerUserID},
-            );
-            $Param{GetParam}{CustomerID} = $CustomerData{CustomerID};
-        }
     }
 
     # get values and visibility of dynamic fields
