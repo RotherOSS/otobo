@@ -3572,7 +3572,7 @@ sub BuildDateSelection {
     my $Prefix         = $Param{Prefix} || '';
     my $Suffix         = $Param{Suffix} || '';
 
-    # sanitize prefix
+    # sanitize prefix and suffix
     #   allow the following:
     #       - characters (not only A-Za-z, as umlauts should be allowed as well)
     #       - digits (arabic as well as non-arabic)
@@ -3580,6 +3580,7 @@ sub BuildDateSelection {
     #       - underscore
     #       - : and # (e.g. for system configuration names)
     $Prefix =~ s/[^\w\d\-_:#]//g;
+    $Suffix =~ s/[^\w\d\-_:#]//g;
 
     my $DiffTime = $Param{DiffTime} || 0;
     my $Format   = $Param{Format} // 'DateInputFormatLong';
