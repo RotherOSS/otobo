@@ -2239,7 +2239,7 @@ sub _Mask {
 
                             AVAILABLE_USER:
                             for my $AvailableUser ( sort keys %AvailableUsers ) {
-                                if ( grep {/^$ChatChannelData{Key}$/} @{ $AvailableUsers{$AvailableUser} } ) {
+                                if ( any {/^$ChatChannelData{Key}$/} @{ $AvailableUsers{$AvailableUser} } ) {
                                     $UserAvailable = 1;
                                     last AVAILABLE_USER;
                                 }
@@ -2301,7 +2301,7 @@ sub _Mask {
     my $ArticleHTML    = '';
 
     for my $ArticleTmp ( reverse @ArticleBox ) {
-        my %Article = %$ArticleTmp;
+        my %Article = $ArticleTmp->%*;
 
         # check if article should be expanded (visible)
         if ( $SelectedArticleID eq $Article{ArticleID} || $ZoomExpand ) {
@@ -2379,7 +2379,7 @@ sub _Mask {
             $ArticleOB = $ArticleBox[$LastCustomerArticle];
         }
 
-        %Article = %$ArticleOB;
+        %Article = $ArticleOB->%*;
 
         # if no customer articles found use ticket values
         if ( !IsHashRefWithData( \%Article ) ) {
@@ -2390,7 +2390,7 @@ sub _Mask {
         }
 
         for my $ArticleTmp (@ArticleBox) {
-            my %ArticleTmp1 = %$ArticleTmp;
+            my %ArticleTmp1 = $ArticleTmp->%*;
             if ( $ArticleID eq $ArticleTmp1{ArticleID} ) {
                 %Article = %ArticleTmp1;
             }
