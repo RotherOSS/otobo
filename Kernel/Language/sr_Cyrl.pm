@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.850461721775395;
+    $Self->{Completeness}        = 0.850245864997765;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3283,8 +3283,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => 'Догодила се грешка',
-        'Error Details' => 'Детаљи грешке',
-        'Traceback' => 'Испрати уназад',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3401,7 +3399,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => 'Пошаљи извештај о грешци',
-        'Expand' => 'Прошири',
 
         # Template: Footer
         'Powered by %s' => '',
@@ -5966,8 +5963,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => 'Сигурносна провера Perl модула',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            'CPAN::Audit је детектовао један или више рањивих Perl модула инсталираних на систему. Молимо обратите пажњу да су могући лажно позитивни резултати за дистрибуције које освежавају Perl модуле без промене њихове верзије.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             'CPAN::Audit није детектовао рањиве Perl модуле инсталиране на систему.',
 
@@ -10014,6 +10009,8 @@ Thanks for your help!
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Одређује да ли ће тикет бити аутоматски закључан на оператера, када га исти креира.',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Када су тикети спојени, напомена ће бити аутоматски додата тикету који није више активан. Овде можете дефинисати тело ове напомене (овај текст се не може променити од стране оператера).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

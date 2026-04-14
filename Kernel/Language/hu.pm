@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999106344950849;
+    $Self->{Completeness}        = 0.998956936373119;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3288,8 +3288,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => 'Hiba történt',
-        'Error Details' => 'Hiba részletei',
-        'Traceback' => 'Visszakövetés',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3406,7 +3404,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => 'Hibajelentés küldése',
-        'Expand' => 'Kinyitás',
 
         # Template: Footer
         'Powered by %s' => 'A gépházban: %s',
@@ -5971,8 +5968,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => 'Perl modulok vizsgálata',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            'A CPAN::Audit azt jelentette, hogy egy vagy több telepített Perl modul ismert sebezhetőséggel rendelkezik. Ne feledje, hogy lehetnek tévesen jelzett jelentések is azoknál a disztribúcióknál, amelyek úgy foltozzák a Perl modulokat, hogy nem változtatják meg a verziószámokat.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             'A CPAN::Audit nem jelentett semmilyen ismert sebezhetőséget a telepített Perl modulokban.',
 
@@ -10019,6 +10014,8 @@ Az Ön ügyfélszolgálati csapata
             'Üdvözlő szöveg a vezérlőpult fejlécéhez. A „Name” értéke beszúrásra kerül a „WelcomeText” szövegében lévő %s helyére. Ezek az értékek lesznek helyettesítve: „UserTitle”, „UserFirstname”, „UserLastname”, „UserEmail” és „UserLogin”.',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Amikor az ügyintéző létrehoz egy jegyet, akkor a jegy legyen-e automatikusan az ügyintézőre zárolva vagy sem.',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Amikor jegyeket egyesítenek, egy jegyzet lesz automatikusan hozzáadva ahhoz a jegyhez, amely többé már nem aktív. Itt határozhatja meg ennek a jegyzetnek a törzsét (ezt a szöveget nem tudja megváltoztatni az ügyintéző).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
