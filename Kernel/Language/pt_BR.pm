@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.92662440570523;
+    $Self->{Completeness}        = 0.926284083703234;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3071,8 +3071,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => 'Ocorreu um erro.',
-        'Error Details' => 'Detalhes do Erro',
-        'Traceback' => 'Rastreamento',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3188,7 +3186,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => 'Enviar um relatório de erro',
-        'Expand' => 'Expandir',
 
         # Template: Footer
         'Powered by %s' => 'Desenvolvido por %s',
@@ -5585,8 +5582,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => 'Auditoria de Módulos Perl',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            'O CPAN::Audit relatou que um ou mais módulos Perl instalados possuem vulnerabilidades conhecidas. Observe que pode haver falsos positivos para distribuições que consertam os módulos Perl sem alterar o número da versão.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             'CPAN::Audit não relatou nenhuma vulnerabilidade conhecida nos módulos Perl instalados.',
 
@@ -8404,6 +8399,8 @@ Obrigado pela ajuda!
             'Número de linhas (por ticket) que são exibidos pela utilidade de pesquisa na interface de agente.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
+            '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             '',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
@@ -9449,6 +9446,8 @@ Obrigado pela ajuda!
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Quando um agente cria um ticket, se o ticket é bloqueado automaticamente para o agente, ou não.',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir a Artigo dessa nota ( Esse Artigo não pode ser alterada pelo Atendente ).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

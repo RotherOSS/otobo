@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.972424722662441;
+    $Self->{Completeness}        = 0.972098922003805;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3066,8 +3066,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => 'Se ha producido un error',
-        'Error Details' => 'Detalles del error',
-        'Traceback' => 'Determinar el origen',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3183,7 +3181,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => 'Enviar un reporte de error',
-        'Expand' => 'Expandir',
 
         # Template: Footer
         'Powered by %s' => 'Desarrollado por %s',
@@ -5580,8 +5577,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => 'Auditoría de módulos Perl',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            'CPAN::Audit ha informado de que uno o más módulos de Perl instalados tienen vulnerabilidades conocidas. Tenga en cuenta que puede haber falsos positivos para las distribuciones que parchean los módulos de Perl sin cambiar su número de versión.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             'CPAN::Audit no informó de ninguna vulnerabilidad conocida en los módulos de Perl instalados.',
 
@@ -8399,6 +8394,8 @@ Su equipo de asistencia técnica
             'Número de líneas (por ticket) que se muestran por la utilidad de búsqueda de la interfaz del agente.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice "ticket".',
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'tmpattachments\'.' =>
+            '',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
             'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice. Nota: Elasticsearch::ArticleIndexCreationSettings\' está obsoleto. Para la compatibilidad hacia arriba, utilice \'Elasticsearch::IndexSettings###Default\' en su lugar.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices. \'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
@@ -9444,6 +9441,8 @@ Su equipo de asistencia técnica
             'Texto de bienvenida para la cabecera del tablero. El nombre se insertará en %s del texto de bienvenida. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" y "UserLogin" serán sustituidos.',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Cuando el agente crea un ticket, si el ticket se bloquea o no automáticamente para el agente.',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Cuando se fusionan los tickets, se añade automáticamente una nota al ticket que ya no está activo. Aquí puede definir el cuerpo de esta nota (este texto no puede ser modificado por el agente).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
