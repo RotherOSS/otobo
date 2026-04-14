@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: French <http://translate.otobo.org/projects/otobo/otobo-10/fr/"
@@ -9969,14 +9969,6 @@ msgstr "Nouveau ticket"
 msgid "An Error Occurred"
 msgstr "Une erreur est survenue"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "Détails de l'erreur"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "Trace du retour d'erreur"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10299,10 +10291,6 @@ msgstr "Information de l'événement"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "Envoyer un rapport de bug"
-
-#. Template: Error
-msgid "Expand"
-msgstr "Etendre"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -16822,13 +16810,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -25546,6 +25527,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
@@ -29229,6 +29216,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -29391,6 +29387,15 @@ msgstr "inverse"
 #. SysConfig
 msgid "stats"
 msgstr "statistiques"
+
+#~ msgid "Error Details"
+#~ msgstr "Détails de l'erreur"
+
+#~ msgid "Traceback"
+#~ msgstr "Trace du retour d'erreur"
+
+#~ msgid "Expand"
+#~ msgstr "Etendre"
 
 #~ msgid "Default skin for the agent interface (slim version)."
 #~ msgstr "Thème par défaut pour l'interface opérateur (version slim)."

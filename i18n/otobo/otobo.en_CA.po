@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2022-02-06 18:13+0000\n"
 "Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: English (Canada) <https://translate.otobo.org/projects/"
@@ -9622,14 +9622,6 @@ msgstr ""
 msgid "An Error Occurred"
 msgstr ""
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr ""
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr ""
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -9940,10 +9932,6 @@ msgstr ""
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr ""
-
-#. Template: Error
-msgid "Expand"
 msgstr ""
 
 #. Template: Footer
@@ -16373,13 +16361,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -25000,6 +24981,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
@@ -28643,6 +28630,15 @@ msgstr ""
 msgid ""
 "When agent creates a ticket, whether or not the ticket is automatically "
 "locked to the agent."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
 msgstr ""
 
 #. SysConfig

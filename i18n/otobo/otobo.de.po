@@ -55,11 +55,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-03-09 10:48+0000\n"
 "Last-Translator: Arion2000 <github@arion2000.xyz>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/"
-"de/>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo/otobo-10/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10508,14 +10508,6 @@ msgstr "Neues Ticket"
 msgid "An Error Occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "Fehlerdetails"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "Rückverfolgung"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10850,10 +10842,6 @@ msgstr "Ereignisinformation"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "Einen Fehlerbericht senden"
-
-#. Template: Error
-msgid "Expand"
-msgstr "Ausklappen"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -17679,17 +17667,6 @@ msgstr "Es sind nicht alle benötigten Perl-Module installiert."
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
 msgstr "Perl Module Audit"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
-msgstr ""
-"CPAN::Audit hat berichtet, dass ein oder mehrere installierte Perl-Module "
-"bekannte Schwachstellen aufweisen. Bitte beachten Sie, dass es "
-"möglicherweise falsche Positivmeldungen für Distributionen gibt, die Perl-"
-"Module patchen, ohne ihre Versionsnummer zu ändern."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -28304,6 +28281,15 @@ msgstr ""
 "\"Ticket\"."
 
 #. SysConfig
+#, fuzzy
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+"Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index "
+"\"Ticket\"."
+
+#. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
@@ -33076,6 +33062,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -33254,6 +33249,25 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "Error Details"
+#~ msgstr "Fehlerdetails"
+
+#~ msgid "Traceback"
+#~ msgstr "Rückverfolgung"
+
+#~ msgid "Expand"
+#~ msgstr "Ausklappen"
+
+#~ msgid ""
+#~ "CPAN::Audit reported that one or more installed Perl modules have known "
+#~ "vulnerabilities. Please note that there might be false positives for "
+#~ "distributions patching Perl modules without changing their version number."
+#~ msgstr ""
+#~ "CPAN::Audit hat berichtet, dass ein oder mehrere installierte Perl-Module "
+#~ "bekannte Schwachstellen aufweisen. Bitte beachten Sie, dass es "
+#~ "möglicherweise falsche Positivmeldungen für Distributionen gibt, die Perl-"
+#~ "Module patchen, ohne ihre Versionsnummer zu ändern."
 
 #~ msgid " Continue anyways :("
 #~ msgstr " Dennoch fortfahren :("

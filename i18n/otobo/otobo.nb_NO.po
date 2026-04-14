@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2024-10-17 14:40+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.otobo.org/projects/otobo/"
@@ -10281,14 +10281,6 @@ msgstr "Ny sak"
 msgid "An Error Occurred"
 msgstr "En feil oppstod"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "Feildetaljer"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "Tilbakesporing"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10617,10 +10609,6 @@ msgstr "Hendelsesinformasjon"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "Send en feilrapport"
-
-#. Template: Error
-msgid "Expand"
-msgstr "Utvid"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -17326,16 +17314,6 @@ msgstr "Ikke alle påkrevde Perl moduler er riktig installert."
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
 msgstr "Perl Modules Audit"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
-msgstr ""
-"CPAN::Audit rapporterte at en eller flere installerte Perl-moduler har "
-"kjente sårbarheter. Vær oppmerksom på at det kan være falske positiver for "
-"distribusjoner som patcher Perl-moduler uten å endre versjonsnummeret."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -27511,6 +27489,13 @@ msgid ""
 msgstr "Antall skår (NS), replikaer (NR) og feltgrense for indeksen 'sak'."
 
 #. SysConfig
+#, fuzzy
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr "Antall skår (NS), replikaer (NR) og feltgrense for indeksen 'sak'."
+
+#. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
@@ -32160,6 +32145,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -32331,6 +32325,24 @@ msgstr "motsatt"
 #. SysConfig
 msgid "stats"
 msgstr "statistikk"
+
+#~ msgid "Error Details"
+#~ msgstr "Feildetaljer"
+
+#~ msgid "Traceback"
+#~ msgstr "Tilbakesporing"
+
+#~ msgid "Expand"
+#~ msgstr "Utvid"
+
+#~ msgid ""
+#~ "CPAN::Audit reported that one or more installed Perl modules have known "
+#~ "vulnerabilities. Please note that there might be false positives for "
+#~ "distributions patching Perl modules without changing their version number."
+#~ msgstr ""
+#~ "CPAN::Audit rapporterte at en eller flere installerte Perl-moduler har "
+#~ "kjente sårbarheter. Vær oppmerksom på at det kan være falske positiver "
+#~ "for distribusjoner som patcher Perl-moduler uten å endre versjonsnummeret."
 
 #~ msgid " Continue anyways :("
 #~ msgstr " Fortsett uansett :("

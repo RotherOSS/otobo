@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-03-17 15:28+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <http://translate.otobo.org/projects/otobo/otobo-10/"
@@ -10429,14 +10429,6 @@ msgstr "Új jegy"
 msgid "An Error Occurred"
 msgstr "Hiba történt"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "Hiba részletei"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "Visszakövetés"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10765,10 +10757,6 @@ msgstr "Esemény információk"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "Hibajelentés küldése"
-
-#. Template: Error
-msgid "Expand"
-msgstr "Kinyitás"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -17588,17 +17576,6 @@ msgstr "Nincs minden szükséges Perm modul megfelelően telepítve."
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
 msgstr "Perl modulok vizsgálata"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
-msgstr ""
-"A CPAN::Audit azt jelentette, hogy egy vagy több telepített Perl modul "
-"ismert sebezhetőséggel rendelkezik. Ne feledje, hogy lehetnek tévesen "
-"jelzett jelentések is azoknál a disztribúcióknál, amelyek úgy foltozzák a "
-"Perl modulokat, hogy nem változtatják meg a verziószámokat."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -28254,6 +28231,15 @@ msgstr ""
 "indexhez."
 
 #. SysConfig
+#, fuzzy
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+"Töredékek száma (NS), replikák száma (NR) és mezők korlátai a „ticket” "
+"indexhez."
+
+#. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
@@ -33092,6 +33078,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -33268,6 +33263,25 @@ msgstr "megfordítás"
 #. SysConfig
 msgid "stats"
 msgstr "statisztikák"
+
+#~ msgid "Error Details"
+#~ msgstr "Hiba részletei"
+
+#~ msgid "Traceback"
+#~ msgstr "Visszakövetés"
+
+#~ msgid "Expand"
+#~ msgstr "Kinyitás"
+
+#~ msgid ""
+#~ "CPAN::Audit reported that one or more installed Perl modules have known "
+#~ "vulnerabilities. Please note that there might be false positives for "
+#~ "distributions patching Perl modules without changing their version number."
+#~ msgstr ""
+#~ "A CPAN::Audit azt jelentette, hogy egy vagy több telepített Perl modul "
+#~ "ismert sebezhetőséggel rendelkezik. Ne feledje, hogy lehetnek tévesen "
+#~ "jelzett jelentések is azoknál a disztribúcióknál, amelyek úgy foltozzák a "
+#~ "Perl modulokat, hogy nem változtatják meg a verziószámokat."
 
 #~ msgid " Continue anyways :("
 #~ msgstr " Folytatás mindenképp :("

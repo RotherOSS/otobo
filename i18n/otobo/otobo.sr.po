@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <http://translate.otobo.org/projects/otobo/otobo-10/"
@@ -10145,14 +10145,6 @@ msgstr "Нови тикет"
 msgid "An Error Occurred"
 msgstr "Догодила се грешка"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "Детаљи грешке"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "Испрати уназад"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10477,10 +10469,6 @@ msgstr "Информације о догађају"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "Пошаљи извештај о грешци"
-
-#. Template: Error
-msgid "Expand"
-msgstr "Прошири"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -17132,16 +17120,6 @@ msgstr "Сви захтевани Perl модули нису коректно и
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
 msgstr "Сигурносна провера Perl модула"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
-msgstr ""
-"CPAN::Audit је детектовао један или више рањивих Perl модула инсталираних на "
-"систему. Молимо обратите пажњу да су могући лажно позитивни резултати за "
-"дистрибуције које освежавају Perl модуле без промене њихове верзије."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -27288,6 +27266,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
@@ -31846,6 +31830,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -32011,6 +32004,24 @@ msgstr "обрнуто"
 #. SysConfig
 msgid "stats"
 msgstr "статистика"
+
+#~ msgid "Error Details"
+#~ msgstr "Детаљи грешке"
+
+#~ msgid "Traceback"
+#~ msgstr "Испрати уназад"
+
+#~ msgid "Expand"
+#~ msgstr "Прошири"
+
+#~ msgid ""
+#~ "CPAN::Audit reported that one or more installed Perl modules have known "
+#~ "vulnerabilities. Please note that there might be false positives for "
+#~ "distributions patching Perl modules without changing their version number."
+#~ msgstr ""
+#~ "CPAN::Audit је детектовао један или више рањивих Perl модула инсталираних "
+#~ "на систему. Молимо обратите пажњу да су могући лажно позитивни резултати "
+#~ "за дистрибуције које освежавају Perl модуле без промене њихове верзије."
 
 #~ msgid "\"Slim\" skin which tries to save screen space for power users."
 #~ msgstr ""

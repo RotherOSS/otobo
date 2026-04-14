@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-03-10 19:00+0000\n"
 "Last-Translator: Khalil Hamada <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <http://translate.otobo.org/projects/"
@@ -10088,14 +10088,6 @@ msgstr "تذكرة جديدة"
 msgid "An Error Occurred"
 msgstr "حدث خطأ"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "تفاصيل الخطأ"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "تتبع الأثر"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10418,10 +10410,6 @@ msgstr "معلومات الحدث"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "إرسال تقرير الخطأ"
-
-#. Template: Error
-msgid "Expand"
-msgstr "توسيع"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -17033,16 +17021,6 @@ msgstr "لم يتم تثبيت جميع وحدات Perl المطلوبة."
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
 msgstr "تدقيق وحدة بيرل (Perl)"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
-msgstr ""
-"CPAN :: ذكرت المراجعة أن واحدة أو أكثر من وحدات Perl المثبتة بها نقاط ضعف "
-"معروفة. يرجى ملاحظة أنه قد تكون هناك إيجابيات خاطئة للتوزيعات التي تقوم "
-"بتصحيح وحدات Perl دون تغيير رقم الإصدار الخاص بها."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -27014,6 +26992,15 @@ msgstr ""
 "\"التذكرة\"."
 
 #. SysConfig
+#, fuzzy
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+"عدد الأجزاء (shards) (NS) والنسخ المتماثلة (NR) والحد الأقصى للحقل لفهرس "
+"\"التذكرة\"."
+
+#. SysConfig
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
@@ -30927,6 +30914,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -31070,6 +31066,24 @@ msgstr "عكس"
 #. SysConfig
 msgid "stats"
 msgstr "إحصائيات"
+
+#~ msgid "Error Details"
+#~ msgstr "تفاصيل الخطأ"
+
+#~ msgid "Traceback"
+#~ msgstr "تتبع الأثر"
+
+#~ msgid "Expand"
+#~ msgstr "توسيع"
+
+#~ msgid ""
+#~ "CPAN::Audit reported that one or more installed Perl modules have known "
+#~ "vulnerabilities. Please note that there might be false positives for "
+#~ "distributions patching Perl modules without changing their version number."
+#~ msgstr ""
+#~ "CPAN :: ذكرت المراجعة أن واحدة أو أكثر من وحدات Perl المثبتة بها نقاط ضعف "
+#~ "معروفة. يرجى ملاحظة أنه قد تكون هناك إيجابيات خاطئة للتوزيعات التي تقوم "
+#~ "بتصحيح وحدات Perl دون تغيير رقم الإصدار الخاص بها."
 
 #~ msgid " Continue anyways :("
 #~ msgstr " تابع على كل حال :("

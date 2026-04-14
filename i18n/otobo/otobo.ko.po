@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2026-03-02 12:06+0000\n"
+"POT-Creation-Date: 2026-04-14 07:17+0000\n"
 "PO-Revision-Date: 2026-02-21 09:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Korean <http://translate.otobo.org/projects/otobo/otobo-10/ko/"
@@ -9962,14 +9962,6 @@ msgstr "새 티켓"
 msgid "An Error Occurred"
 msgstr "에러 발생됨"
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr "오류 정보"
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr "역 추적"
-
 #. Template: CustomerFooterJS
 msgid ""
 "%s detected possible network issues. You could either try reloading this "
@@ -10286,10 +10278,6 @@ msgstr "이벤트 정보"
 #. Template: Error
 msgid "Send a bugreport"
 msgstr "bugreport 보내기"
-
-#. Template: Error
-msgid "Expand"
-msgstr "넓히다"
 
 #. Template: Footer
 msgid "Powered by %s"
@@ -16849,13 +16837,6 @@ msgstr "필요한 Perl 모듈이 모두 올바르게 설치되지는 않았습�
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid ""
-"CPAN::Audit reported that one or more installed Perl modules have known "
-"vulnerabilities. Please note that there might be false positives for "
-"distributions patching Perl modules without changing their version number."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -26658,6 +26639,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index "
+"'tmpattachments'."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
@@ -31012,6 +30999,15 @@ msgstr "에이전트가 티켓을 만들 때 티켓이 에이전트에 자동으
 
 #. SysConfig
 msgid ""
+"When support data is collected via SupportDataCollector, certain SysConfig "
+"values marked with ValueType=\"Password\" are automatically masked. This "
+"prevents passwords from appearing in plain text in the support data. This "
+"setting defines the settings that contain complex configuration hashes that "
+"should not be masked when generating the support data."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
@@ -31174,6 +31170,15 @@ msgstr "거꾸로"
 #. SysConfig
 msgid "stats"
 msgstr "통계"
+
+#~ msgid "Error Details"
+#~ msgstr "오류 정보"
+
+#~ msgid "Traceback"
+#~ msgstr "역 추적"
+
+#~ msgid "Expand"
+#~ msgstr "넓히다"
 
 #~ msgid "\"Slim\" skin which tries to save screen space for power users."
 #~ msgstr "고급 사용자를 위해 화면 공간을 절약하려고하는 \"슬림\"스킨."
