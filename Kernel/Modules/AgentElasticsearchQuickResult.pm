@@ -185,11 +185,12 @@ sub Run {
         if ( $SearchObjects->{CustomerUser} && $SearchObjects->{CustomerUser}{Count} && $Permission{AgentCustomerUserInformationCenter} )
         {
             # Search customer user by ES.
-            @CustomerUserKeys = $ESObject->CustomerUserSearch(
+            my $SearchResult = $ESObject->CustomerUserSearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit    => $SearchObjects->{CustomerUser}{Count},
                 Result   => 'ARRAY',
             );
+            @CustomerUserKeys = $SearchResult->{Data}->@*;
         }
 
         if ( $SearchObjects->{ConfigItem} && $SearchObjects->{ConfigItem}{Count} && $Permission{AgentITSMConfigItemZoom} )
