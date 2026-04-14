@@ -143,16 +143,13 @@ sub _ElasticSearchFAQ {
 
     if ( $SearchObjects->{FAQ} && $SearchObjects->{FAQ}{Count} ) {
 
-        # Search customer by ES.
+        # Search faq by ES.
         my $SearchResult = $ESObject->FAQSearch(
             Fulltext => $Query,
             UserID   => $Self->{UserID},
             Limit    => $Self->{PageShown} || $SearchObjects->{FAQ}{Count},
             From     => $Self->{StartHit} - 1,
             Result   => 'FULL',
-
-            #            SortBy   => '',
-            #            OrderBy  => $Self->{OrderBy},
         );
 
         my @FAQIDs = $SearchResult->{Data}->@*;

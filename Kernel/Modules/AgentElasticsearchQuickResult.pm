@@ -194,7 +194,7 @@ sub Run {
 
         if ( $SearchObjects->{ConfigItem} && $SearchObjects->{ConfigItem}{Count} && $Permission{AgentITSMConfigItemZoom} )
         {
-            # Search customer user by ES.
+            # Search config item by ES.
             my $SearchResult = $ESObject->ConfigItemSearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit    => $SearchObjects->{ConfigItem}{Count},
@@ -215,7 +215,6 @@ sub Run {
             );
             @FAQs = $SearchResult->{Data}->@*;
         }
-# EO Elasticsearch-extension
 
         # Start to fill the blockdata for the template
         if (@TicketIDs) {
@@ -314,7 +313,6 @@ sub Run {
                 }
             }
         }
-
         if (@CustomerUserKeys) {
             for my $Attr ( @{ $SearchObjects->{CustomerUser}{Attributes} } ) {
                 $LayoutObject->Block(
