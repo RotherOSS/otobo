@@ -120,7 +120,7 @@ for my $Fail ( 0 .. 1 ) {
             Name      => "TransportObject RequesterPerformRequest() UTF-8 data",
             Operation => 'test_operation',
             Data      => {
-                A                    => 'A',
+                A        => 'A',
                 '使用下列语言' => 'معلومات',
             },
             ResultData =>
@@ -214,7 +214,7 @@ for my $Fail ( 0 .. 1 ) {
             Name           => "TransportObject ProviderProcessRequest() UTF-8 data",
             RequestContent => 'A=A&使用下列语言=معلومات',
             ResultData     => {
-                A                    => 'A',
+                A        => 'A',
                 '使用下列语言' => 'معلومات',
             },
             Operation     => 'test_operation',
@@ -289,7 +289,7 @@ for my $Fail ( 0 .. 1 ) {
         {
             Name => "TransportObject ProviderGenerateResponse() UTF-8 data",
             Data => {
-                A                    => 'A',
+                A        => 'A',
                 '使用下列语言' => 'معلومات',
             },
             ResultData =>

@@ -54,15 +54,15 @@ my @Tests = (
     },
     {
         Name => 'UTF8 2 byte, single byte in latin1',
-        Data => 'ö',                                             # ö - U+000F6 - C3 B6 - LATIN SMALL LETTER O WITH DIAERESIS
+        Data => 'ö',                                              # ö - U+000F6 - C3 B6 - LATIN SMALL LETTER O WITH DIAERESIS
     },
     {
         Name => 'UTF8 3 byte',
-        Data => 'ऄ',                                            # ऄ - U+00904 - E0 A4 84 - DEVANAGARI LETTER SHORT A
+        Data => 'ऄ',                                              # ऄ - U+00904 - E0 A4 84 - DEVANAGARI LETTER SHORT A
     },
     {
         Name => 'UTF8 4 byte',
-        Data => '𐡀',                                           # 𐡀 - U+10840 - F0 90 A1 80 - IMPERIAL ARAMAIC LETTER ALEPH
+        Data => '𐡀',                                              # 𐡀 - U+10840 - F0 90 A1 80 - IMPERIAL ARAMAIC LETTER ALEPH
     },
     {
         Name => 'all of the above concatenated',

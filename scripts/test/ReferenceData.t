@@ -353,10 +353,10 @@ SKIP:
     );
 
     my %SampleCountryCode2Name = (
-        AT => 'Österreich 🇦🇹',              # mit Umlaut
+        AT => 'Österreich 🇦🇹',               # mit Umlaut
         BQ => 'Karibische Niederlande 🇧🇶',
         BV => 'Bouvetinsel 🇧🇻',
-        CI => q{Côte d’Ivoire 🇨🇮},        # with U+02019 - RIGHT SINGLE QUOTATION MARK^
+        CI => q{Côte d’Ivoire 🇨🇮},           # with U+02019 - RIGHT SINGLE QUOTATION MARK^
         DE => 'Deutschland 🇩🇪',
         MK => 'Nordmazedonien 🇲🇰',           # changed in CLDR 40
         SZ => 'Eswatini 🇸🇿',                 # changed in CLDR 40
