@@ -55,8 +55,8 @@ subtest 'Print ANSI=0' => sub {
     };
 
     is( $Out,    q{green 🌲 and yellow 🌞}, 'color tags removed' );
-    is( $Error,  '',                            'nothing printed on STDERR' );
-    is( $RetVal, undef,                         'returning undef' );
+    is( $Error,  '',                      'nothing printed on STDERR' );
+    is( $RetVal, undef,                   'returning undef' );
 };
 
 subtest 'Print() ANSI=1' => sub {
@@ -67,8 +67,8 @@ subtest 'Print() ANSI=1' => sub {
     };
 
     is( $Out,    qq{${Green}green 🌲${Reset} and ${Yellow}yellow 🌞${Reset}}, 'color tags replaced' );
-    is( $Error,  '',                                                              'nothing printed on STDERR' );
-    is( $RetVal, undef,                                                           'returning undef' );
+    is( $Error,  '',                                                        'nothing printed on STDERR' );
+    is( $RetVal, undef,                                                     'returning undef' );
 };
 
 subtest 'PrintWarning() ANSI=0' => sub {
@@ -79,8 +79,8 @@ subtest 'PrintWarning() ANSI=0' => sub {
     };
 
     is( $Out,    qq{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n}, q{color tags kept} );
-    is( $Error,  '',                                                               'nothing printed on STDOUT' );
-    is( $RetVal, undef,                                                            'returning undef' );
+    is( $Error,  '',                                                         'nothing printed on STDOUT' );
+    is( $RetVal, undef,                                                      'returning undef' );
 };
 
 subtest 'PrintWarning() ANSI=1' => sub {
@@ -91,8 +91,8 @@ subtest 'PrintWarning() ANSI=1' => sub {
     };
 
     is( $Out,    qq{${Yellow}<green>green 🌲</green> and <yellow>yellow 🌞</yellow>${Reset}\n}, q{'Error:' added, color tags kept} );
-    is( $Error,  '',                                                                                'nothing printed on STERR' );
-    is( $RetVal, undef,                                                                             'returning undef' );
+    is( $Error,  '',                                                                          'nothing printed on STERR' );
+    is( $RetVal, undef,                                                                       'returning undef' );
 };
 
 subtest 'PrintOk() ANSI=0' => sub {
@@ -103,8 +103,8 @@ subtest 'PrintOk() ANSI=0' => sub {
     };
 
     is( $Out,    qq{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n}, q{color tags kept} );
-    is( $Error,  '',                                                               'nothing printed on STDERR' );
-    is( $RetVal, undef,                                                            'returning undef' );
+    is( $Error,  '',                                                         'nothing printed on STDERR' );
+    is( $RetVal, undef,                                                      'returning undef' );
 };
 
 subtest 'PrintOk() ANSI=1' => sub {
@@ -115,8 +115,8 @@ subtest 'PrintOk() ANSI=1' => sub {
     };
 
     is( $Out,    qq{${Green}<green>green 🌲</green> and <yellow>yellow 🌞</yellow>${Reset}\n}, q{color tags kept} );
-    is( $Error,  '',                                                                               'nothing printed on STDERR' );
-    is( $RetVal, undef,                                                                            'returning undef' );
+    is( $Error,  '',                                                                         'nothing printed on STDERR' );
+    is( $RetVal, undef,                                                                      'returning undef' );
 };
 
 subtest 'PrintError() ANSI=0' => sub {
@@ -126,9 +126,9 @@ subtest 'PrintError() ANSI=0' => sub {
         return $BaseCommand->PrintError(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
     };
 
-    is( $Out,    '',                                                                      'nothing printed on STDOUT' );
+    is( $Out,    '',                                                                'nothing printed on STDOUT' );
     is( $Error,  qq{Error: <green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n}, q{'Error:' added, color tags kept} );
-    is( $RetVal, undef,                                                                   'returning undef' );
+    is( $RetVal, undef,                                                             'returning undef' );
 };
 
 subtest 'PrintError() ANSI=1' => sub {
@@ -138,9 +138,9 @@ subtest 'PrintError() ANSI=1' => sub {
         return $BaseCommand->PrintError(q{<green>green 🌲</green> and <yellow>yellow 🌞</yellow>});
     };
 
-    is( $Out,    '',                                                                                    'nothing printed on STDOUT' );
+    is( $Out,    '',                                                                              'nothing printed on STDOUT' );
     is( $Error,  qq{${Red}Error: <green>green 🌲</green> and <yellow>yellow 🌞</yellow>\n${Reset}}, q{'Error:' added, color tags kept} );
-    is( $RetVal, undef,                                                                                 'returning undef' );
+    is( $RetVal, undef,                                                                           'returning undef' );
 };
 
 done_testing;

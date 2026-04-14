@@ -75,9 +75,9 @@ ok( $DBObject->Do( SQL => $CreateTableSQL ), 'table created' );
 
 # country translations, sorted by the English name
 my @Countries = (
-    [ 'Austria',  'Österreich', 'ඔස්ට්රියාව',    1 ],
+    [ 'Austria',  'Österreich',  'ඔස්ට්රියාව',  1 ],
     [ 'Colombia', 'Kolumbien',   'කොලොම්බියාව', 1 ],
-    [ 'Germany',  'Deutschland', 'ජර්මනිය',             1 ],
+    [ 'Germany',  'Deutschland', 'ජර්මනිය',     1 ],
 );
 
 # Insert the values.
@@ -95,7 +95,7 @@ is( $NumInserted, scalar(@Countries), 'insert countries with column bind' );
 
 # Add more countries with ArrayTupleFetch.
 my @MoreCountries = (
-    [ 'Malawi',    'Malawi',    'මලාවි',              1 ],
+    [ 'Malawi',    'Malawi',    'මලාවි',      1 ],
     [ 'Sri Lanka', 'Sri Lanka', 'ශ්රී ලංකාව', 1 ],
 );
 push @Countries, @MoreCountries;

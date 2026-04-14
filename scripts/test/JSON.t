@@ -616,7 +616,7 @@ subtest 'IsBool() for non-Booleans' => sub {
     is( $JSONObject->IsBool(2),     undef, 'integer 2' );
 
     # not sure why these return an empty string instead of undef
-    is( $JSONObject->IsBool('true'),                 '', 'string "true"' );
+    is( $JSONObject->IsBool('true'),               '', 'string "true"' );
     is( $JSONObject->IsBool('⊨ - U+022A8 - TRUE'), '', 'a string' );
 };
 
