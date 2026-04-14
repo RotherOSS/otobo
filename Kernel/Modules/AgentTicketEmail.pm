@@ -2224,13 +2224,6 @@ sub Run {
         if ( $ChangedElements{ServiceID} ) {
             $ChangedElements{CustomerUserID} = 1;
             $ChangedElements{CustomerID}     = 1;
-
-            if ( $GetParam{To} ) {
-                my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $CustomerUser,
-                );
-                $GetParam{CustomerID} = $CustomerData{CustomerID};
-            }
         }
         my %ChangedElementsDFStart = %ChangedElements;
         my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? %ChangedElements : ();

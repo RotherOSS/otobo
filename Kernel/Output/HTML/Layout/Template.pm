@@ -283,6 +283,7 @@ sub Output {
             $JSONString =~ s{<\/?script(?:\s.*?)?>}{}gmsi;
 
             $Output .= <<"END_HTML";
+
 <script type="text/javascript">//<![CDATA[
 "use strict";
 Core.Config.AddConfig($JSONString);

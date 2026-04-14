@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use List::Util qw(none);
 
 # CPAN modules
 use Mail::Address ();
@@ -777,6 +778,10 @@ sub _RenderAjax {
     my $Autoselect      = $ConfigObject->Get('TicketACL::Autoselect') || undef;
     my $LoopProtection  = 100;
     my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
+    if ( $ChangedElements{ServiceID} ) {
+        $ChangedElements{CustomerUserID} = 1;
+        $ChangedElements{CustomerID}     = 1;
+    }
 
     # get values and visibility of dynamic fields
     my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
@@ -2332,7 +2337,7 @@ sub _OutputActivityDialog {
         elsif ( $CurrentField eq 'PendingTime' ) {
 
             # PendingTime is just useful if we have State or StateID
-            if ( !grep {m{^(StateID|State)$}xms} @{ $ActivityDialog->{FieldOrder} } ) {
+            if ( none {m{^(StateID|State)$}xms} @{ $ActivityDialog->{FieldOrder} } ) {
                 my $Message = $LayoutObject->{LanguageObject}->Translate(
                     'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!',
                     $ActivityActivityDialog->{ActivityDialog},

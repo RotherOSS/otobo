@@ -3046,11 +3046,52 @@ This is used in auto completion when searching for possible object IDs.
 
     my @ObjectIDs = $BackendObject->SearchObjects(
         DynamicFieldConfig => $DynamicFieldConfig,
+        Term               => $Term,                # either Term or ObjectID is needed to search for
+        ObjectID           => 1234,                 # searching for a specific object id, e.g. for validation
+        MaxResults         => $MaxResults,
+        UserID             => $Self->{UserID},      # either UserID or CustomerUserID is mandatory
+        CustomerUserID     => $Self->{UserID},
+        ParamObject        => $ParamObject,         # either Object or ParamObject is needed for FieldRestrictions
+        Object             => {
+            # containing context data
+        }
+        ChangedElements    => {
+            CustomerID => 1,
+            # ...
+        }
+        LayoutObject       => $LayoutObject,
+    );
+
+The subroutine is called from two main paths with different parameter constellations.
+
+First: Rendering a reference drop-down field on a mask and / or recalculating possible values upon AJAX update.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        CustomerUser       => $Param{CustomerUser},         # optional, takes precedence over $Param{Object}{CustomerUserID}
+        UserID             => $Self->{UserID},
+        Object             => {
+            CustomerID     => $Param{CustomerID},
+            CustomerUserID => $Param{CustomerUser},
+        },
+        ChangedElements    => {                             # optional
+            CustomerID     => 1,
+            CustomerUserID => 1,
+            ServiceID      => 1,
+        }
+        LayoutObject       => $LayoutObject,
+    );
+
+Second: Searching for values for a reference auto-complete field via AgentReferenceSearch.
+
+    my @ObjectIDs = $BackendObject->SearchObjects(
+        DynamicFieldConfig => $DynamicFieldConfig,
         Term               => $Term,
         MaxResults         => $MaxResults,
-        UserID             => $Self->{UserID},
         ParamObject        => $ParamObject,
-        LayoutObject       => $LayoutObject,
+        CustomerUserID     => $Self->{UserID},      # customer interface
+                                                    # or
+        UserID             => $Self->{UserID},      # agent interface
     );
 
 =cut
@@ -3068,6 +3109,14 @@ sub SearchObjects {
 
             return;
         }
+    }
+    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need UserID or CustomerUserID!"
+        );
+
+        return;
     }
 
     # set the dynamic field specific backend

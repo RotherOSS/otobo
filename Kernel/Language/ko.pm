@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.82007745010426;
+    $Self->{Completeness}        = 0.819997019818209;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3283,8 +3283,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => '에러 발생됨',
-        'Error Details' => '오류 정보',
-        'Traceback' => '역 추적',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3401,7 +3399,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => 'bugreport 보내기',
-        'Expand' => '넓히다',
 
         # Template: Footer
         'Powered by %s' => '',
@@ -5966,8 +5963,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => '',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            '',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             '',
 
@@ -10014,6 +10009,8 @@ Thanks for your help!
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '에이전트가 티켓을 만들 때 티켓이 에이전트에 자동으로 잠겨있는지 여부.',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '티켓이 병합되면 더이상 활성화되지 않은 티켓에 자동으로 노트가 추가됩니다. 여기에서 이 메모의 본문을 정의할 수 있습니다. (이 텍스트는 상담원이 변경할 수 없습니다)',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

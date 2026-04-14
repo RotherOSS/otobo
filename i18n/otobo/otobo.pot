@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-03-31 09:25+0000\n"
+"POT-Creation-Date: 2026-04-14 07:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9654,14 +9654,6 @@ msgstr ""
 msgid "An Error Occurred"
 msgstr ""
 
-#. Template: CustomerError
-msgid "Error Details"
-msgstr ""
-
-#. Template: CustomerError
-msgid "Traceback"
-msgstr ""
-
 #. Template: CustomerFooterJS
 msgid "%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own."
 msgstr ""
@@ -9952,10 +9944,6 @@ msgstr ""
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr ""
-
-#. Template: Error
-msgid "Expand"
 msgstr ""
 
 #. Template: Footer
@@ -16580,10 +16568,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-msgid "CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -26751,6 +26735,10 @@ msgstr ""
 
 #. SysConfig
 msgid "When agent creates a ticket, whether or not the ticket is automatically locked to the agent."
+msgstr ""
+
+#. SysConfig
+msgid "When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType=\"Password\" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data."
 msgstr ""
 
 #. SysConfig

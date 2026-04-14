@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.911528150134048;
+    $Self->{Completeness}        = 0.911339591715095;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3289,8 +3289,6 @@ sub Data {
 
         # Template: CustomerError
         'An Error Occurred' => '发生了一个错误',
-        'Error Details' => '详细错误信息',
-        'Traceback' => '追溯',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -3407,7 +3405,6 @@ sub Data {
 
         # Template: Error
         'Send a bugreport' => '发送一个BUG报告',
-        'Expand' => '展开',
 
         # Template: Footer
         'Powered by %s' => '由%s驱动',
@@ -5972,8 +5969,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => 'Perl 模块 Audit',
-        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            'CPAN::Audit 报告一个或多个已安装的 Perl 模块是否存在已知漏洞。 请注意，在不更改版本号的情况下修补Perl模块的发行版可能存在误报。',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
             '在已安装的Perl模块中 CPAN::Audit 未报告出任何已知漏洞。',
 
@@ -10018,6 +10013,8 @@ Thanks for your help!
             '仪表板开头的欢迎语。名称将插入到WelcomeText的％s中。 “ UserTitle”，“ UserFirstname”，“ UserLastname”，“ UserEmail”和“ UserLogin”将被替换。',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '服务人员创建工单时，工单是否被自动锁定到该服务人员。',
+        'When support data is collected via SupportDataCollector, certain SysConfig values marked with ValueType="Password" are automatically masked. This prevents passwords from appearing in plain text in the support data. This setting defines the settings that contain complex configuration hashes that should not be masked when generating the support data.' =>
+            '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '工单被合并时，自动添加一个备注到不再活动的工单，您可以在这里定义这个备注的正文（这个文本不能被服务人员修改）。',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
