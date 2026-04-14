@@ -15,9 +15,7 @@
 # --
 [% RenderBlockStart("rw:Service") %]
 <div class="Row">
-    <div class="Field">
-        [% Data.Content %]
-    </div>
+    [% Data.Content %]
 [% RenderBlockStart("rw:Service:DescriptionLong") %]
     <div class="Tooltip oooTooltip">
         <i class="ooofo ooofo-help"></i>
