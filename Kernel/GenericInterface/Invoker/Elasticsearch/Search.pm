@@ -131,6 +131,7 @@ sub PrepareRequest {
     if ( $Param{Data}{From} ) {
         $SearchQuery{from} = $Param{Data}{From};
     }
+
     # sort the results
     if ( $Param{Data}{Sort} ) {
         $SearchQuery{sort} = $Param{Data}{Sort};
@@ -175,8 +176,8 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( !$Param{ResponseSuccess} ) {
         return {
-            Success      => 0,
-            Data         => {
+            Success => 0,
+            Data    => {
                 Records => [],
                 Total   => 0,
             },
@@ -208,7 +209,7 @@ sub AssessResponse {
 
     my ( $RestClient, $ErrorMessage ) = @Param{qw(RestClient ErrorMessage)};
 
-    my $JSONObject      = $Kernel::OM->Get('Kernel::System::JSON');
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     my $ResponseContent = $RestClient->responseContent;
     my $Content         = $JSONObject->Decode(
@@ -217,20 +218,20 @@ sub AssessResponse {
 
     if ( defined $Content && ref $Content eq 'HASH' ) {
 
-        if($Content && $Content->{error} && $Content->{error}->{root_cause}) {
+        if ( $Content && $Content->{error} && $Content->{error}->{root_cause} ) {
 
             my @RootCause = $Content->{error}->{root_cause}->@*;
 
-            if( scalar @RootCause) {
+            if ( scalar @RootCause ) {
 
                 my $Cause  = $RootCause[0];
                 my $Reason = $Cause->{reason};
 
-                if( $Reason =~/Failed to parse query/ ) {
+                if ( $Reason =~ /Failed to parse query/ ) {
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
-                        Message  => "Elasticsearch Parsing Error: ".$Reason,
+                        Message  => "Elasticsearch Parsing Error: " . $Reason,
                     );
                     return;
                 }
@@ -254,16 +255,15 @@ sub AssessResponse {
         $ResponseError .= ' No content provided.';
     }
 
-    if($ResponseError) {
+    if ($ResponseError) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => "Elasticsearch Error: ".$ResponseError,
+            Message  => "Elasticsearch Error: " . $ResponseError,
         );
     }
 
     return $ResponseError;
 }
-
 
 1;

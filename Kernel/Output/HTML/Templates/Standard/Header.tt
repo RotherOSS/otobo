@@ -74,7 +74,7 @@
                         <div>
                             <i title="[% Translate("close") | html %]" id="closeESQuickHelp" class="fa fa-times"></i>
                         </div>
-                        <h3><b>[% Translate("Easticsearch Quick Help") | html %]</b></h3>
+                        <h3><b>[% Translate("Elasticsearch Quick Help") | html %]</b></h3>
                         <p>
                         [% Translate("You can use Extended Search syntax:") | html %]
                         </p>

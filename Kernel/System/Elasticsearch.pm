@@ -419,7 +419,6 @@ sub TicketSearch {
             Message  => "Elasticsearch [ticket] Query: " . $Query
         );
 
-
         # add queue restrictions
         push @Musts, {
             query_string => {
@@ -468,7 +467,7 @@ sub TicketSearch {
             Limit     => $Limit,
             Return    => $Return,
             Sort      => \@Sort,
-            From => $From,
+            From      => $From,
         }
     );
 
@@ -481,7 +480,6 @@ sub TicketSearch {
     );
 
     # convert the Elasticsearch return to the needed OTRS structure and return
-
 
     if ( $ResultType eq 'HASH' ) {
 
@@ -533,9 +531,9 @@ sub TicketSearch {
 
 sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType     = $Param{Result}  || 'ARRAY';
+    my $Limit          = $Param{Limit}   || 10000;
     my $From           = $Param{From}    || 0;
     my $SortBy         = $Param{SortBy}  || 'CustomerID';
     my $OrderBy        = $Param{OrderBy} || 'asc';
@@ -562,7 +560,7 @@ sub CustomerCompanySearch {
         push @Musts, {
             query_string => {
                 fields => $FulltextFields,
-                query => $Param{Fulltext},
+                query  => $Param{Fulltext},
             },
         };
     }
@@ -580,13 +578,12 @@ sub CustomerCompanySearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
-            From => $From,
-            Sort => [
+            From      => $From,
+            Sort      => [
                 { $SortBy => $OrderBy }
             ]
         }
     );
-
 
     my $Total   = $Result->{Data}->{Total};
     my $Records = $Result->{Data}->{Records};
@@ -607,9 +604,9 @@ sub CustomerCompanySearch {
 
 sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType     = $Param{Result}  || 'ARRAY';
+    my $Limit          = $Param{Limit}   || 10000;
     my $From           = $Param{From}    || 0;
     my $SortBy         = $Param{SortBy}  || 'UserLogin';
     my $OrderBy        = $Param{OrderBy} || 'asc';
@@ -636,7 +633,7 @@ sub CustomerUserSearch {
         push @Musts, {
             query_string => {
                 fields => $FulltextFields,
-                query => $Param{Fulltext},
+                query  => $Param{Fulltext},
             },
         };
     }
@@ -654,13 +651,12 @@ sub CustomerUserSearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
-            From => $From,
-            Sort => [
+            From      => $From,
+            Sort      => [
                 { $SortBy => $OrderBy }
             ]
         }
     );
-
 
     my $Total   = $Result->{Data}->{Total};
     my $Records = $Result->{Data}->{Records};
@@ -708,10 +704,10 @@ Performs a config item search via Elasticsearch.
 
 sub ConfigItemSearch {
     my ( $Self, %Param ) = @_;
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
-    my $From           = $Param{From} || 0;
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType     = $Param{Result} || 'ARRAY';
+    my $Limit          = $Param{Limit}  || 10000;
+    my $From           = $Param{From}   || 0;
     my $ExtendedSearch = $Param{ExtendedSearch} // 1;
 
     # check required params
@@ -803,7 +799,7 @@ sub ConfigItemSearch {
         push @Musts, {
             query_string => {
                 fields => \@SearchFields,
-                query => $Param{Fulltext},
+                query  => $Param{Fulltext},
             },
         };
     }
@@ -821,7 +817,7 @@ sub ConfigItemSearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
-            From => $From,
+            From      => $From,
         }
     );
 
@@ -1048,7 +1044,6 @@ sub ConfigItemCreate {
     return 1;
 
 }
-
 
 =head2 FAQCreate()
 
@@ -1307,7 +1302,7 @@ sub FAQSearch {
         push @Musts, {
             query_string => {
                 fields => \@SearchFields,
-                query => $Param{Fulltext},
+                query  => $Param{Fulltext},
             },
         };
     }
@@ -1325,10 +1320,9 @@ sub FAQSearch {
             Filter    => \@Filters,
             Limit     => $Limit,
             Return    => $Return,
-            From => $From,
+            From      => $From,
         }
     );
-
 
     my $Total   = $Result->{Data}->{Total};
     my $Records = $Result->{Data}->{Records};
@@ -1928,7 +1922,7 @@ sub _AugmentCustomerUserSearchQueryString {
     my $SearchFields   = $Param{SearchFields};
     my $ExtendedSearch = $Param{ExtendedSearch};
 
-    if ( $ExtendedSearch &&  $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
+    if ( $ExtendedSearch && $Self->_IsUsingExtendedSearchSyntax( Query => $Query ) ) {
 
         # Allow to drop the "User" prefix from search
         # fields, for example Email instead of UserEmail

@@ -112,7 +112,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }
         });
 
-        $('#ESQUickHelp').click( function(e) {
+        $('#ESQUickHelp').click( function() {
 
             var isVisible = $('#ESQuickHelpPopup').css('display') == 'block';
 
@@ -124,7 +124,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }
         });
 
-        $('#closeESQuickHelp').click( function(e) {
+        $('#closeESQuickHelp').click( function() {
 
             $('#ESQuickHelpPopup').css('display','none');
         });
@@ -193,15 +193,17 @@ Core.UI.Elasticsearch = (function (TargetNS) {
     function OpenDialog( Response ) {
 
         var CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+        var HTML;
+        var DialogOptions;
 
         // define and open the dialog for the customer interface
         if ( CustomerInterface ) {
             var MinWidth      = $(window).width() > 767 ? '400px' : '320px';
             var Fullsize      = $(window).width() > 767 ? '' : 'width: 100vw;';
-            var HTML          = "<div id='oooESOuter' style='" + Fullsize + "min-width: " + MinWidth + "'>" + Response + "</div>";
+            HTML              = "<div id='oooESOuter' style='" + Fullsize + "min-width: " + MinWidth + "'>" + Response + "</div>";
             var PosRight      = $(window).width() > 767 ? '120px' : '0px';
             var PosTop        = $(window).width() > 767 ? '120px' : '192px';
-            var DialogOptions = {
+            DialogOptions = {
                 HTML: HTML,
                 Title: Core.Language.Translate('Results'),
                 PositionTop: PosTop,
@@ -223,8 +225,8 @@ Core.UI.Elasticsearch = (function (TargetNS) {
 
         // define and open the dialog for the agent interface
         else {
-            var HTML          = "<div id='oooESOuter' style='min-width: 500px'>" + Response + "</div>";
-            var DialogOptions = {
+            HTML          = "<div id='oooESOuter' style='min-width: 500px'>" + Response + "</div>";
+            DialogOptions = {
                 HTML: HTML,
                 Title: Core.Language.Translate('Results'),
                 PositionTop: '100px',

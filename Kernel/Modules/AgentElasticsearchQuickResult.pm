@@ -62,10 +62,10 @@ sub Run {
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
     my $ESObject              = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
-    if ( $Self->{Subaction} eq 'ViewDocs') {
+    if ( $Self->{Subaction} eq 'ViewDocs' ) {
 
-        my $File = file($ConfigObject->Get('Home').'/doc/en/Elasticsearch-Extension.pdf');
-        my $Pdf  = $File->slurp(iomode => '<:raw');
+        my $File = file( $ConfigObject->Get('Home') . '/doc/en/Elasticsearch-Extension.pdf' );
+        my $Pdf  = $File->slurp( iomode => '<:raw' );
 
         return $LayoutObject->Attachment(
             Filename    => "doc/en/Elasticsearch-ExtendedSearch.pdf",
