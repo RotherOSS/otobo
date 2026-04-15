@@ -368,8 +368,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 ],
                 colorPicker: {
-				    format: 'hex'
-			    }
+                    format: 'hex'
+                }
             },
             fontBackgroundColor: {
                 colors: [
@@ -436,12 +436,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 ],
                 colorPicker: {
-				    format: 'hex'
-			    }
+                    format: 'hex'
+                }
             },
             translations: [
                 CKEditor5CoreTranslations,
-            ]            
+            ]
         })
             .then(editor => {
                 /* Generate ID for current Editor */
