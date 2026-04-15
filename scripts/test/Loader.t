@@ -41,14 +41,6 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
 my $Home = $ConfigObject->Get('Home');
 
 subtest 'MinifyCSS' => sub {
