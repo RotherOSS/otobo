@@ -105,7 +105,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // Common editor label
         //  use wildcard to include "RichText<ActivityDialogID>"
-        const RichTextLabel = $('label[for^="RichText"]');
+        const RichTextLabel = $EditorArea.parent().find('label[for^="RichText"]');
 
         var ToolbarConfig;
         if ( CustomerInterface ) {
