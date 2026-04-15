@@ -32,8 +32,8 @@ jobs:
       otobo_web_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_10_1_autobuild }}
       otobo_web_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_web_latest_11_0_autobuild }}
 
-      otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
-      otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
+      #otobo_elasticsearch_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_10_1_autobuild }}
+      #otobo_elasticsearch_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_elasticsearch_latest_11_0_autobuild }}
 
       otobo_nginx_webproxy_latest_10_1_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_10_1_autobuild }}
       otobo_nginx_webproxy_latest_11_0_autobuild: ${{ steps.collect_summary.outputs.otobo_nginx_webproxy_latest_11_0_autobuild }}
@@ -49,7 +49,8 @@ jobs:
       # note that there is no release build for the otobo-web-kerberos target
       # this currently has to be updated every release
       matrix:
-        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
+        #target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', 'otobo-elasticsearch', ]
+        target: [ 'otobo-web', 'otobo-nginx-webproxy', 'otobo-nginx-kerberos-webproxy', 'otobo-selenium-chrome', ]
         docker_tag: [
           'latest-10_1-autobuild',
           'latest-11_0-autobuild'
@@ -116,14 +117,15 @@ jobs:
             docker_tag: 'latest-10_1-autobuild'
             base_image: 'selenium/standalone-chrome-debug:3.141.59-20210422'
 
-          # The autobuild image for elastic has been reenables for OTOBO 10.1.17 and 11.0.16
+          # TODO: reenable elasic after Release of OTOBO 10.1.17
+          # The autobuild image for elastic has been reenabled for OTOBO 10.1.17 and 11.0.16
           # as the base image is now also retrieved from Docker Hub.
-          -
-            target:     'otobo-elasticsearch'
-            dockerfile: 'otobo.elasticsearch.dockerfile'
-            context:    'scripts/elasticsearch'
-            repository: 'rotheross/otobo-elasticsearch'
-            base_image: 'elasticsearch:8.19.3'
+          #-
+          #  target:     'otobo-elasticsearch'
+          #  dockerfile: 'otobo.elasticsearch.dockerfile'
+          #  context:    'scripts/elasticsearch'
+          #  repository: 'rotheross/otobo-elasticsearch'
+          #  base_image: 'elasticsearch:8.19.3'
 
     steps:
 
