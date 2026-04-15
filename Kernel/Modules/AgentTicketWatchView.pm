@@ -109,7 +109,7 @@ sub Run {
                 $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
             }
             else {
-                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+                $FilterValue = join( ',', @{ $StoredFilters->{ $ColumnName . 'IDs' } || [] } ) || '';
             }
         }
         next COLUMNNAME if $FilterValue eq '';
@@ -126,7 +126,8 @@ sub Run {
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
         else {
-            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            my @FilterValue = split( /,/, $FilterValue );
+            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, @FilterValue;
             $GetColumnFilter{$ColumnName} = $FilterValue;
         }
     }
@@ -156,8 +157,16 @@ sub Run {
         next DYNAMICFIELD if $FilterValue eq '';
         next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
 
+        my @FilterValue;
+        if ( ref $FilterValue eq 'ARRAY' ) {
+            @FilterValue = $FilterValue->@*;
+        }
+        else {
+            @FilterValue = split( /,/, $FilterValue );
+        }
+
         $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
-            Equals => $FilterValue,
+            Equals => \@FilterValue,
         };
         $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
     }
