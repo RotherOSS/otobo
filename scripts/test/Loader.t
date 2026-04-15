@@ -84,6 +84,13 @@ subtest 'MinifyCSS' => sub {
         Type     => 'CSS',
     );
     TextEqOrDiff( $MinifiedCSSFileCached, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
+
+    # No second minification is attempted. This means that the trailing newline is not dropped.
+    my $TwiceMinifiedCSSFile = $LoaderObject->GetMinifiedFile(
+        Location => $SampleMinifiedCSSFile,
+        Type     => 'CSS',
+    );
+    TextEqOrDiff( $TwiceMinifiedCSSFile, $ExpectedCSS . "\n", 'GetMinifiedFile() for CSS, already minified' );
 };
 
 subtest 'MinifyJavaScript' => sub {
@@ -125,6 +132,13 @@ subtest 'MinifyJavaScript' => sub {
         Type     => 'JavaScript',
     );
     TextEqOrDiff( $MinifiedJSFileCached, $ExpectedJS, 'GetMinifiedFile() for JavaScript, with cache' );
+
+    # No second minification is attempted. This means that the trailing newline is not dropped.
+    my $TwiceMinifiedJSFile = $LoaderObject->GetMinifiedFile(
+        Location => $SampleMinifiedJSFile,
+        Type     => 'JavaScript',
+    );
+    TextEqOrDiff( $TwiceMinifiedJSFile, $ExpectedJS . "\n", 'GetMinifiedFile() for JavaScript, already minified' );
 };
 
 subtest 'MinifyFiles' => sub {
