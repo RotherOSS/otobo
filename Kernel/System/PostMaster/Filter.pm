@@ -414,20 +414,22 @@ sub FilterGet {
 
     # ensure that body statements are listed at the very end of matching conditions
     #   for performance reasons
-    if ( IsArrayRefWithData( $Data{Match} ) ) {
+    for my $DataKey (qw(Match Not)) {
+        if ( IsArrayRefWithData( $Data{$DataKey} ) ) {
 
-        # using auxiliary arrays to maintain initial order between the items
-        my @OtherItems;
-        my @BodyItems;
-        for my $Item ( $Data{Match}->@* ) {
-            if ( $Item->{Key} eq 'Body' ) {
-                push @BodyItems, $Item;
+            # using auxiliary arrays to maintain initial order between the items
+            my @OtherItems;
+            my @BodyItems;
+            for my $Item ( $Data{$DataKey}->@* ) {
+                if ( $Item->{Key} eq 'Body' ) {
+                    push @BodyItems, $Item;
+                }
+                else {
+                    push @OtherItems, $Item;
+                }
             }
-            else {
-                push @OtherItems, $Item;
-            }
+            $Data{$DataKey} = [ @OtherItems, @BodyItems ];
         }
-        $Data{Match} = [ @OtherItems, @BodyItems ];
     }
 
     return %Data;
