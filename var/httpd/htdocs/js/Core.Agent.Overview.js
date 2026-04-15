@@ -276,6 +276,8 @@ Core.Agent.Overview = (function (TargetNS) {
                 });
             }
 
+            Core.UI.InputFields.InitSelect($('select.ColumnFilter'));
+
             return false;
         });
 
