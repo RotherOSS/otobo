@@ -86,10 +86,6 @@ sub Run {
             Name   => 'Update MultiValue attribute of Lens dynamic fields',
             Module => 'UpdateLensDynamicFieldsMultiValue',
         },
-        {
-            Name   => 'Add FAQ invokers to the Elasticsearch webservice',
-            Module => 'AddFAQInvokers',
-        },
     );
     my $NumTasks = @Tasks;
     my $Count    = 1;
