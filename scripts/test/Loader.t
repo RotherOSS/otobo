@@ -52,15 +52,16 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $Home = $ConfigObject->Get('Home');
 
 subtest 'MinifyCSS' => sub {
+    my $SampleCSSFile         = "$Home/scripts/test/sample/Loader/OTOBO.Reset.css";
+    my $SampleMinifiedCSSFile = "$Home/scripts/test/sample/Loader/OTOBO.Reset.min.css";
+
     my $CSS = $MainObject->FileRead(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
-    );
-    $CSS = $CSS->$*;
+        Location => $SampleCSSFile,
+    )->$*;
 
     my $ExpectedCSS = $MainObject->FileRead(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.min.css",
-    );
-    $ExpectedCSS = $ExpectedCSS->$*;
+        Location => $SampleMinifiedCSSFile,
+    )->$*;
     chomp $ExpectedCSS;
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
@@ -73,24 +74,24 @@ subtest 'MinifyCSS' => sub {
     );
 
     my $MinifiedCSSFile = $LoaderObject->GetMinifiedFile(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
+        Location => $SampleCSSFile,
         Type     => 'CSS',
     );
+    TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
 
     my $MinifiedCSSFileCached = $LoaderObject->GetMinifiedFile(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
+        Location => $SampleCSSFile,
         Type     => 'CSS',
     );
-
-    TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
-    TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
+    TextEqOrDiff( $MinifiedCSSFileCached, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
 };
 
 subtest 'MinifyJavaScript' => sub {
-    my $JavaScript = $MainObject->FileRead(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js",
-    );
-    $JavaScript = $JavaScript->$*;
+    my $SampleJSFile         = "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js";
+    my $SampleMinifiedJSFile = "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.min.js";
+    my $JavaScript           = $MainObject->FileRead(
+        Location => $SampleJSFile,
+    )->$*;
 
     # make sure line endings are standardized
     $JavaScript =~ s{\r\n}{\n}xmsg;
@@ -98,13 +99,32 @@ subtest 'MinifyJavaScript' => sub {
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
     my $ExpectedJS = $MainObject->FileRead(
-        Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.min.js",
-    );
-    $ExpectedJS = $ExpectedJS->$*;
+        Location => $SampleMinifiedJSFile,
+    )->$*;
+
+    # make sure line endings are standardized
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+
     chomp $ExpectedJS;    # newline after the last line
 
     TextEqOrDiff( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
+
+    # empty cache
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Loader',
+    );
+
+    my $MinifiedJSFile = $LoaderObject->GetMinifiedFile(
+        Location => $SampleJSFile,
+        Type     => 'JavaScript',
+    );
+    TextEqOrDiff( $MinifiedJSFile, $ExpectedJS, 'GetMinifiedFile() for JavaScript, no cache' );
+
+    my $MinifiedJSFileCached = $LoaderObject->GetMinifiedFile(
+        Location => $SampleJSFile,
+        Type     => 'JavaScript',
+    );
+    TextEqOrDiff( $MinifiedJSFileCached, $ExpectedJS, 'GetMinifiedFile() for JavaScript, with cache' );
 };
 
 subtest 'MinifyFiles' => sub {
@@ -115,7 +135,7 @@ subtest 'MinifyFiles' => sub {
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
 
-    ok( $MinifiedJSFilename, 'MinifyFiles() - no cache' );
+    ok( $MinifiedJSFilename, 'no cache' );
 
     # minify the same files a second time
     my $MinifiedJSFilename2 = $LoaderObject->MinifyFiles(
@@ -124,8 +144,8 @@ subtest 'MinifyFiles' => sub {
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
 
-    ok( $MinifiedJSFilename2, 'MinifyFiles() - with cache' );
-    is( $MinifiedJSFilename, $MinifiedJSFilename2, 'MinifyFiles() - compare cache and no cache' );
+    ok( $MinifiedJSFilename2, 'with cache' );
+    is( $MinifiedJSFilename, $MinifiedJSFilename2, 'compare cache and no cache' );
 
     my $Location = $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename";
 
@@ -152,7 +172,7 @@ subtest 'MinifyFiles' => sub {
     $Expected =~ s{\r\n}{\n}xmsg;
     $Expected =~ s{\n$}{};          # newline after the last line
 
-    TextEqOrDiff( $MinifiedJS, $Expected, 'MinifyFiles() result content' );
+    TextEqOrDiff( $MinifiedJS, $Expected, 'result content' );
 
     $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
