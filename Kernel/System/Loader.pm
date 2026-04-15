@@ -380,7 +380,7 @@ sub GetMinifiedFile {
             $Result = $FileContents->$*;
         }
         else {
-            $Result = $Self->MinifyCSS( Code => $$FileContents );
+            $Result = $Self->MinifyCSS( Code => $FileContents->$* );
         }
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
@@ -388,7 +388,7 @@ sub GetMinifiedFile {
             $Result = $FileContents->$*;
         }
         else {
-            $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+            $Result = $Self->MinifyJavaScript( Code => $FileContents->$* );
         }
     }
 
