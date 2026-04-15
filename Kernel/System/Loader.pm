@@ -16,9 +16,9 @@
 
 package Kernel::System::Loader;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -309,6 +309,10 @@ Uses caching internally.
         Type     => 'CSS',      # CSS | JavaScript
     );
 
+When a file appears to already be a minified file then there is no attempt
+to reduce the file size a second time. A file is assumed to be already minified
+when it ends in F<.min.css> or F<.min.js> respectively.
+
 Warning: this function may cause a die() if there are errors in the file,
 protect against that with eval().
 
@@ -372,10 +376,20 @@ sub GetMinifiedFile {
 
     my $Result;
     if ( $Param{Type} eq 'CSS' ) {
-        $Result = $Self->MinifyCSS( Code => $$FileContents );
+        if ( $Location =~ m/\.min\.css$/ ) {
+            $Result = $FileContents->$*;
+        }
+        else {
+            $Result = $Self->MinifyCSS( Code => $$FileContents );
+        }
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
-        $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+        if ( $Location =~ m/\.min\.js$/ ) {
+            $Result = $FileContents->$*;
+        }
+        else {
+            $Result = $Self->MinifyJavaScript( Code => $$FileContents );
+        }
     }
 
     # and put it in the cache
