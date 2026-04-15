@@ -145,7 +145,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             if (Plugin) {
                 EnabledPlugins.push(CKEditor5Plugins[pluginName]);
             } else {
-                Core.Exception.ShowError('Couldnt find plugin: ' + pluginName, 'JavaScriptError');
+                Core.Exception.ShowError('Couldn\'t find plugin: ' + pluginName, 'JavaScriptError');
             }
         }
 
@@ -369,8 +369,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 ],
                 colorPicker: {
-				    format: 'hex'
-			    }
+                    format: 'hex'
+                }
             },
             fontBackgroundColor: {
                 colors: [
@@ -437,12 +437,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 ],
                 colorPicker: {
-				    format: 'hex'
-			    }
+                    format: 'hex'
+                }
             },
             translations: [
                 CKEditor5CoreTranslations,
-            ]            
+            ]
         })
             .then(editor => {
                 /* Generate ID for current Editor */
@@ -570,7 +570,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 Core.App.Publish('Event.UI.RichTextEditor.InstanceCreated', [editor]);
 
-                // workaround for ckeditor not using data filter correctly on prefilled content
+                // workaround for ckeditor not using data filter correctly on pre-filled content
                 if (editor.ElementId == 'RichText') {
                     editor.setData(editor.sourceElement.innerText);
                 }
@@ -588,7 +588,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }, 500);
                 });
 
-                editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
+                editor.ui.focusTracker.on('change:isFocused', (_evt, _name, isFocused) => {
                     if (!isFocused) {
                         $("#" + $EditorArea.attr('id')).val(editor.getData());
 
@@ -677,7 +677,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      * @name GetRTE
      * @memberof Core.UI.RichTextEditor
      * @function
-     * @returns {jQueryObject} jQuery object of the corresponsing RTE element.
+     * @returns {jQueryObject} jQuery object of the corresponding RTE element.
      * @param {jQueryObject} $EditorArea - The jQuery object of the element that is a rich text editor.
      * @description
      *      Get RTE jQuery element.
