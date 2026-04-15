@@ -355,8 +355,8 @@ td.Attachment {
     background-position: left bottom;
 }
 
-.TableSmall thead a,
-.TableSmall thead span {
+.TableSmall thead tr th > a,
+.TableSmall thead tr th > span {
     margin: 0 2px 1px 1px;
     padding: 0 10px;
     color: var(--colTextMedium);
@@ -368,8 +368,8 @@ td.Attachment {
     white-space: nowrap;
 }
 
-.RTL .TableSmall thead a,
-.RTL .TableSmall thead span {
+.RTL .TableSmall thead tr th > a,
+.RTL .TableSmall thead tr th > span {
     margin: 0 1px 1px 2px;
 }
 
@@ -801,7 +801,7 @@ thead .tablesorter-headerAsc > div.tablesorter-header-inner > a:before {
     position: absolute;
     right: 0px;
     top: 2px;
-    width: 180px;
+    width: 308px;
     z-index: 100;
 }
 
