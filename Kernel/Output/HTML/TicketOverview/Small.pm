@@ -1923,7 +1923,7 @@ sub _InitialColumnFilter {
         Class       => 'Modernize ' . $Class,
         Translation => $TranslationOption,
         SelectedID  => '',
-        Multiple    => 1,
+        Multiple    => $Param{ColumnName} eq 'CustomerID' ? 0 : 1,
     );
     return $ColumnFilterHTML;
 }
