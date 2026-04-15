@@ -65,7 +65,6 @@ sub Run {
     my $Count         = $SearchObjects->{Ticket} ? $SearchObjects->{Ticket}{Count} : 0;
     my $ESStrLength   = length $ParamObject->GetParam( Param => 'FulltextES' );
 
-
     # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
     if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 && $Count ) {
 
@@ -74,20 +73,20 @@ sub Run {
         );
 
         # check whether FAQ is installed
-        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-        my $FAQIsInstalled   = $PackageObject->PackageIsInstalled(
+        my $PackageObject  = $Kernel::OM->Get('Kernel::System::Package');
+        my $FAQIsInstalled = $PackageObject->PackageIsInstalled(
             Name => 'FAQ',
         );
 
-        if ( $FAQIsInstalled && $Url =~ /Action=CustomerFAQ/) {
+        if ( $FAQIsInstalled && $Url =~ /Action=CustomerFAQ/ ) {
 
             # Search FAQ by ES sort by Number. Show $Size results.
             my $SearchResult = $ESObject->FAQSearch(
-                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                UserID    => $Self->{UserID},
-                UserLogin => $Self->{UserLogin},
-                Limit     => $Count,
-                Result    => 'FULL',
+                Fulltext       => $ParamObject->GetParam( Param => 'FulltextES' ),
+                UserID         => $Self->{UserID},
+                UserLogin      => $Self->{UserLogin},
+                Limit          => $Count,
+                Result         => 'FULL',
                 ExtendedSearch => 0,
             );
             my @FAQIDs = $SearchResult->{Data}->@*;
