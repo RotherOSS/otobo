@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -51,7 +51,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $ConfigObject->Get('Home');
 
-{
+subtest 'MinifyCSS' => sub {
     my $CSS = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
     );
@@ -84,9 +84,9 @@ my $Home = $ConfigObject->Get('Home');
 
     TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
     TextEqOrDiff( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
-}
+};
 
-{
+subtest 'MinifyJavaScript' => sub {
     my $JavaScript = $MainObject->FileRead(
         Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js",
     );
@@ -105,9 +105,9 @@ my $Home = $ConfigObject->Get('Home');
     chomp $ExpectedJS;    # newline after the last line
 
     TextEqOrDiff( $MinifiedJS, $ExpectedJS, 'MinifyJavaScript()' );
-}
+};
 
-{
+subtest 'MinifyFiles' => sub {
     my @List               = map {"$Home/scripts/test/sample/Loader/OTOBO.Agent.App.$_.js"} qw(Login Dashboard);
     my $MinifiedJSFilename = $LoaderObject->MinifyFiles(
         List            => \@List,
@@ -157,24 +157,26 @@ my $Home = $ConfigObject->Get('Home');
     $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
     );
-}
+};
 
-my @JSTests = (
+subtest 'specific JavaScript minification' => sub {
+    my @JSTests = (
 
-    # this next test shows a case where the minification currently only works with
-    # parents around the regular expression. Without them, CSS::Minifier (currently 1.05) will die.
-    {
-        Source => 'function test(s) { return (/\d{1,2}/).test(s); }',
-        Result => 'function test(s){return(/\d{1,2}/).test(s);}',
-        Name   => 'Regexp minification',
-    }
-);
-
-for my $Test (@JSTests) {
-    my $Result = $LoaderObject->MinifyJavaScript(
-        Code => $Test->{Source},
+        # this next test shows a case where the minification currently only works with
+        # parents around the regular expression. Without them, CSS::Minifier (currently 1.05) will die.
+        {
+            Source => 'function test(s) { return (/\d{1,2}/).test(s); }',
+            Result => 'function test(s){return(/\d{1,2}/).test(s);}',
+            Name   => 'Regexp minification',
+        }
     );
-    TextEqOrDiff( $Result, $Test->{Result}, $Test->{Name} );
-}
+
+    for my $Test (@JSTests) {
+        my $Result = $LoaderObject->MinifyJavaScript(
+            Code => $Test->{Source},
+        );
+        TextEqOrDiff( $Result, $Test->{Result}, $Test->{Name} );
+    }
+};
 
 done_testing;
