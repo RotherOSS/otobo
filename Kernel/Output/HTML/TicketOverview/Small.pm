@@ -1920,9 +1920,10 @@ sub _InitialColumnFilter {
     my $ColumnFilterHTML = $LayoutObject->BuildSelection(
         Name        => 'ColumnFilter' . $Param{ColumnName},
         Data        => $Data,
-        Class       => $Class,
+        Class       => 'Modernize ' . $Class,
         Translation => $TranslationOption,
         SelectedID  => '',
+        Multiple    => 1,
     );
     return $ColumnFilterHTML;
 }
@@ -1974,7 +1975,7 @@ sub FilterContent {
     if ( $SelectedColumn && $Self->{StoredFilters}->{$SelectedColumn} ) {
 
         if ( IsArrayRefWithData( $Self->{StoredFilters}->{$SelectedColumn} ) ) {
-            $SelectedValue = $Self->{StoredFilters}->{$SelectedColumn}->[0];
+            $SelectedValue = $Self->{StoredFilters}->{$SelectedColumn};
         }
         elsif ( IsHashRefWithData( $Self->{StoredFilters}->{$SelectedColumn} ) ) {
             $SelectedValue = $Self->{StoredFilters}->{$SelectedColumn}->{Equals};
