@@ -19,6 +19,12 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our @ObjectDependencies = (
@@ -173,7 +179,7 @@ sub FilterList {
                     # skip if search filter or search value does not match
                     for my $SearchRestriction (qw(SearchFilter SearchValue)) {
                         if ( $Param{$SearchRestriction}->@* ) {
-                            if ( !grep { $_ eq $FilterData{Key} } $Param{$SearchRestriction}->@* ) {
+                            if ( none { $_ eq $FilterData{Key} } $Param{$SearchRestriction}->@* ) {
                                 next FILTERATTRIBUTE;
                             }
                         }
