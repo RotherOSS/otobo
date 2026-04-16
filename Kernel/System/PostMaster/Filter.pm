@@ -16,6 +16,8 @@
 
 package Kernel::System::PostMaster::Filter;
 
+# for indented heredoc
+use v5.26;
 use strict;
 use warnings;
 
@@ -392,18 +394,26 @@ sub FilterGet {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL =>
-            'SELECT f_type, f_key, f_value, f_name, valid_id, f_stop, f_not,'
-
-            # ensure that body statements are listed at the very end of matching conditions
-            #   for performance reasons
-            . ' CASE'
-            . ' WHEN f_key = \'Body\' THEN 1'
-            . ' ELSE 0'
-            . ' END AS is_body'
-            . ' FROM postmaster_filter'
-            . ' WHERE f_name = ?'
-            . ' ORDER BY is_body, f_key, f_value',
+        SQL => <<~"POSTMASTER_SELECT",
+            SELECT
+                f_type,
+                f_key,
+                f_value,
+                f_name,
+                valid_id,
+                f_stop,
+                f_not,
+                CASE
+                    WHEN f_key = 'Body' THEN 1
+                    ELSE 0
+                END AS is_body
+            FROM postmaster_filter
+            WHERE f_name = ?
+            ORDER BY
+                is_body,
+                f_key,
+                f_value
+        POSTMASTER_SELECT
         Bind => [ \$Param{Name} ],
     );
 
