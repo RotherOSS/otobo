@@ -68,36 +68,6 @@
                     <input type="hidden" name="Action" value="AgentElasticsearch"/>
                     <input type="hidden" name="Subaction" value="FulltextSearch"/>
                     <textarea accesskey="[% Data.AccessKey | uri %]" class="Extended" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" cols="[% Data.Size+15 | html %]" rows="1" name="FulltextES" id="FulltextES" placeholder="  [% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]">[% Env("FulltextES") | html %]</textarea>
-                    <span id="ESQUickHelp" title="[% Translate("click for quick help") | html %]">&nbsp;?&nbsp;</span>
-                    <div class="ESQuickHelpPopupContainer">
-                    <div class="ESQuickHelpPopup" id="ESQuickHelpPopup">
-                        <div>
-                            <i title="[% Translate("close") | html %]" id="closeESQuickHelp" class="fa fa-times"></i>
-                        </div>
-                        <h3><b>[% Translate("Elasticsearch Quick Help") | html %]</b></h3>
-                        <p>
-                        [% Translate("You can use Extended Search syntax:") | html %]
-                        </p>
-                        <p>
-                            <b>Title:Test* AND Body:Test*</b>
-                        </p>
-                        <p>
-                            <b>(Title:Test* AND Body:Test*) AND NOT From:Moon*</b>
-                        </p>
-                        <p>
-                            <b>Firstname:mike AND Lastname:Moser</b>
-                        </p>
-                        <p>
-                            <b>CompanyName:macrosoft</b>
-                        </p>
-                        <p>
-                        [% Translate("A list of available search terms can be found in the Elasticsearch-ExtendedSearch package") | html %]
-                          <a style="" target="_blank" href="index.pl?Action=AgentElasticsearchQuickResult;Subaction=ViewDocs">
-                            [% Translate("manual") | html %]
-                          </a>.
-                        </p>
-                    </div>
-                    </div>
                 </form>
             </li>
 [% RenderBlockEnd("ToolBarSearchFulltextES") %]
