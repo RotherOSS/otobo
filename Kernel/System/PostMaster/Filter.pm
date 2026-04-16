@@ -387,10 +387,17 @@ sub FilterGet {
 
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT f_type, f_key, f_value, f_name, valid_id, f_stop, f_not'
+            'SELECT f_type, f_key, f_value, f_name, valid_id, f_stop, f_not,'
+
+            # ensure that body statements are listed at the very end of matching conditions
+            #   for performance reasons
+            . ' CASE'
+            . ' WHEN f_key = \'Body\' THEN 1'
+            . ' ELSE 0'
+            . ' END AS is_body'
             . ' FROM postmaster_filter'
             . ' WHERE f_name = ?'
-            . ' ORDER BY f_key, f_value',
+            . ' ORDER BY is_body, f_key, f_value',
         Bind => [ \$Param{Name} ],
     );
 
@@ -410,24 +417,6 @@ sub FilterGet {
                 Value => $Row[6],
             };
         }
-    }
-
-    # ensure that body statements are listed at the very end of matching conditions
-    #   for performance reasons
-    if ( IsArrayRefWithData( $Data{Match} ) ) {
-
-        # using auxiliary arrays to maintain initial order between the items
-        my @OtherItems;
-        my @BodyItems;
-        for my $Item ( $Data{Match}->@* ) {
-            if ( $Item->{Key} eq 'Body' ) {
-                push @BodyItems, $Item;
-            }
-            else {
-                push @OtherItems, $Item;
-            }
-        }
-        $Data{Match} = [ @OtherItems, @BodyItems ];
     }
 
     return %Data;
