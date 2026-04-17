@@ -1692,7 +1692,7 @@ sub Run {
                 }
 
                 # add template value for keeping templates in line with ACLs
-                if ( !$DynFieldStates{Field}{$Name}{NotACLReducible} ) {
+                if ( !$DynFieldStates{Fields}{$Name}{NotACLReducible} ) {
                     my $DataValues = (
                         $DynamicFieldBackendObject->BuildSelectionDataGet(
                             DynamicFieldConfig => $DynamicFieldConfig,

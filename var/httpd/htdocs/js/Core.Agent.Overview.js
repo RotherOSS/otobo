@@ -250,7 +250,7 @@ Core.Agent.Overview = (function (TargetNS) {
                                         $TriggerObj
                                             .next('.ColumnSettingsContainer')
                                             .find('select')
-                                            .after('<span class="SelectedValue Hidden">' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span>')
+                                            .after('<span class="SelectedValue Hidden">' + Core.App.EscapeHTML(AutoCompleteText) + ' (' + Core.App.EscapeHTML(AutoCompleteValue) + ')</span>')
                                             .parent()
                                             .find('input[type=text]')
                                             .after('<a href="#" class="DeleteFilter"><i class="fa fa-trash-o"></i></a>')

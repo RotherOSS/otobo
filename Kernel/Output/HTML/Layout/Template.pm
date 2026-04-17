@@ -280,7 +280,7 @@ sub Output {
             );
 
             # remove script tags to avoid code injection (CVE-2025-59490).
-            $JSONString =~ s{<\/?script(?:\s.*?)?>}{}gmsi;
+            $JSONString =~ s/</\u003C/gmsi;
 
             $Output .= <<"END_HTML";
 
