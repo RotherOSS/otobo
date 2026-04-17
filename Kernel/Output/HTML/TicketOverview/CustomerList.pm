@@ -61,11 +61,9 @@ sub Run {
     }
 
     # get needed object
-    my $ConfigObject               = $Kernel::OM->Get('Kernel::Config');
-    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # generate empty message
     if ( scalar @{ $Param{TicketIDs} } == 0 ) {
