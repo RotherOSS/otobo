@@ -804,6 +804,13 @@
             <Item ValueType="String" ValueRegex="">auto follow up</Item>
         </Value>
     </Setting>
+    <Setting Name="GenericInterface::Operation::TicketUpdate###ExternalIdentifierDynamicField" Required="0" Valid="0">
+        <Description Translatable="1">Defines the dynamic field to identify tickets by for this operation. Please put in the field name only without the 'DynamicField_' prefix.</Description>
+        <Navigation>GenericInterface::Operation::TicketUpdate</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=""></Item>
+        </Value>
+    </Setting>
     <Setting Name="GenericInterface::Operation::TicketSearch###SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Maximum number of tickets to be displayed in the result of this operation.</Description>
         <Navigation>GenericInterface::Operation::TicketSearch</Navigation>
