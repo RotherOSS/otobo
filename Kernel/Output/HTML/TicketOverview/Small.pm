@@ -1916,11 +1916,15 @@ sub _InitialColumnFilter {
         $Class .= ' ' . $Param{Css};
     }
 
+    if ( $Param{ColumnName} ne 'CustomerID' ) {
+        $Class .= ' Modernize';
+    }
+
     # build select HTML
     my $ColumnFilterHTML = $LayoutObject->BuildSelection(
         Name        => 'ColumnFilter' . $Param{ColumnName},
         Data        => $Data,
-        Class       => 'Modernize ' . $Class,
+        Class       => $Class,
         Translation => $TranslationOption,
         SelectedID  => '',
         Multiple    => $Param{ColumnName} eq 'CustomerID' ? 0 : 1,
