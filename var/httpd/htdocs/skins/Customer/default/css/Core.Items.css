@@ -27,6 +27,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-bottom: 1px;
     min-height: 15px;
     min-width: 5px;
+    max-width: 24%;
 }
 
 #oooCustomerNotifications > .MessageBox {
