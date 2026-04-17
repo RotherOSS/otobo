@@ -245,7 +245,7 @@ sub _InstallOTOBOExtensions {
 
                 # Escape closing script tags in the JSON content as they will confuse the
                 #   browser's parser.
-                $JSONString =~ s/</\u003C/gsmi;
+                $JSONString =~ s/</\\u003C/gsmi;
 
                 $output .= "Core.Config.AddConfig($JSONString);\n";
             }
