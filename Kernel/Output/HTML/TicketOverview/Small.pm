@@ -19,6 +19,12 @@ package Kernel::Output::HTML::TicketOverview::Small;
 use strict;
 use warnings;
 
+# core modules
+use List::Util qw(any none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language              qw(Translatable);
 
@@ -114,7 +120,7 @@ sub new {
     }
 
     # always set TicketNumber
-    if ( !grep { $_ eq 'TicketNumber' } @ColumnsEnabled ) {
+    if ( none { $_ eq 'TicketNumber' } @ColumnsEnabled ) {
         unshift @ColumnsEnabled, 'TicketNumber';
     }
 
@@ -451,7 +457,7 @@ sub Run {
     );
 
     my $Extended = 0;
-    if ( grep { $ExtendedColumnsHash{$_} } @{ $Self->{ColumnsEnabled} } ) {
+    if ( any { $ExtendedColumnsHash{$_} } @{ $Self->{ColumnsEnabled} } ) {
         $Extended = 1;
     }
 
@@ -637,7 +643,7 @@ sub Run {
         # check if column is really filterable
         COLUMNNAME:
         for my $ColumnName ( @{ $Self->{ColumnsEnabled} } ) {
-            next COLUMNNAME if !grep { $_ eq $ColumnName } @{ $Self->{ColumnsEnabled} };
+            next COLUMNNAME if none { $_ eq $ColumnName } @{ $Self->{ColumnsEnabled} };
             next COLUMNNAME if !$Self->{AvailableFilterableColumns}->{$ColumnName};
             $Self->{ValidFilterableColumns}->{$ColumnName} = 1;
         }

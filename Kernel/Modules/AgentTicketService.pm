@@ -652,7 +652,7 @@ sub _MaskServiceView {
     # - get Service total count -
     for my $ServiceRef (@ServicesNew) {
         push @ListedServices, $ServiceRef;
-        my %Service = %$ServiceRef;
+        my %Service = $ServiceRef->%*;
         my @Service = split /::/, $Service{Service};
 
         # remember counted/used Services
@@ -691,7 +691,7 @@ sub _MaskServiceView {
     # build Service string
     for my $ServiceRef (@ListedServices) {
         my $ServiceStrg = '';
-        my %Service     = %$ServiceRef;
+        my %Service     = $ServiceRef->%*;
 
         # replace name of CustomService
         if ( $Service{Service} eq 'CustomService' ) {
