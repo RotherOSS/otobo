@@ -28,7 +28,7 @@ jobs:
             # See https://docs.github.com/en/actions/advanced-guides/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache
 
             - name: Get SHA via the Github REST interface
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               id: get-sha
               with:
                 script: |
@@ -49,7 +49,7 @@ jobs:
               # The cache key contains the checksum of the cpanfile,
               # therefore the branch does not have to be included in the key.
               name: 'check cache for CPAN modules'
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               id: cache_local_lib
               with:
                 path: local

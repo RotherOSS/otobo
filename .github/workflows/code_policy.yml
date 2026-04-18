@@ -69,7 +69,7 @@ jobs:
 
             - name: 'install App::perlimports from CPAN with App::cpm'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: perl-actions/install-with-cpm@v2
+              uses: perl-actions/install-with-cpm@stable
               with:
                 install: |
                   App::perlimports
