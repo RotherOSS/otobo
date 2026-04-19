@@ -110,7 +110,7 @@ jobs:
               uses: actions/checkout@v6
               with:
                 repository: RotherOSS/codepolicy
-                ref: rel-11_1
+                ref: master
                 path: codepolicy
 
             - name: 'run CodePolicy'
