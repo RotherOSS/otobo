@@ -31,6 +31,7 @@ Only update modules where the version was updated in F<Kernel/cpan-lib/cpanfile>
     find local/lib/perl5 \( -name "*.pod" \) -delete
     tree local/lib/perl5                                                    # check sanity
     cp -r local/lib/perl5/* .                                               # copy to actual destination
+    cd ../..
 
 Then examine the differences and check in the verified changes.
 
@@ -39,11 +40,7 @@ Then examine the differences and check in the verified changes.
     git commit
     git push
 
-Finally clean up the temporary installation directory again:
-
-    rm -rf local
-
-When updating CPANSA::DB then also update the version check in scripts/test/Console/Command/Dev/Code/CPANAudit.t .
+When updating CPANSA::DB then also update the 'db' version check in scripts/test/Console/Command/Dev/Code/CPANAudit.t .
 
 ### A fresh install of the bundled modules
 
