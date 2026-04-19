@@ -4,10 +4,12 @@ All of these modules are implemented in pure Perl.
 License information of the bundled modules can be found in the
 [COPYING-Third-Party](../../COPYING-Third-Party) file.
 
-The original list of the bundled distributions is maintained in the module `Kernel::System::Environment. Please keep
-that list up to date when upgrading or adding distributions. The list from `Kernel::System::Environment` is also used by
-the command *bin/otobo.CheckModules.pl*. That command can be used to generate a cpanfile for the bundled modules.
-The generated cpanfile can then be used for updating *Kernel/cpan-lib*.
+The original list of the bundled distributions is maintained in the module `Kernel::System::Environment`.
+Please keep that list up to date when upgrading or adding distributions. The list from `Kernel::System::Environment`
+is also used by the command `bin/otobo.CheckModules.pl --bundled-cpanfile > Kernel/cpan-lib/cpanfile`.
+That command generates a cpanfile for the bundled modules.
+
+The generated cpanfile _Kernel/cpan-lib/cpanfile_ can then be used for updating *Kernel/cpan-lib*.
 But that task is not trivial. So here is an exemplar workflow:
 
 ### Preparation for both quick update and complete regeneration
@@ -39,6 +41,11 @@ Then examine the differences and check in the verified changes.
     git add --patch
     git commit
     git push
+
+Sometimes a module is not installed because it is already installed in a system location. A workaround
+for that case is to call something like:
+
+   cpanm --local-lib local --reinstall JSON
 
 When updating CPANSA::DB then also update the 'db' version check in scripts/test/Console/Command/Dev/Code/CPANAudit.t .
 
