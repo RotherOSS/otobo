@@ -326,8 +326,8 @@ sub AppointmentCreate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my @Bind;
 
-    # parent ID supplied
-    my $ParentIDCol = my $ParentIDVal = '';
+    # the parent_id is only supplied for recurring events
+    my ( $ParentIDCol, $ParentIDVal ) = ( '', '' );
     if ( $Param{ParentID} ) {
         $ParentIDCol = 'parent_id,';
         $ParentIDVal = '?,';
