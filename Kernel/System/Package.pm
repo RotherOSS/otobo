@@ -3355,6 +3355,7 @@ sub _GetIntegratedPackages {
 
             # future releases
             1 => [
+                'CK5-FullWindowMode',
                 'ImportExportCustomerCompany',
                 'ImportExportStandardObjects',
                 'ImportExportTicket',    # integrated when ImportExport console commands were added
