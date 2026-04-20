@@ -4,7 +4,6 @@ name: 'CacheLocalLib'
 on:
   push:
     branches:
-      - rel-10_0
       - rel-10_1
       - rel-11_0
       - rel-11_1
