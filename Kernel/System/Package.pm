@@ -25,6 +25,7 @@ use utf8;
 use parent qw(Kernel::System::EventHandler);
 
 # core modules
+use List::Util   qw (any);
 use MIME::Base64 qw(decode_base64 encode_base64);
 use File::Copy   qw(copy move);
 
@@ -3361,6 +3362,7 @@ sub _GetIntegratedPackages {
                 'PostMasterXFromHeader',
                 'RestorePendingInformation',
                 'RotherOSS-AccountedTimeInViews',
+                'TicketUpdateOperationExternalIdentifier',
             ],
         }
     };
@@ -3506,7 +3508,7 @@ sub PackageUpgradeAllIsRunning {
     my @List = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskList(
         Type => 'AsynchronousExecutor',
     );
-    if ( grep { $_->{Name} eq 'Kernel::System::Package-PackageUpgradeAll()' } @List ) {
+    if ( any { $_->{Name} eq 'Kernel::System::Package-PackageUpgradeAll()' } @List ) {
         $IsRunning = 1;
     }
 
@@ -4780,7 +4782,7 @@ sub _CheckDBInstalledOrMerged {
     PART:
     for my $Part ( @{ $Param{Database} } ) {
 
-        if ( $Use eq 0 ) {
+        if ( $Use == 0 ) {
 
             if (
                 $Part->{TagType} eq 'End'
