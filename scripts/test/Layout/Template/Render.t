@@ -380,7 +380,7 @@ console.log(22);
         Template  => '',
         AddJSData => {
             Key   => 'JS.String',
-            Value => { String => '</script></script>' }
+            Value => { String => '</script><script>' }
         },
         Result => '',
     },
@@ -389,7 +389,7 @@ console.log(22);
         Template  => '',
         AddJSData => {
             Key   => 'JS.String.CaseInsensitive',
-            Value => { String => '</ScRiPt></ScRiPt>' },
+            Value => { String => '</ScRiPt><ScRiPt>' },
         },
         Result => '',
     },
@@ -398,7 +398,7 @@ console.log(22);
         Template => '
 [% PROCESS "JSDataInsert" -%]',
         Result => '
-Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"}});
+Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"\\u003C/script>\\u003Cscript>"},"JS.String.CaseInsensitive":{"String":"\\u003C/ScRiPt>\\u003CScRiPt>"},"Perl.Code":{"Perl":"Data"}});
 ',
     },
     {
