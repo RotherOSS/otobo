@@ -92,3 +92,27 @@ textarea.Readonly ~ .ck .ck-editor__editable {
 .ck-content.ck-editor__editable_inline {
     padding: 15px;
 }
+
+body.ck-fullscreen {
+    overflow: visible !important;
+}
+
+body.ck-fullscreen .ck-fullscreen__main-wrapper .ck-fullscreen__editable .ck.ck-editor__editable {
+    min-width: 210.52917mm;
+    width: unset;
+    max-width: 300mm;
+}
+
+body.ck-fullscreen .ck-fullscreen__main-wrapper .ck-fullscreen__editable {
+    max-width: 300mm;
+    margin-left: 30px;
+    margin-right: 30px;
+    flex-grow: 2;
+}
+
+body.ck-fullscreen .ck-fullscreen__main-wrapper .ck-fullscreen__right-sidebar,
+body.ck-fullscreen .ck-fullscreen__main-wrapper .ck-fullscreen__left-sidebar {
+    margin: 0;
+    width: unset;
+    flex-grow: 1;
+}
