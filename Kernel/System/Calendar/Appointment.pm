@@ -377,20 +377,24 @@ sub AppointmentCreate {
         $AppointmentID = $Param{ParentID};
     }
 
-    # get appointment id for parent appointment
+    # get appointment id for the appointment that was just added
     else {
-        return if !$DBObject->Prepare(
-            SQL => '
-                SELECT id FROM calendar_appointment
-                WHERE unique_id = ? AND parent_id IS NULL
-            ',
-            Bind  => [ \$Param{UniqueID} ],
-            Limit => 1,
+        ($AppointmentID) = $DBObject->SelectRowArray(
+            SQL => <<'END_SQL',
+SELECT id
+  FROM calendar_appointment
+  WHERE calendar_id = ?
+    AND unique_id   = ?
+    AND title       = ?
+    AND parent_id   IS NULL
+  ORDER BY id DESC
+END_SQL
+            Bind => [
+                \$Param{CalendarID},
+                \$Param{UniqueID},
+                \$Param{Title},
+            ],
         );
-
-        while ( my @Row = $DBObject->FetchrowArray() ) {
-            $AppointmentID = $Row[0] || '';
-        }
 
         # return if there is not appointment created
         if ( !$AppointmentID ) {
