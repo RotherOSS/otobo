@@ -141,9 +141,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         var ClassicEditor = CKEditor5Wrapper.ClassicEditor;
         let EnabledPlugins = [];
         for (let pluginName of PluginList) {
-            let Plugin = CKEditor5Plugins[pluginName];
+            let Plugin = CKEditor5Wrapper[pluginName];
             if (Plugin) {
-                EnabledPlugins.push(CKEditor5Plugins[pluginName]);
+                EnabledPlugins.push(CKEditor5Wrapper[pluginName]);
             } else {
                 Core.Exception.ShowError('Couldn\'t find plugin: ' + pluginName, 'JavaScriptError');
             }
