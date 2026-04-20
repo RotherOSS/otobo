@@ -125,11 +125,11 @@ sub Run {
         my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
         my $IsPwdReset = 0;
 
+        # check preferences setting
+        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+
         GROUP:
         for my $Group (@Groups) {
-
-            # check preferences setting
-            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
@@ -236,10 +236,10 @@ sub Run {
             );
         }
 
-        for my $Group (@Groups) {
+        # check preferences setting
+        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
 
-            # check preferences setting
-            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+        for my $Group (@Groups) {
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
@@ -517,11 +517,11 @@ sub Run {
             );
         }
 
+        # check preferences setting
+        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+
         GROUP:
         for my $Group (@Groups) {
-
-            # check preferences setting
-            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
