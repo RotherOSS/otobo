@@ -41,7 +41,7 @@ jobs:
                     return cpan_snapshot_content.data.sha;
                 result-encoding: string
 
-            - name: 'Print SHA of cpanfile.docker'
+            - name: 'Print SHA of cpanfile.docker.snapshot'
               run: echo '${{steps.get-sha.outputs.result}}'
 
             -
