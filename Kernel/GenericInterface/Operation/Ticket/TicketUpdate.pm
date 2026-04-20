@@ -26,8 +26,9 @@ use parent qw(
 );
 
 # core modules
-use Scalar::Util qw(reftype);
+use List::Util   qw(first);
 use MIME::Base64 qw(encode_base64);
+use Scalar::Util qw(reftype);
 
 # CPAN modules
 
@@ -1339,7 +1340,6 @@ sub _CheckUpdatePermissions {
     my $Ticket           = $Param{Ticket};
     my $Article          = $Param{Article};
     my $DynamicFieldList = $Param{DynamicFieldList};
-    my $AttachmentList   = $Param{AttachmentList};
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
