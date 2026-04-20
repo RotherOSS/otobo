@@ -335,6 +335,47 @@ sub Run {
         );
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # try to identify ticket by configured dynamic field
+    my $FieldName = $Self->{Config}{ExternalIdentifierDynamicField};
+    if ($FieldName) {
+
+        # search dynamic field data for configured identifier
+        my $FieldValue;
+        if ( IsHashRefWithData( $Param{Data}{DynamicField} ) ) {
+            if ( $Param{Data}{DynamicField}{Name} eq $FieldName ) {
+                $FieldValue = $Param{Data}{DynamicField}{Value};
+            }
+        }
+        elsif ( IsArrayRefWithData( $Param{Data}{DynamicField} ) ) {
+            my $Item = first { $_->{Name} eq $FieldName } $Param{Data}{DynamicField}->@*;
+            if ( IsHashRefWithData($Item) ) {
+                $FieldValue = $Item->{Value};
+            }
+        }
+
+        if ( !$Param{Data}{TicketID} && !$Param{Data}{TicketNumber} && $FieldValue ) {
+            my @SearchResult = $TicketObject->TicketSearch(
+                Result                    => 'ARRAY',
+                "DynamicField_$FieldName" => {
+                    Equals => $FieldValue,
+                },
+                UserID => 1,
+            );
+            if ( ( scalar @SearchResult ) == 1 ) {
+                $Param{Data}{TicketID} = $SearchResult[0];
+            }
+            else {
+                return $Self->ReturnError(
+                    ErrorCode    => 'TicketUpdate.MissingParameter',
+                    ErrorMessage => "TicketUpdate: Found ambiguous or no result searching for dynamic field $FieldName!",
+                );
+            }
+        }
+    }
+
     if ( !$Param{Data}->{TicketID} && !$Param{Data}->{TicketNumber} ) {
         return $Self->ReturnError(
             ErrorCode    => 'TicketUpdate.MissingParameter',
@@ -380,9 +421,6 @@ sub Run {
     if ( $UserType eq 'Customer' ) {
         $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID');
     }
-
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # check TicketID
     my $TicketID;
