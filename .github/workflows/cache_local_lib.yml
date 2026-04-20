@@ -52,7 +52,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20240808a
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20260420a
 
             - name: 'check out the relevant OTOBO branch'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
