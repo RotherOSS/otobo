@@ -513,26 +513,6 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Group' ) {
 
-        # check group param
-        my @Groups = $ParamObject->GetArray( Param => 'Group' );
-        if ( !@Groups ) {
-            return $LayoutObject->ErrorScreen(
-                Message => Translatable('Param Group is required!'),
-            );
-        }
-
-        # check preferences setting
-        my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
-
-        GROUP:
-        for my $Group (@Groups) {
-            if ( none { $Group eq $_->{Key} } @PreferencesGroups ) {
-                return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
-                );
-            }
-        }
-
         # get header
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -726,6 +706,24 @@ sub AgentPreferencesForm {
     # get group name
     my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
     my $GroupSelectedName;
+
+    # check group param
+    my @Groups = $ParamObject->GetArray( Param => 'Group' );
+    if ( !@Groups ) {
+        return $LayoutObject->Error(
+            Message => Translatable('Param Group is required!'),
+        );
+    }
+
+    # check preferences setting
+    GROUP:
+    for my $Group (@Groups) {
+        if ( none { $Group eq $_->{Key} } @PreferencesGroups ) {
+            return $LayoutObject->Error(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
+            );
+        }
+    }
 
     PREFERENCESGROUPS:
     for my $Group (@PreferencesGroups) {
