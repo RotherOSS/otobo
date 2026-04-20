@@ -20,7 +20,7 @@ jobs:
               uses: tj-actions/changed-files@v47
 
             - name: 'install dependencies'
-              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc gettext npm && npm install eslint
+              run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install libxml2-utils libxslt-dev graphviz libqrencode-dev odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc gettext npm
 
             # check out the merge commit of the pull request that triggerd this workflow
             - name: 'check out OTOBO'
@@ -112,6 +112,9 @@ jobs:
                 repository: RotherOSS/codepolicy
                 ref: master
                 path: codepolicy
+
+            - name: 'install eslint'
+              run: cd codepolicy && npm install eslint && npm install globals
 
             - name: 'run CodePolicy'
               run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.changed-files.outputs.all_changed_files }}
