@@ -21,6 +21,12 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+# core modules
+use List::Util qw(none);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -516,11 +522,11 @@ sub Run {
         }
 
         # check preferences setting
-        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
+        my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
 
         GROUP:
         for my $Group (@Groups) {
-            if ( !$Preferences{$Group} ) {
+            if ( none { $Group eq $_->{Key} } @PreferencesGroups ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
                 );
