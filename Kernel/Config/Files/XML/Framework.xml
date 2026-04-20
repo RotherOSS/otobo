@@ -624,6 +624,7 @@
                 <Item>Undo</Item>
                 <Item>PasteFromOffice</Item>
                 <Item>Fullscreen</Item>
+                <Item>TodoList</Item>
             </Array>
         </Value>
     </Setting>
@@ -649,6 +650,7 @@
                     <Array>
                         <Item>bulletedList</Item>
                         <Item>numberedList</Item>
+                        <Item>todoList</Item>
                     </Array>
                 </Item>
                 <Item>
@@ -761,6 +763,7 @@
                 <Item>Undo</Item>
                 <Item>PasteFromOffice</Item>
                 <Item>Fullscreen</Item>
+                <Item>TodoList</Item>
             </Array>
         </Value>
     </Setting>
@@ -786,6 +789,7 @@
                     <Array>
                         <Item>bulletedList</Item>
                         <Item>numberedList</Item>
+                        <Item>todoList</Item>
                     </Array>
                 </Item>
                 <Item>
