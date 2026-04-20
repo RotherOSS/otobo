@@ -56,7 +56,7 @@ jobs:
 
             - name: 'check out the relevant OTOBO branch'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: 'Get SHA of cpanfile.docker for doublechecking'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
