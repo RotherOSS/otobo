@@ -509,6 +509,26 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Group' ) {
 
+        # check group param
+        my @Groups = $ParamObject->GetArray( Param => 'Group' );
+        if ( !@Groups ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('Param Group is required!'),
+            );
+        }
+
+        GROUP:
+        for my $Group (@Groups) {
+
+            # check preferences setting
+            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+            if ( !$Preferences{$Group} ) {
+                return $LayoutObject->ErrorScreen(
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
+                );
+            }
+        }
+
         # get header
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
