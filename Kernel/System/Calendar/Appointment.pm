@@ -406,7 +406,8 @@ END_SQL
         }
     }
 
-    # add recurring appointments
+    # Add recurring appointments. The AppointmentCreate event
+    # will be triggered for each added appointment.
     if ( $Param{Recurring} && !$Param{RecurringRaw} ) {
         return if !$Self->_AppointmentRecurringCreate(
             ParentID    => $AppointmentID,
@@ -2272,6 +2273,7 @@ sub _AppointmentRecurringCreate {
             # skip excluded appointments
             next UNTIL_TIME if grep { $StartTime eq $_ } @RecurrenceExclude;
 
+            # the AppointmentCreate event will be triggered
             $Self->AppointmentCreate(
                 %{ $Param{Appointment} },
                 ParentID     => $Param{ParentID},
