@@ -123,7 +123,6 @@ sub Run {
             );
         }
 
-        my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
         my $IsPwdReset = 0;
 
         # check preferences setting
@@ -437,8 +436,6 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
-
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         my $SettingName = $ParamObject->GetParam( Param => 'SettingName' ) || '';
 
