@@ -114,7 +114,7 @@ jobs:
                 path: codepolicy
 
             - name: 'install eslint'
-              run: cd codepolicy && npm install eslint && npm install globals && npm init @eslint/config@latest
+              run: cd codepolicy && npm install eslint && npm install globals
 
             - name: 'run CodePolicy'
               run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.changed-files.outputs.all_changed_files }}
