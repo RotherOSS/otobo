@@ -37,11 +37,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $EditUserID   = $ParamObject->GetParam( Param => 'EditUserID' );
-    my $ConfigLevel  = $Kernel::OM->Get('Kernel::Config')->Get('ConfigLevel') || 0;
+    my $ConfigLevel  = $ConfigObject->Get('ConfigLevel') || 0;
 
     $Self->{CurrentUserID} = $Self->{UserID};
     if (
@@ -65,7 +66,7 @@ sub Run {
         my $Value = $ParamObject->GetParam( Param => 'Value' );
 
         my %AllowedKeys;
-        for my $Config ( values %{ $Kernel::OM->Get('Kernel::Config')->Get('Preferences::UpdateAJAX::Allowed') // {} } ) {
+        for my $Config ( values %{ $ConfigObject->Get('Preferences::UpdateAJAX::Allowed') // {} } ) {
             %AllowedKeys = (
                 %AllowedKeys,
                 $Config->%*,
@@ -126,7 +127,7 @@ sub Run {
         my $IsPwdReset = 0;
 
         # check preferences setting
-        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
         GROUP:
         for my $Group (@Groups) {
@@ -237,7 +238,7 @@ sub Run {
         }
 
         # check preferences setting
-        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
         for my $Group (@Groups) {
             if ( !$Preferences{$Group} ) {
@@ -518,7 +519,7 @@ sub Run {
         }
 
         # check preferences setting
-        my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
         GROUP:
         for my $Group (@Groups) {
@@ -626,7 +627,7 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
 
         # get groups
-        my @PreferencesGroups = @{ $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups') };
+        my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
         if (@PreferencesGroups) {
             @PreferencesGroups = sort { $a->{Prio} <=> $b->{Prio} } @PreferencesGroups;
         }
@@ -655,6 +656,7 @@ sub Run {
 sub AgentPreferencesForm {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -719,7 +721,7 @@ sub AgentPreferencesForm {
     }
 
     # get group name
-    my @PreferencesGroups = @{ $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups') };
+    my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
     my $GroupSelectedName;
 
     PREFERENCESGROUPS:
@@ -743,7 +745,6 @@ sub AgentPreferencesForm {
         },
     );
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my %Data;
     my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
