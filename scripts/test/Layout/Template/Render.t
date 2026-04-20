@@ -383,7 +383,7 @@ console.log(22);
         Template  => '',
         AddJSData => {
             Key   => 'JS.String',
-            Value => { String => '</script></script>' }
+            Value => { String => "</script><script>" }
         },
         Result => '',
     },
@@ -393,7 +393,7 @@ console.log(22);
         Template  => '',
         AddJSData => {
             Key   => 'JS.String.CaseInsensitive',
-            Value => { String => '</ScRiPt></ScRiPt>' },
+            Value => { String => "</ScRiPt><ScRiPt>" },
         },
         Result => '',
     },
@@ -501,7 +501,7 @@ END_TEMPLATE
 [% PROCESS "JSDataInsert" -%]',
 
         Result => '
-Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"JS.String.CaseInsensitive":{"String":"<\/ScRiPt><\/ScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
+Core.Config.AddConfig({"Bool1":true,"Bool2":false,"Bool3":true,"Bool4":false,"Bool5":true,"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"\\u003C/script>\\u003Cscript>"},"JS.String.CaseInsensitive":{"String":"\\u003C/ScRiPt>\\u003CScRiPt>"},"Perl.Code":{"Perl":"Data"},"ProcessJSBoolean1":true,"ProcessJSBoolean2":true,"ProcessJSBoolean3":false,"ProcessJSBoolean4":false,"ProcessJSBoolean5":false,"ProcessJSBoolean6":true,"ProcessJSBoolean7":true,"ProcessJSBoolean8":false});
 ',
     },
     {
