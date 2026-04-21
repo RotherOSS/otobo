@@ -110,9 +110,11 @@ sub DraftTranslationsAdd {
     my $Flag = $Param{Edit} ? 'e' : 'n';
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL =>
-            "INSERT INTO translation_item (language, content, translation, flag, create_by, create_time, change_by, change_time, import_param) VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
-        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{Import} ]
+        SQL => <<'END_SQL',
+INSERT INTO translation_item (language, content, translation, flag, create_by, create_time, change_by, change_time, import_param)
+  VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)
+END_SQL
+        Bind => [ \$Param{Language}, \$Param{Content}, \$Param{Translation}, \$Flag, \$Param{UserID}, \$Param{UserID}, \$Param{Import} ],
     );
 
     return $Success;
@@ -151,8 +153,20 @@ sub DraftTranslationsChange {
     }
 
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => "UPDATE translation_item SET translation = ?, change_by = ?, change_time = current_timestamp WHERE id = ? AND content = ? AND language = ?",
-        Bind => [ \$Param{Translation}, \$Param{UserID}, \$Param{ID}, \$Param{Content}, \$Param{Language} ]
+        SQL => <<'END_SQL',
+UPDATE translation_item
+  SET translation = ?, change_by = ?, change_time = current_timestamp
+  WHERE id = ?
+    AND content = ?
+    AND language = ?
+END_SQL
+        Bind => [
+            \$Param{Translation},
+            \$Param{UserID},
+            \$Param{ID},
+            \$Param{Content},
+            \$Param{Language},
+        ]
     );
 
     return $Success;
@@ -206,12 +220,20 @@ sub DraftTranslationsGet {
     $Param{Import} ||= 0;
     my $Flag = $Param{Active} ? q{'a'} : q{'n', 'e', 'd'};
 
-    return \@DraftItems
-        if !$DBObject->Prepare(
-            SQL =>
-            "SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time FROM translation_item WHERE language = ? AND import_param = ? AND flag IN ($Flag) ORDER BY flag, content ASC",
-            Bind => [ \$Param{Language}, \$Param{Import} ]
-        );
+    return [] unless $DBObject->Prepare(
+        SQL => <<"END_SQL",
+SELECT id, language, content, translation, flag, create_by, create_time, change_by, change_time
+  FROM translation_item
+  WHERE language = ?
+    AND import_param = ?
+    AND flag IN ($Flag)
+  ORDER BY flag, content ASC
+END_SQL
+        Bind => [
+            \$Param{Language},
+            \$Param{Import},
+        ]
+    );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Item = (
@@ -726,8 +748,15 @@ sub WriteTranslationFile {
             delete $Collected{ $Item{Content} };
 
             $Kernel::OM->Get('Kernel::System::DB')->Do(
-                SQL  => "DELETE FROM translation_item WHERE language = ? AND content = ?",
-                Bind => [ \$Param{UserLanguage}, \$Source ]
+                SQL => <<'END_SQL',
+DELETE FROM translation_item
+  WHERE language = ?
+    AND content  = ?
+END_SQL
+                Bind => [
+                    \$Param{UserLanguage},
+                    \$Source,
+                ]
             );
         }
     }
