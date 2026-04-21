@@ -21,6 +21,11 @@ use warnings;
 
 our $ObjectManagerDisabled = 1;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -37,11 +42,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $EditUserID   = $ParamObject->GetParam( Param => 'EditUserID' );
-    my $ConfigLevel  = $Kernel::OM->Get('Kernel::Config')->Get('ConfigLevel') || 0;
+    my $ConfigLevel  = $ConfigObject->Get('ConfigLevel') || 0;
 
     $Self->{CurrentUserID} = $Self->{UserID};
     if (
@@ -65,7 +71,7 @@ sub Run {
         my $Value = $ParamObject->GetParam( Param => 'Value' );
 
         my %AllowedKeys;
-        for my $Config ( values %{ $Kernel::OM->Get('Kernel::Config')->Get('Preferences::UpdateAJAX::Allowed') // {} } ) {
+        for my $Config ( values %{ $ConfigObject->Get('Preferences::UpdateAJAX::Allowed') // {} } ) {
             %AllowedKeys = (
                 %AllowedKeys,
                 $Config->%*,
@@ -122,14 +128,13 @@ sub Run {
             );
         }
 
-        my $SettingID  = $ParamObject->GetParam( Param => 'SettingID' );
         my $IsPwdReset = 0;
+
+        # check preferences setting
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
         GROUP:
         for my $Group (@Groups) {
-
-            # check preferences setting
-            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
@@ -236,10 +241,10 @@ sub Run {
             );
         }
 
-        for my $Group (@Groups) {
+        # check preferences setting
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
-            # check preferences setting
-            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
+        for my $Group (@Groups) {
             if ( !$Preferences{$Group} ) {
                 return $LayoutObject->ErrorScreen(
                     Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
@@ -437,8 +442,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
         my $SettingName = $ParamObject->GetParam( Param => 'SettingName' ) || '';
 
         return $Self->_SettingReset( SettingName => $SettingName );
@@ -606,7 +609,7 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
 
         # get groups
-        my @PreferencesGroups = @{ $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups') };
+        my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
         if (@PreferencesGroups) {
             @PreferencesGroups = sort { $a->{Prio} <=> $b->{Prio} } @PreferencesGroups;
         }
@@ -635,6 +638,7 @@ sub Run {
 sub AgentPreferencesForm {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -699,13 +703,19 @@ sub AgentPreferencesForm {
     }
 
     # get group name
-    my @PreferencesGroups = @{ $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups') };
+    my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
     my $GroupSelectedName;
 
     PREFERENCESGROUPS:
     for my $Group (@PreferencesGroups) {
         next PREFERENCESGROUPS if $Group->{Key} ne $GroupSelected;
         $GroupSelectedName = $Group->{Name};
+    }
+
+    if ( !$GroupSelectedName ) {
+        return $LayoutObject->Error(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $GroupSelected ),
+        );
     }
 
     $LayoutObject->Block(
@@ -723,7 +733,6 @@ sub AgentPreferencesForm {
         },
     );
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my %Data;
     my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
