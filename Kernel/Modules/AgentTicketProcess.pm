@@ -355,6 +355,11 @@ sub Run {
     # get form id
     $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
 
+    # check form id
+    if ( $Self->{FormID} && $Self->{FormID} !~ /^[0-9\.]+$/ ) {
+        $Self->{FormID} = undef;
+    }
+
     # create form id
     if ( !$Self->{FormID} ) {
         $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
