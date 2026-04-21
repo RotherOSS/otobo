@@ -22,7 +22,6 @@ use warnings;
 our $ObjectManagerDisabled = 1;
 
 # core modules
-use List::Util qw(none);
 
 # CPAN modules
 
@@ -707,28 +706,16 @@ sub AgentPreferencesForm {
     my @PreferencesGroups = @{ $ConfigObject->Get('AgentPreferencesGroups') };
     my $GroupSelectedName;
 
-    # check group param
-    my @Groups = $ParamObject->GetArray( Param => 'Group' );
-    if ( !@Groups ) {
-        return $LayoutObject->Error(
-            Message => Translatable('Param Group is required!'),
-        );
-    }
-
-    # check preferences setting
-    GROUP:
-    for my $Group (@Groups) {
-        if ( none { $Group eq $_->{Key} } @PreferencesGroups ) {
-            return $LayoutObject->Error(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $Group ),
-            );
-        }
-    }
-
     PREFERENCESGROUPS:
     for my $Group (@PreferencesGroups) {
         next PREFERENCESGROUPS if $Group->{Key} ne $GroupSelected;
         $GroupSelectedName = $Group->{Name};
+    }
+
+    if ( !$GroupSelectedName ) {
+        return $LayoutObject->Error(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'No such config for %s', $GroupSelected ),
+        );
     }
 
     $LayoutObject->Block(
