@@ -57,7 +57,9 @@ All Translations functions. E. g. to add translations or to get translations.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new();
+
     my $TranslationsObject = $Kernel::OM->Get('Kernel::System::Translations');
 
 =cut
@@ -74,15 +76,16 @@ sub new {
 
 =head2 DraftTranslationsAdd()
 
-add translation items
+adds a single draft translation item. Depending on the the parameter C<Edit> the
+new translation is either flagged as 'e' for edit or as 'n' for new item.
 
     my $Success = $TranslationsObject->DraftTranslationsAdd(
-        Language    => 'en',
-        Content     => 'Red',
-        Translation => 'Rojo',
+        Language    => 'es',
+        Content     => 'red',
+        Translation => 'rojo',
         UserID      => 1,
-        Edit        => 0,
-        Import      => (1|0),
+        Edit        => (1|0),   # optional, the default is 0
+        Import      => (1|0),   # optional, the default is 0
     );
 
 Returns:
@@ -105,7 +108,7 @@ sub DraftTranslationsAdd {
         }
     }
 
-    $Param{Edit}   ||= '';
+    $Param{Edit}   ||= 0;
     $Param{Import} ||= 0;
     my $Flag = $Param{Edit} ? 'e' : 'n';
 
@@ -126,7 +129,7 @@ change translation items
 
     my $Success = $TranslationsObject->DraftTranslationsChange(
         ID           => 100,
-        Language     => 'en',
+        Language     => 'es',
         Content      => 'Red',
         Translation  => 'Rojo',
         UserID       => 1
@@ -174,7 +177,7 @@ END_SQL
 
 =head2 DraftTranslationsGet()
 
-get all draft translation items
+gets draft translation items for a specific language.
 
     my $DraftTranslations = $TranslationsObject->DraftTranslationsGet(
         Language => 'en',
@@ -187,10 +190,10 @@ Returns:
     $DraftTranslations = [
         {
             ID          => 32,
-            Language    => 'en',
+            Language    => 'es',
             Content     => 'Earth',
             Translation => 'Tierra',
-            Flag        => 'n', #n: New, #d: Marked for deletion, #e: Editing
+            Flag        => 'n',          # n: New, d: Marked for deletion, e: Editing, a: active
             CreateBy    => 1,
             CreateTime  => '2023-01-01 07:00:00',
             ChangeBy    => 1,
@@ -660,7 +663,7 @@ sub WriteTranslationFile {
     if ( !@DraftTranslations ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => "Nothing to deploy",
+            Message  => 'Nothing to deploy',
         );
 
         return 2;
@@ -795,7 +798,7 @@ END_SQL
     $JavascriptStrings .= $Indent . ");\n";
 
     # needed for cvs check-in filter
-    my $Separator = "# --";
+    my $Separator = '# --';
 
     my $NewOut = <<"EOF";
 $Separator
@@ -853,7 +856,7 @@ EOF
         Mode     => 'utf8',
     );
 
-    #If not successful, rollback changes
+    # If not successful, rollback changes
     if ( $Success ne "$TargetFile.new" ) {
         if ( -e "$TargetFile.old" ) {
             my $Rename = rename( "$TargetFile.old", $TargetFile );
