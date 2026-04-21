@@ -1720,6 +1720,55 @@ sub InitialSetup {
         );
         $Errors++ unless $Success;
 
+        # create index for configitems
+        my %RequestConfigItem = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{ConfigItem}   // $DefaultConfig,
+                Template => $IndexTemplate->{ConfigItem} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    ConfigItemID => {
+                        type => 'integer',
+                    },
+                    ClassID => {
+                        type => 'integer',
+                    },
+                    CurDeplStateID => {
+                        type => 'integer',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'configitem' },
+            Request   => \%RequestConfigItem,
+        );
+        $Errors++ unless $Success;
+
+        # create index for faqs
+        my %RequestFAQ = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{FAQ}   // $DefaultConfig,
+                Template => $IndexTemplate->{FAQ} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    ItemID => {
+                        type => 'integer',
+                    },
+                    CategoryID => {
+                        type => 'integer',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'faq' },
+            Request   => \%RequestFAQ,
+        );
+        $Errors++ unless $Success;
+
         $Success = 0 if $Errors;
     }
 
