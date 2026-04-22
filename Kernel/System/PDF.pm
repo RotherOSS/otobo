@@ -1901,7 +1901,7 @@ sub _TableCalculate {
             my $Cell = $Row->[$ColumnCounter];
 
             # if row is odd
-            if ( $RowCounter & 1 ) {
+            if ( $RowCounter & 1 ) {    ## no critic qw(Bangs::ProhibitBitwiseOperators)
 
                 # set FontColor, if row is odd
                 if (
