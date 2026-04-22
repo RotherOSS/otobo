@@ -666,8 +666,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 20px;
     }
 
-    /* New Form Styling */
-    /* fieldset.ModularForm */
+    /**
+    * @subsection  New Form Styling (ModularForm)
+    */
 
     fieldset.ModularForm div.Row {
         position: relative;
@@ -688,6 +689,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     fieldset.ModularForm .Field {
         grid-area: field;
+    }
+
+    fieldset.ModularForm .AJAXLoader {
+        --AJAX-loader-size: 14px; /* as set in Core.Defaults.css */
+        top: calc(50% - ( var(--AJAX-loader-size) / 2 + var(--AJAX-loader-margin) ) );
     }
 
     fieldset.ModularForm input[type=text],

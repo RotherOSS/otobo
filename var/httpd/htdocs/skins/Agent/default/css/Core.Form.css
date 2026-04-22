@@ -1101,28 +1101,24 @@ input[type=text].ArticleFreeKey {
 }
 
 /**
- * @subsection  New Form CSS
+ * @subsection  New Form Styling (ModularForm)
  */
 
 fieldset.ModularForm {
     --max-field-width: 620px;
-    --field-column-gap: 5px;
     --grid-column-gap: 16px;
     --text-input-padding: 3px;
     --field-padding-vertical: 3px;
     --field-padding-horizontal: 0px;
-    --multivalue-gap: 3px;
     --set-padding: 8px;
     --line-height: 1em;
     --row-gap: 0px;
     --checkbox-size: 1em;
     --customer-id-selection-button-width: 110px; /* set in style tag */
-    --multivalue-icon-width: 0.8575em;
     --address-book-button-width: 16px; /* width set for .AdditionlFieldIcon */
     --address-book-button-margin: 3px; /* margin set for .AdditionlFieldIcon */
     
     --search-icon-width: var(--multivalue-icon-width);
-    --multivalue-buttons-width: calc( var(--multivalue-icon-width)*2 + var(--multivalue-gap)*2 );
     --label-padding-vertical: calc( var(--field-padding-vertical) + var(--text-input-padding) + 1px );
     --label-padding:    var(--label-padding-vertical) 
                         0px 
@@ -1138,7 +1134,9 @@ fieldset.ModularForm {
 }
 
     fieldset.ModularForm .AJAXLoader {
-        margin: 3px;
+        margin: var(--AJAX-loader-margin);
+        position: absolute;
+        right: 0;
     }
 
     fieldset.ModularForm * {
@@ -1169,12 +1167,10 @@ fieldset.ModularForm {
         text-align: right;
         vertical-align: middle;
         padding: var(--label-padding);
+        color: var(--colTextLight);
+        text-shadow: 0 1px 0 var(--colBGLightMedium);
         text-wrap: wrap;
-    }
-
-    fieldset.ModularForm label[for="Subject"] {
-        padding: var(--label-padding);
-        align-self: center;
+        overflow-wrap: break-word;
     }
 
     fieldset.ModularForm label[for="Subject"] {
@@ -1192,9 +1188,22 @@ fieldset.ModularForm {
         flex: 1 1 auto;
     }
 
-    fieldset.ModularForm .AJAXLoader {
-        position: absolute;
-        right: 0;
+    fieldset.ModularForm .PendingDateField {
+        justify-content: start;
+        row-gap: 4px;
+        column-gap: 1px;
+        align-items: center;
+    }
+
+    fieldset.ModularForm .PendingDateField .oooQuickDate {
+        margin: 0;
+        margin-left: 4px;
+        width: min-content;
+        flex: none;
+    }
+
+    fieldset.ModularForm .PendingDateField .FieldExplanation {
+        width: 100%;
     }
 
     fieldset.ModularForm #CustomerID {
@@ -1225,28 +1234,18 @@ fieldset.ModularForm {
         margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
     }
 
-    fieldset.ModularForm .CustomerContainer .CustomerTicketText, 
-    fieldset.ModularForm .CcCustomerContainer .CustomerTicketText, 
-    fieldset.ModularForm .BccCustomerContainer .CustomerTicketText {
-        width: calc(100% - 70px);
-    }
-
-    fieldset.ModularForm input[type=checkbox] {
-        height: var(--checkbox-size);
-        width: var(--checkbox-size);
-        margin: calc( (var(--min-field-height) - var(--field-padding-vertical)*2 - var(--checkbox-size)) / 2 ) 0;
-    }
-
     fieldset.ModularForm .DynamicFieldDate {
         display: flex;
         flex-direction: row;
         align-self: center;
+        align-items: center;
         column-gap: 1px;
     }
 
     fieldset.ModularForm .DynamicFieldDate input[type="checkbox"] {
         margin-top: auto;
         margin-bottom: auto;
+        margin-left: 2px;
     }
 
     fieldset.ModularForm textarea {
@@ -1257,6 +1256,7 @@ fieldset.ModularForm {
 
     fieldset.ModularForm .oooTitle {
         max-width: 100%;
+        overflow-wrap: break-word;
     }
     
     fieldset.ModularForm .FieldCell .RichTextField {
@@ -1294,6 +1294,14 @@ fieldset.ModularForm {
         }
     }
 
+    fieldset.ModularForm .RichTextField textarea {
+        resize: none;
+    }
+
+    fieldset.ModularForm .RichTextField .ck-editor {
+        width: 100%;
+    }
+
     fieldset.ModularForm .InputField_Container {
         width: 100%
     }
@@ -1303,24 +1311,35 @@ fieldset.ModularForm {
         line-height: inherit;
     }
 
-    fieldset.ModularForm .Field > select {
+    fieldset.ModularForm .Field > select.Modernize {
         width: 100%;
     }
 
-    fieldset.ModularForm .Field.AttachmentField {
-        flex-direction: column;
-    }
-
     fieldset.ModularForm .Field #OptionCustomer {
         align-self: center;
     }
 
-    fieldset.ModularForm .Field.AttachmentField {
-        flex-direction: column;
+    /* Override old styles for Subject field */
+    fieldset.ModularForm input#Subject {
+        font-size: inherit;
+        padding: 3px; 
     }
 
-    fieldset.ModularForm .Field #OptionCustomer {
-        align-self: center;
+    fieldset.ModularForm .Field .ReadyForUpload {
+        white-space: wrap;
+    }
+
+    fieldset.ModularForm .Field .AttachmentListContainer {
+        max-width: unset;
+        width: 100%;
+    }
+
+    fieldset.ModularForm .Field table.AttachmentList {
+        max-width: unset;
+    }
+
+    fieldset.ModularForm .Field table.AttachmentList * {
+        box-sizing: content-box;
     }
 
     fieldset.ModularForm div.Row {
@@ -1348,7 +1367,9 @@ fieldset.ModularForm {
     }
     
     fieldset.ModularForm .DatepickerIcon {
-        margin: -2px 4px -2px 4px;
+        margin: 0;
+        width: auto;
+        height: auto;
     }
 
     fieldset.ModularForm div.Row .DFSetOuterField {

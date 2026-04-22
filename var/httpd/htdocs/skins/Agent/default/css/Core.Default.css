@@ -48,7 +48,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     --colHoverDark: #fef235;
     --colShadowDark: rgba(0, 2, 71, 0.16);
 }
-  
+
+/**
+ * @subsection  Variables for ModularForms
+ *
+ * @note        These variables are used in Core.Form.css and Core.Responsive.css, 
+ *              but are defined here to make sure they are always available in both files.
+ */
+
+fieldset.ModularForm {
+    --field-column-gap: 5px;
+    --multivalue-icon-width: 0.8575em;
+    --multivalue-gap: 3px;
+    --AJAX-loader-margin: 3px;
+
+    --multivalue-buttons-width: calc( var(--multivalue-icon-width)*2 + var(--multivalue-gap)*2 );
+}
 
 /**
  * @subsection  Fonts
