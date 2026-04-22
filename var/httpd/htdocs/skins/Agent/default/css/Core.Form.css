@@ -1178,7 +1178,8 @@ fieldset.ModularForm {
         align-self: center;
     }
 
-    fieldset.ModularForm input[type=text] {
+    fieldset.ModularForm input[type=text],
+    fieldset.ModularForm input[type=email] {
         border-radius: 4px;
         width: 100%;
         line-height: inherit;
