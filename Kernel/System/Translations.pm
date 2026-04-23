@@ -617,7 +617,8 @@ sub ReadExistingTranslationFile {
 
 =head2 WriteTranslationFile()
 
-write translation file
+set new and edited translation items to active.
+Write the translation file into the directory F<Kernel/Language>.
 
     my $Success = $TranslationsObject->WriteTranslationFile(
         UserLanguage  => 'en',
@@ -628,7 +629,17 @@ write translation file
 
 Returns:
 
-    $Success = 1; #1: Successful, #0: Unsuccessful
+    # empty list in case of failure
+    $Success = undef;
+
+    # in case of success
+    $Success = 1;
+
+    # when there are no translations for the relevant language
+    $Success = 2;
+
+    # when writing the tranlation file has been rolled back
+    $Success = 3;
 
 =cut
 
@@ -1050,7 +1061,6 @@ sub TranslateParentChildElements {
                 NoParentChild => 1,
             );
         }
-
     }
 
     return 1;
