@@ -52,7 +52,7 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
 
-    my $ESSearchQuery = $ParamObject->GetParam( Param => 'FulltextES' );
+    my $ESSearchQuery = $ParamObject->GetParam( Param => 'FulltextES' ) // '';
 
     $ESSearchQuery =~ s/^\s+//;
     $ESSearchQuery =~ s/\s+$//;
