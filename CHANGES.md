@@ -1,4 +1,131 @@
 
+# OTOBO 10.1.17 2026-04-23
+- 2026-04-20 12:24:39 +0200 Translated using Weblate (Italian)
+- 2026-03-17 15:08:16 +0100 Translated using Weblate (Hungarian)
+- 2026-03-10 08:58:25 +0100 Translated using Weblate (Arabic (Saudi Arabia))
+- 2026-04-21 13:32:26 +0200 [Bugfix]   Fix two additional xss targets. (https://github.com/RotherOSS/otobo/issues/5419)
+- 2026-04-20 10:50:13 +0200 React to notifications about Node.js 20  emitted by Github Actions (https://github.com/RotherOSS/otobo/issues/5354) - in progress
+- 2026-04-20 09:15:23 +0200 Placeholder (https://github.com/RotherOSS/otobo/issues/5358)
+- 2026-04-16 10:04:25 +0200 [Bugfix]   Properly escape autocomplete filters in overview masks. (https://github.com/RotherOSS/otobo/issues/5400)
+- 2026-04-02 15:01:33 +0200 Upgrade the elasticsearch base image to 8.19.3 and pull it from Docker Hub  ? (https://github.com/RotherOSS/otobo/issues/4427)
+- 2026-03-27 13:55:40 +0100 Placeholder (https://github.com/RotherOSS/otobo/issues/5376)
+- 2026-04-09 11:21:40 +0200 Placeholder (https://github.com/RotherOSS/otobo/issues/5359)
+- 2026-04-10 11:12:13 +0200 [Bugfix]   The button "Send a bug report" on the agent error page doesn't work as intended (https://github.com/RotherOSS/otobo/issues/5363)
+- 2026-04-09 15:25:01 +0200 Evaluate CVE-2020-16093 for OTOBO (https://github.com/RotherOSS/otobo/issues/5365)
+- 2026-04-08 08:39:44 +0200 [Bugfix]   BuildDateSelection: Sanitize prefix and suffix when building date selections (https://github.com/RotherOSS/otobo/issues/5348)
+- 2026-04-09 13:50:00 +0200 Evaluate CVE-2011-4116 about File::Temp as reported by CPAN::Audit (https://github.com/RotherOSS/otobo/issues/5364)
+- 2026-04-09 11:49:33 +0200 Evaluate the CVE CVE-2024-45321 about App-cpanminus as reported by CPAN::Audit (https://github.com/RotherOSS/otobo/issues/5360)
+- 2023-09-19 09:40:27 +0200 [Enhanced] Prepare OTOBO for CMDB 11 changes. (https://github.com/RotherOSS/otobo/issues/2514)
+- 2023-12-02 13:59:16 +0100 [Tidied]   Eliminate usage of $| (https://github.com/RotherOSS/otobo/issues/2738)
+- 2025-07-03 15:54:05 +0100 [Bugfix]   Elasticsearch index `tmpattachments` is not managed by Otobo (https://github.com/RotherOSS/otobo/issues/4326)
+- 2025-11-13 17:26:20 +0100 Allow to activate profiling in the web app via the .env file (https://github.com/RotherOSS/otobo/issues/4833)
+- 2026-04-03 14:51:51 +0200 [Enhanced] Provide the URL otobo-web/static for serving static files (https://github.com/RotherOSS/otobo/issues/5342)
+- 2026-04-02 11:33:34 +0200 [Enhanced] Add console command Maint::Elasticsearch::TestConnection (https://github.com/RotherOSS/otobo/issues/5340)
+- 2026-04-01 14:49:51 +0200 [Enhanced] Make it obvious that CVE-2024-58135 and CVE-2024-58134 for Mojolicious are not relevant for OTOBO (https://github.com/RotherOSS/otobo/issues/5328)
+- 2026-04-01 12:01:05 +0100 Improve fallback of content security policy settings (https://github.com/RotherOSS/otobo/issues/5330)
+- 2026-04-01 12:14:14 +0200 [Bugfix]   Really exclude OTOBO files in Dev::Code::CPANAudit (https://github.com/RotherOSS/otobo/issues/5332)
+- 2026-03-30 11:42:48 +0200 Update Compress::Raw::Zlib to handle violation of CVE-2026-3381 for Docker. (https://github.com/RotherOSS/otobo/issues/5269)
+- 2026-03-26 10:41:55 +0100 [Bugfix]   Submitting an erroneous postmaster filter leads to being stuck with overlay (https://github.com/RotherOSS/otobo/issues/5009) - in progress
+- 2026-03-25 15:26:47 +0000 [Bugfix]   Duplicate CustomerNavigationBar in CustomerTicketMessage.pm on validation error (https://github.com/RotherOSS/otobo/issues/5078)
+- 2026-03-24 14:23:15 +0100 New test failure with ContentCharset.t (https://github.com/RotherOSS/otobo/issues/5285)
+- 2026-03-12 14:53:34 +0100 [Tidied]   Replace usages of `substr`with `substring` (https://github.com/RotherOSS/otobo/issues/5226)
+- 2026-03-20 09:25:34 +0100 [Bugfix]   Broken links to external icons and data leaking (https://github.com/RotherOSS/otobo/issues/5212)
+- 2026-03-19 16:10:05 +0100 DynamicFieldScreens: Long field names and labels exceed container (https://github.com/RotherOSS/otobo/issues/5265)
+- 2026-03-12 20:54:57 +0100 Do not use both `carton`and `cpanm`in otobo.web.dockerfile (https://github.com/RotherOSS/otobo/issues/5252)
+- 2026-03-12 14:03:07 +0100 [Tidied]   OTRS related logos shipped with installation package (https://github.com/RotherOSS/otobo/issues/5213)
+- 2026-03-12 12:13:03 +0100 Update Mozilla::CA in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/5245)
+- 2026-03-09 07:43:39 +0100 Translated using Weblate (German)
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Chinese (Traditional Han script))
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Chinese (Simplified Han script))
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Vietnamese)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Ukrainian)
+- 2026-02-21 10:43:30 +0100 Translated using Weblate (Turkish)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Thai)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Swahili)
+- 2026-02-21 10:43:22 +0100 Translated using Weblate (Swedish)
+- 2026-02-21 10:43:35 +0100 Translated using Weblate (Serbian)
+- 2026-02-21 10:43:20 +0100 Translated using Weblate (Slovenian)
+- 2026-02-21 10:43:34 +0100 Translated using Weblate (Slovak)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Russian)
+- 2026-02-21 10:43:15 +0100 Translated using Weblate (Romanian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Portuguese (Brazil))
+- 2026-02-21 10:43:34 +0100 Translated using Weblate (Portuguese)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Malay)
+- 2026-02-21 10:43:13 +0100 Translated using Weblate (Macedonian)
+- 2026-02-21 10:43:10 +0100 Translated using Weblate (Latvian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Korean)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Indonesian)
+- 2026-02-21 10:43:33 +0100 Translated using Weblate (Croatian)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Hindi)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Hebrew)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Galician)
+- 2026-02-21 10:43:03 +0100 Translated using Weblate (French (Canada))
+- 2026-02-21 10:43:03 +0100 Translated using Weblate (French)
+- 2026-02-21 10:43:36 +0100 Translated using Weblate (Finnish)
+- 2026-02-21 10:43:37 +0100 Translated using Weblate (Persian)
+- 2026-02-21 10:42:53 +0100 Translated using Weblate (Spanish (Colombia))
+- 2026-02-21 10:43:33 +0100 Translated using Weblate (Spanish)
+- 2026-02-21 10:42:51 +0100 Translated using Weblate (Greek)
+- 2026-02-21 10:43:32 +0100 Translated using Weblate (Danish)
+- 2026-03-09 11:48:18 +0100 [Bugfix]   Queue set via url does not properly trigger ACLs in CustomerTicketMessage. (https://github.com/RotherOSS/otobo/issues/5237)
+- 2026-03-04 13:18:58 +0100 Fix AdminSort UnitTest (https://github.com/RotherOSS/otobo/issues/5141)
+- 2026-02-27 10:40:06 +0100 [Enhanced] Better reporting in the database update script for rel-10_1 (https://github.com/RotherOSS/otobo/issues/5205)
+- 2026-02-26 15:55:50 +0100 [Bugfix]   ExternalURLJump: question marks and equal signs do not work in configured links (https://github.com/RotherOSS/otobo/issues/5203)
+- 2025-12-15 14:07:03 +0000 Upgrade QUnit to version 2.24.3 (https://github.com/RotherOSS/otobo/issues/4947) - in progress
+- 2026-02-25 11:35:06 +0100 [Bugfix]   Unneded admin module "Cloud Services" (https://github.com/RotherOSS/otobo/issues/5188)
+- 2026-02-24 16:57:37 +0100 [Tidied]   Update date for TranslationUpdate console script. (https://github.com/RotherOSS/otobo/issues/5189)
+- 2026-02-20 13:22:25 +0100 [Tidied]   Duplicates in article event system configuration (https://github.com/RotherOSS/otobo/issues/5176)
+- 2026-02-12 18:25:12 +0100 [Bugfix]   Building a local Docker image fails because DBD::mysql can't be downloaded (https://github.com/RotherOSS/otobo/issues/5156)
+- 2026-02-12 14:18:27 +0100 Issue #4947 update qunit (https://github.com/RotherOSS/otobo/issues/5193)
+- 2026-02-01 11:01:07 +0100 [Enhanced] Show information about the Perl DBI database driver module in the Support Data (https://github.com/RotherOSS/otobo/issues/5104)
+- 2026-01-23 10:52:27 +0100 [Bugfix]   Changer's name missing in History of a System Configuration Setting (https://github.com/RotherOSS/otobo/issues/5071)
+- 2026-01-21 17:18:33 +0100 [Tidied]   Improve some strings in several locations. (https://github.com/RotherOSS/otobo/issues/5064)
+- 2025-10-31 11:27:23 +0000 Translated using Weblate (Czech)
+- 2026-01-21 14:45:23 +0100 Make the test script scripts/test/SMIME.t more robust (https://github.com/RotherOSS/otobo/issues/5055)
+- 2026-01-20 18:17:34 +0100 Add convenient way of recreating all cpanfiles (https://github.com/RotherOSS/otobo/issues/5056)
+- 2026-01-20 12:01:09 +0100 Update list of  supported release series in SECURITY.md (https://github.com/RotherOSS/otobo/issues/5002)
+- 2026-01-19 16:16:19 +0100 update S/MIME certificates for 2026 (rel-10_1) (https://github.com/RotherOSS/otobo/issues/5047)
+- 2026-01-16 18:15:38 +0100 Remove HTTP::Message from Kernel/cpan-lib for OTOBO 10.1.x (https://github.com/RotherOSS/otobo/issues/4979)
+- 2026-01-16 15:22:42 +0100 Remove URI from Kernel/cpan-lib in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4970)
+- 2026-01-16 12:16:06 +0100 [Tidied]   Update copyright year range to 2019-2026 (https://github.com/RotherOSS/otobo/issues/4995)
+- 2026-01-12 07:34:24 +0100 Remove support for system registration (https://github.com/RotherOSS/otobo/issues/1287) - in progress
+- 2026-01-07 11:18:42 +0100 Update CPANSA::DB to 20251228.001 (https://github.com/RotherOSS/otobo/issues/5001)
+- 2025-01-27 11:06:26 +0100 Remove Net::SSLGlue::POP3 and Net::SSLGlue::SMTP from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/4106)
+- 2025-12-21 16:52:24 +0100 Update CPANSA::DB to 20251221.001 (https://github.com/RotherOSS/otobo/issues/4981)
+- 2023-10-30 11:54:57 +0100 [Tidied]   Remove HTTP::Message from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/2612)
+- 2025-12-20 11:18:37 +0100 Upgrade PDF::API2 to 2.048 in rel-10_1 . (https://github.com/RotherOSS/otobo/issues/4977)
+- 2025-12-19 19:17:59 +0100 Update Locale::Country to 3.86 (https://github.com/RotherOSS/otobo/issues/4975)
+- 2025-12-19 13:40:15 +0100 Look at CPAN::Audit advisories reported in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4972)
+- 2025-12-19 11:05:47 +0100 Update CPAN::Audit for OTOBO 10.1.x (https://github.com/RotherOSS/otobo/issues/4957)
+- 2025-12-17 15:22:18 +0100 Issue #4948: revamp the instructions, or the documentation
+- 2025-12-17 15:21:42 +0100 Issue #4948: add some more dependencies that hadn't been listed
+- 2025-12-17 13:51:50 +0100 Issue #4948: add version numbers in the list of bundled modules
+- 2025-12-17 13:04:54 +0100 Issue #4948: first stab a managing bundled modules like in rel-11_0
+- 2025-12-18 15:23:22 +0100 Issue #4956: make the list of bundled modules more complete
+- 2025-12-18 14:52:49 +0100 Issue #4965: use the version from CPAN
+- 2025-12-18 14:33:26 +0100 Issue #4963: remove Kernel/cpan-lib/LWP/Protocol/GHTTP.pm
+- 2025-12-16 18:52:02 +0100 Issue #4953: fetch CPAN distribution files via HTTPS
+- 2025-12-15 11:50:51 +0000 Issue #4934: fix references to jquery-validation
+- 2025-12-15 09:45:05 +0000 Issue #4934: Update references to jquery-validation with new version number
+- 2025-12-15 09:43:35 +0000 Issue #4934: Update jquery-validation files
+- 2025-12-15 09:27:50 +0000 Issue #4933: Update references to nunjucks file with new version number
+- 2025-12-15 09:27:26 +0000 Issue #4933: Update nunjucks file
+- 2025-11-26 11:53:33 +0100 Issue #4881: Include Encoding::HanExtra in the Docker image
+- 2025-11-25 18:05:07 +0100 Issue #4535: Renamed block to avoid duplication.
+- 2025-11-18 07:58:39 +0100 Issue #4847: Added pp_backup to gitignore file.
+- 2025-11-13 14:57:44 +0100 Issue #4836: do not check for core module Net::SMTP
+- 2025-11-13 14:03:06 +0100 Issue #4834: introducing the declaration %IsCommonFeature
+- 2025-11-13 13:45:27 +0100 Issue #4834: enhance comments, as seen in rel-11_1
+- 2025-11-12 14:51:15 +0100 Issue #4731: Add CHANGES.md and language files as merge=ours to gitattributes.
+- 2025-11-12 14:20:02 +0100 Issue #4827: Added missing InitialRun reset.
+- 2025-11-10 09:14:03 +0100 Issue #4809: Changed comments to better explain what is happening.
+- 2025-11-06 11:33:05 +0100 Issue #4809: Added missing cache key filling.
+- 2025-10-30 14:37:38 +0100 Issue #1902: Added fix for To field for sender type agent.
+- 2025-10-30 14:21:07 +0100 Issue #1902: Implemented replacement fix.
+- 2025-10-28 14:39:34 +0100 Issue #1902: Fixed typo.
+- 2025-10-28 14:38:15 +0100 Issue #1902: Switched 'To' to 'From'.
+
+
 # OTOBO 10.1.16 2025-10-23
 - 2025-10-23 14:55:19 +0200 Create new OTOBO language files.
 - 2025-09-25 10:05:44 +0200 Update translation files
@@ -97,7 +224,7 @@
 - 2025-02-26 10:58:16 +0100 Update translation files
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂÃÂÃÂÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-04-22 15:58:42 +0200 Update the list of the last three releases in rel-10_1
 - 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
@@ -1850,6 +1977,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
