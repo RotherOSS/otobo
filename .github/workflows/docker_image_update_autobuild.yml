@@ -62,10 +62,10 @@ jobs:
           # Has to be updated for every new patch level release.
           -
             docker_tag:   'latest-10_1-autobuild'
-            otobo_branch: 'rel-10_1_16'
+            otobo_branch: 'rel-10_1_17'
           -
             docker_tag:   'latest-11_0-autobuild'
-            otobo_branch: 'rel-11_0_15'
+            otobo_branch: 'rel-11_0_16'
 
           # otobo-web uses different base images in different releases.
           # perl:5.40-bookworm is used since rel-10_1_15 and rel-11_0_12.
