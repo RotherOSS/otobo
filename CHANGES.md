@@ -3,13 +3,13 @@
 - 2026-04-20 12:24:39 +0200 Translated using Weblate (Italian)
 - 2026-03-17 15:08:16 +0100 Translated using Weblate (Hungarian)
 - 2026-03-10 08:58:25 +0100 Translated using Weblate (Arabic (Saudi Arabia))
-- 2026-04-21 13:32:26 +0200 [Bugfix]   Fix two additional xss targets. (https://github.com/RotherOSS/otobo/issues/5419)
+- 2026-04-21 13:32:26 +0200 [Security] Fix two additional xss targets. (https://github.com/RotherOSS/otobo/issues/5419)
 - 2026-04-20 10:50:13 +0200 React to notifications about Node.js 20  emitted by Github Actions (https://github.com/RotherOSS/otobo/issues/5354) - in progress
-- 2026-04-20 09:15:23 +0200 Placeholder (https://github.com/RotherOSS/otobo/issues/5358)
+- 2026-04-20 09:15:23 +0200 [Security] Fix XSS issue with unfiltered URL parameters. (CVE-2025-59490) (https://github.com/RotherOSS/otobo/issues/5358)
 - 2026-04-16 10:04:25 +0200 [Bugfix]   Properly escape autocomplete filters in overview masks. (https://github.com/RotherOSS/otobo/issues/5400)
-- 2026-04-02 15:01:33 +0200 Upgrade the elasticsearch base image to 8.19.3 and pull it from Docker Hub  ? (https://github.com/RotherOSS/otobo/issues/4427)
-- 2026-03-27 13:55:40 +0100 Placeholder (https://github.com/RotherOSS/otobo/issues/5376)
-- 2026-04-09 11:21:40 +0200 Placeholder (https://github.com/RotherOSS/otobo/issues/5359)
+- 2026-04-02 15:01:33 +0200 Upgrade the elasticsearch base image to 8.19.3 and pull it from Docker Hub (https://github.com/RotherOSS/otobo/issues/4427)
+- 2026-03-27 13:55:40 +0100 [Security] Improve password masking in support bundle generation. (CVE-2025-59393) (https://github.com/RotherOSS/otobo/issues/5376)
+- 2026-04-09 11:21:40 +0200 [Security] Remove stack traces from error messages in the frontend. (https://github.com/RotherOSS/otobo/issues/5359)
 - 2026-04-10 11:12:13 +0200 [Bugfix]   The button "Send a bug report" on the agent error page doesn't work as intended (https://github.com/RotherOSS/otobo/issues/5363)
 - 2026-04-09 15:25:01 +0200 Evaluate CVE-2020-16093 for OTOBO (https://github.com/RotherOSS/otobo/issues/5365)
 - 2026-04-08 08:39:44 +0200 [Bugfix]   BuildDateSelection: Sanitize prefix and suffix when building date selections (https://github.com/RotherOSS/otobo/issues/5348)
@@ -97,33 +97,22 @@
 - 2025-12-19 19:17:59 +0100 Update Locale::Country to 3.86 (https://github.com/RotherOSS/otobo/issues/4975)
 - 2025-12-19 13:40:15 +0100 Look at CPAN::Audit advisories reported in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4972)
 - 2025-12-19 11:05:47 +0100 Update CPAN::Audit for OTOBO 10.1.x (https://github.com/RotherOSS/otobo/issues/4957)
-- 2025-12-17 15:22:18 +0100 Issue #4948: revamp the instructions, or the documentation
-- 2025-12-17 15:21:42 +0100 Issue #4948: add some more dependencies that hadn't been listed
-- 2025-12-17 13:51:50 +0100 Issue #4948: add version numbers in the list of bundled modules
-- 2025-12-17 13:04:54 +0100 Issue #4948: first stab a managing bundled modules like in rel-11_0
-- 2025-12-18 15:23:22 +0100 Issue #4956: make the list of bundled modules more complete
-- 2025-12-18 14:52:49 +0100 Issue #4965: use the version from CPAN
-- 2025-12-18 14:33:26 +0100 Issue #4963: remove Kernel/cpan-lib/LWP/Protocol/GHTTP.pm
-- 2025-12-16 18:52:02 +0100 Issue #4953: fetch CPAN distribution files via HTTPS
-- 2025-12-15 11:50:51 +0000 Issue #4934: fix references to jquery-validation
-- 2025-12-15 09:45:05 +0000 Issue #4934: Update references to jquery-validation with new version number
-- 2025-12-15 09:43:35 +0000 Issue #4934: Update jquery-validation files
-- 2025-12-15 09:27:50 +0000 Issue #4933: Update references to nunjucks file with new version number
-- 2025-12-15 09:27:26 +0000 Issue #4933: Update nunjucks file
-- 2025-11-26 11:53:33 +0100 Issue #4881: Include Encoding::HanExtra in the Docker image
-- 2025-11-25 18:05:07 +0100 Issue #4535: Renamed block to avoid duplication.
-- 2025-11-18 07:58:39 +0100 Issue #4847: Added pp_backup to gitignore file.
-- 2025-11-13 14:57:44 +0100 Issue #4836: do not check for core module Net::SMTP
-- 2025-11-13 14:03:06 +0100 Issue #4834: introducing the declaration %IsCommonFeature
-- 2025-11-13 13:45:27 +0100 Issue #4834: enhance comments, as seen in rel-11_1
-- 2025-11-12 14:51:15 +0100 Issue #4731: Add CHANGES.md and language files as merge=ours to gitattributes.
-- 2025-11-12 14:20:02 +0100 Issue #4827: Added missing InitialRun reset.
-- 2025-11-10 09:14:03 +0100 Issue #4809: Changed comments to better explain what is happening.
-- 2025-11-06 11:33:05 +0100 Issue #4809: Added missing cache key filling.
-- 2025-10-30 14:37:38 +0100 Issue #1902: Added fix for To field for sender type agent.
-- 2025-10-30 14:21:07 +0100 Issue #1902: Implemented replacement fix.
-- 2025-10-28 14:39:34 +0100 Issue #1902: Fixed typo.
-- 2025-10-28 14:38:15 +0100 Issue #1902: Switched 'To' to 'From'.
+- 2025-12-17 13:04:54 +0100 Install bundled modules via a cpanfile in rel-10_1 (https://github.com/RotherOSS/otobo/issues/4948)
+- 2025-12-18 15:23:22 +0100 Complete the list of bundled modules in Kernel::System::Environment (https://github.com/RotherOSS/otobo/issues/4956)
+- 2025-12-18 14:52:49 +0100 Restore cpan-lib/Sys/Hostname/Long.pm to the version from CPAN (https://github.com/RotherOSS/otobo/issues/4965)
+- 2025-12-18 14:33:26 +0100 Remove LWP::Protocol::GHTTP from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/4963)
+- 2025-12-16 18:52:02 +0100 Install Perl modules from https://cpan.metacpan.org when building Docker images (https://github.com/RotherOSS/otobo/issues/4953)
+- 2025-12-15 09:43:35 +0000 Update jquery-validate to version 1.21.0 (https://github.com/RotherOSS/otobo/issues/4934)
+- 2025-12-15 09:27:26 +0000 Update nunjucks to version 3.2.4 (https://github.com/RotherOSS/otobo/issues/4933)
+- 2025-11-26 11:53:33 +0100 Include the Perl module Encode::HanExtra in the Docker image (https://github.com/RotherOSS/otobo/issues/4881)
+- 2025-11-25 18:05:07 +0100 [Tidied]   Investigate warning in AdminState (https://github.com/RotherOSS/otobo/issues/4535)
+- 2025-11-18 07:58:39 +0100 Add pp_backup to gitignore file (https://github.com/RotherOSS/otobo/issues/4847)
+- 2025-11-13 14:57:44 +0100 No need to check for the requirement  Net::SMTP (https://github.com/RotherOSS/otobo/issues/4836)
+- 2025-11-13 14:03:06 +0100 Simplify setup of %IsStandardFeature and %IsDockerFeature in bin/otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/4834)
+- 2025-11-12 14:51:15 +0100 Think about merge strategy for CHANGES.md and the translation files (https://github.com/RotherOSS/otobo/issues/4731)
+- 2025-11-12 14:20:02 +0100 [Bugfix]   Add missing InitialRun reset in CustomerTicketMessage (https://github.com/RotherOSS/otobo/issues/4827)
+- 2025-11-10 09:14:03 +0100 [Bugfix]   Ticket event TicketDynamicFieldDefault does not actually prevent multiple execution (https://github.com/RotherOSS/otobo/issues/4809)
+- 2025-10-30 14:37:38 +0100 [Bugfix]   For AgentTicketMerge where the sender is unknown, the senders address, the ticket system is used as salutation (https://github.com/RotherOSS/otobo/issues/1902)
 
 
 # OTOBO 10.1.16 2025-10-23
@@ -224,7 +213,7 @@
 - 2025-02-26 10:58:16 +0100 Update translation files
 - 2025-05-06 16:02:30 +0200 Building Docker Images for patch level releases fails for rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/4324) - in progress
 - 2025-04-23 11:18:11 +0200 Corrected filter handling in dashboard backend modules.
-- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim PÃÂÃÂÃÂÃÂ¼ttmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
+- 2025-04-22 10:02:05 +0200 [Security] Add a whitelist for AgentPreferences to prevent arbitrary keys from being added. Thanks to Tim Puettmanns (maxence). (CVE-2025-43926) (https://github.com/RotherOSS/otobo/issues/4218)
 - 2025-04-04 09:56:10 +0200 Corrected occurrences of UserPage and View keys in agent modules.
 - 2025-04-22 15:58:42 +0200 Update the list of the last three releases in rel-10_1
 - 2025-04-22 12:06:50 +0200 Report the Perl version in Environment.t (https://github.com/RotherOSS/otobo/issues/4276)
