@@ -95,76 +95,33 @@
 - 2026-03-09 11:48:18 +0100 [Bugfix]   Queue set via url does not properly trigger ACLs in CustomerTicketMessage. (https://github.com/RotherOSS/otobo/issues/5237)
 - 2026-03-05 16:50:27 +0100 [Bugfix]   Mark/Unmark ticket as seen entry is not available in ACL editor (https://github.com/RotherOSS/otobo/issues/5231)
 - 2026-03-06 08:39:00 +0100 Further stabilize GetFieldStates unit test (https://github.com/RotherOSS/otobo/issues/5233)
-- 2026-03-02 20:58:47 +0100 Issue #5221: fix quick date buttons on responsible screen
-- 2026-03-02 17:51:47 +0100 Issue 5219: move quick date buttons settings to correct navigation path
-- 2026-03-04 13:18:58 +0100 Issue #5141: Added translations to test script.
-- 2026-03-03 18:15:36 +0100 Issue #5225: Move description from AdminQueue to AdminSystemAddress.
-- 2026-02-27 11:28:42 +0100 Issue #5208: better reporting in upgrade script
-- 2026-02-27 10:40:06 +0100 Issue #5205: print indicator whether the migration was successful
-- 2026-02-27 10:32:05 +0100 Issue #5205: mention that the table stats_report is created as well
-- 2026-02-27 10:30:43 +0100 Issue #5205: print a count of the migration tasks
-- 2026-02-27 10:29:02 +0100 Issue #5205: no need for an explicit 'exit 0'
-- 2026-02-27 10:27:09 +0100 Issue #5205: a bit of tidying
-- 2026-02-26 15:55:50 +0100 Issue #5203: Added metacharacter quoting to ExternalURLJump regexp.
-- 2025-12-15 14:07:03 +0000 Issue #4947: Update qunit paths with new version number
-- 2025-12-15 14:04:20 +0000 Issue #4947: Update QUnit files to version 2.24.3
-- 2026-02-25 11:35:06 +0100 Issue #5188: remove AdminCloudServices from navigation
-- 2026-02-24 16:57:37 +0100 Issue #5189: Update date to 2026.
-- 2026-02-20 13:22:25 +0100 Issue #5176: Cleaned up two duplicates in article event config.
-- 2026-02-19 14:01:42 +0100 Issue #5122: Corrected capitalization and wording.
-- 2026-02-16 13:08:19 +0100 Issue #5110: remove redundant sample for database connect attributes
-- 2026-02-16 13:06:36 +0100 Issue #5110: rephrase the code comment for Database::Connect
-- 2026-02-13 15:05:34 +0100 Issue #5158: fiddle with templates for the generated sample code
-- 2026-02-13 15:04:22 +0100 Issue #5158: remove OTRS copyright line
-- 2026-02-12 18:41:28 +0100 Issue #5156: regenerate snapshot, removing Mock::Config
-- 2026-02-12 18:25:12 +0100 Issue #5156: update the CPAN snapshot file
-- 2026-02-12 18:23:58 +0100 Issue #5156: use https://backpan.perl.org for download from backpan
-- 2026-02-12 14:26:55 +0100 Issue #5193: update code comments about the base image of otobo-nginx-webproxy
-- 2026-02-12 14:18:27 +0100 Issue #5193: use nginx:mainline-trixie as the base image
-- 2026-02-12 13:36:52 +0100 Issue #5152: remove trailing commas
-- 2026-02-12 13:24:33 +0100 Issue #5152: tidy matrix setup of otobo-selenium-chrome
-- 2026-02-12 13:12:11 +0100 Issue #5152: tidy matrix setup of otobo-nginx-kerberos-webproxy
-- 2026-02-12 12:58:56 +0100 Issue #5152: tidy matrix setup of otobo-nginx-webproxy
-- 2026-02-12 12:10:32 +0100 Issue #5152: tidy matrix setup of otobo-elasticsearch
-- 2026-02-12 12:07:02 +0100 Issue #5152: tidy matrix setup of otobo-web
-- 2026-02-12 12:51:11 +0100 Issue #5122: Corrected capitalization and grammar.
-- 2026-02-09 10:48:39 +0000 Issue #5140: Restrict absolute, sticky, and fixed positioning in CKEditor styles
-- 2026-02-12 10:26:23 +0100 Issue #5138: remove a comma that broke YAML syntax
-- 2026-02-12 10:21:09 +0100 Issue #5138: add base image declaration for the Selenium image
-- 2026-02-10 15:14:38 +0100 Issue #5144: add local::lib to the cpanfile.docker and cpanfile.plackup
-- 2026-02-09 14:01:42 +0100 Issue #5138: declare the base image for otobo-web
-- 2026-02-09 12:39:21 +0100 Issue #5138: update base image of the selenium image
-- 2026-02-09 12:05:02 +0100 Issue #5141: Added new translations to test.
-- 2026-02-06 19:49:39 +0100 Issue #5100: add a test case with two cite divs
-- 2026-02-06 19:48:41 +0100 Issue #5100: add a test case with two <a> elements
-- 2026-02-06 19:44:54 +0100 Issue #5100: also use a named capture for the cite div
-- 2026-02-06 19:43:43 +0100 Issue #5100: remove a not needed named capture
-- 2026-02-06 19:40:52 +0100 Issue #5100: remove incorrect code comment
-- 2026-02-06 18:51:33 +0100 Issue #5101: add a newline before blockquite or cite divs
-- 2026-02-06 18:48:50 +0100 Issue #5101: add two test cases
-- 2026-02-06 18:40:56 +0100 Issue #5101: tidying, do not reuse the variable name $Counter
-- 2026-02-06 18:45:04 +0100 Issue #5101: add the attribute 'Line' to the test cases
-- 2026-02-06 15:04:52 +0100 Issue #5110: tentatively support 'Attribute' in DB dynamic field
-- 2026-02-05 15:56:59 +0100 Issue #5110: add support for attribute for DB dynamic fields
-- 2026-02-05 15:47:11 +0100 Issue #5110: connect attributes for CustomerUser
-- 2026-02-05 15:33:32 +0100 Issue #5110: connect attributes for CustomerCompany
-- 2026-02-05 14:35:14 +0100 Issue #5110: add support for connect attributes for customer auth
-- 2026-02-06 12:42:02 +0100 Issue #5117: Fixed icon color and changed approach to filter coloring.
-- 2026-02-03 15:40:01 +0100 Issue #5041: Added Readonly check for UseDefaultValue parameter.
-- 2026-02-05 13:57:17 +0100 Issue #5120: Copied array handling from Base to BaseDatabase.
-- 2026-01-30 15:46:08 +0100 Issue #5084: use named captures in regex for the blockquote element
-- 2026-01-30 15:08:31 +0100 Issue #5084: reintroduce the regex capture
-- 2026-01-29 18:04:02 +0100 Issue #5084: replace a non-specific non-greedy pattern
-- 2026-01-29 17:56:17 +0100 Issue #5084: eliminate an useless regexp capture
-- 2026-01-29 17:52:00 +0100 Issue #5084: add test with two blockquote elements
-- 2026-01-29 17:06:30 +0100 Issue #5084: added some random tests with '<blockquote>'
-- 2026-01-27 16:40:03 +0100 Issue #5084: enhance code comments
-- 2026-01-27 16:39:12 +0100 Issue #5084: add a test case to the test script RichText2Ascii.t
-- 2026-01-27 16:38:44 +0100 Issue #5084: convert a test script to Test2::V0
-- 2026-01-27 16:37:04 +0100 Issue #5084: introducing a loop variable
-- 2026-01-27 16:32:35 +0100 Issue #5084: use saner variable name: $BodyAsText => $BodyText
-- 2026-01-22 12:38:14 +0000 Issue #4944: Update jquery-ui version number in paths and references
-- 2026-01-22 12:36:16 +0000 Issue #4944: Update jquery-ui js and css files
+- 2026-03-02 20:58:47 +0100 [Bugfix]   Quick date buttons do not work on responsible screen (https://github.com/RotherOSS/otobo/issues/5221)
+- 2026-03-02 17:51:47 +0100 [Bugfix]   Quick date buttons settings in wrong path of navigation tree (https://github.com/RotherOSS/otobo/issues/5219)
+- 2026-03-04 13:18:58 +0100 Fix AdminSort UnitTest (https://github.com/RotherOSS/otobo/issues/5141)
+- 2026-03-03 18:15:36 +0100 [Tidied]   Move queue setting description to correct place. (https://github.com/RotherOSS/otobo/issues/5225)
+- 2026-02-27 11:28:42 +0100 [Enhanced] Better reporting in the database update script for rel-11_0 (https://github.com/RotherOSS/otobo/issues/5208)
+- 2026-02-27 10:40:06 +0100 [Enhanced] Better reporting in the database update script for rel-10_1 (https://github.com/RotherOSS/otobo/issues/5205)
+- 2026-02-26 15:55:50 +0100 [Bugfix]   ExternalURLJump: question marks and equal signs do not work in configured links (https://github.com/RotherOSS/otobo/issues/5203)
+- 2025-12-15 14:07:03 +0000 Upgrade QUnit to version 2.24.3 (https://github.com/RotherOSS/otobo/issues/4947)
+- 2026-02-25 11:35:06 +0100 [Bugfix]   Unneded admin module "Cloud Services" (https://github.com/RotherOSS/otobo/issues/5188)
+- 2026-02-24 16:57:37 +0100 [Tidied]   Update date for TranslationUpdate console script. (https://github.com/RotherOSS/otobo/issues/5189)
+- 2026-02-20 13:22:25 +0100 [Tidied]   Duplicates in article event system configuration (https://github.com/RotherOSS/otobo/issues/5176)
+- 2026-02-19 14:01:42 +0100 [Bugfix]   Incomplete sentence in Queue Management screen (https://github.com/RotherOSS/otobo/issues/5122)
+- 2026-02-16 13:08:19 +0100 [Enhanced] Support for connect attributes in the non-main databases (https://github.com/RotherOSS/otobo/issues/5110)
+- 2026-02-13 15:05:34 +0100 Remove OTRS copyright line in code generated by Dev::Code::Generate::ConsoleCommand (https://github.com/RotherOSS/otobo/issues/5158)
+- 2026-02-12 18:41:28 +0100 [Bugfix]   Building a local Docker image fails because DBD::mysql can't be downloaded (https://github.com/RotherOSS/otobo/issues/5156)
+- 2026-02-12 14:26:55 +0100 Issue #4947 update qunit (https://github.com/RotherOSS/otobo/issues/5193)
+- 2026-02-12 13:36:52 +0100 Tidying: consolidate default attributes in matrix (https://github.com/RotherOSS/otobo/issues/5152)
+- 2026-02-09 10:48:39 +0000 [Enhanced] Inserting content with position: absolute causes CKEditor overflow (https://github.com/RotherOSS/otobo/issues/5140)
+- 2026-02-12 10:26:23 +0100 Issue created by the Github action DockerImageUpdateAutobuild (https://github.com/RotherOSS/otobo/issues/5138)
+- 2026-02-10 15:14:38 +0100 No special case for installing local::lib in Docker image (https://github.com/RotherOSS/otobo/issues/5144)
+- 2026-02-06 19:49:39 +0100 Support more than a single blockquote in Kernel::System::HTMLUtils::ToAscii() (https://github.com/RotherOSS/otobo/issues/5100)
+- 2026-02-06 18:51:33 +0100 [Bugfix]   Add a newline before a blockquote in Kernel::System::HTMLUtils::ToAscii() (https://github.com/RotherOSS/otobo/issues/5101)
+- 2026-02-06 12:42:02 +0100 [Bugfix]   Missing Download Arrow for Attachments in High Contrast Mode (https://github.com/RotherOSS/otobo/issues/5117)
+- 2026-02-03 15:40:01 +0100 [Bugfix]   ACL empties Default value for DF Richtext (https://github.com/RotherOSS/otobo/issues/5041)
+- 2026-02-05 13:57:17 +0100 [Bugfix]   Fix DynamicField Database ValueIsDifferent (https://github.com/RotherOSS/otobo/issues/5120)
+- 2026-01-30 15:46:08 +0100 [Enhanced] Performance improvement of Kernel::System::HTMLUtils::ToAscii() (https://github.com/RotherOSS/otobo/issues/5084)
+- 2026-01-22 12:38:14 +0000 Update jquery-ui to version 1.14.1 (https://github.com/RotherOSS/otobo/issues/4944)
 
 
 # OTOBO 11.0.15 2026-02-04
