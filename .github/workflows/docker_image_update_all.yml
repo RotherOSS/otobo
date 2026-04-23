@@ -255,7 +255,7 @@ jobs:
         # this step sets ${{ steps.check.outputs.needs-updating }}
         name: Check whether the base image was updated
         id: check
-        uses: lucacome/docker-image-update-checker@v2
+        uses: lucacome/docker-image-update-checker@v3
         with:
           base-image: ${{ env.otobo_base_image }}
           image:      ${{ env.otobo_ref }}
